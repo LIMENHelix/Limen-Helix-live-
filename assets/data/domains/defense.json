@@ -2817,11 +2817,148 @@
       "weight": 0.7,
       "label": "Coastal Defense Risk & Resilience → [PVN] (sympathetic → HPA crosstalk)",
       "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "S1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "V1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "A1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dACC",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.85,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dACC",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "_prov": "connrec"
+    },
+    {
+      "source": "vmPFC",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "OFC",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dlPFC",
+      "target": "FPN",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "connrec"
+    },
+    {
+      "source": "A1",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "S1",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "HPA",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "PI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "vmPFC",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.65,
+      "_prov": "connrec"
+    },
+    {
+      "source": "VP",
+      "target": "VTA",
+      "type": "inhib",
+      "weight": 0.75,
+      "_prov": "connrec"
+    },
+    {
+      "source": "VTA",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
     }
   ],
   "_enrichment": {
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.734Z",
     "schemaVersion": "subdomain-portal.v2.0",
     "networkMapVersion": "1.0"
+  },
+  "runtime": {
+    "_note": "Runtime state for neuro-substrate mechanisms (advisory-only). Neutral defaults; live values via read-time overlay (domain-telemetry-adapter.js). No values fabricated.",
+    "schemaVersion": 1,
+    "volatility": 0,
+    "activeTriggers": null,
+    "lastMaintenanceAt": null,
+    "params": {
+      "offlineDownscaleFactor": 0.95,
+      "offlineConsolidateTopK": 8,
+      "offlinePruneThreshold": 0,
+      "refractoryAbsoluteWindow": 900000,
+      "refractoryRelativeWindow": 3600000,
+      "refractoryOverrideThreshold": 0.8,
+      "predictionErrorThreshold": 0.1,
+      "retrogradeThrottleGain": 0.3,
+      "metaplasticityGain": 0.3,
+      "_note": "Conservative advisory baseline; operator-tunable. windows in ms."
+    },
+    "telemetry": {
+      "source": "defense-pulse-engine.js (window.LIMENDefensePulse)",
+      "adapter": "domain-telemetry-adapter.js (fromLiveCached(\"defense\",...))",
+      "model": "read-time overlay; schema+defaults only"
+    },
+    "fieldProvenance": {
+      "volatility": "XIII.6",
+      "activeTriggers": "V.2 (alias-expanded)",
+      "activation.lastFiredAt": "III.3",
+      "activation.lastActiveAt": "IV.6",
+      "activation.load/capacity": "IV.5 participation proxy",
+      "issue.lastFiredAt": "III.3"
+    }
   }
 }

@@ -1,0 +1,211 @@
+{
+  "_meta": {
+    "title": "Intelligence & Data domain graph — connectivity remediation (PROPOSAL ONLY)",
+    "purpose": "Grounded feedback/reciprocal edges and redundant paths to remediate the findings from assets/js/energy-connectivity-audit.js (the audit module is domain-generic) run against assets/data/domains/intelligence.json. This is a recommendation artifact; it does NOT modify any live graph.",
+    "discipline": "Every proposed edge carries a concrete grounding (a canonical-nodes.json regulatory/anatomical fact OR the reciprocity of an existing intelligence.json edge). Candidates that could not be grounded are omitted and tallied under _omittedForLackOfGrounding.",
+    "doNotApply": "Do not merge these edges into assets/data/domains/intelligence.json without an explicit apply step.",
+    "sources": {
+      "auditModule": "assets/js/energy-connectivity-audit.js",
+      "targetGraph": "assets/data/domains/intelligence.json",
+      "nodeFacts": "assets/data/canonical-nodes.json"
+    },
+    "generatedFor": "intelligence",
+    "mirrors": "assets/data/deep/finance-connectivity-recommendations.json (same method, same audit module)",
+    "neuroReferenceThesis": "Healthy circuits are ~80% recurrent/lateral; the network, not the node, is the unit of failure (diaschisis). A pure feedforward tree is the broken/cosmetic version.",
+    "pathologyVerdict": "SAME SIGNATURE AS FINANCE, plus the same extra fault. Intelligence carries directed control rings but almost no reciprocal feedback (recurrentFraction 0.032, a single reciprocal pair dACC<->dlPFC) and many single points of failure (11 articulation nodes). The EXTRA fault (shared with Finance, absent in Energy): the graph is fractured into 2 components at baseline — the {SMA, M1} motor dyad is fully disconnected from the 39-node main body. Intelligence-specific twist: the entire mesolimbic reward/valuation island {VTA, NAcc, VP, OFC} hangs off the main body by a SINGLE thread (OFC->vmPFC), which is why vmPFC, OFC and NAcc all appear as articulation points for the same cluster."
+  },
+
+  "reproducedFindings": {
+    "recurrenceAudit": {
+      "edges": 62,
+      "reciprocalEdges": 2,
+      "recurrentFraction": 0.032,
+      "lateralEdges": 10,
+      "lateralFractionOfClassifiable": 0.313,
+      "unknownGroupEdges": 30,
+      "note": "Exactly ONE reciprocal pair exists: dACC<->dlPFC (dACC->dlPFC SUPPLIES + dlPFC->dACC excit), giving reciprocalEdges=2 and recurrentFraction 2/62=0.032. The graph carries directed cycles (the business-layer CONTROLS ring A1->EMP->V1->FPN->ECN->rACC->A1, and the SUPPLIES/DEPENDS_ON rings) but for essentially no edge A->B does B->A exist. verdict from the module = 'has recurrent/lateral structure' only because lateralFractionOfClassifiable (0.313) clears the 0.2 lateral threshold; the feedback dimension is all but absent — better than Finance's exact 0 but still far below the ~0.8 cortical benchmark."
+    },
+    "singlePointsOfFailure": {
+      "baseComponents": 2,
+      "baseComponentsNote": "TWO components at baseline. Main body = 39 nodes; a fully disconnected dyad = {SMA, M1} (only internal edge SMA->M1, no edge in or out of the main body). Same pre-existing fracture as Finance (Energy baseComponents=1).",
+      "articulationNodeCount": 11,
+      "articulationNodes": ["A1", "V1", "dACC", "PVN", "vmPFC", "HIPP", "THAL", "AI", "NAcc", "OFC", "GP"],
+      "topHubsByDegree": [
+        {"node": "BLA", "degree": 10},
+        {"node": "A1", "degree": 7},
+        {"node": "V1", "degree": 7},
+        {"node": "dACC", "degree": 7},
+        {"node": "dlPFC", "degree": 7}
+      ],
+      "mechanismOfEachArticulation": {
+        "A1": "sole attachment of the auditory relay leaf MGN (MGN->A1 is MGN's only edge).",
+        "V1": "sole attachment of the visual relay leaf LGN (LGN->V1 only) AND of FEF (FEF->V1 is FEF's only edge).",
+        "dACC": "sole bridge of the interoceptive island {AI, NTS, PI} to the main body — AI->dACC is that island's only link out.",
+        "PVN": "sole attachment of leaf HYPO (PVN->HYPO is the only edge into HYPO).",
+        "vmPFC": "sole bridge of the reward/valuation island {VTA, NAcc, VP, OFC} to the main body — OFC->vmPFC is that island's only link out.",
+        "HIPP": "sole attachment of leaf HPA (HPA->HIPP is HPA's only edge).",
+        "THAL": "sole attachment of leaf S1 (THAL->S1 only), of leaf CBLM (CBLM->THAL only), and of the basal-ganglia output pair {STRI, GP} (GP->THAL is that pair's only link out). NOTE: unlike a naive expectation, the auditory/visual islands do NOT hang off THAL alone here — MGN->A1 and LGN->V1 attach them to A1/V1 instead.",
+        "AI": "splits into TWO leaves on removal — NTS (NTS->AI only) and PI (PI->AI only).",
+        "NAcc": "on removal, isolates leaf VTA (VTA->NAcc only out) and leaf VP (NAcc->VP only), each a sub-piece of the reward island.",
+        "OFC": "on removal, isolates the reward sub-island {VTA, NAcc, VP} — because OFC->vmPFC is the reward island's only thread to the body, OFC is a second articulation point for the same cluster as vmPFC.",
+        "GP": "sole attachment of leaf STRI (STRI->GP is STRI's only outward link; STRI reaches the body only via GP->THAL)."
+      }
+    }
+  },
+
+  "proposedFeedbackEdges": [
+    {
+      "source": "V1", "target": "THAL", "type": "modul", "weight": 0.6,
+      "rationale": "Corticothalamic feedback closing the visual thalamo-cortico-thalamic loop that THAL->V1 opens.",
+      "grounding": "Reciprocity of existing edge THAL->V1 (excit, visual sensory relay). V1->LGN/pulvinar corticothalamic feedback is one of the most numerous projection classes in the brain (feedback outnumbers feedforward), functionally gain/precision control -> modul. canonical-nodes V1 = 'primary visual processing', THAL = motif M4 'gating relay / routing'."
+    },
+    {
+      "source": "A1", "target": "THAL", "type": "modul", "weight": 0.6,
+      "rationale": "Corticothalamic feedback closing the auditory thalamo-cortical loop that THAL->A1 opens.",
+      "grounding": "Reciprocity of existing edge THAL->A1 (excit, auditory sensory relay). A1->MGN corticothalamic feedback is canonical and modulatory. canonical-nodes A1 = 'primary auditory processing'."
+    },
+    {
+      "source": "S1", "target": "THAL", "type": "modul", "weight": 0.6,
+      "rationale": "Corticothalamic feedback closing the somatosensory thalamo-cortical loop that THAL->S1 opens.",
+      "grounding": "Reciprocity of existing edge THAL->S1 (excit, somatosensory relay). Layer-6 corticothalamic feedback S1->VPL is canonical, gain/precision control -> modul. canonical-nodes S1 = 'primary somatosensory processing'."
+    },
+    {
+      "source": "dACC", "target": "AI", "type": "excit", "weight": 0.85,
+      "rationale": "Closes the salience-network loop; the two salience hubs must be mutually coupled to co-select what gets escalated.",
+      "grounding": "Reciprocity of existing edge AI->dACC (excit, 'interoceptive -> conflict monitor'). canonical-nodes AI = M10 'interoceptive salience', dACC = M6 'conflict/error monitor'; the anterior insula and dorsal ACC are the two defining hubs of the salience network and are reciprocally coupled by definition."
+    },
+    {
+      "source": "vmPFC", "target": "OFC", "type": "excit", "weight": 0.7,
+      "rationale": "Closes the value<->context loop; the context/valuation brake feeds back onto outcome valuation. Reciprocal of the existing OFC->vmPFC edge.",
+      "grounding": "Reciprocity of existing edge OFC->vmPFC (excit). canonical-nodes vmPFC = M1 'top-down inhibitory brake', OFC = M6 'outcome valuation / update'; they are adjacent medial/orbital PFC regions with dense reciprocal connectivity."
+    },
+    {
+      "source": "OFC", "target": "NAcc", "type": "excit", "weight": 0.7,
+      "rationale": "Closes the valuation<->reward loop; the outcome-valuation stage feeds forward-and-back to the reward driver. Reciprocal of the existing NAcc->OFC edge.",
+      "grounding": "Reciprocity of existing edge NAcc->OFC (excit). The orbitofrontal cortex is a principal glutamatergic corticostriatal input to the ventral striatum / nucleus accumbens (canonical OFC->NAcc projection). canonical-nodes OFC = M6 valuation, NAcc = M11 'incentive/reward drive'."
+    },
+    {
+      "source": "BLA", "target": "dACC", "type": "excit", "weight": 0.8,
+      "rationale": "Closes the threat<->salience loop that dACC->BLA opens: the counterintelligence threat node feeds the conflict monitor, and the monitor tags the threat.",
+      "grounding": "Reciprocity of existing edge dACC->BLA (excit, 'salience tags threat'). The basolateral amygdala sends a dense projection to the anterior cingulate cortex (canonical amygdalo-cingulate pathway). canonical-nodes BLA = M7 'threat learning/acquisition', dACC = M6 conflict monitor."
+    }
+  ],
+
+  "proposedRedundantPaths": [
+    {
+      "aroundNode": "THAL (and GP)",
+      "addEdge": {"source": "dlPFC", "target": "STRI", "type": "excit", "weight": 0.7},
+      "rationale": "The basal-ganglia output pair {STRI, GP} reaches the main body only via GP->THAL, so removing THAL isolates it; and STRI reaches the body only via STRI->GP, so removing GP isolates STRI. A direct corticostriatal edge reattaches STRI (and via STRI->GP, GP) independently of both THAL and GP. De-articulates GP entirely and removes the {STRI,GP} arm from THAL's cut-set.",
+      "grounding": "canonical-nodes dlPFC = 'dorsolateral PFC — executive / cognitive control', STRI = striatum (basal-ganglia input). The dorsolateral-PFC -> dorsal-striatum corticostriatal projection is one of the canonical cortico-basal-ganglia input channels. GP = M4 'basal-ganglia output gate'."
+    },
+    {
+      "aroundNode": "V1",
+      "addEdge": {"source": "FEF", "target": "IPS", "type": "excit", "weight": 0.6},
+      "rationale": "FEF reaches the graph only via FEF->V1, so removing V1 isolates it. A frontal-eye-field -> intraparietal-sulcus edge gives FEF a second anchor; removing V1 then leaves FEF attached via IPS. (V1 remains a residual articulation point for the dedicated LGN relay — see omissions.)",
+      "grounding": "canonical-nodes FEF = 'frontal eye fields — attentional gaze control', IPS = 'intraparietal sulcus — spatial attention & magnitude'. FEF and IPS are the two poles of the dorsal attention network and are densely interconnected (frontoparietal attention circuit)."
+    },
+    {
+      "aroundNode": "dACC",
+      "addEdge": {"source": "AI", "target": "OFC", "type": "excit", "weight": 0.6},
+      "rationale": "The interoceptive island {AI, NTS, PI} reaches the main body only via AI->dACC, so removing dACC isolates the whole island. An anterior-insula -> orbitofrontal edge gives the island a second bridge; removing dACC then leaves {AI, NTS, PI} attached via OFC.",
+      "grounding": "The anterior insula projects to the orbitofrontal cortex, carrying interoceptive/gustatory signal into valuation (canonical insula->OFC pathway). canonical-nodes AI = M10 interoceptive salience, OFC = M6 valuation. (Same de-articulation edge used in the Finance recommendation.)"
+    },
+    {
+      "aroundNode": "PVN",
+      "addEdge": {"source": "HYPO", "target": "PAG", "type": "excit", "weight": 0.6},
+      "rationale": "HYPO reaches the graph only via PVN->HYPO, so removing PVN isolates it. A hypothalamic -> periaqueductal-gray efferent gives HYPO a second anchor to a main-body node; removing PVN then leaves HYPO attached via PAG.",
+      "grounding": "canonical-nodes HYPO = M3 'homeostatic set-point', PAG = M8 'defensive kill/lockdown'. The hypothalamus (esp. medial/dorsomedial) sends a canonical descending projection to the periaqueductal gray as part of the defensive/autonomic column. PAG is a main-body node (target of BLA->PAG, vmPFC->PAG)."
+    },
+    {
+      "aroundNode": "HIPP",
+      "addEdge": {"source": "HPA", "target": "BLA", "type": "modul", "weight": 0.6},
+      "rationale": "HPA reaches the graph only via HPA->HIPP, so removing HIPP isolates it. Cortisol also acts on the amygdala, giving HPA a second, well-grounded anchor; removing HIPP then leaves HPA attached via BLA.",
+      "grounding": "Glucocorticoid (HPA-axis) output acts on the basolateral amygdala via glucocorticoid receptors, enhancing threat processing (textbook stress endocrinology). canonical-nodes BLA = M7 'threat learning/acquisition'. NOTE: as in Finance, HPA is a composite/axis view rather than a clean single node; the cleaner long-run fix is to remap HPA to a view rather than treat it as a graph node."
+    },
+    {
+      "aroundNode": "AI (PI leaf)",
+      "addEdge": {"source": "PI", "target": "dACC", "type": "excit", "weight": 0.6},
+      "rationale": "AI splits into TWO leaves on removal: PI (PI->AI only) and NTS (NTS->AI only). This edge reattaches the PI leaf: a posterior-insula -> cingulate interoceptive edge gives PI a second anchor. Paired with the NTS->PVN edge below, it fully de-articulates AI.",
+      "grounding": "canonical-nodes PI = M10 'primary interoception', dACC = M6 conflict monitor / salience hub. Posterior/mid-insula interoceptive signals project to the anterior cingulate as part of the interoception-salience pathway."
+    },
+    {
+      "aroundNode": "AI (NTS leaf)",
+      "addEdge": {"source": "NTS", "target": "PVN", "type": "excit", "weight": 0.6},
+      "rationale": "Reattaches AI's second leaf, NTS (NTS->AI only). A visceral-afferent -> hypothalamus edge gives NTS a second anchor; removing AI then leaves NTS attached via PVN. Together with PI->dACC this drops AI from the articulation set.",
+      "grounding": "canonical-nodes NTS = M10 'visceral afferent hub'. The nucleus tractus solitarius sends a canonical ascending projection to the paraventricular nucleus of the hypothalamus (visceral-afferent -> autonomic/neuroendocrine relay). PVN is an in-graph node (target of mPFC->PVN, BLA->PVN, HIPP->PVN, LC->PVN)."
+    },
+    {
+      "aroundNode": "NAcc (VP leaf) + reward-island recurrence",
+      "addEdge": {"source": "VP", "target": "VTA", "type": "inhib", "weight": 0.75},
+      "rationale": "VP reaches the graph only via NAcc->VP, so removing NAcc isolates it. A ventral-pallidum -> VTA GABAergic edge gives VP a second anchor and closes the mesolimbic reward loop VTA->NAcc->VP->VTA (the hedonic-output stage feeds back to regulate the dopamine source). One edge serves both recurrence and redundancy.",
+      "grounding": "In-graph the reward chain VTA->NAcc (excit) and NAcc->VP (inhib) already exists; the ventral pallidum sends GABAergic feedback to VTA (canonical mesolimbic disinhibition loop). canonical-nodes VP = 'ventral pallidum — reward/hedonic output', VTA = M11 'dopamine reward source'. (Same edge as the Finance recommendation.)"
+    },
+    {
+      "aroundNode": "vmPFC / OFC / NAcc (whole reward island — second thread to the body)",
+      "addEdge": {"source": "VTA", "target": "dlPFC", "type": "modul", "weight": 0.7},
+      "rationale": "The entire reward/valuation island {VTA, NAcc, VP, OFC} hangs off the main body by the SINGLE thread OFC->vmPFC, which is exactly why vmPFC, OFC and NAcc are all articulation points for it. A mesocortical dopamine projection from VTA to the executive hub dlPFC gives the island a SECOND, independent thread to the body: with it, removing vmPFC (or OFC) no longer isolates the island (it reattaches via VTA->dlPFC), and removing NAcc leaves VTA attached via VTA->dlPFC (and VP via VP->VTA). This single canonical edge de-articulates vmPFC and OFC and completes the NAcc fix.",
+      "grounding": "canonical-nodes VTA = M11 'dopamine reward source', dlPFC = 'dorsolateral PFC — executive / cognitive control'. The VTA mesocortical dopaminergic projection to prefrontal cortex is textbook (the mesocortical DA pathway). modul because dopamine sets gain, not detailed content."
+    },
+    {
+      "aroundNode": "{SMA, M1} disconnected dyad",
+      "addEdge": {"source": "SMA", "target": "STRI", "type": "excit", "weight": 0.7},
+      "rationale": "EXTRA-FAULT FIX (not a classic articulation node). {SMA, M1} is a fully disconnected component at baseline. A corticostriatal edge reattaches the dyad to the main body (STRI is a main-body node), reducing baseComponents 2->1. Paired with THAL->M1 below so the dyad has TWO independent bridges and STRI/GP do not become a NEW single point of failure for it.",
+      "grounding": "canonical-nodes SMA = 'supplementary motor — self-initiated action sequencing'; SMA is a principal cortical source of the motor corticostriatal projection to putamen/striatum (canonical). (Same reconnection edge as the Finance recommendation.)"
+    },
+    {
+      "aroundNode": "{SMA, M1} disconnected dyad (second bridge)",
+      "addEdge": {"source": "THAL", "target": "M1", "type": "excit", "weight": 0.8},
+      "rationale": "Second independent bridge for the disconnected {M1, SMA} dyad, so removing STRI/GP does not re-isolate it (prevents SMA->STRI from turning STRI into a new articulation node). Also the canonical final leg of the cortico-basal-ganglia-thalamo-cortical motor loop, whose output limb STRI->GP->THAL is already in-graph.",
+      "grounding": "canonical-nodes THAL = M4 'gating relay / routing', M1 = 'primary motor cortex — motor output'. The ventral-anterior/ventral-lateral thalamus -> M1 projection is the canonical thalamocortical motor relay and the return leg of the BG loop already half-present in-graph (STRI->GP inhib, GP->THAL inhib)."
+    }
+  ],
+
+  "projectedImpact": {
+    "method": "The 18 proposed edges (7 feedback + 11 redundant/reconnection) were appended to a deep copy of intelligence.json in memory and re-scored with assets/js/energy-connectivity-audit.js. intelligence.json itself was NOT modified.",
+    "edgesBefore": 62,
+    "edgesAfter": 80,
+    "distinctEdgesAdded": 18,
+    "reciprocalEdges": {"before": 2, "after": 16, "asPairs": {"before": 1, "after": 8}, "note": "the pre-existing pair dACC<->dlPFC plus the 7 proposedFeedbackEdges (each the reverse of a pre-existing edge) = 8 reciprocal pairs = 16 directed reciprocal edges."},
+    "recurrentFraction": {"before": 0.032, "after": 0.200, "corticalBenchmark": 0.8, "note": "lands exactly at the 0.2 tree-vs-mesh threshold; still far below the ~0.8 cortical benchmark, but crosses out of the feedforward-tree regime."},
+    "lateralFractionOfClassifiable": {"before": 0.313, "after": 0.303, "note": "essentially unchanged; the proposed edges target feedback and reconnection, not lateral density (which already clears the threshold)."},
+    "baseComponents": {"before": 2, "after": 1, "note": "the {SMA, M1} dyad is reconnected by SMA->STRI + THAL->M1; the graph becomes a single connected body."},
+    "articulationNodes": {
+      "before": 11,
+      "after": 3,
+      "remaining": ["A1", "V1", "THAL"],
+      "reason": "All three residual articulation points survive solely because a dedicated sensory/relay leaf has no second grounded projection target present in the graph, so its redundant path was omitted rather than fabricated: A1 still cuts off MGN; V1 still cuts off LGN; THAL still cuts off S1 and CBLM. This is the same honest floor Finance and Energy bottomed out at (dedicated LGN/MGN geniculate relays, cerebellar CBLM)."
+    }
+  },
+
+  "_omittedForLackOfGrounding": {
+    "count": 5,
+    "candidates": [
+      {
+        "candidate": "redundant path around THAL via a second edge on S1",
+        "type": "redundantPath",
+        "reason": "S1 reaches the graph only via THAL->S1. A second grounded target would be S1->M1 (dense reciprocal somatomotor connectivity), which IS groundable once M1 is reconnected to the main body — but it was NOT added because it would not clear THAL from the articulation set while the ungroundable CBLM leaf persists. Recorded as a groundable future edge, not an omission for lack of grounding, but left out of the applied set."
+      },
+      {
+        "candidate": "redundant path around THAL via a second edge on CBLM",
+        "type": "redundantPath",
+        "reason": "CBLM reaches the graph only via CBLM->THAL. The thalamus does not project to the cerebellum, and cerebellar cortical input arrives polysynaptically via the pontine nuclei (no direct cortex->CBLM fiber to any in-graph node). No honest second edge, so CBLM stays a leaf of THAL and THAL stays a residual articulation point for it. (Same floor as Energy/Finance.)"
+      },
+      {
+        "candidate": "redundant path around A1 via a second edge on MGN",
+        "type": "redundantPath",
+        "reason": "MGN is a dedicated cochlea-recipient (medial geniculate) auditory thalamic relay whose only cortical target is A1; no second grounded projection target exists among the graph's nodes. MGN stays a leaf of A1."
+      },
+      {
+        "candidate": "redundant path around V1 via a second edge on LGN",
+        "type": "redundantPath",
+        "reason": "LGN is a dedicated retino-recipient thalamic relay whose only cortical target is V1; the pulvinar / superior-colliculus partners that would give it a second grounded projection are not present as nodes in the intelligence graph. LGN stays a leaf of V1."
+      },
+      {
+        "candidate": "feedback edge HIPP->dlPFC (reciprocal of dlPFC->HIPP)",
+        "type": "feedbackEdge",
+        "reason": "Hippocampal output to lateral PFC is not a monosynaptic projection; direct hippocampal-PFC fibers target mPFC/vmPFC, not dlPFC, and the mPFC relay is not on an intelligence-graph edge path. Cannot ground a direct HIPP->dlPFC edge. (Same omission as Finance.)"
+      }
+    ],
+    "notedButNotOmitted": "The reward island's single thread was the sharpest structural risk; it is fully addressed by the grounded VTA->dlPFC (mesocortical) + VP->VTA (mesolimbic) pair, so no ungrounded reward-island edge was needed."
+  }
+}

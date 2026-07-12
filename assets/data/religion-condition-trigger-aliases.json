@@ -1,0 +1,361 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Religion extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. sectarian_escalation) + active diagnosis ids (e.g. SECTARIAN_CONFLICT) (energy-telemetry-adapter.js L48-53 pattern). This table bridges the pulse-engine CONDITION vocabulary to the activations reachable through the real evidence-contract -> issue-circuit chain. As in Finance, Religion activation.diagnosticTriggers ARE diagnosis ids, so active diagnosis ids self-match; the condition-codes section is the part that is strictly required.",
+    "derivationChain": "condition-code --(religion-pulse-engine.js inline classify, L133-162)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L43-89 / L171-177)--> diagnosis id --(religion.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations whose diagnosticTriggers are themselves diagnosis ids)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data). The condition-codes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate: requiredFamilies with OR-semantics, hasRequiredEvidence loop L171-174 — NOT primaryIndicators). A condition that is only a diagnosis primaryIndicator/secondaryConfirmation but does not emit that diagnosis requiredFamily is listed under secondaryDiagnoses and NOT folded (bias against over-marking).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from religion.json; extinction matching is case-insensitive (energy-extinction.js L22,L29). Derived deterministically and cross-checked against energy-neuro-substrate.js / energy-connectivity-audit.js style read-only execution of the sources.",
+    "heterogeneityVsFinanceEnergy": "DIFFERENT structure. (1) SHARED-FAMILY CROSS-LINK: governance_event is a requiredFamily of BOTH INSTITUTIONAL_ABUSE ([scandal_event, governance_event]) AND THEOLOGICAL_SCHISM ([schism_event, governance_event]). So abuse condition-codes (which emit scandal_event+governance_event) fold into THEOLOGICAL_SCHISM too, and schism condition-codes (schism_event+governance_event) fold into INSTITUTIONAL_ABUSE too — a BIDIRECTIONAL cross-link Finance did not have at the requiredFamily level. (2) SHARED PRIMARY INDICATOR: identity_hardening is a primaryIndicator of BOTH SECTARIAN_CONFLICT and RADICALIZATION, but it classifies only to conflict_event/persecution_event, so it folds to SECTARIAN_CONFLICT and is secondary-not-folded for RADICALIZATION. (3) TWO DEAD-END FAMILIES: structural_event (from religion_high_stress/structural_stress) AND macro_event (from macro_shock) reach no contract requiredFamily (Finance had one dead-end, macro_event). (4) ORPHAN COUNT: Religion 10 (Energy 1, Finance 3), and 5 of them reference PHANTOM diagnosis ids that have no issues[] entry and no evidence contract, so they can NEVER be marked active — a stronger orphan than Finance's. (5) NO extinction-exempt empty-trigger activations exist in Religion (Finance had 4); every religion.json activation carries diagnosticTriggers. (6) Like Finance and unlike Energy, activation.diagnosticTriggers ARE diagnosis ids (self-match), not free-text phrases.",
+    "sources": [
+      "assets/js/religion-pulse-engine.js (inline condition->family classify L133-162; EVIDENCE_CONTRACTS L43-89; requiredFamilies OR-gate L171-177)",
+      "assets/data/domains/religion.json (activations[].diagnosticTriggers = diagnosis ids; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no religion-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no religion-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T00:00:00.000Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes religion.json or fires extinction. No religion-specific adapter/extinction module exists yet; this table follows the Energy/Finance contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "sectarian_escalation": {
+      "evidenceFamilies": ["conflict_event", "persecution_event"],
+      "linkedDiagnoses": [
+        { "id": "SECTARIAN_CONFLICT", "link": "primaryIndicator+requiredFamily:conflict_event" }
+      ],
+      "activations": ["TPJ", "OFC", "dlPFC", "CBLM", "VEST"],
+      "diagnosticTriggers": ["SECTARIAN_CONFLICT", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js inline-classifies 'sectarian_escalation' -> [conflict_event, persecution_event] (L136-139). Those satisfy SECTARIAN_CONFLICT requiredFamilies (OR-semantics, L171-177). SECTARIAN_CONFLICT expands to its issues[]._authored circuit nodeIds (TPJ/OFC/dlPFC/CBLM/VEST) and those activations' diagnosticTriggers. diagnosticTriggers here are diagnosis-id strings."
+    },
+    "identity_hardening": {
+      "evidenceFamilies": ["conflict_event", "persecution_event"],
+      "linkedDiagnoses": [
+        { "id": "SECTARIAN_CONFLICT", "link": "primaryIndicator+requiredFamily:conflict_event" }
+      ],
+      "activations": ["TPJ", "OFC", "dlPFC", "CBLM", "VEST"],
+      "diagnosticTriggers": ["SECTARIAN_CONFLICT", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'identity_hardening' -> [conflict_event, persecution_event] (L136-139), satisfying SECTARIAN_CONFLICT requiredFamilies. Folds to SECTARIAN_CONFLICT only.",
+      "secondaryDiagnoses": [
+        { "id": "RADICALIZATION", "link": "primaryIndicator(not folded; identity_hardening is a RADICALIZATION primaryIndicator L67 but emits conflict_event/persecution_event, NOT RADICALIZATION requiredFamilies extremism_event/security_event, so it does not satisfy the code gate)" }
+      ]
+    },
+    "grievance_amplification": {
+      "evidenceFamilies": ["conflict_event", "persecution_event"],
+      "linkedDiagnoses": [
+        { "id": "SECTARIAN_CONFLICT", "link": "primaryIndicator+requiredFamily:conflict_event" }
+      ],
+      "activations": ["TPJ", "OFC", "dlPFC", "CBLM", "VEST"],
+      "diagnosticTriggers": ["SECTARIAN_CONFLICT", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'grievance_amplification' -> [conflict_event, persecution_event] (L136-139), satisfying SECTARIAN_CONFLICT requiredFamilies (OR-semantics). Expands to SECTARIAN_CONFLICT _authored circuit + activations' diagnosticTriggers."
+    },
+    "inter_communal_violence": {
+      "evidenceFamilies": ["conflict_event", "persecution_event"],
+      "linkedDiagnoses": [
+        { "id": "SECTARIAN_CONFLICT", "link": "primaryIndicator+requiredFamily:conflict_event" }
+      ],
+      "activations": ["TPJ", "OFC", "dlPFC", "CBLM", "VEST"],
+      "diagnosticTriggers": ["SECTARIAN_CONFLICT", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'inter_communal_violence' -> [conflict_event, persecution_event] (L136-139), satisfying SECTARIAN_CONFLICT requiredFamilies. Expands to SECTARIAN_CONFLICT _authored circuit + activations' diagnosticTriggers."
+    },
+    "scandal_exposure": {
+      "evidenceFamilies": ["scandal_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "INSTITUTIONAL_ABUSE", "link": "primaryIndicator+requiredFamily:scandal_event" },
+        { "id": "THEOLOGICAL_SCHISM", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["dlPFC", "vmPFC", "OFC", "AG", "TPJ", "DMN", "WERN", "PRECUNEUS", "HIPP"],
+      "diagnosticTriggers": ["INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'scandal_exposure' -> [scandal_event, governance_event] (L141-144). scandal_event satisfies INSTITUTIONAL_ABUSE requiredFamilies (primary); governance_event ALSO satisfies THEOLOGICAL_SCHISM requiredFamilies ([schism_event, governance_event], OR-semantics) -> SHARED-FAMILY CROSS-LINK. activations = union of both diagnoses' _authored circuits; diagnosticTriggers = union of those activations' diagnosticTriggers (all 5 diagnosis ids)."
+    },
+    "trust_collapse": {
+      "evidenceFamilies": ["scandal_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "INSTITUTIONAL_ABUSE", "link": "primaryIndicator+requiredFamily:scandal_event" },
+        { "id": "THEOLOGICAL_SCHISM", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["dlPFC", "vmPFC", "OFC", "AG", "TPJ", "DMN", "WERN", "PRECUNEUS", "HIPP"],
+      "diagnosticTriggers": ["INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'trust_collapse' -> [scandal_event, governance_event] (L141-144). scandal_event -> INSTITUTIONAL_ABUSE; governance_event -> THEOLOGICAL_SCHISM (shared-family cross-link). Union of both circuits + activations' diagnosticTriggers."
+    },
+    "authority_erosion": {
+      "evidenceFamilies": ["scandal_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "INSTITUTIONAL_ABUSE", "link": "primaryIndicator+requiredFamily:scandal_event" },
+        { "id": "THEOLOGICAL_SCHISM", "link": "secondaryConfirmation+requiredFamily:governance_event" }
+      ],
+      "activations": ["dlPFC", "vmPFC", "OFC", "AG", "TPJ", "DMN", "WERN", "PRECUNEUS", "HIPP"],
+      "diagnosticTriggers": ["INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'authority_erosion' -> [scandal_event, governance_event] (L141-144). scandal_event -> INSTITUTIONAL_ABUSE (primary). governance_event -> THEOLOGICAL_SCHISM; authority_erosion is ALSO a named secondaryConfirmation of THEOLOGICAL_SCHISM (L86) AND it emits that contract's governance_event requiredFamily, so it is FOLDED (both by family and by name). Union of both circuits + activations' diagnosticTriggers."
+    },
+    "accountability_failure": {
+      "evidenceFamilies": ["scandal_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "INSTITUTIONAL_ABUSE", "link": "primaryIndicator+requiredFamily:scandal_event" },
+        { "id": "THEOLOGICAL_SCHISM", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["dlPFC", "vmPFC", "OFC", "AG", "TPJ", "DMN", "WERN", "PRECUNEUS", "HIPP"],
+      "diagnosticTriggers": ["INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'accountability_failure' -> [scandal_event, governance_event] (L141-144). scandal_event -> INSTITUTIONAL_ABUSE; governance_event -> THEOLOGICAL_SCHISM (shared-family cross-link). Union of both circuits + activations' diagnosticTriggers."
+    },
+    "hypocrisy_perception": {
+      "evidenceFamilies": ["scandal_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "INSTITUTIONAL_ABUSE", "link": "secondaryConfirmation+requiredFamily:scandal_event" },
+        { "id": "THEOLOGICAL_SCHISM", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["dlPFC", "vmPFC", "OFC", "AG", "TPJ", "DMN", "WERN", "PRECUNEUS", "HIPP"],
+      "diagnosticTriggers": ["INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'hypocrisy_perception' -> [scandal_event, governance_event] (L141-144). It is INSTITUTIONAL_ABUSE secondaryConfirmation (L59) AND emits scandal_event (its requiredFamily) so it is folded; governance_event also cross-links THEOLOGICAL_SCHISM. Union of both circuits + activations' diagnosticTriggers."
+    },
+    "extremist_capture": {
+      "evidenceFamilies": ["extremism_event", "security_event"],
+      "linkedDiagnoses": [
+        { "id": "RADICALIZATION", "link": "primaryIndicator+requiredFamily:extremism_event" }
+      ],
+      "activations": ["PRECUNEUS", "WERN", "vmPFC", "TPJ", "AG", "dlPFC"],
+      "diagnosticTriggers": ["RADICALIZATION", "THEOLOGICAL_SCHISM", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'extremist_capture' -> [extremism_event, security_event] (L146-149), satisfying RADICALIZATION requiredFamilies. Expands to RADICALIZATION _authored circuit + activations' diagnosticTriggers. NOTE: RADICALIZATION is UNMAPPED in the neuro-substrate failure-class map (aberrant prior-precision / ideological capture, outside the 9 Part XIV classes); the extinction alias chain is nonetheless valid data (independent diagnostic)."
+    },
+    "polarizing_rhetoric": {
+      "evidenceFamilies": ["extremism_event", "security_event"],
+      "linkedDiagnoses": [
+        { "id": "RADICALIZATION", "link": "primaryIndicator+requiredFamily:extremism_event" }
+      ],
+      "activations": ["PRECUNEUS", "WERN", "vmPFC", "TPJ", "AG", "dlPFC"],
+      "diagnosticTriggers": ["RADICALIZATION", "THEOLOGICAL_SCHISM", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'polarizing_rhetoric' -> [extremism_event, security_event] (L146-149), satisfying RADICALIZATION requiredFamilies. Expands to RADICALIZATION _authored circuit + activations' diagnosticTriggers."
+    },
+    "radicalization_pipeline": {
+      "evidenceFamilies": ["extremism_event", "security_event"],
+      "linkedDiagnoses": [
+        { "id": "RADICALIZATION", "link": "primaryIndicator+requiredFamily:extremism_event" }
+      ],
+      "activations": ["PRECUNEUS", "WERN", "vmPFC", "TPJ", "AG", "dlPFC"],
+      "diagnosticTriggers": ["RADICALIZATION", "THEOLOGICAL_SCHISM", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "SECULARIZATION_CRISIS"],
+      "basis": "religion-pulse-engine.js classifies 'radicalization_pipeline' -> [extremism_event, security_event] (L146-149), satisfying RADICALIZATION requiredFamilies. Expands to RADICALIZATION _authored circuit + activations' diagnosticTriggers."
+    },
+    "attendance_contraction": {
+      "evidenceFamilies": ["decline_event", "demographic_event"],
+      "linkedDiagnoses": [
+        { "id": "SECULARIZATION_CRISIS", "link": "primaryIndicator+requiredFamily:decline_event" }
+      ],
+      "activations": ["CBLM", "DMN", "AG", "RAPHE", "HIPP", "PIN"],
+      "diagnosticTriggers": ["SECULARIZATION_CRISIS", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION"],
+      "basis": "religion-pulse-engine.js classifies 'attendance_contraction' -> [decline_event, demographic_event] (L151-154), satisfying SECULARIZATION_CRISIS requiredFamilies. Expands to SECULARIZATION_CRISIS _authored circuit + activations' diagnosticTriggers."
+    },
+    "youth_disengagement": {
+      "evidenceFamilies": ["decline_event", "demographic_event"],
+      "linkedDiagnoses": [
+        { "id": "SECULARIZATION_CRISIS", "link": "primaryIndicator+requiredFamily:decline_event" }
+      ],
+      "activations": ["CBLM", "DMN", "AG", "RAPHE", "HIPP", "PIN"],
+      "diagnosticTriggers": ["SECULARIZATION_CRISIS", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION"],
+      "basis": "religion-pulse-engine.js classifies 'youth_disengagement' -> [decline_event, demographic_event] (L151-154), satisfying SECULARIZATION_CRISIS requiredFamilies. Expands to SECULARIZATION_CRISIS _authored circuit + activations' diagnosticTriggers."
+    },
+    "membership_decline": {
+      "evidenceFamilies": ["decline_event", "demographic_event"],
+      "linkedDiagnoses": [
+        { "id": "SECULARIZATION_CRISIS", "link": "primaryIndicator+requiredFamily:decline_event" }
+      ],
+      "activations": ["CBLM", "DMN", "AG", "RAPHE", "HIPP", "PIN"],
+      "diagnosticTriggers": ["SECULARIZATION_CRISIS", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION"],
+      "basis": "religion-pulse-engine.js classifies 'membership_decline' -> [decline_event, demographic_event] (L151-154), satisfying SECULARIZATION_CRISIS requiredFamilies. Expands to SECULARIZATION_CRISIS _authored circuit + activations' diagnosticTriggers."
+    },
+    "declining_legitimacy": {
+      "evidenceFamilies": ["decline_event", "demographic_event"],
+      "linkedDiagnoses": [
+        { "id": "SECULARIZATION_CRISIS", "link": "primaryIndicator+requiredFamily:decline_event" }
+      ],
+      "activations": ["CBLM", "DMN", "AG", "RAPHE", "HIPP", "PIN"],
+      "diagnosticTriggers": ["SECULARIZATION_CRISIS", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION"],
+      "basis": "religion-pulse-engine.js classifies 'declining_legitimacy' -> [decline_event, demographic_event] (L151-154), satisfying SECULARIZATION_CRISIS requiredFamilies. Expands to SECULARIZATION_CRISIS _authored circuit + activations' diagnosticTriggers."
+    },
+    "community_disengagement": {
+      "evidenceFamilies": ["decline_event", "demographic_event"],
+      "linkedDiagnoses": [
+        { "id": "SECULARIZATION_CRISIS", "link": "secondaryConfirmation+requiredFamily:decline_event" }
+      ],
+      "activations": ["CBLM", "DMN", "AG", "RAPHE", "HIPP", "PIN"],
+      "diagnosticTriggers": ["SECULARIZATION_CRISIS", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION"],
+      "basis": "religion-pulse-engine.js classifies 'community_disengagement' -> [decline_event, demographic_event] (L151-154). It is SECULARIZATION_CRISIS secondaryConfirmation (L77) AND emits decline_event (its requiredFamily), so it is folded. Expands to SECULARIZATION_CRISIS _authored circuit + activations' diagnosticTriggers."
+    },
+    "doctrinal_conflict": {
+      "evidenceFamilies": ["schism_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "THEOLOGICAL_SCHISM", "link": "primaryIndicator+requiredFamily:schism_event" },
+        { "id": "INSTITUTIONAL_ABUSE", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["DMN", "WERN", "dlPFC", "vmPFC", "PRECUNEUS", "HIPP", "OFC", "AG", "TPJ"],
+      "diagnosticTriggers": ["THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT"],
+      "basis": "religion-pulse-engine.js classifies 'doctrinal_conflict' -> [schism_event, governance_event] (L156-159). schism_event satisfies THEOLOGICAL_SCHISM requiredFamilies (primary); governance_event ALSO satisfies INSTITUTIONAL_ABUSE requiredFamilies ([scandal_event, governance_event], OR-semantics) -> the reciprocal SHARED-FAMILY CROSS-LINK. activations = union of both circuits; diagnosticTriggers = union (all 5 diagnosis ids)."
+    },
+    "denominational_splintering": {
+      "evidenceFamilies": ["schism_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "THEOLOGICAL_SCHISM", "link": "primaryIndicator+requiredFamily:schism_event" },
+        { "id": "INSTITUTIONAL_ABUSE", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["DMN", "WERN", "dlPFC", "vmPFC", "PRECUNEUS", "HIPP", "OFC", "AG", "TPJ"],
+      "diagnosticTriggers": ["THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT"],
+      "basis": "religion-pulse-engine.js classifies 'denominational_splintering' -> [schism_event, governance_event] (L156-159). schism_event -> THEOLOGICAL_SCHISM; governance_event -> INSTITUTIONAL_ABUSE (shared-family cross-link). Union of both circuits + activations' diagnosticTriggers."
+    },
+    "leadership_fracture": {
+      "evidenceFamilies": ["schism_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "THEOLOGICAL_SCHISM", "link": "primaryIndicator+requiredFamily:schism_event" },
+        { "id": "INSTITUTIONAL_ABUSE", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["DMN", "WERN", "dlPFC", "vmPFC", "PRECUNEUS", "HIPP", "OFC", "AG", "TPJ"],
+      "diagnosticTriggers": ["THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT"],
+      "basis": "religion-pulse-engine.js classifies 'leadership_fracture' -> [schism_event, governance_event] (L156-159). schism_event -> THEOLOGICAL_SCHISM; governance_event -> INSTITUTIONAL_ABUSE (shared-family cross-link). Union of both circuits + activations' diagnosticTriggers."
+    },
+    "organizational_schism": {
+      "evidenceFamilies": ["schism_event", "governance_event"],
+      "linkedDiagnoses": [
+        { "id": "THEOLOGICAL_SCHISM", "link": "primaryIndicator+requiredFamily:schism_event" },
+        { "id": "INSTITUTIONAL_ABUSE", "link": "sharedFamily+requiredFamily:governance_event" }
+      ],
+      "activations": ["DMN", "WERN", "dlPFC", "vmPFC", "PRECUNEUS", "HIPP", "OFC", "AG", "TPJ"],
+      "diagnosticTriggers": ["THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT"],
+      "basis": "religion-pulse-engine.js classifies 'organizational_schism' -> [schism_event, governance_event] (L156-159). schism_event -> THEOLOGICAL_SCHISM; governance_event -> INSTITUTIONAL_ABUSE (shared-family cross-link). Union of both circuits + activations' diagnosticTriggers."
+    }
+  },
+  "diagnoses": {
+    "SECTARIAN_CONFLICT": {
+      "circuitSource": "_authored",
+      "activations": ["TPJ", "OFC", "dlPFC", "CBLM", "VEST"],
+      "diagnosticTriggers": ["SECTARIAN_CONFLICT", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS"],
+      "basis": "diagnosis id === Religion issue id; when active, the (energy-pattern) adapter marks its issues['SECTARIAN_CONFLICT']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. Those diagnosticTriggers are themselves diagnosis-id strings, so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "INSTITUTIONAL_ABUSE": {
+      "circuitSource": "_authored",
+      "activations": ["dlPFC", "vmPFC", "OFC", "AG", "TPJ", "DMN"],
+      "diagnosticTriggers": ["INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION", "SECULARIZATION_CRISIS"],
+      "basis": "diagnosis id === Religion issue id; when active, the adapter marks its issues['INSTITUTIONAL_ABUSE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    },
+    "RADICALIZATION": {
+      "circuitSource": "_authored",
+      "activations": ["PRECUNEUS", "WERN", "vmPFC", "TPJ", "AG", "dlPFC"],
+      "diagnosticTriggers": ["RADICALIZATION", "THEOLOGICAL_SCHISM", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT", "SECULARIZATION_CRISIS"],
+      "basis": "diagnosis id === Religion issue id; when active, the adapter marks its issues['RADICALIZATION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists those brainNodeIds and their activations' diagnosticTriggers. Direct data link. NOTE: RADICALIZATION is UNMAPPED in religion-neuro-substrate.json (outside the 9 Part XIV classes); that is an independent diagnostic and does not affect this extinction-protection alias."
+    },
+    "SECULARIZATION_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": ["CBLM", "DMN", "AG", "RAPHE", "HIPP", "PIN"],
+      "diagnosticTriggers": ["SECULARIZATION_CRISIS", "SECTARIAN_CONFLICT", "THEOLOGICAL_SCHISM", "RADICALIZATION"],
+      "basis": "diagnosis id === Religion issue id; when active, the adapter marks its issues['SECULARIZATION_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    },
+    "THEOLOGICAL_SCHISM": {
+      "circuitSource": "_authored",
+      "activations": ["DMN", "WERN", "dlPFC", "vmPFC", "PRECUNEUS", "HIPP"],
+      "diagnosticTriggers": ["THEOLOGICAL_SCHISM", "SECULARIZATION_CRISIS", "RADICALIZATION", "INSTITUTIONAL_ABUSE", "SECTARIAN_CONFLICT"],
+      "basis": "diagnosis id === Religion issue id; when active, the adapter marks its issues['THEOLOGICAL_SCHISM']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "religion_high_stress",
+        "evidenceFamilies": ["structural_event"],
+        "reason": "religion-pulse-engine.js classifies religion_high_stress -> [structural_event] (L160). NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies, so it is a dead-end family: reaches no diagnosis, hence no _authored circuit, hence no activation. It is a secondaryConfirmation of SECTARIAN_CONFLICT (L50) and RADICALIZATION (L68), but it emits structural_event, NOT their requiredFamilies (conflict/persecution, extremism/security), so it cannot satisfy the code gate and is not folded (bias against over-marking). No grounded alias."
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": ["structural_event"],
+        "reason": "religion-pulse-engine.js classifies structural_stress -> [structural_event] (L160), a dead-end family named in no contract requiredFamilies. No condition->diagnosis chain, no grounded alias."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": ["macro_event"],
+        "reason": "religion-pulse-engine.js classifies macro_shock -> [macro_event] (L161), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. Dead-end family (exactly as in Finance). No grounded alias."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "IPS",
+        "domainLabel": "Sacred Architecture",
+        "diagnosticTriggers": ["SECULARIZATION_CRISIS"],
+        "triggerType": "contract-diagnosis-id",
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Its trigger SECULARIZATION_CRISIS is a real contract diagnosis id, so it self-matches WHEN that diagnosis is externally active; but nothing marks IPS active via circuit participation, and no alias can be grounded from a circuit chain. Flagged, not fabricated; needs authoring into a circuit."
+      },
+      {
+        "brainNodeId": "A1",
+        "domainLabel": "Sacred Music",
+        "diagnosticTriggers": ["SECULARIZATION_CRISIS"],
+        "triggerType": "contract-diagnosis-id",
+        "reason": "Not in any _authored circuit; trigger is the contract diagnosis id SECULARIZATION_CRISIS (self-matches only when that diagnosis is active). No grounded circuit-chain alias. Flagged; needs authoring into a circuit."
+      },
+      {
+        "brainNodeId": "PCC",
+        "domainLabel": "Meditation & Contemplation",
+        "diagnosticTriggers": ["SECULARIZATION_CRISIS"],
+        "triggerType": "contract-diagnosis-id",
+        "reason": "Not in any _authored circuit; trigger is the contract diagnosis id SECULARIZATION_CRISIS. Self-matches only when that diagnosis is active; no grounded circuit-chain alias. Flagged; needs authoring into a circuit."
+      },
+      {
+        "brainNodeId": "nACC",
+        "domainLabel": "Secularization & Disaffiliation",
+        "diagnosticTriggers": ["SECULARIZATION_CRISIS", "GENERATIONAL_FAITH_CLIFF", "INSTITUTIONAL_CONFIDENCE_COLLAPSE"],
+        "triggerType": "mixed(contract + phantom)",
+        "reason": "Not in any _authored circuit. One trigger (SECULARIZATION_CRISIS) is a contract diagnosis id (self-matches when active); the other two (GENERATIONAL_FAITH_CLIFF, INSTITUTIONAL_CONFIDENCE_COLLAPSE) are PHANTOM diagnosis ids with no issues[] entry and no evidence contract, so nothing can ever set them active. No grounded circuit-chain alias. Flagged; needs authoring."
+      },
+      {
+        "brainNodeId": "AMY",
+        "domainLabel": "Sectarian Conflict & Fundamentalism",
+        "diagnosticTriggers": ["SECTARIAN_CONFLICT", "RADICALIZATION", "FUNDAMENTALIST_SURGE"],
+        "triggerType": "mixed(contract + phantom)",
+        "reason": "Not in any _authored circuit. SECTARIAN_CONFLICT and RADICALIZATION are contract diagnosis ids (self-match when active); FUNDAMENTALIST_SURGE is a PHANTOM diagnosis id (no issue, no contract). No grounded circuit-chain alias. Flagged; needs authoring."
+      },
+      {
+        "brainNodeId": "SNS",
+        "domainLabel": "Religious Law & Freedom",
+        "diagnosticTriggers": ["RELIGIOUS_FREEDOM_VIOLATION", "BLASPHEMY_APOSTASY_LAW", "CHURCH_STATE_BOUNDARY_BREACH"],
+        "triggerType": "phantom-only",
+        "reason": "Not in any _authored circuit AND all three triggers are PHANTOM diagnosis ids: none has an issues[] entry or an EVIDENCE_CONTRACT, so no pulse/diagnosis path can EVER add them to activeTriggers. Under current wiring extinction would ALWAYS list SNS for retirement. No grounded alias exists; NOT fabricated. Needs both a circuit and matching issues/contracts before extinction should touch it. (Stronger orphan than Finance's, whose triggers were real diagnosis ids.)"
+      },
+      {
+        "brainNodeId": "VV",
+        "domainLabel": "Religious Media & Communication",
+        "diagnosticTriggers": ["FAITH_MEDIA_REACH_DECLINE", "DISINFORMATION_IN_RELIGIOUS_CHANNELS", "DIGITAL_FAITH_FRAGMENTATION"],
+        "triggerType": "phantom-only",
+        "reason": "Not in any _authored circuit; all three triggers are PHANTOM diagnosis ids (no issue, no contract), so no path can ever activate them. Extinction would ALWAYS retire VV. No grounded alias; flagged, not fabricated."
+      },
+      {
+        "brainNodeId": "SC",
+        "domainLabel": "Religious Organization Structure",
+        "diagnosticTriggers": ["CLERGY_SUPPLY_SHORTAGE", "CONGREGATION_CLOSURE_WAVE", "DENOMINATIONAL_SCHISM"],
+        "triggerType": "phantom-only",
+        "reason": "Not in any _authored circuit; all three triggers are PHANTOM diagnosis ids (no issue, no contract). Extinction would ALWAYS retire SC. No grounded alias; flagged, not fabricated."
+      },
+      {
+        "brainNodeId": "IC",
+        "domainLabel": "Religion & Politics",
+        "diagnosticTriggers": ["RELIGIOUS_NATIONALISM_SURGE", "FAITH_ADVOCACY_POLARIZATION", "CLERICAL_POLITICAL_CAPTURE"],
+        "triggerType": "phantom-only",
+        "reason": "Not in any _authored circuit; all three triggers are PHANTOM diagnosis ids (no issue, no contract). Extinction would ALWAYS retire IC. No grounded alias; flagged, not fabricated."
+      },
+      {
+        "brainNodeId": "ACC",
+        "domainLabel": "Faith-Based Social Action",
+        "diagnosticTriggers": ["CHARITY_GIVING_DECLINE", "FAITH_NGO_CLOSURE", "VOLUNTEER_PARTICIPATION_DROP"],
+        "triggerType": "phantom-only",
+        "reason": "Not in any _authored circuit; all three triggers are PHANTOM diagnosis ids (no issue, no contract). Extinction would ALWAYS retire ACC. No grounded alias; flagged, not fabricated."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [],
+    "phantomDiagnosisIds": {
+      "_note": "diagnosis ids referenced by activation.diagnosticTriggers (and their diagnosticThresholds) that have NO issues[] entry and NO EVIDENCE_CONTRACT in religion-pulse-engine.js. They can never be validated or set active by the pulse machinery, so any alias grounded on them would be fabricated. Listed for authoring follow-up, not aliased.",
+      "ids": [
+        "RELIGIOUS_FREEDOM_VIOLATION", "BLASPHEMY_APOSTASY_LAW", "CHURCH_STATE_BOUNDARY_BREACH",
+        "FAITH_MEDIA_REACH_DECLINE", "DISINFORMATION_IN_RELIGIOUS_CHANNELS", "DIGITAL_FAITH_FRAGMENTATION",
+        "CLERGY_SUPPLY_SHORTAGE", "CONGREGATION_CLOSURE_WAVE", "DENOMINATIONAL_SCHISM",
+        "RELIGIOUS_NATIONALISM_SURGE", "FAITH_ADVOCACY_POLARIZATION", "CLERICAL_POLITICAL_CAPTURE",
+        "GENERATIONAL_FAITH_CLIFF", "INSTITUTIONAL_CONFIDENCE_COLLAPSE", "FUNDAMENTALIST_SURGE",
+        "CHARITY_GIVING_DECLINE", "FAITH_NGO_CLOSURE", "VOLUNTEER_PARTICIPATION_DROP"
+      ],
+      "count": 18
+    }
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Religion: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the inline classify switch (L133-162), so there are no contract-only-unclassified tokens. The only classified-but-uncontracted tokens are religion_high_stress/structural_stress (-> structural_event) and macro_shock (-> macro_event), all dead-end families listed under unmapped.conditionCodes."
+  }
+}

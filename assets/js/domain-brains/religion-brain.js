@@ -362,6 +362,13 @@
         return b.relevance - a.relevance;
       });
       self._checkDiagnosisActions();
+      // Neuro-substrate telemetry (advisory): brain state (pulse-less capable) -> runtime overlay via generic adapter.
+      try {
+        if (window.DomainTelemetryAdapter && typeof window.DomainTelemetryAdapter.fromLiveCached === "function") {
+          window.DomainTelemetryAdapter.fromLiveCached("religion", self.state, self._runtimeOverlay || null)
+            .then(function (ov) { if (ov) self._runtimeOverlay = ov; }).catch(function () {});
+        }
+      } catch (_e) {}
     });
   };
 

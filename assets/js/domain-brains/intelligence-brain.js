@@ -240,6 +240,13 @@
       console.log('[IntelligenceBrain] deriveDiagnoses: ' + self.state.diagnoses.length + ' total, ' + activeDxCount + ' active, conditions=' + (self._activeConditions || []).length);
       if (self._activeConditions && self._activeConditions.length > 0 && activeDxCount === 0) console.error('[IntelligenceBrain] PIPELINE BREAK: conditions exist but 0 diagnoses active');
       self._checkDiagnosisActions();
+      // Neuro-substrate telemetry (advisory): brain state (pulse-less capable) -> runtime overlay via generic adapter.
+      try {
+        if (window.DomainTelemetryAdapter && typeof window.DomainTelemetryAdapter.fromLiveCached === "function") {
+          window.DomainTelemetryAdapter.fromLiveCached("intelligence", self.state, self._runtimeOverlay || null)
+            .then(function (ov) { if (ov) self._runtimeOverlay = ov; }).catch(function () {});
+        }
+      } catch (_e) {}
     });
   };
 

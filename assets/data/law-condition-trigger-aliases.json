@@ -1,0 +1,924 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Law extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. court_backlog) + active diagnosis ids (e.g. JUDICIAL_CRISIS) (energy-telemetry-adapter.js pattern). In Law the CONDITION-CODES (court_backlog, agency_capture...) never textually equal an activation.diagnosticTrigger; this table bridges them. NOTE: like Finance, Law activation.diagnosticTriggers ARE diagnosis ids, so active diagnosis ids already self-match; the condition-code map is the part that is strictly required.",
+    "derivationChain": "condition-code --(law-pulse-engine.js inline classify, L130-160)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L40-86 / L170-173)--> diagnosis id --(law.json issues[]._authored circuit)--> circuit nodeIds --(these nodeIds are activations whose diagnosticTriggers are themselves diagnosis ids)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data). The condition-codes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics, NOT primaryIndicators). A condition emitting a requiredFamily of a diagnosis is folded even when the condition string is not that diagnosis primaryIndicator/secondaryConfirmation (annotated 'requiredFamily:' only) — this replicates the code, which validates on family match. Bias is against over-marking only where NO family matches.",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from law.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinance": "SIMILAR method, LAW-SPECIFIC differences. (1) Like Finance, Law inlines condition classification and its condition-codes ARE the contract indicator tokens; and Law activation.diagnosticTriggers are DIAGNOSIS IDs (so the diagnoses map is largely redundant for direct self-matching, but protects co-circuit nodes). (2) Law's shared evidence families cause HEAVY cross-folding: judicial_event is a requiredFamily of BOTH JUDICIAL_CRISIS and CONSTITUTIONAL_VIOLATION, and enforcement_event of BOTH REGULATORY_CAPTURE and MASS_INCARCERATION, so single conditions (e.g. court_backlog, agency_capture) legitimately fold to two diagnoses under the code gate. (3) Law has THREE unmapped dead-end condition-codes (macro_shock->macro_event, law_high_stress->structural_event, structural_stress->structural_event) — none of these families appears in any contract requiredFamilies. Unlike Finance's _stress_ tokens (which emitted NO family), Law's stress tokens DO emit a real family (structural_event) but it is still consumed by no contract. (4) The one catch-all-eligible diagnosis MASS_INCARCERATION (catchAllBlocked:false) is NOT fed by any stress condition-code (structural_event is not in its requiredFamilies), so no alias is grounded through the catch-all — same shape as Finance SYSTEMIC_CONTAGION. (5) Orphan count: Finance 3, Law 2 (TPJ, HIPP).",
+    "sources": [
+      "assets/js/law-pulse-engine.js (inline condition->family classify L130-160; EVIDENCE_CONTRACTS L40-86; requiredFamilies OR-gate L170-173; catchAll block L174-176)",
+      "assets/data/domains/law.json (activations[].diagnosticTriggers = diagnosis ids; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no law-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics; no law-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T20:18:16.190Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes law.json or fires extinction. No law-specific adapter/extinction module exists yet; this table follows the Energy/Finance contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "court_backlog": {
+      "evidenceFamilies": [
+        "judicial_event",
+        "docket_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "primaryIndicator+requiredFamily:judicial_event,docket_event"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION",
+          "link": "requiredFamily:judicial_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN",
+        "EMP",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'court_backlog' -> evidence families [judicial_event, docket_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "delayed_rulings": {
+      "evidenceFamilies": [
+        "judicial_event",
+        "docket_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "primaryIndicator+requiredFamily:judicial_event,docket_event"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION",
+          "link": "requiredFamily:judicial_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN",
+        "EMP",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'delayed_rulings' -> evidence families [judicial_event, docket_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "procedural_bottleneck": {
+      "evidenceFamilies": [
+        "judicial_event",
+        "docket_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "primaryIndicator+requiredFamily:judicial_event,docket_event"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION",
+          "link": "requiredFamily:judicial_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN",
+        "EMP",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'procedural_bottleneck' -> evidence families [judicial_event, docket_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "permitting_slowdown": {
+      "evidenceFamilies": [
+        "docket_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:docket_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'permitting_slowdown' -> evidence families [docket_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "blocked_approvals": {
+      "evidenceFamilies": [
+        "docket_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:docket_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'blocked_approvals' -> evidence families [docket_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "rights_challenge": {
+      "evidenceFamilies": [
+        "rights_event",
+        "judicial_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "requiredFamily:judicial_event"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION",
+          "link": "primaryIndicator+requiredFamily:rights_event,judicial_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN",
+        "EMP",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'rights_challenge' -> evidence families [rights_event, judicial_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "due_process_failure": {
+      "evidenceFamilies": [
+        "rights_event",
+        "judicial_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "requiredFamily:judicial_event"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION",
+          "link": "primaryIndicator+requiredFamily:rights_event,judicial_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN",
+        "EMP",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'due_process_failure' -> evidence families [rights_event, judicial_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "overreach": {
+      "evidenceFamilies": [
+        "rights_event",
+        "judicial_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "requiredFamily:judicial_event"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION",
+          "link": "primaryIndicator+requiredFamily:rights_event,judicial_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN",
+        "EMP",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'overreach' -> evidence families [rights_event, judicial_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "constitutional_conflict": {
+      "evidenceFamilies": [
+        "rights_event",
+        "judicial_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "JUDICIAL_CRISIS",
+          "link": "requiredFamily:judicial_event"
+        },
+        {
+          "id": "CONSTITUTIONAL_VIOLATION",
+          "link": "secondaryConfirmation+requiredFamily:rights_event,judicial_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN",
+        "EMP",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'constitutional_conflict' -> evidence families [rights_event, judicial_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "rule_expansion": {
+      "evidenceFamilies": [
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "secondaryConfirmation+requiredFamily:regulatory_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'rule_expansion' -> evidence families [regulatory_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "compliance_burden": {
+      "evidenceFamilies": [
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "secondaryConfirmation+requiredFamily:regulatory_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'compliance_burden' -> evidence families [regulatory_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "reporting_overload": {
+      "evidenceFamilies": [
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "requiredFamily:regulatory_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'reporting_overload' -> evidence families [regulatory_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "regulatory_favoritism": {
+      "evidenceFamilies": [
+        "regulatory_event",
+        "enforcement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "primaryIndicator+requiredFamily:regulatory_event,enforcement_event"
+        },
+        {
+          "id": "MASS_INCARCERATION",
+          "link": "requiredFamily:enforcement_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC",
+        "BLA",
+        "CeA",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'regulatory_favoritism' -> evidence families [regulatory_event, enforcement_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "enforcement_bias": {
+      "evidenceFamilies": [
+        "regulatory_event",
+        "enforcement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "primaryIndicator+requiredFamily:regulatory_event,enforcement_event"
+        },
+        {
+          "id": "MASS_INCARCERATION",
+          "link": "requiredFamily:enforcement_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC",
+        "BLA",
+        "CeA",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'enforcement_bias' -> evidence families [regulatory_event, enforcement_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "agency_capture": {
+      "evidenceFamilies": [
+        "regulatory_event",
+        "enforcement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "primaryIndicator+requiredFamily:regulatory_event,enforcement_event"
+        },
+        {
+          "id": "MASS_INCARCERATION",
+          "link": "requiredFamily:enforcement_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC",
+        "BLA",
+        "CeA",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'agency_capture' -> evidence families [regulatory_event, enforcement_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "enforcement_escalation": {
+      "evidenceFamilies": [
+        "enforcement_event",
+        "sentencing_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "requiredFamily:enforcement_event"
+        },
+        {
+          "id": "MASS_INCARCERATION",
+          "link": "secondaryConfirmation+requiredFamily:enforcement_event,sentencing_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC",
+        "BLA",
+        "CeA",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'enforcement_escalation' -> evidence families [enforcement_event, sentencing_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "sentencing_surge": {
+      "evidenceFamilies": [
+        "enforcement_event",
+        "sentencing_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "requiredFamily:enforcement_event"
+        },
+        {
+          "id": "MASS_INCARCERATION",
+          "link": "primaryIndicator+requiredFamily:enforcement_event,sentencing_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC",
+        "BLA",
+        "CeA",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'sentencing_surge' -> evidence families [enforcement_event, sentencing_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "overcrowding": {
+      "evidenceFamilies": [
+        "enforcement_event",
+        "sentencing_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "requiredFamily:enforcement_event"
+        },
+        {
+          "id": "MASS_INCARCERATION",
+          "link": "primaryIndicator+requiredFamily:enforcement_event,sentencing_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC",
+        "BLA",
+        "CeA",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'overcrowding' -> evidence families [enforcement_event, sentencing_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "recidivism_spike": {
+      "evidenceFamilies": [
+        "enforcement_event",
+        "sentencing_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REGULATORY_CAPTURE",
+          "link": "requiredFamily:enforcement_event"
+        },
+        {
+          "id": "MASS_INCARCERATION",
+          "link": "primaryIndicator+requiredFamily:enforcement_event,sentencing_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC",
+        "BLA",
+        "CeA",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'recidivism_spike' -> evidence families [enforcement_event, sentencing_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "treaty_violation": {
+      "evidenceFamilies": [
+        "treaty_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN",
+          "link": "primaryIndicator+requiredFamily:treaty_event,sanctions_event"
+        }
+      ],
+      "activations": [
+        "AG",
+        "EMP",
+        "DMN",
+        "FG",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "CONSTITUTIONAL_VIOLATION",
+        "MASS_INCARCERATION",
+        "JUDICIAL_CRISIS",
+        "REGULATORY_CAPTURE"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'treaty_violation' -> evidence families [treaty_event, sanctions_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "sanctions_conflict": {
+      "evidenceFamilies": [
+        "treaty_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN",
+          "link": "primaryIndicator+requiredFamily:treaty_event,sanctions_event"
+        }
+      ],
+      "activations": [
+        "AG",
+        "EMP",
+        "DMN",
+        "FG",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "CONSTITUTIONAL_VIOLATION",
+        "MASS_INCARCERATION",
+        "JUDICIAL_CRISIS",
+        "REGULATORY_CAPTURE"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'sanctions_conflict' -> evidence families [treaty_event, sanctions_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "sovereignty_dispute": {
+      "evidenceFamilies": [
+        "treaty_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN",
+          "link": "primaryIndicator+requiredFamily:treaty_event,sanctions_event"
+        }
+      ],
+      "activations": [
+        "AG",
+        "EMP",
+        "DMN",
+        "FG",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "CONSTITUTIONAL_VIOLATION",
+        "MASS_INCARCERATION",
+        "JUDICIAL_CRISIS",
+        "REGULATORY_CAPTURE"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'sovereignty_dispute' -> evidence families [treaty_event, sanctions_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "cross_border_mismatch": {
+      "evidenceFamilies": [
+        "treaty_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTERNATIONAL_LAW_BREAKDOWN",
+          "link": "secondaryConfirmation+requiredFamily:treaty_event,sanctions_event"
+        }
+      ],
+      "activations": [
+        "AG",
+        "EMP",
+        "DMN",
+        "FG",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "CONSTITUTIONAL_VIOLATION",
+        "MASS_INCARCERATION",
+        "JUDICIAL_CRISIS",
+        "REGULATORY_CAPTURE"
+      ],
+      "basis": "law-pulse-engine.js inline-classifies 'cross_border_mismatch' -> evidence families [treaty_event, sanctions_event] (L130-160). Those families satisfy the requiredFamilies (OR-semantics, L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L40-86). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (law.json) and those activations' diagnosticTriggers. NOTE: in Law an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    }
+  },
+  "diagnoses": {
+    "JUDICIAL_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "OFC",
+        "dlPFC",
+        "rACC",
+        "vlPFC",
+        "DMN",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "MASS_INCARCERATION",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "diagnosis id === Law issue id; when active, the (energy-pattern) adapter marks its issues['JUDICIAL_CRISIS']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Law those diagnosticTriggers are themselves diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "CONSTITUTIONAL_VIOLATION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "DMN",
+        "rACC",
+        "EMP",
+        "dACC",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION",
+        "REGULATORY_CAPTURE"
+      ],
+      "basis": "diagnosis id === Law issue id; when active, the (energy-pattern) adapter marks its issues['CONSTITUTIONAL_VIOLATION']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Law those diagnosticTriggers are themselves diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "REGULATORY_CAPTURE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "dACC",
+        "OFC",
+        "STRI",
+        "FG",
+        "dlPFC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "REGULATORY_CAPTURE",
+        "CONSTITUTIONAL_VIOLATION",
+        "JUDICIAL_CRISIS",
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "MASS_INCARCERATION"
+      ],
+      "basis": "diagnosis id === Law issue id; when active, the (energy-pattern) adapter marks its issues['REGULATORY_CAPTURE']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Law those diagnosticTriggers are themselves diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "MASS_INCARCERATION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "BLA",
+        "CeA",
+        "dlPFC",
+        "rACC",
+        "EMP",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "JUDICIAL_CRISIS",
+        "MASS_INCARCERATION",
+        "CONSTITUTIONAL_VIOLATION",
+        "REGULATORY_CAPTURE",
+        "INTERNATIONAL_LAW_BREAKDOWN"
+      ],
+      "basis": "diagnosis id === Law issue id; when active, the (energy-pattern) adapter marks its issues['MASS_INCARCERATION']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Law those diagnosticTriggers are themselves diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "INTERNATIONAL_LAW_BREAKDOWN": {
+      "circuitSource": "_authored",
+      "activations": [
+        "AG",
+        "EMP",
+        "DMN",
+        "FG",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "INTERNATIONAL_LAW_BREAKDOWN",
+        "CONSTITUTIONAL_VIOLATION",
+        "MASS_INCARCERATION",
+        "JUDICIAL_CRISIS",
+        "REGULATORY_CAPTURE"
+      ],
+      "basis": "diagnosis id === Law issue id; when active, the (energy-pattern) adapter marks its issues['INTERNATIONAL_LAW_BREAKDOWN']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Law those diagnosticTriggers are themselves diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "law-pulse-engine.js classifies macro_shock -> evidence family [macro_event] (L158), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. The family is a dead-end: it reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias. (Same dead-end as Finance macro_shock.)"
+      },
+      {
+        "code": "law_high_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "law-pulse-engine.js classifies law_high_stress -> evidence family [structural_event] (L159), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. It is a stress catch-all token that emits a real family which no contract consumes -> dead-end, no grounded condition->diagnosis link. The one catch-all-eligible diagnosis (MASS_INCARCERATION, catchAllBlocked:false) is reached by a diagnosis being externally marked active without evidence, NOT by this condition-code, so no alias can be grounded here."
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "Same as law_high_stress: classified to structural_event (L159), a family named in no contract requiredFamilies -> dead-end. No defensible condition->diagnosis link. (Contrast Finance, whose _stress_* tokens emitted NO family at all; Law's stress tokens emit structural_event but it is still unconsumed.)"
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "TPJ",
+        "domainLabel": "Civil Law",
+        "diagnosticTriggers": [
+          "JUDICIAL_CRISIS",
+          "CONSTITUTIONAL_VIOLATION"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored (or canonical) circuit, and no condition-code chain reaches it (no issue circuit contains TPJ). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit (Civil Law / perspective-taking is a plausible JUDICIAL_CRISIS or CONSTITUTIONAL_VIOLATION member) before extinction should touch it. (Law analog of the Finance orphan activations; Law has TWO.)"
+      },
+      {
+        "brainNodeId": "HIPP",
+        "domainLabel": "Property Law",
+        "diagnosticTriggers": [
+          "CONSTITUTIONAL_VIOLATION",
+          "JUDICIAL_CRISIS"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored (or canonical) circuit, and no condition-code chain reaches it. Notable because HIPP IS a REGULATORY_NODE (memory/HPA-feedback) and is heavily wired in the edges graph, yet no Law issue circuit lists it, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit (Property Law / ownership-record memory is a plausible CONSTITUTIONAL_VIOLATION or JUDICIAL_CRISIS member) before extinction should touch it."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "VP",
+        "domainLabel": "Banking Law",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (Also a stub activation: no treatments, minimal domainDescription.)"
+      },
+      {
+        "brainNodeId": "MDT",
+        "domainLabel": "Immigration Law",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (Also a stub activation.)"
+      },
+      {
+        "brainNodeId": "FORN",
+        "domainLabel": "Tech Law",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (Also a stub activation.)"
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Law: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the inline classify switch, so there are no contract-only-unclassified tokens. Conversely reporting_overload is classified (->regulatory_event) but named in no contract's indicators; it still grounds via requiredFamily (regulatory_event->REGULATORY_CAPTURE). macro_shock/law_high_stress/structural_stress are classified but their families are named in no contract (see unmapped)."
+  }
+}

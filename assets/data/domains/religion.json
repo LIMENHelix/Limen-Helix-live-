@@ -2436,6 +2436,216 @@
       "weight": 0.7,
       "label": "Vajrayana — State Assessment → [PVN] (sympathetic → HPA crosstalk)",
       "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "PCC",
+      "target": "DMN",
+      "type": "modul",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dACC",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dACC",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "_prov": "connrec"
+    },
+    {
+      "source": "OFC",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "vmPFC",
+      "target": "TPJ",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "AG",
+      "target": "WERN",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dlPFC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "AG",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.75,
+      "_prov": "connrec"
+    },
+    {
+      "source": "HIPP",
+      "target": "DMN",
+      "type": "modul",
+      "weight": 0.65,
+      "_prov": "connrec"
+    },
+    {
+      "source": "PCC",
+      "target": "PRECUNEUS",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "RAPHE",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "HPA",
+      "target": "BLA",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "CeA",
+      "target": "PAG",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "connrec"
+    },
+    {
+      "source": "VTA",
+      "target": "vmPFC",
+      "type": "modul",
+      "weight": 0.65,
+      "_prov": "connrec"
+    },
+    {
+      "source": "rACC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "HYPO",
+      "target": "LC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "AI",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "NTS",
+      "target": "PVN",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "PI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "VP",
+      "target": "VTA",
+      "type": "inhib",
+      "weight": 0.75,
+      "_prov": "connrec"
+    },
+    {
+      "source": "FPN",
+      "target": "AG",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "CBLM",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "THAL",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "VEST",
+      "target": "THAL",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "S1",
+      "target": "IPS",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "V1",
+      "target": "IPS",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "FEF",
+      "target": "IPS",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "SMA",
+      "target": "STRI",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "THAL",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "connrec"
+    },
+    {
+      "source": "M1",
+      "target": "S1",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
     }
   ],
   "issues": [
@@ -3254,5 +3464,37 @@
     "neuralRoleMigratedAt": "2026-05-13T13:15:14.754Z",
     "schemaVersion": "subdomain-portal.v2.0",
     "networkMapVersion": "1.0"
+  },
+  "runtime": {
+    "_note": "Runtime state for neuro-substrate mechanisms (advisory-only). Neutral defaults; live values via read-time overlay (domain-telemetry-adapter.js). No values fabricated.",
+    "schemaVersion": 1,
+    "volatility": 0,
+    "activeTriggers": null,
+    "lastMaintenanceAt": null,
+    "params": {
+      "offlineDownscaleFactor": 0.95,
+      "offlineConsolidateTopK": 8,
+      "offlinePruneThreshold": 0,
+      "refractoryAbsoluteWindow": 900000,
+      "refractoryRelativeWindow": 3600000,
+      "refractoryOverrideThreshold": 0.8,
+      "predictionErrorThreshold": 0.1,
+      "retrogradeThrottleGain": 0.3,
+      "metaplasticityGain": 0.3,
+      "_note": "Conservative advisory baseline; operator-tunable. windows in ms."
+    },
+    "telemetry": {
+      "source": "religion-pulse-engine.js (window.LIMENReligionPulse)",
+      "adapter": "domain-telemetry-adapter.js (fromLiveCached(\"religion\",...))",
+      "model": "read-time overlay; schema+defaults only"
+    },
+    "fieldProvenance": {
+      "volatility": "XIII.6",
+      "activeTriggers": "V.2 (alias-expanded)",
+      "activation.lastFiredAt": "III.3",
+      "activation.lastActiveAt": "IV.6",
+      "activation.load/capacity": "IV.5 participation proxy",
+      "issue.lastFiredAt": "III.3"
+    }
   }
 }

@@ -1,0 +1,1343 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Culture extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes + active diagnosis ids (energy-telemetry-adapter.js L48-53), then expanded through this table (L55-69) so it matches the activations' FREE-TEXT diagnosticTriggers. In Culture the condition-codes (identity_fracture, heritage_loss...) and diagnosis ids never textually equal an activation.diagnosticTrigger (e.g. 'Elder knowledge loss'); this table bridges them.",
+    "derivationChain": "condition-code --(culture-pulse-engine.js computePulse inline map, L131-160)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-gate, L170-173)--> diagnosis id --(culture.json issues[]._authored circuit)--> circuit nodeIds --(those nodeIds' activation.diagnosticTriggers = FREE-TEXT phrases)--> protective trigger strings. The diagnoses section is the strongest link (pure data). The condition-codes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family present in that diagnosis requiredFamilies (matching the ACTUAL code gate, requiredFamilies with OR-semantics, L170-173 - NOT primaryIndicators). A condition that is only a diagnosis secondaryConfirmation but does NOT emit that diagnosis requiredFamily is listed under secondaryDiagnoses and NOT folded (bias against over-marking). Example: structural_stress is CREATIVE_STAGNATION.secondaryConfirmation but emits only structural_event, not in CREATIVE_STAGNATION.requiredFamilies (creative_event/institutional_event), so it is UNMAPPED, not folded.",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from culture.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinanceAndEnergy": "(1) DIRECTION OF TRIGGERS: Culture activation.diagnosticTriggers are FREE-TEXT phrases (e.g. 'Literacy decline') - the ENERGY pattern, NOT the Finance pattern (Finance triggers were diagnosis-ids that self-match). So in Culture the diagnoses map is NOT redundant for direct matching; the free-text expansion is load-bearing. (2) No separate exogenous classify() vocabulary: Culture's condition tokens ARE the contract indicators, mapped to families inline in computePulse (like Finance's inline classify). (3) UNMAPPED condition codes: 3 (culture_high_stress and structural_stress emit only structural_event, which no contract requires; macro_shock emits macro_event, a dead-end - identical to Finance macro_shock). (4) ORPHAN activations: 2 (CBLM/Dance, M1/Sports) - fewer than Finance (3). (5) REVERSE ORPHAN unique to Culture: node DMN appears in two _authored circuits (CENSORSHIP, IDENTITY_CRISIS) but has NO activation object in culture.json, so it contributes no protective triggers - a gap Finance/Energy did not exhibit.",
+    "sources": [
+      "assets/js/culture-pulse-engine.js (condition->family inline map computePulse L131-160; EVIDENCE_CONTRACTS L41-87; requiredFamilies OR-gate L170-173)",
+      "assets/data/domains/culture.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + free-text alias expansion L55-69 + node-active-from-circuit L79-101; no culture-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no culture-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T20:18:47.817Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes culture.json or fires extinction. No culture-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "identity_fracture": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "identity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:heritage_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'identity_fracture' -> evidence families [heritage_event, identity_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "cultural_loss": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "identity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:heritage_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'cultural_loss' -> evidence families [heritage_event, identity_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "symbolic_disunity": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "identity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:heritage_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'symbolic_disunity' -> evidence families [heritage_event, identity_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "social_cohesion_erosion": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "identity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:heritage_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'social_cohesion_erosion' -> evidence families [heritage_event, identity_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "heritage_loss": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "secondaryConfirmation+requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "V1",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'heritage_loss' -> evidence families [heritage_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "monument_destruction": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "V1",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'monument_destruction' -> evidence families [heritage_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "archive_degradation": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "V1",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'archive_degradation' -> evidence families [heritage_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "cultural_manipulation": {
+      "evidenceFamilies": [
+        "heritage_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "requiredFamily:heritage_event"
+        },
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "primaryIndicator+requiredFamily:heritage_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "PRECUNEUS",
+        "IPS",
+        "V1",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'cultural_manipulation' -> evidence families [heritage_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "expression_suppression": {
+      "evidenceFamilies": [
+        "expression_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "primaryIndicator+requiredFamily:expression_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'expression_suppression' -> evidence families [expression_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "narrative_monopolization": {
+      "evidenceFamilies": [
+        "expression_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "primaryIndicator+requiredFamily:expression_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'narrative_monopolization' -> evidence families [expression_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "ideology_lockin": {
+      "evidenceFamilies": [
+        "expression_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "primaryIndicator+requiredFamily:expression_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'ideology_lockin' -> evidence families [expression_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "interpretive_narrowing": {
+      "evidenceFamilies": [
+        "expression_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "primaryIndicator+requiredFamily:expression_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'interpretive_narrowing' -> evidence families [expression_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "value_conflict": {
+      "evidenceFamilies": [
+        "identity_event",
+        "cohesion_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "requiredFamily:identity_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "primaryIndicator+requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'value_conflict' -> evidence families [identity_event, cohesion_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "tribal_segmentation": {
+      "evidenceFamilies": [
+        "identity_event",
+        "cohesion_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "requiredFamily:identity_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "primaryIndicator+requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'tribal_segmentation' -> evidence families [identity_event, cohesion_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "norm_instability": {
+      "evidenceFamilies": [
+        "identity_event",
+        "cohesion_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "requiredFamily:identity_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "primaryIndicator+requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'norm_instability' -> evidence families [identity_event, cohesion_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "ritual_confusion": {
+      "evidenceFamilies": [
+        "identity_event",
+        "cohesion_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CULTURAL_ERASURE",
+          "link": "requiredFamily:identity_event"
+        },
+        {
+          "id": "IDENTITY_CRISIS",
+          "link": "primaryIndicator+requiredFamily:identity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'ritual_confusion' -> evidence families [identity_event, cohesion_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "participation_decay": {
+      "evidenceFamilies": [
+        "creative_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "primaryIndicator+requiredFamily:creative_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'participation_decay' -> evidence families [creative_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "audience_collapse": {
+      "evidenceFamilies": [
+        "creative_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "primaryIndicator+requiredFamily:creative_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'audience_collapse' -> evidence families [creative_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "creative_weakness": {
+      "evidenceFamilies": [
+        "creative_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "primaryIndicator+requiredFamily:creative_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'creative_weakness' -> evidence families [creative_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "institutional_decline": {
+      "evidenceFamilies": [
+        "creative_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "primaryIndicator+requiredFamily:creative_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'institutional_decline' -> evidence families [creative_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    },
+    "disengagement": {
+      "evidenceFamilies": [
+        "creative_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HERITAGE_DESTRUCTION",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CENSORSHIP",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "CREATIVE_STAGNATION",
+          "link": "requiredFamily:creative_event"
+        }
+      ],
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP",
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "culture-pulse-engine.js inline-maps condition 'disengagement' -> evidence families [creative_event, institutional_event] (computePulse L131-160). Those families satisfy the requiredFamilies OR-gate (L170-173) of the linkedDiagnoses (EVIDENCE_CONTRACTS L41-87). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (culture.json) and those activations' FREE-TEXT diagnosticTriggers. OR-semantics: one shared requiredFamily is enough to fold, so a condition can reach a diagnosis it is not a named indicator of (link=requiredFamily:...)."
+    }
+  },
+  "diagnoses": {
+    "CULTURAL_ERASURE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "HIPP",
+        "mPFC",
+        "RSC",
+        "WERN"
+      ],
+      "diagnosticTriggers": [
+        "Elder knowledge loss",
+        "Oral tradition interruption",
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Literacy decline",
+        "Literary censorship"
+      ],
+      "basis": "diagnosis id === Culture issue id. When active, the (energy-pattern) telemetry adapter marks issues['CULTURAL_ERASURE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101) and expands activeTriggers with those nodes' FREE-TEXT diagnosticTriggers (L55-69). This alias lists exactly those brainNodeIds and the union of their activations' free-text diagnosticTriggers. Direct data link, no inference. Culture matches the ENERGY pattern (activation.diagnosticTriggers are free-text phrases), NOT the Finance pattern (diagnosis-ids); the diagnosis id does NOT self-match a node trigger, so this free-text expansion is strictly required for extinction to spare the circuit."
+    },
+    "HERITAGE_DESTRUCTION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "RSC",
+        "PRECUNEUS",
+        "IPS",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "War damage to heritage sites",
+        "Development-driven demolition",
+        "Collection deaccession under pressure",
+        "Repatriation conflicts",
+        "Heritage building demolition",
+        "Homogenization of built environment",
+        "Elder knowledge loss",
+        "Oral tradition interruption"
+      ],
+      "basis": "diagnosis id === Culture issue id. When active, the (energy-pattern) telemetry adapter marks issues['HERITAGE_DESTRUCTION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101) and expands activeTriggers with those nodes' FREE-TEXT diagnosticTriggers (L55-69). This alias lists exactly those brainNodeIds and the union of their activations' free-text diagnosticTriggers. Direct data link, no inference. Culture matches the ENERGY pattern (activation.diagnosticTriggers are free-text phrases), NOT the Finance pattern (diagnosis-ids); the diagnosis id does NOT self-match a node trigger, so this free-text expansion is strictly required for extinction to spare the circuit."
+    },
+    "CENSORSHIP": {
+      "circuitSource": "_authored",
+      "activations": [
+        "V1",
+        "WERN",
+        "DMN",
+        "VTA"
+      ],
+      "diagnosticTriggers": [
+        "Arts funding collapse",
+        "Censorship of visual expression",
+        "Literacy decline",
+        "Literary censorship",
+        "Risk-averse cultural funding",
+        "Commodification of creativity"
+      ],
+      "basis": "diagnosis id === Culture issue id. When active, the (energy-pattern) telemetry adapter marks issues['CENSORSHIP']._authored circuit nodes active (energy-telemetry-adapter.js L79-101) and expands activeTriggers with those nodes' FREE-TEXT diagnosticTriggers (L55-69). This alias lists exactly those brainNodeIds and the union of their activations' free-text diagnosticTriggers. Direct data link, no inference. Culture matches the ENERGY pattern (activation.diagnosticTriggers are free-text phrases), NOT the Finance pattern (diagnosis-ids); the diagnosis id does NOT self-match a node trigger, so this free-text expansion is strictly required for extinction to spare the circuit. NOTE: authored node(s) DMN have NO activation object in culture.json, so they contribute zero protective triggers and cannot be spared by extinction."
+    },
+    "IDENTITY_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "mPFC",
+        "DMN",
+        "AI",
+        "FG"
+      ],
+      "diagnosticTriggers": [
+        "Anti-intellectualism",
+        "Loss of humanities funding",
+        "Identity polarization",
+        "Cultural alienation",
+        "Traditional cuisine loss",
+        "Food culture industrialization",
+        "Fast fashion environmental damage",
+        "Cultural appropriation in design"
+      ],
+      "basis": "diagnosis id === Culture issue id. When active, the (energy-pattern) telemetry adapter marks issues['IDENTITY_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101) and expands activeTriggers with those nodes' FREE-TEXT diagnosticTriggers (L55-69). This alias lists exactly those brainNodeIds and the union of their activations' free-text diagnosticTriggers. Direct data link, no inference. Culture matches the ENERGY pattern (activation.diagnosticTriggers are free-text phrases), NOT the Finance pattern (diagnosis-ids); the diagnosis id does NOT self-match a node trigger, so this free-text expansion is strictly required for extinction to spare the circuit. NOTE: authored node(s) DMN have NO activation object in culture.json, so they contribute zero protective triggers and cannot be spared by extinction."
+    },
+    "CREATIVE_STAGNATION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "VTA",
+        "STS",
+        "A1",
+        "SMA"
+      ],
+      "diagnosticTriggers": [
+        "Risk-averse cultural funding",
+        "Commodification of creativity",
+        "Cultural homogenization in film",
+        "Independent cinema collapse",
+        "Musical tradition loss",
+        "Algorithmic homogenization of sound",
+        "Live performance venue closures",
+        "Performing arts defunding"
+      ],
+      "basis": "diagnosis id === Culture issue id. When active, the (energy-pattern) telemetry adapter marks issues['CREATIVE_STAGNATION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101) and expands activeTriggers with those nodes' FREE-TEXT diagnosticTriggers (L55-69). This alias lists exactly those brainNodeIds and the union of their activations' free-text diagnosticTriggers. Direct data link, no inference. Culture matches the ENERGY pattern (activation.diagnosticTriggers are free-text phrases), NOT the Finance pattern (diagnosis-ids); the diagnosis id does NOT self-match a node trigger, so this free-text expansion is strictly required for extinction to spare the circuit."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "culture_high_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "computePulse maps culture_high_stress -> structural_event (L158), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. Dead-end family: reaches no diagnosis, hence no _authored circuit, hence no activation. This is the stress catch-all token; contracts set catchAllBlocked:true precisely to reject a diagnosis activated by this without real family evidence."
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "computePulse maps structural_stress -> structural_event (L158). It is CREATIVE_STAGNATION.secondaryConfirmation, but the gate is requiredFamilies (creative_event/institutional_event) and structural_event is not among them, so it never satisfies the gate. Not folded (fold-bias). No grounded alias."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "computePulse maps macro_shock -> macro_event (L159), but no contract consumes macro_event. Dead-end, identical to Finance macro_shock. No grounded alias."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "CBLM",
+        "domainLabel": "Dance",
+        "diagnosticTriggers": [
+          "Traditional dance form extinction",
+          "Dance education defunding"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Under current wiring nothing marks it active, so extinction (energy-extinction.js L32) would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Culture analog of the Finance SMA/AMY/INS orphans; Culture has TWO.)"
+      },
+      {
+        "brainNodeId": "M1",
+        "domainLabel": "Sports & Athletics",
+        "diagnosticTriggers": [
+          "Doping and corruption scandals",
+          "Sports access inequality"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Under current wiring nothing marks it active, so extinction (energy-extinction.js L32) would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Culture analog of the Finance SMA/AMY/INS orphans; Culture has TWO.)"
+      }
+    ],
+    "reverseOrphansAuthoredButNoActivation": [
+      {
+        "brainNodeId": "DMN",
+        "reason": "Node appears in one or more issue._authored circuits but has NO activation object in culture.json. Valid circuit member for the incomplete-circuit test, but it owns no diagnosticTriggers, so extinction can neither spare nor retire it and it contributes nothing to any condition/diagnosis alias expansion. Data gap, flagged not fabricated."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "MAMM",
+        "domainLabel": "Heritage",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "CLAUST",
+        "domainLabel": "Cultural Econ",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "BDNF",
+        "domainLabel": "Digital Cult",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "ACC",
+        "domainLabel": "Education Cult",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Culture: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the computePulse condition->family map, so there are no contract-only-unclassified tokens (unlike Energy). Conversely 'disengagement' is classified (creative_event/institutional_event) but named in no contract as an indicator; it still grounds via requiredFamily (folds into CREATIVE_STAGNATION/HERITAGE_DESTRUCTION/CENSORSHIP by shared family), so it is included in conditionCodes rather than here."
+  }
+}

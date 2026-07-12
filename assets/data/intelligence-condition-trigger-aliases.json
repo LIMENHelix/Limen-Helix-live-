@@ -1,0 +1,1184 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so an Intelligence extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers = active condition-codes + active diagnosis ids (energy-telemetry-adapter.js L48-53). This table bridges the pulse-engine condition-code vocabulary to the activations' diagnosticTriggers via the real family->contract->issue-circuit chain.",
+    "derivationChain": "condition-code --(intelligence-pulse-engine.js classify loop L142-166)--> evidence families --(EVIDENCE_CONTRACTS.requiredFamilies, OR-gate L176-182)--> diagnosis id --(intelligence.json issues[]._authored||circuits)--> circuit nodeIds --(those nodeIds are activations whose diagnosticTriggers are diagnosis ids)--> diagnosticTriggers.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition's emitted families intersect that diagnosis requiredFamilies (matching the actual OR-gate at L176-182). Because ALL FIVE contracts list news_event, every news_event-emitting condition (groups A,B,C,E) folds all 5 diagnoses; each link is annotated diagnosis-primary vs shared-catch(news_event). Group D emits no news_event, so it folds only the 4 diagnoses reachable via oversight_event/intel_event (CYBER_ESPIONAGE excluded).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from intelligence.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinanceAndEnergy": "(1) Finance/Energy condition-codes had DISTINCT primary families (banking_event, market_event, currency_event, fraud_event) so folds were specific; Intelligence's 5 contracts ALL share news_event, making the OR-gate extremely permissive (any news_event condition validates all 5). (2) Intelligence's EVIDENCE_CONTRACTS declare primaryIndicators (intel_gap, cyber_espionage, classified_leak...) but computePulse NEVER reads them - validation is purely family-based off the _activeConditions classify loop; those tokens are decorative (see contractDeclaredButEngineUnconsumed). (3) intel_event maps to BOTH INTELLIGENCE_FAILURE and FOREIGN_INTERFERENCE, and oversight_event to BOTH MASS_SURVEILLANCE_SCANDAL and WHISTLEBLOWER_CRISIS, so even 'distinctive' families are 2-to-1, not 1-to-1. (4) structural_event and macro_event are emitted but named in no contract requiredFamilies (dead-ends). (5) Orphan count: Energy 1, Finance 3, Intelligence 1 (WERN).",
+    "sources": [
+      "assets/js/intelligence-pulse-engine.js (condition->family classify L142-166; EVIDENCE_CONTRACTS L52-98; requiredFamilies OR-gate L176-182)",
+      "assets/data/domains/intelligence.json (activations[].diagnosticTriggers = diagnosis ids; issues[]._authored||circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no intelligence-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no intelligence-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T20:15:48.193Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes intelligence.json or fires extinction. No intelligence-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "signal_blindness": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'signal_blindness' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "collection_gap": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'collection_gap' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "analytic_distortion": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'analytic_distortion' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "low_observability": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'low_observability' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "weak_anomaly_detection": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'weak_anomaly_detection' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "oversight_failure": {
+      "evidenceFamilies": [
+        "oversight_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'oversight_failure' -> evidence families [oversight_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "trust_boundary_breach": {
+      "evidenceFamilies": [
+        "oversight_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'trust_boundary_breach' -> evidence families [oversight_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "bulk_collection_excess": {
+      "evidenceFamilies": [
+        "oversight_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'bulk_collection_excess' -> evidence families [oversight_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "privacy_violation": {
+      "evidenceFamilies": [
+        "oversight_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'privacy_violation' -> evidence families [oversight_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "adversarial_penetration": {
+      "evidenceFamilies": [
+        "cyber_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:cyber_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'adversarial_penetration' -> evidence families [cyber_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "network_intrusion": {
+      "evidenceFamilies": [
+        "cyber_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:cyber_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'network_intrusion' -> evidence families [cyber_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "compromised_channel": {
+      "evidenceFamilies": [
+        "cyber_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:cyber_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'compromised_channel' -> evidence families [cyber_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "deception_exposure": {
+      "evidenceFamilies": [
+        "cyber_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:cyber_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'deception_exposure' -> evidence families [cyber_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "leaked_signals": {
+      "evidenceFamilies": [
+        "oversight_event",
+        "intel_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "BLA",
+        "PAG",
+        "LANG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'leaked_signals' -> evidence families [oversight_event, intel_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "institutional_exposure": {
+      "evidenceFamilies": [
+        "oversight_event",
+        "intel_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "BLA",
+        "PAG",
+        "LANG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'institutional_exposure' -> evidence families [oversight_event, intel_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "narrative_capture": {
+      "evidenceFamilies": [
+        "oversight_event",
+        "intel_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:oversight_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "BLA",
+        "PAG",
+        "LANG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'narrative_capture' -> evidence families [oversight_event, intel_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "narrative_manipulation": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'narrative_manipulation' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "information_contamination": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'information_contamination' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    },
+    "coordination_failure": {
+      "evidenceFamilies": [
+        "intel_event",
+        "news_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "INTELLIGENCE_FAILURE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        },
+        {
+          "id": "MASS_SURVEILLANCE_SCANDAL",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "CYBER_ESPIONAGE",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "WHISTLEBLOWER_CRISIS",
+          "link": "requiredFamily:news_event (shared-catch family; every contract lists news_event, OR-gate)"
+        },
+        {
+          "id": "FOREIGN_INTERFERENCE",
+          "link": "requiredFamily:intel_event (diagnosis-primary; OR-gate)"
+        }
+      ],
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP",
+        "DAN",
+        "A1",
+        "rACC",
+        "IPS",
+        "FPN",
+        "BLA",
+        "V1",
+        "PAG",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "intelligence-pulse-engine.js classify loop (L142-166) maps 'coordination_failure' -> evidence families [intel_event, news_event]. Validation gate checks requiredFamilies with OR-semantics (L176-182): a diagnosis is folded here when its requiredFamilies intersect these families. Each folded diagnosis expands to its issues[]._authored||circuits nodeIds (intelligence.json) and those activations' diagnosticTriggers (which ARE diagnosis-id strings). NOTE: every one of the 5 EVIDENCE_CONTRACTS lists news_event, so any condition emitting news_event satisfies ALL FIVE via OR-gate; the diagnosis-primary vs shared-catch distinction is recorded per link."
+    }
+  },
+  "diagnoses": {
+    "INTELLIGENCE_FAILURE": {
+      "circuitSource": "circuits",
+      "activations": [
+        "CLAUST",
+        "dACC",
+        "PRECUNEUS",
+        "dlPFC",
+        "ECN",
+        "EMP"
+      ],
+      "diagnosticTriggers": [
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "CYBER_ESPIONAGE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "diagnosis id === Intelligence issue id; when active, the energy-pattern adapter (energy-telemetry-adapter.js L79-101) marks its issues['INTELLIGENCE_FAILURE']._authored||circuits circuit nodes active. This alias lists those brainNodeIds and their activations' diagnosticTriggers (which are themselves diagnosis-id strings, so the id self-matches activeTriggers; this expansion protects the OTHER co-circuit nodes)."
+    },
+    "MASS_SURVEILLANCE_SCANDAL": {
+      "circuitSource": "_authored",
+      "activations": [
+        "DAN",
+        "A1",
+        "rACC",
+        "ECN",
+        "IPS"
+      ],
+      "diagnosticTriggers": [
+        "MASS_SURVEILLANCE_SCANDAL",
+        "INTELLIGENCE_FAILURE",
+        "WHISTLEBLOWER_CRISIS",
+        "CYBER_ESPIONAGE"
+      ],
+      "basis": "diagnosis id === Intelligence issue id; when active, the energy-pattern adapter (energy-telemetry-adapter.js L79-101) marks its issues['MASS_SURVEILLANCE_SCANDAL']._authored||circuits circuit nodes active. This alias lists those brainNodeIds and their activations' diagnosticTriggers (which are themselves diagnosis-id strings, so the id self-matches activeTriggers; this expansion protects the OTHER co-circuit nodes)."
+    },
+    "CYBER_ESPIONAGE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "FPN",
+        "IPS",
+        "BLA",
+        "dACC",
+        "dlPFC",
+        "V1"
+      ],
+      "diagnosticTriggers": [
+        "CYBER_ESPIONAGE",
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE",
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS"
+      ],
+      "basis": "diagnosis id === Intelligence issue id; when active, the energy-pattern adapter (energy-telemetry-adapter.js L79-101) marks its issues['CYBER_ESPIONAGE']._authored||circuits circuit nodes active. This alias lists those brainNodeIds and their activations' diagnosticTriggers (which are themselves diagnosis-id strings, so the id self-matches activeTriggers; this expansion protects the OTHER co-circuit nodes)."
+    },
+    "WHISTLEBLOWER_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "rACC",
+        "BLA",
+        "PAG",
+        "DAN",
+        "LANG"
+      ],
+      "diagnosticTriggers": [
+        "MASS_SURVEILLANCE_SCANDAL",
+        "WHISTLEBLOWER_CRISIS",
+        "INTELLIGENCE_FAILURE",
+        "FOREIGN_INTERFERENCE"
+      ],
+      "basis": "diagnosis id === Intelligence issue id; when active, the energy-pattern adapter (energy-telemetry-adapter.js L79-101) marks its issues['WHISTLEBLOWER_CRISIS']._authored||circuits circuit nodes active. This alias lists those brainNodeIds and their activations' diagnosticTriggers (which are themselves diagnosis-id strings, so the id self-matches activeTriggers; this expansion protects the OTHER co-circuit nodes)."
+    },
+    "FOREIGN_INTERFERENCE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "LANG",
+        "BLA",
+        "FPN",
+        "EMP",
+        "dACC",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "FOREIGN_INTERFERENCE",
+        "INTELLIGENCE_FAILURE",
+        "WHISTLEBLOWER_CRISIS",
+        "CYBER_ESPIONAGE"
+      ],
+      "basis": "diagnosis id === Intelligence issue id; when active, the energy-pattern adapter (energy-telemetry-adapter.js L79-101) marks its issues['FOREIGN_INTERFERENCE']._authored||circuits circuit nodes active. This alias lists those brainNodeIds and their activations' diagnosticTriggers (which are themselves diagnosis-id strings, so the id self-matches activeTriggers; this expansion protects the OTHER co-circuit nodes)."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "intelligence_high_stress / structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "intelligence-pulse-engine.js classifies these -> evidence family [structural_event] (L164), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. Dead-end family: reaches no diagnosis, hence no circuit, hence no activation. No grounded alias. (These feed the stress catch-all only for INTELLIGENCE_FAILURE via catchAllBlocked:false, i.e. a diagnosis externally marked active WITHOUT evidence, not via any condition->family->contract link.)"
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "Classified -> evidence family [macro_event] (L165), but macro_event appears in no requiredFamilies. It is listed as a secondaryConfirmation on CYBER_ESPIONAGE and FOREIGN_INTERFERENCE, but secondaryConfirmation is NEVER read by the code gate (only requiredFamilies is checked, L176-182). Dead-end; no grounded alias. (Same shape as Finance macro_shock.)"
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "WERN",
+        "domainLabel": "Open Source Intelligence",
+        "diagnosticTriggers": [
+          "INTELLIGENCE_FAILURE",
+          "FOREIGN_INTERFERENCE"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored||circuits circuit (and no condition-code chain reaches it). Under current wiring the adapter never marks it active (participation count 0), so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. WERN (Wernicke's / OSINT) needs authoring into an issue circuit - e.g. INTELLIGENCE_FAILURE or FOREIGN_INTERFERENCE, which are its own declared triggers - before extinction should touch it. (Intelligence analog of the Energy Data Centers/HYPO orphan; Intelligence has ONE, vs Finance's three.)"
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "DISS",
+        "domainLabel": "Intelshare",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "SMN",
+        "domainLabel": "Masint",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "DMN",
+        "domainLabel": "Oversight",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "AG",
+        "domainLabel": "Spaceintel",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractDeclaredButEngineUnconsumed": {
+    "tokens": [
+      "intel_gap",
+      "analytic_failure",
+      "collection_miss",
+      "strategic_surprise",
+      "surveillance_exposure",
+      "bulk_collection",
+      "privacy_breach",
+      "oversight_gap",
+      "cyber_espionage",
+      "network_intrusion",
+      "apt_activity",
+      "source_compromise",
+      "classified_leak",
+      "insider_disclosure",
+      "whistleblower_action",
+      "damage_assessment",
+      "foreign_influence",
+      "disinformation",
+      "election_interference",
+      "covert_action"
+    ],
+    "reason": "These are the EVIDENCE_CONTRACTS primaryIndicators. Unlike Finance (where indicator tokens were also the classify vocabulary), intelligence-pulse-engine.js computePulse NEVER reads primaryIndicators - the validation gate is purely family-based off the _activeConditions classify loop. So no primaryIndicator token participates in any condition->diagnosis chain; none needs an alias. NOTE: 'network_intrusion' coincidentally also appears in the classify loop (group C, cyber_event) - there it IS consumed; as a CYBER_ESPIONAGE primaryIndicator it is not."
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "_meta": {
+    "domain": "culture",
+    "title": "Culture — Neural Substrate Overlay",
+    "compiled": "2026-07-12",
+    "source_document": "LIMEN Helix — Comprehensive Neurology & Nervous System Reference (Jul 2026). THIS DOCUMENT ONLY. Domain-generic sections copied verbatim from finance-neuro-substrate.json (which copied them verbatim from energy-neuro-substrate.json).",
+    "additive_contract": "Purely additive overlay. Does NOT modify assets/data/domains/culture.json or any existing culture file. References existing Culture node IDs and issue IDs by value only. Mirrors the Finance/Energy neuro-substrate overlay shape for the Culture domain.",
+    "advisory_only": "This overlay is ADVISORY. It classifies existing authored circuits against the source document's Part XIV failure taxonomy and runs the Part XIV incomplete-circuit test. It writes nothing back and changes no live behavior on load.",
+    "grounded_sections": [
+      "fractal_critical_mechanisms, inhibitory_motifs_catalog, oscillatory_bands, failure_modes, parameter_table, references — DOMAIN-GENERIC, copied verbatim from finance-neuro-substrate.json (source-document-grounded).",
+      "issue_failure_class_map — all 5 Culture issues (CULTURAL_ERASURE, HERITAGE_DESTRUCTION, CENSORSHIP, IDENTITY_CRISIS, CREATIVE_STAGNATION) grounded in each issue's OWN circuit detail (canonical node cue) and/or summary text.",
+      "incomplete_circuit_diagnostic — run against culture.json real _authored circuits; verdict 2 complete / 3 INCOMPLETE_CIRCUIT."
+    ],
+    "heterogeneity_flagged": [
+      "KEY FINDING #1 (differs from Finance): ALL 5 Culture issues MAP to a Part XIV class — 0 UNMAPPED. Finance had 1 hard UNMAPPED (FRAUD_SCANDAL = information-integrity/fabrication, no E/I analog). Culture has no fabrication-mechanism issue: every Culture issue's authored CIRCUIT CUE names a classical lesion-syndrome dynamical mechanism (amnesia/Korsakoff, topographical disorientation, expressive aphasia/block, self-referential rumination, akinesia/initiation-failure), each with a direct dynamical class. The belief/identity/adversarial framing lives in the SUMMARIES (colonization, censorship-authority, identity polarization, commodification), NOT in the circuit cues; per discipline, classification is done on the circuit cue, and the summary-level content that the dynamical class cannot capture is flagged per issue.",
+      "KEY FINDING #2 (differs from Finance AND Energy): the incomplete-circuit test does NOT pass 5/5. It passes 2/5. CENSORSHIP, IDENTITY_CRISIS and CREATIVE_STAGNATION have authored circuits containing NO node from the REGULATORY_NODES set (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM) — they are pure driver/sensory/output circuits with no inhibitory/feedback/extinction arm, which is exactly the Part XIV incomplete-circuit lesion. Only the two memory-themed issues (CULTURAL_ERASURE, HERITAGE_DESTRUCTION) include a regulatory partner, and in both it is the SAME node, HIPP (the only REGULATORY_NODES member appearing in ANY Culture _authored circuit). Finance and Energy both passed 6/6.",
+      "IDENTITY_CRISIS and CREATIVE_STAGNATION straddle two classes: IDENTITY_CRISIS (DMN hyper-rumination + coherence loss) straddles SEIZURE (runaway excitation) and OSCILLATORY_PATHOLOGY (coupling/coherence failure); classed OSCILLATORY_PATHOLOGY on the summary's 'loss of cultural coherence... social fragmentation'. CREATIVE_STAGNATION (SMA akinesia + algorithmic homogenization) straddles GATING_FAILURE (initiation gate stuck) and the homogenization/hypersynchrony side of OSCILLATORY_PATHOLOGY; classed GATING_FAILURE on the dominant SMA/VTA initiation-and-drive cue. Divergences recorded per issue, not resolved by guessing.",
+      "CENSORSHIP is the strongest UNMAPPED candidate by summary (state/authority suppression = adversarial, fraud-adjacent) but was MAPPED: its circuit cue 'expressive block, aphasia' names a real throughput blockade (an output channel forced shut), which HAS a dynamical analog (gate stuck closed -> starvation), unlike fraud's fabricated-signal mechanism which does not. The mapped-vs-unmapped line is drawn at 'blocks a real channel' (mappable) vs 'fabricates false content' (not mappable)."
+    ],
+    "honesty_note": "Mechanisms, failure-mode classes, parameters, and references below are verbatim-grounded in the source document. Per-node / per-edge Culture-specific assignments the document gives no basis for (which edge is which inhibitory motif, which oscillatory band, which neuromodulator, which predictive direction) are NOT guessed here; only the two operations the source document directly supports are performed: (1) classify each authored issue against the Part XIV failure taxonomy where the issue's own circuit cue names a matching mechanism, and (2) run the Part XIV incomplete-circuit test."
+  },
+
+  "fractal_critical_mechanisms": [
+    { "id": "EI_BALANCE", "part": "XIII.1", "name": "Excitation/inhibition (E/I) balance", "definition": "Inhibition tracks excitation on a millisecond timescale; balance sets gain, dynamic range, timing precision, and stability. Loss of inhibition -> runaway (seizure); excess -> silence.", "design_invariant": "Any faithful mapping must have inhibition/brakes that SCALE WITH DRIVE.", "status": "generic" },
+    { "id": "INHIBITORY_MOTIFS", "part": "XIII.2", "name": "Four inhibitory motifs", "definition": "feedforward (narrow temporal window / coincidence), feedback/recurrent (self-limiting, gain control, stability), lateral (contrast enhancement, winner-take-all, sparsening), disinhibition (inhibiting an inhibitor = permissive gating/selection).", "design_invariant": "All four are reused at every scale; their absence breaks the fractal.", "status": "generic" },
+    { "id": "OSCILLATIONS", "part": "XIII.3", "name": "Oscillations & communication-through-coherence", "definition": "Rhythms create periodic windows of excitability; groups that oscillate coherently open input/output windows at the same time and communicate; incoherent groups are functionally disconnected. Bands: delta 1-4, theta 4-8, alpha 8-12, beta 13-30, gamma 30-80+ Hz.", "design_invariant": "Coherence = a dynamic routing/connection switch. There is an OPTIMAL coupling band; too-strong and too-weak coupling both fail.", "status": "generic" },
+    { "id": "THALAMOCORTICAL_GATING", "part": "XIII.4", "name": "Thalamocortical gating", "definition": "Thalamus + TRN gate what reaches cortex; tonic (faithful relay) vs burst (detection/alerting) modes under corticothalamic top-down control.", "design_invariant": "Gating must occur AT THE RIGHT STAGE - filter too early (before the circuit that needs the signal) and you lose information you cannot recover.", "status": "generic" },
+    { "id": "PREDICTIVE_CODING", "part": "XIII.5", "name": "Predictive coding / prediction error", "definition": "Hierarchical generative machine: top-down predictions descend, bottom-up prediction ERRORS ascend, only the mismatch propagates upward. Laminar correlate: forward = error, backward = prediction.", "design_invariant": "'Prediction error drives update' must also GENERATE predictions at the mapped scale, not merely react.", "status": "generic" },
+    { "id": "PLASTICITY", "part": "XIII.6", "name": "Plasticity / learning rules", "definition": "Hebbian (correlated -> strengthen); STDP (pre-before-post ~+10 ms -> LTP, post-before-pre -> LTD; dopamine extends LTP window to ~+30 ms); LTP/LTD (NMDA/Ca2+); homeostatic scaling (global normalization keeping drive in range so Hebbian learning does not run away); metaplasticity (threshold for change adapts).", "design_invariant": "A stabilizing counter-process (homeostatic scaling) MUST counter positive-feedback Hebbian learning, or the system runs away.", "status": "generic" },
+    { "id": "NEUROMODULATION_GAIN", "part": "XIII.7", "name": "Neuromodulation & gain", "definition": "Diffuse systems (DA, NE, 5-HT, ACh) carry no detailed content; they set global regime - gain, signal-to-noise, exploration/exploitation, learning rate, arousal. A small modulatory signal reconfigures the whole network's operating point.", "design_invariant": "A small broadcast signal must be able to rescale the whole system's operating point (one-to-many, multiplicative).", "status": "generic" },
+    { "id": "POPULATION_ATTRACTOR", "part": "XIII.8", "name": "Population & attractor dynamics", "definition": "Information lives in distributed population activity, not single cells; sparse coding is efficient/separable; attractor dynamics implement stable states and transitions. Over-gating, over-synchrony, or lost inhibition suppress emergence.", "design_invariant": "Emergence requires distributed, sparse, inhibition-balanced activity; do not concentrate all state in one node.", "status": "generic" },
+    { "id": "SLEEP_OFFLINE", "part": "XIII.9", "name": "Sleep, homeostasis & offline processing", "definition": "Sleep down-scales synapses globally while consolidating select memories, and drives glymphatic clearance of waste.", "design_invariant": "A mandatory OFFLINE maintenance/reset phase - a system with no downtime accumulates damage.", "status": "generic" },
+    { "id": "TERMINATION_CLEARANCE", "part": "IV.6", "name": "Signal termination / clearance", "definition": "Reuptake, enzymatic degradation, and diffusion bound signal persistence; termination is as important as release and prevents excitotoxic accumulation.", "design_invariant": "Clearance/termination must bound signal persistence; a signal that isn't cleared becomes toxic (see failure mode EXCITOTOXICITY).", "status": "generic" },
+    { "id": "REFRACTORINESS", "part": "III.3", "name": "Refractoriness / dead-time rate limiter", "definition": "Absolute refractory period (~1-2 ms) after an action prevents a second action; enforces one-way propagation and caps maximum firing rate.", "design_invariant": "A built-in rate limiter / dead-time after action must exist to cap throughput and enforce directionality.", "status": "generic" }
+  ],
+
+  "inhibitory_motifs_catalog": [
+    { "id": "feedforward", "definition": "Input excites both a target and an interneuron that inhibits the target -> narrow temporal window (coincidence-detection, AND within a time window)." },
+    { "id": "feedback", "definition": "Output feeds back through interneurons -> self-limiting, gain control, stability." },
+    { "id": "lateral", "definition": "Active units suppress neighbors -> contrast enhancement, winner-take-all, sparsening." },
+    { "id": "disinhibition", "definition": "Inhibiting an inhibitor -> permissive gating / selection." }
+  ],
+
+  "oscillatory_bands": [
+    { "band": "delta", "hz": "1-4", "role": "deep sleep" },
+    { "band": "theta", "hz": "4-8", "role": "memory / navigation" },
+    { "band": "alpha", "hz": "8-12", "role": "idling / inhibitory gating" },
+    { "band": "beta", "hz": "13-30", "role": "maintenance / motor set" },
+    { "band": "gamma", "hz": "30-80+", "role": "local active processing" }
+  ],
+
+  "failure_modes": [
+    { "id": "SEIZURE", "part": "XIV", "definition": "E/I balance failure: runaway recurrent excitation when inhibition is insufficient. Archetypal no-brakes -> runaway.", "invariant_violated": "EI_BALANCE (loss of load-bearing inhibition)" },
+    { "id": "EXCITOTOXICITY", "part": "XIV", "definition": "Excessive drive with failed termination/clearance -> overload -> death of the unit.", "invariant_violated": "TERMINATION_CLEARANCE (signal not cleared becomes toxic)" },
+    { "id": "CORTICAL_SPREADING_DEPRESSION", "part": "XIV", "definition": "A slow wave of depolarization then silence; homeostatic overwhelm.", "invariant_violated": "SLEEP_OFFLINE / homeostasis" },
+    { "id": "GATING_FAILURE", "part": "XIV", "definition": "Thalamocortical/TRN gating breakdown: too little filtering -> flooding, or mis-timed gating -> wrong information passed; gate stuck closed -> starvation.", "invariant_violated": "THALAMOCORTICAL_GATING (right-stage gating)" },
+    { "id": "DISINHIBITION_SYNDROME", "part": "XIV", "definition": "Losing the inhibitor releases pathological activity (loss of the stop/brake).", "invariant_violated": "INHIBITORY_MOTIFS / EI_BALANCE" },
+    { "id": "OSCILLATORY_PATHOLOGY", "part": "XIV", "definition": "Over-coupling (hypersynchrony) or under-coupling; both degrade communication.", "invariant_violated": "OSCILLATIONS (optimal coupling band; extremes fail)" },
+    { "id": "NEURODEGENERATION", "part": "XIV", "definition": "Aggregation + failed clearance + network collapse; maintenance failure compounding over time.", "invariant_violated": "SLEEP_OFFLINE / TERMINATION_CLEARANCE" },
+    { "id": "DEAFFERENTATION_DIASCHISIS", "part": "XIV", "definition": "Losing input disables not just the lesioned node but distant connected regions. THE NETWORK, NOT THE NODE, IS THE UNIT OF FAILURE; failures propagate across the graph.", "invariant_violated": "POPULATION_ATTRACTOR (distributed failure propagation)" },
+    { "id": "INCOMPLETE_CIRCUIT", "part": "XIV", "definition": "A circuit built without its regulatory partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition; feedback without the sensor). THE DIRECT DIAGNOSTIC FOR A BROKEN FRACTAL MAPPING: if the mapping omits the inhibitory/feedback/extinction arm, it is lesioned in the same way a brain is.", "invariant_violated": "any regulatory arm omitted" }
+  ],
+
+  "issue_failure_class_map": {
+    "_basis": "GROUNDED: each mapping uses the Culture issue's OWN text (canonical circuit detail cue and/or summary, quoted in culture_text) plus the document's Part XIV named class. No new class was invented. Classification is on the circuit cue; belief/identity/adversarial content carried only by the SUMMARY (not by the circuit cue) is flagged, not force-fit into a class.",
+    "_count": "5 grounded, 0 UNMAPPED (of 5 issues). Contrast Finance (5 grounded, 1 UNMAPPED). See _meta.heterogeneity_flagged KEY FINDING #1.",
+    "CULTURAL_ERASURE": {
+      "class": "NEURODEGENERATION",
+      "subtype": "progressive memory-store loss compounding over time; network collapse of the cultural-memory substrate",
+      "culture_text": "canonical circuit MAMM[Hypo]: \"mammillary bodies — memory circuit (Papez) — amnesia, confabulation (Korsakoff)\"; _authored HIPP[Hypo-active]: \"Oral traditions and cultural memory encoding disrupted, severing intergenerational knowledge transfer\"; RSC/WERN also Hypo-active; summary: \"Systematic destruction or suppression of a people's cultural practices, language, and identity through colonization, assimilation policies, or globalization pressures\"",
+      "reasoning": "The named circuit mechanism is AMNESIA (Papez memory circuit, Korsakoff) with multiple hypo-active memory nodes (MAMM, HIPP, RSC, WERN) and progressive severing of intergenerational transfer. Loss of the stored substrate compounding over time with network collapse of the memory system is the NEURODEGENERATION archetype (maintenance/clearance failure + network collapse over time). Korsakoff amnesia is itself a neurodegenerative memory syndrome.",
+      "note": "The SUMMARY carries an adversarial/identity frame (colonization, assimilation) that the dynamical class does not represent; classed on the amnesia/memory-hypofunction circuit cue per discipline. Differentiated from HERITAGE_DESTRUCTION (below): CULTURAL_ERASURE = loss of the INTANGIBLE memory store itself (amnesia) -> NEURODEGENERATION; HERITAGE_DESTRUCTION = loss of the PHYSICAL input feeding memory -> DEAFFERENTATION."
+    },
+    "HERITAGE_DESTRUCTION": {
+      "class": "DEAFFERENTATION_DIASCHISIS",
+      "subtype": "input-loss (physical sites) disables a distant downstream function (memory consolidation); network is the unit of failure",
+      "culture_text": "canonical circuit RSC[Hypo]: \"retrosplenial — spatial memory & navigation — topographical disorientation\"; _authored HIPP[Altered]: \"Loss of physical sites disrupts the context cues needed for cultural memory consolidation\"; RSC/PRECUNEUS/IPS Hypo-active; summary: \"Physical destruction of cultural sites, monuments, and artifacts through conflict, neglect, natural disaster, or deliberate iconoclasm\"",
+      "reasoning": "The _authored HIPP node states it directly: destroying the PHYSICAL SITES (the input/afferent) disrupts a DISTANT downstream function (cultural memory consolidation). Losing input and thereby disabling a distant connected region is the definitional DEAFFERENTATION_DIASCHISIS ('losing input disables not just the lesioned node but distant connected regions; the network, not the node, is the unit of failure').",
+      "note": "Node cue is RSC topographical disorientation (spatial-anchor loss); the diaschisis grounding comes from the HIPP-Altered text making the input->distant-function propagation explicit. Shares the memory theme with CULTURAL_ERASURE but is distinguished by input-loss propagation rather than store-degeneration."
+    },
+    "CENSORSHIP": {
+      "class": "GATING_FAILURE",
+      "subtype": "expression output-gate forced closed -> downstream cultural starvation",
+      "culture_text": "canonical circuit BROCA[Hypo]: \"Broca's area — expressive language production — expressive block, aphasia\"; _authored V1/WERN/DMN/VTA all Hypo-active (\"Visual arts restricted\", \"Literary works banned\", \"Philosophical inquiry chilled\", \"Creative innovation suppressed\"); summary: \"Suppression of artistic and intellectual expression by state, religious, or corporate authorities\"",
+      "reasoning": "The cue 'expressive block, aphasia' is an OUTPUT-PRODUCTION blockade: the expression channel is forced shut and every downstream expressive node (arts, literature, philosophy, creativity) goes hypo-active = starved. A gate stuck closed producing downstream starvation is the GATING_FAILURE archetype (gate stuck closed -> starvation), matching Finance's BANKING_CRISIS/CREDIT_FREEZE output-gate-lock mapping (mechanism-archetype, not thalamic identity).",
+      "note": "STRONGEST UNMAPPED CANDIDATE by summary (authority-imposed suppression is adversarial, fraud-adjacent). MAPPED anyway because the mechanism BLOCKS A REAL CHANNEL (throughput), which has a dynamical analog, unlike fraud's FABRICATION of false content, which does not. This is the mapped-vs-unmapped boundary. Straddles an 'excess-inhibition -> silence' reading (EI_BALANCE), but the taxonomy expresses that only via GATING_FAILURE gate-stuck-closed."
+    },
+    "IDENTITY_CRISIS": {
+      "class": "OSCILLATORY_PATHOLOGY",
+      "subtype": "coupling/coherence failure — hypersynchronous self-referential rumination alongside loss of between-group coherence (fragmentation)",
+      "culture_text": "canonical circuit mPFC[Hyper]: \"medial PFC — self-referential value integration (DMN core) — self-focus/rumination\"; _authored DMN[Hyper-active]: \"Excessive self-referential rumination as societies struggle to define meaning and purpose\"; summary: \"Collective loss of cultural coherence through rapid globalization... producing anomie and social fragmentation\"; node diagnosticTrigger 'Identity polarization'",
+      "reasoning": "The failure has both faces OSCILLATORY_PATHOLOGY uniquely names: OVER-coupling (mPFC/DMN hyper, hypersynchronous rumination locked on self-focus) AND UNDER-coupling ('loss of cultural coherence... social fragmentation', polarization = between-group desynchronization). 'Both over-coupling and under-coupling degrade communication' is the exact class definition. Coherence/coupling breakdown is the domain-defining feature (per the standing note that Culture polarization/homogenization map to coupling analogs).",
+      "note": "Straddles SEIZURE (the pure DMN hyper-rumination = runaway self-referential excitation). Classed OSCILLATORY_PATHOLOGY because the summary's coherence-loss/fragmentation is the governing mechanism and it is the one class capturing both coupling extremes. The CONTENT (which identity/values) is belief-content the class does not represent; the FAILURE MODE (hyperactivity + coherence breakdown) is dynamical, so it is mapped, not UNMAPPED."
+    },
+    "CREATIVE_STAGNATION": {
+      "class": "GATING_FAILURE",
+      "subtype": "self-initiated-action gate stuck closed (akinesia) + suppressed novelty drive -> starvation of novel output",
+      "culture_text": "canonical circuit SMA[Hypo]: \"supplementary motor — self-initiated action sequencing — akinesia, initiation failure\"; _authored VTA[Hypo-active]: \"Novelty-seeking drive suppressed as commercial pressure punishes creative risk-taking\"; STS/A1 Altered (\"homogenized by algorithmic optimization\", \"formulaic patterns\"); SMA Hypo-active; summary: \"Decline of artistic originality... risk aversion, and algorithmic content optimization that rewards sameness over innovation\"",
+      "reasoning": "The dominant cue is SMA 'akinesia, initiation failure' plus VTA-hypo suppressed novelty drive: the self-initiated-action gate fails to open, so creative output is starved. Akinesia is canonically a basal-ganglia/SMA action-selection gate stuck closed = GATING_FAILURE (gate stuck closed -> starvation), the same family as Finance's GP bradykinetic-freeze mapping.",
+      "note": "Straddles OSCILLATORY_PATHOLOGY on its homogenization face ('algorithmic optimization... rewards sameness' = convergence toward one mode = hypersynchrony/over-coupling; also a POPULATION_ATTRACTOR loss-of-sparseness, which is an invariant not a Part XIV class). Classed GATING_FAILURE on the dominant SMA-akinesia + VTA-drive-loss initiation cue. Second Culture issue to take GATING_FAILURE (with CENSORSHIP), as Finance had two."
+    }
+  },
+
+  "incomplete_circuit_diagnostic": {
+    "_test": "Part XIV: does each issue's authored circuit contain a regulatory/inhibitory/feedback partner from the REGULATORY_NODES set in energy-neuro-substrate.js (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM)? Run against culture.json _authored circuits, matching the JS validateIncompleteCircuit() behavior (uses _authored node list).",
+    "_verdict_summary": "2 complete / 3 INCOMPLETE_CIRCUIT. DIFFERS from Finance (6/6 complete) and Energy (6/6). Only CULTURAL_ERASURE and HERITAGE_DESTRUCTION include a regulatory partner, and in both it is the SAME node HIPP — the ONLY REGULATORY_NODES member that appears in any Culture _authored circuit. CENSORSHIP, IDENTITY_CRISIS and CREATIVE_STAGNATION are pure driver/sensory/output circuits with no inhibitory/feedback/extinction arm = the Part XIV incomplete-circuit lesion. This is a real structural finding for Culture, not a copy of the Finance result.",
+    "CULTURAL_ERASURE": { "verdict": "complete", "circuit": ["HIPP", "mPFC", "RSC", "WERN"], "regulatory_partners_present": ["HIPP"], "observation": "HIPP (M3 HPA feedback + memory index) is the sole regulatory partner; the other three (mPFC, RSC, WERN) are non-regulatory. Complete by a single thread." },
+    "HERITAGE_DESTRUCTION": { "verdict": "complete", "circuit": ["RSC", "PRECUNEUS", "IPS", "HIPP"], "regulatory_partners_present": ["HIPP"], "observation": "Again HIPP is the sole regulatory partner; RSC/PRECUNEUS/IPS are non-regulatory sensory/DMN nodes." },
+    "CENSORSHIP": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["V1", "WERN", "DMN", "VTA"], "regulatory_partners_present": [], "observation": "No node in {vmPFC,dlPFC,OFC,STN,GP,HIPP,HYPO,dACC,CBLM}. V1 (visual), WERN (language comprehension), DMN (self-referential), VTA (dopamine drive) are all drivers/relays with no brake. The suppression circuit is authored without any inhibitory/feedback arm -> intrinsically dysfunctional per Part XIV." },
+    "IDENTITY_CRISIS": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["mPFC", "DMN", "AI", "FG"], "regulatory_partners_present": [], "observation": "The REGULATORY_NODES list contains vmPFC, NOT mPFC; mPFC (DMN core) is a driver here, not a regulator. DMN, AI, FG likewise non-regulatory. A hyper-rumination circuit with NO top-down brake (no vmPFC/dlPFC/dACC) is the archetypal incomplete circuit — and it is precisely the missing brake that would regulate the rumination this issue describes." },
+    "CREATIVE_STAGNATION": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["VTA", "STS", "A1", "SMA"], "regulatory_partners_present": [], "observation": "VTA (drive), STS/A1 (sensory-integrative), SMA (motor initiation) — no regulatory/feedback node. Note CBLM (a REGULATORY_NODES member and the domain's forward-model error-correct node) is NOT in this circuit even though the domain HAS a CBLM/Dance activation; authoring CBLM in would complete it." }
+  },
+
+  "parameter_table": {
+    "_note": "Part XV, verbatim. Quantitative substrate for scale-rescaling. Confidence + anchor preserved.",
+    "rows": [
+      { "parameter": "Resting membrane potential", "value": "-65 to -70 mV", "confidence": "high", "anchor": "consensus (Kandel/Purves)" },
+      { "parameter": "AP threshold", "value": "~ -55 mV", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "AP duration", "value": "~1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Absolute refractory period", "value": "~1-2 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Synaptic (chemical) delay", "value": "~0.5-1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (unmyelinated C)", "value": "~0.5-2 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (large myelinated Aa)", "value": "~80-120 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "STDP LTP window (baseline)", "value": "pre-before-post ~+10 ms", "confidence": "high", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "STDP LTP window (dopamine-extended)", "value": "to ~+30 ms", "confidence": "medium", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "Gamma oscillation band", "value": "~30-80+ Hz", "confidence": "high", "anchor": "Fries 2005 (10.1016/j.tics.2005.08.011)" },
+      { "parameter": "Theta band", "value": "~4-8 Hz", "confidence": "high", "anchor": "consensus / Voytek 2015 (10.1016/j.biopsych.2015.04.016)" },
+      { "parameter": "Alpha band", "value": "~8-12 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Beta band", "value": "~13-30 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Delta band", "value": "~1-4 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Thalamic relay modes", "value": "tonic vs burst", "confidence": "high", "anchor": "Ferrarelli & Tononi 2010 (10.1093/schbul/sbq142)" },
+      { "parameter": "HPA cortisol feedback (fast, nongenomic)", "value": "seconds-minutes", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "HPA cortisol feedback (genomic/slow)", "value": "minutes-hours", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "Gut serotonin fraction of body total", "value": "~90-95%", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Glymphatic clearance", "value": "sleep-enhanced", "confidence": "medium", "anchor": "Benveniste 2018 (10.1159/000490349)" }
+    ],
+    "ratio_preservation_rule": "When mapping any neural time constant to a domain equivalent, hold the RATIOS between constants fixed, not just individual values. The ~1000x gap between AP duration (~1 ms) and slow neuromodulatory/hormonal feedback (~seconds-minutes) is the 'fast signal vs slow modulation' invariant; the Culture mapping must preserve an analogous fast-action / slow-governance separation, or the fractal is cosmetic, not structural."
+  },
+
+  "references": [
+    { "n": 1, "cite": "Ruan H, Saur T, Yao WD. Dopamine-enabled anti-Hebbian timing-dependent plasticity in prefrontal circuitry. Front Neural Circuits, 2014.", "doi": "10.3389/fncir.2014.00038" },
+    { "n": 2, "cite": "Fries P. A mechanism for cognitive dynamics: neuronal communication through neuronal coherence. Trends Cogn Sci, 2005.", "doi": "10.1016/j.tics.2005.08.011" },
+    { "n": 3, "cite": "Voytek B, Knight RT. Dynamic network communication as a unifying neural basis for cognition, development, aging, and disease. Biol Psychiatry, 2015.", "doi": "10.1016/j.biopsych.2015.04.016" },
+    { "n": 4, "cite": "Basar E, Guntekin B, Oniz A. Principles of oscillatory brain dynamics... Prog Brain Res, 2006.", "doi": "10.1016/S0079-6123(06)59004-1" },
+    { "n": 5, "cite": "Shipp S. Neural Elements for Predictive Coding. Front Psychol, 2016.", "doi": "10.3389/fpsyg.2016.01792" },
+    { "n": 6, "cite": "Mikulasch FA, Rudelt L, Wibral M, Priesemann V. Where is the error? Hierarchical predictive coding through dendritic error computation. Trends Neurosci, 2023.", "doi": "10.1016/j.tins.2022.09.007" },
+    { "n": 7, "cite": "Ferrarelli F, Tononi G. The thalamic reticular nucleus and schizophrenia. Schizophr Bull, 2010.", "doi": "10.1093/schbul/sbq142" },
+    { "n": 8, "cite": "Niethard N, Burgalossi A, Born J. Plasticity during Sleep Is Linked to Specific Regulation of Cortical Circuit Activity. Front Neural Circuits, 2017.", "doi": "10.3389/fncir.2017.00065" },
+    { "n": 9, "cite": "Keller-Wood M. Hypothalamic-Pituitary-Adrenal Axis-Feedback Control. Compr Physiol, 2015.", "doi": "10.1002/cphy.c140065" },
+    { "n": 10, "cite": "Hill MN, Tasker JG. Endocannabinoid signaling, glucocorticoid-mediated negative feedback... Neuroscience, 2012.", "doi": "10.1016/j.neuroscience.2011.12.030" },
+    { "n": 11, "cite": "Rutsch A, Kantsjo JB, Ronchi F. The Gut-Brain Axis... Front Immunol, 2020.", "doi": "10.3389/fimmu.2020.604179" },
+    { "n": 12, "cite": "Benveniste H, Liu X, Koundal S, et al. The Glymphatic System and Waste Clearance with Brain Aging. Gerontology, 2018.", "doi": "10.1159/000490349" }
+  ]
+}

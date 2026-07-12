@@ -1,0 +1,180 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Defense extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes + active diagnosis ids (energy-telemetry-adapter.js L48-53 pattern). In Defense the CONDITION-CODES never textually equal an activation.diagnosticTrigger (activation triggers are FREE-TEXT phrases like 'Force readiness degradation'); this table bridges them.",
+    "derivationChain": "condition-code --(defense-pulse-engine.js inline classify, L149-171)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L181-193)--> diagnosis id --(defense.json issues[]._authored||circuits)--> circuit nodeIds --(those nodeIds are activations whose diagnosticTriggers are FREE-TEXT phrases)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data, no family hop). The conditionCodes section adds the pulse-engine family hop and is WEAK for Defense (see heterogeneityVsFinance).",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics, L181-193, NOT primaryIndicators). A condition that only matches a diagnosis secondaryConfirmation token is NOT folded (secondaryConfirmation is DECLARED but never consumed by the engine's requiredFamilies gate).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from defense.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinance": "STRUCTURALLY WEAKER than Finance. (1) In Finance the condition-codes ARE the contract indicator tokens and a bespoke classify switch mapped each to its own family; the pulse engine then folded them tightly. In Defense the classify switch (L149-171) is DOMAIN-GENERIC, education-derived boilerplate (tokens: credential_devaluation, pedagogical_mismatch, digital_divide, admissions-style equity_failure). It does NOT emit ANY of the domain-specific families the Defense contracts require (conflict_event, cyber_event, strategic_analysis_event, defense_industry_event). (2) The ONLY family the classifier emits that ANY contract consumes is news_event, emitted solely by {digital_divide, platform_transition, pedagogical_mismatch, automation_displacement, adaptive_failure}. Because news_event is a shared requiredFamily of ALL SIX contracts, those 5 generic tokens trip ALL SIX diagnoses INDISCRIMINATELY — a boilerplate artifact, not a defense signal. (3) The contracts' own primaryIndicators (invasion, cyber_breach, nuclear_escalation, ...) are DECLARED but the classifier NEVER maps them to a family, so they emit no evidence (see unmapped.contractIndicatorsNeverClassified). (4) The conditions the Defense brain realistically emits (defense_high_stress, structural_stress) map to structural_event, which NO contract requires -> the condition path is effectively INERT for Defense; diagnoses activate via external dx.active (with INTELLIGENCE_FAILURE, catchAllBlocked:false, the only catch-all-eligible one). (5) Like Finance, macro_shock->macro_event is a dead-end. (6) Unlike Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Defense activation.diagnosticTriggers are FREE-TEXT (Energy-like), so the diagnoses map is FULLY load-bearing, not redundant. (7) Orphan count: Energy 1, Finance 3, Defense 6.",
+    "sources": [
+      "assets/js/defense-pulse-engine.js (inline condition->family classify L149-171; EVIDENCE_CONTRACTS L50-105; requiredFamilies OR-gate L181-193)",
+      "assets/data/domains/defense.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored||circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + node-active-from-circuit; no defense-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no defense-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes defense.json or fires extinction. No defense-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "digital_divide": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "linkedDiagnoses": [
+        { "id": "INVASION", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "NUCLEAR_THREAT", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "INTELLIGENCE_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "LOGISTICS_COLLAPSE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CIVIL_UNREST", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["M1", "dlPFC", "FEF", "CeA", "CBLM", "FPN", "DAN", "PAG", "vmPFC", "ECN", "VAN", "HYPO", "STRI", "rACC"],
+      "diagnosticTriggers": ["Force readiness degradation", "Manpower shortages", "Chain of command breakdown", "Civilian-military authority conflict", "Air superiority loss", "Anti-access/area-denial threats", "Shelter infrastructure neglect", "Evacuation plan inadequacy", "Supply chain disruption", "Ammunition stockpile depletion", "Critical infrastructure cyber breach", "Zero-day exploit weaponization", "Intelligence collection gaps", "Analyst workforce attrition", "Deterrence credibility erosion", "Nuclear proliferation", "Treaty withdrawal cascades", "Verification regime failure", "Strategic surprise", "Threat assessment failure", "Operator burnout and attrition", "Mission scope creep", "Mass casualty event overwhelm", "Medical supply shortages", "Weapons system obsolescence", "Procurement cost overruns", "Veteran suicide rates", "Reintegration failure"],
+      "basis": "defense-pulse-engine.js classifies 'digital_divide' -> [news_event, institutional_event] (L165-168). news_event is a requiredFamily of ALL SIX contracts (OR-gate L181-193); institutional_event is required by NONE. So this ONE generic token satisfies every diagnosis -> the activations/diagnosticTriggers are the UNION of all six circuits. WEAK/INDISCRIMINATE link: this is an education-boilerplate token, not a defense signal. Recorded for completeness of the real chain, NOT as evidence that a divide condition means all six defense crises."
+    },
+    "platform_transition": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "linkedDiagnoses": [
+        { "id": "INVASION", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "NUCLEAR_THREAT", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "INTELLIGENCE_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "LOGISTICS_COLLAPSE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CIVIL_UNREST", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["M1", "dlPFC", "FEF", "CeA", "CBLM", "FPN", "DAN", "PAG", "vmPFC", "ECN", "VAN", "HYPO", "STRI", "rACC"],
+      "diagnosticTriggers": ["Force readiness degradation", "Manpower shortages", "Chain of command breakdown", "Civilian-military authority conflict", "Air superiority loss", "Anti-access/area-denial threats", "Shelter infrastructure neglect", "Evacuation plan inadequacy", "Supply chain disruption", "Ammunition stockpile depletion", "Critical infrastructure cyber breach", "Zero-day exploit weaponization", "Intelligence collection gaps", "Analyst workforce attrition", "Deterrence credibility erosion", "Nuclear proliferation", "Treaty withdrawal cascades", "Verification regime failure", "Strategic surprise", "Threat assessment failure", "Operator burnout and attrition", "Mission scope creep", "Mass casualty event overwhelm", "Medical supply shortages", "Weapons system obsolescence", "Procurement cost overruns", "Veteran suicide rates", "Reintegration failure"],
+      "basis": "Identical mechanism to 'digital_divide': classifies -> [news_event, institutional_event] (L165-168); news_event satisfies all six contracts (OR-gate). WEAK/INDISCRIMINATE generic-boilerplate link; union of all six circuits."
+    },
+    "pedagogical_mismatch": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "linkedDiagnoses": [
+        { "id": "INVASION", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "NUCLEAR_THREAT", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "INTELLIGENCE_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "LOGISTICS_COLLAPSE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CIVIL_UNREST", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["M1", "dlPFC", "FEF", "CeA", "CBLM", "FPN", "DAN", "PAG", "vmPFC", "ECN", "VAN", "HYPO", "STRI", "rACC"],
+      "diagnosticTriggers": ["Force readiness degradation", "Manpower shortages", "Chain of command breakdown", "Civilian-military authority conflict", "Air superiority loss", "Anti-access/area-denial threats", "Shelter infrastructure neglect", "Evacuation plan inadequacy", "Supply chain disruption", "Ammunition stockpile depletion", "Critical infrastructure cyber breach", "Zero-day exploit weaponization", "Intelligence collection gaps", "Analyst workforce attrition", "Deterrence credibility erosion", "Nuclear proliferation", "Treaty withdrawal cascades", "Verification regime failure", "Strategic surprise", "Threat assessment failure", "Operator burnout and attrition", "Mission scope creep", "Mass casualty event overwhelm", "Medical supply shortages", "Weapons system obsolescence", "Procurement cost overruns", "Veteran suicide rates", "Reintegration failure"],
+      "basis": "Identical mechanism to 'digital_divide': classifies -> [news_event, institutional_event] (L165-168); news_event satisfies all six contracts (OR-gate). WEAK/INDISCRIMINATE generic-boilerplate link; union of all six circuits."
+    },
+    "automation_displacement": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "linkedDiagnoses": [
+        { "id": "INVASION", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "NUCLEAR_THREAT", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "INTELLIGENCE_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "LOGISTICS_COLLAPSE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CIVIL_UNREST", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["M1", "dlPFC", "FEF", "CeA", "CBLM", "FPN", "DAN", "PAG", "vmPFC", "ECN", "VAN", "HYPO", "STRI", "rACC"],
+      "diagnosticTriggers": ["Force readiness degradation", "Manpower shortages", "Chain of command breakdown", "Civilian-military authority conflict", "Air superiority loss", "Anti-access/area-denial threats", "Shelter infrastructure neglect", "Evacuation plan inadequacy", "Supply chain disruption", "Ammunition stockpile depletion", "Critical infrastructure cyber breach", "Zero-day exploit weaponization", "Intelligence collection gaps", "Analyst workforce attrition", "Deterrence credibility erosion", "Nuclear proliferation", "Treaty withdrawal cascades", "Verification regime failure", "Strategic surprise", "Threat assessment failure", "Operator burnout and attrition", "Mission scope creep", "Mass casualty event overwhelm", "Medical supply shortages", "Weapons system obsolescence", "Procurement cost overruns", "Veteran suicide rates", "Reintegration failure"],
+      "basis": "Identical mechanism to 'digital_divide': classifies -> [news_event, institutional_event] (L165-168); news_event satisfies all six contracts (OR-gate). WEAK/INDISCRIMINATE generic-boilerplate link; union of all six circuits."
+    },
+    "adaptive_failure": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "linkedDiagnoses": [
+        { "id": "INVASION", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "NUCLEAR_THREAT", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "INTELLIGENCE_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "LOGISTICS_COLLAPSE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CIVIL_UNREST", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["M1", "dlPFC", "FEF", "CeA", "CBLM", "FPN", "DAN", "PAG", "vmPFC", "ECN", "VAN", "HYPO", "STRI", "rACC"],
+      "diagnosticTriggers": ["Force readiness degradation", "Manpower shortages", "Chain of command breakdown", "Civilian-military authority conflict", "Air superiority loss", "Anti-access/area-denial threats", "Shelter infrastructure neglect", "Evacuation plan inadequacy", "Supply chain disruption", "Ammunition stockpile depletion", "Critical infrastructure cyber breach", "Zero-day exploit weaponization", "Intelligence collection gaps", "Analyst workforce attrition", "Deterrence credibility erosion", "Nuclear proliferation", "Treaty withdrawal cascades", "Verification regime failure", "Strategic surprise", "Threat assessment failure", "Operator burnout and attrition", "Mission scope creep", "Mass casualty event overwhelm", "Medical supply shortages", "Weapons system obsolescence", "Procurement cost overruns", "Veteran suicide rates", "Reintegration failure"],
+      "basis": "Identical mechanism to 'digital_divide': classifies -> [news_event, institutional_event] (L165-168); news_event satisfies all six contracts (OR-gate). WEAK/INDISCRIMINATE generic-boilerplate link; union of all six circuits."
+    }
+  },
+  "diagnoses": {
+    "INVASION": {
+      "circuitSource": "_authored",
+      "activations": ["M1", "dlPFC", "FEF", "CeA", "CBLM"],
+      "diagnosticTriggers": ["Force readiness degradation", "Manpower shortages", "Chain of command breakdown", "Civilian-military authority conflict", "Air superiority loss", "Anti-access/area-denial threats", "Shelter infrastructure neglect", "Evacuation plan inadequacy", "Supply chain disruption", "Ammunition stockpile depletion"],
+      "basis": "diagnosis id === Defense issue id; when active, the (energy-pattern) adapter marks its issues['INVASION']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference, no family hop. Unlike Finance, Defense diagnosticTriggers are free-text phrases (not diagnosis ids), so this map is FULLY load-bearing for extinction, not redundant."
+    },
+    "CYBER_ATTACK": {
+      "circuitSource": "_authored",
+      "activations": ["FPN", "DAN", "dlPFC", "CBLM"],
+      "diagnosticTriggers": ["Critical infrastructure cyber breach", "Zero-day exploit weaponization", "Intelligence collection gaps", "Analyst workforce attrition", "Chain of command breakdown", "Civilian-military authority conflict", "Supply chain disruption", "Ammunition stockpile depletion"],
+      "basis": "diagnosis id === Defense issue id; adapter marks issues['CYBER_ATTACK']._authored circuit nodes active. Free-text diagnosticTriggers listed verbatim. Direct data link. (Failure-class map marks CYBER_ATTACK UNMAPPED as an adversarial archetype, but its circuit is intact and its activations still need extinction protection when active — the two concerns are independent.)"
+    },
+    "NUCLEAR_THREAT": {
+      "circuitSource": "_authored",
+      "activations": ["PAG", "vmPFC", "ECN", "CeA"],
+      "diagnosticTriggers": ["Deterrence credibility erosion", "Nuclear proliferation", "Treaty withdrawal cascades", "Verification regime failure", "Strategic surprise", "Threat assessment failure", "Shelter infrastructure neglect", "Evacuation plan inadequacy"],
+      "basis": "diagnosis id === Defense issue id; adapter marks issues['NUCLEAR_THREAT']._authored circuit nodes active. Free-text diagnosticTriggers listed verbatim. Direct data link, no inference."
+    },
+    "INTELLIGENCE_FAILURE": {
+      "circuitSource": "circuits",
+      "activations": ["DAN", "ECN", "dlPFC", "VAN"],
+      "diagnosticTriggers": ["Intelligence collection gaps", "Analyst workforce attrition", "Strategic surprise", "Threat assessment failure", "Chain of command breakdown", "Civilian-military authority conflict", "Operator burnout and attrition", "Mission scope creep"],
+      "basis": "diagnosis id === Defense issue id. INTELLIGENCE_FAILURE has NO _authored block, so the adapter's is._authored||is.circuits fallback uses the `circuits` array. Free-text diagnosticTriggers listed verbatim. Direct data link, no inference."
+    },
+    "LOGISTICS_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": ["CBLM", "M1", "HYPO", "STRI"],
+      "diagnosticTriggers": ["Supply chain disruption", "Ammunition stockpile depletion", "Force readiness degradation", "Manpower shortages", "Mass casualty event overwhelm", "Medical supply shortages", "Weapons system obsolescence", "Procurement cost overruns"],
+      "basis": "diagnosis id === Defense issue id; adapter marks issues['LOGISTICS_COLLAPSE']._authored circuit nodes active. Free-text diagnosticTriggers listed verbatim. Direct data link, no inference."
+    },
+    "CIVIL_UNREST": {
+      "circuitSource": "_authored",
+      "activations": ["CeA", "dlPFC", "vmPFC", "rACC"],
+      "diagnosticTriggers": ["Shelter infrastructure neglect", "Evacuation plan inadequacy", "Chain of command breakdown", "Civilian-military authority conflict", "Treaty withdrawal cascades", "Verification regime failure", "Veteran suicide rates", "Reintegration failure"],
+      "basis": "diagnosis id === Defense issue id; adapter marks issues['CIVIL_UNREST']._authored circuit nodes active. Free-text diagnosticTriggers listed verbatim. Direct data link, no inference."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": ["macro_event"],
+        "reason": "defense-pulse-engine.js classifies macro_shock -> [macro_event] (L170), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. It IS listed as secondaryConfirmation for INVASION and NUCLEAR_THREAT, but secondaryConfirmation is DECLARED and never consumed by the requiredFamilies OR-gate (L181-193). Dead-end family: reaches no diagnosis, no circuit, no activation. Same finding as Finance macro_shock."
+      },
+      {
+        "code": "defense_high_stress / structural_stress",
+        "evidenceFamilies": ["structural_event"],
+        "reason": "classify -> [structural_event] (L169). NO contract requires structural_event. 'structural_stress' IS listed as secondaryConfirmation for INTELLIGENCE_FAILURE and CIVIL_UNREST, but secondaryConfirmation is not consumed by the requiredFamilies gate, and the emitted FAMILY (structural_event) differs from the token (structural_stress). These are the conditions the Defense brain most plausibly emits at runtime, so the condition->diagnosis path is effectively INERT for Defense; diagnoses fire via external dx.active instead."
+      },
+      {
+        "code": "budget_shortfall / resource_scarcity / infrastructure_degradation",
+        "evidenceFamilies": ["policy_event"],
+        "reason": "classify -> [policy_event] (L151). NO Defense contract requires policy_event. No grounded condition->diagnosis link."
+      },
+      {
+        "code": "institutional_decline / quality_degradation / standards_erosion / credential_devaluation / oversight_failure",
+        "evidenceFamilies": ["institutional_event", "policy_event"],
+        "reason": "classify -> institutional_event (+policy_event for oversight_failure) (L152, L161-164). NO Defense contract requires institutional_event or policy_event. No grounded link. (These are education-boilerplate tokens; institutional_event is co-emitted with news_event ONLY by the digital_divide branch, which is why that branch — not these — is the one grounded path.)"
+      },
+      {
+        "code": "workforce_gap / retention_failure / recruitment_deficit / burnout_epidemic",
+        "evidenceFamilies": ["workforce_event", "policy_event"],
+        "reason": "classify -> [workforce_event, policy_event] (L153-156). NO Defense contract requires either. No grounded link."
+      },
+      {
+        "code": "outcome_disparity / access_inequality / performance_decline / equity_failure",
+        "evidenceFamilies": ["indicator_event", "policy_event"],
+        "reason": "classify -> [indicator_event, policy_event] (L157-160). NO Defense contract requires either. No grounded link."
+      }
+    ],
+    "contractIndicatorsNeverClassified": {
+      "tokens": ["invasion", "territorial_breach", "force_projection", "cyber_breach", "network_penetration", "infrastructure_hack", "nuclear_escalation", "deterrence_failure", "proliferation", "intel_gap", "surveillance_miss", "analysis_failure", "supply_chain_military", "logistics_failure", "readiness_gap", "domestic_instability", "protest_escalation", "martial_response"],
+      "reason": "THE KEY DEFENSE HETEROGENEITY. Every one of these is a primaryIndicator (or secondaryConfirmation) declared in an EVIDENCE_CONTRACT, yet the pulse-engine classify switch (L149-171) NEVER maps any of them to an evidence family. They are declared-but-dead: a diagnosis can only satisfy hasRequiredEvidence via the generic classifier's families, none of which correspond to these defense-specific tokens. Analogous to Finance's contractOnlyTokensNotClassified (REFINERY_ATTACK/SANCTIONS in Energy), but FAR larger: in Defense the ENTIRE domain-specific indicator vocabulary is unclassified. No alias can be grounded on them."
+    },
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      { "brainNodeId": "NTS", "domainLabel": "Naval Operations", "diagnosticTriggers": ["Sea lane interdiction", "Fleet aging and capability gaps"], "reason": "Has diagnosticTriggers but its brainNodeId appears in NO issue._authored/circuits (and no condition-code chain reaches it). NTS appears in the graph EDGES (M1->NTS, NTS->FEF, NTS->AI) but edges do not feed the trigger/extinction chain. Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it." },
+      { "brainNodeId": "OFC", "domainLabel": "Geopolitical Deterrence & Alliances", "diagnosticTriggers": ["Alliance credibility erosion", "Deterrence-signaling miscalculation"], "reason": "Has diagnosticTriggers but appears in NO issue circuit (appears in edges only: ECN->OFC, OFC->PAG, OFC->vmPFC, NAcc->OFC). No condition-code chain reaches it. Orphan; needs authoring before extinction should touch it." },
+      { "brainNodeId": "EMG", "domainLabel": "Electronic Warfare & EMP", "diagnosticTriggers": ["Spectrum dominance loss", "Critical-infrastructure EMP/kinetic vulnerability"], "reason": "Has diagnosticTriggers but appears in NO issue circuit (appears in edges only: FPN->EMG, EMG->FEF, EMG->DAN). No condition-code chain reaches it. Orphan; needs authoring before extinction should touch it." },
+      { "brainNodeId": "BNST", "domainLabel": "Strategic Reserves", "diagnosticTriggers": ["Munitions stockpile depletion", "Rare-earth and fuel-reserve shortfall"], "reason": "Has diagnosticTriggers but appears in NO issue circuit (appears in edges only: CBLM->BNST, BNST->STRI, BNST->M1). No condition-code chain reaches it. Orphan; needs authoring before extinction should touch it." },
+      { "brainNodeId": "CAUD", "domainLabel": "Unmanned Systems", "diagnosticTriggers": ["Counter-UAS vulnerability", "Autonomy and datalink resilience gaps"], "reason": "Has diagnosticTriggers but appears in NO issue circuit (appears in edges only: FEF->CAUD, CAUD->DAN, CAUD->STRI). No condition-code chain reaches it. Orphan; needs authoring before extinction should touch it." },
+      { "brainNodeId": "SMA", "domainLabel": "Recruitment & Training", "diagnosticTriggers": ["Recruitment shortfalls", "Training standard degradation"], "reason": "Has diagnosticTriggers but appears in NO issue circuit (appears in edges only: VAN->SMA, dlPFC->SMA, SMA->PAG, SMA->M1). No condition-code chain reaches it. Orphan; needs authoring before extinction should touch it." }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      { "brainNodeId": "RSC", "domainLabel": "Space", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed." },
+      { "brainNodeId": "dACC", "domainLabel": "Veterans", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit (appears in edges: dlPFC->dACC, AI->dACC), but diagnosticTriggers is empty, so extinction skips it. No alias needed." },
+      { "brainNodeId": "MICRO", "domainLabel": "Wmd", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit, diagnosticTriggers empty, extinction skips it. No alias needed." },
+      { "brainNodeId": "PIN", "domainLabel": "Special Ops", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit, diagnosticTriggers empty, extinction skips it. No alias needed." }
+    ]
+  }
+}
