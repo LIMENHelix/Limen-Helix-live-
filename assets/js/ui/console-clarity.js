@@ -3660,18 +3660,25 @@
   function _capLoadBoardMap() {
     if (window._capBoardMap || window._capBoardMapLoading) return;
     window._capBoardMapLoading = true;
-    fetch('/assets/data/command-board-data.json')
+    // Source = the CURRENT kernel watchlist (build-kernel-watchlist + build-valuation-
+    // longs): validated SHORT bankruptcy-calls + LONG investment-primed names, each
+    // domain-tagged. Replaces the stale command-board-data.json snapshot (frozen
+    // months back, shown as "live") AND the retired patent-opportunity lane, so
+    // Capital Conversion surfaces only kernel-validated, current names.
+    fetch('/assets/data/kernel-watchlist.json')
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
         var map = {};
         if (data) {
-          var arr = Array.isArray(data) ? data
-            : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
-          arr.forEach(function (x) {
-            if (!x || !x.d || !x.t) return;
+          var rows = (data.bankruptcyWatch || []).concat(data.investmentPrimed || []);
+          rows.forEach(function (x) {
+            if (!x || !x.d || !x.ticker) return;
             (map[x.d] = map[x.d] || []).push({
-              ticker: x.t, name: x.n, ds: (typeof x.ds === 'number' ? x.ds : 0),
-              phase: x.p, alert: !!x.a, traj: x.tr
+              ticker: x.ticker, name: x.name,
+              ds: (typeof x.distressScore === 'number' ? x.distressScore : 0),
+              phase: x.phase, alert: !!x.alert, traj: x.trajectory,
+              side: x.side || (x.alert ? 'SHORT' : 'LONG'),
+              upsidePct: (typeof x.upsidePct === 'number' ? x.upsidePct : null)
             });
           });
           Object.keys(map).forEach(function (k) {

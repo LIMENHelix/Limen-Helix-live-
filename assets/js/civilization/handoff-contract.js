@@ -600,6 +600,13 @@
   // explicitly multi-domain-friendly lanes (research-papers, research-grants,
   // nsf-project-pitch, business-grants, copyrights) so signal is never lost
   // — only routed away from lanes where it would produce garbage filings.
+  // Standing rule ([[lanes-investment-research-only]]): patent/grant/loan/SBA/
+  // franchise/copyright lanes are RETIRED across all 20 domains — investment +
+  // research ONLY. The gate definitions below are kept for reference but neutralized
+  // at the single emission choke point (_packetForLane) so no artifact ever routes
+  // to a retired lane, without deleting the (heavily-commented) definitions or the
+  // downstream consumers that reference the names.
+  var RETIRED_LANES = { 'patents': 1, 'copyrights': 1, 'business-grants': 1, 'research-grants': 1, 'nsf-project-pitch': 1, 'sba-loans': 1, 'franchise': 1 };
   var LANE_GATES = {
     'patents':         { minEvidence: 0.55, minConfidence: 0.60, singleDomainOnly: true,  anyDomain: ['technology','energy','infrastructure','industry','medicine','defense','agriculture'] },
     'copyrights':      { minEvidence: 0.45, minConfidence: 0.50, singleDomainOnly: false, anyDomain: ['culture','communication','religion','governance','law'] },
@@ -1278,6 +1285,7 @@
   }
 
   function _packetForLane(lane, opp, packets) {
+    if (RETIRED_LANES[lane]) return null;   // investment + research ONLY; never route to retired lanes
     var gate = LANE_GATES[lane];
     if (!gate) return null;
     var domains = (opp && opp.domains) || [];

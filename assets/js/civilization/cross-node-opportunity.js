@@ -58,6 +58,41 @@
       .catch(function () { _nodeMap = {}; return _nodeMap; });
   }
 
+  // canonical-nodes.json is the canBindBusiness authority. Only real business nodes
+  // (canBindBusiness===true) may emit opportunities; the 42 non-nodes (composites/
+  // tracts/molecules/glia, canBindBusiness:false) are read-only views and must never
+  // generate a business opportunity. Cached; null = load failed -> no filtering.
+  var _canonBindable = undefined;
+  function _loadCanon() {
+    if (_canonBindable !== undefined || typeof fetch !== 'function') return Promise.resolve(_canonBindable === undefined ? null : _canonBindable);
+    return fetch('assets/data/canonical-nodes.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j) { _canonBindable = null; return _canonBindable; }
+        var NODES = j.nodes || j; var set = {};
+        for (var k in NODES) { if (NODES[k] && NODES[k].canBindBusiness === true) set[k] = true; }
+        _canonBindable = set; return _canonBindable;
+      })
+      .catch(function () { _canonBindable = null; return _canonBindable; });
+  }
+
+  // Collapse the amplified opportunity types: many nodes emit the same domain
+  // combination, so cross-domain / white-space clone ~one near-identical opp per
+  // node. Keep only the highest-confidence instance per (type + sorted-domains).
+  function _dedupeByDomainCombo(list) {
+    var AMPLIFIED = { 'cross-domain': 1, 'white-space': 1 };
+    var best = {}, order = [], passthrough = [];
+    for (var i = 0; i < list.length; i++) {
+      var o = list[i];
+      if (!AMPLIFIED[o.type]) { passthrough.push(o); continue; }
+      var sig = o.type + '|' + (o.domains || []).slice().sort().join(',');
+      if (!best[sig]) { best[sig] = o; order.push(sig); }
+      else if ((o.confidence || 0) > (best[sig].confidence || 0)) best[sig] = o;
+    }
+    for (var j = 0; j < order.length; j++) passthrough.push(best[order[j]]);
+    return passthrough;
+  }
+
   function _packets() {
     var ad = (typeof window !== 'undefined') ? window.LIMENCivilizationAdapter : null;
     if (ad && typeof ad.getAll === 'function') return ad.getAll() || {};
@@ -637,7 +672,11 @@
       var avgEv = elevatedHere.reduce(function (a, x) { return a + (x.evidence || 0); }, 0) / elevatedHere.length;
       var avgStress = elevatedHere.reduce(function (a, x) { return a + (x.stress || 0); }, 0) / elevatedHere.length;
       var domains = elevatedHere.map(function (x) { return x.domain; });
-      var conf = Math.min(0.95, avgEv * 0.7 + Math.min(1, elevatedHere.length / 4) * 0.3);
+      // normalize corroboration by the node's OWN mapping breadth so a generic hub
+      // node (elevated in 2 of 20 mapped domains) can't manufacture the same
+      // confidence as a specific node (elevated in 2 of 3). max(4,...) keeps small
+      // nodes unchanged; only wide hubs are down-weighted.
+      var conf = Math.min(0.95, avgEv * 0.7 + Math.min(1, elevatedHere.length / Math.max(4, nodeMappings.length)) * 0.3);
       out.push({
         id:              _genId(),
         type:            'cross-domain',
@@ -757,7 +796,8 @@
 
   // ─── Recompute ──────────────────────────────────────────────────────────
   function recompute() {
-    return _loadNodeMap().then(function (map) {
+    return Promise.all([_loadNodeMap(), _loadCanon()]).then(function (res) {
+      var map = res[0] || {}, bindable = res[1];
       var packets = _packets();
       _idCounter = 0;
       var all = [];
@@ -765,8 +805,14 @@
       for (var i = 0; i < nodeNames.length; i++) {
         var name = nodeNames[i];
         if (name.charAt(0) === '_') continue; // skip schema markers
+        // NON-NODE GUARD: only canBindBusiness===true nodes may emit opportunities;
+        // skip the 42 non-nodes (composites/tracts/molecules/glia). If canonical
+        // failed to load (bindable === null) we don't filter, to degrade safely.
+        if (bindable && !bindable[name]) continue;
         all = all.concat(_opportunitiesAtNode(name, map[name], packets));
       }
+      // kill the one-wave-N-duplicates amplification (cross-domain + white-space)
+      all = _dedupeByDomainCombo(all);
       // Sort: cross-domain first (highest urgency × confidence), then direct,
       // then inferred, then speculative, then white-space.
       var typeRank = { 'cross-domain': 0, 'direct': 1, 'inferred': 2, 'speculative': 3, 'white-space': 4 };

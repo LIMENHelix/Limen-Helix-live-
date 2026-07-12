@@ -4,7 +4,7 @@
   "criteria": {
     "envelope": "validation_status === validated AND NOT Finance/Insurance/Real-Estate (SIC 6000-6799) — kernel invalid on FIRE",
     "short": "bankruptcy-call: in-scope + kernel alert OR distress trajectory (RUPTURE/CASH_DECLINE/UNRECOVERED_P3)",
-    "long": "investment-primed: in-scope + PHASE_FACTOR(phase) >= 1 (LONG side) — p10 RESURRECTION 1.25 / p6 EXPANSION 1.20 / p0 STABLE 1.05"
+    "long": "investment-primed = kernel1 trajectory RECOVERED AND undervalued (computeValuation upsidePct >= 15%). Recovered survivor still trading below phase-implied fair value."
   },
   "counts": {
     "universe": 301,
@@ -12,8 +12,8 @@
     "excludedFinancials": 101,
     "inScopeOperating": 200,
     "bankruptcyWatch": 34,
-    "investmentPrimed": 52,
-    "surface": 86,
+    "investmentPrimed": 3,
+    "surface": 37,
     "suppressed": 215
   },
   "bankruptcyWatch": [
@@ -31,7 +31,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "5812"
+      "sic": "5812",
+      "d": "trade"
     },
     {
       "slug": "crimson_wine_group_ltd",
@@ -47,7 +48,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "2080"
+      "sic": "2080",
+      "d": "trade"
     },
     {
       "slug": "surg",
@@ -63,7 +65,8 @@
       "distressScore": 0.07,
       "alert": true,
       "sector": "Telecom",
-      "sic": "4813"
+      "sic": "4813",
+      "d": "communication"
     },
     {
       "slug": "splash_beverage_group_inc",
@@ -79,7 +82,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "2080"
+      "sic": "2080",
+      "d": "trade"
     },
     {
       "slug": "ptc_therapeutics_inc",
@@ -95,7 +99,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "60_degrees_pharmaceuticals_inc",
@@ -111,7 +116,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "ttsh",
@@ -127,7 +133,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Retail",
-      "sic": "5700"
+      "sic": "5700",
+      "d": "trade"
     },
     {
       "slug": "cytk",
@@ -143,7 +150,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "gulfport_energy_corp",
@@ -159,7 +167,8 @@
       "distressScore": 0.77,
       "alert": true,
       "sector": "Energy",
-      "sic": "1311"
+      "sic": "1311",
+      "d": "energy"
     },
     {
       "slug": "genk",
@@ -175,7 +184,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "5812"
+      "sic": "5812",
+      "d": "trade"
     },
     {
       "slug": "oge",
@@ -191,7 +201,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Utilities",
-      "sic": "4911"
+      "sic": "4911",
+      "d": "infrastructure"
     },
     {
       "slug": "sunopta_inc",
@@ -207,7 +218,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "2080"
+      "sic": "2080",
+      "d": "trade"
     },
     {
       "slug": "cannapharmarx_inc",
@@ -223,7 +235,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "groove_botanicals_inc",
@@ -239,7 +252,8 @@
       "distressScore": 0.77,
       "alert": true,
       "sector": "Energy",
-      "sic": "1311"
+      "sic": "1311",
+      "d": "energy"
     },
     {
       "slug": "txnm",
@@ -255,7 +269,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Utilities",
-      "sic": "4911"
+      "sic": "4911",
+      "d": "infrastructure"
     },
     {
       "slug": "evfm",
@@ -271,7 +286,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "tcrt",
@@ -287,7 +303,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "prgo",
@@ -303,7 +320,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "brc_inc",
@@ -319,7 +337,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "2080"
+      "sic": "2080",
+      "d": "trade"
     },
     {
       "slug": "cvsi",
@@ -335,7 +354,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "nrg",
@@ -351,7 +371,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Utilities",
-      "sic": "4911"
+      "sic": "4911",
+      "d": "infrastructure"
     },
     {
       "slug": "alx_oncology_holdings_inc",
@@ -367,7 +388,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "xencor_inc",
@@ -383,7 +405,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "rmti",
@@ -399,7 +422,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "tlph",
@@ -415,7 +439,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": null,
@@ -429,7 +454,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Utilities",
-      "sic": "4911"
+      "sic": "4911",
+      "d": "infrastructure"
     },
     {
       "slug": "rani_therapeutics_holdings_inc",
@@ -445,7 +471,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "ovintiv_inc",
@@ -461,7 +488,8 @@
       "distressScore": 0.77,
       "alert": true,
       "sector": "Energy",
-      "sic": "1311"
+      "sic": "1311",
+      "d": "energy"
     },
     {
       "slug": "play",
@@ -477,7 +505,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "5812"
+      "sic": "5812",
+      "d": "trade"
     },
     {
       "slug": "lipocine_inc",
@@ -493,7 +522,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "gtim",
@@ -509,7 +539,8 @@
       "distressScore": 0.3,
       "alert": true,
       "sector": "Consumer",
-      "sic": "5812"
+      "sic": "5812",
+      "d": "trade"
     },
     {
       "slug": "puma_biotechnology_inc",
@@ -525,7 +556,8 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     },
     {
       "slug": "atni",
@@ -541,7 +573,8 @@
       "distressScore": 0.07,
       "alert": true,
       "sector": "Telecom",
-      "sic": "4813"
+      "sic": "4813",
+      "d": "communication"
     },
     {
       "slug": "maravai_lifesciences_holdings_inc",
@@ -557,217 +590,28 @@
       "distressScore": 0.65,
       "alert": true,
       "sector": "Healthcare",
-      "sic": "2834"
+      "sic": "2834",
+      "d": "medicine"
     }
   ],
   "investmentPrimed": [
     {
-      "slug": "atlas_energy_solutions_inc",
-      "name": "Atlas Energy Solutions Inc.",
-      "ticker": "AESI",
-      "cik": "0001984060",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.3342848822430585,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "1311"
-    },
-    {
-      "slug": "barnwell_industries_inc",
-      "name": "BARNWELL INDUSTRIES INC",
-      "ticker": "BRN",
-      "cik": "0000010048",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 1.3855117071562055,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "1311"
-    },
-    {
-      "slug": "coterra_energy_inc",
-      "name": "Coterra Energy Inc.",
-      "ticker": "CTRA",
-      "cik": "0000858470",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.8440042460047864,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "1311"
-    },
-    {
-      "slug": "devon_energy_corp_de",
-      "name": "DEVON ENERGY CORP/DE",
-      "ticker": "DVN",
-      "cik": "0001090012",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.5578480289674963,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "1311"
-    },
-    {
-      "slug": "constellation_brands_inc",
-      "name": "CONSTELLATION BRANDS, INC.",
-      "ticker": "STZ",
-      "cik": "0000016918",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.3579871251835924,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "2080"
-    },
-    {
-      "slug": "pepsico",
-      "name": "PEPSICO INC",
-      "ticker": "PEP",
-      "cik": "0000077476",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.4371603793139962,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "2080"
-    },
-    {
-      "slug": "abbott_metabolic",
-      "name": "ABBOTT LABORATORIES",
-      "ticker": "ABT",
-      "cik": "0000001800",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.6199697267491435,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "eli_lilly",
-      "name": "ELI LILLY & Co",
-      "ticker": "LLY",
-      "cik": "0000059478",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.5737248873353857,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "foghorn_therapeutics_inc",
-      "name": "Foghorn Therapeutics Inc.",
-      "ticker": "FHTX",
-      "cik": "0001822462",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.16786566917855925,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "opko_health_inc",
-      "name": "OPKO HEALTH, INC.",
-      "ticker": "OPK",
-      "cik": "0000944809",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.25193276768723505,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "pfizer",
-      "name": "PFIZER INC",
-      "ticker": "PFE",
-      "cik": "0000078003",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 1.0885084354632488,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "phat",
-      "name": "Phathom Pharmaceuticals, Inc.",
-      "ticker": "PHAT",
-      "cik": "0001783183",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.536795661440282,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "royalty_pharma_plc",
-      "name": "Royalty Pharma plc",
-      "ticker": "RPRX",
-      "cik": "0001802768",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 1.426544811485068,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
+      "slug": "blmn",
+      "name": "Bloomin' Brands, Inc.",
+      "ticker": "BLMN",
+      "cik": "0001546417",
+      "phase": "p6",
+      "phaseFactor": 1.2,
+      "trajectory": "RECOVERED",
+      "price": 8.34,
+      "target": 12.42,
+      "upsidePct": 39.4,
+      "currentMultiple": 0.36,
+      "histMedianMultiple": 0.59,
+      "discountToHist": 39.8,
+      "asymmetry": 2.12,
+      "sic": "5812",
+      "d": "trade"
     },
     {
       "slug": "stepan_co",
@@ -776,622 +620,41 @@
       "cik": "0000094049",
       "phase": "p10",
       "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.4349528220543417,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "2840"
+      "trajectory": "RECOVERED",
+      "price": 56.57,
+      "target": 80.34,
+      "upsidePct": 34.9,
+      "currentMultiple": 0.77,
+      "histMedianMultiple": 1.08,
+      "discountToHist": 29,
+      "asymmetry": 2.59,
+      "sic": "2840",
+      "d": "trade"
     },
     {
-      "slug": "imperial_oil_ltd",
-      "name": "IMPERIAL OIL LTD",
-      "ticker": "IMO",
-      "cik": "0000049938",
+      "slug": "atlas_energy_solutions_inc",
+      "name": "Atlas Energy Solutions Inc.",
+      "ticker": "AESI",
+      "cik": "0001984060",
       "phase": "p10",
       "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.2543999519272284,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "2911"
-    },
-    {
-      "slug": "vlo",
-      "name": "VALERO ENERGY CORP/TX",
-      "ticker": "VLO",
-      "cik": "0001035002",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.7314404275238897,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "2911"
-    },
-    {
-      "slug": "rklb",
-      "name": "Rocket Lab Corp",
-      "ticker": "RKLB",
-      "cik": "0001819994",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.58,
-      "alert": false,
-      "sector": "Industrials",
-      "sic": "3760"
-    },
-    {
-      "slug": "ottr",
-      "name": "Otter Tail Corp",
-      "ticker": "OTTR",
-      "cik": "0001466593",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.27997419604057244,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Utilities",
-      "sic": "4911"
-    },
-    {
-      "slug": "dri",
-      "name": "DARDEN RESTAURANTS INC",
-      "ticker": "DRI",
-      "cik": "0000940944",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 1.008864435274339,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "5812"
-    },
-    {
-      "slug": "zcarw",
-      "name": "Zoomcar Holdings, Inc.",
-      "ticker": "ZCARW",
-      "cik": "0001854275",
-      "phase": "p10",
-      "phaseFactor": 1.25,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Rental",
-      "sic": "7510"
-    },
-    {
-      "slug": "battalion_oil_corp",
-      "name": "BATTALION OIL CORP",
-      "ticker": "BATL",
-      "cik": "0001282648",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.3920425630879549,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "1311"
-    },
-    {
-      "slug": "primeenergy_resources_corp",
-      "name": "PRIMEENERGY RESOURCES CORP",
-      "ticker": "PNRG",
-      "cik": "0000056868",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.301027585897955,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "1311"
-    },
-    {
-      "slug": "vaalco_energy_inc_de",
-      "name": "VAALCO ENERGY INC /DE/",
-      "ticker": "EGY",
-      "cik": "0000894627",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.27039138127132734,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "1311"
-    },
-    {
-      "slug": "willamette_valley_vineyards_inc",
-      "name": "WILLAMETTE VALLEY VINEYARDS INC",
-      "ticker": "WVVIP",
-      "cik": "0000838875",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.20504528401309569,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "2080"
-    },
-    {
-      "slug": "abeo",
-      "name": "ABEONA THERAPEUTICS INC.",
-      "ticker": "ABEO",
-      "cik": "0000318306",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "amneal_pharmaceuticals_inc",
-      "name": "Amneal Pharmaceuticals, Inc.",
-      "ticker": "AMRX",
-      "cik": "0001723128",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "apvo",
-      "name": "Aptevo Therapeutics Inc.",
-      "ticker": "APVO",
-      "cik": "0001671584",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.27843038590203567,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "celuw",
-      "name": "Celularity Inc",
-      "ticker": "CELUW",
-      "cik": "0001752828",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "eq",
-      "name": "Equillium, Inc.",
-      "ticker": "EQ",
-      "cik": "0001746466",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "ganx",
-      "name": "Gain Therapeutics, Inc.",
-      "ticker": "GANX",
-      "cik": "0001819411",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 1.0344587116113972,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "ionis_pharmaceuticals_inc",
-      "name": "IONIS PHARMACEUTICALS INC",
-      "ticker": "IONS",
-      "cik": "0000874015",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.4680720998251058,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "immunome_inc",
-      "name": "Immunome Inc.",
-      "ticker": "IMNM",
-      "cik": "0001472012",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "kura",
-      "name": "Kura Oncology, Inc.",
-      "ticker": "KURA",
-      "cik": "0001422143",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "nxtc",
-      "name": "NextCure, Inc.",
-      "ticker": "NXTC",
-      "cik": "0001661059",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 1.1102050394532281,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "omer",
-      "name": "OMEROS CORP",
-      "ticker": "OMER",
-      "cik": "0001285819",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.2388411769026597,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "scynexis_inc",
-      "name": "SCYNEXIS INC",
-      "ticker": "SCYX",
-      "cik": "0001178253",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.4833355276150353,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "sprb",
-      "name": "SPRUCE BIOSCIENCES, INC.",
-      "ticker": "SPRB",
-      "cik": "0001683553",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.7353837160372819,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "vrdn",
-      "name": "Viridian Therapeutics, Inc.DE",
-      "ticker": "VRDN",
-      "cik": "0001590750",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.1484557312903605,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "xomap",
-      "name": "XOMA Royalty Corp",
-      "ticker": "XOMAP",
-      "cik": "0000791908",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.9639789180384064,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "xene",
-      "name": "Xenon Pharmaceuticals Inc.",
-      "ticker": "XENE",
-      "cik": "0001582313",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.34750964738202306,
-      "trajectory": "STABLE",
-      "distressScore": 0.65,
-      "alert": false,
-      "sector": "Healthcare",
-      "sic": "2834"
-    },
-    {
-      "slug": "bess_wt",
-      "name": "Bimergen Energy Corp",
-      "ticker": "BESS-WT",
-      "cik": "0001066764",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.24845267892668976,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Utilities",
-      "sic": "4911"
-    },
-    {
-      "slug": "constellation_energy",
-      "name": "Constellation Energy Corp",
-      "ticker": "CEG",
-      "cik": "0001868275",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.19914351425327415,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Utilities",
-      "sic": "4911"
-    },
-    {
-      "slug": "ora",
-      "name": "ORMAT TECHNOLOGIES, INC.",
-      "ticker": "ORA",
-      "cik": "0001296445",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.22583668367131288,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Utilities",
-      "sic": "4911"
-    },
-    {
-      "slug": "burl",
-      "name": "Burlington Stores, Inc.",
-      "ticker": "BURL",
-      "cik": "0001579298",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.5886085870306967,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Retail",
-      "sic": "5311"
-    },
-    {
-      "slug": "m",
-      "name": "Macy's, Inc.",
-      "ticker": "M",
-      "cik": "0000794367",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.34857521537442016,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Retail",
-      "sic": "5311"
-    },
-    {
-      "slug": "olli",
-      "name": "Ollie's Bargain Outlet Holdings, Inc.",
-      "ticker": "OLLI",
-      "cik": "0001639300",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Retail",
-      "sic": "5331"
-    },
-    {
-      "slug": "walmart",
-      "name": "Walmart Inc.",
-      "ticker": "WMT",
-      "cik": "0000104169",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.2879247122308057,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Retail",
-      "sic": "5331"
-    },
-    {
-      "slug": "wsm",
-      "name": "WILLIAMS SONOMA INC",
-      "ticker": "WSM",
-      "cik": "0000719955",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.26150250289646565,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Retail",
-      "sic": "5700"
-    },
-    {
-      "slug": "blmn",
-      "name": "Bloomin' Brands, Inc.",
-      "ticker": "BLMN",
-      "cik": "0001546417",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 1.0376385940080206,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "5812"
-    },
-    {
-      "slug": "rebn",
-      "name": "Reborn Coffee, Inc.",
-      "ticker": "REBN",
-      "cik": "0001707910",
-      "phase": "p6",
-      "phaseFactor": 1.2,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.7898614689225267,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "5812"
-    },
-    {
-      "slug": "brown_forman_corp",
-      "name": "BROWN FORMAN CORP",
-      "ticker": "BF-B",
-      "cik": "0000014693",
-      "phase": "p0",
-      "phaseFactor": 1.05,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.34003257425366357,
-      "trajectory": "STABLE",
-      "distressScore": 0.3,
-      "alert": false,
-      "sector": "Consumer",
-      "sic": "2080"
-    },
-    {
-      "slug": "sunoco_lp",
-      "name": "Sunoco LP",
-      "ticker": "SUN",
-      "cik": "0001552275",
-      "phase": "p0",
-      "phaseFactor": 1.05,
-      "side": "LONG",
-      "path": null,
-      "composite": 0.8514550023624564,
-      "trajectory": "STABLE",
-      "distressScore": 0.77,
-      "alert": false,
-      "sector": "Energy",
-      "sic": "2911"
+      "trajectory": "RECOVERED",
+      "price": 14.39,
+      "target": 20.21,
+      "upsidePct": 33.7,
+      "currentMultiple": 2.21,
+      "histMedianMultiple": 3.31,
+      "discountToHist": 33.2,
+      "asymmetry": 1.33,
+      "sic": "1311",
+      "d": "energy"
     }
-  ]
+  ],
+  "valuationPass": {
+    "checkedInScope": 200,
+    "recovered": 132,
+    "valued": 3,
+    "longs": 3,
+    "upsideMin": 15
+  }
 }
