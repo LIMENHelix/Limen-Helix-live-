@@ -143,7 +143,7 @@
       var d = (j && j.deals) || [];
       var m = j && j.meta;
       if (m) EL('raMeta').textContent = j.count + ' deals · updated ' + (m.updatedMs ? new Date(m.updatedMs).toLocaleString() : '?') + (m.counties ? ' · ' + m.counties.join(' | ') : '');
-      if (!d.length) { EL('ra').innerHTML = '<div class="muted">No distress deals stored yet. The daily worker POSTs them here — or run the workflow manually.</div>'; return; }
+      if (!d.length) { EL('ra').innerHTML = '<div class="muted">No distress deals stored yet. The daily worker POSTs them here - or run the workflow manually.</div>'; return; }
       EL('ra').innerHTML = '<table><thead><tr><th>Equity</th><th>Address</th><th>County</th><th>Judgment</th><th>Mkt value</th><th>Sale date</th><th>Sell to (matched)</th><th></th></tr></thead><tbody>' +
         d.map(function (x) {
           var eq = x.equity;

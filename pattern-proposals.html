@@ -162,7 +162,7 @@ function render(d) {
   // Assign persistent reference numbers
   unique.forEach(function(p, i){ p._refNum = i + 1; });
 
-  // Detect "same source portal + same business signature" — likely re-skin
+  // Detect "same source portal + same business signature" - likely re-skin
   // of an already-considered idea via a different neural region
   var sigCounts = {};
   unique.forEach(function(p){
@@ -279,7 +279,7 @@ function renderRow(p) {
   if (b.indicators && b.indicators.length) {
     detail += '<h4>Indicators (' + b.indicators.length + ')</h4>';
     b.indicators.forEach(function(ind){
-      detail += '<div class="angle-row"><span style="color:#5ab5a0;font-size:0.3rem">' + esc(ind.id || '?') + '</span> — ' + esc(ind.description || '') + '</div>';
+      detail += '<div class="angle-row"><span style="color:#5ab5a0;font-size:0.3rem">' + esc(ind.id || '?') + '</span> - ' + esc(ind.description || '') + '</div>';
     });
   }
 
@@ -339,7 +339,7 @@ function wireRowActions() {
         .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
         .then(function(out){
           if (!out.ok) throw new Error((out.j && out.j.error) || 'request failed');
-          toast(action === 'approve' ? '✓ Approved' : action === 'restore' ? '↺ Restored — back in Pending' : '✗ Rejected', 'ok');
+          toast(action === 'approve' ? '✓ Approved' : action === 'restore' ? '↺ Restored - back in Pending' : '✗ Rejected', 'ok');
           setTimeout(function(){ window.location.reload(); }, 800);
         })
         .catch(function(err){
@@ -385,7 +385,7 @@ document.getElementById('triggerNow').addEventListener('click', function() {
       var p = out.j.proposed || [];
       var f = out.j.failed || [];
       status.textContent = '✓ proposed ' + p.length + ' · failed ' + f.length + (out.j.candidatesConsidered === 0 ? ' · ' + (out.j.hint || '') : '');
-      if (p.length > 0) { toast('Authored ' + p.length + ' proposals — reloading', 'ok'); setTimeout(function(){ window.location.reload(); }, 1500); }
+      if (p.length > 0) { toast('Authored ' + p.length + ' proposals - reloading', 'ok'); setTimeout(function(){ window.location.reload(); }, 1500); }
       else { btn.disabled = false; btn.textContent = '▶ Author 3 more proposals'; toast(f.length ? 'All failed' : 'No new candidates', 'err'); }
     })
     .catch(function(err){

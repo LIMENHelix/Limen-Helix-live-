@@ -67,8 +67,8 @@ a:hover{color:#C9A94E}
   Save each download to your <code style="color:rgba(201,169,78,0.7)">LIMEN Helix Files</code> desktop folder. Each individual download takes 30-90 seconds while Claude Sonnet generates the content. The "all" buttons run sequentially so you can step away.
 
   <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06)">
-    <button id="generateEverything" disabled title="Disabled pending dedup fix — see banner" style="font-size:0.4rem;color:rgba(200,195,184,0.3);border:1px solid rgba(200,195,184,0.15);background:rgba(0,0,0,0.2);font-family:inherit;cursor:not-allowed;padding:10px 18px;border-radius:2px;letter-spacing:1.5px;text-transform:uppercase">
-      ⬇⬇⬇ Auto-generate ALL (disabled — duplicates in Redis cause repeat prints)
+    <button id="generateEverything" disabled title="Disabled pending dedup fix - see banner" style="font-size:0.4rem;color:rgba(200,195,184,0.3);border:1px solid rgba(200,195,184,0.15);background:rgba(0,0,0,0.2);font-family:inherit;cursor:not-allowed;padding:10px 18px;border-radius:2px;letter-spacing:1.5px;text-transform:uppercase">
+      ⬇⬇⬇ Auto-generate ALL (disabled - duplicates in Redis cause repeat prints)
     </button>
     <span id="globalProgress" style="margin-left:14px;font-size:0.34rem;color:rgba(232,84,84,0.6);letter-spacing:1px">Paused. Use per-pattern "Download all 4" buttons one at a time instead.</span>
   </div>
@@ -108,7 +108,7 @@ function render(d) {
 
   var listEl = document.getElementById('patterns-list');
   if (approved.length === 0) {
-    listEl.innerHTML = '<div class="empty-state">No approved patterns yet<div class="empty-state-help">Approve some on <a href="/pattern-proposals.html">/pattern-proposals.html</a> first — they\'ll appear here with download buttons.</div></div>';
+    listEl.innerHTML = '<div class="empty-state">No approved patterns yet<div class="empty-state-help">Approve some on <a href="/pattern-proposals.html">/pattern-proposals.html</a> first - they\'ll appear here with download buttons.</div></div>';
     return;
   }
 
@@ -179,7 +179,7 @@ async function generateEverything() {
   prog.textContent = 'Done · ' + succeeded.length + '/' + total + ' downloaded · ' + failed.length + ' failed · ' + Math.round(totalElapsed / 60) + 'min ' + (totalElapsed % 60) + 's total';
   btn.disabled = false;
   document.querySelectorAll('.pattern-card button').forEach(function(b){ b.disabled = false; });
-  if (failed.length === 0) toast('All ' + total + ' documents downloaded — move them from Downloads to LIMEN Helix Files', 'ok');
+  if (failed.length === 0) toast('All ' + total + ' documents downloaded - move them from Downloads to LIMEN Helix Files', 'ok');
   else { toast(succeeded.length + '/' + total + ' succeeded · ' + failed.length + ' failed · check progress text', 'err'); console.log('failures:', failed); }
 }
 
@@ -201,14 +201,14 @@ function renderCard(p) {
     var sc = scores[L] && scores[L].score; var badge = (sc != null ? ' ' + sc + '/10' : '');
     if (route) {
       if (route.indexOf(L) >= 0) return '<button data-lane="' + L + '">' + _laneLabel(L) + badge + '</button>';
-      return '<button data-lane="' + L + '" title="below threshold — click to print anyway" style="opacity:.38">' + _laneLabel(L) + badge + ' ⚠</button>';
+      return '<button data-lane="' + L + '" title="below threshold - click to print anyway" style="opacity:.38">' + _laneLabel(L) + badge + ' ⚠</button>';
     }
     return '<button data-lane="' + L + '">' + _laneLabel(L) + ' only</button>';
   }
   var lanesHtml = ALL_LANES.map(_laneBtn).join('');
   var routeNote = route
     ? '<div style="font-size:0.3rem;color:#5ab5a0;margin-top:4px">scored route → ' + route.join(' · ') + ' (others dimmed; click to print anyway)</div>'
-    : '<div style="font-size:0.3rem;color:rgba(200,195,184,0.4);margin-top:4px">not scored — run ⚖ Score lanes on /pattern-proposals to gate these</div>';
+    : '<div style="font-size:0.3rem;color:rgba(200,195,184,0.4);margin-top:4px">not scored - run ⚖ Score lanes on /pattern-proposals to gate these</div>';
 
   return '<div class="pattern-card" data-id="' + esc(id) + '" data-slug="' + esc(slug) + '">' +
     '<div class="pc-head">' +
@@ -251,7 +251,7 @@ async function downloadOne(btn) {
     await downloadDocx(slug, lane, id);
     progressEl.className = 'pc-progress success';
     progressEl.textContent = '✓ ' + lane + ' downloaded';
-    toast(lane + ' downloaded — save to LIMEN Helix Files', 'ok');
+    toast(lane + ' downloaded - save to LIMEN Helix Files', 'ok');
   } catch (err) {
     progressEl.className = 'pc-progress error';
     progressEl.textContent = '✗ ' + lane + ': ' + (err.message || err);
@@ -285,7 +285,7 @@ async function downloadAll(btn) {
   if (failed.length === 0) {
     progressEl.className = 'pc-progress success';
     progressEl.textContent = '✓ ' + lanes.length + ' lane(s) downloaded (2 files each)';
-    toast(lanes.length + ' lane(s) downloaded — save them to LIMEN Helix Files', 'ok');
+    toast(lanes.length + ' lane(s) downloaded - save them to LIMEN Helix Files', 'ok');
   } else {
     progressEl.className = 'pc-progress error';
     progressEl.textContent = succeeded.length + '/' + lanes.length + ' succeeded · failed: ' + failed.join(', ');

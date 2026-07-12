@@ -30,7 +30,7 @@
   <div class="sub">admin-only · key-gated read of /api/lead</div>
   <div class="bar"><a href="/civilization">← internal</a> · <span id="count">loading…</span> · <a href="#" id="reload">reload</a></div>
   <div id="mount"><div class="loading">loading…</div></div>
-  <div class="note">Minimal protection only (client gate + a query key). Not real auth. Leads contain PII — do not share this URL. "Test" rows are flagged; use Delete to remove them.</div>
+  <div class="note">Minimal protection only (client gate + a query key). Not real auth. Leads contain PII - do not share this URL. "Test" rows are flagged; use Delete to remove them.</div>
 
 <script>
   // SECURITY: no key is stored in source. The admin pastes the LEAD_ADMIN_KEY
@@ -44,7 +44,7 @@
     var k = '';
     try { k = sessionStorage.getItem(KEY_STORE) || ''; } catch(e){}
     if (!k || forcePrompt) {
-      k = (window.prompt('Paste the lead admin key (LEAD_ADMIN_KEY, set in Vercel).\nStored only in this browser tab — never saved to source.') || '').trim();
+      k = (window.prompt('Paste the lead admin key (LEAD_ADMIN_KEY, set in Vercel).\nStored only in this browser tab - never saved to source.') || '').trim();
       try { if (k) sessionStorage.setItem(KEY_STORE, k); } catch(e){}
     }
     return k;

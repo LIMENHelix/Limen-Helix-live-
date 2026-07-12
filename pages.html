@@ -98,26 +98,26 @@ a{color:inherit;text-decoration:none}
   // ── The 20 domains. Console + Portal are universal routes (?domain=X). ──
   // opps = a dedicated {domain}-opportunities.html exists (else use global /opportunities).
   var DOMAINS = [
-    { d: 'agriculture',    opps: false },
+    { d: 'agriculture',    opps: true },
     { d: 'communication',  opps: true  },
     { d: 'culture',        opps: true  },
     { d: 'defense',        opps: false },
     { d: 'economy',        opps: false },
     { d: 'education',      opps: true  },
     { d: 'energy',         opps: true  },
-    { d: 'environment',    opps: false },
+    { d: 'environment',    opps: true },
     { d: 'finance',        opps: true  },
     { d: 'governance',     opps: false },
     { d: 'industry',       opps: false },
-    { d: 'infrastructure', opps: false },
+    { d: 'infrastructure', opps: true },
     { d: 'intelligence',   opps: true  },
     { d: 'law',            opps: false },
     { d: 'medicine',       opps: true  },
     { d: 'population',     opps: true  },
-    { d: 'religion',       opps: false },
+    { d: 'religion',       opps: true },
     { d: 'science',        opps: true  },
     { d: 'technology',     opps: true  },
-    { d: 'trade',          opps: false }
+    { d: 'trade',          opps: true }
   ];
 
   var wrap = document.getElementById('smWrap');

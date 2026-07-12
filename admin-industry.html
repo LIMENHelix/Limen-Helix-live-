@@ -1,5 +1,5 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Industry Desk — Plant Closings (WARN)</title>
+<title>Industry Desk - Plant Closings (WARN)</title>
 <style>
 :root{--bg:#0d1117;--ink2:#131a22;--panel:#161d26;--line:#24303c;--txt:#e6edf3;--soft:#c9d5e0;--mut:#8b98a6;--teal:#3fb;--t1:#e0b06a;--t3:#6fb3e0}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;padding:18px;max-width:1100px;margin:0 auto}
@@ -32,7 +32,7 @@ details.work{margin-top:8px}details.work>summary{cursor:pointer;color:var(--teal
 .steps ol{margin:6px 0 0;padding-left:18px}.steps li{margin:3px 0}
 details.work textarea{width:100%;height:150px;margin-top:6px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:8px;font:12px/1.5 ui-monospace,monospace;resize:vertical}
 </style>
-<h1>Industry Desk — plant closings</h1>
+<h1>Industry Desk - plant closings</h1>
 <div class="sub">WARN Act notices (legally-mandated closure/layoff filings) ranked as P3 distress. Each closing plant fire-sells equipment, inventory, and the building. ADMIN ONLY.</div>
 <div><input id="key" placeholder="admin key" autocomplete="off"> <button id="go">Load</button> <span id="err" style="color:var(--mut);font-size:12px"></span></div>
 <div class="today" id="today"></div>
@@ -60,16 +60,16 @@ function setStatus(k,v){STATUS[k]=Object.assign(STATUS[k]||{},{status:v});render
   fetch('/api/industry-status',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,dealKey:k,status:v})}).catch(function(){});}
 window.setStatus=setStatus;
 function pitch(o){
-  return 'Subject: '+(o.company||'your facility')+' '+(o.city||'')+' closure — asset disposition\n\n'+
+  return 'Subject: '+(o.company||'your facility')+' '+(o.city||'')+' closure - asset disposition\n\n'+
     'Hi,\n\nI saw the WARN filing for '+(o.company||'your company')+"'s "+(o.city||'')+' location closing '+(o.effectiveDate||'soon')+'. '+
-    'I work with industrial asset buyers and auctioneers who pay for equipment, inventory, and the building in an ORDERLY sale — usually well above a rushed liquidation. '+
+    'I work with industrial asset buyers and auctioneers who pay for equipment, inventory, and the building in an ORDERLY sale - usually well above a rushed liquidation. '+
     'No cost to you: I bring competing offers and take my fee from the buy side. Worth a quick call before the assets move?\n\n— [your name] · [phone]';
 }
 function workPanel(o){
   var k=dealKey(o);
   return '<details class="work"><summary>▸ Work this closing</summary>'+
     '<div class="steps"><b>Play:</b> broker the closing company’s asset sale to the matched liquidators, keep the buy-side fee.'+
-    '<ol><li>Find the decision-maker (plant manager / VP ops / CFO) on LinkedIn or the company site — WARN gives the company + address, not a contact.</li>'+
+    '<ol><li>Find the decision-maker (plant manager / VP ops / CFO) on LinkedIn or the company site - WARN gives the company + address, not a contact.</li>'+
     '<li>Send the pitch below.</li>'+
     '<li>Line up 2-3 of the matched buyers above for competing bids.</li>'+
     '<li>Broker the intro; take the fee from the buyer.</li></ol></div>'+

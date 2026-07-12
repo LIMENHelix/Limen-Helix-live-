@@ -40,7 +40,7 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
   var DOMAIN_DESC={energy:'Energy Watch + console',culture:'Culture / Music',infrastructure:'Infrastructure',finance:'Capital Engine'};
 
   // Per-person login stores a `limen_admin` object. The front-page passphrase only sets
-  // limen_access=granted (no person) — treat that as the master operator (you).
+  // limen_access=granted (no person) - treat that as the master operator (you).
   function person(){
     var p=null; try{ p=JSON.parse(sessionStorage.getItem('limen_admin')||'null'); }catch(e){}
     if(p) return p;
@@ -70,7 +70,8 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
         card('/admin-deals','💼 Deal Desk','Arbitrage cockpit'),
         card('/admin-homestead','🏠 Homestead','Real-estate distress'),
         card('/admin-finance','📉 Corporate Distress','EDGAR 8-K feed'),
-        card('/admin-industry','🏭 Plant Closings','WARN notices')
+        card('/admin-industry','🏭 Plant Closings','WARN notices'),
+        card('/admin-energy','⚡ Energy','EIA retiring generators')
       ]);
       h+=sec('System',[
         card('/admin-master','🧠 Master Brain','What every domain is doing + opportunities'),

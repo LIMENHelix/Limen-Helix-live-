@@ -96,7 +96,7 @@ a:hover{color:#C9A94E}
   </div>
 </div>
 
-<div class="sect" style="color:#C9A94E;border-top:1px solid rgba(201,169,78,0.25)">🧠 DOMAIN BRAINS · SELF-MODEL &amp; IMMUNITY · <span style="color:rgba(200,195,184,0.4)">the 20 organs' own live metacognition — NOT the corpus heal-log below</span></div>
+<div class="sect" style="color:#C9A94E;border-top:1px solid rgba(201,169,78,0.25)">🧠 DOMAIN BRAINS · SELF-MODEL &amp; IMMUNITY · <span style="color:rgba(200,195,184,0.4)">the 20 organs' own live metacognition - NOT the corpus heal-log below</span></div>
 <div id="cognition-note" style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-bottom:10px">Reading brain self-models…</div>
 <div id="cognition-grid" class="organ-grid"></div>
 
@@ -172,7 +172,7 @@ function render(d) {
   // ─── operator attention ────────────────────────────────────────────
   const al = document.getElementById('attn-list');
   if (!d.operatorAttention || d.operatorAttention.length === 0) {
-    al.innerHTML = '<div class="attn" style="grid-template-columns:1fr"><div style="color:#5ab5a0;font-size:0.4rem;letter-spacing:1.5px;text-align:center;padding:10px">SYSTEM REPORTS NO PAIN — vitals fully clean across all organs</div></div>';
+    al.innerHTML = '<div class="attn" style="grid-template-columns:1fr"><div style="color:#5ab5a0;font-size:0.4rem;letter-spacing:1.5px;text-align:center;padding:10px">SYSTEM REPORTS NO PAIN - vitals fully clean across all organs</div></div>';
   } else {
     for (const a of d.operatorAttention) {
       const row = document.createElement('div');
@@ -213,7 +213,7 @@ function render(d) {
   const hl = document.getElementById('heal-log');
   const log = (d.lastHeals || []).slice(-8).reverse();
   if (log.length === 0) {
-    hl.innerHTML = '<div class="organ-detail-card"><div class="detail-row" style="color:rgba(200,195,184,0.35)">No heals recorded yet — run: <code style="color:rgba(201,169,78,0.6)">node scripts/heal-corpus.mjs --apply</code></div></div>';
+    hl.innerHTML = '<div class="organ-detail-card"><div class="detail-row" style="color:rgba(200,195,184,0.35)">No heals recorded yet - run: <code style="color:rgba(201,169,78,0.6)">node scripts/heal-corpus.mjs --apply</code></div></div>';
   } else {
     let h = '';
     for (const run of log) {
@@ -280,11 +280,11 @@ function renderOrganDetail(o) {
     }
     if (m.kernelIntegrity && m.kernelIntegrity.nullCompositeSample && m.kernelIntegrity.nullCompositeSample.length) {
       h += '<div class="organ-detail-card"><div class="organ-detail-card-title">ELIGIBLE w/ null composite (sample)</div><div class="detail-list">';
-      for (const k of m.kernelIntegrity.nullCompositeSample.slice(0, 10)) h += '<div><code>' + k.slug + '</code> — ' + k.kernelStatus + '</div>';
+      for (const k of m.kernelIntegrity.nullCompositeSample.slice(0, 10)) h += '<div><code>' + k.slug + '</code> - ' + k.kernelStatus + '</div>';
       h += '</div></div>';
     }
   } else {
-    // generic metrics rendering — show top-level scalar fields
+    // generic metrics rendering - show top-level scalar fields
     const flat = {};
     for (const [k, v] of Object.entries(m)) {
       if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'string') flat[k] = v;
@@ -305,14 +305,14 @@ function renderOrganDetail(o) {
 }
 
 // ─── DOMAIN BRAINS · self-model & immunity ───────────────────────────
-// Reads localStorage 'limen:brain-cognition' — a compact per-domain self-model the
+// Reads localStorage 'limen:brain-cognition' - a compact per-domain self-model the
 // domain-brain-adapter mirrors every cycle while the brains run on the cockpit/consoles.
 // Independent of _vitals.json so it renders even if the build snapshot is missing.
 var COG_DOMAINS = ['energy','infrastructure','culture','finance','economy','technology','defense','intelligence','trade','industry','environment','governance','agriculture','communication','medicine','education','population','science','law','religion'];
 var IMMUNE_COLOR = { clear:'#5ab5a0', watch:'#C9A94E', active:'#e8954e', alert:'#e85454' };
 function _esc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
 function renderBrainCognition() {
-  // server feed first (Redis, cross-device — survives without the cockpit open),
+  // server feed first (Redis, cross-device - survives without the cockpit open),
   // fall back to localStorage (same-device mirror) if the feed is empty/unreachable.
   fetch('/api/brain-cognition?cb=' + Date.now())
     .then(function (r) { return r.ok ? r.json() : null; })
@@ -333,7 +333,7 @@ function _renderCognitionMap(map, source) {
   if (!grid || !note) return;
   var keys = Object.keys(map || {});
   if (!keys.length) {
-    note.innerHTML = 'No live brain cognition yet — visit <a href="/civilization.html">Civilization</a> (the cockpit) once. The 20 brains cycle there and report their self-models here (immune severity, conscience vetoes, intuition hunches).';
+    note.innerHTML = 'No live brain cognition yet - visit <a href="/civilization.html">Civilization</a> (the cockpit) once. The 20 brains cycle there and report their self-models here (immune severity, conscience vetoes, intuition hunches).';
     grid.innerHTML = '';
     return;
   }
@@ -358,7 +358,7 @@ function _renderCognitionMap(map, source) {
       '</div>' +
     '</div>';
   });
-  grid.innerHTML = html || '<div style="color:rgba(200,195,184,0.35);font-size:0.36rem;padding:8px">brains reported but no cognition payload — re-visit the cockpit</div>';
+  grid.innerHTML = html || '<div style="color:rgba(200,195,184,0.35);font-size:0.36rem;padding:8px">brains reported but no cognition payload - re-visit the cockpit</div>';
 }
 renderBrainCognition();
 </script>

@@ -16,7 +16,7 @@
 // prompts once if missing). The server validates it; the page only ever has what you typed.
 (function(){
   function capKey(force){ var k=''; try{ k=sessionStorage.getItem('limen_cap_key')||sessionStorage.getItem('limen_pass')||''; }catch(e){}
-    if(!k||force){ k=(window.prompt('Capital Engine — enter your admin passcode:')||'').trim(); try{ if(k) sessionStorage.setItem('limen_cap_key',k); }catch(e){} } return k; }
+    if(!k||force){ k=(window.prompt('Capital Engine - enter your admin passcode:')||'').trim(); try{ if(k) sessionStorage.setItem('limen_cap_key',k); }catch(e){} } return k; }
   var _fetch=window.fetch;
   window.fetch=function(input,init){
     if(typeof input==='string' && input.indexOf('/api/capital-engine')!==-1){
@@ -27,7 +27,7 @@
   };
 })();
 </script>
-<title>LIMEN HELIX · FINANCE — CAPITAL ENGINE</title>
+<title>LIMEN HELIX · FINANCE - CAPITAL ENGINE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -163,7 +163,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
 
 <footer class="wrap">
   FRACTAL DEPTH · master kernel ▸ finance portal ▸ revenue streams ▸ micro-streams &nbsp;·&nbsp;
-  ENGINE NEVER MOVES MONEY — proposals only; signoffRequired halts for a human signature &nbsp;·&nbsp;
+  ENGINE NEVER MOVES MONEY - proposals only; signoffRequired halts for a human signature &nbsp;·&nbsp;
   LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC
 </footer>
 
@@ -173,7 +173,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
   var PHASES=['p0','p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
   var PLAB={p0:'SOURCE',p1:'SIGNAL',p2:'PATTERN',p3:'STRESS',p4:'ADAPT',p5:'STABILIZE',p6:'INTEGRATE',p7:'CONVERGE',p8:'PEAK',p9:'TERMINAL',p10:'RENEW'};
   var BADGE={live:'b-live',setup:'b-setup','pre-revenue':'b-prerev',gated:'b-gated','needs-key':'b-needskey',attach:'b-attach',mature:'b-mature'};
-  var TIERLBL={1:'TIER 1 · near-zero capital · time-bound (highest $-ROI)',2:'TIER 2 · $1–100 · reusable digital assets',3:'TIER 3 · $100–1k · platform & tooling',4:'TIER 4 · $1k–10k · inventory / paid acquisition',5:'TIER 5 · $10k+ · acquisition (lowest $-ROI, highest absolute)'};
+  var TIERLBL={1:'TIER 1 · near-zero capital · time-bound (highest $-ROI)',2:'TIER 2 · $1-100 · reusable digital assets',3:'TIER 3 · $100-1k · platform & tooling',4:'TIER 4 · $1k–10k · inventory / paid acquisition',5:'TIER 5 · $10k+ · acquisition (lowest $-ROI, highest absolute)'};
   var sortKey='tier',sortDir=1,DATA=null;
 
   function fmtMoney(v){return v==null?'—':(typeof v==='number'?('$'+v.toLocaleString()):v);}
@@ -320,7 +320,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       ps.textContent='asking kernel… (budget-gated)';
       fetch('/api/capital-engine?action=orchestrate',{method:'POST'}).then(function(r){return r.json();}).then(function(j){
         if(j.ok){po.style.display='block';po.textContent=j.proposal;ps.textContent=j.provider+' · '+j.model+' · '+(j.tokens?(j.tokens.in+j.tokens.out)+' tok':'');}
-        else{ps.textContent='✗ '+(j.error||'unavailable')+(j.error&&j.error.indexOf('ANTHROPIC')>-1?' — add ANTHROPIC_API_KEY in Vercel':'');}
+        else{ps.textContent='✗ '+(j.error||'unavailable')+(j.error&&j.error.indexOf('ANTHROPIC')>-1?' - add ANTHROPIC_API_KEY in Vercel':'');}
       }).catch(function(e){ps.textContent='✗ '+e.message;});
     });
   }
@@ -372,7 +372,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       if(!j.ok){document.getElementById('root').innerHTML='<div class="loading">ENGINE ERROR: '+(j.error||'?')+'</div>';return;}
       DATA=j;render();
       document.getElementById('hb').textContent='kernel · '+new Date().toLocaleTimeString();
-    }).catch(function(e){document.getElementById('root').innerHTML='<div class="loading">OFFLINE — '+e.message+'<br><span style="font-size:9px">(serve via vercel dev / deploy; static file:// can\'t reach /api)</span></div>';});
+    }).catch(function(e){document.getElementById('root').innerHTML='<div class="loading">OFFLINE - '+e.message+'<br><span style="font-size:9px">(serve via vercel dev / deploy; static file:// can\'t reach /api)</span></div>';});
   }
   load();setInterval(load,60000);
 })();

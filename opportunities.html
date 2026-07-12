@@ -53,7 +53,7 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 .opp-card:hover{border-color:rgba(201,169,78,0.25)}
 .opp-card.selected{border-color:rgba(201,169,78,0.5);background:#111420}
 
-/* Salience-surface styling — active/watching + collapse state.
+/* Salience-surface styling - active/watching + collapse state.
    Drives off brain-emitted urgency only; no Civilization-invented state. */
 .opp-card.opp-active{border-left:3px solid rgba(90,181,160,0.55)}
 .opp-card.opp-active:hover{border-left-color:rgba(90,181,160,0.9)}
@@ -74,7 +74,7 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 .opp-section-header.opp-section-neural{color:#a894cc;border-bottom-color:rgba(168,148,204,0.4)}
 
 /* ═══ NEUROLOGICAL CROSS-BINDING CARD ═══
-   Distinct visual identity for nodeSharedAffinity findings — these are
+   Distinct visual identity for nodeSharedAffinity findings - these are
    not "opportunities" in the lane sense; they are observed neurological
    co-activations between business domains via shared brain nodes. */
 .opp-card.opp-neural{
@@ -203,7 +203,7 @@ html,body{background:#050810;color:#e8e3d9;font-family:"IBM Plex Mono",monospace
 <script src="assets/js/limen-topbar.js"></script>
 <script src="assets/js/domain-identity.js"></script>
 <script>
-var _DOMAIN_FILTER = null; // Domain filtering removed — use /energy-opportunities for energy
+var _DOMAIN_FILTER = null; // Domain filtering removed - use /energy-opportunities for energy
 var _DOMAIN_LABELS = {};
 var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 </script>
@@ -214,7 +214,7 @@ var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 <div style="text-align:right;font-size:0.28rem;color:rgba(200,195,184,0.15);letter-spacing:1px;padding:2px 16px" id="oppLastUpdated"></div>
 
 <!-- TOP ACTIONS NOW -->
-<!-- Top 3 removed — stars in main list are sufficient -->
+<!-- Top 3 removed - stars in main list are sufficient -->
 
 <!-- CARD GRID -->
 <div class="opp-grid" id="oppGrid"></div>
@@ -238,7 +238,7 @@ var _DOMAIN_SK = null; // Resolved via LIMENDomainIdentity
 <script src="assets/js/cross-domain-detector.js"></script>
 <script src="assets/js/limen-bootstrap.js"></script>
 
-<!-- Brain projection — read-only additive load of sovereign domain brains + adapter.
+<!-- Brain projection - read-only additive load of sovereign domain brains + adapter.
      Same load sequence as civilization.html. No edits to any of these files. -->
 <script src="assets/js/domain-brains/domain-brain-base.js"></script>
 <script src="assets/js/domain-brains/portal-content-resolver.js"></script>
@@ -334,7 +334,7 @@ function _lookupCIK(ticker) {
 }
 
 // ═══ PLAYBOOK DEFINITIONS ═══
-// Static mapping from Phase 13B — each playbook defines activation logic + content
+// Static mapping from Phase 13B - each playbook defines activation logic + content
 
 var PLAYBOOKS = [
   {
@@ -849,7 +849,7 @@ function _activateOpportunities() {
   for (var i = 0; i < PLAYBOOKS.length; i++) {
     var pb = PLAYBOOKS[i];
 
-    // Standing rule: investment + research ONLY. Skip retired lanes — patent (IP
+    // Standing rule: investment + research ONLY. Skip retired lanes - patent (IP
     // filing), procure (govt procurement), fund (grant/loan funding). These were
     // hardcoded playbooks that reintroduced USPTO/SBA/SBIR/grants.gov/NIH as guidance.
     if (pb.type === 'patent' || pb.type === 'procure' || pb.type === 'fund') continue;
@@ -1040,7 +1040,7 @@ function _renderConnectomeBar(opp) {
     html += '</div>';
   }
 
-  // Row 3: feed context — which domains are stressed and how much
+  // Row 3: feed context - which domains are stressed and how much
   if (c.feedContext) {
     var fcKeys = Object.keys(c.feedContext);
     if (fcKeys.length > 0) {
@@ -1112,7 +1112,7 @@ function render() {
   }
 
   // ══════════════════════════════════════════════════════════════════════
-  // BRAIN PROJECTION — real domain-authored opportunities only.
+  // BRAIN PROJECTION - real domain-authored opportunities only.
   // Pure projection of window.LIMENDomains[k].brainOpportunities[i].
   // No synthesis. No fallback cards. No invented routing.
   // Every field renders only when present on the real object.
@@ -1128,7 +1128,7 @@ function render() {
       try { _filterSK = window.LIMENDomainIdentity.snapshotKey(_DOMAIN_FILTER); } catch (e) { _filterSK = null; }
     }
 
-    // Urgency vocabulary bridge — brains use either 'IMMEDIATE/ACTIVE/WATCH'
+    // Urgency vocabulary bridge - brains use either 'IMMEDIATE/ACTIVE/WATCH'
     // (energy, infrastructure) or 'high/medium/watching' (Path B brains).
     // Salience classification reads both without inventing new state.
     function _urgencyClass(opp) {
@@ -1187,7 +1187,7 @@ function render() {
         _emptyDiv.textContent = 'Awaiting first brain cycle. No real domain opportunities available yet.';
         _grid.appendChild(_emptyDiv);
       } else {
-        // Card builder — shared between the active-salience section and the
+        // Card builder - shared between the active-salience section and the
         // per-domain sections. Keeps render logic single-sourced. Cards start
         // collapsed (DMN-style latency); click header to expand.
         function _buildCard(_o, _dkey) {
@@ -1214,14 +1214,14 @@ function render() {
 
           var _h = '';
 
-          // HEADER — always visible (DMN surface).
+          // HEADER - always visible (DMN surface).
           _h += '<div class="opp-card-header">';
           _h += '<div class="opp-card-title">' + _o.title + '</div>';
           if (_pathLabel) _h += '<span class="opp-card-type ' + _typeClass + '">' + _pathLabel + '</span>';
           _h += '<span class="opp-card-toggle" aria-hidden="true"></span>';
           _h += '</div>';
 
-          // WHY NOW + META — visible in collapsed state (one-line salience summary).
+          // WHY NOW + META - visible in collapsed state (one-line salience summary).
           if (_o.whyNow && _o.whyNow !== _o.title) _h += '<div class="opp-card-why">WHY NOW: ' + _o.whyNow + '</div>';
 
           var _metaParts = [];
@@ -1233,7 +1233,7 @@ function render() {
           _metaParts.push('<span>' + _dkey.toUpperCase() + '</span>');
           _h += '<div class="opp-card-meta">' + _metaParts.join('') + '</div>';
 
-          // BODY — hidden in collapsed state. All rich detail lives here.
+          // BODY - hidden in collapsed state. All rich detail lives here.
           _h += '<div class="opp-card-body">';
 
           if (_o.explain)    _h += '<div class="opp-card-explain">' + _o.explain + '</div>';
@@ -1286,7 +1286,7 @@ function render() {
 
           _card.innerHTML = _h;
 
-          // Collapse toggle — click anywhere on the card body flips collapsed state.
+          // Collapse toggle - click anywhere on the card body flips collapsed state.
           // Selection checkbox clicks (if present) still stop propagation.
           _card.addEventListener('click', function (e) {
             if (e.target && e.target.closest && e.target.closest('.opp-card-check')) return;
@@ -1299,7 +1299,7 @@ function render() {
           return _card;
         }
 
-        // §1 — IMMEDIATE & ACTIVE (salience surface).
+        // §1 - IMMEDIATE & ACTIVE (salience surface).
         if (_activeOpps.length > 0) {
           var _actHdr = document.createElement('div');
           _actHdr.className = 'opp-section-header opp-section-active';
@@ -1312,13 +1312,13 @@ function render() {
           }
         }
 
-        // §1.5 — NEUROLOGICAL CROSS-BINDING (read from cross-domain-audit).
+        // §1.5 - NEUROLOGICAL CROSS-BINDING (read from cross-domain-audit).
         // When an elevated domain's active diagnosis engages a brain node,
         // and other business domains are canonically co-bound at that same
         // node per brain-node-domains.json, surface those as a distinct
         // section. This is OBSERVED neurology, not a fabricated opportunity:
         // the cards say "energy stressed at THAL; finance + trade canonically
-        // co-bound at this node" — never "trade has an opportunity."
+        // co-bound at this node" - never "trade has an opportunity."
         //
         // Source: window.LIMENCrossDomainAuditState.nodeSharedAffinities,
         // populated by assets/js/civilization/cross-domain-audit.js. Empty
@@ -1402,7 +1402,7 @@ function render() {
           }
         }
 
-        // §2..§N — per-domain sections, watching only (active already shown above).
+        // §2..§N - per-domain sections, watching only (active already shown above).
         for (var _doi = 0; _doi < _domainOrder.length; _doi++) {
           var _dkey = _domainOrder[_doi];
           var _dlabel = ((_DOMAIN_LABELS && _DOMAIN_LABELS[_dkey]) || _dkey).toString().toUpperCase();
@@ -1443,7 +1443,7 @@ function render() {
     }
   })();
   return;
-  // ── LEGACY SYNTHETIC PATH (bypassed — unreachable after return above) ──
+  // ── LEGACY SYNTHETIC PATH (bypassed - unreachable after return above) ──
   // The block below is retained in-file to avoid touching unrelated page
   // behavior. It is never executed.
 
@@ -1560,7 +1560,7 @@ function render() {
     pipeDiv.innerHTML = _buildPipelineVerdict(o);
     card.appendChild(pipeDiv);
 
-    // ── ACTION STACK (always visible — internal-first) ──
+    // ── ACTION STACK (always visible - internal-first) ──
     if (o.status === 'active') {
       var stackDiv = document.createElement('div');
       stackDiv.innerHTML = _buildActionStack(o);
@@ -1586,7 +1586,7 @@ function render() {
   _updateActionBar();
   window._oppData = opps;
   _injectStarRatings();
-  // Top 3 section removed — stars in main card list are sufficient
+  // Top 3 section removed - stars in main card list are sufficient
   var _tsEl = document.getElementById('oppLastUpdated');
   if (_tsEl) _tsEl.textContent = 'Updated: ' + new Date().toLocaleString();
 }
@@ -1649,7 +1649,7 @@ function openPlaybook(idx) {
   html += '<div class="opp-pb-section"><div class="opp-pb-label">CONFIDENCE</div><div class="opp-pb-text">' + o.confidence + '%</div></div>';
   html += '<div class="opp-pb-section"><div class="opp-pb-label">MARKET SATURATION</div><div class="opp-pb-text">' + pb.saturation.toUpperCase() + '</div></div>';
 
-  // FAST PATH — 3-step immediate execution
+  // FAST PATH - 3-step immediate execution
   if (pb.fastPath && pb.fastPath.length > 0) {
     html += '<div class="opp-pb-section" style="background:rgba(90,181,160,0.04);border-left:3px solid rgba(90,181,160,0.3)">';
     html += '<div class="opp-pb-label" style="color:#5ab5a0">FAST PATH</div>';
@@ -1748,7 +1748,7 @@ function openPlaybook(idx) {
     if (c.crossDomainNodes > 0) html += '<span style="color:#C9A94E">' + c.crossDomainNodes + ' cross-domain</span>';
     html += '</div>';
 
-    // Activated nodes — with portal drill-down links
+    // Activated nodes - with portal drill-down links
     if (c.nodes && c.nodes.length > 0) {
       for (var cni = 0; cni < Math.min(c.nodes.length, 6); cni++) {
         var cn = c.nodes[cni];
@@ -1759,7 +1759,7 @@ function openPlaybook(idx) {
         if (cn.crossDomain) html += ' <span style="font-size:0.32rem;color:#C9A94E;border:1px solid rgba(201,169,78,0.15);padding:0 3px;border-radius:1px">CROSS</span>';
         html += ' <span style="color:#888">' + cn.roles.slice(0, 2).join(', ') + '</span>';
         html += '</div>';
-        // Domain links — navigate to portal for each feed domain
+        // Domain links - navigate to portal for each feed domain
         html += '<div style="display:flex;gap:4px">';
         for (var fdi = 0; fdi < cn.feedDomains.length; fdi++) {
           var fdLink = cn.feedDomains[fdi];
@@ -1811,12 +1811,12 @@ function openPlaybook(idx) {
         var container = document.getElementById('oppPbKernelAnnotation');
         if (!container) return;
         if (!annotation || !annotation.available) {
-          container.innerHTML = '<div class="opp-pb-section" style="opacity:0.5"><div class="opp-pb-label">KERNEL (EXPERIMENTAL — ANNOTATION ONLY)</div><div class="opp-pb-text" style="font-size:0.4rem;color:#555">' + (annotation ? annotation.reason : 'Unavailable') + '</div></div>';
+          container.innerHTML = '<div class="opp-pb-section" style="opacity:0.5"><div class="opp-pb-label">KERNEL (EXPERIMENTAL - ANNOTATION ONLY)</div><div class="opp-pb-text" style="font-size:0.4rem;color:#555">' + (annotation ? annotation.reason : 'Unavailable') + '</div></div>';
           return;
         }
         var kd = annotation.display;
         var kh = '<div class="opp-pb-section" style="background:rgba(201,169,78,0.02);border-left:3px solid rgba(201,169,78,0.1)">';
-        kh += '<div class="opp-pb-label" style="color:rgba(201,169,78,0.5)">KERNEL (EXPERIMENTAL — ANNOTATION ONLY)</div>';
+        kh += '<div class="opp-pb-label" style="color:rgba(201,169,78,0.5)">KERNEL (EXPERIMENTAL - ANNOTATION ONLY)</div>';
         kh += '<div style="font-size:0.42rem;display:flex;gap:12px;flex-wrap:wrap">';
         kh += '<span style="color:' + kd.trajectoryColor + '">' + kd.trajectoryLabel + '</span>';
         kh += '<span style="color:' + kd.phaseColor + '">' + kd.phaseLabel + '</span>';
@@ -1881,7 +1881,7 @@ function _startFeedEngines() {
     window.LIMENFeedState.start();
   }
   // Start domain signal engine (polls /api/domain-snapshot)
-  // This also starts UI rendering — we suppress the panel below.
+  // This also starts UI rendering - we suppress the panel below.
   if (window.LIMENDomainEngine && typeof window.LIMENDomainEngine.start === 'function') {
     window.LIMENDomainEngine.start();
     console.log('[Opportunities] Domain engine started');
@@ -1906,7 +1906,7 @@ if (window.LIMENConnectomeResolver) {
   });
 }
 
-// Wait for feed data before rendering — event-driven with fallback
+// Wait for feed data before rendering - event-driven with fallback
 var _hasRendered = false;
 var _domainRenderQueued = false;
 
@@ -1933,13 +1933,13 @@ function _doRender() {
   }
 })();
 
-// Force render after 3s no matter what — ensures page is never blank
+// Force render after 3s no matter what - ensures page is never blank
 setTimeout(function() { _doRender(); }, 3000);
 
 // Expose for onclick handlers
 // ═══════════════════════════════════════════════════════════════════════════
 // INTERNAL EXECUTION MODE + LEGITIMACY METRICS + PIPELINE VERDICTS
-// Additive layer — does not modify existing playbooks, scoring, or rendering
+// Additive layer - does not modify existing playbooks, scoring, or rendering
 // ═══════════════════════════════════════════════════════════════════════════
 
 function _isInternalMode() {
@@ -1963,13 +1963,13 @@ function _computeLegitimacy(o) {
   }
   if (quality.total === 0) sigInt = 'SIMULATED';
 
-  // Entity Support — check if playbook has CIK-backed companies in examples or tickers
+  // Entity Support - check if playbook has CIK-backed companies in examples or tickers
   var tickers = _OPP_INVEST_TICKERS[pb.id] || [];
   var entSupport = 'NONE';
   if (tickers.length > 0 && pb.examples && pb.examples.length > 0) entSupport = 'MAPPED';
   else if (pb.examples && pb.examples.length > 0) entSupport = 'PARTIAL';
 
-  // Market Timing — use market stress triage if available
+  // Market Timing - use market stress triage if available
   var mkt = window.LIMENMarketStressTriage;
   var timing = 'EARLY';
   if (mkt) {
@@ -1982,7 +1982,7 @@ function _computeLegitimacy(o) {
     timing = o.status === 'active' ? 'EARLY' : 'EARLY';
   }
 
-  // Invalidation Risk — based on data quality + confidence spread
+  // Invalidation Risk - based on data quality + confidence spread
   var invalidation = 'UNKNOWN';
   if (o.status === 'watching') {
     invalidation = 'UNKNOWN';
@@ -2059,7 +2059,7 @@ function _computeActionSignal(o) {
 
 // ── EXECUTION BLOCK (internal mode only) ──────────────────────────────────
 
-// Execution path data per playbook — invest, build, fund, structure
+// Execution path data per playbook - invest, build, fund, structure
 var _EXECUTION_PATHS = {
   infra_demand: {
     invest: [{name:'NextEra Energy',ticker:'NEE',cik:'753308',support:'MAPPED'},{name:'Enterprise Products',ticker:'EPD',cik:'',support:'MAPPED'},{name:'XPO Logistics',ticker:'XPO',cik:'1166003',support:'MAPPED'},{name:'Fluence Energy',ticker:'FLNC',cik:'',support:'UNVERIFIED'},{name:'Itron',ticker:'ITRI',cik:'',support:'UNVERIFIED'}],
@@ -2123,7 +2123,7 @@ var _EXECUTION_PATHS = {
   },
   patent_vacuum: {
     invest: [],
-    build: {model:'IP portfolio in underexplored CPC group',pays:'Licensing to companies entering the space',whyNow:'Innovation happening but nobody filing — first-mover IP advantage'},
+    build: {model:'IP portfolio in underexplored CPC group',pays:'Licensing to companies entering the space',whyNow:'Innovation happening but nobody filing - first-mover IP advantage'},
     fund: ['USPTO provisional filing ($320 small entity)','Patent attorney via UpCounsel (~$3K)','IP-backed venture funding'],
     structure: ['LLC holding IP','Licensing model','Revenue: royalties + defensive licensing']
   },
@@ -2135,7 +2135,7 @@ var _EXECUTION_PATHS = {
   },
   data_infra: {
     invest: [],
-    build: {model:'Government data API normalization service',pays:'Data consumers, analytics platforms, LIMEN itself',whyNow:'Multiple feed sources degraded — infrastructure gap confirmed'},
+    build: {model:'Government data API normalization service',pays:'Data consumers, analytics platforms, LIMEN itself',whyNow:'Multiple feed sources degraded - infrastructure gap confirmed'},
     fund: ['SBIR for data infrastructure','Open data initiative grants','Angel/seed for data tooling'],
     structure: ['LLC','API subscription model','Revenue: per-call pricing + enterprise plans']
   },
@@ -2247,7 +2247,7 @@ function _renderTopActionsNow(opps) {
     // Find card index for jump link
     var cardIdx = opps.indexOf(o);
 
-    // WHY NOW — one line
+    // WHY NOW - one line
     var whyLine = '';
     for (var di = 0; di < pb.domains.length; di++) {
       var dd = doms[pb.domains[di]];

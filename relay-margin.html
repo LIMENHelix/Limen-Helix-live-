@@ -76,7 +76,7 @@ function load() {
     saved = (typeof j.margin === 'number') ? j.margin : 0.35;
     EL('slider').value = Math.round(saved * 100);
     render();
-    EL('status').textContent = 'Current margin: ' + Math.round(saved * 100) + '%' + (j.source === 'default' ? ' (default — not yet set)' : '');
+    EL('status').textContent = 'Current margin: ' + Math.round(saved * 100) + '%' + (j.source === 'default' ? ' (default - not yet set)' : '');
     EL('status').className = 'status';
   }).catch(function () { EL('status').textContent = 'Could not load margin.'; });
 }
@@ -84,7 +84,7 @@ function save() {
   var m = (+EL('slider').value) / 100;
   EL('saveBtn').disabled = true; EL('status').textContent = 'Saving…'; EL('status').className = 'status';
   fetch('/api/relay-margin?set=' + m + '&key=' + encodeURIComponent(KEY)).then(function (r) { return r.json(); }).then(function (j) {
-    if (j.ok) { saved = j.margin; render(); EL('status').textContent = '✓ Saved — store now marks up ' + Math.round(j.margin * 100) + '%'; EL('status').className = 'status ok'; }
+    if (j.ok) { saved = j.margin; render(); EL('status').textContent = '✓ Saved - store now marks up ' + Math.round(j.margin * 100) + '%'; EL('status').className = 'status ok'; }
     else { EL('status').textContent = 'Error: ' + (j.error || 'failed'); EL('saveBtn').disabled = false; }
   }).catch(function () { EL('status').textContent = 'Save failed.'; EL('saveBtn').disabled = false; });
 }

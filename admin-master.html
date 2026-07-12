@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Master Brain — Operator Console</title>
+<title>Master Brain - Operator Console</title>
 <style>
   :root{
     --bg:#0a0d17; --panel:#0f1320; --panel2:#12172a; --line:rgba(150,175,200,.12);
@@ -89,7 +89,7 @@
   <div class="grid" id="domains"><div class="empty">Loading the 20 domain brains…</div></div>
 
   <h2 class="sec">Opportunities to execute</h2>
-  <div class="note">Ranked by the engine's confidence across all domains (the brains score confidence, not dollar value — booked revenue lives in the deal desks below). Click a path to open it.</div>
+  <div class="note">Ranked by the engine's confidence across all domains (the brains score confidence, not dollar value - booked revenue lives in the deal desks below). Click a path to open it.</div>
   <div class="tblwrap"><table id="opptbl"><thead><tr><th>Domain</th><th>Opportunity</th><th>Where</th><th style="text-align:right">Confidence</th></tr></thead><tbody id="oppbody"></tbody></table></div>
 
   <h2 class="sec">Revenue · deal desks</h2>
@@ -143,9 +143,11 @@
 (function () {
   'use strict';
   var DESKS = [
-    { name: 'Homestead', href: '/admin-homestead', dd: 'Real estate — tax/foreclosure distress → owner mail (FL/OH/TX)' },
-    { name: 'Finance', href: '/admin-finance', dd: 'Corporate distress — EDGAR 8-K/going-concern → distressed-debt funds' },
-    { name: 'Industry', href: '/admin-industry', dd: 'Plant closings — WARN notices → asset buyers / rollups' }
+    { name: 'Deal Desk', href: '/admin-deals', dd: 'Arbitrage cockpit - RELAY/SPREAD deal engine' },
+    { name: 'Homestead', href: '/admin-homestead', dd: 'Real estate - tax/foreclosure distress to owner mail (FL/OH/TX)' },
+    { name: 'Finance', href: '/admin-finance', dd: 'Corporate distress - EDGAR 8-K/going-concern to distressed-debt funds' },
+    { name: 'Industry', href: '/admin-industry', dd: 'Plant closings - WARN notices to asset buyers / rollups' },
+    { name: 'Energy', href: '/admin-energy', dd: 'Retiring generators - EIA feed to grid/asset acquirers' }
   ];
 
   function $(id){ return document.getElementById(id); }
@@ -175,8 +177,8 @@
     var dx = (m.activeDiagnoses||[])[0];
     if (dx) parts.push('Watching ' + human(dx.id) + (dx.blocked ? ' (blocked)' : '') + '.');
     var it = m.interoception;
-    if (it && it.salience === 'blind-channel') parts.push('⚠ Looks calm on the money read, but its ' + it.attend + ' signal is alarmed — worth a look.');
-    else if (it && it.salience === 'financial-only') parts.push('Money read is stressed while its other signals are calm — possible overreaction.');
+    if (it && it.salience === 'blind-channel') parts.push('⚠ Looks calm on the money read, but its ' + it.attend + ' signal is alarmed - worth a look.');
+    else if (it && it.salience === 'financial-only') parts.push('Money read is stressed while its other signals are calm - possible overreaction.');
     if (m.immune === 'alert') parts.push('Immune system on ALERT.');
     else if (m.immune === 'active') parts.push('Immune system active.');
     var oppN = (m.topOpportunities||[]).length;
@@ -242,7 +244,7 @@
     opps.sort(function(a,b){ return (b.cf||0)-(a.cf||0); });
     $('oppbody').innerHTML = opps.length ? opps.slice(0,40).map(function(o){
       return '<tr><td class="dom">'+esc(o.dom)+'</td><td>'+esc(o.title)+'</td><td>'+(o.path?'<a href="'+esc(o.path)+'">'+esc(o.path)+'</a>':'—')+'</td><td class="cf">'+esc(o.cf)+'</td></tr>';
-    }).join('') : '<tr><td colspan="4" class="empty">No opportunities surfaced across the domains yet — the brains are still cycling.</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="empty">No opportunities surfaced across the domains yet - the brains are still cycling.</td></tr>';
 
     // as-of
     $('asof').textContent = 'live · ' + n + '/20 brains · updated ' + new Date().toLocaleTimeString();

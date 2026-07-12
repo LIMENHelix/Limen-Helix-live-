@@ -106,7 +106,7 @@ a:hover{color:#C9A94E}
   .residual.d2n{background:#f7f1fa;border-left-color:#a87edc}
 }
 
-/* Four epistemic-state buckets — keep everything, separate by state */
+/* Four epistemic-state buckets - keep everything, separate by state */
 .buckets{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
 .bucket{flex:1;min-width:160px;padding:12px 14px;border-radius:3px;border:1px solid rgba(201,169,78,0.15);background:rgba(0,0,0,0.25)}
 .bucket-count{font-size:1.1rem;letter-spacing:1px;line-height:1}
@@ -119,9 +119,9 @@ a:hover{color:#C9A94E}
 
 <h1>LIMEN HELIX · TREATMENT DISCOVERY</h1>
 <div class="sub">
-  Per-node cells across the 6-step chain — ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL.<br>
+  Per-node cells across the 6-step chain - ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL.<br>
   Residuals = candidate treatment transfers between neurology and comparison domains.<br>
-  Nothing is deleted for being unproven — every claim is kept and labeled by epistemic state.
+  Nothing is deleted for being unproven - every claim is kept and labeled by epistemic state.
   PROVEN · UNPROVEN · UNKNOWN · IMPOSSIBLE. The state tells you the next move, not whether to keep it.
 </div>
 
@@ -164,7 +164,7 @@ a:hover{color:#C9A94E}
   </div>
 </div>
 
-<div class="sect" id="sect-nodes">NODES — sorted by residual count</div>
+<div class="sect" id="sect-nodes">NODES - sorted by residual count</div>
 
 <div class="node-grid" id="node-grid">
   <div class="loading">loading nodes…</div>
@@ -195,7 +195,7 @@ async function loadIndex() {
   renderNodeGrid();
 }
 
-// The four epistemic buckets — global tally across all claims, written into
+// The four epistemic buckets - global tally across all claims, written into
 // _summary.json by scripts/build-epistemic-buckets.mjs. Reads the shared
 // classifier (window.EpistemicState) so the collapse is defined in one place.
 function renderBuckets() {
@@ -333,7 +333,7 @@ async function toggleNode(nodeId) {
   if (PER_NODE_CACHE.has(nodeId)) {
     data = PER_NODE_CACHE.get(nodeId);
   } else {
-    // Look up the actual per-node filename in the index — it may be
+    // Look up the actual per-node filename in the index - it may be
     // prefixed with underscore on Windows-reserved names like CON.
     const idxEntry = INDEX_DATA.nodes.find((n) => n.brainNodeId === nodeId);
     const fileUrl = idxEntry?.perNodeFile
@@ -359,7 +359,7 @@ function renderNodeDetail(wrap, data, nodeId) {
   wrap.innerHTML = `
     <div class="detail-head">
       <div>
-        <div class="detail-title">${nodeId} — ${node.region || ''}</div>
+        <div class="detail-title">${nodeId} - ${node.region || ''}</div>
         <div class="node-network">${node.network || ''} · phase ${(node.limen_phase || []).join('/')} · ${node.functional_role || ''}</div>
       </div>
       <div class="detail-close" onclick="toggleNode('${nodeId}')">close ×</div>
@@ -396,10 +396,10 @@ function renderCell(mount, cell) {
       <div>${cellStatePill} ${cellDomain}</div>
     </div>
     <div class="chain">
-      ${renderChainStep('1 — issues', cell.issues, (i) => `${escapeHtml((i.symptom||'').substring(0,180))} <span class="verification-badge v-${i.verification?.verdict||'PENDING'}">${i.verification?.verdict||'PENDING'}</span>`)}
-      ${renderChainStep('3 — disorders', cell.disorders, (d) => `${escapeHtml(d.name)} <span class="verification-badge v-${d.verification?.verdict||'PENDING'}">${d.verification?.verdict||'PENDING'}</span>`)}
-      ${renderChainStep('4 — neuro treatments', cell.neuroTreatments, (t) => `<strong>${escapeHtml(t.name)}</strong> <em style="color:rgba(200,195,184,0.4);font-size:0.28rem">(${t.type})</em> <span class="verification-badge v-${t.verification?.verdict||'PENDING'}">${t.verification?.verdict||'PENDING'}</span>`)}
-      ${renderChainStep('5 — ' + cell.comparisonDomain + ' treatments', cell.domainTreatments, (t) => `<strong>${escapeHtml(t.name)}</strong> <em style="color:rgba(200,195,184,0.4);font-size:0.28rem">(${t.type}, ${t.evidenceGrade||'N/A'})</em>`)}
+      ${renderChainStep('1 - issues', cell.issues, (i) => `${escapeHtml((i.symptom||'').substring(0,180))} <span class="verification-badge v-${i.verification?.verdict||'PENDING'}">${i.verification?.verdict||'PENDING'}</span>`)}
+      ${renderChainStep('3 - disorders', cell.disorders, (d) => `${escapeHtml(d.name)} <span class="verification-badge v-${d.verification?.verdict||'PENDING'}">${d.verification?.verdict||'PENDING'}</span>`)}
+      ${renderChainStep('4 - neuro treatments', cell.neuroTreatments, (t) => `<strong>${escapeHtml(t.name)}</strong> <em style="color:rgba(200,195,184,0.4);font-size:0.28rem">(${t.type})</em> <span class="verification-badge v-${t.verification?.verdict||'PENDING'}">${t.verification?.verdict||'PENDING'}</span>`)}
+      ${renderChainStep('5 - ' + cell.comparisonDomain + ' treatments', cell.domainTreatments, (t) => `<strong>${escapeHtml(t.name)}</strong> <em style="color:rgba(200,195,184,0.4);font-size:0.28rem">(${t.type}, ${t.evidenceGrade||'N/A'})</em>`)}
     </div>
     ${renderGating(cell.gating)}
     ${renderResiduals(cell.residuals)}
@@ -434,7 +434,7 @@ function renderResiduals(residuals) {
   if (!residuals || residuals.length === 0) return '';
   const n2d = residuals.filter((r) => r.direction === 'NEURO_TO_DOMAIN');
   const d2n = residuals.filter((r) => r.direction === 'DOMAIN_TO_NEURO');
-  let html = '<div class="residuals"><div class="residuals-label">6 — residuals (candidate transfers)</div>';
+  let html = '<div class="residuals"><div class="residuals-label">6 - residuals (candidate transfers)</div>';
   for (const r of n2d.slice(0, 6)) {
     const v = r.verification?.verdict || 'PENDING';
     html += `<div class="residual">
@@ -461,7 +461,7 @@ function renderResiduals(residuals) {
 }
 
 // What does this verdict mean epistemically + what's the next move?
-// (tooltip text — reads the shared classifier with a safe fallback)
+// (tooltip text - reads the shared classifier with a safe fallback)
 function epistemicDescribe(verdict) {
   if (window.EpistemicState) return window.EpistemicState.describe(verdict);
   return verdict;

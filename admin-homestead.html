@@ -7,7 +7,7 @@
 <title>Homestead · Deal Desk</title>
 <style>
   :root{
-    --ink:#0a0e14; --panel:#111823; --panel2:#0d141d; --line:#1e2a38;
+    --ink:#0a0e14; --ink2:#0d141d; --panel:#111823; --panel2:#0d141d; --line:#1e2a38;
     --txt:#e7eef4; --mut:#8798a6; --soft:#c7d2da; --teal:#35e0c4;
     --t1:#e8b23a; --t2:#e07a3a; --t3:#6ea8d8; --t4:#5a6b7a; --bad:#c0505a;
   }
@@ -150,7 +150,7 @@
 </div>
 
 <script>
-// full geographic skeleton — states as shells, FL counties enumerated. Fill as the engine populates.
+// full geographic skeleton - states as shells, FL counties enumerated. Fill as the engine populates.
 var STATES = [["FL","Florida"],["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["GA","Georgia"],["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],["IN","Indiana"],["IA","Iowa"],["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],["ME","Maine"],["MD","Maryland"],["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],["MS","Mississippi"],["MO","Missouri"],["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],["NH","New Hampshire"],["NJ","New Jersey"],["NM","New Mexico"],["NY","New York"],["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],["OK","Oklahoma"],["OR","Oregon"],["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],["SD","South Dakota"],["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],["VA","Virginia"],["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"]];
 var FL_COUNTIES = ["Alachua","Baker","Bay","Bradford","Brevard","Broward","Calhoun","Charlotte","Citrus","Clay","Collier","Columbia","DeSoto","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Glades","Gulf","Hamilton","Hardee","Hendry","Hernando","Highlands","Hillsborough","Holmes","Indian River","Jackson","Jefferson","Lafayette","Lake","Lee","Leon","Levy","Liberty","Madison","Manatee","Marion","Martin","Miami-Dade","Monroe","Nassau","Okaloosa","Okeechobee","Orange","Osceola","Palm Beach","Pasco","Pinellas","Polk","Putnam","St. Johns","St. Lucie","Santa Rosa","Sarasota","Seminole","Sumter","Suwannee","Taylor","Union","Volusia","Wakulla","Walton","Washington"];
 
@@ -255,7 +255,7 @@ function render(){
       countyNames.forEach(function(cn){ html+=countyBlock(cn, dc[cn]); });
       html+='</div>';
     }else{
-      html+='<div class="empty-note">Supply not wired for this state yet — fills in once its RealAuction/other feed is connected.</div>';
+      html+='<div class="empty-note">Supply not wired for this state yet - fills in once its RealAuction/other feed is connected.</div>';
     }
     html+='</details>';
   });
@@ -275,7 +275,7 @@ function statusSelect(o){
 
 function countyBlock(name,c){
   var filtered=FILTER!=='all';
-  if(!c){ // empty shell — hidden entirely when a filter is active
+  if(!c){ // empty shell - hidden entirely when a filter is active
     if(filtered) return '';
     return '<details class="county"><summary><span class="caret">▶</span><span class="name empty">'+name+'</span><span class="pill">—</span></summary>'+
       '<div class="empty-note">No active auctions in the current window.</div></details>';
@@ -293,7 +293,7 @@ var WHY={
   'PROBATE/HEIRS':'Estate / deceased owner (heirs)','FOREIGN-ABSENTEE':'Foreign absentee owner',
   'OUT-OF-STATE-ABSENTEE':'Out-of-state absentee owner','IN-STATE-ABSENTEE':'Absentee owner',
   'TRUST':'Held in a trust','CORPORATE/LLC':'LLC / corporate owner','HIGH-VALUE':'High equity',
-  'UNDERWATER':'Underwater — owed more than it’s worth','THIN-EQUITY':'Thin equity'
+  'UNDERWATER':'Underwater - owed more than it’s worth','THIN-EQUITY':'Thin equity'
 };
 var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function fmtDate(s){var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s||'');return m?MO[+m[1]-1]+' '+(+m[2])+', '+m[3]:(s||'');}
@@ -304,9 +304,9 @@ function titleCase(s){return String(s||'').toLowerCase().replace(/\b\w/g,functio
 // ---- disposition: who buys it ----
 function selltoHtml(o){
   var b=o.buyers||[];
-  if(!b.length) return '<div class="sellto"><b>Sell / assign to:</b> <span style="color:var(--mut)">no matched buy-box at this value — list retail or wholesale locally</span></div>';
+  if(!b.length) return '<div class="sellto"><b>Sell / assign to:</b> <span style="color:var(--mut)">no matched buy-box at this value - list retail or wholesale locally</span></div>';
   return '<div class="sellto"><b>Sell / assign to:</b> '+b.slice(0,4).map(function(x){
-    return '<a href="'+esc(x.url)+'" target="_blank" rel="noopener" title="'+esc(x.type+' — '+x.note)+'">'+esc(x.name.split(' (')[0])+'</a>';
+    return '<a href="'+esc(x.url)+'" target="_blank" rel="noopener" title="'+esc(x.type+' - '+x.note)+'">'+esc(x.name.split(' (')[0])+'</a>';
   }).join('')+'</div>';
 }
 
@@ -316,21 +316,21 @@ function letterBody(o){
   var c=contact(), addr=(o.address||'your property')+(o.city?', '+titleCase(o.city):''), when=o.saleDate?fmtDate(o.saleDate):'soon';
   return 'Hello,\n\n'+
   'I work with homeowners in '+(o.county||'your')+' County, and I noticed '+addr+' has a court sale scheduled for '+when+'.\n\n'+
-  'If that date holds, the property is sold at auction — often for far less than it is worth, and any value above what is owed can be lost. Public records suggest '+addr+' may hold real equity worth protecting.\n\n'+
+  'If that date holds, the property is sold at auction - often for far less than it is worth, and any value above what is owed can be lost. Public records suggest '+addr+' may hold real equity worth protecting.\n\n'+
   'You have options before that date. I can bring you a fair, no-obligation cash offer, so you can sell on your terms and walk away with money in hand instead of losing it at the sale. There is no fee, no pressure, and I am not your lender.\n\n'+
   'If that is worth a quick conversation, call or text me at '+c.phone+'.\n\n'+c.name;
 }
 function textMsg(o){
   var c=contact(), addr=o.address||'your property', when=o.saleDate?fmtDate(o.saleDate):'soon';
-  return 'Hi — I work with homeowners in '+(o.county||'your')+' County. I saw '+addr+' has a sale date ('+when+'). You may have equity you could keep by selling before then. No fee, and I am not your lender. Want a free cash offer? Call/text '+c.phone+'. — '+c.name;
+  return 'Hi - I work with homeowners in '+(o.county||'your')+' County. I saw '+addr+' has a sale date ('+when+'). You may have equity you could keep by selling before then. No fee, and I am not your lender. Want a free cash offer? Call/text '+c.phone+'. - '+c.name;
 }
 function stepsHtml(o){
-  var mail=o.mailTo?('mail the letter to <b>'+esc(o.mailTo)+'</b>'+(o.absentee?' (absentee — reaches the real owner)':'')):'owner not matched yet — open the listing to get the owner + address';
-  var bl=(o.buyers||[]).slice(0,3).map(function(b){return b.name.split(' (')[0];}).join(', ')||'no buy-box match — wholesale/list locally';
+  var mail=o.mailTo?('mail the letter to <b>'+esc(o.mailTo)+'</b>'+(o.absentee?' (absentee - reaches the real owner)':'')):'owner not matched yet - open the listing to get the owner + address';
+  var bl=(o.buyers||[]).slice(0,3).map(function(b){return b.name.split(' (')[0];}).join(', ')||'no buy-box match - wholesale/list locally';
   return '<ol class="steps">'+
-    '<li><b>Verify</b> at the '+(o.url?'<a href="'+esc(o.url)+'" target="_blank" rel="noopener">source listing</a>':'county listing')+' — confirm the amounts and the sale date.</li>'+
-    '<li><b>Reach the seller</b> — '+mail+'. To call/text, skip-trace the owner for phone + email (paid, ~$0.15).</li>'+
-    '<li><b>Get it under contract</b> through a licensed agent or attorney — the legal sign-off. We never take title.</li>'+
+    '<li><b>Verify</b> at the '+(o.url?'<a href="'+esc(o.url)+'" target="_blank" rel="noopener">source listing</a>':'county listing')+' - confirm the amounts and the sale date.</li>'+
+    '<li><b>Reach the seller</b> - '+mail+'. To call/text, skip-trace the owner for phone + email (paid, ~$0.15).</li>'+
+    '<li><b>Get it under contract</b> through a licensed agent or attorney - the legal sign-off. We never take title.</li>'+
     '<li><b>Assign / sell</b> to a matched buyer: '+esc(bl)+'. Keep the spread.</li>'+
     '<li><b>Close</b> before '+(o.saleDate?fmtDate(o.saleDate):'the sale date')+'.</li>'+
   '</ol>';
@@ -340,9 +340,9 @@ function tmplBox(txt){ var i=TMPL.push(txt)-1; return '<div class="tmpl"><button
 function copyTmpl(btn){ var t=TMPL[+btn.getAttribute('data-i')]||''; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){btn.textContent='Copied ✓';btn.classList.add('done');setTimeout(function(){btn.textContent='Copy';btn.classList.remove('done');},1400);}).catch(function(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();btn.textContent='Copied ✓';}); }
 function workHtml(o){
   var subj='Options for '+(o.address||'your property')+' before your sale date';
-  return '<details class="work"><summary>▸ Work this deal — outreach + steps</summary>'+
+  return '<details class="work"><summary>▸ Work this deal - outreach + steps</summary>'+
     '<div class="actions">'+
-      '<h4>Email / mailer letter — subject + body</h4>'+tmplBox('Subject: '+subj+'\n\n'+letterBody(o))+
+      '<h4>Email / mailer letter - subject + body</h4>'+tmplBox('Subject: '+subj+'\n\n'+letterBody(o))+
       '<h4>Text message</h4>'+tmplBox(textMsg(o))+
       '<h4>Operator steps</h4>'+stepsHtml(o)+
     '</div></details>';
@@ -366,7 +366,7 @@ function oppRow(o){
     '<div class="body">'+
       '<div><span class="addr">'+esc(o.address||'address n/a')+(o.city?', '+esc(o.city):'')+'</span>'+
         '<span class="dtype'+(isTD?' td':'')+'">'+(isTD?'Tax Deed':'Foreclosure')+'</span></div>'+
-      (why?'<div class="why">'+why+'</div>':'<div class="why none">Owner not identified — open the listing to verify</div>')+
+      (why?'<div class="why">'+why+'</div>':'<div class="why none">Owner not identified - open the listing to verify</div>')+
       (facts.length?'<div class="facts"><span>'+facts.join('</span><span>')+'</span></div>':'')+
       '<div class="ownr">'+owner+(o.mailTo?'<div class="mail">✉ mail to: '+esc(o.mailTo)+'</div>'+
         '<button class="mailbtn" data-mk="'+esc(o.parcel||o.caseNumber||'')+'">✉ Mail this owner · ~$0.90</button>':'')+'</div>'+
@@ -389,14 +389,14 @@ document.addEventListener('click',function(e){
 });
 function mailOneDeal(key,btn){
   if(!key){ alert('No parcel/case key on this deal.'); return; }
-  if(!confirm('Send ONE real letter to this owner now?\n~$0.90, live — goes out via Lob.')) return;
+  if(!confirm('Send ONE real letter to this owner now?\n~$0.90, live - goes out via Lob.')) return;
   var old=btn.textContent; btn.disabled=true; btn.textContent='sending…';
   fetch('/api/homestead-automail',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:KEY,action:'mailone',dealKey:key})})
     .then(function(r){return r.json();}).then(function(x){
       if(x.ok){ btn.textContent=x.already?'already mailed ✓':'mailed ✓'; btn.classList.add('done');
         if(!x.already) setStatus(key,{status:'mailed',mailedMs:Date.now()}); } // move it to the Mailed bucket
       else { btn.disabled=false; btn.textContent=old; alert('Failed: '+(x.error||JSON.stringify(x.err||x))); }
-    }).catch(function(){ btn.disabled=false; btn.textContent=old; alert('Network error — try again.'); });
+    }).catch(function(){ btn.disabled=false; btn.textContent=old; alert('Network error - try again.'); });
 }
 // ---- autonomous auto-mail arm switch ----
 function loadArm(){
@@ -418,9 +418,9 @@ function renderArm(s){
       ' &nbsp;·&nbsp; <a href="#" id="cfgToggle" style="color:var(--teal)">⚙ Mail setup</a>'+
       ' &nbsp;·&nbsp; <button id="armTest" style="font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--txt);cursor:pointer">✉ Send test letter to me</button></div>'+
     cfgFormHTML(c)+
-    (!s.hasLobKey?'<div class="warn">⚠ No Lob key on the server — even armed it runs DRY. Add LOB_API_KEY.</div>'
-      :(!s.hasReturnAddr?'<div class="warn">⚠ Armed but DRY — no return address yet. Open <b>⚙ Mail setup</b> and fill in your return address + phone to go LIVE; it mails on the next daily run once set.</div>'
-      :(s.armed?'<div class="warn" style="color:#7fd8b0">● LIVE — the daily run mails up to '+(s.cap||20)+' letters across ['+states.join(', ')+']. Send yourself a test first.</div>':'')));
+    (!s.hasLobKey?'<div class="warn">⚠ No Lob key on the server - even armed it runs DRY. Add LOB_API_KEY.</div>'
+      :(!s.hasReturnAddr?'<div class="warn">⚠ Armed but DRY - no return address yet. Open <b>⚙ Mail setup</b> and fill in your return address + phone to go LIVE; it mails on the next daily run once set.</div>'
+      :(s.armed?'<div class="warn" style="color:#7fd8b0">● LIVE - the daily run mails up to '+(s.cap||20)+' letters across ['+states.join(', ')+']. Send yourself a test first.</div>':'')));
   $('#armSw').onclick=function(){ setArm({armed:!s.armed}); };
   $('#armCap').onchange=function(){ setArm({cap:parseInt(this.value,10)||20}); };
   [].forEach.call(document.querySelectorAll('.armSt'),function(cb){ cb.onchange=function(){ setArm({states:[].filter.call(document.querySelectorAll('.armSt'),function(x){return x.checked;}).map(function(x){return x.value;})}); }; });
