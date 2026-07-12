@@ -86,6 +86,13 @@ SCRAPEABLE_SITES.md
 # KERNEL P3 validation record + harness — internal, keep off the public site
 scripts/kernel-validation/
 
+# ─── Research corpus + Claude Code skills reference (2026-07-12) ─────────────
+# Torti transcript corpus + tools/skills map + the skills catalog scrape.
+# Internal build reference (business layer PARKED). Repo/cowork read via git;
+# NOT web-served. Reversible: delete these lines.
+docs/research/
+CLAUDE_CODE_SKILLS.md
+
 # ─── EXTENDED 2026-06-12: drop build-only giant JSON tanks from the deploy ───
 # ~115MB of top-level data tanks read ONLY by local build scripts in scripts/
 # (build-company-registry, build-historical-distress-cohort, probe-eligibility,
@@ -116,3 +123,4 @@ assets/data/business-operations-atlas.json
 assets/data/neuro-business-crossref.json
 assets/data/motif-apqc-crosswalk.json
 assets/data/deep/energy-connectivity-recommendations.json
+assets/data/deep/finance-connectivity-recommendations.json

@@ -1,0 +1,726 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Finance extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. bank_failure) + active diagnosis ids (e.g. BANKING_CRISIS) (energy-telemetry-adapter.js L48-53 pattern). In Finance the CONDITION-CODES (bank_failure, volatility_cascade...) never textually equal an activation.diagnosticTrigger; this table bridges them. NOTE: unlike Energy, Finance activation.diagnosticTriggers ARE diagnosis ids, so active diagnosis ids already self-match; the condition-code map is the part that is strictly required.",
+    "derivationChain": "condition-code --(finance-pulse-engine.js inline classify, L185-238)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L53-121 / L250-256)--> diagnosis id --(finance.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations whose diagnosticTriggers are themselves diagnosis ids)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data). The condition-codes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics, NOT primaryIndicators). A condition that is only a diagnosis secondaryConfirmation but does not emit that diagnosis requiredFamily is listed under secondaryDiagnoses and NOT folded (bias against over-marking).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from finance.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsEnergy": "DIFFERENT structure. (1) Energy has a dedicated classify() over a distinct EXOGENOUS-event vocabulary (crude_above_90, grid_stress); Finance inlines classification and its condition-codes ARE the contract indicator tokens (bank_failure, volatility_cascade). (2) Energy activation.diagnosticTriggers are FREE-TEXT phrases; Finance activation.diagnosticTriggers are DIAGNOSIS IDs, so diagnosis ids self-match and the diagnoses map is largely redundant for direct matching. (3) Energy stress catch-all has named codes (energy_high_stress) tied to SYSTEMIC_ENERGY_STRESS; Finance _stress_* conditions are explicitly excluded from all families (L189) and no code feeds its catch-all diagnosis SYSTEMIC_CONTAGION. (4) Finance emits a macro_event family (from macro_shock) that NO contract consumes (dead-end); Energy macro_event was consumed. (5) Orphan count: Energy 1, Finance 3.",
+    "sources": [
+      "assets/js/finance-pulse-engine.js (inline condition->family classify L185-238; EVIDENCE_CONTRACTS L53-121; requiredFamilies OR-gate L250-256)",
+      "assets/data/domains/finance.json (activations[].diagnosticTriggers = diagnosis ids; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no finance-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no finance-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T18:46:45.845Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes finance.json or fires extinction. No finance-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "volatility_cascade": {
+      "evidenceFamilies": [
+        "market_event",
+        "volatility_event",
+        "systemic_event",
+        "contagion_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MARKET_CRASH",
+          "link": "primaryIndicator+requiredFamily:market_event"
+        },
+        {
+          "id": "SYSTEMIC_CONTAGION",
+          "link": "primaryIndicator+requiredFamily:systemic_event"
+        }
+      ],
+      "activations": [
+        "NAcc",
+        "IPS",
+        "OFC",
+        "dlPFC",
+        "dACC",
+        "THAL",
+        "CC",
+        "CeA"
+      ],
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'volatility_cascade' -> evidence families [market_event, volatility_event, systemic_event, contagion_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "market_panic": {
+      "evidenceFamilies": [
+        "market_event",
+        "volatility_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MARKET_CRASH",
+          "link": "primaryIndicator+requiredFamily:market_event"
+        }
+      ],
+      "activations": [
+        "NAcc",
+        "IPS",
+        "OFC",
+        "dlPFC",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'market_panic' -> evidence families [market_event, volatility_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases.",
+      "secondaryDiagnoses": [
+        {
+          "id": "SYSTEMIC_CONTAGION",
+          "link": "secondaryConfirmation(not folded; condition does not emit SYSTEMIC_CONTAGION requiredFamily systemic_event/contagion_event)"
+        }
+      ]
+    },
+    "flash_crash": {
+      "evidenceFamilies": [
+        "market_event",
+        "volatility_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MARKET_CRASH",
+          "link": "primaryIndicator+requiredFamily:market_event"
+        }
+      ],
+      "activations": [
+        "NAcc",
+        "IPS",
+        "OFC",
+        "dlPFC",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'flash_crash' -> evidence families [market_event, volatility_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "correlation_breakdown": {
+      "evidenceFamilies": [
+        "market_event",
+        "volatility_event",
+        "systemic_event",
+        "contagion_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MARKET_CRASH",
+          "link": "secondaryConfirmation+requiredFamily:market_event"
+        },
+        {
+          "id": "SYSTEMIC_CONTAGION",
+          "link": "primaryIndicator+requiredFamily:systemic_event"
+        }
+      ],
+      "activations": [
+        "NAcc",
+        "IPS",
+        "OFC",
+        "dlPFC",
+        "dACC",
+        "THAL",
+        "CC",
+        "CeA"
+      ],
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'correlation_breakdown' -> evidence families [market_event, volatility_event, systemic_event, contagion_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "bank_failure": {
+      "evidenceFamilies": [
+        "banking_event",
+        "credit_event",
+        "liquidity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "BANKING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:banking_event"
+        },
+        {
+          "id": "CREDIT_FREEZE",
+          "link": "secondaryConfirmation+requiredFamily:credit_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "HYPO",
+        "STRI",
+        "HIPP",
+        "dACC",
+        "dlPFC",
+        "VTA"
+      ],
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "CURRENCY_COLLAPSE",
+        "MARKET_CRASH",
+        "FRAUD_SCANDAL"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'bank_failure' -> evidence families [banking_event, credit_event, liquidity_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases.",
+      "secondaryDiagnoses": [
+        {
+          "id": "SYSTEMIC_CONTAGION",
+          "link": "secondaryConfirmation(not folded; condition does not emit SYSTEMIC_CONTAGION requiredFamily systemic_event/contagion_event)"
+        }
+      ]
+    },
+    "lending_contraction": {
+      "evidenceFamilies": [
+        "banking_event",
+        "credit_event",
+        "liquidity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "BANKING_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:banking_event"
+        },
+        {
+          "id": "CREDIT_FREEZE",
+          "link": "primaryIndicator+requiredFamily:credit_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "HYPO",
+        "STRI",
+        "HIPP",
+        "dACC",
+        "dlPFC",
+        "VTA"
+      ],
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "CURRENCY_COLLAPSE",
+        "MARKET_CRASH",
+        "FRAUD_SCANDAL"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'lending_contraction' -> evidence families [banking_event, credit_event, liquidity_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "interbank_stress": {
+      "evidenceFamilies": [
+        "banking_event",
+        "credit_event",
+        "liquidity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "BANKING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:banking_event"
+        },
+        {
+          "id": "CREDIT_FREEZE",
+          "link": "secondaryConfirmation+requiredFamily:credit_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "HYPO",
+        "STRI",
+        "HIPP",
+        "dACC",
+        "dlPFC",
+        "VTA"
+      ],
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "CURRENCY_COLLAPSE",
+        "MARKET_CRASH",
+        "FRAUD_SCANDAL"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'interbank_stress' -> evidence families [banking_event, credit_event, liquidity_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "liquidity_drain": {
+      "evidenceFamilies": [
+        "banking_event",
+        "credit_event",
+        "liquidity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "BANKING_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:banking_event"
+        },
+        {
+          "id": "CREDIT_FREEZE",
+          "link": "primaryIndicator+requiredFamily:credit_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "HYPO",
+        "STRI",
+        "HIPP",
+        "dACC",
+        "dlPFC",
+        "VTA"
+      ],
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "CURRENCY_COLLAPSE",
+        "MARKET_CRASH",
+        "FRAUD_SCANDAL"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'liquidity_drain' -> evidence families [banking_event, credit_event, liquidity_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "currency_collapse": {
+      "evidenceFamilies": [
+        "currency_event",
+        "reserves_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CURRENCY_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:currency_event"
+        }
+      ],
+      "activations": [
+        "FEF",
+        "HYPO",
+        "vmPFC",
+        "CC",
+        "STRI",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "CURRENCY_COLLAPSE",
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'currency_collapse' -> evidence families [currency_event, reserves_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "capital_flight": {
+      "evidenceFamilies": [
+        "currency_event",
+        "reserves_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CURRENCY_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:currency_event"
+        }
+      ],
+      "activations": [
+        "FEF",
+        "HYPO",
+        "vmPFC",
+        "CC",
+        "STRI",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "CURRENCY_COLLAPSE",
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'capital_flight' -> evidence families [currency_event, reserves_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "reserves_depletion": {
+      "evidenceFamilies": [
+        "currency_event",
+        "reserves_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CURRENCY_COLLAPSE",
+          "link": "secondaryConfirmation+requiredFamily:currency_event"
+        }
+      ],
+      "activations": [
+        "FEF",
+        "HYPO",
+        "vmPFC",
+        "CC",
+        "STRI",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "CURRENCY_COLLAPSE",
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'reserves_depletion' -> evidence families [currency_event, reserves_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "fx_intervention": {
+      "evidenceFamilies": [
+        "currency_event",
+        "reserves_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CURRENCY_COLLAPSE",
+          "link": "secondaryConfirmation+requiredFamily:currency_event"
+        }
+      ],
+      "activations": [
+        "FEF",
+        "HYPO",
+        "vmPFC",
+        "CC",
+        "STRI",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "CURRENCY_COLLAPSE",
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'fx_intervention' -> evidence families [currency_event, reserves_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "fraud_detected": {
+      "evidenceFamilies": [
+        "fraud_event",
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FRAUD_SCANDAL",
+          "link": "primaryIndicator+requiredFamily:fraud_event"
+        }
+      ],
+      "activations": [
+        "ECN",
+        "dACC",
+        "NAcc",
+        "OFC",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'fraud_detected' -> evidence families [fraud_event, regulatory_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "accounting_irregularity": {
+      "evidenceFamilies": [
+        "fraud_event",
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FRAUD_SCANDAL",
+          "link": "primaryIndicator+requiredFamily:fraud_event"
+        }
+      ],
+      "activations": [
+        "ECN",
+        "dACC",
+        "NAcc",
+        "OFC",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'accounting_irregularity' -> evidence families [fraud_event, regulatory_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "regulatory_action": {
+      "evidenceFamilies": [
+        "fraud_event",
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FRAUD_SCANDAL",
+          "link": "secondaryConfirmation+requiredFamily:fraud_event"
+        }
+      ],
+      "activations": [
+        "ECN",
+        "dACC",
+        "NAcc",
+        "OFC",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'regulatory_action' -> evidence families [fraud_event, regulatory_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "yield_spike": {
+      "evidenceFamilies": [
+        "market_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MARKET_CRASH",
+          "link": "requiredFamily:market_event"
+        }
+      ],
+      "activations": [
+        "NAcc",
+        "IPS",
+        "OFC",
+        "dlPFC",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'yield_spike' -> evidence families [market_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    },
+    "market_decline": {
+      "evidenceFamilies": [
+        "market_event",
+        "volatility_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MARKET_CRASH",
+          "link": "secondaryConfirmation+requiredFamily:market_event"
+        }
+      ],
+      "activations": [
+        "NAcc",
+        "IPS",
+        "OFC",
+        "dlPFC",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS"
+      ],
+      "basis": "finance-pulse-engine.js inline-classifies 'market_decline' -> evidence families [market_event, volatility_event] (L185-238). Those families satisfy the requiredFamilies (OR-semantics, L250-256) of the linkedDiagnoses (EVIDENCE_CONTRACTS L53-121). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (finance.json) and those activations' diagnosticTriggers. NOTE: in Finance an activation's diagnosticTriggers ARE diagnosis ids, so diagnosticTriggers here is a set of diagnosis-id strings, not free-text phrases."
+    }
+  },
+  "diagnoses": {
+    "BANKING_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "THAL",
+        "HYPO",
+        "STRI",
+        "HIPP",
+        "dACC",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "CURRENCY_COLLAPSE",
+        "MARKET_CRASH",
+        "FRAUD_SCANDAL"
+      ],
+      "basis": "diagnosis id === Finance issue id; when active, the (energy-pattern) adapter marks its issues['BANKING_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Finance those diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "CREDIT_FREEZE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "STRI",
+        "THAL",
+        "HYPO",
+        "VTA",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "CREDIT_FREEZE",
+        "BANKING_CRISIS",
+        "SYSTEMIC_CONTAGION",
+        "CURRENCY_COLLAPSE",
+        "MARKET_CRASH"
+      ],
+      "basis": "diagnosis id === Finance issue id; when active, the (energy-pattern) adapter marks its issues['CREDIT_FREEZE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Finance those diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "MARKET_CRASH": {
+      "circuitSource": "_authored",
+      "activations": [
+        "NAcc",
+        "IPS",
+        "OFC",
+        "dlPFC",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION",
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS"
+      ],
+      "basis": "diagnosis id === Finance issue id; when active, the (energy-pattern) adapter marks its issues['MARKET_CRASH']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Finance those diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "CURRENCY_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "FEF",
+        "HYPO",
+        "vmPFC",
+        "CC",
+        "STRI",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "CURRENCY_COLLAPSE",
+        "SYSTEMIC_CONTAGION",
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE"
+      ],
+      "basis": "diagnosis id === Finance issue id; when active, the (energy-pattern) adapter marks its issues['CURRENCY_COLLAPSE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Finance those diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "SYSTEMIC_CONTAGION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "THAL",
+        "CC",
+        "IPS",
+        "dACC",
+        "CeA",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "BANKING_CRISIS",
+        "CREDIT_FREEZE",
+        "SYSTEMIC_CONTAGION",
+        "MARKET_CRASH",
+        "FRAUD_SCANDAL"
+      ],
+      "basis": "diagnosis id === Finance issue id; when active, the (energy-pattern) adapter marks its issues['SYSTEMIC_CONTAGION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Finance those diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "FRAUD_SCANDAL": {
+      "circuitSource": "_authored",
+      "activations": [
+        "ECN",
+        "dACC",
+        "NAcc",
+        "OFC",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "FRAUD_SCANDAL",
+        "BANKING_CRISIS",
+        "MARKET_CRASH",
+        "SYSTEMIC_CONTAGION"
+      ],
+      "basis": "diagnosis id === Finance issue id; when active, the (energy-pattern) adapter marks its issues['FRAUD_SCANDAL']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. In Finance those diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id already self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "finance-pulse-engine.js classifies macro_shock -> evidence family [macro_event] (L228-230), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. The family is a dead-end: it reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias. (Contrast Energy, where macro_shock/macro_event feeds SYSTEMIC_ENERGY_STRESS.)"
+      },
+      {
+        "code": "_stress_* (prefix pattern)",
+        "evidenceFamilies": [],
+        "reason": "finance-pulse-engine.js explicitly SKIPS any condition whose name starts with _stress_ (L188-189: must NOT map to any evidence family). These are dynamically-generated stress tokens; they emit no family and are named in no contract, so there is no defensible condition->diagnosis link. The one catch-all-eligible diagnosis (SYSTEMIC_CONTAGION, catchAllBlocked:false) is reached by a diagnosis being externally marked active without evidence (L258-260), NOT by any _stress_ condition-code, so no alias can be grounded here."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "SMA",
+        "domainLabel": "Mergers & Acquisitions",
+        "diagnosticTriggers": [
+          "MARKET_CRASH",
+          "CREDIT_FREEZE",
+          "SYSTEMIC_CONTAGION",
+          "FRAUD_SCANDAL"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Finance analog of Energy Data Centers/HYPO orphan; Finance has THREE.)"
+      },
+      {
+        "brainNodeId": "AMY",
+        "domainLabel": "Corporate Distress & Default",
+        "diagnosticTriggers": [
+          "CREDIT_FREEZE",
+          "SYSTEMIC_CONTAGION",
+          "BANKING_CRISIS",
+          "MARKET_CRASH"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Finance analog of Energy Data Centers/HYPO orphan; Finance has THREE.)"
+      },
+      {
+        "brainNodeId": "INS",
+        "domainLabel": "Systemic Financial Risk",
+        "diagnosticTriggers": [
+          "SYSTEMIC_CONTAGION",
+          "BANKING_CRISIS",
+          "MARKET_CRASH",
+          "CREDIT_FREEZE",
+          "CURRENCY_COLLAPSE"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Finance analog of Energy Data Centers/HYPO orphan; Finance has THREE.)"
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "BNST",
+        "domainLabel": "Reinsurance",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "AG",
+        "domainLabel": "Sovereign",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "SNIG",
+        "domainLabel": "Wealthmgmt",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "sgACC",
+        "domainLabel": "Realestate Fin",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Finance: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the inline classify switch, so there are no contract-only-unclassified tokens (unlike Energy REFINERY_ATTACK/SANCTIONS). Conversely yield_spike and macro_shock are classified but named in no contract: yield_spike still grounds via requiredFamily (market_event->MARKET_CRASH); macro_shock does not (see unmapped)."
+  }
+}

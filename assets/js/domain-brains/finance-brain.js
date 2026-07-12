@@ -767,6 +767,16 @@
             return b.relevance - a.relevance;
           });
         }
+
+        // Neuro-substrate telemetry (advisory): map the live pulse -> runtime overlay via the
+        // generic domain adapter. Additive, guarded, async fire-and-forget; never breaks the cycle.
+        try {
+          if (window.DomainTelemetryAdapter && typeof window.DomainTelemetryAdapter.fromLiveCached === 'function') {
+            window.DomainTelemetryAdapter.fromLiveCached('finance', self.state, self._runtimeOverlay || null)
+              .then(function (ov) { if (ov) self._runtimeOverlay = ov; })
+              .catch(function () {});
+          }
+        } catch (_e) { /* advisory overlay is best-effort */ }
       }
     }).then(function () {
       // COGNITION PORT — recurrent loop step. Runs AFTER the validated pipeline + pulse
