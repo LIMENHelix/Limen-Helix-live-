@@ -1,0 +1,1046 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so an Environment extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers would be built from pulse condition tokens (temperature_anomaly, forest_loss...) plus active diagnosis ids (CLIMATE_TIPPING_POINT...). This table bridges raw condition tokens to the diagnosis ids and circuit brainNodeIds they actually imply. As in Finance, activation.diagnosticTriggers ARE diagnosis ids, so diagnosis ids self-match; the condition-token map is the part strictly required.",
+    "derivationChain": "condition token --(environment-pulse-engine.js inline classify, L142-174)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies OR-gate, L52-98 / L184-187)--> diagnosis id --(environment.json issues[]._authored circuit; adapter would use is._authored||is.circuits)--> circuit brainNodeIds --(those nodeIds are activations whose diagnosticTriggers are themselves diagnosis ids)--> diagnosticTriggers.",
+    "foldRule": "A diagnosis is folded into a condition token only when a family the token EMITS appears in that diagnosis requiredFamilies. This matches the ACTUAL code gate (environment-pulse-engine.js checks requiredFamilies only; primaryIndicators/secondaryConfirmation are metadata not used by the validity gate). The primaryIndicator/secondaryConfirmation/requiredFamily-only provenance is recorded per link but the fold is on requiredFamily membership.",
+    "tokenVsIndicatorMismatches": "Three classify tokens differ from the contract named primaryIndicator spelling and therefore link ONLY via emitted family, not as a named indicator: 'sea_level' (contract lists 'sea_level_rise'), 'invasive_species' (contract lists 'invasive_spread'), 'ocean_chemistry' (contract lists 'ocean_chemistry_shift'). They still ground because their emitted family is a requiredFamily. Recorded honestly rather than silently treated as named indicators.",
+    "climateDualLink": "Every climate_event token (temperature_anomaly, climate_volatility, sea_level, carbon_budget_breach, extreme_weather) folds BOTH CLIMATE_TIPPING_POINT and OCEAN_ACIDIFICATION, because OCEAN_ACIDIFICATION requiredFamilies include climate_event (L73). This is real per the code, not an over-mark.",
+    "discipline": "No link invented. Condition tokens with no defensible chain are under unmapped. Extinction matching is case-insensitive per the Energy reference (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinance": "DIFFERENT engine shape. (1) Finance and Energy expose named condition-CODES (bank_failure, crude_above_90); Environment has NO named condition-codes - its pulse engine classifies RAW condition tokens (temperature_anomaly, forest_loss) straight to families inline (no classify() over a distinct event vocabulary). The conditionCodes section here is therefore keyed by those raw tokens. (2) Environment contracts gate on requiredFamilies ONLY (no separate secondary-family gate in code), so folding is purely requiredFamily membership. (3) Environment has TWO dead-end families: structural_event (from environment_high_stress/structural_stress) and macro_event (from macro_shock) - NEITHER appears in any contract requiredFamilies, so both are unmapped (Finance had one dead-end, macro_event; Energy had zero). (4) Environment uses _clonePhantom indirection (GBA->Soil-ENS, DAN->FEF, FPN->dlPFC) inside _authored circuits - a wrinkle neither Finance nor Energy had, and the source of the phantom-only orphans below. (5) Orphan count: Energy 1, Finance 3, Environment 2 hard plus 2 phantom-only.",
+    "sources": [
+      "assets/js/environment-pulse-engine.js (inline condition->family classify L142-174; EVIDENCE_CONTRACTS L52-98; requiredFamilies OR-gate L184-187)",
+      "assets/data/domains/environment.json (activations[].diagnosticTriggers = diagnosis ids; activations[]._clonePhantom; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build plus node-active-from-circuit; no environment-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics; no environment-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T19:53:58.516Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes environment.json or fires extinction. No environment-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "temperature_anomaly": {
+      "evidenceFamilies": [
+        "climate_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLIMATE_TIPPING_POINT",
+          "link": "primaryIndicator +requiredFamily:climate_event"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:climate_event"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "PIN",
+        "DV",
+        "ENS",
+        "FPN",
+        "PBN",
+        "NTS",
+        "MICRO",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "CLIMATE_TIPPING_POINT",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'temperature_anomaly' -> evidence families [climate_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "climate_volatility": {
+      "evidenceFamilies": [
+        "climate_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLIMATE_TIPPING_POINT",
+          "link": "primaryIndicator +requiredFamily:climate_event"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:climate_event"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "PIN",
+        "DV",
+        "ENS",
+        "FPN",
+        "PBN",
+        "NTS",
+        "MICRO",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "CLIMATE_TIPPING_POINT",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'climate_volatility' -> evidence families [climate_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "sea_level": {
+      "evidenceFamilies": [
+        "climate_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLIMATE_TIPPING_POINT",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:climate_event"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:climate_event"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "PIN",
+        "DV",
+        "ENS",
+        "FPN",
+        "PBN",
+        "NTS",
+        "MICRO",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "CLIMATE_TIPPING_POINT",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'sea_level' -> evidence families [climate_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "carbon_budget_breach": {
+      "evidenceFamilies": [
+        "climate_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLIMATE_TIPPING_POINT",
+          "link": "secondaryConfirmation +requiredFamily:climate_event"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:climate_event"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "PIN",
+        "DV",
+        "ENS",
+        "FPN",
+        "PBN",
+        "NTS",
+        "MICRO",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "CLIMATE_TIPPING_POINT",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'carbon_budget_breach' -> evidence families [climate_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "extreme_weather": {
+      "evidenceFamilies": [
+        "weather_event",
+        "climate_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLIMATE_TIPPING_POINT",
+          "link": "primaryIndicator +requiredFamily:climate_event|weather_event"
+        },
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:climate_event"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "PIN",
+        "DV",
+        "ENS",
+        "FPN",
+        "PBN",
+        "NTS",
+        "MICRO",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "CLIMATE_TIPPING_POINT",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'extreme_weather' -> evidence families [weather_event, climate_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "species_decline": {
+      "evidenceFamilies": [
+        "biodiversity_event",
+        "ecosystem_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_EXTINCTION",
+          "link": "primaryIndicator +requiredFamily:biodiversity_event|ecosystem_event"
+        }
+      ],
+      "activations": [
+        "MICRO",
+        "BLA",
+        "GBA",
+        "EC",
+        "vmPFC",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'species_decline' -> evidence families [biodiversity_event, ecosystem_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "biodiversity_collapse": {
+      "evidenceFamilies": [
+        "biodiversity_event",
+        "ecosystem_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_EXTINCTION",
+          "link": "primaryIndicator +requiredFamily:biodiversity_event|ecosystem_event"
+        }
+      ],
+      "activations": [
+        "MICRO",
+        "BLA",
+        "GBA",
+        "EC",
+        "vmPFC",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'biodiversity_collapse' -> evidence families [biodiversity_event, ecosystem_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "invasive_species": {
+      "evidenceFamilies": [
+        "biodiversity_event",
+        "ecosystem_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_EXTINCTION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:biodiversity_event|ecosystem_event"
+        }
+      ],
+      "activations": [
+        "MICRO",
+        "BLA",
+        "GBA",
+        "EC",
+        "vmPFC",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'invasive_species' -> evidence families [biodiversity_event, ecosystem_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "food_chain_imbalance": {
+      "evidenceFamilies": [
+        "biodiversity_event",
+        "ecosystem_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_EXTINCTION",
+          "link": "secondaryConfirmation +requiredFamily:biodiversity_event|ecosystem_event"
+        }
+      ],
+      "activations": [
+        "MICRO",
+        "BLA",
+        "GBA",
+        "EC",
+        "vmPFC",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'food_chain_imbalance' -> evidence families [biodiversity_event, ecosystem_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "habitat_loss": {
+      "evidenceFamilies": [
+        "biodiversity_event",
+        "ecosystem_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_EXTINCTION",
+          "link": "primaryIndicator +requiredFamily:biodiversity_event|ecosystem_event"
+        }
+      ],
+      "activations": [
+        "MICRO",
+        "BLA",
+        "GBA",
+        "EC",
+        "vmPFC",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'habitat_loss' -> evidence families [biodiversity_event, ecosystem_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "marine_ph_decline": {
+      "evidenceFamilies": [
+        "ocean_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "primaryIndicator +requiredFamily:ocean_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "HYPO",
+        "MICRO",
+        "dACC",
+        "PIN"
+      ],
+      "diagnosticTriggers": [
+        "OCEAN_ACIDIFICATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'marine_ph_decline' -> evidence families [ocean_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "coral_bleaching": {
+      "evidenceFamilies": [
+        "ocean_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "primaryIndicator +requiredFamily:ocean_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "HYPO",
+        "MICRO",
+        "dACC",
+        "PIN"
+      ],
+      "diagnosticTriggers": [
+        "OCEAN_ACIDIFICATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'coral_bleaching' -> evidence families [ocean_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "fishery_collapse": {
+      "evidenceFamilies": [
+        "ocean_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "primaryIndicator +requiredFamily:ocean_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "HYPO",
+        "MICRO",
+        "dACC",
+        "PIN"
+      ],
+      "diagnosticTriggers": [
+        "OCEAN_ACIDIFICATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'fishery_collapse' -> evidence families [ocean_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "ocean_chemistry": {
+      "evidenceFamilies": [
+        "ocean_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:ocean_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "HYPO",
+        "MICRO",
+        "dACC",
+        "PIN"
+      ],
+      "diagnosticTriggers": [
+        "OCEAN_ACIDIFICATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'ocean_chemistry' -> evidence families [ocean_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "marine_pollution": {
+      "evidenceFamilies": [
+        "ocean_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "secondaryConfirmation +requiredFamily:ocean_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "HYPO",
+        "MICRO",
+        "dACC",
+        "PIN"
+      ],
+      "diagnosticTriggers": [
+        "OCEAN_ACIDIFICATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'marine_pollution' -> evidence families [ocean_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "dead_zone": {
+      "evidenceFamilies": [
+        "ocean_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "OCEAN_ACIDIFICATION",
+          "link": "primaryIndicator +requiredFamily:ocean_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "HYPO",
+        "MICRO",
+        "dACC",
+        "PIN"
+      ],
+      "diagnosticTriggers": [
+        "OCEAN_ACIDIFICATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'dead_zone' -> evidence families [ocean_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "forest_loss": {
+      "evidenceFamilies": [
+        "forest_event",
+        "satellite_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DEFORESTATION",
+          "link": "primaryIndicator +requiredFamily:forest_event|satellite_event"
+        }
+      ],
+      "activations": [
+        "ENS",
+        "MICRO",
+        "GBA",
+        "DV",
+        "EC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'forest_loss' -> evidence families [forest_event, satellite_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "carbon_sink_decline": {
+      "evidenceFamilies": [
+        "forest_event",
+        "satellite_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DEFORESTATION",
+          "link": "secondaryConfirmation +requiredFamily:forest_event|satellite_event"
+        }
+      ],
+      "activations": [
+        "ENS",
+        "MICRO",
+        "GBA",
+        "DV",
+        "EC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'carbon_sink_decline' -> evidence families [forest_event, satellite_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "habitat_fragmentation": {
+      "evidenceFamilies": [
+        "forest_event",
+        "satellite_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DEFORESTATION",
+          "link": "primaryIndicator +requiredFamily:forest_event|satellite_event"
+        }
+      ],
+      "activations": [
+        "ENS",
+        "MICRO",
+        "GBA",
+        "DV",
+        "EC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'habitat_fragmentation' -> evidence families [forest_event, satellite_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "primary_forest_clearance": {
+      "evidenceFamilies": [
+        "forest_event",
+        "satellite_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DEFORESTATION",
+          "link": "primaryIndicator +requiredFamily:forest_event|satellite_event"
+        }
+      ],
+      "activations": [
+        "ENS",
+        "MICRO",
+        "GBA",
+        "DV",
+        "EC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'primary_forest_clearance' -> evidence families [forest_event, satellite_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "water_contamination": {
+      "evidenceFamilies": [
+        "pollution_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "primaryIndicator +requiredFamily:pollution_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'water_contamination' -> evidence families [pollution_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "air_quality_degradation": {
+      "evidenceFamilies": [
+        "pollution_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "primaryIndicator +requiredFamily:pollution_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'air_quality_degradation' -> evidence families [pollution_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "toxic_spill": {
+      "evidenceFamilies": [
+        "pollution_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "primaryIndicator +requiredFamily:pollution_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'toxic_spill' -> evidence families [pollution_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "industrial_discharge": {
+      "evidenceFamilies": [
+        "pollution_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "primaryIndicator +requiredFamily:pollution_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'industrial_discharge' -> evidence families [pollution_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "waste_accumulation": {
+      "evidenceFamilies": [
+        "pollution_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "secondaryConfirmation +requiredFamily:pollution_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'waste_accumulation' -> evidence families [pollution_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "pfas_detected": {
+      "evidenceFamilies": [
+        "pollution_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "secondaryConfirmation +requiredFamily:pollution_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'pfas_detected' -> evidence families [pollution_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "regulatory_action": {
+      "evidenceFamilies": [
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:regulatory_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'regulatory_action' -> evidence families [regulatory_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "emissions_rule": {
+      "evidenceFamilies": [
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:regulatory_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'emissions_rule' -> evidence families [regulatory_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "enforcement_event": {
+      "evidenceFamilies": [
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TOXIC_CONTAMINATION",
+          "link": "requiredFamily-only (token not a named indicator; links purely via emitted family in requiredFamilies) +requiredFamily:regulatory_event"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "environment-pulse-engine.js inline-classifies 'enforcement_event' -> evidence families [regulatory_event] (L142-174). Each emitted family that appears in a diagnosis requiredFamilies (OR-gate, L184-187) folds that diagnosis in. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (environment.json) and those activations diagnosticTriggers. In Environment, as in Finance, an activation diagnosticTriggers ARE diagnosis-id strings, so diagnosticTriggers here is a set of diagnosis-id strings."
+    }
+  },
+  "diagnoses": {
+    "CLIMATE_TIPPING_POINT": {
+      "circuitSource": "_authored",
+      "activations": [
+        "HYPO",
+        "PIN",
+        "DV",
+        "ENS",
+        "FPN",
+        "PBN"
+      ],
+      "diagnosticTriggers": [
+        "CLIMATE_TIPPING_POINT",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "diagnosis id === Environment issue id; when active, the (energy-pattern) adapter marks its issues['CLIMATE_TIPPING_POINT']._authored circuit nodes active. This alias lists those circuit brainNodeIds (phantom nodeIds GBA/DAN/FPN resolved to their activation via _clonePhantom) and the union of their activations diagnosticTriggers. Direct data link, no inference."
+    },
+    "MASS_EXTINCTION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "MICRO",
+        "BLA",
+        "GBA",
+        "EC",
+        "vmPFC",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "diagnosis id === Environment issue id; when active, the (energy-pattern) adapter marks its issues['MASS_EXTINCTION']._authored circuit nodes active. This alias lists those circuit brainNodeIds (phantom nodeIds GBA/DAN/FPN resolved to their activation via _clonePhantom) and the union of their activations diagnosticTriggers. Direct data link, no inference."
+    },
+    "OCEAN_ACIDIFICATION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "NTS",
+        "HYPO",
+        "MICRO",
+        "dACC",
+        "PIN"
+      ],
+      "diagnosticTriggers": [
+        "OCEAN_ACIDIFICATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION",
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION"
+      ],
+      "basis": "diagnosis id === Environment issue id; when active, the (energy-pattern) adapter marks its issues['OCEAN_ACIDIFICATION']._authored circuit nodes active. This alias lists those circuit brainNodeIds (phantom nodeIds GBA/DAN/FPN resolved to their activation via _clonePhantom) and the union of their activations diagnosticTriggers. Direct data link, no inference."
+    },
+    "DEFORESTATION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "ENS",
+        "MICRO",
+        "GBA",
+        "DV",
+        "EC",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "DEFORESTATION",
+        "TOXIC_CONTAMINATION",
+        "MASS_EXTINCTION",
+        "CLIMATE_TIPPING_POINT"
+      ],
+      "basis": "diagnosis id === Environment issue id; when active, the (energy-pattern) adapter marks its issues['DEFORESTATION']._authored circuit nodes active. This alias lists those circuit brainNodeIds (phantom nodeIds GBA/DAN/FPN resolved to their activation via _clonePhantom) and the union of their activations diagnosticTriggers. Direct data link, no inference."
+    },
+    "TOXIC_CONTAMINATION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "dACC",
+        "GBA",
+        "NTS",
+        "EC",
+        "MICRO",
+        "DAN"
+      ],
+      "diagnosticTriggers": [
+        "TOXIC_CONTAMINATION",
+        "OCEAN_ACIDIFICATION",
+        "DEFORESTATION",
+        "CLIMATE_TIPPING_POINT",
+        "MASS_EXTINCTION"
+      ],
+      "basis": "diagnosis id === Environment issue id; when active, the (energy-pattern) adapter marks its issues['TOXIC_CONTAMINATION']._authored circuit nodes active. This alias lists those circuit brainNodeIds (phantom nodeIds GBA/DAN/FPN resolved to their activation via _clonePhantom) and the union of their activations diagnosticTriggers. Direct data link, no inference."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "environment_high_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "environment-pulse-engine.js classifies environment_high_stress -> family [structural_event] (L172), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. Dead-end family: reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias."
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "Same as environment_high_stress: emits structural_event (L172), which no contract consumes. Dead-end; no grounded alias."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "environment-pulse-engine.js classifies macro_shock -> family [macro_event] (L173), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. Dead-end (same as Finance macro_shock). No grounded alias."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "VTA",
+        "domainLabel": "Renewable Resources",
+        "diagnosticTriggers": [
+          "CLIMATE_TIPPING_POINT"
+        ],
+        "reason": "HARD ORPHAN. Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (VTA is not in the authored union {HYPO,PIN,DV,ENS,FPN,PBN,MICRO,BLA,GBA,EC,vmPFC,DAN,NTS,dACC}), no condition-token chain reaches it, and it has no _clonePhantom. Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it."
+      },
+      {
+        "brainNodeId": "S1",
+        "domainLabel": "Geological Systems",
+        "diagnosticTriggers": [
+          "CLIMATE_TIPPING_POINT"
+        ],
+        "reason": "HARD ORPHAN. Same as VTA: brainNodeId S1 not in any _authored circuit, no phantom, has triggers -> always an extinction candidate with no grounded activation source. Not fabricated; needs authoring."
+      }
+    ],
+    "activationsReachableOnlyViaClonePhantom": [
+      {
+        "brainNodeId": "FEF",
+        "clonePhantom": "DAN",
+        "domainLabel": "Environmental Monitoring",
+        "diagnosticTriggers": [
+          "CLIMATE_TIPPING_POINT",
+          "MASS_EXTINCTION",
+          "TOXIC_CONTAMINATION"
+        ],
+        "reason": "PHANTOM-ONLY. brainNodeId FEF is NOT in any _authored circuit, but its _clonePhantom 'DAN' IS (MASS_EXTINCTION and TOXIC_CONTAMINATION circuits reference DAN). Reachable ONLY if the adapter resolves _clonePhantom (DAN->FEF) when matching circuit nodeIds to activation brainNodeIds. Under STRICT brainNodeId matching (the Energy adapter default) FEF is an orphan and extinction would retire it; under phantom-resolving matching it is grounded. Flagged so the adapter matching mode is chosen deliberately, not by accident."
+      },
+      {
+        "brainNodeId": "dlPFC",
+        "clonePhantom": "FPN",
+        "domainLabel": "Ecosystem Modeling",
+        "diagnosticTriggers": [
+          "CLIMATE_TIPPING_POINT",
+          "MASS_EXTINCTION"
+        ],
+        "reason": "PHANTOM-ONLY. brainNodeId dlPFC is NOT in any _authored circuit, but its _clonePhantom 'FPN' IS (CLIMATE_TIPPING_POINT circuit references FPN). Same phantom-resolution dependency as FEF/DAN. Orphan under strict brainNodeId matching; grounded under phantom-resolving matching."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "GABA_GLU",
+        "domainLabel": "Envlaw",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "CeA",
+        "domainLabel": "Soilenv",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any _authored issue circuit, and diagnosticTriggers empty -> extinction-exempt. (Note: CeA IS referenced by graph edges mPFC->CeA / vmPFC->CeA, but not by any issue _authored circuit and has no triggers.) No alias needed."
+      },
+      {
+        "brainNodeId": "SEPT",
+        "domainLabel": "Wildlife",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, diagnosticTriggers empty -> extinction-exempt. No alias needed."
+      },
+      {
+        "brainNodeId": "S2",
+        "domainLabel": "Urban Env",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, diagnosticTriggers empty -> extinction-exempt. No alias needed."
+      }
+    ]
+  },
+  "clonePhantomResolution": {
+    "note": "Environment _authored circuits reference three nodeIds that are NOT activation brainNodeIds but ARE _clonePhantom values of activations. Recorded so any consuming adapter resolves them consistently.",
+    "map": [
+      {
+        "circuitNodeId": "GBA",
+        "resolvesToActivationBrainNodeId": "ENS",
+        "activationDomainLabel": "Soil Ecosystems",
+        "ambiguity": "brainNodeId 'ENS' is ALSO used literally by a DIFFERENT activation (Forests & Carbon Sinks). Literal ENS circuit refs (CLIMATE/DEFORESTATION) match Forests-ENS by brainNodeId; GBA circuit refs (MASS/DEFORESTATION/TOXIC) match Soil-ENS by phantom. Both ENS activations can be marked active."
+      },
+      {
+        "circuitNodeId": "DAN",
+        "resolvesToActivationBrainNodeId": "FEF",
+        "activationDomainLabel": "Environmental Monitoring"
+      },
+      {
+        "circuitNodeId": "FPN",
+        "resolvesToActivationBrainNodeId": "dlPFC",
+        "activationDomainLabel": "Ecosystem Modeling"
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Environment: contracts carry primaryIndicator/secondaryConfirmation LABELS (e.g. sea_level_rise, invasive_spread, ecosystem_disruption, pollinator_collapse, soil_degradation) that the inline classify switch does NOT emit, but those are indicator labels, not runtime condition tokens; the runtime only ever sees the classify tokens. Every classify token either grounds (folds a diagnosis) or is unmapped (structural_stress, environment_high_stress, macro_shock)."
+  }
+}

@@ -1,0 +1,233 @@
+{
+  "_meta": {
+    "title": "Environment domain graph — connectivity remediation (PROPOSAL ONLY)",
+    "purpose": "Grounded feedback/reciprocal edges and redundant paths to remediate the findings from assets/js/energy-connectivity-audit.js (the audit module is domain-generic) run against assets/data/domains/environment.json. This is a recommendation artifact; it does NOT modify any live graph.",
+    "discipline": "Every proposed edge carries a concrete grounding (a canonical-nodes.json regulatory/anatomical fact OR the reciprocity of an existing environment.json edge). Candidates that could not be grounded are omitted and tallied under _omittedForLackOfGrounding.",
+    "doNotApply": "Do not merge these edges into assets/data/domains/environment.json without an explicit apply step.",
+    "sources": {
+      "auditModule": "assets/js/energy-connectivity-audit.js",
+      "targetGraph": "assets/data/domains/environment.json",
+      "nodeFacts": "assets/data/canonical-nodes.json"
+    },
+    "generatedFor": "environment",
+    "mirrors": "assets/data/deep/finance-connectivity-recommendations.json and energy-connectivity-recommendations.json (same method, same audit module)",
+    "neuroReferenceThesis": "Healthy circuits are ~80% recurrent/lateral; the network, not the node, is the unit of failure (diaschisis). A pure feedforward tree is the broken/cosmetic version.",
+    "pathologyVerdict": "SAME SIGNATURE AS FINANCE/ENERGY, on a SMALLER graph. Environment has only 40 edges (Finance 62, Energy more), yet shows the identical pathology: ZERO reciprocal/feedback edges (recurrentFraction 0) despite carrying directed control chains, and many single points of failure (10 articulation nodes — MORE than Finance's 9, because the smaller edge set leaves more leaves singly-attached). The SAME extra fault Finance had is present: the graph is fractured into 2 components at baseline — the {M1, SMA} motor dyad is fully disconnected from the main body (SMA->M1 is its only internal edge; no edge in or out of the main body)."
+  },
+
+  "reproducedFindings": {
+    "recurrenceAudit": {
+      "edges": 40,
+      "reciprocalEdges": 0,
+      "recurrentFraction": 0,
+      "lateralEdges": 6,
+      "lateralFractionOfClassifiable": 0.375,
+      "unknownGroupEdges": 24,
+      "verdict_from_module": "has recurrent/lateral structure",
+      "note": "ZERO reciprocal/feedback edges — the same feedforward-only signature the neuro reference calls the broken version. For no edge A->B does B->A exist, so recurrentFraction is exactly 0. The module's verdict is 'has recurrent/lateral structure' ONLY because lateralFractionOfClassifiable (0.375) clears the 0.2 lateral threshold; the feedback dimension is fully absent. 24 of 40 edges are 'unknownGroup' because one or both endpoints are structural relay nodes (THAL, V1, A1, LGN, MGN, mPFC, PAG, HIPP, rACC, AI, PI, VP, OFC, SMA, M1, CAUD, GP, CBLM, LC, NAcc) that have no activation entry and therefore no group — even smaller a classifiable base than Finance."
+    },
+    "singlePointsOfFailure": {
+      "baseComponents": 2,
+      "baseComponentsNote": "TWO components at baseline. Main body = 32 nodes; a fully disconnected dyad = {M1, SMA} (only internal edge SMA->M1, no edge in or out of the main body). This pre-existing fracture is the SAME extra fault Finance had (Finance and Environment both baseComponents=2; Energy was 1).",
+      "articulationNodeCount": 10,
+      "articulationNodes": ["HYPO", "vmPFC", "FEF", "BLA", "THAL", "V1", "A1", "AI", "NAcc", "GP"],
+      "topHubsByDegree": [
+        {"node": "vmPFC", "degree": 7},
+        {"node": "HYPO", "degree": 5},
+        {"node": "dACC", "degree": 5},
+        {"node": "BLA", "degree": 5},
+        {"node": "THAL", "degree": 5}
+      ],
+      "mechanismOfEachArticulation": {
+        "HYPO": "sole attachment of TWO leaves: PBN (HYPO->PBN is PBN's only edge) and ENS-graph-node (ENS->HYPO is that node's only edge).",
+        "vmPFC": "sole bridge of the reward island {VTA, NAcc, OFC, VP} to the main body (the island reaches main only through VTA->vmPFC and OFC->vmPFC) AND sole attachment of leaf PAG (vmPFC->PAG is PAG's only edge). Highest-degree hub (7).",
+        "FEF": "sole bridge between the entire thalamo-sensory cluster {THAL, V1, A1, S1, LGN, MGN, GP, CAUD, CBLM} and the executive/limbic body. That cluster connects to the rest ONLY through S1->FEF and FEF->V1; removing FEF severs both and splits the graph. (This is why S1 is NOT itself an articulation node — FEF->V1 keeps the cluster attached when S1 is removed.)",
+        "BLA": "sole attachment of TWO leaves: rACC (rACC->BLA is rACC's only edge) and LC (LC->BLA is LC's only edge).",
+        "THAL": "sole attachment of the auditory island {A1, MGN} (THAL->A1, MGN->A1 are its only links), of the basal-ganglia output pair {CAUD, GP} (GP->THAL is that pair's only link out), and of CBLM (CBLM->THAL only).",
+        "V1": "sole attachment of leaf LGN (LGN->V1 is LGN's only edge).",
+        "A1": "sole attachment of leaf MGN (MGN->A1 is MGN's only edge).",
+        "AI": "sole attachment of leaf PI (PI->AI is PI's only edge).",
+        "NAcc": "sole attachment of leaf VP (NAcc->VP is VP's only edge).",
+        "GP": "sole attachment of leaf CAUD (CAUD->GP is CAUD's only edge)."
+      }
+    }
+  },
+
+  "proposedFeedbackEdges": [
+    {
+      "source": "S1", "target": "THAL", "type": "modul", "weight": 0.6,
+      "rationale": "Corticothalamic feedback closing the thalamo-cortico-thalamic somatosensory loop that THAL->S1 opens.",
+      "grounding": "Reciprocity of existing edge THAL->S1 (excit, somatosensory relay). Layer-6 corticothalamic feedback outnumbers feedforward and is gain/precision-modulatory -> modul. canonical-nodes S1 = 'primary somatosensory processing', THAL = motif M4 'gating relay / routing'."
+    },
+    {
+      "source": "V1", "target": "THAL", "type": "modul", "weight": 0.6,
+      "rationale": "Corticothalamic feedback closing the visual thalamo-cortical loop that THAL->V1 opens.",
+      "grounding": "Reciprocity of existing edge THAL->V1 (excit, visual sensory relay). V1->LGN/pulvinar corticothalamic feedback is canonical and modulatory. canonical-nodes V1 = 'primary visual processing'."
+    },
+    {
+      "source": "A1", "target": "THAL", "type": "modul", "weight": 0.6,
+      "rationale": "Corticothalamic feedback closing the auditory thalamo-cortical loop that THAL->A1 opens.",
+      "grounding": "Reciprocity of existing edge THAL->A1 (excit, auditory sensory relay). A1->MGN corticothalamic feedback is canonical and modulatory. canonical-nodes A1 = 'primary auditory processing'."
+    },
+    {
+      "source": "dACC", "target": "AI", "type": "excit", "weight": 0.85,
+      "rationale": "Closes the salience-network loop; the two salience hubs must be mutually coupled to co-select what gets escalated.",
+      "grounding": "Reciprocity of existing edge AI->dACC (excit, 'interoceptive -> conflict monitor'). canonical-nodes AI = M10 'interoceptive salience', dACC = M6 'conflict/error monitor'; anterior insula and dorsal ACC are the two defining hubs of the salience network and are reciprocally coupled by definition."
+    },
+    {
+      "source": "vmPFC", "target": "OFC", "type": "excit", "weight": 0.7,
+      "rationale": "Closes the value<->context loop; the context/valuation brake feeds back onto outcome valuation. Reciprocal of the existing OFC->vmPFC edge.",
+      "grounding": "Reciprocity of existing edge OFC->vmPFC (excit). canonical-nodes vmPFC = M1 'top-down inhibitory brake', OFC = M6 'outcome valuation / update'; adjacent medial/orbital PFC regions with dense reciprocal connectivity."
+    },
+    {
+      "source": "OFC", "target": "NAcc", "type": "excit", "weight": 0.7,
+      "rationale": "Closes the valuation<->reward loop; the outcome-valuation stage feeds forward-and-back to the reward driver. Reciprocal of the existing NAcc->OFC edge.",
+      "grounding": "Reciprocity of existing edge NAcc->OFC (excit). The orbitofrontal cortex is a principal glutamatergic corticostriatal input to the ventral striatum / nucleus accumbens (canonical OFC->NAcc projection). canonical-nodes OFC = M6 valuation, NAcc = M11 'incentive/reward drive'."
+    },
+    {
+      "source": "dACC", "target": "dlPFC", "type": "excit", "weight": 0.8,
+      "rationale": "Closes the conflict-monitoring -> cognitive-control loop: the conflict/error signal feeds back to the executive to adjust control gain.",
+      "grounding": "Reciprocity of existing edge dlPFC->dACC (excit). canonical-nodes dACC = M6 'conflict/error monitor', dlPFC = 'dorsolateral PFC — executive working-memory / cognitive control'; dACC<->dlPFC are reciprocally connected (Botvinick conflict-control loop)."
+    },
+    {
+      "source": "BLA", "target": "vmPFC", "type": "excit", "weight": 0.7,
+      "rationale": "Closes the threat<->regulation loop that vmPFC->BLA (CONTROLS) opens: the amygdala reports threat back to the medial-PFC brake that regulates it.",
+      "grounding": "Reciprocity of existing edge vmPFC->BLA (CONTROLS). The basolateral amygdala sends a dense projection to ventromedial/medial PFC (canonical BLA->vmPFC affective-input pathway underlying fear regulation and extinction). canonical-nodes BLA = M7 'threat learning/acquisition', vmPFC = M1 brake."
+    },
+    {
+      "source": "HYPO", "target": "NTS", "type": "modul", "weight": 0.6,
+      "rationale": "Closes the visceral afferent<->autonomic-governor loop that NTS->HYPO (SUPPLIES) opens: the hypothalamus sends descending autonomic modulation back to the visceral relay that feeds it.",
+      "grounding": "Reciprocity of existing edge NTS->HYPO (SUPPLIES). Paraventricular hypothalamus sends canonical descending projections to the nucleus tractus solitarius (autonomic/baroreflex governance). canonical-nodes HYPO = M3 'homeostatic set-point', NTS = M10 'visceral afferent hub'."
+    }
+  ],
+
+  "proposedRedundantPaths": [
+    {
+      "aroundNode": "HYPO",
+      "addEdge": {"source": "NTS", "target": "PBN", "type": "excit", "weight": 0.6},
+      "rationale": "PBN reaches the graph only via HYPO->PBN, so removing HYPO isolates it. A visceral-afferent -> parabrachial edge gives PBN a second afferent; removing HYPO then leaves PBN attached via NTS.",
+      "grounding": "The nucleus tractus solitarius sends a canonical ascending viscerosensory projection to the parabrachial nucleus (NTS->PBN is a textbook brainstem relay). canonical-nodes NTS = M10 'visceral afferent hub', PBN = M10 'interoceptive/alarm relay'."
+    },
+    {
+      "aroundNode": "HYPO",
+      "addEdge": {"source": "ENS", "target": "NTS", "type": "excit", "weight": 0.6},
+      "rationale": "The ENS graph-node reaches the graph only via ENS->HYPO, so removing HYPO isolates it. A gut -> vagal-afferent edge gives ENS a second anchor; removing HYPO then leaves ENS attached via NTS.",
+      "grounding": "Enteric/vagal afferents project to the nucleus tractus solitarius (canonical gut->NTS viscerosensory pathway; the ascending limb of the gut-brain axis). canonical-nodes ENS = 'enteric nervous system — gut autonomic regulation', NTS = M10 visceral afferent hub."
+    },
+    {
+      "aroundNode": "vmPFC",
+      "addEdge": {"source": "CeA", "target": "PAG", "type": "excit", "weight": 0.8},
+      "rationale": "PAG reaches the graph only via vmPFC->PAG, so removing vmPFC isolates it. A central-amygdala -> PAG efferent gives PAG a second afferent; removing vmPFC then leaves PAG attached via CeA. Also closes the threat-appraisal -> defensive-output pathway.",
+      "grounding": "canonical-nodes CeA = M7 'phasic fear output', PAG = M8 'defensive kill/lockdown'. The central-amygdala -> periaqueductal-gray projection is the textbook fear-output pathway (same grounding used in Finance/Energy)."
+    },
+    {
+      "aroundNode": "vmPFC",
+      "addEdge": {"source": "VTA", "target": "dACC", "type": "modul", "weight": 0.6},
+      "rationale": "The reward island {VTA, NAcc, OFC, VP} reaches the main body only through vmPFC. A mesocortical dopamine edge gives the island a second bridge to a main-body hub (dACC); removing vmPFC then leaves the reward island attached via VTA->dACC.",
+      "grounding": "The ventral tegmental area sends the canonical mesocortical dopaminergic projection to the anterior cingulate cortex (VTA->ACC). Dopaminergic modulation -> modul. canonical-nodes VTA = M11 'dopamine reward source', dACC = M6 conflict monitor."
+    },
+    {
+      "aroundNode": "FEF",
+      "addEdge": {"source": "THAL", "target": "dACC", "type": "excit", "weight": 0.6},
+      "rationale": "The entire thalamo-sensory cluster reaches the executive/limbic body only through FEF (via S1->FEF and FEF->V1). A thalamo-cingulate edge gives the cluster a second, FEF-independent bridge into the main body; removing FEF then leaves the cluster attached via THAL->dACC.",
+      "grounding": "The mediodorsal / anterior thalamic nuclei project to the anterior cingulate cortex (canonical thalamo-cingulate projection; same grounding used in Finance THAL->dACC). canonical-nodes THAL = M4 routing hub, dACC = M6 conflict monitor."
+    },
+    {
+      "aroundNode": "BLA",
+      "addEdge": {"source": "rACC", "target": "vmPFC", "type": "excit", "weight": 0.7},
+      "rationale": "rACC reaches the graph only via rACC->BLA, so removing BLA isolates it. A medial-PFC affective-regulation edge gives rACC a second anchor; removing BLA then leaves rACC attached via vmPFC.",
+      "grounding": "canonical-nodes rACC = 'rostral ACC — affective appraisal & regulation', vmPFC = M1 top-down brake. rACC and vmPFC are adjacent ventromedial affective-regulation regions with reciprocal connectivity (the emotion-regulation medial-PFC cluster; same grounding used in Finance)."
+    },
+    {
+      "aroundNode": "BLA",
+      "addEdge": {"source": "LC", "target": "HIPP", "type": "modul", "weight": 0.6},
+      "rationale": "LC reaches the graph only via LC->BLA, so removing BLA isolates it. A noradrenergic broadcast edge gives LC a second target; removing BLA then leaves LC attached via HIPP.",
+      "grounding": "The locus coeruleus sends canonical diffuse noradrenergic projections to the hippocampus (LC->HIPP is a textbook one-to-many broadcast). canonical-nodes LC = M2 'broadcast / alerting', HIPP = M3 'HPA feedback + memory index'. A small modulatory broadcast -> modul."
+    },
+    {
+      "aroundNode": "THAL",
+      "addEdge": {"source": "A1", "target": "AI", "type": "excit", "weight": 0.6},
+      "rationale": "Gives the auditory cortex a cortical anchor off the THAL hub, reattaching the auditory island {A1, MGN} to the main body when THAL is removed. PARTIAL de-articulation only: THAL still isolates the {CAUD, GP} basal-ganglia pair and leaf CBLM (see _omittedForLackOfGrounding), so THAL remains a residual articulation point.",
+      "grounding": "canonical-nodes AI = M10 'interoceptive salience'; auditory cortex projects to the insular cortex (auditory-to-insula projection is documented; the insula integrates auditory salience; same grounding used in Finance)."
+    },
+    {
+      "aroundNode": "AI",
+      "addEdge": {"source": "PI", "target": "dACC", "type": "excit", "weight": 0.6},
+      "rationale": "PI reaches the graph only via PI->AI, so removing AI isolates it. A posterior-insula -> cingulate interoceptive edge gives PI a second anchor; removing AI then leaves PI attached via dACC.",
+      "grounding": "canonical-nodes PI = M10 'primary interoception', dACC = M6 conflict monitor / salience hub. Posterior/mid-insula interoceptive signals project to the anterior cingulate as part of the interoception-salience pathway (same grounding used in Finance)."
+    },
+    {
+      "aroundNode": "NAcc",
+      "addEdge": {"source": "VP", "target": "VTA", "type": "inhib", "weight": 0.75},
+      "rationale": "VP reaches the graph only via NAcc->VP, so removing NAcc isolates it. The reward-loop closure edge VP->VTA gives VP a second anchor; removing NAcc then leaves VP attached via VTA. Doubles as recurrence: closes the mesolimbic reward loop VTA->NAcc->VP->VTA (hedonic output feeds back to regulate the dopamine source).",
+      "grounding": "In-graph the reward chain VTA->NAcc (excit) and NAcc->VP (inhib) already exists; the ventral pallidum sends GABAergic feedback to VTA (canonical mesolimbic disinhibition loop). canonical-nodes VP = 'ventral pallidum — reward/hedonic output', VTA = M11 'dopamine reward source'. One edge serves both recurrence and redundancy."
+    },
+    {
+      "aroundNode": "GP",
+      "addEdge": {"source": "THAL", "target": "CAUD", "type": "excit", "weight": 0.6},
+      "rationale": "CAUD reaches the graph only via CAUD->GP, so removing GP isolates it. A thalamostriatal edge gives CAUD a second afferent; removing GP then leaves CAUD attached via THAL.",
+      "grounding": "The centromedian/parafascicular thalamus sends the canonical thalamostriatal projection to the caudate/striatum (THAL->CAUD). canonical-nodes THAL = M4 'gating relay / routing', CAUD = 'caudate — goal-directed action selection'."
+    },
+    {
+      "aroundNode": "{M1,SMA} disconnected dyad",
+      "addEdge": {"source": "SMA", "target": "CAUD", "type": "excit", "weight": 0.7},
+      "rationale": "EXTRA-FAULT FIX (not a classic articulation node). {M1, SMA} is a fully disconnected component at baseline. A corticostriatal edge reattaches the dyad to the main body (CAUD reaches main via CAUD->GP->THAL), reducing baseComponents 2->1. Paired with THAL->M1 below so the dyad has TWO independent bridges and CAUD does not become a NEW single point of failure.",
+      "grounding": "canonical-nodes SMA = 'supplementary motor — self-initiated action sequencing', CAUD = 'caudate — goal-directed action selection'; SMA is a principal cortical source of the motor corticostriatal projection to the striatum (canonical)."
+    },
+    {
+      "aroundNode": "{M1,SMA} disconnected dyad",
+      "addEdge": {"source": "THAL", "target": "M1", "type": "excit", "weight": 0.8},
+      "rationale": "Second independent bridge for the disconnected {M1, SMA} dyad, so removing CAUD/GP does not re-isolate it (prevents SMA->CAUD from turning CAUD into a new articulation node). Also the canonical final leg of the cortico-basal-ganglia-thalamo-cortical motor loop, whose output limb CAUD->GP->THAL is already in-graph.",
+      "grounding": "canonical-nodes THAL = M4 'gating relay / routing', M1 = 'primary motor cortex — motor output'. The ventral-anterior/ventral-lateral thalamus -> M1 projection is the canonical thalamocortical motor relay and the return leg of the BG loop already half-present in-graph (CAUD->GP inhib, GP->THAL inhib; same grounding used in Finance)."
+    }
+  ],
+
+  "projectedImpact": {
+    "method": "The 22 proposed edges (9 feedback + 13 redundant/reconnection) were appended to a deep copy of environment.json in memory and re-scored with assets/js/energy-connectivity-audit.js. environment.json itself was NOT modified.",
+    "edgesBefore": 40,
+    "edgesAfter": 62,
+    "distinctEdgesAdded": 22,
+    "reciprocalEdges": {"before": 0, "after": 18, "asPairs": 9, "note": "the 9 reciprocal pairs are exactly the 9 proposedFeedbackEdges (each is the reverse of a pre-existing edge)."},
+    "recurrentFraction": {"before": 0.0, "after": 0.29, "corticalBenchmark": 0.8, "note": "crosses the 0.2 tree-vs-mesh threshold (18/62 = 0.290)."},
+    "lateralFractionOfClassifiable": {"before": 0.375, "after": 0.318, "note": "dips slightly because several added edges touch structural relay nodes with no group (raising unknownGroup 24->40), which is expected and harmless."},
+    "baseComponents": {"before": 2, "after": 1, "note": "the {M1, SMA} dyad is reconnected by SMA->CAUD + THAL->M1; the graph becomes a single connected body."},
+    "articulationNodes": {
+      "before": 10,
+      "after": 3,
+      "remaining": ["THAL", "V1", "A1"],
+      "reason": "All three residual articulation points survive solely because a dedicated sensory/relay leaf has no second grounded projection target present in the graph, so its redundant path was omitted rather than fabricated: THAL still cuts off the {CAUD, GP} basal-ganglia output pair and leaf CBLM; V1 still cuts off LGN; A1 still cuts off MGN. This is the SAME honest floor Finance and Energy bottomed out at (both remained articulate at THAL, V1, A1 for the identical dedicated-relay reason). Environment's THAL residual is for a different specific leaf set ({CAUD,GP}+CBLM) than Finance's (S1+CBLM), because Environment's smaller edge set attaches the BG output pair only through THAL."
+    }
+  },
+
+  "_omittedForLackOfGrounding": {
+    "count": 5,
+    "candidates": [
+      {
+        "candidate": "redundant path around THAL for the {CAUD, GP} basal-ganglia output pair",
+        "type": "redundantPath",
+        "reason": "The pair {CAUD, GP} reaches the main body only via GP->THAL. The globus pallidus internal segment projects to the VA/VL thalamus — i.e. back to THAL — so there is no grounded non-THAL in-graph target for GP's output. Adding THAL->CAUD (done above) de-articulates GP but not THAL for this pair. No honest second bridge exists among the graph's nodes, so THAL stays a residual articulation point for {CAUD, GP}."
+      },
+      {
+        "candidate": "redundant path around THAL via a second edge on CBLM",
+        "type": "redundantPath",
+        "reason": "CBLM reaches the graph only via CBLM->THAL. The thalamus does not project to the cerebellum, and cerebellar cortical input arrives polysynaptically via the pontine nuclei (no direct cortex->CBLM fiber to any in-graph node). No honest second edge, so CBLM stays a leaf of THAL (same omission as Finance/Energy)."
+      },
+      {
+        "candidate": "redundant path around V1 via a second edge on LGN",
+        "type": "redundantPath",
+        "reason": "LGN is a dedicated retino-recipient thalamic relay whose only cortical target is V1; the pulvinar / superior-colliculus partners that would give it a second grounded projection are not present as nodes in the environment graph. LGN stays a leaf of V1 (same omission as Finance/Energy)."
+      },
+      {
+        "candidate": "redundant path around A1 via a second edge on MGN",
+        "type": "redundantPath",
+        "reason": "MGN is a dedicated cochlea-recipient (medial geniculate) auditory thalamic relay whose only cortical target is A1; no second grounded projection target exists among the graph's nodes. MGN stays a leaf of A1 (same omission as Finance/Energy)."
+      },
+      {
+        "candidate": "feedback edge HIPP->dlPFC (reciprocal of dlPFC->HIPP)",
+        "type": "feedbackEdge",
+        "reason": "Hippocampal output to lateral PFC is not a monosynaptic projection; direct hippocampal-PFC fibers target mPFC/vmPFC, not dlPFC, and the mPFC relay is not on an environment-graph edge path. Cannot ground a direct HIPP->dlPFC edge (same omission as Finance)."
+      }
+    ],
+    "notedButNotOmitted": "A second anchor for THAL's S1 relay (S1->M1, densely reciprocal somatomotor connectivity) IS groundable once M1 is reconnected to the main body, but it was NOT needed: S1 is already NOT an articulation node (FEF->V1 keeps the sensory cluster attached when S1 is removed), so no redundant path around S1 is required. Recorded for completeness, not counted as an omission for lack of grounding."
+  }
+}

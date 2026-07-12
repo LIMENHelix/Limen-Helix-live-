@@ -1,0 +1,1869 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so an Education extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. budget_shortfall) + active diagnosis ids (e.g. FUNDING_CRISIS) (energy-telemetry-adapter.js L48-53 pattern). CRITICAL: in Education, activation.diagnosticTriggers are FREE-TEXT phrases (e.g. 'Standardized test score decline'), which equal NEITHER the condition-codes NOR the diagnosis ids. So NOTHING self-matches and this bridge table is strictly load-bearing before extinction can run - exactly the gap energy-telemetry-adapter.js flags in its _unbound note ('condition-code vocabulary != activation.diagnosticTriggers free-text; needs an alias table before extinction can match'). Education is ENERGY-like here, NOT Finance-like (Finance activation.diagnosticTriggers were diagnosis ids that self-matched).",
+    "derivationChain": "condition-code --(education-pulse-engine.js addFamily loop, L124-146)--> evidence family --(EVIDENCE_CONTRACTS.requiredFamilies OR-gate, L156-162)--> diagnosis id --(education.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(each nodeId is an activation)--> that activation's free-text diagnosticTriggers. The diagnoses section is the strongest link (pure data: issue id === diagnosis id === activation-circuit source). The conditionCodes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is linked to a condition-code when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual OR-gate code, L156-162). evidenceKind on each linkedDiagnoses entry records WHY: 'primaryIndicator'/'secondaryConfirmation' = the condition is a NAMED indicator token of that contract; 'familyOnly' = the condition is linked SOLELY because a shared required family (almost always policy_event) satisfies the OR-gate, not because it is a named indicator. This preserves Finance's bias-against-over-marking while still faithfully modelling the real (loose) gate.",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from education.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinanceAndEnergy": "DIFFERENT structure on five axes. (1) FREE-TEXT TRIGGERS (Energy-like, not Finance-like): activation.diagnosticTriggers are free-text phrases, not diagnosis ids, so diagnosis ids do NOT self-match and the whole table is load-bearing. (2) NO dedicated classify(): education-pulse-engine.js maps condition tokens to families INLINE in the addFamily loop (L124-146); the condition tokens ARE the contract primaryIndicator tokens (Finance-like in that one respect). (3) VERY LOOSE OR-GATE - the central Education finding: policy_event is a requiredFamily of FOUR of five contracts (FUNDING_CRISIS, TEACHER_SHORTAGE, ACHIEVEMENT_GAP, ACCREDITATION_FAILURE), and most condition-codes emit policy_event, so a single policy-family condition folds into 4 diagnoses and expands to 28 free-text triggers. The fold is far broader than Finance; see the familyOnly evidenceKind tags. (4) DEAD-END FAMILIES: macro_shock->macro_event dead-ends (same as Finance) AND education_high_stress/structural_stress->structural_event ALSO dead-end (a NAMED structural-stress family that no contract requires; contrast Finance _stress_* which emitted no family at all). (5) ORPHANS: Education 1 activation with triggers-but-no-source (FG) vs Finance 3; plus 3 empty-trigger exempt activations (rPFC, sgACC, SMN).",
+    "looseGateNote": "Because policy_event is a requiredFamily of 4/5 contracts and OR-semantics govern the gate, budget_shortfall/resource_scarcity/infrastructure_degradation/workforce_gap/outcome_disparity/etc each provide VALIDATING evidence for FUNDING_CRISIS + TEACHER_SHORTAGE + ACHIEVEMENT_GAP + ACCREDITATION_FAILURE simultaneously. This is faithful to the running code, not an authoring choice of this table; it is flagged because it makes the extinction-protection set for any policy condition very large (28 of the domain's free-text triggers).",
+    "achievementGapCatchAllNote": "ACHIEVEMENT_GAP is the ONLY contract with catchAllBlocked:false (education-pulse-engine.js L60), i.e. it can be stress-activated without matching evidence. Its alias entries still ground normally; the catch-all property is noted for the extinction/validation consumer.",
+    "sources": [
+      "assets/js/education-pulse-engine.js (EVIDENCE_CONTRACTS L34-80; addFamily condition->family map L124-146; requiredFamilies OR-gate L156-162; catchAllBlocked)",
+      "assets/data/domains/education.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits; issue id === diagnosis id)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build L48-53 + alias expansion L55-69 + node-active-from-circuit L79-101; _unbound free-text-mismatch note L111; no education-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42, case-insensitive L22/L29, empty-trigger skip L30; no education-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T19:56:10.201Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes education.json or fires extinction. No Education-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "budget_shortfall": {
+      "evidenceFamilies": [
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "FUNDING_CRISIS"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'budget_shortfall' -> evidence families [\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "resource_scarcity": {
+      "evidenceFamilies": [
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "FUNDING_CRISIS"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'resource_scarcity' -> evidence families [\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "infrastructure_degradation": {
+      "evidenceFamilies": [
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "secondaryConfirmation",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": null,
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'infrastructure_degradation' -> evidence families [\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "institutional_decline": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "secondaryConfirmation",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "FUNDING_CRISIS"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'institutional_decline' -> evidence families [\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "quality_degradation": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACCREDITATION_FAILURE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'quality_degradation' -> evidence families [\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "standards_erosion": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACCREDITATION_FAILURE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'standards_erosion' -> evidence families [\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "credential_devaluation": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACCREDITATION_FAILURE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'credential_devaluation' -> evidence families [\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "workforce_gap": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "workforce_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TEACHER_SHORTAGE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'workforce_gap' -> evidence families [\"workforce_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "retention_failure": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "workforce_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TEACHER_SHORTAGE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'retention_failure' -> evidence families [\"workforce_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "recruitment_deficit": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "workforce_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TEACHER_SHORTAGE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'recruitment_deficit' -> evidence families [\"workforce_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "burnout_epidemic": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "workforce_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TEACHER_SHORTAGE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'burnout_epidemic' -> evidence families [\"workforce_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "outcome_disparity": {
+      "evidenceFamilies": [
+        "indicator_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "indicator_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACHIEVEMENT_GAP"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'outcome_disparity' -> evidence families [\"indicator_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "access_inequality": {
+      "evidenceFamilies": [
+        "indicator_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "indicator_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACHIEVEMENT_GAP"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'access_inequality' -> evidence families [\"indicator_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "performance_decline": {
+      "evidenceFamilies": [
+        "indicator_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "indicator_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACHIEVEMENT_GAP"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'performance_decline' -> evidence families [\"indicator_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "equity_failure": {
+      "evidenceFamilies": [
+        "indicator_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "indicator_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACHIEVEMENT_GAP"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'equity_failure' -> evidence families [\"indicator_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "oversight_failure": {
+      "evidenceFamilies": [
+        "institutional_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event",
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TEACHER_SHORTAGE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACHIEVEMENT_GAP",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "policy_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "institutional_event",
+            "policy_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "ACCREDITATION_FAILURE"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "TPJ",
+        "OXY",
+        "WERN",
+        "IPS",
+        "dACC",
+        "FPN",
+        "AG",
+        "DMN",
+        "M1",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion",
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'oversight_failure' -> evidence families [\"institutional_event\",\"policy_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "digital_divide": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "news_event",
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TECHNOLOGY_DISRUPTION"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'digital_divide' -> evidence families [\"news_event\",\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "platform_transition": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "news_event",
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TECHNOLOGY_DISRUPTION"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'platform_transition' -> evidence families [\"news_event\",\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "pedagogical_mismatch": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "news_event",
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TECHNOLOGY_DISRUPTION"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'pedagogical_mismatch' -> evidence families [\"news_event\",\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "automation_displacement": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "primaryIndicator",
+          "viaRequiredFamily": [
+            "news_event",
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": [
+        "TECHNOLOGY_DISRUPTION"
+      ],
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'automation_displacement' -> evidence families [\"news_event\",\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "adaptive_failure": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_CRISIS",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "ACCREDITATION_FAILURE",
+          "evidenceKind": "familyOnly",
+          "viaRequiredFamily": [
+            "institutional_event"
+          ]
+        },
+        {
+          "id": "TECHNOLOGY_DISRUPTION",
+          "evidenceKind": "secondaryConfirmation",
+          "viaRequiredFamily": [
+            "news_event",
+            "institutional_event"
+          ]
+        }
+      ],
+      "primaryDiagnosis": null,
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS",
+        "AG",
+        "dACC",
+        "DMN",
+        "M1",
+        "FPN",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap",
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop",
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Practice-research gap widening",
+        "Debunked methods persisting"
+      ],
+      "basis": "education-pulse-engine.js maps condition 'adaptive_failure' -> evidence families [\"news_event\",\"institutional_event\"] inline in the addFamily loop (L124-146). Each linked diagnosis is one whose EVIDENCE_CONTRACTS.requiredFamilies (OR-gate, L156-162) intersects those families. evidenceKind distinguishes a NAMED primaryIndicator/secondaryConfirmation of that contract from a familyOnly fold (linked solely because the shared family satisfies the OR-gate). Each linked diagnosis expands to its education.json issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers."
+    }
+  },
+  "diagnoses": {
+    "FUNDING_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "vmPFC",
+        "dlPFC",
+        "BROCA",
+        "SMA",
+        "PRECUNEUS"
+      ],
+      "diagnosticTriggers": [
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "Collection funding cuts",
+        "Digital access gap"
+      ],
+      "basis": "diagnosis id === Education issue id; when active, the (energy-pattern) telemetry adapter marks issues['FUNDING_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance, these triggers are free-text phrases (not diagnosis ids), so the diagnosis id does NOT self-match activeTriggers — the whole expansion is load-bearing for extinction."
+    },
+    "TEACHER_SHORTAGE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "BROCA",
+        "SMA",
+        "TPJ",
+        "OXY"
+      ],
+      "diagnosticTriggers": [
+        "Standardized test score decline",
+        "Classroom engagement drop",
+        "New teacher attrition spike",
+        "Preparation program quality decline",
+        "IEP compliance failure",
+        "Disproportionate placement rates",
+        "Kindergarten readiness decline",
+        "Childcare desert expansion"
+      ],
+      "basis": "diagnosis id === Education issue id; when active, the (energy-pattern) telemetry adapter marks issues['TEACHER_SHORTAGE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance, these triggers are free-text phrases (not diagnosis ids), so the diagnosis id does NOT self-match activeTriggers — the whole expansion is load-bearing for extinction."
+    },
+    "ACHIEVEMENT_GAP": {
+      "circuitSource": "_authored",
+      "activations": [
+        "WERN",
+        "IPS",
+        "dACC",
+        "vmPFC",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Third-grade reading proficiency decline",
+        "Adult illiteracy rate increase",
+        "STEM enrollment gender gap",
+        "Math anxiety prevalence increase",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Funding formula inequity",
+        "Regulatory burden escalation",
+        "Completion rate collapse",
+        "Digital divide widening"
+      ],
+      "basis": "diagnosis id === Education issue id; when active, the (energy-pattern) telemetry adapter marks issues['ACHIEVEMENT_GAP']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance, these triggers are free-text phrases (not diagnosis ids), so the diagnosis id does NOT self-match activeTriggers — the whole expansion is load-bearing for extinction."
+    },
+    "ACCREDITATION_FAILURE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "AG",
+        "dACC",
+        "DMN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Enrollment decline",
+        "Graduate employment mismatch",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Research funding decline",
+        "Publication integrity crisis",
+        "Skilled labor shortage",
+        "Certification pass rate drop"
+      ],
+      "basis": "diagnosis id === Education issue id; when active, the (energy-pattern) telemetry adapter marks issues['ACCREDITATION_FAILURE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance, these triggers are free-text phrases (not diagnosis ids), so the diagnosis id does NOT self-match activeTriggers — the whole expansion is load-bearing for extinction."
+    },
+    "TECHNOLOGY_DISRUPTION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "FPN",
+        "dACC",
+        "HIPP",
+        "dlPFC",
+        "BROCA"
+      ],
+      "diagnosticTriggers": [
+        "Completion rate collapse",
+        "Digital divide widening",
+        "Assessment validity challenge",
+        "Score inflation pattern",
+        "Practice-research gap widening",
+        "Debunked methods persisting",
+        "Standards misalignment detected",
+        "Scope-and-sequence gaps identified",
+        "Standardized test score decline",
+        "Classroom engagement drop"
+      ],
+      "basis": "diagnosis id === Education issue id; when active, the (energy-pattern) telemetry adapter marks issues['TECHNOLOGY_DISRUPTION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance, these triggers are free-text phrases (not diagnosis ids), so the diagnosis id does NOT self-match activeTriggers — the whole expansion is load-bearing for extinction."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "education_high_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "education-pulse-engine.js classifies education_high_stress -> evidence family [structural_event] (L144), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. Dead-end family: reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias. This is the stress catch-all token; the one catch-all-eligible diagnosis (ACHIEVEMENT_GAP, catchAllBlocked:false) is reached by external activation-without-evidence, NOT by this condition-code."
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "Same as education_high_stress: classified to [structural_event] (L144), a family no contract requires. Dead-end; no grounded condition->diagnosis link."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "Classified to evidence family [macro_event] (L145), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. Dead-end, same as Finance's macro_shock. Reaches no diagnosis; no grounded alias."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "FG",
+        "domainLabel": "Arts Education",
+        "diagnosticTriggers": [
+          "Arts program elimination",
+          "Creative skill assessment decline"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit, and no condition-code chain reaches it (there is no arts/creativity evidence family or contract). It DOES appear in the connectivity edge graph (IPS->FG, FG->BROCA) but that graph is not the diagnostic/extinction chain. Under current wiring nothing marks FG active, so extinction (energy-extinction.js) would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit (e.g. an arts-education failure) before extinction should touch it. Education analog of the Finance orphans; Education has ONE."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "rPFC",
+        "domainLabel": "Governance Edu",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (These three are the low-weight 0.8 auto-generated activations with empty triggers/treatments.)"
+      },
+      {
+        "brainNodeId": "sgACC",
+        "domainLabel": "Research Edu",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "SMN",
+        "domainLabel": "Workforce Dev",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Education: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS (budget_shortfall, resource_scarcity, institutional_decline, infrastructure_degradation, workforce_gap, retention_failure, recruitment_deficit, burnout_epidemic, outcome_disparity, access_inequality, performance_decline, equity_failure, quality_degradation, standards_erosion, oversight_failure, credential_devaluation, digital_divide, platform_transition, pedagogical_mismatch, automation_displacement, adaptive_failure) is ALSO handled by the inline addFamily map (L124-146), so there are no contract-only-unclassified tokens (unlike Energy REFINERY_ATTACK/SANCTIONS). Conversely education_high_stress, structural_stress and macro_shock are classified but named in no contract -> see unmapped.conditionCodes."
+  }
+}

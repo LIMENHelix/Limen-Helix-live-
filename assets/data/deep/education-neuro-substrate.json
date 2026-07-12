@@ -1,0 +1,154 @@
+{
+  "_meta": {
+    "domain": "education",
+    "title": "Education — Neural Substrate Overlay",
+    "compiled": "2026-07-12",
+    "source_document": "LIMEN Helix — Comprehensive Neurology & Nervous System Reference (Jul 2026). THIS DOCUMENT ONLY. Domain-generic sections copied verbatim from finance-neuro-substrate.json (itself copied verbatim from energy-neuro-substrate.json).",
+    "additive_contract": "Purely additive overlay. Does NOT modify assets/data/domains/education.json or any existing education file. References existing Education node IDs and issue IDs by value only. Mirrors the Finance/Energy neuro-substrate overlay shape for the Education domain.",
+    "advisory_only": "This overlay is ADVISORY. It classifies existing authored circuits against the source document's Part XIV failure taxonomy and runs the Part XIV incomplete-circuit test. It writes nothing back and changes no live behavior on load.",
+    "grounded_sections": [
+      "fractal_critical_mechanisms, inhibitory_motifs_catalog, oscillatory_bands, failure_modes, parameter_table, references — DOMAIN-GENERIC, copied verbatim from finance-neuro-substrate.json (source-document-grounded).",
+      "issue_failure_class_map — 3 of 5 Education issues (FUNDING_CRISIS, TEACHER_SHORTAGE, ACCREDITATION_FAILURE) grounded in each issue's OWN canonical circuit cue and/or summary text. 2 issues (ACHIEVEMENT_GAP, TECHNOLOGY_DISRUPTION) marked UNMAPPED rather than force-fit.",
+      "incomplete_circuit_diagnostic — run against education.json real _authored circuits via the same REGULATORY_NODES set and validateIncompleteCircuit() logic as energy-neuro-substrate.js; verdict PASS 4/5, one INCOMPLETE_CIRCUIT."
+    ],
+    "heterogeneity_flagged": [
+      "TWO issues are UNMAPPED for TWO DIFFERENT reasons — a broader taxonomy gap than Finance (which had one UNMAPPED). (1) ACHIEVEMENT_GAP: its canonical cue dACC[Hyper] 'conflict/error monitor — priors-too-strong' names an OVER-PRECISE-PRIOR / failed-update pathology (predictive-coding, XIII.5). None of the 9 Part XIV classes (all E/I-dynamics archetypes: excitation, inhibition, gating, clearance, synchrony, propagation) expresses a rigid-prior / prediction-error-suppression failure. (2) TECHNOLOGY_DISRUPTION: dlPFC[Hyper] 'rigidity/rumination-lock' + summary 'Rapid AI... destabilizing traditional educational models... AI-generated student work that evades plagiarism detection' is a MODEL-DRIFT + ADVERSARIAL-EVASION failure. This is the Education analog of Finance FRAUD_SCANDAL: an information-integrity / adversarial-deception archetype the neuro-substrate taxonomy structurally cannot represent.",
+      "TEACHER_SHORTAGE FAILS the Part XIV incomplete-circuit test on its _authored circuit — the KEY STRUCTURAL FINDING. Its _authored nodes [BROCA, SMA, TPJ, OXY] are all executor / social-bonding nodes; NONE is in the REGULATORY_NODES set (no vmPFC/dlPFC/OFC/STN/GP/HIPP/HYPO/dACC/CBLM brake). It is an excitation-side circuit authored WITHOUT its regulatory/inhibitory/feedback arm = a lesioned fractal mapping. Both Finance (6/6) and Energy (6/6) passed; Education does not.",
+      "FUNDING_CRISIS and TEACHER_SHORTAGE share the IDENTICAL canonical cue — THAL[Hypo] 'gating relay / routing — stuck-closed=starvation' — cloned across two distinct issues. Both classify GATING_FAILURE, but the shared cue is a fractal-clone observation (the same non-specific gating cue is reused rather than authored per-issue).",
+      "ACHIEVEMENT_GAP is the ONLY Education issue whose evidence contract has catchAllBlocked:false (education-pulse-engine.js), i.e. it can be stress-activated without matching evidence — orthogonal to, but worth noting alongside, its UNMAPPED failure-class status."
+    ],
+    "honesty_note": "Mechanisms, failure-mode classes, parameters, and references below are verbatim-grounded in the source document. Per-node / per-edge Education-specific assignments the document gives no basis for (which edge is which inhibitory motif, which oscillatory band, which neuromodulator, which predictive direction) are NOT guessed here; only the two operations the source document directly supports are performed: (1) classify each authored issue against the Part XIV failure taxonomy where the issue's own text names a matching mechanism, and (2) run the Part XIV incomplete-circuit test."
+  },
+
+  "fractal_critical_mechanisms": [
+    { "id": "EI_BALANCE", "part": "XIII.1", "name": "Excitation/inhibition (E/I) balance", "definition": "Inhibition tracks excitation on a millisecond timescale; balance sets gain, dynamic range, timing precision, and stability. Loss of inhibition -> runaway (seizure); excess -> silence.", "design_invariant": "Any faithful mapping must have inhibition/brakes that SCALE WITH DRIVE.", "status": "generic" },
+    { "id": "INHIBITORY_MOTIFS", "part": "XIII.2", "name": "Four inhibitory motifs", "definition": "feedforward (narrow temporal window / coincidence), feedback/recurrent (self-limiting, gain control, stability), lateral (contrast enhancement, winner-take-all, sparsening), disinhibition (inhibiting an inhibitor = permissive gating/selection).", "design_invariant": "All four are reused at every scale; their absence breaks the fractal.", "status": "generic" },
+    { "id": "OSCILLATIONS", "part": "XIII.3", "name": "Oscillations & communication-through-coherence", "definition": "Rhythms create periodic windows of excitability; groups that oscillate coherently open input/output windows at the same time and communicate; incoherent groups are functionally disconnected. Bands: delta 1-4, theta 4-8, alpha 8-12, beta 13-30, gamma 30-80+ Hz.", "design_invariant": "Coherence = a dynamic routing/connection switch. There is an OPTIMAL coupling band; too-strong and too-weak coupling both fail.", "status": "generic" },
+    { "id": "THALAMOCORTICAL_GATING", "part": "XIII.4", "name": "Thalamocortical gating", "definition": "Thalamus + TRN gate what reaches cortex; tonic (faithful relay) vs burst (detection/alerting) modes under corticothalamic top-down control.", "design_invariant": "Gating must occur AT THE RIGHT STAGE - filter too early (before the circuit that needs the signal) and you lose information you cannot recover.", "status": "generic" },
+    { "id": "PREDICTIVE_CODING", "part": "XIII.5", "name": "Predictive coding / prediction error", "definition": "Hierarchical generative machine: top-down predictions descend, bottom-up prediction ERRORS ascend, only the mismatch propagates upward. Laminar correlate: forward = error, backward = prediction.", "design_invariant": "'Prediction error drives update' must also GENERATE predictions at the mapped scale, not merely react.", "status": "generic" },
+    { "id": "PLASTICITY", "part": "XIII.6", "name": "Plasticity / learning rules", "definition": "Hebbian (correlated -> strengthen); STDP (pre-before-post ~+10 ms -> LTP, post-before-pre -> LTD; dopamine extends LTP window to ~+30 ms); LTP/LTD (NMDA/Ca2+); homeostatic scaling (global normalization keeping drive in range so Hebbian learning does not run away); metaplasticity (threshold for change adapts).", "design_invariant": "A stabilizing counter-process (homeostatic scaling) MUST counter positive-feedback Hebbian learning, or the system runs away.", "status": "generic" },
+    { "id": "NEUROMODULATION_GAIN", "part": "XIII.7", "name": "Neuromodulation & gain", "definition": "Diffuse systems (DA, NE, 5-HT, ACh) carry no detailed content; they set global regime - gain, signal-to-noise, exploration/exploitation, learning rate, arousal. A small modulatory signal reconfigures the whole network's operating point.", "design_invariant": "A small broadcast signal must be able to rescale the whole system's operating point (one-to-many, multiplicative).", "status": "generic" },
+    { "id": "POPULATION_ATTRACTOR", "part": "XIII.8", "name": "Population & attractor dynamics", "definition": "Information lives in distributed population activity, not single cells; sparse coding is efficient/separable; attractor dynamics implement stable states and transitions. Over-gating, over-synchrony, or lost inhibition suppress emergence.", "design_invariant": "Emergence requires distributed, sparse, inhibition-balanced activity; do not concentrate all state in one node.", "status": "generic" },
+    { "id": "SLEEP_OFFLINE", "part": "XIII.9", "name": "Sleep, homeostasis & offline processing", "definition": "Sleep down-scales synapses globally while consolidating select memories, and drives glymphatic clearance of waste.", "design_invariant": "A mandatory OFFLINE maintenance/reset phase - a system with no downtime accumulates damage.", "status": "generic" },
+    { "id": "TERMINATION_CLEARANCE", "part": "IV.6", "name": "Signal termination / clearance", "definition": "Reuptake, enzymatic degradation, and diffusion bound signal persistence; termination is as important as release and prevents excitotoxic accumulation.", "design_invariant": "Clearance/termination must bound signal persistence; a signal that isn't cleared becomes toxic (see failure mode EXCITOTOXICITY).", "status": "generic" },
+    { "id": "REFRACTORINESS", "part": "III.3", "name": "Refractoriness / dead-time rate limiter", "definition": "Absolute refractory period (~1-2 ms) after an action prevents a second action; enforces one-way propagation and caps maximum firing rate.", "design_invariant": "A built-in rate limiter / dead-time after action must exist to cap throughput and enforce directionality.", "status": "generic" }
+  ],
+
+  "inhibitory_motifs_catalog": [
+    { "id": "feedforward", "definition": "Input excites both a target and an interneuron that inhibits the target -> narrow temporal window (coincidence-detection, AND within a time window)." },
+    { "id": "feedback", "definition": "Output feeds back through interneurons -> self-limiting, gain control, stability." },
+    { "id": "lateral", "definition": "Active units suppress neighbors -> contrast enhancement, winner-take-all, sparsening." },
+    { "id": "disinhibition", "definition": "Inhibiting an inhibitor -> permissive gating / selection." }
+  ],
+
+  "oscillatory_bands": [
+    { "band": "delta", "hz": "1-4", "role": "deep sleep" },
+    { "band": "theta", "hz": "4-8", "role": "memory / navigation" },
+    { "band": "alpha", "hz": "8-12", "role": "idling / inhibitory gating" },
+    { "band": "beta", "hz": "13-30", "role": "maintenance / motor set" },
+    { "band": "gamma", "hz": "30-80+", "role": "local active processing" }
+  ],
+
+  "failure_modes": [
+    { "id": "SEIZURE", "part": "XIV", "definition": "E/I balance failure: runaway recurrent excitation when inhibition is insufficient. Archetypal no-brakes -> runaway.", "invariant_violated": "EI_BALANCE (loss of load-bearing inhibition)" },
+    { "id": "EXCITOTOXICITY", "part": "XIV", "definition": "Excessive drive with failed termination/clearance -> overload -> death of the unit.", "invariant_violated": "TERMINATION_CLEARANCE (signal not cleared becomes toxic)" },
+    { "id": "CORTICAL_SPREADING_DEPRESSION", "part": "XIV", "definition": "A slow wave of depolarization then silence; homeostatic overwhelm.", "invariant_violated": "SLEEP_OFFLINE / homeostasis" },
+    { "id": "GATING_FAILURE", "part": "XIV", "definition": "Thalamocortical/TRN gating breakdown: too little filtering -> flooding, or mis-timed gating -> wrong information passed; gate stuck closed -> starvation.", "invariant_violated": "THALAMOCORTICAL_GATING (right-stage gating)" },
+    { "id": "DISINHIBITION_SYNDROME", "part": "XIV", "definition": "Losing the inhibitor releases pathological activity (loss of the stop/brake).", "invariant_violated": "INHIBITORY_MOTIFS / EI_BALANCE" },
+    { "id": "OSCILLATORY_PATHOLOGY", "part": "XIV", "definition": "Over-coupling (hypersynchrony) or under-coupling; both degrade communication.", "invariant_violated": "OSCILLATIONS (optimal coupling band; extremes fail)" },
+    { "id": "NEURODEGENERATION", "part": "XIV", "definition": "Aggregation + failed clearance + network collapse; maintenance failure compounding over time.", "invariant_violated": "SLEEP_OFFLINE / TERMINATION_CLEARANCE" },
+    { "id": "DEAFFERENTATION_DIASCHISIS", "part": "XIV", "definition": "Losing input disables not just the lesioned node but distant connected regions. THE NETWORK, NOT THE NODE, IS THE UNIT OF FAILURE; failures propagate across the graph.", "invariant_violated": "POPULATION_ATTRACTOR (distributed failure propagation)" },
+    { "id": "INCOMPLETE_CIRCUIT", "part": "XIV", "definition": "A circuit built without its regulatory partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition; feedback without the sensor). THE DIRECT DIAGNOSTIC FOR A BROKEN FRACTAL MAPPING: if the mapping omits the inhibitory/feedback/extinction arm, it is lesioned in the same way a brain is.", "invariant_violated": "any regulatory arm omitted" }
+  ],
+
+  "issue_failure_class_map": {
+    "_basis": "GROUNDED: each mapping uses the Education issue's OWN text (canonical circuit cue and/or summary, quoted in education_text) plus the document's Part XIV named class. No new class was invented. Where the issue text names a mechanism with no analog among the 9 classes, it is marked UNMAPPED rather than force-fit.",
+    "_count": "3 grounded (FUNDING_CRISIS, TEACHER_SHORTAGE, ACCREDITATION_FAILURE), 2 UNMAPPED (ACHIEVEMENT_GAP, TECHNOLOGY_DISRUPTION) of 5 issues.",
+    "FUNDING_CRISIS": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-closed -> starvation",
+      "education_text": "canonical circuit THAL[Hypo]: \"gating relay / routing — stuck-closed=starvation\"; summary: \"Chronic underfunding of public education creating resource scarcity, facility deterioration, and inability to attract or retain qualified educators\"",
+      "reasoning": "The named mechanism is a THROUGHPUT GATE stuck closed. A gate stuck closed producing downstream resource starvation is the GATING_FAILURE archetype (gate stuck closed -> starvation) verbatim — the funding gate closes and the system (classrooms, materials, staff, libraries) is starved. Strongest grounding of the set: the cue text literally reads 'stuck-closed=starvation'.",
+      "note": "The _authored circuit realizes this as five hypo-active downstream nodes (vmPFC, dlPFC, BROCA, SMA, PRECUNEUS) all starved by the closed funding gate."
+    },
+    "TEACHER_SHORTAGE": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-closed -> starvation",
+      "education_text": "canonical circuit THAL[Hypo]: \"gating relay / routing — stuck-closed=starvation\"; summary: \"Critical shortage of qualified teachers driven by low compensation, burnout, and declining enrollment in education preparation programs\"",
+      "reasoning": "Classified on the canonical NODE cue, which is IDENTICAL to FUNDING_CRISIS: a gating relay stuck closed starving the system (here, of qualified teachers) = GATING_FAILURE (gate stuck closed -> starvation).",
+      "note": "TWO divergences flagged, not resolved by guessing. (1) The SUMMARY describes a supply/workforce DEPLETION (a resource-exhaustion flavor) rather than a routing-gate lock; the gate cue governs the class, but the depletion flavor has no clean dedicated analog among the 9. (2) This issue's _authored circuit [BROCA, SMA, TPJ, OXY] FAILS the incomplete-circuit test (no regulatory partner) — see incomplete_circuit_diagnostic. The failure-class map and the incomplete-circuit test are independent diagnostics; here they disagree (a classifiable GATING_FAILURE that is nonetheless an INCOMPLETE_CIRCUIT structurally)."
+    },
+    "ACHIEVEMENT_GAP": {
+      "class": "UNMAPPED",
+      "reason": "Issue text names a mechanism with NO analog among the 9 Part XIV classes.",
+      "education_text": "canonical circuit dACC[Hyper]: \"conflict/error monitor — priors-too-strong\"; summary: \"Persistent disparities in educational outcomes across racial, socioeconomic, and geographic lines reflecting structural inequity in resource distribution and opportunity access\"; authored dACC[Altered]: \"Assessment systems detecting gaps but institutional response mechanisms failing to close them\"",
+      "reasoning": "The canonical cue 'priors-too-strong' in an OVER-active (Hyper) conflict/error monitor is a PREDICTIVE-CODING pathology (XIII.5): over-precise top-down priors suppress bottom-up prediction error and block updating, so the system persists in an entrenched wrong state despite detection ('detecting gaps but failing to close them'). The 9 Part XIV classes are all E/I-dynamics archetypes (excitation, inhibition, gating, clearance, synchrony, propagation); NONE expresses rigid/over-precise priors or a failure-to-update. It is not SEIZURE (no runaway excitation), not DISINHIBITION (that is LOSS of a brake; here the top-down prior is EXCESSIVE, the opposite), and dACC is not a thalamocortical gate so GATING_FAILURE is a category mismatch. Forcing it into any of the 9 would be a guess. Marked UNMAPPED per discipline.",
+      "note": "First of TWO Education UNMAPPED findings, and a DIFFERENT gap than Finance's: the taxonomy lacks a predictive-coding prior-rigidity / failed-update class. (Independently, this is the only Education issue with catchAllBlocked:false in education-pulse-engine.js.)"
+    },
+    "ACCREDITATION_FAILURE": {
+      "class": "DISINHIBITION_SYNDROME",
+      "subtype": "monitor-down -> lost quality brake releases pathological activity",
+      "education_text": "canonical circuit dACC[Hypo]: \"conflict/error monitor — noise-chase\"; summary: \"Breakdown of quality assurance mechanisms allowing credential inflation, diploma mills, and programs that fail to produce competent graduates\"; authored dACC[Hypo]: \"Assessment standards weakened by grade inflation and lowered rigor, masking actual learning deficits\"",
+      "reasoning": "The conflict/error monitor is HYPO-active (down). The dACC functions as the quality/error brake; its loss releases pathological activity — credential inflation, diploma mills, unchecked low-quality programs. Losing the inhibitor/monitor and releasing pathological activity is the exact DISINHIBITION_SYNDROME definition (loss of the stop/brake). Grounded in dir=Hypo (monitor down) + the summary's 'allowing... credential inflation, diploma mills'.",
+      "note": "Straddles GATING_FAILURE: the node cue word 'noise-chase' (chasing noise = a signal/noise filtering failure) supports a filtering-gate reading. Classed as DISINHIBITION_SYNDROME on the dominant mechanism — a DOWN monitor whose lost brake releases pathological activity — with the GATING_FAILURE filter-reading recorded as the divergence."
+    },
+    "TECHNOLOGY_DISRUPTION": {
+      "class": "UNMAPPED",
+      "reason": "Issue text names a mechanism with NO analog among the 9 Part XIV classes.",
+      "education_text": "canonical circuit dlPFC[Hyper]: \"dorsolateral PFC — executive working-memory / cognitive control — rigidity/rumination-lock\"; summary: \"Rapid AI and digital technology advancement destabilizing traditional educational models, assessment integrity, and the definition of essential human skills\"; authored dACC[Altered]: \"Assessment validity undermined by AI-generated student work that evades plagiarism detection\"",
+      "reasoning": "The summary and authored cues describe a MODEL-DRIFT + ADVERSARIAL-EVASION failure: the environment/model itself drifts ('destabilizing traditional educational models... the definition of essential human skills') and an adversary defeats the integrity check ('AI-generated student work that evades plagiarism detection'). These are information-integrity / adversarial-deception archetypes. The 9 Part XIV classes are all dynamical-failure archetypes; none expresses model-drift or fabricated/adversarial content. Forcing it would be a guess. Marked UNMAPPED per discipline. (The dlPFC node cue 'rigidity/rumination-lock' could be read toward OSCILLATORY_PATHOLOGY over-coupling/hypersynchrony, but the governing issue-level mechanism named by the summary is model-drift + adversarial evasion, which dominates and is unmappable.)",
+      "note": "Second UNMAPPED finding and the KEY HETEROGENEITY: this is the Education analog of Finance FRAUD_SCANDAL — an adversarial-deception / information-integrity failure (here compounded by model-drift) that the E/I-dynamics neuro-substrate taxonomy structurally cannot represent."
+    }
+  },
+
+  "incomplete_circuit_diagnostic": {
+    "_test": "Part XIV: does each issue's authored circuit contain a regulatory/inhibitory/feedback partner from the REGULATORY_NODES set in energy-neuro-substrate.js (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM)? Run against education.json _authored circuits, matching the JS validateIncompleteCircuit() behavior (uses _authored node list). Verdicts below are the actual output of running assets/js/energy-neuro-substrate.js validateIncompleteCircuit() over education.json issues[].",
+    "_verdict_summary": "PASS 4/5, INCOMPLETE 1/5. Four authored circuits include at least one regulatory/feedback node; TEACHER_SHORTAGE does NOT. This DIFFERS from Finance (6/6) and Energy (6/6): Education contains a genuinely incomplete circuit. TEACHER_SHORTAGE's _authored circuit [BROCA, SMA, TPJ, OXY] is all executor/social-bonding nodes with no vmPFC/dlPFC/OFC/STN/GP/HIPP/HYPO/dACC/CBLM brake — an excitation-side mapping authored without its regulatory arm.",
+    "FUNDING_CRISIS": { "verdict": "complete", "circuit": ["vmPFC", "dlPFC", "BROCA", "SMA", "PRECUNEUS"], "regulatory_partners_present": ["vmPFC", "dlPFC"] },
+    "TEACHER_SHORTAGE": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["BROCA", "SMA", "TPJ", "OXY"], "regulatory_partners_present": [], "observation": "THE KEY FINDING. No node in [BROCA, SMA, TPJ, OXY] is in REGULATORY_NODES. Per Part XIV a circuit built without its regulatory/inhibitory/feedback partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition). This authored circuit is lesioned in exactly that way. To complete it, author a regulatory partner (e.g. vmPFC policy brake or dACC monitor) into the circuit before treating it as sound." },
+    "ACHIEVEMENT_GAP": { "verdict": "complete", "circuit": ["WERN", "IPS", "dACC", "vmPFC", "FPN"], "regulatory_partners_present": ["dACC", "vmPFC"], "observation": "Structurally complete under the incomplete-circuit test, yet UNMAPPED in the failure-class map (predictive-coding prior-rigidity). The two diagnostics are independent: a circuit can be complete and still express a failure archetype outside the 9-class taxonomy." },
+    "ACCREDITATION_FAILURE": { "verdict": "complete", "circuit": ["AG", "dACC", "DMN", "M1"], "regulatory_partners_present": ["dACC"], "observation": "The single regulatory partner (dACC) is itself the HYPO-active node driving the DISINHIBITION_SYNDROME class — the brake is present in the circuit but failing, which is why the issue still expresses pathology despite a 'complete' verdict." },
+    "TECHNOLOGY_DISRUPTION": { "verdict": "complete", "circuit": ["FPN", "dACC", "HIPP", "dlPFC", "BROCA"], "regulatory_partners_present": ["dACC", "HIPP", "dlPFC"], "observation": "Structurally complete, yet UNMAPPED in the failure-class map (model-drift + adversarial evasion). Complete-and-unmapped, like Finance FRAUD_SCANDAL." }
+  },
+
+  "parameter_table": {
+    "_note": "Part XV, verbatim. Quantitative substrate for scale-rescaling. Confidence + anchor preserved.",
+    "rows": [
+      { "parameter": "Resting membrane potential", "value": "-65 to -70 mV", "confidence": "high", "anchor": "consensus (Kandel/Purves)" },
+      { "parameter": "AP threshold", "value": "~ -55 mV", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "AP duration", "value": "~1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Absolute refractory period", "value": "~1-2 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Synaptic (chemical) delay", "value": "~0.5-1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (unmyelinated C)", "value": "~0.5-2 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (large myelinated Aa)", "value": "~80-120 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "STDP LTP window (baseline)", "value": "pre-before-post ~+10 ms", "confidence": "high", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "STDP LTP window (dopamine-extended)", "value": "to ~+30 ms", "confidence": "medium", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "Gamma oscillation band", "value": "~30-80+ Hz", "confidence": "high", "anchor": "Fries 2005 (10.1016/j.tics.2005.08.011)" },
+      { "parameter": "Theta band", "value": "~4-8 Hz", "confidence": "high", "anchor": "consensus / Voytek 2015 (10.1016/j.biopsych.2015.04.016)" },
+      { "parameter": "Alpha band", "value": "~8-12 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Beta band", "value": "~13-30 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Delta band", "value": "~1-4 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Thalamic relay modes", "value": "tonic vs burst", "confidence": "high", "anchor": "Ferrarelli & Tononi 2010 (10.1093/schbul/sbq142)" },
+      { "parameter": "HPA cortisol feedback (fast, nongenomic)", "value": "seconds-minutes", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "HPA cortisol feedback (genomic/slow)", "value": "minutes-hours", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "Gut serotonin fraction of body total", "value": "~90-95%", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Glymphatic clearance", "value": "sleep-enhanced", "confidence": "medium", "anchor": "Benveniste 2018 (10.1159/000490349)" }
+    ],
+    "ratio_preservation_rule": "When mapping any neural time constant to a domain equivalent, hold the RATIOS between constants fixed, not just individual values. The ~1000x gap between AP duration (~1 ms) and slow neuromodulatory/hormonal feedback (~seconds-minutes) is the 'fast signal vs slow modulation' invariant; the Education mapping must preserve an analogous fast-action / slow-governance separation (e.g. classroom-cycle vs accreditation/policy-cycle), or the fractal is cosmetic, not structural."
+  },
+
+  "references": [
+    { "n": 1, "cite": "Ruan H, Saur T, Yao WD. Dopamine-enabled anti-Hebbian timing-dependent plasticity in prefrontal circuitry. Front Neural Circuits, 2014.", "doi": "10.3389/fncir.2014.00038" },
+    { "n": 2, "cite": "Fries P. A mechanism for cognitive dynamics: neuronal communication through neuronal coherence. Trends Cogn Sci, 2005.", "doi": "10.1016/j.tics.2005.08.011" },
+    { "n": 3, "cite": "Voytek B, Knight RT. Dynamic network communication as a unifying neural basis for cognition, development, aging, and disease. Biol Psychiatry, 2015.", "doi": "10.1016/j.biopsych.2015.04.016" },
+    { "n": 4, "cite": "Basar E, Guntekin B, Oniz A. Principles of oscillatory brain dynamics... Prog Brain Res, 2006.", "doi": "10.1016/S0079-6123(06)59004-1" },
+    { "n": 5, "cite": "Shipp S. Neural Elements for Predictive Coding. Front Psychol, 2016.", "doi": "10.3389/fpsyg.2016.01792" },
+    { "n": 6, "cite": "Mikulasch FA, Rudelt L, Wibral M, Priesemann V. Where is the error? Hierarchical predictive coding through dendritic error computation. Trends Neurosci, 2023.", "doi": "10.1016/j.tins.2022.09.007" },
+    { "n": 7, "cite": "Ferrarelli F, Tononi G. The thalamic reticular nucleus and schizophrenia. Schizophr Bull, 2010.", "doi": "10.1093/schbul/sbq142" },
+    { "n": 8, "cite": "Niethard N, Burgalossi A, Born J. Plasticity during Sleep Is Linked to Specific Regulation of Cortical Circuit Activity. Front Neural Circuits, 2017.", "doi": "10.3389/fncir.2017.00065" },
+    { "n": 9, "cite": "Keller-Wood M. Hypothalamic-Pituitary-Adrenal Axis-Feedback Control. Compr Physiol, 2015.", "doi": "10.1002/cphy.c140065" },
+    { "n": 10, "cite": "Hill MN, Tasker JG. Endocannabinoid signaling, glucocorticoid-mediated negative feedback... Neuroscience, 2012.", "doi": "10.1016/j.neuroscience.2011.12.030" },
+    { "n": 11, "cite": "Rutsch A, Kantsjo JB, Ronchi F. The Gut-Brain Axis... Front Immunol, 2020.", "doi": "10.3389/fimmu.2020.604179" },
+    { "n": 12, "cite": "Benveniste H, Liu X, Koundal S, et al. The Glymphatic System and Waste Clearance with Brain Aging. Gerontology, 2018.", "doi": "10.1159/000490349" }
+  ]
+}

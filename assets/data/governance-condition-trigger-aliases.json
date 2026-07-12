@@ -1,0 +1,1037 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a governance extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers would be built from pulse condition-codes plus active diagnosis ids (energy-telemetry-adapter.js pattern). This table bridges condition-codes and diagnosis ids to the FREE-TEXT diagnosticTriggers carried by each _authored circuit's activation nodes.",
+    "derivationChain": "condition --(governance-pulse-engine.js classify L144-166)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-gate, L177-179)--> diagnosis id --(governance.json issues[]._authored circuit)--> circuit nodeIds --(activation.diagnosticTriggers, FREE-TEXT)--> trigger phrases. The diagnoses section is the strongest link (pure data from issues[]._authored). The condition-codes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (the actual code gate, OR-semantics). A condition that is only a diagnosis secondaryConfirmation but does not emit that diagnosis requiredFamily is NOT folded (bias against over-marking); such cases are listed under unmapped.",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from governance.json; extinction matching is case-insensitive (energy-extinction.js pattern).",
+    "heterogeneityVsFinanceAndEnergy": "(1) TRIGGER SHAPE: governance activation.diagnosticTriggers are FREE-TEXT phrases (e.g. 'Executive overreach') like ENERGY, NOT diagnosis ids like Finance, so the bridge is strictly load-bearing. (2) DEAD-END CONTRACT: POLICY_FAILURE requiredFamilies [congressional_event, fiscal_event] are never emitted by the classifier, so an ENTIRE diagnosis is unreachable via condition-codes (Finance's dead-end was a single family; governance's is a whole contract). (3) MANY DEAD-END FAMILIES: policy_event, workforce_event, indicator_event, structural_event, macro_event are all emitted but required by no contract, so 14 of 24 condition tokens are ungroundable; only institutional_event and news_event bridge to any diagnosis. (4) ZERO ORPHANS: every activation carrying non-empty diagnosticTriggers appears in at least one _authored circuit (Finance had 3 orphans, Energy 1). Only SN and FG are unreachable, and both carry empty triggers, so they are extinction-exempt, not orphans.",
+    "sources": [
+      "assets/js/governance-pulse-engine.js (condition->family classify L144-166; EVIDENCE_CONTRACTS L45-100; requiredFamilies OR-gate L177-179)",
+      "assets/data/domains/governance.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build; no governance-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics; no governance-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T19:50:52.950Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes governance.json or fires extinction. No governance-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "institutional_decline": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "SMA",
+        "THAL",
+        "CeA",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Monetary policy misstep",
+        "Central bank credibility loss",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Fiscal deficit spiraling",
+        "Tax system failure"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'institutional_decline' to evidence families [institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "quality_degradation": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "SMA",
+        "THAL",
+        "CeA",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Monetary policy misstep",
+        "Central bank credibility loss",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Fiscal deficit spiraling",
+        "Tax system failure"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'quality_degradation' to evidence families [institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "standards_erosion": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "SMA",
+        "THAL",
+        "CeA",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Monetary policy misstep",
+        "Central bank credibility loss",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Fiscal deficit spiraling",
+        "Tax system failure"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'standards_erosion' to evidence families [institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "credential_devaluation": {
+      "evidenceFamilies": [
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "SMA",
+        "THAL",
+        "CeA",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Monetary policy misstep",
+        "Central bank credibility loss",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Fiscal deficit spiraling",
+        "Tax system failure"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'credential_devaluation' to evidence families [institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "oversight_failure": {
+      "evidenceFamilies": [
+        "institutional_event",
+        "policy_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "SMA",
+        "THAL",
+        "CeA",
+        "STRI"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Monetary policy misstep",
+        "Central bank credibility loss",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Fiscal deficit spiraling",
+        "Tax system failure"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'oversight_failure' to evidence families [institutional_event, policy_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "digital_divide": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "REGIME_INSTABILITY",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "NAcc",
+        "CeA",
+        "SMA",
+        "CAUD",
+        "vmPFC",
+        "STRI",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Voter suppression",
+        "Electoral fraud allegations",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Civil service politicization",
+        "Brain drain from government",
+        "Evidence-free policymaking",
+        "Short-term bias in planning",
+        "Fiscal deficit spiraling",
+        "Tax system failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Monetary policy misstep",
+        "Central bank credibility loss"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'digital_divide' to evidence families [news_event, institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "platform_transition": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "REGIME_INSTABILITY",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "NAcc",
+        "CeA",
+        "SMA",
+        "CAUD",
+        "vmPFC",
+        "STRI",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Voter suppression",
+        "Electoral fraud allegations",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Civil service politicization",
+        "Brain drain from government",
+        "Evidence-free policymaking",
+        "Short-term bias in planning",
+        "Fiscal deficit spiraling",
+        "Tax system failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Monetary policy misstep",
+        "Central bank credibility loss"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'platform_transition' to evidence families [news_event, institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "pedagogical_mismatch": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "REGIME_INSTABILITY",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "NAcc",
+        "CeA",
+        "SMA",
+        "CAUD",
+        "vmPFC",
+        "STRI",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Voter suppression",
+        "Electoral fraud allegations",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Civil service politicization",
+        "Brain drain from government",
+        "Evidence-free policymaking",
+        "Short-term bias in planning",
+        "Fiscal deficit spiraling",
+        "Tax system failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Monetary policy misstep",
+        "Central bank credibility loss"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'pedagogical_mismatch' to evidence families [news_event, institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "automation_displacement": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "REGIME_INSTABILITY",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "NAcc",
+        "CeA",
+        "SMA",
+        "CAUD",
+        "vmPFC",
+        "STRI",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Voter suppression",
+        "Electoral fraud allegations",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Civil service politicization",
+        "Brain drain from government",
+        "Evidence-free policymaking",
+        "Short-term bias in planning",
+        "Fiscal deficit spiraling",
+        "Tax system failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Monetary policy misstep",
+        "Central bank credibility loss"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'automation_displacement' to evidence families [news_event, institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    },
+    "adaptive_failure": {
+      "evidenceFamilies": [
+        "news_event",
+        "institutional_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CONSTITUTIONAL_CRISIS",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "REGIME_INSTABILITY",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "CORRUPTION_SCANDAL",
+          "link": "requiredFamily:news_event"
+        },
+        {
+          "id": "DIPLOMATIC_BREAKDOWN",
+          "link": "requiredFamily:institutional_event|news_event"
+        },
+        {
+          "id": "MILITARY_OVERREACH",
+          "link": "requiredFamily:institutional_event"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC",
+        "NAcc",
+        "CeA",
+        "SMA",
+        "CAUD",
+        "vmPFC",
+        "STRI",
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Voter suppression",
+        "Electoral fraud allegations",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Civil service politicization",
+        "Brain drain from government",
+        "Evidence-free policymaking",
+        "Short-term bias in planning",
+        "Fiscal deficit spiraling",
+        "Tax system failure",
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Monetary policy misstep",
+        "Central bank credibility loss"
+      ],
+      "basis": "governance-pulse-engine.js classifies condition 'adaptive_failure' to evidence families [news_event, institutional_event] (L144-166). Those families satisfy the requiredFamilies (OR-gate, L177-179) of the linkedDiagnoses (EVIDENCE_CONTRACTS L45-100). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (governance.json) and those activations' FREE-TEXT diagnosticTriggers. Unlike Finance, governance activation.diagnosticTriggers are FREE-TEXT phrases (Energy-shaped), not diagnosis ids, so this bridge is strictly required for extinction matching."
+    }
+  },
+  "diagnoses": {
+    "CONSTITUTIONAL_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "DMN",
+        "OFC",
+        "dlPFC",
+        "BROCA",
+        "dACC"
+      ],
+      "diagnosticTriggers": [
+        "Constitutional erosion",
+        "Foundational norm collapse",
+        "Judicial politicization",
+        "Court-packing threats",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Legislative gridlock",
+        "Filibuster abuse",
+        "Regulatory capture",
+        "Enforcement failure"
+      ],
+      "reachableByConditionCodes": true,
+      "basis": "diagnosis id === governance issue id; when active, an energy-pattern adapter would mark issues['CONSTITUTIONAL_CRISIS']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference."
+    },
+    "REGIME_INSTABILITY": {
+      "circuitSource": "_authored",
+      "activations": [
+        "NAcc",
+        "CeA",
+        "SMA",
+        "CAUD",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "Voter suppression",
+        "Electoral fraud allegations",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Civil service politicization",
+        "Brain drain from government",
+        "Evidence-free policymaking",
+        "Short-term bias in planning"
+      ],
+      "reachableByConditionCodes": true,
+      "basis": "diagnosis id === governance issue id; when active, an energy-pattern adapter would mark issues['REGIME_INSTABILITY']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference."
+    },
+    "POLICY_FAILURE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "vmPFC",
+        "ECN",
+        "HIPP",
+        "dACC",
+        "FPN",
+        "BROCA"
+      ],
+      "diagnosticTriggers": [
+        "Evidence-free policymaking",
+        "Short-term bias in planning",
+        "Bureaucratic dysfunction",
+        "Service delivery failure",
+        "Census manipulation",
+        "Demographic data suppression",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Legislative gridlock",
+        "Filibuster abuse"
+      ],
+      "reachableByConditionCodes": false,
+      "basis": "diagnosis id === governance issue id; when active, an energy-pattern adapter would mark issues['POLICY_FAILURE']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference.",
+      "note": "UNREACHABLE via condition-codes: requiredFamilies [congressional_event, fiscal_event] are NEVER emitted by any condition in the pulse-engine classifier (L144-166). No grounded condition-code folds into POLICY_FAILURE; it can only activate via its diagnosis-id path (external marking). Structural finding, not fabricated."
+    },
+    "CORRUPTION_SCANDAL": {
+      "circuitSource": "_authored",
+      "activations": [
+        "OFC",
+        "STRI",
+        "dACC",
+        "CAUD",
+        "NAcc"
+      ],
+      "diagnosticTriggers": [
+        "Judicial politicization",
+        "Court-packing threats",
+        "Fiscal deficit spiraling",
+        "Tax system failure",
+        "Regulatory capture",
+        "Enforcement failure",
+        "Civil service politicization",
+        "Brain drain from government",
+        "Voter suppression",
+        "Electoral fraud allegations"
+      ],
+      "reachableByConditionCodes": true,
+      "basis": "diagnosis id === governance issue id; when active, an energy-pattern adapter would mark issues['CORRUPTION_SCANDAL']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference."
+    },
+    "DIPLOMATIC_BREAKDOWN": {
+      "circuitSource": "_authored",
+      "activations": [
+        "TPJ",
+        "AG",
+        "LANG",
+        "FPN",
+        "SMA",
+        "THAL"
+      ],
+      "diagnosticTriggers": [
+        "Diplomatic isolation",
+        "Alliance fracturing",
+        "Treaty withdrawal cascade",
+        "International court defiance",
+        "Disinformation epidemic",
+        "State media capture",
+        "Intelligence failure",
+        "Analytical groupthink",
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Monetary policy misstep",
+        "Central bank credibility loss"
+      ],
+      "reachableByConditionCodes": true,
+      "basis": "diagnosis id === governance issue id; when active, an energy-pattern adapter would mark issues['DIPLOMATIC_BREAKDOWN']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference."
+    },
+    "MILITARY_OVERREACH": {
+      "circuitSource": "_authored",
+      "activations": [
+        "SMA",
+        "CeA",
+        "dlPFC",
+        "STRI",
+        "BROCA"
+      ],
+      "diagnosticTriggers": [
+        "Civil-military tension",
+        "Defense budget overreach",
+        "Permanent emergency state",
+        "Emergency power abuse",
+        "Executive overreach",
+        "Decision paralysis in leadership",
+        "Fiscal deficit spiraling",
+        "Tax system failure",
+        "Legislative gridlock",
+        "Filibuster abuse"
+      ],
+      "reachableByConditionCodes": true,
+      "basis": "diagnosis id === governance issue id; when active, an energy-pattern adapter would mark issues['MILITARY_OVERREACH']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "budget_shortfall",
+        "evidenceFamilies": [
+          "policy_event"
+        ],
+        "reason": "emits only family/families [policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "resource_scarcity",
+        "evidenceFamilies": [
+          "policy_event"
+        ],
+        "reason": "emits only family/families [policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "infrastructure_degradation",
+        "evidenceFamilies": [
+          "policy_event"
+        ],
+        "reason": "emits only family/families [policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "workforce_gap",
+        "evidenceFamilies": [
+          "workforce_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [workforce_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "retention_failure",
+        "evidenceFamilies": [
+          "workforce_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [workforce_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "recruitment_deficit",
+        "evidenceFamilies": [
+          "workforce_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [workforce_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "burnout_epidemic",
+        "evidenceFamilies": [
+          "workforce_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [workforce_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "outcome_disparity",
+        "evidenceFamilies": [
+          "indicator_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [indicator_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "access_inequality",
+        "evidenceFamilies": [
+          "indicator_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [indicator_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "performance_decline",
+        "evidenceFamilies": [
+          "indicator_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [indicator_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "equity_failure",
+        "evidenceFamilies": [
+          "indicator_event",
+          "policy_event"
+        ],
+        "reason": "emits only family/families [indicator_event, policy_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias."
+      },
+      {
+        "code": "governance_high_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "emits only family/families [structural_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias. This is the governance stress catch-all token; it emits structural_event which no contract requires."
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "emits only family/families [structural_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias. NOTE structural_stress IS a secondaryConfirmation for POLICY_FAILURE, but it does not emit POLICY_FAILURE requiredFamily (congressional_event/fiscal_event), so it is not folded."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "emits only family/families [macro_event], which appear in NO contract requiredFamilies (OR-gate, governance-pulse-engine.js L177-179). Dead-end: reaches no diagnosis, no _authored circuit, no activation. No grounded alias. NOTE macro_shock IS a secondaryConfirmation for CONSTITUTIONAL_CRISIS and DIPLOMATIC_BREAKDOWN, but the code gate checks requiredFamilies only, and macro_event is not among them, so it is not folded (bias against over-marking)."
+      }
+    ],
+    "diagnoses": [
+      {
+        "id": "POLICY_FAILURE",
+        "requiredFamilies": [
+          "congressional_event",
+          "fiscal_event"
+        ],
+        "reason": "requiredFamilies [congressional_event, fiscal_event] are emitted by NO condition in governance-pulse-engine.js (L144-166). No condition-code can satisfy its evidence gate, so no grounded condition->diagnosis alias exists for POLICY_FAILURE. It retains its diagnoses-map entry (diagnosis-id + _authored circuit path) but is unreachable through the condition-code hop. Not fabricated; a wiring gap in the pulse-engine classifier vocabulary."
+      }
+    ],
+    "activationsWithTriggersButNoTriggerSource": [],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "SN",
+        "domainLabel": "Sanctions",
+        "diagnosticTriggers": [],
+        "reason": "Not in any issue._authored circuit, but diagnosticTriggers is empty, so an energy-extinction-style pass skips it entirely (never a candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "FG",
+        "domainLabel": "Succession",
+        "diagnosticTriggers": [],
+        "reason": "Not in any issue._authored circuit, but diagnosticTriggers is empty, so an energy-extinction-style pass skips it entirely (never a candidate). No alias needed."
+      }
+    ]
+  },
+  "contractIndicatorsNeverEmitted": {
+    "families": [
+      "research_event",
+      "congressional_event",
+      "fiscal_event",
+      "oversight_event"
+    ],
+    "reason": "Named in contract requiredFamilies (REGIME_INSTABILITY needs research_event; POLICY_FAILURE needs congressional_event+fiscal_event; CORRUPTION_SCANDAL needs oversight_event) but the classifier (L144-166) never emits them. REGIME_INSTABILITY and CORRUPTION_SCANDAL are still groundable via their OTHER requiredFamily (news_event); POLICY_FAILURE has no alternative and is therefore unreachable (see unmapped.diagnoses)."
+  }
+}

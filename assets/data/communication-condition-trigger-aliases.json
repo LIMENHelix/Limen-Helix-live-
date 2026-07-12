@@ -1,0 +1,181 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Communication extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse evidence (condition-codes -> evidence families) + active diagnosis ids (energy-telemetry-adapter.js L48-53 pattern). In Communication the activation.diagnosticTriggers are FREE-TEXT human phrases (like Energy, UNLIKE Finance where they are diagnosis ids), so a diagnosis id never self-matches an activation trigger; this table is therefore strictly required to bridge diagnoses/conditions to the free-text triggers of their circuit nodes.",
+    "derivationChain": "condition-code --(communication-pulse-engine.js classify loop, L125-147)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L35-81 / L157-160)--> diagnosis id --(communication.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations whose diagnosticTriggers are FREE-TEXT phrases)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data: diagnosis id === issue id -> its _authored nodes -> their triggers). The conditionCodes section adds the pulse-engine family hop and is DELIBERATELY COARSE (see heterogeneity note 3).",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate: requiredFamilies with OR-semantics at L157-160, NOT primaryIndicators). A condition that only matches a diagnosis secondaryConfirmation TOKEN but does not emit a required FAMILY is NOT folded (bias against over-marking).",
+    "discipline": "No link invented. Conditions with no defensible family->requiredFamily chain are under unmapped. Trigger strings copied verbatim from communication.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinance": "STRUCTURALLY DIFFERENT from the Finance alias table. (1) Communication activation.diagnosticTriggers are FREE-TEXT phrases ('Press freedom erosion', 'Deepfake proliferation') — NOT diagnosis ids. So the diagnoses map is genuinely LOAD-BEARING here (in Finance it was largely redundant because diagnosis-ids self-matched). This makes Communication resemble Energy, not Finance. (2) Communication's condition-codes are GENERIC domain-template stress tokens (budget_shortfall, workforce_gap, digital_divide, institutional_decline...) whose vocabulary is ALMOST ENTIRELY DISJOINT from the contract indicator vocabulary. In Finance the condition-codes WERE the contract indicator tokens (bank_failure -> banking_event). (3) The ONLY evidence family that any condition emits AND any contract requires is news_event (emitted by digital_divide / platform_transition / pedagogical_mismatch / automation_displacement / adaptive_failure at L141-144). Because ALL FIVE contracts list news_event in requiredFamilies, each of those five conditions folds INDISCRIMINATELY into all five diagnoses via the OR-gate. This is a coarse, low-specificity bridge, faithfully reproduced but flagged. (4) EVERY contract primaryIndicator (misinformation_spread, infrastructure_failure, speech_restriction, market_concentration, narrative_manipulation, ...) is contract-only-not-classified: the classify loop never emits it (Finance had zero such tokens). (5) macro_shock -> macro_event is a dead-end (same as Finance), and here so are policy_event, institutional_event, workforce_event, indicator_event, structural_event — the entire generic stress vocabulary is dead-end EXCEPT news_event. (6) Orphan count: Finance 3, Communication 3 (LANG, MGN, PULV).",
+    "sources": [
+      "assets/js/communication-pulse-engine.js (condition->family classify loop L125-147; EVIDENCE_CONTRACTS L35-81; requiredFamilies OR-gate L157-160)",
+      "assets/data/domains/communication.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no communication-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no communication-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T00:00:00.000Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes communication.json or fires extinction. No communication-specific adapter/extinction module exists yet; this table follows the Energy/Finance contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "digital_divide": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "bridgingFamily": "news_event",
+      "linkedDiagnoses": [
+        { "id": "DISINFORMATION_CRISIS", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "TELECOM_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CENSORSHIP_OVERREACH", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "MEDIA_MONOPOLY", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_PROPAGANDA", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["NAcc", "TPJ", "dACC", "BROCA", "CC", "FPN", "FEF", "CBLM", "WERN", "vlPFC", "STS", "OFC", "A1", "V1"],
+      "diagnosticTriggers": ["Algorithmic radicalization", "Addiction-pattern engagement", "State-sponsored influence operations", "Weaponized narrative campaigns", "Overreach suppressing legitimate speech", "Insufficient harmful content moderation", "Press freedom erosion", "Journalist safety threats", "Network outages", "Infrastructure degradation", "Backbone cable severance", "DNS infrastructure attacks", "Orbital debris accumulation", "Satellite system vulnerabilities", "Delivery network disruption", "Last-mile access failure", "Knowledge access inequality", "Academic publishing gatekeeping", "Crisis communication failure", "Institutional trust erosion", "Content homogenization", "Platform monopolization", "Manipulative targeting of minors", "Deceptive advertising practices", "Broadcast spectrum saturation", "Signal interference", "Deepfake proliferation", "Visual misinformation"],
+      "basis": "communication-pulse-engine.js classifies 'digital_divide' -> evidence families [news_event, institutional_event] (L141-144). news_event satisfies the requiredFamilies (OR-semantics, L157-160) of ALL FIVE contracts (each lists news_event). institutional_event is required by no contract (dead-end). Each linked diagnosis expands to its issues[]._authored circuit nodeIds and those activations' FREE-TEXT diagnosticTriggers. COARSE by construction: this one condition un-blocks every diagnosis; specificity is absent, faithfully reproduced from the engine."
+    },
+    "platform_transition": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "bridgingFamily": "news_event",
+      "linkedDiagnoses": [
+        { "id": "DISINFORMATION_CRISIS", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "TELECOM_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CENSORSHIP_OVERREACH", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "MEDIA_MONOPOLY", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_PROPAGANDA", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["NAcc", "TPJ", "dACC", "BROCA", "CC", "FPN", "FEF", "CBLM", "WERN", "vlPFC", "STS", "OFC", "A1", "V1"],
+      "diagnosticTriggers": ["Algorithmic radicalization", "Addiction-pattern engagement", "State-sponsored influence operations", "Weaponized narrative campaigns", "Overreach suppressing legitimate speech", "Insufficient harmful content moderation", "Press freedom erosion", "Journalist safety threats", "Network outages", "Infrastructure degradation", "Backbone cable severance", "DNS infrastructure attacks", "Orbital debris accumulation", "Satellite system vulnerabilities", "Delivery network disruption", "Last-mile access failure", "Knowledge access inequality", "Academic publishing gatekeeping", "Crisis communication failure", "Institutional trust erosion", "Content homogenization", "Platform monopolization", "Manipulative targeting of minors", "Deceptive advertising practices", "Broadcast spectrum saturation", "Signal interference", "Deepfake proliferation", "Visual misinformation"],
+      "basis": "communication-pulse-engine.js classifies 'platform_transition' -> [news_event, institutional_event] (L141-144). news_event satisfies all five contracts' requiredFamilies (OR-gate L157-160). Same coarse expansion as digital_divide."
+    },
+    "pedagogical_mismatch": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "bridgingFamily": "news_event",
+      "linkedDiagnoses": [
+        { "id": "DISINFORMATION_CRISIS", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "TELECOM_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CENSORSHIP_OVERREACH", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "MEDIA_MONOPOLY", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_PROPAGANDA", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["NAcc", "TPJ", "dACC", "BROCA", "CC", "FPN", "FEF", "CBLM", "WERN", "vlPFC", "STS", "OFC", "A1", "V1"],
+      "diagnosticTriggers": ["Algorithmic radicalization", "Addiction-pattern engagement", "State-sponsored influence operations", "Weaponized narrative campaigns", "Overreach suppressing legitimate speech", "Insufficient harmful content moderation", "Press freedom erosion", "Journalist safety threats", "Network outages", "Infrastructure degradation", "Backbone cable severance", "DNS infrastructure attacks", "Orbital debris accumulation", "Satellite system vulnerabilities", "Delivery network disruption", "Last-mile access failure", "Knowledge access inequality", "Academic publishing gatekeeping", "Crisis communication failure", "Institutional trust erosion", "Content homogenization", "Platform monopolization", "Manipulative targeting of minors", "Deceptive advertising practices", "Broadcast spectrum saturation", "Signal interference", "Deepfake proliferation", "Visual misinformation"],
+      "basis": "communication-pulse-engine.js classifies 'pedagogical_mismatch' -> [news_event, institutional_event] (L141-144). news_event satisfies all five contracts (OR-gate). Same coarse expansion. NOTE: this is a domain-template token (education-flavored) that survives verbatim in the communication engine, underscoring heterogeneity note 2 (generic vocabulary)."
+    },
+    "automation_displacement": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "bridgingFamily": "news_event",
+      "linkedDiagnoses": [
+        { "id": "DISINFORMATION_CRISIS", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "TELECOM_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CENSORSHIP_OVERREACH", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "MEDIA_MONOPOLY", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_PROPAGANDA", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["NAcc", "TPJ", "dACC", "BROCA", "CC", "FPN", "FEF", "CBLM", "WERN", "vlPFC", "STS", "OFC", "A1", "V1"],
+      "diagnosticTriggers": ["Algorithmic radicalization", "Addiction-pattern engagement", "State-sponsored influence operations", "Weaponized narrative campaigns", "Overreach suppressing legitimate speech", "Insufficient harmful content moderation", "Press freedom erosion", "Journalist safety threats", "Network outages", "Infrastructure degradation", "Backbone cable severance", "DNS infrastructure attacks", "Orbital debris accumulation", "Satellite system vulnerabilities", "Delivery network disruption", "Last-mile access failure", "Knowledge access inequality", "Academic publishing gatekeeping", "Crisis communication failure", "Institutional trust erosion", "Content homogenization", "Platform monopolization", "Manipulative targeting of minors", "Deceptive advertising practices", "Broadcast spectrum saturation", "Signal interference", "Deepfake proliferation", "Visual misinformation"],
+      "basis": "communication-pulse-engine.js classifies 'automation_displacement' -> [news_event, institutional_event] (L141-144). news_event satisfies all five contracts (OR-gate). Same coarse expansion."
+    },
+    "adaptive_failure": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "bridgingFamily": "news_event",
+      "linkedDiagnoses": [
+        { "id": "DISINFORMATION_CRISIS", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "TELECOM_FAILURE", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CENSORSHIP_OVERREACH", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "MEDIA_MONOPOLY", "link": "requiredFamily:news_event (OR-gate)" },
+        { "id": "CYBER_PROPAGANDA", "link": "requiredFamily:news_event (OR-gate)" }
+      ],
+      "activations": ["NAcc", "TPJ", "dACC", "BROCA", "CC", "FPN", "FEF", "CBLM", "WERN", "vlPFC", "STS", "OFC", "A1", "V1"],
+      "diagnosticTriggers": ["Algorithmic radicalization", "Addiction-pattern engagement", "State-sponsored influence operations", "Weaponized narrative campaigns", "Overreach suppressing legitimate speech", "Insufficient harmful content moderation", "Press freedom erosion", "Journalist safety threats", "Network outages", "Infrastructure degradation", "Backbone cable severance", "DNS infrastructure attacks", "Orbital debris accumulation", "Satellite system vulnerabilities", "Delivery network disruption", "Last-mile access failure", "Knowledge access inequality", "Academic publishing gatekeeping", "Crisis communication failure", "Institutional trust erosion", "Content homogenization", "Platform monopolization", "Manipulative targeting of minors", "Deceptive advertising practices", "Broadcast spectrum saturation", "Signal interference", "Deepfake proliferation", "Visual misinformation"],
+      "basis": "communication-pulse-engine.js classifies 'adaptive_failure' -> [news_event, institutional_event] (L141-144). news_event satisfies all five contracts (OR-gate). Same coarse expansion."
+    }
+  },
+  "diagnoses": {
+    "DISINFORMATION_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": ["NAcc", "TPJ", "dACC", "BROCA"],
+      "diagnosticTriggers": ["Algorithmic radicalization", "Addiction-pattern engagement", "State-sponsored influence operations", "Weaponized narrative campaigns", "Overreach suppressing legitimate speech", "Insufficient harmful content moderation", "Press freedom erosion", "Journalist safety threats"],
+      "basis": "diagnosis id === Communication issue id; when active, the (energy-pattern) adapter marks its issues['DISINFORMATION_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. Because Communication triggers are free text (NOT diagnosis-id strings), this expansion is REQUIRED for every node in the circuit — the diagnosis id does not self-match any trigger."
+    },
+    "TELECOM_FAILURE": {
+      "circuitSource": "_authored",
+      "activations": ["CC", "FPN", "FEF", "CBLM"],
+      "diagnosticTriggers": ["Network outages", "Infrastructure degradation", "Backbone cable severance", "DNS infrastructure attacks", "Orbital debris accumulation", "Satellite system vulnerabilities", "Delivery network disruption", "Last-mile access failure"],
+      "basis": "diagnosis id === Communication issue id; adapter marks issues['TELECOM_FAILURE']._authored nodes active (energy-telemetry-adapter.js L79-101). Alias lists those nodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference; expansion required (free-text triggers)."
+    },
+    "CENSORSHIP_OVERREACH": {
+      "circuitSource": "_authored",
+      "activations": ["dACC", "BROCA", "WERN", "vlPFC"],
+      "diagnosticTriggers": ["Overreach suppressing legitimate speech", "Insufficient harmful content moderation", "Press freedom erosion", "Journalist safety threats", "Knowledge access inequality", "Academic publishing gatekeeping", "Crisis communication failure", "Institutional trust erosion"],
+      "basis": "diagnosis id === Communication issue id; adapter marks issues['CENSORSHIP_OVERREACH']._authored nodes active (energy-telemetry-adapter.js L79-101). Alias lists those nodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference; expansion required (free-text triggers)."
+    },
+    "MEDIA_MONOPOLY": {
+      "circuitSource": "_authored",
+      "activations": ["BROCA", "STS", "OFC", "A1"],
+      "diagnosticTriggers": ["Press freedom erosion", "Journalist safety threats", "Content homogenization", "Platform monopolization", "Manipulative targeting of minors", "Deceptive advertising practices", "Broadcast spectrum saturation", "Signal interference"],
+      "basis": "diagnosis id === Communication issue id; adapter marks issues['MEDIA_MONOPOLY']._authored nodes active (energy-telemetry-adapter.js L79-101). Alias lists those nodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference; expansion required (free-text triggers)."
+    },
+    "CYBER_PROPAGANDA": {
+      "circuitSource": "_authored",
+      "activations": ["TPJ", "V1", "NAcc", "FPN"],
+      "diagnosticTriggers": ["State-sponsored influence operations", "Weaponized narrative campaigns", "Deepfake proliferation", "Visual misinformation", "Algorithmic radicalization", "Addiction-pattern engagement", "Backbone cable severance", "DNS infrastructure attacks"],
+      "basis": "diagnosis id === Communication issue id; adapter marks issues['CYBER_PROPAGANDA']._authored nodes active (energy-telemetry-adapter.js L79-101). Alias lists those nodeIds and their FREE-TEXT diagnosticTriggers. Direct data link, no inference; expansion required (free-text triggers). NOTE: this circuit fails the Part XIV incomplete-circuit test (no regulatory node) — see communication-neuro-substrate.json; the alias still faithfully maps its authored nodes for extinction protection."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      { "code": "budget_shortfall", "evidenceFamilies": ["policy_event"], "reason": "classify L127 -> policy_event; no EVIDENCE_CONTRACT requires policy_event. Dead-end family: reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias." },
+      { "code": "resource_scarcity", "evidenceFamilies": ["policy_event"], "reason": "classify L127 -> policy_event; not in any requiredFamilies. Dead-end." },
+      { "code": "infrastructure_degradation", "evidenceFamilies": ["policy_event"], "reason": "classify L127 -> policy_event; not in any requiredFamilies. Dead-end. (Distinct from the TELECOM_FAILURE contract, which requires outage_event/news_event and is NOT reachable from this condition.)" },
+      { "code": "institutional_decline", "evidenceFamilies": ["institutional_event"], "reason": "classify L128 -> institutional_event; no contract requires institutional_event. Dead-end." },
+      { "code": "quality_degradation", "evidenceFamilies": ["institutional_event"], "reason": "classify L128 -> institutional_event; not required by any contract. Dead-end." },
+      { "code": "standards_erosion", "evidenceFamilies": ["institutional_event"], "reason": "classify L128 -> institutional_event; not required. Dead-end." },
+      { "code": "credential_devaluation", "evidenceFamilies": ["institutional_event"], "reason": "classify L128 -> institutional_event; not required. Dead-end." },
+      { "code": "workforce_gap", "evidenceFamilies": ["workforce_event", "policy_event"], "reason": "classify L129-132 -> workforce_event + policy_event; neither is in any requiredFamilies. Dead-end." },
+      { "code": "retention_failure", "evidenceFamilies": ["workforce_event", "policy_event"], "reason": "classify L129-132 -> workforce_event + policy_event; neither required. Dead-end." },
+      { "code": "recruitment_deficit", "evidenceFamilies": ["workforce_event", "policy_event"], "reason": "classify L129-132 -> workforce_event + policy_event; neither required. Dead-end." },
+      { "code": "burnout_epidemic", "evidenceFamilies": ["workforce_event", "policy_event"], "reason": "classify L129-132 -> workforce_event + policy_event; neither required. Dead-end." },
+      { "code": "outcome_disparity", "evidenceFamilies": ["indicator_event", "policy_event"], "reason": "classify L133-136 -> indicator_event + policy_event; neither required. Dead-end." },
+      { "code": "access_inequality", "evidenceFamilies": ["indicator_event", "policy_event"], "reason": "classify L133-136 -> indicator_event + policy_event; neither required. Dead-end." },
+      { "code": "performance_decline", "evidenceFamilies": ["indicator_event", "policy_event"], "reason": "classify L133-136 -> indicator_event + policy_event; neither required. Dead-end." },
+      { "code": "equity_failure", "evidenceFamilies": ["indicator_event", "policy_event"], "reason": "classify L133-136 -> indicator_event + policy_event; neither required. Dead-end." },
+      { "code": "oversight_failure", "evidenceFamilies": ["institutional_event", "policy_event"], "reason": "classify L137-140 -> institutional_event + policy_event; neither required. Dead-end." },
+      { "code": "communication_high_stress", "evidenceFamilies": ["structural_event"], "reason": "classify L145 -> structural_event; no contract requires structural_event. Dead-end. (MEDIA_MONOPOLY lists 'structural_stress' as a secondaryConfirmation TOKEN, but that is not the structural_event FAMILY and secondaryConfirmation is not gated by requiredFamilies; not folded.)" },
+      { "code": "structural_stress", "evidenceFamilies": ["structural_event"], "reason": "classify L145 -> structural_event; not in any requiredFamilies. Dead-end. Same secondaryConfirmation-token caveat as communication_high_stress." },
+      { "code": "macro_shock", "evidenceFamilies": ["macro_event"], "reason": "classify L146 -> macro_event; no contract requires macro_event. Dead-end (same as Finance). CYBER_PROPAGANDA lists 'macro_shock' as a secondaryConfirmation TOKEN, but macro_event is not in CYBER_PROPAGANDA requiredFamilies [news_event, research_event]; not folded." }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "LANG",
+        "domainLabel": "Language Translation",
+        "diagnosticTriggers": ["Machine translation bias", "Minor language extinction"],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it — the news_event bridge only reaches the 14 nodes across the five circuits, none of which is LANG). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Communication analog of the Finance SMA/AMY/INS orphans.)"
+      },
+      {
+        "brainNodeId": "MGN",
+        "domainLabel": "Radio Spectrum",
+        "diagnosticTriggers": ["Spectrum scarcity", "Interference from unlicensed transmitters"],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. NOTE: MGN IS present in the graph edges (A1<->MGN, MGN->STS, etc.) and in the domain-front node set, but no issue AUTHORED it into a distress circuit; graph-membership is not a trigger source. Needs authoring before extinction should touch it."
+      },
+      {
+        "brainNodeId": "PULV",
+        "domainLabel": "News Distribution Infrastructure",
+        "diagnosticTriggers": ["Tower capacity saturation", "Broadcast transmission outage"],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Notable: PULV is the physical carriage layer (towers/fiber) and would be a natural member of TELECOM_FAILURE's circuit, but it was not authored in. Needs authoring before extinction should touch it."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      { "brainNodeId": "dlPFC", "domainLabel": "Medialaw", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit AND diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (NOTE: dlPFC IS a graph node with edges FPN->dlPFC, dlPFC->dACC, dlPFC->HIPP, but carries no authored triggers.)" },
+      { "brainNodeId": "RAPHE", "domainLabel": "Pr", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit, diagnosticTriggers empty -> skipped by energy-extinction.js L30. No alias needed." },
+      { "brainNodeId": "FG", "domainLabel": "Speechlang", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit, diagnosticTriggers empty -> skipped by energy-extinction.js L30. No alias needed." },
+      { "brainNodeId": "GABA_GLU", "domainLabel": "Visualcomm", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit, diagnosticTriggers empty -> skipped by energy-extinction.js L30. No alias needed." }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [
+      "misinformation_spread", "disinformation_campaign", "narrative_manipulation", "amplification_bias", "signal_degradation",
+      "infrastructure_failure", "network_disruption", "connectivity_loss", "service_outage",
+      "speech_restriction", "content_suppression", "platform_censorship", "regulatory_overreach", "information_control",
+      "market_concentration", "editorial_capture", "audience_fragmentation", "echo_chamber", "platform_dominance",
+      "bot_amplification", "coordinated_inauthentic", "information_contamination"
+    ],
+    "reason": "SIGNIFICANT DIVERGENCE FROM FINANCE. Every primaryIndicator/secondaryConfirmation token in the Communication EVIDENCE_CONTRACTS (L35-81) is NOT handled by the classify loop (L125-147) — the loop only recognizes the generic domain-template stress vocabulary (budget_shortfall, workforce_gap, digital_divide, ...). So the contracts' RICH, domain-specific indicator vocabulary (misinformation_spread, infrastructure_failure, speech_restriction, market_concentration, bot_amplification, ...) is never emitted as evidence and grounds nothing through the classify path. In Finance every contract token was also classified (zero contract-only tokens). Here the entire contract indicator vocabulary is contract-only-not-classified; the sole accidental bridge between the two vocabularies is the news_event family (see conditionCodes). Two contract secondaryConfirmation tokens DO coincide with classified condition names ('structural_stress' -> structural_event; 'macro_shock' -> macro_event) but the families they emit are not in any requiredFamilies, so they still ground nothing (listed under unmapped.conditionCodes)."
+  }
+}

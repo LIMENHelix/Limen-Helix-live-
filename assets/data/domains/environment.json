@@ -2304,6 +2304,160 @@
       "weight": 0.85,
       "label": "AQ Forecasting Core Operations → Wildlife Management (norepinephrine → threat amplification)",
       "_origin": "canonical_anatomical"
+    },
+    {
+      "source": "S1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "V1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "A1",
+      "target": "THAL",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dACC",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.85,
+      "_prov": "connrec"
+    },
+    {
+      "source": "vmPFC",
+      "target": "OFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "OFC",
+      "target": "NAcc",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "dACC",
+      "target": "dlPFC",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "connrec"
+    },
+    {
+      "source": "BLA",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "HYPO",
+      "target": "NTS",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "NTS",
+      "target": "PBN",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "ENS",
+      "target": "NTS",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "CeA",
+      "target": "PAG",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "connrec"
+    },
+    {
+      "source": "VTA",
+      "target": "dACC",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "THAL",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "rACC",
+      "target": "vmPFC",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "LC",
+      "target": "HIPP",
+      "type": "modul",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "A1",
+      "target": "AI",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "PI",
+      "target": "dACC",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "VP",
+      "target": "VTA",
+      "type": "inhib",
+      "weight": 0.75,
+      "_prov": "connrec"
+    },
+    {
+      "source": "THAL",
+      "target": "CAUD",
+      "type": "excit",
+      "weight": 0.6,
+      "_prov": "connrec"
+    },
+    {
+      "source": "SMA",
+      "target": "CAUD",
+      "type": "excit",
+      "weight": 0.7,
+      "_prov": "connrec"
+    },
+    {
+      "source": "THAL",
+      "target": "M1",
+      "type": "excit",
+      "weight": 0.8,
+      "_prov": "connrec"
     }
   ],
   "issues": [
@@ -2652,6 +2806,38 @@
         "APD",
         "DAR"
       ]
+    }
+  },
+  "runtime": {
+    "_note": "Runtime state for neuro-substrate mechanisms (advisory-only). Neutral defaults; live values via read-time overlay (domain-telemetry-adapter.js). No values fabricated.",
+    "schemaVersion": 1,
+    "volatility": 0,
+    "activeTriggers": null,
+    "lastMaintenanceAt": null,
+    "params": {
+      "offlineDownscaleFactor": 0.95,
+      "offlineConsolidateTopK": 8,
+      "offlinePruneThreshold": 0,
+      "refractoryAbsoluteWindow": 900000,
+      "refractoryRelativeWindow": 3600000,
+      "refractoryOverrideThreshold": 0.8,
+      "predictionErrorThreshold": 0.1,
+      "retrogradeThrottleGain": 0.3,
+      "metaplasticityGain": 0.3,
+      "_note": "Conservative advisory baseline; operator-tunable. windows in ms."
+    },
+    "telemetry": {
+      "source": "environment-pulse-engine.js (window.LIMENEnvironmentPulse)",
+      "adapter": "domain-telemetry-adapter.js (fromLiveCached(\"environment\",...))",
+      "model": "read-time overlay; schema+defaults only"
+    },
+    "fieldProvenance": {
+      "volatility": "XIII.6",
+      "activeTriggers": "V.2 (alias-expanded)",
+      "activation.lastFiredAt": "III.3",
+      "activation.lastActiveAt": "IV.6",
+      "activation.load/capacity": "IV.5 participation proxy",
+      "issue.lastFiredAt": "III.3"
     }
   }
 }

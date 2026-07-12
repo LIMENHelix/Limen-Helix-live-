@@ -1,0 +1,155 @@
+{
+  "_meta": {
+    "domain": "environment",
+    "title": "Environment — Neural Substrate Overlay",
+    "compiled": "2026-07-12",
+    "source_document": "LIMEN Helix — Comprehensive Neurology & Nervous System Reference (Jul 2026). THIS DOCUMENT ONLY. Domain-generic sections copied verbatim from finance-neuro-substrate.json (which copied them verbatim from energy-neuro-substrate.json).",
+    "additive_contract": "Purely additive overlay. Does NOT modify assets/data/domains/environment.json or any existing environment file. References existing Environment node IDs and issue IDs by value only. Mirrors the Finance/Energy neuro-substrate overlay shape for the Environment domain.",
+    "advisory_only": "This overlay is ADVISORY. It classifies existing authored circuits against the source document's Part XIV failure taxonomy and runs the Part XIV incomplete-circuit test. It writes nothing back and changes no live behavior on load.",
+    "grounded_sections": [
+      "fractal_critical_mechanisms, inhibitory_motifs_catalog, oscillatory_bands, failure_modes, parameter_table, references — DOMAIN-GENERIC, copied verbatim from finance-neuro-substrate.json (source-document-grounded). The single ratio_preservation_rule sentence naming the domain was retargeted from 'Finance' to 'Environment'.",
+      "issue_failure_class_map — all 5 Environment issues (CLIMATE_TIPPING_POINT, MASS_EXTINCTION, OCEAN_ACIDIFICATION, DEFORESTATION, TOXIC_CONTAMINATION) grounded in each issue's OWN canonical circuit detail and/or summary text.",
+      "incomplete_circuit_diagnostic — run against environment.json real _authored circuits via the JS validateIncompleteCircuit() logic (REGULATORY_NODES membership); verdict PASS 5/5."
+    ],
+    "heterogeneity_flagged": [
+      "KEY FINDING (opposite of Finance): ZERO issues are UNMAPPED. All 5 Environment failure archetypes fall inside the 9-class E/I-dynamics Part XIV taxonomy. Where Finance carried FRAUD_SCANDAL — a deception/confabulation failure the taxonomy structurally cannot represent — Environment's failures are all dynamical (thermal runaway, brake-failure, chemistry runaway, toxic accumulation). The Environment failure set is fully expressible in the neuro-substrate taxonomy.",
+      "Environment exercises EXCITOTOXICITY (failed termination/clearance -> toxic accumulation) via TOXIC_CONTAMINATION — a class Finance did not use. This is the domain's distinctive class: 'persistent pollutants accumulating' is a textbook clearance-failure, the one archetype whose invariant (TERMINATION_CLEARANCE) is about a signal that is not cleared becoming toxic.",
+      "CLIMATE_TIPPING_POINT and OCEAN_ACIDIFICATION share the SAME canonical single-node circuit (HYPO[Hyper] 'homeostatic set-point — severed=runaway') and are therefore classed identically (SEIZURE), exactly as Finance classed BANKING_CRISIS and CREDIT_FREEZE identically off a shared GP output-gate cue. For OCEAN_ACIDIFICATION the SUMMARY diverges toward a different flavor (acid accumulation/organism death -> EXCITOTOXICITY; food-web cascade -> DEAFFERENTATION_DIASCHISIS); the divergence between the shared canonical NODE cue and the issue summary is recorded, not resolved by guessing.",
+      "MASS_EXTINCTION and DEFORESTATION also share a canonical single-node circuit (vmPFC[Hypo] 'top-down inhibitory brake — brake-fail=rogue') and are both classed DISINHIBITION_SYNDROME — the strongest-grounded mapping of the set (the cue names the brake directly), mirroring Finance CURRENCY_COLLAPSE.",
+      "TOXIC_CONTAMINATION — its CANONICAL single-node circuit (HAB[Hypo] 'anti-reward brake — too-weak=sunk-cost') is a bare non-regulatory node (HAB is NOT in the REGULATORY_NODES set) that would FAIL the incomplete-circuit test in isolation; the _authored multi-node circuit supplies dACC. Additionally the HAB node cue (weak anti-reward brake) points at a disinhibition/weak-brake flavor, whereas the issue is classed EXCITOTOXICITY on its summary. Both divergences recorded per issue."
+    ],
+    "honesty_note": "Mechanisms, failure-mode classes, parameters, and references below are verbatim-grounded in the source document. Per-node / per-edge Environment-specific assignments the document gives no basis for (which edge is which inhibitory motif, which oscillatory band, which neuromodulator, which predictive direction) are NOT guessed here; only the two operations the source document directly supports are performed: (1) classify each authored issue against the Part XIV failure taxonomy where the issue's own text names a matching mechanism, and (2) run the Part XIV incomplete-circuit test."
+  },
+
+  "fractal_critical_mechanisms": [
+    { "id": "EI_BALANCE", "part": "XIII.1", "name": "Excitation/inhibition (E/I) balance", "definition": "Inhibition tracks excitation on a millisecond timescale; balance sets gain, dynamic range, timing precision, and stability. Loss of inhibition -> runaway (seizure); excess -> silence.", "design_invariant": "Any faithful mapping must have inhibition/brakes that SCALE WITH DRIVE.", "status": "generic" },
+    { "id": "INHIBITORY_MOTIFS", "part": "XIII.2", "name": "Four inhibitory motifs", "definition": "feedforward (narrow temporal window / coincidence), feedback/recurrent (self-limiting, gain control, stability), lateral (contrast enhancement, winner-take-all, sparsening), disinhibition (inhibiting an inhibitor = permissive gating/selection).", "design_invariant": "All four are reused at every scale; their absence breaks the fractal.", "status": "generic" },
+    { "id": "OSCILLATIONS", "part": "XIII.3", "name": "Oscillations & communication-through-coherence", "definition": "Rhythms create periodic windows of excitability; groups that oscillate coherently open input/output windows at the same time and communicate; incoherent groups are functionally disconnected. Bands: delta 1-4, theta 4-8, alpha 8-12, beta 13-30, gamma 30-80+ Hz.", "design_invariant": "Coherence = a dynamic routing/connection switch. There is an OPTIMAL coupling band; too-strong and too-weak coupling both fail.", "status": "generic" },
+    { "id": "THALAMOCORTICAL_GATING", "part": "XIII.4", "name": "Thalamocortical gating", "definition": "Thalamus + TRN gate what reaches cortex; tonic (faithful relay) vs burst (detection/alerting) modes under corticothalamic top-down control.", "design_invariant": "Gating must occur AT THE RIGHT STAGE - filter too early (before the circuit that needs the signal) and you lose information you cannot recover.", "status": "generic" },
+    { "id": "PREDICTIVE_CODING", "part": "XIII.5", "name": "Predictive coding / prediction error", "definition": "Hierarchical generative machine: top-down predictions descend, bottom-up prediction ERRORS ascend, only the mismatch propagates upward. Laminar correlate: forward = error, backward = prediction.", "design_invariant": "'Prediction error drives update' must also GENERATE predictions at the mapped scale, not merely react.", "status": "generic" },
+    { "id": "PLASTICITY", "part": "XIII.6", "name": "Plasticity / learning rules", "definition": "Hebbian (correlated -> strengthen); STDP (pre-before-post ~+10 ms -> LTP, post-before-pre -> LTD; dopamine extends LTP window to ~+30 ms); LTP/LTD (NMDA/Ca2+); homeostatic scaling (global normalization keeping drive in range so Hebbian learning does not run away); metaplasticity (threshold for change adapts).", "design_invariant": "A stabilizing counter-process (homeostatic scaling) MUST counter positive-feedback Hebbian learning, or the system runs away.", "status": "generic" },
+    { "id": "NEUROMODULATION_GAIN", "part": "XIII.7", "name": "Neuromodulation & gain", "definition": "Diffuse systems (DA, NE, 5-HT, ACh) carry no detailed content; they set global regime - gain, signal-to-noise, exploration/exploitation, learning rate, arousal. A small modulatory signal reconfigures the whole network's operating point.", "design_invariant": "A small broadcast signal must be able to rescale the whole system's operating point (one-to-many, multiplicative).", "status": "generic" },
+    { "id": "POPULATION_ATTRACTOR", "part": "XIII.8", "name": "Population & attractor dynamics", "definition": "Information lives in distributed population activity, not single cells; sparse coding is efficient/separable; attractor dynamics implement stable states and transitions. Over-gating, over-synchrony, or lost inhibition suppress emergence.", "design_invariant": "Emergence requires distributed, sparse, inhibition-balanced activity; do not concentrate all state in one node.", "status": "generic" },
+    { "id": "SLEEP_OFFLINE", "part": "XIII.9", "name": "Sleep, homeostasis & offline processing", "definition": "Sleep down-scales synapses globally while consolidating select memories, and drives glymphatic clearance of waste.", "design_invariant": "A mandatory OFFLINE maintenance/reset phase - a system with no downtime accumulates damage.", "status": "generic" },
+    { "id": "TERMINATION_CLEARANCE", "part": "IV.6", "name": "Signal termination / clearance", "definition": "Reuptake, enzymatic degradation, and diffusion bound signal persistence; termination is as important as release and prevents excitotoxic accumulation.", "design_invariant": "Clearance/termination must bound signal persistence; a signal that isn't cleared becomes toxic (see failure mode EXCITOTOXICITY).", "status": "generic" },
+    { "id": "REFRACTORINESS", "part": "III.3", "name": "Refractoriness / dead-time rate limiter", "definition": "Absolute refractory period (~1-2 ms) after an action prevents a second action; enforces one-way propagation and caps maximum firing rate.", "design_invariant": "A built-in rate limiter / dead-time after action must exist to cap throughput and enforce directionality.", "status": "generic" }
+  ],
+
+  "inhibitory_motifs_catalog": [
+    { "id": "feedforward", "definition": "Input excites both a target and an interneuron that inhibits the target -> narrow temporal window (coincidence-detection, AND within a time window)." },
+    { "id": "feedback", "definition": "Output feeds back through interneurons -> self-limiting, gain control, stability." },
+    { "id": "lateral", "definition": "Active units suppress neighbors -> contrast enhancement, winner-take-all, sparsening." },
+    { "id": "disinhibition", "definition": "Inhibiting an inhibitor -> permissive gating / selection." }
+  ],
+
+  "oscillatory_bands": [
+    { "band": "delta", "hz": "1-4", "role": "deep sleep" },
+    { "band": "theta", "hz": "4-8", "role": "memory / navigation" },
+    { "band": "alpha", "hz": "8-12", "role": "idling / inhibitory gating" },
+    { "band": "beta", "hz": "13-30", "role": "maintenance / motor set" },
+    { "band": "gamma", "hz": "30-80+", "role": "local active processing" }
+  ],
+
+  "failure_modes": [
+    { "id": "SEIZURE", "part": "XIV", "definition": "E/I balance failure: runaway recurrent excitation when inhibition is insufficient. Archetypal no-brakes -> runaway.", "invariant_violated": "EI_BALANCE (loss of load-bearing inhibition)" },
+    { "id": "EXCITOTOXICITY", "part": "XIV", "definition": "Excessive drive with failed termination/clearance -> overload -> death of the unit.", "invariant_violated": "TERMINATION_CLEARANCE (signal not cleared becomes toxic)" },
+    { "id": "CORTICAL_SPREADING_DEPRESSION", "part": "XIV", "definition": "A slow wave of depolarization then silence; homeostatic overwhelm.", "invariant_violated": "SLEEP_OFFLINE / homeostasis" },
+    { "id": "GATING_FAILURE", "part": "XIV", "definition": "Thalamocortical/TRN gating breakdown: too little filtering -> flooding, or mis-timed gating -> wrong information passed; gate stuck closed -> starvation.", "invariant_violated": "THALAMOCORTICAL_GATING (right-stage gating)" },
+    { "id": "DISINHIBITION_SYNDROME", "part": "XIV", "definition": "Losing the inhibitor releases pathological activity (loss of the stop/brake).", "invariant_violated": "INHIBITORY_MOTIFS / EI_BALANCE" },
+    { "id": "OSCILLATORY_PATHOLOGY", "part": "XIV", "definition": "Over-coupling (hypersynchrony) or under-coupling; both degrade communication.", "invariant_violated": "OSCILLATIONS (optimal coupling band; extremes fail)" },
+    { "id": "NEURODEGENERATION", "part": "XIV", "definition": "Aggregation + failed clearance + network collapse; maintenance failure compounding over time.", "invariant_violated": "SLEEP_OFFLINE / TERMINATION_CLEARANCE" },
+    { "id": "DEAFFERENTATION_DIASCHISIS", "part": "XIV", "definition": "Losing input disables not just the lesioned node but distant connected regions. THE NETWORK, NOT THE NODE, IS THE UNIT OF FAILURE; failures propagate across the graph.", "invariant_violated": "POPULATION_ATTRACTOR (distributed failure propagation)" },
+    { "id": "INCOMPLETE_CIRCUIT", "part": "XIV", "definition": "A circuit built without its regulatory partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition; feedback without the sensor). THE DIRECT DIAGNOSTIC FOR A BROKEN FRACTAL MAPPING: if the mapping omits the inhibitory/feedback/extinction arm, it is lesioned in the same way a brain is.", "invariant_violated": "any regulatory arm omitted" }
+  ],
+
+  "issue_failure_class_map": {
+    "_basis": "GROUNDED: each mapping uses the Environment issue's OWN text (canonical circuit detail and/or summary, quoted in environment_text) plus the document's Part XIV named class. No new class was invented. Where the canonical NODE cue and the issue SUMMARY point at different flavors, the divergence is recorded and the class is grounded on the stronger textual cue, not guessed.",
+    "_count": "5 grounded, 0 UNMAPPED (of 5 issues). Class distribution: SEIZURE x2 (shared HYPO canonical), DISINHIBITION_SYNDROME x2 (shared vmPFC canonical), EXCITOTOXICITY x1.",
+    "CLIMATE_TIPPING_POINT": {
+      "class": "SEIZURE",
+      "subtype": "homeostatic set-point severed -> runaway (positive feedback exceeds compensatory damping)",
+      "environment_text": "canonical circuit HYPO[Hyper]: \"homeostatic set-point — severed=runaway\"; summary: \"Planetary systems approaching irreversible thresholds — ice sheet collapse, permafrost methane release, AMOC shutdown\"; _authored HYPO detail: \"Global thermoregulation overwhelmed — feedback loops accelerating beyond compensatory capacity\"",
+      "reasoning": "The canonical mechanism names a homeostatic set-point that is SEVERED and produces RUNAWAY; the _authored detail names feedback loops accelerating BEYOND compensatory (damping) capacity. Runaway recurrent drive exceeding insufficient damping is the SEIZURE archetype (no-brakes -> runaway; loss of load-bearing inhibition).",
+      "note": "HYPO is a homeostatic negative-feedback regulator, so this straddles DISINHIBITION_SYNDROME (a severed brake). Classed SEIZURE on the 'runaway / accelerating beyond capacity' outcome. A secondary flavor is present: 'approaching irreversible thresholds / tipping elements' is an attractor-state transition (POPULATION_ATTRACTOR), which the 9-class list expresses only via DEAFFERENTATION; recorded, not force-fit."
+    },
+    "MASS_EXTINCTION": {
+      "class": "DISINHIBITION_SYNDROME",
+      "subtype": "brake-fail -> rogue runaway (loss of the stop/brake)",
+      "environment_text": "canonical circuit vmPFC[Hypo]: \"top-down inhibitory brake — brake-fail=rogue\"; summary: \"Species loss rates 100-1000x background levels — sixth mass extinction accelerating across taxa\"; _authored vmPFC detail: \"Conservation policy failing to keep pace with extinction acceleration — resource allocation inadequate\"",
+      "reasoning": "The named mechanism is explicitly the loss of the top-down INHIBITORY BRAKE ('brake-fail=rogue'), and the _authored vmPFC line names the brake (conservation policy) failing. Losing the inhibitor and releasing rogue/runaway activity is the exact DISINHIBITION_SYNDROME definition (loss of the stop/brake). Strongest grounding of the set.",
+      "note": "Directly parallels Finance CURRENCY_COLLAPSE (identical vmPFC 'brake-fail=rogue' cue -> DISINHIBITION)."
+    },
+    "OCEAN_ACIDIFICATION": {
+      "class": "SEIZURE",
+      "subtype": "homeostatic set-point severed -> runaway (shared HYPO canonical circuit)",
+      "environment_text": "canonical circuit HYPO[Hyper]: \"homeostatic set-point — severed=runaway\"; summary: \"Marine pH declining from CO2 absorption — shell-forming organisms and coral reef systems collapsing\"; _authored NTS detail: \"Ocean carbonate chemistry shifting — aragonite saturation dropping below shell-formation thresholds\"",
+      "reasoning": "Classed on the SHARED canonical circuit cue (HYPO 'severed=runaway'), identical to CLIMATE_TIPPING_POINT, giving the same SEIZURE class — mirroring how Finance classed BANKING_CRISIS and CREDIT_FREEZE identically off a shared GP output-gate cue.",
+      "note": "DIVERGENCE recorded: the issue SUMMARY (CO2/acid accumulating past a chemistry threshold, organisms collapsing) reads as a failed-clearance accumulation -> EXCITOTOXICITY, and the _authored 'cascading through food webs' element reads as DEAFFERENTATION_DIASCHISIS. The primary NTS authored node is a chemistry/clearance node, not a runaway-excitation node. The canonical NODE cue (SEIZURE) and the summary (EXCITOTOXICITY/DEAFFERENTATION) diverge; the divergence is flagged, not resolved by guessing."
+    },
+    "DEFORESTATION": {
+      "class": "DISINHIBITION_SYNDROME",
+      "subtype": "brake-fail -> rogue runaway (shared vmPFC canonical circuit)",
+      "environment_text": "canonical circuit vmPFC[Hypo]: \"top-down inhibitory brake — brake-fail=rogue\"; summary: \"Global forest loss exceeding regrowth — Amazon, Congo, and Southeast Asian rainforests approaching dieback thresholds\"; _authored vmPFC detail: \"Land-use policy captured by agricultural and extractive interests — conservation undervalued\"",
+      "reasoning": "Same canonical cue as MASS_EXTINCTION (vmPFC 'brake-fail=rogue'): the top-down conservation brake is captured/undervalued and rogue clearing runs unchecked = DISINHIBITION_SYNDROME (loss of the stop/brake).",
+      "note": "Two Environment issues (MASS_EXTINCTION, DEFORESTATION) share the vmPFC brake-fail canonical circuit and are therefore classed identically, exactly as two Finance issues shared the GP gate-lock canonical circuit."
+    },
+    "TOXIC_CONTAMINATION": {
+      "class": "EXCITOTOXICITY",
+      "subtype": "failed termination/clearance -> toxic accumulation -> death of the unit",
+      "environment_text": "summary: \"Persistent pollutants accumulating in water, soil, and biota — PFAS, heavy metals, microplastics reaching crisis levels\"; _authored GBA detail: \"Soil microbiomes disrupted by persistent organic pollutants — bioaccumulation entering food chains\"; _authored DAN detail: \"contamination in previously pristine environments — no uncontaminated baseline remains\"; canonical circuit HAB[Hypo]: \"anti-reward brake — too-weak=sunk-cost\"",
+      "reasoning": "The summary and _authored text name PERSISTENT pollutants ACCUMULATING and BIOACCUMULATING because they are not cleared. This is definitionally EXCITOTOXICITY: 'excessive drive with failed termination/clearance -> overload -> death of the unit', whose violated invariant TERMINATION_CLEARANCE is precisely 'a signal that isn't cleared becomes toxic'. 'Persistent' and 'accumulating' name the clearance failure directly. This is the strongest EXCITOTOXICITY grounding in the domain and the one class Finance did not exercise.",
+      "note": "DIVERGENCE recorded: the canonical NODE cue is HAB[Hypo] 'anti-reward brake — too-weak=sunk-cost' — a weak-brake / sunk-cost flavor pointing toward DISINHIBITION. Classed on the SUMMARY (EXCITOTOXICITY), which is the stronger and more specific textual cue, exactly as Finance classed SYSTEMIC_CONTAGION on its summary rather than its divergent node cue. Also note HAB is NOT in REGULATORY_NODES, so the canonical single-node circuit would FAIL the incomplete-circuit test in isolation (see incomplete_circuit_diagnostic)."
+    }
+  },
+
+  "incomplete_circuit_diagnostic": {
+    "_test": "Part XIV: does each issue's authored circuit contain a regulatory/inhibitory/feedback partner from the REGULATORY_NODES set in energy-neuro-substrate.js (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM)? Run against environment.json _authored circuits, matching the JS validateIncompleteCircuit() behavior (uses _authored node list).",
+    "_verdict_summary": "PASS (5/5). Every authored circuit includes at least one regulatory/feedback node; none is a bare excitatory driver without its brake. NOTE: one issue (TOXIC_CONTAMINATION) has a CANONICAL single-node circuit (HAB) that is a bare non-regulatory node and WOULD fail the test in isolation; the _authored multi-node circuit supplies the regulatory partner (dACC). The other four issues have canonical single nodes (HYPO x2, vmPFC x2) that are themselves regulatory, so they would pass even canonical-only.",
+    "CLIMATE_TIPPING_POINT": { "verdict": "complete", "circuit": ["HYPO", "PIN", "DV", "ENS", "FPN", "PBN"], "regulatory_partners_present": ["HYPO"], "observation": "Canonical single-node circuit is HYPO[Hyper] (HYPO IS in REGULATORY_NODES), so it passes even canonical-only." },
+    "MASS_EXTINCTION": { "verdict": "complete", "circuit": ["MICRO", "BLA", "GBA", "EC", "vmPFC", "DAN"], "regulatory_partners_present": ["vmPFC"], "observation": "Canonical single-node circuit is vmPFC[Hypo] (regulatory), passes canonical-only." },
+    "OCEAN_ACIDIFICATION": { "verdict": "complete", "circuit": ["NTS", "HYPO", "MICRO", "dACC", "PIN"], "regulatory_partners_present": ["HYPO", "dACC"] },
+    "DEFORESTATION": { "verdict": "complete", "circuit": ["ENS", "MICRO", "GBA", "DV", "EC", "vmPFC"], "regulatory_partners_present": ["vmPFC"] },
+    "TOXIC_CONTAMINATION": { "verdict": "complete", "circuit": ["dACC", "GBA", "NTS", "EC", "MICRO", "DAN"], "regulatory_partners_present": ["dACC"], "observation": "Canonical single-node circuit is HAB[Hypo] alone (an anti-reward brake, NOT in REGULATORY_NODES) -> would be INCOMPLETE_CIRCUIT if run canonical-only; _authored supplies dACC. Same pattern as Finance MARKET_CRASH/SYSTEMIC_CONTAGION (bare canonical node rescued by _authored)." }
+  },
+
+  "parameter_table": {
+    "_note": "Part XV, verbatim. Quantitative substrate for scale-rescaling. Confidence + anchor preserved.",
+    "rows": [
+      { "parameter": "Resting membrane potential", "value": "-65 to -70 mV", "confidence": "high", "anchor": "consensus (Kandel/Purves)" },
+      { "parameter": "AP threshold", "value": "~ -55 mV", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "AP duration", "value": "~1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Absolute refractory period", "value": "~1-2 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Synaptic (chemical) delay", "value": "~0.5-1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (unmyelinated C)", "value": "~0.5-2 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (large myelinated Aa)", "value": "~80-120 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "STDP LTP window (baseline)", "value": "pre-before-post ~+10 ms", "confidence": "high", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "STDP LTP window (dopamine-extended)", "value": "to ~+30 ms", "confidence": "medium", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "Gamma oscillation band", "value": "~30-80+ Hz", "confidence": "high", "anchor": "Fries 2005 (10.1016/j.tics.2005.08.011)" },
+      { "parameter": "Theta band", "value": "~4-8 Hz", "confidence": "high", "anchor": "consensus / Voytek 2015 (10.1016/j.biopsych.2015.04.016)" },
+      { "parameter": "Alpha band", "value": "~8-12 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Beta band", "value": "~13-30 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Delta band", "value": "~1-4 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Thalamic relay modes", "value": "tonic vs burst", "confidence": "high", "anchor": "Ferrarelli & Tononi 2010 (10.1093/schbul/sbq142)" },
+      { "parameter": "HPA cortisol feedback (fast, nongenomic)", "value": "seconds-minutes", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "HPA cortisol feedback (genomic/slow)", "value": "minutes-hours", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "Gut serotonin fraction of body total", "value": "~90-95%", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Glymphatic clearance", "value": "sleep-enhanced", "confidence": "medium", "anchor": "Benveniste 2018 (10.1159/000490349)" }
+    ],
+    "ratio_preservation_rule": "When mapping any neural time constant to a domain equivalent, hold the RATIOS between constants fixed, not just individual values. The ~1000x gap between AP duration (~1 ms) and slow neuromodulatory/hormonal feedback (~seconds-minutes) is the 'fast signal vs slow modulation' invariant; the Environment mapping must preserve an analogous fast-action / slow-governance separation, or the fractal is cosmetic, not structural."
+  },
+
+  "references": [
+    { "n": 1, "cite": "Ruan H, Saur T, Yao WD. Dopamine-enabled anti-Hebbian timing-dependent plasticity in prefrontal circuitry. Front Neural Circuits, 2014.", "doi": "10.3389/fncir.2014.00038" },
+    { "n": 2, "cite": "Fries P. A mechanism for cognitive dynamics: neuronal communication through neuronal coherence. Trends Cogn Sci, 2005.", "doi": "10.1016/j.tics.2005.08.011" },
+    { "n": 3, "cite": "Voytek B, Knight RT. Dynamic network communication as a unifying neural basis for cognition, development, aging, and disease. Biol Psychiatry, 2015.", "doi": "10.1016/j.biopsych.2015.04.016" },
+    { "n": 4, "cite": "Basar E, Guntekin B, Oniz A. Principles of oscillatory brain dynamics... Prog Brain Res, 2006.", "doi": "10.1016/S0079-6123(06)59004-1" },
+    { "n": 5, "cite": "Shipp S. Neural Elements for Predictive Coding. Front Psychol, 2016.", "doi": "10.3389/fpsyg.2016.01792" },
+    { "n": 6, "cite": "Mikulasch FA, Rudelt L, Wibral M, Priesemann V. Where is the error? Hierarchical predictive coding through dendritic error computation. Trends Neurosci, 2023.", "doi": "10.1016/j.tins.2022.09.007" },
+    { "n": 7, "cite": "Ferrarelli F, Tononi G. The thalamic reticular nucleus and schizophrenia. Schizophr Bull, 2010.", "doi": "10.1093/schbul/sbq142" },
+    { "n": 8, "cite": "Niethard N, Burgalossi A, Born J. Plasticity during Sleep Is Linked to Specific Regulation of Cortical Circuit Activity. Front Neural Circuits, 2017.", "doi": "10.3389/fncir.2017.00065" },
+    { "n": 9, "cite": "Keller-Wood M. Hypothalamic-Pituitary-Adrenal Axis-Feedback Control. Compr Physiol, 2015.", "doi": "10.1002/cphy.c140065" },
+    { "n": 10, "cite": "Hill MN, Tasker JG. Endocannabinoid signaling, glucocorticoid-mediated negative feedback... Neuroscience, 2012.", "doi": "10.1016/j.neuroscience.2011.12.030" },
+    { "n": 11, "cite": "Rutsch A, Kantsjo JB, Ronchi F. The Gut-Brain Axis... Front Immunol, 2020.", "doi": "10.3389/fimmu.2020.604179" },
+    { "n": 12, "cite": "Benveniste H, Liu X, Koundal S, et al. The Glymphatic System and Waste Clearance with Brain Aging. Gerontology, 2018.", "doi": "10.1159/000490349" }
+  ]
+}

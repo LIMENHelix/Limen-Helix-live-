@@ -1,0 +1,1541 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Science extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. replication_failure) + active diagnosis ids (e.g. REPLICATION_CRISIS). In Science the CONDITION-CODES never textually equal an activation.diagnosticTrigger (which are free-text phrases such as “Replication failure rate spike”); this table bridges them.",
+    "derivationChain": "condition-code --(science-pulse-engine.js addFamily switch, L138-157)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L167-170)--> diagnosis id --(science.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations)--> FREE-TEXT diagnosticTriggers.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate = requiredFamilies with OR-semantics, NOT primaryIndicators). Link labels record whether the condition is that diagnosis’ primaryIndicator, secondaryConfirmation, or folds by family only. A named indicator whose emitted families do NOT satisfy the diagnosis requiredFamily is listed under secondaryDiagnoses and NOT folded (bias against over-marking); in Science no such case occurs (every named indicator also emits a satisfying family).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from science.json; extinction matching is case-insensitive (energy-extinction.js pattern).",
+    "heterogeneityVsEnergyAndFinance": "(1) STRUCTURE RESEMBLES ENERGY, NOT FINANCE: Science activation.diagnosticTriggers are FREE-TEXT phrases (“P-hacking signal”, “Citation manipulation”), so the diagnosis-id never self-matches and this bridge is strictly required end-to-end — exactly the Energy situation. Finance was the outlier (its triggers ARE diagnosis ids). (2) Science emits TWO catch-all-only families with no consumer: structural_event (from science_high_stress / structural_stress) and macro_event (from macro_shock); neither appears in any contract requiredFamilies, so both are dead-ends (see unmapped) — mirrors Finance macro_shock and Energy stress-token handling. (3) PARADIGM_CONFLICT is the sole diagnosis with catchAllBlocked:false (it may be validated by the stress catch-all without evidence); all five others are catchAllBlocked:true. (4) ORPHAN COUNT: Energy 1, Finance 3, Science 5 (HYPO, OFC, IPS, NTS, WERN) — the highest of the three; these activations carry diagnosticTriggers but sit in no _authored circuit and are reached by no condition-code chain. (5) OFC is a special orphan: it is the DATA_FRAUD *canonical* circuit node (circuits[0]) but was dropped from that issue’s _authored circuit, so under _authored-based wiring it is unreachable despite being a named canonical node.",
+    "sources": [
+      "assets/js/science-pulse-engine.js (addFamily condition->family switch L138-157; EVIDENCE_CONTRACTS L39-94; requiredFamilies OR-gate L167-170; catchAllBlocked L172)",
+      "assets/data/domains/science.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + node-active-from-circuit; no science-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics; no science-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T19:51:28.715Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes science.json or fires extinction. No Science-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "replication_failure": {
+      "evidenceFamilies": [
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "primaryIndicator+requiredFamily:integrity_event"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "methodology_weakness": {
+      "evidenceFamilies": [
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "primaryIndicator+requiredFamily:integrity_event"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "data_integrity": {
+      "evidenceFamilies": [
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:integrity_event"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "primaryIndicator+requiredFamily:integrity_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "retraction_surge": {
+      "evidenceFamilies": [
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "primaryIndicator+requiredFamily:integrity_event"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "primaryIndicator+requiredFamily:integrity_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "misconduct": {
+      "evidenceFamilies": [
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "primaryIndicator+requiredFamily:integrity_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "fraud_detected": {
+      "evidenceFamilies": [
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "primaryIndicator+requiredFamily:integrity_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "publication_skew": {
+      "evidenceFamilies": [
+        "literature_event",
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event|literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "primaryIndicator+requiredFamily:literature_event|integrity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "reporting_gap": {
+      "evidenceFamilies": [
+        "literature_event",
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event|literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "primaryIndicator+requiredFamily:literature_event|integrity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "negative_result_suppression": {
+      "evidenceFamilies": [
+        "literature_event",
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:integrity_event|literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "primaryIndicator+requiredFamily:literature_event|integrity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "data_fragmentation": {
+      "evidenceFamilies": [
+        "literature_event",
+        "integrity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:integrity_event|literature_event"
+        },
+        {
+          "id": "DATA_FRAUD",
+          "link": "familyMatchOnly+requiredFamily:integrity_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "secondaryConfirmation+requiredFamily:literature_event|integrity_event"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "AG",
+        "rACC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "paradigm_challenge": {
+      "evidenceFamilies": [
+        "literature_event",
+        "press_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "primaryIndicator+requiredFamily:literature_event|press_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC",
+        "AG"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "theoretical_dispute": {
+      "evidenceFamilies": [
+        "literature_event",
+        "press_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "primaryIndicator+requiredFamily:literature_event|press_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC",
+        "AG"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "breakthrough_claim": {
+      "evidenceFamilies": [
+        "literature_event",
+        "press_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "primaryIndicator+requiredFamily:literature_event|press_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC",
+        "AG"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "consensus_breakdown": {
+      "evidenceFamilies": [
+        "literature_event",
+        "press_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "REPLICATION_CRISIS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "PARADIGM_CONFLICT",
+          "link": "secondaryConfirmation+requiredFamily:literature_event|press_event"
+        },
+        {
+          "id": "PUBLICATION_BIAS",
+          "link": "familyMatchOnly+requiredFamily:literature_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC",
+        "DMN",
+        "PRECUNEUS",
+        "dlPFC",
+        "AG"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "funding_cut": {
+      "evidenceFamilies": [
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:funding_event"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "grant_decline": {
+      "evidenceFamilies": [
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:funding_event"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "budget_constraint": {
+      "evidenceFamilies": [
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:funding_event"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "funding_gap": {
+      "evidenceFamilies": [
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "secondaryConfirmation+requiredFamily:funding_event"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "talent_loss": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "primaryIndicator+requiredFamily:workforce_event|funding_event"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "researcher_exodus": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "primaryIndicator+requiredFamily:workforce_event|funding_event"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "workforce_gap": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "primaryIndicator+requiredFamily:workforce_event|funding_event"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    },
+    "institutional_decline": {
+      "evidenceFamilies": [
+        "workforce_event",
+        "funding_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "FUNDING_COLLAPSE",
+          "link": "familyMatchOnly+requiredFamily:funding_event (not a named indicator of this diagnosis; folds solely because the emitted family satisfies its requiredFamily gate)"
+        },
+        {
+          "id": "BRAIN_DRAIN",
+          "link": "secondaryConfirmation+requiredFamily:workforce_event|funding_event"
+        }
+      ],
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "science-pulse-engine.js inline-classifies this condition -> the listed evidence families (addFamily switch L138-157). Those families satisfy the requiredFamilies (OR-semantics, validation loop L167-170) of each linkedDiagnosis (EVIDENCE_CONTRACTS L39-94). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (science.json) and those activations’ diagnosticTriggers. NOTE: unlike Finance (where activation.diagnosticTriggers ARE diagnosis ids), Science activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this bridge table is strictly required for extinction matching."
+    }
+  },
+  "diagnoses": {
+    "REPLICATION_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "HIPP",
+        "dACC",
+        "FPN",
+        "ECN",
+        "BROCA",
+        "vmPFC"
+      ],
+      "diagnosticTriggers": [
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias"
+      ],
+      "basis": "diagnosis id === Science issue id; when active, the (energy-pattern) adapter marks this issue’s _authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations’ FREE-TEXT diagnosticTriggers, so an extinction pass keyed on activeTriggers does not falsely retire a co-circuit node. Direct data link, no inference."
+    },
+    "FUNDING_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "vmPFC",
+        "M1",
+        "DMN",
+        "dlPFC",
+        "TPJ"
+      ],
+      "diagnosticTriggers": [
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern"
+      ],
+      "basis": "diagnosis id === Science issue id; when active, the (energy-pattern) adapter marks this issue’s _authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations’ FREE-TEXT diagnosticTriggers, so an extinction pass keyed on activeTriggers does not falsely retire a co-circuit node. Direct data link, no inference."
+    },
+    "DATA_FRAUD": {
+      "circuitSource": "_authored",
+      "activations": [
+        "FPN",
+        "dACC",
+        "AG",
+        "rACC",
+        "HIPP",
+        "BROCA"
+      ],
+      "diagnosticTriggers": [
+        "P-hacking signal",
+        "Multiple comparison violation",
+        "Model overfitting",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Informed consent inadequacy",
+        "Risk-benefit imbalance",
+        "Vulnerable population concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media"
+      ],
+      "basis": "diagnosis id === Science issue id; when active, the (energy-pattern) adapter marks this issue’s _authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations’ FREE-TEXT diagnosticTriggers, so an extinction pass keyed on activeTriggers does not falsely retire a co-circuit node. Direct data link, no inference."
+    },
+    "PARADIGM_CONFLICT": {
+      "circuitSource": "_authored",
+      "activations": [
+        "DMN",
+        "PRECUNEUS",
+        "dACC",
+        "dlPFC",
+        "AG"
+      ],
+      "diagnosticTriggers": [
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "Theory-experiment disconnect",
+        "Mathematical consistency failure",
+        "Predictive stagnation",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion"
+      ],
+      "basis": "diagnosis id === Science issue id; when active, the (energy-pattern) adapter marks this issue’s _authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations’ FREE-TEXT diagnosticTriggers, so an extinction pass keyed on activeTriggers does not falsely retire a co-circuit node. Direct data link, no inference."
+    },
+    "BRAIN_DRAIN": {
+      "circuitSource": "_authored",
+      "activations": [
+        "dlPFC",
+        "M1",
+        "vmPFC",
+        "DMN",
+        "TPJ",
+        "HIPP"
+      ],
+      "diagnosticTriggers": [
+        "Confound identification failure",
+        "Power analysis inadequacy",
+        "Protocol deviation",
+        "Instrument calibration drift",
+        "Contamination event",
+        "Protocol irreproducibility",
+        "Funding concentration risk",
+        "Grant success rate collapse",
+        "Short-termism bias",
+        "Hypothesis drought",
+        "Unfalsifiable framing",
+        "Confirmation bias dominance",
+        "WEIRD sample bias",
+        "Effect size inflation",
+        "Measurement validity concern",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability"
+      ],
+      "basis": "diagnosis id === Science issue id; when active, the (energy-pattern) adapter marks this issue’s _authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations’ FREE-TEXT diagnosticTriggers, so an extinction pass keyed on activeTriggers does not falsely retire a co-circuit node. Direct data link, no inference."
+    },
+    "PUBLICATION_BIAS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "BROCA",
+        "dACC",
+        "HIPP",
+        "AG",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "Publication delay",
+        "Access barrier",
+        "Misrepresentation in media",
+        "Review quality decline",
+        "Bias detection failure",
+        "Turnaround time crisis",
+        "Replication failure rate spike",
+        "Method description inadequacy",
+        "Material unavailability",
+        "Citation manipulation",
+        "Orphan literature detection",
+        "Impact metric distortion",
+        "Significance threshold misuse",
+        "Bayesian prior sensitivity",
+        "Effect size neglect"
+      ],
+      "basis": "diagnosis id === Science issue id; when active, the (energy-pattern) adapter marks this issue’s _authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations’ FREE-TEXT diagnosticTriggers, so an extinction pass keyed on activeTriggers does not falsely retire a co-circuit node. Direct data link, no inference."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "science_high_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "science-pulse-engine.js classifies science_high_stress -> evidence family [structural_event] (L155), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. Dead-end: reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias."
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "Same as science_high_stress: classifies to [structural_event] (L155), a family named in no contract requiredFamilies. Dead-end, no grounded alias. NOTE: the one catch-all-eligible diagnosis (PARADIGM_CONFLICT, catchAllBlocked:false) is reached by being externally marked active WITHOUT evidence (L171-173), not by any stress condition-code, so no alias can be grounded here."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "Classifies macro_shock -> [macro_event] (L156), but no contract consumes macro_event. Dead-end (identical to the Finance macro_shock orphan). No grounded alias."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "HYPO",
+        "domainLabel": "Biology and Life Sciences",
+        "diagnosticTriggers": [
+          "Biological containment breach",
+          "Model organism limitation",
+          "Ethical boundary concern"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Under current wiring nothing marks it active, so an extinction pass would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it."
+      },
+      {
+        "brainNodeId": "OFC",
+        "domainLabel": "Chemistry",
+        "diagnosticTriggers": [
+          "Synthesis irreproducibility",
+          "Reagent purity issue",
+          "Reaction hazard escalation"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Under current wiring nothing marks it active, so an extinction pass would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. SPECIAL CASE: OFC is the DATA_FRAUD canonical circuit node (issues[DATA_FRAUD].circuits[0]) but is absent from that issue _authored list; since the adapter prefers _authored, the canonical presence does not reach it."
+      },
+      {
+        "brainNodeId": "IPS",
+        "domainLabel": "Mathematics",
+        "diagnosticTriggers": [
+          "Proof verification challenge",
+          "Computational intractability",
+          "Applied-pure disconnect"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Under current wiring nothing marks it active, so an extinction pass would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it."
+      },
+      {
+        "brainNodeId": "NTS",
+        "domainLabel": "Earth Sciences",
+        "diagnosticTriggers": [
+          "Observation network gap",
+          "Model-observation divergence",
+          "Data continuity break"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Under current wiring nothing marks it active, so an extinction pass would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it."
+      },
+      {
+        "brainNodeId": "WERN",
+        "domainLabel": "Computer Science",
+        "diagnosticTriggers": [
+          "Algorithm bias discovery",
+          "Computational reproducibility failure",
+          "Security vulnerability"
+        ],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. Under current wiring nothing marks it active, so an extinction pass would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "MGN",
+        "domainLabel": "Workforce",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "PRC",
+        "domainLabel": "Policy Sci",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Science: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the addFamily classify switch, so there are no contract-only-unclassified tokens (unlike Energy). Conversely science_high_stress, structural_stress and macro_shock are classified but named in no contract (see unmapped)."
+  }
+}

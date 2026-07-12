@@ -1,0 +1,736 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Population extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes + active diagnosis ids (energy-telemetry-adapter.js L48-53 pattern). In Population the CONDITION-CODES (fertility_decline, migration_surge...) never textually equal an activation.diagnosticTrigger; this table bridges them. As in Finance, Population activation.diagnosticTriggers ARE diagnosis ids, so active diagnosis ids already self-match; the condition-code map is the part that is strictly required.",
+    "derivationChain": "condition-code --(population-pulse-engine.js inline classify, L136-165)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L174-180 / L46-92)--> diagnosis id --(population.json issues[]; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations whose diagnosticTriggers are themselves diagnosis ids)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data). The condition-codes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics, NOT primaryIndicators). A condition that is only a diagnosis indicator but does not emit that diagnosis requiredFamily is listed under secondaryDiagnoses and NOT folded (bias against over-marking).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from population.json; extinction matching is case-insensitive (energy-extinction.js L22,L29 pattern).",
+    "heterogeneityVsFinance": "(1) Finance inlines classification over a distinct condition vocabulary whose codes ARE the contract indicator tokens; Population is the SAME shape (its condition-codes fertility_decline/aging_skew... ARE the primaryIndicator/secondaryConfirmation tokens). (2) Both have activation.diagnosticTriggers = DIAGNOSIS IDs (self-matching). (3) HETEROGENEITY: dependency_ratio is a SHARED primaryIndicator of TWO diagnoses (POPULATION_COLLAPSE and AGING_CRISIS) and its classify branch emits BOTH families -> it folds into both. This cross-diagnosis fold has no Finance analog. (4) HETEROGENEITY: healthcare_overload is listed as a PRIMARY indicator of PANDEMIC_DEMOGRAPHIC_SHOCK, but the classify switch routes healthcare_overload ONLY to aging/healthcare families (it is absent from the pandemic classify branch, L159), so it can NEVER satisfy PANDEMIC's requiredFamily gate. It folds into AGING_CRISIS only; PANDEMIC is listed as a NON-folded indicator. A primaryIndicator token that structurally cannot trigger its own diagnosis = a genuine wiring gap. (5) ORPHAN COUNT: Finance 3, Population 0 -- Population's four unreachable activations (UNC/EI/PULV/STN) all have EMPTY diagnosticTriggers, so they are extinction-exempt, not orphans. (6) Population stress catch-all uses NAMED tokens (population_high_stress/structural_stress) that DO emit a family (structural_event) but no contract consumes it -- vs Finance _stress_* which emitted no family at all.",
+    "sources": [
+      "assets/js/population-pulse-engine.js (inline condition->family classify L136-165; EVIDENCE_CONTRACTS L46-92; requiredFamilies OR-gate L174-180)",
+      "assets/data/domains/population.json (activations[].diagnosticTriggers = diagnosis ids; issues[] circuits, _authored where present)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no population-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no population-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T19:55:20.428Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes population.json or fires extinction. No population-specific adapter/extinction module exists yet; this table follows the Energy/Finance contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "fertility_decline": {
+      "evidenceFamilies": [
+        "fertility_event",
+        "workforce_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "POPULATION_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:fertility_event/workforce_event"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "SEPT",
+        "M1",
+        "RAPHE",
+        "VTA",
+        "RSC"
+      ],
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'fertility_decline' -> evidence families [fertility_event, workforce_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "workforce_imbalance": {
+      "evidenceFamilies": [
+        "fertility_event",
+        "workforce_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "POPULATION_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:fertility_event/workforce_event"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "SEPT",
+        "M1",
+        "RAPHE",
+        "VTA",
+        "RSC"
+      ],
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'workforce_imbalance' -> evidence families [fertility_event, workforce_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases.",
+      "secondaryDiagnoses": [
+        {
+          "id": "AGING_CRISIS",
+          "link": "secondaryConfirmation(NOT folded; condition emits [fertility_event,workforce_event] family, none in AGING_CRISIS requiredFamilies [aging_event/healthcare_event])"
+        }
+      ]
+    },
+    "dependency_ratio": {
+      "evidenceFamilies": [
+        "fertility_event",
+        "workforce_event",
+        "aging_event",
+        "healthcare_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "POPULATION_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:fertility_event/workforce_event"
+        },
+        {
+          "id": "AGING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:aging_event/healthcare_event"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "SEPT",
+        "M1",
+        "RAPHE",
+        "VTA",
+        "RSC",
+        "CARD",
+        "AG",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'dependency_ratio' -> evidence families [fertility_event, workforce_event, aging_event, healthcare_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "demographic_distortion": {
+      "evidenceFamilies": [
+        "fertility_event",
+        "workforce_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "POPULATION_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:fertility_event/workforce_event"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "SEPT",
+        "M1",
+        "RAPHE",
+        "VTA",
+        "RSC"
+      ],
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'demographic_distortion' -> evidence families [fertility_event, workforce_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "migration_surge": {
+      "evidenceFamilies": [
+        "migration_event",
+        "displacement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_MIGRATION",
+          "link": "primaryIndicator+requiredFamily:migration_event/displacement_event"
+        }
+      ],
+      "activations": [
+        "VEST",
+        "CeA",
+        "dlPFC",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'migration_surge' -> evidence families [migration_event, displacement_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "refugee_flow": {
+      "evidenceFamilies": [
+        "migration_event",
+        "displacement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_MIGRATION",
+          "link": "primaryIndicator+requiredFamily:migration_event/displacement_event"
+        }
+      ],
+      "activations": [
+        "VEST",
+        "CeA",
+        "dlPFC",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'refugee_flow' -> evidence families [migration_event, displacement_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "border_pressure": {
+      "evidenceFamilies": [
+        "migration_event",
+        "displacement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_MIGRATION",
+          "link": "primaryIndicator+requiredFamily:migration_event/displacement_event"
+        }
+      ],
+      "activations": [
+        "VEST",
+        "CeA",
+        "dlPFC",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'border_pressure' -> evidence families [migration_event, displacement_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "displacement_event": {
+      "evidenceFamilies": [
+        "migration_event",
+        "displacement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_MIGRATION",
+          "link": "primaryIndicator+requiredFamily:migration_event/displacement_event"
+        }
+      ],
+      "activations": [
+        "VEST",
+        "CeA",
+        "dlPFC",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'displacement_event' -> evidence families [migration_event, displacement_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "aging_skew": {
+      "evidenceFamilies": [
+        "aging_event",
+        "healthcare_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "AGING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:aging_event/healthcare_event"
+        }
+      ],
+      "activations": [
+        "RAPHE",
+        "CARD",
+        "M1",
+        "AG",
+        "SEPT",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'aging_skew' -> evidence families [aging_event, healthcare_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases.",
+      "secondaryDiagnoses": [
+        {
+          "id": "POPULATION_COLLAPSE",
+          "link": "secondaryConfirmation(NOT folded; condition emits [aging_event,healthcare_event] family, none in POPULATION_COLLAPSE requiredFamilies [fertility_event/workforce_event])"
+        }
+      ]
+    },
+    "healthcare_overload": {
+      "evidenceFamilies": [
+        "aging_event",
+        "healthcare_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "AGING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:aging_event/healthcare_event"
+        }
+      ],
+      "activations": [
+        "RAPHE",
+        "CARD",
+        "M1",
+        "AG",
+        "SEPT",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'healthcare_overload' -> evidence families [aging_event, healthcare_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases.",
+      "secondaryDiagnoses": [
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK",
+          "link": "primaryIndicator(NOT folded; condition emits [aging_event,healthcare_event] family, none in PANDEMIC_DEMOGRAPHIC_SHOCK requiredFamilies [pandemic_event/mortality_event])"
+        }
+      ]
+    },
+    "pension_strain": {
+      "evidenceFamilies": [
+        "aging_event",
+        "healthcare_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "AGING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:aging_event/healthcare_event"
+        }
+      ],
+      "activations": [
+        "RAPHE",
+        "CARD",
+        "M1",
+        "AG",
+        "SEPT",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'pension_strain' -> evidence families [aging_event, healthcare_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "city_overcrowding": {
+      "evidenceFamilies": [
+        "urban_event",
+        "infrastructure_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "URBANIZATION_OVERLOAD",
+          "link": "primaryIndicator+requiredFamily:urban_event/infrastructure_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "AI",
+        "RSC",
+        "VEST",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "POPULATION_COLLAPSE"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'city_overcrowding' -> evidence families [urban_event, infrastructure_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "housing_shortage": {
+      "evidenceFamilies": [
+        "urban_event",
+        "infrastructure_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "URBANIZATION_OVERLOAD",
+          "link": "primaryIndicator+requiredFamily:urban_event/infrastructure_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "AI",
+        "RSC",
+        "VEST",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "POPULATION_COLLAPSE"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'housing_shortage' -> evidence families [urban_event, infrastructure_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "infrastructure_strain": {
+      "evidenceFamilies": [
+        "urban_event",
+        "infrastructure_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "URBANIZATION_OVERLOAD",
+          "link": "primaryIndicator+requiredFamily:urban_event/infrastructure_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "AI",
+        "RSC",
+        "VEST",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "POPULATION_COLLAPSE"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'infrastructure_strain' -> evidence families [urban_event, infrastructure_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "density_spike": {
+      "evidenceFamilies": [
+        "urban_event",
+        "infrastructure_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "URBANIZATION_OVERLOAD",
+          "link": "primaryIndicator+requiredFamily:urban_event/infrastructure_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "AI",
+        "RSC",
+        "VEST",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "POPULATION_COLLAPSE"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'density_spike' -> evidence families [urban_event, infrastructure_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "disease_spread": {
+      "evidenceFamilies": [
+        "pandemic_event",
+        "mortality_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK",
+          "link": "primaryIndicator+requiredFamily:pandemic_event/mortality_event"
+        }
+      ],
+      "activations": [
+        "CARD",
+        "OXY",
+        "ECN",
+        "AI",
+        "CeA",
+        "HYPO"
+      ],
+      "diagnosticTriggers": [
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'disease_spread' -> evidence families [pandemic_event, mortality_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "mortality_anomaly": {
+      "evidenceFamilies": [
+        "pandemic_event",
+        "mortality_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK",
+          "link": "primaryIndicator+requiredFamily:pandemic_event/mortality_event"
+        }
+      ],
+      "activations": [
+        "CARD",
+        "OXY",
+        "ECN",
+        "AI",
+        "CeA",
+        "HYPO"
+      ],
+      "diagnosticTriggers": [
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'mortality_anomaly' -> evidence families [pandemic_event, mortality_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "access_inequality": {
+      "evidenceFamilies": [
+        "pandemic_event",
+        "mortality_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PANDEMIC_DEMOGRAPHIC_SHOCK",
+          "link": "primaryIndicator+requiredFamily:pandemic_event/mortality_event"
+        }
+      ],
+      "activations": [
+        "CARD",
+        "OXY",
+        "ECN",
+        "AI",
+        "CeA",
+        "HYPO"
+      ],
+      "diagnosticTriggers": [
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'access_inequality' -> evidence families [pandemic_event, mortality_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "urban_influx": {
+      "evidenceFamilies": [
+        "migration_event",
+        "displacement_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MASS_MIGRATION",
+          "link": "secondaryConfirmation+requiredFamily:migration_event/displacement_event"
+        }
+      ],
+      "activations": [
+        "VEST",
+        "CeA",
+        "dlPFC",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'urban_influx' -> evidence families [migration_event, displacement_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    },
+    "service_overload": {
+      "evidenceFamilies": [
+        "urban_event",
+        "infrastructure_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "URBANIZATION_OVERLOAD",
+          "link": "secondaryConfirmation+requiredFamily:urban_event/infrastructure_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "AI",
+        "RSC",
+        "VEST",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "POPULATION_COLLAPSE"
+      ],
+      "basis": "population-pulse-engine.js inline-classifies 'service_overload' -> evidence families [urban_event, infrastructure_event] (L136-165). Those families satisfy the requiredFamilies (OR-semantics, L174-180) of the linkedDiagnoses (EVIDENCE_CONTRACTS L46-92). Each linked diagnosis expands to its issue circuit nodeIds (population.json; adapter uses issue._authored||issue.circuits) and those activations' diagnosticTriggers. NOTE: in Population, as in Finance, an activation's diagnosticTriggers ARE diagnosis-id strings, not free-text phrases."
+    }
+  },
+  "diagnoses": {
+    "POPULATION_COLLAPSE": {
+      "circuitSource": "circuits",
+      "activations": [
+        "OXY",
+        "SEPT",
+        "M1",
+        "RAPHE",
+        "VTA",
+        "RSC"
+      ],
+      "diagnosticTriggers": [
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "diagnosis id === Population issue id; when active, the (energy-pattern) adapter marks its issue['POPULATION_COLLAPSE'].circuits circuit nodes active (energy-telemetry-adapter.js L79-101 pattern). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. Population diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "MASS_MIGRATION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "VEST",
+        "CeA",
+        "dlPFC",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK"
+      ],
+      "basis": "diagnosis id === Population issue id; when active, the (energy-pattern) adapter marks its issue['MASS_MIGRATION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101 pattern). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. Population diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "AGING_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "RAPHE",
+        "CARD",
+        "M1",
+        "AG",
+        "SEPT",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "MASS_MIGRATION",
+        "URBANIZATION_OVERLOAD"
+      ],
+      "basis": "diagnosis id === Population issue id; when active, the (energy-pattern) adapter marks its issue['AGING_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101 pattern). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. Population diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "URBANIZATION_OVERLOAD": {
+      "circuitSource": "_authored",
+      "activations": [
+        "dlPFC",
+        "AI",
+        "RSC",
+        "VEST",
+        "TPJ",
+        "OFC"
+      ],
+      "diagnosticTriggers": [
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION",
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "POPULATION_COLLAPSE"
+      ],
+      "basis": "diagnosis id === Population issue id; when active, the (energy-pattern) adapter marks its issue['URBANIZATION_OVERLOAD']._authored circuit nodes active (energy-telemetry-adapter.js L79-101 pattern). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. Population diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "PANDEMIC_DEMOGRAPHIC_SHOCK": {
+      "circuitSource": "_authored",
+      "activations": [
+        "CARD",
+        "OXY",
+        "ECN",
+        "AI",
+        "CeA",
+        "HYPO"
+      ],
+      "diagnosticTriggers": [
+        "PANDEMIC_DEMOGRAPHIC_SHOCK",
+        "AGING_CRISIS",
+        "POPULATION_COLLAPSE",
+        "URBANIZATION_OVERLOAD",
+        "MASS_MIGRATION"
+      ],
+      "basis": "diagnosis id === Population issue id; when active, the (energy-pattern) adapter marks its issue['PANDEMIC_DEMOGRAPHIC_SHOCK']._authored circuit nodes active (energy-telemetry-adapter.js L79-101 pattern). This alias lists exactly those brainNodeIds and their activations' diagnosticTriggers. Direct data link, no inference. Population diagnosticTriggers are themselves diagnosis-id strings (heterogeneity vs Energy free-text), so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "population_high_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "population-pulse-engine.js classifies population_high_stress -> evidence family [structural_event] (L163), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. Dead-end family: reaches no diagnosis, hence no circuit, hence no activation. No grounded alias. (Every Population contract sets catchAllBlocked:true, so a stress-only activation is explicitly blocked.)"
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": [
+          "structural_event"
+        ],
+        "reason": "Same as population_high_stress: classifies -> [structural_event] (L163), consumed by no contract. Dead-end, no grounded alias."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "population-pulse-engine.js classifies macro_shock -> evidence family [macro_event] (L164), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. Dead-end (same as Finance macro_shock; contrast Energy where macro_event fed SYSTEMIC_ENERGY_STRESS)."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "UNC",
+        "domainLabel": "Poverty",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so the energy-extinction.js L30 pattern skips it entirely (never an extinction candidate). No alias needed. Population stub activation (Poverty systems within Population & Demographics)."
+      },
+      {
+        "brainNodeId": "EI",
+        "domainLabel": "Refugees",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so the energy-extinction.js L30 pattern skips it entirely (never an extinction candidate). No alias needed. Population stub activation (Refugees systems within Population & Demographics)."
+      },
+      {
+        "brainNodeId": "PULV",
+        "domainLabel": "Ruralpop",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so the energy-extinction.js L30 pattern skips it entirely (never an extinction candidate). No alias needed. Population stub activation (Ruralpop systems within Population & Demographics)."
+      },
+      {
+        "brainNodeId": "STN",
+        "domainLabel": "Youthpop",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so the energy-extinction.js L30 pattern skips it entirely (never an extinction candidate). No alias needed. Population stub activation (Youthpop systems within Population & Demographics)."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Population: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is handled by the inline classify switch. The one wiring mismatch is the reverse: healthcare_overload IS classified but routes to aging/healthcare families rather than PANDEMIC's pandemic/mortality families, so it grounds AGING_CRISIS only (see heterogeneityVsFinance #4 and the healthcare_overload entry secondaryDiagnoses)."
+  }
+}
