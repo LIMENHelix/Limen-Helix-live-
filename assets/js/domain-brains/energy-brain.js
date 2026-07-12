@@ -65,6 +65,21 @@
     this._loadL1PortalDepth();           // J1: scan L1 portal branches (treatments are mad-lib -> NOT admitted; only real tickers surfaced, relevance-unverified)
     this._loadDatacenterDiagnoses();     // DC: load the data-center sub-portal (real-content, unbundled) as an additive brain LAYER — never merged into the validated 6-diagnosis spine
 
+    // ── OVERLAY ACTUATION (2026-07-12): the neuro-substrate overlay now feeds ONE decision.
+    // Scope = refractory de-dup only (operator-approved). Grounded in the Neurology Reference
+    // III.3 refractory mechanism, via the already-loaded energy-refractory-limiter.js module
+    // (absolute dead-time + relative raised-threshold; a stronger stimulus can still fire).
+    // REDUCED-SENSITIVITY weighting: override bar raised 0.8 -> 0.9 so only strong re-fires break
+    // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
+    // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
+    // and does not load that file); keep the two in sync when tuning.
+    this._actuation = { refractory: true };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
+      overrideThreshold: 0.9      // reduced sensitivity: was 0.8; only stress >= 0.9 re-fires in-window
+    };
+
     // Diagnosis → signal condition mapping
     // These map live conditions to which diagnoses become active
     this.diagnosisIndex = {
@@ -1096,6 +1111,13 @@
     var adapters = window.LIMENActionAdapters;
     if (!adapters) return;
 
+    // Lazy-init the refractory limiter (III.3) from the doc-grounded module. Best-effort:
+    // if the module is not loaded or actuation is off, the gate is simply skipped (prior behavior).
+    if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
+        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+    }
+
     // For each newly active diagnosis, create action drafts
     for (var i = 0; i < activeDx.length; i++) {
       var dx = activeDx[i];
@@ -1103,6 +1125,23 @@
       // Only create drafts if we haven't already for this diagnosis
       var existingDrafts = adapters.getDrafts({ domain: 'energy', intentId: dx.id });
       if (existingDrafts && existingDrafts.length > 0) continue;
+
+      // REFRACTORY GATE (III.3, overlay-driven): once this diagnosis has emitted, suppress
+      // re-emission within the dead-time unless stress clears the (reduced-sensitivity) override
+      // bar. Uses the overlay/pulse timestamp so it tracks live time. The diagnosis stays active
+      // and displayed — only the duplicate DRAFT is withheld. Never breaks the cycle.
+      if (this._refractoryLimiter) {
+        try {
+          var _now = (this._runtimeOverlay && this._runtimeOverlay.timestamp) ||
+                     (this.state.pulse && this.state.pulse.timestamp) ||
+                     ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+          var _verdict = this._refractoryLimiter.fire(dx.id, _now, this.state.stress);
+          if (!_verdict.allowed) {
+            this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1;
+            continue;
+          }
+        } catch (_e) { /* gate is best-effort; fall through to normal emission */ }
+      }
 
       // Draft a report for this diagnosis
       adapters.createDraft('REPORT_GENERATION', {

@@ -2830,11 +2830,11 @@
       "offlinePruneThreshold": 0,
       "refractoryAbsoluteWindow": 900000,
       "refractoryRelativeWindow": 3600000,
-      "refractoryOverrideThreshold": 0.8,
+      "refractoryOverrideThreshold": 0.9,
       "predictionErrorThreshold": 0.1,
-      "retrogradeThrottleGain": 0.3,
-      "metaplasticityGain": 0.3,
-      "_note": "Conservative starting values for a functional baseline (2026-07-12). SAFE/gentle; tune per the two-lesion guardrails in the proposal docs. windows in ms (match Date.now timestamps)."
+      "retrogradeThrottleGain": 0.2,
+      "metaplasticityGain": 0.2,
+      "_note": "Reduced-sensitivity baseline (2026-07-12): override bar 0.8->0.9 (refractory de-dup now ACTUATED in energy-brain._checkDiagnosisActions; only stress>=0.9 re-fires in-window), throttle/metaplasticity gains 0.3->0.2 (gentler for when those mechanisms actuate). Windows keep the doc 1:4 ratio. SAFE/gentle; grounded in Neurology Reference III.3 + Part XV ratio-preservation. windows in ms."
     },
     "fieldProvenance": {
       "volatility": "metaplasticity (neuro ref XIII.6); 0=calm=no-op",
