@@ -61,15 +61,17 @@ var CONFIRM_CHANNELS = TX2 ? Object.keys(TX2.options) : ['confirm-email', 'confi
 var CONFIRM_COST = (TX2 && TX2.options) || { 'confirm-email': 2, 'confirm-text': 4, 'confirm-call': 45, mailer: 60, other: 15 };
 
 // The LASER outreach cadence: "4 calls in ~10 days" + multi-channel touches.
+// MAILER FIRST: longest lead time (1-2 wks to land + be opened), so it goes out
+// day 0 to start the clock; phone/text work the lead WHILE the mailer travels.
 var DEFAULT_CADENCE = [
-  { step: 1, day: 0, channel: 'call', label: 'Call 1 — first attempt' },
-  { step: 2, day: 0, channel: 'text', label: 'Text 1 — right after the call' },
-  { step: 3, day: 1, channel: 'email', label: 'Email 1 — value + booking link' },
-  { step: 4, day: 3, channel: 'call', label: 'Call 2' },
-  { step: 5, day: 5, channel: 'text', label: 'Text 2' },
-  { step: 6, day: 7, channel: 'call', label: 'Call 3' },
-  { step: 7, day: 10, channel: 'mailer', label: 'Mailer — tangible touch' },
-  { step: 8, day: 12, channel: 'call', label: 'Call 4 — final attempt' }
+  { step: 1, day: 0, channel: 'mailer', label: 'Mailer — send now (1-2 wks to land; starts the clock)' },
+  { step: 2, day: 1, channel: 'call', label: 'Call 1 — while the mailer is in transit' },
+  { step: 3, day: 2, channel: 'text', label: 'Text 1' },
+  { step: 4, day: 4, channel: 'call', label: 'Call 2' },
+  { step: 5, day: 7, channel: 'text', label: 'Text 2' },
+  { step: 6, day: 10, channel: 'call', label: 'Call 3 — mailer has landed' },
+  { step: 7, day: 12, channel: 'email', label: 'Email 1 — reference the letter' },
+  { step: 8, day: 14, channel: 'call', label: 'Call 4 — final attempt' }
 ];
 
 function readBody(req) {

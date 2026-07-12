@@ -53,11 +53,17 @@ function nowMs() { return new Date().getTime(); }
 
 async function loadConfig() { return Object.assign({ armed: false, mode: 'recommend', maxPerTick: 25, autoEmail: true }, (await db.get(K.config)) || {}); }
 async function loadCadence() { var c = await db.get(K.cadence); return Array.isArray(c) && c.length ? c : DEFAULT_CADENCE; }
+// MAILER FIRST: it has the longest lead time (1-2 wks to land + be opened), so
+// it goes out day 0 to start the clock, and you work phone/text WHILE it travels.
 var DEFAULT_CADENCE = [
-  { step: 1, day: 0, channel: 'call', label: 'Call 1' }, { step: 2, day: 0, channel: 'text', label: 'Text 1' },
-  { step: 3, day: 1, channel: 'email', label: 'Email 1' }, { step: 4, day: 3, channel: 'call', label: 'Call 2' },
-  { step: 5, day: 5, channel: 'text', label: 'Text 2' }, { step: 6, day: 7, channel: 'call', label: 'Call 3' },
-  { step: 7, day: 10, channel: 'mailer', label: 'Mailer' }, { step: 8, day: 12, channel: 'call', label: 'Call 4' }
+  { step: 1, day: 0, channel: 'mailer', label: 'Mailer — send now (1-2 wks to land; starts the clock)' },
+  { step: 2, day: 1, channel: 'call', label: 'Call 1 — while the mailer is in transit' },
+  { step: 3, day: 2, channel: 'text', label: 'Text 1' },
+  { step: 4, day: 4, channel: 'call', label: 'Call 2' },
+  { step: 5, day: 7, channel: 'text', label: 'Text 2' },
+  { step: 6, day: 10, channel: 'call', label: 'Call 3 — mailer has landed' },
+  { step: 7, day: 12, channel: 'email', label: 'Email 1 — reference the letter' },
+  { step: 8, day: 14, channel: 'call', label: 'Call 4 — final attempt' }
 ];
 
 // Pass-through domain gate — where per-domain/cell signal plugs in later.
