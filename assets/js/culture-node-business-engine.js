@@ -26,7 +26,7 @@
 
   var params = new URLSearchParams(window.location.search);
   var _dom = params.get('domain');
-  if (_dom !== 'culture' && _dom !== 'culture') return;
+  if (_dom !== 'culture' && _dom !== 'research') return;
 
   var STORAGE_KEY = 'limen_culture_business_approvals';
   var HIERARCHY_CACHE_KEY = 'limen_culture_hierarchy_cache';

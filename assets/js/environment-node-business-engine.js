@@ -26,7 +26,7 @@
 
   var params = new URLSearchParams(window.location.search);
   var _dom = params.get('domain');
-  if (_dom !== 'environment' && _dom !== 'environment') return;
+  if (_dom !== 'environment' && _dom !== 'research') return;
 
   var STORAGE_KEY = 'limen_environment_business_approvals';
   var HIERARCHY_CACHE_KEY = 'limen_environment_hierarchy_cache';
@@ -606,7 +606,7 @@
           if (expected.confidence >= 0.85) {
             consequence = 'If approved: this business type becomes eligible for opportunity generation and operator queue inclusion for Environment. It will appear as a valid target in investment and research opportunities tied to ' + dir.label + '.';
           } else if (expected.confidence >= 0.75) {
-            consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Science.';
+            consequence = 'If approved: this business type becomes eligible for future portal path mapping and audit tracking within Environment.';
           } else {
             consequence = 'If approved: this business type is recorded as a valid Environment mapping for audit tracking. Requires further validation.';
           }

@@ -26,7 +26,7 @@
 
   var params = new URLSearchParams(window.location.search);
   var _dom = params.get('domain');
-  if (_dom !== 'industry' && _dom !== 'industry') return;
+  if (_dom !== 'industry' && _dom !== 'research') return;
 
   var STORAGE_KEY = 'limen_industry_business_approvals';
   var HIERARCHY_CACHE_KEY = 'limen_industry_hierarchy_cache';
