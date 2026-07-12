@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; NEUROLOGY</title>
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<script>
+if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/neurology.html'));}
+</script>
+<div class="app">
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+  <!-- topbar removed: see assets/js/limen-topbar.js -->
+
+  <div class="left-panel" id="leftPanel">
+    <div id="issueSection"></div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search nodes...">
+    </div>
+    <div id="nodeList"></div>
+  </div>
+
+  <div class="center-view" id="centerView">
+    <canvas id="connectome-canvas"></canvas>
+    <div id="brain3dContainer" class="brain3d-container"></div>
+    <button id="brain3dToggle" class="brain3d-toggle"><span class="toggle-icon">&#129504;</span> 3D</button>
+    <div id="brain3dHint" class="brain3d-hint">DRAG TO ROTATE &middot; SCROLL TO ZOOM &middot; CLICK NODES</div>
+    <div class="node-count" id="nodeCount"></div>
+    <div class="circuit-legend" id="phaseLegend"></div>
+  </div>
+
+  <div class="right-panel" id="rightPanel">
+    <div class="right-empty" id="rightEmpty">
+      <div class="re-title">Neurology</div>
+      <div class="re-phase">P6 &middot; Order</div>
+      <div class="re-desc">Neural circuit mapping for neurological conditions. Select a condition from the left panel to view circuit analysis, evidence-graded interventions, and action plans.</div>
+      <div class="re-stats">111 brain regions &middot; 8 conditions</div>
+    </div>
+    <div id="interventionContent" style="display:none"></div>
+    <div id="nodeDeepDive" style="display:none"></div>
+  </div>
+
+  <div class="bottombar">
+    <div>LIMEN HELIX TRANSFORMATIONAL SCIENCES LLC &middot; NEUROLOGY REFERENCE</div>
+    <div id="bottomStats">NEUROLOGY &middot; 111 BRAIN REGIONS</div>
+  </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/js/connectome-core.js"></script>
+<script src="assets/js/connectome-renderer.js"></script>
+<script src="assets/js/observer-node.js"></script>
+<script src="assets/js/memory-layer.js"></script>
+<script src="assets/js/curiosity-engine.js"></script>
+<script src="assets/js/hebbian-learning.js"></script>
+<script src="assets/js/global-workspace.js"></script>
+<script src="assets/js/global-signals.js"></script>
+<script src="assets/js/phase-estimator.js"></script>
+<script src="assets/js/portal-ui.js"></script>
+<script>
+PortalUI.init({
+  domainId: 'neurology',
+  parentLabel: 'Neurology',
+  issuesEnabled: true,
+  groupOrder: [
+    {key:'motor_disorders', label:'MOTOR DISORDERS'},
+    {key:'cognitive', label:'COGNITIVE'},
+    {key:'pain', label:'PAIN'},
+    {key:'cerebrovascular', label:'CEREBROVASCULAR'},
+    {key:'autoimmune', label:'AUTOIMMUNE'},
+    {key:'seizure', label:'SEIZURE'},
+    {key:'neuromuscular', label:'NEUROMUSCULAR'},
+    {key:'sleep', label:'SLEEP'}
+  ]
+});
+</script>
+</body>
+</html>
