@@ -1,0 +1,320 @@
+{
+  "_meta": {
+    "name": "Neurology <-> Business Cross-Reference (Fractal Isomorphism Map)",
+    "compiled": "2026-07-12",
+    "sources_bound": [
+      "Neural: LIMEN Helix Neurology & Nervous System Reference",
+      "Business: Business Operations Atlas universal frameworks (10 core functions, 9-tier authority ladder, 3-layer regulation model, 20 domains at 3 altitudes)"
+    ],
+    "wires_to": "assets/data/business-operations-atlas.json (universal.coreFunctions, universal.universalLadder, universal.regulationLayers)",
+    "analysis_axes": "functional isomorphism (same job) != structural isomorphism (dynamics/thresholds/inhibition match) != fractal integrity (recursive rule survives the scale jump). Judged separately, never conflated.",
+    "verdict_codes": {
+      "STRUCTURAL": "same part, same job, dynamics match; fractal intact.",
+      "PARTIAL": "real correlate, dynamics partly match; fractal bends.",
+      "COSMETIC": "sounds alike, dynamics differ; FLAGGED - breaks the fractal.",
+      "MISSING": "load-bearing neural part with no reliable business correlate; build target / pathology risk."
+    },
+    "coverage_note": "This file persists ONLY the parts of the cross-reference not already implemented elsewhere. Already covered (not duplicated here): Chart A7 dynamics = the 12-motif engine in motif-apqc-crosswalk.json; offline/glymphatic clearance = energy-offline-maintenance.js; incomplete-circuit/extinction check = energy-neuro-substrate.js; time-ratio principle = energy-neuro-substrate.json. Cross-links are noted per item.",
+    "civilization_tier": "NOT implemented. The source document flags the 20-domain (civilization) ring as noted-but-not-independently-validated. Honoring that boundary; not asserted here."
+  },
+  "structural_anchors": [
+    {
+      "id": "LADDER_IS_LAMINAR_HIERARCHY",
+      "load_bearing": true,
+      "confidence": "high",
+      "neural": "Cortical laminar hierarchy (layers I-VI, up/down streams): feedforward = prediction error ascending, feedback = predictions descending (Shipp 2016).",
+      "business": "The Atlas 9-tier authority ladder (Owners -> Board -> CEO -> C-Suite -> BU Presidents -> VPs/Directors -> Managers -> Professionals -> Operational).",
+      "invariant": "Fractal intact ONLY IF the ladder carries signal in BOTH directions AND laterally. A pure top-down tree is the cosmetic (broken) version (see chart_B org-tree).",
+      "verdict": "STRUCTURAL",
+      "atlas_ref": "universal.universalLadder (9 tiers)"
+    },
+    {
+      "id": "REGULATION_IS_THREE_INHIBITION_SOURCES",
+      "load_bearing": true,
+      "confidence": "high",
+      "neural": "The brain's three inhibition sources: top-down cortical/executive control (vertical) + intrinsic inhibitory interneurons & homeostatic plasticity (internal) + lateral inhibition between competing units (lateral).",
+      "business": "The Atlas 3-layer regulation model: State regulation from above (vertical) / Self-regulation from within (internal) / Market-mutual regulation from the side (lateral).",
+      "invariant": "Three independent brakes, same geometry (vertical / internal / lateral). All three must be present; losing one is a disinhibition pathology (see chart_D).",
+      "verdict": "STRUCTURAL",
+      "atlas_ref": "universal.regulationLayers (Layer 1 State / Layer 2 Self / Layer 3 Market)"
+    }
+  ],
+  "unified_rule": {
+    "id": "PREDICTION_ERROR_IS_MANAGEMENT_BY_EXCEPTION",
+    "confidence": "medium",
+    "neural": "Predictive coding: only the mismatch (prediction error) propagates upward; matches are summarized away.",
+    "business": "Management-by-exception / exception reporting: escalate variance, summarize the expected.",
+    "enforce": "Route surprise-only upward across ALL scales. Routing full status reports upward instead violates the rule and produces executive overload (see chart_D sensory-gating-failure).",
+    "cross_link": "Related motif M6 in motif-apqc-crosswalk.json (feedforward prediction + error)."
+  },
+  "chart_B_cosmetic_guard": {
+    "_purpose": "Fractal-breakers. Each LOOKS like a match but the dynamics diverge. Used by neuro-business-guard.js to FLAG a proposed mapping as COSMETIC.",
+    "items": [
+      {
+        "id": "IT_IS_NERVOUS_SYSTEM",
+        "tempting": "IT wires everything together.",
+        "why_cosmetic": "IT is wiring + glia (white-matter tracts, infrastructure, buffering), NOT the computational nervous system. Cognition is the distributed decision fabric across all tiers. Localizing cognition in IT = calling the corpus callosum 'the brain'.",
+        "correct_reading": "IT = axonal tracts + astrocytic support; cognition is distributed, not departmental.",
+        "confidence": "high"
+      },
+      {
+        "id": "ORG_TREE_IS_BRAIN_HIERARCHY",
+        "tempting": "Both are layered.",
+        "why_cosmetic": "A brain is ~80% recurrent/lateral, densely feedback-connected. A pure org TREE has no lateral or feedback edges. Same picture, opposite connectivity.",
+        "correct_reading": "Structural ONLY IF lateral + feedback channels exist; otherwise cosmetic and pathological (see chart_C dense-recurrent-connectivity).",
+        "confidence": "high"
+      },
+      {
+        "id": "TRANSMITTER_TO_DEPARTMENT_1TO1",
+        "tempting": "Both have 'kinds'.",
+        "why_cosmetic": "Mapping 'dopamine = sales, serotonin = HR' is cosmetic. The real invariant is the ROLE TRIAD: excitatory / inhibitory / modulatory, not the named chemical.",
+        "correct_reading": "Map ROLES, not molecules.",
+        "confidence": "medium"
+      },
+      {
+        "id": "GROWTH_IS_HEALTH",
+        "tempting": "Growth feels vital.",
+        "why_cosmetic": "Neural health is HOMEOSTASIS, not maximal firing. Maximal firing = seizure. Growth without matched inhibition is the PATHOLOGY, not the health.",
+        "correct_reading": "Health = regulated balance, not throughput.",
+        "confidence": "high"
+      },
+      {
+        "id": "CEO_IS_THE_BRAIN",
+        "tempting": "Single-controller intuition.",
+        "why_cosmetic": "The brain has NO CEO neuron. Control is distributed (basal ganglia select, cortex predicts, thalamus gates, brainstem arouses). A single-point controller is LESS brain-like.",
+        "correct_reading": "CEO ~= a neuromodulatory + basal-ganglia FUNCTION, not a homunculus.",
+        "confidence": "medium"
+      },
+      {
+        "id": "MONEY_IS_NEURAL_SIGNAL",
+        "tempting": "Both are 'signals'.",
+        "why_cosmetic": "Money is fungible, storable, conserved; neural signals are transient, typed, non-conserved. Partial at best.",
+        "correct_reading": "Closest correlate is dopamine/reward currency, but the analogy is loose.",
+        "confidence": "medium"
+      }
+    ]
+  },
+  "chart_C_build_targets": {
+    "_purpose": "Load-bearing neural mechanisms usually MISSING in business. Absence = a specific, nameable lesion. Priority stars from the source.",
+    "items": [
+      {
+        "id": "EXTINCTION_LEARNING",
+        "priority": 3,
+        "neural": "Amygdala + vmPFC actively REMOVE obsolete threat responses.",
+        "business_status": "Usually MISSING - policies added post-incident, rarely retired.",
+        "lesion_if_absent": "Accumulating 'scar-tissue' rules -> chronic over-inhibition / bureaucratic paralysis.",
+        "confidence": "high",
+        "impl_status": "IMPLEMENTED for Energy (energy-extinction.js targeted retirement, completes the PARTIAL diagnostic). Universal registry entry here."
+      },
+      {
+        "id": "HOMEOSTATIC_SYNAPTIC_SCALING",
+        "priority": 3,
+        "neural": "Global down-scaling so learning cannot run away.",
+        "business_status": "Usually MISSING - no global renormalization after growth.",
+        "lesion_if_absent": "Runaway headcount/complexity; local optimization with no global brake.",
+        "confidence": "high",
+        "impl_status": "IMPLEMENTED for Energy (energy-offline-maintenance.js operation 1, proportional down-scaling). Universal registry entry new here."
+      },
+      {
+        "id": "GLYMPHATIC_OFFLINE_MAINTENANCE",
+        "priority": 3,
+        "neural": "Mandatory downtime clears metabolic waste (Benveniste 2018).",
+        "business_status": "Usually MISSING - no enforced 'offline' for cleanup.",
+        "lesion_if_absent": "Process/tech debt accumulates unbounded -> degenerative decline.",
+        "confidence": "medium",
+        "impl_status": "IMPLEMENTED for Energy (energy-offline-cycle-proposal.md + energy-offline-maintenance.js). Universal registry entry new here."
+      },
+      {
+        "id": "REFRACTORY_RATE_LIMIT",
+        "priority": 2,
+        "neural": "Dead-time preventing immediate re-firing.",
+        "business_status": "Often MISSING - decisions re-litigated instantly.",
+        "lesion_if_absent": "Whiplash, thrash, strategy churn.",
+        "confidence": "high",
+        "impl_status": "IMPLEMENTED for Energy (energy-refractory-rate-limit-proposal.md + energy-refractory-limiter.js; two-phase absolute+relative, defaults no-op). Universal registry entry here."
+      },
+      {
+        "id": "RETROGRADE_NEGATIVE_FEEDBACK",
+        "priority": 2,
+        "neural": "Endocannabinoid: the RECEIVER dials the sender back.",
+        "business_status": "Mostly MISSING - feedback is top-down, not receiver-controlled.",
+        "lesion_if_absent": "Senders overload receivers (no downstream throttle) -> flooding.",
+        "confidence": "medium",
+        "impl_status": "IMPLEMENTED for Energy (energy-retrograde-throttle.js; receiver dials back sender, defaults no-op)."
+      },
+      {
+        "id": "PREDICTION_ERROR_COMPRESSION",
+        "priority": 3,
+        "neural": "Send surprise up, compress the expected.",
+        "business_status": "PARTIAL - orgs push full reports up.",
+        "lesion_if_absent": "Executive overload OR premature over-filtering.",
+        "confidence": "medium",
+        "impl_status": "IMPLEMENTED for Energy (energy-prediction-error-compression-proposal.md + energy-prediction-error-compressor.js; mismatch gate + precision weighting + summarize-not-delete, defaults no-op). Principle in unified_rule."
+      },
+      {
+        "id": "DENSE_RECURRENT_LATERAL_CONNECTIVITY",
+        "priority": 3,
+        "neural": "~80% local + lateral wiring.",
+        "business_status": "Usually MISSING - tree, not mesh.",
+        "lesion_if_absent": "Siloing; no cross-unit coordination without going up-and-over.",
+        "confidence": "high",
+        "impl_status": "IMPLEMENTED for Energy as a read-only diagnostic (energy-connectivity-audit.js recurrenceAudit; found 0% feedback edges). Edge additions proposed not applied."
+      },
+      {
+        "id": "DISTRIBUTED_REDUNDANT_CONTROL",
+        "priority": 2,
+        "neural": "No single point; graceful degradation.",
+        "business_status": "Often MISSING - centralized.",
+        "lesion_if_absent": "Single points of failure; brittle to key-person loss (see chart_D diaschisis).",
+        "confidence": "high",
+        "impl_status": "IMPLEMENTED for Energy as a read-only diagnostic (energy-connectivity-audit.js singlePointsOfFailure; found 10 articulation nodes). Redundancy additions proposed not applied."
+      },
+      {
+        "id": "METAPLASTICITY",
+        "priority": 1,
+        "neural": "Plasticity of plasticity - adjusts HOW FAST the system changes.",
+        "business_status": "Usually MISSING - change rate fixed/ad hoc.",
+        "lesion_if_absent": "Over- or under-reactive change management.",
+        "confidence": "medium",
+        "impl_status": "IMPLEMENTED for Energy (energy-metaplasticity.js meta-controller tuning offline/refractory/prediction-error knobs; defaults no-op). The new self-tuning strategy layer."
+      }
+    ]
+  },
+  "chart_C2_weak_correlates": {
+    "_purpose": "Business elements with WEAK / no neural correlate - the other asymmetry.",
+    "items": [
+      {
+        "business": "Legal ownership / shareholders (residual claimants)",
+        "closest_neural": "Survival/reproduction drive (very loose)",
+        "verdict": "largely NO CORRELATE - a genuine scale-specific feature"
+      },
+      {
+        "business": "External state regulators as separate agencies",
+        "closest_neural": "Genetic/developmental constraints + hard homeostatic limits",
+        "verdict": "PARTIAL - constraints exist, but not as an external actor"
+      },
+      {
+        "business": "Money as fungible, storable, conserved medium",
+        "closest_neural": "Reward/dopamine currency",
+        "verdict": "PARTIAL / cosmetic"
+      },
+      {
+        "business": "Explicit legal contracts",
+        "closest_neural": "Synaptic weights (set by use, not agreement)",
+        "verdict": "PARTIAL"
+      }
+    ],
+    "doctrine_call": {
+      "problem": "Project doctrine forbids scale-dependent special cases ('no scale-specific rules'). C2 items appear to need one.",
+      "option_a": "Treat ownership/regulators/money as CIVILIZATION-SCALE organs that only appear above the single-organism boundary (a single brain has no economy). RECOMMENDED.",
+      "option_b": "Accept these as places the strict fractal DOES NOT hold and label them as such.",
+      "resolution": "UNRESOLVED. Recommend (a) but flagged as open, not asserted. Confidence medium."
+    }
+  },
+  "chart_D_pathology_map": {
+    "_purpose": "Failure modes must map too (project mandate). Neural failure -> business isomorph -> shared root cause.",
+    "items": [
+      {
+        "neural": "Seizure / epilepsy",
+        "mechanism": "E/I balance fails -> runaway excitation",
+        "business": "Runaway growth/hype with no risk brake -> blowup",
+        "root": "Loss of load-bearing inhibition",
+        "confidence": "high"
+      },
+      {
+        "neural": "Excitotoxicity",
+        "mechanism": "Signal not cleared -> Ca2+ overload -> cell death",
+        "business": "Unresolved tickets/issues/debt accumulate -> burnout, collapse",
+        "root": "Failure of termination/clearance",
+        "confidence": "high"
+      },
+      {
+        "neural": "Sensory-gating failure (schizophrenia; Ferrarelli & Tononi 2010)",
+        "mechanism": "Thalamic/TRN gate breaks -> flooding or wrong signal passed",
+        "business": "Information overload OR filtering out what HQ needed",
+        "root": "Gating at the wrong stage / wrong threshold",
+        "confidence": "med-high"
+      },
+      {
+        "neural": "Disinhibition syndrome",
+        "mechanism": "Lose the inhibitor -> released pathological activity",
+        "business": "Loss of controls -> fraud, misconduct, scope creep",
+        "root": "Removed brake with no replacement",
+        "confidence": "high"
+      },
+      {
+        "neural": "Over-inhibition",
+        "mechanism": "Too much suppression -> silence",
+        "business": "Bureaucratic paralysis; approval-gate gridlock",
+        "root": "Inhibition not matched to drive",
+        "confidence": "high"
+      },
+      {
+        "neural": "Neurodegeneration",
+        "mechanism": "Aggregation + failed clearance + network collapse",
+        "business": "Tech/process debt + no cleanup -> slow org decline",
+        "root": "Maintenance failure compounding",
+        "confidence": "med-high"
+      },
+      {
+        "neural": "Diaschisis",
+        "mechanism": "Lose one node -> distant connected regions fail",
+        "business": "Key-person/vendor loss cascades across dependent units",
+        "root": "Network, not node, is the unit of failure",
+        "confidence": "high"
+      },
+      {
+        "neural": "Incomplete circuit (acquisition w/o extinction)",
+        "mechanism": "Fear learned, never extinguished",
+        "business": "Policies added, never removed",
+        "root": "Built the acquisition half only",
+        "confidence": "high"
+      },
+      {
+        "neural": "Oscillatory pathology (beta-hypersynchrony; Voytek & Knight 2015)",
+        "mechanism": "Over-coupling OR under-coupling both degrade communication",
+        "business": "Everyone in meetings (over-coupled, no local autonomy) OR no shared cadence (under-coupled)",
+        "root": "Coupling outside the healthy band",
+        "confidence": "med-high"
+      }
+    ]
+  },
+  "time_ratio_target": {
+    "id": "TWO_TIMESCALE_INVARIANT",
+    "load_bearing": true,
+    "neural": "Fast-signal (AP ~1 ms) vs slow-governance (hormonal feedback ~seconds-minutes) spans ~10^3-10^5.",
+    "business_target": "An operational decision (minutes-hours) vs a governance/strategy cycle (weeks-quarters) must span a comparable ~10^3-10^4.",
+    "violation": "If governance reacts as fast as operations (or operations wait as long as governance), the two-timescale invariant breaks and the fractal is cosmetic, not structural.",
+    "cross_link": "Generalizes the ratio_preservation_rule already in energy-neuro-substrate.json (Part XV) to the business-side span."
+  },
+  "fractal_integrity_verdict": {
+    "intact_structural": [
+      "9-tier ladder as laminar hierarchy",
+      "3-layer regulation as three inhibition sources",
+      "E/I balance <-> growth-vs-risk",
+      "basal-ganglia selection <-> capital allocation",
+      "HPA feedback <-> multi-tier governance",
+      "circadian clock <-> fiscal calendar",
+      "oscillatory coherence <-> meeting cadence",
+      "predictive coding <-> management-by-exception"
+    ],
+    "cosmetic_broken": [
+      "IT = nervous system",
+      "org-tree-without-lateral-edges",
+      "transmitter-to-department 1:1",
+      "growth-as-health",
+      "CEO-as-brain"
+    ],
+    "missing_build_or_declare": [
+      "extinction",
+      "homeostatic scaling",
+      "offline/glymphatic clearance",
+      "refractory rate-limiting",
+      "receiver-side throttling",
+      "prediction-error compression",
+      "lateral/recurrent connectivity",
+      "distributed redundancy"
+    ]
+  },
+  "references_note": "All neural DOIs are already listed in energy-neuro-substrate.json (12 verified PubMed refs). Not duplicated here."
+}

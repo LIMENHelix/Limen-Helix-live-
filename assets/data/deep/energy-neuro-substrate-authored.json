@@ -1,0 +1,84 @@
+{
+  "_meta": {
+    "domain": "energy",
+    "title": "Energy Neuro-Substrate — Authored Assignments (prompt run)",
+    "compiled": "2026-07-12",
+    "source_document": "LIMEN Helix Comprehensive Neurology Reference (THIS DOCUMENT ONLY).",
+    "produced_by": "Running assets/prompts/energy-neuro-substrate-authoring.md against real Energy data (energy.json). Additive; no existing file modified.",
+    "discipline": "unassigned returned wherever Energy's data gives no basis. An honest unassigned beats a plausible guess.",
+    "headline": "Most per-edge/per-node items came back UNASSIGNED because Energy encodes no timing, no plasticity/weight-update, and no laminar direction. Two items are grounded. One structural observation materially reframes EI_SCALING."
+  },
+
+  "structural_observation": {
+    "id": "EDGES_REFERENCE_CANONICAL_NODES_BEYOND_ACTIVATIONS",
+    "finding": "Energy's inhib and modul edges connect a broader canonical node set than its 21 activation nodes. Targets/sources include mPFC, BLA, CeA, PVN, NAcc, VP, GP, LC, rACC, HPA, V1 — most NOT among the 21 Energy activations.",
+    "why_it_matters": "The documented inhibitory BRAKES are present in Energy's edge layer (vmPFC->BLA/CeA = extinction; HIPP->PVN = HPA feedback; STRI->GP->THAL = basal-ganglia disinhibitory gate; NAcc->VP), but they terminate on canonical nuclei not surfaced as Energy activations. So a naive per-activation-node reading shows inhibIn=0 and looks like 'no brakes' — that reading would be WRONG. The brakes exist; they are just wired to canonical targets.",
+    "action": "Do NOT flag these activation nodes as seizure-risk on in-degree alone. Any real EI_SCALING check must be computed over the full canonical node set, not the 21 activations. Flagged, not resolved."
+  },
+
+  "EI_SCALING": {
+    "status": "computed_with_caveat",
+    "rule": "Part XIII.1 — inhibition must scale with excitatory drive.",
+    "result": "Over the 21 activation nodes: excit-in exceeds inhib-in for HIPP,HYPO,M1,OFC,S1,dACC,dlPFC,vmPFC (mostly 1 excit / 0 inhib). THAL is balanced (1/1); PAG has inhib-only (0/1).",
+    "verdict": "INCONCLUSIVE / do-not-act. Per the structural_observation, inhib edges target canonical nodes outside the activation set, so activation-node inhib-in is an artifact of graph scope, not a demonstrated brake deficit. Returning the counts as data, NOT as a seizure-risk flag."
+  },
+
+  "INHIB_MOTIF_TYPE": {
+    "status": "one_grounded_rest_unassigned",
+    "rule": "Part XIII.2 — classify each inhib edge as feedforward/feedback/lateral/disinhibition from topology.",
+    "assigned": [
+      { "edge": "STRI->GP", "motif": "disinhibition", "basis": "GP is itself an inhib source (GP->THAL inhib); STRI->GP->THAL is the documented basal-ganglia disinhibitory gate (V.2, XIII.2 'selection by disinhibition'). Grounded in Energy topology + document." }
+    ],
+    "documented_but_motif_unassigned": [
+      { "edges": ["vmPFC->BLA", "vmPFC->CeA", "mPFC->BLA", "mPFC->CeA", "vmPFC->PAG"], "note": "Document (V.2) identifies these as top-down inhibitory / extinction brakes. But the 4-way motif (feedforward vs feedback) is NOT determinable from Energy's edge topology (no shared driver present), so the motif slot is UNASSIGNED rather than guessed." }
+    ],
+    "unassigned": [
+      { "edges": ["mPFC->PVN", "HIPP->PVN", "NAcc->VP", "GP->THAL"], "reason": "No topological pattern (feedback cycle / shared feedforward driver / same-group sibling) present in Energy's edge set to determine motif." }
+    ]
+  },
+
+  "OSC_BAND": {
+    "status": "all_unassigned",
+    "rule": "Part XIII.3 — assign an oscillatory band to functional couplings.",
+    "result": "UNASSIGNED for every coupling. Energy encodes no timing/frequency data anywhere; there is no basis to assign delta/theta/alpha/beta/gamma. This is exactly the item the prompt pre-flagged as most likely to be a guess. Not guessed."
+  },
+
+  "PRED_DIRECTION": {
+    "status": "unassigned_with_candidates",
+    "rule": "Part XIII.5 — forward=error / backward=prediction on hierarchical edges.",
+    "result": "UNASSIGNED. Energy edges (source/target/type/weight) carry no laminar or up/down hierarchy. Candidate hierarchical edges for a future human pass are the 5 CONTROLS edges (plausibly top-down/prediction) — listed for review only, NOT labeled, because 'CONTROLS' does not by itself establish the laminar error/prediction split."
+  },
+
+  "PLASTICITY_RULE": {
+    "status": "all_unassigned",
+    "rule": "Part XIII.6 — learning rule per edge; homeostatic scaling must counter Hebbian runaway.",
+    "result": "UNASSIGNED for every edge. Energy edge weights are static; no learning / weight-update / normalization relationship is encoded. Nothing to assign; nothing invented."
+  },
+
+  "NEUROMOD_GAIN": {
+    "status": "partial_from_text",
+    "rule": "Part XIII.7 — assign the REGIME (gain/SNR/learning-rate/arousal) from Energy's domainFunction text, NOT from neuromodulator identity.",
+    "assigned_from_energy_text": [
+      { "node": "HYPO", "role": "amplifier", "regime": "drive/gain (demand)", "basis": "domainFunction: 'a concentrated, fast-growing load the rest of the energy system must serve; reshapes generation...' = a demand signal that rescales the whole system's operating point (one-to-many). Regime read from Energy's own text." },
+      { "node": "VTA", "role": "amplifier", "regime": "drive/gain (growth vector)", "basis": "domainFunction: 'primary growth vector for new capacity' = a rescaling drive. From Energy text." }
+    ],
+    "unassigned": [
+      { "items": ["STRI (amplifier)"], "reason": "domainFunction reads as supply/dispatch (a source), not a global-regime setter; no regime basis in text." },
+      { "items": ["modul edges rACC->BLA, HPA->HIPP, FEF->V1, LC->BLA"], "reason": "Their SOURCES (LC, HPA, FEF, rACC) are canonical nodes with NO Energy domainFunction text. The document identifies LC as the NE gain source and HPA as glucocorticoid feedback, but the prompt forbids assigning regime from neuromodulator identity, so these stay UNASSIGNED for regime. Documented identities noted as observation only." }
+    ]
+  },
+
+  "OFFLINE_CYCLE": {
+    "status": "recommendation_not_applied",
+    "rule": "Part XIII.9 — a mandatory offline maintenance/reset phase; a system with no downtime accumulates damage (synaptic down-scaling + clearance).",
+    "recommendation": "Energy's operating loop has no offline maintenance phase. Recommend inserting a periodic OFFLINE step that (a) down-scales accumulated edge weights toward baseline (analog of sleep synaptic down-scaling) and (b) clears stale/uncleared signal (analog of glymphatic clearance; see TERMINATION_CLEARANCE / EXCITOTOXICITY). This is a DESIGN PROPOSAL for the loop, presented for decision — not applied, and it edits no existing file."
+  },
+
+  "summary_counts": {
+    "grounded_assignments": 3,
+    "documented_identity_motif_unassigned": 5,
+    "fully_unassigned_no_basis": "OSC_BAND (all), PRED_DIRECTION (all), PLASTICITY_RULE (all), plus scattered edges",
+    "recommendation": 1,
+    "structural_observations": 1
+  }
+}

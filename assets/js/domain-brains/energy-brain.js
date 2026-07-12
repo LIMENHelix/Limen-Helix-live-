@@ -1210,6 +1210,16 @@
             return b.relevance - a.relevance;
           });
         }
+
+        // Neuro-substrate telemetry: map the live pulse -> runtime overlay (additive, best-effort).
+        // Self-contained (adapter loads its own energy def); async fire-and-forget; never breaks the cycle.
+        try {
+          if (window.EnergyTelemetryAdapter && typeof window.EnergyTelemetryAdapter.fromLiveCached === 'function') {
+            window.EnergyTelemetryAdapter.fromLiveCached(self.state, self._runtimeOverlay || null)
+              .then(function (ov) { if (ov) self._runtimeOverlay = ov; })
+              .catch(function () {});
+          }
+        } catch (_e) { /* overlay is best-effort */ }
       }
     }).then(function () {
       // PHASE B — recurrent loop step. Runs AFTER the pipeline settles, reads the
