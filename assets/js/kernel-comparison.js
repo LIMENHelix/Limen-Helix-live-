@@ -36,6 +36,31 @@ var _CMD_LABELS = {energy:'Energy',defense:'Defense',trade:'Supply Chain',financ
 // CIKs the validated kernel can score per Operating Envelope §4.1–§4.4).
 // Built by scripts/build-command-board.js from kernel-eligibility-frontier.json.
 // Falls back to legacy command-board-data.json if eligible feed isn't built yet.
+// LONG / investment-primed membership comes from the valuation pass
+// (scripts/build-valuation-longs.mjs -> kernel-watchlist.json investmentPrimed):
+// RECOVERED trajectory AND undervalued (>=25% below its own 5y median multiple).
+// Keyed by normalized CIK. Null until the watchlist loads; _kernelSide falls back
+// to the phase heuristic only if the file is unavailable.
+var LONG_CIKS = null;
+function _normCik(c) { return String(c == null ? '' : c).replace(/^0+/, ''); }
+function _loadWatchlist(done) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'assets/data/kernel-watchlist.json', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      try {
+        var wl = JSON.parse(xhr.responseText);
+        LONG_CIKS = {};
+        (wl.investmentPrimed || []).forEach(function(c) { LONG_CIKS[_normCik(c.cik)] = c; });
+        console.log('[CommandBoard] LONG set: ' + Object.keys(LONG_CIKS).length + ' investment-primed (recovered+undervalued)');
+      } catch (e) { console.warn('[CommandBoard] watchlist parse failed; LONG falls back to phase', e); }
+    } else { console.warn('[CommandBoard] kernel-watchlist.json missing (' + xhr.status + '); LONG falls back to phase'); }
+    done();
+  };
+  xhr.onerror = function() { console.warn('[CommandBoard] watchlist fetch error; LONG falls back to phase'); done(); };
+  xhr.send();
+}
+
 (function() {
   var primary = 'assets/data/command-board-eligible.json';
   var fallback = 'assets/data/command-board-data.json';
@@ -73,7 +98,7 @@ var _CMD_LABELS = {energy:'Energy',defense:'Defense',trade:'Supply Chain',financ
     };
     xhr.send();
   }
-  loadFrom(primary, true);
+  _loadWatchlist(function() { loadFrom(primary, true); });
 })();
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -881,7 +906,10 @@ function _kernelSide(d) {
   if ((d.vs || d.validation_status) !== 'validated') return null;   // out of validated envelope
   if (_isFIRE(d)) return null;                                       // kernel invalid on FIRE
   if (d.a) return 'SHORT';                                           // kernel1 bankruptcy-call
-  if (LONG_PHASES[String(d.p || '').toLowerCase()]) return 'LONG';   // kernel2 phase -> investment-primed
+  if (LONG_CIKS) {                                                   // valuation pass loaded: strict membership
+    return LONG_CIKS[_normCik(d.c || d.cik)] ? 'LONG' : null;        // RECOVERED + undervalued only
+  }
+  if (LONG_PHASES[String(d.p || '').toLowerCase()]) return 'LONG';   // fallback: kernel2 phase (watchlist unavailable)
   return null;                                                       // in-scope but no actionable signal
 }
 
@@ -896,6 +924,7 @@ function _initBoard() {
     d._severity = computeSeverity(d);
     d._side = _kernelSide(d);        // 'SHORT' | 'LONG' | null
     d._matters = d._side !== null;   // on the kernel watchlist = the only companies that matter
+    if (d._side === 'LONG' && LONG_CIKS) d._val = LONG_CIKS[_normCik(d.c || d.cik)];  // upside/discount detail
   });
   _updateTimestamp();
   _seedPortfolio();
