@@ -3710,7 +3710,21 @@
     "telemetry": {
       "source": "infrastructure-pulse-engine.js (window.LIMENInfrastructurePulse)",
       "adapter": "domain-telemetry-adapter.js (fromLiveCached(\"infrastructure\",...))",
-      "model": "read-time overlay; schema+defaults only"
+      "model": "read-time overlay; schema+defaults only",
+      "diagnosisAlias": {
+        "GRID_DEGRADATION": [
+          "GRID_FAILURE"
+        ],
+        "MAINTENANCE_DEFICIT": [
+          "BRIDGE_COLLAPSE",
+          "WATER_CRISIS",
+          "TRANSIT_BREAKDOWN"
+        ],
+        "CYBER_PHYSICAL_ATTACK": [
+          "TELECOM_OUTAGE"
+        ]
+      },
+      "_diagnosisAliasNote": "brain-diagnosis-id -> portal-issue-id(s), inverted from domain-identity.js INFRA_PORTAL_TO_BRAIN. Lets the overlay light up issues/nodes despite the split vocabulary."
     },
     "fieldProvenance": {
       "volatility": "XIII.6",

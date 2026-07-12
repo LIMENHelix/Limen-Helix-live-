@@ -247,6 +247,13 @@
       });
       self.state.diagnoses.sort(function (a, b) { if (a.active !== b.active) return a.active ? -1 : 1; return b.relevance - a.relevance; });
       self._checkDiagnosisActions();
+      // Neuro-substrate telemetry (advisory, pulse-less capable): brain state -> runtime overlay.
+      try {
+        if (window.DomainTelemetryAdapter && typeof window.DomainTelemetryAdapter.fromLiveCached === "function") {
+          window.DomainTelemetryAdapter.fromLiveCached("technology", self.state, self._runtimeOverlay || null)
+            .then(function (ov) { if (ov) self._runtimeOverlay = ov; }).catch(function () {});
+        }
+      } catch (_e) {}
     });
   };
 

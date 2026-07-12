@@ -41,15 +41,22 @@
       activeTriggers = Array.from(expanded);
     }
 
+    // Some domains name their brain diagnoses differently from their portal issue ids
+    // (e.g. infrastructure). Translate active brain-diagnosis ids -> portal issue ids via a
+    // domain-declared alias (dom.runtime.telemetry.diagnosisAlias: {brainId:[issueIds]}); identity otherwise.
+    var dAlias = (dom.runtime && dom.runtime.telemetry && dom.runtime.telemetry.diagnosisAlias) || null;
+    var activeIssueIds = activeDx.slice();
+    if (dAlias) activeDx.forEach(function (id) { (dAlias[id] || []).forEach(function (iid) { if (activeIssueIds.indexOf(iid) === -1) activeIssueIds.push(iid); }); });
+
     var issuesOverlay = {};
     (dom.issues || []).forEach(function (is) {
       var priorT = (prior.issues[is.id] || {}).lastFiredAt || null;
-      issuesOverlay[is.id] = { lastFiredAt: (activeDx.indexOf(is.id) !== -1) ? now : priorT };
+      issuesOverlay[is.id] = { lastFiredAt: (activeIssueIds.indexOf(is.id) !== -1) ? now : priorT };
     });
 
     var participation = {};
     (dom.issues || []).forEach(function (is) {
-      if (activeDx.indexOf(is.id) === -1) return;
+      if (activeIssueIds.indexOf(is.id) === -1) return;
       (is._authored || is.circuits || []).forEach(function (c) { if (c && c.nodeId) participation[c.nodeId] = (participation[c.nodeId] || 0) + 1; });
     });
     var actsOverlay = {};
@@ -87,15 +94,25 @@
   }
   function _cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-  /* The one call a domain brain makes each cycle. domainId e.g. 'finance'. */
+  /* The one call a domain brain makes each cycle. domainId e.g. 'finance'.
+   * Works WITH a pulse engine (window.LIMEN{Domain}Pulse) or WITHOUT one (pulse-less brains like
+   * industry/technology): falls back to the brain's own state + a maintained per-domain stress
+   * history for volatility. Advisory; produces an overlay, never mutates anything. */
+  var _hist = {};
   function fromLiveCached(domainId, brainState, priorOverlay) {
     var g = (typeof window !== 'undefined') ? window['LIMEN' + _cap(domainId) + 'Pulse'] : null;
-    if (!g) return Promise.resolve(null);
+    var gp = (g && typeof g.getPulse === 'function') ? g.getPulse() : null;
+    var now = (gp && typeof gp.timestamp === 'number') ? gp.timestamp : ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+    // maintain a per-domain stress buffer so volatility works even without a pulse engine
+    var h = _hist[domainId] = _hist[domainId] || [];
+    if (brainState && typeof brainState.stress === 'number') { h.push({ stress: brainState.stress, timestamp: now }); if (h.length > 20) h.shift(); }
+    var history = (g && typeof g.getHistory === 'function') ? g.getHistory() : h.slice();
+    var pulseState = gp || { timestamp: now };
     return Promise.all([
       _load('/assets/data/domains/' + domainId + '.json', domainId),
       _load('/assets/data/' + domainId + '-condition-trigger-aliases.json', domainId + '-aliases').catch(function () { return null; })
     ]).then(function (res) {
-      return fromPulse({ domain: res[0], aliases: res[1], brainState: brainState, pulseState: g.getPulse(), history: (typeof g.getHistory === 'function') ? g.getHistory() : [], priorOverlay: priorOverlay });
+      return fromPulse({ domain: res[0], aliases: res[1], brainState: brainState, pulseState: pulseState, history: history, priorOverlay: priorOverlay });
     });
   }
 
