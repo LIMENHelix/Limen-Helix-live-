@@ -1,0 +1,2628 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Medicine extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes + active diagnosis ids (energy-telemetry-adapter.js L48-53). In Medicine the condition-codes (outbreak_detected, bank... etc.) and the diagnosis ids NEVER textually equal an activation.diagnosticTriggers (which are FREE-TEXT clinical phrases like 'ED overcrowding'); this table bridges them so the adapter's alias-expansion (energy-telemetry-adapter.js L55-69) can protect co-circuit activations from extinction.",
+    "derivationChain": "condition-code --(medicine-pulse-engine.js inline classify, L246-303)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics validateDiagnoses L316-322)--> diagnosis id --(medicine.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations)--> their FREE-TEXT diagnosticTriggers. The diagnoses section is the strongest link (pure data). The condition-codes section adds the pulse-engine family hop, including shared-family cross-folds.",
+    "foldRule": "A diagnosis is folded onto a condition-code when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics). Because four families are shared across diagnoses (clinical_event -> 4 diagnoses; system_event -> 3; pharmaceutical_event -> 3; access_event -> 2), a single token folds onto every diagnosis whose requiredFamilies it satisfies. Every link here satisfies that gate, so there are NO not-folded secondary cases (contrast Finance).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from medicine.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinanceAndEnergy": "(1) LIKE ENERGY, UNLIKE FINANCE: Medicine activation.diagnosticTriggers are FREE-TEXT clinical phrases ('ED overcrowding','Imaging backlog'), NOT diagnosis ids. So diagnosis ids do NOT self-match activeTriggers and this alias table is STRICTLY REQUIRED (not merely protective of co-nodes as in Finance). (2) Medicine inlines classification (like Finance) and its condition-codes ARE the contract indicator tokens. (3) NO DEAD-END FAMILY: every family Medicine emits appears in some diagnosis requiredFamilies (contrast Finance's macro_event dead-end). (4) NO contract-only-unclassified tokens (contrast Energy REFINERY_ATTACK/SANCTIONS): every indicator token is handled by the inline classify. (5) _stress_* conditions are explicitly skipped (pulse-engine L243) and emit no family. (6) Orphan count: Medicine 1 (VTA), same as Energy; Finance had 3. (7) CHRONIC_DISEASE_LOAD alone has catchAllBlocked:false, but no _stress_ condition-code feeds it a family, so its catch-all path is external-stress marking, not a grounded condition-code (same structure as Finance SYSTEMIC_CONTAGION).",
+    "sources": [
+      "assets/js/medicine-pulse-engine.js (inline condition->family classify L246-303; EVIDENCE_CONTRACTS L63-175; requiredFamilies OR-gate validateDiagnoses L316-322; _stress_ skip L243)",
+      "assets/data/domains/medicine.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion L55-69 + node-active-from-circuit L79-101; no medicine-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; empty-diagnosticTriggers activations skipped L30; no medicine-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T19:13:09.448Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes medicine.json or fires extinction. No medicine-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "outbreak_detected": {
+      "evidenceFamilies": [
+        "pandemic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PANDEMIC",
+          "link": "primaryIndicator+requiredFamily:pandemic_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "rACC",
+        "BDNF",
+        "dACC",
+        "FG",
+        "LGN",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'outbreak_detected' -> evidence families [pandemic_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of PANDEMIC. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "transmission_surge": {
+      "evidenceFamilies": [
+        "pandemic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PANDEMIC",
+          "link": "primaryIndicator+requiredFamily:pandemic_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "rACC",
+        "BDNF",
+        "dACC",
+        "FG",
+        "LGN",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'transmission_surge' -> evidence families [pandemic_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of PANDEMIC. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "hospital_overflow": {
+      "evidenceFamilies": [
+        "pandemic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PANDEMIC",
+          "link": "secondaryConfirmation+requiredFamily:pandemic_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "rACC",
+        "BDNF",
+        "dACC",
+        "FG",
+        "LGN",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'hospital_overflow' -> evidence families [pandemic_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of PANDEMIC. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "mortality_spike": {
+      "evidenceFamilies": [
+        "pandemic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PANDEMIC",
+          "link": "secondaryConfirmation+requiredFamily:pandemic_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "rACC",
+        "BDNF",
+        "dACC",
+        "FG",
+        "LGN",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'mortality_spike' -> evidence families [pandemic_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of PANDEMIC. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "resistance_detected": {
+      "evidenceFamilies": [
+        "resistance_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "primaryIndicator+requiredFamily:resistance_event"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'resistance_detected' -> evidence families [resistance_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a primaryIndicator of DRUG_RESISTANCE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "treatment_failure": {
+      "evidenceFamilies": [
+        "resistance_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "primaryIndicator+requiredFamily:resistance_event"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'treatment_failure' -> evidence families [resistance_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a primaryIndicator of DRUG_RESISTANCE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "resistance_spread": {
+      "evidenceFamilies": [
+        "resistance_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "secondaryConfirmation+requiredFamily:resistance_event"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'resistance_spread' -> evidence families [resistance_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of DRUG_RESISTANCE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "antibiotic_shortage": {
+      "evidenceFamilies": [
+        "resistance_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "secondaryConfirmation+requiredFamily:resistance_event"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'antibiotic_shortage' -> evidence families [resistance_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of DRUG_RESISTANCE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "capacity_breach": {
+      "evidenceFamilies": [
+        "system_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:system_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "mPFC",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "THAL",
+        "LGN",
+        "V1",
+        "ECN",
+        "MICRO",
+        "dACC",
+        "FG",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'capacity_breach' -> evidence families [system_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of HEALTHCARE_COLLAPSE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "staffing_crisis": {
+      "evidenceFamilies": [
+        "system_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:system_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "mPFC",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "THAL",
+        "LGN",
+        "V1",
+        "ECN",
+        "MICRO",
+        "dACC",
+        "FG",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'staffing_crisis' -> evidence families [system_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of HEALTHCARE_COLLAPSE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "er_diversion": {
+      "evidenceFamilies": [
+        "system_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "secondaryConfirmation+requiredFamily:system_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "mPFC",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "THAL",
+        "LGN",
+        "V1",
+        "ECN",
+        "MICRO",
+        "dACC",
+        "FG",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'er_diversion' -> evidence families [system_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of HEALTHCARE_COLLAPSE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "service_shutdown": {
+      "evidenceFamilies": [
+        "system_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "secondaryConfirmation+requiredFamily:system_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "OXY",
+        "mPFC",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "THAL",
+        "LGN",
+        "V1",
+        "ECN",
+        "MICRO",
+        "dACC",
+        "FG",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'service_shutdown' -> evidence families [system_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of HEALTHCARE_COLLAPSE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "adverse_event_spike": {
+      "evidenceFamilies": [
+        "safety_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "primaryIndicator+requiredFamily:safety_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "FG",
+        "LGN",
+        "rACC",
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "BDNF",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'adverse_event_spike' -> evidence families [safety_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of MALPRACTICE_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "malpractice_surge": {
+      "evidenceFamilies": [
+        "safety_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "primaryIndicator+requiredFamily:safety_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "FG",
+        "LGN",
+        "rACC",
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "BDNF",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'malpractice_surge' -> evidence families [safety_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of MALPRACTICE_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "litigation_wave": {
+      "evidenceFamilies": [
+        "safety_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:safety_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "FG",
+        "LGN",
+        "rACC",
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "BDNF",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'litigation_wave' -> evidence families [safety_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of MALPRACTICE_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "safety_violation": {
+      "evidenceFamilies": [
+        "safety_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:safety_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "dACC",
+        "FG",
+        "LGN",
+        "rACC",
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY",
+        "mPFC",
+        "BDNF",
+        "BNST",
+        "CARD"
+      ],
+      "diagnosticTriggers": [
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'safety_violation' -> evidence families [safety_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of MALPRACTICE_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "supply_disruption": {
+      "evidenceFamilies": [
+        "supply_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "primaryIndicator+requiredFamily:supply_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "MICRO",
+        "ECN",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'supply_disruption' -> evidence families [supply_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a primaryIndicator of SUPPLY_SHORTAGE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "drug_stockout": {
+      "evidenceFamilies": [
+        "supply_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "primaryIndicator+requiredFamily:supply_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "MICRO",
+        "ECN",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'drug_stockout' -> evidence families [supply_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a primaryIndicator of SUPPLY_SHORTAGE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "manufacturing_halt": {
+      "evidenceFamilies": [
+        "supply_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "secondaryConfirmation+requiredFamily:supply_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "MICRO",
+        "ECN",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'manufacturing_halt' -> evidence families [supply_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of SUPPLY_SHORTAGE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "distribution_failure": {
+      "evidenceFamilies": [
+        "supply_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "secondaryConfirmation+requiredFamily:supply_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "HYPO",
+        "M1",
+        "GABA_GLU",
+        "V1",
+        "MICRO",
+        "ECN",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'distribution_failure' -> evidence families [supply_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of SUPPLY_SHORTAGE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "crisis_volume_surge": {
+      "evidenceFamilies": [
+        "mental_health_event",
+        "access_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "primaryIndicator+requiredFamily:mental_health_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'crisis_volume_surge' -> evidence families [mental_health_event, access_event] (computePulse classify block L246-303), where it is a primaryIndicator of MENTAL_HEALTH_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "provider_shortage": {
+      "evidenceFamilies": [
+        "mental_health_event",
+        "access_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "primaryIndicator+requiredFamily:mental_health_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'provider_shortage' -> evidence families [mental_health_event, access_event] (computePulse classify block L246-303), where it is a primaryIndicator of MENTAL_HEALTH_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "wait_time_spike": {
+      "evidenceFamilies": [
+        "mental_health_event",
+        "access_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:mental_health_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'wait_time_spike' -> evidence families [mental_health_event, access_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of MENTAL_HEALTH_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "suicide_rate_increase": {
+      "evidenceFamilies": [
+        "mental_health_event",
+        "access_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "secondaryConfirmation+requiredFamily:mental_health_event"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'suicide_rate_increase' -> evidence families [mental_health_event, access_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of MENTAL_HEALTH_CRISIS. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "access_denial": {
+      "evidenceFamilies": [
+        "access_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "primaryIndicator+requiredFamily:access_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "rACC",
+        "THAL",
+        "LGN",
+        "V1"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'access_denial' -> evidence families [access_event, system_event] (computePulse classify block L246-303), where it is a primaryIndicator of CARE_ACCESS_FAILURE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "coverage_gap": {
+      "evidenceFamilies": [
+        "access_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "primaryIndicator+requiredFamily:access_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "rACC",
+        "THAL",
+        "LGN",
+        "V1"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'coverage_gap' -> evidence families [access_event, system_event] (computePulse classify block L246-303), where it is a primaryIndicator of CARE_ACCESS_FAILURE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "uninsured_spike": {
+      "evidenceFamilies": [
+        "access_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "secondaryConfirmation+requiredFamily:access_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "rACC",
+        "THAL",
+        "LGN",
+        "V1"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'uninsured_spike' -> evidence families [access_event, system_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of CARE_ACCESS_FAILURE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "rural_closure": {
+      "evidenceFamilies": [
+        "access_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "MENTAL_HEALTH_CRISIS",
+          "link": "sharedFamily:access_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "secondaryConfirmation+requiredFamily:access_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF",
+        "PCC",
+        "dlPFC",
+        "rACC",
+        "THAL",
+        "LGN",
+        "V1"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'rural_closure' -> evidence families [access_event, system_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of CARE_ACCESS_FAILURE. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "chronic_prevalence_rise": {
+      "evidenceFamilies": [
+        "chronic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "primaryIndicator+requiredFamily:chronic_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "BNST",
+        "CARD",
+        "mPFC",
+        "BDNF",
+        "ECN",
+        "CeA",
+        "dlPFC",
+        "MICRO",
+        "OXY",
+        "rACC",
+        "dACC",
+        "FG",
+        "LGN"
+      ],
+      "diagnosticTriggers": [
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'chronic_prevalence_rise' -> evidence families [chronic_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of CHRONIC_DISEASE_LOAD. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "comorbidity_burden": {
+      "evidenceFamilies": [
+        "chronic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "primaryIndicator+requiredFamily:chronic_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "BNST",
+        "CARD",
+        "mPFC",
+        "BDNF",
+        "ECN",
+        "CeA",
+        "dlPFC",
+        "MICRO",
+        "OXY",
+        "rACC",
+        "dACC",
+        "FG",
+        "LGN"
+      ],
+      "diagnosticTriggers": [
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'comorbidity_burden' -> evidence families [chronic_event, clinical_event] (computePulse classify block L246-303), where it is a primaryIndicator of CHRONIC_DISEASE_LOAD. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "readmission_spike": {
+      "evidenceFamilies": [
+        "chronic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "secondaryConfirmation+requiredFamily:chronic_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "BNST",
+        "CARD",
+        "mPFC",
+        "BDNF",
+        "ECN",
+        "CeA",
+        "dlPFC",
+        "MICRO",
+        "OXY",
+        "rACC",
+        "dACC",
+        "FG",
+        "LGN"
+      ],
+      "diagnosticTriggers": [
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'readmission_spike' -> evidence families [chronic_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of CHRONIC_DISEASE_LOAD. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "cost_escalation": {
+      "evidenceFamilies": [
+        "chronic_event",
+        "clinical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CHRONIC_DISEASE_LOAD",
+          "link": "secondaryConfirmation+requiredFamily:chronic_event"
+        },
+        {
+          "id": "PANDEMIC",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "MALPRACTICE_CRISIS",
+          "link": "sharedFamily:clinical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "BNST",
+        "CARD",
+        "mPFC",
+        "BDNF",
+        "ECN",
+        "CeA",
+        "dlPFC",
+        "MICRO",
+        "OXY",
+        "rACC",
+        "dACC",
+        "FG",
+        "LGN"
+      ],
+      "diagnosticTriggers": [
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'cost_escalation' -> evidence families [chronic_event, clinical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of CHRONIC_DISEASE_LOAD. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "handoff_failure": {
+      "evidenceFamilies": [
+        "coordination_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "primaryIndicator+requiredFamily:coordination_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "mPFC",
+        "PCC",
+        "THAL",
+        "LGN",
+        "V1",
+        "OXY",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'handoff_failure' -> evidence families [coordination_event, system_event] (computePulse classify block L246-303), where it is a primaryIndicator of CLINICAL_COORDINATION_BREAKDOWN. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "referral_breakdown": {
+      "evidenceFamilies": [
+        "coordination_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "primaryIndicator+requiredFamily:coordination_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "mPFC",
+        "PCC",
+        "THAL",
+        "LGN",
+        "V1",
+        "OXY",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'referral_breakdown' -> evidence families [coordination_event, system_event] (computePulse classify block L246-303), where it is a primaryIndicator of CLINICAL_COORDINATION_BREAKDOWN. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "information_gap": {
+      "evidenceFamilies": [
+        "coordination_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "secondaryConfirmation+requiredFamily:coordination_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "mPFC",
+        "PCC",
+        "THAL",
+        "LGN",
+        "V1",
+        "OXY",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'information_gap' -> evidence families [coordination_event, system_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of CLINICAL_COORDINATION_BREAKDOWN. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "duplicate_testing": {
+      "evidenceFamilies": [
+        "coordination_event",
+        "system_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CLINICAL_COORDINATION_BREAKDOWN",
+          "link": "secondaryConfirmation+requiredFamily:coordination_event"
+        },
+        {
+          "id": "HEALTHCARE_COLLAPSE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "CARE_ACCESS_FAILURE",
+          "link": "sharedFamily:system_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "mPFC",
+        "PCC",
+        "THAL",
+        "LGN",
+        "V1",
+        "OXY",
+        "CeA",
+        "rACC",
+        "BDNF",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Vaccination rate decline",
+        "Health disparity widening"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'duplicate_testing' -> evidence families [coordination_event, system_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of CLINICAL_COORDINATION_BREAKDOWN. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "efficacy_decline": {
+      "evidenceFamilies": [
+        "therapeutic_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "primaryIndicator+requiredFamily:therapeutic_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "V1",
+        "HYPO",
+        "dACC",
+        "FG",
+        "FPN",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU"
+      ],
+      "diagnosticTriggers": [
+        "Imaging backlog",
+        "Misread rate increase",
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'efficacy_decline' -> evidence families [therapeutic_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a primaryIndicator of THERAPEUTIC_RELIABILITY_RISK. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "recall_event": {
+      "evidenceFamilies": [
+        "therapeutic_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "primaryIndicator+requiredFamily:therapeutic_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "V1",
+        "HYPO",
+        "dACC",
+        "FG",
+        "FPN",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU"
+      ],
+      "diagnosticTriggers": [
+        "Imaging backlog",
+        "Misread rate increase",
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'recall_event' -> evidence families [therapeutic_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a primaryIndicator of THERAPEUTIC_RELIABILITY_RISK. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "adverse_reaction_cluster": {
+      "evidenceFamilies": [
+        "therapeutic_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "secondaryConfirmation+requiredFamily:therapeutic_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "V1",
+        "HYPO",
+        "dACC",
+        "FG",
+        "FPN",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU"
+      ],
+      "diagnosticTriggers": [
+        "Imaging backlog",
+        "Misread rate increase",
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'adverse_reaction_cluster' -> evidence families [therapeutic_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of THERAPEUTIC_RELIABILITY_RISK. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    },
+    "protocol_deviation": {
+      "evidenceFamilies": [
+        "therapeutic_event",
+        "pharmaceutical_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "THERAPEUTIC_RELIABILITY_RISK",
+          "link": "secondaryConfirmation+requiredFamily:therapeutic_event"
+        },
+        {
+          "id": "DRUG_RESISTANCE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        },
+        {
+          "id": "SUPPLY_SHORTAGE",
+          "link": "sharedFamily:pharmaceutical_event (not a named indicator of this diagnosis; folded because token emits its requiredFamily)"
+        }
+      ],
+      "activations": [
+        "V1",
+        "HYPO",
+        "dACC",
+        "FG",
+        "FPN",
+        "MICRO",
+        "ECN",
+        "M1",
+        "GABA_GLU"
+      ],
+      "diagnosticTriggers": [
+        "Imaging backlog",
+        "Misread rate increase",
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike"
+      ],
+      "basis": "medicine-pulse-engine.js inline-classifies 'protocol_deviation' -> evidence families [therapeutic_event, pharmaceutical_event] (computePulse classify block L246-303), where it is a secondaryConfirmation of THERAPEUTIC_RELIABILITY_RISK. Those families satisfy the requiredFamilies (OR-semantics, validateDiagnoses L316-322) of the linkedDiagnoses (EVIDENCE_CONTRACTS L63-175). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (medicine.json) and those activations' FREE-TEXT diagnosticTriggers. Shared families (clinical_event, system_event, pharmaceutical_event, access_event) fold one token onto several diagnoses."
+    }
+  },
+  "diagnoses": {
+    "PANDEMIC": {
+      "circuitSource": "_authored",
+      "activations": [
+        "CeA",
+        "dlPFC",
+        "ECN",
+        "MICRO",
+        "OXY"
+      ],
+      "diagnosticTriggers": [
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase"
+      ],
+      "emptyTriggerNodes": [],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['PANDEMIC']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "DRUG_RESISTANCE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "HYPO",
+        "MICRO",
+        "ECN",
+        "M1"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Autoimmune flare cluster",
+        "Vaccine efficacy decline",
+        "Outbreak detection delay",
+        "Statistical signal missed",
+        "Surgical error rate spike",
+        "Operative volume overload"
+      ],
+      "emptyTriggerNodes": [],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['DRUG_RESISTANCE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "HEALTHCARE_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "OXY",
+        "mPFC",
+        "CeA",
+        "rACC",
+        "BDNF"
+      ],
+      "diagnosticTriggers": [
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "ED overcrowding",
+        "Triage failure",
+        "Ethics consultation volume surge",
+        "Consent process failure",
+        "Functional recovery plateau",
+        "Readmission from deconditioning"
+      ],
+      "emptyTriggerNodes": [],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['HEALTHCARE_COLLAPSE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "MALPRACTICE_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "dACC",
+        "FG",
+        "LGN",
+        "rACC"
+      ],
+      "diagnosticTriggers": [
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Ethics consultation volume surge",
+        "Consent process failure"
+      ],
+      "emptyTriggerNodes": [],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['MALPRACTICE_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "SUPPLY_SHORTAGE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "HYPO",
+        "M1",
+        "GABA_GLU",
+        "V1"
+      ],
+      "diagnosticTriggers": [
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Surgical error rate spike",
+        "Operative volume overload",
+        "Awareness under anesthesia report",
+        "Post-operative delirium spike",
+        "Imaging backlog",
+        "Misread rate increase"
+      ],
+      "emptyTriggerNodes": [],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['SUPPLY_SHORTAGE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "MENTAL_HEALTH_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "DMN",
+        "CeA",
+        "mPFC",
+        "OXY",
+        "BDNF"
+      ],
+      "diagnosticTriggers": [
+        "Psychiatric emergency volume spike",
+        "Treatment-resistant depression cluster",
+        "ED overcrowding",
+        "Triage failure",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase",
+        "Functional recovery plateau",
+        "Readmission from deconditioning"
+      ],
+      "emptyTriggerNodes": [],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['MENTAL_HEALTH_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "CARE_ACCESS_FAILURE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "mPFC",
+        "CeA",
+        "PCC",
+        "dlPFC",
+        "OXY"
+      ],
+      "diagnosticTriggers": [
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "ED overcrowding",
+        "Triage failure",
+        "Vaccination rate decline",
+        "Health disparity widening",
+        "Nurse-to-patient ratio violation",
+        "Patient safety event increase"
+      ],
+      "emptyTriggerNodes": [
+        "PCC"
+      ],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['CARE_ACCESS_FAILURE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "CHRONIC_DISEASE_LOAD": {
+      "circuitSource": "_authored",
+      "activations": [
+        "BNST",
+        "CARD",
+        "mPFC",
+        "BDNF",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "Sudden cardiac event cluster",
+        "Heart failure readmission spike",
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Functional recovery plateau",
+        "Readmission from deconditioning",
+        "Outbreak detection delay",
+        "Statistical signal missed"
+      ],
+      "emptyTriggerNodes": [
+        "BNST"
+      ],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['CHRONIC_DISEASE_LOAD']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "CLINICAL_COORDINATION_BREAKDOWN": {
+      "circuitSource": "_authored",
+      "activations": [
+        "mPFC",
+        "PCC",
+        "THAL",
+        "LGN",
+        "V1"
+      ],
+      "diagnosticTriggers": [
+        "Delayed diagnosis",
+        "Care fragmentation",
+        "Stroke code activation surge",
+        "Neurodegenerative cluster",
+        "Read queue overflow",
+        "Critical finding communication failure",
+        "Imaging backlog",
+        "Misread rate increase"
+      ],
+      "emptyTriggerNodes": [
+        "PCC"
+      ],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['CLINICAL_COORDINATION_BREAKDOWN']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    },
+    "THERAPEUTIC_RELIABILITY_RISK": {
+      "circuitSource": "_authored",
+      "activations": [
+        "V1",
+        "HYPO",
+        "dACC",
+        "FG",
+        "FPN"
+      ],
+      "diagnosticTriggers": [
+        "Imaging backlog",
+        "Misread rate increase",
+        "Adverse drug event cluster",
+        "Polypharmacy crisis",
+        "Late-stage presentation increase",
+        "Treatment resistance pattern",
+        "Turnaround time delay",
+        "Discordant diagnosis rate increase"
+      ],
+      "emptyTriggerNodes": [
+        "FPN"
+      ],
+      "basis": "diagnosis id === Medicine issue id; when active, the (energy-pattern) adapter marks its issues['THERAPEUTIC_RELIABILITY_RISK']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and the UNION of their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. UNLIKE Finance (whose activation.diagnosticTriggers ARE diagnosis ids and self-match), Medicine activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), so this expansion is STRICTLY REQUIRED for extinction to match — the diagnosis id never equals an activation trigger."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "_stress_* (prefix pattern)",
+        "evidenceFamilies": [],
+        "reason": "medicine-pulse-engine.js explicitly SKIPS any condition whose name starts with _stress_ (L242-243: 'must NOT map to any evidence family'). These are dynamically-generated stress tokens; they emit no family and are named in no contract, so there is no defensible condition->diagnosis link. The one catch-all-eligible diagnosis (CHRONIC_DISEASE_LOAD, catchAllBlocked:false) is reached by a diagnosis being externally marked active without required evidence (validateDiagnoses L324-326), NOT by any _stress_ condition-code, so no alias can be grounded here."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "VTA",
+        "domainLabel": "Men's Health Optimization",
+        "diagnosticTriggers": [
+          "Low testosterone",
+          "Erectile dysfunction",
+          "Fatigue",
+          "Decreased libido",
+          "Cognitive decline"
+        ],
+        "reason": "Activation has non-empty diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it — it is absent from every diagnosis expansion above). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Medicine analog of Energy's single Data-Centers/HYPO orphan; Medicine has ONE — VTA/Men's Health Optimization, a P5 node with clinical-symptom triggers, absent from all 10 issue circuits.)"
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "PRECUNEUS",
+        "domainLabel": "Addiction Medicine",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "MI",
+        "domainLabel": "Psychedelic Medicine",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "EMP",
+        "domainLabel": "Pediatric Med",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Medicine: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the inline classify block (they are the same 40 tokens), so there are no contract-only-unclassified tokens (unlike Energy REFINERY_ATTACK/SANCTIONS). Conversely there are no classified-but-uncontracted tokens either, and no dead-end evidence family (unlike Finance macro_event)."
+  }
+}

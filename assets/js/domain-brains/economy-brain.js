@@ -555,6 +555,13 @@
         self.state._activeConditions = self._activeConditions || [];
         var pulseState = pulse.computePulse(self.state);
         self.state.pulse = pulseState;
+        // Neuro-substrate telemetry (advisory): map live pulse -> runtime overlay via generic adapter.
+        try {
+          if (window.DomainTelemetryAdapter && typeof window.DomainTelemetryAdapter.fromLiveCached === "function") {
+            window.DomainTelemetryAdapter.fromLiveCached("economy", self.state, self._runtimeOverlay || null)
+              .then(function (ov) { if (ov) self._runtimeOverlay = ov; }).catch(function () {});
+          }
+        } catch (_e) {}
         if (pulseState && pulseState.validatedDiagnoses) {
           for (var vdi = 0; vdi < pulseState.validatedDiagnoses.length; vdi++) {
             var vdx = pulseState.validatedDiagnoses[vdi];

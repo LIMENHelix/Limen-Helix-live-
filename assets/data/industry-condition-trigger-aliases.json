@@ -1,0 +1,302 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so an Industry extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. input_shortage) + active diagnosis ids (e.g. SUPPLY_CHAIN_COLLAPSE) (energy-telemetry-adapter.js L48-53 pattern). In Industry the CONDITION-CODES (input_shortage, equipment_failure...) never textually equal an activation.diagnosticTrigger (which are FREE-TEXT phrases like 'Line stoppage'); this table bridges them. Industry follows the ENERGY pattern (free-text triggers), NOT the Finance pattern (diagnosis-id triggers): the alias expansion is STRICTLY REQUIRED here because a trigger like 'Line stoppage' can never self-match a condition-code or a diagnosis id.",
+    "derivationChain": "condition-code --(industry-pulse-engine.js inline classify, L140-168)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L178-181)--> diagnosis id --(industry.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations)--> each activation's FREE-TEXT diagnosticTriggers. Both hops are pure data + the pulse-engine family switch; no link invented.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics, L178-181, NOT primaryIndicators). A condition that is only a diagnosis secondaryConfirmation but does not emit that diagnosis requiredFamily is listed under secondaryDiagnoses and NOT folded (bias against over-marking).",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from industry.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinanceAndEnergy": "(1) TRIGGER TYPE: Industry activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), NOT diagnosis ids (unlike Finance) — so the alias table is strictly load-bearing, as in Energy. (2) SHARED-FAMILY CROSS-LINKS: Industry contracts share evidence families across diagnoses, so single condition-codes fold into TWO diagnoses. 'pmi_event' is required by BOTH SUPPLY_CHAIN_COLLAPSE and AUTOMATION_FAILURE, so every supply/capacity condition folds into both; 'regulatory_event' is required by BOTH TOXIC_SPILL and QUALITY_CRISIS, so every safety/quality condition folds into both. Finance families were more siloed per diagnosis. (3) ORPHANS: Energy 1, Finance 3, Industry 0 — every activation carrying non-empty diagnosticTriggers appears in an _authored circuit; the only non-circuit activations (TPJ, DMN, PRECUNEUS, WERN) all have EMPTY triggers and are extinction-exempt. (4) DEAD-END FAMILIES: structural_event (from industry_high_stress/structural_stress) and macro_event (from macro_shock) are emitted but named in no contract requiredFamilies, so they reach no diagnosis (like Finance macro_shock).",
+    "sources": [
+      "assets/js/industry-pulse-engine.js (inline condition->family classify L140-168; EVIDENCE_CONTRACTS L50-96; requiredFamilies OR-gate L178-181)",
+      "assets/data/domains/industry.json (activations[].diagnosticTriggers = free-text phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no industry-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no industry-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T00:00:00.000Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes industry.json or fires extinction. No industry-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "input_shortage": {
+      "evidenceFamilies": ["supply_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "primaryIndicator+requiredFamily:supply_event" },
+        { "id": "AUTOMATION_FAILURE", "link": "sharedRequiredFamily:pmi_event (cross-link; pmi_event is an AUTOMATION_FAILURE requiredFamily)" }
+      ],
+      "activations": ["THAL", "S1", "M1", "HIPP", "dlPFC", "CBLM", "FPN", "dACC", "CeA"],
+      "diagnosticTriggers": ["Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event"],
+      "basis": "industry-pulse-engine.js classifies 'input_shortage' -> [supply_event, pmi_event] (L143-146). supply_event satisfies SUPPLY_CHAIN_COLLAPSE requiredFamilies; pmi_event ALSO satisfies AUTOMATION_FAILURE requiredFamilies (shared-family cross-link). activations/diagnosticTriggers = union of both diagnoses' _authored circuit nodeIds and those activations' free-text triggers."
+    },
+    "supplier_constraint": {
+      "evidenceFamilies": ["supply_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "primaryIndicator+requiredFamily:supply_event" },
+        { "id": "AUTOMATION_FAILURE", "link": "sharedRequiredFamily:pmi_event (cross-link)" }
+      ],
+      "activations": ["THAL", "S1", "M1", "HIPP", "dlPFC", "CBLM", "FPN", "dACC", "CeA"],
+      "diagnosticTriggers": ["Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event"],
+      "basis": "industry-pulse-engine.js classifies 'supplier_constraint' -> [supply_event, pmi_event] (L143-146). Same fold as input_shortage: SUPPLY_CHAIN_COLLAPSE (primary via supply_event) + AUTOMATION_FAILURE (via shared pmi_event)."
+    },
+    "component_scarcity": {
+      "evidenceFamilies": ["supply_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "primaryIndicator+requiredFamily:supply_event" },
+        { "id": "AUTOMATION_FAILURE", "link": "sharedRequiredFamily:pmi_event (cross-link)" }
+      ],
+      "activations": ["THAL", "S1", "M1", "HIPP", "dlPFC", "CBLM", "FPN", "dACC", "CeA"],
+      "diagnosticTriggers": ["Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event"],
+      "basis": "industry-pulse-engine.js classifies 'component_scarcity' -> [supply_event, pmi_event] (L143-146). Same fold as input_shortage."
+    },
+    "critical_part_delay": {
+      "evidenceFamilies": ["supply_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "primaryIndicator+requiredFamily:supply_event" },
+        { "id": "AUTOMATION_FAILURE", "link": "sharedRequiredFamily:pmi_event (cross-link)" }
+      ],
+      "activations": ["THAL", "S1", "M1", "HIPP", "dlPFC", "CBLM", "FPN", "dACC", "CeA"],
+      "diagnosticTriggers": ["Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event"],
+      "basis": "industry-pulse-engine.js classifies 'critical_part_delay' -> [supply_event, pmi_event] (L143-146). Same fold as input_shortage."
+    },
+    "equipment_failure": {
+      "evidenceFamilies": ["capacity_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "AUTOMATION_FAILURE", "link": "primaryIndicator+requiredFamily:capacity_event" },
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "sharedRequiredFamily:pmi_event (cross-link; pmi_event is a SUPPLY_CHAIN_COLLAPSE requiredFamily)" }
+      ],
+      "activations": ["CBLM", "FPN", "M1", "dACC", "CeA", "dlPFC", "THAL", "S1", "HIPP"],
+      "diagnosticTriggers": ["Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase"],
+      "basis": "industry-pulse-engine.js classifies 'equipment_failure' -> [capacity_event, pmi_event] (L148-151). capacity_event satisfies AUTOMATION_FAILURE requiredFamilies; pmi_event ALSO satisfies SUPPLY_CHAIN_COLLAPSE requiredFamilies (shared-family cross-link). Union of both circuits."
+    },
+    "automation_breakdown": {
+      "evidenceFamilies": ["capacity_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "AUTOMATION_FAILURE", "link": "primaryIndicator+requiredFamily:capacity_event" },
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "sharedRequiredFamily:pmi_event (cross-link)" }
+      ],
+      "activations": ["CBLM", "FPN", "M1", "dACC", "CeA", "dlPFC", "THAL", "S1", "HIPP"],
+      "diagnosticTriggers": ["Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase"],
+      "basis": "industry-pulse-engine.js classifies 'automation_breakdown' -> [capacity_event, pmi_event] (L148-151). Same fold as equipment_failure: AUTOMATION_FAILURE (primary) + SUPPLY_CHAIN_COLLAPSE (via shared pmi_event)."
+    },
+    "capacity_constraint": {
+      "evidenceFamilies": ["capacity_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "AUTOMATION_FAILURE", "link": "primaryIndicator+requiredFamily:capacity_event" },
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "secondaryConfirmation+sharedRequiredFamily:pmi_event (also a SUPPLY_CHAIN_COLLAPSE secondaryConfirmation token)" }
+      ],
+      "activations": ["CBLM", "FPN", "M1", "dACC", "CeA", "dlPFC", "THAL", "S1", "HIPP"],
+      "diagnosticTriggers": ["Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase"],
+      "basis": "industry-pulse-engine.js classifies 'capacity_constraint' -> [capacity_event, pmi_event] (L148-151). It is an AUTOMATION_FAILURE primaryIndicator AND a SUPPLY_CHAIN_COLLAPSE secondaryConfirmation; it folds into AUTOMATION_FAILURE (primary via capacity_event) and into SUPPLY_CHAIN_COLLAPSE via the shared pmi_event requiredFamily."
+    },
+    "production_halt": {
+      "evidenceFamilies": ["capacity_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "AUTOMATION_FAILURE", "link": "primaryIndicator+requiredFamily:capacity_event" },
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "secondaryConfirmation+sharedRequiredFamily:pmi_event (also a SUPPLY_CHAIN_COLLAPSE secondaryConfirmation token)" }
+      ],
+      "activations": ["CBLM", "FPN", "M1", "dACC", "CeA", "dlPFC", "THAL", "S1", "HIPP"],
+      "diagnosticTriggers": ["Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase"],
+      "basis": "industry-pulse-engine.js classifies 'production_halt' -> [capacity_event, pmi_event] (L148-151). Same fold as capacity_constraint."
+    },
+    "maintenance_backlog": {
+      "evidenceFamilies": ["capacity_event", "pmi_event"],
+      "linkedDiagnoses": [
+        { "id": "AUTOMATION_FAILURE", "link": "secondaryConfirmation+requiredFamily:capacity_event" },
+        { "id": "SUPPLY_CHAIN_COLLAPSE", "link": "sharedRequiredFamily:pmi_event (cross-link)" }
+      ],
+      "activations": ["CBLM", "FPN", "M1", "dACC", "CeA", "dlPFC", "THAL", "S1", "HIPP"],
+      "diagnosticTriggers": ["Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase"],
+      "basis": "industry-pulse-engine.js classifies 'maintenance_backlog' -> [capacity_event, pmi_event] (L148-151). Folds into AUTOMATION_FAILURE (its secondaryConfirmation, satisfied via requiredFamily capacity_event) and SUPPLY_CHAIN_COLLAPSE (via shared pmi_event)."
+    },
+    "industrial_incident": {
+      "evidenceFamilies": ["safety_event", "regulatory_event"],
+      "linkedDiagnoses": [
+        { "id": "TOXIC_SPILL", "link": "primaryIndicator+requiredFamily:safety_event" },
+        { "id": "QUALITY_CRISIS", "link": "sharedRequiredFamily:regulatory_event (cross-link; regulatory_event is a QUALITY_CRISIS requiredFamily)" }
+      ],
+      "activations": ["HYPO", "CeA", "ENS", "OFC", "M1", "dACC", "FG", "STRI", "AG", "THAL"],
+      "diagnosticTriggers": ["Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Regulatory citation", "Certification lapse", "Standards revision impact", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption"],
+      "basis": "industry-pulse-engine.js classifies 'industrial_incident' -> [safety_event, regulatory_event] (L153-156). safety_event satisfies TOXIC_SPILL requiredFamilies; regulatory_event ALSO satisfies QUALITY_CRISIS requiredFamilies (shared-family cross-link). Union of both circuits."
+    },
+    "contamination_event": {
+      "evidenceFamilies": ["safety_event", "regulatory_event"],
+      "linkedDiagnoses": [
+        { "id": "TOXIC_SPILL", "link": "primaryIndicator+requiredFamily:safety_event" },
+        { "id": "QUALITY_CRISIS", "link": "sharedRequiredFamily:regulatory_event (cross-link)" }
+      ],
+      "activations": ["HYPO", "CeA", "ENS", "OFC", "M1", "dACC", "FG", "STRI", "AG", "THAL"],
+      "diagnosticTriggers": ["Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Regulatory citation", "Certification lapse", "Standards revision impact", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption"],
+      "basis": "industry-pulse-engine.js classifies 'contamination_event' -> [safety_event, regulatory_event] (L153-156). Same fold as industrial_incident: TOXIC_SPILL (primary) + QUALITY_CRISIS (via shared regulatory_event)."
+    },
+    "safety_failure": {
+      "evidenceFamilies": ["safety_event", "regulatory_event"],
+      "linkedDiagnoses": [
+        { "id": "TOXIC_SPILL", "link": "primaryIndicator+requiredFamily:safety_event" },
+        { "id": "QUALITY_CRISIS", "link": "sharedRequiredFamily:regulatory_event (cross-link)" }
+      ],
+      "activations": ["HYPO", "CeA", "ENS", "OFC", "M1", "dACC", "FG", "STRI", "AG", "THAL"],
+      "diagnosticTriggers": ["Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Regulatory citation", "Certification lapse", "Standards revision impact", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption"],
+      "basis": "industry-pulse-engine.js classifies 'safety_failure' -> [safety_event, regulatory_event] (L153-156). Same fold as industrial_incident."
+    },
+    "quality_defect": {
+      "evidenceFamilies": ["recall_event", "regulatory_event"],
+      "linkedDiagnoses": [
+        { "id": "QUALITY_CRISIS", "link": "primaryIndicator+requiredFamily:recall_event" },
+        { "id": "TOXIC_SPILL", "link": "sharedRequiredFamily:regulatory_event (cross-link; regulatory_event is a TOXIC_SPILL requiredFamily)" }
+      ],
+      "activations": ["dACC", "OFC", "FG", "STRI", "AG", "THAL", "HYPO", "CeA", "ENS", "M1"],
+      "diagnosticTriggers": ["Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Regulatory citation", "Certification lapse", "Standards revision impact", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption", "Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Line stoppage", "Cycle time deviation", "Station bottleneck"],
+      "basis": "industry-pulse-engine.js classifies 'quality_defect' -> [recall_event, regulatory_event] (L158-161). recall_event satisfies QUALITY_CRISIS requiredFamilies; regulatory_event ALSO satisfies TOXIC_SPILL requiredFamilies (shared-family cross-link). Union of both circuits."
+    },
+    "recall_risk": {
+      "evidenceFamilies": ["recall_event", "regulatory_event"],
+      "linkedDiagnoses": [
+        { "id": "QUALITY_CRISIS", "link": "primaryIndicator+requiredFamily:recall_event" },
+        { "id": "TOXIC_SPILL", "link": "sharedRequiredFamily:regulatory_event (cross-link)" }
+      ],
+      "activations": ["dACC", "OFC", "FG", "STRI", "AG", "THAL", "HYPO", "CeA", "ENS", "M1"],
+      "diagnosticTriggers": ["Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Regulatory citation", "Certification lapse", "Standards revision impact", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption", "Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Line stoppage", "Cycle time deviation", "Station bottleneck"],
+      "basis": "industry-pulse-engine.js classifies 'recall_risk' -> [recall_event, regulatory_event] (L158-161). Same fold as quality_defect: QUALITY_CRISIS (primary) + TOXIC_SPILL (via shared regulatory_event)."
+    },
+    "inspection_failure": {
+      "evidenceFamilies": ["recall_event", "regulatory_event"],
+      "linkedDiagnoses": [
+        { "id": "QUALITY_CRISIS", "link": "primaryIndicator+requiredFamily:recall_event" },
+        { "id": "TOXIC_SPILL", "link": "sharedRequiredFamily:regulatory_event (cross-link)" }
+      ],
+      "activations": ["dACC", "OFC", "FG", "STRI", "AG", "THAL", "HYPO", "CeA", "ENS", "M1"],
+      "diagnosticTriggers": ["Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Regulatory citation", "Certification lapse", "Standards revision impact", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption", "Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Line stoppage", "Cycle time deviation", "Station bottleneck"],
+      "basis": "industry-pulse-engine.js classifies 'inspection_failure' -> [recall_event, regulatory_event] (L158-161). Same fold as quality_defect."
+    },
+    "reliability_decline": {
+      "evidenceFamilies": ["recall_event", "regulatory_event"],
+      "linkedDiagnoses": [
+        { "id": "QUALITY_CRISIS", "link": "primaryIndicator+requiredFamily:recall_event" },
+        { "id": "TOXIC_SPILL", "link": "sharedRequiredFamily:regulatory_event (cross-link)" }
+      ],
+      "activations": ["dACC", "OFC", "FG", "STRI", "AG", "THAL", "HYPO", "CeA", "ENS", "M1"],
+      "diagnosticTriggers": ["Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Regulatory citation", "Certification lapse", "Standards revision impact", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption", "Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Line stoppage", "Cycle time deviation", "Station bottleneck"],
+      "basis": "industry-pulse-engine.js classifies 'reliability_decline' -> [recall_event, regulatory_event] (L158-161). Same fold as quality_defect."
+    },
+    "labor_shortage": {
+      "evidenceFamilies": ["labor_event"],
+      "linkedDiagnoses": [
+        { "id": "WORKFORCE_SHORTAGE", "link": "primaryIndicator+requiredFamily:labor_event" }
+      ],
+      "activations": ["dlPFC", "M1", "dACC", "SMA", "CBLM"],
+      "diagnosticTriggers": ["Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Structural fatigue detection", "Hydraulic system failure", "Overload condition", "Robot fault alarm", "Calibration drift", "Safety zone breach"],
+      "basis": "industry-pulse-engine.js classifies 'labor_shortage' -> [labor_event] (L163-164). labor_event satisfies WORKFORCE_SHORTAGE requiredFamilies. NO cross-link: labor_event is required by no other contract. Activations/triggers = WORKFORCE_SHORTAGE _authored circuit only."
+    },
+    "workforce_gap": {
+      "evidenceFamilies": ["labor_event"],
+      "linkedDiagnoses": [
+        { "id": "WORKFORCE_SHORTAGE", "link": "primaryIndicator+requiredFamily:labor_event" }
+      ],
+      "activations": ["dlPFC", "M1", "dACC", "SMA", "CBLM"],
+      "diagnosticTriggers": ["Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Structural fatigue detection", "Hydraulic system failure", "Overload condition", "Robot fault alarm", "Calibration drift", "Safety zone breach"],
+      "basis": "industry-pulse-engine.js classifies 'workforce_gap' -> [labor_event] (L163-164). Same single fold as labor_shortage."
+    },
+    "contractor_limit": {
+      "evidenceFamilies": ["labor_event"],
+      "linkedDiagnoses": [
+        { "id": "WORKFORCE_SHORTAGE", "link": "primaryIndicator+requiredFamily:labor_event" }
+      ],
+      "activations": ["dlPFC", "M1", "dACC", "SMA", "CBLM"],
+      "diagnosticTriggers": ["Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Structural fatigue detection", "Hydraulic system failure", "Overload condition", "Robot fault alarm", "Calibration drift", "Safety zone breach"],
+      "basis": "industry-pulse-engine.js classifies 'contractor_limit' -> [labor_event] (L163-164). Same single fold as labor_shortage."
+    },
+    "labor_stoppage": {
+      "evidenceFamilies": ["labor_event"],
+      "linkedDiagnoses": [
+        { "id": "WORKFORCE_SHORTAGE", "link": "primaryIndicator+requiredFamily:labor_event" }
+      ],
+      "activations": ["dlPFC", "M1", "dACC", "SMA", "CBLM"],
+      "diagnosticTriggers": ["Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Structural fatigue detection", "Hydraulic system failure", "Overload condition", "Robot fault alarm", "Calibration drift", "Safety zone breach"],
+      "basis": "industry-pulse-engine.js classifies 'labor_stoppage' -> [labor_event] (L163-164). Same single fold as labor_shortage."
+    }
+  },
+  "diagnoses": {
+    "SUPPLY_CHAIN_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": ["THAL", "S1", "M1", "HIPP", "dlPFC"],
+      "diagnosticTriggers": ["Lead time extension", "Inventory stockout", "Logistics disruption", "Material shortage", "Specification non-conformance", "Price volatility", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Inventory accuracy drift", "Storage capacity overflow", "Pick error rate increase", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun"],
+      "basis": "diagnosis id === Industry issue id; when active, the (energy-pattern) adapter marks its issues['SUPPLY_CHAIN_COLLAPSE']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' free-text diagnosticTriggers. Direct data link, no inference. Because Industry triggers are free-text (Energy pattern), this expansion is what actually protects the circuit nodes from extinction."
+    },
+    "AUTOMATION_FAILURE": {
+      "circuitSource": "_authored",
+      "activations": ["CBLM", "FPN", "M1", "dACC", "CeA", "dlPFC"],
+      "diagnosticTriggers": ["Robot fault alarm", "Calibration drift", "Safety zone breach", "Tolerance exceedance", "Tool wear progression", "Surface finish degradation", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Skill gap identified", "Absenteeism spike", "Overtime budget overrun"],
+      "basis": "diagnosis id === Industry issue id; adapter marks issues['AUTOMATION_FAILURE']._authored circuit nodes active. Lists those nodeIds and their free-text triggers."
+    },
+    "TOXIC_SPILL": {
+      "circuitSource": "_authored",
+      "activations": ["HYPO", "CeA", "ENS", "OFC", "M1"],
+      "diagnosticTriggers": ["Reaction runaway", "Catalyst poisoning", "Yield decline", "Near-miss incident", "Safety interlock bypass", "OSHA recordable event", "Effluent limit exceedance", "Waste accumulation buildup", "Treatment system upset", "Regulatory citation", "Certification lapse", "Standards revision impact", "Line stoppage", "Cycle time deviation", "Station bottleneck"],
+      "basis": "diagnosis id === Industry issue id; adapter marks issues['TOXIC_SPILL']._authored circuit nodes active. Lists those nodeIds and their free-text triggers."
+    },
+    "QUALITY_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": ["dACC", "OFC", "FG", "STRI", "AG", "THAL"],
+      "diagnosticTriggers": ["Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Regulatory citation", "Certification lapse", "Standards revision impact", "Ergonomic failure report", "Design-for-manufacturing conflict", "Market rejection signal", "Packaging line jam", "Labeling error", "Seal integrity failure", "Innovation pipeline gap", "Patent filing decline", "Prototype failure rate increase", "Lead time extension", "Inventory stockout", "Logistics disruption"],
+      "basis": "diagnosis id === Industry issue id; adapter marks issues['QUALITY_CRISIS']._authored circuit nodes active. Lists those nodeIds and their free-text triggers."
+    },
+    "WORKFORCE_SHORTAGE": {
+      "circuitSource": "_authored",
+      "activations": ["dlPFC", "M1", "dACC", "SMA", "CBLM"],
+      "diagnosticTriggers": ["Skill gap identified", "Absenteeism spike", "Overtime budget overrun", "Line stoppage", "Cycle time deviation", "Station bottleneck", "Defect rate spike", "SPC out-of-control signal", "Customer complaint surge", "Structural fatigue detection", "Hydraulic system failure", "Overload condition", "Robot fault alarm", "Calibration drift", "Safety zone breach"],
+      "basis": "diagnosis id === Industry issue id; adapter marks issues['WORKFORCE_SHORTAGE']._authored circuit nodes active. Lists those nodeIds and their free-text triggers."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "industry_high_stress",
+        "evidenceFamilies": ["structural_event"],
+        "reason": "industry-pulse-engine.js classifies industry_high_stress -> [structural_event] (L166), but NO EVIDENCE_CONTRACT lists structural_event in requiredFamilies. The family is a dead-end: it reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias. (Analog of Finance _stress_* exclusion; here it is a catch-all stress token that no contract consumes.)"
+      },
+      {
+        "code": "structural_stress",
+        "evidenceFamilies": ["structural_event"],
+        "reason": "industry-pulse-engine.js classifies structural_stress -> [structural_event] (L166). structural_stress IS listed as a WORKFORCE_SHORTAGE secondaryConfirmation token, BUT it emits only structural_event, not the WORKFORCE_SHORTAGE requiredFamily labor_event, so per the code gate (requiredFamilies OR-semantics, L178-181) it cannot validate WORKFORCE_SHORTAGE and is NOT folded. structural_event is consumed by no contract, so there is no defensible condition->diagnosis link.",
+        "secondaryDiagnoses": [
+          { "id": "WORKFORCE_SHORTAGE", "link": "secondaryConfirmation(not folded; condition emits structural_event, not the required labor_event)" }
+        ]
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": ["macro_event"],
+        "reason": "industry-pulse-engine.js classifies macro_shock -> [macro_event] (L167), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. Dead-end family, reaches no diagnosis. No grounded alias. (Same as Finance macro_shock -> macro_event dead-end.)"
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [],
+    "activationsWithTriggersButNoTriggerSource_note": "ZERO orphans. Every activation in industry.json that carries non-empty diagnosticTriggers (M1, dACC, S1, HYPO, CBLM, THAL, HIPP, FG, CeA, dlPFC, SMA, FPN, STRI, ENS, AG, OFC) appears in at least one issue._authored circuit, so extinction always has a live trigger source for it. This is cleaner than Energy (1 orphan) and Finance (3 orphans).",
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "TPJ",
+        "domainLabel": "Plastics",
+        "diagnosticTriggers": [],
+        "reason": "Not in any issue._authored circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "DMN",
+        "domainLabel": "Qualitymgmt",
+        "diagnosticTriggers": [],
+        "reason": "Not in any issue._authored circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (canonical-nodes.json also classes DMN as a composite view, not an edge endpoint.)"
+      },
+      {
+        "brainNodeId": "PRECUNEUS",
+        "domainLabel": "Sustainability",
+        "diagnosticTriggers": [],
+        "reason": "Not in any issue._authored circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      },
+      {
+        "brainNodeId": "WERN",
+        "domainLabel": "Defense Ind",
+        "diagnosticTriggers": [],
+        "reason": "Not in any issue._authored circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Industry: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the inline classify switch (supply/capacity/safety/recall/labor branches, plus structural_stress in the stress branch), so there are no contract-only-unclassified tokens (unlike Energy REFINERY_ATTACK/SANCTIONS). Conversely industry_high_stress, structural_stress and macro_shock are classified but their families (structural_event, macro_event) are named in no contract requiredFamilies (see unmapped)."
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Technology extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes + active diagnosis ids (energy-telemetry-adapter.js L48-53 pattern). In Technology the CONDITION-CODES never textually equal an activation.diagnosticTrigger, AND (unlike Finance) the DIAGNOSIS IDS never equal a trigger either, because Technology activation.diagnosticTriggers are FREE-TEXT phrases (like Energy), not diagnosis ids. This table bridges condition-code / diagnosis-id -> the free-text triggers of the circuit nodes each one lights up.",
+    "derivationChain": "condition-code --(technology-pulse-engine.js inline classify, L133-155)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L165-171)--> diagnosis id --(technology.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(these nodeIds are activations whose diagnosticTriggers are FREE-TEXT phrases)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data: issue id === activation-circuit membership). The condition-codes section adds the pulse-engine family hop, which in Technology is COARSE (see heterogeneityVsFinance).",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics, L165-171). In Technology the ONLY family the inline classifier emits that ANY contract consumes is news_event, and EVERY one of the 6 contracts lists news_event in requiredFamilies — so a single news_event-emitting condition folds to ALL SIX diagnoses. This is faithful to the code gate but is a coarse family-level link, NOT a semantic indicator match; it is flagged, not hidden.",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from technology.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinance": "STRUCTURALLY DIFFERENT, and further from Finance than Finance was from Energy. (1) Technology activation.diagnosticTriggers are FREE-TEXT phrases (e.g. 'Intrusion detection alert'), NOT diagnosis ids — so, unlike Finance, the diagnosis id NEVER self-matches a trigger and this whole alias table is STRICTLY required for the diagnoses hop, not just the condition hop. (2) The inline condition classifier (L133-155) operates on a GENERIC / education-derived condition vocabulary (budget_shortfall, institutional_decline, workforce_gap, digital_divide, ...) that does NOT correspond to the Technology EVIDENCE_CONTRACTS' own indicator tokens (cyber_breach, ransomware, ai_misalignment, ...). The two vocabularies are bridged by exactly ONE family: news_event. (3) Consequently the REAL Technology indicator tokens (24 of them: cyber_breach, network_intrusion, ransomware, ... market_concentration) are named in contracts but are NEVER classified by the engine — they are contract-only-unclassified (see contractOnlyTokensNotClassified). Finance had tokens:[] here; Technology has 24. THIS IS THE KEY HETEROGENEITY. (4) Six evidence families the classifier emits (policy_event, institutional_event, workforce_event, indicator_event, structural_event, macro_event) are consumed by NO contract = dead-ends (Finance had one dead-end, macro_event; Technology has six). (5) Orphan count: Energy 1, Finance 3, Technology 5.",
+    "sources": [
+      "assets/js/technology-pulse-engine.js (inline condition->family classify L133-155; EVIDENCE_CONTRACTS L34-89; requiredFamilies OR-gate L165-171)",
+      "assets/data/domains/technology.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no technology-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no technology-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T00:00:00.000Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes technology.json or fires extinction. No technology-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "digital_divide": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "consumedFamilies": ["news_event"],
+      "linkedDiagnoses": [
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event" },
+        { "id": "AI_ALIGNMENT_FAILURE", "link": "requiredFamily:news_event" },
+        { "id": "INFRASTRUCTURE_COLLAPSE", "link": "requiredFamily:news_event" },
+        { "id": "DATA_BREACH", "link": "requiredFamily:news_event" },
+        { "id": "CHIP_SHORTAGE", "link": "requiredFamily:news_event" },
+        { "id": "PLATFORM_MONOPOLY", "link": "requiredFamily:news_event" }
+      ],
+      "activations": ["CeA", "CC", "DMN", "HIPP", "FORN", "FPN", "NEOCER", "TPJ", "dACC", "dlPFC", "THAL", "ECN", "S1", "FG", "STRI", "M1", "CBLM"],
+      "diagnosticTriggers": ["Intrusion detection alert", "Zero-day vulnerability discovered", "Backbone fiber cut", "DNS resolution failure", "Cloud outage cascade", "Cost overrun alert", "Query performance degradation", "Data corruption detected", "Consensus mechanism failure", "Smart contract exploit", "Alignment failure detection", "Capability overshoot", "Model drift detected", "Training data bias discovered", "Maintainer burnout signal", "Critical dependency vulnerability", "Deployment failure rate spike", "Mean-time-to-recovery increase", "Technical debt accumulation", "Production incident rate increase", "Power redundancy failure", "Cooling system thermal event", "Kernel panic frequency increase", "Resource starvation detected", "Sensor network dropout", "Data ingestion overload", "Usability test failure rate increase", "Accessibility audit failure", "Fabrication yield collapse", "Process node delay", "Manufacturing defect rate increase", "Design-to-production delay", "Safety envelope violation", "Sensor calibration drift"],
+      "basis": "technology-pulse-engine.js inline-classifies 'digital_divide' -> evidence families [news_event, institutional_event] (L149-152). Only news_event is consumed by any contract; news_event is a requiredFamily of ALL SIX EVIDENCE_CONTRACTS (L34-89), so under OR-semantics (L165-171) every diagnosis is satisfied. Each linked diagnosis expands to its issues[]._authored circuit nodeIds (technology.json) and those activations' FREE-TEXT diagnosticTriggers (union shown). COARSE LINK: 'digital_divide' does not semantically pick out any single Technology issue; it merely emits the one bridging family. institutional_event is a dead-end (no contract consumes it)."
+    },
+    "platform_transition": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "consumedFamilies": ["news_event"],
+      "linkedDiagnoses": [
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event" },
+        { "id": "AI_ALIGNMENT_FAILURE", "link": "requiredFamily:news_event" },
+        { "id": "INFRASTRUCTURE_COLLAPSE", "link": "requiredFamily:news_event" },
+        { "id": "DATA_BREACH", "link": "requiredFamily:news_event" },
+        { "id": "CHIP_SHORTAGE", "link": "requiredFamily:news_event" },
+        { "id": "PLATFORM_MONOPOLY", "link": "requiredFamily:news_event" }
+      ],
+      "activations": ["CeA", "CC", "DMN", "HIPP", "FORN", "FPN", "NEOCER", "TPJ", "dACC", "dlPFC", "THAL", "ECN", "S1", "FG", "STRI", "M1", "CBLM"],
+      "diagnosticTriggers": ["Intrusion detection alert", "Zero-day vulnerability discovered", "Backbone fiber cut", "DNS resolution failure", "Cloud outage cascade", "Cost overrun alert", "Query performance degradation", "Data corruption detected", "Consensus mechanism failure", "Smart contract exploit", "Alignment failure detection", "Capability overshoot", "Model drift detected", "Training data bias discovered", "Maintainer burnout signal", "Critical dependency vulnerability", "Deployment failure rate spike", "Mean-time-to-recovery increase", "Technical debt accumulation", "Production incident rate increase", "Power redundancy failure", "Cooling system thermal event", "Kernel panic frequency increase", "Resource starvation detected", "Sensor network dropout", "Data ingestion overload", "Usability test failure rate increase", "Accessibility audit failure", "Fabrication yield collapse", "Process node delay", "Manufacturing defect rate increase", "Design-to-production delay", "Safety envelope violation", "Sensor calibration drift"],
+      "basis": "technology-pulse-engine.js inline-classifies 'platform_transition' -> evidence families [news_event, institutional_event] (L149-152). Only news_event is consumed; it is a requiredFamily of all 6 contracts, so all 6 diagnoses satisfy under OR-semantics. Expands to the union of all 6 _authored circuits' nodeIds and their FREE-TEXT diagnosticTriggers. COARSE LINK (family-level, not semantic)."
+    },
+    "pedagogical_mismatch": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "consumedFamilies": ["news_event"],
+      "linkedDiagnoses": [
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event" },
+        { "id": "AI_ALIGNMENT_FAILURE", "link": "requiredFamily:news_event" },
+        { "id": "INFRASTRUCTURE_COLLAPSE", "link": "requiredFamily:news_event" },
+        { "id": "DATA_BREACH", "link": "requiredFamily:news_event" },
+        { "id": "CHIP_SHORTAGE", "link": "requiredFamily:news_event" },
+        { "id": "PLATFORM_MONOPOLY", "link": "requiredFamily:news_event" }
+      ],
+      "activations": ["CeA", "CC", "DMN", "HIPP", "FORN", "FPN", "NEOCER", "TPJ", "dACC", "dlPFC", "THAL", "ECN", "S1", "FG", "STRI", "M1", "CBLM"],
+      "diagnosticTriggers": ["Intrusion detection alert", "Zero-day vulnerability discovered", "Backbone fiber cut", "DNS resolution failure", "Cloud outage cascade", "Cost overrun alert", "Query performance degradation", "Data corruption detected", "Consensus mechanism failure", "Smart contract exploit", "Alignment failure detection", "Capability overshoot", "Model drift detected", "Training data bias discovered", "Maintainer burnout signal", "Critical dependency vulnerability", "Deployment failure rate spike", "Mean-time-to-recovery increase", "Technical debt accumulation", "Production incident rate increase", "Power redundancy failure", "Cooling system thermal event", "Kernel panic frequency increase", "Resource starvation detected", "Sensor network dropout", "Data ingestion overload", "Usability test failure rate increase", "Accessibility audit failure", "Fabrication yield collapse", "Process node delay", "Manufacturing defect rate increase", "Design-to-production delay", "Safety envelope violation", "Sensor calibration drift"],
+      "basis": "technology-pulse-engine.js inline-classifies 'pedagogical_mismatch' -> evidence families [news_event, institutional_event] (L149-152). Only news_event is consumed; requiredFamily of all 6 contracts. Expands to the union of all 6 _authored circuits and their FREE-TEXT diagnosticTriggers. COARSE LINK; this generic (education-derived) token has no Technology-specific meaning."
+    },
+    "automation_displacement": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "consumedFamilies": ["news_event"],
+      "linkedDiagnoses": [
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event" },
+        { "id": "AI_ALIGNMENT_FAILURE", "link": "requiredFamily:news_event" },
+        { "id": "INFRASTRUCTURE_COLLAPSE", "link": "requiredFamily:news_event" },
+        { "id": "DATA_BREACH", "link": "requiredFamily:news_event" },
+        { "id": "CHIP_SHORTAGE", "link": "requiredFamily:news_event" },
+        { "id": "PLATFORM_MONOPOLY", "link": "requiredFamily:news_event" }
+      ],
+      "activations": ["CeA", "CC", "DMN", "HIPP", "FORN", "FPN", "NEOCER", "TPJ", "dACC", "dlPFC", "THAL", "ECN", "S1", "FG", "STRI", "M1", "CBLM"],
+      "diagnosticTriggers": ["Intrusion detection alert", "Zero-day vulnerability discovered", "Backbone fiber cut", "DNS resolution failure", "Cloud outage cascade", "Cost overrun alert", "Query performance degradation", "Data corruption detected", "Consensus mechanism failure", "Smart contract exploit", "Alignment failure detection", "Capability overshoot", "Model drift detected", "Training data bias discovered", "Maintainer burnout signal", "Critical dependency vulnerability", "Deployment failure rate spike", "Mean-time-to-recovery increase", "Technical debt accumulation", "Production incident rate increase", "Power redundancy failure", "Cooling system thermal event", "Kernel panic frequency increase", "Resource starvation detected", "Sensor network dropout", "Data ingestion overload", "Usability test failure rate increase", "Accessibility audit failure", "Fabrication yield collapse", "Process node delay", "Manufacturing defect rate increase", "Design-to-production delay", "Safety envelope violation", "Sensor calibration drift"],
+      "basis": "technology-pulse-engine.js inline-classifies 'automation_displacement' -> evidence families [news_event, institutional_event] (L149-152). Only news_event is consumed; requiredFamily of all 6 contracts. Expands to the union of all 6 _authored circuits and their FREE-TEXT diagnosticTriggers. COARSE LINK (family-level)."
+    },
+    "adaptive_failure": {
+      "evidenceFamilies": ["news_event", "institutional_event"],
+      "consumedFamilies": ["news_event"],
+      "linkedDiagnoses": [
+        { "id": "CYBER_ATTACK", "link": "requiredFamily:news_event" },
+        { "id": "AI_ALIGNMENT_FAILURE", "link": "requiredFamily:news_event" },
+        { "id": "INFRASTRUCTURE_COLLAPSE", "link": "requiredFamily:news_event" },
+        { "id": "DATA_BREACH", "link": "requiredFamily:news_event" },
+        { "id": "CHIP_SHORTAGE", "link": "requiredFamily:news_event" },
+        { "id": "PLATFORM_MONOPOLY", "link": "requiredFamily:news_event" }
+      ],
+      "activations": ["CeA", "CC", "DMN", "HIPP", "FORN", "FPN", "NEOCER", "TPJ", "dACC", "dlPFC", "THAL", "ECN", "S1", "FG", "STRI", "M1", "CBLM"],
+      "diagnosticTriggers": ["Intrusion detection alert", "Zero-day vulnerability discovered", "Backbone fiber cut", "DNS resolution failure", "Cloud outage cascade", "Cost overrun alert", "Query performance degradation", "Data corruption detected", "Consensus mechanism failure", "Smart contract exploit", "Alignment failure detection", "Capability overshoot", "Model drift detected", "Training data bias discovered", "Maintainer burnout signal", "Critical dependency vulnerability", "Deployment failure rate spike", "Mean-time-to-recovery increase", "Technical debt accumulation", "Production incident rate increase", "Power redundancy failure", "Cooling system thermal event", "Kernel panic frequency increase", "Resource starvation detected", "Sensor network dropout", "Data ingestion overload", "Usability test failure rate increase", "Accessibility audit failure", "Fabrication yield collapse", "Process node delay", "Manufacturing defect rate increase", "Design-to-production delay", "Safety envelope violation", "Sensor calibration drift"],
+      "basis": "technology-pulse-engine.js inline-classifies 'adaptive_failure' -> evidence families [news_event, institutional_event] (L149-152). Only news_event is consumed; requiredFamily of all 6 contracts. Expands to the union of all 6 _authored circuits and their FREE-TEXT diagnosticTriggers. COARSE LINK (family-level)."
+    }
+  },
+  "diagnoses": {
+    "CYBER_ATTACK": {
+      "circuitSource": "_authored",
+      "activations": ["CeA", "CC", "DMN", "HIPP", "FORN"],
+      "diagnosticTriggers": ["Intrusion detection alert", "Zero-day vulnerability discovered", "Backbone fiber cut", "DNS resolution failure", "Cloud outage cascade", "Cost overrun alert", "Query performance degradation", "Data corruption detected", "Consensus mechanism failure", "Smart contract exploit"],
+      "basis": "diagnosis id === Technology issue id; when active, the (energy-pattern) adapter marks its issues['CYBER_ATTACK']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds [CeA, CC, DMN, HIPP, FORN] and their activations' FREE-TEXT diagnosticTriggers. Direct data link, no inference. Because Technology triggers are free-text (not diagnosis ids as in Finance), the diagnosis id CYBER_ATTACK matches NONE of these strings on its own — the alias is what protects every node in the circuit from extinction."
+    },
+    "AI_ALIGNMENT_FAILURE": {
+      "circuitSource": "_authored",
+      "activations": ["FPN", "NEOCER", "TPJ", "dACC", "dlPFC"],
+      "diagnosticTriggers": ["Alignment failure detection", "Capability overshoot", "Model drift detected", "Training data bias discovered", "Maintainer burnout signal", "Critical dependency vulnerability", "Deployment failure rate spike", "Mean-time-to-recovery increase", "Technical debt accumulation", "Production incident rate increase"],
+      "basis": "diagnosis id === Technology issue id; when active, the adapter marks issues['AI_ALIGNMENT_FAILURE']._authored circuit nodes [FPN, NEOCER, TPJ, dACC, dlPFC] active (energy-telemetry-adapter.js L79-101). Lists their FREE-TEXT diagnosticTriggers. Direct data link, no inference; the diagnosis id self-matches none of these strings, so the alias is required."
+    },
+    "INFRASTRUCTURE_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": ["THAL", "CC", "DMN", "ECN", "S1"],
+      "diagnosticTriggers": ["Power redundancy failure", "Cooling system thermal event", "Backbone fiber cut", "DNS resolution failure", "Cloud outage cascade", "Cost overrun alert", "Kernel panic frequency increase", "Resource starvation detected", "Sensor network dropout", "Data ingestion overload"],
+      "basis": "diagnosis id === Technology issue id; adapter marks issues['INFRASTRUCTURE_COLLAPSE']._authored circuit nodes [THAL, CC, DMN, ECN, S1] active. Lists their FREE-TEXT diagnosticTriggers. NOTE: this is the ONE circuit that FAILS the Part XIV incomplete-circuit test (no regulatory node) in technology-neuro-substrate.json; the alias still correctly protects its nodes from extinction when the diagnosis fires."
+    },
+    "DATA_BREACH": {
+      "circuitSource": "_authored",
+      "activations": ["HIPP", "CeA", "FG", "FORN"],
+      "diagnosticTriggers": ["Query performance degradation", "Data corruption detected", "Intrusion detection alert", "Zero-day vulnerability discovered", "Usability test failure rate increase", "Accessibility audit failure", "Consensus mechanism failure", "Smart contract exploit"],
+      "basis": "diagnosis id === Technology issue id; adapter marks issues['DATA_BREACH']._authored circuit nodes [HIPP, CeA, FG, FORN] active. Lists their FREE-TEXT diagnosticTriggers. Direct data link; diagnosis id self-matches none of these strings."
+    },
+    "CHIP_SHORTAGE": {
+      "circuitSource": "_authored",
+      "activations": ["STRI", "M1", "CBLM", "S1", "THAL"],
+      "diagnosticTriggers": ["Fabrication yield collapse", "Process node delay", "Manufacturing defect rate increase", "Design-to-production delay", "Safety envelope violation", "Sensor calibration drift", "Sensor network dropout", "Data ingestion overload", "Power redundancy failure", "Cooling system thermal event"],
+      "basis": "diagnosis id === Technology issue id; adapter marks issues['CHIP_SHORTAGE']._authored circuit nodes [STRI, M1, CBLM, S1, THAL] active. Lists their FREE-TEXT diagnosticTriggers. Direct data link; alias required (free-text triggers)."
+    },
+    "PLATFORM_MONOPOLY": {
+      "circuitSource": "_authored",
+      "activations": ["DMN", "TPJ", "ECN", "CC", "dlPFC"],
+      "diagnosticTriggers": ["Cloud outage cascade", "Cost overrun alert", "Maintainer burnout signal", "Critical dependency vulnerability", "Kernel panic frequency increase", "Resource starvation detected", "Backbone fiber cut", "DNS resolution failure", "Technical debt accumulation", "Production incident rate increase"],
+      "basis": "diagnosis id === Technology issue id; adapter marks issues['PLATFORM_MONOPOLY']._authored circuit nodes [DMN, TPJ, ECN, CC, dlPFC] active. Lists their FREE-TEXT diagnosticTriggers. Direct data link; alias required."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "budget_shortfall / resource_scarcity / infrastructure_degradation",
+        "evidenceFamilies": ["policy_event"],
+        "reason": "technology-pulse-engine.js classifies these -> policy_event (L135). NO EVIDENCE_CONTRACT lists policy_event in requiredFamilies. Dead-end family: reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias."
+      },
+      {
+        "code": "institutional_decline / quality_degradation / standards_erosion / credential_devaluation",
+        "evidenceFamilies": ["institutional_event"],
+        "reason": "Classified -> institutional_event (L136). No contract consumes institutional_event. Dead-end family (also emitted as a second family by the mapped digital_divide/... conditions, where it is ignored). No grounded alias."
+      },
+      {
+        "code": "workforce_gap / retention_failure / recruitment_deficit / burnout_epidemic",
+        "evidenceFamilies": ["workforce_event", "policy_event"],
+        "reason": "Classified -> workforce_event + policy_event (L137-140). Neither family is a requiredFamily of any contract. Dead-end. No grounded alias."
+      },
+      {
+        "code": "outcome_disparity / access_inequality / performance_decline / equity_failure",
+        "evidenceFamilies": ["indicator_event", "policy_event"],
+        "reason": "Classified -> indicator_event + policy_event (L141-144). Neither family is consumed by any contract. Dead-end. No grounded alias."
+      },
+      {
+        "code": "oversight_failure",
+        "evidenceFamilies": ["institutional_event", "policy_event"],
+        "reason": "Classified -> institutional_event + policy_event (L145-148). Neither family is consumed by any contract. Dead-end. No grounded alias."
+      },
+      {
+        "code": "technology_high_stress / structural_stress",
+        "evidenceFamilies": ["structural_event"],
+        "reason": "Classified -> structural_event (L153). No contract lists structural_event in requiredFamilies (CHIP_SHORTAGE/PLATFORM_MONOPOLY list 'structural_stress' only as a secondaryConfirmation TOKEN, not as a requiredFamily). Dead-end family. No grounded alias. NOTE: 'structural_stress' as a token IS a secondaryConfirmation of CHIP_SHORTAGE and PLATFORM_MONOPOLY but the requiredFamilies gate (news_event/patent_event; news_event/research_event) does not include structural_event, so it cannot un-block those diagnoses by itself."
+      },
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": ["macro_event"],
+        "reason": "Classified -> macro_event (L154). No contract lists macro_event in requiredFamilies (CYBER_ATTACK lists 'macro_shock' only as a secondaryConfirmation TOKEN). Dead-end family (same pattern as Finance's macro_shock). No grounded alias."
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "PRECUNEUS",
+        "domainLabel": "Quantum Computing",
+        "diagnosticTriggers": ["Qubit coherence time degradation", "Error rate threshold exceeded"],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (and no condition-code chain reaches it). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Technology analog of the Energy/Finance orphans; Technology has FIVE.)"
+      },
+      {
+        "brainNodeId": "vMPFC",
+        "domainLabel": "Platform Networks",
+        "diagnosticTriggers": ["Daily active user (DAU) decline", "Ad-load saturation eroding engagement", "Network-effect reversal as users migrate to rival platforms"],
+        "reason": "Orphan: brainNodeId in NO _authored circuit and unreached by any condition chain. NOTE ALSO a case/id quirk — this activation id is 'vMPFC' (capital M), distinct from the edges/anatomical node 'vmPFC' (lower-case m); they are treated as different ids, so this node is doubly unreachable. No grounded alias; not fabricated."
+      },
+      {
+        "brainNodeId": "dPFC",
+        "domainLabel": "Semiconductor Architecture",
+        "diagnosticTriggers": ["Generational IPC (instructions-per-cycle) gains stalling", "Process-node roadmap slip versus competitor cadence", "Power/thermal wall blocking frequency scaling"],
+        "reason": "Orphan: brainNodeId in NO _authored circuit and unreached by any condition chain. Under current wiring extinction would always flag it. No grounded alias; not fabricated. Needs authoring into an issue circuit (e.g. CHIP_SHORTAGE) before extinction should touch it."
+      },
+      {
+        "brainNodeId": "ACC",
+        "domainLabel": "Data Intelligence Systems",
+        "diagnosticTriggers": ["Decision latency from siloed or conflicting data", "Model drift degrading analytic reliability", "Low adoption of analytics by operational decision-makers"],
+        "reason": "Orphan: brainNodeId 'ACC' (distinct from 'dACC', which IS in circuits) appears in NO _authored circuit and is unreached by any condition chain. No grounded alias; not fabricated."
+      },
+      {
+        "brainNodeId": "S2",
+        "domainLabel": "Semiconductor Equipment & Manufacturing",
+        "diagnosticTriggers": ["Tool throughput or uptime shortfall constraining fab output", "Metrology gaps allowing yield-killing defects to escape", "EUV/High-NA capacity bottleneck limiting leading-edge supply"],
+        "reason": "Orphan: brainNodeId 'S2' in NO _authored circuit and unreached by any condition chain. No grounded alias; not fabricated. Needs authoring into an issue circuit (e.g. CHIP_SHORTAGE) before extinction should touch it."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "MGN",
+        "domainLabel": "Techtalent",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (NOTE: MGN DOES appear as an edge endpoint MGN->A1 in the anatomical layer, but has no _authored circuit membership and no triggers.)"
+      },
+      {
+        "brainNodeId": "UNC",
+        "domainLabel": "Ux",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed."
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": ["cyber_breach", "network_intrusion", "ransomware", "infrastructure_attack", "ai_misalignment", "autonomy_overreach", "bias_amplification", "alignment_gap", "system_failure", "outage_cascade", "cloud_disruption", "dependency_failure", "data_exfiltration", "privacy_exposure", "credential_compromise", "compliance_violation", "supply_constraint", "semiconductor_gap", "manufacturing_bottleneck", "component_scarcity", "market_concentration", "platform_lock_in", "innovation_suppression", "competitive_distortion"],
+    "count": 24,
+    "reason": "THE KEY HETEROGENEITY vs Finance (which had tokens:[], N/A). These 24 tokens are the REAL Technology indicator vocabulary — the primaryIndicators of all 6 EVIDENCE_CONTRACTS (technology-pulse-engine.js L34-89). NONE of them is handled by the inline classify() switch (L133-155), which instead classifies a disjoint, generic/education-derived condition vocabulary. So no live condition ever emits the family these tokens imply; the contracts can only be satisfied via the incidental news_event bridge (see conditionCodes) or by direct diagnosis activation. These tokens have no condition->family->diagnosis path and therefore no grounded alias here. Contrast: the two secondaryConfirmation tokens that ARE classified — 'macro_shock' (->macro_event) and 'structural_stress' (->structural_event) — still reach no diagnosis because their families are dead-ends (see unmapped.conditionCodes)."
+  }
+}

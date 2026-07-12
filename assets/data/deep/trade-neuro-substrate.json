@@ -1,0 +1,155 @@
+{
+  "_meta": {
+    "domain": "trade",
+    "title": "Trade & Logistics — Neural Substrate Overlay",
+    "compiled": "2026-07-12",
+    "source_document": "LIMEN Helix — Comprehensive Neurology & Nervous System Reference (Jul 2026). THIS DOCUMENT ONLY. Domain-generic sections copied verbatim from finance-neuro-substrate.json (which copied them verbatim from energy-neuro-substrate.json).",
+    "additive_contract": "Purely additive overlay. Does NOT modify assets/data/domains/trade.json or any existing trade file. References existing Trade node IDs and issue IDs by value only. Mirrors the Energy/Finance neuro-substrate overlay shape for the Trade domain.",
+    "advisory_only": "This overlay is ADVISORY. It classifies existing authored circuits against the source document's Part XIV failure taxonomy and runs the Part XIV incomplete-circuit test. It writes nothing back and changes no live behavior on load.",
+    "grounded_sections": [
+      "fractal_critical_mechanisms, inhibitory_motifs_catalog, oscillatory_bands, failure_modes, parameter_table, references — DOMAIN-GENERIC, copied verbatim from finance-neuro-substrate.json / energy-neuro-substrate.json (source-document-grounded).",
+      "issue_failure_class_map — 4 of 5 Trade issues (SUPPLY_CHAIN_COLLAPSE, PORT_BLOCKADE, SHIPPING_CRISIS, CUSTOMS_DISRUPTION) grounded in each issue's OWN canonical circuit detail and/or summary text.",
+      "incomplete_circuit_diagnostic — run against trade.json real _authored circuits; verdict PASS 5/5."
+    ],
+    "heterogeneity_flagged": [
+      "TRADE_WAR — UNMAPPED. Its named mechanism (canonical dACC[Hyper] 'conflict/error monitor — priors-too-strong' + summary 'Retaliatory tariffs, sanctions, and trade restrictions') is an ADVERSARIAL strategic-conflict failure (agent-vs-agent retaliation) compounded by an aberrant-precision / over-weighted-prior belief pathology. None of the 9 Part XIV classes (all E/I-dynamics archetypes: excitation, inhibition, gating, clearance, synchrony, propagation) expresses adversarial retaliation or a 'priors-too-strong' prediction-weighting failure. Marked UNMAPPED rather than force-fit. THIS IS THE KEY FINDING: Trade contains a failure archetype (adversarial conflict) the neuro-substrate taxonomy cannot represent — the Trade analog of Finance's FRAUD_SCANDAL (information-integrity), but a DIFFERENT out-of-taxonomy archetype (adversarial rather than deception).",
+      "GATING DOMINANCE — FOUR of the five Trade issues collapse onto the SAME Part XIV class (GATING_FAILURE), because logistics IS routing: SUPPLY_CHAIN_COLLAPSE and PORT_BLOCKADE are the routing gate stuck CLOSED (starvation), SHIPPING_CRISIS is the SAME node (THAL) stuck OPEN (flood), and CUSTOMS_DISRUPTION is the inhibitory brake clamped shut (over-grip -> starvation of flow). Where Finance spread across SEIZURE / GATING_FAILURE / DISINHIBITION_SYNDROME / DEAFFERENTATION_DIASCHISIS, Trade concentrates on gating. Recorded per issue.",
+      "SUPPLY_CHAIN_COLLAPSE — classed on its NODE cue (THAL[Hypo] 'stuck-closed=starvation' -> GATING_FAILURE); its SUMMARY ('Cascading failures across interconnected logistics systems') points at a DEAFFERENTATION_DIASCHISIS network-cascade flavor. Divergence between node cue and summary recorded, not resolved by guessing.",
+      "CUSTOMS_DISRUPTION — the named mechanism is EXCESS inhibition (vmPFC 'over-grip=flatness'), the mirror pole of DISINHIBITION_SYNDROME; there is no dedicated over-inhibition class among the 9, so it is classed by its downstream signature (flow halted -> starvation) as GATING_FAILURE. The excess-inhibition mechanism is flagged.",
+      "SUPPLY_CHAIN_COLLAPSE, PORT_BLOCKADE, SHIPPING_CRISIS — their CANONICAL single-node circuits (THAL alone) are a bare non-regulatory gating node that would FAIL the incomplete-circuit test in isolation. The _authored multi-node circuits supply the regulatory partner, so the test passes on _authored. Observation recorded per issue."
+    ],
+    "honesty_note": "Mechanisms, failure-mode classes, parameters, and references below are verbatim-grounded in the source document. Per-node / per-edge Trade-specific assignments the document gives no basis for (which edge is which inhibitory motif, which oscillatory band, which neuromodulator, which predictive direction) are NOT guessed here; only the two operations the source document directly supports are performed: (1) classify each authored issue against the Part XIV failure taxonomy where the issue's own text names a matching mechanism, and (2) run the Part XIV incomplete-circuit test."
+  },
+
+  "fractal_critical_mechanisms": [
+    { "id": "EI_BALANCE", "part": "XIII.1", "name": "Excitation/inhibition (E/I) balance", "definition": "Inhibition tracks excitation on a millisecond timescale; balance sets gain, dynamic range, timing precision, and stability. Loss of inhibition -> runaway (seizure); excess -> silence.", "design_invariant": "Any faithful mapping must have inhibition/brakes that SCALE WITH DRIVE.", "status": "generic" },
+    { "id": "INHIBITORY_MOTIFS", "part": "XIII.2", "name": "Four inhibitory motifs", "definition": "feedforward (narrow temporal window / coincidence), feedback/recurrent (self-limiting, gain control, stability), lateral (contrast enhancement, winner-take-all, sparsening), disinhibition (inhibiting an inhibitor = permissive gating/selection).", "design_invariant": "All four are reused at every scale; their absence breaks the fractal.", "status": "generic" },
+    { "id": "OSCILLATIONS", "part": "XIII.3", "name": "Oscillations & communication-through-coherence", "definition": "Rhythms create periodic windows of excitability; groups that oscillate coherently open input/output windows at the same time and communicate; incoherent groups are functionally disconnected. Bands: delta 1-4, theta 4-8, alpha 8-12, beta 13-30, gamma 30-80+ Hz.", "design_invariant": "Coherence = a dynamic routing/connection switch. There is an OPTIMAL coupling band; too-strong and too-weak coupling both fail.", "status": "generic" },
+    { "id": "THALAMOCORTICAL_GATING", "part": "XIII.4", "name": "Thalamocortical gating", "definition": "Thalamus + TRN gate what reaches cortex; tonic (faithful relay) vs burst (detection/alerting) modes under corticothalamic top-down control.", "design_invariant": "Gating must occur AT THE RIGHT STAGE - filter too early (before the circuit that needs the signal) and you lose information you cannot recover.", "status": "generic" },
+    { "id": "PREDICTIVE_CODING", "part": "XIII.5", "name": "Predictive coding / prediction error", "definition": "Hierarchical generative machine: top-down predictions descend, bottom-up prediction ERRORS ascend, only the mismatch propagates upward. Laminar correlate: forward = error, backward = prediction.", "design_invariant": "'Prediction error drives update' must also GENERATE predictions at the mapped scale, not merely react.", "status": "generic" },
+    { "id": "PLASTICITY", "part": "XIII.6", "name": "Plasticity / learning rules", "definition": "Hebbian (correlated -> strengthen); STDP (pre-before-post ~+10 ms -> LTP, post-before-pre -> LTD; dopamine extends LTP window to ~+30 ms); LTP/LTD (NMDA/Ca2+); homeostatic scaling (global normalization keeping drive in range so Hebbian learning does not run away); metaplasticity (threshold for change adapts).", "design_invariant": "A stabilizing counter-process (homeostatic scaling) MUST counter positive-feedback Hebbian learning, or the system runs away.", "status": "generic" },
+    { "id": "NEUROMODULATION_GAIN", "part": "XIII.7", "name": "Neuromodulation & gain", "definition": "Diffuse systems (DA, NE, 5-HT, ACh) carry no detailed content; they set global regime - gain, signal-to-noise, exploration/exploitation, learning rate, arousal. A small modulatory signal reconfigures the whole network's operating point.", "design_invariant": "A small broadcast signal must be able to rescale the whole system's operating point (one-to-many, multiplicative).", "status": "generic" },
+    { "id": "POPULATION_ATTRACTOR", "part": "XIII.8", "name": "Population & attractor dynamics", "definition": "Information lives in distributed population activity, not single cells; sparse coding is efficient/separable; attractor dynamics implement stable states and transitions. Over-gating, over-synchrony, or lost inhibition suppress emergence.", "design_invariant": "Emergence requires distributed, sparse, inhibition-balanced activity; do not concentrate all state in one node.", "status": "generic" },
+    { "id": "SLEEP_OFFLINE", "part": "XIII.9", "name": "Sleep, homeostasis & offline processing", "definition": "Sleep down-scales synapses globally while consolidating select memories, and drives glymphatic clearance of waste.", "design_invariant": "A mandatory OFFLINE maintenance/reset phase - a system with no downtime accumulates damage.", "status": "generic" },
+    { "id": "TERMINATION_CLEARANCE", "part": "IV.6", "name": "Signal termination / clearance", "definition": "Reuptake, enzymatic degradation, and diffusion bound signal persistence; termination is as important as release and prevents excitotoxic accumulation.", "design_invariant": "Clearance/termination must bound signal persistence; a signal that isn't cleared becomes toxic (see failure mode EXCITOTOXICITY).", "status": "generic" },
+    { "id": "REFRACTORINESS", "part": "III.3", "name": "Refractoriness / dead-time rate limiter", "definition": "Absolute refractory period (~1-2 ms) after an action prevents a second action; enforces one-way propagation and caps maximum firing rate.", "design_invariant": "A built-in rate limiter / dead-time after action must exist to cap throughput and enforce directionality.", "status": "generic" }
+  ],
+
+  "inhibitory_motifs_catalog": [
+    { "id": "feedforward", "definition": "Input excites both a target and an interneuron that inhibits the target -> narrow temporal window (coincidence-detection, AND within a time window)." },
+    { "id": "feedback", "definition": "Output feeds back through interneurons -> self-limiting, gain control, stability." },
+    { "id": "lateral", "definition": "Active units suppress neighbors -> contrast enhancement, winner-take-all, sparsening." },
+    { "id": "disinhibition", "definition": "Inhibiting an inhibitor -> permissive gating / selection." }
+  ],
+
+  "oscillatory_bands": [
+    { "band": "delta", "hz": "1-4", "role": "deep sleep" },
+    { "band": "theta", "hz": "4-8", "role": "memory / navigation" },
+    { "band": "alpha", "hz": "8-12", "role": "idling / inhibitory gating" },
+    { "band": "beta", "hz": "13-30", "role": "maintenance / motor set" },
+    { "band": "gamma", "hz": "30-80+", "role": "local active processing" }
+  ],
+
+  "failure_modes": [
+    { "id": "SEIZURE", "part": "XIV", "definition": "E/I balance failure: runaway recurrent excitation when inhibition is insufficient. Archetypal no-brakes -> runaway.", "invariant_violated": "EI_BALANCE (loss of load-bearing inhibition)" },
+    { "id": "EXCITOTOXICITY", "part": "XIV", "definition": "Excessive drive with failed termination/clearance -> overload -> death of the unit.", "invariant_violated": "TERMINATION_CLEARANCE (signal not cleared becomes toxic)" },
+    { "id": "CORTICAL_SPREADING_DEPRESSION", "part": "XIV", "definition": "A slow wave of depolarization then silence; homeostatic overwhelm.", "invariant_violated": "SLEEP_OFFLINE / homeostasis" },
+    { "id": "GATING_FAILURE", "part": "XIV", "definition": "Thalamocortical/TRN gating breakdown: too little filtering -> flooding, or mis-timed gating -> wrong information passed; gate stuck closed -> starvation.", "invariant_violated": "THALAMOCORTICAL_GATING (right-stage gating)" },
+    { "id": "DISINHIBITION_SYNDROME", "part": "XIV", "definition": "Losing the inhibitor releases pathological activity (loss of the stop/brake).", "invariant_violated": "INHIBITORY_MOTIFS / EI_BALANCE" },
+    { "id": "OSCILLATORY_PATHOLOGY", "part": "XIV", "definition": "Over-coupling (hypersynchrony) or under-coupling; both degrade communication.", "invariant_violated": "OSCILLATIONS (optimal coupling band; extremes fail)" },
+    { "id": "NEURODEGENERATION", "part": "XIV", "definition": "Aggregation + failed clearance + network collapse; maintenance failure compounding over time.", "invariant_violated": "SLEEP_OFFLINE / TERMINATION_CLEARANCE" },
+    { "id": "DEAFFERENTATION_DIASCHISIS", "part": "XIV", "definition": "Losing input disables not just the lesioned node but distant connected regions. THE NETWORK, NOT THE NODE, IS THE UNIT OF FAILURE; failures propagate across the graph.", "invariant_violated": "POPULATION_ATTRACTOR (distributed failure propagation)" },
+    { "id": "INCOMPLETE_CIRCUIT", "part": "XIV", "definition": "A circuit built without its regulatory partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition; feedback without the sensor). THE DIRECT DIAGNOSTIC FOR A BROKEN FRACTAL MAPPING: if the mapping omits the inhibitory/feedback/extinction arm, it is lesioned in the same way a brain is.", "invariant_violated": "any regulatory arm omitted" }
+  ],
+
+  "issue_failure_class_map": {
+    "_basis": "GROUNDED: each mapping uses the Trade issue's OWN text (canonical circuit detail and/or summary, quoted in trade_text) plus the document's Part XIV named class. No new class was invented. Where the issue text names a mechanism with no analog among the 9 classes, it is marked UNMAPPED rather than force-fit.",
+    "_count": "4 grounded, 1 UNMAPPED (of 5 issues).",
+    "SUPPLY_CHAIN_COLLAPSE": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-closed -> starvation",
+      "trade_text": "canonical circuit THAL[Hypo]: \"gating relay / routing — stuck-closed=starvation\"; summary: \"Cascading failures across interconnected logistics systems — production halted, shelves empty, critical goods unavailable\"",
+      "reasoning": "The named mechanism is a ROUTING GATE stuck closed. A gate stuck closed producing downstream starvation (production halted, shelves empty) is the GATING_FAILURE archetype (gate stuck closed -> starvation), matching Energy's/Finance's gating-relay stuck-closed mapping. The _authored circuit confirms starvation: HIPP 'buffer stock exhausted', M1 'trucking paralyzed', S1 'last-mile failing'.",
+      "note": "The SUMMARY ('Cascading failures across interconnected logistics systems') carries a secondary DEAFFERENTATION_DIASCHISIS network-cascade flavor. Classed on the primary NODE cue (gate stuck-closed = the resolved motif M4), which is the dominant mechanism named; the node-vs-summary divergence is flagged, not resolved by guessing."
+    },
+    "PORT_BLOCKADE": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-closed -> starvation",
+      "trade_text": "canonical circuit THAL[Hypo]: \"gating relay / routing — stuck-closed=starvation\"; summary: \"Major port operations halted by congestion, labor action, geopolitical closure, or infrastructure failure\"",
+      "reasoning": "Ports are the routing gate of trade; a blockade is that gate stuck closed. 'Port operations halted' + the _authored THAL 'gridlocked, vessel queue extending to weeks' = throughput gated shut -> downstream starvation. Same GATING_FAILURE (gate stuck closed -> starvation) as SUPPLY_CHAIN_COLLAPSE, on the same node (THAL).",
+      "note": "The _authored THAL direction is 'Hyper-congested' (gridlock) while the canonical cue is 'Hypo / stuck-closed'; both describe the same functional outcome — no cargo passes the gate. Classed by the canonical stuck-closed cue and the 'halted' summary."
+    },
+    "SHIPPING_CRISIS": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-open -> flooding",
+      "trade_text": "canonical circuit THAL[Hyper]: \"gating relay / routing — stuck-open=flood\"; summary: \"Maritime disruption from piracy, canal closure, extreme weather, or vessel shortage causing global freight emergency\"",
+      "reasoning": "The named mechanism is explicitly the gate stuck OPEN (flood), the other GATING_FAILURE subtype ('too little filtering -> flooding'). Diverted lanes and out-of-sequence arrivals flood the downstream network with mis-timed traffic. The _authored circuit shows the flood being shunted: FEF 'air freight demand surging 3-5x', THAL 'port schedules shattered, berth allocation chaotic'.",
+      "note": "STRONGEST intra-domain contrast: SHIPPING_CRISIS is the SAME node (THAL) as SUPPLY_CHAIN_COLLAPSE / PORT_BLOCKADE but the OPPOSITE gate direction — stuck-open (flood) vs stuck-closed (starvation). Both are GATING_FAILURE, different subtypes; this is exactly the failureModes pair canonical-nodes lists for THAL ('stuck-open=flood / stuck-closed=starvation')."
+    },
+    "CUSTOMS_DISRUPTION": {
+      "class": "GATING_FAILURE",
+      "subtype": "over-inhibition (brake-over-grip) -> starvation of flow",
+      "trade_text": "canonical circuit vmPFC[Hyper]: \"top-down inhibitory brake — over-grip=flatness\"; summary: \"Border processing failures from regulatory changes, system outages, or inspection backlogs halting cross-border flow\"",
+      "reasoning": "The named mechanism is the top-down INHIBITORY BRAKE with EXCESS grip ('over-grip=flatness'). Excess inhibition clamps the customs gate shut, halting cross-border flow -> downstream starvation. Classed by that downstream signature (flow halted / starved) as GATING_FAILURE, the same outcome archetype as the other three routing failures.",
+      "note": "MECHANISM DIVERGENCE FLAGGED: the driver here is EXCESS inhibition (over-grip), the MIRROR POLE of DISINHIBITION_SYNDROME (which is loss of the brake). The 9 Part XIV classes contain no dedicated 'over-inhibition -> silence' archetype (EI_BALANCE names 'excess -> silence' as a mechanism, but XIV has no class for it), so it is classed by its downstream starvation outcome, not force-fit to DISINHIBITION_SYNDROME. This is the one grounded issue whose MECHANISM is not a clean member of the 9 even though its OUTCOME is."
+    },
+    "TRADE_WAR": {
+      "class": "UNMAPPED",
+      "reason": "Issue text names a mechanism with NO analog among the 9 Part XIV classes.",
+      "trade_text": "canonical circuit dACC[Hyper]: \"conflict/error monitor — priors-too-strong\"; summary: \"Retaliatory tariffs, sanctions, and trade restrictions disrupting established commercial relationships\"",
+      "reasoning": "A trade war is an ADVERSARIAL strategic-conflict process: two agents (states) locked in tit-for-tat retaliation (tariff -> retaliation -> more tariff). Overlaid, the node cue 'conflict/error monitor — priors-too-strong' names an aberrant-precision / over-weighted-prior belief pathology (the monitor is locked into a hostile prior and will not update). Neither adversarial retaliation nor over-weighted-prior belief is expressible by the 9 Part XIV classes, which are all dynamical-failure archetypes (excitation, inhibition, gating, clearance, synchrony, propagation). Forcing it into any of the 9 (e.g. SEIZURE for 'escalation' or DISINHIBITION for 'lost diplomatic brake') would be a guess that discards the adversarial and belief-weighting content. Marked UNMAPPED per discipline.",
+      "note": "This is the KEY HETEROGENEITY FINDING for Trade, and the analog of Finance's FRAUD_SCANDAL — but a DIFFERENT out-of-taxonomy archetype: Finance's was information-integrity / deception; Trade's is ADVERSARIAL strategic conflict. Both are non-dynamical failure archetypes the E/I neuro-substrate taxonomy structurally cannot represent."
+    }
+  },
+
+  "incomplete_circuit_diagnostic": {
+    "_test": "Part XIV: does each issue's authored circuit contain a regulatory/inhibitory/feedback partner from the REGULATORY_NODES set in energy-neuro-substrate.js (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM)? Run against trade.json _authored circuits, matching the JS validateIncompleteCircuit() behavior (uses _authored node list, falling back to circuits).",
+    "_verdict_summary": "PASS (5/5). Every authored circuit includes at least one regulatory/feedback node; none is a bare excitatory/gating driver without its brake. NOTE: three issues (SUPPLY_CHAIN_COLLAPSE, PORT_BLOCKADE, SHIPPING_CRISIS) have CANONICAL single-node circuits (THAL alone) that are a bare non-regulatory gating node and WOULD fail the test in isolation; the _authored multi-node circuits supply the regulatory partner. Two issues (TRADE_WAR canonical dACC, CUSTOMS_DISRUPTION canonical vmPFC) have canonical single nodes that are themselves regulatory, so they pass even canonical-only.",
+    "SUPPLY_CHAIN_COLLAPSE": { "verdict": "complete", "circuit": ["dlPFC", "ECN", "HIPP", "M1", "FPN", "S1"], "regulatory_partners_present": ["dlPFC", "HIPP"], "observation": "Canonical single-node circuit is THAL[Hypo] alone (gating relay, NOT in REGULATORY_NODES) -> would be INCOMPLETE_CIRCUIT if run canonical-only; _authored supplies dlPFC (executive) + HIPP (HPA/memory feedback)." },
+    "PORT_BLOCKADE": { "verdict": "complete", "circuit": ["THAL", "NTS", "HIPP", "CBLM", "ECN"], "regulatory_partners_present": ["HIPP", "CBLM"], "observation": "Canonical single-node circuit is THAL[Hypo] alone (gating relay, NOT in REGULATORY_NODES) -> would be INCOMPLETE_CIRCUIT if run canonical-only; _authored supplies HIPP + CBLM (forward-model error-correction)." },
+    "TRADE_WAR": { "verdict": "complete", "circuit": ["OFC", "vmPFC", "NAcc", "dlPFC", "TPJ", "CBLM"], "regulatory_partners_present": ["OFC", "vmPFC", "dlPFC", "CBLM"], "observation": "Circuit is complete (four regulatory partners present), yet the issue is UNMAPPED in the failure-class map: a circuit can be structurally complete under the incomplete-circuit test and still express a failure archetype (adversarial conflict) outside the 9-class taxonomy. The two diagnostics are independent — same pattern as Finance FRAUD_SCANDAL." },
+    "SHIPPING_CRISIS": { "verdict": "complete", "circuit": ["NTS", "FEF", "THAL", "HYPO", "dlPFC"], "regulatory_partners_present": ["HYPO", "dlPFC"], "observation": "Canonical single-node circuit is THAL[Hyper] alone (gating relay, NOT in REGULATORY_NODES) -> would be INCOMPLETE_CIRCUIT if run canonical-only; _authored supplies HYPO (homeostatic set-point) + dlPFC." },
+    "CUSTOMS_DISRUPTION": { "verdict": "complete", "circuit": ["OFC", "TPJ", "CC", "M1", "vmPFC", "ECN"], "regulatory_partners_present": ["OFC", "vmPFC"], "observation": "Canonical single node is vmPFC[Hyper] (top-down inhibitory brake), itself a REGULATORY_NODE -> passes even canonical-only; _authored adds OFC valuation." }
+  },
+
+  "parameter_table": {
+    "_note": "Part XV, verbatim. Quantitative substrate for scale-rescaling. Confidence + anchor preserved.",
+    "rows": [
+      { "parameter": "Resting membrane potential", "value": "-65 to -70 mV", "confidence": "high", "anchor": "consensus (Kandel/Purves)" },
+      { "parameter": "AP threshold", "value": "~ -55 mV", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "AP duration", "value": "~1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Absolute refractory period", "value": "~1-2 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Synaptic (chemical) delay", "value": "~0.5-1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (unmyelinated C)", "value": "~0.5-2 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (large myelinated Aa)", "value": "~80-120 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "STDP LTP window (baseline)", "value": "pre-before-post ~+10 ms", "confidence": "high", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "STDP LTP window (dopamine-extended)", "value": "to ~+30 ms", "confidence": "medium", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "Gamma oscillation band", "value": "~30-80+ Hz", "confidence": "high", "anchor": "Fries 2005 (10.1016/j.tics.2005.08.011)" },
+      { "parameter": "Theta band", "value": "~4-8 Hz", "confidence": "high", "anchor": "consensus / Voytek 2015 (10.1016/j.biopsych.2015.04.016)" },
+      { "parameter": "Alpha band", "value": "~8-12 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Beta band", "value": "~13-30 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Delta band", "value": "~1-4 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Thalamic relay modes", "value": "tonic vs burst", "confidence": "high", "anchor": "Ferrarelli & Tononi 2010 (10.1093/schbul/sbq142)" },
+      { "parameter": "HPA cortisol feedback (fast, nongenomic)", "value": "seconds-minutes", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "HPA cortisol feedback (genomic/slow)", "value": "minutes-hours", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "Gut serotonin fraction of body total", "value": "~90-95%", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Glymphatic clearance", "value": "sleep-enhanced", "confidence": "medium", "anchor": "Benveniste 2018 (10.1159/000490349)" }
+    ],
+    "ratio_preservation_rule": "When mapping any neural time constant to a domain equivalent, hold the RATIOS between constants fixed, not just individual values. The ~1000x gap between AP duration (~1 ms) and slow neuromodulatory/hormonal feedback (~seconds-minutes) is the 'fast signal vs slow modulation' invariant; the Trade mapping must preserve an analogous fast-action / slow-governance separation (e.g. a truck dispatch vs a renegotiated trade treaty), or the fractal is cosmetic, not structural."
+  },
+
+  "references": [
+    { "n": 1, "cite": "Ruan H, Saur T, Yao WD. Dopamine-enabled anti-Hebbian timing-dependent plasticity in prefrontal circuitry. Front Neural Circuits, 2014.", "doi": "10.3389/fncir.2014.00038" },
+    { "n": 2, "cite": "Fries P. A mechanism for cognitive dynamics: neuronal communication through neuronal coherence. Trends Cogn Sci, 2005.", "doi": "10.1016/j.tics.2005.08.011" },
+    { "n": 3, "cite": "Voytek B, Knight RT. Dynamic network communication as a unifying neural basis for cognition, development, aging, and disease. Biol Psychiatry, 2015.", "doi": "10.1016/j.biopsych.2015.04.016" },
+    { "n": 4, "cite": "Basar E, Guntekin B, Oniz A. Principles of oscillatory brain dynamics... Prog Brain Res, 2006.", "doi": "10.1016/S0079-6123(06)59004-1" },
+    { "n": 5, "cite": "Shipp S. Neural Elements for Predictive Coding. Front Psychol, 2016.", "doi": "10.3389/fpsyg.2016.01792" },
+    { "n": 6, "cite": "Mikulasch FA, Rudelt L, Wibral M, Priesemann V. Where is the error? Hierarchical predictive coding through dendritic error computation. Trends Neurosci, 2023.", "doi": "10.1016/j.tins.2022.09.007" },
+    { "n": 7, "cite": "Ferrarelli F, Tononi G. The thalamic reticular nucleus and schizophrenia. Schizophr Bull, 2010.", "doi": "10.1093/schbul/sbq142" },
+    { "n": 8, "cite": "Niethard N, Burgalossi A, Born J. Plasticity during Sleep Is Linked to Specific Regulation of Cortical Circuit Activity. Front Neural Circuits, 2017.", "doi": "10.3389/fncir.2017.00065" },
+    { "n": 9, "cite": "Keller-Wood M. Hypothalamic-Pituitary-Adrenal Axis-Feedback Control. Compr Physiol, 2015.", "doi": "10.1002/cphy.c140065" },
+    { "n": 10, "cite": "Hill MN, Tasker JG. Endocannabinoid signaling, glucocorticoid-mediated negative feedback... Neuroscience, 2012.", "doi": "10.1016/j.neuroscience.2011.12.030" },
+    { "n": 11, "cite": "Rutsch A, Kantsjo JB, Ronchi F. The Gut-Brain Axis... Front Immunol, 2020.", "doi": "10.3389/fimmu.2020.604179" },
+    { "n": 12, "cite": "Benveniste H, Liu X, Koundal S, et al. The Glymphatic System and Waste Clearance with Brain Aging. Gerontology, 2018.", "doi": "10.1159/000490349" }
+  ]
+}

@@ -757,6 +757,13 @@
         self.state._activeConditions = self._activeConditions || [];
         var pulseState = pulse.computePulse(self.state);
         self.state.pulse = pulseState;
+        // Neuro-substrate telemetry (advisory): map live pulse -> runtime overlay via generic adapter.
+        try {
+          if (window.DomainTelemetryAdapter && typeof window.DomainTelemetryAdapter.fromLiveCached === "function") {
+            window.DomainTelemetryAdapter.fromLiveCached("trade", self.state, self._runtimeOverlay || null)
+              .then(function (ov) { if (ov) self._runtimeOverlay = ov; }).catch(function () {});
+          }
+        } catch (_e) {}
 
         // Apply evidence contract validation — block diagnoses without proper evidence
         if (pulseState && pulseState.validatedDiagnoses) {

@@ -1,0 +1,168 @@
+{
+  "_meta": {
+    "domain": "economy",
+    "title": "Economy — Neural Substrate Overlay",
+    "compiled": "2026-07-12",
+    "source_document": "LIMEN Helix — Comprehensive Neurology & Nervous System Reference (Jul 2026). THIS DOCUMENT ONLY. Domain-generic sections copied verbatim from energy-neuro-substrate.json / finance-neuro-substrate.json.",
+    "additive_contract": "Purely additive overlay. Does NOT modify assets/data/domains/economy.json or any existing economy file. References existing Economy node IDs and issue IDs by value only. Mirrors the Energy/Finance neuro-substrate overlay shape for the Economy domain.",
+    "advisory_only": "This overlay is ADVISORY. It classifies existing authored circuits against the source document's Part XIV failure taxonomy and runs the Part XIV incomplete-circuit test. It writes nothing back and changes no live behavior on load.",
+    "grounded_sections": [
+      "fractal_critical_mechanisms, inhibitory_motifs_catalog, oscillatory_bands, failure_modes, parameter_table, references — DOMAIN-GENERIC, copied verbatim from the Energy/Finance overlays (source-document-grounded).",
+      "issue_failure_class_map — all 6 Economy issues (RECESSION, HYPERINFLATION, BANKING_CRISIS, TRADE_WAR, DEBT_CRISIS, MARKET_CRASH) grounded in each issue's OWN circuit detail and/or summary text. 6 grounded, 0 UNMAPPED.",
+      "incomplete_circuit_diagnostic — run against economy.json real _authored circuits (validateIncompleteCircuit() semantics); verdict PASS 5/6, FAIL 1 (RECESSION)."
+    ],
+    "grounded_vs_unmapped_summary": {
+      "issues_total": 6,
+      "grounded": 6,
+      "unmapped": 0,
+      "note": "Unlike Finance (which carried FRAUD_SCANDAL = an information-integrity/deception failure with NO analog among the 9 E/I-dynamics classes, marked UNMAPPED), the Economy issue set contains no fabricated-signal/deception archetype. Every Economy issue is a macro E/I-dynamics failure (runaway, gating-lock, brake-loss, or spreading hypoactivity) and maps to one of the 9 Part XIV classes. TRADE_WAR carries a partial adversarial/strategic (game-theoretic retaliation) layer the pure E/I taxonomy only partly captures; its dominant circuit mechanism is still dynamical and is mapped, with the residue flagged (not force-fit, not fully unmapped)."
+    },
+    "heterogeneity_flagged": [
+      "RECESSION — THE KEY ECONOMY FINDING. It is the ONLY issue (across Energy 6/6, Finance 6/6, Economy 5/6) whose _authored circuit FAILS the Part XIV incomplete-circuit test: its five authored nodes (M1, S1, NAcc, STRI, VTA) are all bare excitatory/driver/sensory nodes and NONE belongs to the REGULATORY_NODES set (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM). The circuit is authored with no inhibitory/feedback/brake partner at all — it is lesioned in exactly the way Part XIV describes. Its canonical single-node circuit (NAcc[Hypo] 'avolition') is ALSO a bare non-regulatory node, so RECESSION is incomplete under BOTH the canonical and the authored circuit.",
+      "RECESSION failure-class = CORTICAL_SPREADING_DEPRESSION. Economy is the first of the three domains to use the HYPOACTIVITY / silence pole of the taxonomy. Energy and Finance mapped their issues to runaway/gating/brake-loss (the over-active pole); Economy's RECESSION is generalized under-drive that spreads across sectors ('depolarization then silence; homeostatic overwhelm'), and MARKET_CRASH/HYPERINFLATION cover the over-active pole. The domain therefore exercises both poles of the E/I taxonomy.",
+      "TRADE_WAR — node-cue vs class divergence, plus an adversarial residue. Classed SEIZURE on the escalating-retaliatory-runaway mechanism ('Escalating cycle of retaliatory tariffs'), but its canonical NODE cue ('conflict/error monitor — priors-too-strong') points at a predictive-coding / salience miscalibration (over-strong priors), a flavor the 9 dynamical classes do not cleanly hold — the same node-vs-summary divergence Finance flagged on SYSTEMIC_CONTAGION. The deliberate game-theoretic retaliation layer is adversarial and only partly representable in the E/I taxonomy; it is flagged, not resolved by guessing.",
+      "Canonical circuits are 'healthier' than Finance's. Four of the six Economy canonical single-node circuits are themselves REGULATORY_NODES (HYPERINFLATION=HYPO, BANKING_CRISIS=GP, TRADE_WAR=dACC, DEBT_CRISIS=STN), so they pass the incomplete-circuit test even canonical-only. Only RECESSION (NAcc) and MARKET_CRASH (BLA) have bare canonical nodes; of those two, MARKET_CRASH is rescued by its _authored circuit while RECESSION is not."
+    ],
+    "honesty_note": "Mechanisms, failure-mode classes, parameters, and references below are verbatim-grounded in the source document. Per-node / per-edge Economy-specific assignments the document gives no basis for (which edge is which inhibitory motif, which oscillatory band, which neuromodulator, which predictive direction) are NOT guessed here; only the two operations the source document directly supports are performed: (1) classify each authored issue against the Part XIV failure taxonomy where the issue's own text names a matching mechanism, and (2) run the Part XIV incomplete-circuit test."
+  },
+
+  "fractal_critical_mechanisms": [
+    { "id": "EI_BALANCE", "part": "XIII.1", "name": "Excitation/inhibition (E/I) balance", "definition": "Inhibition tracks excitation on a millisecond timescale; balance sets gain, dynamic range, timing precision, and stability. Loss of inhibition -> runaway (seizure); excess -> silence.", "design_invariant": "Any faithful mapping must have inhibition/brakes that SCALE WITH DRIVE.", "status": "generic" },
+    { "id": "INHIBITORY_MOTIFS", "part": "XIII.2", "name": "Four inhibitory motifs", "definition": "feedforward (narrow temporal window / coincidence), feedback/recurrent (self-limiting, gain control, stability), lateral (contrast enhancement, winner-take-all, sparsening), disinhibition (inhibiting an inhibitor = permissive gating/selection).", "design_invariant": "All four are reused at every scale; their absence breaks the fractal.", "status": "generic" },
+    { "id": "OSCILLATIONS", "part": "XIII.3", "name": "Oscillations & communication-through-coherence", "definition": "Rhythms create periodic windows of excitability; groups that oscillate coherently open input/output windows at the same time and communicate; incoherent groups are functionally disconnected. Bands: delta 1-4, theta 4-8, alpha 8-12, beta 13-30, gamma 30-80+ Hz.", "design_invariant": "Coherence = a dynamic routing/connection switch. There is an OPTIMAL coupling band; too-strong and too-weak coupling both fail.", "status": "generic" },
+    { "id": "THALAMOCORTICAL_GATING", "part": "XIII.4", "name": "Thalamocortical gating", "definition": "Thalamus + TRN gate what reaches cortex; tonic (faithful relay) vs burst (detection/alerting) modes under corticothalamic top-down control.", "design_invariant": "Gating must occur AT THE RIGHT STAGE - filter too early (before the circuit that needs the signal) and you lose information you cannot recover.", "status": "generic" },
+    { "id": "PREDICTIVE_CODING", "part": "XIII.5", "name": "Predictive coding / prediction error", "definition": "Hierarchical generative machine: top-down predictions descend, bottom-up prediction ERRORS ascend, only the mismatch propagates upward. Laminar correlate: forward = error, backward = prediction.", "design_invariant": "'Prediction error drives update' must also GENERATE predictions at the mapped scale, not merely react.", "status": "generic" },
+    { "id": "PLASTICITY", "part": "XIII.6", "name": "Plasticity / learning rules", "definition": "Hebbian (correlated -> strengthen); STDP (pre-before-post ~+10 ms -> LTP, post-before-pre -> LTD; dopamine extends LTP window to ~+30 ms); LTP/LTD (NMDA/Ca2+); homeostatic scaling (global normalization keeping drive in range so Hebbian learning does not run away); metaplasticity (threshold for change adapts).", "design_invariant": "A stabilizing counter-process (homeostatic scaling) MUST counter positive-feedback Hebbian learning, or the system runs away.", "status": "generic" },
+    { "id": "NEUROMODULATION_GAIN", "part": "XIII.7", "name": "Neuromodulation & gain", "definition": "Diffuse systems (DA, NE, 5-HT, ACh) carry no detailed content; they set global regime - gain, signal-to-noise, exploration/exploitation, learning rate, arousal. A small modulatory signal reconfigures the whole network's operating point.", "design_invariant": "A small broadcast signal must be able to rescale the whole system's operating point (one-to-many, multiplicative).", "status": "generic" },
+    { "id": "POPULATION_ATTRACTOR", "part": "XIII.8", "name": "Population & attractor dynamics", "definition": "Information lives in distributed population activity, not single cells; sparse coding is efficient/separable; attractor dynamics implement stable states and transitions. Over-gating, over-synchrony, or lost inhibition suppress emergence.", "design_invariant": "Emergence requires distributed, sparse, inhibition-balanced activity; do not concentrate all state in one node.", "status": "generic" },
+    { "id": "SLEEP_OFFLINE", "part": "XIII.9", "name": "Sleep, homeostasis & offline processing", "definition": "Sleep down-scales synapses globally while consolidating select memories, and drives glymphatic clearance of waste.", "design_invariant": "A mandatory OFFLINE maintenance/reset phase - a system with no downtime accumulates damage.", "status": "generic" },
+    { "id": "TERMINATION_CLEARANCE", "part": "IV.6", "name": "Signal termination / clearance", "definition": "Reuptake, enzymatic degradation, and diffusion bound signal persistence; termination is as important as release and prevents excitotoxic accumulation.", "design_invariant": "Clearance/termination must bound signal persistence; a signal that isn't cleared becomes toxic (see failure mode EXCITOTOXICITY).", "status": "generic" },
+    { "id": "REFRACTORINESS", "part": "III.3", "name": "Refractoriness / dead-time rate limiter", "definition": "Absolute refractory period (~1-2 ms) after an action prevents a second action; enforces one-way propagation and caps maximum firing rate.", "design_invariant": "A built-in rate limiter / dead-time after action must exist to cap throughput and enforce directionality.", "status": "generic" }
+  ],
+
+  "inhibitory_motifs_catalog": [
+    { "id": "feedforward", "definition": "Input excites both a target and an interneuron that inhibits the target -> narrow temporal window (coincidence-detection, AND within a time window)." },
+    { "id": "feedback", "definition": "Output feeds back through interneurons -> self-limiting, gain control, stability." },
+    { "id": "lateral", "definition": "Active units suppress neighbors -> contrast enhancement, winner-take-all, sparsening." },
+    { "id": "disinhibition", "definition": "Inhibiting an inhibitor -> permissive gating / selection." }
+  ],
+
+  "oscillatory_bands": [
+    { "band": "delta", "hz": "1-4", "role": "deep sleep" },
+    { "band": "theta", "hz": "4-8", "role": "memory / navigation" },
+    { "band": "alpha", "hz": "8-12", "role": "idling / inhibitory gating" },
+    { "band": "beta", "hz": "13-30", "role": "maintenance / motor set" },
+    { "band": "gamma", "hz": "30-80+", "role": "local active processing" }
+  ],
+
+  "failure_modes": [
+    { "id": "SEIZURE", "part": "XIV", "definition": "E/I balance failure: runaway recurrent excitation when inhibition is insufficient. Archetypal no-brakes -> runaway.", "invariant_violated": "EI_BALANCE (loss of load-bearing inhibition)" },
+    { "id": "EXCITOTOXICITY", "part": "XIV", "definition": "Excessive drive with failed termination/clearance -> overload -> death of the unit.", "invariant_violated": "TERMINATION_CLEARANCE (signal not cleared becomes toxic)" },
+    { "id": "CORTICAL_SPREADING_DEPRESSION", "part": "XIV", "definition": "A slow wave of depolarization then silence; homeostatic overwhelm.", "invariant_violated": "SLEEP_OFFLINE / homeostasis" },
+    { "id": "GATING_FAILURE", "part": "XIV", "definition": "Thalamocortical/TRN gating breakdown: too little filtering -> flooding, or mis-timed gating -> wrong information passed; gate stuck closed -> starvation.", "invariant_violated": "THALAMOCORTICAL_GATING (right-stage gating)" },
+    { "id": "DISINHIBITION_SYNDROME", "part": "XIV", "definition": "Losing the inhibitor releases pathological activity (loss of the stop/brake).", "invariant_violated": "INHIBITORY_MOTIFS / EI_BALANCE" },
+    { "id": "OSCILLATORY_PATHOLOGY", "part": "XIV", "definition": "Over-coupling (hypersynchrony) or under-coupling; both degrade communication.", "invariant_violated": "OSCILLATIONS (optimal coupling band; extremes fail)" },
+    { "id": "NEURODEGENERATION", "part": "XIV", "definition": "Aggregation + failed clearance + network collapse; maintenance failure compounding over time.", "invariant_violated": "SLEEP_OFFLINE / TERMINATION_CLEARANCE" },
+    { "id": "DEAFFERENTATION_DIASCHISIS", "part": "XIV", "definition": "Losing input disables not just the lesioned node but distant connected regions. THE NETWORK, NOT THE NODE, IS THE UNIT OF FAILURE; failures propagate across the graph.", "invariant_violated": "POPULATION_ATTRACTOR (distributed failure propagation)" },
+    { "id": "INCOMPLETE_CIRCUIT", "part": "XIV", "definition": "A circuit built without its regulatory partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition; feedback without the sensor). THE DIRECT DIAGNOSTIC FOR A BROKEN FRACTAL MAPPING: if the mapping omits the inhibitory/feedback/extinction arm, it is lesioned in the same way a brain is.", "invariant_violated": "any regulatory arm omitted" }
+  ],
+
+  "issue_failure_class_map": {
+    "_basis": "GROUNDED: each mapping uses the Economy issue's OWN text (canonical circuit detail and/or summary, quoted in economy_text) plus the document's Part XIV named class. No new class was invented. Where a mechanism has no clean analog among the 9 classes it is flagged rather than force-fit; no Economy issue required an UNMAPPED verdict.",
+    "_count": "6 grounded, 0 UNMAPPED (of 6 issues).",
+    "RECESSION": {
+      "class": "CORTICAL_SPREADING_DEPRESSION",
+      "subtype": "spreading contraction/silence -> homeostatic overwhelm (the hypoactivity pole)",
+      "economy_text": "canonical circuit NAcc[Hypo]: \"incentive/reward drive — avolition\"; _authored circuit is UNIFORMLY hypo-active (M1 Hypo 'GDP output contracting', S1 Hypo 'Labor markets seizing up', NAcc Hypo 'Consumer spending retreating', STRI Hypo 'Industrial production declining', VTA Hypo 'Entrepreneurial activity suppressed'); summary: \"Sustained contraction in economic output... often triggering cascading effects across sectors\"",
+      "reasoning": "Every authored node is DOWN (avolition, contraction, seizing up, declining, suppressed) and the summary describes the contraction propagating 'across sectors'. That is the CORTICAL_SPREADING_DEPRESSION archetype: a wave of reduced activity then silence, a homeostatic overwhelm as aggregate demand falls below potential. This is the taxonomy's HYPOACTIVITY/silence pole, which neither Energy nor Finance exercised.",
+      "note": "The 'cascading effects across sectors' clause straddles DEAFFERENTATION_DIASCHISIS (loss of demand-input to one sector disabling connected sectors). Classed on the dominant mechanism cue — generalized hypoactivity/avolition/silence (CSD) — with the cascade straddle recorded, not resolved by guessing. SEPARATELY: RECESSION is the one issue that FAILS the incomplete-circuit test (see incomplete_circuit_diagnostic); the two diagnostics agree here — a brake-free, all-hypo circuit is exactly the lesioned mapping."
+    },
+    "HYPERINFLATION": {
+      "class": "SEIZURE",
+      "subtype": "runaway from a severed homeostatic set-point (recurrent price-wage spiral)",
+      "economy_text": "canonical circuit HYPO[Hyper]: \"homeostatic set-point — severed=runaway\"; _authored HYPO Hyper 'Price-level homeostasis completely broken with exponential increases'; summary: \"Extreme and accelerating price increases destroying the purchasing power of currency\"",
+      "reasoning": "The cue names the homeostatic set-point SEVERED -> runaway, and the summary names an exponential/accelerating (recurrent, self-reinforcing) price spiral. Runaway recurrent excitation once the load-bearing negative-feedback brake is gone is the SEIZURE archetype (no-brakes -> runaway).",
+      "note": "Straddles DISINHIBITION_SYNDROME (the severed HYPO set-point is a lost regulator). Classed SEIZURE on the 'exponential/accelerating runaway' recurrent-spiral outcome the summary emphasizes; the lost-regulator flavor is the DISINHIBITION straddle."
+    },
+    "BANKING_CRISIS": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-closed -> starvation",
+      "economy_text": "canonical circuit GP[Hypo]: \"basal-ganglia output gate — lock (bradykinetic freeze)\"; summary: \"Systemic failure in the banking sector... threatening the payment system and credit intermediation functions essential to economic activity\"; _authored dlPFC Hypo 'institutions hoard cash and refuse to lend', THAL Hypo 'Monetary policy transmission completely blocked'",
+      "reasoning": "The named mechanism is an OUTPUT GATE locked (bradykinetic freeze); the authored circuit describes credit intermediation and monetary transmission blocked, starving the real economy of credit. A gate stuck closed producing downstream starvation is the GATING_FAILURE archetype (gate stuck closed -> starvation) — the identical mapping made for Finance BANKING_CRISIS.",
+      "note": "Same canonical node (GP output-gate lock) and same class as the Finance BANKING_CRISIS issue: a clean cross-domain isomorphism on the gating-lock archetype."
+    },
+    "TRADE_WAR": {
+      "class": "SEIZURE",
+      "subtype": "runaway escalation (retaliatory positive-feedback conflict spiral)",
+      "economy_text": "canonical circuit dACC[Hyper]: \"conflict/error monitor — priors-too-strong\"; summary: \"Escalating cycle of retaliatory tariffs, sanctions, and trade barriers between major economies\"; _authored TPJ Hypo 'Perspective-taking between trading partners collapsed', dACC Hyper 'Regulatory complexity exploding'",
+      "reasoning": "An escalating retaliatory cycle (tariff -> counter-tariff -> counter-counter-tariff) is recurrent positive feedback with no damping brake, i.e. the SEIZURE archetype (runaway recurrent excitation). The dACC[Hyper] conflict-monitor over-firing supplies the driver; TPJ[Hypo] (collapsed perspective-taking) is the lost damping.",
+      "note": "TWO caveats recorded, not force-fit: (1) node-cue divergence — the canonical cue 'priors-too-strong' is a predictive-coding / salience miscalibration (over-weighted priors) that the 9 dynamical classes do not cleanly hold (same node-vs-summary divergence Finance flagged on SYSTEMIC_CONTAGION); (2) the retaliatory dynamic is partly adversarial/game-theoretic (deliberate policy), a strategic layer the pure E/I taxonomy only partially represents. The dominant mechanism (escalating runaway) is dynamical and mappable, so SEIZURE stands with the residue flagged. Also straddles OSCILLATORY_PATHOLOGY if read as two economies locked in a pathological over-coupled escalation."
+    },
+    "DEBT_CRISIS": {
+      "class": "DISINHIBITION_SYNDROME",
+      "subtype": "brake-fail -> runaway accumulation (loss of the stop/hold)",
+      "economy_text": "canonical circuit STN[Hypo]: \"hyperdirect brake / hold — no-brake=runaway\"; summary: \"Unsustainable accumulation of sovereign or corporate debt threatening default... potentially triggering contagion across interconnected financial systems\"; _authored vmPFC Hypo 'Fiscal policy space exhausted'",
+      "reasoning": "The named mechanism is explicitly the loss of the STN hyperdirect BRAKE/HOLD ('no-brake=runaway'). Losing the inhibitor and releasing runaway (unsustainable) accumulation is the exact DISINHIBITION_SYNDROME definition (loss of the stop/brake). Strongest grounding of the set — mirrors Finance CURRENCY_COLLAPSE (vmPFC 'brake-fail=rogue').",
+      "note": "Summary's 'contagion across interconnected financial systems' straddles DEAFFERENTATION_DIASCHISIS (cross-graph cascade). Classed on the PRIMARY node cue 'no-brake=runaway' -> DISINHIBITION; the contagion clause is the straddle."
+    },
+    "MARKET_CRASH": {
+      "class": "SEIZURE",
+      "subtype": "runaway panic/threat exceeding damping capacity",
+      "economy_text": "canonical circuit BLA[Hyper]: \"threat learning/acquisition — over-fear=PTSD\"; _authored BLA Hyper 'Fear contagion amplifying sell-offs as loss aversion and margin calls create self-reinforcing downward spirals'; summary: \"Sudden and severe decline in asset prices... destroying wealth, triggering margin calls\"",
+      "reasoning": "Over-fear (excessive threat drive) plus explicitly 'self-reinforcing downward spirals' from margin calls is recurrent runaway exceeding insufficient damping = the SEIZURE archetype (no-brakes -> runaway). Identical to Finance MARKET_CRASH.",
+      "note": "Straddles DISINHIBITION_SYNDROME (PTSD = failed extinction/brake). Classed SEIZURE on the 'self-reinforcing spiral' runaway the _authored text names — the same call the Finance overlay made for its MARKET_CRASH issue. Canonical node BLA[Hyper] is a bare non-regulatory node that would fail the incomplete-circuit test canonical-only; the _authored circuit (OFC/HIPP/dACC) supplies the brakes so the test passes on _authored."
+    }
+  },
+
+  "incomplete_circuit_diagnostic": {
+    "_test": "Part XIV: does each issue's authored circuit contain a regulatory/inhibitory/feedback partner from the REGULATORY_NODES set in energy-neuro-substrate.js (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM)? Run against economy.json _authored circuits, matching the JS validateIncompleteCircuit() behavior (uses _authored node list; falls back to circuits if _authored absent — all 6 Economy issues have _authored).",
+    "_verdict_summary": "PASS 5/6, FAIL 1. RECESSION is INCOMPLETE_CIRCUIT — its authored nodes (M1, S1, NAcc, STRI, VTA) contain NO regulatory/feedback partner; it is a brake-free, uniformly-hypo circuit, lesioned exactly as Part XIV describes. The other five all include at least one regulatory node. This is the FIRST incomplete-circuit failure across the three domains audited (Energy 6/6 complete, Finance 6/6 complete, Economy 5/6). NOTE ALSO: two issues (RECESSION, MARKET_CRASH) have CANONICAL single-node circuits (NAcc, BLA) that are bare non-regulatory nodes; MARKET_CRASH is rescued by its _authored circuit, RECESSION is not.",
+    "RECESSION": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["M1", "S1", "NAcc", "STRI", "VTA"], "regulatory_partners_present": [], "observation": "FAILS. Five bare driver/sensory/reward nodes, none in REGULATORY_NODES. The canonical single-node circuit NAcc[Hypo] 'avolition' is ALSO non-regulatory, so RECESSION is incomplete under BOTH canonical and _authored. This is the domain's key structural finding: the recession circuit was authored with no inhibitory/feedback/stabilizer arm — matching its CORTICAL_SPREADING_DEPRESSION (no-brake, spreading-silence) failure class." },
+    "HYPERINFLATION": { "verdict": "complete", "circuit": ["HYPO", "THAL", "vmPFC", "NAcc", "BLA", "TPJ"], "regulatory_partners_present": ["HYPO", "vmPFC"], "observation": "Canonical single-node circuit HYPO[Hyper] is itself a REGULATORY_NODE (homeostatic set-point), so this issue passes even canonical-only." },
+    "BANKING_CRISIS": { "verdict": "complete", "circuit": ["dlPFC", "BLA", "THAL", "OFC", "HIPP"], "regulatory_partners_present": ["dlPFC", "OFC", "HIPP"], "observation": "Canonical single-node circuit GP[Hypo] is itself a REGULATORY_NODE (basal-ganglia output gate), so this issue passes even canonical-only." },
+    "TRADE_WAR": { "verdict": "complete", "circuit": ["TPJ", "CBLM", "STRI", "HYPO", "dACC", "FPN"], "regulatory_partners_present": ["CBLM", "HYPO", "dACC"], "observation": "Canonical single-node circuit dACC[Hyper] is itself a REGULATORY_NODE (conflict monitor), so this issue passes even canonical-only." },
+    "DEBT_CRISIS": { "verdict": "complete", "circuit": ["BLA", "vmPFC", "dlPFC", "ECN", "THAL"], "regulatory_partners_present": ["vmPFC", "dlPFC"], "observation": "Canonical single-node circuit STN[Hypo] is itself a REGULATORY_NODE (hyperdirect brake), so this issue passes even canonical-only." },
+    "MARKET_CRASH": { "verdict": "complete", "circuit": ["OFC", "BLA", "NAcc", "HIPP", "VTA", "dACC"], "regulatory_partners_present": ["OFC", "HIPP", "dACC"], "observation": "Canonical single-node circuit is BLA[Hyper] alone (threat-acquisition node, NOT in REGULATORY_NODES) -> would be INCOMPLETE_CIRCUIT if run canonical-only; _authored supplies OFC/HIPP/dACC brakes." }
+  },
+
+  "parameter_table": {
+    "_note": "Part XV, verbatim. Quantitative substrate for scale-rescaling. Confidence + anchor preserved.",
+    "rows": [
+      { "parameter": "Resting membrane potential", "value": "-65 to -70 mV", "confidence": "high", "anchor": "consensus (Kandel/Purves)" },
+      { "parameter": "AP threshold", "value": "~ -55 mV", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "AP duration", "value": "~1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Absolute refractory period", "value": "~1-2 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Synaptic (chemical) delay", "value": "~0.5-1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (unmyelinated C)", "value": "~0.5-2 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (large myelinated Aa)", "value": "~80-120 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "STDP LTP window (baseline)", "value": "pre-before-post ~+10 ms", "confidence": "high", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "STDP LTP window (dopamine-extended)", "value": "to ~+30 ms", "confidence": "medium", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "Gamma oscillation band", "value": "~30-80+ Hz", "confidence": "high", "anchor": "Fries 2005 (10.1016/j.tics.2005.08.011)" },
+      { "parameter": "Theta band", "value": "~4-8 Hz", "confidence": "high", "anchor": "consensus / Voytek 2015 (10.1016/j.biopsych.2015.04.016)" },
+      { "parameter": "Alpha band", "value": "~8-12 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Beta band", "value": "~13-30 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Delta band", "value": "~1-4 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Thalamic relay modes", "value": "tonic vs burst", "confidence": "high", "anchor": "Ferrarelli & Tononi 2010 (10.1093/schbul/sbq142)" },
+      { "parameter": "HPA cortisol feedback (fast, nongenomic)", "value": "seconds-minutes", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "HPA cortisol feedback (genomic/slow)", "value": "minutes-hours", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "Gut serotonin fraction of body total", "value": "~90-95%", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Glymphatic clearance", "value": "sleep-enhanced", "confidence": "medium", "anchor": "Benveniste 2018 (10.1159/000490349)" }
+    ],
+    "ratio_preservation_rule": "When mapping any neural time constant to a domain equivalent, hold the RATIOS between constants fixed, not just individual values. The ~1000x gap between AP duration (~1 ms) and slow neuromodulatory/hormonal feedback (~seconds-minutes) is the 'fast signal vs slow modulation' invariant; the Economy mapping must preserve an analogous fast-action / slow-governance separation (e.g. market/price ticks vs. monetary-and-fiscal-policy lags), or the fractal is cosmetic, not structural."
+  },
+
+  "references": [
+    { "n": 1, "cite": "Ruan H, Saur T, Yao WD. Dopamine-enabled anti-Hebbian timing-dependent plasticity in prefrontal circuitry. Front Neural Circuits, 2014.", "doi": "10.3389/fncir.2014.00038" },
+    { "n": 2, "cite": "Fries P. A mechanism for cognitive dynamics: neuronal communication through neuronal coherence. Trends Cogn Sci, 2005.", "doi": "10.1016/j.tics.2005.08.011" },
+    { "n": 3, "cite": "Voytek B, Knight RT. Dynamic network communication as a unifying neural basis for cognition, development, aging, and disease. Biol Psychiatry, 2015.", "doi": "10.1016/j.biopsych.2015.04.016" },
+    { "n": 4, "cite": "Basar E, Guntekin B, Oniz A. Principles of oscillatory brain dynamics... Prog Brain Res, 2006.", "doi": "10.1016/S0079-6123(06)59004-1" },
+    { "n": 5, "cite": "Shipp S. Neural Elements for Predictive Coding. Front Psychol, 2016.", "doi": "10.3389/fpsyg.2016.01792" },
+    { "n": 6, "cite": "Mikulasch FA, Rudelt L, Wibral M, Priesemann V. Where is the error? Hierarchical predictive coding through dendritic error computation. Trends Neurosci, 2023.", "doi": "10.1016/j.tins.2022.09.007" },
+    { "n": 7, "cite": "Ferrarelli F, Tononi G. The thalamic reticular nucleus and schizophrenia. Schizophr Bull, 2010.", "doi": "10.1093/schbul/sbq142" },
+    { "n": 8, "cite": "Niethard N, Burgalossi A, Born J. Plasticity during Sleep Is Linked to Specific Regulation of Cortical Circuit Activity. Front Neural Circuits, 2017.", "doi": "10.3389/fncir.2017.00065" },
+    { "n": 9, "cite": "Keller-Wood M. Hypothalamic-Pituitary-Adrenal Axis-Feedback Control. Compr Physiol, 2015.", "doi": "10.1002/cphy.c140065" },
+    { "n": 10, "cite": "Hill MN, Tasker JG. Endocannabinoid signaling, glucocorticoid-mediated negative feedback... Neuroscience, 2012.", "doi": "10.1016/j.neuroscience.2011.12.030" },
+    { "n": 11, "cite": "Rutsch A, Kantsjo JB, Ronchi F. The Gut-Brain Axis... Front Immunol, 2020.", "doi": "10.3389/fimmu.2020.604179" },
+    { "n": 12, "cite": "Benveniste H, Liu X, Koundal S, et al. The Glymphatic System and Waste Clearance with Brain Aging. Gerontology, 2018.", "doi": "10.1159/000490349" }
+  ]
+}

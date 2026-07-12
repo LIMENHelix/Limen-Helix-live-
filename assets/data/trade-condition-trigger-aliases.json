@@ -1,0 +1,824 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so a Trade extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers would be built from pulse condition-codes (freight_cost_spike, port_congestion...) + active diagnosis ids. In Trade the CONDITION-CODES never textually equal an activation.diagnosticTrigger; this table bridges them via the evidence-family -> requiredFamily -> diagnosis chain. As in Finance, Trade activation.diagnosticTriggers ARE diagnosis ids, so active diagnosis ids already self-match; the condition-code map is the part that is strictly required.",
+    "derivationChain": "condition-code --(trade-pulse-engine.js inline classify, L116-147)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L158-164)--> diagnosis id --(trade.json issues[]._authored circuit)--> circuit nodeIds --(these nodeIds are activations whose diagnosticTriggers are themselves diagnosis ids)--> diagnosticTriggers. The diagnoses section is the strongest link (pure data). The condition-codes section adds the pulse-engine family hop.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate, which is requiredFamilies with OR-semantics, NOT primaryIndicators). A condition that is only a diagnosis secondaryConfirmation but does not emit that diagnosis requiredFamily is listed under secondaryDiagnoses and NOT folded (bias against over-marking). See shipping_delay.",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from trade.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsFinanceAndEnergy": "(1) Trade inlines classification like Finance (no dedicated classify() over a distinct exogenous vocabulary as Energy has), and its condition-codes ARE the contract indicator tokens. (2) Trade activation.diagnosticTriggers are DIAGNOSIS IDs (like Finance, unlike Energy free-text), so the diagnoses map is largely redundant for direct matching. (3) KEY TRADE DIFFERENCE: Trade has NO generic _stress_ skip. Its stress-like tokens (structural_stress, supply_high_stress) DO ground, folding into SUPPLY_CHAIN_COLLAPSE via the structural_event family (SUPPLY_CHAIN_COLLAPSE is the one catchAllBlocked:false diagnosis). In Finance the _stress_ tokens were explicitly excluded and unmapped. (4) Trade emits a macro_event family (from macro_shock) that NO contract consumes (dead-end) - SAME as Finance. (5) Trade also classifies uppercase event tokens STRAIT_DISRUPTION / PORT_DISRUPTION that ground to PORT_BLOCKADE via family (Energy-like exogenous tokens). (6) ORPHAN COUNT: Energy 1, Finance 3, TRADE 0 - every activation carrying diagnosticTriggers is authored into at least one issue circuit, so nothing is stranded.",
+    "sources": [
+      "assets/js/trade-pulse-engine.js (inline condition->family classify L116-147; EVIDENCE_CONTRACTS L27-73; requiredFamilies OR-gate L158-164)",
+      "assets/data/domains/trade.json (activations[].diagnosticTriggers = diagnosis ids; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build; no trade-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no trade-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T19:09:31.293Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes trade.json or fires extinction. No trade-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "freight_cost_spike": {
+      "evidenceFamilies": [
+        "freight_event",
+        "capacity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SHIPPING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:freight_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "FEF",
+        "THAL",
+        "HYPO",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [freight_event, capacity_event]; primaryIndicator of SHIPPING_CRISIS. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "carrier_capacity": {
+      "evidenceFamilies": [
+        "freight_event",
+        "capacity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SHIPPING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:freight_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "FEF",
+        "THAL",
+        "HYPO",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [freight_event, capacity_event]; primaryIndicator of SHIPPING_CRISIS. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "container_shortage": {
+      "evidenceFamilies": [
+        "freight_event",
+        "capacity_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SHIPPING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:freight_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "FEF",
+        "THAL",
+        "HYPO",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [freight_event, capacity_event]; primaryIndicator of SHIPPING_CRISIS. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "port_congestion": {
+      "evidenceFamilies": [
+        "port_event",
+        "route_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PORT_BLOCKADE",
+          "link": "primaryIndicator+requiredFamily:port_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "NTS",
+        "HIPP",
+        "CBLM",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [port_event, route_event]; primaryIndicator of PORT_BLOCKADE. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "route_constraint": {
+      "evidenceFamilies": [
+        "port_event",
+        "route_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PORT_BLOCKADE",
+          "link": "primaryIndicator+requiredFamily:port_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "NTS",
+        "HIPP",
+        "CBLM",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [port_event, route_event]; primaryIndicator of PORT_BLOCKADE. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "chokepoint": {
+      "evidenceFamilies": [
+        "port_event",
+        "route_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PORT_BLOCKADE",
+          "link": "primaryIndicator+requiredFamily:port_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "NTS",
+        "HIPP",
+        "CBLM",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [port_event, route_event]; primaryIndicator of PORT_BLOCKADE. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "port_closure": {
+      "evidenceFamilies": [
+        "port_event",
+        "route_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PORT_BLOCKADE",
+          "link": "secondaryConfirmation+requiredFamily:port_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "NTS",
+        "HIPP",
+        "CBLM",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [port_event, route_event]; secondaryConfirmation of PORT_BLOCKADE, and its family satisfies the requiredFamily OR-gate. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "shortage": {
+      "evidenceFamilies": [
+        "supply_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:supply_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "ECN",
+        "HIPP",
+        "M1",
+        "FPN",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "basis": "classifies to [supply_event]; primaryIndicator of SUPPLY_CHAIN_COLLAPSE. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "sourcing_disruption": {
+      "evidenceFamilies": [
+        "supply_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:supply_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "ECN",
+        "HIPP",
+        "M1",
+        "FPN",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "basis": "classifies to [supply_event]; primaryIndicator of SUPPLY_CHAIN_COLLAPSE. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "critical_material": {
+      "evidenceFamilies": [
+        "supply_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE",
+          "link": "primaryIndicator+requiredFamily:supply_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "ECN",
+        "HIPP",
+        "M1",
+        "FPN",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "basis": "classifies to [supply_event]; primaryIndicator of SUPPLY_CHAIN_COLLAPSE. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "production_halt": {
+      "evidenceFamilies": [
+        "supply_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE",
+          "link": "secondaryConfirmation+requiredFamily:supply_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "ECN",
+        "HIPP",
+        "M1",
+        "FPN",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "basis": "classifies to [supply_event] (production_halt is grouped with the supply family in classify, NOT structural); secondaryConfirmation of SUPPLY_CHAIN_COLLAPSE, family satisfies the OR-gate. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "structural_stress": {
+      "evidenceFamilies": [
+        "structural_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE",
+          "link": "secondaryConfirmation+requiredFamily:structural_event"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "ECN",
+        "HIPP",
+        "M1",
+        "FPN",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "basis": "classifies to [structural_event]; secondaryConfirmation of SUPPLY_CHAIN_COLLAPSE via requiredFamily structural_event. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "supply_high_stress": {
+      "evidenceFamilies": [
+        "structural_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SUPPLY_CHAIN_COLLAPSE",
+          "link": "requiredFamily:structural_event (no named-indicator token; grounds via family only)"
+        }
+      ],
+      "activations": [
+        "dlPFC",
+        "ECN",
+        "HIPP",
+        "M1",
+        "FPN",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "basis": "classifies to [structural_event]. NOT a named primary/secondary indicator token, but grounds via requiredFamily structural_event to SUPPLY_CHAIN_COLLAPSE (which is catchAllBlocked:false). KEY TRADE DIFFERENCE vs Finance: the high_stress catch-all token DOES ground here, because Trade routes stress into the structural_event family rather than excluding _stress_ tokens. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "tariff_escalation": {
+      "evidenceFamilies": [
+        "policy_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TRADE_WAR",
+          "link": "primaryIndicator+requiredFamily:policy_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "vmPFC",
+        "NAcc",
+        "dlPFC",
+        "TPJ",
+        "CBLM"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "basis": "classifies to [policy_event, sanctions_event]; primaryIndicator of TRADE_WAR. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "sanctions": {
+      "evidenceFamilies": [
+        "policy_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TRADE_WAR",
+          "link": "primaryIndicator+requiredFamily:policy_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "vmPFC",
+        "NAcc",
+        "dlPFC",
+        "TPJ",
+        "CBLM"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "basis": "classifies to [policy_event, sanctions_event]; primaryIndicator of TRADE_WAR. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "trade_restriction": {
+      "evidenceFamilies": [
+        "policy_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TRADE_WAR",
+          "link": "primaryIndicator+requiredFamily:policy_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "vmPFC",
+        "NAcc",
+        "dlPFC",
+        "TPJ",
+        "CBLM"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "basis": "classifies to [policy_event, sanctions_event]; primaryIndicator of TRADE_WAR. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "export_ban": {
+      "evidenceFamilies": [
+        "policy_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TRADE_WAR",
+          "link": "secondaryConfirmation+requiredFamily:policy_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "vmPFC",
+        "NAcc",
+        "dlPFC",
+        "TPJ",
+        "CBLM"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "basis": "classifies to [policy_event, sanctions_event]; secondaryConfirmation of TRADE_WAR, family satisfies the OR-gate. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "retaliatory_measures": {
+      "evidenceFamilies": [
+        "policy_event",
+        "sanctions_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "TRADE_WAR",
+          "link": "secondaryConfirmation+requiredFamily:policy_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "vmPFC",
+        "NAcc",
+        "dlPFC",
+        "TPJ",
+        "CBLM"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "basis": "classifies to [policy_event, sanctions_event]; secondaryConfirmation of TRADE_WAR, family satisfies the OR-gate. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "customs_delay": {
+      "evidenceFamilies": [
+        "customs_event",
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CUSTOMS_DISRUPTION",
+          "link": "primaryIndicator+requiredFamily:customs_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "TPJ",
+        "CC",
+        "M1",
+        "vmPFC",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE"
+      ],
+      "basis": "classifies to [customs_event, regulatory_event]; primaryIndicator of CUSTOMS_DISRUPTION. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "clearance_failure": {
+      "evidenceFamilies": [
+        "customs_event",
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CUSTOMS_DISRUPTION",
+          "link": "primaryIndicator+requiredFamily:customs_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "TPJ",
+        "CC",
+        "M1",
+        "vmPFC",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE"
+      ],
+      "basis": "classifies to [customs_event, regulatory_event]; primaryIndicator of CUSTOMS_DISRUPTION. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "regulatory_friction": {
+      "evidenceFamilies": [
+        "customs_event",
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CUSTOMS_DISRUPTION",
+          "link": "primaryIndicator+requiredFamily:customs_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "TPJ",
+        "CC",
+        "M1",
+        "vmPFC",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE"
+      ],
+      "basis": "classifies to [customs_event, regulatory_event]; primaryIndicator of CUSTOMS_DISRUPTION. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "documentation_backlog": {
+      "evidenceFamilies": [
+        "customs_event",
+        "regulatory_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "CUSTOMS_DISRUPTION",
+          "link": "secondaryConfirmation+requiredFamily:customs_event"
+        }
+      ],
+      "activations": [
+        "OFC",
+        "TPJ",
+        "CC",
+        "M1",
+        "vmPFC",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE"
+      ],
+      "basis": "classifies to [customs_event, regulatory_event]; secondaryConfirmation of CUSTOMS_DISRUPTION, family satisfies the OR-gate. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "shipping_delay": {
+      "evidenceFamilies": [
+        "freight_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "SHIPPING_CRISIS",
+          "link": "primaryIndicator+requiredFamily:freight_event"
+        }
+      ],
+      "activations": [
+        "NTS",
+        "FEF",
+        "THAL",
+        "HYPO",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "classifies to [freight_event] ONLY; folds to SHIPPING_CRISIS via requiredFamily freight_event. shipping_delay is also a secondaryConfirmation of PORT_BLOCKADE, but it emits NO port_event/route_event, so it does NOT satisfy PORT_BLOCKADE requiredFamilies and is NOT folded there. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings.",
+      "secondaryDiagnoses": [
+        {
+          "id": "PORT_BLOCKADE",
+          "link": "secondaryConfirmation(not folded; condition emits freight_event only, not PORT_BLOCKADE requiredFamily port_event/route_event)"
+        }
+      ]
+    },
+    "STRAIT_DISRUPTION": {
+      "evidenceFamilies": [
+        "route_event",
+        "port_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PORT_BLOCKADE",
+          "link": "secondaryConfirmation+requiredFamily:port_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "NTS",
+        "HIPP",
+        "CBLM",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "uppercase event token; classify maps STRAIT_DISRUPTION to [route_event, port_event] (L144-147); folds to PORT_BLOCKADE via requiredFamily. Not a named contract indicator, grounds via family (analogous to Energy exogenous-event tokens). trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    },
+    "PORT_DISRUPTION": {
+      "evidenceFamilies": [
+        "route_event",
+        "port_event"
+      ],
+      "linkedDiagnoses": [
+        {
+          "id": "PORT_BLOCKADE",
+          "link": "secondaryConfirmation+requiredFamily:port_event"
+        }
+      ],
+      "activations": [
+        "THAL",
+        "NTS",
+        "HIPP",
+        "CBLM",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "uppercase event token; classify maps PORT_DISRUPTION to [route_event, port_event] (L144-147); folds to PORT_BLOCKADE via requiredFamily. Not a named contract indicator, grounds via family. trade-pulse-engine.js inline classify (L116-147); requiredFamilies OR-gate (L158-164); EVIDENCE_CONTRACTS (L27-73). Each linked diagnosis expands to its issues[]._authored circuit nodeIds (trade.json) and those activations diagnosticTriggers. In Trade an activation diagnosticTriggers ARE issue/diagnosis-id strings (same heterogeneity as Finance vs Energy free-text), so diagnosticTriggers here is a set of diagnosis-id strings."
+    }
+  },
+  "diagnoses": {
+    "SUPPLY_CHAIN_COLLAPSE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "dlPFC",
+        "ECN",
+        "HIPP",
+        "M1",
+        "FPN",
+        "S1"
+      ],
+      "diagnosticTriggers": [
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR",
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "CUSTOMS_DISRUPTION"
+      ],
+      "basis": "diagnosis id === Trade issue id; when active, an (energy-pattern) adapter would mark issues[\"SUPPLY_CHAIN_COLLAPSE\"]._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations diagnosticTriggers. Direct data link, no inference. In Trade those diagnosticTriggers are themselves diagnosis-id strings, so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "PORT_BLOCKADE": {
+      "circuitSource": "_authored",
+      "activations": [
+        "THAL",
+        "NTS",
+        "HIPP",
+        "CBLM",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "PORT_BLOCKADE",
+        "SHIPPING_CRISIS",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "diagnosis id === Trade issue id; when active, an (energy-pattern) adapter would mark issues[\"PORT_BLOCKADE\"]._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations diagnosticTriggers. Direct data link, no inference. In Trade those diagnosticTriggers are themselves diagnosis-id strings, so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "TRADE_WAR": {
+      "circuitSource": "_authored",
+      "activations": [
+        "OFC",
+        "vmPFC",
+        "NAcc",
+        "dlPFC",
+        "TPJ",
+        "CBLM"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "SHIPPING_CRISIS"
+      ],
+      "basis": "diagnosis id === Trade issue id; when active, an (energy-pattern) adapter would mark issues[\"TRADE_WAR\"]._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations diagnosticTriggers. Direct data link, no inference. In Trade those diagnosticTriggers are themselves diagnosis-id strings, so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "SHIPPING_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": [
+        "NTS",
+        "FEF",
+        "THAL",
+        "HYPO",
+        "dlPFC"
+      ],
+      "diagnosticTriggers": [
+        "SHIPPING_CRISIS",
+        "PORT_BLOCKADE",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "TRADE_WAR"
+      ],
+      "basis": "diagnosis id === Trade issue id; when active, an (energy-pattern) adapter would mark issues[\"SHIPPING_CRISIS\"]._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations diagnosticTriggers. Direct data link, no inference. In Trade those diagnosticTriggers are themselves diagnosis-id strings, so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    },
+    "CUSTOMS_DISRUPTION": {
+      "circuitSource": "_authored",
+      "activations": [
+        "OFC",
+        "TPJ",
+        "CC",
+        "M1",
+        "vmPFC",
+        "ECN"
+      ],
+      "diagnosticTriggers": [
+        "CUSTOMS_DISRUPTION",
+        "TRADE_WAR",
+        "SUPPLY_CHAIN_COLLAPSE",
+        "PORT_BLOCKADE"
+      ],
+      "basis": "diagnosis id === Trade issue id; when active, an (energy-pattern) adapter would mark issues[\"CUSTOMS_DISRUPTION\"]._authored circuit nodes active. This alias lists exactly those brainNodeIds and their activations diagnosticTriggers. Direct data link, no inference. In Trade those diagnosticTriggers are themselves diagnosis-id strings, so the diagnosis-id self-matches activeTriggers and this expansion mainly protects the OTHER co-circuit nodes."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": [
+          "macro_event"
+        ],
+        "reason": "trade-pulse-engine.js classifies macro_shock -> evidence family [macro_event] (L141-143), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies. The family is a dead-end: it reaches no diagnosis, hence no _authored circuit, hence no activation. No grounded alias. (Same dead-end as Finance macro_shock.)"
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [],
+    "_activationsWithTriggersNote": "EMPTY (0 orphans). Every trade.json activation that carries diagnosticTriggers appears in at least one issue._authored circuit, so all are reachable and none would be perpetually flagged for extinction. This is the KEY TRADE DIFFERENCE from Finance (3 orphans: SMA/AMY/INS) and Energy (1 orphan). Nothing needs authoring before extinction is safe to run.",
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "PIN",
+        "domainLabel": "Tradepolicy",
+        "diagnosticTriggers": [],
+        "reason": "Not in any issue._authored circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (canonical-nodes.json classes PIN as an effector, reinforcing it is not a regulated circuit node.)"
+      },
+      {
+        "brainNodeId": "WERN",
+        "domainLabel": "Tradezone",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely. No alias needed."
+      },
+      {
+        "brainNodeId": "LANG",
+        "domainLabel": "Wto",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely. No alias needed. (canonical-nodes.json classes LANG as a composite view = Broca+Wernicke+AG.)"
+      },
+      {
+        "brainNodeId": "CARD",
+        "domainLabel": "Services Trade",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely. No alias needed. (canonical-nodes.json classes CARD as an effector.)"
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Trade: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the inline classify switch, so there are no contract-only-unclassified tokens (unlike Energy REFINERY_ATTACK/SANCTIONS). Conversely supply_high_stress, macro_shock, STRAIT_DISRUPTION and PORT_DISRUPTION are classified but named in no contract: supply_high_stress and STRAIT/PORT_DISRUPTION still ground via requiredFamily; macro_shock does not (see unmapped)."
+  }
+}

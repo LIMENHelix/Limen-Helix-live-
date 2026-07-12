@@ -1,0 +1,293 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so an Economy extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. gdp_decline) + active diagnosis ids (e.g. RECESSION) (energy-telemetry-adapter.js L48-53 pattern). This table bridges the pulse-engine condition vocabulary to the issue circuit nodes and their free-text diagnosticTriggers.",
+    "derivationChain": "condition-code --(economy-pulse-engine.js inline classify, L186-241)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L54-122 / L253-259)--> diagnosis id --(economy.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(each nodeId is an activation with FREE-TEXT diagnosticTriggers)--> diagnosticTriggers.",
+    "foldRule": "A diagnosis is folded into a condition-code only when the condition emits an evidence family that appears in that diagnosis requiredFamilies (matching the actual code gate at L253-259, which loops requiredFamilies with OR-semantics, NOT primaryIndicators). The link tag records whether the SAME token is also listed as a primaryIndicator or secondaryConfirmation of that contract, but folding is gated strictly on requiredFamily membership.",
+    "discipline": "No link invented. Conditions with no defensible chain are under unmapped. Trigger strings copied verbatim from economy.json; extinction matching is case-insensitive (energy-extinction.js L22,L29).",
+    "heterogeneityVsEnergyAndFinance": "MIXED lineage. (1) LIKE FINANCE: Economy inlines classification (economy-pulse-engine.js classifies conditions to families inline, no separate exogenous-event vocabulary) and its condition-codes ARE the contract indicator tokens (gdp_decline, sticky_cpi). (2) LIKE ENERGY, UNLIKE FINANCE: Economy activation.diagnosticTriggers are FREE-TEXT phrases ('GDP contraction', 'Yield curve inversion'), NOT diagnosis ids. So the diagnoses map here is NOT redundant self-matching (as it was in Finance) — the condition->diagnosis->circuitNode->freeTextTrigger expansion is the real, load-bearing bridge, exactly like Energy. (3) CLEANER PARTITION than Finance: Economy's six evidence-family pairs are disjoint (demand/labor->RECESSION, inflation/price->HYPERINFLATION, credit/banking->BANKING_CRISIS, trade/policy->TRADE_WAR, debt/fiscal->DEBT_CRISIS, market/asset->MARKET_CRASH), so EVERY condition-code links to exactly ONE diagnosis — no cross-linked conditions (Finance had shared market_event fan-out). (4) SAME AS FINANCE: macro_shock->macro_event is a dead-end (no contract consumes macro_event); _stress_* conditions are skipped (L190-191) and emit no family. (5) SAME AS FINANCE: MARKET_CRASH is the one catchAllBlocked:false diagnosis (the systemic catch-all). (6) Orphan count: Energy 1, Finance 3, Economy 3.",
+    "sources": [
+      "assets/js/economy-pulse-engine.js (inline condition->family classify L186-241; EVIDENCE_CONTRACTS L54-122; requiredFamilies OR-gate L253-259; _stress_ skip L190-191; macro_shock->macro_event L238-240)",
+      "assets/data/domains/economy.json (activations[].diagnosticTriggers = FREE-TEXT phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no economy-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no economy-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T00:00:00.000Z",
+    "note": "Generated deterministically from the above sources. Read-only reference data; nothing here writes economy.json or fires extinction. No economy-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged."
+  },
+  "conditionCodes": {
+    "gdp_decline": {
+      "evidenceFamilies": ["demand_event", "labor_event"],
+      "linkedDiagnoses": [{ "id": "RECESSION", "link": "primaryIndicator+requiredFamily:demand_event,labor_event" }],
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "economy-pulse-engine.js classifies 'gdp_decline' -> [demand_event, labor_event] (L192-196). Both satisfy RECESSION.requiredFamilies (L57, OR-gate L253-259). RECESSION expands to its issues[]._authored circuit [M1,S1,NAcc,STRI,VTA] and those activations' FREE-TEXT diagnosticTriggers."
+    },
+    "demand_contraction": {
+      "evidenceFamilies": ["demand_event", "labor_event"],
+      "linkedDiagnoses": [{ "id": "RECESSION", "link": "primaryIndicator+requiredFamily:demand_event,labor_event" }],
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "economy-pulse-engine.js classifies 'demand_contraction' -> [demand_event, labor_event] (L192-196). Both satisfy RECESSION.requiredFamilies; 'demand_contraction' is also a RECESSION primaryIndicator (L60). Expands to RECESSION _authored circuit and its free-text triggers."
+    },
+    "consumer_slowdown": {
+      "evidenceFamilies": ["demand_event", "labor_event"],
+      "linkedDiagnoses": [{ "id": "RECESSION", "link": "secondaryConfirmation+requiredFamily:demand_event,labor_event" }],
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "economy-pulse-engine.js classifies 'consumer_slowdown' -> [demand_event, labor_event] (L192-196) and again -> demand_event (L232-235). Satisfies RECESSION.requiredFamilies; also a RECESSION secondaryConfirmation (L61). Expands to RECESSION _authored circuit and its free-text triggers."
+    },
+    "retail_weakness": {
+      "evidenceFamilies": ["demand_event", "labor_event"],
+      "linkedDiagnoses": [{ "id": "RECESSION", "link": "requiredFamily:demand_event,labor_event" }],
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "economy-pulse-engine.js classifies 'retail_weakness' -> [demand_event, labor_event] (L192-196) and demand_event (L232-235). Satisfies RECESSION.requiredFamilies via requiredFamily membership (not named in RECESSION indicator lists). Expands to RECESSION _authored circuit and its free-text triggers."
+    },
+    "rising_unemployment": {
+      "evidenceFamilies": ["labor_event"],
+      "linkedDiagnoses": [{ "id": "RECESSION", "link": "secondaryConfirmation+requiredFamily:labor_event" }],
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "economy-pulse-engine.js classifies 'rising_unemployment' -> [labor_event] (L229-231). labor_event satisfies RECESSION.requiredFamilies (OR-gate); 'rising_unemployment' is a RECESSION secondaryConfirmation (L61). Expands to RECESSION _authored circuit and its free-text triggers."
+    },
+    "labor_market_active": {
+      "evidenceFamilies": ["labor_event"],
+      "linkedDiagnoses": [{ "id": "RECESSION", "link": "requiredFamily:labor_event" }],
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "economy-pulse-engine.js classifies 'labor_market_active' -> [labor_event] (L229-231). labor_event satisfies RECESSION.requiredFamilies via requiredFamily membership. Expands to RECESSION _authored circuit and its free-text triggers."
+    },
+    "consumer_sentiment_active": {
+      "evidenceFamilies": ["demand_event"],
+      "linkedDiagnoses": [{ "id": "RECESSION", "link": "requiredFamily:demand_event" }],
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "economy-pulse-engine.js classifies 'consumer_sentiment_active' -> [demand_event] (L232-235). demand_event satisfies RECESSION.requiredFamilies via requiredFamily membership. Expands to RECESSION _authored circuit and its free-text triggers."
+    },
+    "sticky_cpi": {
+      "evidenceFamilies": ["inflation_event", "price_event"],
+      "linkedDiagnoses": [{ "id": "HYPERINFLATION", "link": "primaryIndicator+requiredFamily:inflation_event,price_event" }],
+      "activations": ["HYPO", "THAL", "vmPFC", "NAcc", "BLA", "TPJ"],
+      "diagnosticTriggers": ["Runaway inflation", "Deflationary spiral", "Interest rate miscalibration", "Liquidity trap", "Fiscal deficit spiral", "Austerity overcorrection", "Consumer confidence collapse", "Spending contraction", "Yield curve inversion", "Credit market freeze", "Trade deficit explosion", "Export competitiveness collapse"],
+      "basis": "economy-pulse-engine.js classifies 'sticky_cpi' -> [inflation_event, price_event] (L198-202). Both satisfy HYPERINFLATION.requiredFamilies (L69); 'sticky_cpi' is a HYPERINFLATION primaryIndicator (L72). Expands to HYPERINFLATION _authored circuit and its free-text triggers."
+    },
+    "services_inflation": {
+      "evidenceFamilies": ["inflation_event", "price_event"],
+      "linkedDiagnoses": [{ "id": "HYPERINFLATION", "link": "primaryIndicator+requiredFamily:inflation_event,price_event" }],
+      "activations": ["HYPO", "THAL", "vmPFC", "NAcc", "BLA", "TPJ"],
+      "diagnosticTriggers": ["Runaway inflation", "Deflationary spiral", "Interest rate miscalibration", "Liquidity trap", "Fiscal deficit spiral", "Austerity overcorrection", "Consumer confidence collapse", "Spending contraction", "Yield curve inversion", "Credit market freeze", "Trade deficit explosion", "Export competitiveness collapse"],
+      "basis": "economy-pulse-engine.js classifies 'services_inflation' -> [inflation_event, price_event] (L198-202). Both satisfy HYPERINFLATION.requiredFamilies; 'services_inflation' is a HYPERINFLATION primaryIndicator (L72). Expands to HYPERINFLATION _authored circuit and its free-text triggers."
+    },
+    "input_cost_persistence": {
+      "evidenceFamilies": ["inflation_event", "price_event"],
+      "linkedDiagnoses": [{ "id": "HYPERINFLATION", "link": "secondaryConfirmation+requiredFamily:inflation_event,price_event" }],
+      "activations": ["HYPO", "THAL", "vmPFC", "NAcc", "BLA", "TPJ"],
+      "diagnosticTriggers": ["Runaway inflation", "Deflationary spiral", "Interest rate miscalibration", "Liquidity trap", "Fiscal deficit spiral", "Austerity overcorrection", "Consumer confidence collapse", "Spending contraction", "Yield curve inversion", "Credit market freeze", "Trade deficit explosion", "Export competitiveness collapse"],
+      "basis": "economy-pulse-engine.js classifies 'input_cost_persistence' -> [inflation_event, price_event] (L198-202). Satisfies HYPERINFLATION.requiredFamilies; also a HYPERINFLATION secondaryConfirmation (L73). Expands to HYPERINFLATION _authored circuit and its free-text triggers."
+    },
+    "price_rigidity": {
+      "evidenceFamilies": ["inflation_event", "price_event"],
+      "linkedDiagnoses": [{ "id": "HYPERINFLATION", "link": "secondaryConfirmation+requiredFamily:inflation_event,price_event" }],
+      "activations": ["HYPO", "THAL", "vmPFC", "NAcc", "BLA", "TPJ"],
+      "diagnosticTriggers": ["Runaway inflation", "Deflationary spiral", "Interest rate miscalibration", "Liquidity trap", "Fiscal deficit spiral", "Austerity overcorrection", "Consumer confidence collapse", "Spending contraction", "Yield curve inversion", "Credit market freeze", "Trade deficit explosion", "Export competitiveness collapse"],
+      "basis": "economy-pulse-engine.js classifies 'price_rigidity' -> [inflation_event, price_event] (L198-202). Satisfies HYPERINFLATION.requiredFamilies; also a HYPERINFLATION secondaryConfirmation (L73). Expands to HYPERINFLATION _authored circuit and its free-text triggers."
+    },
+    "credit_tightening": {
+      "evidenceFamilies": ["credit_event", "banking_event"],
+      "linkedDiagnoses": [{ "id": "BANKING_CRISIS", "link": "primaryIndicator+requiredFamily:credit_event,banking_event" }],
+      "activations": ["dlPFC", "BLA", "THAL", "OFC", "HIPP"],
+      "diagnosticTriggers": ["Bank run contagion", "Systemic solvency crisis", "Yield curve inversion", "Credit market freeze", "Interest rate miscalibration", "Liquidity trap", "Market volatility spike", "Capital flight", "Housing bubble formation", "Commercial real estate collapse"],
+      "basis": "economy-pulse-engine.js classifies 'credit_tightening' -> [credit_event, banking_event] (L204-208). Both satisfy BANKING_CRISIS.requiredFamilies (L80); 'credit_tightening' is a BANKING_CRISIS primaryIndicator (L83). Expands to BANKING_CRISIS _authored circuit and its free-text triggers."
+    },
+    "lending_pullback": {
+      "evidenceFamilies": ["credit_event", "banking_event"],
+      "linkedDiagnoses": [{ "id": "BANKING_CRISIS", "link": "primaryIndicator+requiredFamily:credit_event,banking_event" }],
+      "activations": ["dlPFC", "BLA", "THAL", "OFC", "HIPP"],
+      "diagnosticTriggers": ["Bank run contagion", "Systemic solvency crisis", "Yield curve inversion", "Credit market freeze", "Interest rate miscalibration", "Liquidity trap", "Market volatility spike", "Capital flight", "Housing bubble formation", "Commercial real estate collapse"],
+      "basis": "economy-pulse-engine.js classifies 'lending_pullback' -> [credit_event, banking_event] (L204-208). Satisfies BANKING_CRISIS.requiredFamilies; 'lending_pullback' is a BANKING_CRISIS primaryIndicator (L83). Expands to BANKING_CRISIS _authored circuit and its free-text triggers."
+    },
+    "credit_spread_pressure": {
+      "evidenceFamilies": ["credit_event", "banking_event"],
+      "linkedDiagnoses": [{ "id": "BANKING_CRISIS", "link": "secondaryConfirmation+requiredFamily:credit_event,banking_event" }],
+      "activations": ["dlPFC", "BLA", "THAL", "OFC", "HIPP"],
+      "diagnosticTriggers": ["Bank run contagion", "Systemic solvency crisis", "Yield curve inversion", "Credit market freeze", "Interest rate miscalibration", "Liquidity trap", "Market volatility spike", "Capital flight", "Housing bubble formation", "Commercial real estate collapse"],
+      "basis": "economy-pulse-engine.js classifies 'credit_spread_pressure' -> [credit_event, banking_event] (L204-208). Satisfies BANKING_CRISIS.requiredFamilies; also a BANKING_CRISIS secondaryConfirmation (L84). Expands to BANKING_CRISIS _authored circuit and its free-text triggers."
+    },
+    "loan_demand_weakness": {
+      "evidenceFamilies": ["credit_event", "banking_event"],
+      "linkedDiagnoses": [{ "id": "BANKING_CRISIS", "link": "requiredFamily:credit_event,banking_event" }],
+      "activations": ["dlPFC", "BLA", "THAL", "OFC", "HIPP"],
+      "diagnosticTriggers": ["Bank run contagion", "Systemic solvency crisis", "Yield curve inversion", "Credit market freeze", "Interest rate miscalibration", "Liquidity trap", "Market volatility spike", "Capital flight", "Housing bubble formation", "Commercial real estate collapse"],
+      "basis": "economy-pulse-engine.js classifies 'loan_demand_weakness' -> [credit_event, banking_event] (L204-208). Satisfies BANKING_CRISIS.requiredFamilies via requiredFamily membership (not named in BANKING_CRISIS indicator lists). Expands to BANKING_CRISIS _authored circuit and its free-text triggers."
+    },
+    "capital_access_reduced": {
+      "evidenceFamilies": ["credit_event", "banking_event"],
+      "linkedDiagnoses": [{ "id": "BANKING_CRISIS", "link": "secondaryConfirmation+requiredFamily:credit_event,banking_event" }],
+      "activations": ["dlPFC", "BLA", "THAL", "OFC", "HIPP"],
+      "diagnosticTriggers": ["Bank run contagion", "Systemic solvency crisis", "Yield curve inversion", "Credit market freeze", "Interest rate miscalibration", "Liquidity trap", "Market volatility spike", "Capital flight", "Housing bubble formation", "Commercial real estate collapse"],
+      "basis": "economy-pulse-engine.js classifies 'capital_access_reduced' -> [credit_event, banking_event] (L204-208). Satisfies BANKING_CRISIS.requiredFamilies; also a BANKING_CRISIS secondaryConfirmation (L84). Expands to BANKING_CRISIS _authored circuit and its free-text triggers."
+    },
+    "tariff_impact": {
+      "evidenceFamilies": ["trade_event", "policy_event"],
+      "linkedDiagnoses": [{ "id": "TRADE_WAR", "link": "primaryIndicator+requiredFamily:trade_event,policy_event" }],
+      "activations": ["TPJ", "CBLM", "STRI", "HYPO", "dACC", "FPN"],
+      "diagnosticTriggers": ["Trade deficit explosion", "Export competitiveness collapse", "Supply chain disruption", "Logistics network failure", "Industrial output decline", "Manufacturing sector hollowing", "Runaway inflation", "Deflationary spiral", "Regulatory failure", "Market manipulation unchecked", "Tech bubble burst", "Innovation stagnation"],
+      "basis": "economy-pulse-engine.js classifies 'tariff_impact' -> [trade_event, policy_event] (L210-214). Both satisfy TRADE_WAR.requiredFamilies (L91); 'tariff_impact' is a TRADE_WAR primaryIndicator (L94). Expands to TRADE_WAR _authored circuit and its free-text triggers."
+    },
+    "import_disruption": {
+      "evidenceFamilies": ["trade_event", "policy_event"],
+      "linkedDiagnoses": [{ "id": "TRADE_WAR", "link": "primaryIndicator+requiredFamily:trade_event,policy_event" }],
+      "activations": ["TPJ", "CBLM", "STRI", "HYPO", "dACC", "FPN"],
+      "diagnosticTriggers": ["Trade deficit explosion", "Export competitiveness collapse", "Supply chain disruption", "Logistics network failure", "Industrial output decline", "Manufacturing sector hollowing", "Runaway inflation", "Deflationary spiral", "Regulatory failure", "Market manipulation unchecked", "Tech bubble burst", "Innovation stagnation"],
+      "basis": "economy-pulse-engine.js classifies 'import_disruption' -> [trade_event, policy_event] (L210-214). Satisfies TRADE_WAR.requiredFamilies; 'import_disruption' is a TRADE_WAR primaryIndicator (L94). Expands to TRADE_WAR _authored circuit and its free-text triggers."
+    },
+    "export_restriction": {
+      "evidenceFamilies": ["trade_event", "policy_event"],
+      "linkedDiagnoses": [{ "id": "TRADE_WAR", "link": "secondaryConfirmation+requiredFamily:trade_event,policy_event" }],
+      "activations": ["TPJ", "CBLM", "STRI", "HYPO", "dACC", "FPN"],
+      "diagnosticTriggers": ["Trade deficit explosion", "Export competitiveness collapse", "Supply chain disruption", "Logistics network failure", "Industrial output decline", "Manufacturing sector hollowing", "Runaway inflation", "Deflationary spiral", "Regulatory failure", "Market manipulation unchecked", "Tech bubble burst", "Innovation stagnation"],
+      "basis": "economy-pulse-engine.js classifies 'export_restriction' -> [trade_event, policy_event] (L210-214). Satisfies TRADE_WAR.requiredFamilies; also a TRADE_WAR secondaryConfirmation (L95). Expands to TRADE_WAR _authored circuit and its free-text triggers."
+    },
+    "trade_friction": {
+      "evidenceFamilies": ["trade_event", "policy_event"],
+      "linkedDiagnoses": [{ "id": "TRADE_WAR", "link": "secondaryConfirmation+requiredFamily:trade_event,policy_event" }],
+      "activations": ["TPJ", "CBLM", "STRI", "HYPO", "dACC", "FPN"],
+      "diagnosticTriggers": ["Trade deficit explosion", "Export competitiveness collapse", "Supply chain disruption", "Logistics network failure", "Industrial output decline", "Manufacturing sector hollowing", "Runaway inflation", "Deflationary spiral", "Regulatory failure", "Market manipulation unchecked", "Tech bubble burst", "Innovation stagnation"],
+      "basis": "economy-pulse-engine.js classifies 'trade_friction' -> [trade_event, policy_event] (L210-214). Satisfies TRADE_WAR.requiredFamilies; also a TRADE_WAR secondaryConfirmation (L95). Expands to TRADE_WAR _authored circuit and its free-text triggers."
+    },
+    "sovereign_debt_stress": {
+      "evidenceFamilies": ["debt_event", "fiscal_event"],
+      "linkedDiagnoses": [{ "id": "DEBT_CRISIS", "link": "primaryIndicator+requiredFamily:debt_event,fiscal_event" }],
+      "activations": ["BLA", "vmPFC", "dlPFC", "ECN", "THAL"],
+      "diagnosticTriggers": ["Yield curve inversion", "Credit market freeze", "Fiscal deficit spiral", "Austerity overcorrection", "Bank run contagion", "Systemic solvency crisis", "Statistical system degradation", "Indicator manipulation", "Interest rate miscalibration", "Liquidity trap"],
+      "basis": "economy-pulse-engine.js classifies 'sovereign_debt_stress' -> [debt_event, fiscal_event] (L216-220). Both satisfy DEBT_CRISIS.requiredFamilies (L102); 'sovereign_debt_stress' is a DEBT_CRISIS primaryIndicator (L105). Expands to DEBT_CRISIS _authored circuit and its free-text triggers."
+    },
+    "fiscal_deficit": {
+      "evidenceFamilies": ["debt_event", "fiscal_event"],
+      "linkedDiagnoses": [{ "id": "DEBT_CRISIS", "link": "primaryIndicator+requiredFamily:debt_event,fiscal_event" }],
+      "activations": ["BLA", "vmPFC", "dlPFC", "ECN", "THAL"],
+      "diagnosticTriggers": ["Yield curve inversion", "Credit market freeze", "Fiscal deficit spiral", "Austerity overcorrection", "Bank run contagion", "Systemic solvency crisis", "Statistical system degradation", "Indicator manipulation", "Interest rate miscalibration", "Liquidity trap"],
+      "basis": "economy-pulse-engine.js classifies 'fiscal_deficit' -> [debt_event, fiscal_event] (L216-220). Satisfies DEBT_CRISIS.requiredFamilies; 'fiscal_deficit' is a DEBT_CRISIS primaryIndicator (L105). Expands to DEBT_CRISIS _authored circuit and its free-text triggers."
+    },
+    "debt_service_burden": {
+      "evidenceFamilies": ["debt_event", "fiscal_event"],
+      "linkedDiagnoses": [{ "id": "DEBT_CRISIS", "link": "secondaryConfirmation+requiredFamily:debt_event,fiscal_event" }],
+      "activations": ["BLA", "vmPFC", "dlPFC", "ECN", "THAL"],
+      "diagnosticTriggers": ["Yield curve inversion", "Credit market freeze", "Fiscal deficit spiral", "Austerity overcorrection", "Bank run contagion", "Systemic solvency crisis", "Statistical system degradation", "Indicator manipulation", "Interest rate miscalibration", "Liquidity trap"],
+      "basis": "economy-pulse-engine.js classifies 'debt_service_burden' -> [debt_event, fiscal_event] (L216-220). Satisfies DEBT_CRISIS.requiredFamilies; also a DEBT_CRISIS secondaryConfirmation (L106). Expands to DEBT_CRISIS _authored circuit and its free-text triggers."
+    },
+    "downgrade_risk": {
+      "evidenceFamilies": ["debt_event", "fiscal_event"],
+      "linkedDiagnoses": [{ "id": "DEBT_CRISIS", "link": "secondaryConfirmation+requiredFamily:debt_event,fiscal_event" }],
+      "activations": ["BLA", "vmPFC", "dlPFC", "ECN", "THAL"],
+      "diagnosticTriggers": ["Yield curve inversion", "Credit market freeze", "Fiscal deficit spiral", "Austerity overcorrection", "Bank run contagion", "Systemic solvency crisis", "Statistical system degradation", "Indicator manipulation", "Interest rate miscalibration", "Liquidity trap"],
+      "basis": "economy-pulse-engine.js classifies 'downgrade_risk' -> [debt_event, fiscal_event] (L216-220). Satisfies DEBT_CRISIS.requiredFamilies; also a DEBT_CRISIS secondaryConfirmation (L106). Expands to DEBT_CRISIS _authored circuit and its free-text triggers."
+    },
+    "asset_collapse": {
+      "evidenceFamilies": ["market_event", "asset_event"],
+      "linkedDiagnoses": [{ "id": "MARKET_CRASH", "link": "primaryIndicator+requiredFamily:market_event,asset_event" }],
+      "activations": ["OFC", "BLA", "NAcc", "HIPP", "VTA", "dACC"],
+      "diagnosticTriggers": ["Market volatility spike", "Capital flight", "Yield curve inversion", "Credit market freeze", "Consumer confidence collapse", "Spending contraction", "Housing bubble formation", "Commercial real estate collapse", "Startup formation decline", "Entrepreneurial spirit suppression", "Regulatory failure", "Market manipulation unchecked"],
+      "basis": "economy-pulse-engine.js classifies 'asset_collapse' -> [market_event, asset_event] (L222-226). Both satisfy MARKET_CRASH.requiredFamilies (L113); 'asset_collapse' is a MARKET_CRASH primaryIndicator (L116). Expands to MARKET_CRASH _authored circuit and its free-text triggers. NOTE: MARKET_CRASH is the sole catchAllBlocked:false diagnosis (L121)."
+    },
+    "wealth_destruction": {
+      "evidenceFamilies": ["market_event", "asset_event"],
+      "linkedDiagnoses": [{ "id": "MARKET_CRASH", "link": "primaryIndicator+requiredFamily:market_event,asset_event" }],
+      "activations": ["OFC", "BLA", "NAcc", "HIPP", "VTA", "dACC"],
+      "diagnosticTriggers": ["Market volatility spike", "Capital flight", "Yield curve inversion", "Credit market freeze", "Consumer confidence collapse", "Spending contraction", "Housing bubble formation", "Commercial real estate collapse", "Startup formation decline", "Entrepreneurial spirit suppression", "Regulatory failure", "Market manipulation unchecked"],
+      "basis": "economy-pulse-engine.js classifies 'wealth_destruction' -> [market_event, asset_event] (L222-226). Satisfies MARKET_CRASH.requiredFamilies; 'wealth_destruction' is a MARKET_CRASH primaryIndicator (L116). Expands to MARKET_CRASH _authored circuit and its free-text triggers."
+    },
+    "portfolio_loss": {
+      "evidenceFamilies": ["market_event", "asset_event"],
+      "linkedDiagnoses": [{ "id": "MARKET_CRASH", "link": "secondaryConfirmation+requiredFamily:market_event,asset_event" }],
+      "activations": ["OFC", "BLA", "NAcc", "HIPP", "VTA", "dACC"],
+      "diagnosticTriggers": ["Market volatility spike", "Capital flight", "Yield curve inversion", "Credit market freeze", "Consumer confidence collapse", "Spending contraction", "Housing bubble formation", "Commercial real estate collapse", "Startup formation decline", "Entrepreneurial spirit suppression", "Regulatory failure", "Market manipulation unchecked"],
+      "basis": "economy-pulse-engine.js classifies 'portfolio_loss' -> [market_event, asset_event] (L222-226). Satisfies MARKET_CRASH.requiredFamilies; 'portfolio_loss' is a MARKET_CRASH secondaryConfirmation (L116). Expands to MARKET_CRASH _authored circuit and its free-text triggers."
+    }
+  },
+  "diagnoses": {
+    "RECESSION": {
+      "circuitSource": "_authored",
+      "activations": ["M1", "S1", "NAcc", "STRI", "VTA"],
+      "diagnosticTriggers": ["GDP contraction", "Output gap widening", "Mass unemployment", "Wage stagnation crisis", "Consumer confidence collapse", "Spending contraction", "Industrial output decline", "Manufacturing sector hollowing", "Startup formation decline", "Entrepreneurial spirit suppression"],
+      "basis": "diagnosis id === Economy issue id; when active, the (energy-pattern) adapter marks its issues['RECESSION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). This alias lists exactly those brainNodeIds and their activations' FREE-TEXT diagnosticTriggers. Because Economy triggers are free text (NOT diagnosis ids as in Finance), this expansion is load-bearing: it protects every co-circuit node's phrase strings from a false extinction retire."
+    },
+    "HYPERINFLATION": {
+      "circuitSource": "_authored",
+      "activations": ["HYPO", "THAL", "vmPFC", "NAcc", "BLA", "TPJ"],
+      "diagnosticTriggers": ["Runaway inflation", "Deflationary spiral", "Interest rate miscalibration", "Liquidity trap", "Fiscal deficit spiral", "Austerity overcorrection", "Consumer confidence collapse", "Spending contraction", "Yield curve inversion", "Credit market freeze", "Trade deficit explosion", "Export competitiveness collapse"],
+      "basis": "diagnosis id === Economy issue id; adapter marks issues['HYPERINFLATION']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). Lists those brainNodeIds and their free-text diagnosticTriggers. Direct data link, no inference."
+    },
+    "BANKING_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": ["dlPFC", "BLA", "THAL", "OFC", "HIPP"],
+      "diagnosticTriggers": ["Bank run contagion", "Systemic solvency crisis", "Yield curve inversion", "Credit market freeze", "Interest rate miscalibration", "Liquidity trap", "Market volatility spike", "Capital flight", "Housing bubble formation", "Commercial real estate collapse"],
+      "basis": "diagnosis id === Economy issue id; adapter marks issues['BANKING_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). Lists those brainNodeIds and their free-text diagnosticTriggers. Direct data link, no inference."
+    },
+    "TRADE_WAR": {
+      "circuitSource": "_authored",
+      "activations": ["TPJ", "CBLM", "STRI", "HYPO", "dACC", "FPN"],
+      "diagnosticTriggers": ["Trade deficit explosion", "Export competitiveness collapse", "Supply chain disruption", "Logistics network failure", "Industrial output decline", "Manufacturing sector hollowing", "Runaway inflation", "Deflationary spiral", "Regulatory failure", "Market manipulation unchecked", "Tech bubble burst", "Innovation stagnation"],
+      "basis": "diagnosis id === Economy issue id; adapter marks issues['TRADE_WAR']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). Lists those brainNodeIds and their free-text diagnosticTriggers. Direct data link, no inference."
+    },
+    "DEBT_CRISIS": {
+      "circuitSource": "_authored",
+      "activations": ["BLA", "vmPFC", "dlPFC", "ECN", "THAL"],
+      "diagnosticTriggers": ["Yield curve inversion", "Credit market freeze", "Fiscal deficit spiral", "Austerity overcorrection", "Bank run contagion", "Systemic solvency crisis", "Statistical system degradation", "Indicator manipulation", "Interest rate miscalibration", "Liquidity trap"],
+      "basis": "diagnosis id === Economy issue id; adapter marks issues['DEBT_CRISIS']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). Lists those brainNodeIds and their free-text diagnosticTriggers. Direct data link, no inference."
+    },
+    "MARKET_CRASH": {
+      "circuitSource": "_authored",
+      "activations": ["OFC", "BLA", "NAcc", "HIPP", "VTA", "dACC"],
+      "diagnosticTriggers": ["Market volatility spike", "Capital flight", "Yield curve inversion", "Credit market freeze", "Consumer confidence collapse", "Spending contraction", "Housing bubble formation", "Commercial real estate collapse", "Startup formation decline", "Entrepreneurial spirit suppression", "Regulatory failure", "Market manipulation unchecked"],
+      "basis": "diagnosis id === Economy issue id; adapter marks issues['MARKET_CRASH']._authored circuit nodes active (energy-telemetry-adapter.js L79-101). Lists those brainNodeIds and their free-text diagnosticTriggers. Direct data link, no inference. MARKET_CRASH is the one catchAllBlocked:false diagnosis (economy-pulse-engine.js L121) — it can be activated by the stress catch-all."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "code": "macro_shock",
+        "evidenceFamilies": ["macro_event"],
+        "reason": "economy-pulse-engine.js classifies macro_shock -> evidence family [macro_event] (L238-240), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies (L54-122). The family is a dead-end: it reaches no diagnosis, hence no _authored circuit, hence no activation. NOTE: macro_shock IS listed as a MARKET_CRASH secondaryConfirmation token (L116), but MARKET_CRASH.requiredFamilies are [market_event, asset_event] (L113) and the requiredFamily OR-gate (L253-259) never consults secondaryConfirmation, so macro_shock cannot gate MARKET_CRASH. No grounded alias. (Same dead-end shape as Finance macro_shock/macro_event.)"
+      },
+      {
+        "code": "_stress_* (prefix pattern)",
+        "evidenceFamilies": [],
+        "reason": "economy-pulse-engine.js explicitly SKIPS any condition whose name starts with _stress_ (L190-191: continue before any family assignment). These dynamically-generated stress tokens emit no evidence family and are named in no contract, so there is no defensible condition->diagnosis link. The one catch-all-eligible diagnosis (MARKET_CRASH, catchAllBlocked:false) is reached by a diagnosis being externally marked active without evidence (L262-263), NOT by any _stress_ condition-code, so no alias can be grounded here. (Same exclusion as Finance _stress_*.)"
+      }
+    ],
+    "diagnoses": [],
+    "activationsWithTriggersButNoTriggerSource": [
+      {
+        "brainNodeId": "AI",
+        "domainLabel": "Services Sector",
+        "diagnosticTriggers": ["Service sector contraction", "Quality degradation in essential services"],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit (RECESSION/HYPERINFLATION/BANKING_CRISIS/TRADE_WAR/DEBT_CRISIS/MARKET_CRASH) and no condition-code chain reaches it. Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it. (Economy analog of the Energy Data Centers / Finance SMA-AMY-INS orphans.)"
+      },
+      {
+        "brainNodeId": "SNS",
+        "domainLabel": "Energy Costs (Cost-Push Inflation Input)",
+        "diagnosticTriggers": ["Oil price spike (cost-push inflation pressure)", "Gasoline price surge eroding real consumer spending", "Energy-driven CPI acceleration"],
+        "reason": "Activation has diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it (it is a MACRO_INPUT boundary node ingesting energy prices as a cost-push signal, weight 0.8). Under current wiring nothing marks it active, so extinction would ALWAYS list it for retirement. No grounded alias exists; NOT fabricated. Its cost-push channel would most plausibly be authored into HYPERINFLATION (inflation) before extinction should touch it."
+      },
+      {
+        "brainNodeId": "PAG",
+        "domainLabel": "Business Cycle",
+        "diagnosticTriggers": ["Yield curve inversion (T10Y3M spread negative)", "Recession probability rising (RECPROUSM156N > 0.5)", "Leading economic index declining (USSLIND falling)", "NBER recession declared (USREC = 1)"],
+        "reason": "Activation has rich diagnosticTriggers but its brainNodeId appears in NO issue._authored circuit and no condition-code chain reaches it. PAG is the special macro-regime / business-cycle node (macroRegimeBinding, _enrichment._macroRegime) authored as a global modulatory regime rather than a member of any single issue circuit. Under current wiring nothing marks it active via the diagnosis path, so extinction would ALWAYS list it for retirement. No grounded condition/diagnosis alias exists; NOT fabricated. It is driven by its own FRED regime series (USREC/RECPROUSM156N/T10Y3M), which is a separate binding this pulse-engine table does not cover; it should be exempted from diagnosis-driven extinction rather than aliased."
+      }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      {
+        "brainNodeId": "CeA",
+        "domainLabel": "Supply Chain",
+        "diagnosticTriggers": [],
+        "reason": "Unreachable by any issue circuit (a second, duplicate 'Supply Chain' node, weight 0.8), but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed. (Economy analog of the Finance BNST/AG/SNIG/sgACC empty-trigger exemptions.)"
+      }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Economy: every primaryIndicator/secondaryConfirmation token in EVIDENCE_CONTRACTS is also handled by the inline classify switch (L186-241), so there are no contract-only-unclassified tokens (unlike Energy REFINERY_ATTACK/SANCTIONS). Conversely macro_shock is classified but named in no requiredFamily and does not ground (see unmapped)."
+  }
+}

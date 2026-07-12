@@ -1,0 +1,197 @@
+{
+  "_meta": {
+    "domain": "medicine",
+    "title": "Medicine — Neural Substrate Overlay",
+    "compiled": "2026-07-12",
+    "source_document": "LIMEN Helix — Comprehensive Neurology & Nervous System Reference (Jul 2026). THIS DOCUMENT ONLY. Domain-generic sections copied verbatim from finance-neuro-substrate.json / energy-neuro-substrate.json.",
+    "additive_contract": "Purely additive overlay. Does NOT modify assets/data/domains/medicine.json or any existing medicine file. References existing Medicine node IDs and issue IDs by value only. Mirrors the Energy/Finance neuro-substrate overlay shape for the Medicine domain.",
+    "advisory_only": "This overlay is ADVISORY. It classifies existing authored circuits against the source document's Part XIV failure taxonomy and runs the Part XIV incomplete-circuit test. It writes nothing back and changes no live behavior on load.",
+    "grounded_sections": [
+      "fractal_critical_mechanisms, inhibitory_motifs_catalog, oscillatory_bands, failure_modes, parameter_table, references — DOMAIN-GENERIC, copied verbatim from energy-neuro-substrate.json via finance-neuro-substrate.json (source-document-grounded).",
+      "issue_failure_class_map — 8 of 10 Medicine issues grounded in each issue's OWN canonical circuit detail and/or summary text (quoted per issue). 2 issues UNMAPPED (DRUG_RESISTANCE, THERAPEUTIC_RELIABILITY_RISK).",
+      "incomplete_circuit_diagnostic — run against medicine.json real _authored circuits (JS validateIncompleteCircuit() semantics, REGULATORY_NODES from energy-neuro-substrate.js); verdict 6/10 complete, 4/10 INCOMPLETE_CIRCUIT."
+    ],
+    "heterogeneity_flagged": [
+      "TWO UNMAPPED issues, both keyed to the SAME named mechanism 'model-drift'. DRUG_RESISTANCE (canonical NEOCER[Hyper] 'cognitive forward model — model-drift', summary = accelerating antimicrobial resistance) and THERAPEUTIC_RELIABILITY_RISK (canonical CBLM[Hyper] 'forward-model error-correct — model-drift', summary = treatment inconsistency / evidence-to-care translation lag / quality variation). Model-drift is a PREDICTIVE-CODING / forward-model divergence: for DRUG_RESISTANCE it is an evolutionary arms-race (an adaptive adversary the model cannot keep pace with); for THERAPEUTIC_RELIABILITY_RISK it is calibration/reliability variance. The 9 Part XIV classes are all E/I-dynamics archetypes (excitation, inhibition, gating, clearance, synchrony, propagation); NONE expresses predictive-model drift, adaptation, or reliability variance. Marked UNMAPPED rather than force-fit. THIS IS THE KEY MEDICINE FINDING: predictive-coding is a listed CRITICAL MECHANISM (Part XIII.5) but the Part XIV FAILURE taxonomy has no model-drift class — the same structural gap that left Finance's FRAUD_SCANDAL unmapped, on a different axis (adaptation/calibration rather than deception).",
+      "MALPRACTICE_CRISIS — its DOMAIN framing ('systemic increase in medical errors, diagnostic failures... eroding public trust') is an information-integrity / error-reporting phenomenon adjacent to Finance's fraud archetype. UNLIKE fraud, however, its named NEURAL mechanism (canonical dACC[Hypo] 'conflict/error monitor — noise-chase') IS a genuine E/I archetype: a hypoactive error-monitoring brake that releases preventable harm = DISINHIBITION_SYNDROME. It therefore MAPS. Divergence between domain-content flavor (error-reporting) and named mechanism (brake-loss) recorded, resolved toward the mechanism cue.",
+      "CLINICAL_COORDINATION_BREAKDOWN — classed on its SUMMARY (fragmentation / referral leakage / interoperability gaps / handoff loss -> DEAFFERENTATION_DIASCHISIS). Its canonical NODE cue is THAL[Hypo] 'gating relay — stuck-closed=starvation' (= GATING_FAILURE), the SAME canonical cue as SUPPLY_SHORTAGE and CARE_ACCESS_FAILURE. Only the latter two are true starvation/GATING; the coordination issue is really disconnection across the graph. Node-cue vs summary divergence flagged, not resolved by guessing.",
+      "Medicine uses a BROADER slice of the taxonomy than Finance: EXCITOTOXICITY (PANDEMIC), CORTICAL_SPREADING_DEPRESSION (HEALTHCARE_COLLAPSE) and OSCILLATORY_PATHOLOGY (MENTAL_HEALTH_CRISIS) are all invoked here and were NOT used by Finance — consistent with Medicine being the domain whose failures are most literally physiological/dynamical.",
+      "INCOMPLETE-CIRCUIT result differs sharply from Finance. Finance passed 6/6; Medicine FAILS 4 of 10 (_authored circuits for HEALTHCARE_COLLAPSE, MENTAL_HEALTH_CRISIS, CHRONIC_DISEASE_LOAD, CLINICAL_COORDINATION_BREAKDOWN contain NO node from REGULATORY_NODES = their brake/feedback arm is omitted). Notably CHRONIC_DISEASE_LOAD's CANONICAL single-node circuit IS a regulatory node (HYPO) yet its _authored circuit drops HYPO -> _authored fails while canonical-only would pass (the inverse of Finance's MARKET_CRASH/SYSTEMIC_CONTAGION note)."
+    ],
+    "honesty_note": "Mechanisms, failure-mode classes, parameters, and references below are verbatim-grounded in the source document. Per-node / per-edge Medicine-specific assignments the document gives no basis for (which edge is which inhibitory motif, which oscillatory band, which neuromodulator, which predictive direction) are NOT guessed here; only the two operations the source document directly supports are performed: (1) classify each authored issue against the Part XIV failure taxonomy where the issue's own text names a matching mechanism, and (2) run the Part XIV incomplete-circuit test. Where the issue text names a mechanism with no analog among the 9 classes (model-drift), it is marked UNMAPPED."
+  },
+
+  "fractal_critical_mechanisms": [
+    { "id": "EI_BALANCE", "part": "XIII.1", "name": "Excitation/inhibition (E/I) balance", "definition": "Inhibition tracks excitation on a millisecond timescale; balance sets gain, dynamic range, timing precision, and stability. Loss of inhibition -> runaway (seizure); excess -> silence.", "design_invariant": "Any faithful mapping must have inhibition/brakes that SCALE WITH DRIVE.", "status": "generic" },
+    { "id": "INHIBITORY_MOTIFS", "part": "XIII.2", "name": "Four inhibitory motifs", "definition": "feedforward (narrow temporal window / coincidence), feedback/recurrent (self-limiting, gain control, stability), lateral (contrast enhancement, winner-take-all, sparsening), disinhibition (inhibiting an inhibitor = permissive gating/selection).", "design_invariant": "All four are reused at every scale; their absence breaks the fractal.", "status": "generic" },
+    { "id": "OSCILLATIONS", "part": "XIII.3", "name": "Oscillations & communication-through-coherence", "definition": "Rhythms create periodic windows of excitability; groups that oscillate coherently open input/output windows at the same time and communicate; incoherent groups are functionally disconnected. Bands: delta 1-4, theta 4-8, alpha 8-12, beta 13-30, gamma 30-80+ Hz.", "design_invariant": "Coherence = a dynamic routing/connection switch. There is an OPTIMAL coupling band; too-strong and too-weak coupling both fail.", "status": "generic" },
+    { "id": "THALAMOCORTICAL_GATING", "part": "XIII.4", "name": "Thalamocortical gating", "definition": "Thalamus + TRN gate what reaches cortex; tonic (faithful relay) vs burst (detection/alerting) modes under corticothalamic top-down control.", "design_invariant": "Gating must occur AT THE RIGHT STAGE - filter too early (before the circuit that needs the signal) and you lose information you cannot recover.", "status": "generic" },
+    { "id": "PREDICTIVE_CODING", "part": "XIII.5", "name": "Predictive coding / prediction error", "definition": "Hierarchical generative machine: top-down predictions descend, bottom-up prediction ERRORS ascend, only the mismatch propagates upward. Laminar correlate: forward = error, backward = prediction.", "design_invariant": "'Prediction error drives update' must also GENERATE predictions at the mapped scale, not merely react.", "status": "generic" },
+    { "id": "PLASTICITY", "part": "XIII.6", "name": "Plasticity / learning rules", "definition": "Hebbian (correlated -> strengthen); STDP (pre-before-post ~+10 ms -> LTP, post-before-pre -> LTD; dopamine extends LTP window to ~+30 ms); LTP/LTD (NMDA/Ca2+); homeostatic scaling (global normalization keeping drive in range so Hebbian learning does not run away); metaplasticity (threshold for change adapts).", "design_invariant": "A stabilizing counter-process (homeostatic scaling) MUST counter positive-feedback Hebbian learning, or the system runs away.", "status": "generic" },
+    { "id": "NEUROMODULATION_GAIN", "part": "XIII.7", "name": "Neuromodulation & gain", "definition": "Diffuse systems (DA, NE, 5-HT, ACh) carry no detailed content; they set global regime - gain, signal-to-noise, exploration/exploitation, learning rate, arousal. A small modulatory signal reconfigures the whole network's operating point.", "design_invariant": "A small broadcast signal must be able to rescale the whole system's operating point (one-to-many, multiplicative).", "status": "generic" },
+    { "id": "POPULATION_ATTRACTOR", "part": "XIII.8", "name": "Population & attractor dynamics", "definition": "Information lives in distributed population activity, not single cells; sparse coding is efficient/separable; attractor dynamics implement stable states and transitions. Over-gating, over-synchrony, or lost inhibition suppress emergence.", "design_invariant": "Emergence requires distributed, sparse, inhibition-balanced activity; do not concentrate all state in one node.", "status": "generic" },
+    { "id": "SLEEP_OFFLINE", "part": "XIII.9", "name": "Sleep, homeostasis & offline processing", "definition": "Sleep down-scales synapses globally while consolidating select memories, and drives glymphatic clearance of waste.", "design_invariant": "A mandatory OFFLINE maintenance/reset phase - a system with no downtime accumulates damage.", "status": "generic" },
+    { "id": "TERMINATION_CLEARANCE", "part": "IV.6", "name": "Signal termination / clearance", "definition": "Reuptake, enzymatic degradation, and diffusion bound signal persistence; termination is as important as release and prevents excitotoxic accumulation.", "design_invariant": "Clearance/termination must bound signal persistence; a signal that isn't cleared becomes toxic (see failure mode EXCITOTOXICITY).", "status": "generic" },
+    { "id": "REFRACTORINESS", "part": "III.3", "name": "Refractoriness / dead-time rate limiter", "definition": "Absolute refractory period (~1-2 ms) after an action prevents a second action; enforces one-way propagation and caps maximum firing rate.", "design_invariant": "A built-in rate limiter / dead-time after action must exist to cap throughput and enforce directionality.", "status": "generic" }
+  ],
+
+  "inhibitory_motifs_catalog": [
+    { "id": "feedforward", "definition": "Input excites both a target and an interneuron that inhibits the target -> narrow temporal window (coincidence-detection, AND within a time window)." },
+    { "id": "feedback", "definition": "Output feeds back through interneurons -> self-limiting, gain control, stability." },
+    { "id": "lateral", "definition": "Active units suppress neighbors -> contrast enhancement, winner-take-all, sparsening." },
+    { "id": "disinhibition", "definition": "Inhibiting an inhibitor -> permissive gating / selection." }
+  ],
+
+  "oscillatory_bands": [
+    { "band": "delta", "hz": "1-4", "role": "deep sleep" },
+    { "band": "theta", "hz": "4-8", "role": "memory / navigation" },
+    { "band": "alpha", "hz": "8-12", "role": "idling / inhibitory gating" },
+    { "band": "beta", "hz": "13-30", "role": "maintenance / motor set" },
+    { "band": "gamma", "hz": "30-80+", "role": "local active processing" }
+  ],
+
+  "failure_modes": [
+    { "id": "SEIZURE", "part": "XIV", "definition": "E/I balance failure: runaway recurrent excitation when inhibition is insufficient. Archetypal no-brakes -> runaway.", "invariant_violated": "EI_BALANCE (loss of load-bearing inhibition)" },
+    { "id": "EXCITOTOXICITY", "part": "XIV", "definition": "Excessive drive with failed termination/clearance -> overload -> death of the unit.", "invariant_violated": "TERMINATION_CLEARANCE (signal not cleared becomes toxic)" },
+    { "id": "CORTICAL_SPREADING_DEPRESSION", "part": "XIV", "definition": "A slow wave of depolarization then silence; homeostatic overwhelm.", "invariant_violated": "SLEEP_OFFLINE / homeostasis" },
+    { "id": "GATING_FAILURE", "part": "XIV", "definition": "Thalamocortical/TRN gating breakdown: too little filtering -> flooding, or mis-timed gating -> wrong information passed; gate stuck closed -> starvation.", "invariant_violated": "THALAMOCORTICAL_GATING (right-stage gating)" },
+    { "id": "DISINHIBITION_SYNDROME", "part": "XIV", "definition": "Losing the inhibitor releases pathological activity (loss of the stop/brake).", "invariant_violated": "INHIBITORY_MOTIFS / EI_BALANCE" },
+    { "id": "OSCILLATORY_PATHOLOGY", "part": "XIV", "definition": "Over-coupling (hypersynchrony) or under-coupling; both degrade communication.", "invariant_violated": "OSCILLATIONS (optimal coupling band; extremes fail)" },
+    { "id": "NEURODEGENERATION", "part": "XIV", "definition": "Aggregation + failed clearance + network collapse; maintenance failure compounding over time.", "invariant_violated": "SLEEP_OFFLINE / TERMINATION_CLEARANCE" },
+    { "id": "DEAFFERENTATION_DIASCHISIS", "part": "XIV", "definition": "Losing input disables not just the lesioned node but distant connected regions. THE NETWORK, NOT THE NODE, IS THE UNIT OF FAILURE; failures propagate across the graph.", "invariant_violated": "POPULATION_ATTRACTOR (distributed failure propagation)" },
+    { "id": "INCOMPLETE_CIRCUIT", "part": "XIV", "definition": "A circuit built without its regulatory partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition; feedback without the sensor). THE DIRECT DIAGNOSTIC FOR A BROKEN FRACTAL MAPPING: if the mapping omits the inhibitory/feedback/extinction arm, it is lesioned in the same way a brain is.", "invariant_violated": "any regulatory arm omitted" }
+  ],
+
+  "issue_failure_class_map": {
+    "_basis": "GROUNDED: each mapping uses the Medicine issue's OWN text (canonical circuit detail and/or summary, quoted in medicine_text) plus the document's Part XIV named class. No new class was invented. Where the issue text names a mechanism with no analog among the 9 classes (model-drift), it is marked UNMAPPED rather than force-fit.",
+    "_count": "8 grounded, 2 UNMAPPED (of 10 issues).",
+    "_classes_used": "EXCITOTOXICITY, CORTICAL_SPREADING_DEPRESSION, DISINHIBITION_SYNDROME (x2), GATING_FAILURE (x2), OSCILLATORY_PATHOLOGY, DEAFFERENTATION_DIASCHISIS — 6 distinct classes across the 8 grounded issues (Finance used 4).",
+    "PANDEMIC": {
+      "class": "EXCITOTOXICITY",
+      "subtype": "sustained excessive drive with no termination -> overload -> burnout/death of the unit",
+      "medicine_text": "canonical circuit BNST[Hyper]: \"sustained threat monitor — tonic-stuck=burnout\"; _authored OXY[Hyper-active]: \"Nursing workforce stretched beyond safe limits with burnout and moral injury\"; summary: \"Rapid spread of novel infectious disease overwhelming healthcare capacity... simultaneously\"",
+      "reasoning": "The named canonical mechanism is a sustained-threat monitor 'tonic-stuck=burnout' — drive held ON with no termination until the unit overloads and dies (burnout). That is the EXCITOTOXICITY archetype (excessive drive + failed termination -> overload -> death), independently echoed by the _authored OXY node ('burnout and moral injury'). Clearance/termination is the violated invariant.",
+      "note": "Straddles SEIZURE — the summary's 'rapid spread... overwhelming capacity' is a runaway-propagation flavor. Classed EXCITOTOXICITY on the dominant canonical node cue ('tonic-stuck=burnout' = overload-to-death, not convulsive runaway)."
+    },
+    "DRUG_RESISTANCE": {
+      "class": "UNMAPPED",
+      "reason": "Issue text names a mechanism ('model-drift') with NO analog among the 9 Part XIV classes.",
+      "medicine_text": "canonical circuit NEOCER[Hyper]: \"cognitive forward model — model-drift\"; summary: \"Accelerating antimicrobial resistance rendering standard treatments ineffective, threatening a return to pre-antibiotic mortality rates\"; _authored HYPO[Hypo-active]: \"Pharmaceutical pipeline failing to produce new antimicrobial agents at the rate resistance emerges\"",
+      "reasoning": "'Model-drift' in a forward model describes a PREDICTIVE-CODING divergence: the model of the pathogen falls out of calibration because the pathogen ADAPTS (an evolutionary arms-race against an adaptive adversary). The 9 Part XIV classes are dynamical E/I archetypes (excitation, inhibition, gating, clearance, synchrony, propagation); none expresses model-drift, adaptation, or an arms-race. Predictive coding is a listed CRITICAL MECHANISM (XIII.5) but has no FAILURE class in Part XIV. Forcing it into EXCITOTOXICITY on the secondary 'pipeline can't keep pace' clearance hint would over-reach past the named canonical mechanism. Marked UNMAPPED per discipline.",
+      "note": "One of the two KEY HETEROGENEITY findings. Same structural gap that left Finance's FRAUD_SCANDAL unmapped, on a different axis (adaptation/model-drift rather than deception)."
+    },
+    "HEALTHCARE_COLLAPSE": {
+      "class": "CORTICAL_SPREADING_DEPRESSION",
+      "subtype": "depolarization-then-silence / homeostatic overwhelm -> systemic shutdown",
+      "medicine_text": "canonical circuit DV[Hyper]: \"dorsal motor vagus — parasympathetic output — dorsal-vagal shutdown/collapse\"; summary: \"Systemic failure of healthcare delivery from combined workforce shortages, financial insolvency, and infrastructure degradation\"",
+      "reasoning": "The named canonical mechanism is 'dorsal-vagal shutdown/collapse' — the freeze/shutdown response in which the system depolarizes and then goes silent under overwhelm. That maps to CORTICAL_SPREADING_DEPRESSION (a slow wave of depolarization then silence; homeostatic overwhelm). The invariant violated is SLEEP_OFFLINE / homeostasis.",
+      "note": "Straddles NEURODEGENERATION — the summary's 'combined workforce shortages... infrastructure degradation' reads as compounding maintenance failure over time (NEURODEGENERATION = maintenance failure compounding -> network collapse). Classed CSD on the canonical node cue (acute shutdown-to-silence); NEURODEGENERATION divergence recorded. Its _authored circuit also FAILS the incomplete-circuit test (no regulatory partner)."
+    },
+    "MALPRACTICE_CRISIS": {
+      "class": "DISINHIBITION_SYNDROME",
+      "subtype": "loss of the error-catching brake -> preventable harm released",
+      "medicine_text": "canonical circuit dACC[Hypo]: \"conflict/error monitor — noise-chase\"; _authored dACC[Hypo-active]: \"Error detection systems failing to catch diagnostic mistakes before patient harm occurs\"; summary: \"Systemic increase in medical errors, diagnostic failures, and preventable harm eroding public trust\"",
+      "reasoning": "A HYPOACTIVE conflict/error monitor is the loss of an inhibitory oversight function (the brake that catches mistakes). Losing the inhibitor releases pathological activity (here: preventable harm) = DISINHIBITION_SYNDROME (loss of the stop/brake). The named neural mechanism is a genuine E/I archetype, so the issue maps.",
+      "note": "HETEROGENEITY FLAG: the issue's DOMAIN framing ('medical errors... eroding public trust') is an information-integrity / error-reporting phenomenon adjacent to Finance's FRAUD_SCANDAL. UNLIKE fraud (fabricated content, no neural analog), Medicine's named mechanism here is a real hypoactive brake, so it grounds in DISINHIBITION_SYNDROME rather than going UNMAPPED. Divergence between content flavor (error-reporting) and mechanism (brake-loss) resolved toward the mechanism cue."
+    },
+    "SUPPLY_SHORTAGE": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-closed -> starvation",
+      "medicine_text": "canonical circuit THAL[Hypo]: \"gating relay / routing — stuck-closed=starvation\"; summary: \"Critical shortages of medications, devices, blood products, and protective equipment disrupting care delivery across all specialties\"",
+      "reasoning": "The named mechanism is a routing gate 'stuck-closed=starvation': the throughput gate for supplies is shut and the downstream (all specialties) is starved. That is exactly the GATING_FAILURE archetype (gate stuck closed -> starvation). Strongest grounding of the set alongside CARE_ACCESS_FAILURE.",
+      "note": "Mirrors Finance BANKING_CRISIS/CREDIT_FREEZE (GP/THAL output-gate lock)."
+    },
+    "MENTAL_HEALTH_CRISIS": {
+      "class": "OSCILLATORY_PATHOLOGY",
+      "subtype": "over-coupling / hypersynchrony (DMN over-engagement -> rumination)",
+      "medicine_text": "canonical circuit mPFC[Hyper]: \"medial PFC — self-referential value integration (DMN core) — self-focus/rumination\"; summary: \"Escalating prevalence of depression, anxiety, PTSD, and suicidality overwhelming psychiatric capacity\"",
+      "reasoning": "The named canonical mechanism is a HYPERactive DMN core locked in 'self-focus/rumination' — pathological over-engagement / over-coupling of the default-mode network, the hypersynchrony pole of OSCILLATORY_PATHOLOGY (over-coupling degrades communication). The rumination-as-DMN-hyperconnectivity reading is the one carried elsewhere in this system.",
+      "note": "Alternates: SEIZURE (a runaway recurrent self-excitatory loop the vmPFC brake fails to stop) and DISINHIBITION_SYNDROME (failed extinction / PTSD, named in the summary). Classed OSCILLATORY_PATHOLOGY on the 'DMN-core hyperconnectivity/rumination' cue; alternates recorded. Its _authored circuit also FAILS the incomplete-circuit test (no regulatory partner)."
+    },
+    "CARE_ACCESS_FAILURE": {
+      "class": "GATING_FAILURE",
+      "subtype": "gate-stuck-closed -> starvation",
+      "medicine_text": "canonical circuit THAL[Hypo]: \"gating relay / routing — stuck-closed=starvation\"; summary: \"Treatment access gaps, provider shortage, delayed care, geographic care deserts, and affordability-driven deferral collapsing patient access pathways\"",
+      "reasoning": "Same routing-gate 'stuck-closed=starvation' mechanism as SUPPLY_SHORTAGE: the access gate is shut and patients are starved of care. GATING_FAILURE (gate stuck closed -> starvation). The summary is squarely about STARVATION of access (patients cannot get in), which distinguishes it from CLINICAL_COORDINATION_BREAKDOWN (patients get in but are lost between nodes).",
+      "note": "Shares the identical canonical THAL cue with SUPPLY_SHORTAGE and CLINICAL_COORDINATION_BREAKDOWN; only SUPPLY_SHORTAGE and CARE_ACCESS_FAILURE are true starvation/GATING (see CLINICAL_COORDINATION_BREAKDOWN)."
+    },
+    "CHRONIC_DISEASE_LOAD": {
+      "class": "DISINHIBITION_SYNDROME",
+      "subtype": "severed homeostatic negative-feedback brake -> runaway",
+      "medicine_text": "canonical circuit HYPO[Hyper]: \"homeostatic set-point — severed=runaway\"; summary: \"Rising metabolic burden, persistent cardiovascular strain, diabetes and obesity escalation creating sustained long-duration treatment demand\"",
+      "reasoning": "The named mechanism is a homeostatic set-point 'severed=runaway' — the negative-feedback brake is cut, so the load runs away with no stabilizer. Losing the stop/brake and releasing runaway activity is the DISINHIBITION_SYNDROME definition. Directly parallels Finance CURRENCY_COLLAPSE ('brake-fail=rogue'); here the cue names the feedback loop severed.",
+      "note": "The canonical single-node circuit here IS a regulatory node (HYPO), yet the _authored circuit (BNST, CARD, mPFC, BDNF, ECN) DROPS HYPO and every other regulatory node -> _authored FAILS the incomplete-circuit test while canonical-only would pass. Inverse of Finance's MARKET_CRASH/SYSTEMIC_CONTAGION note; recorded in incomplete_circuit_diagnostic."
+    },
+    "CLINICAL_COORDINATION_BREAKDOWN": {
+      "class": "DEAFFERENTATION_DIASCHISIS",
+      "subtype": "cross-graph fragmentation / lost input -> the network is the unit of failure",
+      "medicine_text": "summary: \"Fragmented care pathways, referral leakage, discharge failure, poor interoperability, and multi-provider coordination gaps disrupting continuity of care\"; _authored details: \"losing patients at handoff points between services\", \"results not reaching referring providers in time\", \"findings failing to propagate through fragmented clinical information systems\"; canonical circuit THAL[Hypo]: \"gating relay / routing — stuck-closed=starvation\"",
+      "reasoning": "The summary and _authored details describe DISCONNECTION across the care graph — inputs (results, referrals, patients) failing to propagate between connected nodes, continuity lost at handoffs. That is definitionally DEAFFERENTATION_DIASCHISIS (losing input disables distant connected regions; the network, not the node, is the unit of failure).",
+      "note": "Classed on the SUMMARY. The canonical NODE cue (THAL 'stuck-closed=starvation') points at GATING_FAILURE — the SAME cue SUPPLY_SHORTAGE and CARE_ACCESS_FAILURE use for true starvation. Here the governing phenomenon is fragmentation/disconnection, not starvation; node-cue vs summary divergence flagged, not resolved by guessing. Its _authored circuit also FAILS the incomplete-circuit test (no regulatory partner)."
+    },
+    "THERAPEUTIC_RELIABILITY_RISK": {
+      "class": "UNMAPPED",
+      "reason": "Issue text names a mechanism ('model-drift') with NO analog among the 9 Part XIV classes.",
+      "medicine_text": "canonical circuit CBLM[Hyper]: \"forward-model error-correct — model-drift\"; summary: \"Treatment inconsistency, evidence-to-care translation lag, diagnostic uncertainty, trial-to-practice gap, and quality variation across clinical sites\"",
+      "reasoning": "'Forward-model error-correct — model-drift' names a PREDICTIVE-CODING / calibration failure: the forward model drifts and treatment reliability varies across sites (a variance / consistency / QC problem). The 9 Part XIV classes are E/I-dynamics archetypes; none expresses model-drift or reliability variance. Predictive coding is a listed CRITICAL MECHANISM (XIII.5) but has no FAILURE class. Marked UNMAPPED per discipline rather than forced.",
+      "note": "Second of the two KEY HETEROGENEITY findings — shares the 'model-drift' cue with DRUG_RESISTANCE. Here the axis is calibration/reliability variance (vs DRUG_RESISTANCE's adaptive arms-race). Both sit outside the E/I-dynamics taxonomy."
+    }
+  },
+
+  "incomplete_circuit_diagnostic": {
+    "_test": "Part XIV: does each issue's authored circuit contain a regulatory/inhibitory/feedback partner from the REGULATORY_NODES set in energy-neuro-substrate.js (vmPFC, dlPFC, OFC, STN, GP, HIPP, HYPO, dACC, CBLM)? Run against medicine.json _authored circuits, matching the JS validateIncompleteCircuit() behavior (uses _authored node list).",
+    "_verdict_summary": "MIXED: 6/10 complete, 4/10 INCOMPLETE_CIRCUIT. This DIFFERS SHARPLY from Finance (6/6 PASS) and Energy (6/6). Four Medicine issues (HEALTHCARE_COLLAPSE, MENTAL_HEALTH_CRISIS, CHRONIC_DISEASE_LOAD, CLINICAL_COORDINATION_BREAKDOWN) author multi-node circuits that contain NO node from REGULATORY_NODES — their inhibitory/feedback/homeostatic arm is omitted, so under Part XIV they are lesioned in the same way a brain is. Notably CHRONIC_DISEASE_LOAD's CANONICAL circuit IS a regulatory node (HYPO) that its _authored circuit drops.",
+    "_counts": { "complete": 6, "incomplete": 4 },
+    "PANDEMIC": { "verdict": "complete", "circuit": ["CeA", "dlPFC", "ECN", "MICRO", "OXY"], "regulatory_partners_present": ["dlPFC"] },
+    "DRUG_RESISTANCE": { "verdict": "complete", "circuit": ["HYPO", "MICRO", "ECN", "M1"], "regulatory_partners_present": ["HYPO"], "observation": "Structurally complete under the incomplete-circuit test, yet UNMAPPED in the failure-class map (model-drift is outside the 9-class taxonomy). The two diagnostics are independent." },
+    "HEALTHCARE_COLLAPSE": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["OXY", "mPFC", "CeA", "rACC", "BDNF"], "regulatory_partners_present": [], "observation": "No REGULATORY_NODES member present. mPFC and rACC are cortical but NOT in the regulatory set (only vmPFC/dlPFC/OFC among PFC nodes qualify); the brake/feedback arm is omitted." },
+    "MALPRACTICE_CRISIS": { "verdict": "complete", "circuit": ["dACC", "FG", "LGN", "rACC"], "regulatory_partners_present": ["dACC"], "observation": "dACC (the hypoactive error monitor itself) supplies the regulatory partner; the circuit is structurally complete even though the FAILURE is the hypoactivity of that very node." },
+    "SUPPLY_SHORTAGE": { "verdict": "complete", "circuit": ["HYPO", "M1", "GABA_GLU", "V1"], "regulatory_partners_present": ["HYPO"] },
+    "MENTAL_HEALTH_CRISIS": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["DMN", "CeA", "mPFC", "OXY", "BDNF"], "regulatory_partners_present": [], "observation": "No REGULATORY_NODES member present. The rumination issue authors the DMN driver (mPFC, DMN) with no vmPFC/dlPFC brake and no HIPP feedback — the extinction/inhibition arm is exactly what is missing, consistent with the failure it names." },
+    "CARE_ACCESS_FAILURE": { "verdict": "complete", "circuit": ["mPFC", "CeA", "PCC", "dlPFC", "OXY"], "regulatory_partners_present": ["dlPFC"] },
+    "CHRONIC_DISEASE_LOAD": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["BNST", "CARD", "mPFC", "BDNF", "ECN"], "regulatory_partners_present": [], "observation": "INVERSE OF FINANCE: the CANONICAL single-node circuit here IS a regulatory node (HYPO[Hyper], the severed homeostatic set-point), but the _authored circuit DROPS HYPO and every other regulatory node -> _authored is INCOMPLETE while canonical-only would PASS. The homeostatic-feedback arm whose failure IS the issue is not authored into the circuit." },
+    "CLINICAL_COORDINATION_BREAKDOWN": { "verdict": "INCOMPLETE_CIRCUIT", "circuit": ["mPFC", "PCC", "THAL", "LGN", "V1"], "regulatory_partners_present": [], "observation": "No REGULATORY_NODES member present (THAL is a gating hub, not in the regulatory set). A pure sensory/relay/DMN circuit with no feedback or inhibitory partner — structurally the diaschisis it describes." },
+    "THERAPEUTIC_RELIABILITY_RISK": { "verdict": "complete", "circuit": ["V1", "HYPO", "dACC", "FG", "FPN"], "regulatory_partners_present": ["HYPO", "dACC"], "observation": "Structurally complete, yet UNMAPPED in the failure-class map (model-drift outside the taxonomy). Independent diagnostics." }
+  },
+
+  "parameter_table": {
+    "_note": "Part XV, verbatim. Quantitative substrate for scale-rescaling. Confidence + anchor preserved.",
+    "rows": [
+      { "parameter": "Resting membrane potential", "value": "-65 to -70 mV", "confidence": "high", "anchor": "consensus (Kandel/Purves)" },
+      { "parameter": "AP threshold", "value": "~ -55 mV", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "AP duration", "value": "~1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Absolute refractory period", "value": "~1-2 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Synaptic (chemical) delay", "value": "~0.5-1 ms", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (unmyelinated C)", "value": "~0.5-2 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Conduction velocity (large myelinated Aa)", "value": "~80-120 m/s", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "STDP LTP window (baseline)", "value": "pre-before-post ~+10 ms", "confidence": "high", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "STDP LTP window (dopamine-extended)", "value": "to ~+30 ms", "confidence": "medium", "anchor": "Ruan 2014 (10.3389/fncir.2014.00038)" },
+      { "parameter": "Gamma oscillation band", "value": "~30-80+ Hz", "confidence": "high", "anchor": "Fries 2005 (10.1016/j.tics.2005.08.011)" },
+      { "parameter": "Theta band", "value": "~4-8 Hz", "confidence": "high", "anchor": "consensus / Voytek 2015 (10.1016/j.biopsych.2015.04.016)" },
+      { "parameter": "Alpha band", "value": "~8-12 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Beta band", "value": "~13-30 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Delta band", "value": "~1-4 Hz", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Thalamic relay modes", "value": "tonic vs burst", "confidence": "high", "anchor": "Ferrarelli & Tononi 2010 (10.1093/schbul/sbq142)" },
+      { "parameter": "HPA cortisol feedback (fast, nongenomic)", "value": "seconds-minutes", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "HPA cortisol feedback (genomic/slow)", "value": "minutes-hours", "confidence": "high", "anchor": "Keller-Wood 2015 (10.1002/cphy.c140065)" },
+      { "parameter": "Gut serotonin fraction of body total", "value": "~90-95%", "confidence": "high", "anchor": "consensus" },
+      { "parameter": "Glymphatic clearance", "value": "sleep-enhanced", "confidence": "medium", "anchor": "Benveniste 2018 (10.1159/000490349)" }
+    ],
+    "ratio_preservation_rule": "When mapping any neural time constant to a domain equivalent, hold the RATIOS between constants fixed, not just individual values. The ~1000x gap between AP duration (~1 ms) and slow neuromodulatory/hormonal feedback (~seconds-minutes) is the 'fast signal vs slow modulation' invariant; the Medicine mapping must preserve an analogous fast-action / slow-governance separation, or the fractal is cosmetic, not structural."
+  },
+
+  "references": [
+    { "n": 1, "cite": "Ruan H, Saur T, Yao WD. Dopamine-enabled anti-Hebbian timing-dependent plasticity in prefrontal circuitry. Front Neural Circuits, 2014.", "doi": "10.3389/fncir.2014.00038" },
+    { "n": 2, "cite": "Fries P. A mechanism for cognitive dynamics: neuronal communication through neuronal coherence. Trends Cogn Sci, 2005.", "doi": "10.1016/j.tics.2005.08.011" },
+    { "n": 3, "cite": "Voytek B, Knight RT. Dynamic network communication as a unifying neural basis for cognition, development, aging, and disease. Biol Psychiatry, 2015.", "doi": "10.1016/j.biopsych.2015.04.016" },
+    { "n": 4, "cite": "Basar E, Guntekin B, Oniz A. Principles of oscillatory brain dynamics... Prog Brain Res, 2006.", "doi": "10.1016/S0079-6123(06)59004-1" },
+    { "n": 5, "cite": "Shipp S. Neural Elements for Predictive Coding. Front Psychol, 2016.", "doi": "10.3389/fpsyg.2016.01792" },
+    { "n": 6, "cite": "Mikulasch FA, Rudelt L, Wibral M, Priesemann V. Where is the error? Hierarchical predictive coding through dendritic error computation. Trends Neurosci, 2023.", "doi": "10.1016/j.tins.2022.09.007" },
+    { "n": 7, "cite": "Ferrarelli F, Tononi G. The thalamic reticular nucleus and schizophrenia. Schizophr Bull, 2010.", "doi": "10.1093/schbul/sbq142" },
+    { "n": 8, "cite": "Niethard N, Burgalossi A, Born J. Plasticity during Sleep Is Linked to Specific Regulation of Cortical Circuit Activity. Front Neural Circuits, 2017.", "doi": "10.3389/fncir.2017.00065" },
+    { "n": 9, "cite": "Keller-Wood M. Hypothalamic-Pituitary-Adrenal Axis-Feedback Control. Compr Physiol, 2015.", "doi": "10.1002/cphy.c140065" },
+    { "n": 10, "cite": "Hill MN, Tasker JG. Endocannabinoid signaling, glucocorticoid-mediated negative feedback... Neuroscience, 2012.", "doi": "10.1016/j.neuroscience.2011.12.030" },
+    { "n": 11, "cite": "Rutsch A, Kantsjo JB, Ronchi F. The Gut-Brain Axis... Front Immunol, 2020.", "doi": "10.3389/fimmu.2020.604179" },
+    { "n": 12, "cite": "Benveniste H, Liu X, Koundal S, et al. The Glymphatic System and Waste Clearance with Brain Aging. Gerontology, 2018.", "doi": "10.1159/000490349" }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "_provenance": {
+    "purpose": "Grounded alias table so an Infrastructure extinction pass (energy-extinction.js pattern) does not falsely retire activations. activeTriggers is built from pulse condition-codes (e.g. grid_stress) + active diagnosis ids (energy-telemetry-adapter.js L48-53 pattern). In Infrastructure NEITHER the condition-codes NOR the active diagnosis ids textually equal any activation.diagnosticTrigger: activation triggers are FREE-TEXT phrases ('Grid frequency instability'), condition-codes are tokens ('grid_stress'), and the active diagnosis ids are brain keys ('GRID_DEGRADATION'). So BOTH maps below are strictly required (unlike Finance, where the diagnosis-id self-matched the trigger).",
+    "derivationChain": "condition-code --(infrastructure-pulse-engine.js inline classify, L179-233)--> evidence family --(EVIDENCE_CONTRACTS requiredFamilies, OR-semantics, L246-252)--> BRAIN diagnosis id (GRID_DEGRADATION / MAINTENANCE_DEFICIT / CYBER_PHYSICAL_ATTACK) --(domain-identity.js INFRA_PORTAL_TO_BRAIN, REVERSED)--> portal ISSUE id (GRID_FAILURE ...) --(infrastructure.json issues[]._authored circuit; adapter uses is._authored||is.circuits)--> circuit nodeIds --(those nodeIds are activations)--> free-text diagnosticTriggers. The INFRA_PORTAL_TO_BRAIN reverse hop is the EXTRA link Infrastructure needs that Finance did not: in Finance diagnosis id === issue id, but in Infrastructure the brain-diagnosis vocabulary (GRID_DEGRADATION) is DISJOINT from the portal-issue vocabulary (GRID_FAILURE) and infrastructure-brain.js L459-465 re-resolves them through INFRA_PORTAL_TO_BRAIN at runtime.",
+    "foldRule": "A condition-code is folded into a diagnosis only when the condition emits an evidence family that appears in that diagnosis's requiredFamilies (matching the actual code gate, requiredFamilies with OR-semantics, NOT primaryIndicators), AND that diagnosis's brain-key has at least one portal issue behind it via INFRA_PORTAL_TO_BRAIN (i.e. a real _authored circuit exists to expand). A condition whose only reachable diagnosis has NO portal issue (SUPPLY_CHAIN_BOTTLENECK, CAPACITY_OVERLOAD, FUNDING_COLLAPSE) is a dead-end and is listed under unmapped, NOT folded (bias against over-marking).",
+    "discipline": "No link invented. Conditions with no defensible chain to an _authored circuit are under unmapped. Trigger strings copied verbatim from infrastructure.json; extinction matching is case-insensitive substring (energy-extinction.js L22,L29).",
+    "heterogeneityVsEnergyAndFinance": "DIFFERENT structure on four axes. (1) TWO DISJOINT DIAGNOSIS VOCABULARIES: the pulse-engine / brain diagnoses (GRID_DEGRADATION, MAINTENANCE_DEFICIT, CYBER_PHYSICAL_ATTACK, SUPPLY_CHAIN_BOTTLENECK, CAPACITY_OVERLOAD, FUNDING_COLLAPSE) are NOT the portal issue ids (GRID_FAILURE, BRIDGE_COLLAPSE, WATER_CRISIS, TELECOM_OUTAGE, TRANSIT_BREAKDOWN). They are bridged only by domain-identity.js INFRA_PORTAL_TO_BRAIN; infrastructure-brain.js L459-462 explicitly comments on this load-order hazard. (2) MANY-TO-ONE COLLAPSE: three portal issues (BRIDGE_COLLAPSE, WATER_CRISIS, TRANSIT_BREAKDOWN) all map to the single brain key MAINTENANCE_DEFICIT, so that one diagnosis expands to a 12-node union. (3) HALF THE DIAGNOSIS SURFACE IS A DEAD-END: SUPPLY_CHAIN_BOTTLENECK, CAPACITY_OVERLOAD and FUNDING_COLLAPSE (and TRANSPORTATION_DISRUPTION) are reachable by condition-codes but NO portal issue maps to them, so ~15 condition-codes classify to a diagnosis with no _authored circuit and cannot be grounded (Finance had 1 dead-end family, macro_shock; Infrastructure has a whole cluster plus macro_shock). (4) ORPHAN COUNT: Energy 1, Finance 3, Infrastructure 10 — because Infrastructure carries 32 activations (more than any other domain) but only 15 are authored into an issue circuit.",
+    "sources": [
+      "assets/js/infrastructure-pulse-engine.js (inline condition->family classify L179-233; EVIDENCE_CONTRACTS L48-115; requiredFamilies OR-gate L246-252)",
+      "assets/js/domain-brains/infrastructure-brain.js (diagnosisIndex condition->brainKey L91-97; deriveDiagnoses + INFRA_PORTAL_TO_BRAIN runtime re-resolve L451-491)",
+      "assets/js/domain-identity.js (INFRA_PORTAL_TO_BRAIN portal-issue -> brain-diagnosis map L119-125)",
+      "assets/data/domains/infrastructure.json (activations[].diagnosticTriggers = free-text phrases; issues[]._authored circuits)",
+      "assets/js/energy-telemetry-adapter.js (REFERENCE pattern for activeTriggers build + alias expansion + node-active-from-circuit; no infrastructure-telemetry-adapter.js exists yet)",
+      "assets/js/energy-extinction.js (REFERENCE match semantics L20-42; no infrastructure-extinction.js exists yet)"
+    ],
+    "generatedAt": "2026-07-12T00:00:00.000Z",
+    "note": "Generated deterministically from the above sources (verified by requiring the modules and expanding INFRA_PORTAL_TO_BRAIN -> issues[]._authored -> activation triggers in Node). Read-only reference data; nothing here writes infrastructure.json or fires extinction. No infrastructure-specific adapter/extinction module exists yet; this table follows the Energy contract so one can consume it unchanged, EXCEPT that a real adapter must also apply the INFRA_PORTAL_TO_BRAIN reverse hop (see derivationChain) because the brain diagnosis ids are not the issue ids."
+  },
+  "conditionCodes": {
+    "grid_stress": {
+      "evidenceFamilies": ["grid_event", "utility_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "GRID_DEGRADATION", "portalIssue": "GRID_FAILURE", "link": "primaryIndicator+requiredFamily:grid_event" }
+      ],
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction"],
+      "basis": "infrastructure-pulse-engine.js classifies 'grid_stress' -> [grid_event, utility_event] (L182-184), satisfying GRID_DEGRADATION.requiredFamilies (OR). GRID_DEGRADATION resolves via INFRA_PORTAL_TO_BRAIN(reverse) to portal issue GRID_FAILURE, whose _authored circuit is [THAL, LANG, FPN, HYPO, CeA]; diagnosticTriggers are those activations' free-text phrases (the strings extinction matches)."
+    },
+    "utility_failure": {
+      "evidenceFamilies": ["grid_event", "utility_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "GRID_DEGRADATION", "portalIssue": "GRID_FAILURE", "link": "primaryIndicator+requiredFamily:utility_event" }
+      ],
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction"],
+      "basis": "Classified 'utility_failure' -> [grid_event, utility_event] (L182-184) -> GRID_DEGRADATION -> GRID_FAILURE._authored [THAL, LANG, FPN, HYPO, CeA]."
+    },
+    "aging_infrastructure": {
+      "evidenceFamilies": ["grid_event", "utility_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "GRID_DEGRADATION", "portalIssue": "GRID_FAILURE", "link": "primaryIndicator+requiredFamily:grid_event" }
+      ],
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction"],
+      "basis": "Classified 'aging_infrastructure' -> [grid_event, utility_event] (L182-184) -> GRID_DEGRADATION -> GRID_FAILURE._authored [THAL, LANG, FPN, HYPO, CeA]. NOTE: aging_infrastructure is a GRID_DEGRADATION primaryIndicator; it is also thematically a maintenance signal, but the pulse-engine classify only emits grid_event/utility_event for it, so it grounds solely through GRID_DEGRADATION."
+    },
+    "transmission_congestion": {
+      "evidenceFamilies": ["grid_event", "utility_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "GRID_DEGRADATION", "portalIssue": "GRID_FAILURE", "link": "requiredFamily:grid_event" }
+      ],
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction"],
+      "basis": "Classified 'transmission_congestion' -> [grid_event, utility_event] (L212-214) -> GRID_DEGRADATION -> GRID_FAILURE._authored [THAL, LANG, FPN, HYPO, CeA]."
+    },
+    "interconnection_delay": {
+      "evidenceFamilies": ["grid_event", "utility_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "GRID_DEGRADATION", "portalIssue": "GRID_FAILURE", "link": "requiredFamily:grid_event" }
+      ],
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction"],
+      "basis": "Classified 'interconnection_delay' -> [grid_event, utility_event] (L212-214) -> GRID_DEGRADATION -> GRID_FAILURE._authored [THAL, LANG, FPN, HYPO, CeA]."
+    },
+    "substation_bottleneck": {
+      "evidenceFamilies": ["grid_event", "utility_event", "maintenance_event", "asset_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "GRID_DEGRADATION", "portalIssue": "GRID_FAILURE", "link": "requiredFamily:grid_event" },
+        { "brainKey": "MAINTENANCE_DEFICIT", "portalIssue": "BRIDGE_COLLAPSE / WATER_CRISIS / TRANSIT_BREAKDOWN", "link": "requiredFamily:maintenance_event/asset_event" }
+      ],
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA", "UNC", "CC", "dACC", "M1", "STRI", "FORN", "ENS", "CBLM", "dlPFC", "FEF"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction", "Structural integrity failure", "Bridge weight restriction cascade", "Road network deterioration", "Traffic congestion crisis", "Code enforcement failure", "Building safety scandal", "Construction labor shortage", "Building material supply crisis", "Ridership collapse", "Service reliability crisis", "Pipeline rupture event", "Corrosion-induced failure", "Landfill capacity exhaustion", "Hazardous waste leak", "Rail network underinvestment", "Schedule reliability collapse", "Uncontrolled urban sprawl", "Zoning system failure", "Airport capacity saturation", "Air traffic control failure"],
+      "basis": "DUAL-LINKED. infrastructure-pulse-engine.js classifies 'substation_bottleneck' into BOTH [grid_event, utility_event] (L212-214) AND [maintenance_event, asset_event] (L222-224), satisfying GRID_DEGRADATION AND MAINTENANCE_DEFICIT. GRID_DEGRADATION -> GRID_FAILURE._authored; MAINTENANCE_DEFICIT -> union of BRIDGE_COLLAPSE + WATER_CRISIS + TRANSIT_BREAKDOWN _authored circuits. activations/diagnosticTriggers are the union of both expansions (= the full 15-node authored set)."
+    },
+    "transformer_backlog": {
+      "evidenceFamilies": ["grid_event", "utility_event", "maintenance_event", "asset_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "GRID_DEGRADATION", "portalIssue": "GRID_FAILURE", "link": "requiredFamily:grid_event" },
+        { "brainKey": "MAINTENANCE_DEFICIT", "portalIssue": "BRIDGE_COLLAPSE / WATER_CRISIS / TRANSIT_BREAKDOWN", "link": "requiredFamily:maintenance_event/asset_event" }
+      ],
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA", "UNC", "CC", "dACC", "M1", "STRI", "FORN", "ENS", "CBLM", "dlPFC", "FEF"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction", "Structural integrity failure", "Bridge weight restriction cascade", "Road network deterioration", "Traffic congestion crisis", "Code enforcement failure", "Building safety scandal", "Construction labor shortage", "Building material supply crisis", "Ridership collapse", "Service reliability crisis", "Pipeline rupture event", "Corrosion-induced failure", "Landfill capacity exhaustion", "Hazardous waste leak", "Rail network underinvestment", "Schedule reliability collapse", "Uncontrolled urban sprawl", "Zoning system failure", "Airport capacity saturation", "Air traffic control failure"],
+      "basis": "DUAL-LINKED, same mechanism as substation_bottleneck: 'transformer_backlog' classifies into [grid_event, utility_event] (L212-214) AND [maintenance_event, asset_event] (L222-224) -> GRID_DEGRADATION + MAINTENANCE_DEFICIT -> union of GRID_FAILURE + (BRIDGE_COLLAPSE/WATER_CRISIS/TRANSIT_BREAKDOWN) _authored circuits."
+    },
+    "maintenance_critical": {
+      "evidenceFamilies": ["maintenance_event", "asset_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "MAINTENANCE_DEFICIT", "portalIssue": "BRIDGE_COLLAPSE / WATER_CRISIS / TRANSIT_BREAKDOWN", "link": "primaryIndicator+requiredFamily:maintenance_event" }
+      ],
+      "activations": ["UNC", "CC", "dACC", "M1", "STRI", "CeA", "HYPO", "FORN", "ENS", "CBLM", "dlPFC", "FEF"],
+      "diagnosticTriggers": ["Structural integrity failure", "Bridge weight restriction cascade", "Road network deterioration", "Traffic congestion crisis", "Code enforcement failure", "Building safety scandal", "Construction labor shortage", "Building material supply crisis", "Ridership collapse", "Service reliability crisis", "Emergency response failure", "Warning system malfunction", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Pipeline rupture event", "Corrosion-induced failure", "Landfill capacity exhaustion", "Hazardous waste leak", "Rail network underinvestment", "Schedule reliability collapse", "Uncontrolled urban sprawl", "Zoning system failure", "Airport capacity saturation", "Air traffic control failure"],
+      "basis": "Classified 'maintenance_critical' -> [maintenance_event, asset_event] (L202-204) -> MAINTENANCE_DEFICIT. MAINTENANCE_DEFICIT is the brain key for THREE portal issues (BRIDGE_COLLAPSE, WATER_CRISIS, TRANSIT_BREAKDOWN) via INFRA_PORTAL_TO_BRAIN; activations/diagnosticTriggers are the 12-node union of their _authored circuits."
+    },
+    "asset_deterioration": {
+      "evidenceFamilies": ["maintenance_event", "asset_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "MAINTENANCE_DEFICIT", "portalIssue": "BRIDGE_COLLAPSE / WATER_CRISIS / TRANSIT_BREAKDOWN", "link": "primaryIndicator+requiredFamily:asset_event" }
+      ],
+      "activations": ["UNC", "CC", "dACC", "M1", "STRI", "CeA", "HYPO", "FORN", "ENS", "CBLM", "dlPFC", "FEF"],
+      "diagnosticTriggers": ["Structural integrity failure", "Bridge weight restriction cascade", "Road network deterioration", "Traffic congestion crisis", "Code enforcement failure", "Building safety scandal", "Construction labor shortage", "Building material supply crisis", "Ridership collapse", "Service reliability crisis", "Emergency response failure", "Warning system malfunction", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Pipeline rupture event", "Corrosion-induced failure", "Landfill capacity exhaustion", "Hazardous waste leak", "Rail network underinvestment", "Schedule reliability collapse", "Uncontrolled urban sprawl", "Zoning system failure", "Airport capacity saturation", "Air traffic control failure"],
+      "basis": "Classified 'asset_deterioration' -> [maintenance_event, asset_event] (L202-204) -> MAINTENANCE_DEFICIT -> BRIDGE_COLLAPSE/WATER_CRISIS/TRANSIT_BREAKDOWN _authored union."
+    },
+    "deferred_maintenance": {
+      "evidenceFamilies": ["maintenance_event", "asset_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "MAINTENANCE_DEFICIT", "portalIssue": "BRIDGE_COLLAPSE / WATER_CRISIS / TRANSIT_BREAKDOWN", "link": "primaryIndicator+requiredFamily:maintenance_event" }
+      ],
+      "activations": ["UNC", "CC", "dACC", "M1", "STRI", "CeA", "HYPO", "FORN", "ENS", "CBLM", "dlPFC", "FEF"],
+      "diagnosticTriggers": ["Structural integrity failure", "Bridge weight restriction cascade", "Road network deterioration", "Traffic congestion crisis", "Code enforcement failure", "Building safety scandal", "Construction labor shortage", "Building material supply crisis", "Ridership collapse", "Service reliability crisis", "Emergency response failure", "Warning system malfunction", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Pipeline rupture event", "Corrosion-induced failure", "Landfill capacity exhaustion", "Hazardous waste leak", "Rail network underinvestment", "Schedule reliability collapse", "Uncontrolled urban sprawl", "Zoning system failure", "Airport capacity saturation", "Air traffic control failure"],
+      "basis": "Classified 'deferred_maintenance' -> [maintenance_event, asset_event] (L202-204) -> MAINTENANCE_DEFICIT -> BRIDGE_COLLAPSE/WATER_CRISIS/TRANSIT_BREAKDOWN _authored union."
+    },
+    "CYBER_ATTACK": {
+      "evidenceFamilies": ["cyber_event", "physical_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "CYBER_PHYSICAL_ATTACK", "portalIssue": "TELECOM_OUTAGE", "link": "primaryIndicator+requiredFamily:cyber_event" }
+      ],
+      "activations": ["LANG", "FPN", "CeA", "dlPFC", "STRI"],
+      "diagnosticTriggers": ["Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Emergency response failure", "Warning system malfunction", "Uncontrolled urban sprawl", "Zoning system failure", "Ridership collapse", "Service reliability crisis"],
+      "basis": "Classified 'CYBER_ATTACK' -> [cyber_event, physical_event] (L207-209) -> CYBER_PHYSICAL_ATTACK -> (INFRA_PORTAL_TO_BRAIN reverse) portal issue TELECOM_OUTAGE -> _authored [LANG, FPN, CeA, dlPFC, STRI]. NOTE: infrastructure-brain.js diagnosisIndex ALSO lists INFRASTRUCTURE_ATTACK under GRID_DEGRADATION (L91), but the pulse-engine classify routes the cyber tokens to cyber_event/physical_event, so the grounded chain is via CYBER_PHYSICAL_ATTACK."
+    },
+    "INFRASTRUCTURE_ATTACK": {
+      "evidenceFamilies": ["cyber_event", "physical_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "CYBER_PHYSICAL_ATTACK", "portalIssue": "TELECOM_OUTAGE", "link": "primaryIndicator+requiredFamily:physical_event" }
+      ],
+      "activations": ["LANG", "FPN", "CeA", "dlPFC", "STRI"],
+      "diagnosticTriggers": ["Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Emergency response failure", "Warning system malfunction", "Uncontrolled urban sprawl", "Zoning system failure", "Ridership collapse", "Service reliability crisis"],
+      "basis": "Classified 'INFRASTRUCTURE_ATTACK' -> [cyber_event, physical_event] (L207-209) -> CYBER_PHYSICAL_ATTACK -> TELECOM_OUTAGE._authored [LANG, FPN, CeA, dlPFC, STRI]."
+    },
+    "SCADA_BREACH": {
+      "evidenceFamilies": ["cyber_event", "physical_event"],
+      "linkedDiagnoses": [
+        { "brainKey": "CYBER_PHYSICAL_ATTACK", "portalIssue": "TELECOM_OUTAGE", "link": "primaryIndicator+requiredFamily:cyber_event" }
+      ],
+      "activations": ["LANG", "FPN", "CeA", "dlPFC", "STRI"],
+      "diagnosticTriggers": ["Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Emergency response failure", "Warning system malfunction", "Uncontrolled urban sprawl", "Zoning system failure", "Ridership collapse", "Service reliability crisis"],
+      "basis": "Classified 'SCADA_BREACH' -> [cyber_event, physical_event] (L207-209) -> CYBER_PHYSICAL_ATTACK -> TELECOM_OUTAGE._authored [LANG, FPN, CeA, dlPFC, STRI]."
+    }
+  },
+  "diagnoses": {
+    "GRID_DEGRADATION": {
+      "portalIssues": ["GRID_FAILURE"],
+      "circuitSource": "_authored",
+      "activations": ["THAL", "LANG", "FPN", "HYPO", "CeA"],
+      "diagnosticTriggers": ["Grid frequency instability", "Cascading blackout", "Right-of-way vegetation encroachment on lines", "Substation siting / interconnection backlog", "Thermal plant cooling water scarcity", "Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Emergency response failure", "Warning system malfunction"],
+      "basis": "Brain diagnosis GRID_DEGRADATION === INFRA_PORTAL_TO_BRAIN['GRID_FAILURE']. When active, the (energy-pattern) adapter marks the issues['GRID_FAILURE']._authored circuit nodes active. This alias lists exactly those brainNodeIds and their free-text diagnosticTriggers. Direct data link; the only inference is the INFRA_PORTAL_TO_BRAIN hop (from domain-identity.js, not guessed)."
+    },
+    "MAINTENANCE_DEFICIT": {
+      "portalIssues": ["BRIDGE_COLLAPSE", "WATER_CRISIS", "TRANSIT_BREAKDOWN"],
+      "circuitSource": "_authored",
+      "activations": ["UNC", "CC", "dACC", "M1", "STRI", "CeA", "HYPO", "FORN", "ENS", "CBLM", "dlPFC", "FEF"],
+      "diagnosticTriggers": ["Structural integrity failure", "Bridge weight restriction cascade", "Road network deterioration", "Traffic congestion crisis", "Code enforcement failure", "Building safety scandal", "Construction labor shortage", "Building material supply crisis", "Ridership collapse", "Service reliability crisis", "Emergency response failure", "Warning system malfunction", "Water contamination event", "Distribution system failure", "Thermal generation cooling demand under low streamflow", "Pipeline rupture event", "Corrosion-induced failure", "Landfill capacity exhaustion", "Hazardous waste leak", "Rail network underinvestment", "Schedule reliability collapse", "Uncontrolled urban sprawl", "Zoning system failure", "Airport capacity saturation", "Air traffic control failure"],
+      "basis": "MANY-TO-ONE: INFRA_PORTAL_TO_BRAIN maps THREE portal issues (BRIDGE_COLLAPSE, WATER_CRISIS, TRANSIT_BREAKDOWN) to the single brain key MAINTENANCE_DEFICIT. When active, the adapter marks the _authored circuit nodes of ALL THREE issues active, so the alias is the 12-node union of their _authored circuits and the union of those activations' free-text triggers. This is the largest expansion in the table and the key structural difference from Finance (where each diagnosis had exactly one issue)."
+    },
+    "CYBER_PHYSICAL_ATTACK": {
+      "portalIssues": ["TELECOM_OUTAGE"],
+      "circuitSource": "_authored",
+      "activations": ["LANG", "FPN", "CeA", "dlPFC", "STRI"],
+      "diagnosticTriggers": ["Network outage cascade", "Bandwidth capacity exhaustion", "Data center outage", "Cybersecurity breach cascade", "Emergency response failure", "Warning system malfunction", "Uncontrolled urban sprawl", "Zoning system failure", "Ridership collapse", "Service reliability crisis"],
+      "basis": "Brain diagnosis CYBER_PHYSICAL_ATTACK === INFRA_PORTAL_TO_BRAIN['TELECOM_OUTAGE']. When active, the adapter marks issues['TELECOM_OUTAGE']._authored [LANG, FPN, CeA, dlPFC, STRI] active. NOTE the semantic seam: the portal frames TELECOM_OUTAGE as a telecom/digital failure, while the brain key is CYBER_PHYSICAL_ATTACK — the authoring pass equated telecom/digital infrastructure loss with cyber-physical compromise (domain-identity.js L123 comment 'digital/telecom infra -> cyber-physical')."
+    }
+  },
+  "unmapped": {
+    "conditionCodes": [
+      {
+        "codes": ["materials_shortage", "construction_delay"],
+        "evidenceFamilies": ["materials_event", "logistics_event"],
+        "reachedDiagnosis": "SUPPLY_CHAIN_BOTTLENECK",
+        "reason": "infrastructure-pulse-engine.js classifies these into [materials_event, logistics_event] (L187-189), satisfying SUPPLY_CHAIN_BOTTLENECK.requiredFamilies. But NO portal issue maps to SUPPLY_CHAIN_BOTTLENECK via INFRA_PORTAL_TO_BRAIN (the map targets only GRID_DEGRADATION, MAINTENANCE_DEFICIT, CYBER_PHYSICAL_ATTACK), so SUPPLY_CHAIN_BOTTLENECK has NO _authored circuit to expand. Dead-end diagnosis; no grounded alias."
+      },
+      {
+        "codes": ["capacity_constraint", "demand_surge", "congestion", "datacenter_demand", "peak_curtailment", "cooling_infrastructure_strain", "self_generation_strain"],
+        "evidenceFamilies": ["capacity_event", "demand_event"],
+        "reachedDiagnosis": "CAPACITY_OVERLOAD",
+        "reason": "Classified into [capacity_event, demand_event] (L192-194, L217-219), satisfying CAPACITY_OVERLOAD.requiredFamilies. But NO portal issue maps to CAPACITY_OVERLOAD, so it has no _authored circuit. Dead-end diagnosis; no grounded alias. (This is the largest unmapped cluster — the whole capacity/demand vocabulary is orphaned from the authored issue set.)"
+      },
+      {
+        "codes": ["funding_gap", "budget_cut", "bond_market_stress", "FISCAL_CRISIS"],
+        "evidenceFamilies": ["fiscal_event", "policy_event"],
+        "reachedDiagnosis": "FUNDING_COLLAPSE",
+        "reason": "Classified into [fiscal_event, policy_event] (L197-199; FISCAL_CRISIS -> [fiscal_event] L227-229), satisfying FUNDING_COLLAPSE.requiredFamilies. But NO portal issue maps to FUNDING_COLLAPSE (nor its brain-side alias INFRA_FUNDING_COLLAPSE), so no _authored circuit exists. Dead-end diagnosis; no grounded alias."
+      },
+      {
+        "codes": ["macro_shock"],
+        "evidenceFamilies": ["macro_event"],
+        "reachedDiagnosis": "(none)",
+        "reason": "Classified into [macro_event] (L231-233), but NO EVIDENCE_CONTRACT lists macro_event in requiredFamilies; the family reaches no diagnosis at all. Same dead-end pattern as Finance macro_shock. No grounded alias."
+      }
+    ],
+    "diagnoses": [
+      {
+        "brainKey": "SUPPLY_CHAIN_BOTTLENECK",
+        "reason": "Defined in infrastructure-pulse-engine.js EVIDENCE_CONTRACTS and infrastructure-brain.js diagnosisIndex, but no portal issue maps to it via INFRA_PORTAL_TO_BRAIN, so it never carries an _authored circuit. Reachable by conditions, groundable to no activations."
+      },
+      {
+        "brainKey": "CAPACITY_OVERLOAD",
+        "reason": "Same as SUPPLY_CHAIN_BOTTLENECK: no portal issue behind it, no _authored circuit."
+      },
+      {
+        "brainKey": "FUNDING_COLLAPSE / INFRA_FUNDING_COLLAPSE",
+        "reason": "Same: no portal issue maps to it; no _authored circuit. (The pulse engine names it FUNDING_COLLAPSE; the brain diagnosisIndex names it INFRA_FUNDING_COLLAPSE — a further naming seam, but either way unreachable from the authored issues.)"
+      },
+      {
+        "brainKey": "TRANSPORTATION_DISRUPTION",
+        "reason": "Present in infrastructure-brain.js diagnosisIndex (L94) but NOT in the pulse-engine EVIDENCE_CONTRACTS and NOT targeted by INFRA_PORTAL_TO_BRAIN. Its condition tokens (road_network_failure, bridge_closure, transit_capacity_loss, port_disruption ...) classify to no pulse contract family and reach no _authored circuit. Orphan diagnosis."
+      }
+    ],
+    "activationsWithTriggersButNoTriggerSource": [
+      { "brainNodeId": "NTS", "domainLabel": "Maritime and Ports", "diagnosticTriggers": ["Port congestion crisis", "Maritime chokepoint disruption"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit and no condition-code chain reaches it. Extinction would ALWAYS list it for retirement. No grounded alias; NOT fabricated. Needs authoring into an issue circuit before extinction should touch it." },
+      { "brainNodeId": "VTA", "domainLabel": "Distributed Resilience", "diagnosticTriggers": ["Distributed generation intermittency", "Microgrid islanding failure", "Local capture shortfall"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit and no condition-code chain reaches it. Orphaned; needs authoring before extinction should touch it." },
+      { "brainNodeId": "PAG", "domainLabel": "Critical Emergency Access", "diagnosticTriggers": ["Emergency access corridor blockage", "Critical facility redundancy loss", "Backup power failure"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring." },
+      { "brainNodeId": "HIPP", "domainLabel": "Surge Capacity Systems", "diagnosticTriggers": ["Surge buffer exhaustion", "Holding tank overflow risk", "Rapid-deploy asset depletion"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring. (HIPP IS in REGULATORY_NODES and is an edge endpoint in the graph, but it is not authored into any of the 5 issue circuits.)" },
+      { "brainNodeId": "OFC", "domainLabel": "Infrastructure Finance", "diagnosticTriggers": ["Financing gap widening", "Revenue bond default risk", "Capital misallocation signal"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring. (Its triggers are financing signals that would naturally belong to a FUNDING_COLLAPSE issue, which does not exist as a portal issue.)" },
+      { "brainNodeId": "vmPFC", "domainLabel": "Infrastructure Governance", "diagnosticTriggers": ["Regulatory uncertainty", "Deferred-maintenance budget distortion", "Outdated design code exposure"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring. (vmPFC IS in REGULATORY_NODES but is not authored into any issue circuit.)" },
+      { "brainNodeId": "S1", "domainLabel": "Material Sourcing and Extraction", "diagnosticTriggers": ["Aggregate supply shortfall", "Environmental compliance breach", "Water intake disruption"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring. (Its triggers are supply-chain signals that would belong to a SUPPLY_CHAIN_BOTTLENECK issue, which does not exist as a portal issue.)" },
+      { "brainNodeId": "IPS", "domainLabel": "Cyber-Physical Resilience", "diagnosticTriggers": ["SCADA compromise", "Traffic signal takeover", "Water treatment alarm failure", "ICS controller intrusion"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring. (Semantically its SCADA/ICS triggers align with CYBER_PHYSICAL_ATTACK, but the CYBER_PHYSICAL_ATTACK circuit is TELECOM_OUTAGE._authored, which does not include IPS.)" },
+      { "brainNodeId": "EC", "domainLabel": "Deferred Maintenance Lifecycle", "diagnosticTriggers": ["Pavement IRI >3.5", "Bridge NBI deck rating <4", "Water main age >50yr", "Deferred maintenance backlog growth"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring. (Its deferred-maintenance triggers align with MAINTENANCE_DEFICIT, but EC is not in any of the three MAINTENANCE_DEFICIT issue circuits.)" },
+      { "brainNodeId": "AG", "domainLabel": "Cascade Failure Detection", "diagnosticTriggers": ["Road closure into transit reroute demand surge", "Water main break into soil instability into bridge pier risk", "Grid outage into water-pump and signal loss", "Inter-modal dependency stress correlation"], "reason": "Has diagnosticTriggers but appears in NO issue._authored circuit. Orphaned; needs authoring. (Its cross-modal cascade triggers describe DEAFFERENTATION_DIASCHISIS but no issue circuit includes AG.)" }
+    ],
+    "activationsUnreachableButExemptFromExtinction": [
+      { "brainNodeId": "VP", "domainLabel": "Resilience", "diagnosticTriggers": [], "reason": "Unreachable by any issue circuit, but diagnosticTriggers is empty, so energy-extinction.js L30 skips it entirely (never an extinction candidate). No alias needed." },
+      { "brainNodeId": "BROCA", "domainLabel": "Smartcity", "diagnosticTriggers": [], "reason": "Empty diagnosticTriggers; extinction skips it. No alias needed." },
+      { "brainNodeId": "CING", "domainLabel": "Transit", "diagnosticTriggers": [], "reason": "Empty diagnosticTriggers; extinction skips it. No alias needed." },
+      { "brainNodeId": "S2", "domainLabel": "Waste Infra", "diagnosticTriggers": [], "reason": "Empty diagnosticTriggers; extinction skips it. No alias needed." },
+      { "brainNodeId": "CAUD", "domainLabel": "Multimodal Flex", "diagnosticTriggers": [], "reason": "Empty diagnosticTriggers; extinction skips it. No alias needed." },
+      { "brainNodeId": "BNST", "domainLabel": "Reserves", "diagnosticTriggers": [], "reason": "Empty diagnosticTriggers; extinction skips it. No alias needed." },
+      { "brainNodeId": "EMP", "domainLabel": "Environmental Mitigation", "diagnosticTriggers": [], "reason": "Empty diagnosticTriggers; extinction skips it. No alias needed." }
+    ]
+  },
+  "contractOnlyTokensNotClassified": {
+    "tokens": [],
+    "reason": "N/A for Infrastructure: every primaryIndicator/secondaryConfirmation token in the pulse-engine EVIDENCE_CONTRACTS is also handled by the inline classify switch. The Infrastructure grounding gap is NOT unclassified tokens; it is that HALF the classified diagnoses (SUPPLY_CHAIN_BOTTLENECK, CAPACITY_OVERLOAD, FUNDING_COLLAPSE) have no portal issue behind them (see unmapped.diagnoses)."
+  }
+}
