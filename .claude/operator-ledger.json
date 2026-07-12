@@ -1,0 +1,17 @@
+{
+  "_doc": "On-demand automation state. Persists between operator-invoked runs; there is no daemon. Commands read/write this. Decisions here are NEVER acted on until awaiting_operator=false. See docs/OPERATOR_AUTOMATION_DESIGN.md.",
+  "project": "limen-helix-live",
+  "updated": "2026-07-12",
+  "open_requests": [],
+  "built": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "Greenlight Phase 1 (zero-token command surface) live on LIMEN, then Phase 2 metered AI commands?",
+      "options": ["Phase 1 only", "Phase 1 + 2 capped", "keep holding"],
+      "recommendation": "Phase 1 first (zero spend), evaluate, then Phase 2 capped.",
+      "awaiting_operator": true
+    }
+  ],
+  "guardrails_tripped": []
+}
