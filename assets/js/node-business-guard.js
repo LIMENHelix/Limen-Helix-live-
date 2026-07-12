@@ -47,12 +47,36 @@
     if (c && typeof c === 'object' && GENERIC && c.type && GENERIC[c.type]) { c.nonSpecific = true; }
   }
 
+  // Capital ladder L1-L6 (operator 2026-07-11, [[three-lane-opportunity-model]]):
+  // a ROUGH capital-to-build tag inferred from the business-type words — L1 none/info
+  // -> L6 investor-scale. Deliberately coarse: a hint on a business IDEA, never a
+  // claim, and shown ALONGSIDE (not derived from) node dysregulation severity. Higher
+  // tiers are checked first so 'investment bank' -> L6, not L2 for the word 'platform'.
+  var CAPITAL_KW = [
+    { t: 'L6', re: /\b(bank|insur|reinsur|\bfund\b|capital|exchange|clearing|refiner|smelter|fabricat|semiconductor|power ?plant|pipeline|airline|shipping line|utility-scale)/i },
+    { t: 'L5', re: /\b(utilit|grid|infrastructur|\bplant\b|industrial|mining|drilling|telecom|satellite|data ?cent(er|re)|terminal|\bport\b|\brail\b|foundry|reactor)/i },
+    { t: 'L4', re: /\b(manufactur|hardware|\bfleet\b|facilit|warehouse|assembly|equipment|robotics)/i },
+    { t: 'L3', re: /\b(logistic|distribut|wholesale|processing|integrat|installation|\bclinic\b|\blab\b|marketplace)/i },
+    { t: 'L2', re: /\b(saas|software|platform|\bapp\b|\btool\b|agency|studio|\bapi\b)/i },
+    { t: 'L1', re: /\b(data|newsletter|advisor|consult|research|media|content|director|information|monitor|intelligence|curation|analytics|report|\bindex\b|broker|affiliate|referral)/i }
+  ];
+  function capitalTier(typeStr) {
+    var s = String(typeStr || '');
+    for (var i = 0; i < CAPITAL_KW.length; i++) if (CAPITAL_KW[i].re.test(s)) return CAPITAL_KW[i].t;
+    return 'L2'; // default: a generic buildable service = minimal capital
+  }
+
   // A2/C1: attach the DEFENSIBLE motif->function layer to a business entry so the
   // engine renders node->motif->function (structural, from the docs) alongside the
   // empirical guess. fractalWeight/tier let the UI mark true cross-domain transfer
   // (M6/M8/M11) vs T3 control-law universality vs unvalidated analogy.
   function enrich(entry, id) {
     var rec = NODES[id]; if (!rec || !entry || typeof entry !== 'object') return;
+    // three-lane model: this surface is the BUSINESS-IDEA (build) lane. A per-idea
+    // capital tag comes from the suggested business type (runInference results carry
+    // businessType; node-directory entries carry it per expectedType, tagged below).
+    entry.lane = 'build';
+    if (entry.businessType && !entry.capitalTier) entry.capitalTier = capitalTier(entry.businessType);
     entry.motif = rec.motif || null;
     entry.isomorphismTier = rec.tier || null;
     entry.fractalWeight = !!rec.fractalWeight;
@@ -83,7 +107,7 @@
   function surfaceCanonical(entry, cap) {
     if (!entry || typeof entry !== 'object') return;
     if (entry.businessFunction && entry.motif && entry.neuroTranslation && !entry.neuroTranslation._canon) {
-      var tag = '[' + entry.motif + ' · ' + (entry.mappingClass || '') + '] ';
+      var tag = '[' + entry.motif + ' · ' + (entry.mappingClass || '') + (entry.capitalTier ? ' · ' + entry.capitalTier : '') + '] ';
       entry.neuroTranslation.inBusiness = tag + entry.businessFunction + ' — ' + (entry.neuroTranslation.inBusiness || '');
       entry.neuroTranslation._canon = true;
     }
@@ -95,7 +119,7 @@
   }
   // A1/P1: relabel + honest-ify the fabricated per-type confidence floats.
   function unvalidateLists(entry, cap) {
-    ['companies', 'expectedTypes', 'types', 'firms'].forEach(function (L) { if (Array.isArray(entry && entry[L])) entry[L].forEach(function (c) { honestConf(c, cap); markGeneric(c); }); });
+    ['companies', 'expectedTypes', 'types', 'firms'].forEach(function (L) { if (Array.isArray(entry && entry[L])) entry[L].forEach(function (c) { honestConf(c, cap); markGeneric(c); if (c && c.type && !c.capitalTier) c.capitalTier = capitalTier(c.type); }); });
   }
 
   function patch(name, eng) {

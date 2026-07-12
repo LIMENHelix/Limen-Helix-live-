@@ -145,7 +145,7 @@
 
     // Node identity + confidence
     h += '<div class="ebr-card-node">' + esc(entry.nodeId) + ' (' + esc(entry.nodeFullName || entry.nodeId) + ') \u2014 ' + esc(entry.nodeLabel) + '</div>';
-    h += '<div class="ebr-card-conf">Confidence: ' + Math.round(entry.confidence * 100) + '%</div>';
+    h += '<div class="ebr-card-conf">' + (entry.capitalTier ? entry.capitalTier + ' · ' : '') + 'idea (unproven) · live signal ' + Math.round(entry.confidence * 100) + '%</div>';
 
     h += '</div>'; // close summary-left
     h += '<span class="ebr-card-chevron">\u25B6</span>';

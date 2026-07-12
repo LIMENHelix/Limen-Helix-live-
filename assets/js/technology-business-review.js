@@ -112,7 +112,7 @@
     if (entry.nodeActive) h += ' <span class="tbr-badge" style="color:#e85454;border:1px solid rgba(232,84,84,0.2)">ACTIVE</span>';
     h += '</div></div>';
     h += '<div class="tbr-card-node">' + esc(entry.nodeId) + ' (' + esc(entry.nodeFullName || entry.nodeId) + ') \u2014 ' + esc(entry.nodeLabel) + '</div>';
-    h += '<div class="tbr-card-conf">Confidence: ' + Math.round(entry.confidence * 100) + '%</div>';
+    h += '<div class="tbr-card-conf">' + (entry.capitalTier ? entry.capitalTier + ' · ' : '') + 'idea (unproven) · live signal ' + Math.round(entry.confidence * 100) + '%</div>';
     h += '</div>';
     h += '<span class="tbr-card-chevron">\u25B6</span>';
     h += '</div>';

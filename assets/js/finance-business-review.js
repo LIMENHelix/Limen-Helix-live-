@@ -139,7 +139,7 @@
     h += '</div>';
 
     h += '<div class="fbr-card-node">' + esc(entry.nodeId) + ' (' + esc(entry.nodeFullName || entry.nodeId) + ') \u2014 ' + esc(entry.nodeLabel) + '</div>';
-    h += '<div class="fbr-card-conf">Confidence: ' + Math.round(entry.confidence * 100) + '%</div>';
+    h += '<div class="fbr-card-conf">' + (entry.capitalTier ? entry.capitalTier + ' · ' : '') + 'idea (unproven) · live signal ' + Math.round(entry.confidence * 100) + '%</div>';
 
     h += '</div>';
     h += '<span class="fbr-card-chevron">\u25B6</span>';
