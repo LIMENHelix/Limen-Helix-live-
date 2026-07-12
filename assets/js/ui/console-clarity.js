@@ -354,14 +354,7 @@
       '.clr-empty-msg { font-size:0.6rem; color:#666; margin-bottom:10px; }',
       '.clr-empty-philemon { font-size:0.5rem; color:rgba(201,169,78,0.45); font-style:italic; }',
 
-      /* Analyst toggle */
-      '.clr-analyst-btn { font-family:monospace; font-size:0.38rem; letter-spacing:2px; text-transform:uppercase;',
-      '  color:rgba(201,169,78,0.35); cursor:pointer; padding:3px 8px;',
-      '  border:1px solid rgba(201,169,78,0.08); border-radius:2px;',
-      '  background:rgba(201,169,78,0.03); transition:all 0.2s; }',
-      '.clr-analyst-btn:hover { border-color:rgba(201,169,78,0.2); color:rgba(201,169,78,0.6); }',
-      '.clr-analyst-btn.active { color:#C9A94E; border-color:rgba(201,169,78,0.3);',
-      '  background:rgba(201,169,78,0.1); }',
+      /* (Analyst toggle CSS removed — the toggle button + 3-column grid were deleted.) */
 
       /* Refresh button */
       '.clr-refresh-btn { font-family:monospace; font-size:0.38rem; letter-spacing:1.5px;',
@@ -6146,28 +6139,9 @@
     _refreshAll();
   }
 
-  function _enterAnalystMode() {
-    _isAnalystMode = true;
-
-    // Hide clarity view
-    if (_container) _container.style.display = 'none';
-
-    // Show columns
-    _setColsVisible(true);
-
-    // Show debug tools
-    _setDebugVisible(true);
-
-    // Restore fixed overlays
-    _setOverlaysVisible(true);
-
-    // Update button
-    var btn = document.getElementById('clarity-analyst-toggle');
-    if (btn) {
-      btn.className = 'clr-analyst-btn active';
-      btn.textContent = 'CLARITY';
-    }
-  }
+  // _enterAnalystMode() removed — the 3-column grid it revealed was deleted, and
+  // its only caller (stop) no longer calls it. _setColsVisible is kept only because
+  // start() still calls it to guarantee the (now CSS-hidden) columns stay hidden.
 
   function _setColsVisible(visible) {
     var ids = ['col-left', 'col-center', 'col-right'];
@@ -6244,7 +6218,6 @@
   // ═══════════════════════════════════════════════════════════════════════════
 
   function _refreshAll() {
-    if (_isAnalystMode) return;
     _refreshHero();
     _refreshDomains();
     _refreshEvents();
@@ -6253,19 +6226,16 @@
   }
 
   function _onDomainUpdate() {
-    if (_isAnalystMode) return;
     _refreshHero();
     _refreshDomains();
     _refreshActions();
   }
 
   function _onGlobalStateUpdate() {
-    if (_isAnalystMode) return;
     _refreshHero();
   }
 
   function _onEscalationUpdate() {
-    if (_isAnalystMode) return;
     _refreshEvents();
   }
 
@@ -6274,7 +6244,6 @@
     if (e.detail && e.detail.recSet) {
       if (window.LIMENReports) window.LIMENReports._recSet = e.detail.recSet;
     }
-    if (_isAnalystMode) return;
     _refreshActions();
     if (_activeTab) _renderActiveTab();
   }
@@ -6335,7 +6304,7 @@
 
     // Periodic refresh for data that arrives without events
     _refreshTimer = setInterval(function () {
-      if (document.hidden || _isAnalystMode) return;
+      if (document.hidden) return;
       _refreshHero();
       _refreshDomains();
     }, 10000);
@@ -6351,7 +6320,8 @@
     window.removeEventListener('limen:escalation-update', _onEscalationUpdate);
     window.removeEventListener('limen:report-update', _onReportUpdate);
     if (_refreshTimer) clearInterval(_refreshTimer);
-    _enterAnalystMode(); // Restore full view on stop
+    // (removed: _enterAnalystMode() — with the 3-column grid deleted that call
+    // would blank the console. stop() now just tears down listeners + timer.)
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
