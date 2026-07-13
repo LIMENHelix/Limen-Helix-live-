@@ -82,3 +82,9 @@ scripts/*.jsonl
 # Side project — keep OUT of the LIMEN repo (firewall). Relocate to its own project.
 /coffee-house/
 scripts/reports/
+
+# Raw YouTube transcript corpora (~21MB) — keep LOCAL only, never in git history.
+# Regenerable via: python -m yt_dlp --skip-download --write-auto-subs --sub-langs "en.*" <channel>/videos
+# The distilled maps in docs/research/*.md ARE committed (the irreplaceable synthesis).
+docs/research/torti-transcripts-corpus.txt
+docs/research/saraev-transcripts-corpus.txt
