@@ -37,6 +37,7 @@ const HANDLERS = {
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),
   'playbook': require('../handlers/playbook'),
+  'ventures': require('../handlers/ventures'),
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),
