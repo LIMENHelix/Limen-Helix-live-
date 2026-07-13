@@ -14,11 +14,11 @@
     --sans:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0; background:
+  body{margin:0; font-size:17px; background:
       radial-gradient(1100px 620px at 82% -10%, rgba(155,140,255,.06), transparent 60%),
-      var(--void); color:var(--ink); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased}
+      var(--void); color:var(--ink); font-family:var(--sans); line-height:1.62; -webkit-font-smoothing:antialiased}
   a{color:var(--signal)}
-  code{font-family:var(--mono); font-size:.86em; background:var(--panel2); border:1px solid var(--line); border-radius:4px; padding:1px 5px; color:var(--dim)}
+  code{font-family:var(--mono); font-size:.9em; background:var(--panel2); border:1px solid var(--line); border-radius:4px; padding:1px 5px; color:var(--dim)}
   .bar{position:sticky; top:0; z-index:30; display:flex; flex-wrap:wrap; align-items:center; gap:12px;
     padding:11px 18px; background:rgba(10,15,14,.85); backdrop-filter:blur(9px);
     border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px}
@@ -27,30 +27,46 @@
   .bar .mode{color:var(--neuro); text-transform:uppercase; letter-spacing:.12em}
   .bar .back{margin-left:auto; color:var(--dim); text-decoration:none; border:1px solid var(--line2); border-radius:15px; padding:4px 12px}
   .bar .back:hover{border-color:var(--signal); color:var(--ink)}
-  .wrap{max-width:980px; margin:0 auto; padding:26px 22px 80px}
-  .lead{font-family:var(--mono); font-size:11px; color:var(--neuro); letter-spacing:.14em; text-transform:uppercase}
-  h1{font-size:clamp(1.7rem,4vw,2.3rem); margin:8px 0 4px; font-weight:800}
-  .sub{color:var(--dim); margin:0 0 8px}
-  section{margin-top:30px; border-top:1px solid var(--line); padding-top:18px}
-  h2{font-size:1.2rem; margin:0 0 10px; font-weight:700}
-  h2::before{content:"//"; color:var(--faint); margin-right:8px; font-family:var(--mono); font-size:.8em}
-  p{color:var(--dim); max-width:76ch}
+  .wrap{max-width:1000px; margin:0 auto; padding:26px 22px 80px}
+  .lead{font-family:var(--mono); font-size:11.5px; color:var(--neuro); letter-spacing:.14em; text-transform:uppercase}
+  h1{font-size:clamp(1.9rem,4vw,2.6rem); margin:8px 0 4px; font-weight:800}
+  .sub{color:var(--dim); margin:0 0 8px; font-size:1.05rem}
+  /* controls */
+  .tools{display:flex; gap:8px; margin:20px 0 2px}
+  .tools button{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--dim); background:var(--panel); border:1px solid var(--line2); border-radius:16px; padding:6px 14px; cursor:pointer}
+  .tools button:hover{border-color:var(--signal); color:var(--ink)}
+  section{margin-top:14px; border-top:1px solid var(--line); padding-top:8px}
+  h2{font-size:1.4rem; margin:0; font-weight:700; padding:8px 0}
+  /* collapsible header (caret replaces the // prefix on toggles) */
+  h2.sec-toggle{cursor:pointer; user-select:none; display:flex; align-items:center}
+  h2.sec-toggle::before{content:""; display:inline-block; width:0; height:0; border:6px solid transparent; border-top-color:var(--signal); margin-right:11px; transition:transform .15s; flex:none; position:relative; top:3px}
+  section.collapsed h2.sec-toggle::before{transform:rotate(-90deg)}
+  section.collapsed .sec-body{display:none}
+  h2.sec-toggle:focus-visible{outline:2px solid var(--signal); outline-offset:3px; border-radius:3px}
+  h2:not(.sec-toggle)::before{content:"//"; color:var(--faint); margin-right:8px; font-family:var(--mono); font-size:.8em}
+  .sec-body{padding-bottom:14px}
+  p{color:var(--dim); max-width:78ch; font-size:1.02rem}
   p b, li b, td b{color:var(--ink)}
   .dim{color:var(--faint)}
-  .note{font-size:.85rem; color:var(--faint); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:11px 13px; margin-top:14px}
-  ul{color:var(--dim); padding-left:20px} li{margin:6px 0; max-width:76ch}
-  table{width:100%; border-collapse:collapse; margin-top:12px; font-size:.9rem}
-  th,td{text-align:left; vertical-align:top; padding:9px 11px; border:1px solid var(--line)}
-  th{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--signal); background:var(--panel)}
+  /* the "why use this" instruction callout */
+  .why{font-size:1rem; color:var(--dim); background:rgba(56,198,190,.05); border-left:3px solid var(--signal);
+    border-radius:0 8px 8px 0; padding:11px 15px; margin:6px 0 16px; max-width:82ch; line-height:1.55}
+  .why b{color:var(--ink)}
+  .why b.ai{color:var(--neuro); font-family:var(--mono); font-size:.82em; letter-spacing:.04em; text-transform:uppercase}
+  .note{font-size:.95rem; color:var(--faint); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-top:14px}
+  ul{color:var(--dim); padding-left:22px} li{margin:7px 0; max-width:80ch; font-size:1.02rem}
+  table{width:100%; border-collapse:collapse; margin-top:12px; font-size:.98rem}
+  th,td{text-align:left; vertical-align:top; padding:10px 12px; border:1px solid var(--line)}
+  th{font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--signal); background:var(--panel)}
   td{color:var(--dim)}
   .table-scroll{overflow-x:auto}
   .stack{display:grid; gap:10px; grid-template-columns:repeat(3,1fr); margin-top:12px}
   @media(max-width:720px){ .stack{grid-template-columns:1fr} }
-  .lyr{background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--neuro); border-radius:9px; padding:12px 13px}
-  .lyr .t{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--neuro)}
-  .lyr p{margin:6px 0 0; font-size:.86rem}
+  .lyr{background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--neuro); border-radius:9px; padding:13px 14px}
+  .lyr .t{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--neuro)}
+  .lyr p{margin:6px 0 0; font-size:.96rem}
   .msg{font-family:var(--mono); font-size:12.5px; color:var(--dim); padding:40px 0}
-  .gatebox{background:rgba(224,104,92,.06); border:1px solid rgba(224,104,92,.28); border-radius:8px; padding:14px 16px; color:var(--dim); font-family:var(--mono); font-size:12px}
+  .gatebox{background:rgba(224,104,92,.06); border:1px solid rgba(224,104,92,.28); border-radius:8px; padding:14px 16px; color:var(--dim); font-family:var(--mono); font-size:13px}
 </style>
 </head>
 <body>
@@ -68,10 +84,32 @@
 <script>
 (function(){
   var body=document.getElementById('body');
+  // Turn each <section> into a collapsible: its <h2> becomes a toggle, the rest wraps in .sec-body.
+  function enhance(){
+    var secs=[].slice.call(body.querySelectorAll('section'));
+    secs.forEach(function(sec){
+      var h=sec.querySelector('h2'); if(!h) return;
+      var wrap=document.createElement('div'); wrap.className='sec-body';
+      var n=h.nextSibling;
+      while(n){ var next=n.nextSibling; wrap.appendChild(n); n=next; }
+      sec.appendChild(wrap);
+      h.classList.add('sec-toggle'); h.setAttribute('role','button'); h.setAttribute('tabindex','0');
+      h.setAttribute('aria-expanded','true');
+      function toggle(){ var c=sec.classList.toggle('collapsed'); h.setAttribute('aria-expanded', c?'false':'true'); }
+      h.addEventListener('click', toggle);
+      h.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+    });
+    var tb=document.createElement('div'); tb.className='tools';
+    tb.innerHTML='<button type="button" id="pbExpand">Expand all</button><button type="button" id="pbCollapse">Collapse all</button>';
+    body.parentNode.insertBefore(tb, body);
+    function setAll(collapse){ secs.forEach(function(s){ s.classList.toggle('collapsed', collapse); var hh=s.querySelector('h2'); if(hh) hh.setAttribute('aria-expanded', collapse?'false':'true'); }); }
+    document.getElementById('pbExpand').onclick=function(){ setAll(false); };
+    document.getElementById('pbCollapse').onclick=function(){ setAll(true); };
+  }
   // gate-master.js auto-attaches the master key to /api/playbook (it's in the GATED regex).
   fetch('/api/playbook').then(function(r){ return r.json().then(function(j){ return {s:r.status,j:j}; }); }).then(function(o){
     if(o.s===403 || !o.j.ok){ body.innerHTML='<div class="gatebox">Master access required. If you are signed in and still see this, your passcode did not validate against ADMIN_MASTER.</div>'; return; }
-    body.innerHTML=o.j.html;
+    body.innerHTML=o.j.html; enhance();
   }).catch(function(){ body.innerHTML='<div class="gatebox">Could not load the playbook. Check that /api/playbook is deployed.</div>'; });
 })();
 </script>

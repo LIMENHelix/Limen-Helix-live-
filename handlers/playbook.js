@@ -16,6 +16,7 @@ const gate = require('../lib/admin-gate');
 const HTML = `
 <section>
   <h2>The reframe</h2>
+  <div class="why"><b>Why use this.</b> Read first. It fixes the mental model: every business is a regulation instrument that slots into one of the 20 domains, so you always know WHERE a new offer belongs. <b class="ai">Autonomous AI:</b> Map any opportunity to a domain + failing regulation function before building anything.</div>
   <p>LIMEN = 20 domains, each a brain. Any business that regulates a domain's dysregulation ("nervous system") slots into the domain where that dysregulation lives. Torti's AI-agency playbook is a <b>catalog of regulation instruments</b>, not a competing model. His whole niche list is a subset of ~5 LIMEN domains (Medicine, Homestead/RE, Finance, Business/Ops, Technology); 15 domains have no provider yet. Saraev runs a different shape (agency + community + content + equity) and his one repeated line is the operative doctrine: "the moat is no longer the software, it is the distribution."</p>
   <div class="stack">
     <div class="lyr"><span class="t">Targeting = LIMEN</span><p>Telescope / kernel / P3 desks sense which domain+company is dysregulated. Torti's students cold-prospect to FIND pain; LIMEN senses it first. That head start is the edge nobody else has.</p></div>
@@ -27,6 +28,7 @@ const HTML = `
 
 <section>
   <h2>Regulation function &rarr; Torti offer &rarr; skills</h2>
+  <div class="why"><b>Why use this.</b> The routing table. Given a domain's failing function, it names the offer to sell and the exact skills that deliver it. Use it to scope what to build for a flagged domain. <b class="ai">Autonomous AI:</b> This is your diagnosis-to-toolchain lookup: failing function in, offer + skill list out.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Function</th><th>Offer</th><th>Stored skills</th></tr></thead>
@@ -48,6 +50,7 @@ const HTML = `
 
 <section>
   <h2>Torti's full tool stack</h2>
+  <div class="why"><b>Why use this.</b> The vetted tool inventory by layer. Reach here when a job needs a tool (automation, voice, scraping, CRM, media, deploy) and you want a known-good pick, not a search. <b class="ai">Autonomous AI:</b> Choose integrations from this list; obey the "avoid competing with" row (they ship AI free).</div>
   <p>Every named tool from the 25-video mine, grouped. Cap MCP servers at 2-3 then convert stable ones to skills to save tokens. Vertical SaaS at the bottom ships AI free; do not try to out-build them.</p>
   <div class="table-scroll">
   <table>
@@ -74,6 +77,7 @@ const HTML = `
 
 <section>
   <h2>Torti's 20 offers with pricing</h2>
+  <div class="why"><b>Why use this.</b> The productized-service menu with real price bands. Use it to quote a scoped engagement in seconds instead of guessing. <b class="ai">Autonomous AI:</b> Map a capability you just built to the closest offer to set a price and a retainer automatically.</div>
   <p>Filter: an offer must MAKE or SAVE money with a number attached. "One problem, one type of business, one way." Retainer heuristic = 20% of setup fee.</p>
   <div class="table-scroll">
   <table>
@@ -109,6 +113,7 @@ const HTML = `
 
 <section>
   <h2>Pricing formulas + sales spine</h2>
+  <div class="why"><b>Why use this.</b> How to price on value and run the close. Read it before any sales conversation so you anchor on outcome, not hours. <b class="ai">Autonomous AI:</b> Auto-compute a value-based quote from the formulas; the spine is the human close you hand off, never automate.</div>
   <ul>
     <li><b>Value-based pricing:</b> cost-saving = hours-saved/wk &times; rate &times; 52 &times; 20-25%; revenue-uplift = added annual revenue &times; 10%; retainer = 20% of setup. Cautionary tale: charged $500 for a system that made the client $8k.</li>
     <li><b>"Sell the outcome, don't say AI."</b> "We're not selling a voice agent." A confused buyer never buys.</li>
@@ -122,6 +127,7 @@ const HTML = `
 
 <section>
   <h2>Saraev net-new tactics (deeper than Torti)</h2>
+  <div class="why"><b>Why use this.</b> The build-acceleration and client-acquisition tactics beyond Torti: how to BUILD faster and how to GET clients without an audience. <b class="ai">Autonomous AI:</b> Section A (auto-research loop, fan-out, fresh-context QA) is usable now to improve your own build loop.</div>
   <p>Only the material that is net-new or deeper than the Torti playbook. Section A is usable NOW on domains-first work (not parked).</p>
   <div class="stack">
     <div class="lyr"><span class="t">Auto-research loop</span><p>Karpathy autoresearch: autonomous hypothesis &rarr; change &rarr; assess &rarr; keep-if-better &rarr; log, run ~1,440x/day. Needs a METRIC, a CHANGE method, a fast ASSESSMENT (both &lt;30s). 30 good 1% changes/day = +34%/day. Proof: Shopify Liquid, 53% faster. LIMEN fit: wrap kernel PR-AUC/holdout as the assessment, bridge-pattern params as the change &rarr; tune the ranking function overnight. Human gate on the config commit.</p></div>
@@ -150,6 +156,7 @@ const HTML = `
 
 <section>
   <h2>Dysregulation &rarr; proven intervention library</h2>
+  <div class="why"><b>Why use this.</b> The treatment protocol: each failure type maps to the proven tactic, the skills, and how autonomous it can safely be. Use it to pick the intervention for a diagnosed problem. <b class="ai">Autonomous AI:</b> This is the action-selection table. Read the Autonomy column to know what you may run alone vs what needs a human.</div>
   <p class="dim">Proof-gated: only tactics with real influencer validation. Autonomy = how much the engine runs without a human. The engine keys each dysregulation type to the validated tactic + the skill that renders it.</p>
   <div class="table-scroll">
   <table>
@@ -170,6 +177,7 @@ const HTML = `
 
 <section>
   <h2>The 20-domain L1 money map</h2>
+  <div class="why"><b>Why use this.</b> The buildable queue. Per domain it gives the free feed, the L1 business, and who pays. Use it to pick the next domain to build and its exact source + buyer. <b class="ai">Autonomous AI:</b> Each row is a spec: the feed to ingest, the readout to render, the buyer to route it to.</div>
   <p>Each domain = a dysregulated nervous system; the business is the treatment; the no-capital (L1) instrument deploys first and funds the ladder. All 20 are the same machine: ingest free public feed &rarr; entity-resolve + rank/join (THE MOAT) &rarr; curated plain-language readout &rarr; auto-drip newsletter (affiliate-monetized) &rarr; paid scoped alert &rarr; licensed feed. Sell curation, never raw data. Own nothing.</p>
   <div class="table-scroll">
   <table>
@@ -203,12 +211,14 @@ const HTML = `
 
 <section>
   <h2>Claude Code skills catalog</h2>
+  <div class="why"><b>Why use this.</b> How to read and install the catalog below. Check the repo trust legend and the npx pattern before pulling any skill. <b class="ai">Autonomous AI:</b> Prefer Anthropic-official repos; a community skill can run commands, so vet before install.</div>
   <p>The comprehensive fulfillment inventory: 355 skills across 11+ repos. Prioritize Anthropic-official repos (high trust, Anthropic-vetted). Community repos = vet each entry before installing, since a skill can run commands in your environment. Repo legend: <b>KWP</b> = anthropics/knowledge-work-plugins &middot; <b>SK</b> = anthropics/skills &middot; <b>CC</b> = anthropics/claude-code &middot; <b>CPO</b> = anthropics/claude-plugins-official &middot; <b>ECC</b> = affaan-m/everything-claude-code (community) &middot; others named inline.</p>
   <p class="note">Install any skill: <code>npx skills add https://github.com/&lt;owner&gt;/&lt;repo&gt; --skill '&lt;name&gt;'</code>. Install a whole repo at once: <code>npx skills add https://github.com/anthropics/claude-code</code>. The 4 discovery lists (community-curated, vet before use): hesreallyhim/awesome-claude-code, ComposioHQ/awesome-claude-skills, travisvn/awesome-claude-skills, karanb192/awesome-claude-skills.</p>
 </section>
 
 <section>
   <h2>Catalog: build &amp; agent infrastructure</h2>
+  <div class="why"><b>Why use this.</b> Grab these to build MORE skills, agents, plugins, MCP servers, and hooks. Use when extending LIMEN's own tooling. <b class="ai">Autonomous AI:</b> This is how you build new tools for yourself before building for a client.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -244,6 +254,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: autonomy, orchestration &amp; cost</h2>
+  <div class="why"><b>Why use this.</b> Patterns for running long autonomous loops cheaply and safely. Use when designing a self-running pipeline. <b class="ai">Autonomous AI:</b> eval-harness + cost-aware routing + loop patterns are your operating discipline; wire them in early.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -269,6 +280,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: testing &amp; verification</h2>
+  <div class="why"><b>Why use this.</b> Install before shipping anything with logic. Use to add tests and a pre-deploy verification gate. <b class="ai">Autonomous AI:</b> Run these as the QA step before every deploy; do not ship un-verified.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -289,6 +301,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: security, guard &amp; compliance</h2>
+  <div class="why"><b>Why use this.</b> Install before anything touches auth, secrets, payments, or user input. Use to review a build and gate risky actions. <b class="ai">Autonomous AI:</b> Mandatory pass before deploy; git-guardrails blocks destructive git; never skip on a money-touching build.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -315,6 +328,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: language &amp; framework patterns</h2>
+  <div class="why"><b>Why use this.</b> Idiomatic patterns per stack. Use when building in a specific language or framework so the code matches convention. <b class="ai">Autonomous AI:</b> Load the matching pattern skill for the target stack before writing code.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -343,6 +357,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: engineering delivery</h2>
+  <div class="why"><b>Why use this.</b> The non-code parts of shipping: ADRs, system design, debugging, deploy checklists, docs, incident response. <b class="ai">Autonomous AI:</b> Structure the work with these so a build is reproducible and documented, not a one-off.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -363,6 +378,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: data, analytics &amp; visualization</h2>
+  <div class="why"><b>Why use this.</b> Turn data into dashboards, charts, SQL, and stats. Use for any readout or reporting deliverable. <b class="ai">Autonomous AI:</b> The L1 wedge IS a curated readout; build it with these instead of hand-rolling charts.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -382,6 +398,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: sales, lead &amp; CRM</h2>
+  <div class="why"><b>Why use this.</b> The prospect, enrich, outreach, and CRM stack as installable skills. Use to build a lead or outreach engine. <b class="ai">Autonomous AI:</b> These are the afferent-sensing and salience offers; keep them back-end, never AI at first contact.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo (plugin)</th></tr></thead>
@@ -408,6 +425,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: marketing, content &amp; brand</h2>
+  <div class="why"><b>Why use this.</b> Content systems, campaigns, SEO, and brand voice. Use for the efferent-output offers. <b class="ai">Autonomous AI:</b> The content-repurposing and parasite-distribution pipelines run on these; always emit a tangible piece.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo (plugin)</th></tr></thead>
@@ -434,6 +452,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: customer support (procedural back-end only)</h2>
+  <div class="why"><b>Why use this.</b> Triage, draft, and KB skills for support offers. Use them, but read the anti-catalog note first. <b class="ai">Autonomous AI:</b> Procedural back-end or human-in-the-loop drafts only; AI at the front line drops conversion ~30 to ~20 percent.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo (plugin)</th></tr></thead>
@@ -454,6 +473,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: finance, accounting &amp; SMB ops</h2>
+  <div class="why"><b>Why use this.</b> Close, reconcile, cash-flow, invoice, and pulse skills. Use for the diagnostic-readout and homeostasis offers. <b class="ai">Autonomous AI:</b> business-pulse and invoice-chase are high-value, mostly-autonomous builds; the deliverable is recovered money or a clear number.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo (plugin)</th></tr></thead>
@@ -480,6 +500,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: HR, hiring &amp; legal</h2>
+  <div class="why"><b>Why use this.</b> Recruiting, comp, onboarding, and contract/NDA triage. Use for the homeostasis and immune offers. <b class="ai">Autonomous AI:</b> Legal outputs are drafts for a human to sign, never advice; hiring decisions stay human-gated.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo (plugin)</th></tr></thead>
@@ -503,6 +524,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: research, product &amp; operations</h2>
+  <div class="why"><b>Why use this.</b> Deep research, market research, roadmaps, and SOPs. Use for intel deliverables and for running the business itself. <b class="ai">Autonomous AI:</b> deep-research and market-research feed the diagnostic readouts that are LIMEN's edge.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo (plugin)</th></tr></thead>
@@ -527,6 +549,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: documents, design &amp; productivity</h2>
+  <div class="why"><b>Why use this.</b> docx/pptx/xlsx/pdf, design, artifacts, and memory. Use to produce the tangible deliverable every engagement must ship. <b class="ai">Autonomous AI:</b> Render the dossier or readout as a real file here; form-over-function, the artifact is the product.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo</th></tr></thead>
@@ -554,6 +577,7 @@ const HTML = `
 
 <section>
   <h2>Catalog: channels, integrations &amp; domain-specialized</h2>
+  <div class="why"><b>Why use this.</b> Zoom/Slack/Discord channels plus bio and hardware niches. Use when a build needs a specific channel or vertical. <b class="ai">Autonomous AI:</b> Pull the specific integration skill on demand rather than loading everything.</div>
   <div class="table-scroll">
   <table>
     <thead><tr><th>Skill</th><th>Purpose</th><th>Repo (plugin)</th></tr></thead>
@@ -577,6 +601,7 @@ const HTML = `
 
 <section>
   <h2>Free data sources (green = build on it)</h2>
+  <div class="why"><b>Why use this.</b> The green/yellow feed list. Use it to source a domain's L1 feed legally. <b class="ai">Autonomous AI:</b> Ingest only from here: green = build on it, yellow = signal and attribute, never circumvent a login/paywall.</div>
   <p>Green = open data or an official public API/bulk download; pull freely, respect limits. Yellow = public but ToS-restricted; use the official API, signal-only, always attribute. Anything needing login/CAPTCHA/paywall circumvention is out of scope. The moat is the ranking function over public data, never the raw feed.</p>
   <div class="table-scroll">
   <table>
@@ -597,6 +622,7 @@ const HTML = `
 
 <section>
   <h2>Keyed APIs (payout + data)</h2>
+  <div class="why"><b>Why use this.</b> Payout and data APIs by env var. Use to wire revenue (affiliate/payments) or resellable data. <b class="ai">Autonomous AI:</b> Check the env var is present before calling; reselling raw feed is prohibited, so sell curation on top.</div>
   <p>Two kinds: payout APIs that pay you (gated behind an approved account + real activity) and data APIs you resell as curation (own-nothing middleman). Reselling raw feed is usually prohibited; selling curation/analysis on top is the defensible line. Legend below: check = already referenced in this repo.</p>
   <div class="table-scroll">
   <table>
@@ -617,6 +643,7 @@ const HTML = `
 
 <section>
   <h2>Meta-directives + irreducible residue</h2>
+  <div class="why"><b>Why use this.</b> The rules that govern the whole engine plus the two cells that stay human. Use as guardrails on everything above. <b class="ai">Autonomous AI:</b> NON-NEGOTIABLE limits: the anti-catalog (what never to spawn) and the residue (the first sale + the trust boundary) are hard walls.</div>
   <ul>
     <li><b>Reliability:</b> template 90% yourself, let AI fill 10%. Deterministic rails; businesses pay for predictability, not flexibility.</li>
     <li><b>Build quality:</b> fan-out Sonnet-research / Opus-synthesis; fresh-context (or different-model) QA + security agent BEFORE any deploy; anti-monoculture failover (agents.md / gemini.md mirror).</li>
