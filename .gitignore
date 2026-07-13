@@ -83,6 +83,10 @@ scripts/*.jsonl
 /coffee-house/
 scripts/reports/
 
+# Installed Claude Code skills (npx skills add → .agents/skills, symlinked into
+# Claude Code). Third-party code, local-only; never commit or deploy.
+.agents/
+
 # Raw YouTube transcript corpora (~21MB) — keep LOCAL only, never in git history.
 # Regenerable via: python -m yt_dlp --skip-download --write-auto-subs --sub-langs "en.*" <channel>/videos
 # The distilled maps in docs/research/*.md ARE committed (the irreplaceable synthesis).
