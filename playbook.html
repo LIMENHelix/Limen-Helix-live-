@@ -53,6 +53,14 @@
     border-radius:0 8px 8px 0; padding:11px 15px; margin:6px 0 16px; max-width:82ch; line-height:1.55}
   .why b{color:var(--ink)}
   .why b.ai{color:var(--neuro); font-family:var(--mono); font-size:.82em; letter-spacing:.04em; text-transform:uppercase}
+  .hint{font-size:.92rem; color:var(--faint); margin:10px 0 0}
+  .hint code{font-size:.85em}
+  td a, .note a, .why a, .lyr a, p a{color:var(--signal); text-decoration:none; border-bottom:1px solid rgba(56,198,190,.35)}
+  td a:hover, .note a:hover, p a:hover{color:var(--ink); border-bottom-color:var(--signal)}
+  .sk-name{cursor:pointer; color:var(--ink); border-bottom:1px dotted var(--faint)}
+  .sk-name:hover{color:var(--signal); border-bottom-color:var(--signal)}
+  .pbtoast{position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--panel2); border:1px solid var(--signal); color:var(--ink); font-family:var(--mono); font-size:12.5px; padding:10px 15px; border-radius:8px; z-index:99; max-width:92vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; opacity:0; transition:opacity .2s; pointer-events:none}
+  .pbtoast.show{opacity:1}
   .note{font-size:.95rem; color:var(--faint); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-top:14px}
   ul{color:var(--dim); padding-left:22px} li{margin:7px 0; max-width:80ch; font-size:1.02rem}
   table{width:100%; border-collapse:collapse; margin-top:12px; font-size:.98rem}
@@ -84,6 +92,39 @@
 <script>
 (function(){
   var body=document.getElementById('body');
+  var REPO={KWP:'anthropics/knowledge-work-plugins',SK:'anthropics/skills',CC:'anthropics/claude-code',CPO:'anthropics/claude-plugins-official',ECC:'affaan-m/everything-claude-code'};
+  var toastEl;
+  function toast(msg){ if(!toastEl){toastEl=document.createElement('div');toastEl.className='pbtoast';document.body.appendChild(toastEl);} toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(toastEl._t); toastEl._t=setTimeout(function(){toastEl.classList.remove('show');},2600); }
+  function copyText(t){ try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t); return true; } }catch(e){} try{ var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); return true; }catch(e){ return false; } }
+  function ghUrl(or){ return 'https://github.com/'+or.replace(/[^\w./-]+$/,'').replace(/[/.]+$/,''); }
+  // Link every repo reference to GitHub, and make each skill name copy its install command.
+  function linkifyRepoCell(td){
+    var firstUrl=null, html=td.textContent;
+    html=html.replace(/[a-z0-9][\w.-]*\/[\w.-]+/gi,function(m){ var u=ghUrl(m); if(!firstUrl)firstUrl=u; return '<a href="'+u+'" target="_blank" rel="noopener">'+m+'</a>'; });
+    html=html.replace(/\b(KWP|CPO|CC|SK|ECC)\b/g,function(m){ var u='https://github.com/'+REPO[m]; if(!firstUrl)firstUrl=u; return '<a href="'+u+'" target="_blank" rel="noopener">'+m+'</a>'; });
+    td.innerHTML=html; return firstUrl;
+  }
+  function linkifySkills(){
+    var n=0;
+    [].slice.call(body.querySelectorAll('table')).forEach(function(tbl){
+      var ths=[].slice.call(tbl.querySelectorAll('thead th')).map(function(t){return t.textContent.trim().toLowerCase();});
+      var ri=-1; for(var i=0;i<ths.length;i++){ if(ths[i].indexOf('repo')===0){ ri=i; break; } }
+      if(ri<0) return; // only the catalog tables have a Repo column
+      [].slice.call(tbl.querySelectorAll('tbody tr')).forEach(function(tr){
+        var tds=tr.querySelectorAll('td');
+        if(tds.length<=ri || tds[0].getAttribute('colspan')) return;
+        var url=linkifyRepoCell(tds[ri]);
+        var nameCell=tds[0], name=(nameCell.textContent||'').split(/[\/(]/)[0].trim();
+        if(name && url && name.indexOf('*')<0){
+          var cmd="npx skills add "+url+" --skill '"+name+"'";
+          nameCell.classList.add('sk-name'); nameCell.title='Copy: '+cmd;
+          nameCell.addEventListener('click',function(){ toast(copyText(cmd)?('Copied: '+cmd):cmd); });
+          n++;
+        }
+      });
+    });
+    return n;
+  }
   // Turn each <section> into a collapsible: its <h2> becomes a toggle, the rest wraps in .sec-body.
   function enhance(){
     var secs=[].slice.call(body.querySelectorAll('section'));
@@ -109,7 +150,13 @@
   // gate-master.js auto-attaches the master key to /api/playbook (it's in the GATED regex).
   fetch('/api/playbook').then(function(r){ return r.json().then(function(j){ return {s:r.status,j:j}; }); }).then(function(o){
     if(o.s===403 || !o.j.ok){ body.innerHTML='<div class="gatebox">Master access required. If you are signed in and still see this, your passcode did not validate against ADMIN_MASTER.</div>'; return; }
-    body.innerHTML=o.j.html; enhance();
+    body.innerHTML=o.j.html;
+    var installable=linkifySkills();
+    enhance();
+    var hint=document.createElement('div'); hint.className='hint';
+    hint.innerHTML='Click a repo to open it on GitHub. Click a skill name to copy its <code>npx skills add</code> command ('+installable+' installable).';
+    var tools=body.parentNode.querySelector('.tools');
+    body.parentNode.insertBefore(hint, tools||body);
   }).catch(function(){ body.innerHTML='<div class="gatebox">Could not load the playbook. Check that /api/playbook is deployed.</div>'; });
 })();
 </script>
