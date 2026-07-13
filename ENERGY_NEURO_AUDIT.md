@@ -78,7 +78,7 @@ category error. Energy correctly leaves them out.
 | Invariant (doc section) | Energy status | Evidence |
 |---|---|---|
 | Refractory rate-limit (III.3) | LIVE | energy-refractory-limiter.js + energy-brain.js:1116-1144 (the one actuated overlay) |
-| E/I balance = inhibition scales with drive (XIII.1) | WEAK (distorted) | advisory energy-ei-balance.js; live term reg.inhibition = 1 - novelty (energy-brain.js:1356) scales inverse to surprise, not drive |
+| E/I balance = inhibition scales with drive (XIII.1) | **LIVE (actuated 2026-07-13)** | `_computeEnergyServo` + brake `eiFactor`: the HALT brake now dampens emission PROPORTIONALLY to the drive/inhibition deficit (harness 8/8: runaway->0.23, monotonic). Reversible via `_actuation.eiBrake`. |
 | GABA load-bearing brake (IV.2/XIV) | WEAK (fails open) | _computeEnergyBrake fail-open when state absent (energy-brain.js:2362-2363); proportional arm deferred |
 | Retrograde negative feedback (IV.5) | WEAK (inert) | energy-retrograde-throttle.js unwired, no overload feed |
 | Feedback/recurrent inhibition (XIII.2) | LIVE | HALT brake one-cycle-lag + flood cap (energy-brain.js:2360-2404) |
@@ -90,7 +90,7 @@ category error. Energy correctly leaves them out.
 | Homeostatic synaptic scaling (XIII.6/9) | WEAK (inert) | energy-offline-maintenance.js deep-copy, wrote:false, factor 1 |
 | Metaplasticity (XIII.6) | WEAK (inert) | energy-metaplasticity.js gain 0, volatility unwired |
 | Neuromodulation / global gain (XIII.7) | LIVE | novelty scalar reconfigures gain/output (energy-brain.js:1354-1370) |
-| Set-point homeostasis / allostasis (V.2/XII) | WEAK (threshold not servo) | K8 adapts a handoff floor (energy-brain.js:2090-2111); no regulate-to-target |
+| Set-point homeostasis / allostasis (V.2/XII) | **LIVE (actuated 2026-07-13)** | `_computeEnergyServo` = a real sensor->controller(PI: fast proportional + bounded slow integral, the HPA fast+slow arms)->effector(emission dampening)->feedback loop that drives inhibition toward a drive+deviation TARGET. Reversible via `_actuation.servo`. |
 | HPA fast+slow feedback (XII) | WEAK (fast only) | fast K4 hitRate live; slow K3 observe-only |
 | Interoception (X.8) | LIVE (observe-only) | _computeEnergyInteroception 6-channel + divergence (energy-brain.js:2214-2323) |
 | Offline maintenance / sleep (XIII.9) | WEAK (inert) | module never called; no scheduler to invoke it |

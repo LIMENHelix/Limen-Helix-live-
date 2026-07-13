@@ -73,7 +73,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -2110,6 +2110,48 @@
     s.energyHomeostasis = hm; return hm;
   };
 
+  // ── REGULATE-TO-TARGET SERVO + E/I BRAKE ACTUATION (2026-07-13, operator-approved) ─────────────
+  // Neuro Ref V.2/XII (set-point homeostasis/allostasis) + XIII.1 (E/I: inhibition scales with
+  // drive - the doc's most-repeated invariant). Closes the two gaps the audit flagged: K8 only
+  // adapted a handoff FLOOR (alert, not regulate); the E/I module was observe-only. This is the real
+  // sensor->controller->effector->feedback loop: sensor = drive + K8 deviation; controller = PI
+  // (fast proportional + bounded slow integral, the HPA fast+slow arms); effector = a proportional
+  // dampening of emission the HALT brake then applies. Additive, reversible (this._actuation.servo/
+  // eiBrake=false), affects ONLY emission confidence (same channel the brake already uses); never
+  // rewrites stress/scoring/diagnoses/energy.json.
+  EnergyBrain.prototype._computeEnergyServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, em = s.energyModel || {}, reg = em.regulation || {}, hm = s.energyHomeostasis || {};
+    // SENSOR: excitatory drive (stress + how many things fire at once) vs current inhibition
+    var stress = (typeof s.finalStress === 'number') ? s.finalStress : (typeof s.stress === 'number' ? s.stress : 0);
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // the live term (was inverse-surprise)
+    var FLOOR = 0.15;
+    // TARGET (allostatic set-point): inhibition must track drive (E/I), and rise with deviation above
+    // the adaptive baseline (K8). This is regulate-TO-target, not just alert-on-deviation.
+    var deviation = Math.max(0, (typeof hm.deviationFromBaseline === 'number') ? hm.deviationFromBaseline : 0);
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive/regime
+    // CONTROLLER: bounded integral (slow arm) + proportional (fast arm)
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking; never disinhibit
+    // EFFECTOR: proportional dampening of emission (the brake consumes this)
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.energyServo = servo;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.servo = servo;   // additive: new key only
+    return servo;
+  };
+
   // Assemble the neuro-completion surface (mirrors _computeEnergyHigherLayers). Runs all
   // K-layers, stores each on state (like energyImmune/energyAwareness), and attaches a
   // compact roll-up to state.cognition ADDITIVELY (new key `neuro`; existing keys untouched).
@@ -2122,6 +2164,7 @@
     this._computeEnergyAttention();         // K6 - attention / selective routing
     this._computeEnergyInhibition();        // K7 - lateral inhibition (microcircuit)
     this._computeEnergyHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    try { if (this._actuation && this._actuation.servo) this._computeEnergyServo(); } catch (e) {}   // REGULATE-TO-TARGET SERVO (actuated) - reads K8 deviation, drives inhibition toward drive-target
     this._scoreEnergyCallOutcomes();        // STEP 2 - truth brake (before brake: feeds calibration)
     this._computeEnergyBrake();             // HALT BRAKE - stop-circuit (reads ledger calibration)
     this._computeEnergyForecast();          // STEP 4 - forward render (reads ledger calibration)
@@ -2399,6 +2442,14 @@
     // TRUTH BRAKE feed - poor realized calibration dampens emission
     var led = s.energyOutcomeLedger || {};
     if (typeof led.callHitRate === 'number' && led.resolvedSamples >= 5 && led.callHitRate < 0.34) reasons.push({ code: 'poor-call-calibration', severity: 'dampen', detail: 'realized call hit-rate ' + led.callHitRate + ' over ' + led.resolvedSamples + ' resolved' });
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1): the brake now scales PROPORTIONALLY with drive via the
+    // regulate-to-target servo - inhibition that does not track drive raises the brake continuously,
+    // not just in discrete steps. Reversible (this._actuation.eiBrake). Effector = emission dampening.
+    var servo = s.energyServo || null, eiFactor = 1;
+    if (this._actuation && this._actuation.eiBrake && servo) {
+      if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+      if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    }
     var halt = reasons.some(function (r) { return r.severity === 'halt'; });
     var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
     var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
@@ -2410,7 +2461,8 @@
       reasons: reasons,
       suppressActions: halt,                                   // block action-draft emission entirely
       suppressOpportunities: halt,                             // hold opportunities from (future) autonomous emission
-      confidencePenalty: halt ? 0 : dampen ? 0.5 : 1,          // halt zeroes emitted confidence; dampen halves it
+      confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // discrete governor penalty blended with PROPORTIONAL E/I dampening (min = strongest brake wins)
+      eiFactor: (Math.round(eiFactor * 1000) / 1000),          // the proportional E/I contribution (1 = no E/I dampening)
       note: level === 'clear' ? 'stop-circuit clear - emission allowed'
         : level === 'halt' ? 'STOP-CIRCUIT ENGAGED - action emission halted, opportunities held'
         : 'stop-circuit dampening - confidence reduced, emission held for review',
