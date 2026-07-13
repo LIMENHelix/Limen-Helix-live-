@@ -419,28 +419,59 @@ const D = [
 const CW = {HIGH:1.0, validated:0.9, inferred:0.62, MED:0.7, 'MED-HIGH':0.78, LOW:0.5};
 function sev2col(s){ return s>=68?'var(--guard)': s>=52?'var(--money)':'var(--healthy)'; }
 function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-function effSev(d){ return (d.k==='finance' && FINANCE_LIVE)? FINANCE_LIVE.sev : d.sev; }
+
+// LIVE signal — /api/domain-snapshot gives a REAL per-domain finalStress (0-1), confidence,
+// and live feed count. Console domain keys differ from snapshot keys for three domains.
+// brain-signals (the distress gate) uses the CONSOLE key directly, so no map there.
+const SNAP_KEY = {medicine:'health', science:'research', trade:'supplyChain'};
+const LIVE = {};   // d.k -> {sev, conf, feeds, status}
+function effSev(d){ const L=LIVE[d.k]; if(L && typeof L.sev==='number') return L.sev;
+  return (d.k==='finance' && FINANCE_LIVE)? FINANCE_LIVE.sev : d.sev; }
+function isLive(d){ return !!LIVE[d.k]; }
 
 let armed=false, active=null;
 
-// rail
 const rail=document.getElementById('rail');
-D.forEach(d=>{
-  const b=document.createElement('button');
-  b.className='drow'; b.dataset.k=d.k;
-  b.innerHTML='<span class="sig" style="background:'+sev2col(effSev(d))+'"></span><span class="nm">'+esc(d.n)+'</span><span class="cf">'+esc(d.conf)+'</span>';
-  b.onclick=()=>select(d.k);
-  rail.appendChild(b);
-});
-
-// today / start-here strip (top opportunities)
 const today=document.getElementById('today');
-[...D].map(d=>({d,score:effSev(d)*(CW[d.conf]||0.6)})).sort((a,b)=>b.score-a.score).slice(0,6).forEach(({d})=>{
-  const q=document.createElement('button'); q.className='q';
-  q.innerHTML=esc(d.n)+' <b>'+effSev(d)+'</b>';
-  q.onclick=()=>select(d.k);
-  today.appendChild(q);
-});
+function buildRail(){
+  rail.querySelectorAll('.drow').forEach(el=>el.remove());
+  D.forEach(d=>{
+    const b=document.createElement('button');
+    b.className='drow'+(active&&active.k===d.k?' on':''); b.dataset.k=d.k;
+    b.innerHTML='<span class="sig" style="background:'+sev2col(effSev(d))+'"></span><span class="nm">'+esc(d.n)+'</span><span class="cf">'+(isLive(d)?'LIVE':esc(d.conf))+'</span>';
+    b.onclick=()=>select(d.k);
+    rail.appendChild(b);
+  });
+}
+function buildToday(){
+  today.querySelectorAll('.q').forEach(el=>el.remove());
+  [...D].map(d=>({d,score:effSev(d)*(isLive(d)?LIVE[d.k].conf:(CW[d.conf]||0.6))})).sort((a,b)=>b.score-a.score).slice(0,6).forEach(({d})=>{
+    const q=document.createElement('button'); q.className='q';
+    q.innerHTML=esc(d.n)+' <b>'+effSev(d)+'</b>';
+    q.onclick=()=>select(d.k);
+    today.appendChild(q);
+  });
+}
+buildRail(); buildToday();
+
+// Pull the real per-domain signal and re-rank. Non-blocking: placeholders show until it lands,
+// then the rail dots, the "start here" strip, and the open domain all upgrade to live stress.
+async function loadLive(){
+  try{
+    const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(),25000);
+    const r=await fetch('/api/domain-snapshot',{signal:ctrl.signal}); clearTimeout(to);
+    const j=await r.json(); const dom=j&&j.domains; if(!dom) return;
+    let n=0;
+    D.forEach(d=>{ const s=dom[SNAP_KEY[d.k]||d.k];
+      if(s && typeof s.finalStress==='number'){ LIVE[d.k]={sev:Math.round(s.finalStress*100), conf:(typeof s.confidence==='number'?s.confidence:0.8), feeds:s.liveCount||0, status:s.status||'LIVE'}; n++; }
+    });
+    if(n){ buildRail(); buildToday(); if(active) renderMain(active);
+      setStatus('LIVE · '+n+' domains sensing','');
+      const lb=today.querySelector('.lb'); if(lb) lb.textContent='live · ranked by real stress →';
+    }
+  }catch(e){ /* keep placeholders on any failure */ }
+}
+loadLive();
 
 function setStatus(txt, mode){
   const s=document.getElementById('status'); document.getElementById('statustext').textContent=txt;
@@ -468,8 +499,11 @@ function select(k){
 function renderMain(d){
   const skills=d.skills.map(s=>'<span class="sk">'+esc(s)+'</span>').join('');
   const adv=d.adv.map(a=>'<div class="ac"><div class="s">'+esc(a[0])+'</div><div class="h">'+esc(a[1])+'</div></div>').join('');
+  const L=LIVE[d.k];
   const live=(d.k==='finance' && FINANCE_LIVE);
-  const sigTag=live?'<span class="demo" style="color:var(--healthy);border-color:rgba(111,207,151,.45)">&#9679; live &middot; EDGAR &middot; '+esc(FINANCE_LIVE.updated)+'</span>':'<span class="demo">demo signal</span>';
+  const sigTag = L
+    ? '<span class="demo" style="color:var(--healthy);border-color:rgba(111,207,151,.45)">&#9679; live &middot; '+L.feeds+' feeds &middot; stress '+L.sev+'/100</span>'
+    : live?'<span class="demo" style="color:var(--healthy);border-color:rgba(111,207,151,.45)">&#9679; live &middot; EDGAR &middot; '+esc(FINANCE_LIVE.updated)+'</span>':'<span class="demo">demo signal</span>';
   const liveStats=live?'<p style="margin-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--dim)">going-concern filings: <b style="color:var(--ink)">'+FINANCE_LIVE.gc7+'</b> in 7d &middot; '+FINANCE_LIVE.gc30+' in 30d &middot; run-rate <b style="color:'+(FINANCE_LIVE.ratio>=1?'var(--money)':'var(--healthy)')+'">'+FINANCE_LIVE.ratio.toFixed(2)+'&times;</b>'+(FINANCE_LIVE.ch7?' &middot; chapter&nbsp;11: '+FINANCE_LIVE.ch7+' in 7d':'')+'</p>':'';
   const evHtml=(live&&FINANCE_LIVE.evidence&&FINANCE_LIVE.evidence.length)?'<div class="cell" style="grid-column:1/-1"><p class="k"><span>Live evidence &middot; recent going-concern filers</span><span class="demo">SEC EDGAR full-text</span></p><div style="display:grid;gap:7px">'+FINANCE_LIVE.evidence.map(function(e){return '<a href="'+esc(e.link)+'" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;gap:12px;text-decoration:none;font-size:.85rem;border:1px solid var(--line);border-radius:7px;padding:8px 11px;background:var(--panel2)"><span style="color:var(--ink)">'+esc(e.name)+'</span><span class="mono" style="color:var(--faint);white-space:nowrap">'+esc(e.form)+' &middot; '+esc(e.date)+'</span></a>';}).join('')+'</div></div>':'';
   const m=document.getElementById('main');
@@ -477,8 +511,8 @@ function renderMain(d){
   '<div class="dhead"><div><div class="lab">// regulation opportunity</div>'
    +'<h1>'+esc(d.n)+'</h1></div></div>'
   +'<div class="badges">'
-   +(d.live?'<span class="badge live">● desk live</span>':'')
-   +'<span class="badge sig">confidence: '+esc(d.conf)+'</span>'
+   +(L?'<span class="badge live">● live signal · '+L.feeds+' feeds</span>':(d.live?'<span class="badge live">● desk live</span>':''))
+   +'<span class="badge sig">confidence: '+(L?(Math.round(L.conf*100)+'%'):esc(d.conf))+'</span>'
    +'<span class="badge">function: '+esc(d.fn)+'</span></div>'
 
   +'<div class="sense">'
@@ -529,7 +563,7 @@ function renderMain(d){
   requestAnimationFrame(()=>{ const f=document.getElementById('fill'); if(f){ f.style.width=effSev(d)+'%'; f.style.background='linear-gradient(90deg,var(--healthy),'+sev2col(effSev(d))+')'; }});
   // sensing log
   var senseLog=[
-    ['s','[sense]   feed '+d.feed.split(' ')[0]+' connected · signal '+effSev(d)+'/100'+(live?'  (LIVE)':'')],
+    ['s','[sense]   feed '+d.feed.split(' ')[0]+' connected · signal '+effSev(d)+'/100'+(L?('  (LIVE · '+L.feeds+' feeds)'):(live?'  (LIVE)':''))],
     ['n','[brain]   '+d.node],
     ['w','[dx]      '+d.fn+' — opportunity detected'],
     ['ok','[ready]   candidate: '+d.biz+'  →  press start']
@@ -539,19 +573,52 @@ function renderMain(d){
   document.getElementById('startbtn').onclick=()=>startBiz(d);
 }
 
-function startBiz(d){
+// LIVE SIMULATION — drives the launch off real signal, no LLM spend, no publish. It senses
+// the real per-domain stress (domain-snapshot), runs the honest distress gate (brain-signals),
+// selects the indicated intervention, and either shows the REAL top flagged entity as the first
+// dossier or HONESTLY abstains when nothing crosses the publish gate. Then HALTs at the residue.
+async function startBiz(d){
   if(armed) return; armed=true;
+  const btn=document.getElementById('startbtn'); btn.disabled=true; btn.textContent='● sensing…';
+  setStatus('RUNNING · LIVE SIM','armed');
+  const log=document.getElementById('log');
+  const L=LIVE[d.k];
+  const dossierWord = (d.biz.toLowerCase().includes('feed')||d.biz.toLowerCase().includes('radar')||d.biz.toLowerCase().includes('watch'))?'dossier':'readout';
+  const lines=[['t','$ regulator start --domain '+d.k+'   (live simulation)']];
+  lines.push(L
+    ? ['s','[sense]   '+d.feed.split(' ')[0]+' + '+L.feeds+' live feeds · stress '+L.sev+'/100  ('+d.fn+')']
+    : ['s','[sense]   '+d.feed.split(' ')[0]+' · '+effSev(d)+'/100  (placeholder — no live feed for this domain)']);
+  logLines(log, lines, 0);
+
+  // Real distress gate (brain-signals uses the console/portal key directly)
+  let sig=null;
+  try{ const r=await fetch('/api/brain-signals?domain='+encodeURIComponent(d.k)); sig=await r.json(); }catch(e){}
+
+  if(sig && sig.ok){
+    lines.push(['ok','[scan]    '+(sig.tracked||0)+' tracked · '+(sig.scanned||0)+' scanned · '+(sig.flagged||0)+' flagged · '+((sig.publishable||[]).length)+' publishable']);
+  } else {
+    lines.push(['w','[scan]    distress pipeline: no live company scores wired for this domain yet']);
+  }
+  lines.push(['n','[select]  '+d.fn+' failure  →  indicated treatment: "'+d.biz+'"']);
+  lines.push(['s','[skills]  provisioning: '+d.skills.slice(0,5).join(', ')+' …']);
+
+  const pub=(sig&&sig.publishable)||[];
+  const flagged=(sig&&sig.flagged)||0;
+  if(pub.length && flagged>0){
+    const t=pub[0];
+    lines.push(['m','[build]   first '+dossierWord+' · '+(t.name||t.ticker||'entity')+(t.ticker?' ('+t.ticker+')':'')+' · score '+(t.score!=null?t.score:'?')+(t.band?' · '+t.band:'')+'  →  '+d.buyer.split(',')[0]]);
+  } else if(pub.length){
+    const t=pub[0];
+    lines.push(['ok','[build]   '+pub.length+' tracked at baseline (top: '+(t.name||t.ticker)+' '+(t.score!=null?t.score:'')+') — none crossed the ALERT gate']);
+    lines.push(['w','[abstain] no fabricated signal: the '+dossierWord+' fires only when a real one clears the gate']);
+  } else {
+    lines.push(['w','[abstain] nothing crosses the publish gate now — the system ABSTAINS (no fabricated signal). Baseline set; it fires when a real one lands.']);
+  }
+  lines.push(['ok','[loop]    monitoring '+d.k+' live; the business mutates as the domain regulates']);
+  lines.push(['w','[HALT]    awaiting operator: 2 residue steps below ↓']);
+  logLines(log, lines, 0);
   setStatus('ARMED · AWAITING OPERATOR','armed');
-  const btn=document.getElementById('startbtn'); btn.disabled=true; btn.textContent='● cycle armed';
-  logLines(document.getElementById('log'), [
-    ['t','$ regulator start --domain '+d.k],
-    ['s','[init]    provisioning skills: '+d.skills.slice(0,5).join(', ')+' …'],
-    ['ok','[build]   rendering "'+d.biz+'" on the desk spine … ok'],
-    ['ok','[audit]   false-positive gate + eval pass … ok'],
-    ['m','[render]  first '+ (d.biz.toLowerCase().includes('feed')||d.biz.toLowerCase().includes('radar')||d.biz.toLowerCase().includes('watch')?'dossier':'readout') +' drafted for '+d.buyer.split(',')[0]],
-    ['ok','[loop]    monitoring '+d.k+' feed; will mutate as the domain regulates'],
-    ['w','[HALT]    awaiting operator: 2 residue steps below ↓']
-  ],0);
+  btn.textContent='● cycle armed';
   document.getElementById('residue').classList.add('show');
 }
 
