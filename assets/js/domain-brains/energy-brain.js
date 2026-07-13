@@ -2180,17 +2180,33 @@
       if (EI && typeof EI.assessFromState === 'function') out.eiBalance = EI.assessFromState(s);
     } catch (e) { out.eiBalance = null; }
     // (2) Self-audit - CONSUME the connectivity / SPOF audit (was inert). Guarded on presence.
+    // Edges (81) live in energy.json, NOT in the live snapshot (_rawDomain carries signals/stress
+    // only) - the earlier version read _rawDomain.edges and got null every cycle. Lazily fetch +
+    // cache them once (browser fire-and-forget, matching the DC loader; server via require) so the
+    // audit runs on the REAL graph. First browser cycle = loading; then it consumes.
     try {
+      var self = this;
+      var edges = (s._rawDomain && Array.isArray(s._rawDomain.edges) && s._rawDomain.edges) ||
+                  (Array.isArray(s.edges) && s.edges) || this._energyEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._energyEdgesPromise) {
+          this._energyEdgesPromise = fetch('/assets/data/domains/energy.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._energyEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/energy.json'); if (ed && Array.isArray(ed.edges)) { this._energyEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
       var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
       if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
-      var energyObj = (s._rawDomain && s._rawDomain.edges) ? s._rawDomain : (Array.isArray(s.edges) ? { edges: s.edges } : null);
-      if (CA && energyObj && typeof CA.singlePointsOfFailure === 'function') {
-        var audit = CA.singlePointsOfFailure(energyObj);
+      if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
+        var audit = CA.singlePointsOfFailure({ edges: edges });
         var spof = (audit && audit.articulationNodes) || [];
-        out.selfAudit = { consumed: true, spofCount: spof.length, spof: spof.slice(0, 5),
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
           verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
       } else {
-        out.selfAudit = { consumed: false, note: 'connectivity-audit not loaded or no edges in state' };
+        out.selfAudit = { consumed: false, note: edges ? 'connectivity-audit not loaded' : 'edges loading (async, next cycle)' };
       }
     } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
     return out;
