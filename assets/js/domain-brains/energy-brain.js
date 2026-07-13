@@ -2156,9 +2156,44 @@
         'K8 set-point -> readyForHandoff (blended adaptive floor)'
       ]
     };
+    // E/I balance + self-audit advisories (observe-only; Neuro Ref XIII.1 + XIV). Guarded,
+    // never mutates stress/scoring/energy.json. Fills the two biggest audit gaps.
+    try { neuro.regulation = this._computeEnergyRegulationAdvisories(); } catch (e) { neuro.regulation = null; }
     s.energyNeuro = neuro;
     if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
     return neuro;
+  };
+
+  // ── E/I BALANCE + SELF-AUDIT ADVISORIES (additive, observe-only, 2026-07-13) ──────────────
+  // Closes two of the biggest gaps the neurology-reference audit found: (1) the E/I balance
+  // invariant (XIII.1 - inhibition must scale with drive; the doc's most-repeated rule), and
+  // (2) actually CONSUMING the self-audit (XIV connectivity / single-points-of-failure) that was
+  // computed-and-discarded. Deterministic, no AI, no writes. The brain now SEES its own runaway
+  // risk + brittle nodes each cycle. Actuating these into the live brake is a separate,
+  // operator-scoped step (same discipline as the refractory limiter, commit 2e6f0c11).
+  EnergyBrain.prototype._computeEnergyRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance - is inhibition tracking drive?
+    try {
+      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+      if (!EI && typeof require === 'function') { try { EI = require('../energy-ei-balance.js'); } catch (_e) {} }
+      if (EI && typeof EI.assessFromState === 'function') out.eiBalance = EI.assessFromState(s);
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit - CONSUME the connectivity / SPOF audit (was inert). Guarded on presence.
+    try {
+      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+      if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+      var energyObj = (s._rawDomain && s._rawDomain.edges) ? s._rawDomain : (Array.isArray(s.edges) ? { edges: s.edges } : null);
+      if (CA && energyObj && typeof CA.singlePointsOfFailure === 'function') {
+        var audit = CA.singlePointsOfFailure(energyObj);
+        var spof = (audit && audit.articulationNodes) || [];
+        out.selfAudit = { consumed: true, spofCount: spof.length, spof: spof.slice(0, 5),
+          verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+      } else {
+        out.selfAudit = { consumed: false, note: 'connectivity-audit not loaded or no edges in state' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    return out;
   };
 
   // ════════════════════════════════════════════════════════════════════════════
@@ -2936,7 +2971,9 @@
       'assets/js/energy-directive-translator.js',
       'assets/js/energy-targeting-engine.js',
       'assets/js/energy-promotion-bridge.js',
-      'assets/js/energy-clarity-operator.js'
+      'assets/js/energy-clarity-operator.js',
+      'assets/js/energy-connectivity-audit.js',
+      'assets/js/energy-ei-balance.js'
     ];
     (function loadNext(i) {
       if (i >= _energyScripts.length) return;
