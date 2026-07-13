@@ -284,6 +284,10 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
   <div class="sec" id="radar"><h2>🌊 Wave Radar</h2><span class="cap">what's climbing fastest</span></div>
   <div id="radarBody"><div class="muted">Reading the charts…</div></div>
 
+  <div class="sec" id="ytsec" style="display:none"><h2>📺 Breaking on YouTube</h2><span class="cap">music videos gaining views fastest right now <span id="ytAgo" style="color:var(--dim)"></span></span></div>
+  <div id="ytHis"></div>
+  <div id="ytBody"></div>
+
   <div class="sec" id="geosec" style="display:none"><h2>🌍 Where it's rising</h2><span class="cap">Last.fm geo + global — the leading signal</span></div>
   <div id="geoList" class="list"></div>
 
@@ -578,6 +582,33 @@ h1.wm{font-size:clamp(38px,9vw,74px);line-height:.92;letter-spacing:-1.5px;margi
     }).catch(function(){ document.getElementById('newsBody').innerHTML='<div class="muted">Couldn’t load the feed.</div>'; });
   }
   loadNews(); setInterval(loadNews, 5*60*1000);
+
+  // ---- Breaking on YouTube (view-velocity signal; key-gated server-side) ----
+  function ytVel(r){ if(r.points<2||!r.velocity) return ''; var up=r.velocity>0; return '<span class="ago" style="color:'+(up?'var(--emerge)':'var(--cool)')+'">'+(up?'+':'')+fmtNum(r.velocity)+'/day</span>'; }
+  function ytCard(r){
+    return '<a class="nitem" href="'+esc(r.url)+'" target="_blank" rel="noopener" style="display:flex;gap:10px;align-items:center">'+
+      (r.thumb?'<img src="'+esc(r.thumb)+'" alt="" style="width:88px;height:50px;object-fit:cover;border-radius:6px;flex:none">':'')+
+      '<div style="flex:1;min-width:0"><div class="nt">'+esc(r.title)+'</div>'+
+      '<div class="ns">'+esc(r.channel)+' <span class="ago">· '+fmtNum(r.views)+' views'+(r.likes?' · '+fmtNum(r.likes)+' likes':'')+'</span> '+ytVel(r)+'</div></div></a>';
+  }
+  function loadYouTube(){
+    fetch('/api/youtube-signal').then(function(r){return r.json();}).then(function(j){
+      var sec=document.getElementById('ytsec'), body=document.getElementById('ytBody'), his=document.getElementById('ytHis');
+      // Off (no key) or empty → keep the whole section hidden. Never a dead panel.
+      if(!j.ok||!j.on||(!(j.items&&j.items.length)&&!(j.channel&&j.channel.videos&&j.channel.videos.length))){ sec.style.display='none'; return; }
+      sec.style.display='flex';
+      // DMAD's own channel traction first, if a channel is configured server-side.
+      if(j.channel&&j.channel.videos&&j.channel.videos.length){
+        var ch='<div class="openlane"><h4>🎧 Your channel</h4><p><b>'+fmtNum(j.channel.totalViews)+'</b> views across your latest '+j.channel.videos.length+'. Newest / biggest:</p></div><div class="news">';
+        j.channel.videos.forEach(function(v){ ch+=ytCard({url:v.url,thumb:v.thumb,title:v.title,channel:'DMAD',views:v.views,likes:v.likes,points:0}); });
+        his.innerHTML=ch+'</div>';
+      } else his.innerHTML='';
+      var h='<div class="news">'; (j.items||[]).forEach(function(r){ h+=ytCard(r); }); body.innerHTML=h+'</div>';
+      var nw=body.querySelector('.news'); if(nw&&window.__collapse)window.__collapse(nw,6);
+      var na=document.getElementById('ytAgo'); if(na&&j.lastSnapshot) na.textContent='· '+(j.warming?'warming up':'updated '+fmtAgo(j.lastSnapshot));
+    }).catch(function(){ document.getElementById('ytsec').style.display='none'; });
+  }
+  loadYouTube(); setInterval(loadYouTube, 10*60*1000);
 
   // ---- Coming Back (Eras Radar) + Closest Uncrowded Wave ----
   function renderEras(j){

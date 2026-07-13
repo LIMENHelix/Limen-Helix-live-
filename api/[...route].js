@@ -35,6 +35,7 @@ const HANDLERS = {
   'relay-checkout': require('../handlers/relay-checkout'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
+  'youtube-signal': require('../handlers/youtube-signal'),
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),
