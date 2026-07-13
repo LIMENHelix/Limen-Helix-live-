@@ -55,6 +55,13 @@
   .best-play .notation{font-family:ui-monospace,Menlo,monospace;font-size:16px;color:#fff;margin:6px 0}
   .copy{font-size:12px;color:var(--dim);margin-top:8px;display:grid;gap:3px}
   .copy b{color:var(--ink)}
+  .cadlabel{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-top:8px}
+  .fitt{display:flex;flex-wrap:wrap;gap:5px 16px;font-size:12px;color:var(--ink);margin:5px 0 2px}
+  .fitt span{white-space:nowrap}
+  .fitt b{color:var(--cyan);font-weight:600;margin-right:5px;text-transform:uppercase;font-size:10px;letter-spacing:.5px}
+  .scrh{font-size:10px;letter-spacing:1px;text-transform:uppercase;margin:9px 0 2px}
+  .scrh.SET{color:var(--amber)}
+  .scrh.FBA{color:var(--violet)}
   .selrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
   .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9}
   .toast.show{opacity:1}
@@ -190,16 +197,28 @@ function renderGrid(play){
 }
 function renderBest(play){
   if(!play){ $('#bestPlay').innerHTML='<div class="muted">No play for this segment yet — generate one, or run a simulation.</div>'; renderGrid(null); return; }
-  const c=play.copy||{};
+  const c=play.copy||{}, f=play.fitt||{};
+  // FITT = the CADENCE (frequency, intensity, time, type). SET/FBA = the SCRIPT layered on it.
+  const fittRow = `<div class="cadlabel">FITT cadence · frequency, intensity, time, type</div>
+    <div class="fitt">
+      <span><b>Freq</b>${f.frequency||'—'}</span>
+      <span><b>Intensity</b>${f.intensity||'—'}</span>
+      <span><b>Time</b>${f.time||'—'}</span>
+      <span><b>Type</b>${f.type||'—'}</span>
+    </div>`;
+  const setBlock = (c.fact||c.need||c.tie)?`<div class="scrh SET">SET · state a fact, expose a need, tie-down</div>
+      ${c.fact?`<div><b>State a fact.</b> ${c.fact}</div>`:''}
+      ${c.need?`<div><b>Expose a need.</b> ${c.need}</div>`:''}
+      ${c.tie?`<div><b>Tie-down.</b> ${c.tie}</div>`:''}`:'';
+  const fbaBlock = (c.feature||c.benefit||c.advantage)?`<div class="scrh FBA">FBA · feature, benefit, advantage</div>
+      ${c.feature?`<div><b>Feature.</b> ${c.feature}</div>`:''}
+      ${c.benefit?`<div><b>Benefit.</b> ${c.benefit}</div>`:''}
+      ${c.advantage?`<div><b>Advantage.</b> ${c.advantage}</div>`:''}`:'';
   $('#bestPlay').innerHTML = `<div class="best-play">
     <div class="k">recommended · ${play.unit} · alloc ${(play.allocation*100).toFixed(0)}% · ${play.trials} trials</div>
     <div class="notation">${play.notation} <span class="chip ${play.source==='ai'?'ai':''}">${play.source}</span></div>
-    <div class="copy">
-      ${c.fact?`<div><b>Fact.</b> ${c.fact}</div>`:''}
-      ${c.need?`<div><b>Need.</b> ${c.need}</div>`:''}
-      ${c.tie?`<div><b>Tie-down.</b> ${c.tie}</div>`:''}
-      ${c.advantage?`<div><b>Advantage.</b> ${c.advantage}</div>`:''}
-    </div></div>`;
+    ${fittRow}
+    <div class="copy">${setBlock}${fbaBlock}</div></div>`;
   renderGrid(play);
 }
 
