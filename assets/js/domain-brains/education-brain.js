@@ -21,6 +21,28 @@
   EducationBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── ACTUATION VALIDITY GATE (2026-07-13, energy-parity port) ──────────────────────────────
+    // Per-actuation honesty gate. An actuation is admitted ONLY where Education has a real
+    // controllable effector (servo/eiBrake) or a Thing1-validated ground-truth signal (phase).
+    //   refractory=false — Education has NO separate high-frequency emission effector needing a
+    //     dead-time. Action drafts already dedupe by intentId in _checkDiagnosisActions, and no
+    //     neuro-substrate refractory-limiter module is loaded here. Nothing honest to gate → OFF.
+    //   servo=true — real closed loop: SENSOR = drive (stress + concurrent conditions/diagnoses)
+    //     vs the brain's own regulation.inhibition; CONTROLLER = PI (fast proportional + bounded
+    //     slow integral); EFFECTOR = proportional dampening of Education's OWN emitted-opportunity
+    //     confidence (the only channel it actually controls). Reads Education state, never Energy's.
+    //   eiBrake=true — consumes the servo's emissionFactor + the E/I-balance state (Neuro Ref
+    //     XIII.1) to dampen emitted-opportunity confidence when inhibition fails to track drive.
+    //     Same real effector as the servo; one-cycle lag (reads the prior cycle's servo).
+    //   phase=false — ADVISORY-ONLY. Education is NOT a Thing1-validated kernel domain (only
+    //     Finance + Population are fenced-validated). A realized P0-P10 transition here is NOT a
+    //     ground-truth reward, so it must NEVER preempt the credit source or open the emission cap.
+    //     _computeEducationPhaseDynamics still runs as OBSERVE-ONLY telemetry (coherence router +
+    //     self-consistency transition tracker), but with validated:false hard-set and no actuation.
+    // Fully reversible: flip any flag. COST-SAFE: every method below is 100% deterministic; no
+    // paid-AI / fetch-to-LLM call runs on the 30s cycle.
+    this._actuation = { refractory: false, servo: true, eiBrake: true, phase: false };
+
     this.diagnosisIndex = {
       'FUNDING_CRISIS':           ['budget_shortfall', 'resource_scarcity', 'institutional_decline', 'infrastructure_degradation', 'education_high_stress', 'structural_stress'],
       'TEACHER_SHORTAGE':         ['workforce_gap', 'retention_failure', 'recruitment_deficit', 'burnout_epidemic', 'education_high_stress'],
@@ -293,6 +315,12 @@
     }
     this.state.opportunityCount = opps.length;
 
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1) — effector step. Applies the PRIOR cycle's servo
+    // emissionFactor (one-cycle lag, computed at end of _updateEducationModel) to dampen the
+    // confidence of Education's own emitted opportunities when inhibition is not tracking drive.
+    // Additive + reversible (this._actuation.eiBrake); never rewrites stress/scoring/diagnoses.
+    if (this._actuation && this._actuation.eiBrake) { try { this._applyEducationEmissionBrake(opps); } catch (e) {} }
+
     this.state.opportunities = opps;
     return Promise.resolve();
   };
@@ -475,6 +503,18 @@
     em.updated = obs.timestamp;
     this.state.educationModel = em;
 
+    // ── ACTUATION + REGULATION (energy-parity port) — computed here so the servo reads the fresh
+    // regulation.inhibition + predictedStress this same cycle; its EFFECTOR (emission dampening) is
+    // applied one cycle later in surfaceOpportunities. All deterministic; no AI on the cycle.
+    // SERVO (regulate-to-target): drives inhibition toward a drive+deviation target.
+    try { if (this._actuation && this._actuation.servo) this._computeEducationServo(); } catch (e) {}
+    // PHASE DYNAMICS: ADVISORY ONLY (phase actuation invalid — Education is not a validated kernel).
+    // Runs observe-only for telemetry; never preempts credit assignment, never opens the emission cap.
+    try { this._computeEducationPhaseDynamics(); } catch (e) {}
+    // REGULATION ADVISORIES: E/I balance (XIII.1) + self-audit SPOF consumption over the 83-edge
+    // education.json graph (XIV: network, not node, is the unit of failure). Observe-only.
+    try { this._computeEducationRegulationAdvisories(); } catch (e) {}
+
     // H1-H6 — higher Education brain layers (computed BEFORE the DDP build so packets embed summaries).
     try { this._computeEducationHigherLayers(); } catch (e) {}
 
@@ -489,7 +529,10 @@
         awareness: this.state.educationAwareness || null,
         conscience: this.state.educationConscience || null,
         immune: this.state.educationImmune || null,
-        intuition: this.state.educationIntuition || null
+        intuition: this.state.educationIntuition || null,
+        servo: this.state.educationServo || null,                          // actuated regulate-to-target (if servo=true)
+        phaseDynamics: this.state.educationPhaseDynamics || null,          // advisory-only (phase actuation invalid here)
+        regulation: this.state.educationRegulationAdvisories || null       // observe-only E/I balance + self-audit
       };
     } catch (e) {}
 
@@ -881,6 +924,245 @@
     this._computeEducationIntuition();
     this._computeEducationSimulation();
     this._computeEducationExecutiveReport();
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION LAYER (energy-parity port, validity-gated in init._actuation).
+  // All methods below are PURE + DETERMINISTIC. NONE calls a paid-AI / LLM endpoint.
+  // Effector for servo + eiBrake = dampening of Education's OWN emitted-opportunity
+  // confidence (the sole channel Education actually controls) — never stress/scoring/
+  // diagnoses and never a write to education.json.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref XIII.1/V.2/XII). Mirrors _computeEnergyServo,
+  // reading EDUCATION state. SENSOR: excitatory drive (stress + how many conditions /
+  // diagnoses fire at once) vs the brain's live regulation.inhibition. TARGET (allostatic
+  // set-point): inhibition must track drive AND rise with deviation above the learned prior
+  // baseline (em.prior.expectedStress). CONTROLLER: bounded slow integral + fast proportional
+  // (HPA fast+slow arms). EFFECTOR: proportional emission-confidence dampening (eiBrake applies).
+  EducationBrain.prototype._computeEducationServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, em = s.educationModel || {}, reg = em.regulation || {}, prior = em.prior || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // live term from _computeEducationRegulation
+    var FLOOR = 0.15;
+    // allostatic deviation: predicted stress above the learned baseline (education's K8 analogue)
+    var predicted = (typeof em.predictedStress === 'number') ? em.predictedStress : stress;
+    var baseline = (typeof prior.expectedStress === 'number') ? prior.expectedStress : stress;
+    var deviation = Math.max(0, predicted - baseline);
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive/regime
+    this._eduServoIntegral = Math.max(-0.5, Math.min(0.5, (this._eduServoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._eduServoIntegral));   // only ADD braking; never disinhibit
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._eduServoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission-confidence dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.educationServo = servo;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.servo = servo;
+    return servo;
+  };
+
+  // E/I BRAKE EFFECTOR — consumed by surfaceOpportunities (one-cycle lag). Applies the prior
+  // cycle's servo emissionFactor to the confidence of emitted opportunities. Fail-open when no
+  // servo exists yet (cycle 1) or when the factor is 1 (balanced). Reversible via _actuation.eiBrake.
+  EducationBrain.prototype._applyEducationEmissionBrake = function (opps) {
+    var servo = this.state.educationServo;   // computed at end of the PREVIOUS cycle
+    if (!servo || typeof servo.emissionFactor !== 'number' || servo.emissionFactor >= 1) {
+      this.state.educationEmissionBraked = 0; this.state.educationEmissionFactor = 1; return opps;
+    }
+    var f = servo.emissionFactor, n = 0;
+    for (var i = 0; i < opps.length; i++) {
+      if (typeof opps[i].confidence === 'number') { opps[i].confidence = Math.round(opps[i].confidence * f); opps[i].eiDampened = true; n++; }
+    }
+    this.state.educationEmissionBraked = n;
+    this.state.educationEmissionFactor = Math.round(f * 1000) / 1000;
+    return opps;
+  };
+
+  // E/I BALANCE ASSESSMENT (inline; mirrors energy-ei-balance.js). Inhibition should track drive
+  // ~1:1 and never fall below the resting floor. Pure + deterministic.
+  EducationBrain.prototype._edEIAssess = function (drive, inhibition) {
+    function cl(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+    drive = cl(Number(drive) || 0, 0, 4); inhibition = cl(Number(inhibition) || 0, 0, 1);
+    var floor = 0.15, underRatio = 0.6, overRatio = 1.8;
+    var required = cl(Math.max(floor, drive), 0, 1);
+    var ratio = inhibition / Math.max(drive, 1e-6);
+    var state = 'balanced';
+    if (drive > floor && ratio < underRatio) state = 'runaway-risk';
+    else if (ratio > overRatio && inhibition > floor) state = 'over-inhibited';
+    return {
+      drive: Math.round(drive * 1000) / 1000, inhibition: Math.round(inhibition * 1000) / 1000,
+      required: Math.round(required * 1000) / 1000, ratio: Math.round(ratio * 1000) / 1000,
+      state: state, deficit: Math.round((required - inhibition) * 1000) / 1000,
+      note: state === 'runaway-risk' ? 'inhibition is not tracking drive; raise braking to ~' + required + ' (Neuro Ref XIII.1)'
+        : state === 'over-inhibited' ? 'braking exceeds drive; risk of silencing real signal'
+        : 'excitation and inhibition are balanced'
+    };
+  };
+
+  // SELF-AUDIT — inline connectivity / single-points-of-failure audit (mirrors energy-connectivity-
+  // audit.js singlePointsOfFailure). Reads education.json's real 83-edge graph. Read-only diagnostic:
+  // an articulation node is one whose removal fragments the graph (Neuro Ref XIV diaschisis). Pure.
+  EducationBrain.prototype._edConnectivityAudit = function (edges) {
+    edges = Array.isArray(edges) ? edges : [];
+    if (!edges.length) return null;
+    var nodeSet = {}; edges.forEach(function (e) { nodeSet[e.source] = 1; nodeSet[e.target] = 1; });
+    var nodes = Object.keys(nodeSet);
+    function comp(ns, es) {
+      var adj = {}; ns.forEach(function (n) { adj[n] = []; });
+      es.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });
+      var seen = {}, c = 0;
+      ns.forEach(function (n) { if (seen[n]) return; c++; var st = [n]; while (st.length) { var x = st.pop(); if (seen[x]) continue; seen[x] = 1; adj[x].forEach(function (y) { if (!seen[y]) st.push(y); }); } });
+      return c;
+    }
+    var base = comp(nodes, edges), spof = [];
+    nodes.forEach(function (n) {
+      var rn = nodes.filter(function (x) { return x !== n; });
+      var re = edges.filter(function (e) { return e.source !== n && e.target !== n; });
+      var c = comp(rn, re);
+      if (c > base) spof.push({ node: n, componentsAfterRemoval: c, baseComponents: base });
+    });
+    var deg = {}; edges.forEach(function (e) { deg[e.source] = (deg[e.source] || 0) + 1; deg[e.target] = (deg[e.target] || 0) + 1; });
+    var hubs = Object.keys(deg).map(function (n) { return { node: n, degree: deg[n] }; }).sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+    return {
+      baseComponents: base, articulationNodes: spof, topHubsByDegree: hubs,
+      rule: 'XIV diaschisis: network, not node, is the unit of failure. Articulation nodes are brittle single points; high-degree hubs concentrate risk.',
+      verdict: spof.length ? spof.length + ' articulation node(s) = single points of failure' : 'no articulation nodes (graph degrades gracefully)'
+    };
+  };
+
+  // E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; mirrors _computeEnergyRegulationAdvisories).
+  // The brain SEES its own runaway risk + brittle nodes each cycle. Deterministic, no AI, no writes.
+  // Edges live in education.json (NOT in the live snapshot) — lazily fetch + cache once (browser
+  // fire-and-forget; server via require) so the audit runs on the REAL graph.
+  EducationBrain.prototype._computeEducationRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance — is inhibition tracking drive?
+    try {
+      var stress = (typeof s.stress === 'number') ? s.stress : 0;
+      var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+      var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+      var drive = Math.max(0, Math.min(4, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+      var reg = (s.educationModel && s.educationModel.regulation) || {};
+      var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+      out.eiBalance = this._edEIAssess(drive, inhibition);
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit — CONSUME the connectivity / SPOF audit over the real 83-edge graph.
+    try {
+      var self = this;
+      var edges = this._educationEdges ||
+                  (s._rawDomain && Array.isArray(s._rawDomain.edges) && s._rawDomain.edges) || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._eduEdgesPromise) {
+          this._eduEdgesPromise = fetch('/assets/data/domains/education.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._educationEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/education.json'); if (ed && Array.isArray(ed.edges)) { this._educationEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) {
+        var audit = this._edConnectivityAudit(edges);
+        var spof = (audit && audit.articulationNodes) || [];
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
+          verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+      } else {
+        out.selfAudit = { consumed: false, note: edges ? 'no edges' : 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.educationRegulationAdvisories = out;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.regulation = out;
+    return out;
+  };
+
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION TRACKER — ADVISORY ONLY (mirrors the STRUCTURE of
+  // _computeEnergyPhaseDynamics, but the reward is NEVER treated as ground-truth here). Rationale:
+  // Education is not a Thing1-validated kernel domain (only Finance + Population are fenced), so a
+  // realized P0-P10 transition carries no validated learning signal. We therefore hard-set
+  // validated:false and DO NOT wire the transition into credit assignment or the emission cap.
+  // Observe-only, deterministic, no AI, no writes to education.json.
+  EducationBrain.prototype._computeEducationPhaseDynamics = function () {
+    var s = this.state;
+    // patent Section 3.4 Loop 1 phase-coupling matrix M (thing2 lineage). Positive = coherent.
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed domains (advisory read of the bus).
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'education') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) { coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 }); }
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION TRACKER — did a predicted transition actually occur? Computed for
+    // telemetry, but validated:false is HARD-SET (Education is not a Thing1-validated kernel), so
+    // it can never be promoted to a ground-truth reward.
+    var hist = this._eduPhaseHistory = this._eduPhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var em = s.educationModel || {};
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var predictedUp = (typeof em.predictedStress === 'number' && typeof s.stress === 'number') ? (em.predictedStress > s.stress) : false;
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: false, kind: 'advisory-self-consistency (education not a Thing1-validated kernel)' };
+    }
+    hist.push({ phase: myPhase, t: (em && em.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, actuated: false, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'ADVISORY phase-coherence router + self-consistency transition tracker; NOT actuated (education is not a validated kernel — no ground-truth phase reward, no credit-source preempt, no emission-cap opening).'
+    };
+    s.educationPhaseDynamics = out;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;
+    return out;
+  };
+
+  // ─── COST-SAFE GENERATIVE SLOT (NEVER called from the 30s cycle) ──────────────────────────────
+  // Node→business authoring / semantic mapping is a genuine "code-cannot-do-this" task. It is left
+  // as a DOCUMENTED NO-OP STUB: it must only ever run on an explicit operator trigger and route
+  // through a server endpoint that is killswitch-gated (lib/ai-kill-switch spendDisabled()). No API
+  // key ever lives in client code, and this is intentionally NOT wired to any live call.
+  EducationBrain.prototype._authorNodeBusinessDraft = function (/* nodeId, opts */) {
+    // INTENTIONAL NO-OP. Do NOT invoke on cycle(). To enable: add an operator-gated handler that
+    // POSTs to a server route which checks spendDisabled() before any paid-AI call. Until then this
+    // returns null so nothing on the deterministic cycle can ever incur token spend.
+    return null;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

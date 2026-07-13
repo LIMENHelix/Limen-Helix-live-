@@ -38,6 +38,33 @@
       { targetDomain: 'technology', signalType: 'defense_tech_demand', condition: function (s) { return s.stress >= 0.30; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); } },
       { targetDomain: 'intelligence', signalType: 'threat_assessment_pressure', condition: function (s) { return s.stress >= 0.25; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.5); } }
     ];
+
+    // ── ACTUATION GATE (2026-07-13) — ported from Energy, HONESTLY gated per the neurology audit.
+    // The rule (DOMAIN_BUILDOUT_PLAYBOOK.md §E-3): an actuation is valid ONLY where the domain has a
+    // real controllable EFFECTOR (servo/eiBrake) and, for the phase REWARD, a Thing1-VALIDATED P3/P7
+    // signal. Per-slot verdict for DEFENSE:
+    //   refractory : TRUE  — defense emits real action drafts (_checkDiagnosisActions -> LIMENActionAdapters.
+    //                        createDraft). Rate-limiting duplicate alerts is a genuine effector. Inline
+    //                        limiter (no external module), deterministic (Neuro Ref III.3).
+    //   servo      : TRUE  — effector = the brain's OWN emission (opportunity-confidence dampening + the
+    //                        brake). Same effector Energy regulates; it controls output, not the real world
+    //                        (does NOT claim to steer procurement/readiness). Neuro Ref V.2/XII.
+    //   eiBrake    : TRUE  — depends on servo; proportional emission-confidence dampening. Neuro Ref XIII.1.
+    //   phase      : FALSE — ADVISORY ONLY. Defense's phase is authored/snapshot, NOT a Thing1-validated
+    //                        P3/P7 signal (the validated kernel is FENCED to Finance + Population per
+    //                        kernel-watchlist-scoping). A realized phase transition is therefore never
+    //                        ground-truth reward here; _computeDefensePhaseDynamics runs observe-only and
+    //                        drives no credit/learning/emission gating. Do NOT flip true without validation.
+    //   selfAudit  : TRUE  — defense.json carries a real 87-edge graph, so the SPOF/diaschisis self-audit
+    //                        (Neuro Ref XIV) runs on the true graph (observe-only). Fully reversible.
+    // All actuations affect ONLY emission (the same channel the generic brake uses); never stress/scoring/
+    // diagnoses/defense.json. 100% deterministic on the 30s cycle — NO paid-AI/fetch-to-LLM ever runs here.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false, selfAudit: true };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio, mirrors Energy)
+      overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 re-fires within the window
+    };
   };
 
   DefenseBrain.prototype.normalizeSignals = function () {
@@ -372,10 +399,39 @@
     return Promise.resolve();
   };
 
+  // REFRACTORY LIMITER (Neuro Ref III.3) — inline, deterministic, no external module, no AI.
+  // Absolute dead-time (hard block) + relative window (raised threshold: a stronger stimulus can still
+  // fire). The diagnosis stays active/displayed; only the duplicate action DRAFT is withheld. Reversible
+  // via this._actuation.refractory=false. This is the ACTUATED overlay (a real effector on emission).
+  DefenseBrain.prototype._defenseRefractoryFire = function (dxId, now, stress) {
+    var p = this._refractoryParams || {};
+    var map = this._defenseRefractoryMap || (this._defenseRefractoryMap = {});
+    var rec = map[dxId];
+    if (rec) {
+      var age = now - rec.lastFire;
+      if (age < (p.absoluteWindow || 900000)) return { allowed: false, reason: 'absolute-refractory' };
+      if (age < (p.relativeWindow || 3600000) && stress < (p.overrideThreshold || 0.9)) return { allowed: false, reason: 'relative-refractory' };
+    }
+    map[dxId] = { lastFire: now, lastStress: stress };
+    return { allowed: true };
+  };
+
   DefenseBrain.prototype._checkDiagnosisActions = function () {
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; }); if (activeDx.length === 0) return;
     var adapters = window.LIMENActionAdapters; if (!adapters) return;
-    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'defense', intentId: dx.id }).length > 0) continue; adapters.createDraft('REPORT_GENERATION', { domain: 'defense', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Defense Alert: ' + dx.label, intent: { domain: 'defense', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected assets and forces', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate defense opportunities', status: 'PENDING' }] } }); }
+    var _refractoryOn = !!(this._actuation && this._actuation.refractory);
+    var _now = (this.state.pulse && this.state.pulse.timestamp) || (this._runtimeOverlay && this._runtimeOverlay.timestamp) || Date.now();
+    var _stress = this.state.stress || 0;
+    for (var i = 0; i < activeDx.length; i++) {
+      var dx = activeDx[i];
+      if (adapters.getDrafts && adapters.getDrafts({ domain: 'defense', intentId: dx.id }).length > 0) continue;
+      // REFRACTORY GATE (actuated): suppress re-emission of the same diagnosis's draft within the
+      // dead-time unless stress clears the reduced-sensitivity override bar. Best-effort; never breaks the cycle.
+      if (_refractoryOn) {
+        try { var _v = this._defenseRefractoryFire(dx.id, _now, _stress); if (!_v.allowed) { this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1; continue; } } catch (_e) {}
+      }
+      adapters.createDraft('REPORT_GENERATION', { domain: 'defense', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Defense Alert: ' + dx.label, intent: { domain: 'defense', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected assets and forces', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate defense opportunities', status: 'PENDING' }] } });
+    }
   };
 
   DefenseBrain.prototype.resolveDeepContent = function () {
@@ -525,6 +581,11 @@
         diagnoses: this.state.diagnoses || [],
         opportunities: this.state.opportunities || []
       };
+
+      // ACTUATION — servo / E/I brake / self-audit / phase (advisory), each behind its _actuation flag.
+      // Runs AFTER cognition is assembled so it can attach additively; guarded so it never breaks the cycle.
+      try { this._computeDefenseActuation(); } catch (e) {}
+
       return dm;
     };
 
@@ -664,6 +725,211 @@
       s.defenseExecutiveReport = rep; return rep;
     };
   })();
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION LAYER (2026-07-13) — ported from Energy, gated by this._actuation.
+  // Mirrors Energy's structure + math but reads DEFENSE's own state/edges. Every method is
+  // deterministic (no AI, no fetch-to-LLM); the only network call is a one-shot static fetch of
+  // defense.json edges for the self-audit. Additive: touches ONLY emission (opportunity confidence
+  // + action-draft rate-limiting) — never stress/scoring/diagnoses/defense.json. See §E of the
+  // playbook and ENERGY_NEURO_AUDIT.md for the neurology mapping.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref V.2/XII allostasis + XIII.1 E/I). Real sensor->controller->
+  // effector->feedback loop: sensor = excitatory drive (stress + how many things fire at once) vs the
+  // current inhibition term; controller = PI (fast proportional + bounded slow integral, the HPA fast+
+  // slow arms); effector = a proportional dampening of emission the E/I brake consumes. Reversible via
+  // this._actuation.servo=false. Reads DEFENSE's regulation + stress history (never Energy's).
+  DefenseBrain.prototype._computeDefenseServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, dm = s.defenseModel || {}, reg = dm.regulation || {};
+    // SENSOR: excitatory drive
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // from _computeDefenseRegulation
+    // Adaptive baseline (K8 allostasis): deviation above the rolling stress mean.
+    var hist = ((s.memory && s.memory.stressHistory) || []).slice(-60);
+    var sum = 0; for (var i = 0; i < hist.length; i++) sum += (hist[i].stress || 0);
+    var baseline = hist.length ? sum / hist.length : 0.5;
+    var deviation = Math.max(0, stress - baseline);
+    var FLOOR = 0.15;
+    // TARGET (allostatic set-point): inhibition must track drive AND rise with deviation above baseline.
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                             // >0 => under-braked for the drive/regime
+    // CONTROLLER: bounded integral (slow arm) + proportional (fast arm)
+    this._defenseServoIntegral = Math.max(-0.5, Math.min(0.5, (this._defenseServoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._defenseServoIntegral));   // only ADD braking; never disinhibit
+    // EFFECTOR: proportional dampening of emission (the E/I brake consumes this)
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._defenseServoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.defenseServo = servo;
+    return servo;
+  };
+
+  // E/I BRAKE ACTUATION (Neuro Ref XIII.1: inhibition scales with drive). Consumes the servo's
+  // emissionFactor and dampens opportunity-emission confidence PROPORTIONALLY — the same channel the
+  // generic brake uses. Reversible via this._actuation.eiBrake=false. Non-destructive: opportunities are
+  // rebuilt each cycle by surfaceOpportunities, so this re-applies from the fresh servo without compounding.
+  DefenseBrain.prototype._applyDefenseEIBrake = function (opps) {
+    opps = opps || this.state.opportunities || [];
+    var servo = this.state.defenseServo;
+    if (!(this._actuation && this._actuation.eiBrake && servo)) { this.state.defenseEIBrake = null; return opps; }
+    var eiFactor = (typeof servo.emissionFactor === 'number') ? servo.emissionFactor : 1;
+    var reasons = [];
+    if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    if (eiFactor < 1) {
+      for (var i = 0; i < opps.length; i++) {
+        if (typeof opps[i].confidence === 'number') { opps[i].confidence = Math.round(opps[i].confidence * eiFactor); opps[i].eiDamped = true; }
+      }
+    }
+    var brake = {
+      version: 1, actuated: true, eiFactor: Math.round(eiFactor * 1000) / 1000, engaged: eiFactor < 1,
+      reasons: reasons, dampenedCount: eiFactor < 1 ? opps.length : 0,
+      note: 'E/I brake (Neuro Ref XIII.1): inhibition scales with drive via the servo; effector = proportional emission-confidence dampening. Reversible via _actuation.eiBrake.'
+    };
+    this.state.defenseEIBrake = brake;
+    return opps;
+  };
+
+  // E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). CONSUMES the real
+  // 87-edge defense graph (lazily fetched + cached from defense.json — edges are NOT in the live
+  // snapshot). Mirrors _computeEnergyRegulationAdvisories. Deterministic, no writes, no AI. Reversible
+  // via this._actuation.selfAudit=false. Degrades safe: if the shared audit modules aren't loaded,
+  // selfAudit reports consumed:false rather than fabricating.
+  DefenseBrain.prototype._computeDefenseRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance — is inhibition tracking drive? (shared module, generic despite the name)
+    try {
+      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+      if (!EI && typeof require === 'function') { try { EI = require('../energy-ei-balance.js'); } catch (_e) {} }
+      if (EI && typeof EI.assessFromState === 'function') out.eiBalance = EI.assessFromState(s);
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit — connectivity / single-points-of-failure on the REAL defense graph.
+    try {
+      var self = this;
+      var edges = (Array.isArray(s.edges) && s.edges) || this._defenseEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._defenseEdgesPromise) {
+          this._defenseEdgesPromise = fetch('/assets/data/domains/defense.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._defenseEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/defense.json'); if (ed && Array.isArray(ed.edges)) { this._defenseEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+      if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+      if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
+        var audit = CA.singlePointsOfFailure({ edges: edges });
+        var spof = (audit && audit.articulationNodes) || [];
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
+          verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+      } else {
+        out.selfAudit = { consumed: false, note: edges ? 'connectivity-audit not loaded' : 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    return out;
+  };
+
+  // PHASE-COHERENCE ROUTER + TRANSITION READ — ADVISORY ONLY (this._actuation.phase === false).
+  // Defense's phase is authored/snapshot, NOT a Thing1-validated P3/P7 signal (the validated kernel is
+  // FENCED to Finance + Population). So a realized phase TRANSITION is NEVER treated as ground-truth
+  // reward here: it stays advisory-self-consistency and drives NO credit / learning / emission gating.
+  // Pure observe-only telemetry, mirroring the SHAPE of _computeEnergyPhaseDynamics without the reward.
+  DefenseBrain.prototype._computeDefensePhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+    // (A) COHERENCE ROUTER — advisory read of co-phased, stressed peer domains.
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'defense') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+    // (B) TRANSITION READ — computed for telemetry; ALWAYS advisory (never ground-truth for defense).
+    var hist = this._defensePhaseHistory = this._defensePhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var transition = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      transition = { from: prev, to: myPhase, wentUp: wentUp, hit: null, validated: false, groundTruthEligible: false,
+        kind: 'advisory-self-consistency', reason: 'defense is not a Thing1-validated kernel domain (fenced to Finance+Population); no ground-truth phase reward' };
+    }
+    hist.push({ phase: myPhase, t: (s.defenseModel && s.defenseModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+    var out = {
+      version: 1, actuated: false, advisoryOnly: true, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000, transition: transition,
+      note: 'ADVISORY phase-coherence router + transition read; NOT actuated (defense lacks a Thing1-validated P3/P7 signal). Feeds no credit/learning/emission gating.'
+    };
+    s.defensePhaseDynamics = out;
+    return out;
+  };
+
+  // ORCHESTRATOR — runs the actuation stack in Energy's order (servo BEFORE the E/I brake consumes it;
+  // self-audit + phase telemetry alongside), each behind its _actuation flag. Called at the END of
+  // _updateDefenseModel (after cognition is assembled). try/catch-guarded so it can never break the cycle.
+  DefenseBrain.prototype._computeDefenseActuation = function () {
+    var A = this._actuation || {};
+    if (A.servo) { try { this._computeDefenseServo(); } catch (e) {} }                                   // regulate-to-target (before the brake)
+    if (A.selfAudit) { try { this.state.defenseRegulation = this._computeDefenseRegulationAdvisories(); } catch (e) { this.state.defenseRegulation = null; } }
+    try { this._computeDefensePhaseDynamics(); } catch (e) {}                                            // advisory only (phase actuation OFF)
+    if (A.eiBrake) { try { this._applyDefenseEIBrake(this.state.opportunities); } catch (e) {} }          // effector: proportional emission dampening
+    // Attach to the generic cognition surface (ADDITIVE keys only — never overwrites existing).
+    var cog = this.state.cognition;
+    if (cog && typeof cog === 'object') {
+      cog.servo = this.state.defenseServo || null;
+      cog.eiBrake = this.state.defenseEIBrake || null;
+      cog.phaseDynamics = this.state.defensePhaseDynamics || null;
+      cog.regulation = this.state.defenseRegulation || null;
+      cog.actuation = A;
+    }
+  };
+
+  // ── AI SLOT (documented, INERT stub — NEVER called from the cycle) ─────────────────────────────
+  // Node->business authoring / semantic mapping is a genuine "code-cannot-do-this" slot. Per the
+  // killswitch requirement it is DELIBERATELY not wired to a live call: it is never invoked from
+  // cycle()/_updateDefenseModel/_computeDefenseActuation (grep-verifiable), so the deterministic 30s
+  // cycle can never trigger paid AI. When the operator wires this, it MUST (a) run only on an explicit
+  // operator trigger, (b) POST to a SERVER endpoint that enforces lib/ai-kill-switch spendDisabled(),
+  // and (c) carry NO API key in client code. Until then it is a no-op returning its contract.
+  DefenseBrain.prototype.authorDefenseNodeBusiness = function (nodeId, opts) {
+    return {
+      ok: false, stub: true, nodeId: nodeId || null, operatorTriggered: !!(opts && opts.operatorTriggered),
+      reason: 'documented AI slot; intentionally inert until wired to a killswitch-gated /api endpoint by explicit operator action (never runs on the cycle)'
+    };
+  };
 
   // ════════════════════════════════════════════════════════════════════════════
   // DEFENSE COGNITION PARITY — fallback loaders, source-bundle machinery, L1 mad-lib

@@ -32,6 +32,37 @@
       { targetDomain: 'defense', signalType: 'strategic_research_gap', condition: function (s) { return s.stress >= 0.35; }, magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.4); } }
     ];
 
+    // ── ACTUATION VALIDITY GATE (2026-07-13) ───────────────────────────────────────────────
+    // Which of Energy's actuations this domain can HONESTLY support. An actuation is LIVE only
+    // where a real controllable effector exists; otherwise it stays ADVISORY (flag=false) and
+    // is NOT wired. Effector for servo/eiBrake = surfaced-opportunity CONFIDENCE (a real field the
+    // base brake gate already consumes). Effector for phase = the researchModel's effective
+    // learning rate (credit assignment). Deterministic; reversible by flipping any flag.
+    //
+    //   servo   = TRUE  — real closed loop: sensor = excitatory drive (stress + live conditions +
+    //                     active diagnoses) vs inhibition (researchModel.regulation.inhibition, a
+    //                     term the recurrent loop already computes); effector = proportional
+    //                     dampening of opportunity confidence. Neuro Ref XIII.1 / V.2 / XII.
+    //   eiBrake = TRUE  — the servo's emissionFactor dampens opportunity confidence proportionally
+    //                     to how far inhibition trails drive (E/I invariant). NON-duplicative: the
+    //                     discrete governor halt/dampen is already applied by the base
+    //                     _applyGenericBrakeGate for this domain; this adds only the PROPORTIONAL
+    //                     E/I arm that Energy's _computeEnergyBrake carries as eiFactor.
+    //   phase   = TRUE  — P0-P10 is the same substrate Energy couples on. Coherence router couples
+    //                     to co-phased stressed peers; the phase-TRANSITION reward is treated as a
+    //                     ground-truth teaching signal ONLY on P3/P7-family transitions (the phases
+    //                     Thing1 validates) and as advisory self-consistency elsewhere — the honest
+    //                     gate. Effector = credit-source into the model's effective learning rate.
+    //   refractory = FALSE (ADVISORY) — no honest effector. This brain has NO autonomous
+    //                     emission/delivery stream to de-duplicate (opportunities are recomputed
+    //                     fresh each cycle; action-draft de-dup is already handled in
+    //                     _checkDiagnosisActions via adapters.getDrafts), and there is no
+    //                     science-refractory-limiter module. Fabricating one would be a fake clone,
+    //                     so it stays off. (Same honesty as Energy's UNMAPPED E/I boundary.)
+    this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true };
+    this._servoIntegral = 0;
+    this._sciencePhaseHistory = [];
+
     // G1 / discovery-pipeline — kick off one-shot async loads (real source bundles +
     // discovery/innovation sub-portal). Guarded internally; never blocks init.
     try { if (this._loadDiagnosisBundles) this._loadDiagnosisBundles(); } catch (e) {}
@@ -328,6 +359,13 @@
       }
     }
 
+    // E/I BRAKE EFFECTOR (actuated) — apply the PRIOR cycle's servo emissionFactor as a
+    // proportional dampening of opportunity confidence (inhibition must scale with drive;
+    // Neuro Ref XIII.1). One-cycle lag, recurrent by design. NON-duplicative: the discrete
+    // governor halt/dampen is applied by the base _applyGenericBrakeGate; this adds only the
+    // proportional E/I arm. Reversible via _actuation.eiBrake.
+    try { if (this._actuation && this._actuation.eiBrake) this._applyScienceEIBrake(opps); } catch (e) {}
+
     this.state.opportunities = opps;
     this.state.opportunityCount = opps.length;
     return Promise.resolve();
@@ -537,7 +575,21 @@
 
     var readyForHandoff = (rm.cycle > 0) && (predictedStress >= RM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    var nextPrior = this._updatePrior(priorIn, obs, rm.plasticity.learningRate);
+    // K4-style CREDIT ASSIGNMENT (phase actuation effector). A VALIDATED (P3/P7-family) phase
+    // TRANSITION that resolved to a HIT is a real ground-truth teaching signal (thing2 lineage) —
+    // preferred over the model's own prediction-error self-consistency. It preempts the default
+    // credit source and modulates the effective learning rate: a validated MISS raises plasticity
+    // (learn faster from being wrong), a validated HIT keeps it stable. Reads the PRIOR cycle's
+    // sciencePhaseDynamics (one-cycle lag, exactly like energy's K4 hook). Reversible via
+    // _actuation.phase — off => the base fixed learning rate, unchanged behavior.
+    var _lr = rm.plasticity.learningRate;
+    var _pt = (this.state.sciencePhaseDynamics || {}).transition;
+    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+    var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : null;
+    if (_hit !== null) _lr = _rmClamp(_lr * (1 + (1 - _hit)), RM_SLOW_RATE, 0.6);
+    rm._effectiveLearningRate = Math.round(_lr * 1000) / 1000;
+    rm._creditSource = _phaseReward ? 'phase-transition' : 'prediction-error-self';
+    var nextPrior = this._updatePrior(priorIn, obs, _lr);
 
     rm.cycle += 1;
     rm.observation = obs;
@@ -552,6 +604,15 @@
     // H1-H6 — higher research brain layers, computed once per cycle BEFORE the DDP build.
     try { this._computeScienceHigherLayers(); } catch (e) {}
 
+    // ACTUATION LAYER — servo (regulate-to-target) + phase dynamics (coherence router +
+    // P3/P7-gated transition reward) + E/I regulation advisories (E/I balance + self-audit
+    // SPOF from science.json edges). Each behind its _actuation flag; the eiBrake EFFECTOR is
+    // applied one cycle later inside surfaceOpportunities via _applyScienceEIBrake. Deterministic,
+    // guarded, never breaks a cycle. See init() for the validity gate.
+    try { if (this._actuation && this._actuation.servo) this._computeScienceServo(); } catch (e) {}
+    try { if (this._actuation && this._actuation.phase) this._computeSciencePhaseDynamics(); } catch (e) {}
+    try { this._computeScienceRegulationAdvisories(); } catch (e) {}
+
     // Research discovery/innovation pipeline layer (additive; BEFORE DDP build).
     // Never merged into the validated diagnosis spine.
     try { this._buildResearchDiscoveryLayer(); } catch (e) {}
@@ -561,11 +622,16 @@
     try {
       this.state.cognition = {
         domain: 'research',
-        model: { cycle: rm.cycle, predictionError: rm.predictionError, predictedStress: rm.predictedStress, regulation: rm.regulation },
+        model: { cycle: rm.cycle, predictionError: rm.predictionError, predictedStress: rm.predictedStress, regulation: rm.regulation, creditSource: rm._creditSource || null, effectiveLearningRate: rm._effectiveLearningRate || null },
         awareness: this.state.researchAwareness || null,
         conscience: this.state.researchConscience || null,
         immune: this.state.researchImmune || null,
-        intuition: this.state.researchIntuition || null
+        intuition: this.state.researchIntuition || null,
+        // ACTUATION surfaces (null when the corresponding _actuation flag is off)
+        actuation: this._actuation || null,
+        servo: this.state.scienceServo || null,
+        phaseDynamics: this.state.sciencePhaseDynamics || null,
+        regulation2: this.state.scienceRegulation || null
       };
     } catch (e) {}
 
@@ -916,6 +982,236 @@
     this._computeScienceIntuition();
     this._computeScienceSimulation();
     this._computeScienceExecutiveReport();
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION LAYER — ported from energy-brain.js, validity-gated per this domain.
+  // COST-SAFE: 100% deterministic (no fetch-to-LLM, no paid AI) and runs on the 30s cycle.
+  // Additive + reversible (flip the _actuation flags). Effectors touch ONLY opportunity
+  // confidence + the model's effective learning rate; never rewrite stress/diagnoses/science.json.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref XIII.1 / V.2 / XII). Mirrors _computeEnergyServo but reads
+  // THIS domain's real state: drive = stress + live-condition count + active-diagnosis count;
+  // inhibition = researchModel.regulation.inhibition (a term the recurrent loop already produces);
+  // deviation = current stress above an adaptive rolling baseline (inline homeostasis, since this
+  // brain has no K8 layer). Controller = PI (fast proportional + bounded slow integral = the HPA
+  // fast+slow arms). Effector = emissionFactor consumed next cycle by _applyScienceEIBrake.
+  ScienceBrain.prototype._computeScienceServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, rm = s.researchModel || {}, reg = rm.regulation || {};
+    // SENSOR: excitatory drive vs current inhibition
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length
+              : (Array.isArray(this._activeConditions) ? this._activeConditions.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var FLOOR = 0.15;
+    // adaptive baseline (inline homeostasis over recent stress history) -> deviation above it
+    var hist = ((s.memory && s.memory.stressHistory) || []).slice(-12);
+    var n = hist.length, sum = 0; for (var i = 0; i < n; i++) sum += (hist[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;
+    var deviation = Math.max(0, stress - baseline);
+    // TARGET (allostatic set-point): inhibition must track drive, and rise with deviation above baseline
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                    // >0 => under-braked for the drive/regime
+    // CONTROLLER: bounded integral (slow arm) + proportional (fast arm)
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking; never disinhibit
+    // EFFECTOR: proportional dampening of emission confidence
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      deviation: R(deviation), baseline: R(baseline), state: state,
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional opportunity-confidence dampening (Neuro Ref XIII.1/V.2/XII).'
+    };
+    s.scienceServo = servo;
+    return servo;
+  };
+
+  // E/I BRAKE EFFECTOR — consumes the PRIOR cycle's servo emissionFactor to dampen opportunity
+  // confidence proportionally to how far inhibition trails drive. Mirrors the eiFactor arm of
+  // _computeEnergyBrake. Records s.scienceEIBrake for observability. Non-duplicative with the base
+  // generic governor brake (which handles the discrete halt/dampen for this domain).
+  ScienceBrain.prototype._applyScienceEIBrake = function (opps) {
+    var servo = this.state.scienceServo || null;
+    var factor = (servo && typeof servo.emissionFactor === 'number') ? servo.emissionFactor : 1;
+    var dampened = 0;
+    if (factor < 1 && Array.isArray(opps)) {
+      for (var i = 0; i < opps.length; i++) {
+        if (typeof opps[i].confidence === 'number') { opps[i].confidence = Math.round(opps[i].confidence * factor); dampened++; }
+        opps[i].eiFactor = Math.round(factor * 1000) / 1000;
+      }
+    }
+    this.state.scienceEIBrake = {
+      version: 1, applied: factor < 1, eiFactor: Math.round(factor * 1000) / 1000, dampenedCount: dampened,
+      servoState: servo ? servo.state : null,
+      note: 'proportional E/I dampening of opportunity confidence (inhibition must scale with drive; Neuro Ref XIII.1). One-cycle lag; reversible via _actuation.eiBrake.'
+    };
+    return opps;
+  };
+
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD. Mirrors _computeEnergyPhaseDynamics.
+  //  (A) coherence router: couple to co-phased, stressed peer domains via the patent Loop-1 phase
+  //      matrix M (thing2 lineage). Positive M = same excitability window = communicate.
+  //  (B) phase-transition reward: did a predicted transition actually occur over time? The PREDICTION
+  //      is this brain's OWN forward read (researchModel.predictedStress vs current stress). GATED to
+  //      ground-truth ONLY on P3/P7-family transitions (Thing1-validated); advisory self-consistency
+  //      elsewhere, so it never fabricates a validated learning signal. Consumed by the K4 credit hook.
+  ScienceBrain.prototype._computeSciencePhaseDynamics = function () {
+    var s = this.state, rm = s.researchModel || {};
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed peers
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'science' || k === 'research') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    var hist = this._sciencePhaseHistory = this._sciencePhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      // PREDICTION = the brain's own forward read: researchModel.predictedStress vs current stress.
+      var predictedUp = (typeof rm.predictedStress === 'number' && typeof s.stress === 'number')
+        ? rm.predictedStress > s.stress : false;
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+    }
+    hist.push({ phase: myPhase, t: (rm.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7). Reward feeds the K4 credit hook -> effective learning rate.'
+    };
+    s.sciencePhaseDynamics = out;
+    return out;
+  };
+
+  // E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). Mirrors
+  // _computeEnergyRegulationAdvisories. (1) E/I balance: is inhibition tracking drive (from the servo)?
+  // (2) Self-audit: CONSUME this domain's real graph (science.json edges) via a single-points-of-failure
+  // audit (XIV: the network, not the node, is the unit of failure). Edges live in science.json, NOT in
+  // the live snapshot, so lazily fetch+cache them once (fire-and-forget in the browser; require on server).
+  // Deterministic, no AI, no writes.
+  ScienceBrain.prototype._computeScienceRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance from the servo (drive vs inhibition ratio)
+    try {
+      var servo = s.scienceServo || null;
+      if (servo) {
+        var ratio = servo.drive > 0 ? Math.round((servo.inhibition / servo.drive) * 1000) / 1000 : null;
+        out.eiBalance = { drive: servo.drive, inhibition: servo.inhibition, ratio: ratio, target: servo.target,
+          state: servo.state, deficit: Math.max(0, Math.round((servo.target - servo.inhibition) * 1000) / 1000),
+          note: 'XIII.1: inhibition must scale with drive; deficit = under-braked amount the servo is closing.' };
+      } else out.eiBalance = null;
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit — consume the real science graph edges (SPOF / articulation nodes + hubs)
+    try {
+      var self = this;
+      var edges = this._scienceEdges || (Array.isArray(s.edges) && s.edges) ||
+                  (s._portalCache && Array.isArray(s._portalCache.edges) && s._portalCache.edges) || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._scienceEdgesPromise) {
+          this._scienceEdgesPromise = fetch('/assets/data/domains/science.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._scienceEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/science.json'); if (ed && Array.isArray(ed.edges)) { this._scienceEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) {
+        var audit = _scienceSpof(edges);
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: audit.articulationNodes.length,
+          spof: audit.articulationNodes.slice(0, 5), topHubs: audit.topHubsByDegree, verdict: audit.verdict };
+      } else {
+        out.selfAudit = { consumed: false, note: 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.scienceRegulation = out;
+    return out;
+  };
+
+  // Compact, self-contained single-points-of-failure audit over an edge list (XIV diaschisis).
+  // Mirrors energy-connectivity-audit.singlePointsOfFailure but inlined so it does not depend on
+  // the energy-only module being loaded on the science console. Pure + deterministic + read-only.
+  function _scienceComponentCount(nodes, edges) {
+    var adj = {}; nodes.forEach(function (n) { adj[n] = []; });
+    edges.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });
+    var seen = {}, comps = 0;
+    nodes.forEach(function (n) {
+      if (seen[n]) return; comps++; var stack = [n];
+      while (stack.length) { var x = stack.pop(); if (seen[x]) continue; seen[x] = 1; adj[x].forEach(function (y) { if (!seen[y]) stack.push(y); }); }
+    });
+    return comps;
+  }
+  function _scienceSpof(edges) {
+    var nodeSet = {};
+    edges.forEach(function (e) { nodeSet[e.source] = 1; nodeSet[e.target] = 1; });
+    var nodes = Object.keys(nodeSet);
+    var base = _scienceComponentCount(nodes, edges);
+    var spof = [];
+    nodes.forEach(function (n) {
+      var remainingNodes = nodes.filter(function (x) { return x !== n; });
+      var remainingEdges = edges.filter(function (e) { return e.source !== n && e.target !== n; });
+      var c = _scienceComponentCount(remainingNodes, remainingEdges);
+      if (c > base) spof.push({ node: n, componentsAfterRemoval: c, baseComponents: base });
+    });
+    var deg = {}; edges.forEach(function (e) { deg[e.source] = (deg[e.source] || 0) + 1; deg[e.target] = (deg[e.target] || 0) + 1; });
+    var hubs = Object.keys(deg).map(function (n) { return { node: n, degree: deg[n] }; }).sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+    return {
+      baseComponents: base, articulationNodes: spof, topHubsByDegree: hubs,
+      verdict: spof.length ? spof.length + ' articulation node(s) = single points of failure' : 'no articulation nodes (graph degrades gracefully)'
+    };
+  }
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // COST-SAFETY / "code-cannot-do-this" SLOT (NOT wired into the cycle — never runs on the 30s loop).
+  // Generative node->business authoring + semantic diagnosis mapping are the only research-brain
+  // slots that genuinely need an LLM. This stub is documented as a NO-OP: it must only ever be
+  // invoked by an explicit operator trigger, and even then it must route through a server endpoint
+  // that is killswitch-gated (server-side lib/ai-kill-switch spendDisabled()). NO API key lives in
+  // client code, and this method makes NO network call itself — leaving it a stub is deliberate so
+  // the deterministic cycle can never incur paid-AI spend. Wire a real operator-triggered call here
+  // ONLY behind the server killswitch.
+  ScienceBrain.prototype.authorNodeBusinessLLM = function () {
+    return { ok: false, reason: 'operator-trigger-only; killswitch-gated server endpoint required; not wired (cost-safety)' };
   };
 
   // ════════════════════════════════════════════════════════════════════════════

@@ -65,6 +65,38 @@
     try { this._loadEconomyL1PortalDepth(); } catch (e) {}          // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
     try { this._loadMacroRegimeSublayer(); } catch (e) {}           // BUSINESS-CYCLE: load macro-regime sub-portal (real-content, unbundled) as an additive LAYER
 
+    // ── ACTUATION GATE (2026-07-13) — port of Energy's actuated core to economy. ──────────────────
+    // VALIDITY GATE (per-actuation honesty; advisory-where-invalid is the correct answer):
+    //  refractory : FALSE. Economy has NO autonomous-emission stream and NO refractory-limiter module
+    //               (Energy uses energy-refractory-limiter.js + a live emission queue). There is nothing
+    //               that re-fires and needs an absolute/relative dead-time. Setting it true would
+    //               fabricate an effector. Left OFF (advisory / not-applicable).
+    //  servo      : TRUE. Real sensor->controller->effector loop. SENSOR = excitatory drive
+    //               (stress + live-condition count + active-diagnosis count) vs the recurrent model's
+    //               inhibition term (economyModel.regulation.inhibition). CONTROLLER = PI (fast
+    //               proportional + bounded slow integral). EFFECTOR = proportional dampening of the
+    //               opportunity/emission CONFIDENCE channel — the same output channel Energy's servo
+    //               drives (Energy's autonomous emission is financially gated OFF today, so its servo
+    //               also only modulates opportunity confidence + held flags; economy is at parity).
+    //  eiBrake    : TRUE. Neuro Ref XIII.1 (inhibition scales with drive). A real HALT/dampen
+    //               stop-circuit reading economy's own governor layers (immune / regulation / PE spike /
+    //               conscience) PLUS the servo's proportional E/I arm; effector = it dampens the
+    //               confidence of surfaced opportunities and marks them held (one-cycle lag, like
+    //               Energy's _applyEmissionBrake). This is the controllable output the gate requires.
+    //  phase      : TRUE, but gated for honesty. The phase-coherence ROUTER (patent §3.4 Loop-1 matrix)
+    //               is deterministic advisory coupling. The phase-transition REWARD is treated as
+    //               ground-truth ONLY on P3/P7-family transitions (the phases Thing1 validates
+    //               system-wide); every other transition is labeled advisory-self-consistency and never
+    //               fabricates a validated learning signal. Economy is the MACRO AGGREGATE (not the
+    //               narrow kernel envelope Finance/Population sit in), so the ground-truth label is
+    //               weaker than Finance's — the VALIDATED gate is exactly what keeps it honest. A
+    //               validated+resolved transition preempts the recurrent stress-self-prediction as the
+    //               K4 credit source (mirrors Energy's call-ledger preemption).
+    // Fully reversible: flip any flag to false and the deterministic base pipeline is unchanged.
+    // COST-SAFE: every method below is 100% deterministic arithmetic/graph analysis — NO fetch-to-LLM,
+    // NO paid-AI, ever runs on the 30s cycle.
+    this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true };
+
     // Keys MUST match portal issue IDs in economy.json
     this.diagnosisIndex = {
       'RECESSION':        ['demand_contraction', 'gdp_decline', 'consumer_slowdown', 'retail_weakness', 'broad_slowdown', 'economy_high_stress', 'structural_stress'],
@@ -490,6 +522,12 @@
         o.moneyChain = { doThis: pb.action || '', whyPays: whyPays, target: target, timing: timing, invalidIf: pb.failure || '', evidence: evidence, nextStep: nextStep };
       }
     }
+    // E/I BRAKE EFFECTOR (one-cycle lag): apply the PRIOR cycle's stop-circuit to this cycle's
+    // opportunities — halt => hold + zero confidence; dampen/E-I => proportional confidence penalty.
+    // This is the controllable output the servo/eiBrake actuations drive. Reversible (flag-gated in
+    // _computeEconomyBrake). Never touches diagnoses/stress.
+    try { opps = this._applyEconomyEmissionBrake(opps); } catch (e) {}
+
     this.state.opportunityCount = opps.length;
 
     this.state.opportunities = opps;
@@ -766,6 +804,16 @@
     em.updated = obs.timestamp;
     this.state.economyModel = em;
 
+    // ── ACTUATION (servo + phase + K4 credit source) — behind this._actuation flags. ──────────────
+    // Order mirrors Energy: servo (reads regulation.inhibition) -> phase dynamics (reads predictedStress)
+    // -> credit-source hook (a validated phase transition preempts the stress-self-prediction credit).
+    // Recurrent, one-cycle-lag safe. NEVER touches scoreStress/deriveDiagnoses/the diagnosis set.
+    try { if (this._actuation && this._actuation.servo) this._computeEconomyServo(); } catch (e) {}
+    try { if (this._actuation && this._actuation.phase) this._computeEconomyPhaseDynamics(); } catch (e) {}
+    try { this._applyEconomyCreditSource(em); } catch (e) {}
+    // E/I balance + SPOF self-audit (Neuro Ref XIII.1 + XIV) — consumes economy.json's 79 edges. Advisory.
+    try { this.state.economyRegulationAdvisories = this._computeEconomyRegulationAdvisories(); } catch (e) { this.state.economyRegulationAdvisories = null; }
+
     // memory log — used by intuition (PE trends).
     try {
       var mem = this.state.memory || (this.state.memory = {});
@@ -780,6 +828,12 @@
 
     // H1-H6 — higher economy brain layers (domain-level, computed once per cycle BEFORE the DDP build)
     try { this._computeEconomyHigherLayers(); } catch (e) {}
+
+    // HALT/E-I BRAKE (stop-circuit) — computed AFTER the higher layers so it can read economyImmune /
+    // economyConscience (this cycle) + the servo (this cycle). Consumed NEXT cycle by
+    // _applyEconomyEmissionBrake in surfaceOpportunities (one-cycle lag, exactly like Energy). Behind
+    // this._actuation.eiBrake for the proportional E/I arm; the discrete governor brake always runs.
+    try { this._computeEconomyBrake(); } catch (e) {}
 
     // BUSINESS-CYCLE / MACRO-REGIME — additive sub-layer (BEFORE the DDP build so the primary packet advertises it).
     try { this._buildMacroRegimeSublayer(); } catch (e) {}
@@ -811,6 +865,13 @@
       sceneLayer: null,
       macroRegimeSublayer: this.state.macroRegimeSublayer || null,
       brainEconomyModel: this.state.brainEconomyModel || null,
+      // ── actuation surface (mirrors Energy's cognition.servo / .phaseDynamics / .neuro.regulation) ──
+      servo: this.state.economyServo || null,
+      brake: this.state.economyBrake || null,
+      phaseDynamics: this.state.economyPhaseDynamics || null,
+      regulationAdvisories: this.state.economyRegulationAdvisories || null,
+      actuation: this._actuation || null,
+      creditSource: (em && em._creditSource) || null,
       treatments: this.state.treatments || [],
       diagnoses: this.state.diagnoses || [],
       opportunities: this.state.opportunities || []
@@ -882,6 +943,291 @@
       updated: (em.updated || Date.now())
     };
     return this.state.brainEconomyModel;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION LAYER (2026-07-13) — ported from energy-brain.js to economy's actuation depth.
+  // 100% DETERMINISTIC. No fetch-to-LLM, no paid-AI, ever runs on the 30s cycle. All reversible
+  // via this._actuation. Reads the recurrent economyModel + governor layers; writes only NEW keys
+  // (economyServo / economyBrake / economyPhaseDynamics / economyRegulationAdvisories); NEVER mutates
+  // scoreStress, deriveDiagnoses, the diagnosis set, or anything /api/limen/score consumes.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // ── REGULATE-TO-TARGET SERVO (allostasis) + E/I DRIVE (Neuro Ref V.2/XII + XIII.1) ─────────────
+  // SENSOR: excitatory drive (stress + live-condition count + active-diagnosis count) vs the recurrent
+  // model's inhibition term. CONTROLLER: PI (fast proportional + bounded slow integral, the HPA
+  // fast+slow arms). EFFECTOR: proportional dampening of the emission/opportunity CONFIDENCE channel
+  // (consumed by _computeEconomyBrake). Economy has no K8 homeostasis layer like Energy, so the
+  // allostatic deviation is taken from the recurrent prior (economyModel.prior.expectedStress) — a
+  // real, economy-native baseline. Only ever ADDS braking; never disinhibits.
+  EconomyBrain.prototype._computeEconomyServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, em = s.economyModel || {}, reg = em.regulation || {}, prior = em.prior || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var FLOOR = 0.15;
+    // allostatic deviation = how far current stress sits above the recurrent baseline expectation.
+    var deviation = Math.max(0, stress - (typeof prior.expectedStress === 'number' ? prior.expectedStress : stress));
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive/regime
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission-confidence dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.economyServo = servo;
+    return servo;
+  };
+
+  // ── HALT / E-I BRAKE (stop-circuit; Neuro Ref IV.2/XIII.2 + XIII.1) ────────────────────────────
+  // Converts the governor layers (immune / regulation / prediction-error / conscience) from
+  // annotation into an actual brake, PLUS the servo's proportional E/I arm. Computed each cycle end;
+  // CONSUMED next cycle by _applyEconomyEmissionBrake. The discrete governor brake always runs; the
+  // proportional E/I dampening is gated by this._actuation.eiBrake. Fail-open when state absent (cycle 1).
+  EconomyBrain.prototype._computeEconomyBrake = function () {
+    var s = this.state, em = s.economyModel || {}, reg = em.regulation || {};
+    var im = s.economyImmune || {}, con = s.economyConscience || {};
+    var diags = s.diagnoses || [];
+    var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+    var reasons = [];
+    // full-halt conditions
+    if (im.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (im.severity || '?') });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'feeds older than staleness window' });
+    if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-evidence-backed-diagnosis', severity: 'halt', detail: 'all active diagnoses blocked by the evidence contract' });
+    // dampen conditions
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + (Math.round(pe * 1000) / 1000) });
+    if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+    if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen', detail: 'no artifact lane cleared by conscience' });
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1): proportional to the drive/inhibition deficit via the servo.
+    var servo = s.economyServo || null, eiFactor = 1;
+    if (this._actuation && this._actuation.eiBrake && servo) {
+      if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+      if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    }
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+    var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+    var brake = {
+      version: 1, level: level, engaged: halt, dampen: dampen, reasons: reasons,
+      suppressOpportunities: halt,
+      confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // strongest brake wins (discrete governor blended with proportional E/I)
+      eiFactor: (Math.round(eiFactor * 1000) / 1000),
+      note: level === 'clear' ? 'stop-circuit clear — emission allowed'
+        : level === 'halt' ? 'STOP-CIRCUIT ENGAGED — opportunities held'
+        : 'stop-circuit dampening — confidence reduced, held for review',
+      lastBrakeAt: em.updated || Date.now()
+    };
+    s.economyBrake = brake; return brake;
+  };
+
+  // Effector: apply the prior cycle's brake to this cycle's opportunity set (one-cycle lag).
+  EconomyBrain.prototype._applyEconomyEmissionBrake = function (opps) {
+    var brake = this.state.economyBrake;
+    if (!brake || brake.level === 'clear') { this.state.opportunitiesHeld = false; return opps; }
+    var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (pen < 1 && typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * pen);
+      if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    this.state.opportunitiesHeld = !!brake.suppressOpportunities;
+    return opps;
+  };
+
+  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (patent §3.4 Loop-1 + thing2 lineage) ──────
+  // (A) ROUTER: deterministic advisory coupling — economy couples to co-phased, stressed domains via
+  //     the phase matrix M. (B) REWARD: a realized phase TRANSITION through time; treated as
+  //     ground-truth ONLY on P3/P7-family transitions (Thing1-validated phases), else labeled
+  //     advisory-self-consistency. Economy is macro-aggregate (outside the narrow kernel envelope), so
+  //     the ground-truth label is honestly weaker than Finance's; the VALIDATED gate is the safeguard.
+  EconomyBrain.prototype._computeEconomyPhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING = more-distressed
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed peers.
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'economy') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) { coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 }); }
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    var hist = this._economyPhaseHistory = this._economyPhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      // direction prediction from the recurrent model: predictedStress above current => rising.
+      var em = s.economyModel || {};
+      var predictedUp = (typeof em.predictedStress === 'number' && typeof s.stress === 'number')
+        ? em.predictedStress > s.stress
+        : ((s.brainEconomyModel && s.brainEconomyModel.businessCycleMomentum === 'contraction') || false);
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+    }
+    hist.push({ phase: myPhase, t: (s.economyModel && s.economyModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — economy is macro-aggregate, so weaker than the kernel-validated desks).'
+    };
+    s.economyPhaseDynamics = out;
+    return out;
+  };
+
+  // ── K4 CREDIT-SOURCE HOOK — a validated+resolved phase transition PREEMPTS the stress-self-prediction
+  //    as the credit source (mirrors Energy's call-ledger preemption). When the reward is ground-truth,
+  //    it gently nudges the recurrent plasticity (faster credit on a hit, slower on a miss), bounded.
+  //    This is the actuation of the phase reward — a validated reward changes learning, not just display.
+  EconomyBrain.prototype._applyEconomyCreditSource = function (em) {
+    if (!em) return;
+    var pd = (this._actuation && this._actuation.phase) ? this.state.economyPhaseDynamics : null;
+    var pt = pd && pd.transition;
+    var phaseReward = !!(pt && pt.validated && pt.hit !== null);
+    em._creditSource = phaseReward ? 'phase-transition' : 'stress-self-pred';
+    em._creditReward = phaseReward ? { from: pt.from, to: pt.to, hit: pt.hit } : null;
+    // Bounded plasticity nudge ONLY on a validated (ground-truth) transition.
+    if (phaseReward && em.plasticity && typeof em.plasticity.learningRate === 'number') {
+      var lr = em.plasticity.learningRate + (pt.hit ? 0.03 : -0.03);
+      em.plasticity.learningRate = Math.max(0.08, Math.min(0.4, lr));
+    }
+    return em._creditSource;
+  };
+
+  // ── E/I BALANCE + SELF-AUDIT (SPOF) ADVISORIES (Neuro Ref XIII.1 + XIV) — observe-only. ─────────
+  // (1) E/I balance: is inhibition tracking drive? (read off the servo). (2) Self-audit: CONSUME the
+  // connectivity graph — run an articulation-point (single-point-of-failure) + degree-hub audit over
+  // economy.json's 79 edges. Self-contained deterministic graph analysis (no external module); edges
+  // are lazy-loaded once (browser fire-and-forget / server require), matching Energy's pattern — the
+  // /api/domain-snapshot object carries NO edges, so reading _rawDomain.edges would be null every cycle.
+  EconomyBrain.prototype._computeEconomyRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance — off the servo (drive vs inhibition vs target).
+    try {
+      var servo = s.economyServo || null;
+      if (servo) {
+        out.eiBalance = {
+          drive: servo.drive, inhibition: servo.inhibition, target: servo.target,
+          error: servo.error, state: servo.state,
+          balanced: servo.state === 'balanced',
+          note: 'inhibition must scale with drive; error>0 => under-braked (runaway risk).'
+        };
+      } else { out.eiBalance = null; }
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit — SPOF / articulation points over the economy edge graph.
+    try {
+      var self = this;
+      var edges = (Array.isArray(s.edges) && s.edges) || this._economyEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._economyEdgesPromise) {
+          this._economyEdgesPromise = fetch('/assets/data/domains/economy.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._economyEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/economy.json'); if (ed && Array.isArray(ed.edges)) { this._economyEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) {
+        var audit = this._economyConnectivityAudit(edges);
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: audit.articulationNodes.length,
+          spof: audit.articulationNodes.slice(0, 5), topHubs: audit.topHubsByDegree.slice(0, 5),
+          verdict: audit.articulationNodes.length ? (audit.articulationNodes.length + ' single-point(s) of failure') : 'no articulation nodes (resilient graph)' };
+      } else {
+        out.selfAudit = { consumed: false, note: 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    return out;
+  };
+
+  // Self-contained connectivity audit: articulation points (Tarjan) + degree hubs on the undirected
+  // graph induced by the edge list. Deterministic; O(V+E). No external dependency (only economy-brain.js
+  // is edited). Mirrors what energy-connectivity-audit.js returns so downstream reads are uniform.
+  EconomyBrain.prototype._economyConnectivityAudit = function (edges) {
+    var adj = {}, deg = {};
+    function ensure(n) { if (!adj[n]) { adj[n] = []; deg[n] = 0; } }
+    for (var i = 0; i < edges.length; i++) {
+      var e = edges[i]; if (!e) continue;
+      var a = e.source, b = e.target; if (a == null || b == null || a === b) continue;
+      ensure(a); ensure(b);
+      if (adj[a].indexOf(b) === -1) { adj[a].push(b); deg[a]++; }
+      if (adj[b].indexOf(a) === -1) { adj[b].push(a); deg[b]++; }
+    }
+    var nodes = Object.keys(adj);
+    // Tarjan articulation points (iterative to avoid deep recursion).
+    var visited = {}, disc = {}, low = {}, parent = {}, ap = {}, timer = 0;
+    for (var vi = 0; vi < nodes.length; vi++) {
+      var root = nodes[vi];
+      if (visited[root]) continue;
+      var stack = [[root, 0]], rootChildren = 0;
+      parent[root] = null;
+      while (stack.length) {
+        var frame = stack[stack.length - 1], u = frame[0], ci = frame[1];
+        if (ci === 0) { visited[u] = true; disc[u] = low[u] = ++timer; }
+        var nbrs = adj[u];
+        if (ci < nbrs.length) {
+          frame[1]++;
+          var w = nbrs[ci];
+          if (!visited[w]) {
+            parent[w] = u;
+            if (u === root) rootChildren++;
+            stack.push([w, 0]);
+          } else if (w !== parent[u]) {
+            low[u] = Math.min(low[u], disc[w]);
+          }
+        } else {
+          stack.pop();
+          var p = parent[u];
+          if (p != null) {
+            low[p] = Math.min(low[p], low[u]);
+            if (p !== root && low[u] >= disc[p]) ap[p] = true;
+          }
+        }
+      }
+      if (rootChildren > 1) ap[root] = true;
+    }
+    var articulation = Object.keys(ap);
+    var hubs = nodes.map(function (n) { return { id: n, degree: deg[n] }; })
+      .sort(function (a, b) { return b.degree - a.degree; });
+    return { nodeCount: nodes.length, edgeCount: edges.length, articulationNodes: articulation, topHubsByDegree: hubs };
   };
 
   // ════════════════════════════════════════════════════════════════════════════

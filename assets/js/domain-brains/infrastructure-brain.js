@@ -79,6 +79,39 @@
     try { this._infraLoadL1PortalDepth(); } catch (e) {}          // J1: scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
     try { this._infraLoadGridDiagnoses(); } catch (e) {}          // GRID: load grid sub-portal (real-content, unbundled) as an additive LAYER
 
+    // ── ACTUATION GATE (2026-07-13) — ports Energy's actuated depth, per-actuation VALIDITY-GATED.
+    // Honest per-actuation decision (NOT a blanket clone):
+    //  refractory : TRUE  — real effector = the REPORT_GENERATION action-draft emission in
+    //                       _checkDiagnosisActions; the III.3 dead-time de-dups duplicate drafts.
+    //                       Uses the shared, data-agnostic RefractoryLimiter module + the live
+    //                       pulse/overlay timestamp. Same mechanism as energy-brain.
+    //  servo      : TRUE  — real effector = emission dampening. A PI controller (fast proportional +
+    //                       bounded slow integral, the HPA fast+slow arms) drives inhibition toward a
+    //                       drive+deviation TARGET (allostasis, Neuro Ref V.2/XII). Infra emits
+    //                       opportunities (with confidence) + action drafts + cross-domain signals —
+    //                       a genuinely controllable output. Effector = _computeInfraBrake emissionFactor.
+    //  eiBrake    : TRUE  — real effector = the same emission channel. When inhibition fails to track
+    //                       drive (Neuro Ref XIII.1) the HALT brake dampens emission PROPORTIONALLY,
+    //                       not just in discrete steps.
+    //  phase      : FALSE — ADVISORY ONLY. The phase-transition REWARD is only ground-truth on a
+    //                       Thing1-VALIDATED P3/P7 signal; the validated-kernel envelope is Finance +
+    //                       Population, NOT infrastructure — so a realized infra phase transition can
+    //                       never be more than advisory self-consistency here. And infra carries no
+    //                       gain-control output-cap effector for a coherence router to widen (energy's
+    //                       phase +1 rides on its K2 outputScale, which infra does not compute). We
+    //                       COMPUTE the phase-coherence read for visibility (_computeInfraPhaseAdvisory)
+    //                       but wire NO effector off it. Do NOT flip to true without a validated P3/P7
+    //                       signal AND a real output-gating effector. (This mirrors Energy's own honest
+    //                       UNMAPPED boundaries — see ENERGY_NEURO_AUDIT.md.)
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    // MIRRORS assets/data/domains/infrastructure.json runtime.params (the brain runs in its own
+    // context and does not load that file); keep the two in sync when tuning.
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (doc 1:4 ratio preserved)
+      overrideThreshold: 0.8      // only stress >= 0.8 re-fires a diagnosis draft in-window
+    };
+
     // Diagnosis → signal condition mapping
     // These map live conditions to which diagnoses become active
     // Condition tokens are INFRASTRUCTURE-NATIVE feed signals (construction indices,
@@ -988,10 +1021,218 @@
       };
     }
 
+    // HALT/E-I BRAKE (actuated) — apply the PRIOR cycle's brake to the enriched opportunity set:
+    // dampen confidence proportionally (servo emissionFactor / discrete governor penalty, min wins)
+    // and flag held on a full halt. One-cycle lag; fail-open when no brake exists (cycle 1).
+    try { opps = this._applyInfraEmissionBrake(opps); } catch (e) {}
+
     this.state.opportunities = opps;
     this.state.opportunityCount = opps.length;
 
     return Promise.resolve();
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION METHODS (2026-07-13) — ported + adapted from energy-brain.js.
+  // ALL are deterministic (no AI / no fetch-to-LLM on the cycle). The only network touch is a
+  // one-time cached fetch of the static infrastructure.json edge graph for the SPOF self-audit
+  // (same static-asset class as a portal read). Additive; each is gated behind this._actuation.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // ── REGULATE-TO-TARGET SERVO + E/I (Neuro Ref XIII.1 / V.2 / XII) ──────────────────────────────
+  // Real sensor->controller->effector->feedback loop. SENSOR = excitatory drive (stress + how many
+  // conditions/diagnoses fire at once) vs current inhibition. CONTROLLER = PI (fast proportional +
+  // bounded slow integral). EFFECTOR = a proportional dampening of emission that _computeInfraBrake
+  // consumes. Infra has NO K8 homeostasis module, so the allostatic set-point / deviation is computed
+  // inline from the recent stress history (mirrors energy _computeEnergyHomeostasis). Additive,
+  // reversible (this._actuation.servo=false), affects ONLY emission confidence — never stress/scoring.
+  InfrastructureBrain.prototype._computeInfraServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, em = s.infraModel || {}, reg = em.regulation || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // live inhibition term from _infraRegulation
+    var FLOOR = 0.15;
+    // adaptive allostatic baseline (K8-equivalent) from recent stress history -> deviation
+    var hist = ((s.memory && s.memory.stressHistory) || []).slice(-20);
+    var base = 0.5; if (hist.length) { var sum = 0; for (var i = 0; i < hist.length; i++) sum += (hist[i].stress || 0); base = sum / hist.length; }
+    var deviation = Math.max(0, stress - base);
+    // TARGET: inhibition must track drive (E/I) and rise with deviation above baseline (allostasis)
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                             // >0 => under-braked for the drive/regime
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking; never disinhibit
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));            // effector: proportional emission dampening
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.infraServo = servo;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.servo = servo;
+    return servo;
+  };
+
+  // ── HALT BRAKE + E/I BRAKE (stop-circuit). Governor layers (immune / conscience / regulation)
+  // previously only ANNOTATED danger; this converts them into an actual brake. Computed at cycle end
+  // from the already-computed layers; CONSUMED next cycle by _checkDiagnosisActions (action drafts) and
+  // _applyInfraEmissionBrake (opportunities). Recurrent, one-cycle lag. Fail-open when absent (cycle 1).
+  InfrastructureBrain.prototype._computeInfraBrake = function () {
+    var s = this.state, em = s.infraModel || {}, reg = em.regulation || {};
+    var im = s.infraImmune || {}, con = s.infraConscience || {};
+    var diags = s.diagnoses || [];
+    var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+    var reasons = [];
+    // full-halt conditions
+    if (im.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (im.severity || '?') });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'feeds older than staleness window' });
+    if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-evidence-backed-diagnosis', severity: 'halt', detail: 'all active diagnoses blocked by the evidence contract' });
+    // dampen conditions
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + (Math.round(pe * 1000) / 1000) });
+    if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+    if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen', detail: 'no artifact lane cleared by conscience' });
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1): scale the brake PROPORTIONALLY with the servo's drive/
+    // inhibition deficit — inhibition that does not track drive raises the brake continuously, not just
+    // in discrete steps. Reversible (this._actuation.eiBrake). Effector = emission dampening.
+    var servo = s.infraServo || null, eiFactor = 1;
+    if (this._actuation && this._actuation.eiBrake && servo) {
+      if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+      if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    }
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+    var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+    var brake = {
+      version: 1, level: level, engaged: halt, dampen: dampen, reasons: reasons,
+      suppressActions: halt, suppressOpportunities: halt,
+      confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // discrete governor penalty blended with PROPORTIONAL E/I dampening (min = strongest brake wins)
+      eiFactor: (Math.round(eiFactor * 1000) / 1000),
+      note: level === 'clear' ? 'stop-circuit clear - emission allowed'
+        : level === 'halt' ? 'STOP-CIRCUIT ENGAGED - action emission halted, opportunities held'
+        : 'stop-circuit dampening - confidence reduced, emission held for review',
+      lastBrakeAt: em.updated || Date.now()
+    };
+    s.infraBrake = brake;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.brake = brake;
+    return brake;
+  };
+
+  // Consumed by surfaceOpportunities (end): applies the prior cycle's brake to the opportunity set.
+  // Halt -> hold + zero confidence; dampen -> proportional confidence penalty. (infra confidence is a
+  // 0-100 percent; multiplying by the 0-1 penalty scales it correctly.)
+  InfrastructureBrain.prototype._applyInfraEmissionBrake = function (opps) {
+    var brake = this.state.infraBrake;
+    if (!brake || brake.level === 'clear') { this.state.opportunitiesHeld = false; return opps; }
+    var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (pen < 1 && typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * pen);
+      if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    this.state.opportunitiesHeld = !!brake.suppressOpportunities;
+    return opps;
+  };
+
+  // ── E/I BALANCE READ + SELF-AUDIT (observe-only advisory) ──────────────────────────────────────
+  // Closes the audit gap of computing-and-discarding the connectivity / single-points-of-failure
+  // self-audit (Neuro Ref XIV: the network, not the node, is the unit of failure). infrastructure.json
+  // carries a real 78-edge node graph; the snapshot does NOT (it carries signals/stress only), so the
+  // edges are lazily fetched + cached ONCE (browser fire-and-forget / server require) and the audit runs
+  // on the REAL graph. Uses the shared, data-agnostic EnergyConnectivityAudit module (name is historical;
+  // it takes any {edges}). Deterministic, no AI, no writes.
+  InfrastructureBrain.prototype._computeInfraRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance read — the servo runs the live loop; this is the observe-only summary of it.
+    try {
+      var servo = s.infraServo || null;
+      if (servo) out.eiBalance = { drive: servo.drive, inhibition: servo.inhibition, target: servo.target, state: servo.state, tracking: servo.error <= 0.25 };
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit — CONSUME the SPOF/connectivity audit on the REAL infra graph.
+    try {
+      var self = this;
+      var edges = this._infraEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._infraEdgesPromise) {
+          this._infraEdgesPromise = fetch('/assets/data/domains/infrastructure.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._infraEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/infrastructure.json'); if (ed && Array.isArray(ed.edges)) { this._infraEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+      if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+      if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
+        var audit = CA.singlePointsOfFailure({ edges: edges });
+        var spof = (audit && audit.articulationNodes) || [];
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
+          verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+      } else {
+        out.selfAudit = { consumed: false, note: edges ? 'connectivity-audit not loaded' : 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.infraRegulationAdvisories = out;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.regulation = out;
+    return out;
+  };
+
+  // ── PHASE-COHERENCE READ — ADVISORY ONLY (this._actuation.phase = false) ───────────────────────
+  // Deliberately NOT an actuation. Two honest reasons, both required to hold before this could fire:
+  //   (a) the phase-transition REWARD is only ground-truth on a Thing1-VALIDATED P3/P7 signal; the
+  //       validated-kernel envelope is Finance + Population, NOT infrastructure — so an infra phase
+  //       transition can only ever be advisory self-consistency, never a real learning/reward signal.
+  //   (b) infra has NO gain-control output-cap effector for a coherence router to widen (energy's
+  //       phase +1 rides on its K2 outputScale; infra does not compute it).
+  // We compute the read for VISIBILITY (so the honest boundary is inspectable) but wire NO effector.
+  // Deterministic, no AI, no writes. Do NOT flip to an actuation without satisfying (a) AND (b).
+  InfrastructureBrain.prototype._computeInfraPhaseAdvisory = function () {
+    var s = this.state;
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+    var myPhase = norm(s.phase);
+    var hist = this._infraPhaseHist = this._infraPhaseHist || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var transition = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      transition = { from: prev, to: myPhase, validated: !!(VALIDATED[myPhase] || VALIDATED[prev]),
+        kind: 'advisory-self-consistency',
+        note: 'infra is not Thing1-validated for P3/P7; this transition is NOT used as a learning/reward signal' };
+    }
+    hist.push({ phase: myPhase, t: (s.infraModel && s.infraModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+    var out = { version: 1, actuated: false, observeOnly: true, myPhase: myPhase, transition: transition,
+      note: 'phase-coherence read for visibility; NO effector wired (infra lacks validated P3/P7 ground-truth + an output-gating effector). Advisory only.' };
+    s.infraPhaseDynamics = out;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;
+    return out;
+  };
+
+  // ── GENERATIVE NODE->BUSINESS AUTHORING — DOCUMENTED NO-OP STUB (never called from the cycle) ──
+  // This is the one genuinely "code-cannot-do-this" slot: authoring net-new node->business theses in
+  // natural language is a generative-LLM task, not a deterministic computation. COST-SAFETY CONTRACT:
+  //   (1) This method is NEVER invoked from cycle()/_updateInfraModel — grep confirms zero call sites
+  //       on the deterministic 30s loop.
+  //   (2) It runs ONLY on an explicit operator trigger (a button/console action passing {operator:true}).
+  //   (3) Any real implementation MUST route through a server endpoint that is killswitch-gated
+  //       (server-side lib/ai-kill-switch.js spendDisabled() — the same guard handlers/*-claude.js use).
+  //       NO API key ever lives in client code.
+  // Until such an endpoint is wired, this stays a no-op that returns a documented note (does NOT call
+  // any AI). Leaving it inert is the correct, safe default per the killswitch requirement.
+  InfrastructureBrain.prototype._infraAuthorNodeBusinessFromAI = function (opts) {
+    opts = opts || {};
+    if (!opts.operator) {
+      return { ok: false, ran: false, reason: 'operator-trigger-required', note: 'never called from the deterministic cycle; requires an explicit operator action' };
+    }
+    // Intentionally NOT wired to a live AI call. A future implementation would POST to a
+    // killswitch-gated server route (spendDisabled() enforced server-side) — no client-side key.
+    return { ok: false, ran: false, reason: 'ai-endpoint-not-wired', note: 'no-op stub: wire a killswitch-gated server endpoint before enabling generative authoring' };
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -999,12 +1240,27 @@
   // ══════════════════════════════════════════════════════════════════════
 
   InfrastructureBrain.prototype._checkDiagnosisActions = function () {
+    // HALT BRAKE (actuated) — do not emit action drafts while the stop-circuit is engaged.
+    // Reads the PRIOR cycle's brake (computed at cycle end in _updateInfraModel); fail-open on
+    // cycle 1 when state.infraBrake is absent. Same one-cycle-lag pattern as energy-brain.
+    var _brake = this.state.infraBrake;
+    if (_brake && _brake.suppressActions) { this.state._brakeHeldActions = (this.state._brakeHeldActions || 0) + 1; return; }
+
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; });
     if (activeDx.length === 0) return;
 
     // Check if action adapters are available
     var adapters = window.LIMENActionAdapters;
     if (!adapters) return;
+
+    // REFRACTORY GATE (III.3, actuated) — lazy-init the shared, data-agnostic RefractoryLimiter
+    // (module is namespaced EnergyRefractoryLimiter but holds NO energy data; it is a generic
+    // two-phase absolute+relative limiter). Best-effort: if the module is not loaded on the page or
+    // actuation is off, the gate is simply skipped (prior behavior, fail-open). Never breaks the cycle.
+    if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
+        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+    }
 
     // For each newly active diagnosis, create action drafts
     for (var i = 0; i < activeDx.length; i++) {
@@ -1013,6 +1269,23 @@
       // Only create drafts if we haven't already for this diagnosis
       var existingDrafts = adapters.getDrafts({ domain: 'infrastructure', intentId: dx.id });
       if (existingDrafts && existingDrafts.length > 0) continue;
+
+      // REFRACTORY GATE: once this diagnosis has emitted a draft, suppress re-emission within the
+      // dead-time unless stress clears the override bar. The diagnosis stays ACTIVE and displayed —
+      // only the duplicate DRAFT is withheld. Uses the live overlay/pulse timestamp so it tracks
+      // real time. Best-effort; falls through to normal emission on any error.
+      if (this._refractoryLimiter) {
+        try {
+          var _now = (this._runtimeOverlay && this._runtimeOverlay.timestamp) ||
+                     (this.state.pulse && this.state.pulse.timestamp) ||
+                     ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+          var _verdict = this._refractoryLimiter.fire(dx.id, _now, this.state.stress);
+          if (!_verdict.allowed) {
+            this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1;
+            continue;
+          }
+        } catch (_e) { /* gate is best-effort; fall through to normal emission */ }
+      }
 
       // Draft a report for this diagnosis
       adapters.createDraft('REPORT_GENERATION', {
@@ -1190,6 +1463,14 @@
       var mem = this.state.memory || (this.state.memory = {}); var log = mem.outcomeLog || (mem.outcomeLog = []);
       log.push({ cycle: em.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
       try { this._computeInfraHigherLayers(); } catch (e) {}
+
+      // ── ACTUATION LAYER (2026-07-13) — runs at cycle end so it reads the settled governor layers;
+      // its outputs (infraBrake) are CONSUMED on the NEXT cycle (one-cycle lag, recurrent). Each is
+      // gated behind this._actuation. Deterministic — no AI on the cycle.
+      try { if (this._actuation && this._actuation.servo) this._computeInfraServo(); } catch (e) {}   // REGULATE-TO-TARGET SERVO (reads regulation.inhibition + adaptive baseline)
+      try { this._computeInfraBrake(); } catch (e) {}                                                 // HALT + E/I BRAKE (reads servo eiFactor when eiBrake on)
+      try { this._computeInfraRegulationAdvisories(); } catch (e) {}                                  // E/I read + SPOF self-audit (observe-only)
+      try { this._computeInfraPhaseAdvisory(); } catch (e) {}                                         // PHASE read (ADVISORY only; not an actuation — see _actuation.phase=false)
 
       // GRID — grid sub-portal layer (additive; BEFORE the DDP build so the primary packet's
       // promptView advertises it). Never touches the validated 6-diagnosis spine.

@@ -21,6 +21,22 @@
   CommunicationBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── ACTUATION GATE (2026-07-13) — per-actuation validity for the communication domain.
+    // Mirrors energy-brain.js:76. Each flag turns a deterministic overlay ON; all are reversible.
+    //   refractory: TRUE  — rate-limit repeated identical cross-domain emissions (Neuro Ref III.3).
+    //   servo:      TRUE  — regulate-to-target PI controller drives inhibition toward the drive
+    //                        target; effector = emission dampening (communicationModel carries a real
+    //                        inhibition term + adaptive baseline). Neuro Ref V.2/XII/XIII.1.
+    //   eiBrake:    TRUE  — E/I brake consumes the servo's emissionFactor and dampens the domain's
+    //                        real efferent output (crossDomainEmissions magnitude + opportunity
+    //                        confidence) proportionally to the drive/inhibition deficit. Neuro Ref XIII.1.
+    //   phase:      FALSE — ADVISORY ONLY. The phase-coherence router is honest+deterministic, but the
+    //                        phase-transition REWARD is NOT wired as a validated learning signal:
+    //                        communication is not a Thing1-validated domain (no p3/p7 ground-truth
+    //                        distress label) and the communicationModel uses a fixed learning rate with
+    //                        no credit ledger for a reward to preempt. Fabricating one would be dishonest.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+
     this.diagnosisIndex = {
       'DISINFORMATION_CRISIS':  ['misinformation_spread', 'disinformation_campaign', 'narrative_manipulation', 'amplification_bias', 'signal_degradation', 'communication_high_stress', 'macro_shock'],
       'TELECOM_FAILURE':        ['infrastructure_failure', 'network_disruption', 'connectivity_loss', 'service_outage', 'communication_high_stress'],
@@ -514,6 +530,18 @@
       // H1-H6 — higher communication layers (BEFORE the DDP build so the packet embeds their summaries).
       try { this._computeCommunicationHigherLayers(); } catch (e) {}
 
+      // ── ACTUATION (2026-07-13) — regulate-to-target servo + E/I brake + refractory + self-audit,
+      // mirroring energy-brain's actuated core but reading COMMUNICATION's own state/edges. Each is
+      // behind its _actuation flag and 100% DETERMINISTIC (no AI, no fetch-to-LLM on the cycle). The
+      // servo/eiBrake dampen the FRESH-rebuilt emissions/opportunities in place (regenerated every
+      // cycle, so reversible), the effector = the domain's real efferent output channel. Phase is
+      // advisory (see _actuation gate above). Runs AFTER surfaceOpportunities/emitCrossDomainSignals
+      // (base pipeline) so the arrays it regulates already exist.
+      try { if (this._actuation && this._actuation.servo) this._computeCommunicationServo(); } catch (e) {}
+      try { if (this._actuation && this._actuation.eiBrake) this._computeCommunicationEIBrake(); } catch (e) {}
+      try { this._computeCommunicationPhaseDynamics(); } catch (e) {}   // ADVISORY (this._actuation.phase = false)
+      try { this._computeCommunicationSelfAudit(); } catch (e) {}       // SPOF/connectivity over the real 89-edge graph
+
       // NETWORK — telecom/infrastructure & information-integrity sub-portal layer (additive; BEFORE the
       // DDP build so the primary packet's promptView advertises it). NEVER merged into the canonical
       // 5-diagnosis spine.
@@ -544,6 +572,16 @@
         conscience: this.state.communicationConscience || null,
         immune: this.state.communicationImmune || null,
         intuition: this.state.communicationIntuition || null,
+        // ── ACTUATION surfaces (2026-07-13) — additive; generic consoles read these ──
+        actuation: this._actuation || null,
+        communicationServo: this.state.communicationServo || null,
+        communicationBrake: this.state.communicationBrake || null,
+        communicationPhaseDynamics: this.state.communicationPhaseDynamics || null,
+        communicationSelfAudit: this.state.communicationSelfAudit || null,
+        servo: this.state.communicationServo || null,
+        brake: this.state.communicationBrake || null,
+        phaseDynamics: this.state.communicationPhaseDynamics || null,
+        selfAudit: this.state.communicationSelfAudit || null,
         networkLayer: this.state.networkLayer || null,
         treatments: this.state.treatments || [],
         diagnoses: this.state.diagnoses || [],
@@ -676,6 +714,257 @@
       s.communicationExecutiveReport = rep; return rep;
     };
   })();
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATED CORE (2026-07-13) — ported + adapted from energy-brain's actuated core.
+  // These are the mechanisms that CHANGE behavior (not just describe it), each behind a
+  // this._actuation flag, all deterministic (no AI / no fetch-to-LLM on the 30s cycle).
+  // Mapped to LIMEN_Helix_Neurology_Reference.html the way ENERGY_NEURO_AUDIT.md mapped Energy:
+  //   • servo   = Neuro Ref V.2/XII (set-point homeostasis/allostasis) + XIII.1 (E/I: inhibition
+  //               scales with drive) — a real sensor→PI-controller→effector→feedback loop.
+  //   • eiBrake = Neuro Ref XIII.1/XIV — the load-bearing inhibitory brake; effector = proportional
+  //               dampening of the domain's real efferent output (cross-domain emissions + opps).
+  //   • refractory = Neuro Ref III.3 — refractory rate-limit on repeated identical emissions.
+  //   • selfAudit  = Neuro Ref XIV (diaschisis / single-points-of-failure) over the REAL graph.
+  //   • phase      = ADVISORY (see _actuation gate): coherence router honest; reward NOT validated.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // Inline connectivity audit (Neuro Ref XIV). Removal-based articulation-node finder over the
+  // undirected projection of the communication node/edge graph (~24 nodes / 89 edges — trivial).
+  // Self-contained so no other file is required (energy uses energy-connectivity-audit.js).
+  function _commSpofAudit(edges) {
+    var adj = {}, nodes = {};
+    for (var i = 0; i < edges.length; i++) {
+      var e = edges[i]; if (!e || !e.source || !e.target) continue;
+      nodes[e.source] = 1; nodes[e.target] = 1;
+      (adj[e.source] = adj[e.source] || []).push(e.target);
+      (adj[e.target] = adj[e.target] || []).push(e.source);
+    }
+    var nodeList = Object.keys(nodes);
+    function componentCount(excluded) {
+      var seen = {}, comps = 0;
+      for (var i = 0; i < nodeList.length; i++) {
+        var n = nodeList[i];
+        if (n === excluded || seen[n]) continue;
+        comps++; var stack = [n]; seen[n] = 1;
+        while (stack.length) {
+          var c = stack.pop(), nb = adj[c] || [];
+          for (var k = 0; k < nb.length; k++) { if (nb[k] !== excluded && !seen[nb[k]]) { seen[nb[k]] = 1; stack.push(nb[k]); } }
+        }
+      }
+      return comps;
+    }
+    var base = componentCount(null), spof = [];
+    for (var j = 0; j < nodeList.length; j++) { if (componentCount(nodeList[j]) > base) spof.push(nodeList[j]); }
+    var deg = nodeList.map(function (n) { return { id: n, degree: (adj[n] || []).length }; })
+      .sort(function (a, b) { return b.degree - a.degree; });
+    return { edgeCount: edges.length, nodeCount: nodeList.length, baseComponents: base, spof: spof, topHubs: deg.slice(0, 5) };
+  }
+
+  // ── REGULATE-TO-TARGET SERVO (actuated; Neuro Ref V.2/XII/XIII.1) ────────────────────────────
+  // sensor = excitatory drive (stress + how many conditions/diagnoses fire at once) vs the live
+  // inhibition term the communicationModel already computes; controller = PI (fast proportional +
+  // bounded slow integral, the HPA fast+slow arms); effector = a proportional emission-dampening
+  // factor the E/I brake then consumes. The adaptive baseline is the model's learned expectedStress
+  // (deviation above it raises the target). Deterministic; never rewrites stress/scoring/diagnoses.
+  CommunicationBrain.prototype._computeCommunicationServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, cm = s.communicationModel || {}, reg = cm.regulation || {}, prior = cm.prior || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // live term (1 - novelty)
+    var FLOOR = 0.15;
+    var baseline = (typeof prior.expectedStress === 'number') ? prior.expectedStress : stress;
+    var deviation = Math.max(0, stress - baseline);
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                             // >0 => under-braked for the drive
+    this._commServoIntegral = Math.max(-0.5, Math.min(0.5, (this._commServoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._commServoIntegral));   // only ADD braking
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._commServoIntegral), emissionFactor: R(emissionFactor),
+      deviation: R(deviation), state: state,
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening (consumed by the E/I brake). Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.communicationServo = servo;
+    return servo;
+  };
+
+  // ── REFRACTORY RATE-LIMIT (actuated; Neuro Ref III.3) ────────────────────────────────────────
+  // An identical (targetDomain|signal) cross-domain emission repeated within the refractory window
+  // is rate-limited (magnitude reduced), preventing the brain from re-shouting the same efferent
+  // signal every 30s cycle. Operates on the fresh-rebuilt crossDomainEmissions — raw generation is
+  // untouched; only redundant immediate repeats are damped. Reversible via _actuation.refractory.
+  CommunicationBrain.prototype._applyCommunicationRefractory = function () {
+    var s = this.state;
+    if (!(this._actuation && this._actuation.refractory)) return { suppressed: 0, windowMs: 0 };
+    var REFRACTORY_MS = 75000;   // ~2.5 cycles
+    var REPEAT_FACTOR = 0.5;
+    var now = (s.communicationModel && s.communicationModel.updated) || Date.now();
+    var log = this._commEmissionRefractoryLog = this._commEmissionRefractoryLog || {};
+    var ems = Array.isArray(s.crossDomainEmissions) ? s.crossDomainEmissions : [];
+    var suppressed = 0;
+    for (var i = 0; i < ems.length; i++) {
+      var e = ems[i]; if (!e) continue;
+      var key = (e.targetDomain || '') + '|' + (e.signal || e.signalType || '');
+      var last = log[key];
+      if (last && (now - last) < REFRACTORY_MS && typeof e.magnitude === 'number') {
+        e.magnitude = Math.round(e.magnitude * REPEAT_FACTOR * 1000) / 1000;
+        e._refractoryLimited = true; suppressed++;
+      }
+      log[key] = now;
+    }
+    return { suppressed: suppressed, windowMs: REFRACTORY_MS };
+  };
+
+  // ── E/I BRAKE (actuated; Neuro Ref XIII.1/XIV) ───────────────────────────────────────────────
+  // Consumes the servo's emissionFactor + the refractory pass and dampens the domain's REAL efferent
+  // output PROPORTIONALLY to the drive/inhibition deficit: cross-domain emission magnitude (the
+  // afferent pressure other brains integrate) and opportunity confidence (what the console/DDP
+  // publish). Effector operates on the fresh-rebuilt arrays (regenerated each cycle → reversible via
+  // _actuation.eiBrake). Never rewrites stress/scoring/diagnoses/communication.json.
+  CommunicationBrain.prototype._computeCommunicationEIBrake = function () {
+    var s = this.state, servo = s.communicationServo || null;
+    var eiFactor = 1, reasons = [];
+    if (servo && typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+    if (servo && servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    // REFRACTORY pass first (rate-limits repeats in place), then proportional E/I dampening.
+    var refr = this._applyCommunicationRefractory();
+    var dampenedOpps = 0, dampenedEms = 0;
+    if (eiFactor < 0.999) {
+      var opps = Array.isArray(s.opportunities) ? s.opportunities : [];
+      for (var i = 0; i < opps.length; i++) {
+        if (typeof opps[i].confidence === 'number') { opps[i].confidence = Math.round(opps[i].confidence * eiFactor); opps[i]._eiDampened = true; dampenedOpps++; }
+      }
+      var ems = Array.isArray(s.crossDomainEmissions) ? s.crossDomainEmissions : [];
+      for (var j = 0; j < ems.length; j++) {
+        if (typeof ems[j].magnitude === 'number') { ems[j].magnitude = Math.round(ems[j].magnitude * eiFactor * 1000) / 1000; ems[j]._eiDampened = true; dampenedEms++; }
+      }
+    }
+    var level = (eiFactor < 0.999 || refr.suppressed > 0) ? 'dampen' : 'clear';
+    var brake = {
+      version: 1, level: level, actuated: true,
+      eiFactor: Math.round(eiFactor * 1000) / 1000,
+      dampenedOpportunities: dampenedOpps, dampenedEmissions: dampenedEms,
+      refractorySuppressed: refr.suppressed, refractoryWindowMs: refr.windowMs,
+      reasons: reasons,
+      note: level === 'clear' ? 'E/I brake clear — inhibition tracks drive; emission allowed at full magnitude'
+        : 'E/I brake dampening — inhibition below drive target and/or refractory repeats; efferent output reduced proportionally. Neuro Ref XIII.1/III.3.',
+      lastBrakeAt: (s.communicationModel && s.communicationModel.updated) || Date.now()
+    };
+    s.communicationBrake = brake;
+    return brake;
+  };
+
+  // ── PHASE DYNAMICS (ADVISORY — this._actuation.phase = false) ────────────────────────────────
+  // The phase-coherence ROUTER (couple to co-phased, stressed domains; patent M matrix, thing2
+  // lineage) is deterministic and honest, so it is exposed. The phase-transition REWARD is NOT
+  // wired as a validated learning signal and never feeds any learning rate: communication is not a
+  // Thing1-validated domain (no p3/p7 ground-truth distress label), and the communicationModel runs
+  // a FIXED learning rate with no credit ledger for a reward to preempt — fabricating a validated
+  // teaching signal would be dishonest (the same discipline ENERGY_NEURO_AUDIT.md applied). So the
+  // transition read is marked advisory-self-consistency only.
+  CommunicationBrain.prototype._computeCommunicationPhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p6: { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p3: { p3: 0.08, p7: 0.05, p9: 0.04, p0: -0.06 },
+      p7: { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'communication') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+    var hist = this._commPhaseHistory = this._commPhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var transition = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      transition = { from: prev, to: myPhase, validatedPhaseInvolved: validated, kind: 'advisory-self-consistency',
+        note: 'NOT a validated teaching signal — communication lacks a Thing1 ground-truth distress label; never feeds learning.' };
+    }
+    hist.push({ phase: myPhase, t: (s.communicationModel && s.communicationModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+    var out = {
+      version: 1, actuated: false, advisory: true, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: transition,
+      note: 'phase-coherence router live (advisory); phase-transition reward NOT wired as validated learning — communication is not a Thing1-validated domain.'
+    };
+    s.communicationPhaseDynamics = out;
+    return out;
+  };
+
+  // ── SELF-AUDIT (actuated; Neuro Ref XIV diaschisis / single-points-of-failure) ────────────────
+  // Consumes the domain's REAL node/edge graph (89 edges live in communication.json, NOT in the
+  // /api/domain-snapshot payload — same gap energy hit). Lazily fetches + caches the edges once
+  // (browser fire-and-forget; server via require) and runs the articulation-node audit on the real
+  // graph every cycle thereafter. Deterministic, observe-only over structure (surfaces brittle nodes).
+  CommunicationBrain.prototype._computeCommunicationSelfAudit = function () {
+    var self = this, s = this.state;
+    var edges = (s._rawDomain && Array.isArray(s._rawDomain.edges) && s._rawDomain.edges) ||
+                (Array.isArray(s.edges) && s.edges) || this._communicationEdges || null;
+    if (!edges) {
+      if (typeof fetch === 'function' && !this._communicationEdgesPromise) {
+        this._communicationEdgesPromise = fetch('/assets/data/domains/communication.json')
+          .then(function (r) { return r.json(); })
+          .then(function (j) { if (j && Array.isArray(j.edges)) self._communicationEdges = j.edges; })
+          .catch(function () {});
+      } else if (typeof require === 'function') {
+        try { var ed = require('../../data/domains/communication.json'); if (ed && Array.isArray(ed.edges)) { this._communicationEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+      }
+    }
+    if (!edges || !edges.length) {
+      s.communicationSelfAudit = { version: 1, consumed: false, note: edges ? 'no edges' : 'edges loading (async, next cycle)' };
+      return s.communicationSelfAudit;
+    }
+    var audit = _commSpofAudit(edges);
+    s.communicationSelfAudit = {
+      version: 1, consumed: true, edgeCount: audit.edgeCount, nodeCount: audit.nodeCount,
+      spofCount: audit.spof.length, spof: audit.spof.slice(0, 5), topHubs: audit.topHubs,
+      verdict: audit.spof.length ? (audit.spof.length + ' single-point(s) of failure in the communication connectome') : 'no articulation nodes (resilient connectome)',
+      note: 'Neuro Ref XIV diaschisis/SPOF self-audit consumed over the real communication node/edge graph (deterministic).'
+    };
+    return s.communicationSelfAudit;
+  };
+
+  // ── AI SLOT (operator-triggered ONLY; NEVER called from the cycle) ───────────────────────────
+  // Generative node→business authoring (semantic synthesis of a business from a node's live
+  // diagnosis) is a genuine "code-cannot-do-this" slot. It is DELIBERATELY not wired into the
+  // deterministic 30s cycle: no paid-AI/LLM call may ever run on a cycle (killswitch requirement).
+  // This method (a) is never invoked by cycle()/_updateCommunicationModel(), (b) runs only on an
+  // explicit operator action, and (c) routes through a server endpoint that is killswitch-gated
+  // SERVER-SIDE (lib/ai-kill-switch spendDisabled()). No API key lives in client code. If the
+  // endpoint is absent or spend is disabled, it returns a benign envelope. Keep this OUT of the cycle.
+  CommunicationBrain.prototype.authorCommunicationBusinessFromNode = function (nodeId, opts) {
+    if (typeof fetch !== 'function') return Promise.resolve({ ok: false, reason: 'no-fetch' });
+    opts = opts || {};
+    return fetch('/api/communication-node-business', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain: 'communication', nodeId: nodeId, operatorTriggered: true, context: opts.context || null })
+    }).then(function (r) { return r.ok ? r.json() : { ok: false, status: r.status }; })
+      .catch(function () { return { ok: false, reason: 'network' }; });
+  };
 
   // ════════════════════════════════════════════════════════════════════════════
   // COMMUNICATION COGNITION PARITY — fallback loaders, source-bundle machinery, L1

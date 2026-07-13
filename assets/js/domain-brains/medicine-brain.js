@@ -48,6 +48,49 @@
   MedicineBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── ACTUATION VALIDITY GATE (2026-07-13) ────────────────────────────────
+    // Ports the Energy brain's actuation depth to Medicine, HONESTLY gated per
+    // actuation (no fake clones). Decision, per the neurology-reference mechanisms:
+    //
+    //  refractory = TRUE  — III.3 refractory de-dup of ACTION DRAFTS. A real, controllable
+    //                       effector exists: this brain's own draft emission (_checkDiagnosisActions).
+    //                       Absolute dead-time + relative raised-threshold gate. Reversible.
+    //  servo      = TRUE  — V.2/XII/XIII.1 regulate-to-target (PI controller). The controllable
+    //                       effector is THIS BRAIN'S OWN EMISSION (opportunity confidence + draft
+    //                       rate) — NOT real-world clinical systems. It self-regulates output so
+    //                       inhibition tracks drive. Reads the health recurrent model's regulation
+    //                       + an adaptive homeostatic baseline. Honest self-regulation, same channel
+    //                       the brake already uses. Reversible (servo=false).
+    //  eiBrake    = TRUE  — XIII.1 E/I balance: brake scales PROPORTIONALLY with drive via the servo
+    //                       emissionFactor. Same emission effector as servo. Reversible (eiBrake=false).
+    //  phase      = FALSE — ADVISORY ONLY. The phase-transition REWARD is only a ground-truth teaching
+    //                       signal on a Thing1-VALIDATED phase (p3/p7). Medicine is NOT a validated-kernel
+    //                       domain (the validated kernel is fenced to Finance + Population), and this brain
+    //                       has NO K4 credit-ledger (its _updateHealthModel uses a fixed learning rate with
+    //                       no outcome/credit reconciliation) for a phase reward to preempt. Claiming a
+    //                       validated phase reward here would fabricate a learning signal. We still COMPUTE
+    //                       the phase-coherence router as an OBSERVE-ONLY advisory (see _computeMedicinePhaseAdvisory),
+    //                       but it never feeds credit and is never treated as ground truth. Flip to true only
+    //                       if/when medicine gains a validated phase label + a real credit ledger.
+    //
+    // selfAudit is observe-only (E/I balance read + XIV single-points-of-failure on medicine's REAL
+    // 80-edge graph). It genuinely consumes the real graph; it is a self-diagnostic the brain SEES,
+    // not a real-world effector. Runs unconditionally inside _computeMedicineRegulationAdvisories.
+    //
+    // COST-SAFETY: every method below is 100% deterministic. NO paid-AI / fetch-to-LLM call runs on
+    // the 30s cycle, ever. The only network reads are static graph JSON (medicine.json edges), fetched
+    // once and cached. The generative node->business slot is a documented no-op stub (see
+    // _medicineGenerativeAuthoringStub) that the cycle NEVER calls.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    // Mirror assets/data/domains/medicine.json runtime.params (the brain runs in its own context and
+    // does not load that file at init); keep the two in sync when tuning.
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (ms) — runtime.params.refractoryAbsoluteWindow
+      relativeWindow: 3600000,    // 1 hr raised-bar window (ms) — runtime.params.refractoryRelativeWindow (1:4 ratio)
+      overrideThreshold: 0.8      // stress needed to re-fire in-window — runtime.params.refractoryOverrideThreshold
+    };
+    this._refractoryLog = Object.create(null);   // per-diagnosis last-fire log (this brain's own state)
+
     // Keys match medicine portal issue IDs
     this.diagnosisIndex = {
       'CARE_ACCESS_FAILURE': [
@@ -850,6 +893,14 @@
     }
     this.state.opportunityCount = opps.length;
 
+    // ── EMISSION BRAKE EFFECTOR (servo + E/I) ──
+    // Apply the PRIOR cycle's medicine brake to the freshly-built opportunity set (one-cycle lag,
+    // exactly like Energy's _applyEmissionBrake). This is where the servo/E/I actuation actually
+    // TOUCHES output: halt -> hold + zero confidence; dampen -> proportional confidence penalty
+    // (min of the discrete governor penalty and the continuous servo emissionFactor). No-op on the
+    // first cycle (medicineBrake not yet computed) and whenever the brake is clear.
+    try { opps = this._applyMedicineEmissionBrake(opps); } catch (e) {}
+
     this.state.opportunities = opps;
 
     return Promise.resolve();
@@ -870,6 +921,23 @@
       var dx = activeDx[i];
       var existingDrafts = adapters.getDrafts({ domain: 'health', intentId: dx.id });
       if (existingDrafts && existingDrafts.length > 0) continue;
+
+      // REFRACTORY GATE (III.3, actuated behind this._actuation.refractory): once this diagnosis
+      // has emitted a draft, suppress re-emission within the absolute dead-time; during the relative
+      // window it re-fires ONLY if stress clears the override bar. The diagnosis stays active + displayed
+      // — only the DUPLICATE DRAFT is withheld. Deterministic, best-effort; never breaks the cycle.
+      if (this._actuation && this._actuation.refractory) {
+        try {
+          var _now = (this._runtimeOverlay && this._runtimeOverlay.timestamp) ||
+                     (this.state.pulse && this.state.pulse.timestamp) ||
+                     ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+          var _verdict = this._medicineRefractoryFire(dx.id, _now, this.state.stress);
+          if (_verdict && !_verdict.allowed) {
+            this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1;
+            continue;
+          }
+        } catch (_e) { /* gate is best-effort; fall through to normal emission */ }
+      }
 
       adapters.createDraft('REPORT_GENERATION', {
         domain: 'health',
@@ -1092,6 +1160,16 @@
     // the validated diagnosis spine.
     try { this._buildClinicalPipelineLayer(); } catch (e) {}
 
+    // ── ACTUATION LAYER (2026-07-13) — see the validity-gate comment in init(). ──
+    // Runs AFTER the higher layers (so healthImmune/regulation are available) and reads THIS cycle's
+    // freshly-updated healthModel.regulation. Deterministic; each behind its _actuation flag; produces
+    // the medicineBrake the NEXT surfaceOpportunities consumes (one-cycle lag, like Energy).
+    try { this._computeMedicineHomeostasis(); } catch (e) {}                                    // adaptive set-point (feeds servo deviation)
+    try { if (this._actuation && this._actuation.servo) this._computeMedicineServo(); } catch (e) {}   // REGULATE-TO-TARGET SERVO (actuated)
+    try { this._computeMedicineBrake(); } catch (e) {}                                          // HALT/DAMPEN BRAKE (E/I portion self-gates on _actuation.eiBrake)
+    try { this.state.medicineRegulationAdvisories = this._computeMedicineRegulationAdvisories(); } catch (e) {}   // E/I balance + SPOF self-audit (observe-only)
+    try { this._computeMedicinePhaseAdvisory(); } catch (e) {}                                  // PHASE-COHERENCE ROUTER (OBSERVE-ONLY; phase NOT actuated — see gate)
+
     // Generic cognition surface the console SELF-MODEL panel renders for ANY domain.
     // domain='medicine' = the portal/URL key (snapshot/runtime key is 'health').
     try {
@@ -1101,7 +1179,11 @@
         awareness: this.state.healthAwareness || null,
         conscience: this.state.healthConscience || null,
         immune: this.state.healthImmune || null,
-        intuition: this.state.healthIntuition || null
+        intuition: this.state.healthIntuition || null,
+        servo: this.state.medicineServo || null,                 // additive: actuation surface
+        brake: this.state.medicineBrake || null,
+        regulation: this.state.medicineRegulationAdvisories || null,
+        phaseDynamics: this.state.medicinePhaseDynamics || null
       };
     } catch (e) {}
 
@@ -1126,6 +1208,313 @@
     } catch (e) {}
 
     return hm;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION METHODS (2026-07-13) — ported from the Energy brain, adapted + renamed
+  // for Medicine, reading MEDICINE's own state + real graph. Deterministic; no AI; no
+  // writes to medicine.json. See the validity-gate comment in init() for what is / isn't
+  // honestly actuated. Effector for servo/eiBrake = THIS brain's own emission confidence.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  function _medClamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+  function _medR3(x) { return Math.round(x * 1000) / 1000; }
+
+  // Inline refractory evaluation (III.3) — mirrors energy-refractory-limiter.js evaluate(), held
+  // in this brain's own _refractoryLog so there is NO cross-file dependency. absolute hard block +
+  // relative raised-threshold (a stronger-than-normal stimulus can still fire). Records on allow.
+  MedicineBrain.prototype._medicineRefractoryFire = function (key, now, strength) {
+    var p = this._refractoryParams || {};
+    if (!(p.absoluteWindow > 0)) return { allowed: true, phase: 'disabled' };   // no-op unless configured
+    var last = this._refractoryLog[key] || null;
+    var verdict;
+    if (!last) {
+      verdict = { allowed: true, phase: 'ready', reason: 'never fired' };
+    } else {
+      var dt = now - last.t;
+      if (dt < p.absoluteWindow) {
+        verdict = { allowed: false, phase: 'absolute', reason: 'absolute refractory dead-time' };
+      } else if (dt < p.relativeWindow) {
+        if (typeof strength === 'number' && strength >= p.overrideThreshold) {
+          verdict = { allowed: true, phase: 'relative-override', reason: 'stronger-than-normal stimulus' };
+        } else {
+          verdict = { allowed: false, phase: 'relative', reason: 'below elevated threshold in relative refractory' };
+        }
+      } else {
+        verdict = { allowed: true, phase: 'ready', reason: 'past refractory window' };
+      }
+    }
+    if (verdict.allowed) this._refractoryLog[key] = { t: now, strength: strength };
+    return verdict;
+  };
+
+  // ADAPTIVE SET-POINT (Neuro Ref V.2/XII homeostasis) — the servo's deviation term. Baseline = mean
+  // stress over the recent history window (like Energy's _computeEnergyHomeostasis). Observe-only.
+  MedicineBrain.prototype._computeMedicineHomeostasis = function () {
+    var s = this.state;
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-20);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var hm = {
+      version: 1,
+      fixedFloor: HM_STRESS_FLOOR,
+      adaptiveBaseline: _medR3(baseline),
+      currentStress: _medR3(cur),
+      deviationFromBaseline: _medR3(cur - baseline),
+      samples: n,
+      note: 'adaptive set-point; feeds the servo deviation term (Neuro Ref V.2/XII).'
+    };
+    s.medicineHomeostasis = hm;
+    return hm;
+  };
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref XIII.1 E/I + V.2/XII allostasis) — PI controller. SENSOR =
+  // excitatory drive (stress + how many things fire at once) vs current inhibition (from the health
+  // recurrent model's regulation). TARGET = inhibition must track drive AND rise with deviation above
+  // the adaptive baseline. EFFECTOR = a proportional dampening of THIS brain's emission (the brake
+  // consumes emissionFactor). Actuated behind _actuation.servo. Never rewrites stress/scoring/medicine.json.
+  MedicineBrain.prototype._computeMedicineServo = function () {
+    var s = this.state, hm = s.healthModel || {}, reg = hm.regulation || {}, homeo = s.medicineHomeostasis || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length
+      : (Array.isArray(this._activeConditions) ? this._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0));
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = _medClamp(stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24, 0, 2);
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var FLOOR = 0.15;
+    var deviation = Math.max(0, (typeof homeo.deviationFromBaseline === 'number') ? homeo.deviationFromBaseline : 0);
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive
+    this._servoIntegral = _medClamp((this._servoIntegral || 0) + error * 0.15, -0.5, 0.5);
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking; never disinhibit
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: _medR3(drive), inhibition: _medR3(inhibition), target: _medR3(target),
+      error: _medR3(error), integral: _medR3(this._servoIntegral), emissionFactor: _medR3(emissionFactor),
+      state: state, deviation: _medR3(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.medicineServo = servo;
+    return servo;
+  };
+
+  // HALT/DAMPEN BRAKE (stop-circuit) — mirrors _computeEnergyBrake. Full-halt on unsafe/unsupported
+  // conditions (immune alert, stale feeds, no evidence-backed diagnosis); dampen on prediction-error
+  // spike / opportunity flood. E/I portion (behind _actuation.eiBrake): the brake scales PROPORTIONALLY
+  // with drive via the servo emissionFactor. Effector = emission confidence penalty.
+  MedicineBrain.prototype._computeMedicineBrake = function () {
+    var s = this.state, hm = s.healthModel || {}, reg = hm.regulation || {};
+    var im = s.healthImmune || {};
+    var diags = s.diagnoses || [];
+    var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+    var reasons = [];
+    if (im.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (im.severity || '?') });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'feeds older than staleness window' });
+    if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-evidence-backed-diagnosis', severity: 'halt', detail: 'all active diagnoses blocked by the evidence contract' });
+    var pe = (hm.predictionError && hm.predictionError.total) || 0;
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + _medR3(pe) });
+    if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1): proportional dampening via the servo. Reversible.
+    var servo = s.medicineServo || null, eiFactor = 1;
+    if (this._actuation && this._actuation.eiBrake && servo) {
+      if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+      if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    }
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+    var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+    var brake = {
+      version: 1, level: level, engaged: halt, dampen: dampen, reasons: reasons,
+      suppressActions: halt, suppressOpportunities: halt,
+      confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // discrete governor blended with PROPORTIONAL E/I (min = strongest brake wins)
+      eiFactor: _medR3(eiFactor),
+      note: level === 'clear' ? 'stop-circuit clear - emission allowed'
+        : level === 'halt' ? 'STOP-CIRCUIT ENGAGED - action emission halted, opportunities held'
+        : 'stop-circuit dampening - confidence reduced, emission held for review',
+      lastBrakeAt: hm.updated || Date.now()
+    };
+    s.medicineBrake = brake;
+    return brake;
+  };
+
+  // Consumed by surfaceOpportunities (end): applies the PRIOR cycle's brake to the opportunity set.
+  // Halt -> hold + zero confidence; dampen -> proportional confidence penalty. Mirrors _applyEmissionBrake.
+  MedicineBrain.prototype._applyMedicineEmissionBrake = function (opps) {
+    var brake = this.state.medicineBrake;
+    if (!brake || brake.level === 'clear') { this.state.opportunitiesHeld = false; return opps; }
+    var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (pen < 1 && typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * pen);
+      if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    this.state.opportunitiesHeld = !!brake.suppressOpportunities;
+    return opps;
+  };
+
+  // E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). Deterministic, no AI,
+  // no writes. (1) E/I balance: is inhibition tracking drive? (2) Self-audit: CONSUME the XIV
+  // single-points-of-failure audit on medicine's REAL graph (80 edges in medicine.json — NOT in the
+  // snapshot, so lazily fetch + cache once, browser fire-and-forget / server via require). Prefers the
+  // generic Energy modules if loaded (they take {edges}/state and are domain-agnostic); else computes inline.
+  MedicineBrain.prototype._computeMedicineRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+
+    // (1) E/I balance — inhibition vs drive.
+    try {
+      var servo = s.medicineServo || null;
+      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+      if (EI && typeof EI.assess === 'function' && servo) {
+        out.eiBalance = EI.assess({ drive: servo.drive, inhibition: servo.inhibition });
+      } else if (servo) {
+        var drive = servo.drive, inhibition = servo.inhibition, floor = 0.15;
+        var ratio = inhibition / Math.max(drive, 1e-6);
+        var st = 'balanced';
+        if (drive > floor && ratio < 0.6) st = 'runaway-risk';
+        else if (ratio > 1.8 && inhibition > floor) st = 'over-inhibited';
+        out.eiBalance = { drive: drive, inhibition: inhibition, required: _medR3(Math.max(floor, Math.min(1, drive))),
+          ratio: _medR3(ratio), state: st, deficit: _medR3(Math.max(floor, drive) - inhibition),
+          note: 'inhibition must scale with drive (Neuro Ref XIII.1).' };
+      } else { out.eiBalance = null; }
+    } catch (e) { out.eiBalance = null; }
+
+    // (2) Self-audit — XIV single points of failure on the real edge graph.
+    try {
+      var self = this;
+      var edges = this._medicineEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._medicineEdgesPromise) {
+          this._medicineEdgesPromise = fetch('/assets/data/domains/medicine.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._medicineEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/medicine.json'); if (ed && Array.isArray(ed.edges)) { this._medicineEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+      if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
+        var audit = CA.singlePointsOfFailure({ edges: edges });
+        var spof = (audit && audit.articulationNodes) || [];
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
+          verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+      } else if (edges && edges.length) {
+        var a2 = _medicineSpof(edges);
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: a2.articulationNodes.length,
+          spof: a2.articulationNodes.slice(0, 5), verdict: a2.verdict, topHubs: a2.topHubsByDegree };
+      } else {
+        out.selfAudit = { consumed: false, note: 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+
+    return out;
+  };
+
+  // Inline XIV single-points-of-failure (articulation nodes = removing one raises the weakly-connected
+  // component count) + degree hubs. Mirrors energy-connectivity-audit.js singlePointsOfFailure math.
+  function _medicineComponentCount(nodes, edges) {
+    var adj = {}; nodes.forEach(function (n) { adj[n] = []; });
+    edges.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });
+    var seen = {}, comps = 0;
+    nodes.forEach(function (n) {
+      if (seen[n]) return; comps++; var stack = [n];
+      while (stack.length) { var x = stack.pop(); if (seen[x]) continue; seen[x] = 1; adj[x].forEach(function (y) { if (!seen[y]) stack.push(y); }); }
+    });
+    return comps;
+  }
+  function _medicineSpof(edges) {
+    var nodeSet = {};
+    edges.forEach(function (e) { nodeSet[e.source] = 1; nodeSet[e.target] = 1; });
+    var nodes = Object.keys(nodeSet);
+    var base = _medicineComponentCount(nodes, edges);
+    var spof = [];
+    nodes.forEach(function (n) {
+      var remN = nodes.filter(function (x) { return x !== n; });
+      var remE = edges.filter(function (e) { return e.source !== n && e.target !== n; });
+      var c = _medicineComponentCount(remN, remE);
+      if (c > base) spof.push({ node: n, componentsAfterRemoval: c, baseComponents: base });
+    });
+    var deg = {}; edges.forEach(function (e) { deg[e.source] = (deg[e.source] || 0) + 1; deg[e.target] = (deg[e.target] || 0) + 1; });
+    var hubs = Object.keys(deg).map(function (n) { return { node: n, degree: deg[n] }; }).sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+    return { baseComponents: base, articulationNodes: spof, topHubsByDegree: hubs,
+      verdict: spof.length ? spof.length + ' articulation node(s) = single points of failure' : 'no articulation nodes (graph degrades gracefully)' };
+  }
+
+  // PHASE-COHERENCE ROUTER — OBSERVE-ONLY ADVISORY (NOT an actuation; _actuation.phase = false).
+  // Computes coupling to co-phased, stressed domains (patent Section 3.4 Loop 1 M matrix) and a phase
+  // transition read. CRITICAL HONESTY GATE: the transition is marked validated ONLY on a Thing1-validated
+  // phase (p3/p7). Medicine's phase (P8) is not validated and medicine is not a validated-kernel domain,
+  // so this NEVER produces a ground-truth reward and — unlike Energy — is NOT fed into any credit ledger
+  // (this brain has none). It exists purely so the operator can SEE the coherence read; flip _actuation.phase
+  // to true only if medicine gains a validated phase label + a real K4 credit ledger to consume it.
+  MedicineBrain.prototype._computeMedicinePhaseAdvisory = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p8:  { p8: 0.06, p9: 0.04, p7a: 0.03, p0: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'health' || k === 'medicine') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    var hist = this._phaseHistory = this._phaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var transition = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      transition = { from: prev, to: myPhase, wentUp: wentUp, validated: validated,
+        kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency',
+        fedToCredit: false };   // medicine has no K4 credit ledger; this is never a learning signal
+    }
+    hist.push({ phase: myPhase, t: (s.healthModel && s.healthModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, observeOnly: true, actuated: false, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: _medR3(couplingStrength), transition: transition,
+      note: 'OBSERVE-ONLY phase-coherence router. Reward is NOT actuated: medicine is not a Thing1-validated-phase domain and has no credit ledger. See _actuation gate.'
+    };
+    s.medicinePhaseDynamics = out;
+    return out;
+  };
+
+  // GENERATIVE NODE->BUSINESS AUTHORING SLOT — documented NO-OP STUB (COST-SAFETY).
+  // Authoring a business from a node is a genuine "code-cannot-do-this" (semantic/generative) slot.
+  // This method is NEVER called from the 30s cycle. It is invoked ONLY by an explicit operator trigger
+  // and MUST route through a server endpoint that is killswitch-gated (server enforces
+  // lib/ai-kill-switch spendDisabled()). NO API key lives in client code. Left as a no-op stub until
+  // that operator-triggered server path is wired; it never performs a paid call on its own.
+  MedicineBrain.prototype._medicineGenerativeAuthoringStub = function () {
+    return { ok: false, stub: true, reason: 'generative node->business authoring is operator-triggered + server-side killswitch-gated only; never runs on the cycle; not wired here.' };
   };
 
   // ════════════════════════════════════════════════════════════════════════════

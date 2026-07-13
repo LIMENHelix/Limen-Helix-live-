@@ -36,6 +36,31 @@
       portalKey: 'trade',
       cycleInterval: 30000
     });
+
+    // ══════════════════════════════════════════════════════════════════════
+    // ACTUATION FLAGS — per-actuation VALIDITY GATE (honest, not a clone). Each flag is ON
+    // only where trade has a REAL controllable effector (and, for phase reward, a P3/P7 signal).
+    // Ported to Energy's actuation depth (energy-brain.js), reading TRADE's own state/edges.
+    //
+    //  refractory: FALSE (advisory) — trade's action drafts are ALREADY permanently de-duplicated by
+    //     the action-adapter ledger (_checkDiagnosisActions -> adapters.getDrafts), so a refractory
+    //     dead-time can never bite (a diagnosis that fired once never re-emits regardless). Adding a
+    //     limiter would be cosmetic; left OFF rather than faked. (Energy's refractory rides an external
+    //     energy-specific module; trade has no equivalent and would not touch other files.)
+    //  servo: TRUE — real sensor->controller(PI)->effector loop. Sensor = excitatory drive (stress +
+    //     concurrent conditions + active diagnoses) vs inhibition (supplyChainModel.regulation.inhibition,
+    //     which trade already computes); effector = proportional dampening of emitted opportunity
+    //     confidence (the same view-level channel energy dampens). No fabricated effector.
+    //  eiBrake: TRUE — consumes the servo: inhibition that fails to track drive raises a proportional
+    //     brake on emission continuously (Neuro Ref XIII.1). Same real effector as servo.
+    //  phase: TRUE — trade has a live domain phase (state.phase) AND real P3 (THAL/NTS/CC) + P7
+    //     (OFC/vmPFC) node archetypes, so the phase-transition REWARD self-gates to ground-truth ONLY
+    //     on P3/P7 transitions and is honestly labelled advisory-self-consistency otherwise. The
+    //     phase-coherence router (patent matrix M) couples to co-phased stressed peers deterministically.
+    //  selfAudit: TRUE — trade carries a real 70-edge connectome (trade.json .edges); the advisory
+    //     consumes it each cycle for single-points-of-failure + hubs (observe-only, like energy).
+    this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true, selfAudit: true };
+    this._servoIntegral = 0;
   }
 
   TradeBrain.prototype = Object.create(Base.prototype);
@@ -663,6 +688,11 @@
         o.moneyChain = { doThis: pb.action || '', whyPays: whyPays, target: target, timing: timing, invalidIf: pb.failure || '', evidence: evidence, nextStep: nextStep };
       }
     }
+    // ACTUATED EMISSION EFFECTOR (E/I brake + phase-coherence window) — reads the PRIOR cycle's
+    // servo/phase (one-cycle lag: they are computed at the end of _updateSupplyChainModel, after
+    // opportunities are built). Bounded, reversible via _actuation.eiBrake / _actuation.phase.
+    try { opps = this._applyTradeEmissionActuation(opps); } catch (e) {}
+
     this.state.opportunityCount = opps.length;
 
     this.state.opportunities = opps;
@@ -912,10 +942,32 @@
     var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
     var reg = this._computeRegulation(em, obs, pe);
 
+    // ── ACTUATED SERVO (regulate-to-target) — reads the fresh regulation.inhibition ──
+    var _servo = null;
+    try { if (this._actuation && this._actuation.servo) _servo = this._computeTradeServo(reg); } catch (e) {}
+    // ── ACTUATED PHASE DYNAMICS (coherence router + transition reward) ──
+    var _pd = null;
+    try { if (this._actuation && this._actuation.phase) _pd = this._computeTradePhaseDynamics(); } catch (e) {}
+    // ── SELF-AUDIT ADVISORY (E/I read + SPOF over the 70-edge connectome; observe-only) ──
+    try { if (this._actuation && this._actuation.selfAudit) this._computeTradeRegulationAdvisories(_servo); } catch (e) {}
+
     // a FINAL decision that depends on the prior, not just on raw obs:
     var readyForHandoff = (em.cycle > 0) && (predictedStress >= EM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    var nextPrior = this._updatePrior(priorIn, obs, em.plasticity.learningRate); // → next cycle reads this
+    // K4 credit assignment — a VALIDATED (P3/P7) phase transition is a real ground-truth teaching
+    // signal (thing2 through time); prefer it over the generic outcome-ledger self-consistency, which
+    // is preferred over the fixed rate. Low hit-rate raises the effective learning rate. Reversible
+    // via _actuation.phase (falls back to ledger/fixed). One-cycle lag on the ledger (domainNeuro).
+    var _lr = em.plasticity.learningRate;
+    var _pt = _pd && _pd.transition;
+    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+    var _led = (this.state.domainNeuro && this.state.domainNeuro.outcomeLedger) || null;
+    var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
+    var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : (_fromLedger ? _led.hitRate : null);
+    if (_hit !== null) _lr = _emClamp(_lr * (1 + (1 - _hit)), EM_SLOW_RATE, 0.6);
+    em._effectiveLearningRate = _lr;
+    em._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'outcome-ledger' : 'fixed');
+    var nextPrior = this._updatePrior(priorIn, obs, _lr); // → next cycle reads this
 
     em.cycle += 1;
     em.observation = obs;
@@ -935,11 +987,15 @@
     try {
       this.state.cognition = {
         domain: 'supplyChain',
-        model: { cycle: em.cycle, predictionError: em.predictionError, predictedStress: em.predictedStress, regulation: em.regulation },
+        model: { cycle: em.cycle, predictionError: em.predictionError, predictedStress: em.predictedStress, regulation: em.regulation, creditSource: em._creditSource, effectiveLearningRate: em._effectiveLearningRate },
         awareness: this.state.supplyChainAwareness || null,
         conscience: this.state.supplyChainConscience || null,
         immune: this.state.supplyChainImmune || null,
-        intuition: this.state.supplyChainIntuition || null
+        intuition: this.state.supplyChainIntuition || null,
+        // ACTUATED layers (additive; new keys only) — mirror energy's cognition.servo / .phaseDynamics
+        servo: this.state.tradeServo || null,
+        phaseDynamics: this.state.tradePhaseDynamics || null,
+        regulationAdvisories: this.state.tradeRegulationAdvisories || null
       };
     } catch (e) {}
 
@@ -967,6 +1023,220 @@
     } catch (e) {}
 
     return em;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION METHODS (ported to Energy depth; TRADE's own state/edges). Deterministic, additive,
+  // reversible via this._actuation.*; NO paid-AI / fetch-to-LLM ever runs from the cycle.
+  // ════════════════════════════════════════════════════════════════════════════
+  var SERVO_FLOOR = 0.15, SERVO_KP = 0.8, SERVO_KI = 0.4, SERVO_BASE_WINDOW = 60;
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref XIII.1 E/I balance + V.2/XII allostasis). Mirror of
+  // energy-brain _computeEnergyServo. Sensor = excitatory drive (stress + concurrent conditions +
+  // active diagnoses) vs current inhibition; controller = PI (bounded integral + proportional);
+  // effector = proportional emission-confidence dampening the opportunity step consumes next cycle.
+  TradeBrain.prototype._computeTradeServo = function (reg) {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state;
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (reg && typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // the live regulation term
+    // deviation above a rolling baseline (adaptive set-point; same shape as the generic homeostasis)
+    var hist = ((s.memory && s.memory.stressHistory) || []).slice(-SERVO_BASE_WINDOW);
+    var base = 0.5; if (hist.length) { var sum = 0; for (var i = 0; i < hist.length; i++) sum += (hist[i].stress || 0); base = sum / hist.length; }
+    var deviation = Math.max(0, stress - base);
+    // TARGET (allostatic set-point): inhibition must track drive, and rise with deviation above baseline.
+    var target = Math.max(SERVO_FLOOR, Math.min(1, Math.max(drive, SERVO_FLOOR + deviation)));
+    var error = target - inhibition;                                        // >0 => under-braked for the drive/regime
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var correction = Math.max(0, SERVO_KP * error + SERVO_KI * Math.max(0, this._servoIntegral));   // only ADD braking
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));       // effector (1 = no dampening)
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional opportunity-confidence dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.tradeServo = servo;
+    return servo;
+  };
+
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD. Mirror of energy-brain _computeEnergyPhaseDynamics.
+  //  (A) router: couple to co-phased, stressed domains via the patent Section 3.4 Loop 1 matrix M.
+  //  (B) reward: a realized phase transition over time is a real ground-truth label ONLY on P3/P7
+  //      (the phases the kernel family validates; trade carries P3 THAL/NTS/CC + P7 OFC/vmPFC nodes);
+  //      elsewhere it is honestly labelled advisory-self-consistency (never a fabricated reward).
+  TradeBrain.prototype._computeTradePhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p5:  { p5: 0.05, p4: 0.04, p6: 0.03, p0: 0.03 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };               // kernel family validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed domains
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'trade' || k === 'supplyChain') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    var hist = this._tradePhaseHistory = this._tradePhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var fc = (s.domainNeuro && s.domainNeuro.forecast) || null;
+      var predictedUp = fc
+        ? (fc.direction === 'rising' || (typeof fc.projectedStress === 'number' && fc.projectedStress > (s.stress || 0)))
+        : ((s.supplyChainModel && typeof s.supplyChainModel.predictedStress === 'number') ? (s.supplyChainModel.predictedStress > (s.stress || 0)) : false);
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+    }
+    hist.push({ phase: myPhase, t: (s.supplyChainModel && s.supplyChainModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — trade carries P3 THAL/NTS/CC + P7 OFC/vmPFC nodes).'
+    };
+    s.tradePhaseDynamics = out;
+    return out;
+  };
+
+  // SELF-AUDIT + E/I ADVISORY (Neuro Ref XIII.1 + XIV). Observe-only, deterministic. CONSUMES trade's
+  // own 70-edge connectome (trade.json .edges — NOT in the live snapshot) for single-points-of-failure
+  // + hubs, mirroring energy's _computeEnergyRegulationAdvisories. Edges lazily fetched + cached once
+  // (browser fire-and-forget; server via require). Never mutates stress/scoring/trade.json.
+  TradeBrain.prototype._computeTradeRegulationAdvisories = function (servo) {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance read from the servo (drive vs inhibition tracking).
+    if (servo) out.eiBalance = { drive: servo.drive, inhibition: servo.inhibition, target: servo.target, state: servo.state, tracking: (servo.error <= 0.25) };
+    // (2) SELF-AUDIT — consume the real graph.
+    try {
+      var self = this;
+      var edges = this._tradeEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._tradeEdgesPromise) {
+          this._tradeEdgesPromise = fetch('/assets/data/domains/trade.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._tradeEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/trade.json'); if (ed && Array.isArray(ed.edges)) { this._tradeEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) {
+        var audit = this._tradeSPOF(edges);
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: audit.articulationNodes.length,
+          spof: audit.articulationNodes.slice(0, 5), topHubs: audit.topHubs.slice(0, 5) };
+      } else {
+        out.selfAudit = { consumed: false, note: 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.tradeRegulationAdvisories = out;
+    return out;
+  };
+
+  // Self-contained single-point-of-failure audit over the undirected connectome (Tarjan articulation
+  // points + degree hubs). Small graph (~20 nodes / 70 edges) => recursion is safe. No external module.
+  TradeBrain.prototype._tradeSPOF = function (edges) {
+    var adj = {}, deg = {};
+    function addN(n) { if (!adj[n]) { adj[n] = []; deg[n] = 0; } }
+    for (var i = 0; i < edges.length; i++) {
+      var a = edges[i].source, b = edges[i].target;
+      if (!a || !b) continue;
+      addN(a); addN(b); adj[a].push(b); adj[b].push(a); deg[a]++; deg[b]++;
+    }
+    var nodes = Object.keys(adj);
+    var visited = {}, disc = {}, low = {}, parent = {}, ap = {}, timer = { t: 0 };
+    function dfs(u) {
+      visited[u] = true; disc[u] = low[u] = ++timer.t; var children = 0;
+      for (var k = 0; k < adj[u].length; k++) {
+        var v = adj[u][k];
+        if (!visited[v]) {
+          parent[v] = u; children++; dfs(v);
+          low[u] = Math.min(low[u], low[v]);
+          if (parent[u] === undefined && children > 1) ap[u] = true;
+          if (parent[u] !== undefined && low[v] >= disc[u]) ap[u] = true;
+        } else if (v !== parent[u]) {
+          low[u] = Math.min(low[u], disc[v]);
+        }
+      }
+    }
+    for (var n = 0; n < nodes.length; n++) { if (!visited[nodes[n]]) { parent[nodes[n]] = undefined; dfs(nodes[n]); } }
+    var hubs = nodes.map(function (x) { return { node: x, degree: deg[x] }; }).sort(function (a, b) { return b.degree - a.degree; });
+    return { articulationNodes: Object.keys(ap), topHubs: hubs };
+  };
+
+  // ACTUATED EMISSION EFFECTOR — the servo/E-I brake + phase-coherence window actually ACT on the
+  // emitted opportunity set (the same view-level channel energy dampens). Reads the PRIOR cycle's
+  // tradeServo/tradePhaseDynamics (one-cycle lag: opportunities are built before _updateSupplyChainModel
+  // computes them). Bounded [0.2,1], reversible via _actuation.eiBrake / _actuation.phase. Non-destructive:
+  // opportunities are rebuilt fresh each cycle, so this never compounds.
+  TradeBrain.prototype._applyTradeEmissionActuation = function (opps) {
+    if (!opps || !opps.length) return opps;
+    var servo = this.state.tradeServo || null;
+    var pd = this.state.tradePhaseDynamics || null;
+    var ei = !!(this._actuation && this._actuation.eiBrake && servo && typeof servo.emissionFactor === 'number' && servo.emissionFactor < 1);
+    var factor = ei ? servo.emissionFactor : 1;
+    var gated = 0;
+    if (ei) {
+      // proportional E/I dampening on emitted confidence (Neuro Ref XIII.1)
+      for (var i = 0; i < opps.length; i++) { if (typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * factor); }
+      // runaway-risk also soft-caps the ranked tail (feedback/recurrent inhibition)
+      if (servo.state === 'runaway-risk' && opps.length > 1) {
+        var keep = Math.max(1, Math.ceil(opps.length * factor));
+        // PHASE-COHERENCE ACTUATION: coherent coupling to co-phased, stressed peers opens the window +1
+        if (this._actuation && this._actuation.phase && pd && pd.couplingStrength > 0.15) keep = Math.min(opps.length, keep + 1);
+        for (var k = keep; k < opps.length; k++) { opps[k].eiGated = true; gated++; }
+      }
+    }
+    this.state._tradeEIGatedCount = gated;
+    this.state._tradeEmissionFactorApplied = factor;
+    return opps;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // OPERATOR-ONLY (NEVER CALLED FROM THE CYCLE) — generative node->business authoring.
+  // Turning a brain node into a written business thesis is a "code-cannot-do-this deterministically"
+  // slot (semantic generation). It MUST NOT run on the 30s cycle: cost-safety / killswitch requires
+  // that NO paid-AI / fetch-to-LLM call ever originates from cycle(). This documented stub is a guarded
+  // NO-OP: real authoring is operator-triggered and routes through a SERVER endpoint that is killswitch-
+  // gated server-side (lib/ai-kill-switch spendDisabled()); no API key ever lives in client code. The
+  // live operator implementation is trade-node-business-engine.js, loaded ONLY on domain-console.
+  // ════════════════════════════════════════════════════════════════════════════
+  TradeBrain.prototype._authorNodeBusinessViaOperator = function (nodeId, opts) {
+    // NO-OP by contract — the cycle never authors; the server enforces the ai-kill-switch.
+    return { ok: false, reason: 'operator-trigger-only; cycle never authors; server enforces ai-kill-switch', nodeId: nodeId || null };
   };
 
   // ════════════════════════════════════════════════════════════════════════════

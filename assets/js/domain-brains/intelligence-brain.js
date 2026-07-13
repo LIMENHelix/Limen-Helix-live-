@@ -35,6 +35,37 @@
     try { this._loadIntelligenceL1PortalDepth(); } catch (e) {}          // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
     try { this._loadIntelligenceSublayer(); } catch (e) {}               // collection-posture / threat-warning sub-portal (ODNI/GAO/CISA/Bellingcat)
 
+    // ── ACTUATION (2026-07-13) — port of the Energy brain's actuated depth, validity-gated per domain.
+    // The 30s cycle stays 100% DETERMINISTIC: every method below is pure computation over live state +
+    // one cached STATIC edge fetch (intelligence.json). NO paid-AI / LLM call runs on the cycle, ever.
+    //
+    // VALIDITY GATE (why each is TRUE here — intelligence has real, controllable effectors):
+    //   refractory:true  Effector = the REPORT_GENERATION action-draft this brain already emits
+    //                    (_checkDiagnosisActions). Dead-time de-dup of a diagnosis re-firing is a real,
+    //                    honest behaviour. Neuro Ref III.3 (refractory period).
+    //   servo:true       Effector = this brain's OWN emission output (opportunity confidence). Sensor =
+    //                    excitatory drive (stress + live conditions + active dx) vs current inhibition
+    //                    (im.regulation.inhibition — a real term this brain computes). PI controller
+    //                    (fast proportional + bounded slow integral). Neuro Ref XIII.1 / V.2 / XII.
+    //   eiBrake:true     Effector = emission dampening + action-draft gating. The servo's emissionFactor
+    //                    feeds a stop-circuit brake (halt/dampen/clear). Inhibition-tracks-drive is the
+    //                    doc's most-repeated invariant (XIII.1). Honest: it regulates ONLY this brain's
+    //                    own output, never rewrites stress/scoring/diagnoses/intelligence.json.
+    //   phase:true       Router = phase-coherence coupling to co-phased stressed peers (patent M matrix,
+    //                    advisory). Reward = a realized phase TRANSITION treated as ground-truth ONLY on
+    //                    the Thing1-validated P3/P7 family; ELSEWHERE it is advisory-self-consistency and
+    //                    NEVER modulates learning (no unvalidated signal is ever counted as a reward).
+    //                    That self-limiting gate is what makes phase honest for a non-kernel domain: the
+    //                    validated K4 credit-source hook only preempts the default credit on P3/P7.
+    // All four are fully reversible (flip any flag to false). MIRRORS assets/data/domains/intelligence.json
+    // runtime intent; the brain runs in its own context and keeps its own copy.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved, mirrors Energy)
+      overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 re-fires in-window
+    };
+
     this.diagnosisIndex = {
       'INTELLIGENCE_FAILURE':         ['signal_blindness', 'collection_gap', 'low_observability', 'weak_anomaly_detection', 'analytic_distortion', 'intelligence_high_stress', 'structural_stress'],
       'MASS_SURVEILLANCE_SCANDAL':    ['oversight_failure', 'trust_boundary_breach', 'privacy_violation', 'bulk_collection_excess', 'intelligence_high_stress'],
@@ -313,6 +344,18 @@
     var nearDx = allDx.filter(function (d) { return !d.active && d.relevance > 0 && d.totalTriggers > 0; });
     for (var ndi = 0; ndi < nearDx.length; ndi++) { if (stress >= 0.45) add({ title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'RESEARCHABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, stress: stress, nearDiagnosisId: nearDx[ndi].id }); }
 
+    // ── PHASE-COHERENCE WINDOW (actuated, phase) — coherent coupling to co-phased, stressed peers opens
+    //    the processing window (communication-through-coherence, patent M matrix): surface up to +1
+    //    cross-domain watch opportunity that the un-coupled brain would not raise. Advisory router,
+    //    bounded rank, reversible. Reads the PRIOR cycle's intelligencePhaseDynamics (one-cycle lag).
+    try {
+      var _pd = this.state.intelligencePhaseDynamics;
+      if (this._actuation && this._actuation.phase && _pd && _pd.couplingStrength > 0.15 && _pd.coupled && _pd.coupled.length) {
+        var _c = _pd.coupled[0];
+        add({ title: 'Phase-coherent coupling to ' + _c.domain + ' (' + _c.phase + ') — cross-domain intelligence watch', rank: Math.min(0.5, _pd.couplingStrength), path: 'RESEARCHABLE', urgency: 'watching', source: 'phase_coherence', tier: 2, stress: stress, coupledDomain: _c.domain, coupledPhase: _c.phase });
+      }
+    } catch (e) {}
+
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
     // Canonical enrichment — merge intelligence playbook detail per opportunity
     var PB_LIST = window.LIMENIntelligenceOpportunityPlaybooks || [];
@@ -383,16 +426,76 @@
         o.moneyChain = { doThis: pb.action || '', whyPays: whyPays, target: target, timing: timing, invalidIf: pb.failure || '', evidence: evidence, nextStep: nextStep };
       }
     }
+    // ── E/I EMISSION BRAKE (actuated, eiBrake) — apply the PRIOR cycle's servo-derived proportional
+    //    dampening to opportunity confidence (and hold on halt). Runs on the enriched opps (o.confidence
+    //    is set above). Additive to the generic brake gate; effector = this brain's own emission only.
+    try { if (this._actuation && this._actuation.eiBrake) this._applyIntelligenceEmissionBrake(opps); } catch (e) {}
+
     this.state.opportunityCount = opps.length;
 
     this.state.opportunities = opps;
     return Promise.resolve();
   };
 
+  // Consumed by surfaceOpportunities (end): applies the prior cycle's E/I brake to the opportunity set.
+  // halt -> hold + zero-factor confidence; dampen/E-I -> proportional confidence dampening. Non-destructive
+  // (opps are rebuilt fresh each cycle). Only ever REDUCES emission — the safe direction for a killswitch.
+  IntelligenceBrain.prototype._applyIntelligenceEmissionBrake = function (opps) {
+    var brake = this.state.intelligenceBrake;
+    if (!brake || brake.level === 'clear') { this.state._intelligenceOpportunitiesHeld = false; return opps; }
+    var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (pen < 1 && typeof opps[i].confidence === 'number') { opps[i].confidence = Math.round(opps[i].confidence * pen); opps[i]._eiApplied = true; }
+      if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    this.state._intelligenceOpportunitiesHeld = !!brake.suppressOpportunities;
+    return opps;
+  };
+
   IntelligenceBrain.prototype._checkDiagnosisActions = function () {
+    // HALT BRAKE (actuated, eiBrake) — do not emit action drafts while the PRIOR cycle's stop-circuit
+    // is engaged. Reads state.intelligenceBrake (computed at the end of the previous cycle). Never
+    // throws; if the brake is absent (cycle 1) behaviour is unchanged.
+    var _brake = this.state.intelligenceBrake;
+    if (this._actuation && this._actuation.eiBrake && _brake && _brake.suppressActions) {
+      this.state._intelligenceBrakeHeldActions = (this.state._intelligenceBrakeHeldActions || 0) + 1;
+      return;
+    }
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; }); if (activeDx.length === 0) return;
     var adapters = window.LIMENActionAdapters; if (!adapters) return;
-    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'intelligence', intentId: dx.id }).length > 0) continue; adapters.createDraft('REPORT_GENERATION', { domain: 'intelligence', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Intelligence Alert: ' + dx.label, intent: { domain: 'intelligence', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on intelligence systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify compromised channels and collection gaps', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate hardening and observability opportunities', status: 'PENDING' }] } }); }
+    var _now = (this._runtimeOverlay && this._runtimeOverlay.timestamp) || (this.state.pulse && this.state.pulse.timestamp) || ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+    for (var i = 0; i < activeDx.length; i++) {
+      var dx = activeDx[i];
+      if (adapters.getDrafts && adapters.getDrafts({ domain: 'intelligence', intentId: dx.id }).length > 0) continue;
+      // REFRACTORY GATE (III.3, actuated) — once a diagnosis has emitted a draft, suppress re-emission
+      // within the dead-time unless stress clears the (reduced-sensitivity) override bar. The diagnosis
+      // stays active/displayed; only the duplicate DRAFT is withheld. Deterministic; best-effort.
+      if (this._actuation && this._actuation.refractory) {
+        try {
+          if (!this._intelligenceRefractoryAllows(dx.id, _now, this.state.stress)) {
+            this.state._intelligenceRefractorySuppressed = (this.state._intelligenceRefractorySuppressed || 0) + 1;
+            continue;
+          }
+        } catch (_e) { /* gate is best-effort; fall through to normal emission */ }
+      }
+      adapters.createDraft('REPORT_GENERATION', { domain: 'intelligence', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Intelligence Alert: ' + dx.label, intent: { domain: 'intelligence', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on intelligence systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify compromised channels and collection gaps', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate hardening and observability opportunities', status: 'PENDING' }] } });
+    }
+  };
+
+  // ── REFRACTORY LIMITER (III.3, inline — no external module dependency; self-contained + deterministic).
+  //    Absolute dead-time (no re-fire) + relative raised-threshold window (a stronger stimulus can still
+  //    fire) + full recovery after the relative window. Mirrors Energy's EnergyRefractoryLimiter math. ──
+  IntelligenceBrain.prototype._intelligenceRefractoryAllows = function (dxId, now, stress) {
+    if (!this._refractoryState) this._refractoryState = {};
+    var p = this._refractoryParams || { absoluteWindow: 900000, relativeWindow: 3600000, overrideThreshold: 0.9 };
+    var last = this._refractoryState[dxId];
+    if (last == null) { this._refractoryState[dxId] = now; return true; }         // first fire
+    var dt = now - last;
+    if (dt >= p.relativeWindow) { this._refractoryState[dxId] = now; return true; } // fully recovered
+    if (dt < p.absoluteWindow) return false;                                        // absolute dead-time
+    if ((typeof stress === 'number' ? stress : 0) >= p.overrideThreshold) { this._refractoryState[dxId] = now; return true; } // strong re-fire
+    return false;                                                                   // relative window, sub-threshold
   };
 
   IntelligenceBrain.prototype.resolveDeepContent = function () {
@@ -498,7 +601,19 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeIntelligenceRegulation(im, obs, pe);
       var readyForHandoff = (im.cycle > 0) && (predictedStress >= IM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      var nextPrior = this._updateIntelligencePrior(priorIn, obs, im.plasticity.learningRate);
+      // ── K4 CREDIT-SOURCE HOOK (actuated, phase) — a VALIDATED phase-transition (Thing1 P3/P7 family)
+      //    is a real ground-truth teaching signal (Thing2, "through time"): it preempts the default
+      //    self-prediction credit and raises the effective learning rate when the transition prediction
+      //    missed. One-cycle lag (reads the PRIOR cycle's intelligencePhaseDynamics). Ground-truth ONLY on
+      //    P3/P7 — elsewhere the transition is advisory-self-consistency and NEVER modulates learning, so
+      //    no unvalidated signal is ever treated as a reward. Reversible via _actuation.phase.
+      var _lr = im.plasticity.learningRate;
+      var _pt = (this.state.intelligencePhaseDynamics || {}).transition;
+      var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+      if (_phaseReward) _lr = _imClamp(_lr * (1 + (1 - (_pt.hit ? 1 : 0))), IM_SLOW_RATE, 0.6);
+      im._effectiveLearningRate = _lr;
+      im._creditSource = _phaseReward ? 'phase-transition (P3/P7 ground-truth)' : 'self-prediction';
+      var nextPrior = this._updateIntelligencePrior(priorIn, obs, _lr);
       im.cycle += 1; im.observation = obs; im.predictionError = pe; im.predictedStress = predictedStress; im.regulation = reg; im.readyForHandoff = readyForHandoff; im.prior = nextPrior; im.updated = obs.timestamp;
       this.state.intelligenceModel = im;
 
@@ -507,6 +622,16 @@
       log.push({ cycle: im.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
 
       try { this._computeIntelligenceHigherLayers(); } catch (e) {}
+
+      // ── ACTUATION (2026-07-13) — regulate-to-target servo + E/I brake + phase dynamics + self-audit.
+      //    Computed AFTER the higher layers (the brake reads immune/conscience) and stored for CONSUMPTION
+      //    next cycle by _checkDiagnosisActions (action-draft gate + refractory) and surfaceOpportunities
+      //    (proportional E/I emission dampening + phase-coherence window). Each behind its _actuation flag;
+      //    all deterministic, no AI, no writes to intelligence.json.
+      try { if (this._actuation && this._actuation.servo) this._computeIntelligenceServo(); } catch (e) {}     // SERVO first (brake reads its emissionFactor)
+      try { if (this._actuation && this._actuation.eiBrake) this._computeIntelligenceBrake(); } catch (e) {}   // E/I HALT/DAMPEN brake (reads servo + immune + conscience + regulation)
+      try { if (this._actuation && this._actuation.phase) this._computeIntelligencePhaseDynamics(); } catch (e) {} // PHASE router + transition reward (stored for next cycle's K4 credit hook)
+      try { this._computeIntelligenceRegulationAdvisories(); } catch (e) {}                                     // E/I balance read + self-audit (SPOF over the real edge graph)
 
       // COLLECTION POSTURE — collection-gap / threat-warning sub-portal layer (additive; BEFORE the DDP build
       // so the primary packet's promptView advertises it). Never touches the validated spine.
@@ -537,6 +662,10 @@
         conscience: this.state.intelligenceConscience || null,
         immune: this.state.intelligenceImmune || null,
         intuition: this.state.intelligenceIntuition || null,
+        servo: this.state.intelligenceServo || null,                         // actuated: regulate-to-target PI controller
+        brake: this.state.intelligenceBrake || null,                         // actuated: E/I stop-circuit (halt/dampen/clear)
+        phaseDynamics: this.state.intelligencePhaseDynamics || null,         // actuated: coherence router + P3/P7 transition reward
+        regulation: this.state.intelligenceRegulation || null,               // E/I balance read + self-audit (SPOF)
         sceneLayer: this.state.collectionPostureLayer || null,
         collectionPostureLayer: this.state.collectionPostureLayer || null,
         treatments: this.state.treatments || [],
@@ -1231,6 +1360,234 @@
         executiveReport: s.intelligenceExecutiveReport || null
       }
     };
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ACTUATION METHODS (ported + adapted from energy-brain.js; read INTELLIGENCE's own state/edges)
+  // ══════════════════════════════════════════════════════════════════════
+
+  // ── REGULATE-TO-TARGET SERVO (actuated, servo). Neuro Ref XIII.1 (E/I: inhibition scales with drive) +
+  //    V.2/XII (set-point homeostasis/allostasis). Real sensor->controller->effector->feedback loop:
+  //    sensor = drive vs current inhibition; controller = PI (fast proportional + bounded slow integral,
+  //    the HPA fast+slow arms); effector = a proportional dampening of emission the E/I brake consumes.
+  //    Additive, reversible; only ADDS braking (never disinhibits); never rewrites stress/scoring. ──
+  IntelligenceBrain.prototype._computeIntelligenceServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, im = s.intelligenceModel || {}, reg = im.regulation || {};
+    // SENSOR: excitatory drive (stress + how many conditions/diagnoses fire at once) vs current inhibition
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // the live regulation term
+    var FLOOR = 0.15;
+    // TARGET (allostatic set-point): inhibition must track drive (E/I), and rise with deviation above the
+    // adaptive baseline (generic K-stack homeostasis; falls back to the model prior). regulate-TO-target.
+    var homeo = (s.domainNeuro && s.domainNeuro.homeostasis) || null;
+    var deviation = Math.max(0, (homeo && typeof homeo.deviation === 'number') ? homeo.deviation : (stress - ((im.prior && im.prior.expectedStress) || 0.5)));
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive/regime
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));             // EFFECTOR: proportional dampening
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.intelligenceServo = servo; return servo;
+  };
+
+  // ── E/I HALT/DAMPEN BRAKE (actuated, eiBrake). The governor layers (immune/conscience/regulation)
+  //    previously only ANNOTATED danger; this converts them into an actual stop-circuit, and folds in the
+  //    servo's PROPORTIONAL E/I emissionFactor (Neuro Ref XIII.1) so inhibition that does not track drive
+  //    raises the brake continuously, not just in discrete steps. Consumed next cycle by
+  //    _checkDiagnosisActions (action drafts) and _applyIntelligenceEmissionBrake (opportunities). ──
+  IntelligenceBrain.prototype._computeIntelligenceBrake = function () {
+    var s = this.state, im = s.intelligenceModel || {}, reg = im.regulation || {};
+    var imm = s.intelligenceImmune || {}, con = s.intelligenceConscience || {};
+    var diags = s.diagnoses || [];
+    var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+    var reasons = [];
+    if (imm.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (imm.severity || '?') });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'feeds older than staleness window' });
+    if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-active-diagnosis', severity: 'halt', detail: 'no active unblocked diagnosis' });
+    var pe = (im.predictionError && im.predictionError.total) || 0;
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + (Math.round(pe * 1000) / 1000) });
+    if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+    if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen', detail: 'no artifact lane cleared by conscience' });
+    // E/I proportional term from the servo (Neuro Ref XIII.1)
+    var servo = s.intelligenceServo || null, eiFactor = 1;
+    if (this._actuation && this._actuation.eiBrake && servo) {
+      if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+      if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    }
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+    var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+    var brake = {
+      version: 1, level: level, engaged: halt, dampen: dampen, reasons: reasons,
+      suppressActions: halt, suppressOpportunities: halt,
+      confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // discrete governor penalty blended with proportional E/I (strongest brake wins)
+      eiFactor: (Math.round(eiFactor * 1000) / 1000),
+      note: level === 'clear' ? 'stop-circuit clear — emission allowed'
+        : level === 'halt' ? 'STOP-CIRCUIT ENGAGED — action emission halted, opportunities held'
+        : 'stop-circuit dampening — confidence reduced (discrete governor blended with proportional E/I)',
+      lastBrakeAt: im.updated || Date.now()
+    };
+    s.intelligenceBrake = brake; return brake;
+  };
+
+  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (actuated, phase). Router: couple to co-phased,
+  //    stressed peers (patent Section 3.4 Loop 1 coupling matrix M; thing2 lineage) — advisory. Reward:
+  //    a realized phase TRANSITION is a ground-truth teaching signal ONLY on the Thing1-validated P3/P7
+  //    family; elsewhere advisory-self-consistency (never counted as a reward — see the K4 hook gate).
+  //    Deterministic; no AI; no writes to intelligence.json. Stored for next cycle's K4 credit hook. ──
+  IntelligenceBrain.prototype._computeIntelligencePhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed domains (advisory)
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'intelligence') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    var hist = this._phaseHistory = this._phaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var fc = (s.domainNeuro && s.domainNeuro.forecast) || {};    // generic K-stack forecast
+      var predictedUp = fc.direction === 'rising' ||
+        (typeof fc.projectedStress === 'number' && typeof s.stress === 'number' && fc.projectedStress > s.stress);
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+    }
+    hist.push({ phase: myPhase, t: (s.intelligenceModel && s.intelligenceModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'phase-coherence router (patent M matrix; advisory) + phase-transition reward (thing2 lineage; ground-truth ONLY on P3/P7). Only a VALIDATED transition modulates learning (K4 credit hook).'
+    };
+    s.intelligencePhaseDynamics = out; return out;
+  };
+
+  // ── E/I BALANCE READ + SELF-AUDIT (advisory, observe-only). (1) Is inhibition tracking drive (XIII.1)?
+  //    (2) CONSUME the connectivity / single-points-of-failure audit over intelligence.json's REAL edge
+  //    graph (80 edges) — edges are NOT in the live snapshot, so lazily fetch + cache once (deterministic
+  //    STATIC JSON, no AI). The brain SEES its own runaway risk + brittle nodes each cycle. No writes. ──
+  IntelligenceBrain.prototype._computeIntelligenceRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true }, self = this;
+    // (1) E/I balance
+    try {
+      var servo = s.intelligenceServo || null;
+      out.eiBalance = servo ? { drive: servo.drive, inhibition: servo.inhibition, target: servo.target, error: servo.error, balanced: servo.state === 'balanced', state: servo.state, rule: 'Neuro Ref XIII.1: inhibition must scale with excitatory drive.' } : null;
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit — SPOF over the real edge graph
+    try {
+      var edges = (Array.isArray(s.edges) && s.edges) || this._intelligenceEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._intelligenceEdgesPromise) {
+          this._intelligenceEdgesPromise = fetch('/assets/data/domains/intelligence.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._intelligenceEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/intelligence.json'); if (ed && Array.isArray(ed.edges)) { this._intelligenceEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) {
+        var audit = this._intelligenceSPOF(edges);
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: audit.articulationNodes.length, spof: audit.articulationNodes.slice(0, 5), verdict: audit.verdict, topHubs: audit.topHubsByDegree };
+      } else {
+        out.selfAudit = { consumed: false, note: edges ? 'no edges' : 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.intelligenceRegulation = out; return out;
+  };
+
+  // ── SPOF / articulation-node audit (inline; mirrors energy-connectivity-audit.singlePointsOfFailure).
+  //    Deterministic O(V·(V+E)) over ~40 nodes / 80 edges = a few thousand ops/cycle. No AI, no I/O. ──
+  IntelligenceBrain.prototype._intelligenceSPOF = function (edges) {
+    function componentCount(nodes, edgeList) {
+      var adj = {}; nodes.forEach(function (n) { adj[n] = []; });
+      edgeList.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });
+      var seen = {}, comps = 0;
+      nodes.forEach(function (n) {
+        if (seen[n]) return; comps++; var stack = [n];
+        while (stack.length) { var x = stack.pop(); if (seen[x]) continue; seen[x] = 1; adj[x].forEach(function (y) { if (!seen[y]) stack.push(y); }); }
+      });
+      return comps;
+    }
+    var nodeSet = {}; edges.forEach(function (e) { nodeSet[e.source] = 1; nodeSet[e.target] = 1; });
+    var nodes = Object.keys(nodeSet);
+    var base = componentCount(nodes, edges);
+    var spof = [];
+    nodes.forEach(function (n) {
+      var rn = nodes.filter(function (x) { return x !== n; });
+      var re = edges.filter(function (e) { return e.source !== n && e.target !== n; });
+      var c = componentCount(rn, re);
+      if (c > base) spof.push({ node: n, componentsAfterRemoval: c, baseComponents: base });
+    });
+    var deg = {}; edges.forEach(function (e) { deg[e.source] = (deg[e.source] || 0) + 1; deg[e.target] = (deg[e.target] || 0) + 1; });
+    var hubs = Object.keys(deg).map(function (n) { return { node: n, degree: deg[n] }; }).sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+    return { baseComponents: base, articulationNodes: spof, topHubsByDegree: hubs,
+      verdict: spof.length ? spof.length + ' articulation node(s) = single points of failure' : 'no articulation nodes (graph degrades gracefully)' };
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // AI SLOT (operator-triggered ONLY; NEVER called from the 30s cycle) — COST-SAFE STUB
+  // ──────────────────────────────────────────────────────────────────────
+  // Generative node->business authoring / semantic mapping is a genuine "code-cannot-do-this" slot.
+  // It is DELIBERATELY never invoked by cycle(): the 30s loop is 100% deterministic and makes NO
+  // paid-AI calls. This runs ONLY on an explicit operator trigger and routes through a SERVER endpoint
+  // that is killswitch-gated server-side (lib/ai-kill-switch spendDisabled()). No API key is ever in
+  // client code. Guarded: it refuses unless an explicit operator trigger flag is passed, and degrades
+  // to a null no-op if the server declines (killswitch engaged / endpoint absent).
+  // ══════════════════════════════════════════════════════════════════════
+  IntelligenceBrain.prototype.authorNodeBusinessBrief = function (opts) {
+    opts = opts || {};
+    if (!opts.operatorTriggered) return Promise.reject(new Error('AI slot is operator-triggered only; never auto-run on the cycle'));
+    if (typeof fetch !== 'function') return Promise.reject(new Error('no fetch available'));
+    // Server enforces the killswitch (spendDisabled()); the client passes NO key and no model config.
+    return fetch('/api/intelligence-node-business', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain: 'intelligence', nodeId: opts.nodeId || null, diagnosisId: opts.diagnosisId || null })
+    }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
   };
 
   var brain = new IntelligenceBrain(); brain.init(); brain.start();

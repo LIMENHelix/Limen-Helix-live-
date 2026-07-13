@@ -27,6 +27,42 @@
   PopulationBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── OVERLAY ACTUATION (ported from energy-brain, validity-gated per domain 2026-07-13) ──
+    // Population is brought to Energy's actuation depth ONLY where the domain can HONESTLY
+    // support the mechanism (see the per-flag rationale below). Deterministic; no paid-AI on
+    // the 30s cycle; every actuation is reversible by flipping its flag to false.
+    //
+    //   refractory : TRUE  — de-dup rate-limit on ACTION DRAFTS (a real effector population
+    //                        already drives via _checkDiagnosisActions). Neuro Ref III.3
+    //                        (absolute dead-time + relative raised-threshold). Self-contained
+    //                        inline limiter (no external module dependency).
+    //   servo      : TRUE  — PI regulate-to-target (E/I: inhibition tracks drive; Neuro Ref
+    //                        XIII.1 / V.2). Effector = proportional dampening of EMITTED
+    //                        opportunities + action drafts (a real controllable output channel).
+    //                        Baseline = the recurrent model's adaptive prior (prior.expectedStress),
+    //                        NOT a K8 homeostat (population has no K-stack) — honest substitution.
+    //   eiBrake    : TRUE  — the HALT/DAMPEN stop-circuit consumes the servo's emissionFactor +
+    //                        the already-computed governor layers (immune/conscience/regulation).
+    //                        Effector = the same emission channel. Real.
+    //   phase      : FALSE — ADVISORY ONLY. The phase-transition REWARD is a valid ground-truth
+    //                        learning signal ONLY on Thing1-validated phases (p3/p7 family).
+    //                        Population's domain phase is P5 — NOT validated — so a phase reward
+    //                        here would be fabricated ground truth. The coherence router is still
+    //                        computed as OBSERVE-ONLY telemetry (never preempts credit, never
+    //                        opens the opportunity gate). This is population's UNMAPPED boundary,
+    //                        analogous to Energy's own E/I advisory boundary.
+    // selfAudit (observe-only, not a cycle actuation): TRUE — population.json carries a real
+    //   72-edge graph, so the diaschisis / single-point-of-failure audit (Neuro Ref XIV) runs on
+    //   the REAL graph, not a stub. Consumed as advisory (mirrors Energy's regulation advisories).
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
+      overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 re-fires in-window
+    };
+    this._refractoryLog = Object.create(null);   // { dxId: { t, strength } } — the limiter's own state
+    this._servoIntegral = 0;                      // bounded PI integral (slow arm), carried across cycles
+
     this.diagnosisIndex = {
       'POPULATION_COLLAPSE':         ['aging_skew', 'fertility_decline', 'workforce_imbalance', 'dependency_ratio', 'demographic_distortion', 'population_high_stress', 'structural_stress'],
       'MASS_MIGRATION':              ['migration_surge', 'refugee_flow', 'border_pressure', 'displacement_event', 'urban_influx', 'macro_shock'],
@@ -323,15 +359,86 @@
       }
     }
 
+    // EMISSION BRAKE (one-cycle lag): apply the PRIOR cycle's stop-circuit to this cycle's ranked
+    // opportunities — halt holds them (held+zero confidence), dampen halves confidence, plus the
+    // proportional E/I dampening from the servo. Mirrors energy-brain _applyEmissionBrake. Additive.
+    try { opps = this._applyPopulationEmissionBrake(opps); } catch (e) {}
+
     this.state.opportunities = opps;
     this.state.opportunityCount = opps.length;
     return Promise.resolve();
   };
 
+  // Consumed at the END of surfaceOpportunities: applies the prior cycle's brake to the opportunity
+  // set. Halt -> held + zero confidence; dampen/E-I -> scaled confidence. Reversible (clears when
+  // the brake clears). Never removes opportunities — it holds + de-confidences them for review.
+  PopulationBrain.prototype._applyPopulationEmissionBrake = function (opps) {
+    var brake = this.state.populationBrake;
+    if (!brake || brake.level === 'clear') { this.state.opportunitiesHeld = false; return opps; }
+    var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (pen < 1 && typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * pen);
+      if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    this.state.opportunitiesHeld = !!brake.suppressOpportunities;
+    return opps;
+  };
+
   PopulationBrain.prototype._checkDiagnosisActions = function () {
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; }); if (activeDx.length === 0) return;
     var adapters = window.LIMENActionAdapters; if (!adapters) return;
-    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'population', intentId: dx.id }).length > 0) continue; adapters.createDraft('REPORT_GENERATION', { domain: 'population', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Population Alert: ' + dx.label, intent: { domain: 'population', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on population systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected demographics and regions', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate intervention opportunities', status: 'PENDING' }] } }); }
+
+    // HALT-BRAKE GATE (one-cycle lag): if the prior cycle's stop-circuit engaged (immune-alert,
+    // stale feeds, or no evidence-backed diagnosis), suppress ALL new action drafts this cycle.
+    // Same mechanic as energy-brain (brake.suppressActions). Reversible: brake clears next cycle.
+    var _brake = this.state.populationBrake;
+    if (_brake && _brake.suppressActions) { this.state._brakeSuppressedActions = (this.state._brakeSuppressedActions || 0) + 1; return; }
+    this.state._brakeSuppressedActions = 0;
+
+    for (var i = 0; i < activeDx.length; i++) {
+      var dx = activeDx[i];
+      if (adapters.getDrafts && adapters.getDrafts({ domain: 'population', intentId: dx.id }).length > 0) continue;
+
+      // REFRACTORY GATE (Neuro Ref III.3, actuated): once a diagnosis has emitted a draft, suppress
+      // re-emission within the absolute dead-time; during the relative window only a stronger-than-
+      // normal stress (>= overrideThreshold) re-fires. The diagnosis stays active + displayed — only
+      // the duplicate DRAFT is withheld. Self-contained inline limiter; never breaks the cycle.
+      if (this._actuation && this._actuation.refractory) {
+        try {
+          var _now = (this._runtimeOverlay && this._runtimeOverlay.timestamp) ||
+                     (this.state.pulse && this.state.pulse.timestamp) ||
+                     ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+          var _verdict = this._populationRefractoryFire(dx.id, _now, this.state.stress);
+          if (!_verdict.allowed) { this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1; continue; }
+        } catch (_e) { /* gate is best-effort; fall through to normal emission */ }
+      }
+
+      adapters.createDraft('REPORT_GENERATION', { domain: 'population', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Population Alert: ' + dx.label, intent: { domain: 'population', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on population systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected demographics and regions', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate intervention opportunities', status: 'PENDING' }] } });
+    }
+  };
+
+  // ── REFRACTORY LIMITER (Neuro Ref III.3) — self-contained inline form of the energy-refractory-
+  //    limiter module (population has no such module and this file may touch no other). Two-phase:
+  //    absolute hard dead-time + relative raised-threshold. Holds its OWN log (this._refractoryLog);
+  //    never reads or writes population.json. Units are caller-defined (ms, same as `now`). ──
+  PopulationBrain.prototype._populationRefractoryFire = function (key, now, strength) {
+    var p = this._refractoryParams || {};
+    var last = this._refractoryLog[key] || null;
+    var verdict;
+    if (!p.absoluteWindow || p.absoluteWindow <= 0) verdict = { allowed: true, phase: 'disabled' };
+    else if (!last) verdict = { allowed: true, phase: 'ready' };
+    else {
+      var dt = now - last.t;
+      if (dt < p.absoluteWindow) verdict = { allowed: false, phase: 'absolute' };
+      else if (dt < p.relativeWindow) {
+        verdict = (typeof strength === 'number' && strength >= p.overrideThreshold)
+          ? { allowed: true, phase: 'relative-override' }
+          : { allowed: false, phase: 'relative' };
+      } else verdict = { allowed: true, phase: 'ready' };
+    }
+    if (verdict.allowed) this._refractoryLog[key] = { t: now, strength: strength };
+    return verdict;
   };
 
   PopulationBrain.prototype.resolveDeepContent = function () {
@@ -514,6 +621,11 @@
     // H1-H6 — higher Population brain layers (BEFORE the DDP build so packets embed summaries)
     try { this._computePopulationHigherLayers(); } catch (e) {}
 
+    // ACTUATION — servo -> brake -> E/I+SPOF advisories -> phase (advisory). Runs AFTER the higher
+    // layers (needs immune/conscience/regulation) and BEFORE the DDP build so packets embed it.
+    // Deterministic; guarded; consumed next cycle by the action + opportunity gates (one-cycle lag).
+    try { this._computePopulationActuation(); } catch (e) {}
+
     // demographic-transition sub-layer (additive; BEFORE the DDP build; never merged into the spine)
     try { this._buildDemographicTransitionLayer(); } catch (e) {}
 
@@ -552,6 +664,16 @@
       simulation: this.state.populationSimulation || null,
       executiveReport: this.state.populationExecutiveReport || null,
       sceneLayer: null,
+      // ── ACTUATION surface (parallels energy's cognition.servo / .brake / .phaseDynamics / .neuro.regulation) ──
+      actuation: this._actuation || null,
+      populationServo: this.state.populationServo || null,
+      populationBrake: this.state.populationBrake || null,
+      populationPhaseDynamics: this.state.populationPhaseDynamics || null,
+      populationRegulationAdvisories: this.state.populationRegulationAdvisories || null,
+      servo: this.state.populationServo || null,
+      brake: this.state.populationBrake || null,
+      phaseDynamics: this.state.populationPhaseDynamics || null,
+      regulationAdvisories: this.state.populationRegulationAdvisories || null,
       demographicTransitionSublayer: this.state.demographicTransitionLayer || null,
       brainPopulationModel: this.state.brainPopulationModel || null,
       treatments: this.state.treatments || [],
@@ -1064,6 +1186,283 @@
         executiveReport: s.populationExecutiveReport || null
       }
     };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION LAYER (ported from energy-brain, validity-gated). Runs once per cycle
+  // inside _updatePopulationModel, AFTER the higher layers (immune/conscience/reg) and
+  // BEFORE the DDP build so packets can embed the actuated state. Deterministic; no AI.
+  //   servo  -> brake (E/I contribution) -> regulation advisories (E/I + SPOF selfAudit)
+  //   -> phase dynamics (ADVISORY). Each guarded; a throw never breaks the cycle.
+  // ════════════════════════════════════════════════════════════════════════════
+  PopulationBrain.prototype._computePopulationActuation = function () {
+    try { if (this._actuation && this._actuation.servo) this._computePopulationServo(); } catch (e) {}
+    try { this._computePopulationBrake(); } catch (e) {}                     // HALT/DAMPEN stop-circuit (E/I contribution gated by _actuation.eiBrake)
+    try { this._computePopulationRegulationAdvisories(); } catch (e) {}      // E/I balance + SPOF self-audit (observe-only)
+    try { this._computePopulationPhaseDynamics(); } catch (e) {}            // ADVISORY coherence router (never actuated for P5)
+  };
+
+  // ── REGULATE-TO-TARGET SERVO (Neuro Ref XIII.1 E/I + V.2/XII allostasis) ──────────────────────
+  // SENSOR: excitatory drive (stress + how many things fire at once) vs current inhibition.
+  // TARGET: inhibition must track drive AND rise with deviation above the recurrent model's adaptive
+  //         baseline (prior.expectedStress — population's stand-in for a K8 homeostat).
+  // CONTROLLER: PI (fast proportional + bounded slow integral, the HPA fast+slow arms).
+  // EFFECTOR: a proportional emission-dampening factor the brake consumes (same channel the brake
+  //           already uses). Only ADDS braking; never disinhibits. Affects emission confidence only —
+  //           never rewrites stress / scoring / diagnoses / population.json. Reversible via _actuation.servo.
+  PopulationBrain.prototype._computePopulationServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, pm = s.populationModel || {}, reg = pm.regulation || {}, prior = pm.prior || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length
+      : (Array.isArray(this._activeConditions) ? this._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0));
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // live regulation term
+    var FLOOR = 0.15;
+    // adaptive baseline: the recurrent model's prior expected stress (samples-gated so a cold prior
+    // does not manufacture deviation). This is population's honest substitute for energy's K8 set-point.
+    var baseline = (typeof prior.expectedStress === 'number' && prior.samples >= 5) ? prior.expectedStress : null;
+    var deviation = baseline == null ? 0 : Math.max(0, stress - baseline);
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive/regime
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation), baseline: baseline == null ? null : R(baseline),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Baseline = recurrent-model prior (no K8). Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.populationServo = servo;
+    return servo;
+  };
+
+  // ── HALT BRAKE (stop-circuit) — converts the governor layers (immune/conscience/regulation) +
+  //    the servo E/I signal into an actual brake, not just an annotation. Computed at cycle end,
+  //    CONSUMED next cycle by _checkDiagnosisActions (action drafts) and _applyPopulationEmissionBrake
+  //    (opportunities). One-cycle lag. Fail-open when brake state is absent (cycle 1). Additive;
+  //    never rewrites the scoring spine. ──
+  PopulationBrain.prototype._computePopulationBrake = function () {
+    var s = this.state, pm = s.populationModel || {}, reg = pm.regulation || {};
+    var im = s.populationImmune || {}, con = s.populationConscience || {};
+    var diags = s.diagnoses || [];
+    var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+    var reasons = [];
+    // full-halt conditions — acting here would be unsafe or unsupported
+    if (im.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (im.severity || '?') });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'demographic feeds older than staleness window' });
+    if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-evidence-backed-diagnosis', severity: 'halt', detail: 'all active diagnoses blocked by the evidence contract' });
+    // dampen conditions — emit at reduced confidence, hold for review
+    var pe = (pm.predictionError && pm.predictionError.total) || 0;
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + (Math.round(pe * 1000) / 1000) });
+    if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+    if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen', detail: 'no artifact lane cleared by conscience' });
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1): the brake scales PROPORTIONALLY with drive via the
+    // regulate-to-target servo — inhibition that does not track drive raises the brake continuously,
+    // not just in discrete steps. Reversible (this._actuation.eiBrake). Effector = emission dampening.
+    var servo = s.populationServo || null, eiFactor = 1;
+    if (this._actuation && this._actuation.eiBrake && servo) {
+      if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+      if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    }
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+    var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+    var brake = {
+      version: 1, level: level, engaged: halt, dampen: dampen, reasons: reasons,
+      suppressActions: halt, suppressOpportunities: halt,
+      confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // discrete governor penalty blended with proportional E/I (min = strongest brake wins)
+      eiFactor: (Math.round(eiFactor * 1000) / 1000),
+      note: level === 'clear' ? 'stop-circuit clear — emission allowed'
+        : level === 'halt' ? 'STOP-CIRCUIT ENGAGED — action emission halted, opportunities held'
+        : 'stop-circuit dampening — confidence reduced, emission held for review',
+      lastBrakeAt: pm.updated || Date.now()
+    };
+    s.populationBrake = brake; return brake;
+  };
+
+  // ── E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV) ────────────────
+  // (1) E/I balance: is inhibition tracking drive? Inline assess (mirrors energy-ei-balance).
+  // (2) Self-audit: CONSUME the diaschisis / single-point-of-failure audit on population.json's
+  //     REAL 72-edge graph (articulation nodes + degree hubs). Edges live only in the JSON (the
+  //     live snapshot carries signals/stress only), so lazily fetch + cache them once. Deterministic,
+  //     no AI, no writes. The brain SEES its own runaway risk + brittle demographic nodes each cycle.
+  PopulationBrain.prototype._computePopulationRegulationAdvisories = function () {
+    var s = this.state, self = this, out = { version: 1, observeOnly: true };
+
+    // (1) E/I balance — inline (population has no EnergyEIBalance module).
+    try {
+      var servo = s.populationServo || {};
+      var drive = (typeof servo.drive === 'number') ? servo.drive : 0;
+      var inhibition = (typeof servo.inhibition === 'number') ? servo.inhibition : 0;
+      var FLOOR = 0.15, UNDER = 0.5, OVER = 2.0;
+      var required = Math.max(FLOOR, Math.min(1, drive));
+      var ratio = inhibition / Math.max(drive, 1e-6);
+      var eiState = (drive > FLOOR && ratio < UNDER) ? 'runaway-risk'
+        : (ratio > OVER && inhibition > FLOOR) ? 'over-inhibited' : 'balanced';
+      out.eiBalance = {
+        drive: Math.round(drive * 1000) / 1000, inhibition: Math.round(inhibition * 1000) / 1000,
+        required: Math.round(required * 1000) / 1000, ratio: Math.round(ratio * 1000) / 1000,
+        state: eiState, deficit: Math.round((required - inhibition) * 1000) / 1000,
+        note: eiState === 'runaway-risk' ? 'inhibition not tracking drive; raise braking toward ' + Math.round(required * 1000) / 1000 + ' (Neuro Ref XIII.1)'
+          : eiState === 'over-inhibited' ? 'braking exceeds drive; risk of silencing real demographic signal'
+          : 'excitation and inhibition balanced'
+      };
+    } catch (e) { out.eiBalance = null; }
+
+    // (2) Self-audit on the REAL 72-edge population graph. Lazily fetch + cache the edges.
+    try {
+      var edges = (Array.isArray(this._populationEdges) && this._populationEdges) || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._populationEdgesPromise) {
+          this._populationEdgesPromise = fetch('/assets/data/domains/population.json')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._populationEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/population.json'); if (ed && Array.isArray(ed.edges)) { this._populationEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) {
+        out.selfAudit = _populationSPOF(edges);
+      } else {
+        out.selfAudit = { consumed: false, note: 'population edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+
+    s.populationRegulationAdvisories = out;
+    return out;
+  };
+
+  // Inline diaschisis / SPOF audit (Neuro Ref XIV) — articulation nodes + degree hubs on the graph.
+  // Self-contained (population has no EnergyConnectivityAudit module and this file touches no other).
+  function _populationComponentCount(nodes, edges) {
+    var adj = {}; nodes.forEach(function (n) { adj[n] = []; });
+    edges.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });
+    var seen = {}, comps = 0;
+    nodes.forEach(function (n) {
+      if (seen[n]) return; comps++; var stack = [n];
+      while (stack.length) { var x = stack.pop(); if (seen[x]) continue; seen[x] = 1; adj[x].forEach(function (y) { if (!seen[y]) stack.push(y); }); }
+    });
+    return comps;
+  }
+  function _populationSPOF(edges) {
+    var nodeSet = {};
+    edges.forEach(function (e) { nodeSet[e.source] = 1; nodeSet[e.target] = 1; });
+    var nodes = Object.keys(nodeSet);
+    var base = _populationComponentCount(nodes, edges);
+    var spof = [];
+    nodes.forEach(function (n) {
+      var remainingNodes = nodes.filter(function (x) { return x !== n; });
+      var remainingEdges = edges.filter(function (e) { return e.source !== n && e.target !== n; });
+      var c = _populationComponentCount(remainingNodes, remainingEdges);
+      if (c > base) spof.push({ node: n, componentsAfterRemoval: c, baseComponents: base });
+    });
+    var deg = {}; edges.forEach(function (e) { deg[e.source] = (deg[e.source] || 0) + 1; deg[e.target] = (deg[e.target] || 0) + 1; });
+    var hubs = Object.keys(deg).map(function (n) { return { node: n, degree: deg[n] }; }).sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+    return {
+      consumed: true, edgeCount: edges.length, baseComponents: base,
+      spofCount: spof.length, spof: spof.slice(0, 5), articulationNodes: spof.slice(0, 5),
+      topHubsByDegree: hubs,
+      verdict: spof.length ? spof.length + ' articulation node(s) = single points of failure' : 'no articulation nodes (graph degrades gracefully)',
+      rule: 'XIV diaschisis: the network, not the node, is the unit of failure. Articulation nodes are brittle single points; high-degree hubs concentrate risk.',
+      note: 'read-only diagnostic on the real population 72-edge graph; adding redundant paths is a recommendation, not applied.'
+    };
+  }
+
+  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD — ADVISORY ONLY for population ────────────
+  // Population's domain phase is P5, which is NOT a Thing1-validated phase (validated = P3/P7 family).
+  // A phase-transition REWARD is only a legitimate ground-truth learning signal on validated phases;
+  // on P5 it would be fabricated ground truth. So this layer is OBSERVE-ONLY: it computes the
+  // coherence router (which co-phased, stressed peers population would couple to) and records any
+  // transition, but ALWAYS marks the transition non-validated (advisory-self-consistency) and NEVER
+  // preempts a credit source or opens the opportunity gate. This is population's UNMAPPED boundary,
+  // the honest analog of Energy's observe-only E/I. To actuate, a validated P3/P7 phase signal would
+  // first have to exist for population (it does not). Deterministic; no AI; no writes.
+  PopulationBrain.prototype._computePopulationPhaseDynamics = function () {
+    var s = this.state;
+    // Same phase-coupling matrix M as energy (patent Section 3.4 Loop 1). P5 has no row (no defined
+    // coherent coupling) — that absence is honest, not a gap to fill.
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — co-phased, stressed peers (observe-only telemetry).
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'population') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION record — ALWAYS advisory (validated only if P3/P7 involved; P5 never is).
+    var hist = this._phaseHistory = this._phaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var transition = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      transition = { from: prev, to: myPhase, wentUp: wentUp, validated: validated,
+        kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency',
+        actuated: false, note: 'observe-only; population phase (P5) not Thing1-validated so no phase reward is applied' };
+    }
+    hist.push({ phase: myPhase, t: (s.populationModel && s.populationModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, observeOnly: true, actuated: false, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: transition,
+      note: 'ADVISORY phase-coherence router + transition record. NOT actuated: P5 is not a Thing1-validated phase, so no phase-transition reward and no opportunity-gate opening. Population UNMAPPED boundary.'
+    };
+    s.populationPhaseDynamics = out;
+    return out;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // OPERATOR-TRIGGERED, KILLSWITCH-GATED SLOT (NEVER called from the 30s cycle).
+  // Generative node->business authoring is a genuine "code-cannot-do-this" task. It is
+  // NOT wired into cycle(); it only runs on an explicit operator action, and it routes
+  // through a SERVER endpoint that already enforces lib/ai-kill-switch spendDisabled().
+  // No API key ever lives in this client. If the endpoint is absent/gated it no-ops.
+  // Kept as a documented stub so the cost-safety contract is explicit and auditable.
+  // ════════════════════════════════════════════════════════════════════════════
+  PopulationBrain.prototype.operatorAuthorNodeBusiness = function (nodeId, opts) {
+    // GUARD: refuse to run automatically. Must be an explicit operator invocation.
+    if (!opts || opts.operatorTriggered !== true) {
+      return Promise.resolve({ ok: false, reason: 'operator-trigger-required', note: 'generative authoring is never run on the deterministic cycle' });
+    }
+    if (typeof fetch !== 'function') return Promise.resolve({ ok: false, reason: 'no-fetch' });
+    // Server side is killswitch-gated (spendDisabled()); client carries NO key.
+    return fetch('/api/population-node-business', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain: 'population', nodeId: nodeId, operatorTriggered: true })
+    }).then(function (r) { return r.ok ? r.json() : { ok: false, reason: 'server ' + r.status }; })
+      .catch(function (e) { return { ok: false, reason: String(e && e.message || e).slice(0, 80) }; });
   };
 
   var _origCycle = PopulationBrain.prototype.cycle;

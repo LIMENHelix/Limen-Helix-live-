@@ -29,6 +29,27 @@
     try { this._loadCultureL1PortalDepth(); } catch (e) {}          // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
     try { this._loadCultureSceneLayer(); } catch (e) {}             // SCENE: load music-scene sub-portal (real-content, unbundled) as an additive LAYER
 
+    // ── ACTUATION GATE (2026-07-13) — per-actuation validity, decided HONESTLY for culture ──
+    //   refractory : VALID — real effector = action-draft emission (Neuro Ref III.3 refractory de-dup).
+    //   servo      : VALID — culture has a real inhibition term (cultureModel.regulation.inhibition);
+    //                effector = proportional opportunity-confidence dampening (Neuro Ref V.2/XII/XIII.1).
+    //   eiBrake    : VALID — consumes the servo emissionFactor; same emission channel (Neuro Ref XIII.1).
+    //   phase      : INVALID → ADVISORY-ONLY. Culture's domain phase is P9 and culture has NO Thing1-
+    //                validated distress signal (its own awareness layer states diagnoses are interpretive,
+    //                not validated; _pubSignals is {} — the validated gate abstains). So the phase-
+    //                transition REWARD can never honestly be a ground-truth teaching signal here. The
+    //                coherence router still runs OBSERVE-ONLY (see _computeCulturePhaseDynamics), but the
+    //                reward NEVER preempts the K4 credit ledger and NEVER opens an opportunity cap.
+    //   (selfAudit = the diaschisis/SPOF read on culture's real edge graph is VALID and consumed
+    //                observe-only; it is not a behaviour-changing actuation, so it has no flag here.)
+    // All actuations are DETERMINISTIC — no paid-AI / LLM fetch ever runs on the 30s cycle.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
+      overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 re-fires in-window
+    };
+
     this.diagnosisIndex = {
       'CULTURAL_ERASURE':       ['identity_fracture', 'social_cohesion_erosion', 'symbolic_disunity', 'cultural_loss', 'culture_high_stress', 'structural_stress'],
       'HERITAGE_DESTRUCTION':   ['heritage_loss', 'monument_destruction', 'archive_degradation', 'cultural_loss', 'symbolic_disunity'],
@@ -283,7 +304,24 @@
   CultureBrain.prototype._checkDiagnosisActions = function () {
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; }); if (activeDx.length === 0) return;
     var adapters = window.LIMENActionAdapters; if (!adapters) return;
-    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'culture', intentId: dx.id }).length > 0) continue; adapters.createDraft('REPORT_GENERATION', { domain: 'culture', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Culture Alert: ' + dx.label, intent: { domain: 'culture', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on cultural systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected communities, institutions, and creative ecosystems', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate restoration and resilience opportunities', status: 'PENDING' }] } }); }
+    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'culture', intentId: dx.id }).length > 0) continue;
+      // REFRACTORY DE-DUP (Neuro Ref III.3) — real effector = action-draft emission. Absolute dead-time:
+      // no re-draft of the SAME diagnosis within absoluteWindow. Relative window: a raised bar — re-draft
+      // only if stress cleared overrideThreshold OR exceeds the last firing's stress. Deterministic.
+      if (this._actuation && this._actuation.refractory) {
+        var rp = this._refractoryParams || {}; var now = Date.now();
+        this._cultureRefractory = this._cultureRefractory || {};
+        var last = this._cultureRefractory[dx.id];
+        if (last) {
+          var age = now - last.t;
+          if (age < (rp.absoluteWindow || 900000)) continue;                                    // absolute dead-time
+          if (age < (rp.relativeWindow || 3600000) &&
+              (this.state.stress || 0) < (rp.overrideThreshold || 0.9) &&
+              (this.state.stress || 0) <= (last.stress || 0)) continue;                           // raised-threshold window
+        }
+        this._cultureRefractory[dx.id] = { t: now, stress: this.state.stress || 0 };
+      }
+      adapters.createDraft('REPORT_GENERATION', { domain: 'culture', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Culture Alert: ' + dx.label, intent: { domain: 'culture', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on cultural systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected communities, institutions, and creative ecosystems', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate restoration and resilience opportunities', status: 'PENDING' }] } }); }
   };
 
   CultureBrain.prototype.resolveDeepContent = function () {
@@ -382,8 +420,30 @@
       var gainBlend = _cmClamp(pe.novelty, 0.05, 0.95);
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeCultureRegulation(cm, obs, pe);
+
+      // ── ACTUATION: PHASE-COHERENCE ROUTER (ADVISORY ONLY — culture P9, no validated p3/p7) ──
+      //    Runs observe-only every cycle; it NEVER gates a decision. See _computeCulturePhaseDynamics.
+      try { this._computeCulturePhaseDynamics(); } catch (e) {}
+      // ── ACTUATION: REGULATE-TO-TARGET SERVO (E/I). Reads reg.inhibition + the generic homeostasis
+      //    deviation (domainNeuro, prior cycle); effector = proportional opportunity dampening below. ──
+      try { if (this._actuation && this._actuation.servo) this._computeCultureServo(); } catch (e) {}
+
       var readyForHandoff = (cm.cycle > 0) && (predictedStress >= CM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      var nextPrior = this._updateCulturePrior(priorIn, obs, cm.plasticity.learningRate);
+
+      // ── K4 CREDIT-SOURCE HOOK (mirrors energy-brain.js:1398-1414). A VALIDATED phase transition
+      //    (P3/P7, thing2 ground-truth) would PREEMPT the generic outcome ledger as the teaching signal;
+      //    culture has none (_actuation.phase=false), so it falls back to the generic ledger, then to
+      //    stress self-prediction. A low hit-rate raises the effective learning rate. Bounded, reversible. ──
+      var _lr = cm.plasticity.learningRate;
+      var _pt = (this.state.culturePhaseDynamics || {}).transition;
+      var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+      var _led = (this.state.domainNeuro || {}).outcomeLedger || null;
+      var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
+      var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : _fromLedger ? _led.hitRate : null;
+      if (_hit !== null) _lr = _cmClamp(_lr * (1 + (1 - _hit)), CM_SLOW_RATE, 0.6);
+      cm._effectiveLearningRate = _lr;
+      cm._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none'));
+      var nextPrior = this._updateCulturePrior(priorIn, obs, _lr);
       cm.cycle += 1; cm.observation = obs; cm.predictionError = pe; cm.predictedStress = predictedStress; cm.regulation = reg; cm.readyForHandoff = readyForHandoff; cm.prior = nextPrior; cm.updated = obs.timestamp;
       this.state.cultureModel = cm;
 
@@ -392,6 +452,14 @@
       log.push({ cycle: cm.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
 
       try { this._computeCultureHigherLayers(); } catch (e) {}
+
+      // ── ACTUATION: E/I BRAKE (XIII.1) — dampen emitted-opportunity confidence PROPORTIONALLY to the
+      //    servo's inhibition deficit vs drive. Effector = the same emission channel the generic brake
+      //    gate uses. Opportunities are rebuilt fresh each cycle by surfaceOpportunities, so no compounding. ──
+      try { if (this._actuation && this._actuation.eiBrake) this._applyCultureEIBrake(); } catch (e) {}
+      // ── E/I balance + self-audit ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). Consumes culture's
+      //    REAL edge graph (from culture.json) for single-points-of-failure. Never mutates scoring. ──
+      try { cm.regulationAdvisories = this._computeCultureRegulationAdvisories(); } catch (e) { cm.regulationAdvisories = null; }
 
       // SCENE — music-scene sub-portal layer (additive; BEFORE the DDP build so the primary packet's
       // promptView advertises it). Never touches the validated diagnosis spine.
@@ -412,6 +480,14 @@
         domain: 'culture',
         cultureModel: cm,
         model: { cycle: cm.cycle, predictionError: cm.predictionError, predictedStress: cm.predictedStress, regulation: cm.regulation },
+        // ── actuation surfaces (additive; consumers read these uniformly) ──
+        cultureServo: this.state.cultureServo || null,
+        cultureEIBrake: this.state.cultureEIBrake || null,
+        culturePhaseDynamics: this.state.culturePhaseDynamics || null,
+        cultureRegulationAdvisories: this.state.cultureRegulationAdvisories || null,
+        servo: this.state.cultureServo || null,
+        phaseDynamics: this.state.culturePhaseDynamics || null,
+        regulationAdvisories: this.state.cultureRegulationAdvisories || null,
         cultureImmune: this.state.cultureImmune || null,
         cultureAwareness: this.state.cultureAwareness || null,
         cultureConscience: this.state.cultureConscience || null,
@@ -1070,6 +1146,251 @@
         executiveReport: s.cultureExecutiveReport || null
       }
     };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION METHODS (ported from energy-brain.js / finance-brain.js, adapted to Culture's REAL
+  // edges/state). All DETERMINISTIC; NO paid-AI / LLM fetch ever runs on the 30s cycle. Each is
+  // gated by this._actuation.* (reversible). None rewrites the validated stress/diagnosis spine.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref V.2/XII set-point homeostasis/allostasis + XIII.1 E/I).
+  // Real sensor->controller->effector->feedback loop: sensor = excitatory drive (stress + how many
+  // things fire at once + active diagnoses) vs the current inhibition term (cultureModel.regulation.
+  // inhibition); controller = PI (fast proportional + bounded slow integral, the HPA fast+slow arms);
+  // effector = proportional dampening of emission (consumed by _applyCultureEIBrake). Additive,
+  // reversible (_actuation.servo=false); affects ONLY opportunity confidence — never rewrites scoring.
+  CultureBrain.prototype._computeCultureServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, cm = s.cultureModel || {}, reg = cm.regulation || {}, neuro = s.domainNeuro || {}, hm = neuro.homeostasis || {};
+    // SENSOR: excitatory drive (stress + active conditions + active diagnoses) vs current inhibition
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // the live regulation term
+    var FLOOR = 0.15;
+    // TARGET (allostatic set-point): inhibition must track drive (E/I) and rise with the adaptive
+    // baseline deviation (generic K-stack homeostasis, prior cycle). Regulate-TO-target, not alert-on.
+    var deviation = Math.max(0, (typeof hm.deviation === 'number') ? hm.deviation : 0);
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive/regime
+    // CONTROLLER: bounded integral (slow arm) + proportional (fast arm)
+    this._cultureServoIntegral = Math.max(-0.5, Math.min(0.5, (this._cultureServoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._cultureServoIntegral));   // only ADD braking; never disinhibit
+    // EFFECTOR: proportional dampening of emission (the E/I brake consumes this)
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._cultureServoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.cultureServo = servo;
+    return servo;
+  };
+
+  // E/I BRAKE ACTUATION (Neuro Ref XIII.1). Consumes the servo's emissionFactor and dampens emitted-
+  // opportunity confidence PROPORTIONALLY to the inhibition-vs-drive deficit. Effector = the same
+  // emission channel the base generic brake gate uses. Reversible (_actuation.eiBrake=false).
+  CultureBrain.prototype._applyCultureEIBrake = function () {
+    var s = this.state, servo = s.cultureServo;
+    if (!servo) { s.cultureEIBrake = null; return null; }
+    var f = (typeof servo.emissionFactor === 'number') ? servo.emissionFactor : 1;
+    var opps = s.opportunities || [];
+    var runaway = servo.state === 'runaway-risk';
+    var dampened = 0;
+    for (var i = 0; i < opps.length; i++) {
+      if (f < 1 && typeof opps[i].confidence === 'number') {
+        opps[i].confidence = Math.round(opps[i].confidence * f);
+        opps[i].eiFactor = f;
+        dampened++;
+      }
+      if (runaway) opps[i].eiDampened = true;
+    }
+    s.cultureEIBrake = {
+      version: 1, applied: f < 1, emissionFactor: (Math.round(f * 1000) / 1000),
+      servoState: servo.state, dampenedCount: dampened,
+      note: 'E/I brake (Neuro Ref XIII.1): emission confidence dampened proportionally to the inhibition deficit vs drive; reversible via _actuation.eiBrake.'
+    };
+    return s.cultureEIBrake;
+  };
+
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION READOUT — ADVISORY ONLY for culture.
+  //  Culture's domain phase is P9 and culture has NO Thing1-validated distress signal (its awareness
+  //  layer states diagnoses are interpretive, not validated; _pubSignals is {} — the validated gate
+  //  abstains). Per the validity gate, the phase-transition REWARD cannot honestly be a ground-truth
+  //  teaching signal here, so _actuation.phase = false and:
+  //    • the transition is naturally validated:false (VALIDATED has no p9; culture rarely transitions),
+  //    • the K4 credit hook never treats it as reward (guarded by _actuation.phase),
+  //    • this router NEVER opens an opportunity cap (no cap-opening actuation exists in culture).
+  //  It runs observe-only so operators can SEE culture's phase coupling — no effector is fabricated.
+  //  Deterministic; no AI; no writes to culture.json.
+  CultureBrain.prototype._computeCulturePhaseDynamics = function () {
+    var s = this.state;
+    // patent Section 3.4 Loop 1 phase-coupling matrix M (thing2 lineage). Positive = coherent.
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 — culture (P9) is NOT here
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed domains (advisory readout)
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'culture') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION READOUT — did a transition occur? For culture this is ALWAYS advisory
+    //     self-consistency (validated:false), never a fabricated ground-truth reward.
+    var hist = this._culturePhaseHist = this._culturePhaseHist || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var fc = (s.domainNeuro && s.domainNeuro.forecast) || {};
+      var predictedUp = fc.direction === 'rising' ||
+        (typeof fc.projectedStress === 'number' && typeof s.stress === 'number' && fc.projectedStress > s.stress);
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);   // culture P9 => false
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency (culture has no validated phase envelope)' };
+    }
+    hist.push({ phase: myPhase, t: (s.cultureModel && s.cultureModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, observeOnly: true, actuated: false, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'ADVISORY: culture is P9 with no Thing1-validated p3/p7 signal — coherence router is observe-only; the transition reward is never treated as ground-truth (validated:false); no cap-opening; no K4 credit preemption.'
+    };
+    s.culturePhaseDynamics = out;
+    return out;
+  };
+
+  // E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). Deterministic, no AI, no
+  // writes. (1) E/I balance = is inhibition tracking drive (reads the servo). (2) Self-audit = CONSUME the
+  // connectivity / single-points-of-failure audit on Culture's REAL edge graph (edges live in culture.json;
+  // read from the brain's portal cache, else lazy-fetch + cache once, matching Energy's/Finance's loader).
+  CultureBrain.prototype._computeCultureRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance advisory
+    var servo = s.cultureServo || null;
+    out.eiBalance = servo ? {
+      drive: servo.drive, inhibition: servo.inhibition, target: servo.target, error: servo.error,
+      state: servo.state, balanced: servo.state === 'balanced', note: 'inhibition-tracks-drive (Neuro Ref XIII.1)'
+    } : null;
+    // (2) self-audit — consume the culture edge graph
+    try {
+      var self = this;
+      var edges = (this._portalCache && Array.isArray(this._portalCache.edges) && this._portalCache.edges) ||
+                  this._cultureEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._cultureEdgesPromise) {
+          this._cultureEdgesPromise = fetch('/assets/data/domains/culture.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._cultureEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/culture.json'); if (ed && Array.isArray(ed.edges)) { this._cultureEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) out.selfAudit = this._cultureConnectivityAudit(edges);
+      else out.selfAudit = { consumed: false, note: edges ? 'no edges' : 'edges loading (async, next cycle)' };
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.cultureRegulationAdvisories = out;
+    return out;
+  };
+
+  // Deterministic connectivity self-audit (Neuro Ref XIV): degree hubs + articulation points (Tarjan) on
+  // the culture node/edge graph. Self-contained (no external module). Consumed observe-only.
+  CultureBrain.prototype._cultureConnectivityAudit = function (edges) {
+    var adj = {}, deg = {};
+    for (var e = 0; e < edges.length; e++) {
+      var a = edges[e].source, b = edges[e].target;
+      if (!a || !b) continue;
+      (adj[a] = adj[a] || []).push(b); (adj[b] = adj[b] || []).push(a);
+      deg[a] = (deg[a] || 0) + 1; deg[b] = (deg[b] || 0) + 1;
+    }
+    var nodes = Object.keys(deg);
+    var topHubs = nodes.map(function (n) { return { node: n, degree: deg[n] }; })
+      .sort(function (x, y) { return y.degree - x.degree; }).slice(0, 5);
+    // Articulation points (Tarjan), bounded recursion on the small culture graph.
+    var visited = {}, disc = {}, low = {}, parent = {}, ap = {}, timer = { t: 0 };
+    function dfs(u) {
+      visited[u] = true; disc[u] = low[u] = ++timer.t; var children = 0;
+      var nb = adj[u] || [];
+      for (var i = 0; i < nb.length; i++) {
+        var v = nb[i];
+        if (!visited[v]) {
+          children++; parent[v] = u; dfs(v);
+          low[u] = Math.min(low[u], low[v]);
+          if (parent[u] === undefined && children > 1) ap[u] = true;
+          if (parent[u] !== undefined && low[v] >= disc[u]) ap[u] = true;
+        } else if (v !== parent[u]) {
+          low[u] = Math.min(low[u], disc[v]);
+        }
+      }
+    }
+    for (var k = 0; k < nodes.length; k++) { if (!visited[nodes[k]]) { parent[nodes[k]] = undefined; dfs(nodes[k]); } }
+    var spof = Object.keys(ap);
+    return {
+      consumed: true, edgeCount: edges.length, nodeCount: nodes.length,
+      spofCount: spof.length, spof: spof.slice(0, 8), topHubs: topHubs,
+      verdict: spof.length ? (spof.length + ' single-point(s)-of-failure: removal disconnects the culture connectome') : 'no articulation nodes (resilient graph)',
+      note: 'connectivity self-audit (Neuro Ref XIV): degree hubs + articulation points on the ' + edges.length + '-edge culture graph'
+    };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // OPERATOR-TRIGGERED GENERATIVE SLOT — the ONE "code-cannot-do-this" hook (generative
+  // node->business authoring / semantic mapping for cultural scenes). COST-SAFE BY CONSTRUCTION:
+  //   (a) NEVER called from cycle()/_updateCultureModel — the 30s cycle is 100% deterministic
+  //       (grep-verify: no call site in the cycle pipeline);
+  //   (b) runs ONLY on an explicit operator trigger (opts.operatorTriggered === true);
+  //   (c) routes through a SERVER endpoint that enforces lib/ai-kill-switch spendDisabled()
+  //       server-side — NO API key is ever present in this client code.
+  // If no killswitch-gated endpoint is supplied it is a documented NO-OP STUB (spends nothing),
+  // per the discipline "leave the slot as a documented no-op stub rather than wiring a live call."
+  // ════════════════════════════════════════════════════════════════════════════
+  CultureBrain.prototype.authorNodeBusinessFromServer = function (nodeId, opts) {
+    opts = opts || {};
+    if (opts.operatorTriggered !== true) {
+      return Promise.resolve({ status: 'blocked', reason: 'operator-trigger required; the 30s cycle must never call this (cost-safety killswitch)' });
+    }
+    var endpoint = opts.endpoint || null;   // server route that is killswitch-gated (spendDisabled) — no key client-side
+    if (!endpoint || typeof fetch !== 'function') {
+      return Promise.resolve({ status: 'noop-stub', nodeId: nodeId || null, note: 'no killswitch-gated server endpoint wired; documented no-op — no spend' });
+    }
+    return fetch(endpoint, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain: 'culture', nodeId: nodeId || null, task: 'node-business-authoring' })
+    })
+      .then(function (r) { return r.ok ? r.json() : { status: 'server-declined', code: r.status }; })
+      .catch(function (err) { return { status: 'error', error: String(err && err.message || err) }; });
   };
 
   var brain = new CultureBrain(); brain.init(); brain.start();

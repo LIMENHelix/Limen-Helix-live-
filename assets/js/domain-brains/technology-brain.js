@@ -29,6 +29,38 @@
     try { this._loadTechnologyL1PortalDepth(); } catch (e) {}          // scan L1 branches (treatments mad-lib -> NOT admitted; real tickers only)
     try { this._loadInnovationPipelineLayer(); } catch (e) {}          // INNOVATION: R&D / compute-capacity sub-portal as an additive LAYER
 
+    // ── ACTUATION (2026-07-13): bring technology to Energy's actuation depth, VALIDITY-GATED per
+    //    actuation (honest — advisory where a real effector/validated signal is absent). All four
+    //    are DETERMINISTIC and reversible (flip any flag to false). NO paid-AI / fetch-to-LLM ever
+    //    runs on the 30s cycle; the only network is a one-shot degrade-safe edge fetch for selfAudit.
+    //
+    //    refractory  VALID  — effector = withhold DUPLICATE action-draft (REPORT_GENERATION) within a
+    //                          dead-time window (Neuro Ref III.3). Diagnosis stays active/displayed;
+    //                          only the re-fired draft is suppressed. Real, honest de-dup.
+    //    servo       VALID  — effector = proportional emission-confidence dampening. Sensor = excitatory
+    //                          drive (stress + active conditions + active dx) vs technologyModel.regulation
+    //                          .inhibition (a REAL live inhibition term this brain already computes);
+    //                          PI controller drives inhibition toward a drive+deviation target (Neuro Ref
+    //                          XIII.1/V.2/XII). Technology genuinely emits (opportunities + cross-domain
+    //                          signals), so the dampener is a real controllable output effector.
+    //    eiBrake     VALID  — consumes the servo emissionFactor to dampen emitted opportunity confidence
+    //                          and flag runaway-risk when inhibition lags drive. Same emission channel.
+    //    phase       VALID  — (A) coherence ROUTER couples to co-phased stressed peer domains (patent
+    //                          Section 3.4 Loop-1 M matrix) and boosts cross-domain opportunities toward
+    //                          them (comm-through-coherence). (B) phase-transition REWARD is treated as a
+    //                          ground-truth learning signal ONLY on P3/P7-involving transitions (the
+    //                          phases Thing1 validates); everywhere else it is advisory-self-consistency
+    //                          and NEVER feeds the learning rate — so no validated signal is fabricated.
+    //    (selfAudit is computed as an observe-only advisory below — technology.json carries 85 REAL
+    //     edges, so the XIV connectivity / single-point-of-failure audit runs on a real graph; it is
+    //     consumed for display, not actuated into the brake, matching Energy's honest boundary.)
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; business-scale, not in the doc)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (doc 1:4 ratio preserved)
+      overrideThreshold: 0.9      // only stress >= 0.9 re-fires in-window (reduced sensitivity)
+    };
+
     this.diagnosisIndex = {
       'CYBER_ATTACK':               ['cyber_breach', 'network_intrusion', 'ransomware', 'infrastructure_attack', 'technology_high_stress', 'macro_shock'],
       'AI_ALIGNMENT_FAILURE':       ['ai_misalignment', 'autonomy_overreach', 'bias_amplification', 'alignment_gap', 'technology_high_stress'],
@@ -295,7 +327,7 @@
     if (this.state.convergence && this.state.convergence.primary_signal) add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — technology convergence response', rank: 0.98, path: 'INVESTABLE', urgency: 'high', source: 'convergence', tier: 1, stress: stress });
 
     var emissions = this.state.crossDomainEmissions || [];
-    for (var ei = 0; ei < emissions.length; ei++) { var em = emissions[ei]; add({ title: 'Technology \u2192 ' + (em.targetDomain || '').replace(/_/g, ' ') + ' — ' + (em.signal || em.signalType || '').replace(/_/g, ' '), rank: (em.magnitude || 0.5) * stress * 0.8, path: 'INVESTABLE', urgency: em.magnitude > 0.6 ? 'high' : 'medium', source: 'cross_domain', tier: 2, stress: stress }); }
+    for (var ei = 0; ei < emissions.length; ei++) { var em = emissions[ei]; add({ title: 'Technology \u2192 ' + (em.targetDomain || '').replace(/_/g, ' ') + ' — ' + (em.signal || em.signalType || '').replace(/_/g, ' '), rank: (em.magnitude || 0.5) * stress * 0.8, path: 'INVESTABLE', urgency: em.magnitude > 0.6 ? 'high' : 'medium', source: 'cross_domain', tier: 2, targetDomain: em.targetDomain || null, stress: stress }); }
 
     if (stress >= 0.50) {
       add({ title: 'Zero-trust architecture and identity verification systems', rank: stress * 0.70, path: 'INVESTABLE', urgency: 'medium', source: 'lagging', tier: 3, diagnosisId: 'zero_trust', stress: stress });
@@ -310,6 +342,23 @@
     var nearDx = allDx.filter(function (d) { return !d.active && d.relevance > 0 && d.totalTriggers > 0; });
     for (var ndi = 0; ndi < nearDx.length; ndi++) { if (stress >= 0.45) add({ title: (nearDx[ndi].label || '').replace(/_/g, ' ') + ' — early-stage monitoring', rank: stress * (nearDx[ndi].relevance || 0.1) * 0.5, path: 'RESEARCHABLE', urgency: 'watching', source: 'near_diagnosis', tier: 2, stress: stress, nearDiagnosisId: nearDx[ndi].id }); }
 
+    // PHASE-COHERENCE ACTUATION (reversible via _actuation.phase; comm-through-coherence): when
+    // technology is phase-coherent with stressed co-phased peer domains, preferentially "communicate"
+    // with them by boosting the cross-domain (tier-2) opportunities aimed at those peers. Bounded
+    // (max +30%) and reads the PRIOR cycle's phase dynamics (one-cycle lag, recurrent).
+    if (this._actuation && this._actuation.phase) {
+      var _pd = this.state.technologyPhaseDynamics;
+      if (_pd && _pd.coupled && _pd.coupled.length) {
+        var _coMap = {}; _pd.coupled.forEach(function (c) { _coMap[c.domain] = c.coherence * c.stress; });
+        for (var _pbo = 0; _pbo < opps.length; _pbo++) {
+          var _oo = opps[_pbo];
+          if (_oo.tier === 2 && _oo.source === 'cross_domain' && _oo.targetDomain && _coMap[_oo.targetDomain]) {
+            _oo.rank = (_oo.rank || 0) * (1 + Math.min(0.3, _coMap[_oo.targetDomain]));
+          }
+        }
+        this.state._phaseBoostedCount = opps.filter(function (o) { return o.tier === 2 && o.targetDomain && _coMap[o.targetDomain]; }).length;
+      }
+    }
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
     // Canonical enrichment — merge technology playbook detail per opportunity
     var PB_LIST = window.LIMENTechnologyOpportunityPlaybooks || [];
@@ -384,6 +433,12 @@
     }
     this.state.opportunityCount = opps.length;
 
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1; reversible via _actuation.eiBrake): consume the servo's
+    // proportional emissionFactor to dampen emitted opportunity CONFIDENCE when inhibition is not
+    // tracking drive (runaway-risk). Effector = the same emission channel the servo regulates. Reads
+    // the PRIOR cycle's servo (one-cycle lag, recurrent). Additive; never rewrites rank/scoring.
+    opps = this._applyTechnologyEIBrake(opps);
+
     this.state.opportunities = opps;
     return Promise.resolve();
   };
@@ -391,7 +446,28 @@
   TechnologyBrain.prototype._checkDiagnosisActions = function () {
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; }); if (activeDx.length === 0) return;
     var adapters = window.LIMENActionAdapters; if (!adapters) return;
-    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'technology', intentId: dx.id }).length > 0) continue; adapters.createDraft('REPORT_GENERATION', { domain: 'technology', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Technology Alert: ' + dx.label, intent: { domain: 'technology', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on technology systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected infrastructure, companies, and supply chains', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate security and resilience opportunities', status: 'PENDING' }] } }); }
+    // REFRACTORY GATE (Neuro Ref III.3) — lazy-init from the doc-grounded module (deterministic, pure).
+    // Best-effort + degrade-safe: if the module is absent or actuation is off, the gate is skipped and
+    // prior behavior is unchanged. The module is graph/domain-agnostic (absolute dead-time + relative
+    // raised-bar; a stronger stimulus can still fire), so technology reuses it without a new file.
+    if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
+        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+    }
+    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'technology', intentId: dx.id }).length > 0) continue;
+      // Once this diagnosis emitted a draft, suppress re-emission within the dead-time unless stress
+      // clears the (reduced-sensitivity) override bar. The diagnosis stays active/displayed — only the
+      // duplicate DRAFT is withheld. Never breaks the cycle.
+      if (this._refractoryLimiter) {
+        try {
+          var _now = (this._runtimeOverlay && this._runtimeOverlay.timestamp) ||
+                     (this.state.pulse && this.state.pulse.timestamp) ||
+                     ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+          var _verdict = this._refractoryLimiter.fire(dx.id, _now, this.state.stress);
+          if (!_verdict.allowed) { this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1; continue; }
+        } catch (_e) { /* best-effort; fall through to normal emission */ }
+      }
+      adapters.createDraft('REPORT_GENERATION', { domain: 'technology', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Technology Alert: ' + dx.label, intent: { domain: 'technology', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' impact on technology systems', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected infrastructure, companies, and supply chains', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate security and resilience opportunities', status: 'PENDING' }] } }); }
   };
 
   TechnologyBrain.prototype.resolveDeepContent = function () {
@@ -492,7 +568,19 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeTechnologyRegulation(cm, obs, pe);
       var readyForHandoff = (cm.cycle > 0) && (predictedStress >= TM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      var nextPrior = this._updateTechnologyPrior(priorIn, obs, cm.plasticity.learningRate);
+      // K4 CREDIT ASSIGNMENT — PHASE-TRANSITION REWARD preempt (VALIDATED P3/P7 ONLY). A realized phase
+      // transition whose direction matched the prediction is a real ground-truth teaching signal (thing2
+      // "goes through time"). GATED: honored as ground-truth only when the transition involves a Thing1-
+      // validated phase (P3/P7); elsewhere it is advisory-self-consistency and NEVER touches the learning
+      // rate, so no validated signal is fabricated. Reads the PRIOR cycle's phase dynamics (one-cycle lag).
+      // Reversible via _actuation.phase. Falls back to the fixed plasticity rate (unchanged behavior).
+      var _lr = cm.plasticity.learningRate;
+      var _pt = (this.state.technologyPhaseDynamics || {}).transition;
+      var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+      if (_phaseReward) { var _hit = _pt.hit ? 1 : 0; _lr = _tmClamp(_lr * (1 + (1 - _hit)), TM_SLOW_RATE, 0.6); }
+      cm._creditSource = _phaseReward ? 'phase-transition' : 'fixed-plasticity';
+      cm._effectiveLearningRate = _lr;
+      var nextPrior = this._updateTechnologyPrior(priorIn, obs, _lr);
       cm.cycle += 1; cm.observation = obs; cm.predictionError = pe; cm.predictedStress = predictedStress; cm.regulation = reg; cm.readyForHandoff = readyForHandoff; cm.prior = nextPrior; cm.updated = obs.timestamp;
       this.state.technologyModel = cm;
 
@@ -516,6 +604,15 @@
         this.state.technologyDomainDiagnosisPackets = _diags.map(function (d) { return _self._buildDomainDiagnosisPacket(d); });
       } catch (e) {}
 
+      // ── ACTUATION LAYER (deterministic, per-actuation validity-gated; reversible via this._actuation) ──
+      // Order mirrors Energy: servo (regulate-to-target) → phase dynamics (router + reward for NEXT
+      // cycle's K4) → regulation advisories (E/I balance + XIV self-audit, observe-only). Each guarded;
+      // never throws into the scoring spine. Servo/phaseDynamics feed the PRIOR-cycle reads in
+      // surfaceOpportunities + the K4 credit hook above (one-cycle lag, recurrent by design).
+      try { if (this._actuation && this._actuation.servo) this._computeTechnologyServo(); } catch (e) {}
+      try { if (this._actuation && this._actuation.phase) this._computeTechnologyPhaseDynamics(); } catch (e) {}
+      try { this._computeTechnologyRegulationAdvisories(); } catch (e) {}
+
       // state.cognition — generic surface domain-console-brain.js reads for ANY brain.
       this.state.cognition = {
         domain: 'technology',
@@ -532,6 +629,11 @@
         immune: this.state.technologyImmune || null,
         intuition: this.state.technologyIntuition || null,
         innovationLayer: this.state.innovationLayer || null,
+        servo: this.state.technologyServo || null,
+        eiBrake: this.state.technologyEIBrake || null,
+        phaseDynamics: this.state.technologyPhaseDynamics || null,
+        regulationAdvisories: this.state.technologyRegulationAdvisories || null,
+        actuation: this._actuation || null,
         treatments: this.state.treatments || [],
         diagnoses: this.state.diagnoses || [],
         opportunities: this.state.opportunities || []
@@ -671,6 +773,173 @@
         lastReportAt: cm.updated || null
       };
       s.technologyExecutiveReport = rep; return rep;
+    };
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // ACTUATION METHODS (ported + adapted from energy-brain; technology's own signals)
+    // ══════════════════════════════════════════════════════════════════════════
+
+    // SERVO — closed-loop allostasis (Neuro Ref XIII.1/V.2/XII). sensor = excitatory drive vs the
+    // live technologyModel.regulation.inhibition term; controller = PI (fast proportional + bounded
+    // slow integral, the HPA fast+slow arms); effector = a proportional emission-confidence dampener
+    // the E/I brake then applies. Deterministic; additive; affects ONLY emission confidence.
+    P._computeTechnologyServo = function () {
+      function R(x) { return Math.round(x * 1000) / 1000; }
+      var s = this.state, cm = s.technologyModel || {}, reg = cm.regulation || {}, dn = s.domainNeuro || {}, hm = dn.homeostasis || {};
+      // SENSOR: excitatory drive (stress + how many things fire at once) vs current inhibition
+      var stress = (typeof s.stress === 'number') ? s.stress : 0;
+      var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+      var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+      var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+      var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // real live term (1 - novelty)
+      var FLOOR = 0.15;
+      // TARGET (allostatic set-point): inhibition must track drive (E/I), rising with the generic
+      // K-stack's adaptive-baseline deviation (Turrigiano scaling). deviation defaults 0 if absent.
+      var deviation = Math.max(0, (typeof hm.deviation === 'number') ? hm.deviation : 0);
+      var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+      var error = target - inhibition;                                              // >0 => under-braked for the drive
+      // CONTROLLER: bounded integral (slow arm) + proportional (fast arm)
+      this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+      var Kp = 0.8, Ki = 0.4;
+      var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking
+      // EFFECTOR: proportional dampening of emission (the E/I brake consumes this)
+      var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+      var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+      var servo = {
+        version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+        error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+        state: state, deviation: R(deviation),
+        note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+      };
+      s.technologyServo = servo;
+      return servo;
+    };
+
+    // E/I BRAKE — consumes the servo emissionFactor to dampen emitted opportunity CONFIDENCE
+    // proportionally to the E/I imbalance (Neuro Ref XIII.1). Reversible via _actuation.eiBrake.
+    P._applyTechnologyEIBrake = function (opps) {
+      opps = opps || [];
+      if (!(this._actuation && this._actuation.eiBrake)) { this.state.technologyEIBrake = null; return opps; }
+      var servo = this.state.technologyServo;
+      if (!servo || typeof servo.emissionFactor !== 'number') { this.state.technologyEIBrake = null; return opps; }
+      var f = servo.emissionFactor;
+      var applied = f < 1;
+      this.state.technologyEIBrake = {
+        version: 1, eiFactor: Math.round(f * 1000) / 1000, servoState: servo.state, applied: applied,
+        note: 'E/I brake (Neuro Ref XIII.1): emission confidence dampened proportionally when inhibition lags drive (servo state ' + servo.state + '). Reversible via _actuation.eiBrake.'
+      };
+      if (applied) {
+        for (var i = 0; i < opps.length; i++) {
+          if (typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * f);
+          opps[i].eiDampened = true;
+        }
+      }
+      return opps;
+    };
+
+    // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (patent Section 3.4 Loop-1 M matrix; thing2
+    // lineage). (A) couples to co-phased, stressed peer domains; (B) scores a realized phase
+    // transition — treated as GROUND-TRUTH only on P3/P7-involving transitions (Thing1-validated),
+    // else advisory-self-consistency. Deterministic; no AI; no writes to technology.json.
+    P._computeTechnologyPhaseDynamics = function () {
+      var s = this.state, cm = s.technologyModel || {};
+      var PHASE_M = {
+        p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+        p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+        p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+        p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+        p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+        p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+        p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+      };
+      var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+      var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family
+      function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+      var myPhase = norm(s.phase);
+
+      // (A) COHERENCE ROUTER — couple to co-phased, stressed domains
+      var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+      var coupled = [], couplingStrength = 0;
+      if (myPhase && PHASE_M[myPhase]) {
+        var row = PHASE_M[myPhase];
+        Object.keys(doms).forEach(function (k) {
+          if (k === 'technology') return;
+          var d = doms[k] || {};
+          var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+          var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+          if (!op) return;
+          var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+          if (coh > 0 && st > 0.5) { coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 }); }
+        });
+        coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+        couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+      }
+
+      // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+      var hist = this._techPhaseHist = this._techPhaseHist || [];
+      var prev = hist.length ? hist[hist.length - 1].phase : null;
+      var reward = null;
+      if (prev != null && myPhase != null && prev !== myPhase) {
+        var predictedUp = (typeof cm.predictedStress === 'number' && typeof s.stress === 'number') ? (cm.predictedStress > s.stress) : false;
+        var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+        var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+        var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+        reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+          validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+      }
+      hist.push({ phase: myPhase, t: (cm.updated) || Date.now() });
+      if (hist.length > 24) hist.shift();
+
+      var out = {
+        version: 1, myPhase: myPhase,
+        coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+        transition: reward,
+        note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7).'
+      };
+      s.technologyPhaseDynamics = out;
+      return out;
+    };
+
+    // REGULATION ADVISORIES — E/I balance (XIII.1) + XIV connectivity/self-audit. OBSERVE-ONLY
+    // (consumed for display, not actuated into the brake — the same honest boundary Energy holds).
+    // technology.json carries 85 REAL edges, so the single-point-of-failure audit runs on a real
+    // graph (lazily fetched once, degrade-safe). Deterministic; reuses the graph/state-generic
+    // audit modules if present, else emits an honest "not loaded / loading" note.
+    P._computeTechnologyRegulationAdvisories = function () {
+      var s = this.state, out = { version: 1, observeOnly: true };
+      // (1) E/I balance — is inhibition tracking drive?
+      try {
+        var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+        if (EI && typeof EI.assessFromState === 'function') out.eiBalance = EI.assessFromState(s);
+        else out.eiBalance = null;
+      } catch (e) { out.eiBalance = null; }
+      // (2) Self-audit — CONSUME the XIV connectivity / single-point-of-failure audit on the REAL
+      // 85-edge technology graph. Edges live in technology.json (not the live snapshot); reuse the
+      // cached portal if it carries them, else fetch once (fire-and-forget) and consume next cycle.
+      try {
+        var self = this;
+        var edges = (s._portalCache && Array.isArray(s._portalCache.edges) && s._portalCache.edges) ||
+                    (Array.isArray(s.edges) && s.edges) || this._technologyEdges || null;
+        if (!edges) {
+          if (typeof fetch === 'function' && !this._technologyEdgesPromise) {
+            this._technologyEdgesPromise = fetch('/assets/data/domains/technology.json')
+              .then(function (r) { return r.json(); })
+              .then(function (j) { if (j && Array.isArray(j.edges)) self._technologyEdges = j.edges; })
+              .catch(function () {});
+          }
+        }
+        var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+        if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
+          var audit = CA.singlePointsOfFailure({ edges: edges });
+          var spof = (audit && audit.articulationNodes) || [];
+          out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
+            verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+        } else {
+          out.selfAudit = { consumed: false, note: edges ? 'connectivity-audit not loaded' : 'edges loading (async, next cycle)' };
+        }
+      } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+      s.technologyRegulationAdvisories = out;
+      return out;
     };
   })();
 

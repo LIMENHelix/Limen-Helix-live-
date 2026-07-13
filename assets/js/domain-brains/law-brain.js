@@ -121,6 +121,40 @@
       }
     ];
 
+    // ── OVERLAY ACTUATION (2026-07-13): ported from the Energy reference brain to the
+    // depth the neurology reference specifies, VALIDITY-GATED per this domain. Each flag is
+    // only TRUE where Law honestly carries the required substrate:
+    //   refractory: TRUE  — real effector: the action-DRAFT pipeline (_checkDiagnosisActions ->
+    //               LIMENActionAdapters.createDraft). Deterministic dead-time de-dup of duplicate
+    //               drafts (Neuro Ref III.3). The diagnosis stays active/displayed; only the
+    //               duplicate draft is withheld unless stress clears the raised bar.
+    //   servo:     TRUE  — E/I regulate-to-target (Neuro Ref XIII.1/V.2). Law is a society's
+    //               inhibitory-control organ, so the invariant maps cleanly: excitatory drive =
+    //               enforcement/litigation/rule-expansion load; inhibition = judicial-review /
+    //               due-process / procedural-check capacity (lawModel.regulation.inhibition).
+    //               Real controllable effector = proportional dampening of surfaced-opportunity
+    //               confidence via the law brake. NOTE (honest boundary, as Energy's E/I had one):
+    //               the excitatory/inhibitory PARTITION of the actual node graph is UNMAPPED — the
+    //               drive/inhibition split is a reasoned analogy over aggregate state, not a
+    //               validated per-node E/I labelling of law.json.
+    //   eiBrake:   TRUE  — consumes the servo's emissionFactor into a stop-circuit that dampens
+    //               (or holds) surfaced opportunities. Same real effector as Energy (opportunity
+    //               confidence + held flag), one-cycle-lag recurrent.
+    //   phase:     TRUE  — Law sits at phase P7 (law.json), which IS in the Thing1-validated
+    //               family (P3/P7). So the phase-transition reward is a genuine ground-truth
+    //               teaching signal here (not fabricated), and the coherence router couples Law to
+    //               co-phased stressed peers (patent Section 3.4 Loop 1 M matrix, thing2 lineage).
+    // selfAudit is always computed (observe-only advisory): it CONSUMES the real 87-edge law.json
+    // graph via the connectivity-audit SPOF/articulation-node analysis (Neuro Ref XIV) — a real,
+    // deterministic self-audit, not a clone. 100% deterministic; NO paid-AI/fetch-to-LLM ever runs
+    // on the cycle. Fully reversible: flip any flag to false. Windows keep the doc's 1:4 ratio.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
+      overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 re-fires in-window
+    };
+
     // ── COGNITION PARITY bootstrap loaders (one-shot, offline-safe) ──
     try { this._loadLawOperators(); } catch (e) {}                  // real legal-services / regtech / court-tech operators (state.companies starved)
     try { this._loadLawBrainSignals(); } catch (e) {}              // distress ONLY from the validated Thing pipeline
@@ -774,6 +808,12 @@
         o.moneyChain = { doThis: pb.action || '', whyPays: whyPays, target: target, timing: timing, invalidIf: pb.failure || '', evidence: evidence, nextStep: nextStep };
       }
     }
+
+    // E/I BRAKE ACTUATION: apply the PRIOR cycle's stop-circuit to this cycle's opportunity set
+    // (recurrent, one-cycle lag — mirrors Energy's _applyEmissionBrake). Dampen -> halve
+    // confidence; halt -> hold + zero confidence. Reversible via _actuation.eiBrake.
+    try { if (this._actuation && this._actuation.eiBrake) opps = this._applyLawEmissionBrake(opps); } catch (e) {}
+
     this.state.opportunityCount = opps.length;
 
     this.state.opportunities = opps;
@@ -786,16 +826,45 @@
   // ══════════════════════════════════════════════════════════════════════
 
   LawBrain.prototype._checkDiagnosisActions = function () {
+    // HALT BRAKE (eiBrake actuation): do not emit action drafts while the stop-circuit is
+    // engaged (prior cycle). Reversible via _actuation.eiBrake / lawBrake.
+    var _brake = this.state.lawBrake;
+    if (this._actuation && this._actuation.eiBrake && _brake && _brake.suppressActions) {
+      this.state._brakeHeldActions = (this.state._brakeHeldActions || 0) + 1; return;
+    }
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; });
     if (activeDx.length === 0) return;
 
     var adapters = window.LIMENActionAdapters;
     if (!adapters) return;
 
+    // REFRACTORY LIMITER (III.3): lazy-init the doc-grounded generic dead-time limiter.
+    // Best-effort: if the module is absent or the flag is off, the gate is skipped (prior behavior).
+    if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
+        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+    }
+
     for (var i = 0; i < activeDx.length; i++) {
       var dx = activeDx[i];
       var existingDrafts = adapters.getDrafts({ domain: 'law', intentId: dx.id });
       if (existingDrafts && existingDrafts.length > 0) continue;
+
+      // REFRACTORY GATE (III.3): once this diagnosis has emitted a draft, suppress re-emission
+      // within the dead-time unless stress clears the reduced-sensitivity override bar. Diagnosis
+      // stays active/displayed; only the duplicate DRAFT is withheld. Never breaks the cycle.
+      if (this._refractoryLimiter) {
+        try {
+          var _now = (this._runtimeOverlay && this._runtimeOverlay.timestamp) ||
+                     (this.state.pulse && this.state.pulse.timestamp) ||
+                     ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+          var _verdict = this._refractoryLimiter.fire(dx.id, _now, this.state.stress);
+          if (!_verdict.allowed) {
+            this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1;
+            continue;
+          }
+        } catch (_e) { /* gate is best-effort; fall through to normal emission */ }
+      }
 
       adapters.createDraft('REPORT_GENERATION', {
         domain: 'law',
@@ -969,7 +1038,19 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeLawRegulation(lm, obs, pe);
       var readyForHandoff = (lm.cycle > 0) && (predictedStress >= LM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      var nextPrior = this._updateLawPrior(priorIn, obs, lm.plasticity.learningRate);
+      // K4 CREDIT SOURCE (phase actuation): a realized phase TRANSITION over time is a real
+      // ground-truth teaching signal — but ONLY on P3/P7-involving transitions (the phases Thing1
+      // validates). Law is a P7 domain, so its transitions are validated-family. When a validated
+      // transition resolved, prefer it over the default fixed rate: a miss raises the effective
+      // learning rate. Reads the PRIOR cycle's lawPhaseDynamics (one-cycle lag). Reversible via
+      // _actuation.phase. Deterministic; no AI.
+      var _lr = lm.plasticity.learningRate;
+      var _pt = (this.state.lawPhaseDynamics || {}).transition;
+      var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+      if (_phaseReward) { _lr = _lmClamp(_lr * (1 + (1 - (_pt.hit ? 1 : 0))), LM_SLOW_RATE, 0.6); }
+      lm._creditSource = _phaseReward ? 'phase-transition' : 'default';
+      lm._effectiveLearningRate = _lr;
+      var nextPrior = this._updateLawPrior(priorIn, obs, _lr);
       lm.cycle += 1; lm.observation = obs; lm.predictionError = pe; lm.predictedStress = predictedStress; lm.regulation = reg; lm.readyForHandoff = readyForHandoff; lm.prior = nextPrior; lm.updated = obs.timestamp;
       this.state.lawModel = lm;
 
@@ -979,6 +1060,11 @@
 
       // H1–H6 higher layers BEFORE the DDP build
       try { this._computeLawHigherLayers(); } catch (e) {}
+
+      // ACTUATIONS (validity-gated; computed AFTER the higher layers so the brake can read the
+      // fresh immune/regulation state). Servo -> brake -> self-audit -> phase dynamics. Each is
+      // reversible via this._actuation and consumed on the NEXT cycle (recurrent, one-cycle lag).
+      try { this._computeLawActuations(); } catch (e) {}
 
       // RULE-OF-LAW — law sub-portal layer (additive; BEFORE the DDP build so the
       // primary packet's promptView advertises it). Never touches the validated 5-diagnosis spine.
@@ -1010,6 +1096,12 @@
         immune: this.state.lawImmune || null,
         intuition: this.state.lawIntuition || null,
         ruleOfLawSublayer: this.state.lawRuleOfLawLayer || null,
+        // ── ACTUATION surfaces (additive; consumed by the console + brain->civilization adapter) ──
+        servo: this.state.lawServo || null,
+        brake: this.state.lawBrake || null,
+        phaseDynamics: this.state.lawPhaseDynamics || null,
+        regulationAdvisories: this.state.lawRegulationAdvisories || null,
+        actuation: this._actuation || null,
         treatments: this.state.treatments || [],
         diagnoses: this.state.diagnoses || [],
         opportunities: this.state.opportunities || []
@@ -1153,6 +1245,228 @@
         lastReportAt: lm.updated || null
       };
       s.lawExecutiveReport = rep; return rep;
+    };
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // ACTUATIONS — ported from the Energy reference brain, adapted to Law, validity-gated.
+    // 100% deterministic. No paid-AI / fetch-to-LLM ever runs here (or anywhere on the cycle).
+    // ════════════════════════════════════════════════════════════════════════════
+
+    // Orchestrator: servo -> brake -> self-audit advisory -> phase dynamics. Each guarded.
+    P._computeLawActuations = function () {
+      try { if (this._actuation && this._actuation.servo)   this._computeLawServo(); } catch (e) {}
+      try { if (this._actuation && this._actuation.eiBrake) this._computeLawBrake(); } catch (e) {}
+      try { this._computeLawRegulationAdvisories(); } catch (e) {}                    // observe-only self-audit
+      try { if (this._actuation && this._actuation.phase)   this._computeLawPhaseDynamics(); } catch (e) {}
+    };
+
+    // ── SERVO (E/I regulate-to-target; Neuro Ref XIII.1/V.2) ──────────────────────────────────
+    // Closed loop: SENSOR = excitatory drive (stress + concurrent conditions + active diagnoses)
+    // vs current inhibition (lawModel.regulation.inhibition = judicial-review/procedural-check
+    // capacity). CONTROLLER = PI (fast proportional + bounded slow integral, the HPA fast+slow
+    // arms). EFFECTOR = proportional dampening of surfaced-opportunity confidence, applied by the
+    // law brake. Additive; never rewrites stress/scoring/diagnoses/law.json. Reversible.
+    // HONEST BOUNDARY: the excitatory/inhibitory partition of the node graph is UNMAPPED — drive
+    // and inhibition are read from aggregate state, not a validated per-node E/I split of law.json.
+    P._computeLawServo = function () {
+      function R(x) { return Math.round(x * 1000) / 1000; }
+      var s = this.state, lm = s.lawModel || {}, reg = lm.regulation || {};
+      var stress = (typeof s.stress === 'number') ? s.stress : 0;
+      var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+      var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+      var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+      var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+      var FLOOR = 0.15;
+      // Law has no adaptive K8 baseline; use predictionError above a small baseline as the
+      // regime-surprise deviation that lifts the inhibition target (analogue of Energy's K8 term).
+      var pe = (lm.predictionError && typeof lm.predictionError.total === 'number') ? lm.predictionError.total : 0;
+      var deviation = Math.max(0, pe - 0.2);
+      var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+      var error = target - inhibition;   // >0 => under-braked for the enforcement/litigation drive
+      this._lawServoIntegral = Math.max(-0.5, Math.min(0.5, (this._lawServoIntegral || 0) + error * 0.15));
+      var Kp = 0.8, Ki = 0.4;
+      var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._lawServoIntegral));   // only ADD braking
+      var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+      var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+      var servo = {
+        version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+        error: R(error), integral: R(this._lawServoIntegral), emissionFactor: R(emissionFactor),
+        state: state, deviation: R(deviation),
+        note: 'closed-loop allostasis (Neuro Ref XIII.1/V.2): drive = enforcement/litigation/rule-expansion load; inhibition = judicial-review/due-process/procedural-check capacity; effector = proportional opportunity-confidence dampening via the law brake. E/I node-partition UNMAPPED (reasoned analogy over aggregate state).'
+      };
+      s.lawServo = servo;
+      return servo;
+    };
+
+    // ── HALT BRAKE + E/I BRAKE (stop-circuit; Neuro Ref XIII.1) ────────────────────────────────
+    // Converts the governor layers (immune / conscience / regulation) into an actual brake, and
+    // scales it PROPORTIONALLY with drive via the servo's emissionFactor. Consumed next cycle by
+    // _checkDiagnosisActions (drafts) and _applyLawEmissionBrake (opportunities). Fail-open on
+    // cycle 1. Additive; never rewrites the scoring spine.
+    P._computeLawBrake = function () {
+      var s = this.state, lm = s.lawModel || {}, reg = lm.regulation || {};
+      var im = s.lawImmune || {}, con = s.lawConscience || {};
+      var diags = s.diagnoses || [];
+      var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+      var reasons = [];
+      // full-halt conditions
+      if (im.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (im.severity || '?') });
+      if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'feeds older than staleness window' });
+      if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-evidence-backed-diagnosis', severity: 'halt', detail: 'all active diagnoses blocked by the evidence contract' });
+      // dampen conditions
+      var pe = (lm.predictionError && lm.predictionError.total) || 0;
+      if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + (Math.round(pe * 1000) / 1000) });
+      if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+      if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen', detail: 'no artifact lane cleared by conscience' });
+      // E/I brake actuation: the servo's emissionFactor scales the brake continuously with drive.
+      var servo = s.lawServo || null, eiFactor = 1;
+      if (this._actuation && this._actuation.eiBrake && servo) {
+        if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+        if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+      }
+      var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+      var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+      var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+      var brake = {
+        version: 1, level: level, engaged: halt, dampen: dampen, reasons: reasons,
+        suppressActions: halt, suppressOpportunities: halt,
+        confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // strongest brake wins
+        eiFactor: (Math.round(eiFactor * 1000) / 1000),
+        note: level === 'clear' ? 'stop-circuit clear — emission allowed'
+          : level === 'halt' ? 'STOP-CIRCUIT ENGAGED — action emission halted, opportunities held'
+          : 'stop-circuit dampening — confidence reduced, emission held for review',
+        lastBrakeAt: lm.updated || Date.now()
+      };
+      s.lawBrake = brake;
+      return brake;
+    };
+
+    // Consumed by surfaceOpportunities: applies the prior cycle's brake to the opportunity set.
+    P._applyLawEmissionBrake = function (opps) {
+      var brake = this.state.lawBrake;
+      if (!brake || brake.level === 'clear') { this.state.opportunitiesHeld = false; return opps; }
+      var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+      var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+      for (var i = 0; i < opps.length; i++) {
+        if (pen < 1 && typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * pen);
+        if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+      }
+      this.state.opportunitiesHeld = !!brake.suppressOpportunities;
+      return opps;
+    };
+
+    // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (Neuro Ref; patent Section 3.4 Loop 1) ─
+    // (A) Coherence router: P0-P10 IS the phase variable, so Law couples to domains whose PHASE is
+    //     coherent with its own via the M matrix (positive M = same excitability window).
+    // (B) Phase-transition reward: a realized transition over time is ground-truth (thing2). GATED
+    //     to P3/P7-involving transitions (Thing1-validated). Law sits at P7, so its transitions
+    //     ARE validated-family; elsewhere it degrades to advisory self-consistency. Deterministic.
+    P._computeLawPhaseDynamics = function () {
+      var s = this.state;
+      var PHASE_M = {
+        p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+        p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+        p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+        p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+        p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+        p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+        p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+      };
+      var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+      var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+      function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+      var myPhase = norm(s.phase);
+
+      // (A) COHERENCE ROUTER
+      var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+      var coupled = [], couplingStrength = 0;
+      if (myPhase && PHASE_M[myPhase]) {
+        var row = PHASE_M[myPhase];
+        Object.keys(doms).forEach(function (k) {
+          if (k === 'law') return;
+          var d = doms[k] || {};
+          var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+          var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+          if (!op) return;
+          var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+          if (coh > 0 && st > 0.5) { coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 }); }
+        });
+        coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+        couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+      }
+
+      // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+      var hist = this._lawPhaseHistory = this._lawPhaseHistory || [];
+      var prev = hist.length ? hist[hist.length - 1].phase : null;
+      var reward = null;
+      if (prev != null && myPhase != null && prev !== myPhase) {
+        var lm = s.lawModel || {};
+        var predictedUp = (typeof lm.predictedStress === 'number' && typeof s.stress === 'number') ? lm.predictedStress > s.stress : false;
+        var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+        var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+        var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+        reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+          validated: validated, kind: validated ? 'ground-truth (P3/P7 validated; law is a P7 domain)' : 'advisory-self-consistency' };
+      }
+      hist.push({ phase: myPhase, t: (s.lawModel && s.lawModel.updated) || Date.now() });
+      if (hist.length > 24) hist.shift();
+
+      var out = {
+        version: 1, myPhase: myPhase,
+        coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+        transition: reward,
+        note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — law sits at P7).'
+      };
+      s.lawPhaseDynamics = out;
+      return out;
+    };
+
+    // ── SELF-AUDIT + E/I BALANCE ADVISORY (observe-only; Neuro Ref XIII.1 + XIV) ────────────────
+    // (1) E/I balance readout via the pure EnergyEIBalance module (domain-agnostic assess()).
+    // (2) CONSUMES the connectivity / single-point-of-failure audit over Law's REAL 87-edge graph
+    //     (law.json edges). Edges live in law.json, not the live snapshot, so lazily fetch + cache
+    //     once (browser fire-and-forget; server via require). Deterministic, no AI, no writes.
+    P._computeLawRegulationAdvisories = function () {
+      var s = this.state, out = { version: 1, observeOnly: true };
+      // (1) E/I balance
+      try {
+        var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+        if (!EI && typeof require === 'function') { try { EI = require('../energy-ei-balance.js'); } catch (_e) {} }
+        if (EI && typeof EI.assess === 'function') {
+          var servo = s.lawServo || {};
+          var drive = (typeof servo.drive === 'number') ? servo.drive : (s.stress || 0);
+          var inhibition = (typeof servo.inhibition === 'number') ? servo.inhibition : 0;
+          out.eiBalance = EI.assess({ drive: drive, inhibition: inhibition });
+        }
+      } catch (e) { out.eiBalance = null; }
+      // (2) self-audit — consume the SPOF/articulation-node audit over law's real edge graph
+      try {
+        var self = this;
+        var edges = (s._rawDomain && Array.isArray(s._rawDomain.edges) && s._rawDomain.edges) ||
+                    (Array.isArray(s.edges) && s.edges) || this._lawEdges || null;
+        if (!edges) {
+          if (typeof fetch === 'function' && !this._lawEdgesPromise) {
+            this._lawEdgesPromise = fetch('/assets/data/domains/law.json')
+              .then(function (r) { return r.json(); })
+              .then(function (j) { if (j && Array.isArray(j.edges)) self._lawEdges = j.edges; })
+              .catch(function () {});
+          } else if (typeof require === 'function') {
+            try { var ed = require('../../data/domains/law.json'); if (ed && Array.isArray(ed.edges)) { this._lawEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+          }
+        }
+        var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+        if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+        if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
+          var audit = CA.singlePointsOfFailure({ edges: edges });
+          var spof = (audit && audit.articulationNodes) || [];
+          out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
+            verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+        } else {
+          out.selfAudit = { consumed: false, note: edges ? 'connectivity-audit not loaded' : 'edges loading (async, next cycle)' };
+        }
+      } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+      s.lawRegulationAdvisories = out;
+      return out;
     };
   })();
 

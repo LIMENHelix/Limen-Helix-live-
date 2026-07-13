@@ -51,6 +51,24 @@
       portalKey: 'p2_agri',
       cycleInterval: 30000
     });
+
+    // ── ACTUATION GATE (2026-07-13) — per-actuation VALIDITY, mirroring energy-brain ─────────────
+    // Ported to Energy's actuation depth, but validity-gated HONESTLY per agriculture:
+    //   refractory:true — VALID. De-dups the brain's OWN action-draft emission within a dead-time
+    //     window (Neuro Ref III.3). Pure safety limiter; needs no validated external signal.
+    //   servo:true      — VALID. Real controllable effector = proportional dampening of agriculture's
+    //     OWN emitted-opportunity confidence + gating of its OWN action drafts (the identical output
+    //     channel energy regulates). Sensor = excitatory drive; controller = PI toward a drive+deviation
+    //     set-point; effector = emission dampening. It regulates the brain's OUTPUT, not a farm.
+    //   eiBrake:true    — VALID. The halt brake consumes the servo's proportional emissionFactor so
+    //     inhibition that fails to track drive raises the brake continuously (Neuro Ref XIII.1).
+    //   phase:false     — INVALID → kept ADVISORY. Agriculture's phase (P0-P10) is NOT Thing1-validated
+    //     (the kernel is validated only in the Finance + Population envelope). A realized phase
+    //     TRANSITION therefore is NOT a ground-truth teaching signal here, so the phase-transition
+    //     reward may never preempt credit assignment or open the emission window. _computeAgriculture
+    //     PhaseDynamics() still runs for observability, but ALWAYS as advisory-self-consistency and is
+    //     never wired to any effector. Do NOT flip this true without a validated agriculture kernel.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
   }
 
   AgricultureBrain.prototype = Object.create(Base.prototype);
@@ -698,13 +716,275 @@
         o.moneyChain = { doThis: pb.action || '', whyPays: whyPays, target: target, timing: timing, invalidIf: pb.failure || '', evidence: evidence, nextStep: nextStep };
       }
     }
+    // HALT / E-I BRAKE (actuated) — apply the PRIOR cycle's stop-circuit to the opportunity set:
+    // halt -> hold + zero confidence; dampen -> proportional penalty = min(governor penalty, the
+    // servo's proportional E/I emissionFactor). One-cycle lag (energy-parity). No-op when clear.
+    opps = this._applyAgricultureEmissionBrake(opps);
     this.state.opportunityCount = opps.length;
 
     this.state.opportunities = opps;
     return Promise.resolve();
   };
 
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION LAYER (2026-07-13, operator-approved) — ported from energy-brain to the
+  // same depth, adapted to agriculture's OWN state/graph and validity-gated (see this._actuation
+  // in the constructor). 100% DETERMINISTIC: no AI / fetch-to-LLM ever runs on the 30s cycle
+  // (the sole AI slot, authorNodeBusinessNarrative, is operator-triggered + killswitch-gated and
+  // is NEVER called from the cycle). Additive, reversible via the _actuation flags; affects ONLY
+  // emission (opportunity confidence + action-draft gating) — never stress/scoring/diagnoses/JSON.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  var AG_REFRACTORY_MS = 30 * 60 * 1000;   // III.3 dead-time between duplicate drafts for one diagnosis
+  var AG_REFRACTORY_OVERRIDE = 0.80;       // stress above this clears the dead-time (acute re-emit allowed)
+
+  // Refractory limiter (III.3) — self-contained, deterministic, no external module dependency.
+  // Effector = the brain's OWN action-draft emission. Reversible via _actuation.refractory.
+  AgricultureBrain.prototype._agricultureRefractoryFire = function (id, now, stress) {
+    if (!this._agRefractoryMap) this._agRefractoryMap = {};
+    var last = this._agRefractoryMap[id];
+    if (last != null && (now - last) < AG_REFRACTORY_MS &&
+        !(typeof stress === 'number' && stress >= AG_REFRACTORY_OVERRIDE)) {
+      return { allowed: false, sinceMs: now - last };
+    }
+    this._agRefractoryMap[id] = now;
+    return { allowed: true };
+  };
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref XIII.1 / V.2 / XII). Sensor = excitatory drive (stress +
+  // co-active conditions + active diagnoses); the live inhibition term is agricultureModel.regulation
+  // .inhibition; the adaptive baseline (K8-analog) is computed inline from the brain's OWN stress
+  // history. Controller = PI (fast proportional + bounded slow integral, the HPA fast+slow arms).
+  // Effector = a proportional emission-dampening factor the halt brake then consumes. Additive,
+  // reversible (_actuation.servo=false), never rewrites stress/scoring/diagnoses/p2_agri.json.
+  AgricultureBrain.prototype._computeAgricultureServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, am = s.agricultureModel || {}, reg = am.regulation || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // live term from _computeAgricultureRegulation
+    // Adaptive baseline (allostatic set-point) from the brain's own stress history — the K8 analog
+    // agriculture lacks as a discrete layer, computed inline so the servo regulates TO a moving target.
+    var hist = ((s.memory && s.memory.stressHistory) || []).slice(-20);
+    var n = hist.length, baseline = 0.5;
+    if (n >= 5) { var sum = 0; for (var i = 0; i < n; i++) sum += (hist[i].stress || 0); baseline = sum / n; }
+    var deviation = Math.max(0, stress - baseline);
+    var FLOOR = 0.15;
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                             // >0 => under-braked for the drive/regime
+    this._agServoIntegral = Math.max(-0.5, Math.min(0.5, (this._agServoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._agServoIntegral));   // only ADD braking; never disinhibit
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._agServoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation), baseline: R(baseline),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional dampening of agriculture\'s own emitted-opportunity confidence + action drafts. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.agricultureServo = servo;
+    return servo;
+  };
+
+  // E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). Mirrors energy's
+  // _computeEnergyRegulationAdvisories: (1) is inhibition tracking drive (reads the servo just
+  // computed); (2) CONSUME the connectivity / single-points-of-failure audit on agriculture's REAL
+  // graph (the 24 edges in p2_agri.json), rather than computing-and-discarding it. Deterministic,
+  // no AI, no writes. Lazily fetches + caches the edges once (browser fire-and-forget; server via
+  // require); prefers the shared connectivity-audit module, else an inline degree-hub fallback.
+  AgricultureBrain.prototype._computeAgricultureRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance
+    var servo = s.agricultureServo || null;
+    out.eiBalance = servo ? {
+      drive: servo.drive, inhibition: servo.inhibition, target: servo.target, state: servo.state,
+      balanced: servo.state === 'balanced',
+      note: 'XIII.1: inhibition must scale with drive; runaway-risk = inhibition below the drive+deviation target'
+    } : null;
+    // (2) Self-audit — consume the p2_agri graph SPOF / articulation-node read.
+    try {
+      var self = this;
+      var edges = (s._rawDomain && Array.isArray(s._rawDomain.edges) && s._rawDomain.edges) ||
+                  (Array.isArray(s.edges) && s.edges) || this._agricultureEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._agricultureEdgesPromise) {
+          this._agricultureEdgesPromise = fetch('/assets/data/domains/p2_agri.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._agricultureEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/p2_agri.json'); if (ed && Array.isArray(ed.edges)) { this._agricultureEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;   // domain-agnostic on {edges}
+      if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+      if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
+        var audit = CA.singlePointsOfFailure({ edges: edges });
+        var spof = (audit && audit.articulationNodes) || [];
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5),
+          verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+      } else if (edges && edges.length) {
+        // Inline fallback (module not loaded): degree-hub read on the real edges (no articulation calc).
+        var deg = {}; edges.forEach(function (e) { deg[e.source] = (deg[e.source] || 0) + 1; deg[e.target] = (deg[e.target] || 0) + 1; });
+        var hubs = Object.keys(deg).map(function (k) { return { node: k, degree: deg[k] }; }).sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+        out.selfAudit = { consumed: true, edgeCount: edges.length, spofCount: null, spof: [], topHubs: hubs,
+          note: 'connectivity-audit module not loaded; inline degree-hub read only' };
+      } else {
+        out.selfAudit = { consumed: false, note: edges ? 'connectivity-audit not loaded' : 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.agricultureRegulationAdvisories = out;
+    return out;
+  };
+
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION READ — ADVISORY ONLY (this._actuation.phase === false).
+  // Ported from energy's _computeEnergyPhaseDynamics for observability, but agriculture's phase is
+  // NOT Thing1-validated, so the transition is NEVER a ground-truth teaching signal here: `validated`
+  // is hard-forced false, `kind` is always advisory-self-consistency, and NOTHING downstream reads it
+  // to open the emission window or preempt credit (there is no K4 credit hook wired in agriculture).
+  // Runs deterministically; no AI, no writes to p2_agri.json.
+  AgricultureBrain.prototype._computeAgriculturePhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) coherence router — couple to co-phased, stressed peers (structural mechanism; advisory here)
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'agriculture') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) phase-transition read — ADVISORY. Never validated (agriculture kernel is not validated).
+    var hist = this._agPhaseHistory = this._agPhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var transition = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      transition = { from: prev, to: myPhase, wentUp: wentUp, hit: null,
+        validated: false, kind: 'advisory-self-consistency (agriculture phase not Thing1-validated)' };
+    }
+    hist.push({ phase: myPhase, t: (s.agricultureModel && s.agricultureModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, advisory: true, actuated: false, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: transition,
+      note: 'ADVISORY: phase-coherence router + transition read; agriculture phase is NOT Thing1-validated, so the transition is never a ground-truth reward and drives no effector.'
+    };
+    s.agriculturePhaseDynamics = out;
+    return out;
+  };
+
+  // HALT BRAKE (stop-circuit) — converts the governor layers (immune / conscience / regulation /
+  // prediction error) into an ACTUAL brake, and blends in the servo's PROPORTIONAL E/I dampening
+  // when _actuation.eiBrake is on. Computed each cycle at the end of _updateAgricultureModel;
+  // CONSUMED next cycle by _checkDiagnosisActions (drafts) + _applyAgricultureEmissionBrake (opps).
+  // Recurrent, one-cycle lag. Fail-open when absent (cycle 1). Additive; never rewrites the spine.
+  AgricultureBrain.prototype._computeAgricultureBrake = function () {
+    var s = this.state, am = s.agricultureModel || {}, reg = am.regulation || {};
+    var im = s.agricultureImmune || {}, con = s.agricultureConscience || {};
+    var diags = s.diagnoses || [];
+    var activeUnblocked = diags.filter(function (d) { return d.active && !d.blocked; });
+    var reasons = [];
+    if (im.immuneState === 'alert') reasons.push({ code: 'immune-alert', severity: 'halt', detail: 'immune severity ' + (im.severity || '?') });
+    if (reg.stale) reasons.push({ code: 'stale-feeds', severity: 'halt', detail: 'feeds older than staleness window' });
+    if (diags.length && activeUnblocked.length === 0) reasons.push({ code: 'no-evidence-backed-diagnosis', severity: 'halt', detail: 'all active diagnoses blocked by the evidence contract' });
+    var pe = (am.predictionError && am.predictionError.total) || 0;
+    if (pe > 0.4) reasons.push({ code: 'prediction-error-spike', severity: 'dampen', detail: 'predictionError ' + (Math.round(pe * 1000) / 1000) });
+    if (reg.flooding) reasons.push({ code: 'opportunity-flood', severity: 'dampen', detail: 'opportunity count above flood cap' });
+    if (con.conscienceState === 'restrictive' && con.artifactReadinessDecision && !con.artifactReadinessDecision.researchReady && !con.artifactReadinessDecision.investmentReady) reasons.push({ code: 'conscience-no-lane', severity: 'dampen', detail: 'no artifact lane cleared by conscience' });
+    // E/I BRAKE ACTUATION (Neuro Ref XIII.1): scale the brake PROPORTIONALLY with drive via the servo.
+    var servo = s.agricultureServo || null, eiFactor = 1;
+    if (this._actuation && this._actuation.eiBrake && servo) {
+      if (typeof servo.emissionFactor === 'number') eiFactor = servo.emissionFactor;
+      if (servo.state === 'runaway-risk') reasons.push({ code: 'ei-imbalance', severity: 'dampen', detail: 'inhibition ' + servo.inhibition + ' below target ' + servo.target + ' (drive ' + servo.drive + ')' });
+    }
+    var halt = reasons.some(function (r) { return r.severity === 'halt'; });
+    var dampen = reasons.some(function (r) { return r.severity === 'dampen'; });
+    var level = halt ? 'halt' : dampen ? 'dampen' : 'clear';
+    var brake = {
+      version: 1, level: level, engaged: halt, dampen: dampen, reasons: reasons,
+      suppressActions: halt, suppressOpportunities: halt,
+      confidencePenalty: Math.min(halt ? 0 : dampen ? 0.5 : 1, eiFactor),   // strongest brake wins (min)
+      eiFactor: (Math.round(eiFactor * 1000) / 1000),
+      note: level === 'clear' ? 'stop-circuit clear - emission allowed'
+        : level === 'halt' ? 'STOP-CIRCUIT ENGAGED - action emission halted, opportunities held'
+        : 'stop-circuit dampening - confidence reduced, emission held for review',
+      lastBrakeAt: am.updated || Date.now()
+    };
+    s.agricultureBrake = brake;
+    return brake;
+  };
+
+  // Consumed by surfaceOpportunities (end): applies the prior cycle's brake to the opportunity set.
+  // Mirrors energy _applyEmissionBrake. halt -> hold + zero confidence; dampen -> proportional penalty.
+  AgricultureBrain.prototype._applyAgricultureEmissionBrake = function (opps) {
+    var brake = this.state.agricultureBrake;
+    if (!brake || brake.level === 'clear') { this.state.opportunitiesHeld = false; return opps; }
+    var pen = (typeof brake.confidencePenalty === 'number') ? brake.confidencePenalty : 1;
+    var codes = (brake.reasons || []).map(function (r) { return r.code; }).join(',');
+    for (var i = 0; i < opps.length; i++) {
+      if (pen < 1 && typeof opps[i].confidence === 'number') opps[i].confidence = Math.round(opps[i].confidence * pen);
+      if (brake.suppressOpportunities) { opps[i].held = true; opps[i].heldReason = codes; }
+    }
+    this.state.opportunitiesHeld = !!brake.suppressOpportunities;
+    return opps;
+  };
+
+  // ── OPERATOR-TRIGGERED, KILLSWITCH-GATED AI SLOT (NEVER called from the 30s cycle) ──────────────
+  // Generating node->business narrative framing from a lit brain node + its live diagnosis is a
+  // genuine "code-cannot-do-this" slot (semantic generation, not arithmetic). COST-SAFETY CONTRACT:
+  //   (a) NEVER invoked by cycle() / _updateAgricultureModel() / any deterministic path;
+  //   (b) runs ONLY on an explicit operator action (opts.operatorTriggered === true);
+  //   (c) routes through a SERVER endpoint that enforces lib/ai-kill-switch spendDisabled();
+  //   (d) NO API key is ever present in client code, and there is NO client-side model fallback.
+  // If the endpoint is absent or the killswitch is engaged server-side, this resolves to a
+  // documented no-op result — it must never silently spend.
+  AgricultureBrain.prototype.authorNodeBusinessNarrative = function (opts) {
+    opts = opts || {};
+    if (!opts.operatorTriggered) {
+      return Promise.resolve({ ok: false, reason: 'operator-trigger-required',
+        note: 'never auto-invoked; the deterministic 30s cycle must never call this' });
+    }
+    if (typeof fetch !== 'function') return Promise.resolve({ ok: false, reason: 'no-fetch' });
+    return fetch('/api/ai-author-node-business', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain: 'agriculture', nodeId: opts.nodeId || null, diagnosisId: opts.diagnosisId || null, context: opts.context || null })
+    }).then(function (r) { return r.ok ? r.json() : { ok: false, reason: 'endpoint-' + r.status }; })
+      .catch(function () { return { ok: false, reason: 'endpoint-unavailable (killswitch or missing route); no client-side fallback' }; });
+  };
+
   AgricultureBrain.prototype._checkDiagnosisActions = function () {
+    // HALT BRAKE (actuated, one-cycle lag) — do not emit action drafts while the stop-circuit
+    // engaged last cycle. Mirrors energy-brain _checkDiagnosisActions. Fail-open on cycle 1.
+    var _brake = this.state.agricultureBrake;
+    if (_brake && _brake.suppressActions) { this.state._brakeHeldActions = (this.state._brakeHeldActions || 0) + 1; return; }
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; });
     if (activeDx.length === 0) return;
     var adapters = window.LIMENActionAdapters;
@@ -713,6 +993,17 @@
       var dx = activeDx[i];
       var existing = adapters.getDrafts({ domain: 'agriculture', intentId: dx.id });
       if (existing && existing.length > 0) continue;
+      // REFRACTORY GATE (III.3, actuated): once this diagnosis has emitted a draft, suppress
+      // re-emission within the dead-time unless stress clears the override bar. The diagnosis stays
+      // active/displayed — only the duplicate DRAFT is withheld. Best-effort; never breaks the cycle.
+      if (this._actuation && this._actuation.refractory) {
+        try {
+          var _now = (this.state.pulse && this.state.pulse.timestamp) ||
+                     ((typeof Date !== 'undefined' && Date.now) ? Date.now() : 0);
+          var _verdict = this._agricultureRefractoryFire(dx.id, _now, this.state.stress);
+          if (!_verdict.allowed) { this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1; continue; }
+        } catch (_e) { /* gate is best-effort; fall through to normal emission */ }
+      }
       adapters.createDraft('REPORT_GENERATION', {
         domain: 'agriculture', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id,
         title: 'Agriculture Alert: ' + dx.label,
@@ -995,6 +1286,16 @@
     // H1-H6 — higher Agriculture brain layers (computed BEFORE the crop-cycle layer + DDP build)
     try { this._computeAgricultureHigherLayers(); } catch (e) {}
 
+    // ── ACTUATION LAYER — order mirrors energy: servo (produces emissionFactor) -> regulation
+    // advisories (E/I + self-audit, observe-only) -> phase dynamics (ADVISORY; not validated for
+    // agriculture) -> brake (consumes the servo eiFactor when eiBrake is on). Each behind its
+    // _actuation flag. Brake is APPLIED next cycle in surfaceOpportunities / _checkDiagnosisActions
+    // (one-cycle lag, energy-parity). All deterministic; no AI, no writes to p2_agri.json.
+    try { if (this._actuation && this._actuation.servo) this._computeAgricultureServo(); } catch (e) {}
+    try { this._computeAgricultureRegulationAdvisories(); } catch (e) {}   // observe-only (E/I balance + SPOF self-audit)
+    try { this._computeAgriculturePhaseDynamics(); } catch (e) {}          // ADVISORY (actuation.phase=false); drives no effector
+    try { this._computeAgricultureBrake(); } catch (e) {}                  // consumes servo eiFactor (gated by _actuation.eiBrake)
+
     // CROP-CYCLE / food-security sub-portal layer (additive; BEFORE the DDP build so the
     // primary packet's promptView advertises it). Never touches the validated diagnosis spine.
     try { this._buildAgricultureCropCycleLayer(); } catch (e) {}
@@ -1027,6 +1328,12 @@
       immune: this.state.agricultureImmune || null,
       intuition: this.state.agricultureIntuition || null,
       sceneLayer: this.state.cropCycleLayer || null,
+      // ── ACTUATION SURFACES (additive; new keys only) ──
+      actuation: this._actuation || null,
+      servo: this.state.agricultureServo || null,                              // regulate-to-target (actuated)
+      brake: this.state.agricultureBrake || null,                              // halt / E-I dampening (actuated)
+      regulationAdvisories: this.state.agricultureRegulationAdvisories || null, // E/I balance + SPOF self-audit (observe-only)
+      phaseDynamics: this.state.agriculturePhaseDynamics || null,             // coherence router + transition (ADVISORY)
       treatments: this.state.treatments || [],
       diagnoses: this.state.diagnoses || [],
       opportunities: this.state.opportunities || []

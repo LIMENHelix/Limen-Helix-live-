@@ -48,6 +48,32 @@
   FinanceBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── OVERLAY ACTUATION (2026-07-13): port of Energy's actuation depth to Finance.
+    // VALIDITY GATE (honest, per-actuation — see ENERGY_NEURO_AUDIT.md + DOMAIN_BUILDOUT_PLAYBOOK.md §E):
+    //   servo    = TRUE  — Finance has a real controllable EFFECTOR: it emits opportunities +
+    //                      REPORT_GENERATION action-drafts (LIMENActionAdapters). The regulate-to-target
+    //                      servo drives inhibition toward a drive+deviation set-point; effector = proportional
+    //                      emission-confidence dampening (Neuro Ref V.2/XII set-point + XIII.1 E/I).
+    //   eiBrake  = TRUE  — E/I balance (XIII.1, the doc's most-repeated invariant): inhibition must scale
+    //                      with drive. The brake dampens the SAME emission channel proportionally to the
+    //                      inhibition deficit. Real effector, so honestly actuatable.
+    //   phase    = TRUE  — Finance is THE Thing1-VALIDATED domain (P3/P7 family; live phase = P7; EDGAR /
+    //                      bankruptcy kernel is validated in-envelope, PR-AUC 0.81/holdout 0.83). The
+    //                      phase-transition reward is genuine ground-truth on P3/P7 transitions (thing2
+    //                      lineage), not mere self-consistency — the exact condition the gate requires.
+    //   refractory = TRUE — de-dup of the action-draft emission (a real effector). Absolute dead-time +
+    //                      relative raised-bar (Neuro Ref III.3), implemented inline (deterministic; no
+    //                      external module dependency). Fully reversible: flip any flag to false.
+    // COST-SAFETY: every method below is 100% deterministic — NO paid-AI / LLM fetch runs on the 30s cycle.
+    // The ONE generative slot (authorNodeBusinessFromServer) is NEVER called from the cycle and is
+    // operator-triggered + killswitch-gated server-side (lib/ai-kill-switch spendDisabled()).
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time before the same diagnosis re-drafts (matches Energy)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (doc 1:4 ratio preserved)
+      overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 (or a stronger stimulus) re-fires in-window
+    };
+
     // ── One-shot cognition loaders (mirror energy/infrastructure/culture init): real entities,
     //    validated distress signals, real source bundles, L1 mad-lib scan, credit/liquidity sub-portal.
     //    STRICTLY ADDITIVE — never touches the validated scoreStress / deriveDiagnoses spine. ──
@@ -673,6 +699,25 @@
       var existingDrafts = adapters.getDrafts({ domain: 'finance', intentId: dx.id });
       if (existingDrafts && existingDrafts.length > 0) continue;
 
+      // REFRACTORY DE-DUP (Neuro Ref III.3) — real effector = action-draft emission.
+      // Absolute dead-time: no re-draft of the SAME diagnosis within absoluteWindow.
+      // Relative window: a raised bar — re-draft only if stress cleared overrideThreshold
+      // OR exceeds the last firing's stress (a stronger stimulus breaks through). Deterministic.
+      if (this._actuation && this._actuation.refractory) {
+        var rp = this._refractoryParams || {};
+        var now = Date.now();
+        this._financeRefractory = this._financeRefractory || {};
+        var last = this._financeRefractory[dx.id];
+        if (last) {
+          var age = now - last.t;
+          if (age < (rp.absoluteWindow || 900000)) continue;                                   // absolute dead-time
+          if (age < (rp.relativeWindow || 3600000) &&
+              (this.state.stress || 0) < (rp.overrideThreshold || 0.9) &&
+              (this.state.stress || 0) <= (last.stress || 0)) continue;                          // raised-threshold window
+        }
+        this._financeRefractory[dx.id] = { t: now, stress: this.state.stress || 0 };
+      }
+
       adapters.createDraft('REPORT_GENERATION', {
         domain: 'finance',
         sourceType: 'domain_brain',
@@ -891,6 +936,244 @@
     return { gain: gain, inhibition: inhibition, outputScale: outputScale, starving: starving, flooding: flooding, looping: looping, stale: stale, overconfident: overconfident, state: label };
   };
 
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION METHODS (ported from energy-brain.js, adapted to Finance's real edges/state).
+  // All deterministic; NO paid-AI / LLM fetch on the cycle. Each is gated by this._actuation.*.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // REGULATE-TO-TARGET SERVO (Neuro Ref V.2/XII set-point homeostasis/allostasis + XIII.1 E/I).
+  // Real sensor->controller->effector->feedback loop: sensor = excitatory drive (stress + how many
+  // things fire at once) vs current inhibition; controller = PI (fast proportional + bounded slow
+  // integral, the HPA fast+slow arms); effector = proportional dampening of emission (consumed by
+  // _applyFinanceEIBrake). Additive, reversible (this._actuation.servo=false); affects ONLY emission
+  // confidence — NEVER rewrites stress/scoring/diagnoses/finance.json.
+  FinanceBrain.prototype._computeFinanceServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, fm = s.financeModel || {}, reg = fm.regulation || {}, neuro = s.domainNeuro || {}, hm = neuro.homeostasis || {};
+    // SENSOR: excitatory drive (stress + active conditions + active diagnoses) vs current inhibition
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // the live regulation term
+    var FLOOR = 0.15;
+    // TARGET (allostatic set-point): inhibition must track drive (E/I) and rise with the adaptive
+    // baseline deviation (generic K-stack homeostasis, prior cycle). Regulate-TO-target, not alert-on.
+    var deviation = Math.max(0, (typeof hm.deviation === 'number') ? hm.deviation : 0);
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));
+    var error = target - inhibition;                                              // >0 => under-braked for the drive/regime
+    // CONTROLLER: bounded integral (slow arm) + proportional (fast arm)
+    this._financeServoIntegral = Math.max(-0.5, Math.min(0.5, (this._financeServoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._financeServoIntegral));   // only ADD braking; never disinhibit
+    // EFFECTOR: proportional dampening of emission (the E/I brake consumes this)
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._financeServoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening. Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.financeServo = servo;
+    return servo;
+  };
+
+  // E/I BRAKE ACTUATION (Neuro Ref XIII.1). Consumes the servo's emissionFactor and dampens emitted-
+  // opportunity confidence PROPORTIONALLY to the inhibition-vs-drive deficit. Effector = the same
+  // emission channel the base generic brake gate uses. Reversible (this._actuation.eiBrake=false).
+  FinanceBrain.prototype._applyFinanceEIBrake = function () {
+    var s = this.state, servo = s.financeServo;
+    if (!servo) { s.financeEIBrake = null; return null; }
+    var f = (typeof servo.emissionFactor === 'number') ? servo.emissionFactor : 1;
+    var opps = s.opportunities || [];
+    var runaway = servo.state === 'runaway-risk';
+    var dampened = 0;
+    for (var i = 0; i < opps.length; i++) {
+      if (f < 1 && typeof opps[i].confidence === 'number') {
+        opps[i].confidence = Math.round(opps[i].confidence * f);
+        opps[i].eiFactor = f;
+        dampened++;
+      }
+      if (runaway) opps[i].eiDampened = true;
+    }
+    s.financeEIBrake = {
+      version: 1, applied: f < 1, emissionFactor: (Math.round(f * 1000) / 1000),
+      servoState: servo.state, dampenedCount: dampened,
+      note: 'E/I brake (Neuro Ref XIII.1): emission confidence dampened proportionally to the inhibition deficit vs drive; reversible via _actuation.eiBrake.'
+    };
+    return s.financeEIBrake;
+  };
+
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (patent §3.4 Loop 1 coupling matrix M; thing2 lineage).
+  //  Router: P0-P10 IS the phase variable — Finance couples to stressed domains whose PHASE is coherent with
+  //          its own (positive M = same excitability window = communicate-through-coherence).
+  //  Reward: a realized phase TRANSITION over time is ground-truth (thing2 "goes through time"). GATED to
+  //          TRUE reward only on P3/P7-involving transitions — the phases Thing1 VALIDATES, and Finance's
+  //          home envelope (EDGAR / bankruptcy kernel; live phase P7). Elsewhere it is advisory
+  //          self-consistency, never a fabricated validated signal. Deterministic; no AI; no writes to finance.json.
+  FinanceBrain.prototype._computeFinancePhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed domains
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'finance') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    var hist = this._financePhaseHist = this._financePhaseHist || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var fc = (s.domainNeuro && s.domainNeuro.forecast) || {};
+      var predictedUp = fc.direction === 'rising' ||
+        (typeof fc.projectedStress === 'number' && typeof s.stress === 'number' && fc.projectedStress > s.stress);
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+    }
+    hist.push({ phase: myPhase, t: (s.financeModel && s.financeModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — Finance\'s validated envelope).'
+    };
+    s.financePhaseDynamics = out;
+    return out;
+  };
+
+  // E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). Deterministic, no AI, no
+  // writes. (1) E/I balance = is inhibition tracking drive (reads the servo). (2) Self-audit = CONSUME the
+  // connectivity / single-points-of-failure audit on Finance's REAL edge graph (81 edges live in
+  // finance.json, NOT in the live snapshot — lazy-fetch + cache once, matching Energy's edge loader).
+  FinanceBrain.prototype._computeFinanceRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance advisory
+    var servo = s.financeServo || null;
+    out.eiBalance = servo ? {
+      drive: servo.drive, inhibition: servo.inhibition, target: servo.target, error: servo.error,
+      state: servo.state, balanced: servo.state === 'balanced', note: 'inhibition-tracks-drive (Neuro Ref XIII.1)'
+    } : null;
+    // (2) self-audit — consume the finance edge graph (81 edges / 36 nodes)
+    try {
+      var self = this;
+      var edges = this._financeEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._financeEdgesPromise) {
+          this._financeEdgesPromise = fetch('/assets/data/domains/finance.json')
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._financeEdges = j.edges; })
+            .catch(function () {});
+        } else if (typeof require === 'function') {
+          try { var ed = require('../../data/domains/finance.json'); if (ed && Array.isArray(ed.edges)) { this._financeEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+        }
+      }
+      if (edges && edges.length) out.selfAudit = this._financeConnectivityAudit(edges);
+      else out.selfAudit = { consumed: false, note: edges ? 'no edges' : 'edges loading (async, next cycle)' };
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.financeRegulationAdvisories = out;
+    return out;
+  };
+
+  // Deterministic connectivity self-audit (Neuro Ref XIV): degree hubs + articulation points (Tarjan) on
+  // the finance node/edge graph. Self-contained (no external module). Consumed observe-only.
+  FinanceBrain.prototype._financeConnectivityAudit = function (edges) {
+    var adj = {}, deg = {};
+    for (var e = 0; e < edges.length; e++) {
+      var a = edges[e].source, b = edges[e].target;
+      if (!a || !b) continue;
+      (adj[a] = adj[a] || []).push(b); (adj[b] = adj[b] || []).push(a);
+      deg[a] = (deg[a] || 0) + 1; deg[b] = (deg[b] || 0) + 1;
+    }
+    var nodes = Object.keys(deg);
+    var topHubs = nodes.map(function (n) { return { node: n, degree: deg[n] }; })
+      .sort(function (x, y) { return y.degree - x.degree; }).slice(0, 5);
+    // Articulation points (Tarjan), iterative-safe on a 36-node graph via bounded recursion.
+    var visited = {}, disc = {}, low = {}, parent = {}, ap = {}, timer = { t: 0 };
+    function dfs(u) {
+      visited[u] = true; disc[u] = low[u] = ++timer.t; var children = 0;
+      var nb = adj[u] || [];
+      for (var i = 0; i < nb.length; i++) {
+        var v = nb[i];
+        if (!visited[v]) {
+          children++; parent[v] = u; dfs(v);
+          low[u] = Math.min(low[u], low[v]);
+          if (parent[u] === undefined && children > 1) ap[u] = true;
+          if (parent[u] !== undefined && low[v] >= disc[u]) ap[u] = true;
+        } else if (v !== parent[u]) {
+          low[u] = Math.min(low[u], disc[v]);
+        }
+      }
+    }
+    for (var k = 0; k < nodes.length; k++) { if (!visited[nodes[k]]) { parent[nodes[k]] = undefined; dfs(nodes[k]); } }
+    var spof = Object.keys(ap);
+    return {
+      consumed: true, edgeCount: edges.length, nodeCount: nodes.length,
+      spofCount: spof.length, spof: spof.slice(0, 8), topHubs: topHubs,
+      verdict: spof.length ? (spof.length + ' single-point(s)-of-failure: removal disconnects the finance connectome') : 'no articulation nodes (resilient graph)',
+      note: 'connectivity self-audit (Neuro Ref XIV): degree hubs + articulation points on the ' + edges.length + '-edge finance graph'
+    };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // OPERATOR-TRIGGERED GENERATIVE SLOT — the ONE "code-cannot-do-this" hook (generative
+  // node->business authoring / semantic mapping). COST-SAFE BY CONSTRUCTION:
+  //   (a) NEVER called from cycle()/_updateFinanceModel — the 30s cycle is 100% deterministic
+  //       (grep-verify: no call site in the cycle pipeline);
+  //   (b) runs ONLY on an explicit operator trigger (opts.operatorTriggered === true);
+  //   (c) routes through a SERVER endpoint that enforces lib/ai-kill-switch spendDisabled()
+  //       server-side — NO API key is ever present in this client code.
+  // If no killswitch-gated endpoint is supplied it is a documented NO-OP STUB (spends nothing),
+  // per the discipline "leave the slot as a documented no-op stub rather than wiring a live call."
+  // ════════════════════════════════════════════════════════════════════════════
+  FinanceBrain.prototype.authorNodeBusinessFromServer = function (nodeId, opts) {
+    opts = opts || {};
+    if (opts.operatorTriggered !== true) {
+      return Promise.resolve({ status: 'blocked', reason: 'operator-trigger required; the 30s cycle must never call this (cost-safety killswitch)' });
+    }
+    var endpoint = opts.endpoint || null;   // server route that is killswitch-gated (spendDisabled) — no key client-side
+    if (!endpoint || typeof fetch !== 'function') {
+      return Promise.resolve({ status: 'noop-stub', nodeId: nodeId || null, note: 'no killswitch-gated server endpoint wired; documented no-op — no spend' });
+    }
+    return fetch(endpoint, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain: 'finance', nodeId: nodeId || null, task: 'node-business-authoring' })
+    })
+      .then(function (r) { return r.ok ? r.json() : { status: 'server-declined', code: r.status }; })
+      .catch(function (err) { return { status: 'error', error: String(err && err.message || err) }; });
+  };
+
   // ── The recurrent step — END of each cycle. Reads the prior from the PREVIOUS cycle, so
   //    cycle N+1's interpretation (predictedStress, readyForHandoff) depends on cycle N.
   //    NEVER touches the validated stress/diagnosis spine. ──
@@ -905,9 +1188,31 @@
     var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
     var reg = this._computeFinanceRegulation(fm, obs, pe);
 
+    // ── ACTUATION: PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (reads this cycle's
+    //    generic forecast in state.domainNeuro). Ground-truth only on P3/P7 transitions. ──
+    try { if (this._actuation && this._actuation.phase) this._computeFinancePhaseDynamics(); } catch (e) {}
+    // ── ACTUATION: REGULATE-TO-TARGET SERVO (E/I). Reads reg.inhibition + the generic
+    //    homeostasis deviation; effector = proportional emission dampening applied below. ──
+    try { if (this._actuation && this._actuation.servo) this._computeFinanceServo(); } catch (e) {}
+
     var readyForHandoff = (fm.cycle > 0) && (predictedStress >= FM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    var nextPrior = this._updateFinancePrior(priorIn, obs, fm.plasticity.learningRate);   // → next cycle reads this
+    // ── K4 CREDIT-SOURCE HOOK (mirrors energy-brain.js:1398-1414). A VALIDATED phase
+    //    transition (P3/P7, thing2 ground-truth) PREEMPTS the generic outcome ledger as the
+    //    teaching signal; a low hit-rate raises the effective learning rate. Bounded, reversible. ──
+    var _lr = fm.plasticity.learningRate;
+    var _pt = (this.state.financePhaseDynamics || {}).transition;
+    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+    var _led = (this.state.domainNeuro || {}).outcomeLedger || null;
+    var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
+    var _hit = _phaseReward ? (_pt.hit ? 1 : 0)
+      : _fromLedger ? _led.hitRate
+      : null;
+    if (_hit !== null) _lr = _fmClamp(_lr * (1 + (1 - _hit)), FM_SLOW_RATE, 0.6);
+    fm._effectiveLearningRate = _lr;
+    fm._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none'));
+
+    var nextPrior = this._updateFinancePrior(priorIn, obs, _lr);   // → next cycle reads this (learning rate now credit-scaled)
 
     fm.cycle += 1;
     fm.observation = obs;
@@ -929,6 +1234,14 @@
 
     // H1-H6 — higher finance brain layers (domain-level, computed once per cycle BEFORE the DDP build)
     try { this._computeFinanceHigherLayers(); } catch (e) {}
+
+    // ── ACTUATION: E/I BRAKE (XIII.1) — dampen emitted-opportunity confidence PROPORTIONALLY to
+    //    the servo's inhibition deficit vs drive. Effector = the same emission channel the generic
+    //    brake gate uses. Opportunities are rebuilt fresh each cycle, so no compounding. ──
+    try { if (this._actuation && this._actuation.eiBrake) this._applyFinanceEIBrake(); } catch (e) {}
+    // ── E/I balance + self-audit ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV). Consumes the
+    //    finance edge graph (81 edges / 36 nodes) for single-points-of-failure. Never mutates scoring. ──
+    try { fm.regulationAdvisories = this._computeFinanceRegulationAdvisories(); } catch (e) { fm.regulationAdvisories = null; }
 
     // CREDIT/LIQUIDITY — additive sub-layer (BEFORE the DDP build so the primary packet advertises it).
     try { this._buildFinanceSublayer(); } catch (e) {}
@@ -953,6 +1266,11 @@
       financeIntuition: this.state.financeIntuition || null,
       financeSimulation: this.state.financeSimulation || null,
       financeExecutiveReport: this.state.financeExecutiveReport || null,
+      // ── ACTUATION surfaces (additive; new keys only) ──
+      servo: this.state.financeServo || null,
+      phaseDynamics: this.state.financePhaseDynamics || null,
+      eiBrake: this.state.financeEIBrake || null,
+      regulationAdvisories: this.state.financeRegulationAdvisories || null,
       awareness: this.state.financeAwareness || null,
       conscience: this.state.financeConscience || null,
       immune: this.state.financeImmune || null,

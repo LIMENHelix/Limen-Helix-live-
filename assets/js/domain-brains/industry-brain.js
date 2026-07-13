@@ -38,6 +38,35 @@
     this._loadIndustryDiagnosisBundles();     // G1: load real artifact-source bundles (only ones that exist)
     this._loadIndustryL1PortalDepth();        // J1: scan L1 portal branches (treatments mad-lib -> NOT admitted; real tickers only)
     this._loadProductionCapacityLayer();      // sub-layer: hand-authored production-capacity diagnoses (additive, never merged into the 5-spine)
+
+    // ── OVERLAY ACTUATION (2026-07-13): port of the Energy actuation depth to Industry. ──────────
+    // VALIDITY GATE (per-actuation honesty; see ENERGY_NEURO_AUDIT.md discipline). Industry earns
+    // all four because it has REAL controllable effectors and a Thing1-validated phase:
+    //   refractory=true  — effector = action-draft (REPORT_GENERATION) emission in _checkDiagnosisActions.
+    //                      Neuro Ref III.3 refractory (absolute dead-time + relative raised-threshold;
+    //                      a stronger stimulus can still re-fire). Inline limiter (no energy module dep).
+    //   servo=true       — effector = opportunity-emission confidence (real output channel Industry
+    //                      already emits). PI regulate-to-target (E/I: inhibition tracks drive). Ref XIII.1/V.2/XII.
+    //   eiBrake=true     — effector = SAME opportunity-emission channel; consumes servo.emissionFactor
+    //                      and dampens proportionally with drive. Ref XIII.1.
+    //   phase=true       — Industry's domain phase IS P3 (industry.json), a Thing1-VALIDATED phase.
+    //                      So a realized P3/P7-involving phase TRANSITION is a legitimate ground-truth
+    //                      reward → K4 credit-source preemption of the learning rate (patent 3.4 M matrix +
+    //                      thing2 lineage). Off-family transitions stay advisory-self-consistency (never
+    //                      fabricate a validated signal — same honest boundary Energy carries).
+    // Every actuation is additive + reversible (flip a flag to false) and touches ONLY the emission/
+    // credit channels — never rewrites stress, scoring, diagnoses, or any data file. Deterministic:
+    // NO paid-AI / fetch-to-LLM ever runs on the 30s cycle (see _authorNodeBusinessViaOperator stub).
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    // Refractory windows MIRROR assets/data/domains/industry.json runtime.params (the brain runs in
+    // its own context and does not load that file); keep the two in sync when tuning. 1:4 doc ratio.
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time (operator-set)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
+      overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 re-fires a diagnosis in-window
+    };
+    this._servoIntegral = 0;      // bounded slow arm of the PI servo (persists across cycles)
+
     this.diagnosisIndex = {
       'SUPPLY_CHAIN_COLLAPSE': ['input_shortage', 'supplier_constraint', 'component_scarcity', 'critical_part_delay', 'industry_high_stress', 'macro_shock'],
       'AUTOMATION_FAILURE':     ['equipment_failure', 'automation_breakdown', 'capacity_constraint', 'production_halt', 'maintenance_backlog'],
@@ -380,16 +409,78 @@
         o.moneyChain = { doThis: pb.action || '', whyPays: whyPays, target: target, timing: timing, invalidIf: pb.failure || '', evidence: evidence, nextStep: nextStep };
       }
     }
+    // ── E/I BRAKE + PHASE-COHERENCE ACTUATION (consumes the PRIOR cycle's servo + phase dynamics;
+    // no-op on cycle 1). Recurrent, one-cycle lag — mirrors energy's _applyEmissionBrake/_applyNeuroGating. ──
+    opps = this._applyIndustryActuationGate(opps);
+
     this.state.opportunityCount = opps.length;
 
     this.state.opportunities = opps;
     return Promise.resolve();
   };
 
+  // Consumed at the END of surfaceOpportunities: applies the prior cycle's E/I servo dampening to
+  // the emitted opportunity confidences (the real output channel). Phase-coherent coupling to
+  // stressed, co-phased peers opens the processing window (comm-through-coherence) and RELAXES the
+  // dampening a bounded amount. Reads only prior-cycle state (industryServo / industryPhaseDynamics);
+  // both absent on cycle 1 → opps returned unchanged. Deterministic; touches only o.confidence.
+  IndustryBrain.prototype._applyIndustryActuationGate = function (opps) {
+    var servo = this.state.industryServo || null;
+    var pd = this.state.industryPhaseDynamics || null;
+    if (!this._actuation || !this._actuation.eiBrake || !servo || typeof servo.emissionFactor !== 'number') { this.state._industryGatedCount = 0; return opps; }
+    var factor = servo.emissionFactor;   // 0.2..1 (1 = no dampening; <1 = under-braked drive → dampen)
+    // PHASE-COHERENCE window: coherent coupling relaxes the brake a bounded amount (never above 1).
+    if (this._actuation.phase && pd && typeof pd.couplingStrength === 'number' && pd.couplingStrength > 0.15) {
+      factor = Math.min(1, factor + Math.min(0.15, pd.couplingStrength));
+    }
+    if (factor >= 1) { this.state._industryGatedCount = 0; return opps; }
+    var gated = 0;
+    for (var i = 0; i < opps.length; i++) {
+      if (typeof opps[i].confidence === 'number') {
+        var before = opps[i].confidence;
+        opps[i].confidence = Math.round(before * factor);
+        opps[i].eiDampened = true;
+        if (opps[i].confidence < before) gated++;
+      }
+    }
+    this.state._industryGatedCount = gated;
+    this.state._industryEmissionFactor = Math.round(factor * 1000) / 1000;
+    return opps;
+  };
+
   IndustryBrain.prototype._checkDiagnosisActions = function () {
     var activeDx = this.state.diagnoses.filter(function (d) { return d.active; }); if (activeDx.length === 0) return;
     var adapters = window.LIMENActionAdapters; if (!adapters) return;
-    for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'industry', intentId: dx.id }).length > 0) continue; adapters.createDraft('REPORT_GENERATION', { domain: 'industry', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Industry Alert: ' + dx.label, intent: { domain: 'industry', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' industrial impact', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected plants, lines, and suppliers', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate industrial opportunities', status: 'PENDING' }] } }); }
+    var _now = Date.now(), _stress = this.state.stress;
+    for (var i = 0; i < activeDx.length; i++) {
+      var dx = activeDx[i];
+      if (adapters.getDrafts && adapters.getDrafts({ domain: 'industry', intentId: dx.id }).length > 0) continue;
+      // REFRACTORY ACTUATION (Neuro Ref III.3): suppress a re-fire of the same diagnosis's action
+      // draft inside the dead-time / raised-threshold window. A stronger stimulus (stress >= override)
+      // still breaks through. Reversible via _actuation.refractory. Effector = REPORT_GENERATION emission.
+      if (this._actuation && this._actuation.refractory && !this._industryRefractoryFire(dx.id, _now, _stress)) {
+        this.state._refractorySuppressed = (this.state._refractorySuppressed || 0) + 1;
+        continue;
+      }
+      adapters.createDraft('REPORT_GENERATION', { domain: 'industry', sourceType: 'domain_brain', sourceId: dx.id, intentId: dx.id, title: 'Industry Alert: ' + dx.label, intent: { domain: 'industry', title: dx.label, status: 'ACTIVE', priority: this.state.stress, progress: 0, strategyType: 'diagnosis_response', steps: [{ type: 'ANALYZE', label: 'Assess ' + dx.label + ' industrial impact', status: 'PENDING' }, { type: 'INVESTIGATE', label: 'Identify affected plants, lines, and suppliers', status: 'PENDING' }, { type: 'POSITION', label: 'Evaluate industrial opportunities', status: 'PENDING' }] } });
+    }
+  };
+
+  // Inline refractory limiter (Neuro Ref III.3) — no external module dependency (energy uses
+  // energy-refractory-limiter.js; that module is not loaded on the Industry console). Returns TRUE
+  // if the diagnosis may fire, FALSE if suppressed. Absolute window = hard dead-time; relative
+  // window = raised bar (a stimulus at/above overrideThreshold still fires). Deterministic.
+  IndustryBrain.prototype._industryRefractoryFire = function (id, now, stress) {
+    var p = this._refractoryParams || { absoluteWindow: 900000, relativeWindow: 3600000, overrideThreshold: 0.9 };
+    var mem = this._refractoryMem = this._refractoryMem || {};
+    var last = mem[id];
+    if (last != null) {
+      var dt = now - last;
+      if (dt < p.absoluteWindow) return false;                                    // hard dead-time: never re-fire
+      if (dt < p.relativeWindow && (stress || 0) < p.overrideThreshold) return false; // raised bar: only strong re-fires
+    }
+    mem[id] = now;
+    return true;
   };
 
   IndustryBrain.prototype.resolveDeepContent = function () {
@@ -539,7 +630,21 @@
     // a FINAL decision that depends on the prior, not just on raw obs:
     var readyForHandoff = (em.cycle > 0) && (predictedStress >= IM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    var nextPrior = this._updateIndustryPrior(priorIn, obs, em.plasticity.learningRate);  // -> next cycle reads this
+    // K4 CREDIT-SOURCE HOOK (phase actuation). A realized phase TRANSITION over time is a real
+    // ground-truth teaching signal, but ONLY on Thing1-validated phases (P3/P7 family) — which is
+    // exactly Industry's regime (industry.json phase = P3). When such a validated transition resolves,
+    // it PREEMPTS the default learning rate (a hit lowers the effective rate toward slow consolidation;
+    // a miss raises plasticity), the same K4 mechanism Energy uses. Off-family transitions are ignored
+    // here (advisory-self-consistency only) so no fabricated validated signal enters learning. Reads the
+    // PRIOR cycle's industryPhaseDynamics (one-cycle lag). Reversible via _actuation.phase.
+    var _lr = em.plasticity.learningRate;
+    var _pt = (this.state.industryPhaseDynamics || {}).transition;
+    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+    var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : null;
+    if (_hit !== null) _lr = _imClamp(_lr * (1 + (1 - _hit)), IM_SLOW_RATE, 0.6);
+    em._effectiveLearningRate = _lr;
+    em._creditSource = _phaseReward ? 'phase-transition' : 'stress-self-pred';
+    var nextPrior = this._updateIndustryPrior(priorIn, obs, _lr);  // -> next cycle reads this (effective LR)
 
     em.cycle += 1;
     em.observation = obs;
@@ -554,6 +659,12 @@
     // H1-H6 — higher Industry brain layers (computed BEFORE the DDP build so packets embed summaries).
     try { this._computeIndustryHigherLayers(); } catch (e) {}
 
+    // ── ACTUATION LAYER (computed here so NEXT cycle's surfaceOpportunities / K4 hook read them;
+    // one-cycle lag, recurrent by design). Each behind its _actuation flag; all deterministic. ──
+    try { if (this._actuation && this._actuation.servo) this._computeIndustryServo(); } catch (e) {}   // REGULATE-TO-TARGET PI SERVO → emissionFactor
+    try { this._computeIndustryRegulationAdvisories(); } catch (e) {}                                   // E/I balance + self-audit SPOF (observe-only)
+    try { if (this._actuation && this._actuation.phase) this._computeIndustryPhaseDynamics(); } catch (e) {}   // phase-coherence router + phase-transition reward
+
     // Production-capacity sub-layer (additive; BEFORE the DDP build so the primary packet advertises it).
     try { this._buildProductionCapacityLayer(); } catch (e) {}
 
@@ -561,11 +672,14 @@
     try {
       this.state.cognition = {
         domain: 'industry',
-        model: { cycle: em.cycle, predictionError: em.predictionError, predictedStress: em.predictedStress, regulation: em.regulation },
+        model: { cycle: em.cycle, predictionError: em.predictionError, predictedStress: em.predictedStress, regulation: em.regulation, creditSource: em._creditSource || null, effectiveLearningRate: em._effectiveLearningRate || null },
         awareness: this.state.industryAwareness || null,
         conscience: this.state.industryConscience || null,
         immune: this.state.industryImmune || null,
-        intuition: this.state.industryIntuition || null
+        intuition: this.state.industryIntuition || null,
+        servo: this.state.industryServo || null,                        // actuated PI servo
+        phaseDynamics: this.state.industryPhaseDynamics || null,        // actuated phase router + reward
+        regulation2: this.state.industryRegulationAdvisories || null    // E/I balance + SPOF self-audit (additive key; distinct from model.regulation)
       };
     } catch (e) {}
 
@@ -1010,6 +1124,230 @@
     this._computeIndustryIntuition();
     this._computeIndustrySimulation();
     this._computeIndustryExecutiveReport();
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION METHODS (Energy-parity port). All deterministic; NO paid-AI / fetch-to-LLM
+  // ever runs here. Additive + reversible; touch only the emission-confidence / credit channels.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // REGULATE-TO-TARGET SERVO + E/I (Neuro Ref XIII.1 / V.2 / XII). Sensor = excitatory drive
+  // (stress + how many things fire at once). Controller = PI (fast proportional + bounded slow
+  // integral, the HPA fast+slow arms). Effector = a proportional emissionFactor the E/I brake
+  // consumes in _applyIndustryActuationGate. Deviation is read from the generic K-stack's adaptive
+  // baseline (prior cycle), with an inline stressHistory fallback so it works before that exists.
+  // Only ever ADDS braking (never disinhibits). Never rewrites stress/scoring/diagnoses/data files.
+  IndustryBrain.prototype._computeIndustryServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state;
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    // inhibition proxy: how much braking is already engaged (generic brake reasons + gain gating).
+    var neuro = s.domainNeuro || (s.cognition && s.cognition.neuro) || {};
+    var brake = neuro.brake || {};
+    var brakeReasons = Array.isArray(brake.reasons) ? brake.reasons.length : 0;
+    var inhibition = Math.max(0, Math.min(1, brakeReasons / 5 + (brake.level === 'dampen' ? 0.3 : brake.level === 'halt' ? 0.6 : 0)));
+    // deviation from the adaptive baseline (K8 analogue): prefer the generic K-stack homeostasis,
+    // else compute from local stress history.
+    var deviation = 0;
+    if (neuro.homeostasis && typeof neuro.homeostasis.deviation === 'number') {
+      deviation = Math.max(0, neuro.homeostasis.deviation);
+    } else {
+      var hist = (s.memory && s.memory.stressHistory) || [];
+      var win = hist.slice(-60), n = win.length, sum = 0;
+      for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+      var baseline = n ? sum / n : 0.5;
+      deviation = Math.max(0, stress - baseline);
+    }
+    var FLOOR = 0.15;
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR + deviation)));   // allostatic set-point
+    var error = target - inhibition;                                                 // >0 => under-braked for the drive/regime
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));  // only ADD braking
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));                   // effector
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor),
+      state: state, deviation: R(deviation),
+      note: 'closed-loop allostasis: drives inhibition toward a drive+deviation target; effector = proportional emission dampening (consumed by _applyIndustryActuationGate). Neuro Ref XIII.1/V.2/XII.'
+    };
+    s.industryServo = servo;
+    return servo;
+  };
+
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (patent 3.4 Loop-1 M matrix + thing2 lineage).
+  //  (A) Router: Industry couples to OTHER domains whose phase is coherent with its own (positive M)
+  //      AND are stressed — communication-through-coherence (same excitability window). Advisory
+  //      coupling strength opens the emission window a bounded amount in _applyIndustryActuationGate.
+  //  (B) Reward: a realized phase TRANSITION over time is ground-truth ONLY on P3/P7-involving
+  //      transitions (the phases Thing1 validates; Industry's canonical phase = P3). Elsewhere it is
+  //      advisory-self-consistency, never a fabricated learning signal. Consumed by the K4 hook.
+  // Deterministic; no AI; no writes to any data file.
+  IndustryBrain.prototype._computeIndustryPhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };               // Thing1 validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER — couple to co-phased, stressed peers via the registered brains.
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase] && window.LIMENDomainBrains) {
+      var row = PHASE_M[myPhase];
+      var all = window.LIMENDomainBrains.getAll();
+      Object.keys(all).forEach(function (k) {
+        if (k === 'industry') return;
+        var b = all[k]; if (!b || !b.state) return;
+        var op = norm(b.state.phase);
+        var st = (typeof b.state.stress === 'number') ? b.state.stress : 0;
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    var hist = this._industryPhaseHistory = this._industryPhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var em = s.industryModel || {};
+      var neuro = s.domainNeuro || (s.cognition && s.cognition.neuro) || {};
+      var fc = neuro.forecast || {};
+      var predictedUp = fc.direction === 'rising' ||
+        (typeof fc.projectedStress === 'number' && typeof s.stress === 'number' && fc.projectedStress > s.stress) ||
+        (typeof em.predictedStress === 'number' && typeof s.stress === 'number' && em.predictedStress > s.stress);
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+    }
+    hist.push({ phase: myPhase, t: (s.industryModel && s.industryModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — Industry is P3).'
+    };
+    s.industryPhaseDynamics = out;
+    return out;
+  };
+
+  // E/I BALANCE + SELF-AUDIT (SPOF) ADVISORIES — observe-only (Neuro Ref XIII.1 + XIV). Consumes the
+  // domain's 81-edge graph (industry.json edges, NOT in the live snapshot) via the connectivity
+  // audit: prefers window.EnergyConnectivityAudit (pure edge function) when present, else an inline
+  // articulation/hub computation. Lazily fetches + caches the edges once (fire-and-forget). No AI,
+  // no writes. The brain SEES its own runaway risk + brittle nodes each cycle.
+  IndustryBrain.prototype._computeIndustryRegulationAdvisories = function () {
+    var s = this.state, out = { version: 1, observeOnly: true };
+    // (1) E/I balance — is inhibition tracking drive? Prefer the shared module, else inline.
+    try {
+      var servo = s.industryServo || {};
+      var drive = (typeof servo.drive === 'number') ? servo.drive : (typeof s.stress === 'number' ? s.stress : 0);
+      var inhibition = (typeof servo.inhibition === 'number') ? servo.inhibition : 0;
+      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+      if (EI && typeof EI.assess === 'function') {
+        out.eiBalance = EI.assess({ drive: drive, inhibition: inhibition });
+      } else {
+        var floor = 0.15, required = Math.max(floor, Math.min(1, drive));
+        var ratio = inhibition / Math.max(drive, 1e-6);
+        var state = (drive > floor && ratio < 0.6) ? 'runaway-risk' : (ratio > 1.8 && inhibition > floor) ? 'over-inhibited' : 'balanced';
+        out.eiBalance = { drive: Math.round(drive * 1000) / 1000, inhibition: Math.round(inhibition * 1000) / 1000, required: Math.round(required * 1000) / 1000, ratio: Math.round(ratio * 1000) / 1000, state: state, deficit: Math.round((required - inhibition) * 1000) / 1000, note: 'inline E/I (Neuro Ref XIII.1): inhibition must track drive' };
+      }
+    } catch (e) { out.eiBalance = null; }
+    // (2) Self-audit — CONSUME the connectivity / SPOF audit on the REAL graph (81 edges).
+    try {
+      var self = this;
+      var edges = this._industryEdges || null;
+      if (!edges) {
+        if (typeof fetch === 'function' && !this._industryEdgesPromise) {
+          this._industryEdgesPromise = fetch('/assets/data/domains/industry.json')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) { if (j && Array.isArray(j.edges)) self._industryEdges = j.edges; })
+            .catch(function () {});
+        }
+      }
+      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+      if (edges && edges.length && CA && typeof CA.singlePointsOfFailure === 'function') {
+        var audit = CA.singlePointsOfFailure({ edges: edges });
+        var spof = (audit && audit.articulationNodes) || [];
+        out.selfAudit = { consumed: true, source: 'EnergyConnectivityAudit', edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5), verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+      } else if (edges && edges.length) {
+        out.selfAudit = this._industrySpofInline(edges);
+      } else {
+        out.selfAudit = { consumed: false, note: 'edges loading (async, next cycle)' };
+      }
+    } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
+    s.industryRegulationAdvisories = out;
+    return out;
+  };
+
+  // Inline single-point-of-failure / hub audit (Neuro Ref XIV diaschisis) — self-contained fallback
+  // when window.EnergyConnectivityAudit is not loaded on the Industry console. Pure function of edges.
+  IndustryBrain.prototype._industrySpofInline = function (edges) {
+    function componentCount(nodes, es) {
+      var adj = {}; nodes.forEach(function (n) { adj[n] = []; });
+      es.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });
+      var seen = {}, comps = 0;
+      nodes.forEach(function (n) {
+        if (seen[n]) return; comps++; var stack = [n];
+        while (stack.length) { var x = stack.pop(); if (seen[x]) continue; seen[x] = 1; adj[x].forEach(function (y) { if (!seen[y]) stack.push(y); }); }
+      });
+      return comps;
+    }
+    var nodeSet = {}; edges.forEach(function (e) { nodeSet[e.source] = 1; nodeSet[e.target] = 1; });
+    var nodes = Object.keys(nodeSet);
+    var base = componentCount(nodes, edges);
+    var spof = [];
+    nodes.forEach(function (n) {
+      var rn = nodes.filter(function (x) { return x !== n; });
+      var re = edges.filter(function (e) { return e.source !== n && e.target !== n; });
+      var c = componentCount(rn, re);
+      if (c > base) spof.push({ node: n, componentsAfterRemoval: c, baseComponents: base });
+    });
+    var deg = {}; edges.forEach(function (e) { deg[e.source] = (deg[e.source] || 0) + 1; deg[e.target] = (deg[e.target] || 0) + 1; });
+    var hubs = Object.keys(deg).map(function (n) { return { node: n, degree: deg[n] }; }).sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+    return { consumed: true, source: 'inline', edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5), topHubs: hubs, verdict: spof.length ? spof.length + ' articulation node(s) = single points of failure' : 'no articulation nodes (graph degrades gracefully)' };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // AI SLOT (generative node→business authoring) — NEVER called from the 30s cycle.
+  // This is the one genuinely "code-cannot-do-this" step (semantic authoring of a
+  // business thesis from a node motif). It is an EXPLICIT operator trigger ONLY, routes
+  // through a server endpoint that is killswitch-gated (server enforces
+  // lib/ai-kill-switch spendDisabled()), and carries NO API key in client code. If the
+  // endpoint is absent it stays a documented no-op — it must never fabricate content or
+  // spend on the deterministic cycle. COST-SAFE by construction.
+  IndustryBrain.prototype._authorNodeBusinessViaOperator = function (nodeId, opts) {
+    // Guard: this must never be reachable from cycle()/_updateIndustryModel — operator UI only.
+    if (!opts || opts.operatorTriggered !== true) {
+      return Promise.resolve({ ok: false, reason: 'operator-trigger-required (never runs on the deterministic cycle)' });
+    }
+    if (typeof fetch !== 'function') return Promise.resolve({ ok: false, reason: 'no-fetch' });
+    return fetch('/api/industry-node-business', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain: 'industry', nodeId: nodeId, diagnosisId: (opts && opts.diagnosisId) || null })
+    })
+      .then(function (r) { return r.ok ? r.json() : { ok: false, reason: 'endpoint ' + r.status + ' (killswitch may be engaged server-side)' }; })
+      .catch(function () { return { ok: false, reason: 'endpoint-unavailable (no-op; no spend)' }; });
   };
 
   // ════════════════════════════════════════════════════════════════════════════

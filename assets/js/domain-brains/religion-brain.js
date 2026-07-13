@@ -44,6 +44,40 @@
   ReligionBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── ACTUATION GATE (2026-07-13) — validity-gated per Energy's actuation depth.
+    // Each flag is ON only where religion has a HONEST controllable effector / signal.
+    // Effector for servo/eiBrake/refractory = this domain's REAL output channel:
+    // state.crossDomainEmissions (culture/law/population/communication/governance),
+    // consumed by peer brains as external pressure. That is a genuine, controllable
+    // efferent, so homeostatic dampening + refractory de-dup are honest here.
+    //   refractory = TRUE  — de-dup / rate-limit the emission effector (Neuro Ref III.3
+    //                        refractory rate-limit; a domain-agnostic emergent invariant).
+    //   servo      = TRUE  — regulate-to-target allostasis (Neuro Ref V.2/XII): sensor
+    //                        (drive = stress + live conditions + active dx) -> PI controller
+    //                        -> effector (proportional emission dampening) -> feedback.
+    //   eiBrake    = TRUE  — E/I balance (Neuro Ref XIII.1): inhibition scales with drive;
+    //                        applies the servo dampening continuously to emissions. Only the
+    //                        E/I SCALING RELATIONSHIP maps — ms-simultaneity is impossible on
+    //                        a discrete feed (audit impossibility #2); documented, not faked.
+    //   phase      = FALSE — INVALID for religion. The phase-transition REWARD needs a
+    //                        Thing1-validated ground-truth label (P3/P7); religion has none
+    //                        (validated kernel = Finance + Population only; religion is a P9
+    //                        interpretive tracker). A discrete event feed also has no
+    //                        continuous rhythm/phase (audit impossibilities #3 + #4). The
+    //                        phase-coherence router is still computed ADVISORY/observe-only
+    //                        (see _computeReligionPhaseDynamics) but NEVER actuates: it does
+    //                        not open the processing window and never preempts credit.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    // Refractory params for the emission effector (operator-set; not from the document).
+    // absolute dead-time hard-suppresses identical re-fires; within the relative window a
+    // re-fire only breaks through if its magnitude ROSE by overrideDelta (a stronger stimulus
+    // can still fire — the relative-refractory invariant). Fully reversible: flip refractory=false.
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time per (targetDomain|signal)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio, mirrors energy)
+      overrideDelta: 0.10         // emission magnitude must rise >= this to re-fire in-window
+    };
+
     // AFFILIATION-VITALITY sub-portal (real-content, unbundled) as an additive brain LAYER —
     // never merged into the validated diagnosis spine. One-shot async load; offline-safe.
     try { if (typeof this._loadAffiliationVitality === 'function') this._loadAffiliationVitality(); } catch (e) {}
@@ -733,6 +767,15 @@
     rm.updated = obs.timestamp;
     this.state.religionModel = rm;
 
+    // ── ACTUATION (behind this._actuation flags; reversible) ──────────────────────
+    // SERVO (regulate-to-target E/I) is computed HERE (reads rm.regulation.inhibition) and
+    // APPLIED next cycle by emitCrossDomainSignals -> _regulateReligionEmissions (one-cycle
+    // lag, mirrors energy). PHASE dynamics is computed ADVISORY-only (phase actuation invalid
+    // for religion); it never changes emissions/opportunities/credit.
+    try { if (this._actuation && this._actuation.servo) this._computeReligionServo(); } catch (e) {}
+    try { this._computeReligionPhaseDynamics(); } catch (e) {}
+    try { this._computeReligionSelfAudit(); } catch (e) {}   // SELF-AUDIT: consume the 83-edge graph -> SPOF (observe-only advisory)
+
     // #8 — outcomeLog population (real cycle telemetry; feeds intuition pattern-matching)
     try {
       var mem = this.state.memory || (this.state.memory = {});
@@ -776,6 +819,10 @@
       conscience: this.state.religionConscience || null,
       immune: this.state.religionImmune || null,
       intuition: this.state.religionIntuition || null,
+      servo: this.state.religionServo || null,                       // ACTUATED: regulate-to-target E/I servo
+      phaseDynamics: this.state.religionPhaseDynamics || null,       // ADVISORY-only (phase actuation invalid)
+      emissionRegulation: this.state.religionEmissionRegulation || null,  // effector application (E/I brake + refractory)
+      selfAudit: this.state.religionSelfAudit || null,                    // connectivity/SPOF self-audit (observe-only)
       sceneLayer: this.state.affiliationLayer || null,
       treatments: this.state.treatments || [],
       diagnoses: this.state.diagnoses || [],
@@ -1053,6 +1100,239 @@
       lastReportAt: rm.updated || null
     };
     s.religionExecutiveReport = rep; return rep;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTUATION LAYER (validity-gated; mirrors energy-brain, adapted to religion's REAL
+  // effector = state.crossDomainEmissions). All deterministic; NO paid-AI, NO fetch-to-LLM
+  // ever runs on the cycle. Every actuation is reversible by flipping its _actuation flag.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // SERVO (regulate-to-target E/I allostasis, Neuro Ref XIII.1/V.2/XII). Mirrors
+  // _computeEnergyServo. SENSOR = excitatory drive (stress + how many conditions/diagnoses
+  // fire at once) vs the recurrent loop's inhibition term. CONTROLLER = PI (fast proportional
+  // + bounded slow integral, the HPA fast+slow arms). EFFECTOR = a proportional dampening
+  // factor applied next cycle to cross-domain emission magnitude (one-cycle lag, like energy).
+  // Religion has no K8 adaptive-baseline module, so the target tracks drive only (honest — no
+  // deviation term is fabricated). Never rewrites stress/scoring/diagnoses/religion.json.
+  ReligionBrain.prototype._computeReligionServo = function () {
+    function R(x) { return Math.round(x * 1000) / 1000; }
+    var s = this.state, rm = s.religionModel || {}, reg = rm.regulation || {};
+    var stress = (typeof s.stress === 'number') ? s.stress : 0;
+    var conds = Array.isArray(s._activeConditions) ? s._activeConditions.length : (Array.isArray(s.signals) ? s.signals.length : 0);
+    var dxA = Array.isArray(s.diagnoses) ? s.diagnoses.filter(function (d) { return d && d.active; }).length : 0;
+    var drive = Math.max(0, Math.min(2, stress + Math.min(conds, 12) / 24 + Math.min(dxA, 6) / 24));
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;   // recurrent-loop inhibition term
+    var FLOOR = 0.15;
+    var target = Math.max(FLOOR, Math.min(1, Math.max(drive, FLOOR)));            // allostatic set-point: inhibition must track drive
+    var error = target - inhibition;                                              // >0 => under-braked for the drive
+    this._servoIntegral = Math.max(-0.5, Math.min(0.5, (this._servoIntegral || 0) + error * 0.15));
+    var Kp = 0.8, Ki = 0.4;
+    var correction = Math.max(0, Kp * error + Ki * Math.max(0, this._servoIntegral));   // only ADD braking; never disinhibit
+    var emissionFactor = Math.max(0.2, Math.min(1, 1 - correction));             // effector the eiBrake consumes
+    var state = error > 0.25 ? 'runaway-risk' : ((inhibition - target) > 0.4 ? 'over-inhibited' : 'balanced');
+    var servo = {
+      version: 1, actuated: true, drive: R(drive), inhibition: R(inhibition), target: R(target),
+      error: R(error), integral: R(this._servoIntegral), emissionFactor: R(emissionFactor), state: state,
+      note: 'closed-loop allostasis (Neuro Ref XIII.1/V.2/XII): drives inhibition toward a drive target; effector = proportional dampening of cross-domain emission. E/I SCALING RELATIONSHIP only (ms-simultaneity impossible on a discrete feed).'
+    };
+    s.religionServo = servo;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.servo = servo;   // additive: new key only
+    return servo;
+  };
+
+  // PHASE-COHERENCE ROUTER + TRANSITION SIGNAL — ADVISORY / OBSERVE-ONLY for religion.
+  // Ported for parity + honest self-knowledge, but _actuation.phase = false so it NEVER
+  // actuates (does not open the processing window, does not preempt credit assignment).
+  // (A) router: couples to co-phased, stressed peers via the patent Loop-1 M matrix.
+  // (B) transition: religion has NO Thing1-validated ground-truth reward label (audit
+  //     impossibility #4) and a discrete feed has no continuous phase (#3), so any transition
+  //     is labelled 'advisory-self-consistency' and never becomes a validated learning signal.
+  ReligionBrain.prototype._computeReligionPhaseDynamics = function () {
+    var s = this.state;
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'religion') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 });
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    var hist = this._religionPhaseHistory = this._religionPhaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var rm = s.religionModel || {};
+      var predictedUp = (typeof rm.predictedStress === 'number' && typeof s.stress === 'number') ? rm.predictedStress > s.stress : false;
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit, validated: validated,
+        kind: 'advisory-self-consistency', note: 'religion has NO Thing1-validated distress signal -> NEVER a true reward; advisory only, never actuated.' };
+    }
+    hist.push({ phase: myPhase, t: (s.religionModel && s.religionModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, observeOnly: true, actuated: false, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000, transition: reward,
+      note: 'ADVISORY-ONLY: phase-coherence router + self-consistency transition. NOT actuated (audit impossibilities #3 continuous-rhythm + #4 ground-truth-reward). Never opens the processing window or preempts credit.'
+    };
+    s.religionPhaseDynamics = out;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;
+    return out;
+  };
+
+  // EFFECTOR APPLICATION — override emitCrossDomainSignals: run the base rule engine, then
+  // apply (behind flags) the E/I brake dampening (one-cycle-lagged servo emissionFactor) and
+  // refractory de-dup to state.crossDomainEmissions. When all emission-relevant flags are off,
+  // this is a pure pass-through (behaviour identical to before). Deterministic; no network.
+  ReligionBrain.prototype.emitCrossDomainSignals = function () {
+    var self = this;
+    return Base.prototype.emitCrossDomainSignals.call(this).then(function () {
+      try { self._regulateReligionEmissions(); } catch (e) {}
+    });
+  };
+
+  ReligionBrain.prototype._regulateReligionEmissions = function () {
+    var s = this.state;
+    var ems = s.crossDomainEmissions || [];
+    if (!ems.length) { s.religionEmissionRegulation = null; return; }
+    var act = this._actuation || {};
+    // E/I BRAKE: dampen magnitude by the PRIOR cycle's servo emissionFactor (one-cycle lag).
+    var servo = s.religionServo || null;
+    var factor = (act.eiBrake && servo && typeof servo.emissionFactor === 'number') ? servo.emissionFactor : 1;
+    var now = Date.now(), P = this._refractoryParams || { absoluteWindow: 900000, relativeWindow: 3600000, overrideDelta: 0.10 };
+    var rf = this._religionRefractory = this._religionRefractory || {};
+    var kept = [], damped = 0, suppressed = 0;
+    for (var i = 0; i < ems.length; i++) {
+      var em = ems[i];
+      if (act.eiBrake && factor < 1) { em.magnitude = Math.max(0, Math.min(1, (em.magnitude || 0) * factor)); em._eiDamped = true; damped++; }
+      if (act.refractory) {
+        var key = (em.targetDomain || '') + '|' + (em.signal || em.signalType || '');
+        var prev = rf[key], mag = em.magnitude || 0;
+        if (prev) {
+          var age = now - prev.lastFire;
+          if (age < P.absoluteWindow) { suppressed++; continue; }                                   // absolute dead-time
+          if (age < P.relativeWindow && mag < (prev.lastMag || 0) + P.overrideDelta) { suppressed++; continue; }  // relative: only a stronger re-fire breaks through
+        }
+        rf[key] = { lastFire: now, lastMag: mag };
+      }
+      kept.push(em);
+    }
+    if (act.refractory) s.crossDomainEmissions = kept;
+    s.religionEmissionRegulation = {
+      version: 1, priorEmissionFactor: Math.round(factor * 1000) / 1000,
+      eiDamped: damped, suppressedByRefractory: suppressed, kept: kept.length, total: ems.length,
+      note: 'servo E/I dampening (one-cycle lag) + refractory de-dup on the cross-domain emission effector; reversible via _actuation.eiBrake / _actuation.refractory.'
+    };
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.emissionRegulation = s.religionEmissionRegulation;
+  };
+
+  // SELF-AUDIT — CONSUME the domain connectivity graph (Neuro Ref XIV diaschisis / single-
+  // point-of-failure). Religion.json carries a real 83-edge graph, so this is honest (not a
+  // fabricated clone): it computes articulation nodes (SPOF) + degree hubs over the REAL graph,
+  // the same way energy consumes its 81 edges via CA.singlePointsOfFailure. There is no
+  // religion-connectivity-audit module, so the articulation-point search is implemented inline
+  // (deterministic Tarjan DFS; the graph is tiny). OBSERVE-ONLY advisory — surfaces brittle
+  // nodes each cycle; actuating them into the live brake is a separate operator-scoped step
+  // (same discipline as energy, whose self-audit is also observe-only). No AI, no writes.
+  ReligionBrain.prototype._computeReligionSelfAudit = function () {
+    var self = this, s = this.state;
+    // Prefer the already-cached portal (deriveDiagnoses fetched religion.json, which has `edges`);
+    // else lazy-fetch once (browser fire-and-forget / server require), mirroring energy.
+    var edges = (this._portalCache && Array.isArray(this._portalCache.edges) && this._portalCache.edges)
+             || (s._rawDomain && Array.isArray(s._rawDomain.edges) && s._rawDomain.edges)
+             || this._religionEdges || null;
+    if (!edges) {
+      if (typeof fetch === 'function' && !this._religionEdgesPromise) {
+        this._religionEdgesPromise = fetch('/assets/data/domains/religion.json')
+          .then(function (r) { return r.json(); })
+          .then(function (j) { if (j && Array.isArray(j.edges)) self._religionEdges = j.edges; })
+          .catch(function () {});
+      } else if (typeof require === 'function') {
+        try { var ed = require('../../data/domains/religion.json'); if (ed && Array.isArray(ed.edges)) { this._religionEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
+      }
+    }
+    if (!edges || !edges.length) {
+      s.religionSelfAudit = { version: 1, observeOnly: true, consumed: false, note: edges ? 'no edges' : 'edges loading (async, next cycle)' };
+      if (s.cognition && typeof s.cognition === 'object') s.cognition.selfAudit = s.religionSelfAudit;
+      return s.religionSelfAudit;
+    }
+    // Undirected adjacency + degree.
+    var adj = {}, deg = {};
+    function ensure(n) { if (!adj[n]) { adj[n] = []; deg[n] = 0; } }
+    for (var i = 0; i < edges.length; i++) {
+      var e = edges[i], a = e.source, b = e.target;
+      if (a == null || b == null) continue;
+      ensure(a); ensure(b);
+      if (adj[a].indexOf(b) === -1) { adj[a].push(b); deg[a]++; }
+      if (adj[b].indexOf(a) === -1) { adj[b].push(a); deg[b]++; }
+    }
+    var nodes = Object.keys(adj);
+    // Articulation points (SPOF) — standard Tarjan DFS (graph is small).
+    var visited = {}, disc = {}, low = {}, parent = {}, ap = {}, timer = { t: 0 };
+    function dfs(u) {
+      visited[u] = true; disc[u] = low[u] = ++timer.t; var children = 0, nb = adj[u];
+      for (var k = 0; k < nb.length; k++) {
+        var v = nb[k];
+        if (!visited[v]) {
+          children++; parent[v] = u; dfs(v);
+          low[u] = Math.min(low[u], low[v]);
+          if (parent[u] === undefined && children > 1) ap[u] = true;
+          if (parent[u] !== undefined && low[v] >= disc[u]) ap[u] = true;
+        } else if (v !== parent[u]) {
+          low[u] = Math.min(low[u], disc[v]);
+        }
+      }
+    }
+    for (var n = 0; n < nodes.length; n++) { if (!visited[nodes[n]]) { parent[nodes[n]] = undefined; dfs(nodes[n]); } }
+    var spof = Object.keys(ap);
+    var hubs = nodes.map(function (x) { return { id: x, degree: deg[x] }; })
+      .sort(function (a, b) { return b.degree - a.degree; }).slice(0, 5);
+    var verdict = spof.length === 0 ? 'resilient (no single point of failure)' : spof.length <= 2 ? 'mostly-resilient' : 'brittle';
+    s.religionSelfAudit = {
+      version: 1, observeOnly: true, consumed: true, edgeCount: edges.length, nodeCount: nodes.length,
+      spofCount: spof.length, spof: spof.slice(0, 8), topHubsByDegree: hubs, verdict: verdict,
+      note: 'connectivity / single-point-of-failure self-audit over the REAL religion graph (Neuro Ref XIV diaschisis/SPOF). Observe-only advisory; not yet actuated into the brake (same discipline as energy).'
+    };
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.selfAudit = s.religionSelfAudit;
+    return s.religionSelfAudit;
+  };
+
+  // ── AI SLOT (operator-triggered ONLY; DELIBERATELY NEVER called from the 30s cycle) ──────
+  // Generative node->business authoring + semantic source mapping are the genuine
+  // "code-cannot-do-this" slots for religion. They are intentionally NOT wired into the
+  // deterministic cycle (killswitch requirement: no paid-AI / fetch-to-LLM call may ever run
+  // on a cycle). This is a documented NO-OP stub. When built it MUST: (a) run only on an
+  // explicit operator action, (b) POST to a server endpoint that enforces
+  // lib/ai-kill-switch spendDisabled(), and (c) carry NO API key in client code. Inert until then.
+  ReligionBrain.prototype.authorReligionNodeBusinessDrafts = function () {
+    return { ok: false, reason: 'ai-slot-not-wired',
+      note: 'operator-triggered only; must route through a killswitch-gated server endpoint (lib/ai-kill-switch spendDisabled); never called from the cycle; no client-side API key' };
   };
 
   ReligionBrain.prototype._computeReligionHigherLayers = function () {
