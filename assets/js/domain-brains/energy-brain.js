@@ -73,7 +73,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -1399,12 +1399,18 @@
     // over stress self-prediction (>=5 samples); low hit-rate raises the effective learning rate.
     var _om = this.state.energyOutcomeModel, _led = this.state.energyOutcomeLedger;
     var _lr = em.plasticity.learningRate;
-    var _fromLedger = !!(_led && typeof _led.callHitRate === 'number' && _led.resolvedSamples >= 3);
-    var _hit = _fromLedger ? _led.callHitRate
+    // PHASE-TRANSITION REWARD (validated P3/P7 only): a real ground-truth teaching signal - did a
+    // predicted phase transition actually happen over time (thing2). Preferred over the call-ledger
+    // self-consistency. One-cycle lag (reads prior energyPhaseDynamics). Reversible via _actuation.phase.
+    var _pt = (this.state.energyPhaseDynamics || {}).transition;
+    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+    var _fromLedger = !_phaseReward && !!(_led && typeof _led.callHitRate === 'number' && _led.resolvedSamples >= 3);
+    var _hit = _phaseReward ? (_pt.hit ? 1 : 0)
+      : _fromLedger ? _led.callHitRate
       : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
     if (_hit !== null) _lr = _emClamp(_lr * (1 + (1 - _hit)), EM_SLOW_RATE, 0.6);
     em._effectiveLearningRate = _lr;
-    em._creditSource = _fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none');
+    em._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none'));
     var nextPrior = this._updatePrior(priorIn, obs, _lr); // → next cycle reads this
 
     em.cycle += 1;
@@ -2152,6 +2158,78 @@
     return servo;
   };
 
+  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (2026-07-13, operator-approved) ───────────
+  // The bridge for the two mechanisms the neurology audit called IMPOSSIBLE on a raw feed:
+  //  #3 communication-through-coherence: P0-P10 IS the phase variable, so Energy couples to domains
+  //     whose PHASE is coherent with its own (patent Section 3.4 Loop 1 coupling matrix M, thing2
+  //     lineage). Positive M = same excitability window = communicate.
+  //  #4 reward-prediction-error: a realized phase TRANSITION over time is a real ground-truth label
+  //     (Thing2 "goes through time"). GATED: it is treated as TRUE reward only on P3/P7-involving
+  //     transitions (the phases Thing1 validates); elsewhere it is advisory self-consistency, so it
+  //     never fabricates a validated learning signal. Deterministic, no AI, no writes to energy.json.
+  EnergyBrain.prototype._computeEnergyPhaseDynamics = function () {
+    var s = this.state;
+    // patent Section 3.4 Loop 1 phase-coupling matrix M (thing2 lineage). Positive = coherent.
+    var PHASE_M = {
+      p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
+      p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
+      p7:  { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 },
+      p4:  { p4: 0.05, p5: 0.04, p0: 0.03, p3: -0.04 },
+      p6:  { p6: 0.06, p0: 0.04, p3: -0.05 },
+      p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
+      p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
+    };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
+    function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
+    var myPhase = norm(s.phase);
+
+    // (A) COHERENCE ROUTER - couple to co-phased, stressed domains
+    var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
+    var coupled = [], couplingStrength = 0;
+    if (myPhase && PHASE_M[myPhase]) {
+      var row = PHASE_M[myPhase];
+      Object.keys(doms).forEach(function (k) {
+        if (k === 'energy') return;
+        var d = doms[k] || {};
+        var op = norm(d.brainPhase || d.phase || (d.brain && d.brain.phase));
+        var st = (typeof d.brainStress === 'number') ? d.brainStress : (typeof d.stress === 'number' ? d.stress : 0);
+        if (!op) return;
+        var coh = (row[op] != null) ? row[op] : (op === myPhase ? 0.04 : 0);
+        if (coh > 0 && st > 0.5) { coupled.push({ domain: k, phase: op, coherence: coh, stress: Math.round(st * 100) / 100 }); }
+      });
+      coupled.sort(function (a, b) { return (b.coherence * b.stress) - (a.coherence * a.stress); });
+      couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
+    }
+
+    // (B) PHASE-TRANSITION REWARD - did a predicted transition actually occur (through time)?
+    var hist = this._phaseHistory = this._phaseHistory || [];
+    var prev = hist.length ? hist[hist.length - 1].phase : null;
+    var reward = null;
+    if (prev != null && myPhase != null && prev !== myPhase) {
+      var fc = s.energyForecast || {};
+      var predictedUp = fc.direction === 'rising' ||
+        (typeof fc.projectedStress === 'number' && typeof s.stress === 'number' && fc.projectedStress > s.stress);
+      var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
+      var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
+      var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
+      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+    }
+    hist.push({ phase: myPhase, t: (s.energyModel && s.energyModel.updated) || Date.now() });
+    if (hist.length > 24) hist.shift();
+
+    var out = {
+      version: 1, myPhase: myPhase,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
+      transition: reward,
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7).'
+    };
+    s.energyPhaseDynamics = out;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;
+    return out;
+  };
+
   // Assemble the neuro-completion surface (mirrors _computeEnergyHigherLayers). Runs all
   // K-layers, stores each on state (like energyImmune/energyAwareness), and attaches a
   // compact roll-up to state.cognition ADDITIVELY (new key `neuro`; existing keys untouched).
@@ -2168,6 +2246,7 @@
     this._scoreEnergyCallOutcomes();        // STEP 2 - truth brake (before brake: feeds calibration)
     this._computeEnergyBrake();             // HALT BRAKE - stop-circuit (reads ledger calibration)
     this._computeEnergyForecast();          // STEP 4 - forward render (reads ledger calibration)
+    try { if (this._actuation && this._actuation.phase) this._computeEnergyPhaseDynamics(); } catch (e) {}   // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (actuated) - reads the fresh forecast
     this._computeEnergyEmissionQueue();     // STEP 5 - capital-fit packaging (reads forecast + brake)
     this._runEnergyAutonomousEmission();    // STEP 6 - autonomous emission (fail-safe on brake; capital staged)
     this._computeEnergyInteroception();     // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only divergence readout
@@ -2406,6 +2485,10 @@
     s._neuroGatedCount = 0;
     if (gc && typeof gc.outputScale === 'number' && gc.outputScale < 1 && opps.length > 1) {
       var cap = Math.max(1, Math.round(opps.length * gc.outputScale));
+      // PHASE-COHERENCE ACTUATION: coherent coupling to stressed, co-phased peers opens the
+      // processing window (comm-through-coherence) -> surface +1 (bounded, reversible via _actuation.phase).
+      var pd = s.energyPhaseDynamics;
+      if (this._actuation && this._actuation.phase && pd && pd.couplingStrength > 0.15) cap = Math.min(opps.length, cap + 1);
       if (cap < opps.length) { s._neuroGatedCount = opps.length - cap; opps = opps.slice(0, cap); }
     }
     return opps;
