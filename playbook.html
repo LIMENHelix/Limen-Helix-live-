@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/assets/js/gate-master.js"></script>
+<title>LIMEN Helix // Playbook</title>
+<style>
+  :root{
+    --void:#0A0F0E; --panel:#101917; --panel2:#16211F; --line:#22302D; --line2:#2E3E3A;
+    --ink:#E8EEEB; --dim:#9DB0AB; --faint:#647670;
+    --signal:#38C6BE; --money:#E0A54A; --neuro:#9B8CFF;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:
+      radial-gradient(1100px 620px at 82% -10%, rgba(155,140,255,.06), transparent 60%),
+      var(--void); color:var(--ink); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased}
+  a{color:var(--signal)}
+  code{font-family:var(--mono); font-size:.86em; background:var(--panel2); border:1px solid var(--line); border-radius:4px; padding:1px 5px; color:var(--dim)}
+  .bar{position:sticky; top:0; z-index:30; display:flex; flex-wrap:wrap; align-items:center; gap:12px;
+    padding:11px 18px; background:rgba(10,15,14,.85); backdrop-filter:blur(9px);
+    border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px}
+  .bar .brand{color:var(--ink); font-weight:600}
+  .bar .sep{color:var(--faint)}
+  .bar .mode{color:var(--neuro); text-transform:uppercase; letter-spacing:.12em}
+  .bar .back{margin-left:auto; color:var(--dim); text-decoration:none; border:1px solid var(--line2); border-radius:15px; padding:4px 12px}
+  .bar .back:hover{border-color:var(--signal); color:var(--ink)}
+  .wrap{max-width:980px; margin:0 auto; padding:26px 22px 80px}
+  .lead{font-family:var(--mono); font-size:11px; color:var(--neuro); letter-spacing:.14em; text-transform:uppercase}
+  h1{font-size:clamp(1.7rem,4vw,2.3rem); margin:8px 0 4px; font-weight:800}
+  .sub{color:var(--dim); margin:0 0 8px}
+  section{margin-top:30px; border-top:1px solid var(--line); padding-top:18px}
+  h2{font-size:1.2rem; margin:0 0 10px; font-weight:700}
+  h2::before{content:"//"; color:var(--faint); margin-right:8px; font-family:var(--mono); font-size:.8em}
+  p{color:var(--dim); max-width:76ch}
+  p b, li b, td b{color:var(--ink)}
+  .dim{color:var(--faint)}
+  .note{font-size:.85rem; color:var(--faint); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:11px 13px; margin-top:14px}
+  ul{color:var(--dim); padding-left:20px} li{margin:6px 0; max-width:76ch}
+  table{width:100%; border-collapse:collapse; margin-top:12px; font-size:.9rem}
+  th,td{text-align:left; vertical-align:top; padding:9px 11px; border:1px solid var(--line)}
+  th{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--signal); background:var(--panel)}
+  td{color:var(--dim)}
+  .table-scroll{overflow-x:auto}
+  .stack{display:grid; gap:10px; grid-template-columns:repeat(3,1fr); margin-top:12px}
+  @media(max-width:720px){ .stack{grid-template-columns:1fr} }
+  .lyr{background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--neuro); border-radius:9px; padding:12px 13px}
+  .lyr .t{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--neuro)}
+  .lyr p{margin:6px 0 0; font-size:.86rem}
+  .msg{font-family:var(--mono); font-size:12.5px; color:var(--dim); padding:40px 0}
+  .gatebox{background:rgba(224,104,92,.06); border:1px solid rgba(224,104,92,.28); border-radius:8px; padding:14px 16px; color:var(--dim); font-family:var(--mono); font-size:12px}
+</style>
+</head>
+<body>
+<div class="bar">
+  <span class="brand">LIMEN&nbsp;HELIX</span><span class="sep">//</span>
+  <span class="mode">Playbook</span>
+  <a class="back" href="/operator">&larr; Operator Console</a>
+</div>
+<div class="wrap">
+  <div class="lead">// GTM + fulfillment reference &middot; master-gated &middot; business layer PARKED</div>
+  <h1>The Operator Playbook</h1>
+  <p class="sub">Torti / Saraev go-to-market + the Claude Code skills map, distilled. Targeting = LIMEN. GTM = Torti. Fulfillment = skills.</p>
+  <div id="body"><div class="msg">Loading playbook&hellip;</div></div>
+</div>
+<script>
+(function(){
+  var body=document.getElementById('body');
+  // gate-master.js auto-attaches the master key to /api/playbook (it's in the GATED regex).
+  fetch('/api/playbook').then(function(r){ return r.json().then(function(j){ return {s:r.status,j:j}; }); }).then(function(o){
+    if(o.s===403 || !o.j.ok){ body.innerHTML='<div class="gatebox">Master access required. If you are signed in and still see this, your passcode did not validate against ADMIN_MASTER.</div>'; return; }
+    body.innerHTML=o.j.html;
+  }).catch(function(){ body.innerHTML='<div class="gatebox">Could not load the playbook. Check that /api/playbook is deployed.</div>'; });
+})();
+</script>
+</body>
+</html>

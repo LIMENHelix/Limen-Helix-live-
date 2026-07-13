@@ -9,7 +9,7 @@
   var ok = p ? p.master === true : granted;
   if (!ok) { window.location.replace('/?return=' + encodeURIComponent(location.pathname + location.search)); return; }
 
-  var GATED = /\/api\/(capital-engine|paper-trade|operator-action|trigger-pattern-author|pattern-proposal|print-from-pattern)\b/;
+  var GATED = /\/api\/(capital-engine|paper-trade|operator-action|trigger-pattern-author|pattern-proposal|print-from-pattern|playbook)\b/;
   function key(force) {
     var k = ''; try { k = sessionStorage.getItem('limen_cap_key') || sessionStorage.getItem('limen_pass') || ''; } catch (e) {}
     if (!k || force) { k = (window.prompt('Enter your admin passcode:') || '').trim(); try { if (k) sessionStorage.setItem('limen_cap_key', k); } catch (e) {} }

@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/assets/js/gate-master.js"></script>
+<title>LIMEN Helix // Operator Console</title>
+<style>
+  :root{
+    --void:#0A0F0E; --panel:#101917; --panel2:#16211F; --line:#22302D; --line2:#2E3E3A;
+    --ink:#E8EEEB; --dim:#9DB0AB; --faint:#647670;
+    --signal:#38C6BE; --money:#E0A54A; --guard:#E0685C; --healthy:#6FCF97; --neuro:#9B8CFF;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:
+      radial-gradient(1100px 620px at 82% -10%, rgba(56,198,190,.06), transparent 60%),
+      radial-gradient(900px 520px at -5% 110%, rgba(155,140,255,.05), transparent 55%),
+      var(--void);
+    color:var(--ink); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono)}
+  button{font-family:inherit}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:2px}
+
+  /* top bar */
+  .bar{position:sticky; top:0; z-index:30; display:flex; flex-wrap:wrap; align-items:center; gap:12px;
+    padding:11px 18px; background:rgba(10,15,14,.85); backdrop-filter:blur(9px);
+    border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px}
+  .bar .brand{color:var(--ink); font-weight:600}
+  .bar .sep{color:var(--faint)}
+  .bar .mode{color:var(--dim); text-transform:uppercase; letter-spacing:.12em}
+  .status{margin-left:auto; display:inline-flex; align-items:center; gap:8px; padding:4px 11px; border-radius:20px; border:1px solid var(--line2); color:var(--healthy)}
+  .status .dot{width:8px;height:8px;border-radius:50%;background:var(--healthy); box-shadow:0 0 0 0 rgba(111,207,151,.6); animation:pulse 2.2s infinite}
+  .status.armed{color:var(--money); border-color:rgba(224,165,74,.5)}
+  .status.armed .dot{background:var(--money); animation:pulse-a 1.3s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(111,207,151,.5)}70%{box-shadow:0 0 0 8px rgba(111,207,151,0)}100%{box-shadow:0 0 0 0 rgba(111,207,151,0)}}
+  @keyframes pulse-a{0%{box-shadow:0 0 0 0 rgba(224,165,74,.5)}70%{box-shadow:0 0 0 8px rgba(224,165,74,0)}100%{box-shadow:0 0 0 0 rgba(224,165,74,0)}}
+
+  /* today strip */
+  .today{display:flex; align-items:center; gap:10px; padding:10px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11.5px; overflow-x:auto; white-space:nowrap}
+  .today .lb{color:var(--faint); text-transform:uppercase; letter-spacing:.1em; flex:none}
+  .today .q{flex:none; cursor:pointer; border:1px solid var(--line2); background:var(--panel); color:var(--dim); border-radius:18px; padding:4px 11px}
+  .today .q b{color:var(--money)} .today .q:hover{border-color:var(--signal); color:var(--ink)}
+
+  /* command deck — the machine this console sits in front of */
+  .deck{display:flex; flex-wrap:wrap; gap:9px 20px; align-items:center; padding:10px 18px;
+    border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11.5px; background:var(--panel)}
+  .deck .grp{display:flex; align-items:center; gap:7px; flex-wrap:wrap}
+  .deck .gl{color:var(--faint); text-transform:uppercase; letter-spacing:.11em; font-size:9.5px}
+  .deck a{color:var(--dim); text-decoration:none; border:1px solid var(--line2); border-radius:15px; padding:3px 10px}
+  .deck a:hover{border-color:var(--signal); color:var(--ink)}
+  .deck a.money{color:var(--money); border-color:rgba(224,165,74,.45)}
+  .deck a.neuro{color:var(--neuro); border-color:rgba(155,140,255,.4)}
+  .deck .arrow{color:var(--faint)}
+  .deck .div{width:1px; height:15px; background:var(--line2)}
+
+  /* layout */
+  .app{display:grid; grid-template-columns:266px 1fr; gap:0; min-height:calc(100vh - 92px)}
+  @media(max-width:860px){ .app{grid-template-columns:1fr} }
+
+  /* domain rail */
+  .rail{border-right:1px solid var(--line); padding:12px 10px; overflow-y:auto}
+  .rail h3{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.12em; color:var(--faint); margin:6px 8px 10px}
+  @media(max-width:860px){ .rail{border-right:none; border-bottom:1px solid var(--line); display:flex; gap:8px; overflow-x:auto; padding:12px} .rail h3{display:none} }
+  .drow{display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
+    background:transparent; border:1px solid transparent; border-radius:8px; padding:9px 10px; color:var(--dim); margin-bottom:2px}
+  .drow:hover{background:var(--panel)}
+  .drow.on{background:var(--panel2); border-color:var(--line2); color:var(--ink)}
+  .drow .sig{width:8px; height:8px; border-radius:50%; flex:none}
+  .drow .nm{font-size:.92rem; font-weight:500; flex:1}
+  .drow .cf{font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; color:var(--faint); text-transform:uppercase}
+  .drow.on .nm{color:var(--signal)}
+  @media(max-width:860px){ .drow{width:auto; flex:none; margin-bottom:0} .drow .cf{display:none} }
+
+  /* main */
+  .main{padding:24px 26px 70px; max-width:900px}
+  @media(max-width:520px){ .main{padding:20px 16px 60px} }
+
+  .dhead{display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap}
+  .dhead .lab{font-family:var(--mono); font-size:11px; color:var(--signal); letter-spacing:.14em; text-transform:uppercase}
+  .dhead h1{font-size:clamp(1.7rem,4vw,2.4rem); line-height:1.05; margin:6px 0 0; font-weight:800}
+  .badges{display:flex; gap:7px; flex-wrap:wrap; margin-top:12px; font-family:var(--mono); font-size:11px}
+  .badge{border:1px solid var(--line2); border-radius:5px; padding:4px 9px; color:var(--dim); background:var(--panel)}
+  .badge.live{color:var(--healthy); border-color:rgba(111,207,151,.4)}
+  .badge.sig{color:var(--signal); border-color:rgba(56,198,190,.4)}
+
+  /* sense meter */
+  .sense{margin-top:20px; display:grid; gap:14px; grid-template-columns:1fr 1fr}
+  @media(max-width:640px){ .sense{grid-template-columns:1fr} }
+  .cell{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 15px}
+  .cell .k{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--faint); margin:0 0 9px; display:flex; justify-content:space-between; align-items:center}
+  .cell .k .demo{color:var(--faint); border:1px solid var(--line2); border-radius:10px; padding:1px 6px; font-size:9px}
+  .cell p{margin:0; color:var(--dim); font-size:.9rem}
+  .track{height:9px; border-radius:6px; background:#0c1413; border:1px solid var(--line); overflow:hidden}
+  .fill{height:100%; border-radius:6px; background:linear-gradient(90deg,var(--healthy),var(--money) 60%,var(--guard)); width:0; transition:width .8s ease}
+  .sc{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10px; color:var(--faint); margin-top:6px}
+  .feedname{font-family:var(--mono); color:var(--ink); font-size:.95rem}
+
+  /* neuro flow */
+  h2{font-size:1.15rem; margin:30px 0 4px; font-weight:700}
+  h2 .n{font-family:var(--mono); font-size:11px; color:var(--signal); letter-spacing:.1em; margin-right:9px}
+  .flow{display:grid; gap:9px; grid-template-columns:repeat(4,1fr); margin-top:12px}
+  @media(max-width:720px){ .flow{grid-template-columns:1fr 1fr} }
+  .nd{background:var(--panel2); border:1px solid var(--line2); border-radius:9px; padding:12px}
+  .nd .t{font-family:var(--mono); font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--neuro)}
+  .nd.dx .t{color:var(--guard)} .nd.rx .t{color:var(--money)}
+  .nd .v{font-weight:700; margin:5px 0 3px; font-size:.94rem}
+  .nd .d{font-size:.82rem; color:var(--dim); margin:0}
+
+  /* opportunity + business */
+  .opp{margin-top:14px; background:linear-gradient(180deg,rgba(56,198,190,.05),transparent); border:1px solid var(--line); border-left:3px solid var(--signal); border-radius:10px; padding:16px 18px}
+  .opp .biztag{font-family:var(--mono); font-size:10.5px; color:var(--money); text-transform:uppercase; letter-spacing:.1em}
+  .opp h3{margin:6px 0 6px; font-size:1.3rem}
+  .opp p{margin:0; color:var(--dim); font-family:var(--serif); font-size:1.02rem; max-width:64ch}
+  .opp .buyer{margin-top:12px; font-family:var(--mono); font-size:12px; color:var(--dim)}
+  .opp .buyer b{color:var(--money)}
+
+  .adv{display:grid; gap:10px; grid-template-columns:repeat(3,1fr); margin-top:14px}
+  @media(max-width:720px){ .adv{grid-template-columns:1fr} }
+  .ac{background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:12px 13px}
+  .ac .s{font-family:var(--mono); font-size:10px; color:var(--signal); text-transform:uppercase; letter-spacing:.07em}
+  .ac .h{font-weight:650; margin:5px 0 0; font-size:.92rem}
+
+  .skills{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px}
+  .sk{font-family:var(--mono); font-size:11.5px; padding:4px 9px; border-radius:5px; border:1px solid rgba(56,198,190,.45); color:var(--signal); background:rgba(56,198,190,.07)}
+  .sk::before{content:"\25CF "; color:var(--healthy); font-size:8px}
+
+  .ladder{display:grid; gap:9px; margin-top:12px}
+  .rung{display:grid; grid-template-columns:auto 1fr; gap:12px; background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:11px 13px}
+  .rung .lv{font-family:var(--mono); font-weight:700; font-size:.85rem; color:var(--money)}
+  .rung .lv.l1{color:var(--healthy)}
+  .rung .w{font-size:.9rem; color:var(--dim)}
+
+  /* launch */
+  .launch{margin-top:26px; border:1px solid var(--line2); border-radius:12px; overflow:hidden; background:var(--panel)}
+  .launch .lh{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding:16px 18px}
+  .launch .lh .ttl{font-weight:700; font-size:1.05rem}
+  .launch .lh .ttl small{display:block; font-family:var(--mono); font-size:11px; color:var(--faint); font-weight:400; margin-top:3px}
+  .startbtn{cursor:pointer; border:none; border-radius:8px; padding:12px 20px; font-weight:700; font-size:.95rem;
+    background:linear-gradient(180deg,#eab863,var(--money)); color:#1a1205; box-shadow:0 1px 0 rgba(255,255,255,.15) inset}
+  .startbtn:hover{filter:brightness(1.06)} .startbtn:active{transform:translateY(1px)}
+  .startbtn[disabled]{background:var(--panel2); color:var(--faint); cursor:default; box-shadow:none; border:1px solid var(--line2)}
+
+  .console{border-top:1px solid var(--line); background:#0b120f}
+  .console .ch{font-family:var(--mono); font-size:10.5px; color:var(--faint); padding:8px 16px; border-bottom:1px solid var(--line)}
+  .log{font-family:var(--mono); font-size:12px; line-height:1.8; padding:12px 16px; margin:0; min-height:60px; color:var(--dim); white-space:pre-wrap}
+  .log .t{color:var(--faint)} .log .ok{color:var(--healthy)} .log .s{color:var(--signal)} .log .m{color:var(--money)} .log .w{color:var(--guard)} .log .n{color:var(--neuro)}
+  .log .row{opacity:0; transform:translateY(2px); animation:rev .3s ease forwards}
+  @keyframes rev{to{opacity:1; transform:none}}
+
+  .residue{margin-top:0; border-top:1px solid var(--line); padding:16px 18px; display:none}
+  .residue.show{display:block; animation:rev .4s ease}
+  .residue .k{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--guard); margin:0 0 10px}
+  .residue ul{margin:0; padding:0; list-style:none}
+  .residue li{position:relative; padding:7px 0 7px 26px; font-size:.92rem; color:var(--ink); border-bottom:1px dashed var(--line)}
+  .residue li:last-child{border-bottom:none}
+  .residue li::before{content:"\2610"; position:absolute; left:0; top:6px; color:var(--guard); font-family:var(--mono)}
+  .residue li .why{display:block; color:var(--faint); font-size:.8rem; margin-top:2px}
+
+  .gate{margin-top:14px; font-family:var(--mono); font-size:11.5px; color:var(--dim); background:rgba(224,104,92,.06); border:1px solid rgba(224,104,92,.28); border-radius:8px; padding:10px 13px}
+  .gate b{color:var(--guard)}
+
+  footer{max-width:900px; margin:0; padding:26px 26px 40px; font-family:var(--mono); font-size:11.5px; color:var(--faint); line-height:1.9; border-top:1px solid var(--line)}
+  footer b{color:var(--dim)}
+  @media(prefers-reduced-motion: reduce){ .log .row{opacity:1; transform:none; animation:none} .status .dot{animation:none} .fill{transition:none} }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span class="brand">LIMEN&nbsp;HELIX</span><span class="sep">//</span>
+  <span class="mode">Operator Console</span><span class="sep">//</span>
+  <span class="mono" style="color:var(--faint)">sense &rarr; diagnose &rarr; select &rarr; <span style="color:var(--money)">launch</span></span>
+  <span class="status" id="status"><span class="dot"></span><span id="statustext">SENSING</span></span>
+</div>
+
+<div class="today" id="today"><span class="lb">start here &rarr;</span></div>
+
+<nav class="deck">
+  <div class="grp"><span class="gl">convert &middot; funnel</span>
+    <a href="/sales-leads">Leads</a><span class="arrow">&rarr;</span>
+    <a href="/sales-appointments">Appointments</a><span class="arrow">&rarr;</span>
+    <a href="/sales-shows">Shows</a><span class="arrow">&rarr;</span>
+    <a href="/sales-enrollments">Enrollments</a><span class="arrow">&rarr;</span>
+    <a href="/sales-referrals">Referrals</a>
+    <a href="/sales-autopilot">&#9881; Autopilot</a>
+  </div>
+  <span class="div"></span>
+  <div class="grp"><span class="gl">capital</span>
+    <a class="money" href="/finance-capital-engine">Capital Engine</a>
+    <a href="/sales">Sales Board</a>
+  </div>
+  <span class="div"></span>
+  <div class="grp"><span class="gl">playbook</span>
+    <a class="neuro" href="/playbook">Torti &middot; Skills &middot; Docs</a>
+  </div>
+</nav>
+
+<div class="app">
+  <nav class="rail" id="rail"><h3>Domains &middot; 20</h3></nav>
+  <main class="main" id="main"></main>
+</div>
+
+<footer>
+  <b>What this is.</b> The operator console for the autonomous regulator. Each domain's live feed and brain state present an opportunity; the console selects the proven intervention and you launch the business that regulates it.<br>
+  <b>Honesty.</b> Signal readings on this build are illustrative placeholders, not a live feed. The kernel's validated envelope is narrow. Curation only, never regulated advice. Launch arms the autonomous cycle; the first sale and the legal line stay yours.<br>
+  <b>Status.</b> Master-gated command center at limenhelix.com/operator — sits in front of the sales funnel, the capital engine, and the playbook. Neuro-to-business node mapping is advisory steering, reweighted by real signal once the domains are built.
+</footer>
+
+<script>
+const CORE = ['deep-research','businesspulse','digest','build','audit','verify','ship'];
+/* FINANCE_LIVE_START */
+const FINANCE_LIVE = {"sev":44,"updated":"2026-07-13","window":"7d vs 30d run-rate","gc7":39,"gc30":203,"ch7":9,"ratio":0.823,"evidence":[{"name":"DeltaSoft Corp","form":"EX-23.1","date":"2026-07-10","link":"https://www.sec.gov/Archives/edgar/data/2020919/000168316826005450/deltasoft_ex2301.htm"},{"name":"BIO KEY INTERNATIONAL INC (BKYI)","form":"EX-16.1","date":"2026-07-09","link":"https://www.sec.gov/Archives/edgar/data/1019034/000143774926023211/ex_986561.htm"},{"name":"Futurewave Acquisition Corp (FWAC, FWACU)","form":"EX-99.1","date":"2026-07-06","link":"https://www.sec.gov/Archives/edgar/data/2116105/000182912626007229/futurewaveacq_ex99-1.htm"},{"name":"Banzai International, Inc. (BNZI, BNZIW)","form":"EX-99.1","date":"2026-07-07","link":"https://www.sec.gov/Archives/edgar/data/1826011/000119312526297663/bnzi-ex99_1.htm"},{"name":"INNSUITES HOSPITALITY TRUST (IHT)","form":"8-K","date":"2026-07-10","link":"https://www.sec.gov/Archives/edgar/data/82473/000149315226032754/form8-k.htm"}],"source":"SEC EDGAR full-text search (efts.sec.gov)"};
+/* FINANCE_LIVE_END */
+const D = [
+ {k:'finance',n:'Finance',live:1,conf:'HIGH',sev:81,feed:'SEC EDGAR + distress kernel (validated 0.81)',
+  node:'dACC/OFC → M6 · salience/valuation',fn:'salience + latency',
+  dx:'Senses every filing, prioritizes none in time. Quiet going-concern and covenant tells stay buried under price and earnings noise until already priced in.',
+  biz:'Quiet Distress Watch',blurb:'A ranked, deduplicated feed of filers newly crossing distress thresholds, each with the exact filing excerpt as evidence, brokered per result to one buyer.',
+  buyer:'distressed-debt & claims-trading firms',
+  skills:CORE.concat(['cost-aware-llm-pipeline','eval-harness','competitiveintelligence']),
+  adv:[['Saraev','Ranking is the moat'],['Torti','Paid audit is the front door'],['Anti-catalog','Ship a tangible dossier']],
+  ladder:{l1:'Per-result distress dossier, own-nothing, no audience',l2:'Scoped alert subscription with kernel score + base-rate',l3:'Licensed screened feed against a fund’s book'},
+  gate:'No investment advice, no retail. Signal curation to professional counterparties only. A false going-concern flag is reputational death — the audit gate is non-optional.'},
+
+ {k:'medicine',n:'Medicine',live:1,conf:'HIGH',sev:74,feed:'openFDA adverse-event + recall (desk live)',
+  node:'CeA/BNST → M7 · threat/immune',fn:'immune + guard latency',
+  dx:'The signal that a drug or device is harming people sits in openFDA long before anyone who could act on it is routed to the harm.',
+  biz:'Adverse-Event Escalation Feed',blurb:'A ranked, entity-tagged readout of which product, which harm, which population is escalating now, sold per signed case.',
+  buyer:'mass-tort plaintiff firms & insurers',
+  skills:CORE.concat(['riskassessment','competitiveintelligence','knowledgesynthesis']),
+  adv:[['Own-nothing','Broker one signal to one buyer'],['Torti','Sell the outcome'],['Anti-catalog','Tangible per-product dossier']],
+  ladder:{l1:'Ranked rising-signal feed, one drug/device class',l2:'Per-class monitoring subscription',l3:'Bespoke pharmacovigilance-adjacent retainer'},
+  gate:'Not clinical advice. FAERS is correlation-not-causation — every readout carries the caveat. The attorney converts a signal into a case.'},
+
+ {k:'technology',n:'Technology',live:1,conf:'HIGH',sev:70,feed:'layoffs.fyi × state WARN (desk live)',
+  node:'M1/M8 · motor-output',fn:'efferent + allocation',
+  dx:'Senses layoffs fine, but the freed senior talent and vendor churn are never routed to who could act on the lead time.',
+  biz:'Freed-Talent Radar',blurb:'Join each layoff event to WARN filings and publish the freed engineers plus the competitors hiring their exact stack.',
+  buyer:'tech recruiters & staffing agencies',
+  skills:CORE.concat(['enrichlead','contentcreation','draftcontent']),
+  adv:[['Saraev','Demand-harvesting'],['Saraev','One scrape, omni-channel fan-out'],['Anti-catalog','Tangible list']],
+  ladder:{l1:'Weekly freed-talent + hiring-competitor list',l2:'Metro/sector filtered alerts',l3:'Licensed tech-labor macro index'},
+  gate:'Route on company/role level, never dox named individuals from private sources.'},
+
+ {k:'industry',n:'Industry',live:1,conf:'HIGH',sev:71,feed:'state WARN notices (partly wired)',
+  node:'LC → M2 · arousal/alerting',fn:'afferent latency + efferent',
+  dx:'WARN notices fire with 60-day lead but land in inconsistent state formats and never reach the suppliers, lenders, or staffing firms who could use the warning.',
+  biz:'National WARN Board',blurb:'Normalize every state’s WARN feed into one clean, deduplicated, company-resolved stream and route it to the counterparties who need the head start.',
+  buyer:'staffing & outplacement firms',
+  skills:CORE.concat(['enrichlead','companalysis']),
+  adv:[['Saraev','Ranking is the moat'],['Torti','Value-based pricing'],['Anti-catalog','Tangible board']],
+  ladder:{l1:'Clean national board + weekly email',l2:'Geo/sector alerts + employer-to-parent link',l3:'Licensed layoff-index feed'},
+  gate:'Some states release only via FOIA/stale PDFs — coverage has a human-maintenance floor. Sell the investor tier as a labor indicator, not advice.'},
+
+ {k:'science',n:'Science',live:0,conf:'HIGH',sev:58,feed:'ClinicalTrials + NIH RePORTER + Retraction Watch + arXiv',
+  node:'HAB → M8 · gating/retrieval',fn:'memory/retrieval + guard',
+  dx:'An overwhelming afferent stream that cannot rank salience fast enough, cannot retrieve prior art, and flags retractions months late.',
+  biz:'Research-Front Weekly',blurb:'For one therapeutic area, link funded-grant to preprint to trial to retraction as one timeline, delivered as a 5-minute analyst brief.',
+  buyer:'pharma competitive-intelligence teams',
+  skills:CORE.concat(['knowledgesynthesis','competitiveintelligence','market-research']),
+  adv:[['Saraev','Auto-research self-improvement'],['Torti','Sell the outcome'],['Anti-catalog','Tangible brief']],
+  ladder:{l1:'Free weekly research-front brief, one subfield',l2:'Per-area custom feed to an R&D team',l3:'Licensed retraction-velocity / funding-front dataset'},
+  gate:'Curation and linkage, never a scientific conclusion. The readout says signals co-occur, never that a drug works.'},
+
+ {k:'trade',n:'Trade',live:0,conf:'HIGH',sev:63,feed:'USITC HTS + USTR + Federal Register + Comtrade',
+  node:'AI/NTS → M10 · interoceptive boundary',fn:'salience + latency + guard',
+  dx:'A mid-size importer is surprised by a Section 301 change because no affordable instrument watches the tariff and shipment boundary and fires an alert.',
+  biz:'True Effective-Tariff Watch',blurb:'Stack base + 301 + 232 into a true effective rate per HS code and origin, and alert the moment it changes, far below the enterprise incumbents.',
+  buyer:'small importers, customs brokers, 3PLs',
+  skills:CORE.concat(['riskassessment','deep-research']),
+  adv:[['Torti','Value-based pricing'],['Saraev','Ranking is the moat'],['Anti-catalog','Tangible landed-cost delta']],
+  ladder:{l1:'Free stacked-tariff lookup + 301/232 change alert',l2:'Shipment-pattern feed for a product category',l3:'Licensed effective-tariff + flow index'},
+  gate:'Never a binding customs classification (that needs a licensed broker). The effective-rate math must be correct.'},
+
+ {k:'defense',n:'Defense',live:0,conf:'HIGH',sev:60,feed:'USAspending + SAM.gov awards (public, unclassified)',
+  node:'HAB → M8 · inhibition/gating',fn:'memory/retrieval (walled)',
+  dx:'A vast public award memory that a small contractor cannot retrieve, while incumbents pay $6k–119k/yr to keep the readout gated.',
+  biz:'Recompete Radar',blurb:'A per-NAICS feed of expiring awards and incumbents up for recompete, undercutting the enterprise tools with a curated slice of the same public data.',
+  buyer:'small & new federal contractors',
+  skills:CORE.concat(['companalysis','competitiveintelligence']),
+  adv:[['Torti','Undercut with curation'],['Saraev','Ranking is the moat'],['Anti-catalog','Tangible radar']],
+  ladder:{l1:'Free per-NAICS recompete newsletter',l2:'Recompete + incumbent alert subscription',l3:'Concentration / whitespace analytics feed'},
+  gate:'HARD: public unclassified award-finance data ONLY. Nothing ITAR/EAR/classified. Civilian and analyst buyers only.'},
+
+ {k:'agriculture',n:'Agriculture',live:0,conf:'HIGH',sev:57,feed:'USDA NASS + Drought Monitor + satellite NDVI',
+  node:'THAL → M4 · relay/gating',fn:'salience + latency (last-mile)',
+  dx:'Excellent afferent nerves, severed relay to the operator. Signal is published for the aggregate, not the individual farm, and arrives too late to act on.',
+  biz:'Crop Vital Signs',blurb:'A per-county “your fields vs the aggregate” readout with a single salience call, delivered weekly.',
+  buyer:'row-crop farmers, co-ops, crop insurers',
+  skills:CORE.concat(['metricsreview','contentcreation']),
+  adv:[['Torti','Paid audit front door'],['Anti-catalog','Tangible readout'],['Saraev','Parasite distribution']],
+  ladder:{l1:'Per-county condition + drought email (proven $180–455/yr WTP)',l2:'Co-op/elevator district dashboard',l3:'Commodity-desk anomaly feed'},
+  gate:'Descriptive readout of public condition data, not a trade recommendation.'},
+
+ {k:'law',n:'Law',live:0,conf:'HIGH',sev:64,feed:'CourtListener / RECAP (free docket API)',
+  node:'HAB → M8 · retrieval',fn:'memory/retrieval',
+  dx:'The federal court record is public but un-indexed at the moment of need. New suits, competitor bankruptcies, mass-tort waves surface too late.',
+  biz:'Litigation Radar',blurb:'Standing queries that watch for new filings matching a party, nature-of-suit, or bankruptcy chapter and fire a same-day curated summary.',
+  buyer:'mass-tort firms & litigation finance',
+  skills:CORE.concat(['knowledgesynthesis','competitiveintelligence']),
+  adv:[['Own-nothing','Broker to one buyer, per case'],['Saraev','Ranking is the moat'],['Anti-catalog','Tangible filing brief']],
+  ladder:{l1:'Single-MDL new-filings radar',l2:'Standing-query alerting for firms',l3:'Litigation-finance deal-flow desk'},
+  gate:'Not legal advice (UPL wall). Descriptive filing summaries, never a legal opinion. Buyers are firms and finance, never pro-se.'},
+
+ {k:'economy',n:'Economy',live:0,conf:'validated',sev:55,feed:'FRED + BLS + BEA + WARN',
+  node:'THAL → M4 · thalamic gating',fn:'salience + latency (flood)',
+  dx:'Abundant afferent sensing but the small operator drowns; a mass-layoff, a claims spike, and a rate move all arrive at the same amplitude.',
+  biz:'Local Vital Signs',blurb:'A ranked, plain-language “what changed and does it hit you” readout per metro, matched to a subscriber’s declared exposure.',
+  buyer:'SMB owners (affiliate), regional banks',
+  skills:CORE.concat(['metricsreview','marginanalyzer']),
+  adv:[['Torti','Sell the outcome'],['Anti-catalog','Tangible readout'],['Saraev','Demand-harvesting']],
+  ladder:{l1:'Free metro Vital Signs email (accounting affiliate)',l2:'Paid metro/sector desk, exposure-matched',l3:'Portfolio-monitoring API for regional banks'},
+  gate:'No forecasting, no investment advice. A readout of public facts, never buy/sell.'},
+
+ {k:'education',n:'Education',live:0,conf:'validated',sev:48,feed:'College Scorecard + IPEDS',
+  node:'HAB → M8 · consolidation',fn:'memory/retrieval',
+  dx:'Enormous longitudinal records that are never retrievable at the moment of a high-stakes decision. The record exists; recall is broken.',
+  biz:'Is-It-Worth-It Readout',blurb:'Per school and major, the real median debt, earnings, completion for your profile, and the three schools that beat it on ROI.',
+  buyer:'students/career-changers (affiliate), counselors',
+  skills:CORE.concat(['builddashboard','contentcreation']),
+  adv:[['Saraev','Parasite distribution'],['Anti-catalog','Tangible ROI page'],['Torti','Sell the outcome']],
+  ladder:{l1:'Free per-major ROI pages (education affiliate)',l2:'Counselor/parent tier, saved shortlists',l3:'Workforce-board program-benchmarking contract'},
+  gate:'Cohort-level lagged data, never a personal earnings promise.'},
+
+ {k:'energy',n:'Energy',live:1,conf:'validated',sev:52,feed:'EIA + NREL utility rates (desk live)',
+  node:'M1 · motor',fn:'efferent-output',
+  dx:'Sensing is fine, but the ratepayer sees a high bill and the corrective muscle (rate switch, DR enrollment, upgrade) never fires. A disconnected efferent arc.',
+  biz:'Bill X-Ray',blurb:'Upload a bill, get a specific action list: wrong rate, switch to X; qualifies for DR program Y; these upgrades pay back in Z months.',
+  buyer:'ratepayers (solar/efficiency affiliate)',
+  skills:CORE.concat(['metricsreview','contentcreation']),
+  adv:[['Torti','Sell the outcome'],['Anti-catalog','Tangible action list'],['Saraev','Own-nothing referral']],
+  ladder:{l1:'Free Bill X-Ray action list',l2:'Multi-meter portfolio tier for property managers',l3:'Retiring-capacity reliability-risk desk'},
+  gate:'Rate/DR eligibility is utility-specific; stay an information/referral service, not a licensed energy broker.'},
+
+ {k:'communication',n:'Communication',live:0,conf:'MED',sev:50,feed:'FCC unwanted-calls + Robocall Mitigation DB',
+  node:'CeA/BNST → M7 · threat',fn:'immune + guard',
+  dx:'The channel is intact but cannot distinguish self from hostile intruder; a victim has no readout of who is attacking their number-space.',
+  biz:'Robocall Threat Report',blurb:'Turn the FCC complaint feed into a per-area-code threat weather report ranking the worst-offending originating providers.',
+  buyer:'SMBs & consumers (affiliate-led)',
+  skills:CORE.concat(['riskassessment','contentcreation']),
+  adv:[['Saraev','Parasite distribution'],['Anti-catalog','Tangible report'],['Torti','Sell the outcome']],
+  ladder:{l1:'Area-code threat report (email/deliverability affiliate)',l2:'Per-number spoofing alert subscription',l3:'Carrier-compliance-gap feed'},
+  gate:'Complaint volume is not adjudicated guilt. Stay descriptive; defamation is the real cap.'},
+
+ {k:'infrastructure',n:'Infrastructure',live:0,conf:'inferred',sev:53,feed:'EPA ECHO + PHMSA + NBI (daily-diff)',
+  node:'AI/NTS → M10 · nociceptive integration',fn:'immune/guard + readout',
+  dx:'Distributed nociceptors and no dorsal-horn integration: each asset’s deterioration is siloed by its regulator, so chronic risk is never summed until it fails.',
+  biz:'Worsening-Assets Watch',blurb:'Sum signals across regulators into a per-operator decompensation score; alert on new incidents and escalating violations.',
+  buyer:'enviro-consulting/remediation, insurers',
+  skills:CORE.concat(['riskassessment','compliancecheck']),
+  adv:[['Own-nothing','Feed the freshest violations'],['Saraev','Ranking is the moat'],['Anti-catalog','Tangible dossier']],
+  ladder:{l1:'Free worsening-assets watch (ECHO diff)',l2:'Operator-monitoring alerts across silos',l3:'Licensed infrastructure-risk score feed'},
+  gate:'Report enforcement records, never certify safety or predict failure. Violation is not guilt; mis-attribution is defamatory.'},
+
+ {k:'intelligence',n:'Intelligence',live:0,conf:'inferred',sev:56,feed:'OFAC SDN/Consolidated + SAM exclusions + USAspending',
+  node:'dACC → M6 · salience relay',fn:'salience + latency',
+  dx:'The open-source environment is signal-flooded, not signal-poor. Everything is available so nothing is prioritized; a routine update hides the one that hit a counterparty.',
+  biz:'Debarment & Sanctions Radar',blurb:'A cross-feed relay that fires a latency-controlled alert only when a watched entity is newly sanctioned, debarred, or sued.',
+  buyer:'corporate vendor-risk & AML teams',
+  skills:CORE.concat(['riskassessment','compliancecheck','competitiveintelligence']),
+  adv:[['Own-nothing','One watchlist, one buyer'],['Saraev','Ranking is the moat'],['Anti-catalog','Tangible alert']],
+  ladder:{l1:'OSINT sanctions/debarment digest',l2:'Per-watchlist alerting SaaS',l3:'Bespoke risk-monitoring retainer'},
+  gate:'OSINT only. No classified, no surveillance-of-individuals. Human confirm before a high-severity fire (OFAC fuzzy matches create false positives).'},
+
+ {k:'population',n:'Population',live:0,conf:'inferred',sev:44,feed:'Census ACS + County Business Patterns + Migration Flows',
+  node:'HYPO → M3 · homeostasis',fn:'homeostasis/allocation',
+  dx:'Rich demographic afferent data and no allocation feedback loop; operators are blind to the county gaining or the metro losing establishments until long after it matters.',
+  biz:'Where America Is Moving',blurb:'A ranked “what changed and what it means for allocation” county/MSA digest on each Census release.',
+  buyer:'RE investors, site-selection teams',
+  skills:CORE.concat(['builddashboard','marginanalyzer']),
+  adv:[['Own-nothing','Reuse the RE funnel'],['Anti-catalog','Tangible mover list'],['Torti','Sell the outcome']],
+  ladder:{l1:'County-shift / migration digest',l2:'Per-market monitoring on each release',l3:'Bespoke market-intelligence retainer'},
+  gate:'Aggregate only, never re-identify. Periodic data, so a shift readout, not a live feed.'},
+
+ {k:'governance',n:'Governance',live:0,conf:'inferred',sev:47,feed:'FEC + LDA lobbying + congress.gov + USAspending',
+  node:'dACC → M6 · conflict-monitoring',fn:'memory/retrieval + readout',
+  dx:'Data fragmented across a dozen portals with no cross-index, so the money-influence-award connections are never assembled into a legible memory trace.',
+  biz:'Follow-the-Award',blurb:'The join nobody maintains: link contributions to lobbying to bill sponsorship to contract awards as a follow-the-money trail.',
+  buyer:'compliance/FCPA teams, journalists',
+  skills:CORE.concat(['knowledgesynthesis','compliancecheck']),
+  adv:[['Own-nothing','Pre-assembled trail'],['Saraev','Ranking is the moat'],['Anti-catalog','Tangible dossier']],
+  ladder:{l1:'Free follow-the-award brief',l2:'Entity monitoring across all four feeds',l3:'Licensed influence-graph API'},
+  gate:'Strict non-partisan neutrality. Sell the trail with sources; a wrong entity match is defamation.'},
+
+ {k:'environment',n:'Environment',live:0,conf:'LOW',sev:49,feed:'EPA ECHO (keyless, weekly diff)',
+  node:'CeA/BNST → M7 · immune targeting',fn:'immune/guard',
+  dx:'Immune data present, no antibody targeting: violations are logged, but the neighbor, the ESG buyer, the plaintiff firm are never cued to respond.',
+  biz:'Worst-Actor Watch',blurb:'Turn the weekly ECHO refresh into a geocoded, severity-ranked “who near you or in your portfolio just violated” readout.',
+  buyer:'ESG procurement & plaintiff firms (L2/L3)',
+  skills:CORE.concat(['riskassessment','compliancecheck']),
+  adv:[['Own-nothing','Loss-leader L1 to reach L2'],['Saraev','Ranking is the moat'],['Anti-catalog','Tangible dossier']],
+  ladder:{l1:'Pollution-near-me alert (weak affiliate) — run as loss-leader',l2:'Supplier-compliance watch for ESG teams',l3:'Litigation/enforcement-signal feed'},
+  gate:'Violation is not guilt — highest defamation risk of the set. Strictly descriptive with source links.'},
+
+ {k:'culture',n:'Culture',live:0,conf:'MED',sev:46,feed:'Box Office Mojo / The Numbers / public charts',
+  node:'LC → M2 · novelty/arousal',fn:'afferent latency + salience',
+  dx:'Senses lag reality: by the time a trend is legible in a chart, the window to act on it has closed. Motion in the periphery is unseen until saturated.',
+  biz:'What’s Accelerating',blurb:'Surface rate-of-change, what is accelerating fastest this week in a niche, before it is already number one.',
+  buyer:'creators & small labels (affiliate)',
+  skills:CORE.concat(['contentstrategy','contentcreation']),
+  adv:[['Saraev','Parasite distribution'],['Anti-catalog','Tangible momentum board'],['Saraev','One scrape, omni-channel']],
+  ladder:{l1:'Free “what’s accelerating” niche momentum drip',l2:'Niche momentum alert subscription',l3:'Cross-category trend-acceleration feed'},
+  gate:'Taste/curation is the human moat; stay on genuinely public endpoints and curate deltas, do not republish proprietary datasets.'},
+
+ {k:'religion',n:'Religion',live:0,conf:'LOW',sev:40,feed:'Gallup/Pew/Lifeway + ProPublica 990s + Census',
+  node:'NAcc → M11 · value/meaning',fn:'afferent + readout',
+  dx:'Almost no interoception of its own decline. A congregation feels empty pews but has no instrument telling it which cohort is leaving, how fast, and the money runway.',
+  biz:'Congregation Vital Signs',blurb:'A monthly vitality readout: attendance-cohort benchmark vs denomination, local demographic drift, and the org’s own 990 runway.',
+  buyer:'pastors/admins, faith publishers',
+  skills:CORE.concat(['builddashboard','contentcreation']),
+  adv:[['Saraev','Parasite distribution'],['Anti-catalog','Tangible benchmark PDF'],['Torti','Sell the outcome']],
+  ladder:{l1:'Church vitality benchmark PDF (church-SaaS affiliate)',l2:'Recurring report to a judicatory/region',l3:'Licensed whole-domain benchmark to publishers'},
+  gate:'Neutrality and sensitivity. Instruments and numbers, never doctrine. Lowest fit — stay at the sensing/readout layer.'}
+];
+
+const CW = {HIGH:1.0, validated:0.9, inferred:0.62, MED:0.7, 'MED-HIGH':0.78, LOW:0.5};
+function sev2col(s){ return s>=68?'var(--guard)': s>=52?'var(--money)':'var(--healthy)'; }
+function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function effSev(d){ return (d.k==='finance' && FINANCE_LIVE)? FINANCE_LIVE.sev : d.sev; }
+
+let armed=false, active=null;
+
+// rail
+const rail=document.getElementById('rail');
+D.forEach(d=>{
+  const b=document.createElement('button');
+  b.className='drow'; b.dataset.k=d.k;
+  b.innerHTML='<span class="sig" style="background:'+sev2col(effSev(d))+'"></span><span class="nm">'+esc(d.n)+'</span><span class="cf">'+esc(d.conf)+'</span>';
+  b.onclick=()=>select(d.k);
+  rail.appendChild(b);
+});
+
+// today / start-here strip (top opportunities)
+const today=document.getElementById('today');
+[...D].map(d=>({d,score:effSev(d)*(CW[d.conf]||0.6)})).sort((a,b)=>b.score-a.score).slice(0,6).forEach(({d})=>{
+  const q=document.createElement('button'); q.className='q';
+  q.innerHTML=esc(d.n)+' <b>'+effSev(d)+'</b>';
+  q.onclick=()=>select(d.k);
+  today.appendChild(q);
+});
+
+function setStatus(txt, mode){
+  const s=document.getElementById('status'); document.getElementById('statustext').textContent=txt;
+  s.classList.toggle('armed', mode==='armed');
+}
+
+function logLines(el, lines, base){
+  el.innerHTML='';
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  lines.forEach((l,i)=>{
+    const r=document.createElement('span'); r.className='row';
+    r.innerHTML='<span class="'+l[0]+'">'+esc(l[1])+'</span>\n';
+    if(!reduce) r.style.animationDelay=((base||0)+0.09*i)+'s';
+    el.appendChild(r);
+  });
+}
+
+function select(k){
+  active=D.find(x=>x.k===k); armed=false;
+  document.querySelectorAll('.drow').forEach(r=>r.classList.toggle('on', r.dataset.k===k));
+  setStatus('SENSING','');
+  renderMain(active);
+}
+
+function renderMain(d){
+  const skills=d.skills.map(s=>'<span class="sk">'+esc(s)+'</span>').join('');
+  const adv=d.adv.map(a=>'<div class="ac"><div class="s">'+esc(a[0])+'</div><div class="h">'+esc(a[1])+'</div></div>').join('');
+  const live=(d.k==='finance' && FINANCE_LIVE);
+  const sigTag=live?'<span class="demo" style="color:var(--healthy);border-color:rgba(111,207,151,.45)">&#9679; live &middot; EDGAR &middot; '+esc(FINANCE_LIVE.updated)+'</span>':'<span class="demo">demo signal</span>';
+  const liveStats=live?'<p style="margin-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--dim)">going-concern filings: <b style="color:var(--ink)">'+FINANCE_LIVE.gc7+'</b> in 7d &middot; '+FINANCE_LIVE.gc30+' in 30d &middot; run-rate <b style="color:'+(FINANCE_LIVE.ratio>=1?'var(--money)':'var(--healthy)')+'">'+FINANCE_LIVE.ratio.toFixed(2)+'&times;</b>'+(FINANCE_LIVE.ch7?' &middot; chapter&nbsp;11: '+FINANCE_LIVE.ch7+' in 7d':'')+'</p>':'';
+  const evHtml=(live&&FINANCE_LIVE.evidence&&FINANCE_LIVE.evidence.length)?'<div class="cell" style="grid-column:1/-1"><p class="k"><span>Live evidence &middot; recent going-concern filers</span><span class="demo">SEC EDGAR full-text</span></p><div style="display:grid;gap:7px">'+FINANCE_LIVE.evidence.map(function(e){return '<a href="'+esc(e.link)+'" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;gap:12px;text-decoration:none;font-size:.85rem;border:1px solid var(--line);border-radius:7px;padding:8px 11px;background:var(--panel2)"><span style="color:var(--ink)">'+esc(e.name)+'</span><span class="mono" style="color:var(--faint);white-space:nowrap">'+esc(e.form)+' &middot; '+esc(e.date)+'</span></a>';}).join('')+'</div></div>':'';
+  const m=document.getElementById('main');
+  m.innerHTML =
+  '<div class="dhead"><div><div class="lab">// regulation opportunity</div>'
+   +'<h1>'+esc(d.n)+'</h1></div></div>'
+  +'<div class="badges">'
+   +(d.live?'<span class="badge live">● desk live</span>':'')
+   +'<span class="badge sig">confidence: '+esc(d.conf)+'</span>'
+   +'<span class="badge">function: '+esc(d.fn)+'</span></div>'
+
+  +'<div class="sense">'
+   +'<div class="cell"><p class="k"><span>Feed</span>'+sigTag+'</p>'
+     +'<div class="feedname">'+esc(d.feed)+'</div>'
+     +'<div class="track" style="margin-top:12px"><div class="fill" id="fill"></div></div>'
+     +'<div class="sc"><span>calm</span><span>elevated</span><span>acute</span></div>'
+     +liveStats+'</div>'
+   +'<div class="cell"><p class="k"><span>Brain reading</span></p>'
+     +'<p style="color:var(--ink);font-weight:600;font-family:var(--mono);font-size:.92rem">'+esc(d.node)+'</p>'
+     +'<p style="margin-top:8px">'+esc(d.dx)+'</p></div>'
+   +evHtml
+  +'</div>'
+
+  +'<h2><span class="n">DX</span>Neuro → business</h2>'
+  +'<div class="flow">'
+   +'<div class="nd"><div class="t">Node / motif</div><div class="v">'+esc(d.node.split(' · ')[0])+'</div><div class="d">'+esc((d.node.split(' · ')[1]||''))+'</div></div>'
+   +'<div class="nd"><div class="t">Function</div><div class="v">'+esc(d.fn)+'</div><div class="d">the regulation the domain is failing</div></div>'
+   +'<div class="nd dx"><div class="t">Dysregulation</div><div class="v">the opportunity</div><div class="d">'+esc(d.dx)+'</div></div>'
+   +'<div class="nd rx"><div class="t">Indicated treatment</div><div class="v">'+esc(d.biz)+'</div><div class="d">the business that regulates it</div></div>'
+  +'</div>'
+
+  +'<div class="opp"><div class="biztag">launch candidate</div><h3>'+esc(d.biz)+'</h3>'
+   +'<p>'+esc(d.blurb)+'</p>'
+   +'<div class="buyer">pays: <b>'+esc(d.buyer)+'</b></div></div>'
+
+  +'<h2><span class="n">RX</span>Why this works</h2><div class="adv">'+adv+'</div>'
+
+  +'<h2><span class="n">SK</span>Skills firing</h2><div class="skills">'+skills+'</div>'
+
+  +'<h2><span class="n">L</span>Capital ladder</h2><div class="ladder">'
+   +'<div class="rung"><span class="lv l1">L1</span><span class="w">'+esc(d.ladder.l1)+'</span></div>'
+   +'<div class="rung"><span class="lv">L2</span><span class="w">'+esc(d.ladder.l2)+'</span></div>'
+   +'<div class="rung"><span class="lv">L3</span><span class="w">'+esc(d.ladder.l3)+'</span></div></div>'
+
+  +'<div class="launch">'
+   +'<div class="lh"><div class="ttl">Start '+esc(d.biz)+'<small>arms the autonomous cycle for '+esc(d.n)+'</small></div>'
+     +'<button class="startbtn" id="startbtn">▶ Start this business</button></div>'
+   +'<div class="console"><div class="ch">regulator.log — '+esc(d.k)+'</div><pre class="log" id="log"></pre></div>'
+   +'<div class="residue" id="residue"><p class="k">handoff — the two steps that stay yours</p>'
+     +'<ul><li>Close the first buyer<span class="why">One human sales conversation with a '+esc(d.buyer.split(' ')[0])+' contact. The system built the deliverable; you sign the relationship.</span></li>'
+     +'<li>Hold the legal line<span class="why">'+esc(d.gate)+'</span></li></ul></div>'
+  +'</div>'
+
+  +'<div class="gate"><b>ceiling:</b> '+esc(d.gate)+'</div>';
+
+  // animate meter
+  requestAnimationFrame(()=>{ const f=document.getElementById('fill'); if(f){ f.style.width=effSev(d)+'%'; f.style.background='linear-gradient(90deg,var(--healthy),'+sev2col(effSev(d))+')'; }});
+  // sensing log
+  var senseLog=[
+    ['s','[sense]   feed '+d.feed.split(' ')[0]+' connected · signal '+effSev(d)+'/100'+(live?'  (LIVE)':'')],
+    ['n','[brain]   '+d.node],
+    ['w','[dx]      '+d.fn+' — opportunity detected'],
+    ['ok','[ready]   candidate: '+d.biz+'  →  press start']
+  ];
+  if(live) senseLog.splice(1,0,['ok','[edgar]   going-concern '+FINANCE_LIVE.gc7+'/7d · run-rate '+FINANCE_LIVE.ratio.toFixed(2)+'×']);
+  logLines(document.getElementById('log'), senseLog, 0);
+  document.getElementById('startbtn').onclick=()=>startBiz(d);
+}
+
+function startBiz(d){
+  if(armed) return; armed=true;
+  setStatus('ARMED · AWAITING OPERATOR','armed');
+  const btn=document.getElementById('startbtn'); btn.disabled=true; btn.textContent='● cycle armed';
+  logLines(document.getElementById('log'), [
+    ['t','$ regulator start --domain '+d.k],
+    ['s','[init]    provisioning skills: '+d.skills.slice(0,5).join(', ')+' …'],
+    ['ok','[build]   rendering "'+d.biz+'" on the desk spine … ok'],
+    ['ok','[audit]   false-positive gate + eval pass … ok'],
+    ['m','[render]  first '+ (d.biz.toLowerCase().includes('feed')||d.biz.toLowerCase().includes('radar')||d.biz.toLowerCase().includes('watch')?'dossier':'readout') +' drafted for '+d.buyer.split(',')[0]],
+    ['ok','[loop]    monitoring '+d.k+' feed; will mutate as the domain regulates'],
+    ['w','[HALT]    awaiting operator: 2 residue steps below ↓']
+  ],0);
+  document.getElementById('residue').classList.add('show');
+}
+
+// boot
+select('finance');
+</script>
+</body>
+</html>
