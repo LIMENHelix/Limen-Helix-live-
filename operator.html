@@ -133,6 +133,28 @@
   .rung .lv.l1{color:var(--healthy)}
   .rung .w{font-size:.9rem; color:var(--dim)}
 
+  /* venture portfolio — the live L1-L6 archetype ladder from /api/ventures */
+  .vrung{border:1px solid var(--line); border-radius:10px; margin-top:10px; overflow:hidden}
+  .vrhead{display:flex; align-items:center; gap:10px; padding:9px 13px; background:var(--panel2); border-bottom:1px solid var(--line)}
+  .vrhead .lv{font-family:var(--mono); font-weight:700; font-size:.8rem; color:var(--money)}
+  .vrhead .lv.l1{color:var(--healthy)}
+  .vrhead .vrdesc{font-size:.82rem; color:var(--dim)}
+  .vlist{display:grid; gap:8px; padding:11px 13px}
+  .vcard{background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:11px 12px}
+  .vtop{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:5px}
+  .varch{font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--signal); border:1px solid rgba(56,198,190,.4); border-radius:5px; padding:2px 7px}
+  .vrole{font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--faint)}
+  .vtitle{font-weight:650; font-size:.95rem; color:var(--ink)}
+  .vinput{font-size:.83rem; color:var(--dim); margin-top:3px}
+  .vexp{margin-top:8px; cursor:pointer; background:transparent; border:1px solid var(--line2); color:var(--dim); border-radius:6px; padding:4px 10px; font-family:var(--mono); font-size:11px}
+  .vexp:hover{border-color:var(--signal); color:var(--ink)}
+  .vscaf{margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; display:grid; gap:8px}
+  .vscaf .row{font-size:.85rem; color:var(--dim)} .vscaf .row b{color:var(--ink); font-weight:600}
+  .vscaf .lbl{font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--faint); display:block; margin-bottom:2px}
+  .vfund{margin-top:12px; font-family:var(--mono); font-size:11px; color:var(--faint); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px 13px; line-height:1.7}
+  .vfund b{color:var(--money)}
+  .vnote{margin-top:8px; font-size:.82rem; color:var(--faint); font-style:italic}
+
   /* launch */
   .launch{margin-top:26px; border:1px solid var(--line2); border-radius:12px; overflow:hidden; background:var(--panel)}
   .launch .lh{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding:16px 18px}
@@ -543,10 +565,12 @@ function renderMain(d){
 
   +'<h2><span class="n">SK</span>Skills firing</h2><div class="skills">'+skills+'</div>'
 
-  +'<h2><span class="n">L</span>Capital ladder</h2><div class="ladder">'
+  +'<h2><span class="n">L</span>Venture portfolio &middot; L1&rarr;L6 businesses this node supports</h2>'
+  +'<div id="ventures"><div class="ladder">'
    +'<div class="rung"><span class="lv l1">L1</span><span class="w">'+esc(d.ladder.l1)+'</span></div>'
    +'<div class="rung"><span class="lv">L2</span><span class="w">'+esc(d.ladder.l2)+'</span></div>'
-   +'<div class="rung"><span class="lv">L3</span><span class="w">'+esc(d.ladder.l3)+'</span></div></div>'
+   +'<div class="rung"><span class="lv">L3</span><span class="w">'+esc(d.ladder.l3)+'</span></div>'
+   +'<div class="vnote">mapping the full L1&ndash;L6 archetype portfolio&hellip;</div></div></div>'
 
   +'<div class="launch">'
    +'<div class="lh"><div class="ttl">Start '+esc(d.biz)+'<small>arms the autonomous cycle for '+esc(d.n)+'</small></div>'
@@ -571,6 +595,70 @@ function renderMain(d){
   if(live) senseLog.splice(1,0,['ok','[edgar]   going-concern '+FINANCE_LIVE.gc7+'/7d · run-rate '+FINANCE_LIVE.ratio.toFixed(2)+'×']);
   logLines(document.getElementById('log'), senseLog, 0);
   document.getElementById('startbtn').onclick=()=>startBiz(d);
+  fillVentures(d);
+}
+
+// VENTURE PORTFOLIO — the free deterministic handoff. POST this domain's sensed opportunity to
+// /api/ventures; the server runs lib/venture-engine (node -> ANY-archetype portfolio, L1-L6,
+// afferent-feeder-first), PERSISTS it to the registry (ventures:<domain>), and returns it
+// ladder-organized. No AI, no spend. Cached per domain so each is mapped once per session.
+const venturesCache={};
+function oppFromDomain(d){
+  // fold the operator-authored ladder tiers into the blurb so the engine's archetype inference
+  // sees the domain's own L2/L3 intent, not just the headline pitch.
+  const ladderText=[d.ladder&&d.ladder.l1,d.ladder&&d.ladder.l2,d.ladder&&d.ladder.l3].filter(Boolean).join('. ');
+  return { domain:d.k, biz:d.biz, business:d.biz, blurb:(d.blurb||'')+' '+ladderText, node:d.node, buyer:d.buyer,
+           diagnosis:d.dx, conf:(CW[d.conf]||0.7), economics:d.ladder };
+}
+async function fillVentures(d){
+  const host=document.getElementById('ventures'); if(!host) return;
+  if(venturesCache[d.k]){ renderVentureLadder(host, venturesCache[d.k]); return; }
+  try{
+    const r=await fetch('/api/ventures',{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({domain:d.k, opportunities:[oppFromDomain(d)]})});
+    const j=await r.json();
+    if(j && j.ok && j.organized && j.organized.rungs && j.organized.rungs.length){
+      venturesCache[d.k]=j.organized;
+      if(active && active.k===d.k) renderVentureLadder(host, j.organized);
+    }
+  }catch(e){ /* keep the static 3-rung fallback already rendered */ }
+}
+function scaffoldHtml(v){
+  const s=v.standUp||{}; let h='';
+  h+='<div class="row"><span class="lbl">deliverable</span><b>'+esc(s.kind||v.standUpKind||'')+'</b></div>';
+  h+='<div class="row"><span class="lbl">offer</span>'+esc(s.offer||'')+'</div>';
+  if(s.landingSections&&s.landingSections.length) h+='<div class="row"><span class="lbl">landing page</span>'+s.landingSections.map(esc).join(' &rarr; ')+'</div>';
+  h+='<div class="row"><span class="lbl">capture</span>'+esc((s.capture&&s.capture.type)||'lead')+((s.capture&&s.capture.endpoint)?(' &rarr; '+esc(s.capture.endpoint)):'')+'</div>';
+  if(s.storefront) h+='<div class="row"><span class="lbl">storefront</span>'+esc(s.storefront.platform)+' &middot; '+esc(s.storefront.flow)+'</div>';
+  if(v.skillChain&&v.skillChain.length) h+='<div class="row"><span class="lbl">skills that build it</span><div class="skills" style="margin-top:4px">'+v.skillChain.map(function(sk){return '<span class="sk">'+esc(sk)+'</span>';}).join('')+'</div></div>';
+  h+='<div class="row"><span class="lbl">first action</span>'+esc(s.firstAction||'')+'</div>';
+  h+='<div class="row">'+(s.gated?'<span style="color:var(--money)">higher rung &middot; needs capital / a run / operator sign</span>':'<span style="color:var(--healthy)">L1 &middot; can stand up now, free</span>')+'</div>';
+  return h;
+}
+function renderVentureLadder(host, org){
+  let html='';
+  org.rungs.forEach(function(rung){
+    const l1 = rung.capital==='L1';
+    html+='<div class="vrung"><div class="vrhead"><span class="lv'+(l1?' l1':'')+'">'+esc(rung.capital)+'</span><span class="vrdesc">'+esc(rung.desc||'')+'</span></div><div class="vlist">';
+    rung.ventures.forEach(function(v){
+      html+='<div class="vcard"><div class="vtop"><span class="varch">'+esc(v.archetype)+'</span><span class="vrole">'+esc(v.role)+'</span></div>'
+        +'<div class="vtitle">'+esc(v.title)+'</div>'
+        +'<div class="vinput">'+esc(v.buyerOrInput||'')+'</div>'
+        +'<button class="vexp" type="button">stand up &#9662;</button>'
+        +'<div class="vscaf" hidden>'+scaffoldHtml(v)+'</div></div>';
+    });
+    html+='</div></div>';
+  });
+  if(org.funding && org.funding.length){
+    html+='<div class="vfund"><b>funding sequence (compounding):</b> '+org.funding.map(function(f){return esc(f.capital);}).join(' &rarr; ')+' &nbsp;&middot;&nbsp; run L1 first; each rung funds the next, never retire a rung.</div>';
+  }
+  if(org.note) html+='<div class="vnote">'+esc(org.note)+'</div>';
+  host.innerHTML=html;
+  host.querySelectorAll('.vexp').forEach(function(btn){
+    btn.onclick=function(){ const s=btn.parentElement.querySelector('.vscaf');
+      if(s.hasAttribute('hidden')){ s.removeAttribute('hidden'); btn.innerHTML='hide &#9652;'; }
+      else { s.setAttribute('hidden',''); btn.innerHTML='stand up &#9662;'; } };
+  });
 }
 
 // LIVE SIMULATION — drives the launch off real signal, no LLM spend, no publish. It senses
