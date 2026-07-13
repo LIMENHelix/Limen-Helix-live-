@@ -3,7 +3,10 @@
  * Mirrors industry-ingest. Gated by LEAD_ADMIN_KEY. Stores finance:distress + finance:distress:meta.
  */
 var db = require('../lib/limen-db');
-var TTL = 60 * 60 * 24 * 10;
+// 45-day TTL: the feed is refreshed by a daily GitHub Actions cron, but scheduled runs
+// get dropped/delayed. A 10-day TTL blanked the desk after a few missed runs; 45 days
+// keeps the last-known feed visible while the cron recovers. Freshness is shown via meta.updatedMs.
+var TTL = 60 * 60 * 24 * 45;
 function j(res, c, o) { res.statusCode = c; res.setHeader('content-type', 'application/json'); res.setHeader('Cache-Control', 'private, no-store'); res.end(JSON.stringify(o)); }
 function readBody(req) { return new Promise(function (r) { var b = ''; req.on('data', function (c) { b += c; if (b.length > 6e6) req.destroy(); }); req.on('end', function () { try { r(JSON.parse(b || '{}')); } catch (e) { r({}); } }); req.on('error', function () { r({}); }); }); }
 module.exports = async function handler(req, res) {

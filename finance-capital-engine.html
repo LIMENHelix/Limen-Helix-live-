@@ -300,7 +300,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       var sel=document.getElementById('prodsel');var ps=document.getElementById('prodstat');
       if(!sel||!sel.value)return;ps.textContent='producing… (AI, budget-gated)';
       fetch('/api/capital-engine?action=produce&stream='+encodeURIComponent(sel.value),{method:'POST'}).then(function(r){return r.json();}).then(function(j){
-        ps.textContent=j.ok?('✓ '+(j.artifact.format||'')+' produced'):('✗ '+(j.error||''));loadQueue();
+        ps.textContent=j.ok?('✓ '+(j.artifact.format||'')+' produced'):pausedNote(j.error);loadQueue();
       }).catch(function(e){ps.textContent='✗ '+e.message;});
     });
     var tk=document.getElementById('tick');
@@ -309,7 +309,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       ts.textContent='running tick… (budget-gated AI)';
       fetch('/api/capital-engine?action=tick',{method:'POST'}).then(function(r){return r.json();}).then(function(j){
         to.style.display='block';to.textContent=JSON.stringify(j.report||j,null,2);
-        ts.textContent=j.ok?('built '+(j.report.build.length)+' · healed '+(j.report.heal.length)+' findings'):('✗ '+(j.error||''));
+        ts.textContent=j.ok?((j.report.build.length?('built '+j.report.build.length):'built 0 (AI paused by cost kill-switch)')+' · healed '+(j.report.heal.length)+' findings'):pausedNote(j.error);
         loadLedger();
       }).catch(function(e){ts.textContent='✗ '+e.message;});
     });
@@ -320,9 +320,18 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       ps.textContent='asking kernel… (budget-gated)';
       fetch('/api/capital-engine?action=orchestrate',{method:'POST'}).then(function(r){return r.json();}).then(function(j){
         if(j.ok){po.style.display='block';po.textContent=j.proposal;ps.textContent=j.provider+' · '+j.model+' · '+(j.tokens?(j.tokens.in+j.tokens.out)+' tok':'');}
-        else{ps.textContent='✗ '+(j.error||'unavailable')+(j.error&&j.error.indexOf('ANTHROPIC')>-1?' - add ANTHROPIC_API_KEY in Vercel':'');}
+        else{ps.textContent=pausedNote(j.error);}
       }).catch(function(e){ps.textContent='✗ '+e.message;});
     });
+  }
+
+  // AI features here are intentionally OFF (cost kill-switch). Present that as a PAUSED
+  // state, not a red error, so a deliberate setting is not mistaken for a broken page.
+  function pausedNote(err){
+    err=String(err||'');
+    if(/AI disabled|billing|budget|tokens.?per.?tick|per operator|unavailable|ANTHROPIC/i.test(err))
+      return 'AI paused by cost kill-switch (set LIMEN_AI_ENABLED=1 to resume)';
+    return err?('error: '+err):'error';
   }
 
   function loadLedger(){
@@ -330,6 +339,11 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
     fetch('/api/capital-engine?action=ledger').then(function(r){return r.json();}).then(function(j){
       if(!j.ok){el.innerHTML='<div class="tcell"><div class="tl">ledger</div><div class="tv miss">'+(j.error||'err')+'</div></div>';return;}
       var s=j.summary||{};var hc=s.health>=0.66?'ok':(s.health>=0.4?'':'miss');
+      // No Stripe/revenue rail on this project - state that plainly instead of showing $0 / 70%.
+      if(!s.income&&!s.spend&&!s.eventCount){
+        el.innerHTML='<div class="tcell" style="grid-column:1/-1"><div class="tl">revenue rail</div><div class="tv">No revenue rail connected on this project (Stripe lives on AllAccessKC). The ledger stays empty until one is wired. This is expected, not a fault.</div></div>';
+        return;
+      }
       var cells=[
         {l:'Finance health',v:(Math.round((s.health||0)*100))+'%',c:hc},
         {l:'Net (income−spend)',v:'$'+((s.net||0).toLocaleString()),c:(s.net||0)>=0?'ok':'miss'},
