@@ -104,14 +104,16 @@ async function aiGeneratePlays(config, transitionId, dealSize, trigger, count) {
   }
   var units = Object.keys(def.options).join(', ');
   var sys = 'You are a sales-play generator. Output ONLY valid minified JSON, no prose. '
-    + 'A "play" composes FITT (frequency,intensity,time,type) with script layers SET (state-fact, expose-need, tie-down) and FBA (feature,benefit,advantage). '
+    + 'A "play" sets FITT: frequency (how often), intensity (how much/quantity), time (timing, time of day, duration), type (which channel). '
+    + 'Each FITT dimension is a SUBJECT you sell ON. On any dimension you run a SET sequence (state a fact, expose a need, tie-down) and/or an FBA sequence (feature, benefit, advantage), in any order. '
+    + 'layerMap says which sequences hang off which dimension. "copy" is keyed BY that dimension, and each block has the SET fields (fact,need,tie) and/or FBA fields (feature,benefit,advantage) whose lines speak to THAT dimension as the subject. '
     + 'Return {"plays":[{ "unit":<one of the options>, "fitt":{"frequency":"","intensity":"","time":"","type":""}, '
-    + '"layerMap":{"frequency":["SET"],"intensity":["FBA"],"time":[],"type":["SET","FBA"]}, '
-    + '"copy":{"fact":"","need":"","tie":"","feature":"","benefit":"","advantage":""} }]}';
+    + '"layerMap":{"frequency":["SET","FBA"],"time":["SET"]}, '
+    + '"copy":{"frequency":{"layers":["SET","FBA"],"fact":"","need":"","tie":"","feature":"","benefit":"","advantage":""},"time":{"layers":["SET"],"fact":"","need":"","tie":""}} }]}';
   var prompt = 'Generate ' + count + ' distinct, high-quality sales plays for the funnel step "' + def.label + '" ('
     + def.unit + ' options: ' + units + '). Target deal size: ' + dealSize + '. Target emotional trigger: ' + trigger
-    + '. Vary the FITT settings and the SET/FBA layering across plays. The copy must speak to the ' + trigger
-    + ' trigger and a ' + dealSize + ' deal. JSON only.';
+    + '. Vary the FITT settings and which SET/FBA sequences layer onto which FITT dimension. For every dimension in layerMap, write copy keyed to that dimension whose fact/need/tie/feature/benefit/advantage speak to that dimension as the subject, to the ' + trigger
+    + ' trigger, and a ' + dealSize + ' deal. Only include copy keys that appear in layerMap. JSON only.';
   var r;
   try { r = await orchestrator.call('REFRESH_ARTIFACT', { system: sys, prompt: prompt, maxTokens: 2600 }); }
   catch (e) { r = { ok: false, error: String(e && e.message || e) }; }

@@ -62,6 +62,12 @@
   .scrh{font-size:10px;letter-spacing:1px;text-transform:uppercase;margin:9px 0 2px}
   .scrh.SET{color:var(--amber)}
   .scrh.FBA{color:var(--violet)}
+  .proc{margin-top:11px;padding-top:9px;border-top:1px dashed var(--line)}
+  .proc .ln{font-size:12px;color:var(--dim);line-height:1.5}
+  .proc .ln b{color:var(--ink)}
+  .procsubj{font-size:12.5px;color:var(--cyan);font-weight:600}
+  .procsubj span{color:var(--ink);font-family:ui-monospace,Menlo,monospace;margin:0 6px}
+  .procsubj em{color:var(--dim);font-style:normal;font-size:11px}
   .selrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
   .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);color:var(--ink);padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:9}
   .toast.show{opacity:1}
@@ -195,30 +201,48 @@ function renderGrid(play){
       <div class="opts">${opts.map(o=>`<div style="${o===cur?'color:var(--cyan)':''}">${o===cur?'▸ ':'· '}${o}</div>`).join('')}</div></div>`;
   }).join('');
 }
+// Weave the script sequences that hang off ONE FITT dimension, in the order given.
+function seqBlocks(b){
+  var out='';
+  (b.layers||[]).forEach(function(layer){
+    if(layer==='SET'){
+      out+='<div class="scrh SET">SET · state a fact, expose a need, tie-down</div>'
+        +(b.fact?`<div class="ln"><b>State a fact.</b> ${b.fact}</div>`:'')
+        +(b.need?`<div class="ln"><b>Expose a need.</b> ${b.need}</div>`:'')
+        +(b.tie?`<div class="ln"><b>Tie-down.</b> ${b.tie}</div>`:'');
+    } else if(layer==='FBA'){
+      out+='<div class="scrh FBA">FBA · feature, benefit, advantage</div>'
+        +(b.feature?`<div class="ln"><b>Feature.</b> ${b.feature}</div>`:'')
+        +(b.benefit?`<div class="ln"><b>Benefit.</b> ${b.benefit}</div>`:'')
+        +(b.advantage?`<div class="ln"><b>Advantage.</b> ${b.advantage}</div>`:'');
+    }
+  });
+  return out;
+}
 function renderBest(play){
-  if(!play){ $('#bestPlay').innerHTML='<div class="muted">No play for this segment yet — generate one, or run a simulation.</div>'; renderGrid(null); return; }
+  if(!play){ $('#bestPlay').innerHTML='<div class="muted">No play for this segment yet. Generate one, or run a simulation.</div>'; renderGrid(null); return; }
   const c=play.copy||{}, f=play.fitt||{};
-  // FITT = the CADENCE (frequency, intensity, time, type). SET/FBA = the SCRIPT layered on it.
-  const fittRow = `<div class="cadlabel">FITT cadence · frequency, intensity, time, type</div>
+  const DIMS=['frequency','intensity','time','type'], LAB={frequency:'Frequency',intensity:'Intensity',time:'Time',type:'Type'};
+  // FITT = the four dials. Each dimension is a SUBJECT; SET/FBA sequences run ON it (the process).
+  const fittRow = `<div class="cadlabel">FITT · the four dials this play sets</div>
     <div class="fitt">
-      <span><b>Freq</b>${f.frequency||'—'}</span>
-      <span><b>Intensity</b>${f.intensity||'—'}</span>
-      <span><b>Time</b>${f.time||'—'}</span>
-      <span><b>Type</b>${f.type||'—'}</span>
-    </div>`;
-  const setBlock = (c.fact||c.need||c.tie)?`<div class="scrh SET">SET · state a fact, expose a need, tie-down</div>
-      ${c.fact?`<div><b>State a fact.</b> ${c.fact}</div>`:''}
-      ${c.need?`<div><b>Expose a need.</b> ${c.need}</div>`:''}
-      ${c.tie?`<div><b>Tie-down.</b> ${c.tie}</div>`:''}`:'';
-  const fbaBlock = (c.feature||c.benefit||c.advantage)?`<div class="scrh FBA">FBA · feature, benefit, advantage</div>
-      ${c.feature?`<div><b>Feature.</b> ${c.feature}</div>`:''}
-      ${c.benefit?`<div><b>Benefit.</b> ${c.benefit}</div>`:''}
-      ${c.advantage?`<div><b>Advantage.</b> ${c.advantage}</div>`:''}`:'';
+      <span><b>Freq</b>${f.frequency||'—'}</span><span><b>Intensity</b>${f.intensity||'—'}</span>
+      <span><b>Time</b>${f.time||'—'}</span><span><b>Type</b>${f.type||'—'}</span></div>`;
+  let proc='';
+  const perDim = DIMS.some(d=>c[d]&&typeof c[d]==='object');
+  if(perDim){
+    DIMS.forEach(function(dim){ const b=c[dim]; if(!b||!(b.layers&&b.layers.length)) return;
+      proc+=`<div class="proc"><div class="procsubj">${LAB[dim]}<span>${f[dim]||''}</span><em>sell on ${b.subject||''}</em></div>${seqBlocks(b)}</div>`;
+    });
+    if(!proc) proc='<div class="muted" style="margin-top:8px">Pure cadence play. No script layered on any dimension yet.</div>';
+  } else if(c.fact||c.need||c.tie||c.feature||c.benefit||c.advantage){
+    // legacy flat copy from older stored plays
+    proc=`<div class="proc">${seqBlocks({layers:['SET','FBA'],fact:c.fact,need:c.need,tie:c.tie,feature:c.feature,benefit:c.benefit,advantage:c.advantage})}</div>`;
+  }
   $('#bestPlay').innerHTML = `<div class="best-play">
     <div class="k">recommended · ${play.unit} · alloc ${(play.allocation*100).toFixed(0)}% · ${play.trials} trials</div>
     <div class="notation">${play.notation} <span class="chip ${play.source==='ai'?'ai':''}">${play.source}</span></div>
-    ${fittRow}
-    <div class="copy">${setBlock}${fbaBlock}</div></div>`;
+    ${fittRow}${proc}</div>`;
   renderGrid(play);
 }
 
