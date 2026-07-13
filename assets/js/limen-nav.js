@@ -1,8 +1,8 @@
 /**
- * limen-nav.js — reusable "Menu ▾" dropdown for any LIMEN page.
+ * limen-nav.js - reusable "Menu" dropdown for any LIMEN page.
  *
- * Drop <script src="/assets/js/limen-nav.js"></script> on a page → a fixed corner
- * menu button appears with every key destination, grouped. Public links always show;
+ * Drop <script src="/assets/js/limen-nav.js"></script> on a page to get a fixed corner
+ * menu button with every key destination, grouped. Public links always show;
  * admin links appear only when signed in (sessionStorage limen_access / limen_admin).
  * Self-contained (injects its own CSS); themeless so it works on gold or steel pages.
  */
@@ -11,23 +11,27 @@
 
   var PUBLIC = [
     { h: 'Home', u: '/' },
-    { h: '⚡ Energy Bill X-Ray', u: '/energy' },
-    { h: '📈 Energy Markets', u: '/energy-markets' },
-    { h: '🔌 Utility Watch', u: '/utility-watch' },
-    { h: '🎵 Wave Radar (music)', u: '/wave-radar' },
-    { h: '🎭 Culture', u: '/culture' },
-    { h: '🏗 Plan Your Project (Infrastructure)', u: '/infrastructure' },
-    { h: '◴ Phase Map', u: '/phase-map' },
-    { h: '🗺 Site Map (all pages)', u: '/pages' }
+    { h: 'Energy Bill X-Ray', u: '/energy' },
+    { h: 'Energy Markets', u: '/energy-markets' },
+    { h: 'Utility Watch', u: '/utility-watch' },
+    { h: 'Wave Radar (Music)', u: '/wave-radar' },
+    { h: 'Culture', u: '/culture' },
+    { h: 'Infrastructure', u: '/infrastructure' },
+    { h: 'Phase Map', u: '/phase-map' },
+    { h: 'Site Map', u: '/pages' }
   ];
   var ADMIN = [
-    { h: '🧭 Mission Control', u: '/admin' },
-    { h: '📐 Project Radar', u: '/project-radar' },
-    { h: '🛰 Civilization', u: '/civilization' },
-    { h: '💰 Capital Engine', u: '/finance-capital-engine' },
-    { h: '📥 Leads', u: '/admin-leads' },
-    { h: '🛠 Site Requests', u: '/admin-requests' },
-    { h: '❤ Vitals', u: '/vitals' }
+    { h: 'Mission Control', u: '/admin' },
+    { h: 'Operator Console', u: '/operator' },
+    { h: 'Playbook', u: '/playbook' },
+    { h: 'Sales Board', u: '/sales' },
+    { h: 'Capital Engine', u: '/finance-capital-engine' },
+    { h: 'Master Brain', u: '/admin-master' },
+    { h: 'Civilization', u: '/civilization' },
+    { h: 'Project Radar', u: '/project-radar' },
+    { h: 'Leads', u: '/admin-leads' },
+    { h: 'Site Requests', u: '/admin-requests' },
+    { h: 'Vitals', u: '/vitals' }
   ];
 
   function isAdmin() { try { return sessionStorage.getItem('limen_access') === 'granted' || !!sessionStorage.getItem('limen_admin'); } catch (e) { return false; } }
@@ -44,7 +48,7 @@
 
   function render() {
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
-    var btn = document.createElement('button'); btn.id = 'lmnav-btn'; btn.textContent = '☰ Menu';
+    var btn = document.createElement('button'); btn.id = 'lmnav-btn'; btn.textContent = 'Menu';
     var panel = document.createElement('div'); panel.id = 'lmnav-panel';
     function rows(list) { return list.map(function (i) { var cur = here() === i.u.replace(/\/$/, ''); return '<a href="' + i.u + '"' + (cur ? ' class="here"' : '') + '>' + i.h + '</a>'; }).join(''); }
     var html = '<div class="g">Public</div>' + rows(PUBLIC);

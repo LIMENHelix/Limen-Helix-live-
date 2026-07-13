@@ -6,29 +6,33 @@
 <title>LIMEN HELIX · Mission Control</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#080a0f;color:#e8e3d9;font-family:'IBM Plex Mono',monospace;font-size:15px;line-height:1.55;
+body{background:#080a0f;color:#e8e3d9;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px;line-height:1.55;
   background-image:linear-gradient(rgba(201,169,78,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,78,0.015) 1px,transparent 1px);background-size:28px 28px;}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:880px;margin:0 auto;padding:40px 20px 80px}
-.brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,0.55);margin-bottom:6px}
-h1{font-size:30px;font-weight:400;margin-bottom:4px}
-.who{font-size:11px;letter-spacing:2px;color:rgba(214,209,198,0.7);text-transform:uppercase;margin-bottom:28px}
-.sec{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(224,200,130,0.92);margin:26px 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
-.card{display:block;border:1px solid rgba(201,169,78,0.18);border-radius:4px;padding:13px 15px;background:#0c0f16;transition:border-color .15s}
-.card:hover{border-color:rgba(201,169,78,0.5)}
-.card .t{font-size:14px;color:#e8e3d9;margin-bottom:3px;text-transform:capitalize}
-.card .d{font-size:10px;letter-spacing:1px;color:rgba(214,209,198,0.55)}
-.dgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-.dgrid .card{padding:10px 12px}
-.logout{margin-top:36px;display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,87,75,0.8);border:1px solid rgba(212,87,75,0.3);padding:7px 16px;border-radius:2px;cursor:pointer;background:none}
-.gate{padding:60px 0;text-align:center;color:rgba(214,209,198,0.6)}
-.gate button{margin-top:18px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:#c9a94e;font-family:inherit;letter-spacing:2px;padding:9px 22px;border-radius:2px;cursor:pointer;text-transform:uppercase}
+.wrap{max-width:1000px;margin:0 auto;padding:46px 24px 90px}
+.top{border-bottom:1px solid rgba(201,169,78,0.16);padding-bottom:22px}
+.brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,78,0.55);margin-bottom:10px}
+h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
+.who{font-size:11px;letter-spacing:2px;color:rgba(214,209,198,0.7);text-transform:uppercase;margin-top:5px}
+.sec{display:flex;align-items:baseline;gap:9px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(224,200,130,0.92);margin:32px 0 13px}
+.sec .n{font-size:10px;letter-spacing:1px;color:rgba(214,209,198,0.38)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(224px,1fr));gap:11px}
+.card{display:block;border:1px solid rgba(201,169,78,0.16);border-radius:5px;padding:14px 16px;background:#0c0f16;transition:border-color .15s,background .15s}
+.card:hover{border-color:rgba(201,169,78,0.5);background:#0e1219}
+.card .t{font-size:14.5px;color:#e8e3d9;margin-bottom:4px}
+.card .d{font-size:10.5px;letter-spacing:0.5px;color:rgba(214,209,198,0.5);line-height:1.4}
+.dgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.dgrid .card{padding:11px 13px}
+.dgrid .card .t{text-transform:capitalize}
+.logout{margin-top:46px;display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,87,75,0.8);border:1px solid rgba(212,87,75,0.3);padding:8px 18px;border-radius:3px;cursor:pointer;background:none}
+.logout:hover{background:rgba(212,87,75,0.08)}
+.gate{padding:70px 0;text-align:center;color:rgba(214,209,198,0.6)}
+.gate button{margin-top:18px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:#c9a94e;font-family:inherit;letter-spacing:2px;padding:10px 24px;border-radius:3px;cursor:pointer;text-transform:uppercase}
+.badge{background:#5ab5a0;color:#04130f;font-weight:700;border-radius:10px;padding:0 7px;font-size:0.7em;margin-left:5px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="brand"><a href="/">LIMEN HELIX</a> · MISSION CONTROL</div>
   <div id="root"><div class="gate">Loading…</div></div>
 </div>
 <script src="assets/js/limen-admin-login.js"></script>
@@ -37,10 +41,10 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
   'use strict';
   var root=document.getElementById('root');
   var ALL_DOMAINS=['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','industry','infrastructure','intelligence','law','medicine','population','religion','science','technology','trade'];
-  var DOMAIN_DESC={energy:'Energy Watch + console',culture:'Culture / Music',infrastructure:'Infrastructure',finance:'Capital Engine'};
+  var DOMAIN_DESC={energy:'Watch + console',culture:'Music front',infrastructure:'Watch + console',finance:'Capital Engine'};
 
   // Per-person login stores a `limen_admin` object. The front-page passphrase only sets
-  // limen_access=granted (no person) - treat that as the master operator (you).
+  // limen_access=granted (no person) - treat that as the master operator.
   function person(){
     var p=null; try{ p=JSON.parse(sessionStorage.getItem('limen_admin')||'null'); }catch(e){}
     if(p) return p;
@@ -49,63 +53,76 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
     return null;
   }
   function card(href,title,desc){ return '<a class="card" href="'+href+'"><div class="t">'+title+'</div><div class="d">'+(desc||'')+'</div></a>'; }
-  function sec(title,cards,cls){ cards=cards.filter(Boolean); if(!cards.length) return ''; return '<div class="sec">'+title+'</div><div class="grid'+(cls?' '+cls:'')+'">'+cards.join('')+'</div>'; }
+  function sec(title,cards,cls){ cards=cards.filter(Boolean); if(!cards.length) return ''; return '<div class="sec">'+title+'<span class="n">'+cards.length+'</span></div><div class="grid'+(cls?' '+cls:'')+'">'+cards.join('')+'</div>'; }
+  function head(p){ return '<div class="top"><div class="brand"><a href="/">LIMEN HELIX</a> · Mission Control</div><h1>'+(p?(p.name||'Operator'):'Sign in')+'</h1>'+(p?'<div class="who">'+(p.master?'Master access · full system':'Assigned operator')+'</div>':'')+'</div>'; }
 
   function render(){
     var p=person();
-    if(!p){ root.innerHTML='<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
-    var h='<h1>'+(p.name||'Operator')+'</h1><div class="who">'+(p.master?'Master access · everything':'Assigned operator')+'</div>';
+    if(!p){ root.innerHTML=head(null)+'<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
+    var h=head(p);
 
     if(p.master){
-      h+=sec('Public fronts',[
-        card('/energy','⚡ Energy','Bill X-Ray + markets'),
-        card('/culture','🎵 Music / Culture','The music front'),
-        card('/wave-radar','🌊 Wave Radar','Drew’s artist toolkit'),
-        card('/infrastructure','🏗 Infrastructure','Watch + console'),
-        card('/finance-capital-engine','💰 Finance','Capital Engine'),
-        card('/relay-margin','🛒 Relay','Storefront margin control'),
-        card('/fitness','🏋 Fitness','TUT body-comp + free tools')
+      h+=sec('Command Center',[
+        card('/operator','Operator Console','Sense, diagnose, launch on live signal'),
+        card('/playbook','Playbook','Go-to-market + skills reference'),
+        card('/civilization','Civilization','The connectome cockpit'),
+        card('/admin-master','Master Brain','Every domain and its opportunities')
       ]);
-      h+=sec('Deal desks · revenue',[
-        card('/admin-deals','💼 Deal Desk','Arbitrage cockpit'),
-        card('/admin-homestead','🏠 Homestead','Real-estate distress'),
-        card('/admin-finance','📉 Corporate Distress','EDGAR 8-K feed'),
-        card('/admin-industry','🏭 Plant Closings','WARN notices'),
-        card('/admin-energy','⚡ Energy','EIA retiring generators')
+      h+=sec('Sales Funnel',[
+        card('/sales','Sales Board','Pipeline overview'),
+        card('/sales-leads','Leads','Top of funnel'),
+        card('/sales-appointments','Appointments','Booked'),
+        card('/sales-shows','Shows','Attended'),
+        card('/sales-enrollments','Enrollments','Closed and won'),
+        card('/sales-referrals','Referrals','Advocacy loop'),
+        card('/sales-autopilot','Autopilot','Automated cadence')
+      ]);
+      h+=sec('Deal Desks',[
+        card('/finance-capital-engine','Capital Engine','Content and capital operations'),
+        card('/admin-deals','Deal Desk','Arbitrage cockpit'),
+        card('/admin-homestead','Homestead','Real-estate distress'),
+        card('/admin-finance','Corporate Distress','EDGAR 8-K feed'),
+        card('/admin-industry','Plant Closings','WARN notices'),
+        card('/admin-energy','Energy Generators','EIA retirements')
+      ]);
+      h+=sec('Domains', ALL_DOMAINS.map(function(d){ return card('/domain-console?domain='+d, d, DOMAIN_DESC[d]||'Console'); }), 'dgrid');
+      h+=sec('Public Fronts',[
+        card('/energy','Energy','Bill X-Ray and markets'),
+        card('/culture','Culture','Music front'),
+        card('/wave-radar','Wave Radar','Drew, artist toolkit'),
+        card('/infrastructure','Infrastructure','Plan Your Project'),
+        card('/relay-margin','Relay','Storefront margin control'),
+        card('/fitness','Fitness','TUT body-composition tools')
+      ]);
+      h+=sec('Per-Operator',[
+        card('/project-planner','Project Planner','Liz, public lead page'),
+        card('/project-radar','Project Radar','Liz, bids and leads')
       ]);
       h+=sec('System',[
-        card('/admin-master','🧠 Master Brain','What every domain is doing + opportunities'),
-        card('/civilization','🧭 Civilization','The cockpit'),
-        card('/pages','🗺 Site Map','Every page'),
-        card('/phase-map','◴ Phase Map','P0–P10'),
-        card('/kernel-comparison','⚙ Kernel','Validation'),
-        card('/treatment-discovery','🧬 Treatment Discovery',''),
-        card('/pattern-proposals','🧩 Pattern Proposals',''),
-        card('/vitals','❤ Vitals','System health')
+        card('/pages','Site Map','Every page'),
+        card('/phase-map','Phase Map','P0 to P10'),
+        card('/kernel-comparison','Kernel','Validation'),
+        card('/treatment-discovery','Treatment Discovery','Remedy engine'),
+        card('/pattern-proposals','Pattern Proposals','Review queue'),
+        card('/vitals','Vitals','System health')
       ]);
-      h+=sec('All domains · '+ALL_DOMAINS.length, ALL_DOMAINS.map(function(d){ return card('/domain-console?domain='+d, d, DOMAIN_DESC[d]||'Console'); }), 'dgrid');
-      h+=sec('Per-person fronts',[
-        card('/wave-radar','🌊 Wave Radar','Drew · music'),
-        card('/project-planner','🌐 Project Planner','Liz · public lead page'),
-        card('/project-radar','📐 Project Radar','Liz · bids/leads (admin)')
-      ]);
-      h+=sec('Admin tools',[
-        card('/admin-leads','Leads','Front-page sign-ups'),
+      h+=sec('Admin Tools',[
+        card('/admin-leads','Front-Page Leads','Sign-ups'),
         card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests')
       ]);
     } else {
-      h+=sec('Your domains', (p.domains||[]).map(function(d){
-        if(d==='finance') return card('/finance-capital-engine','finance','Capital Engine');
+      h+=sec('Your Domains', (p.domains||[]).map(function(d){
+        if(d==='finance') return card('/finance-capital-engine','Finance','Capital Engine');
         return card('/domain-console?domain='+d, d, DOMAIN_DESC[d]||'Console');
-      }));
-      h+=sec('Public fronts', (p.domains||[]).filter(function(d){return ['energy','culture','infrastructure'].indexOf(d)>-1;}).map(function(d){
-        if(d==='culture') return card('/wave-radar','🌊 Wave Radar','Your music tools');
-        if(d==='infrastructure') return card('/project-planner','🌐 Project Planner','Your public lead page');
+      }), (p.domains||[]).length>6?'dgrid':'');
+      h+=sec('Public Fronts', (p.domains||[]).filter(function(d){return ['energy','culture','infrastructure'].indexOf(d)>-1;}).map(function(d){
+        if(d==='culture') return card('/wave-radar','Wave Radar','Your music tools');
+        if(d==='infrastructure') return card('/project-planner','Project Planner','Your public lead page');
         return card('/'+d, d, 'Public front');
       }));
       if(p.properties&&p.properties.length){ h+=sec('Properties', p.properties.map(function(pr){ return card(pr.url||'#', pr.name, (pr.domain||'')+' · storefront'); })); }
       var tools=[];
-      if((p.domains||[]).indexOf('infrastructure')>-1) tools.push(card('/project-radar','📐 Project Radar','Your bids · leads · primes (admin)'));
+      if((p.domains||[]).indexOf('infrastructure')>-1) tools.push(card('/project-radar','Project Radar','Your bids, leads, primes'));
       if((p.domains||[]).indexOf('finance')>-1) tools.push(card('/admin-leads','Leads','Front-page sign-ups'));
       if((p.domains||[]).indexOf('culture')>-1) tools.push(card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests'));
       h+=sec('Tools', tools);
@@ -118,7 +135,7 @@ h1{font-size:30px;font-weight:400;margin-bottom:4px}
     var badge=document.getElementById('reqBadge');
     if(badge){ var k=''; try{ k=sessionStorage.getItem('limen_lead_admin_key')||''; }catch(e){}
       if(k){ fetch('/api/site-request?key='+encodeURIComponent(k)).then(function(r){return r.json();}).then(function(j){
-        if(j&&j.ok&&j.unread>0){ badge.textContent=j.unread; badge.style.cssText='background:#5ab5a0;color:#04130f;font-weight:700;border-radius:10px;padding:0 7px;font-size:0.7em;margin-left:5px'; }
+        if(j&&j.ok&&j.unread>0){ badge.textContent=j.unread; badge.className='badge'; }
       }).catch(function(){}); }
     }
   }
