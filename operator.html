@@ -38,6 +38,14 @@
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(111,207,151,.5)}70%{box-shadow:0 0 0 8px rgba(111,207,151,0)}100%{box-shadow:0 0 0 0 rgba(111,207,151,0)}}
   @keyframes pulse-a{0%{box-shadow:0 0 0 0 rgba(224,165,74,.5)}70%{box-shadow:0 0 0 8px rgba(224,165,74,0)}100%{box-shadow:0 0 0 0 rgba(224,165,74,0)}}
 
+  /* AI-spend switch — the operator's instant, no-redeploy pause/resume for autonomous AI billing */
+  .aisw{display:inline-flex; align-items:center; gap:8px; cursor:pointer; border:1px solid var(--line2); background:var(--panel); color:var(--dim); border-radius:20px; padding:4px 12px; font-family:var(--mono); font-size:11px; letter-spacing:.03em}
+  .aisw .knob{width:9px; height:9px; border-radius:50%; background:var(--faint); flex:none; transition:background .2s}
+  .aisw:hover{border-color:var(--signal); color:var(--ink)}
+  .aisw.on{color:var(--healthy); border-color:rgba(111,207,151,.5)} .aisw.on .knob{background:var(--healthy); box-shadow:0 0 7px rgba(111,207,151,.6)}
+  .aisw.paused{color:var(--money); border-color:rgba(224,165,74,.55)} .aisw.paused .knob{background:var(--money); box-shadow:0 0 7px rgba(224,165,74,.5)}
+  .aisw.env{color:var(--guard); border-color:rgba(224,104,92,.55); cursor:help} .aisw.env .knob{background:var(--guard)}
+
   /* today strip */
   .today{display:flex; align-items:center; gap:10px; padding:10px 18px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11.5px; overflow-x:auto; white-space:nowrap}
   .today .lb{color:var(--faint); text-transform:uppercase; letter-spacing:.1em; flex:none}
@@ -709,6 +717,35 @@ async function startBiz(d){
   btn.textContent='● cycle armed';
   document.getElementById('residue').classList.add('show');
 }
+
+// ── AI-SPEND SWITCH — visible, instant pause/resume for autonomous AI billing ──
+// GET /api/ai-switch shows env boundary + runtime pause; POST flips the runtime pause (no redeploy).
+// Auto-keyed by gate-master. The env kill (LIMEN_AI_ENABLED) still bounds it: this can only pause
+// spend the env allows, never spend past the env's OFF.
+const aiSw=document.createElement('button'); aiSw.className='aisw'; aiSw.id='aiSwitch'; aiSw.type='button';
+aiSw.innerHTML='<span class="knob"></span><span id="aiSwTxt">AI spend&hellip;</span>';
+document.querySelector('.bar').appendChild(aiSw);
+let aiState=null, aiBusy=false;
+function paintAiSwitch(s){
+  aiState=s; const t=document.getElementById('aiSwTxt'); aiSw.classList.remove('on','paused','env');
+  if(!s){ t.textContent='AI spend ?'; aiSw.title='Could not read AI-spend state.'; return; }
+  if(!s.envEnabled){ aiSw.classList.add('env'); t.textContent='AI spend OFF (env)';
+    aiSw.title='Held OFF by LIMEN_AI_ENABLED (a Vercel env change + redeploy). The runtime switch cannot override the env kill.'; return; }
+  if(s.runtimePaused){ aiSw.classList.add('paused'); t.textContent='AI spend PAUSED — tap to resume';
+    aiSw.title='Autonomous AI spend paused by you (runtime, no redeploy). Tap to resume.'; return; }
+  aiSw.classList.add('on'); t.textContent='AI spend ON — tap to pause';
+  aiSw.title='Autonomous AI spend live, capped at '+s.tokensPerTick+' tokens/tick. Tap to pause instantly (no redeploy).';
+}
+async function loadAiSwitch(){ try{ const r=await fetch('/api/ai-switch'); const j=await r.json(); if(j&&j.ok) paintAiSwitch(j.state); else paintAiSwitch(null); }catch(e){ paintAiSwitch(null); } }
+aiSw.onclick=async function(){
+  if(aiBusy||!aiState) return;
+  if(!aiState.envEnabled){ alert('AI spend is held OFF by the env kill switch (LIMEN_AI_ENABLED). To enable it, set that var in Vercel and redeploy. This runtime switch only pauses/resumes spend the env already allows.'); return; }
+  aiBusy=true; const want=!aiState.runtimePaused; document.getElementById('aiSwTxt').textContent='…';
+  try{ const r=await fetch('/api/ai-switch',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({paused:want})});
+    const j=await r.json(); if(j&&j.ok) paintAiSwitch(j.state); else await loadAiSwitch(); }
+  catch(e){ await loadAiSwitch(); } finally{ aiBusy=false; }
+};
+loadAiSwitch();
 
 // boot
 select('finance');

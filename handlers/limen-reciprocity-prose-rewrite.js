@@ -358,7 +358,7 @@ async function callAnthropic(systemPrompt, userPrompt) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  if (require('../lib/ai-kill-switch').aiDisabled()) { res.statusCode = 503; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, disabled: true, error: 'AI disabled — billing stopped per operator' })); }
+  if (await require('../lib/ai-kill-switch').spendDisabled()) { res.statusCode = 503; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, disabled: true, error: 'AI disabled — billing stopped per operator' })); }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
   res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');

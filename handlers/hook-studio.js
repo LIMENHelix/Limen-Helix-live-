@@ -98,7 +98,7 @@ function parseHooks(text) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
-  if (require('../lib/ai-kill-switch').aiDisabled()) { res.statusCode = 503; return res.end(JSON.stringify({ ok: false, disabled: true, error: 'AI disabled — billing stopped per operator' })); }
+  if (await require('../lib/ai-kill-switch').spendDisabled()) { res.statusCode = 503; return res.end(JSON.stringify({ ok: false, disabled: true, error: 'AI disabled — billing stopped per operator' })); }
   res.setHeader('Cache-Control', 'no-store');
   if ((req.method || 'GET').toUpperCase() !== 'POST') { res.statusCode = 405; return res.end(JSON.stringify({ ok: false, error: 'POST only' })); }
 

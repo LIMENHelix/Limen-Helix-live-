@@ -38,6 +38,7 @@ const HANDLERS = {
   'youtube-signal': require('../handlers/youtube-signal'),
   'playbook': require('../handlers/playbook'),
   'ventures': require('../handlers/ventures'),
+  'ai-switch': require('../handlers/ai-switch'),
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),
