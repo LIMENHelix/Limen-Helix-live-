@@ -121,7 +121,7 @@ module.exports = async function handler(req, res) {
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   // ADMIN-ONLY. This is our arbitrage engine, never public. Gated by LEAD_ADMIN_KEY (?key=).
   var ADMIN = process.env.LEAD_ADMIN_KEY || '';
-  if (ADMIN && q.key !== ADMIN) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'Admin key required. This engine is not public.' })); }
+  if (!ADMIN || q.key !== ADMIN) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'Admin key required. This engine is not public.' })); }
 
   // RealAuction distress source (Redis, fed by the scraper cron). ?source=realauction
   // returns only county-foreclosure deals; ?source=all merges them ahead of HUD.

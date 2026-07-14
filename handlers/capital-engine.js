@@ -86,10 +86,10 @@ function _connectorReadiness(contract) {
   return out;
 }
 
-function _aiStatus() {
+async function _aiStatus() {
   try {
     const orch = require('../lib/ai-orchestrator');
-    return orch.status();
+    return await orch.statusAsync();
   } catch (e) {
     // orchestrator present but env may be missing; report providers directly
     return {
@@ -125,7 +125,7 @@ module.exports = async function handler(req, res) {
       connectors: _connectorReadiness(contract),
       capitalRouting: contract.capitalRouting,
       approvalQueue: contract.approvalQueue,
-      ai: _aiStatus(),
+      ai: await _aiStatus(),
       meta: contract._meta
     });
   }
@@ -134,7 +134,7 @@ module.exports = async function handler(req, res) {
   if (action === 'status') {
     return res.status(200).json({
       ok: true,
-      ai: _aiStatus(),
+      ai: await _aiStatus(),
       connectors: _connectorReadiness(contract),
       aiOrchestration: contract.aiOrchestration
     });

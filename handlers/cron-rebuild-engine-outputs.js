@@ -102,12 +102,15 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   // Vercel Cron fires GET; gate it so the rebuild can't be triggered casually.
   // Operator POST also allowed (manual rebuild).
-  var isCron = req.method === 'GET' && (
-    /vercel-cron/i.test(req.headers['user-agent'] || '') ||
-    req.headers['x-vercel-cron'] != null ||
-    (process.env.CRON_SECRET && req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
-  );
+  var isCron = req.method === 'GET' && (process.env.CRON_SECRET
+    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
+    : (/vercel-cron/i.test(req.headers['user-agent'] || '') || req.headers['x-vercel-cron'] != null));
   if (req.method !== 'POST' && !isCron) return res.status(405).json({ error: 'Vercel cron GET or operator POST' });
+  // Operator POST forces a full engine-output rebuild — admin-gate it.
+  if (req.method === 'POST') {
+    var _g = require('../lib/admin-gate');
+    if (!_g.isMaster(_g.reqKey(req))) return res.status(403).json({ error: 'admin only' });
+  }
   if (!redisKv.HAS_REDIS) return res.status(503).json({ error: 'UPSTASH_REDIS_REST_URL/_TOKEN not set in this Vercel project' });
 
   const startedAt = Date.now();

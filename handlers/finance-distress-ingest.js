@@ -14,12 +14,12 @@ module.exports = async function handler(req, res) {
   var q = {}; try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var method = (req.method || 'GET').toUpperCase();
   if (method === 'GET') {
-    if (ADMIN && q.key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required.' });
+    if (!ADMIN || q.key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required.' });
     return j(res, 200, { ok: true, count: ((await db.get('finance:distress')) || []).length, meta: (await db.get('finance:distress:meta')) || null, deals: (await db.get('finance:distress')) || [] });
   }
   if (method === 'POST') {
     var body = await readBody(req);
-    if (ADMIN && (body.key || q.key) !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required.' });
+    if (!ADMIN || (body.key || q.key) !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required.' });
     if (!Array.isArray(body.deals)) return j(res, 400, { ok: false, error: 'deals[] required' });
     var meta = body.meta || { updatedMs: Date.now() }; meta.total = body.deals.length;
     await db.set('finance:distress', body.deals, TTL);

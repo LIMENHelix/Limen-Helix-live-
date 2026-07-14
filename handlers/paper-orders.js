@@ -26,6 +26,8 @@ module.exports = async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'GET only' });
+  var _g = require('../lib/admin-gate');
+  if (!_g.isMaster(_g.reqKey(req))) return res.status(403).json({ ok: false, error: 'admin only' });
 
   var key = process.env.ALPACA_API_KEY_ID || process.env.APCA_API_KEY_ID || process.env.ALPACA_KEY_ID || process.env.ALPACA_KEY;
   var secret = process.env.ALPACA_API_SECRET || process.env.APCA_API_SECRET_KEY || process.env.ALPACA_SECRET || process.env.ALPACA_SECRET_KEY;

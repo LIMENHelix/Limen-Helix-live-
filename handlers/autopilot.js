@@ -227,7 +227,10 @@ module.exports = async function handler(req, res) {
   var method = (req.method || 'GET').toUpperCase();
   var u; try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
   var action = (u.searchParams.get('action') || 'status').toLowerCase();
-  var isCron = !!(req.headers && (req.headers['x-vercel-cron'] || req.headers['x-vercel-signature']));
+  // Prefer CRON_SECRET when set (spoof-proof); fall back to the Vercel header only if it is unset.
+  var isCron = !!(req.headers && (process.env.CRON_SECRET
+    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
+    : (req.headers['x-vercel-cron'] || req.headers['x-vercel-signature'])));
   // A cron hit with no explicit action means "tick" (robust to query-string stripping).
   if (isCron && action === 'status') action = 'tick';
 

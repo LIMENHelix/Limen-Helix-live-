@@ -504,6 +504,11 @@ module.exports = async function handler(req, res) {
     res.statusCode = 204;
     return res.end();
   }
+  // ADMIN-ONLY: spends paid AI. Gate it so it is not a public denial-of-wallet faucet when AI is on.
+  {
+    var _g = require('../lib/admin-gate');
+    if (!_g.isMaster(_g.reqKey(req))) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'admin only' })); }
+  }
 
   // GET returns config (no secrets) — same pattern as expand-artifact-claude
   if (req.method === 'GET') {

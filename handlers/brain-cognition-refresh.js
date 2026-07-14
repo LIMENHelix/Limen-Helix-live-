@@ -96,7 +96,9 @@ function buildSandbox(snap, BASE){
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   var t0 = Date.now();
-  var BASE = 'https://' + (req.headers['x-forwarded-host'] || req.headers.host || 'limenhelix.com');
+  // PINNED trusted origin. Never derive from a request header: this base feeds fetch()+vm.runInContext,
+  // so a header-controlled base was an SSRF -> RCE path (attacker JS executed in a non-isolating sandbox).
+  var BASE = 'https://' + (process.env.SELF_ORIGIN || 'limenhelix.com');
   try {
     // fetch snapshot + all brain sources over HTTP (parallel)
     var snap = await fetch(BASE + '/api/domain-snapshot').then(function (r) { return r.json(); });

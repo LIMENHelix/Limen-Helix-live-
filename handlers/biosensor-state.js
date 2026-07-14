@@ -18,7 +18,7 @@ const { redisSet, redisGet } = require('../lib/redis-kv.js');
 
 const KEY = 'limen:biosensor:state';
 const TTL = 30;
-const TOKEN = process.env.BIOSENSOR_TOKEN || 'limen-bio-209913';
+const TOKEN = process.env.BIOSENSOR_TOKEN || '';   // no committed fallback: POST fails closed when unset
 
 function readBody(req) {
   return new Promise(function (resolve) {
@@ -49,7 +49,7 @@ module.exports = async function handler(req, res) {
     var body = await readBody(req);
     if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = {}; } }
     var tok = req.headers['x-bio-token'] || (body && body.token);
-    if (tok !== TOKEN) { res.statusCode = 401; return res.end(JSON.stringify({ ok: false, error: 'bad token' })); }
+    if (!TOKEN || tok !== TOKEN) { res.statusCode = 401; return res.end(JSON.stringify({ ok: false, error: 'unauthorized' })); }
     var state = {
       ts: Date.now(),
       hr: Number(body.hr) || 0, hrv: Number(body.hrv) || 0,

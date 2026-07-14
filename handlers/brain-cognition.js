@@ -18,7 +18,7 @@ const { redisSet, redisGet, redisMGet } = require('../lib/redis-kv.js');
 
 const PREFIX = 'limen:brain:cognition:';
 const TTL = 3 * 3600; // 3h — telemetry; expires if the brains stop running
-const TOKEN = process.env.BRAIN_COGNITION_TOKEN || process.env.BIOSENSOR_TOKEN || 'limen-brain-209913';
+const TOKEN = process.env.BRAIN_COGNITION_TOKEN || process.env.BIOSENSOR_TOKEN || '';   // no committed fallback: POST fails closed when unset
 
 // canonical 20-domain order (energy reference first)
 const DOMAINS = ['energy','infrastructure','culture','finance','economy','technology','defense','intelligence','trade','industry','environment','governance','agriculture','communication','medicine','education','population','science','law','religion'];
@@ -59,7 +59,7 @@ module.exports = async function handler(req, res) {
     var body = await readBody(req);
     if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = {}; } }
     var tok = req.headers['x-brain-token'] || (body && body.token);
-    if (tok !== TOKEN) { res.statusCode = 401; return res.end(JSON.stringify({ ok: false, error: 'bad token' })); }
+    if (!TOKEN || tok !== TOKEN) { res.statusCode = 401; return res.end(JSON.stringify({ ok: false, error: 'unauthorized' })); }
     var domain = String(body && body.domain || '').toLowerCase();
     if (DOMAINS.indexOf(domain) < 0) { res.statusCode = 400; return res.end(JSON.stringify({ ok: false, error: 'unknown domain' })); }
     var cog = body && body.cognition;

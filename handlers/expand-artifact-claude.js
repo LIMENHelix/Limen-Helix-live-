@@ -740,6 +740,10 @@ module.exports = async function handler(req, res) {
     res.statusCode = 204;
     return res.end();
   }
+  // ADMIN-ONLY: this endpoint spends paid AI. Without a gate it is a public denial-of-wallet
+  // faucet the moment LIMEN_AI_ENABLED=1. Require the master key (auto-attached on gated pages).
+  var _g = require('../lib/admin-gate');
+  if (!_g.isMaster(_g.reqKey(req))) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'admin only' })); }
   // GET returns runtime config + per-lane section catalog so the
   // client-side multi-pass runner knows how many passes per lane and
   // what each section's identifier + target budget is.

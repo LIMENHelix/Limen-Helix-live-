@@ -341,7 +341,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       var s=j.summary||{};var hc=s.health>=0.66?'ok':(s.health>=0.4?'':'miss');
       // No Stripe/revenue rail on this project - state that plainly instead of showing $0 / 70%.
       if(!s.income&&!s.spend&&!s.eventCount){
-        el.innerHTML='<div class="tcell" style="grid-column:1/-1"><div class="tl">revenue rail</div><div class="tv">No revenue rail connected on this project (Stripe lives on AllAccessKC). The ledger stays empty until one is wired. This is expected, not a fault.</div></div>';
+        el.innerHTML='<div class="tcell" style="grid-column:1/-1"><div class="tl">revenue rail</div><div class="tv">No revenue rail connected on this project (Stripe lives on an external node). The ledger stays empty until one is wired. This is expected, not a fault.</div></div>';
         return;
       }
       var cells=[

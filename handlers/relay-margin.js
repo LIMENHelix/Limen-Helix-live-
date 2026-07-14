@@ -12,7 +12,7 @@ var db = require('../lib/limen-db');
 
 var KEY = 'relay_margin';
 var DEFAULT = 0.35;
-var SECRET = process.env.RELAY_MARGIN_KEY || 'limen-relay';
+var SECRET = process.env.RELAY_MARGIN_KEY || '';   // no committed fallback: writes fail closed when unset
 
 function sendJSON(res, code, obj) {
   res.statusCode = code;
@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
 
   // ── write (gated) ──
   if (q.set != null) {
-    if (q.key !== SECRET) return sendJSON(res, 403, { error: 'forbidden' });
+    if (!SECRET || q.key !== SECRET) return sendJSON(res, 403, { error: 'forbidden' });
     var m = parseFloat(q.set);
     if (!isFinite(m) || m < 0 || m > 5) return sendJSON(res, 400, { error: 'margin must be 0–5 (e.g. 0.35 = 35%)' });
     try { await db.set(KEY, m); } catch (e) { return sendJSON(res, 500, { error: 'store failed' }); }

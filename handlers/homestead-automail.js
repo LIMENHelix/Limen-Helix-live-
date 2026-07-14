@@ -62,7 +62,7 @@ module.exports = async function handler(req, res) {
   var method = (req.method || 'GET').toUpperCase();
   var body = method === 'POST' ? await readBody(req) : {};
   var key = q.key || body.key;
-  if (ADMIN && key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
+  if (!ADMIN || key !== ADMIN) return j(res, 403, { ok: false, error: 'Admin key required. Not public.' });
 
   var st = (await db.get(STATE)) || { armed: false, cap: 20, mailedTotal: 0, lastRunMs: null };
   if (!Array.isArray(st.states)) st.states = ['FL']; // which states auto-mail is enabled for (opt-in)
