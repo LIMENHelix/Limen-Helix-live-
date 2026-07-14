@@ -205,6 +205,11 @@
       brainHysteresisPenalty:     _num(bs.hysteresisPenalty),
       brainMaturity:              _val(bs.maturity),
       brainTrajectory:            _val(bs.trajectory),
+      // Thing2 recursive-kernel phase source (2026-07): interpretive posture, validated:false.
+      brainKernelPhase:           _val(bs.kernelPhase),
+      brainKernelTrajectory:      _val(bs.kernelTrajectory),
+      brainPhaseSource:           _val(bs.phaseSource),
+      brainKernelCt:              _num(bs.kernelCAccum),
 
       // === G. Cross-modal ===
       brainIngest:                _arr(bs.crossDomainIngest),
