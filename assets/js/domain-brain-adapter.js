@@ -273,6 +273,11 @@
       if (!target[domainId]) target[domainId] = {};
       _applyPayload(target[domainId], payload);
 
+      // DECISION LAYER: integrate the merged signals (stress, phase, trajectory, cognition,
+      // opportunities) into ONE bounded decision. Deterministic, honest (conscience veto
+      // overrides, low-confidence caps at recommend, never autonomous external). Guarded.
+      try { if (window.LIMENDecision) target[domainId].decision = window.LIMENDecision.decide(target[domainId]); } catch (e2) {}
+
       _mergeCount++;
       _lastMergedDomains[domainId] = Date.now();
     } catch (err) { /* silent — diagnostic layer only */ }

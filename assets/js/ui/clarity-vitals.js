@@ -113,6 +113,14 @@
       '#limen-brain-board .bb-traj{font-family:ui-monospace,monospace;font-size:9.5px;color:#8fa2bd;border:1px solid rgba(120,150,200,.2);border-radius:6px;padding:3px 7px;margin-left:auto}',
       '#limen-brain-board .bb-traj.bad{color:#ff6a5a;border-color:rgba(255,106,90,.4)}',
       '#limen-brain-board .bb-traj.good{color:#3fd0b0;border-color:rgba(63,208,176,.4)}',
+      '#limen-brain-board .bb-decision{margin-top:9px;font-family:ui-monospace,monospace;font-size:10px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}',
+      '#limen-brain-board .bb-post{font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:5px;text-transform:uppercase}',
+      '#limen-brain-board .bb-post.escalate{color:#ffb4ab;background:rgba(255,106,90,.16)}',
+      '#limen-brain-board .bb-post.act{color:#8fe3dd;background:rgba(52,209,200,.15)}',
+      '#limen-brain-board .bb-post.hold,#limen-brain-board .bb-post.monitor{color:#7fdcc0;background:rgba(63,208,176,.12)}',
+      '#limen-brain-board .bb-post.abstain{color:#9aa6bd;background:rgba(120,150,200,.13)}',
+      '#limen-brain-board .bb-act{color:#8fa2bd}',
+      '#limen-brain-board .bb-choice{color:#cdd8e8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}',
       /* retire the old bouncy grey domain grid — the board replaces it */
       '.clr-domain-grid{display:none!important}'
     ].join('');
@@ -138,12 +146,13 @@
         +'<div class="bb-mid"><span class="bb-val">0<small>/100</small></span><canvas class="bb-spark"></canvas></div>'
         +'<div class="bb-bar"><div class="bb-fill"></div></div>'
         +'<div class="bb-tags"><span class="bb-ph">—</span><span class="bb-fam"></span><span class="bb-traj">—</span></div>'
+        +'<div class="bb-decision"></div>'
         +'<div class="bb-feeds"></div>';
       g.appendChild(c);
       var m={ keys:row[1], card:c, name:row[0],
         val:c.querySelector('.bb-val'), fill:c.querySelector('.bb-fill'),
         ph:c.querySelector('.bb-ph'), fam:c.querySelector('.bb-fam'), traj:c.querySelector('.bb-traj'),
-        srcW:c.querySelector('.bb-src'), srct:c.querySelector('.bb-srct'), feeds:c.querySelector('.bb-feeds'),
+        srcW:c.querySelector('.bb-src'), srct:c.querySelector('.bb-srct'), feeds:c.querySelector('.bb-feeds'), dec:c.querySelector('.bb-decision'),
         cv:c.querySelector('canvas'), buf:[], spk:0, seed:row[0].length*1.3, open:false };
       c.addEventListener('click', (function(mm){ return function(){ mm.open=!mm.open; mm.card.classList.toggle('open',mm.open); if(mm.open) renderFeeds(mm); }; })(m));
       size(m); cards.push(m);
@@ -181,6 +190,10 @@
       var tr=readTraj(d); m.traj.textContent=tr?String(tr).replace(/_/g,' ').toLowerCase():'—';
       m.traj.className='bb-traj'+(/DIVERG|UNRECOV/i.test(tr||'')?' bad':/RECOVERED|STABLE/i.test(tr||'')?' good':'');
       var sr=readSrc(d); m.srct.textContent=sr; m.srcW.className='bb-src'+(sr==='fallback'?' fb':'');
+      if(m.dec){ var dc=d&&d.decision;
+        if(dc&&dc.posture){ var ch=dc.choice?(' &middot; '+esc(dc.choice)):(dc.vetoed?' &middot; conscience veto':'');
+          m.dec.innerHTML='<span class="bb-post '+esc(dc.posture)+'">'+esc(dc.posture)+'</span><span class="bb-act">'+esc(dc.boundedAction||'')+'</span><span class="bb-choice">'+ch+'</span>'; }
+        else if(!m.dec.innerHTML){ m.dec.innerHTML='<span class="bb-act" style="opacity:.5">deciding…</span>'; } }
       try{ drawSpark(m,s,c); }catch(e){}
     }
     requestAnimationFrame(loop);
