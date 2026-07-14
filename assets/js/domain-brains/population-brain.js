@@ -63,6 +63,13 @@
     this._refractoryLog = Object.create(null);   // { dxId: { t, strength } } — the limiter's own state
     this._servoIntegral = 0;                      // bounded PI integral (slow arm), carried across cycles
 
+    // ── K1-K8 NEURO STACK state (ported from energy-brain; population-local, deterministic) ──
+    // The credit-learning / truth-brake loop (K4) carries its own cross-cycle buffers, exactly as
+    // energy does (_energyOutcomeBuffer / _energyPrevPrediction). Initialized here so the first
+    // reconciliation cycle has a defined starting point. No network, no AI — pure state.
+    this._populationOutcomeBuffer = [];           // rolling predicted-vs-realized stress samples (K4)
+    this._populationPrevPrediction = null;        // last cycle's predictedStress, reconciled next cycle (K4)
+
     this.diagnosisIndex = {
       'POPULATION_COLLAPSE':         ['aging_skew', 'fertility_decline', 'workforce_imbalance', 'dependency_ratio', 'demographic_distortion', 'population_high_stress', 'structural_stress'],
       'MASS_MIGRATION':              ['migration_surge', 'refugee_flow', 'border_pressure', 'displacement_event', 'urban_influx', 'macro_shock'],
@@ -626,6 +633,12 @@
     // Deterministic; guarded; consumed next cycle by the action + opportunity gates (one-cycle lag).
     try { this._computePopulationActuation(); } catch (e) {}
 
+    // K1-K8 NEURO STACK — ported from energy-brain (population-local, deterministic, additive, advisory).
+    // Runs the eight closed-loop micro-circuits in Energy's K1..K8 order, ALONGSIDE the actuation layer
+    // above (never replacing it). Reads cached state only; no network, no AI. Runs BEFORE the cognition
+    // build below so the roll-up is exposed as cognition.neuro. Guarded; a throw never breaks the cycle.
+    try { this._computePopulationNeuroLayers(); } catch (e) {}
+
     // demographic-transition sub-layer (additive; BEFORE the DDP build; never merged into the spine)
     try { this._buildDemographicTransitionLayer(); } catch (e) {}
 
@@ -675,6 +688,8 @@
       phaseDynamics: this.state.populationPhaseDynamics || null,
       regulationAdvisories: this.state.populationRegulationAdvisories || null,
       demographicTransitionSublayer: this.state.demographicTransitionLayer || null,
+      // ── K1-K8 NEURO STACK roll-up (ported from energy's cognition.neuro) ──
+      neuro: this.state.populationNeuro || null,
       brainPopulationModel: this.state.brainPopulationModel || null,
       treatments: this.state.treatments || [],
       diagnoses: this.state.diagnoses || [],
@@ -1441,6 +1456,273 @@
     };
     s.populationPhaseDynamics = out;
     return out;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — POPULATION NEURO-COMPLETION LAYERS (population-local, additive, reversible).
+  // Ported from energy-brain's K1-K8 stack, adapted to READ THIS domain's state/edges:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (TRUTH BRAKE self-consistency), K5 deep-perception depth,
+  //   K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // ADVISORY BY DESIGN (mirrors energy's original K-header contract): every layer COMPUTES and
+  // EXPOSES its signal on state, but NONE rewires the existing scoring spine (stress, prior update,
+  // opportunity output, predictionError). Each names the one line it WOULD close. Reads cached state
+  // only; adds no network calls; runs on the DETERMINISTIC cycle — no paid-AI / LLM, ever. Runs
+  // ALONGSIDE the actuation layer above (servo/brake/phase), never replacing it.
+  // ════════════════════════════════════════════════════════════════════════════
+  var PK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples (K4)
+  var PK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point (K8)
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it contributes. The base scoreStress already folds getExternalPressure() into stress (like
+  // the other 18 domains); this exposes the received-signal breakdown without touching stress.
+  PopulationBrain.prototype._computePopulationAfferent = function () {
+    var s = this.state, pm = s.populationModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,           // base-capped
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                               // CLOSED — folded into stress by base scoreStress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: base scoreStress folds getExternalPressure() into stress each cycle (population reads cross-domain pressure like the other domains). Energy->population coupling is ingested separately via _ingestEnergyCoupling.',
+      lastAfferentAt: pm.updated || now
+    };
+    s.populationAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition/outputScale are computed by the
+  // recurrent regulation step; gain already reaches predictedStress via the gainBlend. This shows the
+  // graded output modulation on opportunities WITHOUT gating opportunity output (spine preserved).
+  PopulationBrain.prototype._computePopulationGainControl = function () {
+    var s = this.state, pm = s.populationModel || {}, reg = pm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                            // gain-scaled ranked cut (advisory)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend in _updatePopulationModel)'],
+      unappliedTargets: ['stress', 'opportunity output', 'treatment surfacing'],
+      shadow: true,
+      note: 'ADVISORY: outputScale WOULD cap ranked opportunity output; population does not gate opportunity count (scoring spine preserved). gain already blends into predictedStress via the _updatePopulationModel gainBlend.',
+      lastGainAt: pm.updated || Date.now()
+    };
+    s.populationGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. PM_SLOW_RATE is otherwise reserved for
+  // rebuild/cron. This maintains a PARALLEL slow-weight track that never touches pm.prior;
+  // fast-vs-slow divergence is a real demographic-regime-shift indicator.
+  PopulationBrain.prototype._consolidatePopulationSlowModel = function () {
+    var s = this.state, pm = s.populationModel || {}, obs = pm.observation || null;
+    var slow = s.populationSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: PM_SLOW_RATE, note: 'parallel slow-weight track (PM_SLOW_RATE); does NOT touch pm.prior'
+    };
+    if (obs) {
+      var r = PM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _pmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _pmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (pm.prior && typeof pm.prior.expectedStress === 'number') ? pm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;                // fast prior pulled far from slow baseline
+    slow.updated = pm.updated || Date.now();
+    s.populationSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning + TRUTH BRAKE (self-consistency calibration). Compares each
+  // cycle's predictedStress against the NEXT cycle's realized stress (online forward-prediction).
+  // This is SELF-CONSISTENCY calibration — does the model's OWN stress forecast come true — NOT an
+  // external/dopaminergic reward (that is a separate, deferred task and is never fabricated here).
+  PopulationBrain.prototype._scorePopulationOutcomes = function () {
+    var s = this.state, pm = s.populationModel || {};
+    var buf = this._populationOutcomeBuffer = this._populationOutcomeBuffer || [];
+    var obs = pm.observation || null;
+    if (this._populationPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._populationPrevPrediction, realized: obs.stress, err: Math.abs(this._populationPrevPrediction - obs.stress) });
+      if (buf.length > PK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._populationPrevPrediction = (typeof pm.predictedStress === 'number') ? pm.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var callHitRate = n ? Math.round((hits / n) * 100) / 100 : null;
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,   // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      callHitRate: callHitRate,                                       // fraction of self-predictions within 0.1 of realized
+      hitRate: callHitRate,
+      loopType: 'online-continuous self-prediction (predicted-stress vs next-realized-stress); TRUTH-BRAKE self-consistency, distinct from any external reward',
+      creditAssignmentActive: (n >= 5),
+      note: 'SELF-CONSISTENCY truth brake: measures whether the recurrent model\'s OWN stress forecast comes true. Advisory calibration signal; NEVER a fabricated dopaminergic/external reward (deferred, separate task).',
+      lastOutcomeAt: pm.updated || Date.now()
+    };
+    s.populationOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the perception depth the brain HAS from existing
+  // caches (root portal + validated diagnosis spine + the REAL demographic-transition sub-portal),
+  // no new fetches, and estimates the portalError the recurrent model currently does not fold in.
+  PopulationBrain.prototype._computePopulationPerceptionDepth = function () {
+    var s = this.state, pm = s.populationModel || {};
+    var dt = s.demographicTransitionLayer || null;
+    var portal = s._portalCache || this._portalCache || null;
+    var activeDx = (s.diagnoses || []).filter(function (d) { return d.active; }).length;
+    var dtReal = (dt && dt.loaded) ? (dt.count || 0) : 0;
+    var dtActive = (dt && dt.loaded) ? (dt.activeCount || 0) : 0;
+    var levels = [
+      { level: 'L0', name: 'root-portal', status: portal ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'diagnosis-spine', status: (s.diagnoses && s.diagnoses.length) ? 'derived' : 'pending', activeCount: activeDx },
+      { level: 'SUB', name: 'demographic-transition-subportal', status: (dt && dt.loaded) ? 'loaded' : 'absent', realDiagnoses: dtReal, activeCount: dtActive, branches: (dt && dt.branches) || [] },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'synthetic migration models immune-blocked' }
+    ];
+    var loadedDepth = (dt && dt.loaded) ? 2 : ((s.diagnoses && s.diagnoses.length) ? 1 : 0);
+    var admissible = dtReal + activeDx;
+    var blocked = 1;                                                  // the quarantined synthetic L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY: perception depth = root portal + validated diagnosis spine + real demographic-transition sub-portal (aging + migration); L2 deep-cortex quarantined (synthetic). portalErrorEstimate EXPOSED, not folded into predictionError (population scoring spine preserved). No new fetches.',
+      lastDepthAt: pm.updated || Date.now()
+    };
+    s.populationPerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + novelty +
+  // operator focus) among demographic diagnoses and names focus vs suppressed, without gating the
+  // pipeline (scoring spine preserved).
+  PopulationBrain.prototype._computePopulationAttention = function () {
+    var s = this.state, pm = s.populationModel || {}, reg = pm.regulation || {};
+    var pe = (pm.predictionError && pm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = ((rb && rb.attentionFocus) || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: top-down salience over demographic diagnoses (active + relevance + prediction-error + operator focus). Exposed; does not gate the pipeline (scoring spine preserved).',
+      lastAttentionAt: pm.updated || Date.now()
+    };
+    s.populationAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). Shows the winner-take-most ranking reg.inhibition implies
+  // among competing active demographic diagnoses, without down-weighting output (spine preserved).
+  PopulationBrain.prototype._computePopulationInhibition = function () {
+    var s = this.state, pm = s.populationModel || {}, reg = pm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: lateral-inhibition winner-take-most among competing active demographic diagnoses. Exposed; non-winner down-weighting NOT applied to output (scoring spine preserved).',
+      lastInhibitionAt: pm.updated || Date.now()
+    };
+    s.populationInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Maintains an adaptive stress baseline (Turrigiano-style
+  // synaptic scaling) alongside the fixed PM_STRESS_FLOOR, from the base's stressHistory window,
+  // without replacing the fixed floor (handoff floor unchanged; spine preserved).
+  PopulationBrain.prototype._computePopulationHomeostasis = function () {
+    var s = this.state, pm = s.populationModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-PK_HOMEO_WINDOW);
+    if (!win.length) {
+      // fall back to the outcomeLog stress trail (population records stress there each cycle)
+      win = ((s.memory && s.memory.outcomeLog) || []).slice(-PK_HOMEO_WINDOW).map(function (e) { return { stress: e.stress }; });
+    }
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                                // adaptive set-point vs fixed PM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: PM_STRESS_FLOOR,                                   // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                  // synaptic-scaling multiplier
+      samples: n,
+      note: 'ADVISORY: adaptive homeostatic set-point (Turrigiano synaptic scaling) alongside the fixed PM_STRESS_FLOOR. Exposed; the servo already reads the recurrent prior as its regulate-to-target baseline. Handoff floor unchanged (scoring spine preserved).',
+      lastHomeostasisAt: pm.updated || Date.now()
+    };
+    s.populationHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface (mirrors energy's _computeEnergyNeuroLayers). Runs all
+  // eight K-layers in Energy's K1..K8 order, stores each on state (populationAfferent, ...), and
+  // attaches a compact roll-up ADDITIVELY as cognition.neuro. Deterministic; no network; no AI.
+  PopulationBrain.prototype._computePopulationNeuroLayers = function () {
+    this._computePopulationAfferent();          // K1 — afferent inter-brain integration
+    this._computePopulationGainControl();       // K2 — neuromodulatory gain application
+    this._consolidatePopulationSlowModel();     // K3 — slow consolidation / long-term plasticity
+    this._scorePopulationOutcomes();            // K4 — outcome / credit learning (TRUTH-BRAKE self-consistency)
+    this._computePopulationPerceptionDepth();   // K5 — deep hierarchical perception
+    this._computePopulationAttention();         // K6 — attention / selective routing
+    this._computePopulationInhibition();        // K7 — lateral inhibition (microcircuit)
+    this._computePopulationHomeostasis();       // K8 — adaptive homeostatic set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                       // all K-loops COMPUTE + EXPOSE; scoring spine untouched
+      afferent: s.populationAfferent || null,
+      gainControl: s.populationGainControl || null,
+      slowModel: s.populationSlowModel || null,
+      outcomeModel: s.populationOutcomeModel || null,
+      perceptionDepth: s.populationPerceptionDepth || null,
+      attention: s.populationAttention || null,
+      inhibition: s.populationInhibition || null,
+      homeostasis: s.populationHomeostasis || null,
+      note: 'K1-K8 neuro-completion stack (population-local, deterministic, additive, advisory). Wired K1..K8 each cycle ALONGSIDE the actuation layer; exposes signals without rewriting stress/prior/opportunities/predictionError.'
+    };
+    s.populationNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

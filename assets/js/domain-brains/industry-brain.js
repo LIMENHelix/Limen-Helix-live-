@@ -67,6 +67,17 @@
     };
     this._servoIntegral = 0;      // bounded slow arm of the PI servo (persists across cycles)
 
+    // ── K1-K8 NEURO-COMPLETION STATE (Energy-parity port; deterministic, additive) ──────────────
+    // Slow-model store, outcome (self-prediction) log, and set-point buffers the K-layers persist
+    // across cycles. Mirrors Energy's lazily-created stores but declared here for clarity. Every
+    // K-layer is advisory-by-default; the two that CLOSE a loop (K4 self-consistency truth-brake →
+    // effective learning rate; K8 adaptive set-point → handoff floor) do so with a one-cycle lag,
+    // only in the branch the existing phase-reward credit source leaves untouched, and are read at
+    // the TOP of _updateIndustryModel (so cycle 1, with empty stores, preserves current behavior).
+    this._industryOutcomeBuffer = [];   // rolling {predicted, realized, err} (K4)
+    this._industryPrevPrediction = null; // last cycle's predictedStress, reconciled next cycle (K4)
+    this._industrySlowModel = null;      // parallel slow-weight track (K3); created lazily in K3
+
     this.diagnosisIndex = {
       'SUPPLY_CHAIN_COLLAPSE': ['input_shortage', 'supplier_constraint', 'component_scarcity', 'critical_part_delay', 'industry_high_stress', 'macro_shock'],
       'AUTOMATION_FAILURE':     ['equipment_failure', 'automation_breakdown', 'capacity_constraint', 'production_halt', 'maintenance_backlog'],
@@ -513,6 +524,8 @@
   var IM_STRESS_FLOOR = 0.25;           // domain-specific floor — persistent maintenance/capacity pressure
   var IM_FLOOD_CAP = 12;                // institutional-feed / opportunity-flood threshold
   var IM_STALE_MS = 1000 * 60 * 60 * 6; // 6h feed staleness
+  var IK_OUTCOME_BUFFER = 40;           // K4 rolling predicted-vs-realized samples
+  var IK_HOMEO_WINDOW = 60;             // K8 cycles of stress baseline for the adaptive set-point
 
   function _imClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function _imJaccardDistance(a, b) {
@@ -627,8 +640,17 @@
     var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
     var reg = this._computeIndustryRegulation(em, obs, pe);
 
+    // K8 CLOSED — homeostatic set-point: the handoff gate blends the fixed floor with the adaptive
+    // baseline (prior cycle's industryHomeostasis; needs >=10 samples, else the fixed floor). The
+    // adaptive floor is bounded to at most +0.15 above IM_STRESS_FLOOR so a sustained-stress baseline
+    // cannot ratchet the gate out of reach. On cycle 1 (no homeostasis yet) this is exactly IM_STRESS_FLOOR.
+    var _hm = this.state.industryHomeostasis;
+    var _floor = (_hm && typeof _hm.adaptiveBaseline === 'number' && _hm.samples >= 10)
+      ? _imClamp(Math.min(0.5 * IM_STRESS_FLOOR + 0.5 * _hm.adaptiveBaseline, IM_STRESS_FLOOR + 0.15), 0.15, 0.6) : IM_STRESS_FLOOR;
+    em._effectiveFloor = _floor;
+
     // a FINAL decision that depends on the prior, not just on raw obs:
-    var readyForHandoff = (em.cycle > 0) && (predictedStress >= IM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+    var readyForHandoff = (em.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
     // K4 CREDIT-SOURCE HOOK (phase actuation). A realized phase TRANSITION over time is a real
     // ground-truth teaching signal, but ONLY on Thing1-validated phases (P3/P7 family) — which is
@@ -640,10 +662,19 @@
     var _lr = em.plasticity.learningRate;
     var _pt = (this.state.industryPhaseDynamics || {}).transition;
     var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
-    var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : null;
+    // K4 CLOSED — self-consistency TRUTH BRAKE. When there is NO validated phase reward, fall back to
+    // the prior cycle's stress self-prediction hit-rate (industryOutcomeModel from _scoreIndustryOutcomes,
+    // >=5 resolved samples): a low realized-vs-predicted hit-rate RAISES the effective learning rate so
+    // persistent mis-prediction speeds adaptation. This is calibration from the domain's own realized
+    // stress, NOT an external/dopaminergic reward. One-cycle lag; the validated-phase path is untouched;
+    // cycle 1 (empty buffer) leaves _lr at the default (current behavior preserved).
+    var _om = this.state.industryOutcomeModel;
+    var _fromOutcome = !_phaseReward && !!(_om && typeof _om.hitRate === 'number' && _om.samples >= 5);
+    var _hit = _phaseReward ? (_pt.hit ? 1 : 0)
+      : _fromOutcome ? _om.hitRate : null;
     if (_hit !== null) _lr = _imClamp(_lr * (1 + (1 - _hit)), IM_SLOW_RATE, 0.6);
     em._effectiveLearningRate = _lr;
-    em._creditSource = _phaseReward ? 'phase-transition' : 'stress-self-pred';
+    em._creditSource = _phaseReward ? 'phase-transition' : (_fromOutcome ? 'stress-self-pred' : 'none');
     var nextPrior = this._updateIndustryPrior(priorIn, obs, _lr);  // -> next cycle reads this (effective LR)
 
     em.cycle += 1;
@@ -658,6 +689,11 @@
 
     // H1-H6 — higher Industry brain layers (computed BEFORE the DDP build so packets embed summaries).
     try { this._computeIndustryHigherLayers(); } catch (e) {}
+
+    // ── K1-K8 NEURO-COMPLETION LOOPS (Energy-parity port). Runs in the SAME order Energy uses.
+    // Deterministic; each stores its signal on state; K4/K8 close a loop read at the TOP of the NEXT
+    // cycle's _updateIndustryModel (one-cycle lag). Never rewrites stress/diagnoses/data files. ──
+    try { this._computeIndustryNeuroLayers(); } catch (e) {}
 
     // ── ACTUATION LAYER (computed here so NEXT cycle's surfaceOpportunities / K4 hook read them;
     // one-cycle lag, recurrent by design). Each behind its _actuation flag; all deterministic. ──
@@ -679,7 +715,8 @@
         intuition: this.state.industryIntuition || null,
         servo: this.state.industryServo || null,                        // actuated PI servo
         phaseDynamics: this.state.industryPhaseDynamics || null,        // actuated phase router + reward
-        regulation2: this.state.industryRegulationAdvisories || null    // E/I balance + SPOF self-audit (additive key; distinct from model.regulation)
+        regulation2: this.state.industryRegulationAdvisories || null,   // E/I balance + SPOF self-audit (additive key; distinct from model.regulation)
+        neuro: this.state.industryNeuro || null                         // K1-K8 neuro-completion roll-up (additive)
       };
     } catch (e) {}
 
@@ -1124,6 +1161,260 @@
     this._computeIndustryIntuition();
     this._computeIndustrySimulation();
     this._computeIndustryExecutiveReport();
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — INDUSTRY NEURO-COMPLETION LAYERS (industry-local, additive, reversible).
+  // Direct parity port of Energy's K1-K8. Each layer COMPUTES and EXPOSES its signal on
+  // state; the two that CLOSE a loop (K4 self-consistency truth-brake → effective learning
+  // rate; K8 adaptive set-point → handoff floor) are consumed at the TOP of _updateIndustryModel
+  // with a one-cycle lag, only in the branch the validated-phase credit source leaves untouched.
+  // Reads cached state only; adds NO network calls, NO paid-AI. Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it contributes. Industry (like every non-energy domain) already folds getExternalPressure()
+  // into stress via the base scoreStress; this is the read-out of that closed loop.
+  IndustryBrain.prototype._computeIndustryAfferent = function () {
+    var s = this.state, em = s.industryModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: the base scoreStress folds externalPressure into stress each cycle (same as the other domains); normalizeSignals also lifts it into critical_part_delay/supplier_constraint conditions.',
+      lastAfferentAt: em.updated || now
+    };
+    s.industryAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition/outputScale are computed by
+  // _computeIndustryRegulation; gain reaches predictedStress via the gainBlend. This shows the graded
+  // output modulation (outputScale is advisory here — emission dampening is done by the PI servo + E/I
+  // brake in _applyIndustryActuationGate, not by an outputScale opportunity cap).
+  IndustryBrain.prototype._computeIndustryGainControl = function () {
+    var s = this.state, em = s.industryModel || {}, reg = em.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend)'],
+      unappliedTargets: ['opportunity output cap (handled instead by PI servo + E/I brake)', 'stress', 'treatment surfacing'],
+      lastGatedCount: (s._industryGatedCount || 0),
+      note: 'gain reaches predictedStress via the gainBlend; emission dampening runs through the PI servo/E/I brake (emissionFactor), not an outputScale cap.',
+      lastGainAt: em.updated || Date.now()
+    };
+    s.industryGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight track (IM_SLOW_RATE)
+  // that never touches em.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  IndustryBrain.prototype._consolidateIndustrySlowModel = function () {
+    var s = this.state, em = s.industryModel || {}, obs = em.observation || null;
+    var slow = s.industrySlowModel || this._industrySlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: IM_SLOW_RATE, note: 'parallel slow-weight track (IM_SLOW_RATE); does NOT touch em.prior'
+    };
+    if (obs) {
+      var r = IM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _imClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _imClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (em.prior && typeof em.prior.expectedStress === 'number') ? em.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;
+    slow.updated = em.updated || Date.now();
+    s.industrySlowModel = slow; this._industrySlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (SELF-CONSISTENCY TRUTH BRAKE). Compares each cycle's predictedStress
+  // against the NEXT cycle's realized stress — the online forward-prediction loop. hitRate is consumed by
+  // the credit-source hook in _updateIndustryModel (>=5 samples, only when there is no validated phase
+  // reward) to raise the learning rate under persistent mis-prediction. NOT an external reward.
+  IndustryBrain.prototype._scoreIndustryOutcomes = function () {
+    var s = this.state, em = s.industryModel || {};
+    var buf = this._industryOutcomeBuffer = this._industryOutcomeBuffer || [];
+    var obs = em.observation || null;
+    if (this._industryPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._industryPrevPrediction, realized: obs.stress, err: Math.abs(this._industryPrevPrediction - obs.stress) });
+      if (buf.length > IK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._industryPrevPrediction = (typeof em.predictedStress === 'number') ? em.predictedStress : null;
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,
+      loopType: 'online-continuous (predicted-vs-next-realized) self-consistency; NOT a dopaminergic reward',
+      creditAssignmentActive: (n >= 5),
+      effectiveLearningRate: (em._effectiveLearningRate) || null,
+      creditSource: em._creditSource || null,
+      note: 'TRUTH BRAKE: hitRate scales the effective learning rate in _updateIndustryModel (>=5 samples) when no validated phase reward — persistent mis-prediction speeds adaptation.',
+      lastOutcomeAt: em.updated || Date.now()
+    };
+    s.industryOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the depth the brain HAS (L1 branch-scan cache +
+  // the production-capacity sub-layer; no new fetches) and estimates the portalError the recurrent
+  // model does not yet fold in (advisory — perception stops at L1; L2 is synthetic/quarantined).
+  IndustryBrain.prototype._computeIndustryPerceptionDepth = function () {
+    var s = this.state, em = s.industryModel || {};
+    var l1 = s._l1DepthCache || null;
+    var pc = s.productionCapacityLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'synthetic (immune-blocked)' },
+      { level: 'PC', name: 'production-capacity-sublayer', status: (pc && pc.loaded) ? 'loaded' : 'absent', activeCount: (pc && pc.activeCount) || 0 }
+    ];
+    var loadedDepth = (pc && pc.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((pc && pc.count) ? pc.count : 0);
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY estimate: perception stops at L1 (L2 quarantined); production-capacity sub-layer is real-content/hand-authored. Prediction error does not yet fold this term (no new fetches).',
+      lastDepthAt: em.updated || Date.now()
+    };
+    s.industryPerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + prediction-error)
+  // and names focus vs suppressed diagnoses, without gating the pipeline. Advisory read-out.
+  IndustryBrain.prototype._computeIndustryAttention = function () {
+    var s = this.state, em = s.industryModel || {}, reg = em.regulation || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking of active/near diagnoses; operator attentionFocus boosts salience. Does not hard-gate the pipeline.',
+      lastAttentionAt: em.updated || Date.now()
+    };
+    s.industryAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). reg.inhibition implies a winner-take-most ranking among
+  // competing active diagnoses; this surfaces the winner and the suppress-weight on the competitors.
+  IndustryBrain.prototype._computeIndustryInhibition = function () {
+    var s = this.state, em = s.industryModel || {}, reg = em.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most among competing active diagnoses (reg.inhibition). Down-weighting is advisory (not applied to the emitted ranking).',
+      lastInhibitionAt: em.updated || Date.now()
+    };
+    s.industryInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Maintains an adaptive baseline (Turrigiano-style scaling)
+  // alongside the fixed IM_STRESS_FLOOR. CLOSED: _updateIndustryModel blends this adaptiveBaseline with
+  // the fixed floor to gate readyForHandoff (>=10 samples), bounded to +0.15 above the fixed floor.
+  IndustryBrain.prototype._computeIndustryHomeostasis = function () {
+    var s = this.state, em = s.industryModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-IK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: IM_STRESS_FLOOR,
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      deviation: Math.max(0, Math.round((cur - baseline) * 1000) / 1000),
+      scalingFactor: scalingFactor,
+      samples: n,
+      effectiveFloor: (em._effectiveFloor) || null,
+      note: 'CLOSED: readyForHandoff gates on a 50/50 blend of IM_STRESS_FLOOR and adaptiveBaseline (>=10 samples) via em._effectiveFloor.',
+      lastHomeostasisAt: em.updated || Date.now()
+    };
+    s.industryHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface. Runs K1-K8 in the SAME order Energy uses, stores each on
+  // state, and attaches a compact roll-up to state.industryNeuro (surfaced additively in cognition.neuro).
+  IndustryBrain.prototype._computeIndustryNeuroLayers = function () {
+    this._computeIndustryAfferent();          // K1 — afferent inter-brain input
+    this._computeIndustryGainControl();       // K2 — neuromodulatory gain application
+    this._consolidateIndustrySlowModel();     // K3 — slow consolidation / long-term plasticity
+    this._scoreIndustryOutcomes();            // K4 — outcome / credit learning (self-consistency truth brake)
+    this._computeIndustryPerceptionDepth();   // K5 — deep hierarchical perception
+    this._computeIndustryAttention();         // K6 — attention / selective routing
+    this._computeIndustryInhibition();        // K7 — lateral inhibition (microcircuit)
+    this._computeIndustryHomeostasis();       // K8 — adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'wired',                        // K4/K8 close a loop; K1-K3/K5-K7 advisory read-outs
+      afferent: s.industryAfferent || null,
+      gainControl: s.industryGainControl || null,
+      slowModel: s.industrySlowModel || null,
+      outcomeModel: s.industryOutcomeModel || null,
+      perceptionDepth: s.industryPerceptionDepth || null,
+      attention: s.industryAttention || null,
+      inhibition: s.industryInhibition || null,
+      homeostasis: s.industryHomeostasis || null
+    };
+    s.industryNeuro = neuro;
+    return neuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

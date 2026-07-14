@@ -65,6 +65,14 @@
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio, mirrors Energy)
       overrideThreshold: 0.9      // reduced sensitivity: only stress >= 0.9 re-fires within the window
     };
+
+    // ── K1-K8 NEURO CLOSED-LOOP STACK state (2026-07-13) — ported from Energy's PHASE K.
+    // K4 (outcome / TRUTH-BRAKE self-consistency) needs a rolling predicted-vs-realized buffer and a
+    // stash for last cycle's prediction; K3 (slow consolidation) keeps a parallel slow-weight track on
+    // state.defenseSlowModel (lazily created). Initialized here like Energy inits its buffers; the
+    // methods also lazy-init defensively so a hot-reload never NPEs. 100% deterministic — no AI/fetch.
+    this._defenseOutcomeBuffer = this._defenseOutcomeBuffer || [];   // K4: rolling predicted-vs-next-realized samples
+    this._defensePrevPrediction = (this._defensePrevPrediction != null) ? this._defensePrevPrediction : null;  // K4: stash for next-cycle reconciliation
   };
 
   DefenseBrain.prototype.normalizeSignals = function () {
@@ -582,6 +590,15 @@
         opportunities: this.state.opportunities || []
       };
 
+      // K1-K8 NEURO STACK — the eight closed-loop completion layers, in Energy's K1..K8 order.
+      // Runs AFTER cognition is assembled and BEFORE actuation, so the servo/E-I brake consume the
+      // fresh K8 adaptive baseline / K7 inhibition. Each layer COMPUTES and EXPOSES its signal on
+      // state (state.defense{Afferent,GainControl,SlowModel,OutcomeModel,PerceptionDepth,Attention,
+      // Inhibition,Homeostasis}) + a compact roll-up on state.cognition.neuro. Deterministic, cached
+      // state only, no AI/fetch. Guarded so it can never break the cycle. K4 is TRUTH-BRAKE
+      // self-consistency (predicted-vs-realized), NOT an external reward.
+      try { this._computeDefenseNeuroLayers(); } catch (e) {}
+
       // ACTUATION — servo / E/I brake / self-audit / phase (advisory), each behind its _actuation flag.
       // Runs AFTER cognition is assembled so it can attach additively; guarded so it never breaks the cycle.
       try { this._computeDefenseActuation(); } catch (e) {}
@@ -915,6 +932,272 @@
       cog.regulation = this.state.defenseRegulation || null;
       cog.actuation = A;
     }
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // K1-K8 NEURO CLOSED-LOOP COMPLETION STACK (defense-local, additive, reversible).
+  // Ported from energy-brain.js PHASE K. Mirrors Energy's K1..K8 MATH exactly but reads
+  // DEFENSE's own state/edges/sub-portals (never Energy's). Each layer COMPUTES and EXPOSES
+  // its signal on state; the live emission effector defense already owns is the servo + E/I
+  // brake (the actuation layer), which these feed. Deterministic: reads cached state only, adds
+  // NO network call, NO AI. Never fabricates evidence. Neuro mapping per LIMEN_Helix_Neurology_
+  // Reference + ENERGY_NEURO_AUDIT: K1 afferent integration, K2 neuromodulatory gain, K3 slow
+  // consolidation (long-term plasticity), K4 outcome/credit (TRUTH-BRAKE self-consistency),
+  // K5 deep hierarchical perception, K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // ════════════════════════════════════════════════════════════════════════════
+  var DK_OUTCOME_BUFFER = 40;     // K4: rolling predicted-vs-realized samples (mirrors EK_OUTCOME_BUFFER)
+  var DK_HOMEO_WINDOW = 60;       // K8: cycles of stress baseline for the adaptive set-point (mirrors EK_HOMEO_WINDOW)
+
+  // K1 - afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it contributes. Defense's stress folds afferent (external pressure) via the base scoreStress
+  // (like the other 18 domains); this exposes the received-signal breakdown without re-adding it.
+  DefenseBrain.prototype._computeDefenseAfferent = function () {
+    var s = this.state, dm = s.defenseModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                           // CLOSED - folded into stress by the base scoreStress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: base scoreStress folds externalPressure into stress each cycle (matches the other 18 domains); this exposes the cross-domain source breakdown.',
+      lastAfferentAt: dm.updated || now
+    };
+    s.defenseAfferent = af; return af;
+  };
+
+  // K2 - neuromodulatory gain application. reg.gain/inhibition are computed by _computeDefenseRegulation;
+  // this surfaces the graded output modulation the gain implies over opportunities. ADVISORY for defense:
+  // the LIVE emission effector is the servo + E/I brake (proportional confidence dampening), not a gain cap.
+  DefenseBrain.prototype._computeDefenseGainControl = function () {
+    var s = this.state, dm = s.defenseModel || {}, reg = dm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                        // gain-scaled ranked cut (advisory)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['servo emissionFactor (drive-tracked)', 'opportunity confidence (via E/I brake)'],
+      unappliedTargets: ['stress', 'treatment surfacing', 'diagnoses'],
+      note: 'ADVISORY gain read; the LIVE emission effector for defense is the servo + E/I brake (proportional confidence dampening), computed in _computeDefenseActuation. Reg.gain/inhibition drive that loop.',
+      lastGainAt: dm.updated || Date.now()
+    };
+    s.defenseGainControl = gc; return gc;
+  };
+
+  // K3 - slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight track (DM_SLOW_RATE)
+  // that never touches dm.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  DefenseBrain.prototype._consolidateDefenseSlowModel = function () {
+    var s = this.state, dm = s.defenseModel || {}, obs = dm.observation || null;
+    var slow = s.defenseSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: DM_SLOW_RATE, note: 'parallel slow-weight track (DM_SLOW_RATE); does NOT touch dm.prior'
+    };
+    if (obs) {
+      var r = DM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _dmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _dmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (dm.prior && typeof dm.prior.expectedStress === 'number') ? dm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;            // fast prior pulled far from slow baseline
+    slow.updated = dm.updated || Date.now();
+    s.defenseSlowModel = slow; return slow;
+  };
+
+  // K4 - outcome / credit learning = TRUTH-BRAKE self-consistency. Compares each cycle's predictedStress
+  // against the NEXT cycle's realized stress (online forward-prediction loop). This is SELF-CONSISTENCY
+  // calibration (does the brain's own forecast come true), NOT an external/dopaminergic reward — that is a
+  // separate deferred task and is deliberately NOT fabricated here. Measurement only; no writes to scoring.
+  DefenseBrain.prototype._scoreDefenseOutcomes = function () {
+    var s = this.state, dm = s.defenseModel || {};
+    var buf = this._defenseOutcomeBuffer = this._defenseOutcomeBuffer || [];
+    var obs = dm.observation || null;
+    if (this._defensePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._defensePrevPrediction, realized: obs.stress, err: Math.abs(this._defensePrevPrediction - obs.stress) });
+      if (buf.length > DK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._defensePrevPrediction = (typeof dm.predictedStress === 'number') ? dm.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,                // fraction within 0.1 of realized (TRUTH-BRAKE calibration)
+      loopType: 'online-continuous (predicted-vs-next-realized) SELF-CONSISTENCY; NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      note: 'TRUTH BRAKE: realized-stress self-prediction calibration. A persistently low callHitRate means the brain should widen its own uncertainty; deliberately NOT wired to a fabricated reward signal (deferred).',
+      lastOutcomeAt: dm.updated || Date.now()
+    };
+    s.defenseOutcomeModel = om; return om;
+  };
+
+  // K5 - deep hierarchical perception. Aggregates the perceptual depth the brain HAS (root portal + L1
+  // branch scan + the readiness/threat-posture sub-portal), with L2 quarantined (mad-lib), and estimates
+  // the portalError the recurrent model does not yet see. Reads existing caches only; no new fetches.
+  DefenseBrain.prototype._computeDefensePerceptionDepth = function () {
+    var s = this.state, dm = s.defenseModel || {};
+    var l1 = s._l1DepthCache || null;
+    var rp = s.readinessPostureLayer || null;             // defense sub-portal (counterpart to energy's datacenterLayer)
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'mad-lib templates (immune-blocked)' },
+      { level: 'RD', name: 'readiness-subportal', status: (rp && rp.loaded) ? 'loaded' : 'absent', activeCount: (rp && rp.activeCount) || 0 }
+    ];
+    var loadedDepth = (rp && rp.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((rp && rp.count) ? rp.count : 0);
+    var blocked = l1Mad + 1;                                       // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,                    // advisory: unmodeled perceptual error
+      note: 'ADVISORY: perception stops at L1 (L2 quarantined mad-lib); portalErrorEstimate is the unmodeled depth the recurrent prediction-error does not yet fold. No new fetches.',
+      lastDepthAt: dm.updated || Date.now()
+    };
+    s.defensePerceptionDepth = pd; return pd;
+  };
+
+  // K6 - attention / selective routing. Ranks top-down salience (active + relevance + novelty, plus any
+  // operator attention-focus steer) and names focus vs suppressed diagnoses, without gating the pipeline.
+  DefenseBrain.prototype._computeDefenseAttention = function () {
+    var s = this.state, dm = s.defenseModel || {}, reg = dm.regulation || {};
+    var pe = (dm.predictionError && dm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY attentional salience ranking over defense diagnoses; names focus vs suppressed without gating the pipeline.',
+      lastAttentionAt: dm.updated || Date.now()
+    };
+    s.defenseAttention = at; return at;
+  };
+
+  // K7 - lateral inhibition (microcircuit). reg.inhibition implies a winner-take-most ranking among the
+  // competing active diagnoses; this surfaces the winner and the down-weight each competitor would take.
+  DefenseBrain.prototype._computeDefenseInhibition = function () {
+    var s = this.state, dm = s.defenseModel || {}, reg = dm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY winner-take-most read among competing active diagnoses; feeds the servo/E-I brake drive term (reg.inhibition), which is the live emission effector.',
+      lastInhibitionAt: dm.updated || Date.now()
+    };
+    s.defenseInhibition = li; return li;
+  };
+
+  // K8 - homeostatic set-point (microcircuit). Maintains an adaptive stress baseline (Turrigiano-style
+  // synaptic scaling) alongside the fixed DM_STRESS_FLOOR, without replacing it. The servo's allostatic
+  // target consumes this deviation-above-baseline (regulate-to-target), closing the K8 loop into emission.
+  DefenseBrain.prototype._computeDefenseHomeostasis = function () {
+    var s = this.state, dm = s.defenseModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-DK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                             // adaptive set-point vs fixed DM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: DM_STRESS_FLOOR,                                // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                               // synaptic-scaling multiplier
+      samples: n,
+      note: 'CLOSED via actuation: the servo allostatic target rises with deviationFromBaseline (regulate-to-target), so K8 drives the E/I brake emission effector. adaptiveBaseline never replaces DM_STRESS_FLOOR.',
+      lastHomeostasisAt: dm.updated || Date.now()
+    };
+    s.defenseHomeostasis = hm; return hm;
+  };
+
+  // ORCHESTRATOR — run K1..K8 in Energy's exact order, store each on state, and attach a compact
+  // neuro roll-up to state.cognition ADDITIVELY (new key `neuro`; existing keys untouched). Called from
+  // _updateDefenseModel BEFORE _computeDefenseActuation so the servo/E-I brake consume the fresh K7/K8
+  // terms. 100% deterministic — reads cached state only, NO AI, NO fetch.
+  DefenseBrain.prototype._computeDefenseNeuroLayers = function () {
+    this._computeDefenseAfferent();          // K1 - afferent inter-brain input
+    this._computeDefenseGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateDefenseSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreDefenseOutcomes();            // K4 - outcome / credit learning (TRUTH-BRAKE self-consistency)
+    this._computeDefensePerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeDefenseAttention();         // K6 - attention / selective routing
+    this._computeDefenseInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeDefenseHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'k1-k8-computed',
+      afferent: s.defenseAfferent || null,
+      gainControl: s.defenseGainControl || null,
+      slowModel: s.defenseSlowModel || null,
+      outcomeModel: s.defenseOutcomeModel || null,
+      perceptionDepth: s.defensePerceptionDepth || null,
+      attention: s.defenseAttention || null,
+      inhibition: s.defenseInhibition || null,
+      homeostasis: s.defenseHomeostasis || null,
+      loops: [
+        'K1 afferent -> scoreStress (externalPressure folded into stress by base)',
+        'K2 gain -> servo/E-I brake (reg.gain/inhibition drive emission dampening)',
+        'K3 slow consolidation -> regime-shift indicator (parallel track; never touches dm.prior)',
+        'K4 outcome -> TRUTH-BRAKE self-consistency (callHitRate; NOT an external reward)',
+        'K5 perception depth -> advisory portalErrorEstimate (unmodeled depth)',
+        'K6 attention -> advisory salience ranking (focus vs suppressed)',
+        'K7 inhibition -> servo/E-I brake drive term (winner-take-most)',
+        'K8 set-point -> servo allostatic target (deviationFromBaseline regulate-to-target)'
+      ]
+    };
+    s.defenseNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
   };
 
   // ── AI SLOT (documented, INERT stub — NEVER called from the cycle) ─────────────────────────────

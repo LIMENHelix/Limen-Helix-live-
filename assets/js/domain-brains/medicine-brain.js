@@ -1164,7 +1164,7 @@
     // Runs AFTER the higher layers (so healthImmune/regulation are available) and reads THIS cycle's
     // freshly-updated healthModel.regulation. Deterministic; each behind its _actuation flag; produces
     // the medicineBrake the NEXT surfaceOpportunities consumes (one-cycle lag, like Energy).
-    try { this._computeMedicineHomeostasis(); } catch (e) {}                                    // adaptive set-point (feeds servo deviation)
+    try { this._computeMedicineNeuroLayers(); } catch (e) {}                                    // K1..K8 closed-loop stack (K8 homeostasis feeds the servo deviation; runs before the servo)
     try { if (this._actuation && this._actuation.servo) this._computeMedicineServo(); } catch (e) {}   // REGULATE-TO-TARGET SERVO (actuated)
     try { this._computeMedicineBrake(); } catch (e) {}                                          // HALT/DAMPEN BRAKE (E/I portion self-gates on _actuation.eiBrake)
     try { this.state.medicineRegulationAdvisories = this._computeMedicineRegulationAdvisories(); } catch (e) {}   // E/I balance + SPOF self-audit (observe-only)
@@ -1183,7 +1183,8 @@
         servo: this.state.medicineServo || null,                 // additive: actuation surface
         brake: this.state.medicineBrake || null,
         regulation: this.state.medicineRegulationAdvisories || null,
-        phaseDynamics: this.state.medicinePhaseDynamics || null
+        phaseDynamics: this.state.medicinePhaseDynamics || null,
+        neuro: this.state.medicineNeuro || null                  // additive: K1-K8 closed-loop stack roll-up
       };
     } catch (e) {}
 
@@ -1220,6 +1221,10 @@
   function _medClamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
   function _medR3(x) { return Math.round(x * 1000) / 1000; }
 
+  // K-LAYER CONSTANTS (ported from Energy's EK_OUTCOME_BUFFER / EK_HOMEO_WINDOW).
+  var MK_OUTCOME_BUFFER = 40;     // K4 rolling predicted-vs-realized samples
+  var MK_HOMEO_WINDOW = 60;       // K8 cycles of stress baseline for the adaptive set-point
+
   // Inline refractory evaluation (III.3) — mirrors energy-refractory-limiter.js evaluate(), held
   // in this brain's own _refractoryLog so there is NO cross-file dependency. absolute hard block +
   // relative raised-threshold (a stronger-than-normal stimulus can still fire). Records on allow.
@@ -1250,24 +1255,279 @@
 
   // ADAPTIVE SET-POINT (Neuro Ref V.2/XII homeostasis) — the servo's deviation term. Baseline = mean
   // stress over the recent history window (like Energy's _computeEnergyHomeostasis). Observe-only.
+  // K8 — adaptive homeostatic set-point (Turrigiano synaptic scaling; Neuro Ref V.2/XII). Maintains an
+  // adaptive baseline (mean stress over the recent window) ALONGSIDE the fixed HM_STRESS_FLOOR, plus a
+  // synaptic-scaling multiplier. Mirrors Energy's _computeEnergyHomeostasis. The deviationFromBaseline
+  // term is consumed by the actuated servo (feeds the E/I brake), so K8 is a real closed loop, not just
+  // an advisory readout.
   MedicineBrain.prototype._computeMedicineHomeostasis = function () {
     var s = this.state;
-    var win = ((s.memory && s.memory.stressHistory) || []).slice(-20);
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-MK_HOMEO_WINDOW);
     var n = win.length, sum = 0;
     for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
-    var baseline = n ? sum / n : 0.5;
+    var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed HM_STRESS_FLOOR
     var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? _medR3(0.5 / Math.max(0.1, baseline)) : 1;   // synaptic-scaling multiplier
     var hm = {
       version: 1,
       fixedFloor: HM_STRESS_FLOOR,
       adaptiveBaseline: _medR3(baseline),
       currentStress: _medR3(cur),
-      deviationFromBaseline: _medR3(cur - baseline),
+      deviationFromBaseline: _medR3(cur - baseline),               // consumed by the actuated servo
+      scalingFactor: scalingFactor,
       samples: n,
-      note: 'adaptive set-point; feeds the servo deviation term (Neuro Ref V.2/XII).'
+      note: 'K8 adaptive set-point (Turrigiano scaling; Neuro Ref V.2/XII); deviationFromBaseline feeds the servo/E-I brake.'
     };
     s.medicineHomeostasis = hm;
     return hm;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // K1-K8 CLOSED-LOOP NEURO STACK (2026-07-13) — ported from Energy's PHASE-K layers,
+  // adapted to read MEDICINE's own state (healthModel / diagnoses / opportunities /
+  // _externalSignals / memory), NOT Energy's. Runs each cycle inside _updateHealthModel
+  // (orchestrated by _computeMedicineNeuroLayers) in the SAME K1..K8 order Energy uses.
+  //
+  // Honesty gating (medicine differs from Energy — it has NO _applyNeuroGating opportunity
+  // gate, so K2/K6/K7's outputScale/attention/inhibition CANNOT claim to cap opportunities):
+  //   K1 afferent      — CLOSED: base scoreStress already folds external pressure into stress.
+  //   K2 gain control   — PARTIAL: inhibition drives the actuated servo/E-I brake; the outputScale
+  //                       opportunity cap is ADVISORY (no _applyNeuroGating here).
+  //   K3 slow model     — ADVISORY: parallel slow-weight track (HM_SLOW_RATE); never touches prior.
+  //   K4 outcomes       — SELF-CONSISTENCY / TRUTH-BRAKE: predicted-vs-next-realized stress. NOT an
+  //                       external/dopaminergic reward; not fed back into the fixed learning rate.
+  //   K5 perception     — ADVISORY: estimates the portalError _computePredictionError currently zeroes.
+  //   K6 attention      — ADVISORY: top-down salience ranking (not gating the pipeline yet).
+  //   K7 inhibition     — winner-take-most; reg.inhibition ALSO feeds the actuated servo/E-I brake.
+  //   K8 homeostasis    — actuated set-point (above): deviationFromBaseline feeds the servo.
+  // COST-SAFETY: 100% deterministic. No AI/LLM/network on the cycle (reads cached state only).
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it contributes. In medicine the loop is already CLOSED: the base scoreStress folds
+  // getExternalPressure() into stress, and normalizeSignals derives care-access conditions from it.
+  MedicineBrain.prototype._computeMedicineAfferent = function () {
+    var s = this.state, hm = s.healthModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: _medR3(pressure),
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                            // CLOSED via base scoreStress + normalizeSignals
+      appliedStressDelta: _medR3((s._externalPressureApplied) || 0),
+      wouldRaiseStressBy: _medR3(pressure),
+      note: 'CLOSED: base scoreStress folds externalPressure into stress each cycle; normalizeSignals also derives care-access conditions from received pressure.',
+      lastAfferentAt: hm.updated || now
+    };
+    s.medicineAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. Shows the graded output modulation the regulation implies.
+  // In medicine, inhibition IS consumed (servo -> E/I brake); the outputScale opportunity cap is advisory.
+  MedicineBrain.prototype._computeMedicineGainControl = function () {
+    var s = this.state, hm = s.healthModel || {}, reg = hm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                         // advisory (no _applyNeuroGating)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['inhibition -> servo target -> emission brake (E/I actuated)'],
+      unappliedTargets: ['outputScale opportunity cap (ADVISORY: medicine gates output only via the emission brake)'],
+      note: 'PARTIAL: inhibition is consumed by the actuated servo/E-I brake; the outputScale opportunity cap is advisory only.',
+      lastGainAt: hm.updated || Date.now()
+    };
+    s.medicineGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight track (HM_SLOW_RATE)
+  // that never touches healthModel.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  MedicineBrain.prototype._consolidateMedicineSlowModel = function () {
+    var s = this.state, hm = s.healthModel || {}, obs = hm.observation || null;
+    var slow = s.medicineSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: HM_SLOW_RATE, note: 'parallel slow-weight track (HM_SLOW_RATE); does NOT touch healthModel.prior'
+    };
+    if (obs) {
+      var r = HM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _hmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _hmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (hm.prior && typeof hm.prior.expectedStress === 'number') ? hm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = _medR3(Math.abs(fast - slow.slow.expectedStress));
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;             // fast prior pulled far from slow baseline
+    slow.updated = hm.updated || Date.now();
+    s.medicineSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (SELF-CONSISTENCY TRUTH BRAKE). Compares each cycle's predictedStress
+  // against the NEXT cycle's realized stress (online forward-prediction). This is calibration of the
+  // brain's own self-prediction — NOT an external/dopaminergic reward — and is measurement only (never
+  // fed back into the fixed learning rate). Matches Energy's _scoreEnergyOutcomes.
+  MedicineBrain.prototype._scoreMedicineOutcomes = function () {
+    var s = this.state, hm = s.healthModel || {};
+    var buf = this._medicineOutcomeBuffer = this._medicineOutcomeBuffer || [];
+    var obs = hm.observation || null;
+    if (this._medicinePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._medicinePrevPrediction, realized: obs.stress, err: Math.abs(this._medicinePrevPrediction - obs.stress) });
+      if (buf.length > MK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._medicinePrevPrediction = (typeof hm.predictedStress === 'number') ? hm.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? _medR3(sumErr / n) : null,           // does the self-forecast come true
+      brierLike: n ? _medR3(sumSq / n) : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,     // fraction within 0.1 of realized
+      loopType: 'online self-consistency (predicted-vs-next-realized stress); TRUTH-BRAKE calibration, NOT an external/dopaminergic reward',
+      creditAssignmentActive: (n >= 5),
+      note: 'SELF-CONSISTENCY: reconciles each cycle predictedStress against the NEXT cycle realized stress. Measurement only; does not fabricate a reward or mutate the fixed learning rate.',
+      lastOutcomeAt: hm.updated || Date.now()
+    };
+    s.medicineOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the perception depth medicine HAS (diagnoses,
+  // resolved-deep treatments, source bundles, clinical-pipeline subportal) and estimates the portalError
+  // _computePredictionError currently hardcodes to 0. No new fetches. Mirrors _computeEnergyPerceptionDepth.
+  MedicineBrain.prototype._computeMedicinePerceptionDepth = function () {
+    var s = this.state, hm = s.healthModel || {};
+    var diags = s.diagnoses || [];
+    var activeDx = diags.filter(function (d) { return d.active && !d.blocked; }).length;
+    var blockedDx = diags.filter(function (d) { return d.blocked; }).length;
+    var treats = s.treatments || [];
+    var deepTreats = treats.filter(function (t) { return t && (t.hasDepth || t.source === 'canonical_deep'); }).length;
+    var bundles = 0, bundlesReady = 0;
+    try {
+      var bs = this._healthBundleStates ? this._healthBundleStates() : null;
+      if (bs) {
+        var arr = Array.isArray(bs) ? bs : Object.keys(bs).map(function (k) { return bs[k]; });
+        bundles = arr.length;
+        bundlesReady = arr.filter(function (b) { return b && (b.loaded || b.active || b.admitted); }).length;
+      }
+    } catch (e) {}
+    var cp = s.clinicalPipelineLayer || s.clinicalPipeline || null;
+    var cpCount = cp ? (cp.count || (Array.isArray(cp.items) ? cp.items.length : 0) || (Array.isArray(cp) ? cp.length : 0)) : 0;
+    var levels = [
+      { level: 'L0', name: 'portal-root', status: (this._portalCache || s._portalCache || s.resolvedContent) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'diagnosis-layer', status: diags.length ? 'derived' : 'pending', active: activeDx, blocked: blockedDx, total: diags.length },
+      { level: 'L2', name: 'treatment-depth', status: deepTreats ? 'resolved' : (treats.length ? 'shallow' : 'pending'), deep: deepTreats, total: treats.length },
+      { level: 'CP', name: 'clinical-pipeline-subportal', status: cpCount ? 'loaded' : 'absent', count: cpCount }
+    ];
+    var admissible = activeDx + deepTreats + bundlesReady + cpCount;
+    var blocked = blockedDx + Math.max(0, bundles - bundlesReady) + Math.max(0, treats.length - deepTreats);
+    var portalErrorEstimate = _medR3(blocked / Math.max(1, admissible + blocked));
+    var loadedDepth = cpCount ? 3 : (deepTreats ? 2 : (diags.length ? 1 : 0));
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,                    // the depth-gap _computePredictionError zeroes out
+      note: 'ADVISORY: estimates hierarchical-perception depth from cached diagnoses/treatments/bundles/clinical-pipeline. _computePredictionError still uses portalError=0; this names the gap without new fetches.',
+      lastDepthAt: hm.updated || Date.now()
+    };
+    s.medicinePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + prediction-error
+  // novelty + operator focus). Advisory: it does not gate the pipeline (medicine has no _applyNeuroGating).
+  MedicineBrain.prototype._computeMedicineAttention = function () {
+    var s = this.state, hm = s.healthModel || {}, reg = hm.regulation || {};
+    var pe = (hm.predictionError && hm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = ((rb && rb.attentionFocus) || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: _medR3(sal) };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: top-down salience ranking. Not yet gating the pipeline (medicine has no _applyNeuroGating; only the emission brake gates output).',
+      lastAttentionAt: hm.updated || Date.now()
+    };
+    s.medicineAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). Winner-take-most ranking among competing active diagnoses.
+  // reg.inhibition ALSO drives the actuated servo/E-I brake, so this exposes the microcircuit behind it.
+  MedicineBrain.prototype._computeMedicineInhibition = function () {
+    var s = this.state, hm = s.healthModel || {}, reg = hm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: _medR3((d.relevance || 0) * inhib) }; }).slice(0, 6),
+      note: 'winner-take-most lateral-inhibition ranking among competing active diagnoses; reg.inhibition also drives the actuated servo/E-I brake.',
+      lastInhibitionAt: hm.updated || Date.now()
+    };
+    s.medicineInhibition = li; return li;
+  };
+
+  // Orchestrator — runs K1..K8 in Energy's order, then rolls the eight up onto state.medicineNeuro.
+  // Called once per cycle from _updateHealthModel (replacing the standalone K8 homeostasis call) so K8
+  // still runs BEFORE the servo, preserving the actuated servo/E-I brake loop.
+  MedicineBrain.prototype._computeMedicineNeuroLayers = function () {
+    this._computeMedicineAfferent();          // K1 - afferent inter-brain input
+    this._computeMedicineGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateMedicineSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreMedicineOutcomes();            // K4 - outcome / credit learning (self-consistency truth brake)
+    this._computeMedicinePerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeMedicineAttention();         // K6 - attention / selective routing
+    this._computeMedicineInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeMedicineHomeostasis();       // K8 - adaptive set-point (feeds the servo deviation)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'closed+advisory',                // K1 closed; K7/K8 feed the actuated servo/E-I brake; K2/K3/K5/K6 advisory; K4 self-consistency
+      afferent: s.medicineAfferent || null,
+      gainControl: s.medicineGainControl || null,
+      slowModel: s.medicineSlowModel || null,
+      outcomeModel: s.medicineOutcomeModel || null,
+      perceptionDepth: s.medicinePerceptionDepth || null,
+      attention: s.medicineAttention || null,
+      inhibition: s.medicineInhibition || null,
+      homeostasis: s.medicineHomeostasis || null,
+      note: 'K1-K8 closed-loop stack ported from Energy, reading medicine state. Deterministic; no AI on the cycle.'
+    };
+    s.medicineNeuro = neuro;
+    return neuro;
   };
 
   // REGULATE-TO-TARGET SERVO (Neuro Ref XIII.1 E/I + V.2/XII allostasis) — PI controller. SENSOR =

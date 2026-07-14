@@ -63,6 +63,12 @@
     this._servoIntegral = 0;
     this._sciencePhaseHistory = [];
 
+    // PHASE K neuro-completion state (K1..K8): K4 truth-brake outcome log + prev self-prediction.
+    // K3 slow-model, K8 set-points, and the other K-layer surfaces are stored lazily on this.state
+    // (scienceSlowModel / scienceHomeostasis / scienceNeuro), exactly like Energy's K-layers.
+    this._scienceOutcomeBuffer = [];   // rolling predicted-vs-realized stress samples (K4 self-consistency)
+    this._sciencePrevPrediction = null; // last cycle's predictedStress, reconciled next cycle (K4)
+
     // G1 / discovery-pipeline — kick off one-shot async loads (real source bundles +
     // discovery/innovation sub-portal). Guarded internally; never blocks init.
     try { if (this._loadDiagnosisBundles) this._loadDiagnosisBundles(); } catch (e) {}
@@ -604,6 +610,12 @@
     // H1-H6 — higher research brain layers, computed once per cycle BEFORE the DDP build.
     try { this._computeScienceHigherLayers(); } catch (e) {}
 
+    // PHASE K — neuro-completion layers (K1..K8), run in the SAME order Energy uses, BEFORE the
+    // servo/phase actuation so the servo can read K8's deviation term. Advisory: each K-layer
+    // COMPUTES and EXPOSES its signal on state without rewiring the scoring spine. Deterministic,
+    // guarded, no AI, no network — never breaks a cycle.
+    try { this._computeScienceNeuroLayers(); } catch (e) {}
+
     // ACTUATION LAYER — servo (regulate-to-target) + phase dynamics (coherence router +
     // P3/P7-gated transition reward) + E/I regulation advisories (E/I balance + self-audit
     // SPOF from science.json edges). Each behind its _actuation flag; the eiBrake EFFECTOR is
@@ -631,7 +643,9 @@
         actuation: this._actuation || null,
         servo: this.state.scienceServo || null,
         phaseDynamics: this.state.sciencePhaseDynamics || null,
-        regulation2: this.state.scienceRegulation || null
+        regulation2: this.state.scienceRegulation || null,
+        // PHASE K neuro-completion roll-up (K1..K8), additive key; existing keys untouched
+        neuro: this.state.scienceNeuro || null
       };
     } catch (e) {}
 
@@ -1212,6 +1226,266 @@
   // ONLY behind the server killswitch.
   ScienceBrain.prototype.authorNodeBusinessLLM = function () {
     return { ok: false, reason: 'operator-trigger-only; killswitch-gated server endpoint required; not wired (cost-safety)' };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — SCIENCE NEURO-COMPLETION LAYERS (research-local, additive, reversible).
+  // Ported 1:1 from energy-brain.js K1..K8 but reading THIS domain's state/edges:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (SELF-CONSISTENCY truth-brake calibration — realized-stress
+  //      self-prediction / callHitRate; NEVER an external/dopaminergic reward), K5 deep-perception
+  //   depth, K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // COST-SAFE: 100% deterministic — reads CACHED state only, adds NO network/AI call, runs on the
+  // 30s cycle. ADVISORY BY DESIGN: each layer COMPUTES and EXPOSES its signal on state; the real
+  // effectors for this domain remain the servo + E/I brake actuation (see the ACTUATION LAYER).
+  // Never rewrites stress/diagnoses/opportunity output/science.json. Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+  var SK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples
+  var SK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it contributes. CLOSED via the base scoreStress, which folds getExternalPressure()
+  // (base-capped at 0.3) into stress every cycle — same integrate-and-fire loop as the other domains.
+  ScienceBrain.prototype._computeScienceAfferent = function () {
+    var s = this.state, rm = s.researchModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,       // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                           // K1 CLOSED — base scoreStress folds it into stress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: base scoreStress adds externalPressure to stress each cycle (matches the other 18 domains).',
+      lastAfferentAt: rm.updated || now
+    };
+    s.scienceAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition/outputScale are produced by
+  // _computeRegulation; this exposes the graded output modulation on opportunities (advisory).
+  ScienceBrain.prototype._computeScienceGainControl = function () {
+    var s = this.state, rm = s.researchModel || {}, reg = rm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                        // gain-scaled ranked cut (advisory)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend, via _updateResearchModel)'],
+      unappliedTargets: ['stress', 'treatment surfacing', 'opportunity output cap'],
+      note: 'ADVISORY: gain reaches predictedStress via the model gain-blend; the opportunity cap is exposed but not applied (the servo + E/I brake are this domain’s live effectors).',
+      lastGainAt: rm.updated || Date.now()
+    };
+    s.scienceGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. RM_SLOW_RATE was reserved for rebuild/cron;
+  // this maintains a PARALLEL slow-weight track that never touches rm.prior. Fast-vs-slow
+  // divergence is a real regime-shift indicator.
+  ScienceBrain.prototype._consolidateScienceSlowModel = function () {
+    var s = this.state, rm = s.researchModel || {}, obs = rm.observation || null;
+    var slow = s.scienceSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: RM_SLOW_RATE, note: 'parallel slow-weight track (RM_SLOW_RATE); does NOT touch rm.prior'
+    };
+    if (obs) {
+      var r = RM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _rmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _rmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (rm.prior && typeof rm.prior.expectedStress === 'number') ? rm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;            // fast prior pulled far from slow baseline
+    slow.updated = rm.updated || Date.now();
+    s.scienceSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning + TRUTH BRAKE (SELF-CONSISTENCY calibration). Compares each
+  // cycle's predictedStress against the NEXT cycle's realized stress (online forward-prediction).
+  // This is self-consistency ONLY — realized-stress self-prediction, callHitRate — NOT an external
+  // reward and NOT a dopaminergic signal (that is a separate, deferred task).
+  ScienceBrain.prototype._scoreScienceOutcomes = function () {
+    var s = this.state, rm = s.researchModel || {};
+    var buf = this._scienceOutcomeBuffer = this._scienceOutcomeBuffer || [];
+    var obs = rm.observation || null;
+    if (this._sciencePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._sciencePrevPrediction, realized: obs.stress, err: Math.abs(this._sciencePrevPrediction - obs.stress) });
+      if (buf.length > SK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._sciencePrevPrediction = (typeof rm.predictedStress === 'number') ? rm.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var callHitRate = n ? Math.round((hits / n) * 100) / 100 : null;
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      callHitRate: callHitRate,                                                  // fraction of self-predictions within 0.1 of realized
+      hitRate: callHitRate,
+      loopType: 'online-continuous SELF-CONSISTENCY (predicted-vs-next-realized stress); truth-brake calibration, NOT an external/dopaminergic reward',
+      creditAssignmentActive: (n >= 5),
+      effectiveLearningRate: (rm._effectiveLearningRate) || null,
+      creditSource: (rm._creditSource) || null,
+      note: 'TRUTH BRAKE (self-consistency): callHitRate measures whether the brain’s own stress forecast comes true; the P3/P7-gated phase-transition credit hook already modulates the effective learning rate in _updateResearchModel.',
+      lastOutcomeAt: rm.updated || Date.now()
+    };
+    s.scienceOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. _computePredictionError hardcodes portalError=0. This
+  // aggregates the depth the brain HAS (root portal + discovery/innovation sub-portal + source-bundle
+  // coverage; no new fetches) and estimates the portalError the recurrent model currently zeroes out.
+  ScienceBrain.prototype._computeSciencePerceptionDepth = function () {
+    var s = this.state, rm = s.researchModel || {};
+    var portal = s._portalCache || this._portalCache || null;
+    var disc = s._discoveryPipelineCache || null;
+    var bmap = this._bundleStatusMap || {};
+    var bundlesFound = 0, bundlesMissing = 0;
+    Object.keys(bmap).forEach(function (k) { if (bmap[k] === 'found') bundlesFound++; else bundlesMissing++; });
+    var discActive = (disc && disc.loaded) ? (disc.activeCount || 0) : 0;
+    var discLoaded = !!(disc && disc.loaded);
+    var levels = [
+      { level: 'L0', name: 'root-portal', status: portal ? 'loaded' : 'pending' },
+      { level: 'B', name: 'source-bundles', status: (bundlesFound + bundlesMissing) ? 'checked' : 'pending', found: bundlesFound, missing: bundlesMissing },
+      { level: 'DISC', name: 'discovery-innovation-subportal', status: discLoaded ? 'loaded' : 'absent', activeCount: discActive, note: 'real-content, unbundled; tickers relevance-unverified' }
+    ];
+    var loadedDepth = discLoaded ? 2 : (portal ? 1 : 0);
+    var admissible = bundlesFound + (discLoaded ? discActive : 0);
+    var blocked = bundlesMissing + (discLoaded ? 1 : 0);           // +1 for the unbundled discovery tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,                    // advisory estimate of the perception gap the model zeroes out
+      note: 'ADVISORY: perception stops at the root portal + discovery sub-portal (no deep cortex); portalErrorEstimate = share of missing bundles + unbundled content. No new fetches.',
+      lastDepthAt: rm.updated || Date.now()
+    };
+    s.sciencePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + novelty)
+  // and names focus vs suppressed, plus an operator attention-focus boost. Does not gate the pipeline.
+  ScienceBrain.prototype._computeScienceAttention = function () {
+    var s = this.state, rm = s.researchModel || {}, reg = rm.regulation || {};
+    var pe = (rm.predictionError && rm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = ((rb && rb.attentionFocus) || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking over diagnoses (active + relevance + novelty + operator focus); exposed, not gated.',
+      lastAttentionAt: rm.updated || Date.now()
+    };
+    s.scienceAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). reg.inhibition implies a winner-take-most ranking
+  // among competing active diagnoses; this surfaces the winner + per-competitor suppression.
+  ScienceBrain.prototype._computeScienceInhibition = function () {
+    var s = this.state, rm = s.researchModel || {}, reg = rm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most ranking implied by reg.inhibition; exposed, not applied.',
+      lastInhibitionAt: rm.updated || Date.now()
+    };
+    s.scienceInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Maintains an adaptive baseline (Turrigiano-style
+  // synaptic scaling) alongside the fixed RM_STRESS_FLOOR, without replacing the fixed floor.
+  ScienceBrain.prototype._computeScienceHomeostasis = function () {
+    var s = this.state, rm = s.researchModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-SK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                             // adaptive set-point vs fixed RM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: RM_STRESS_FLOOR,                                // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                               // synaptic-scaling multiplier
+      samples: n,
+      note: 'ADVISORY: adaptive stress baseline (synaptic scaling) alongside the fixed RM_STRESS_FLOOR; the servo consumes deviationFromBaseline as its allostatic set-point term.',
+      lastHomeostasisAt: rm.updated || Date.now()
+    };
+    s.scienceHomeostasis = hm; return hm;
+  };
+
+  // Aggregate the neuro-completion surface (mirrors _computeEnergyNeuroLayers). Runs K1..K8 in the
+  // SAME order Energy uses, stores each on state, and attaches a compact roll-up to state.scienceNeuro.
+  // Deterministic, guarded, no AI, no network. Runs BEFORE the servo/phase actuation each cycle so the
+  // servo can read K8's deviation term.
+  ScienceBrain.prototype._computeScienceNeuroLayers = function () {
+    this._computeScienceAfferent();          // K1 - afferent inter-brain input
+    this._computeScienceGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateScienceSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreScienceOutcomes();            // K4 - outcome / credit learning (self-consistency truth-brake)
+    this._computeSciencePerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeScienceAttention();         // K6 - attention / selective routing
+    this._computeScienceInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeScienceHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    s.scienceNeuro = {
+      version: 1,
+      status: 'advisory',                    // computed + exposed; real effectors are the servo + E/I brake
+      afferent: s.scienceAfferent || null,
+      gainControl: s.scienceGainControl || null,
+      slowModel: s.scienceSlowModel || null,
+      outcomeModel: s.scienceOutcomeModel || null,
+      perceptionDepth: s.sciencePerceptionDepth || null,
+      attention: s.scienceAttention || null,
+      inhibition: s.scienceInhibition || null,
+      homeostasis: s.scienceHomeostasis || null
+    };
+    return s.scienceNeuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

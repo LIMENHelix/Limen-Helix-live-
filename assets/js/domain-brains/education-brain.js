@@ -503,6 +503,10 @@
     em.updated = obs.timestamp;
     this.state.educationModel = em;
 
+    // ── K1-K8 NEURO-COMPLETION STACK (energy-parity port) — runs BEFORE the servo so K8's adaptive
+    // set-point deviation is fresh for the controller. All deterministic; no network, no AI.
+    try { this._computeEducationNeuroLayers(); } catch (e) {}
+
     // ── ACTUATION + REGULATION (energy-parity port) — computed here so the servo reads the fresh
     // regulation.inhibition + predictedStress this same cycle; its EFFECTOR (emission dampening) is
     // applied one cycle later in surfaceOpportunities. All deterministic; no AI on the cycle.
@@ -532,7 +536,8 @@
         intuition: this.state.educationIntuition || null,
         servo: this.state.educationServo || null,                          // actuated regulate-to-target (if servo=true)
         phaseDynamics: this.state.educationPhaseDynamics || null,          // advisory-only (phase actuation invalid here)
-        regulation: this.state.educationRegulationAdvisories || null       // observe-only E/I balance + self-audit
+        regulation: this.state.educationRegulationAdvisories || null,      // observe-only E/I balance + self-audit
+        neuro: this.state.educationNeuroLayers || null                     // K1-K8 neuro-completion stack (advisory)
       };
     } catch (e) {}
 
@@ -555,6 +560,267 @@
     } catch (e) {}
 
     return em;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — EDUCATION NEURO-COMPLETION LAYERS (education-local, additive, reversible).
+  // Energy-parity port of the K1-K8 closed-loop stack (see energy-brain.js + ENERGY_NEURO_AUDIT.md).
+  // Fills the same eight brain functions, reading THIS domain's state/edges (never Energy's):
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (SELF-CONSISTENCY truth-brake, NOT external reward),
+  //   K5 deep-perception depth, K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // ADVISORY BY DESIGN: each layer COMPUTES and EXPOSES its signal on state; none rewrites the
+  // scoring spine (stress/prior/opportunity/portalError). Reads cached state only; adds NO network
+  // call and NO paid-AI/LLM call. 100% deterministic. Never fabricates evidence or a reward signal.
+  // ════════════════════════════════════════════════════════════════════════════
+  var EDK_OUTCOME_BUFFER = 40;    // rolling predicted-vs-realized samples (truth-brake window)
+  var EDK_HOMEO_WINDOW = 60;      // cycles of stress baseline for the adaptive set-point
+
+  // K1 — afferent inter-brain integration. Surfaces cross-domain pressure received via
+  // receiveExternalSignal()/getExternalPressure() (base) and the stress delta it folds in.
+  // Education CLOSES this loop through normalizeSignals: external pressure raises _activeConditions
+  // (resource_scarcity/workforce_gap) and inbound emissions become FEED signals. Read-only report.
+  EducationBrain.prototype._computeEducationAfferent = function () {
+    var s = this.state, em = s.educationModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,
+      appliedStressDelta: Math.round(pressure * 1000) / 1000,       // folded into _activeConditions via normalizeSignals thresholds
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: external pressure raises _activeConditions (resource_scarcity>=0.10, workforce_gap>=0.20) and inbound cross-domain emissions become FEED signals in normalizeSignals.',
+      lastAfferentAt: em.updated || now
+    };
+    s.educationAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition/outputScale come from
+  // _computeEducationRegulation; gain reaches predictedStress via the gainBlend. This shows the
+  // graded output modulation (outputScale-capped opportunity ranking) without applying it.
+  EducationBrain.prototype._computeEducationGainControl = function () {
+    var s = this.state, em = s.educationModel || {}, reg = em.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend)'],
+      unappliedTargets: ['opportunity output cap', 'stress', 'treatment surfacing'],
+      shadow: true,
+      note: 'ADVISORY: gain blends into predictedStress; outputScale cap on ranked opportunity output is shown but not applied (education emission channel is dampened by the servo/eiBrake instead).',
+      lastGainAt: em.updated || Date.now()
+    };
+    s.educationGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. ED_SLOW_RATE was defined but unused
+  // ("reserved for rebuild/cron"). Maintains a PARALLEL slow-weight track that never touches
+  // em.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  EducationBrain.prototype._consolidateEducationSlowModel = function () {
+    var s = this.state, em = s.educationModel || {}, obs = em.observation || null;
+    var slow = s.educationSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: ED_SLOW_RATE, note: 'parallel slow-weight track (ED_SLOW_RATE); does NOT touch em.prior'
+    };
+    if (obs) {
+      var r = ED_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _edClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _edClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (em.prior && typeof em.prior.expectedStress === 'number') ? em.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;
+    slow.updated = em.updated || Date.now();
+    s.educationSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (TRUTH BRAKE). Compares each cycle's predictedStress against the
+  // NEXT cycle's realized stress: online forward-prediction self-consistency. This is SELF-PREDICTION
+  // calibration, NOT an external/dopaminergic reward (Education has no ground-truth reward label —
+  // ENERGY_NEURO_AUDIT.md impossibility #4). Measurement only; not fed back into learning here.
+  EducationBrain.prototype._scoreEducationOutcomes = function () {
+    var s = this.state, em = s.educationModel || {};
+    var buf = this._eduOutcomeBuffer = this._eduOutcomeBuffer || [];
+    var obs = em.observation || null;
+    if (this._eduPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._eduPrevPrediction, realized: obs.stress, err: Math.abs(this._eduPrevPrediction - obs.stress) });
+      if (buf.length > EDK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._eduPrevPrediction = (typeof em.predictedStress === 'number') ? em.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
+      loopType: 'online-continuous self-consistency (predicted-vs-next-realized). NOT a reward signal.',
+      creditAssignmentActive: (n >= 5),
+      note: 'TRUTH-BRAKE calibration: measures whether the forecast comes true. Advisory (not yet fed into the learning rate); never treated as external reward.',
+      lastOutcomeAt: em.updated || Date.now()
+    };
+    s.educationOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the depth the brain HAS (from existing L1 +
+  // learning-outcomes sub-layer caches, no new fetches) and estimates the portalError the recurrent
+  // model currently zeroes out. L2 deep-cortex stays quarantined (immune-blocked synthetic).
+  EducationBrain.prototype._computeEducationPerceptionDepth = function () {
+    var s = this.state, em = s.educationModel || {};
+    var l1 = s._l1DepthCache || null;
+    var sub = s.learningOutcomesLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: '~98% synthetic (immune-blocked)' },
+      { level: 'LO', name: 'learning-outcomes-subportal', status: (sub && sub.loaded) ? 'loaded' : 'absent', activeCount: (sub && sub.activeCount) || 0 }
+    ];
+    var loadedDepth = (sub && sub.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((sub && sub.count) ? sub.count : 0);
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY: perception stops at L1 (L2 quarantined); learning-outcomes sub-layer is the deepest real tier. portalErrorEstimate not yet folded into predictionError. No new fetches.',
+      lastDepthAt: em.updated || Date.now()
+    };
+    s.educationPerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + prediction
+  // error) across diagnoses and names focus vs suppressed, honoring operator attentionFocus steer,
+  // without gating the pipeline.
+  EducationBrain.prototype._computeEducationAttention = function () {
+    var s = this.state, em = s.educationModel || {}, reg = em.regulation || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking; focus[] not yet wired into opportunity rank (observe-only).',
+      lastAttentionAt: em.updated || Date.now()
+    };
+    s.educationAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). reg.inhibition implies a winner-take-most ranking among
+  // competing active diagnoses. Shows the suppression it would apply. Observe-only.
+  EducationBrain.prototype._computeEducationInhibition = function () {
+    var s = this.state, em = s.educationModel || {}, reg = em.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most among active diagnoses; suppression shown, not applied.',
+      lastInhibitionAt: em.updated || Date.now()
+    };
+    s.educationInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Education uses fixed constants (ED_STRESS_FLOOR/
+  // ED_FLOOD_CAP) as set-points. This maintains an adaptive baseline (Turrigiano-style synaptic
+  // scaling) from the recent stress window, alongside them, without replacing the fixed floor. The
+  // servo consumes this deviation (see _computeEducationServo) to regulate toward target.
+  EducationBrain.prototype._computeEducationHomeostasis = function () {
+    var s = this.state, em = s.educationModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-EDK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed ED_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: ED_STRESS_FLOOR,                                 // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                // synaptic-scaling multiplier
+      samples: n,
+      note: 'ADVISORY set-point: adaptive baseline from the recent stress window; the servo reads a drive+deviation target. Fixed ED_STRESS_FLOOR still gates handoff.',
+      lastHomeostasisAt: em.updated || Date.now()
+    };
+    s.educationHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface (mirrors _computeEnergyNeuroLayers). Runs all eight
+  // K-layers in the SAME order Energy uses, stores each on state, and attaches a compact roll-up to
+  // state.cognition ADDITIVELY (new key `neuro`; existing keys untouched). Called from
+  // _updateEducationModel BEFORE the servo so K8's deviation is available to the controller.
+  EducationBrain.prototype._computeEducationNeuroLayers = function () {
+    this._computeEducationAfferent();          // K1 - afferent inter-brain input
+    this._computeEducationGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateEducationSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreEducationOutcomes();            // K4 - outcome / credit learning (self-consistency truth-brake)
+    this._computeEducationPerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeEducationAttention();         // K6 - attention / selective routing
+    this._computeEducationInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeEducationHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                       // K-loops computed + exposed; not wired into the scoring spine
+      afferent: s.educationAfferent || null,
+      gainControl: s.educationGainControl || null,
+      slowModel: s.educationSlowModel || null,
+      outcomes: s.educationOutcomeModel || null,
+      perceptionDepth: s.educationPerceptionDepth || null,
+      attention: s.educationAttention || null,
+      inhibition: s.educationInhibition || null,
+      homeostasis: s.educationHomeostasis || null
+    };
+    s.educationNeuroLayers = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

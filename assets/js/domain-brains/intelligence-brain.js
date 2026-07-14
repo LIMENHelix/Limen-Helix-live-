@@ -623,6 +623,15 @@
 
       try { this._computeIntelligenceHigherLayers(); } catch (e) {}
 
+      // ── K1-K8 NEURO-COMPLETION STACK (2026-07-13) — port of Energy's closed-loop K-stack, intelligence-native.
+      //    Runs AFTER the recurrent model + higher layers settle (each K reads state.intelligenceModel /
+      //    observation / regulation / diagnoses) and BEFORE the servo/brake/phase actuation, in the SAME
+      //    K1..K8 order Energy uses. 100% DETERMINISTIC: pure computation over cached live state; NO AI/LLM
+      //    fetch, ever. Each K COMPUTES and EXPOSES its signal on state (intelligenceAfferent/GainControl/
+      //    SlowModel/OutcomeModel/PerceptionDepth/Attention/Inhibition/Homeostasis); none rewrites the
+      //    validated scoring spine (stress/prior/diagnoses/opportunity output) — additive + reversible.
+      try { this._computeIntelligenceNeuroLayers(); } catch (e) {}
+
       // ── ACTUATION (2026-07-13) — regulate-to-target servo + E/I brake + phase dynamics + self-audit.
       //    Computed AFTER the higher layers (the brake reads immune/conscience) and stored for CONSUMPTION
       //    next cycle by _checkDiagnosisActions (action-draft gate + refractory) and surfaceOpportunities
@@ -666,6 +675,7 @@
         brake: this.state.intelligenceBrake || null,                         // actuated: E/I stop-circuit (halt/dampen/clear)
         phaseDynamics: this.state.intelligencePhaseDynamics || null,         // actuated: coherence router + P3/P7 transition reward
         regulation: this.state.intelligenceRegulation || null,               // E/I balance read + self-audit (SPOF)
+        neuro: this.state.intelligenceNeuro || null,                         // K1-K8 neuro-completion stack (advisory, exposed)
         sceneLayer: this.state.collectionPostureLayer || null,
         collectionPostureLayer: this.state.collectionPostureLayer || null,
         treatments: this.state.treatments || [],
@@ -811,6 +821,271 @@
       s.intelligenceExecutiveReport = rep; return rep;
     };
   })();
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — INTELLIGENCE NEURO-COMPLETION LAYERS (intelligence-local, additive, reversible).
+  // Direct port of Energy's K1-K8 closed-loop stack, reading THIS domain's state/edges:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (self-consistency / truth-brake calibration — NO external reward),
+  //   K5 deep-perception depth, K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // ADVISORY BY DESIGN: every layer COMPUTES and EXPOSES its signal on state; none rewires the
+  // validated scoring spine (stress, prior update, opportunity output). Reads cached state only;
+  // adds NO network / AI / LLM call. Never fabricates evidence. Uses the module-scope IM_* constants
+  // (IM_SLOW_RATE / IM_STRESS_FLOOR / IM_FLOOD_CAP / _imClamp) already defined above.
+  // ════════════════════════════════════════════════════════════════════════════
+  var IK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples
+  var IK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure
+  // (getExternalPressure, base-capped at 0.3) and the per-source weighted magnitude of the
+  // _externalSignals buffer. Intelligence folds external pressure into normalizeSignals as
+  // trust-boundary / adversarial-penetration conditions; this exposes the integrated afferent read.
+  IntelligenceBrain.prototype._computeIntelligenceAfferent = function () {
+    var s = this.state, im = s.intelligenceModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                           // K1 — afferent read closed via normalizeSignals ext-pressure conditions
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'Received cross-domain pressure is folded into normalizeSignals (extPressure -> trust_boundary_breach / adversarial_penetration conditions). K1 exposes the integrated afferent read.',
+      lastAfferentAt: im.updated || now
+    };
+    s.intelligenceAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition set the graded output modulation;
+  // this shows the gain-scaled ranked cut it implies on the opportunity set (advisory — the E/I
+  // brake, not this, applies the actual emission dampening).
+  IntelligenceBrain.prototype._computeIntelligenceGainControl = function () {
+    var s = this.state, im = s.intelligenceModel || {}, reg = im.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : _imClamp(1 - (reg.inhibition || 0), 0.2, 1);
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: Math.round(outputScale * 1000) / 1000,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                        // gain-scaled ranked cut (advisory)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend in _updateIntelligenceModel)'],
+      unappliedTargets: ['opportunity output (E/I brake owns emission dampening)', 'stress', 'treatment surfacing'],
+      shadow: true,
+      note: 'ADVISORY: exposes the gain-scaled opportunity cut. Actual emission dampening is owned by the E/I brake (_applyIntelligenceEmissionBrake).',
+      lastGainAt: im.updated || Date.now()
+    };
+    s.intelligenceGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity (IM_SLOW_RATE). Maintains a PARALLEL slow-weight
+  // track that never touches im.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  IntelligenceBrain.prototype._consolidateIntelligenceSlowModel = function () {
+    var s = this.state, im = s.intelligenceModel || {}, obs = im.observation || null;
+    var slow = s.intelligenceSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: IM_SLOW_RATE, note: 'parallel slow-weight track (IM_SLOW_RATE); does NOT touch im.prior'
+    };
+    if (obs) {
+      var r = IM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _imClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _imClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (im.prior && typeof im.prior.expectedStress === 'number') ? im.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;             // fast prior pulled far from slow baseline
+    slow.updated = im.updated || Date.now();
+    s.intelligenceSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning: SELF-CONSISTENCY / TRUTH-BRAKE calibration. Compares each cycle's
+  // predictedStress against the NEXT cycle's realized stress (online forward-prediction). This is a
+  // realized-stress self-prediction check ONLY — NOT an external / dopaminergic reward. The validated
+  // phase-transition credit hook lives separately in _updateIntelligenceModel; K4 never fabricates a
+  // reward. Measurement + calibration read; exposed on state, does not rewrite the learning rate here.
+  IntelligenceBrain.prototype._scoreIntelligenceOutcomes = function () {
+    var s = this.state, im = s.intelligenceModel || {};
+    var buf = this._intelligenceOutcomeBuffer = this._intelligenceOutcomeBuffer || [];
+    var obs = im.observation || null;
+    if (this._intelligencePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._intelligencePrevPrediction, realized: obs.stress, err: Math.abs(this._intelligencePrevPrediction - obs.stress) });
+      if (buf.length > IK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._intelligencePrevPrediction = (typeof im.predictedStress === 'number') ? im.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the self-forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
+      callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,               // truth-brake calibration handle (self-prediction, not reward)
+      loopType: 'online-continuous self-consistency (predicted-vs-next-realized stress); TRUTH BRAKE, not an external reward',
+      creditAssignmentActive: (n >= 5),
+      effectiveLearningRate: (im._effectiveLearningRate) || null,
+      note: 'SELF-CONSISTENCY: measures whether this brain’s own stress self-prediction is realized. No dopaminergic/external reward is fabricated; the validated P3/P7 phase-transition credit hook is separate (_updateIntelligenceModel).',
+      lastOutcomeAt: im.updated || Date.now()
+    };
+    s.intelligenceOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the depth the brain HAS (L1 branch scan + the
+  // collection-posture / threat-warning sub-portal, no new fetches) and estimates the portalError
+  // (blocked/synthetic vs admissible content) the recurrent model would otherwise zero out.
+  IntelligenceBrain.prototype._computeIntelligencePerceptionDepth = function () {
+    var s = this.state, im = s.intelligenceModel || {};
+    var l1 = s._l1DepthCache || null;
+    var cp = s.intelligenceCollectionPostureLayer || s.collectionPostureLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var cpCount = (cp && (cp.count || (cp.diagnoses && cp.diagnoses.length))) || 0;
+    var cpLoaded = !!(cp && cp.loaded);
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: '~98% synthetic (immune-blocked)' },
+      { level: 'CP', name: 'collection-posture-subportal', status: cpLoaded ? 'loaded' : 'absent', activeCount: (cp && cp.activeCount) || 0 }
+    ];
+    var loadedDepth = cpLoaded ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + cpCount;
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'Perception stops at L1 + the collection-posture sub-portal (L2 quarantined as mad-lib/synthetic); no new fetches. portalErrorEstimate = blocked/(admissible+blocked).',
+      lastDepthAt: im.updated || Date.now()
+    };
+    s.intelligencePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + novelty, plus an
+  // operator attention-focus boost) and names focus vs suppressed, without gating the pipeline.
+  IntelligenceBrain.prototype._computeIntelligenceAttention = function () {
+    var s = this.state, im = s.intelligenceModel || {}, reg = im.regulation || {};
+    var pe = (im.predictionError && im.predictionError.total) || 0;
+    var rb = (typeof this._readRequestBiases === 'function') ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = ((rb && rb.attentionFocus) || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: top-down salience ranking over active diagnoses; does not gate the pipeline.',
+      lastAttentionAt: im.updated || Date.now()
+    };
+    s.intelligenceAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). reg.inhibition implies a winner-take-most ranking among
+  // competing active diagnoses; this exposes the winner and the suppress-weight on each competitor.
+  IntelligenceBrain.prototype._computeIntelligenceInhibition = function () {
+    var s = this.state, im = s.intelligenceModel || {}, reg = im.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most ranking implied by reg.inhibition among competing active diagnoses.',
+      lastInhibitionAt: im.updated || Date.now()
+    };
+    s.intelligenceInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Maintains an adaptive stress baseline (Turrigiano-style
+  // synaptic scaling) alongside the fixed IM_STRESS_FLOOR, without replacing the fixed floor.
+  IntelligenceBrain.prototype._computeIntelligenceHomeostasis = function () {
+    var s = this.state, im = s.intelligenceModel || {};
+    var hist = (s.memory && s.memory.stressHistory) || [];
+    if ((!hist || !hist.length) && s.memory && Array.isArray(s.memory.outcomeLog)) {
+      hist = s.memory.outcomeLog.map(function (r) { return { stress: r.stress }; });   // fall back to the outcome log's realized stress
+    }
+    var win = (hist || []).slice(-IK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed IM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: IM_STRESS_FLOOR,                                 // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                // synaptic-scaling multiplier
+      samples: n,
+      note: 'ADVISORY: adaptive stress baseline (synaptic scaling) alongside the fixed IM_STRESS_FLOOR; consumed by the servo as the allostatic deviation term.',
+      lastHomeostasisAt: im.updated || Date.now()
+    };
+    s.intelligenceHomeostasis = hm; return hm;
+  };
+
+  // Orchestrator — runs all eight K-layers in the SAME K1..K8 order Energy uses, then rolls a compact
+  // summary onto state.cognition ADDITIVELY (new key `neuro`; existing cognition keys untouched). Called
+  // from _updateIntelligenceModel AFTER the higher layers and BEFORE the servo/brake/phase actuation.
+  IntelligenceBrain.prototype._computeIntelligenceNeuroLayers = function () {
+    this._computeIntelligenceAfferent();          // K1 - afferent inter-brain input
+    this._computeIntelligenceGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateIntelligenceSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreIntelligenceOutcomes();            // K4 - outcome / credit learning (self-consistency / truth-brake)
+    this._computeIntelligencePerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeIntelligenceAttention();         // K6 - attention / selective routing
+    this._computeIntelligenceInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeIntelligenceHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory-exposed',                 // K-loops computed + exposed each cycle; scoring spine untouched
+      afferent: s.intelligenceAfferent || null,
+      gainControl: s.intelligenceGainControl || null,
+      slowModel: s.intelligenceSlowModel || null,
+      outcomeModel: s.intelligenceOutcomeModel || null,
+      perceptionDepth: s.intelligencePerceptionDepth || null,
+      attention: s.intelligenceAttention || null,
+      inhibition: s.intelligenceInhibition || null,
+      homeostasis: s.intelligenceHomeostasis || null
+    };
+    s.intelligenceNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
+  };
 
   // ════════════════════════════════════════════════════════════════════════════
   // INTELLIGENCE COGNITION PARITY — fallback loaders, source-bundle machinery, L1 mad-lib

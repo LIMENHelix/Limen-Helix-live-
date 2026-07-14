@@ -123,6 +123,10 @@
         magnitudeFormula: function (s) { return Math.min(1, s.stress * 0.45); }
       }
     ];
+
+    // PHASE K neuro-completion state (mirrors energy's lazy K-layer buffers; initialized here).
+    this._religionOutcomeBuffer = this._religionOutcomeBuffer || [];                              // K4 truth-brake rolling window
+    this._religionPrevPrediction = (this._religionPrevPrediction != null) ? this._religionPrevPrediction : null;  // K4 last-cycle predictedStress
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -617,6 +621,8 @@
   var RM_STRESS_FLOOR = 0.30;           // below this → no handoff
   var RM_FLOOD_CAP = 12;                // opportunity-flood threshold
   var RM_STALE_MS = 1000 * 60 * 60 * 6; // 6h feed staleness
+  var RK_OUTCOME_BUFFER = 40;           // K4 rolling predicted-vs-realized samples (mirrors EK_OUTCOME_BUFFER)
+  var RK_HOMEO_WINDOW = 60;             // K8 cycles of stress baseline for the adaptive set-point (mirrors EK_HOMEO_WINDOW)
 
   function _rmClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function _rmJaccardDistance(a, b) {
@@ -767,6 +773,12 @@
     rm.updated = obs.timestamp;
     this.state.religionModel = rm;
 
+    // ── PHASE K — NEURO-COMPLETION LAYERS (K1..K8, advisory, reversible) ──────────
+    // Runs the eight K-loops in energy's exact K1..K8 order, BEFORE the servo/phase
+    // actuation (same as energy runs K1-K8 before _computeEnergyServo). Additive readouts
+    // only — none rewires the scoring spine. try/caught so it never breaks a cycle.
+    try { this._computeReligionNeuroLayers(); } catch (e) {}
+
     // ── ACTUATION (behind this._actuation flags; reversible) ──────────────────────
     // SERVO (regulate-to-target E/I) is computed HERE (reads rm.regulation.inhibition) and
     // APPLIED next cycle by emitCrossDomainSignals -> _regulateReligionEmissions (one-cycle
@@ -822,6 +834,7 @@
       servo: this.state.religionServo || null,                       // ACTUATED: regulate-to-target E/I servo
       phaseDynamics: this.state.religionPhaseDynamics || null,       // ADVISORY-only (phase actuation invalid)
       emissionRegulation: this.state.religionEmissionRegulation || null,  // effector application (E/I brake + refractory)
+      neuro: this.state.religionNeuro || null,                            // PHASE K neuro-completion roll-up (K1..K8, advisory)
       selfAudit: this.state.religionSelfAudit || null,                    // connectivity/SPOF self-audit (observe-only)
       sceneLayer: this.state.affiliationLayer || null,
       treatments: this.state.treatments || [],
@@ -1595,6 +1608,289 @@
         executiveReport: s.religionExecutiveReport || null
       }
     };
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — RELIGION NEURO-COMPLETION LAYERS (religion-local, additive, reversible).
+  // Ports energy-brain's K1-K8 stack, reading THIS domain's state/edges (affiliation %,
+  // institutional trust, active diagnoses, the religion connectome) — NEVER energy/oil.
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (TRUTH BRAKE: predicted-vs-next-realized stress),
+  //   K5 deep-perception depth, K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // ADVISORY BY DESIGN (mirrors energy's original PHASE-K contract): every layer COMPUTES and
+  // EXPOSES its signal on state, but NONE rewires the existing scoring spine (stress, prior
+  // update, opportunity output, portalError). Each carries a `wouldChange` naming the one
+  // existing line that would close its loop, gated on operator approval. Reads cached state
+  // only; adds NO network call and NO paid-AI call. Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // K1 — afferent inter-brain integration. Surfaces the cross-domain pressure the peers
+  // (culture/law/population/communication/governance) wrote via receiveExternalSignal, and the
+  // stress delta the inherited scoreStress folded in. Religion uses the base scoreStress (no
+  // override), which already folds getExternalPressure() into stress for every non-energy
+  // domain — so this loop is CLOSED at the base, and K1 only reports it.
+  ReligionBrain.prototype._computeReligionAfferent = function () {
+    var s = this.state, rm = s.religionModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,       // base-capped
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED at base: the inherited scoreStress folds getExternalPressure() into stress each cycle (every non-energy domain). K1 reports the received cross-domain pressure and its applied delta.',
+      lastAfferentAt: rm.updated || now
+    };
+    s.religionAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. rm.regulation.gain/inhibition/outputScale are
+  // computed by _computeReligionRegulation; only gain reaches predictedStress (gainBlend).
+  // This shows the graded output modulation outputScale WOULD apply to the opportunity list.
+  // Religion has no _applyNeuroGating cap, so this stays ADVISORY (wouldChange names it).
+  ReligionBrain.prototype._computeReligionGainControl = function () {
+    var s = this.state, rm = s.religionModel || {}, reg = rm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend)'],
+      unappliedTargets: ['opportunity output', 'stress', 'treatment surfacing'],
+      shadow: true,
+      wouldChange: 'surfaceOpportunities — cap ranked output at wouldCapOpportunitiesAt',
+      note: 'ADVISORY: gainBlend already modulates predictedStress; the outputScale cap on opportunities is NOT applied for religion (no _applyNeuroGating). Reversible/advisory only.',
+      lastGainAt: rm.updated || Date.now()
+    };
+    s.religionGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. RM_SLOW_RATE was defined but only
+  // "reserved for rebuild/cron". This maintains a PARALLEL slow-weight track that never
+  // touches rm.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  ReligionBrain.prototype._consolidateReligionSlowModel = function () {
+    var s = this.state, rm = s.religionModel || {}, obs = rm.observation || null;
+    var slow = s.religionSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: RM_SLOW_RATE, note: 'parallel slow-weight track (RM_SLOW_RATE); does NOT touch rm.prior'
+    };
+    if (obs) {
+      var r = RM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _rmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _rmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (rm.prior && typeof rm.prior.expectedStress === 'number') ? rm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;             // fast prior pulled far from slow baseline
+    slow.updated = rm.updated || Date.now();
+    s.religionSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (TRUTH BRAKE). Compares each cycle's predictedStress
+  // against the NEXT cycle's realized stress — the online forward self-prediction loop.
+  // SELF-CONSISTENCY calibration ONLY: it learns whether the brain's OWN stress forecast
+  // comes true. It is NOT an external/dopaminergic reward (that is a separate deferred task)
+  // and is NOT yet fed back into learning here (advisory — wouldChange names the close).
+  ReligionBrain.prototype._scoreReligionOutcomes = function () {
+    var s = this.state, rm = s.religionModel || {};
+    var buf = this._religionOutcomeBuffer = this._religionOutcomeBuffer || [];
+    var obs = rm.observation || null;
+    if (this._religionPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._religionPrevPrediction, realized: obs.stress, err: Math.abs(this._religionPrevPrediction - obs.stress) });
+      if (buf.length > RK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._religionPrevPrediction = (typeof rm.predictedStress === 'number') ? rm.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,               // fraction within 0.1 of realized
+      loopType: 'online-continuous self-consistency (predicted-vs-next-realized stress); TRUTH BRAKE calibration, NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      wouldChange: '_updateReligionModel — scale the effective learning rate by (1 - callHitRate)',
+      note: 'ADVISORY self-consistency: measures whether the brain\'s own stress forecast is realized. No dopaminergic/external reward is fabricated. Not yet fed back into learning.',
+      lastOutcomeAt: rm.updated || Date.now()
+    };
+    s.religionOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. _computeReligionPredictionError hardcodes portalError=0
+  // ("no live portal traversal yet"). This aggregates the depth the brain HAS from the already-
+  // loaded root portal + affiliation-vitality sub-portal (no new fetches) and estimates the
+  // portalError the recurrent model currently zeroes out.
+  ReligionBrain.prototype._computeReligionPerceptionDepth = function () {
+    var s = this.state, rm = s.religionModel || {};
+    var portal = this._portalCache || s._portalCache || null;
+    var aff = s.affiliationLayer || null;
+    var bs = (typeof this._religionDiagnosisStates === 'function') ? this._religionDiagnosisStates() : [];
+    var sourceBacked = 0, activeUnsourced = 0;
+    for (var i = 0; i < bs.length; i++) { if (bs[i].sourceBacked) sourceBacked++; else if (bs[i].active) activeUnsourced++; }
+    var affLoaded = !!(aff && aff.loaded);
+    var affActive = affLoaded ? (aff.activeCount || 0) : 0;
+    var levels = [
+      { level: 'L0', name: 'root-portal', status: portal ? 'loaded' : 'pending' },
+      { level: 'AFF', name: 'affiliation-vitality-subportal', status: affLoaded ? 'loaded' : 'absent', activeCount: affActive },
+      { level: 'L2', name: 'deep-cortex', status: 'not-traversed', note: 'no external source bundle yet (Pew/ARDA/PRRI build-required)' }
+    ];
+    var loadedDepth = affLoaded ? 2 : (portal ? 1 : 0);
+    var admissible = sourceBacked + affActive;
+    var blocked = activeUnsourced + 1;                             // +1 for the un-traversed deep tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      wouldChange: '_computeReligionPredictionError — replace the hardcoded portalError=0 with portalErrorEstimate',
+      note: 'ADVISORY: perception stops at the affiliation sub-portal; deep source bundles are build-required. No new fetches. Estimates the portalError the recurrent loop zeroes out.',
+      lastDepthAt: rm.updated || Date.now()
+    };
+    s.religionPerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + novelty)
+  // across the diagnoses and names focus vs suppressed, honoring operator attention steer if
+  // present. Advisory: does not gate the pipeline (religion has no _applyNeuroGating).
+  ReligionBrain.prototype._computeReligionAttention = function () {
+    var s = this.state, rm = s.religionModel || {}, reg = rm.regulation || {};
+    var pe = (rm.predictionError && rm.predictionError.total) || 0;
+    var rb = (typeof this._readRequestBiases === 'function') ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      wouldChange: 'surfaceOpportunities — boost opportunity rank for focused diagnoses',
+      note: 'ADVISORY salience ranking; not applied to the opportunity pipeline (no _applyNeuroGating for religion).',
+      lastAttentionAt: rm.updated || Date.now()
+    };
+    s.religionAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). rm.regulation.inhibition is computed and consumed
+  // by the servo; this ALSO shows the winner-take-most ranking it implies among competing
+  // active diagnoses (advisory; the non-winner down-weight is not applied to opportunities).
+  ReligionBrain.prototype._computeReligionInhibition = function () {
+    var s = this.state, rm = s.religionModel || {}, reg = rm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      wouldChange: 'surfaceOpportunities — down-weight non-winner diagnoses by suppressBy',
+      note: 'ADVISORY winner-take-most; not applied to the opportunity pipeline for religion.',
+      lastInhibitionAt: rm.updated || Date.now()
+    };
+    s.religionInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Religion uses fixed constants
+  // (RM_STRESS_FLOOR/RM_FLOOD_CAP) as set-points. This maintains an adaptive baseline
+  // (Turrigiano-style synaptic scaling) alongside them, without replacing the fixed floor.
+  // Exposes deviationFromBaseline that the servo COULD later consume as an allostatic term.
+  ReligionBrain.prototype._computeReligionHomeostasis = function () {
+    var s = this.state, rm = s.religionModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-RK_HOMEO_WINDOW);
+    if (!win.length && s.memory && Array.isArray(s.memory.outcomeLog)) win = s.memory.outcomeLog.slice(-RK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                             // adaptive set-point vs fixed RM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: RM_STRESS_FLOOR,                                // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                               // synaptic-scaling multiplier
+      samples: n,
+      wouldChange: 'readyForHandoff — gate on a blend of RM_STRESS_FLOOR and adaptiveBaseline; servo target += deviationFromBaseline',
+      note: 'ADVISORY adaptive set-point alongside the fixed RM_STRESS_FLOOR. Reversible; does not replace the fixed floor.',
+      lastHomeostasisAt: rm.updated || Date.now()
+    };
+    s.religionHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface (mirrors _computeReligionHigherLayers). Runs all
+  // K-layers in energy's K1..K8 order, stores each on state (like religionImmune/etc.), and
+  // attaches a compact roll-up to state.religionNeuro (folded into cognition.neuro upstream).
+  ReligionBrain.prototype._computeReligionNeuroLayers = function () {
+    this._computeReligionAfferent();          // K1 - afferent inter-brain input
+    this._computeReligionGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateReligionSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreReligionOutcomes();            // K4 - outcome / credit learning (TRUTH BRAKE)
+    this._computeReligionPerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeReligionAttention();         // K6 - attention / selective routing
+    this._computeReligionInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeReligionHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                     // all K-loops computed + exposed; none rewires the scoring spine (operator-gated closes)
+      afferent: s.religionAfferent || null,
+      gainControl: s.religionGainControl || null,
+      slowModel: s.religionSlowModel || null,
+      outcomeModel: s.religionOutcomeModel || null,
+      perceptionDepth: s.religionPerceptionDepth || null,
+      attention: s.religionAttention || null,
+      inhibition: s.religionInhibition || null,
+      homeostasis: s.religionHomeostasis || null,
+      advisoryLoops: [
+        'K1 afferent -> base scoreStress already folds externalPressure into stress',
+        'K2 gain -> surfaceOpportunities (outputScale cap) [advisory]',
+        'K3 slow-consolidation -> fast/slow divergence regime-shift readout',
+        'K4 outcome -> _updateReligionModel (callHitRate scales learning rate) [advisory]',
+        'K5 portalError -> _computeReligionPredictionError (replace hardcoded 0) [advisory]',
+        'K6 attention -> surfaceOpportunities (focus boost) [advisory]',
+        'K7 inhibition -> surfaceOpportunities (non-winner down-weight) [advisory]',
+        'K8 set-point -> readyForHandoff (blended adaptive floor) / servo target [advisory]'
+      ]
+    };
+    s.religionNeuro = neuro;
+    return neuro;
   };
 
   // ══════════════════════════════════════════════════════════════════════

@@ -395,8 +395,11 @@
     P._computeCulturePredictionError = function (prior, obs) {
       var se = Math.abs(obs.stress - prior.expectedStress), sg = Math.abs(obs.signal - prior.expectedSignal), de = _cmJaccardDistance(obs.activeDiagnoses, prior.expectedDiagnoses);
       var od = Math.max(1, prior.expectedOpportunityCount, obs.opportunityCount), oe = Math.abs(obs.opportunityCount - prior.expectedOpportunityCount) / od;
-      var total = _cmClamp(0.4 * se + 0.2 * sg + 0.25 * de + 0.15 * oe, 0, 1);
-      return { total: total, stressError: se, signalError: sg, diagnosisError: de, opportunityError: oe, novelty: Math.max(se, de) };
+      // K5 CLOSED — deep-perception error sourced from the perception-depth layer (prior cycle; 0 on cycle 1).
+      var _pd = this.state.culturePerceptionDepth;
+      var portalError = (_pd && typeof _pd.portalErrorEstimate === 'number') ? _pd.portalErrorEstimate : 0;
+      var total = _cmClamp(0.35 * se + 0.2 * sg + 0.25 * de + 0.15 * oe + 0.05 * portalError, 0, 1);
+      return { total: total, stressError: se, signalError: sg, diagnosisError: de, opportunityError: oe, portalError: portalError, novelty: Math.max(se, de) };
     };
     P._updateCulturePrior = function (prior, obs, lr) {
       return { expectedStress: _cmClamp(prior.expectedStress + lr * (obs.stress - prior.expectedStress), 0, 1), expectedDiagnoses: obs.activeDiagnoses.slice(), expectedDiagnosisCount: prior.expectedDiagnosisCount + lr * (obs.diagnosisCount - prior.expectedDiagnosisCount), expectedOpportunityCount: prior.expectedOpportunityCount + lr * (obs.opportunityCount - prior.expectedOpportunityCount), expectedSignal: _cmClamp(prior.expectedSignal + lr * (obs.signal - prior.expectedSignal), 0, 1), confidence: _cmClamp(Math.min(1, (prior.samples + 1) / 20), 0, 1), samples: prior.samples + 1 };
@@ -428,7 +431,15 @@
       //    deviation (domainNeuro, prior cycle); effector = proportional opportunity dampening below. ──
       try { if (this._actuation && this._actuation.servo) this._computeCultureServo(); } catch (e) {}
 
-      var readyForHandoff = (cm.cycle > 0) && (predictedStress >= CM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+      // K8 CLOSED — homeostatic set-point: handoff gates on a 50/50 blend of the fixed floor and
+      // the adaptive baseline (prior cycle; needs >=10 samples, else the fixed floor). Bound the
+      // adaptive floor to at most +0.15 above the fixed floor so a sustained-stress baseline cannot
+      // ratchet the handoff gate out of reach.
+      var _hm = this.state.cultureHomeostasis;
+      var _floor = (_hm && typeof _hm.adaptiveBaseline === 'number' && _hm.samples >= 10)
+        ? _cmClamp(Math.min(0.5 * CM_STRESS_FLOOR + 0.5 * _hm.adaptiveBaseline, CM_STRESS_FLOOR + 0.15), 0.15, 0.6) : CM_STRESS_FLOOR;
+      cm._effectiveFloor = _floor;
+      var readyForHandoff = (cm.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
       // ── K4 CREDIT-SOURCE HOOK (mirrors energy-brain.js:1398-1414). A VALIDATED phase transition
       //    (P3/P7, thing2 ground-truth) would PREEMPT the generic outcome ledger as the teaching signal;
@@ -439,7 +450,13 @@
       var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
       var _led = (this.state.domainNeuro || {}).outcomeLedger || null;
       var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
-      var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : _fromLedger ? _led.hitRate : null;
+      // K4 CLOSED — fall back to the culture outcome model (realized-stress self-prediction, >=5
+      // samples; prior cycle) when no phase reward and no call ledger. Self-consistency truth-brake,
+      // NOT an external reward. Low hit-rate raises the effective learning rate. Bounded, reversible.
+      var _om = this.state.cultureOutcomeModel;
+      var _hit = _phaseReward ? (_pt.hit ? 1 : 0)
+        : _fromLedger ? _led.hitRate
+        : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
       if (_hit !== null) _lr = _cmClamp(_lr * (1 + (1 - _hit)), CM_SLOW_RATE, 0.6);
       cm._effectiveLearningRate = _lr;
       cm._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none'));
@@ -452,6 +469,12 @@
       log.push({ cycle: cm.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
 
       try { this._computeCultureHigherLayers(); } catch (e) {}
+
+      // ── PHASE K — neuro-completion layers K1-K8 (additive; runs after higher-layers). K5 reads the
+      //    L1/scene caches, K8 reads stress history — all at one-cycle lag, like Energy. K4/K5/K8 feed
+      //    the recurrent spine (one-cycle lag); K1/K2/K6/K7 compute-and-expose. Deterministic; no
+      //    network / paid-AI call. ──
+      try { this._computeCultureNeuroLayers(); } catch (e) {}
 
       // ── ACTUATION: E/I BRAKE (XIII.1) — dampen emitted-opportunity confidence PROPORTIONALLY to the
       //    servo's inhibition deficit vs drive. Effector = the same emission channel the generic brake
@@ -480,6 +503,7 @@
         domain: 'culture',
         cultureModel: cm,
         model: { cycle: cm.cycle, predictionError: cm.predictionError, predictedStress: cm.predictedStress, regulation: cm.regulation },
+        neuro: this.state.cultureNeuro || null,   // K1-K8 neuro-completion roll-up (additive)
         // ── actuation surfaces (additive; consumers read these uniformly) ──
         cultureServo: this.state.cultureServo || null,
         cultureEIBrake: this.state.cultureEIBrake || null,
@@ -621,6 +645,280 @@
       s.cultureExecutiveReport = rep; return rep;
     };
   })();
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — CULTURE NEURO-COMPLETION LAYERS (culture-local, additive, reversible).
+  // Faithful port of energy-brain.js K1-K8. Fills the eight brain functions the
+  // self-model map flagged as missing/open-loop, reading THIS domain's state/edges:
+  //   K1 afferent inter-brain integration, K2 neuromodulatory gain, K3 slow
+  //   consolidation, K4 outcome/credit learning (SELF-CONSISTENCY / TRUTH-BRAKE —
+  //   realized-stress self-prediction, NOT an external/dopaminergic reward),
+  //   K5 deep-perception depth, K6 attention, K7 lateral inhibition, K8 homeostatic
+  //   set-point. Every layer COMPUTES and EXPOSES its signal on state. The loops that
+  //   culture's architecture supports without the opportunity-gating machinery close
+  //   the same way Energy's do (one-cycle lag): K4 hitRate -> effective learning rate,
+  //   K8 adaptiveBaseline -> handoff floor, K5 portalError -> prediction error. K1/K2/
+  //   K6/K7 compute-and-expose (advisory). 100% DETERMINISTIC: reads cached state only,
+  //   adds NO network / paid-AI / LLM call, never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+  var CK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples
+  var CK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure
+  // (receiveExternalSignal/getExternalPressure) and the stress delta it folds in; the
+  // culture scoreStress path already applies externalPressure (base-capped at 0.3).
+  CultureBrain.prototype._computeCultureAfferent = function () {
+    var s = this.state, cm = s.cultureModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: culture folds externalPressure into stress each cycle (base scoreStress), matching the other domains.',
+      lastAfferentAt: cm.updated || now
+    };
+    s.cultureAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition are computed by
+  // _computeCultureRegulation; gain reaches predictedStress via the gainBlend. This shows
+  // the graded output modulation on opportunities (outputScale derived from inhibition).
+  CultureBrain.prototype._computeCultureGainControl = function () {
+    var s = this.state, cm = s.cultureModel || {}, reg = cm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale
+      : _cmClamp(1 - (typeof reg.inhibition === 'number' ? reg.inhibition : 0) * 0.5, 0.2, 1);
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: Math.round(outputScale * 1000) / 1000,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                        // gain-scaled ranked cut (advisory)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend)'],
+      unappliedTargets: ['opportunity output (no _applyNeuroGating in culture)', 'stress', 'treatment surfacing'],
+      shadow: true,
+      note: 'ADVISORY: gain reaches predictedStress via gainBlend; outputScale exposed but not applied to opportunity output (culture has no gating layer).',
+      lastGainAt: cm.updated || Date.now()
+    };
+    s.cultureGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight track
+  // (CM_SLOW_RATE) that never touches cm.prior; fast-vs-slow divergence is a regime-shift cue.
+  CultureBrain.prototype._consolidateCultureSlowModel = function () {
+    var s = this.state, cm = s.cultureModel || {}, obs = cm.observation || null;
+    var slow = s.cultureSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: CM_SLOW_RATE, note: 'parallel slow-weight track (CM_SLOW_RATE); does NOT touch cm.prior'
+    };
+    if (obs) {
+      var r = CM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _cmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _cmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (cm.prior && typeof cm.prior.expectedStress === 'number') ? cm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;
+    slow.updated = cm.updated || Date.now();
+    s.cultureSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (TRUTH BRAKE, self-consistency). Reconciles each cycle's
+  // predictedStress against the NEXT cycle's realized stress — the online forward-prediction
+  // loop. NOT an external reward. hitRate feeds back into the effective learning rate in
+  // _updateCultureModel (>=5 samples), so persistent mis-prediction speeds adaptation.
+  CultureBrain.prototype._scoreCultureOutcomes = function () {
+    var s = this.state, cm = s.cultureModel || {};
+    var buf = this._cultureOutcomeBuffer = this._cultureOutcomeBuffer || [];
+    var obs = cm.observation || null;
+    if (this._culturePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._culturePrevPrediction, realized: obs.stress, err: Math.abs(this._culturePrevPrediction - obs.stress) });
+      if (buf.length > CK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._culturePrevPrediction = (typeof cm.predictedStress === 'number') ? cm.predictedStress : null;
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
+      loopType: 'online-continuous (predicted-vs-next-realized self-consistency); NOT an external/dopaminergic reward',
+      creditAssignmentActive: (n >= 5),
+      effectiveLearningRate: ((s.cultureModel || {})._effectiveLearningRate) || null,
+      note: 'CLOSED: hitRate scales the effective learning rate in _updateCultureModel (>=5 samples) when phase-reward and call-ledger are absent.',
+      lastOutcomeAt: cm.updated || Date.now()
+    };
+    s.cultureOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the depth the brain HAS (L1 branch scan +
+  // scene sub-portal, no new fetches) and estimates the portalError the recurrent model would
+  // otherwise zero out. Folded into _computeCulturePredictionError (weight 0.05).
+  CultureBrain.prototype._computeCulturePerceptionDepth = function () {
+    var s = this.state, cm = s.cultureModel || {};
+    var l1 = s._l1DepthCache || null;
+    var scene = s.sceneLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'mad-lib synthetic (immune-blocked)' },
+      { level: 'SCENE', name: 'music-scene-subportal', status: (scene && scene.loaded) ? 'loaded' : 'absent', activeCount: (scene && scene.activeCount) || 0 }
+    ];
+    var loadedDepth = (scene && scene.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((scene && scene.count) ? scene.count : 0);
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,                     // consumed by _computeCulturePredictionError (weight 0.05)
+      note: 'CLOSED: _computeCulturePredictionError folds portalErrorEstimate into total (weight 0.05). Perception stops at L1 (L2 quarantined); no new fetches.',
+      lastDepthAt: cm.updated || Date.now()
+    };
+    s.culturePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance +
+  // novelty) and names focus vs suppressed diagnoses, without gating the pipeline.
+  CultureBrain.prototype._computeCultureAttention = function () {
+    var s = this.state, cm = s.cultureModel || {}, reg = cm.regulation || {};
+    var pe = (cm.predictionError && cm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking exposed; culture has no _applyNeuroGating to bias opportunity rank.',
+      lastAttentionAt: cm.updated || Date.now()
+    };
+    s.cultureAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). reg.inhibition is computed; this shows the
+  // winner-take-most ranking it implies among competing active diagnoses.
+  CultureBrain.prototype._computeCultureInhibition = function () {
+    var s = this.state, cm = s.cultureModel || {}, reg = cm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most implied; not applied to opportunity output (no gating layer in culture).',
+      lastInhibitionAt: cm.updated || Date.now()
+    };
+    s.cultureInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Maintains an adaptive stress baseline
+  // (Turrigiano-style synaptic scaling) alongside the fixed CM_STRESS_FLOOR. The blended
+  // adaptive floor gates readyForHandoff in _updateCultureModel (>=10 samples).
+  CultureBrain.prototype._computeCultureHomeostasis = function () {
+    var s = this.state, cm = s.cultureModel || {};
+    var hist = (s.memory && s.memory.stressHistory) || (s.memory && s.memory.outcomeLog) || [];
+    var win = hist.slice(-CK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed CM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: CM_STRESS_FLOOR,                                 // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                // synaptic-scaling multiplier
+      samples: n,
+      effectiveFloor: ((s.cultureModel || {})._effectiveFloor) || null,
+      note: 'CLOSED: readyForHandoff gates on a 50/50 blend of CM_STRESS_FLOOR and adaptiveBaseline (>=10 samples) via cm._effectiveFloor.',
+      lastHomeostasisAt: cm.updated || Date.now()
+    };
+    s.cultureHomeostasis = hm; return hm;
+  };
+
+  // Assemble the culture neuro-completion surface (mirrors _computeEnergyNeuroLayers). Runs
+  // all eight K-layers in the SAME order Energy uses, stores each on state, and attaches a
+  // compact roll-up to state.cognition ADDITIVELY (new key `neuro`; existing keys untouched).
+  // K1-K8 ONLY — no continuous-oscillation/phase-rhythm mechanism here (deferred); the
+  // servo / E/I brake / phase-coherence actuation stay wired in _updateCultureModel.
+  CultureBrain.prototype._computeCultureNeuroLayers = function () {
+    this._computeCultureAfferent();          // K1 - afferent inter-brain input
+    this._computeCultureGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateCultureSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreCultureOutcomes();            // K4 - outcome / credit learning (truth-brake self-consistency)
+    this._computeCulturePerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeCultureAttention();         // K6 - attention / selective routing
+    this._computeCultureInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeCultureHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'closed',                       // K4/K5/K8 feed the recurrent spine (one-cycle lag); K1/K2/K6/K7 advisory
+      afferent: s.cultureAfferent || null,
+      gainControl: s.cultureGainControl || null,
+      slowModel: s.cultureSlowModel || null,
+      outcomeModel: s.cultureOutcomeModel || null,
+      perceptionDepth: s.culturePerceptionDepth || null,
+      attention: s.cultureAttention || null,
+      inhibition: s.cultureInhibition || null,
+      homeostasis: s.cultureHomeostasis || null,
+      closedLoops: [
+        'K1 afferent -> scoreStress (externalPressure folded into stress)',
+        'K3 slow-model -> parallel slow-weight track (regime-shift cue)',
+        'K4 outcome -> _updateCultureModel (hitRate scales learning rate)',
+        'K5 portalError -> _computeCulturePredictionError (weight 0.05)',
+        'K8 set-point -> readyForHandoff (blended adaptive floor)'
+      ],
+      advisoryLoops: ['K2 gain (outputScale exposed)', 'K6 attention (salience exposed)', 'K7 inhibition (winner exposed)']
+    };
+    s.cultureNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
+  };
 
   // ════════════════════════════════════════════════════════════════════════════
   // CULTURE COGNITION PARITY — fallback loaders, source-bundle machinery, L1 mad-lib

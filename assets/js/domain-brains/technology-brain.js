@@ -501,6 +501,8 @@
   var TM_STRESS_FLOOR = 0.30;
   var TM_FLOOD_CAP = 12;
   var TM_STALE_MS = 1000 * 60 * 60 * 6;
+  var TK_OUTCOME_BUFFER = 40;     // K4: rolling predicted-vs-realized stress samples
+  var TK_HOMEO_WINDOW = 60;       // K8: cycles of stress baseline for the adaptive set-point
   var _tmClamp = function (v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; };
   var _tmJaccardDistance = function (a, b) {
     a = a || []; b = b || [];
@@ -604,6 +606,14 @@
         this.state.technologyDomainDiagnosisPackets = _diags.map(function (d) { return _self._buildDomainDiagnosisPacket(d); });
       } catch (e) {}
 
+      // ── K1..K8 NEURO LOOP STACK (ported from energy-brain; technology's own state/edges) ──
+      // Runs the eight closed-loop layers in Energy's exact order, BEFORE the servo so K8's
+      // adaptive set-point / deviationFromBaseline is fresh for the actuation layer. 100%
+      // deterministic — no paid-AI / LLM / network on the cycle. Advisory by design (K1 is the
+      // one genuinely closed loop; the rest expose observe-only surfaces). Guarded; never throws
+      // into the scoring spine.
+      try { this._computeTechnologyNeuroLayers(); } catch (e) {}
+
       // ── ACTUATION LAYER (deterministic, per-actuation validity-gated; reversible via this._actuation) ──
       // Order mirrors Energy: servo (regulate-to-target) → phase dynamics (router + reward for NEXT
       // cycle's K4) → regulation advisories (E/I balance + XIV self-audit, observe-only). Each guarded;
@@ -633,6 +643,7 @@
         eiBrake: this.state.technologyEIBrake || null,
         phaseDynamics: this.state.technologyPhaseDynamics || null,
         regulationAdvisories: this.state.technologyRegulationAdvisories || null,
+        neuro: this.state.technologyNeuro || null,
         actuation: this._actuation || null,
         treatments: this.state.treatments || [],
         diagnoses: this.state.diagnoses || [],
@@ -940,6 +951,279 @@
       } catch (e) { out.selfAudit = { consumed: false, error: String(e && e.message || e).slice(0, 80) }; }
       s.technologyRegulationAdvisories = out;
       return out;
+    };
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // K1..K8 NEURO LOOP STACK (ported + adapted from energy-brain's K-stack)
+    // ──────────────────────────────────────────────────────────────────────────
+    // Each layer COMPUTES and EXPOSES its signal on state (mirroring Energy's
+    // energyAfferent/energyGainControl/... surfaces) but reads THIS domain's own
+    // state/edges. 100% DETERMINISTIC — no paid-AI / LLM / network on the cycle.
+    // Advisory by default (honest per-loop notes name the one wire that would close
+    // each into the scoring spine); the only genuinely CLOSED loop is K1 (the base
+    // scoreStress already folds externalPressure into stress). K4 is TRUTH-BRAKE
+    // self-consistency calibration, NOT an external/dopaminergic reward.
+    // ══════════════════════════════════════════════════════════════════════════
+
+    // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure
+    // and the stress delta it contributes. CLOSED: the base scoreStress folds
+    // externalPressure into stress (universal integrate-and-fire); technology also
+    // fires threshold conditions (supply_constraint/competitive_distortion) in
+    // normalizeSignals off getExternalPressure.
+    P._computeTechnologyAfferent = function () {
+      var s = this.state, cm = s.technologyModel || {};
+      var raw = this._externalSignals || [];
+      var now = Date.now();
+      var bySource = {}, active = 0;
+      for (var i = 0; i < raw.length; i++) {
+        var sig = raw[i];
+        var age = now - (sig.receivedAt || now);
+        var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+        if (weight <= 0) continue;
+        active++;
+        var k = sig.source || 'unknown';
+        if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+        bySource[k].signals.push(sig.signal);
+        bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+      }
+      var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+      var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+        .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+      var af = {
+        version: 1,
+        externalPressure: Math.round(pressure * 1000) / 1000,        // base-capped at 0.3
+        receivedSignalCount: raw.length,
+        activeSignalCount: active,
+        contributors: contributors.slice(0, 6),
+        integrated: true,                                            // K1 CLOSED — folded into stress by the base scoreStress
+        appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+        wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+        note: 'CLOSED: the base scoreStress adds externalPressure to stress each cycle (universal integrate-and-fire); technology also fires threshold conditions (supply_constraint/competitive_distortion) in normalizeSignals.',
+        lastAfferentAt: cm.updated || now
+      };
+      s.technologyAfferent = af; return af;
+    };
+
+    // K2 — neuromodulatory gain application. technology's regulation computes gain +
+    // inhibition; inhibition already reaches emission via the servo/E-I brake. This
+    // surfaces the gain-scaled ranked OUTPUT-COUNT cut it implies (advisory; not
+    // applied to the opportunity count — that wire would close it in surfaceOpportunities).
+    P._computeTechnologyGainControl = function () {
+      var s = this.state, cm = s.technologyModel || {}, reg = cm.regulation || {};
+      var opps = s.opportunities || [];
+      var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+      // technology's _computeTechnologyRegulation carries no outputScale — derive the
+      // advisory scale from inhibition with Energy's formula (clamped).
+      var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : _tmClamp(1 - inhib * 0.5, 0.4, 1);
+      var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+      var gc = {
+        version: 1,
+        gain: (typeof reg.gain === 'number') ? reg.gain : null,
+        inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+        outputScale: Math.round(outputScale * 1000) / 1000,
+        currentOpportunityCount: opps.length,
+        wouldCapOpportunitiesAt: wouldCapAt,                         // gain-scaled ranked cut (advisory)
+        wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+        appliedTargets: ['emission confidence (servo emissionFactor + E/I brake, inhibition-driven)'],
+        unappliedTargets: ['opportunity output count', 'stress', 'treatment surfacing'],
+        shadow: true,
+        note: 'ADVISORY: technology already dampens emission CONFIDENCE via the servo/E-I brake; the gain-scaled opportunity-COUNT cap shown here is not applied (would close in surfaceOpportunities).',
+        lastGainAt: cm.updated || Date.now()
+      };
+      s.technologyGainControl = gc; return gc;
+    };
+
+    // K3 — slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight
+    // track (TM_SLOW_RATE) that never touches technologyModel.prior; fast-vs-slow
+    // divergence is a real regime-shift indicator.
+    P._consolidateTechnologySlowModel = function () {
+      var s = this.state, cm = s.technologyModel || {}, obs = cm.observation || null;
+      var slow = s.technologySlowModel || {
+        version: 1, cycle: 0,
+        slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+        rate: TM_SLOW_RATE, note: 'parallel slow-weight track (TM_SLOW_RATE); does NOT touch technologyModel.prior'
+      };
+      if (obs) {
+        var r = TM_SLOW_RATE, w = slow.slow;
+        w.expectedStress = _tmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+        w.expectedSignal = _tmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+        w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+        w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+        w.samples += 1;
+        slow.cycle += 1;
+      }
+      var fast = (cm.prior && typeof cm.prior.expectedStress === 'number') ? cm.prior.expectedStress : 0.5;
+      slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+      slow.regimeShift = slow.fastSlowDivergence > 0.25;             // fast prior pulled far from slow baseline
+      slow.updated = cm.updated || Date.now();
+      s.technologySlowModel = slow; return slow;
+    };
+
+    // K4 — outcome / credit learning + TRUTH BRAKE. Compares each cycle's predictedStress
+    // against the NEXT cycle's realized stress (online forward-prediction self-consistency).
+    // NOT an external reward — technology has no ground-truth outcome label (ENERGY_NEURO_AUDIT
+    // impossibility #4); the only validated learning signal is the P3/P7 phase-transition reward
+    // gated in _updateTechnologyModel. This never fabricates a dopaminergic reward.
+    P._scoreTechnologyOutcomes = function () {
+      var s = this.state, cm = s.technologyModel || {};
+      var buf = this._technologyOutcomeBuffer = this._technologyOutcomeBuffer || [];
+      var obs = cm.observation || null;
+      if (this._technologyPrevPrediction != null && obs && typeof obs.stress === 'number') {
+        buf.push({ predicted: this._technologyPrevPrediction, realized: obs.stress, err: Math.abs(this._technologyPrevPrediction - obs.stress) });
+        if (buf.length > TK_OUTCOME_BUFFER) buf.shift();
+      }
+      this._technologyPrevPrediction = (typeof cm.predictedStress === 'number') ? cm.predictedStress : null;   // stash for next-cycle reconciliation
+      var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+      for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+      var om = {
+        version: 1,
+        samples: n,
+        meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+        brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+        hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
+        loopType: 'online-continuous self-consistency (predicted-vs-next-realized stress); TRUTH-BRAKE calibration, NOT an external reward',
+        creditAssignmentActive: (n >= 5),
+        note: 'ADVISORY (self-consistency): measures whether technology\'s own stress forecast comes true. Separate from the P3/P7 phase-transition reward (the only validated learning signal). Never fabricates a dopaminergic reward.',
+        lastOutcomeAt: cm.updated || Date.now()
+      };
+      s.technologyOutcomeModel = om; return om;
+    };
+
+    // K5 — deep hierarchical perception. Aggregates the depth the brain HAS (L1 real vs
+    // mad-lib + the innovation sub-portal, no new fetches) and estimates the portalError
+    // the recurrent model currently zeroes out.
+    P._computeTechnologyPerceptionDepth = function () {
+      var s = this.state, cm = s.technologyModel || {};
+      var l1 = s._l1DepthCache || null;
+      var innov = s.innovationLayer || null;
+      var l1Real = 0, l1Mad = 0;
+      if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+      var levels = [
+        { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+        { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+        { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'L1 treatments are mad-lib templates (immune-quarantined)' },
+        { level: 'INNOV', name: 'innovation-subportal', status: (innov && innov.loaded) ? 'loaded' : 'absent', activeCount: (innov && innov.activeCount) || 0 }
+      ];
+      var loadedDepth = (innov && innov.loaded) ? 3 : (l1 ? 1 : 0);
+      var admissible = l1Real + ((innov && innov.count) ? innov.count : 0);
+      var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+      var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+      var pd = {
+        version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+        portalErrorEstimate: portalErrorEstimate,
+        note: 'ADVISORY: estimates the portalError the recurrent model zeroes. Perception stops at L1 (L2 quarantined); no new fetches. Would close by folding portalErrorEstimate into _computeTechnologyPredictionError.',
+        lastDepthAt: cm.updated || Date.now()
+      };
+      s.technologyPerceptionDepth = pd; return pd;
+    };
+
+    // K6 — attention / selective routing. Ranks top-down salience (active + relevance +
+    // prediction-error + operator attentionFocus boost) and names focus vs suppressed,
+    // without gating the pipeline.
+    P._computeTechnologyAttention = function () {
+      var s = this.state, cm = s.technologyModel || {}, reg = cm.regulation || {};
+      var pe = (cm.predictionError && cm.predictionError.total) || 0;
+      var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+      var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+      var scored = (s.diagnoses || []).map(function (d) {
+        var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+        var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+        if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+        return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+      }).sort(function (a, b) { return b.salience - a.salience; });
+      var at = {
+        version: 1,
+        driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+        focus: scored.slice(0, 3),
+        suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+        broadenUnderSurprise: reg.state === 'surprised',
+        note: 'ADVISORY: top-down salience ranking with operator attentionFocus boost; names focus vs suppressed; does not yet gate surfaceOpportunities.',
+        lastAttentionAt: cm.updated || Date.now()
+      };
+      s.technologyAttention = at; return at;
+    };
+
+    // K7 — lateral inhibition (microcircuit). Shows the winner-take-most ranking
+    // reg.inhibition implies among competing active diagnoses (Neuro Ref XIII.2/X.1).
+    P._computeTechnologyInhibition = function () {
+      var s = this.state, cm = s.technologyModel || {}, reg = cm.regulation || {};
+      var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+        .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var winner = active[0] || null;
+      var li = {
+        version: 1, inhibitionStrength: inhib,
+        winner: winner ? winner.id : null,
+        competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+        note: 'ADVISORY: winner-take-most lateral inhibition among competing active diagnoses; suppressBy shows the implied down-weight. Observe-only.',
+        lastInhibitionAt: cm.updated || Date.now()
+      };
+      s.technologyInhibition = li; return li;
+    };
+
+    // K8 — adaptive homeostatic set-point (microcircuit). Maintains a Turrigiano-style
+    // adaptive baseline (rolling stress mean) alongside the fixed TM_STRESS_FLOOR.
+    // deviationFromBaseline is the same regulate-to-target error the servo consumes.
+    P._computeTechnologyHomeostasis = function () {
+      var s = this.state, cm = s.technologyModel || {};
+      var win = ((s.memory && s.memory.stressHistory) || []).slice(-TK_HOMEO_WINDOW);
+      var n = win.length, sum = 0;
+      for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+      var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed TM_STRESS_FLOOR
+      var cur = (typeof s.stress === 'number') ? s.stress : 0;
+      var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+      var hm = {
+        version: 1,
+        fixedFloor: TM_STRESS_FLOOR,                                 // current hardcoded set-point
+        adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+        currentStress: cur,
+        deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+        scalingFactor: scalingFactor,                                // synaptic-scaling multiplier
+        samples: n,
+        note: 'ADVISORY: adaptive baseline (Turrigiano scaling) alongside the fixed TM_STRESS_FLOOR; deviationFromBaseline is the regulate-to-target error the servo reads.',
+        lastHomeostasisAt: cm.updated || Date.now()
+      };
+      s.technologyHomeostasis = hm; return hm;
+    };
+
+    // Run all eight K-loops in Energy's order (K1..K8) and roll up a compact surface.
+    // Deterministic; no AI; no network. Stores each layer on state (like technologyImmune/
+    // technologyAwareness) and returns the roll-up for cognition.neuro.
+    P._computeTechnologyNeuroLayers = function () {
+      this._computeTechnologyAfferent();          // K1 — afferent inter-brain input
+      this._computeTechnologyGainControl();       // K2 — neuromodulatory gain application
+      this._consolidateTechnologySlowModel();     // K3 — slow consolidation / long-term plasticity
+      this._scoreTechnologyOutcomes();            // K4 — outcome / credit learning (truth brake)
+      this._computeTechnologyPerceptionDepth();   // K5 — deep hierarchical perception
+      this._computeTechnologyAttention();         // K6 — attention / selective routing
+      this._computeTechnologyInhibition();        // K7 — lateral inhibition (microcircuit)
+      this._computeTechnologyHomeostasis();       // K8 — adaptive set-point (microcircuit)
+      var s = this.state;
+      var neuro = {
+        version: 1,
+        status: 'advisory',                        // K1 closed via base scoreStress; K2-K8 observe-only surfaces
+        afferent: s.technologyAfferent || null,
+        gainControl: s.technologyGainControl || null,
+        slowModel: s.technologySlowModel || null,
+        outcomeModel: s.technologyOutcomeModel || null,
+        perceptionDepth: s.technologyPerceptionDepth || null,
+        attention: s.technologyAttention || null,
+        inhibition: s.technologyInhibition || null,
+        homeostasis: s.technologyHomeostasis || null,
+        loops: [
+          'K1 afferent -> base scoreStress (externalPressure folded into stress) [CLOSED]',
+          'K2 gain-control (advisory count-cap; confidence already dampened by servo/E-I brake)',
+          'K3 slow consolidation (parallel slow-weight track; fast/slow divergence = regime shift)',
+          'K4 outcome self-consistency / TRUTH BRAKE (predicted-vs-realized stress; not a reward)',
+          'K5 perception depth + portalError estimate (advisory)',
+          'K6 attention salience (advisory)',
+          'K7 lateral inhibition winner-take-most (advisory)',
+          'K8 adaptive set-point (deviationFromBaseline consumed by the servo)'
+        ]
+      };
+      s.technologyNeuro = neuro;
+      if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+      return neuro;
     };
   })();
 

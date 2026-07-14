@@ -1061,6 +1061,12 @@
       // H1–H6 higher layers BEFORE the DDP build
       try { this._computeLawHigherLayers(); } catch (e) {}
 
+      // PHASE K NEURO-COMPLETION (K1..K8, in Energy's order) — runs AFTER the higher layers
+      // and BEFORE the actuations, mirroring Energy (K-layers precede servo/brake/phase).
+      // Advisory: computes + exposes each K signal on state; does NOT rewrite the scoring
+      // spine. Deterministic; reads cached state only; no network / paid-AI. Reversible.
+      try { this._computeLawNeuroLayers(); } catch (e) {}
+
       // ACTUATIONS (validity-gated; computed AFTER the higher layers so the brake can read the
       // fresh immune/regulation state). Servo -> brake -> self-audit -> phase dynamics. Each is
       // reversible via this._actuation and consumed on the NEXT cycle (recurrent, one-cycle lag).
@@ -1101,6 +1107,7 @@
         brake: this.state.lawBrake || null,
         phaseDynamics: this.state.lawPhaseDynamics || null,
         regulationAdvisories: this.state.lawRegulationAdvisories || null,
+        neuro: this.state.lawNeuro || null,   // K1..K8 neuro-completion roll-up (advisory)
         actuation: this._actuation || null,
         treatments: this.state.treatments || [],
         diagnoses: this.state.diagnoses || [],
@@ -1245,6 +1252,280 @@
         lastReportAt: lm.updated || null
       };
       s.lawExecutiveReport = rep; return rep;
+    };
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // PHASE K — LAW NEURO-COMPLETION LAYERS (K1..K8; ported from the Energy reference
+    // brain, adapted to Law, law-local, additive, reversible). Mirrors Energy's eight
+    // K methods but reads THIS domain's state (lawModel / feeds / diagnoses / L1 depth /
+    // rule-of-law sublayer), never Energy's:
+    //   K1 afferent inter-brain integration   K2 neuromodulatory gain control
+    //   K3 slow consolidation (LM_SLOW_RATE)   K4 outcome / credit (TRUTH BRAKE — self-
+    //                                             consistency, NOT an external reward)
+    //   K5 deep hierarchical perception depth  K6 attention / selective routing
+    //   K7 lateral inhibition microcircuit     K8 adaptive homeostatic set-point
+    // 100% DETERMINISTIC: reads cached state only, adds NO network / paid-AI / LLM call.
+    // Each layer COMPUTES and EXPOSES its signal on state; none rewrites the validated
+    // scoring spine (stress / prior update / diagnoses / opportunity output). Fully
+    // reversible — the orchestrator is a single guarded call in _updateLawModel.
+    // ════════════════════════════════════════════════════════════════════════════
+    var LK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples (mirrors EK_OUTCOME_BUFFER)
+    var LK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
+
+    // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure
+    // (governance/communication/medicine/technology -> law) and the stress delta it
+    // WOULD add. Law already FOLDS external pressure as a prior modifier (normalizeSignals
+    // reads getExternalPressure() to raise 'regulatory_favoritism'; _installLawExternalSignalHandler
+    // ingests inbound signals), so the loop is CLOSED — this exposes the integrated view.
+    P._computeLawAfferent = function () {
+      var s = this.state, lm = s.lawModel || {};
+      var raw = this._externalSignals || [];
+      var now = Date.now();
+      var bySource = {}, active = 0;
+      for (var i = 0; i < raw.length; i++) {
+        var sig = raw[i];
+        var age = now - (sig.receivedAt || now);
+        var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+        if (weight <= 0) continue;
+        active++;
+        var k = sig.source || 'unknown';
+        if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+        bySource[k].signals.push(sig.signal);
+        bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+      }
+      var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+      var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+        .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+      var af = {
+        version: 1,
+        externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+        receivedSignalCount: raw.length,
+        activeSignalCount: active,
+        contributors: contributors.slice(0, 6),
+        integrated: true,                                          // CLOSED — folded as a prior modifier
+        wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+        note: 'CLOSED: law normalizeSignals folds getExternalPressure() into _activeConditions (regulatory_favoritism at >=0.15) and _installLawExternalSignalHandler ingests inbound cross-domain pressure as a PRIOR modifier (not a second scorer).',
+        lastAfferentAt: lm.updated || now
+      };
+      s.lawAfferent = af; return af;
+    };
+
+    // K2 — neuromodulatory gain control. reg.gain/inhibition are computed by
+    // _computeLawRegulation; gain reaches predictedStress via the gainBlend. This shows
+    // the graded output modulation on opportunities (outputScale-capped ranked cut) without
+    // applying it — advisory scaling parallel to the actuated law brake.
+    P._computeLawGainControl = function () {
+      var s = this.state, lm = s.lawModel || {}, reg = lm.regulation || {};
+      var opps = s.opportunities || [];
+      var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+      var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+      var gc = {
+        version: 1,
+        gain: (typeof reg.gain === 'number') ? reg.gain : null,
+        inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+        outputScale: outputScale,
+        currentOpportunityCount: opps.length,
+        wouldCapOpportunitiesAt: wouldCapAt,                       // gain-scaled ranked cut (advisory)
+        wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+        appliedTargets: ['predictedStress (gainBlend in _updateLawModel)'],
+        unappliedTargets: ['stress', 'treatment surfacing', 'opportunity count (the law brake dampens confidence, not count)'],
+        shadow: true,
+        note: 'ADVISORY: gainBlend already modulates predictedStress; the opportunity-cap here is a shadow readout — actuated dampening is done by _computeLawBrake on opportunity confidence.',
+        lastGainAt: lm.updated || Date.now()
+      };
+      s.lawGainControl = gc; return gc;
+    };
+
+    // K3 — slow consolidation / long-term plasticity (LM_SLOW_RATE). Maintains a PARALLEL
+    // slow-weight track that never touches lm.prior; fast-vs-slow divergence is a real
+    // regime-shift indicator. Mirrors Energy's EM_SLOW_RATE parallel track.
+    P._consolidateLawSlowModel = function () {
+      var s = this.state, lm = s.lawModel || {}, obs = lm.observation || null;
+      var slow = s.lawSlowModel || {
+        version: 1, cycle: 0,
+        slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, expectedLitigationLoad: 0.5, samples: 0 },
+        rate: LM_SLOW_RATE, note: 'parallel slow-weight track (LM_SLOW_RATE); does NOT touch lm.prior'
+      };
+      if (obs) {
+        var r = LM_SLOW_RATE, w = slow.slow;
+        w.expectedStress = _lmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+        w.expectedSignal = _lmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+        w.expectedLitigationLoad = _lmClamp(w.expectedLitigationLoad + r * ((obs.litigationLoad || 0) - w.expectedLitigationLoad), 0, 1);
+        w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+        w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+        w.samples += 1;
+        slow.cycle += 1;
+      }
+      var fast = (lm.prior && typeof lm.prior.expectedStress === 'number') ? lm.prior.expectedStress : 0.5;
+      slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+      slow.regimeShift = slow.fastSlowDivergence > 0.25;           // fast prior pulled far from slow baseline
+      slow.updated = lm.updated || Date.now();
+      s.lawSlowModel = slow; return slow;
+    };
+
+    // K4 — outcome / credit learning + the TRUTH BRAKE. Compares each cycle's predictedStress
+    // against the NEXT cycle's realized stress (online forward-prediction). This is SELF-
+    // CONSISTENCY calibration — the brain scoring whether its OWN forecast came true — NOT an
+    // external / dopaminergic reward. hitRate = fraction of predictions within 0.1 of realized.
+    P._scoreLawOutcomes = function () {
+      var s = this.state, lm = s.lawModel || {};
+      var buf = this._lawOutcomeBuffer = this._lawOutcomeBuffer || [];
+      var obs = lm.observation || null;
+      if (this._lawPrevPrediction != null && obs && typeof obs.stress === 'number') {
+        buf.push({ predicted: this._lawPrevPrediction, realized: obs.stress, err: Math.abs(this._lawPrevPrediction - obs.stress) });
+        if (buf.length > LK_OUTCOME_BUFFER) buf.shift();
+      }
+      this._lawPrevPrediction = (typeof lm.predictedStress === 'number') ? lm.predictedStress : null;   // stash for next-cycle reconciliation
+      var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+      for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+      var om = {
+        version: 1,
+        samples: n,
+        meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+        brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+        callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,               // fraction within 0.1 of realized (self-consistency)
+        loopType: 'online-continuous (predicted-vs-next-realized) SELF-CONSISTENCY truth brake; NOT an external/dopaminergic reward',
+        truthBrakeActive: (n >= 5),
+        note: 'TRUTH BRAKE (self-prediction calibration): law scores whether its OWN predictedStress matched the next realized stress. Measurement only — does not fabricate a reward signal (deferred task).',
+        lastOutcomeAt: lm.updated || Date.now()
+      };
+      s.lawOutcomeModel = om; return om;
+    };
+
+    // K5 — deep hierarchical perception. Aggregates the perception depth the brain HAS
+    // (L1 branch-scan cache + rule-of-law sublayer, no new fetches) and estimates the
+    // portalError the recurrent model does not yet fold in. Law's deep tier substitutes the
+    // rule-of-law sublayer where Energy used the datacenter sub-portal.
+    P._computeLawPerceptionDepth = function () {
+      var s = this.state, lm = s.lawModel || {};
+      var l1 = s._l1DepthCache || null;
+      var rol = s.lawRuleOfLawLayer || null;
+      var l1Real = 0, l1Mad = 0;
+      if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+      var levels = [
+        { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+        { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+        { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'L1 treatments are mad-lib templates (immune-quarantined)' },
+        { level: 'ROL', name: 'rule-of-law-sublayer', status: (rol && rol.loaded) ? 'loaded' : 'absent', activeCount: (rol && rol.activeCount) || 0 }
+      ];
+      var loadedDepth = (rol && rol.loaded) ? 3 : (l1 ? 1 : 0);
+      var admissible = l1Real + ((rol && rol.activeCount) ? rol.activeCount : 0);
+      var blocked = l1Mad + 1;                                      // +1 for the quarantined L2 tier
+      var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+      var pd = {
+        version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+        portalErrorEstimate: portalErrorEstimate,
+        note: 'ADVISORY: perception stops at L1 (L2 quarantined mad-lib); rule-of-law sublayer is the additive deep tier. No new fetches.',
+        lastDepthAt: lm.updated || Date.now()
+      };
+      s.lawPerceptionDepth = pd; return pd;
+    };
+
+    // K6 — attention / selective routing. Ranks top-down salience (active + relevance +
+    // prediction-error novelty) over diagnoses and names focus vs suppressed, plus any
+    // operator attention-focus steer. Does not gate the pipeline (advisory routing view).
+    P._computeLawAttention = function () {
+      var s = this.state, lm = s.lawModel || {}, reg = lm.regulation || {};
+      var pe = (lm.predictionError && lm.predictionError.total) || 0;
+      var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+      var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+      var scored = (s.diagnoses || []).map(function (d) {
+        var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+        var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+        if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;
+        return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+      }).sort(function (a, b) { return b.salience - a.salience; });
+      var at = {
+        version: 1,
+        driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+        focus: scored.slice(0, 3),
+        suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+        broadenUnderSurprise: reg.state === 'surprised',
+        note: 'ADVISORY: salience ranking over active diagnoses; operator attentionFocus boosts salience. Does not gate the scoring spine.',
+        lastAttentionAt: lm.updated || Date.now()
+      };
+      s.lawAttention = at; return at;
+    };
+
+    // K7 — lateral inhibition (microcircuit). reg.inhibition (judicial-review / procedural-
+    // check capacity) sets a winner-take-most ranking among competing active diagnoses.
+    P._computeLawInhibition = function () {
+      var s = this.state, lm = s.lawModel || {}, reg = lm.regulation || {};
+      var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+      var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+        .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+      var winner = active[0] || null;
+      var li = {
+        version: 1, inhibitionStrength: inhib,
+        winner: winner ? winner.id : null,
+        competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+        note: 'ADVISORY: winner-take-most among active diagnoses (inhibition = judicial-review/procedural-check capacity). Down-weight is exposed, not applied to the spine.',
+        lastInhibitionAt: lm.updated || Date.now()
+      };
+      s.lawInhibition = li; return li;
+    };
+
+    // K8 — adaptive homeostatic set-point (microcircuit). Law uses a fixed LM_STRESS_FLOOR
+    // set-point; this maintains an adaptive baseline (Turrigiano-style synaptic scaling)
+    // alongside it from the recent stress window, without replacing the fixed floor.
+    P._computeLawHomeostasis = function () {
+      var s = this.state, lm = s.lawModel || {};
+      var win = ((s.memory && s.memory.stressHistory) || []).slice(-LK_HOMEO_WINDOW);
+      var n = win.length, sum = 0;
+      for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+      var baseline = n ? sum / n : 0.5;                            // adaptive set-point vs fixed LM_STRESS_FLOOR
+      var cur = (typeof s.stress === 'number') ? s.stress : 0;
+      var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+      var hm = {
+        version: 1,
+        fixedFloor: LM_STRESS_FLOOR,                               // current hardcoded set-point
+        adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+        currentStress: cur,
+        deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+        scalingFactor: scalingFactor,                              // synaptic-scaling multiplier
+        samples: n,
+        note: 'ADVISORY: adaptive baseline (recent stress window) alongside the fixed LM_STRESS_FLOOR; the servo (K8-coupled) reads deviationFromBaseline for its allostatic target.',
+        lastHomeostasisAt: lm.updated || Date.now()
+      };
+      s.lawHomeostasis = hm; return hm;
+    };
+
+    // Orchestrator — run all eight K-layers in the SAME order Energy uses (K1..K8) and
+    // assemble a compact roll-up on state (folded into state.cognition.neuro additively).
+    // Guarded; each layer is independent so one failure never blocks the rest.
+    P._computeLawNeuroLayers = function () {
+      try { this._computeLawAfferent(); } catch (e) {}          // K1 — afferent inter-brain input
+      try { this._computeLawGainControl(); } catch (e) {}       // K2 — neuromodulatory gain control
+      try { this._consolidateLawSlowModel(); } catch (e) {}     // K3 — slow consolidation / long-term plasticity
+      try { this._scoreLawOutcomes(); } catch (e) {}            // K4 — outcome / credit (TRUTH BRAKE, self-consistency)
+      try { this._computeLawPerceptionDepth(); } catch (e) {}   // K5 — deep hierarchical perception
+      try { this._computeLawAttention(); } catch (e) {}         // K6 — attention / selective routing
+      try { this._computeLawInhibition(); } catch (e) {}        // K7 — lateral inhibition (microcircuit)
+      try { this._computeLawHomeostasis(); } catch (e) {}       // K8 — adaptive homeostatic set-point
+      var s = this.state;
+      s.lawNeuro = {
+        version: 1,
+        status: 'advisory',                                     // K-loops compute + expose; do not rewrite the scoring spine
+        afferent: s.lawAfferent || null,
+        gainControl: s.lawGainControl || null,
+        slowModel: s.lawSlowModel || null,
+        outcomeModel: s.lawOutcomeModel || null,
+        perceptionDepth: s.lawPerceptionDepth || null,
+        attention: s.lawAttention || null,
+        inhibition: s.lawInhibition || null,
+        homeostasis: s.lawHomeostasis || null,
+        layers: [
+          'K1 afferent  — cross-domain pressure folded as a prior modifier (normalizeSignals + external-signal handler)',
+          'K2 gain      — gainBlend modulates predictedStress; opportunity-cap is a shadow readout',
+          'K3 slowModel — parallel LM_SLOW_RATE track; fast-vs-slow divergence = regime shift',
+          'K4 outcome   — TRUTH BRAKE: predicted-vs-next-realized self-consistency (no external reward)',
+          'K5 depth     — L1 + rule-of-law sublayer; portalError estimate (L2 quarantined)',
+          'K6 attention — salience ranking + operator focus steer',
+          'K7 inhibition— winner-take-most among active diagnoses',
+          'K8 setpoint  — adaptive baseline alongside fixed LM_STRESS_FLOOR (servo reads deviation)'
+        ]
+      };
+      return s.lawNeuro;
     };
 
     // ════════════════════════════════════════════════════════════════════════════

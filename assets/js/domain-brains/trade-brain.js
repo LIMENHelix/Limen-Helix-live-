@@ -999,6 +999,12 @@
       };
     } catch (e) {}
 
+    // PHASE K — neuro-completion layers (K1-K8; additive, advisory; never rewires the spine).
+    // Runs after the cognition surface is assembled so it can attach state.cognition.neuro, and
+    // after the model/regulation/servo are fresh so each K-layer reads the current cycle. Ported
+    // from energy-brain _computeEnergyNeuroLayers, reading TRADE's own state/edges. Deterministic.
+    try { this._computeTradeNeuroLayers(); } catch (e) {}
+
     // FREIGHT — trade-flow / freight-capacity sub-layer (additive; BEFORE the DDP build so the
     // primary packet's promptView advertises it). Never touches the validated 5-diagnosis spine.
     try { this._buildFreightFlowLayer(); } catch (e) {}
@@ -1223,6 +1229,286 @@
     this.state._tradeEIGatedCount = gated;
     this.state._tradeEmissionFactorApplied = factor;
     return opps;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — TRADE NEURO-COMPLETION LAYERS (trade-local, additive, reversible).
+  // Direct port of energy-brain.js K1-K8, reading TRADE's own state/edges (supplyChainModel,
+  // trade feeds/diagnoses, the 70-edge trade.json connectome) — NOT energy's. Fills the brain
+  // functions the self-model map flagged as missing / open-loop:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (TRUTH BRAKE: realized-stress self-prediction), K5 deep-
+  //   perception depth, K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // ADVISORY BY DESIGN: every layer COMPUTES and EXPOSES its signal on state; the ones that
+  // CLOSE a loop do so through trade's EXISTING actuation channels (the K4 effective-learning-
+  // rate already wired in _updateSupplyChainModel; the servo/E-I emission dampening in
+  // _applyTradeEmissionActuation) — none rewires the validated scoring spine (stress, prior
+  // update, diagnoses, portalError). Reads cached state only; NO network calls on the cycle;
+  // NO paid-AI ever. Fully deterministic. Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+  var TK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples
+  var TK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it contributes. Trade uses the BASE scoreStress (which folds getExternalPressure() into
+  // stress each cycle, like the other 18 domains); this exposes that closed loop.
+  TradeBrain.prototype._computeTradeAfferent = function () {
+    var s = this.state, em = s.supplyChainModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,             // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                                 // CLOSED — base scoreStress folds it into stress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: base scoreStress adds externalPressure to stress each cycle (matches the other 18 domains).',
+      lastAfferentAt: em.updated || now
+    };
+    s.tradeAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition/outputScale are computed by
+  // _computeRegulation. This shows the graded output modulation on opportunities. Trade's LIVE
+  // effector is the servo emissionFactor applied in _applyTradeEmissionActuation (not a hard cap),
+  // so this outputScale-implied cap is advisory alongside it.
+  TradeBrain.prototype._computeTradeGainControl = function () {
+    var s = this.state, em = s.supplyChainModel || {}, reg = em.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend in _updateSupplyChainModel)', 'opportunity emission (servo emissionFactor via _applyTradeEmissionActuation)'],
+      unappliedTargets: ['stress', 'treatment surfacing'],
+      lastEmissionFactorApplied: (typeof s._tradeEmissionFactorApplied === 'number') ? s._tradeEmissionFactorApplied : null,
+      lastEIGatedCount: (s._tradeEIGatedCount || 0),
+      note: 'CLOSED: emission confidence is scaled by the servo emissionFactor in _applyTradeEmissionActuation; predictedStress uses the same gain-blend.',
+      lastGainAt: em.updated || Date.now()
+    };
+    s.tradeGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. EM_SLOW_RATE was reserved for rebuild/cron.
+  // This maintains a PARALLEL slow-weight track that never touches em.prior; fast-vs-slow
+  // divergence is a real regime-shift indicator.
+  TradeBrain.prototype._consolidateTradeSlowModel = function () {
+    var s = this.state, em = s.supplyChainModel || {}, obs = em.observation || null;
+    var slow = s.tradeSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: EM_SLOW_RATE, note: 'parallel slow-weight track (EM_SLOW_RATE); does NOT touch em.prior'
+    };
+    if (obs) {
+      var r = EM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _emClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _emClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (em.prior && typeof em.prior.expectedStress === 'number') ? em.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;
+    slow.updated = em.updated || Date.now();
+    s.tradeSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning + TRUTH BRAKE (self-consistency calibration, NOT an external
+  // reward). Compares each cycle's predictedStress against the NEXT cycle's realized stress — the
+  // online forward-prediction loop. Measures how often the brain's own forecast comes true
+  // (hitRate). NO dopaminergic/reward signal fabricated. Trade already closes the effective-
+  // learning-rate loop in _updateSupplyChainModel via the phase-transition / outcome-ledger credit
+  // source; this is the parallel realized-stress self-prediction track.
+  TradeBrain.prototype._scoreTradeOutcomes = function () {
+    var s = this.state, em = s.supplyChainModel || {};
+    var buf = this._tradeOutcomeBuffer = this._tradeOutcomeBuffer || [];
+    var obs = em.observation || null;
+    if (this._tradePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._tradePrevPrediction, realized: obs.stress, err: Math.abs(this._tradePrevPrediction - obs.stress) });
+      if (buf.length > TK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._tradePrevPrediction = (typeof em.predictedStress === 'number') ? em.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var callHitRate = n ? Math.round((hits / n) * 100) / 100 : null;
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: callHitRate,
+      callHitRate: callHitRate,                                                  // fraction within 0.1 of realized (truth-brake calibration)
+      loopType: 'online-continuous self-prediction (predicted-vs-next-realized stress); self-consistency truth-brake, NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      liveCreditSource: em._creditSource || null,                               // the source actually driving the effective learning rate this cycle
+      effectiveLearningRate: (typeof em._effectiveLearningRate === 'number') ? em._effectiveLearningRate : null,
+      note: 'CLOSED: _updateSupplyChainModel scales the effective learning rate from the phase-transition/outcome-ledger credit source; this track measures realized-stress self-prediction (truth brake).',
+      lastOutcomeAt: em.updated || Date.now()
+    };
+    s.tradeOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the portal depth the brain HAS (from the existing
+  // L1 branch-scan cache + the freight-flow sub-layer, no new fetches) and estimates the portalError
+  // the recurrent model currently zeroes out (_computePredictionError hardcodes portalError=0).
+  TradeBrain.prototype._computeTradePerceptionDepth = function () {
+    var s = this.state, em = s.supplyChainModel || {};
+    var l1 = s._l1DepthCache || null;
+    var ff = s.freightFlowLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'mad-lib treatment cortex (immune-blocked)' },
+      { level: 'FF', name: 'freight-flow-subportal', status: (ff && ff.loaded) ? 'loaded' : 'absent', activeCount: (ff && ff.activeCount) || 0 }
+    ];
+    var loadedDepth = (ff && ff.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((ff && ff.count) ? ff.count : 0);
+    var blocked = l1Mad + 1;                                            // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY: perception stops at L1 (L2 mad-lib cortex quarantined); freight-flow is a separate real-content sub-layer. _computePredictionError still holds portalError=0 (no live traversal). No new fetches.',
+      lastDepthAt: em.updated || Date.now()
+    };
+    s.tradePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + novelty) over
+  // the current diagnoses and names focus vs suppressed. Operator attention-focus steer boosts
+  // salience. Observe-only (the live rank boost rides the existing opportunity emission path).
+  TradeBrain.prototype._computeTradeAttention = function () {
+    var s = this.state, em = s.supplyChainModel || {}, reg = em.regulation || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking over the 5-diagnosis spine; operator attentionFocus boosts salience.',
+      lastAttentionAt: em.updated || Date.now()
+    };
+    s.tradeAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). reg.inhibition implies a winner-take-most ranking among
+  // competing active diagnoses; this surfaces it. The live non-winner down-weight rides the servo
+  // E/I emission dampening in _applyTradeEmissionActuation.
+  TradeBrain.prototype._computeTradeInhibition = function () {
+    var s = this.state, em = s.supplyChainModel || {}, reg = em.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most among active diagnoses; the live down-weight is the servo E/I emission dampening in _applyTradeEmissionActuation.',
+      lastInhibitionAt: em.updated || Date.now()
+    };
+    s.tradeInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Trade uses fixed constants (EM_STRESS_FLOOR /
+  // EM_FLOOD_CAP) as set-points. This maintains an adaptive baseline (Turrigiano-style synaptic
+  // scaling) alongside them, without replacing the fixed floor. The servo consumes the same
+  // deviation-above-baseline signal to set its allostatic target.
+  TradeBrain.prototype._computeTradeHomeostasis = function () {
+    var s = this.state, em = s.supplyChainModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-TK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                                  // adaptive set-point vs fixed EM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: EM_STRESS_FLOOR,                                     // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                    // synaptic-scaling multiplier
+      samples: n,
+      note: 'ADVISORY: adaptive baseline (synaptic scaling) alongside the fixed EM_STRESS_FLOOR; the servo consumes deviationFromBaseline as its allostatic-target term.',
+      lastHomeostasisAt: em.updated || Date.now()
+    };
+    s.tradeHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface. Runs all eight K-layers in the SAME order energy uses
+  // (K1..K8), stores each on state (like tradeServo/tradePhaseDynamics), and attaches a compact
+  // roll-up to state.cognition ADDITIVELY (new key `neuro`; existing keys untouched). Deterministic;
+  // reads cached state only; no network / no AI.
+  TradeBrain.prototype._computeTradeNeuroLayers = function () {
+    this._computeTradeAfferent();          // K1 - afferent inter-brain input
+    this._computeTradeGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateTradeSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreTradeOutcomes();            // K4 - outcome / credit learning (truth brake)
+    this._computeTradePerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeTradeAttention();         // K6 - attention / selective routing
+    this._computeTradeInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeTradeHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                  // K-loops computed + exposed; closed loops ride existing actuation (servo/E-I, learning-rate)
+      afferent: s.tradeAfferent || null,
+      gainControl: s.tradeGainControl || null,
+      slowModel: s.tradeSlowModel || null,
+      outcomeModel: s.tradeOutcomeModel || null,
+      perceptionDepth: s.tradePerceptionDepth || null,
+      attention: s.tradeAttention || null,
+      inhibition: s.tradeInhibition || null,
+      homeostasis: s.tradeHomeostasis || null,
+      closedLoops: [
+        'K1 afferent -> base scoreStress (externalPressure folded into stress)',
+        'K2 gain -> _applyTradeEmissionActuation (servo emissionFactor scales emitted confidence)',
+        'K4 outcome -> _updateSupplyChainModel (credit source scales effective learning rate)',
+        'K7 inhibition -> _applyTradeEmissionActuation (non-winner down-weight via servo E/I)',
+        'K8 set-point -> _computeTradeServo (deviationFromBaseline sets the allostatic target)'
+      ]
+    };
+    s.tradeNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

@@ -940,6 +940,12 @@
     // Higher environment layers (immune/awareness/conscience/intuition/simulation/exec)
     try { this._computeEnvironmentHigherLayers(); } catch (e) {}
 
+    // K1-K8 NEURO-COMPLETION LOOPS (2026-07-13) — ported from Energy's K-stack, adapted to ENVIRONMENT
+    // state/edges (never Energy's). Runs AFTER the higher layers (so the cognition surface exists) and
+    // BEFORE the actuation stack, so K1..K8 precede the servo/E/I brake in exactly the order Energy uses.
+    // 100% deterministic, no AI, no fetch-to-LLM. Guarded so it can never break the cycle.
+    try { this._computeEnvironmentNeuroLayers(); } catch (e) {}
+
     // ACTUATION STACK (2026-07-13) — servo -> E/I brake -> self-audit + phase telemetry, each behind
     // its this._actuation flag. Runs at cycle end AFTER cognition is assembled (reads em.regulation,
     // just computed above). Deterministic, no AI. Guarded so it can never break the cycle.
@@ -1683,6 +1689,262 @@
       cog.regulation = this.state.environmentRegulation || null;
       cog.actuation = A;
     }
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — ENVIRONMENT NEURO-COMPLETION LAYERS (K1-K8; ported from Energy, environment-local).
+  // Mirrors energy-brain.js _computeEnergy{Afferent,GainControl,...} / _consolidateEnergySlowModel /
+  // _scoreEnergyOutcomes, reading THIS domain's environmentModel (prior/observation/predictionError/
+  // regulation) + diagnoses/stress-history/L1+climate-risk depth — never Energy's state. Each layer
+  // COMPUTES and EXPOSES its signal on state.environment*; the actuated emission channel remains the
+  // servo + E/I brake (see the ACTUATION STACK above). Advisory where the validated spine is fenced
+  // (portalError stays 0; K4 is self-consistency, not an external reward). Deterministic; NO AI; no
+  // network calls (reads cached state only); never fabricates evidence. Reversible: unwire the call
+  // in _updateEnvironmentModel.
+  // ════════════════════════════════════════════════════════════════════════════
+  var ENVK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized stress samples (matches Energy)
+  var ENVK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure (base
+  // getExternalPressure(), capped/decayed) and the stress delta already folded in by base scoreStress.
+  EnvironmentBrain.prototype._computeEnvironmentAfferent = function () {
+    var s = this.state, em = s.environmentModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                          // folded into stress by base scoreStress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'K1 afferent inter-brain integration: base scoreStress folds received cross-domain pressure into stress each cycle (same closed loop as the other domains). Reads ENVIRONMENT signals only.',
+      lastAfferentAt: em.updated || now
+    };
+    s.environmentAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition/outputScale from _computeRegulation.
+  // The actuated emission channel is the E/I brake (proportional confidence dampening); the ranked
+  // opportunity cut implied by outputScale is surfaced advisory here.
+  EnvironmentBrain.prototype._computeEnvironmentGainControl = function () {
+    var s = this.state, em = s.environmentModel || {}, reg = em.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['emission confidence (via the E/I brake effector)'],
+      unappliedTargets: ['stress', 'treatment surfacing', 'opportunity ranked cut'],
+      note: 'K2 neuromodulatory gain: graded output modulation. The actuated channel is the E/I brake (servo emissionFactor); the outputScale ranked-cut is advisory here.',
+      lastGainAt: em.updated || Date.now()
+    };
+    s.environmentGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. A PARALLEL slow-weight track (ENV_SLOW_RATE) that
+  // never touches em.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  EnvironmentBrain.prototype._consolidateEnvironmentSlowModel = function () {
+    var s = this.state, em = s.environmentModel || {}, obs = em.observation || null;
+    var slow = s.environmentSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: ENV_SLOW_RATE, note: 'parallel slow-weight track (ENV_SLOW_RATE); does NOT touch em.prior'
+    };
+    if (obs) {
+      var r = ENV_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _envClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _envClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (em.prior && typeof em.prior.expectedStress === 'number') ? em.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;            // fast prior pulled far from slow baseline
+    slow.updated = em.updated || Date.now();
+    s.environmentSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning: the TRUTH BRAKE. Compares each cycle's predictedStress against the
+  // NEXT cycle's realized stress (online forward-prediction self-consistency). SELF-CONSISTENCY ONLY —
+  // it is NOT an external/dopaminergic reward (no market-outcome signal is fabricated), and it does NOT
+  // rewrite the validated scoring spine. Observe-only calibration of whether the brain's own forecast
+  // comes true.
+  EnvironmentBrain.prototype._scoreEnvironmentOutcomes = function () {
+    var s = this.state, em = s.environmentModel || {};
+    var buf = this._environmentOutcomeBuffer = this._environmentOutcomeBuffer || [];
+    var obs = em.observation || null;
+    if (this._environmentPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._environmentPrevPrediction, realized: obs.stress, err: Math.abs(this._environmentPrevPrediction - obs.stress) });
+      if (buf.length > ENVK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._environmentPrevPrediction = (typeof em.predictedStress === 'number') ? em.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,               // fraction within 0.1 of realized
+      calibrationActive: (n >= 5),
+      loopType: 'self-consistency truth-brake (predicted-vs-next-realized stress); NOT an external reward (no dopaminergic/market-outcome signal fabricated)',
+      note: 'K4 TRUTH BRAKE — measures whether the brain\'s own stress self-prediction is realized. Observe-only calibration; does NOT feed back into / rewrite the validated scoring spine.',
+      lastOutcomeAt: em.updated || Date.now()
+    };
+    s.environmentOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the depth the brain HAS (L1 branch-scan cache +
+  // climate-risk sublayer; no new fetches) and estimates the portalError the recurrent model currently
+  // zeroes out. The estimate is ADVISORY — _computePredictionError keeps portalError=0 so the validated
+  // spine is unchanged.
+  EnvironmentBrain.prototype._computeEnvironmentPerceptionDepth = function () {
+    var s = this.state, em = s.environmentModel || {};
+    var l1 = s._l1DepthCache || null;
+    var cr = s.climateRiskLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'L1 mad-lib treatments quarantined from evidence' },
+      { level: 'CR', name: 'climate-risk-sublayer', status: (cr && cr.loaded) ? 'loaded' : 'absent', activeCount: (cr && cr.activeCount) || 0 }
+    ];
+    var loadedDepth = (cr && cr.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((cr && cr.count) ? cr.count : 0);
+    var blocked = l1Mad + 1;                                       // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'K5 deep perception: aggregates L1 branch-scan + climate-risk sublayer depth (no new fetches). portalErrorEstimate is ADVISORY — _computePredictionError still zeroes portalError to keep the validated spine unchanged.',
+      lastDepthAt: em.updated || Date.now()
+    };
+    s.environmentPerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + prediction-error
+  // + operator focus) and names focus vs suppressed, without gating the pipeline.
+  EnvironmentBrain.prototype._computeEnvironmentAttention = function () {
+    var s = this.state, em = s.environmentModel || {}, reg = em.regulation || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'K6 attention/selective routing: salience over diagnoses. Advisory readout; does not gate the pipeline.',
+      lastAttentionAt: em.updated || Date.now()
+    };
+    s.environmentAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). reg.inhibition implies a winner-take-most ranking among
+  // competing active diagnoses. Advisory; the actuated emission dampening is the E/I brake.
+  EnvironmentBrain.prototype._computeEnvironmentInhibition = function () {
+    var s = this.state, em = s.environmentModel || {}, reg = em.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'K7 lateral inhibition (winner-take-most): non-winner active diagnoses down-weighted by reg.inhibition. Advisory; the actuated emission dampening is the E/I brake.',
+      lastInhibitionAt: em.updated || Date.now()
+    };
+    s.environmentInhibition = li; return li;
+  };
+
+  // K8 — adaptive homeostatic set-point (microcircuit). Maintains a rolling stress baseline
+  // (Turrigiano-style synaptic scaling) alongside the fixed ENV_STRESS_FLOOR. The servo consumes an
+  // equivalent deviation term for its allostatic target.
+  EnvironmentBrain.prototype._computeEnvironmentHomeostasis = function () {
+    var s = this.state, em = s.environmentModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-ENVK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                             // adaptive set-point vs fixed ENV_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: ENV_STRESS_FLOOR,                              // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                              // synaptic-scaling multiplier
+      samples: n,
+      note: 'K8 adaptive homeostatic set-point: rolling stress baseline alongside the fixed ENV_STRESS_FLOOR. The regulate-to-target servo consumes an equivalent deviation term (Neuro Ref V.2/XII allostasis).',
+      lastHomeostasisAt: em.updated || Date.now()
+    };
+    s.environmentHomeostasis = hm; return hm;
+  };
+
+  // ORCHESTRATOR — runs K1..K8 in Energy's exact order, stores each on state.environment*, and attaches
+  // a compact `neuro` roll-up to the generic cognition surface ADDITIVELY (new key only). Called at cycle
+  // end from _updateEnvironmentModel, BEFORE the actuation stack. Deterministic, no AI.
+  EnvironmentBrain.prototype._computeEnvironmentNeuroLayers = function () {
+    this._computeEnvironmentAfferent();          // K1 - afferent inter-brain input
+    this._computeEnvironmentGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateEnvironmentSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreEnvironmentOutcomes();            // K4 - outcome / credit learning (TRUTH BRAKE, self-consistency)
+    this._computeEnvironmentPerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeEnvironmentAttention();         // K6 - attention / selective routing
+    this._computeEnvironmentInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeEnvironmentHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'closed-loop (K1-K8); advisory where the validated spine is fenced (portalError=0, K4=self-consistency)',
+      afferent: s.environmentAfferent || null,
+      gainControl: s.environmentGainControl || null,
+      slowModel: s.environmentSlowModel || null,
+      outcomeModel: s.environmentOutcomeModel || null,
+      perceptionDepth: s.environmentPerceptionDepth || null,
+      attention: s.environmentAttention || null,
+      inhibition: s.environmentInhibition || null,
+      homeostasis: s.environmentHomeostasis || null
+    };
+    s.environmentNeuroLayers = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

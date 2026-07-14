@@ -1241,6 +1241,289 @@
     return 'post-harvest';                          // Dec–Mar
   };
 
+  // ════════════════════════════════════════════════════════════════════════════
+  // K1-K8 NEURO-COMPLETION LAYERS (agriculture-local, additive, reversible) — ported
+  // from energy-brain to the same depth, reading agriculture's OWN model/state/graph.
+  // Fills the eight brain functions the self-model map flags as missing or open-loop:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (SELF-CONSISTENCY / TRUTH-BRAKE calibration — learns
+  //      from realized-stress self-prediction; NEVER an external/dopaminergic reward),
+  //   K5 deep-perception depth, K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // 100% DETERMINISTIC: reads cached state only, adds NO network / AI / LLM call, never
+  // fabricates evidence. HONESTLY GATED like the rest of this brain: each layer COMPUTES
+  // and EXPOSES its signal on state; the loops that energy CLOSES into its scoring spine
+  // are kept ADVISORY here (agriculture's kernel is not Thing1-validated), so none rewrites
+  // stress / prior update / opportunity output / predictionError. Every layer is reversible.
+  // ════════════════════════════════════════════════════════════════════════════
+  var AK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples (K4)
+  var AK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point (K8)
+
+  // K1 - afferent inter-brain integration. Surfaces received cross-domain pressure and the
+  // stress delta it contributes. The base scoreStress (agriculture uses it unmodified) already
+  // folds getExternalPressure() into stress and sets _externalPressureApplied, so this loop is
+  // genuinely closed via the base — this layer makes the received-signal accounting observable.
+  AgricultureBrain.prototype._computeAgricultureAfferent = function () {
+    var s = this.state, am = s.agricultureModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,        // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                            // CLOSED via base scoreStress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: the base scoreStress folds externalPressure into stress each cycle (agriculture uses the base unmodified, matching the other domains).',
+      lastAfferentAt: am.updated || now
+    };
+    s.agricultureAfferent = af; return af;
+  };
+
+  // K2 - neuromodulatory gain application. agricultureModel.regulation carries gain/inhibition;
+  // this derives the graded output modulation (outputScale) it implies and shows the ranked
+  // opportunity cut it WOULD apply. ADVISORY: agriculture has no _applyNeuroGating, so nothing
+  // is actually capped (kept honest — the loop is exposed, not closed).
+  AgricultureBrain.prototype._computeAgricultureGainControl = function () {
+    var s = this.state, am = s.agricultureModel || {}, reg = am.regulation || {};
+    var opps = s.opportunities || [];
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var outputScale = _amClamp(1 - inhibition * 0.5, 0.4, 1);       // derived (regulation does not emit outputScale)
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: Math.round(outputScale * 1000) / 1000,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: [],
+      unappliedTargets: ['stress', 'opportunity output', 'treatment surfacing'],
+      shadow: true,
+      note: 'ADVISORY: derived gain modulation exposed but NOT applied (agriculture has no gain-gating effector); the E/I brake regulates emission instead.',
+      lastGainAt: am.updated || Date.now()
+    };
+    s.agricultureGainControl = gc; return gc;
+  };
+
+  // K3 - slow consolidation / long-term plasticity. AM_SLOW_RATE was defined for the recurrent
+  // model but the fast prior alone drives interpretation. This maintains a PARALLEL slow-weight
+  // track that never touches am.prior; fast-vs-slow divergence is a real regime-shift indicator.
+  AgricultureBrain.prototype._consolidateAgricultureSlowModel = function () {
+    var s = this.state, am = s.agricultureModel || {}, obs = am.observation || null;
+    var slow = s.agricultureSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: AM_SLOW_RATE, note: 'parallel slow-weight track (AM_SLOW_RATE); does NOT touch am.prior'
+    };
+    if (obs) {
+      var r = AM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _amClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _amClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (am.prior && typeof am.prior.expectedStress === 'number') ? am.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;             // fast prior pulled far from slow baseline
+    slow.updated = am.updated || Date.now();
+    s.agricultureSlowModel = slow; return slow;
+  };
+
+  // K4 - outcome / credit learning = SELF-CONSISTENCY / TRUTH-BRAKE calibration. Compares each
+  // cycle's predictedStress against the NEXT cycle's realized stress (the online forward-prediction
+  // loop). This is the brain grading its OWN forecast against reality — NOT an external or
+  // dopaminergic reward (that is a separate, deferred task). Measurement + advisory learning rate;
+  // it does NOT mutate am.plasticity.learningRate (the validated recurrent spine is preserved).
+  AgricultureBrain.prototype._scoreAgricultureOutcomes = function () {
+    var s = this.state, am = s.agricultureModel || {};
+    var buf = this._agricultureOutcomeBuffer = this._agricultureOutcomeBuffer || [];
+    var obs = am.observation || null;
+    if (this._agriculturePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._agriculturePrevPrediction, realized: obs.stress, err: Math.abs(this._agriculturePrevPrediction - obs.stress) });
+      if (buf.length > AK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._agriculturePrevPrediction = (typeof am.predictedStress === 'number') ? am.predictedStress : null;  // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var hitRate = n ? Math.round((hits / n) * 100) / 100 : null;
+    var lr = am.plasticity && typeof am.plasticity.learningRate === 'number' ? am.plasticity.learningRate : AM_LEARNING_RATE;
+    var advisoryLr = (hitRate !== null) ? Math.round(_amClamp(lr * (1 + (1 - hitRate)), AM_SLOW_RATE, 0.6) * 1000) / 1000 : null;
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: hitRate,                                                          // fraction within 0.1 of realized
+      calibrationType: 'self-consistency / truth-brake (predicted-vs-next-realized); NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      advisoryEffectiveLearningRate: advisoryLr,                                // exposed, NOT applied
+      note: 'ADVISORY truth-brake: grades the brain\'s own forecast against realized stress; advisoryEffectiveLearningRate is exposed only, never applied (recurrent spine preserved).',
+      lastOutcomeAt: am.updated || Date.now()
+    };
+    s.agricultureOutcomeModel = om; return om;
+  };
+
+  // K5 - deep hierarchical perception. Aggregates the portal depth the brain HAS (existing L1
+  // depth cache + crop-cycle sub-portal, no new fetches) and estimates the portalError the
+  // recurrent model does not currently account for. ADVISORY: agriculture's prediction-error
+  // formula has no portalError term, so this estimate is exposed, not folded in.
+  AgricultureBrain.prototype._computeAgriculturePerceptionDepth = function () {
+    var s = this.state, am = s.agricultureModel || {};
+    var l1 = s._l1DepthCache || null;
+    var cc = s.cropCycleLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'L1 mad-lib treatments quarantined; L2 traversal blocked (immune)' },
+      { level: 'CC', name: 'crop-cycle-subportal', status: (cc && cc.loaded) ? 'loaded' : 'absent', activeCount: (cc && cc.activeCount) || 0 }
+    ];
+    var loadedDepth = (cc && cc.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((cc && cc.count) ? cc.count : 0);
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY: portalErrorEstimate exposed but NOT folded into _computeAgriculturePredictionError; perception stops at L1 (L2 quarantined); no new fetches.',
+      lastDepthAt: am.updated || Date.now()
+    };
+    s.agriculturePerceptionDepth = pd; return pd;
+  };
+
+  // K6 - attention / selective routing. Ranks top-down salience (active + relevance + novelty)
+  // across diagnoses and names focus vs suppressed, honoring operator attention-focus steer if
+  // present. ADVISORY: does not gate the pipeline (no _applyNeuroGating in agriculture).
+  AgricultureBrain.prototype._computeAgricultureAttention = function () {
+    var s = this.state, am = s.agricultureModel || {}, reg = am.regulation || {};
+    var pe = (am.predictionError && am.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking exposed; does not gate opportunity rank (no attention effector wired in agriculture).',
+      lastAttentionAt: am.updated || Date.now()
+    };
+    s.agricultureAttention = at; return at;
+  };
+
+  // K7 - lateral inhibition (microcircuit). agricultureModel.regulation.inhibition is computed
+  // for the servo/brake; this shows the winner-take-most ranking it implies among competing
+  // active diagnoses. ADVISORY: exposed as a competition read, not applied to opportunity output.
+  AgricultureBrain.prototype._computeAgricultureInhibition = function () {
+    var s = this.state, am = s.agricultureModel || {}, reg = am.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most read exposed; non-winner suppression not applied to opportunity output.',
+      lastInhibitionAt: am.updated || Date.now()
+    };
+    s.agricultureInhibition = li; return li;
+  };
+
+  // K8 - homeostatic set-point (microcircuit). Agriculture uses fixed constants (AM_STRESS_FLOOR /
+  // AM_FLOOD_CAP) as set-points. This maintains an adaptive baseline (Turrigiano-style synaptic
+  // scaling) from the brain's OWN stress history alongside the fixed floor, without replacing it.
+  // The servo computes an inline baseline of its own; K8 exposes it as a discrete, observable layer.
+  AgricultureBrain.prototype._computeAgricultureHomeostasis = function () {
+    var s = this.state, am = s.agricultureModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-AK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed AM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: AM_STRESS_FLOOR,                                 // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                // synaptic-scaling multiplier
+      samples: n,
+      note: 'ADVISORY: adaptive baseline exposed alongside the fixed AM_STRESS_FLOOR; readyForHandoff still gates on the fixed floor (spine preserved).',
+      lastHomeostasisAt: am.updated || Date.now()
+    };
+    s.agricultureHomeostasis = hm; return hm;
+  };
+
+  // Assemble the K1-K8 neuro-completion surface (mirrors energy's _computeEnergyNeuroLayers).
+  // Runs all eight K-layers IN ORDER, stores each on state, and attaches a compact roll-up.
+  // 100% deterministic; no AI, no fetch, no writes to p2_agri.json.
+  AgricultureBrain.prototype._computeAgricultureNeuroLayers = function () {
+    this._computeAgricultureAfferent();          // K1 - afferent inter-brain input
+    this._computeAgricultureGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateAgricultureSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreAgricultureOutcomes();            // K4 - outcome / credit learning (self-consistency truth-brake)
+    this._computeAgriculturePerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeAgricultureAttention();         // K6 - attention / selective routing
+    this._computeAgricultureInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeAgricultureHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                   // K-loops computed + exposed; honestly gated (agriculture kernel not Thing1-validated)
+      afferent: s.agricultureAfferent || null,
+      gainControl: s.agricultureGainControl || null,
+      slowModel: s.agricultureSlowModel || null,
+      outcomeModel: s.agricultureOutcomeModel || null,
+      perceptionDepth: s.agriculturePerceptionDepth || null,
+      attention: s.agricultureAttention || null,
+      inhibition: s.agricultureInhibition || null,
+      homeostasis: s.agricultureHomeostasis || null,
+      loops: [
+        'K1 afferent -> scoreStress (externalPressure folded into stress by the base; closed)',
+        'K2 gain -> advisory (no gain-gating effector; E/I brake regulates emission)',
+        'K3 slow consolidation -> parallel slow-weight track (regime-shift indicator)',
+        'K4 outcome -> self-consistency truth-brake (advisory learning rate, not applied)',
+        'K5 perception depth -> advisory portalError estimate',
+        'K6 attention -> advisory salience ranking',
+        'K7 inhibition -> advisory winner-take-most read',
+        'K8 set-point -> advisory adaptive baseline (fixed floor preserved)'
+      ],
+      note: 'K1-K8 ported from energy to agriculture, reading agriculture\'s own model/state/graph. Deterministic; no AI/fetch. Loops exposed; honestly gated (not wired to rewrite the validated spine).'
+    };
+    s.agricultureNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
+  };
+
   // The recurrent step — END of each cycle. Reads the prior from the PREVIOUS cycle, so
   // cycle N+1's interpretation (predictedStress, readyForHandoff) depends on cycle N.
   AgricultureBrain.prototype._updateAgricultureModel = function () {
@@ -1285,6 +1568,11 @@
 
     // H1-H6 — higher Agriculture brain layers (computed BEFORE the crop-cycle layer + DDP build)
     try { this._computeAgricultureHigherLayers(); } catch (e) {}
+
+    // K1-K8 NEURO-COMPLETION LAYERS — run in energy's K1..K8 order, AFTER higher layers and
+    // BEFORE the actuation block (mirrors energy, where _computeEnergyNeuroLayers runs the K-stack
+    // then servo/brake). Additive + reversible; reads cached state only; no AI, no writes.
+    try { this._computeAgricultureNeuroLayers(); } catch (e) {}
 
     // ── ACTUATION LAYER — order mirrors energy: servo (produces emissionFactor) -> regulation
     // advisories (E/I + self-audit, observe-only) -> phase dynamics (ADVISORY; not validated for
@@ -1334,6 +1622,7 @@
       brake: this.state.agricultureBrake || null,                              // halt / E-I dampening (actuated)
       regulationAdvisories: this.state.agricultureRegulationAdvisories || null, // E/I balance + SPOF self-audit (observe-only)
       phaseDynamics: this.state.agriculturePhaseDynamics || null,             // coherence router + transition (ADVISORY)
+      neuro: this.state.agricultureNeuro || null,                             // K1-K8 neuro-completion roll-up (advisory)
       treatments: this.state.treatments || [],
       diagnoses: this.state.diagnoses || [],
       opportunities: this.state.opportunities || []

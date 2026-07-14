@@ -785,14 +785,51 @@
     var obs = this._buildEconomyObservation();                    // pure read of validated state
     var pe = this._computeEconomyPredictionError(priorIn, obs);   // prior vs now
 
+    // K5 CLOSED (one-cycle lag) — fold the PRIOR cycle's perception-depth portalError estimate
+    // into the recurrent prediction error (weight 0.05), mirroring Energy's K5→_computePredictionError
+    // wiring. Deterministic; reads a NEW state key only; never touches the validated stress/diagnosis
+    // spine or anything /api/limen/score consumes.
+    try {
+      var _pd0 = this.state.economyPerceptionDepth;
+      if (_pd0 && typeof _pd0.portalErrorEstimate === 'number') {
+        pe.portalError = _pd0.portalErrorEstimate;
+        pe.total = _emClamp(pe.total * 0.95 + _pd0.portalErrorEstimate * 0.05, 0, 1);
+      }
+    } catch (e) {}
+
     // reads prior BEFORE the final decision (Kalman-style blend, NOT raw obs):
     var gainBlend = _emClamp(pe.novelty, 0.05, 0.95);
     var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
     var reg = this._computeEconomyRegulation(em, obs, pe);
 
-    var readyForHandoff = (em.cycle > 0) && (predictedStress >= EM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+    // K8 CLOSED (one-cycle lag) — homeostatic set-point: handoff gates on a 50/50 blend of the fixed
+    // floor and the PRIOR cycle's adaptive stress baseline (>=10 samples), bounded to at most +0.15
+    // above the fixed floor so a sustained-stress baseline cannot ratchet the gate out of reach.
+    // Mirrors Energy's em._effectiveFloor. Falls back to EM_STRESS_FLOOR when unavailable.
+    var _hm = this.state.economyHomeostasis;
+    var _floor = (_hm && typeof _hm.adaptiveBaseline === 'number' && _hm.samples >= 10)
+      ? _emClamp(Math.min(0.5 * EM_STRESS_FLOOR + 0.5 * _hm.adaptiveBaseline, EM_STRESS_FLOOR + 0.15), 0.15, 0.6)
+      : EM_STRESS_FLOOR;
+    em._effectiveFloor = _floor;
 
-    var nextPrior = this._updateEconomyPrior(priorIn, obs, em.plasticity.learningRate);   // → next cycle reads this
+    var readyForHandoff = (em.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+
+    // K4 CLOSED (one-cycle lag) — credit assignment / TRUTH BRAKE. The recurrent SELF-PREDICTION
+    // (predicted-vs-next-realized stress, from the prior cycle's economyOutcomeModel) scales the
+    // effective learning rate: persistent mis-prediction (low hitRate, >=5 resolved samples) speeds
+    // adaptation. This is SELF-CONSISTENCY calibration, NOT an external/dopaminergic reward (that is a
+    // separate deferred task). A validated P3/P7 phase-transition (handled by _applyEconomyCreditSource)
+    // preempts self-prediction as the credit SOURCE; here we only scale plasticity from realized
+    // self-prediction error when phase reward is absent. Mirrors Energy's _effectiveLearningRate.
+    var _om = this.state.economyOutcomeModel;
+    var _pt0 = (this.state.economyPhaseDynamics || {}).transition;
+    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt0 && _pt0.validated && _pt0.hit !== null);
+    var _hit = (!_phaseReward && _om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+    var _lr = em.plasticity.learningRate;
+    if (_hit !== null) _lr = _emClamp(_lr * (1 + (1 - _hit)), EM_SLOW_RATE, 0.6);
+    em._effectiveLearningRate = _lr;
+
+    var nextPrior = this._updateEconomyPrior(priorIn, obs, _lr);   // → next cycle reads this (K4-scaled learning rate)
 
     em.cycle += 1;
     em.observation = obs;
@@ -828,6 +865,14 @@
 
     // H1-H6 — higher economy brain layers (domain-level, computed once per cycle BEFORE the DDP build)
     try { this._computeEconomyHigherLayers(); } catch (e) {}
+
+    // PHASE K — K1..K8 neuro-completion loop stack (ported from Energy; additive, advisory-where-not-
+    // gated). Runs AFTER the higher layers + servo/phase so it reads the fresh cognition surface, and
+    // BEFORE the brake so K7 lateral-inhibition / K2 gain are available. K1 is CLOSED via the base
+    // scoreStress (external pressure folded into stress); K4 self-prediction scales the learning rate,
+    // K5 portalError folds into the prediction error, and K8 sets the adaptive handoff floor — all with
+    // one-cycle lag, consumed at the top of the NEXT cycle. 100% deterministic; never rewires the spine.
+    try { this._computeEconomyNeuroLayers(); } catch (e) {}
 
     // HALT/E-I BRAKE (stop-circuit) — computed AFTER the higher layers so it can read economyImmune /
     // economyConscience (this cycle) + the servo (this cycle). Consumed NEXT cycle by
@@ -870,6 +915,7 @@
       brake: this.state.economyBrake || null,
       phaseDynamics: this.state.economyPhaseDynamics || null,
       regulationAdvisories: this.state.economyRegulationAdvisories || null,
+      neuro: this.state.economyNeuro || null,   // K1..K8 neuro-completion roll-up (additive)
       actuation: this._actuation || null,
       creditSource: (em && em._creditSource) || null,
       treatments: this.state.treatments || [],
@@ -943,6 +989,281 @@
       updated: (em.updated || Date.now())
     };
     return this.state.brainEconomyModel;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // NEURO-COMPLETION K1..K8 LOOP STACK (2026-07-13) — ported from energy-brain.js's K-layers to the
+  // economy MACRO AGGREGATE. Each K mirrors Energy's mechanism but reads THIS domain's state/edges
+  // (FRED-anchored macro observation, economy regulation term, economy L1/macro-regime depth, economy
+  // stress history), never Energy's. 100% DETERMINISTIC arithmetic/graph analysis — NO fetch-to-LLM,
+  // NO paid-AI, ever on the 30s cycle. Strictly additive: every method writes only NEW state keys
+  // (economyAfferent / economyGainControl / economySlowModel / economyOutcomeModel /
+  // economyPerceptionDepth / economyAttention / economyInhibition / economyHomeostasis / economyNeuro)
+  // and NEVER mutates scoreStress, deriveDiagnoses, the diagnosis set, or anything /api/limen/score or
+  // /api/helix/helix-report/score consumes. Closed loops (one-cycle lag) are consumed at the top of
+  // _updateEconomyModel: K4→learning rate, K5→prediction error, K8→handoff floor; K1 is closed via the
+  // base scoreStress (external pressure folded into stress).
+  // ════════════════════════════════════════════════════════════════════════════
+  var EK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized stress samples (K4)
+  var EK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point (K8)
+
+  // K1 - afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it contributes. CLOSED: the base scoreStress folds getExternalPressure() into stress each
+  // cycle (base-capped at 0.3) — economy inherits that, so this reads the applied delta, never re-adds.
+  EconomyBrain.prototype._computeEconomyAfferent = function () {
+    var s = this.state, em = s.economyModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                          // K1 CLOSED via base scoreStress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: the base scoreStress folds getExternalPressure() into stress each cycle (matches the other 18 domains); economy inherits it (no override).',
+      lastAfferentAt: em.updated || now
+    };
+    s.economyAfferent = af; return af;
+  };
+
+  // K2 - neuromodulatory gain application. Surfaces the graded output modulation the recurrent
+  // regulation term implies over surfaced opportunities. Economy's actuated output channel is the
+  // servo/brake CONFIDENCE dampening (already live); outputScale here is an advisory ranked-cut readout.
+  EconomyBrain.prototype._computeEconomyGainControl = function () {
+    var s = this.state, em = s.economyModel || {}, reg = em.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                       // gain-scaled ranked cut (advisory)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend)', 'opportunity/emission confidence (via servo+brake E/I dampening)'],
+      unappliedTargets: ['hard opportunity count cap (economy uses proportional confidence dampening, not a ranked cut)'],
+      note: 'ADVISORY cut + CLOSED confidence arm: gainBlend feeds predictedStress and the servo E/I factor dampens opportunity confidence via the brake; economy applies no hard ranked cap.',
+      lastGainAt: em.updated || Date.now()
+    };
+    s.economyGainControl = gc; return gc;
+  };
+
+  // K3 - slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight track
+  // (EM_SLOW_RATE) that never touches em.prior; fast-vs-slow divergence is a real regime-shift signal.
+  EconomyBrain.prototype._consolidateEconomySlowModel = function () {
+    var s = this.state, em = s.economyModel || {}, obs = em.observation || null;
+    var slow = s.economySlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: EM_SLOW_RATE, note: 'parallel slow-weight track (EM_SLOW_RATE); does NOT touch em.prior'
+    };
+    if (obs) {
+      var r = EM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _emClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _emClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (em.prior && typeof em.prior.expectedStress === 'number') ? em.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;            // fast prior pulled far from slow baseline
+    slow.updated = em.updated || Date.now();
+    s.economySlowModel = slow; return slow;
+  };
+
+  // K4 - outcome / credit learning (TRUTH BRAKE). Compares each cycle's predictedStress against the
+  // NEXT cycle's realized stress (online forward self-prediction). SELF-CONSISTENCY only — never an
+  // external reward. CLOSED: hitRate scales the effective learning rate in _updateEconomyModel (>=5
+  // samples), so persistent mis-prediction speeds adaptation.
+  EconomyBrain.prototype._scoreEconomyOutcomes = function () {
+    var s = this.state, em = s.economyModel || {};
+    var buf = this._economyOutcomeBuffer = this._economyOutcomeBuffer || [];
+    var obs = em.observation || null;
+    if (this._economyPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._economyPrevPrediction, realized: obs.stress, err: Math.abs(this._economyPrevPrediction - obs.stress) });
+      if (buf.length > EK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._economyPrevPrediction = (typeof em.predictedStress === 'number') ? em.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,     // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
+      loopType: 'online-continuous (predicted-vs-next-realized stress); SELF-CONSISTENCY calibration, NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      effectiveLearningRate: (em._effectiveLearningRate) || null,
+      creditSource: em._creditSource || null,
+      note: 'CLOSED: hitRate scales the effective learning rate in _updateEconomyModel (>=5 samples); a validated P3/P7 phase transition preempts it as the credit source.',
+      lastOutcomeAt: em.updated || Date.now()
+    };
+    s.economyOutcomeModel = om; return om;
+  };
+
+  // K5 - deep hierarchical perception. Aggregates the depth the brain HAS (existing L1 branch scan +
+  // macro-regime sub-portal caches; NO new fetches) and estimates the portalError the recurrent model
+  // would otherwise zero out. CLOSED: _updateEconomyModel folds portalErrorEstimate into the prediction
+  // error (weight 0.05, one-cycle lag).
+  EconomyBrain.prototype._computeEconomyPerceptionDepth = function () {
+    var s = this.state, em = s.economyModel || {};
+    var l1 = s._l1DepthCache || null;
+    var mr = s.macroRegimeSublayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'mad-lib treatments immune-blocked' },
+      { level: 'MR', name: 'macro-regime-subportal', status: (mr && mr.loaded) ? 'loaded' : 'absent', activeCount: (mr && mr.activeCount) || 0 }
+    ];
+    var loadedDepth = (mr && mr.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((mr && mr.count) ? mr.count : 0);
+    var blocked = l1Mad + 1;                                      // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,                   // consumed by _updateEconomyModel (weight 0.05)
+      note: 'CLOSED: _updateEconomyModel folds portalErrorEstimate into the prediction error (weight 0.05). Perception stops at L1 (L2 quarantined); no new fetches.',
+      lastDepthAt: em.updated || Date.now()
+    };
+    s.economyPerceptionDepth = pd; return pd;
+  };
+
+  // K6 - attention / selective routing. Ranks top-down salience (active + relevance + novelty +
+  // operator focus steer) and names focus vs suppressed. Advisory read of routing priority; does not
+  // gate the validated pipeline.
+  EconomyBrain.prototype._computeEconomyAttention = function () {
+    var s = this.state, em = s.economyModel || {}, reg = em.regulation || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY salience ranking (active + relevance + novelty + operator focus steer); does not gate the validated diagnosis pipeline.',
+      lastAttentionAt: em.updated || Date.now()
+    };
+    s.economyAttention = at; return at;
+  };
+
+  // K7 - lateral inhibition (microcircuit). Shows the winner-take-most ranking the regulation
+  // inhibition term implies among competing active diagnoses (advisory readout).
+  EconomyBrain.prototype._computeEconomyInhibition = function () {
+    var s = this.state, em = s.economyModel || {}, reg = em.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY winner-take-most ranking implied by the regulation inhibition term; the actuated inhibition arm is the servo E/I dampening consumed by the brake.',
+      lastInhibitionAt: em.updated || Date.now()
+    };
+    s.economyInhibition = li; return li;
+  };
+
+  // K8 - adaptive homeostatic set-point (Turrigiano-style synaptic scaling). Maintains an adaptive
+  // stress baseline alongside the fixed EM_STRESS_FLOOR, from the base memory.stressHistory (fallback
+  // to memory.outcomeLog). CLOSED: _updateEconomyModel blends this adaptiveBaseline into the handoff
+  // floor (50/50, >=10 samples, bounded).
+  EconomyBrain.prototype._computeEconomyHomeostasis = function () {
+    var s = this.state, em = s.economyModel || {};
+    var mem = s.memory || {};
+    var hist = (mem.stressHistory && mem.stressHistory.length) ? mem.stressHistory : (mem.outcomeLog || []);
+    var win = hist.slice(-EK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                            // adaptive set-point vs fixed EM_STRESS_FLOOR
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: EM_STRESS_FLOOR,                               // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                              // synaptic-scaling multiplier
+      samples: n,
+      effectiveFloor: (em._effectiveFloor) || null,
+      note: 'CLOSED: readyForHandoff gates on a 50/50 blend of EM_STRESS_FLOOR and adaptiveBaseline (>=10 samples) via em._effectiveFloor.',
+      lastHomeostasisAt: em.updated || Date.now()
+    };
+    s.economyHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface (mirrors Energy's _computeEnergyNeuroLayers). Runs all
+  // K-layers in K1..K8 order, stores each on state (like economyImmune/economyAwareness), and attaches
+  // a compact roll-up to state.economyNeuro (also surfaced additively on state.cognition.neuro).
+  EconomyBrain.prototype._computeEconomyNeuroLayers = function () {
+    this._computeEconomyAfferent();          // K1 - afferent inter-brain input (closed via base scoreStress)
+    this._computeEconomyGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateEconomySlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreEconomyOutcomes();            // K4 - outcome / credit learning (truth brake)
+    this._computeEconomyPerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeEconomyAttention();         // K6 - attention / selective routing
+    this._computeEconomyInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeEconomyHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'closed',                       // K1/K4/K5/K8 wired into the recurrent spine (one-cycle lag); K2/K6/K7 advisory + servo/brake E/I arm
+      afferent: s.economyAfferent || null,
+      gainControl: s.economyGainControl || null,
+      slowModel: s.economySlowModel || null,
+      outcomeModel: s.economyOutcomeModel || null,
+      perceptionDepth: s.economyPerceptionDepth || null,
+      attention: s.economyAttention || null,
+      inhibition: s.economyInhibition || null,
+      homeostasis: s.economyHomeostasis || null,
+      servo: s.economyServo || null,
+      brake: s.economyBrake || null,
+      phaseDynamics: s.economyPhaseDynamics || null,
+      closedLoops: [
+        'K1 afferent -> base scoreStress (externalPressure folded into stress)',
+        'K4 outcome -> _updateEconomyModel (hitRate scales learning rate; self-consistency, not reward)',
+        'K5 portalError -> _updateEconomyModel prediction error (weight 0.05)',
+        'K8 set-point -> readyForHandoff (blended adaptive floor)',
+        'K2/K7 E/I -> servo emissionFactor -> brake confidence dampening'
+      ]
+    };
+    s.economyNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════

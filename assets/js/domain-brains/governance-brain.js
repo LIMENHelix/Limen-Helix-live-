@@ -539,6 +539,10 @@
         opportunities: this.state.opportunities || []
       };
 
+      // K1..K8 NEURO-COMPLETION LOOPS (ported from Energy). Runs AFTER cognition is assembled and
+      // BEFORE actuation, so K8's fresh stress-history feeds the servo. Guarded; never breaks the cycle.
+      try { this._computeGovernanceNeuroLayers(); } catch (e) {}
+
       // ACTUATION — servo / E/I brake / self-audit / phase (advisory), each behind its _actuation flag.
       // Runs AFTER cognition is assembled so it attaches additively; guarded so it never breaks the cycle.
       try { this._computeGovernanceActuation(); } catch (e) {}
@@ -887,6 +891,277 @@
       cog.regulation = this.state.governanceRegulation || null;
       cog.actuation = A;
     }
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — GOVERNANCE NEURO-COMPLETION LAYERS (governance-local, additive, reversible).
+  // Ported from energy-brain.js (K1..K8), reading THIS domain's state/edges. Fills the brain
+  // functions the self-model map flags as missing or open-loop:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (TRUTH-BRAKE self-consistency), K5 deep-perception depth,
+  //   K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // Each layer COMPUTES and EXPOSES its signal on state (governanceAfferent, governanceSlowModel,
+  // …). Runs on the deterministic 30s cycle — NO paid-AI / LLM fetch, ever. Never fabricates
+  // evidence; reads cached state only, adds no network calls. Wired in _updateGovernanceModel
+  // BEFORE the existing actuation stack (so K8's stress-history feeds the servo), leaving the
+  // servo / E/I brake / phase / self-audit actuation and all exports untouched.
+  // K4 is SELF-CONSISTENCY / TRUTH-BRAKE calibration (predicted-vs-next-realized stress), NOT an
+  // external/dopaminergic reward (that is a separate deferred task).
+  // ════════════════════════════════════════════════════════════════════════════
+  var GK_OUTCOME_BUFFER = 40;   // rolling predicted-vs-realized samples
+  var GK_HOMEO_WINDOW = 60;     // cycles of stress baseline for the adaptive set-point
+
+  // K1 — afferent inter-brain integration. Surfaces received cross-domain pressure and the stress
+  // delta it WOULD add. The base scoreStress already folds getExternalPressure() into stress
+  // (governance's normalizeSignals also reads it), so this is CLOSED: report, don't re-apply.
+  GovernanceBrain.prototype._computeGovernanceAfferent = function () {
+    var s = this.state, gm = s.governanceModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                          // K1 CLOSED — external pressure reaches stress via base scoreStress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: getExternalPressure() is folded into stress each cycle (base scoreStress + normalizeSignals cross_branch_incoherence hook); matches the other domains.',
+      lastAfferentAt: gm.updated || now
+    };
+    s.governanceAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. Shows the graded output modulation implied by the
+  // regulation gain/inhibition on the opportunity set (advisory; the E/I brake is the live effector).
+  GovernanceBrain.prototype._computeGovernanceGainControl = function () {
+    var s = this.state, gm = s.governanceModel || {}, reg = gm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend in _updateGovernanceModel)', 'emission confidence (via E/I brake)'],
+      unappliedTargets: ['stress', 'treatment surfacing'],
+      shadow: false,
+      note: 'Advisory gain read; the live effector on emission is the servo -> E/I brake path. Neuro Ref XIII.1.',
+      lastGainAt: gm.updated || Date.now()
+    };
+    s.governanceGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight track
+  // (GM_SLOW_RATE) that never touches gm.prior; fast-vs-slow divergence is a regime-shift indicator.
+  GovernanceBrain.prototype._consolidateGovernanceSlowModel = function () {
+    var s = this.state, gm = s.governanceModel || {}, obs = gm.observation || null;
+    var slow = s.governanceSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: GM_SLOW_RATE, note: 'parallel slow-weight track (GM_SLOW_RATE); does NOT touch gm.prior'
+    };
+    if (obs) {
+      var r = GM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _gmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _gmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (gm.prior && typeof gm.prior.expectedStress === 'number') ? gm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;
+    slow.updated = gm.updated || Date.now();
+    s.governanceSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (TRUTH BRAKE, self-consistency). Compares each cycle's
+  // predictedStress against the NEXT cycle's realized stress. Measurement / calibration only —
+  // a self-prediction hit-rate, NOT an external reward. Deferred: dopaminergic reward signal.
+  GovernanceBrain.prototype._scoreGovernanceOutcomes = function () {
+    var s = this.state, gm = s.governanceModel || {};
+    var buf = this._governanceOutcomeBuffer = this._governanceOutcomeBuffer || [];
+    var obs = gm.observation || null;
+    if (this._governancePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._governancePrevPrediction, realized: obs.stress, err: Math.abs(this._governancePrevPrediction - obs.stress) });
+      if (buf.length > GK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._governancePrevPrediction = (typeof gm.predictedStress === 'number') ? gm.predictedStress : null;
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,          // fraction within 0.1 of realized
+      callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,      // truth-brake calibration alias
+      loopType: 'online-continuous truth-brake (predicted-vs-next-realized self-consistency); NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      note: 'SELF-CONSISTENCY calibration only. Governance is not a Thing1-validated kernel domain (fenced to Finance+Population); no ground-truth phase/dopamine reward is fabricated.',
+      lastOutcomeAt: gm.updated || Date.now()
+    };
+    s.governanceOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the depth the brain HAS (L1 branch scan +
+  // institutional-integrity sublayer, no new fetches) and estimates the portalError the recurrent
+  // model currently zeroes out. L2 deep-cortex stays immune-quarantined (mostly synthetic).
+  GovernanceBrain.prototype._computeGovernancePerceptionDepth = function () {
+    var s = this.state, gm = s.governanceModel || {};
+    var l1 = s._l1DepthCache || null;
+    var sub = s.governanceInstitutionalIntegrityLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var subLoaded = !!(sub && (sub.loaded || sub.active || (sub.count || 0) > 0));
+    var subCount = (sub && (sub.count || sub.activeCount)) || 0;
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: '~synthetic (immune-blocked)' },
+      { level: 'SUB', name: 'institutional-integrity-sublayer', status: subLoaded ? 'loaded' : 'absent', activeCount: subCount }
+    ];
+    var loadedDepth = subLoaded ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + (subCount || 0);
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'Perception stops at L1 + the institutional-integrity sublayer (L2 quarantined); no new fetches. Estimates the portalError the recurrent model zeroes out.',
+      lastDepthAt: gm.updated || Date.now()
+    };
+    s.governancePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + novelty)
+  // and names focus vs suppressed, plus any operator attention-focus steer. Advisory (does not gate).
+  GovernanceBrain.prototype._computeGovernanceAttention = function () {
+    var s = this.state, gm = s.governanceModel || {}, reg = gm.regulation || {};
+    var pe = (gm.predictionError && gm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'Top-down salience ranking over active diagnoses; broadens under surprise. Advisory (no pipeline gate).',
+      lastAttentionAt: gm.updated || Date.now()
+    };
+    s.governanceAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). Shows the winner-take-most ranking reg.inhibition implies
+  // among competing active diagnoses (non-winners down-weighted proportionally to inhibition).
+  GovernanceBrain.prototype._computeGovernanceInhibition = function () {
+    var s = this.state, gm = s.governanceModel || {}, reg = gm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'Winner-take-most among active diagnoses; competitor down-weighting = relevance * inhibition. Neuro Ref XIII.1.',
+      lastInhibitionAt: gm.updated || Date.now()
+    };
+    s.governanceInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Maintains an adaptive stress baseline (Turrigiano-style
+  // synaptic scaling) alongside the fixed GM_STRESS_FLOOR. Also APPENDS to memory.stressHistory so the
+  // existing servo's allostatic-deviation arm has a real rolling baseline to read. Deterministic; once
+  // per cycle (dedup on gm.updated). Never replaces the fixed floor.
+  GovernanceBrain.prototype._computeGovernanceHomeostasis = function () {
+    var s = this.state, gm = s.governanceModel || {};
+    var mem = s.memory || (s.memory = {});
+    var hist = mem.stressHistory || (mem.stressHistory = []);
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var stamp = gm.updated || Date.now();
+    // append once per cycle (guard against double-invocation within the same model update)
+    if (!hist.length || hist[hist.length - 1]._t !== stamp) {
+      hist.push({ stress: cur, _t: stamp });
+      if (hist.length > 240) hist.shift();
+    }
+    var win = hist.slice(-GK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;                              // adaptive set-point vs fixed GM_STRESS_FLOOR
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: GM_STRESS_FLOOR,
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                                // synaptic-scaling multiplier
+      samples: n,
+      note: 'Adaptive baseline (Turrigiano scaling) alongside the fixed GM_STRESS_FLOOR; also feeds the servo allostatic-deviation arm via memory.stressHistory. Neuro Ref V.2/XII.',
+      lastHomeostasisAt: gm.updated || Date.now()
+    };
+    s.governanceHomeostasis = hm; return hm;
+  };
+
+  // Orchestrator — runs the K1..K8 loops in Energy's exact order. Called from _updateGovernanceModel
+  // BEFORE _computeGovernanceActuation so K8's stress-history is fresh for the servo. Each layer is
+  // additive on state; the roll-up attaches to state.cognition under a new `neuro` key (existing keys
+  // untouched). Fully deterministic — no network / AI. Reversible: guarded try/catch at the call site.
+  GovernanceBrain.prototype._computeGovernanceNeuroLayers = function () {
+    this._computeGovernanceAfferent();          // K1 — afferent inter-brain input
+    this._computeGovernanceGainControl();       // K2 — neuromodulatory gain application
+    this._consolidateGovernanceSlowModel();     // K3 — slow consolidation / long-term plasticity
+    this._scoreGovernanceOutcomes();            // K4 — outcome / credit learning (truth-brake self-consistency)
+    this._computeGovernancePerceptionDepth();   // K5 — deep hierarchical perception
+    this._computeGovernanceAttention();         // K6 — attention / selective routing
+    this._computeGovernanceInhibition();        // K7 — lateral inhibition (microcircuit)
+    this._computeGovernanceHomeostasis();       // K8 — adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                        // K-loops compute + expose; live emission effector stays the servo/E-I brake
+      afferent: s.governanceAfferent || null,
+      gainControl: s.governanceGainControl || null,
+      slowModel: s.governanceSlowModel || null,
+      outcomeModel: s.governanceOutcomeModel || null,
+      perceptionDepth: s.governancePerceptionDepth || null,
+      attention: s.governanceAttention || null,
+      inhibition: s.governanceInhibition || null,
+      homeostasis: s.governanceHomeostasis || null
+    };
+    s.governanceNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
   };
 
   // ── AI SLOT (documented, INERT stub — NEVER called from the cycle) ─────────────────────────────

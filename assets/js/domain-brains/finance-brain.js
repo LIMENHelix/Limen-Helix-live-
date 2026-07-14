@@ -849,6 +849,8 @@
   var FM_STRESS_FLOOR = 0.30;           // below this → no handoff
   var FM_FLOOD_CAP = 12;                // opportunity-flood threshold
   var FM_STALE_MS = 1000 * 60 * 60 * 6; // 6h feed staleness
+  var FK_OUTCOME_BUFFER = 40;           // K4 rolling predicted-vs-realized samples (mirrors energy EK_OUTCOME_BUFFER)
+  var FK_HOMEO_WINDOW = 60;             // K8 cycles of stress baseline for the adaptive set-point (mirrors energy EK_HOMEO_WINDOW)
 
   function _fmClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function _fmJaccardDistance(a, b) {
@@ -1174,6 +1176,285 @@
       .catch(function (err) { return { status: 'error', error: String(err && err.message || err) }; });
   };
 
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — NEURO-COMPLETION LOOP STACK (K1..K8), ported from energy-brain.js and
+  // adapted to Finance's OWN state/edges. ADVISORY BY DESIGN: every layer COMPUTES and
+  // EXPOSES its signal on state, but NONE rewrites the validated scoreStress /
+  // deriveDiagnoses spine or any diagnosis active flag. Two Energy-faithful closures are
+  // wired into _updateFinanceModel via one-cycle lag (like Energy): K4 stress-self-pred as
+  // the third credit-source fallback, and K8's adaptive floor into the (non-validated)
+  // readyForHandoff gate. Reads cached state only; adds no network calls on the cycle;
+  // 100% deterministic (no AI). Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+
+  // K1 — afferent inter-brain integration (closed loop). Surfaces the cross-domain pressure
+  // received via receiveExternalSignal()/getExternalPressure(). Finance uses the BASE
+  // scoreStress, which folds externalPressure (base-capped 0.3, decayed) into stress each
+  // cycle and also drives the correlation_breakdown condition in normalizeSignals — so the
+  // loop is CLOSED for finance exactly like the other 18 domains.
+  FinanceBrain.prototype._computeFinanceAfferent = function () {
+    var s = this.state, fm = s.financeModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,      // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                           // K1 CLOSED — folded into stress by base scoreStress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: base scoreStress folds externalPressure into stress each cycle; >=0.15 also drives the correlation_breakdown condition in normalizeSignals.',
+      lastAfferentAt: fm.updated || now
+    };
+    s.financeAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. reg.gain/inhibition/outputScale are computed by
+  // _computeFinanceRegulation. This surfaces the graded output modulation outputScale WOULD
+  // apply to the ranked opportunity output. ADVISORY: finance does not yet cap output (no
+  // _applyNeuroGating), so shadow:true and the closure is left reversible/unapplied.
+  FinanceBrain.prototype._computeFinanceGainControl = function () {
+    var s = this.state, fm = s.financeModel || {}, reg = fm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend in _updateFinanceModel)'],
+      unappliedTargets: ['opportunity output', 'stress', 'treatment surfacing'],
+      shadow: true,
+      note: 'ADVISORY: gain-blend already shapes predictedStress; outputScale not yet capping opportunity output in finance (no _applyNeuroGating). Reversible closure available.',
+      lastGainAt: fm.updated || Date.now()
+    };
+    s.financeGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity (FM_SLOW_RATE). Maintains a PARALLEL
+  // slow-weight track that never touches fm.prior; fast-vs-slow divergence is a real
+  // regime-shift indicator (Turrigiano-style long-term average vs fast inference prior).
+  FinanceBrain.prototype._consolidateFinanceSlowModel = function () {
+    var s = this.state, fm = s.financeModel || {}, obs = fm.observation || null;
+    var slow = s.financeSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: FM_SLOW_RATE, note: 'parallel slow-weight track (FM_SLOW_RATE); does NOT touch fm.prior'
+    };
+    if (obs) {
+      var r = FM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _fmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _fmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (fm.prior && typeof fm.prior.expectedStress === 'number') ? fm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;
+    slow.updated = fm.updated || Date.now();
+    s.financeSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning + TRUTH BRAKE (self-consistency, NOT external reward).
+  // Compares each cycle's predictedStress against the NEXT cycle's realized stress (online
+  // forward-prediction). Measures whether the model's own forecast comes true; the hitRate is
+  // fed back into the K4 credit hook in _updateFinanceModel (>=5 samples) as the third fallback
+  // after a validated phase transition and the generic outcome ledger. This is realized-stress
+  // self-prediction calibration — it fabricates NO dopaminergic/external reward signal.
+  FinanceBrain.prototype._scoreFinanceOutcomes = function () {
+    var s = this.state, fm = s.financeModel || {};
+    var buf = this._financeOutcomeBuffer = this._financeOutcomeBuffer || [];
+    var obs = fm.observation || null;
+    if (this._financePrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._financePrevPrediction, realized: obs.stress, err: Math.abs(this._financePrevPrediction - obs.stress) });
+      if (buf.length > FK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._financePrevPrediction = (typeof fm.predictedStress === 'number') ? fm.predictedStress : null;   // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
+      loopType: 'online-continuous (predicted-vs-next-realized) self-consistency / TRUTH BRAKE; NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      effectiveLearningRate: (fm._effectiveLearningRate) || null,
+      note: 'CLOSED: hitRate scales the effective learning rate in _updateFinanceModel (>=5 samples, third fallback) so persistent mis-prediction speeds adaptation.',
+      lastOutcomeAt: fm.updated || Date.now()
+    };
+    s.financeOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception / prediction-error depth. Aggregates the depth the brain
+  // HAS from existing caches (L1 branch scan + credit/liquidity sub-portal), with NO new fetches,
+  // and estimates the portalError the recurrent model does not yet observe. ADVISORY: finance's
+  // validated prediction-error formula is left unchanged (weights preserved), so portalErrorEstimate
+  // is surfaced but not folded into fm.predictionError.
+  FinanceBrain.prototype._computeFinancePerceptionDepth = function () {
+    var s = this.state, fm = s.financeModel || {};
+    var l1 = s._l1DepthCache || null;
+    var sub = s.creditSublayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'mad-lib cortex (immune-blocked)' },
+      { level: 'SUB', name: 'credit-liquidity-subportal', status: (sub && sub.loaded) ? 'loaded' : 'absent', activeCount: (sub && sub.activeCount) || 0 }
+    ];
+    var loadedDepth = (sub && sub.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((sub && sub.count) ? sub.count : 0);
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY: portalErrorEstimate surfaced but NOT folded into the validated fm.predictionError formula (weights preserved). Perception stops at L1 (L2 quarantined); no new fetches.',
+      lastDepthAt: fm.updated || Date.now()
+    };
+    s.financePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance + novelty)
+  // over the diagnoses and names focus vs suppressed, plus honors any operator attention-focus
+  // steer. ADVISORY: does not gate the pipeline (no _applyNeuroGating in finance).
+  FinanceBrain.prototype._computeFinanceAttention = function () {
+    var s = this.state, fm = s.financeModel || {}, reg = fm.regulation || {};
+    var pe = (fm.predictionError && fm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking + operator focus surfaced; does not gate the finance opportunity pipeline.',
+      lastAttentionAt: fm.updated || Date.now()
+    };
+    s.financeAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition microcircuit. reg.inhibition implies a winner-take-most ranking among
+  // competing active diagnoses; this surfaces the winner and the suppression each competitor WOULD
+  // take. ADVISORY: non-winner down-weight is surfaced, not applied.
+  FinanceBrain.prototype._computeFinanceInhibition = function () {
+    var s = this.state, fm = s.financeModel || {}, reg = fm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most ranking surfaced; non-winner down-weight not applied to the finance pipeline.',
+      lastInhibitionAt: fm.updated || Date.now()
+    };
+    s.financeInhibition = li; return li;
+  };
+
+  // K8 — adaptive homeostatic set-point (Turrigiano-style synaptic scaling). Maintains an adaptive
+  // stress baseline over the last FK_HOMEO_WINDOW cycles alongside the fixed FM_STRESS_FLOOR.
+  // CLOSED: readyForHandoff gates on a 50/50 blend of FM_STRESS_FLOOR and this adaptive baseline
+  // (>=10 samples; bounded to at most +0.15 above the fixed floor) via fm._effectiveFloor. Also
+  // exposes deviation (>=0) as an allostatic-target term parallel to the generic homeostasis one.
+  FinanceBrain.prototype._computeFinanceHomeostasis = function () {
+    var s = this.state, fm = s.financeModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-FK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var deviation = Math.max(0, cur - baseline);
+    var hm = {
+      version: 1,
+      fixedFloor: FM_STRESS_FLOOR,
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      deviation: Math.round(deviation * 1000) / 1000,             // servo allostatic-target term (>=0)
+      scalingFactor: scalingFactor,
+      samples: n,
+      effectiveFloor: (fm._effectiveFloor) || null,
+      note: 'CLOSED: readyForHandoff blends FM_STRESS_FLOOR with adaptiveBaseline (>=10 samples, bounded) via fm._effectiveFloor; deviation exposed as an allostatic-target term.',
+      lastHomeostasisAt: fm.updated || Date.now()
+    };
+    s.financeHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface (mirrors energy _computeEnergyNeuroLayers). Runs the
+  // eight K-layers in Energy's K1..K8 ORDER, stores each on state, and attaches a compact roll-up
+  // to state additively (new key financeNeuro). The servo / phase / E/I brake are already wired
+  // inline in _updateFinanceModel (existing actuation), so they are referenced here, not re-run.
+  FinanceBrain.prototype._computeFinanceNeuroLayers = function () {
+    this._computeFinanceAfferent();          // K1 — afferent inter-brain input
+    this._computeFinanceGainControl();       // K2 — neuromodulatory gain application
+    this._consolidateFinanceSlowModel();     // K3 — slow consolidation / long-term plasticity
+    this._scoreFinanceOutcomes();            // K4 — outcome / credit learning (TRUTH BRAKE, self-consistency)
+    this._computeFinancePerceptionDepth();   // K5 — deep hierarchical perception
+    this._computeFinanceAttention();         // K6 — attention / selective routing
+    this._computeFinanceInhibition();        // K7 — lateral inhibition (microcircuit)
+    this._computeFinanceHomeostasis();       // K8 — adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'closed',                       // K1/K4/K8 wired into the spine (recurrent, one-cycle lag); K2/K5/K6/K7 advisory
+      afferent: s.financeAfferent || null,
+      gainControl: s.financeGainControl || null,
+      slowModel: s.financeSlowModel || null,
+      outcomeModel: s.financeOutcomeModel || null,
+      perceptionDepth: s.financePerceptionDepth || null,
+      attention: s.financeAttention || null,
+      inhibition: s.financeInhibition || null,
+      homeostasis: s.financeHomeostasis || null,
+      // existing actuation surfaces (computed inline in _updateFinanceModel this cycle)
+      servo: s.financeServo || null,
+      phaseDynamics: s.financePhaseDynamics || null,
+      eiBrake: s.financeEIBrake || null,
+      closedLoops: [
+        'K1 afferent -> base scoreStress (externalPressure folded into stress) + correlation_breakdown condition',
+        'K4 outcome -> _updateFinanceModel (hitRate scales learning rate; 3rd credit fallback)',
+        'K8 set-point -> readyForHandoff (blended adaptive floor via fm._effectiveFloor)'
+      ]
+    };
+    s.financeNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
+  };
+
   // ── The recurrent step — END of each cycle. Reads the prior from the PREVIOUS cycle, so
   //    cycle N+1's interpretation (predictedStress, readyForHandoff) depends on cycle N.
   //    NEVER touches the validated stress/diagnosis spine. ──
@@ -1195,19 +1476,30 @@
     //    homeostasis deviation; effector = proportional emission dampening applied below. ──
     try { if (this._actuation && this._actuation.servo) this._computeFinanceServo(); } catch (e) {}
 
-    var readyForHandoff = (fm.cycle > 0) && (predictedStress >= FM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+    // ── K8 CLOSED — homeostatic set-point: handoff gates on a 50/50 blend of the fixed floor and
+    //    the adaptive baseline (prior cycle's financeHomeostasis; needs >=10 samples, else the fixed
+    //    floor). Bounded to at most +0.15 above the fixed floor so a sustained-stress baseline cannot
+    //    ratchet the gate out of reach. Mirrors energy-brain.js K8 closure. ──
+    var _hm = this.state.financeHomeostasis;
+    var _floor = (_hm && typeof _hm.adaptiveBaseline === 'number' && _hm.samples >= 10)
+      ? _fmClamp(Math.min(0.5 * FM_STRESS_FLOOR + 0.5 * _hm.adaptiveBaseline, FM_STRESS_FLOOR + 0.15), 0.15, 0.6) : FM_STRESS_FLOOR;
+    fm._effectiveFloor = _floor;
 
-    // ── K4 CREDIT-SOURCE HOOK (mirrors energy-brain.js:1398-1414). A VALIDATED phase
-    //    transition (P3/P7, thing2 ground-truth) PREEMPTS the generic outcome ledger as the
-    //    teaching signal; a low hit-rate raises the effective learning rate. Bounded, reversible. ──
+    var readyForHandoff = (fm.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
+
+    // ── K4 CREDIT-SOURCE HOOK (mirrors energy-brain.js:1398-1414). A VALIDATED phase transition
+    //    (P3/P7, thing2 ground-truth) PREEMPTS the generic outcome ledger, which PREEMPTS the K4
+    //    stress-self-prediction TRUTH BRAKE (prior cycle's financeOutcomeModel; >=5 samples). A low
+    //    hit-rate raises the effective learning rate. Bounded, reversible, self-consistency only. ──
     var _lr = fm.plasticity.learningRate;
     var _pt = (this.state.financePhaseDynamics || {}).transition;
     var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
     var _led = (this.state.domainNeuro || {}).outcomeLedger || null;
     var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
+    var _om = this.state.financeOutcomeModel;   // K4 self-prediction (prior cycle), third fallback
     var _hit = _phaseReward ? (_pt.hit ? 1 : 0)
       : _fromLedger ? _led.hitRate
-      : null;
+      : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
     if (_hit !== null) _lr = _fmClamp(_lr * (1 + (1 - _hit)), FM_SLOW_RATE, 0.6);
     fm._effectiveLearningRate = _lr;
     fm._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none'));
@@ -1234,6 +1526,11 @@
 
     // H1-H6 — higher finance brain layers (domain-level, computed once per cycle BEFORE the DDP build)
     try { this._computeFinanceHigherLayers(); } catch (e) {}
+
+    // PHASE K — neuro-completion loop stack (K1..K8, Energy's order). Additive/advisory; the two
+    // Energy-faithful closures (K4 stress-self-pred credit fallback, K8 adaptive handoff floor) are
+    // consumed via one-cycle lag above. Reads cached state only; deterministic; never rewires the spine.
+    try { this._computeFinanceNeuroLayers(); } catch (e) {}
 
     // ── ACTUATION: E/I BRAKE (XIII.1) — dampen emitted-opportunity confidence PROPORTIONALLY to
     //    the servo's inhibition deficit vs drive. Effector = the same emission channel the generic
@@ -1270,6 +1567,7 @@
       servo: this.state.financeServo || null,
       phaseDynamics: this.state.financePhaseDynamics || null,
       eiBrake: this.state.financeEIBrake || null,
+      neuro: this.state.financeNeuro || null,   // PHASE K — K1..K8 neuro-completion roll-up (additive)
       regulationAdvisories: this.state.financeRegulationAdvisories || null,
       awareness: this.state.financeAwareness || null,
       conscience: this.state.financeConscience || null,

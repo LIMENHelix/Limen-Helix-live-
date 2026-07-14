@@ -1214,6 +1214,280 @@
     return out;
   };
 
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — INFRASTRUCTURE NEURO-COMPLETION LAYERS (2026-07-13, ported from energy-brain.js).
+  // The eight closed-loop stack layers Energy carries, adapted to read THIS domain's
+  // infraModel (prior/observation/predictionError/regulation) and infra caches — never
+  // Energy's state:
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (self-consistency TRUTH BRAKE — realized-stress
+  //      self-prediction; NOT an external/dopaminergic reward), K5 deep-perception depth,
+  //   K6 attention, K7 lateral inhibition, K8 homeostatic set-point.
+  // ADVISORY BY DESIGN: every layer COMPUTES and EXPOSES its signal on state, but NONE
+  // rewrites the scoring spine (stress, prior update, opportunity output, predictionError).
+  // Deterministic — reads cached state only; NO network / NO AI on the cycle. Never
+  // fabricates evidence. Wired into _updateInfraModel in K1..K8 order, before the servo.
+  // ════════════════════════════════════════════════════════════════════════════
+  var INFRA_K_SLOW_RATE = 0.08;      // slow consolidation rate (mirrors energy EM_SLOW_RATE)
+  var INFRA_K_OUTCOME_BUFFER = 40;   // rolling predicted-vs-realized samples
+  var INFRA_K_HOMEO_WINDOW = 60;     // cycles of stress baseline for the adaptive set-point
+  function _infraKClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  // K1 — afferent inter-brain integration (closed loop). Surfaces received cross-domain
+  // pressure and the stress delta it contributes. The infra scoreStress override already
+  // folds base external pressure into stress (sets _externalPressureApplied); this exposes
+  // the integrated read (contributors, applied delta) without re-adding anything.
+  InfrastructureBrain.prototype._computeInfrastructureAfferent = function () {
+    var s = this.state, em = s.infraModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,        // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                            // folded into stress by the infra scoreStress override
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: the infra scoreStress override (_baseScoreStress) folds externalPressure into stress each cycle (matches the other domains).',
+      lastAfferentAt: em.updated || now
+    };
+    s.infrastructureAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. infraModel.regulation carries gain + inhibition
+  // (from _infraRegulation) but NO outputScale effector. This shows the graded output
+  // modulation gain/inhibition WOULD imply on the opportunity set. ADVISORY: infra has no
+  // gain-control output cap wired (honest boundary — same reason _actuation.phase=false).
+  InfrastructureBrain.prototype._computeInfrastructureGainControl = function () {
+    var s = this.state, em = s.infraModel || {}, reg = em.regulation || {};
+    var opps = s.opportunities || [];
+    // infra has no reg.outputScale; derive an advisory proxy from inhibition (more inhibition -> tighter cap)
+    var inhibition = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var outputScale = _infraKClamp(1 - inhibition, 0.2, 1);
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: Math.round(outputScale * 1000) / 1000,          // advisory proxy (infra computes no true outputScale)
+      outputScaleProxy: true,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,                         // gain-scaled ranked cut (advisory only)
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: [],
+      unappliedTargets: ['stress', 'opportunity output', 'treatment surfacing'],
+      shadow: true,
+      note: 'ADVISORY: infra has no output-cap effector; outputScale is a 1-inhibition proxy. Not applied to the opportunity set (unlike energy K2).',
+      lastGainAt: em.updated || Date.now()
+    };
+    s.infrastructureGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight track
+  // (INFRA_K_SLOW_RATE) that never touches infraModel.prior; fast-vs-slow divergence is a
+  // real regime-shift indicator. Reads em.observation / em.prior (same shapes energy uses).
+  InfrastructureBrain.prototype._consolidateInfrastructureSlowModel = function () {
+    var s = this.state, em = s.infraModel || {}, obs = em.observation || null;
+    var slow = s.infrastructureSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: INFRA_K_SLOW_RATE, note: 'parallel slow-weight track (INFRA_K_SLOW_RATE); does NOT touch infraModel.prior'
+    };
+    if (obs) {
+      var r = INFRA_K_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _infraKClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _infraKClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (em.prior && typeof em.prior.expectedStress === 'number') ? em.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;            // fast prior pulled far from slow baseline
+    slow.updated = em.updated || Date.now();
+    s.infrastructureSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (self-consistency TRUTH BRAKE). Compares each cycle's
+  // predictedStress against the NEXT cycle's realized stress — an online forward-prediction
+  // loop learning from realized-stress SELF-prediction. NOT an external/dopaminergic reward
+  // (that is a separate deferred task). Measurement only; exposes hitRate / meanRealizedError.
+  InfrastructureBrain.prototype._scoreInfrastructureOutcomes = function () {
+    var s = this.state, em = s.infraModel || {};
+    var buf = this._infraOutcomeBuffer = this._infraOutcomeBuffer || [];
+    var obs = em.observation || null;
+    if (this._infraPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._infraPrevPrediction, realized: obs.stress, err: Math.abs(this._infraPrevPrediction - obs.stress) });
+      if (buf.length > INFRA_K_OUTCOME_BUFFER) buf.shift();
+    }
+    this._infraPrevPrediction = (typeof em.predictedStress === 'number') ? em.predictedStress : null;  // stash for next-cycle reconciliation
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,   // does the forecast come true
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                  // fraction within 0.1 of realized
+      loopType: 'online-continuous (predicted-vs-next-realized) self-consistency; NOT an external reward',
+      creditAssignmentActive: (n >= 5),
+      note: 'TRUTH BRAKE (self-consistency): learns from realized-stress self-prediction; hitRate is the calibration read. ADVISORY — not fed back into the infra scoring spine.',
+      lastOutcomeAt: em.updated || Date.now()
+    };
+    s.infrastructureOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception / prediction-error depth. Aggregates the perception
+  // depth the brain HAS (L1 branch scan + grid sub-portal caches; NO new fetches) and
+  // estimates the portalError the recurrent model currently omits. ADVISORY: infra's
+  // _infraPredictionError does not consume this (honest note), unlike energy K5.
+  InfrastructureBrain.prototype._computeInfrastructurePerceptionDepth = function () {
+    var s = this.state, em = s.infraModel || {};
+    var l1 = s._l1DepthCache || null;
+    var grid = s.gridLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'synthetic (immune-blocked from traversal)' },
+      { level: 'GRID', name: 'grid-subportal', status: (grid && grid.loaded) ? 'loaded' : 'absent', activeCount: (grid && grid.activeCount) || 0 }
+    ];
+    var loadedDepth = (grid && grid.loaded) ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + ((grid && grid.count) ? grid.count : 0);
+    var blocked = l1Mad + 1;                                       // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY: perception stops at L1 (L2 quarantined); portalErrorEstimate is NOT folded into _infraPredictionError. No new fetches.',
+      lastDepthAt: em.updated || Date.now()
+    };
+    s.infrastructurePerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance +
+  // prediction-error novelty, plus any operator attention-focus steer) and names focus vs
+  // suppressed diagnoses, without gating the pipeline. ADVISORY read.
+  InfrastructureBrain.prototype._computeInfrastructureAttention = function () {
+    var s = this.state, em = s.infraModel || {}, reg = em.regulation || {};
+    var pe = (em.predictionError && em.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking exposed for visibility; does not gate the pipeline.',
+      lastAttentionAt: em.updated || Date.now()
+    };
+    s.infrastructureAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). regulation.inhibition is computed by
+  // _infraRegulation; this shows the winner-take-most ranking it implies among competing
+  // active diagnoses. ADVISORY read.
+  InfrastructureBrain.prototype._computeInfrastructureInhibition = function () {
+    var s = this.state, em = s.infraModel || {}, reg = em.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most read among active diagnoses; not applied to opportunity ranking.',
+      lastInhibitionAt: em.updated || Date.now()
+    };
+    s.infrastructureInhibition = li; return li;
+  };
+
+  // K8 — adaptive homeostatic set-point (Turrigiano-style synaptic scaling). Maintains an
+  // adaptive stress baseline from its OWN rolling window (self-sufficient; does not depend on
+  // base populating memory.stressHistory) alongside the fixed INFRA_EM_STRESS_FLOOR set-point.
+  InfrastructureBrain.prototype._computeInfrastructureHomeostasis = function () {
+    var s = this.state, em = s.infraModel || {};
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var win = this._infraHomeoWindow = this._infraHomeoWindow || [];
+    win.push(cur);
+    if (win.length > INFRA_K_HOMEO_WINDOW) win.shift();
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += win[i];
+    var baseline = n ? sum / n : 0.5;                             // adaptive set-point vs fixed INFRA_EM_STRESS_FLOOR
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: INFRA_EM_STRESS_FLOOR,                          // current hardcoded set-point
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,                               // synaptic-scaling multiplier
+      samples: n,
+      note: 'ADVISORY: adaptive baseline maintained alongside (never replacing) the fixed INFRA_EM_STRESS_FLOOR. Consumed by the servo as a deviation reference.',
+      lastHomeostasisAt: em.updated || Date.now()
+    };
+    s.infrastructureHomeostasis = hm; return hm;
+  };
+
+  // Assemble the neuro-completion surface (mirrors energy's _computeEnergyNeuroLayers). Runs
+  // all eight K-layers in K1..K8 order, stores each on state (like infraImmune/infraAwareness),
+  // and attaches a compact roll-up to state.cognition ADDITIVELY (new key `neuro`; existing
+  // keys untouched). Called from _updateInfraModel BEFORE the servo, so K8's homeostasis
+  // deviation is available to the servo's allostatic target the same cycle.
+  InfrastructureBrain.prototype._computeInfrastructureNeuroLayers = function () {
+    this._computeInfrastructureAfferent();         // K1 — afferent inter-brain input
+    this._computeInfrastructureGainControl();       // K2 — neuromodulatory gain application
+    this._consolidateInfrastructureSlowModel();     // K3 — slow consolidation / long-term plasticity
+    this._scoreInfrastructureOutcomes();            // K4 — outcome / credit learning (self-consistency truth brake)
+    this._computeInfrastructurePerceptionDepth();   // K5 — deep hierarchical perception
+    this._computeInfrastructureAttention();         // K6 — attention / selective routing
+    this._computeInfrastructureInhibition();        // K7 — lateral inhibition (microcircuit)
+    this._computeInfrastructureHomeostasis();       // K8 — adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                            // K-loops computed + exposed; not wired into the scoring spine
+      afferent: s.infrastructureAfferent || null,
+      gainControl: s.infrastructureGainControl || null,
+      slowModel: s.infrastructureSlowModel || null,
+      outcomeModel: s.infrastructureOutcomeModel || null,
+      perceptionDepth: s.infrastructurePerceptionDepth || null,
+      attention: s.infrastructureAttention || null,
+      inhibition: s.infrastructureInhibition || null,
+      homeostasis: s.infrastructureHomeostasis || null
+    };
+    s.infrastructureNeuro = neuro;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
+    return neuro;
+  };
+
   // ── GENERATIVE NODE->BUSINESS AUTHORING — DOCUMENTED NO-OP STUB (never called from the cycle) ──
   // This is the one genuinely "code-cannot-do-this" slot: authoring net-new node->business theses in
   // natural language is a generative-LLM task, not a deterministic computation. COST-SAFETY CONTRACT:
@@ -1463,6 +1737,11 @@
       var mem = this.state.memory || (this.state.memory = {}); var log = mem.outcomeLog || (mem.outcomeLog = []);
       log.push({ cycle: em.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
       try { this._computeInfraHigherLayers(); } catch (e) {}
+
+      // ── K1-K8 NEURO STACK (2026-07-13) — runs after the higher layers settle and BEFORE the servo,
+      // so K8's adaptive-baseline deviation feeds the servo's allostatic target the same cycle
+      // (K1..K8 order, mirroring energy). Advisory: computes + exposes; never rewrites the spine.
+      try { this._computeInfrastructureNeuroLayers(); } catch (e) {}
 
       // ── ACTUATION LAYER (2026-07-13) — runs at cycle end so it reads the settled governor layers;
       // its outputs (infraBrake) are CONSUMED on the NEXT cycle (one-cycle lag, recurrent). Each is

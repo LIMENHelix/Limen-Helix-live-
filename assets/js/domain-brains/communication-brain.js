@@ -530,6 +530,13 @@
       // H1-H6 — higher communication layers (BEFORE the DDP build so the packet embeds their summaries).
       try { this._computeCommunicationHigherLayers(); } catch (e) {}
 
+      // PHASE K — K1..K8 neuro-completion stack (ported from energy-brain, reading THIS
+      // domain's state). Runs in the SAME K1..K8 order energy uses, AFTER the higher layers
+      // so it reads the fresh cognition surface, and BEFORE the actuation core so K8's
+      // homeostasis (deviationFromBaseline) is available to the servo. Additive/advisory;
+      // 100% deterministic (no fetch, no AI). Wrapped so it can never break the cycle.
+      try { this._computeCommunicationNeuroLayers(); } catch (e) {}
+
       // ── ACTUATION (2026-07-13) — regulate-to-target servo + E/I brake + refractory + self-audit,
       // mirroring energy-brain's actuated core but reading COMMUNICATION's own state/edges. Each is
       // behind its _actuation flag and 100% DETERMINISTIC (no AI, no fetch-to-LLM on the cycle). The
@@ -572,6 +579,8 @@
         conscience: this.state.communicationConscience || null,
         immune: this.state.communicationImmune || null,
         intuition: this.state.communicationIntuition || null,
+        // ── K1..K8 neuro-completion roll-up (additive; generic consoles read this) ──
+        neuro: this.state.communicationNeuro || null,
         // ── ACTUATION surfaces (2026-07-13) — additive; generic consoles read these ──
         actuation: this._actuation || null,
         communicationServo: this.state.communicationServo || null,
@@ -964,6 +973,282 @@
       body: JSON.stringify({ domain: 'communication', nodeId: nodeId, operatorTriggered: true, context: opts.context || null })
     }).then(function (r) { return r.ok ? r.json() : { ok: false, status: r.status }; })
       .catch(function () { return { ok: false, reason: 'network' }; });
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE K — COMMUNICATION NEURO-COMPLETION LAYERS (K1..K8; communication-local,
+  // additive, reversible). Ported from energy-brain's K1-K8 stack, reading THIS
+  // domain's state/edges (communicationModel, communication feeds, communication
+  // diagnoses, the communication node/edge graph). Mirrors energy STRUCTURE; the
+  // CONTENT is communication (information-flow / network / channel-concentration).
+  //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
+  //   K4 outcome / credit learning (SELF-CONSISTENCY truth brake — realized-stress
+  //      self-prediction / hitRate; NOT an external or dopaminergic reward signal),
+  //   K5 deep-perception depth, K6 attention, K7 lateral inhibition, K8 homeostatic
+  //      set-point.
+  // ADVISORY BY DESIGN: every layer COMPUTES and EXPOSES its signal on state; NONE
+  // rewires the scoring spine (stress / prior update / opportunity output). The
+  // behavior CHANGE in this domain is carried by the already-wired actuation core
+  // (servo + E/I brake + refractory), which these layers sit ALONGSIDE, not replace.
+  // 100% DETERMINISTIC: reads cached state only — no network fetch, no AI/LLM call,
+  // ever, on the cycle. Never fabricates evidence.
+  // ════════════════════════════════════════════════════════════════════════════
+  var CK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples (K4)
+  var CK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point (K8)
+
+  // K1 — afferent inter-brain integration. Surfaces the cross-domain pressure other
+  // brains emit INTO communication and the stress delta it contributes. Communication's
+  // base scoreStress already folds getExternalPressure() into stress (shared with the
+  // other 18 domains, base sets _externalPressureApplied); this READS that closed loop.
+  CommunicationBrain.prototype._computeCommunicationAfferent = function () {
+    var s = this.state, cm = s.communicationModel || {};
+    var raw = this._externalSignals || [];
+    var now = Date.now();
+    var bySource = {}, active = 0;
+    for (var i = 0; i < raw.length; i++) {
+      var sig = raw[i];
+      var age = now - (sig.receivedAt || now);
+      var weight = age < 300000 ? 1 : Math.max(0, 1 - (age - 300000) / 600000);
+      if (weight <= 0) continue;
+      active++;
+      var k = sig.source || 'unknown';
+      if (!bySource[k]) bySource[k] = { source: k, signals: [], weightedMagnitude: 0 };
+      bySource[k].signals.push(sig.signal);
+      bySource[k].weightedMagnitude += (sig.magnitude || 0) * weight;
+    }
+    var pressure = (typeof this.getExternalPressure === 'function') ? this.getExternalPressure() : 0;
+    var contributors = Object.keys(bySource).map(function (kk) { return bySource[kk]; })
+      .sort(function (a, b) { return b.weightedMagnitude - a.weightedMagnitude; });
+    var af = {
+      version: 1,
+      externalPressure: Math.round(pressure * 1000) / 1000,          // base-capped at 0.3
+      receivedSignalCount: raw.length,
+      activeSignalCount: active,
+      contributors: contributors.slice(0, 6),
+      integrated: true,                                              // K1 CLOSED — base scoreStress folds it into stress
+      appliedStressDelta: Math.round(((s._externalPressureApplied) || 0) * 1000) / 1000,
+      wouldRaiseStressBy: Math.round(pressure * 1000) / 1000,
+      note: 'CLOSED: communication base scoreStress adds externalPressure to stress each cycle (matches the other 18 domains).',
+      lastAfferentAt: cm.updated || now
+    };
+    s.communicationAfferent = af; return af;
+  };
+
+  // K2 — neuromodulatory gain application. Surfaces the graded output modulation implied
+  // by the model's regulation (gain / inhibition / outputScale) over the current
+  // opportunity set. Communication's regulation has no outputScale term → defaults to 1
+  // (no cap). ADVISORY: exposed for the console; the actual efferent-output modulation in
+  // this domain is done by the servo + E/I brake, not by an opportunity-rank gate.
+  CommunicationBrain.prototype._computeCommunicationGainControl = function () {
+    var s = this.state, cm = s.communicationModel || {}, reg = cm.regulation || {};
+    var opps = s.opportunities || [];
+    var outputScale = (typeof reg.outputScale === 'number') ? reg.outputScale : 1;
+    var wouldCapAt = Math.max(1, Math.round(opps.length * outputScale));
+    var gc = {
+      version: 1,
+      gain: (typeof reg.gain === 'number') ? reg.gain : null,
+      inhibition: (typeof reg.inhibition === 'number') ? reg.inhibition : null,
+      outputScale: outputScale,
+      currentOpportunityCount: opps.length,
+      wouldCapOpportunitiesAt: wouldCapAt,
+      wouldSuppress: Math.max(0, opps.length - wouldCapAt),
+      appliedTargets: ['predictedStress (gain-blend, in _updateCommunicationModel)'],
+      unappliedTargets: ['stress', 'opportunity output', 'treatment surfacing'],
+      shadow: true,
+      lastGatedCount: (s._neuroGatedCount || 0),
+      note: 'ADVISORY: gain reaches predictedStress via the model gain-blend; opportunity/emission modulation is carried by the servo + E/I brake, not an opportunity-rank cap.',
+      lastGainAt: cm.updated || Date.now()
+    };
+    s.communicationGainControl = gc; return gc;
+  };
+
+  // K3 — slow consolidation / long-term plasticity. Maintains a PARALLEL slow-weight
+  // track (CM_SLOW_RATE) that never touches cm.prior; fast-vs-slow divergence is a real
+  // regime-shift indicator (the fast prior pulled far from the slow baseline).
+  CommunicationBrain.prototype._consolidateCommunicationSlowModel = function () {
+    var s = this.state, cm = s.communicationModel || {}, obs = cm.observation || null;
+    var slow = s.communicationSlowModel || {
+      version: 1, cycle: 0,
+      slow: { expectedStress: 0.5, expectedDiagnosisCount: 0, expectedOpportunityCount: 0, expectedSignal: 0.5, samples: 0 },
+      rate: CM_SLOW_RATE, note: 'parallel slow-weight track (CM_SLOW_RATE); does NOT touch cm.prior'
+    };
+    if (obs) {
+      var r = CM_SLOW_RATE, w = slow.slow;
+      w.expectedStress = _cmClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
+      w.expectedSignal = _cmClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
+      w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
+      w.expectedOpportunityCount = w.expectedOpportunityCount + r * ((obs.opportunityCount || 0) - w.expectedOpportunityCount);
+      w.samples += 1;
+      slow.cycle += 1;
+    }
+    var fast = (cm.prior && typeof cm.prior.expectedStress === 'number') ? cm.prior.expectedStress : 0.5;
+    slow.fastSlowDivergence = Math.round(Math.abs(fast - slow.slow.expectedStress) * 1000) / 1000;
+    slow.regimeShift = slow.fastSlowDivergence > 0.25;
+    slow.updated = cm.updated || Date.now();
+    s.communicationSlowModel = slow; return slow;
+  };
+
+  // K4 — outcome / credit learning (SELF-CONSISTENCY TRUTH BRAKE). Reconciles each
+  // cycle's predictedStress against the NEXT cycle's realized stress (online forward
+  // prediction). hitRate = fraction of predictions within 0.1 of realized — this is the
+  // domain's realized-stress self-prediction calibration, NOT an external / dopaminergic
+  // reward (that is a separate deferred task and is deliberately not fabricated here).
+  CommunicationBrain.prototype._scoreCommunicationOutcomes = function () {
+    var s = this.state, cm = s.communicationModel || {};
+    var buf = this._communicationOutcomeBuffer = this._communicationOutcomeBuffer || [];
+    var obs = cm.observation || null;
+    if (this._communicationPrevPrediction != null && obs && typeof obs.stress === 'number') {
+      buf.push({ predicted: this._communicationPrevPrediction, realized: obs.stress, err: Math.abs(this._communicationPrevPrediction - obs.stress) });
+      if (buf.length > CK_OUTCOME_BUFFER) buf.shift();
+    }
+    this._communicationPrevPrediction = (typeof cm.predictedStress === 'number') ? cm.predictedStress : null;
+    var n = buf.length, sumErr = 0, sumSq = 0, hits = 0;
+    for (var i = 0; i < n; i++) { sumErr += buf[i].err; sumSq += buf[i].err * buf[i].err; if (buf[i].err <= 0.1) hits++; }
+    var om = {
+      version: 1,
+      samples: n,
+      meanRealizedError: n ? Math.round((sumErr / n) * 1000) / 1000 : null,
+      brierLike: n ? Math.round((sumSq / n) * 1000) / 1000 : null,
+      hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // realized-stress self-prediction hit-rate
+      callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,               // TRUTH-BRAKE calibration alias (self-consistency)
+      loopType: 'online-continuous (predicted-vs-next-realized) self-consistency; NOT an external reward signal',
+      creditAssignmentActive: (n >= 5),
+      note: 'TRUTH BRAKE (self-consistency): does the forecast come true. Advisory — communication runs a fixed learning rate with no validated ground-truth label, so hitRate is exposed but never speeds the learning rate (that would be an unvalidated teaching signal).',
+      lastOutcomeAt: cm.updated || Date.now()
+    };
+    s.communicationOutcomeModel = om; return om;
+  };
+
+  // K5 — deep hierarchical perception. Aggregates the perception depth the brain HAS
+  // (existing L1 branch-scan cache + the NETWORK sub-portal layer, no new fetches) and
+  // estimates the portalError the recurrent model does not yet fold in. L2 is quarantined
+  // (mad-lib / synthetic). CONTENT analog of energy's datacenter layer = the network layer.
+  CommunicationBrain.prototype._computeCommunicationPerceptionDepth = function () {
+    var s = this.state, cm = s.communicationModel || {};
+    var l1 = s._l1DepthCache || null;
+    var net = s.networkLayer || null;
+    var l1Real = 0, l1Mad = 0;
+    if (l1 && l1.byDiagnosis) { Object.keys(l1.byDiagnosis).forEach(function (k) { l1Real += (l1.byDiagnosis[k].realTreatments || 0); l1Mad += (l1.byDiagnosis[k].madLibTreatments || 0); }); }
+    var netLoaded = !!(net && (net.loaded || net.activeCount || net.count));
+    var netCount = (net && (net.count || net.activeCount)) || 0;
+    var levels = [
+      { level: 'L0', name: 'root', status: (this._portalCache || s._portalCache) ? 'loaded' : 'pending' },
+      { level: 'L1', name: 'branch-scan', status: l1 ? 'scanned' : 'pending', realTreatments: l1Real, madLibTreatments: l1Mad },
+      { level: 'L2', name: 'deep-cortex', status: 'quarantined', note: 'mad-lib / synthetic (immune-blocked)' },
+      { level: 'NET', name: 'network-subportal', status: netLoaded ? 'loaded' : 'absent', activeCount: netCount }
+    ];
+    var loadedDepth = netLoaded ? 3 : (l1 ? 1 : 0);
+    var admissible = l1Real + netCount;
+    var blocked = l1Mad + 1;                                        // +1 for the quarantined L2 tier
+    var portalErrorEstimate = Math.round((blocked / Math.max(1, admissible + blocked)) * 1000) / 1000;
+    var pd = {
+      version: 1, levels: levels, deepestUsableLevel: loadedDepth,
+      portalErrorEstimate: portalErrorEstimate,
+      note: 'ADVISORY: perception stops at L1 (+network layer); L2 quarantined. portalErrorEstimate exposed but not folded into the model prediction error. No new fetches.',
+      lastDepthAt: cm.updated || Date.now()
+    };
+    s.communicationPerceptionDepth = pd; return pd;
+  };
+
+  // K6 — attention / selective routing. Ranks top-down salience (active + relevance +
+  // novelty, plus any operator attention-focus steer) and names focus vs suppressed,
+  // without gating the pipeline (advisory).
+  CommunicationBrain.prototype._computeCommunicationAttention = function () {
+    var s = this.state, cm = s.communicationModel || {}, reg = cm.regulation || {};
+    var pe = (cm.predictionError && cm.predictionError.total) || 0;
+    var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
+    var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var scored = (s.diagnoses || []).map(function (d) {
+      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;
+      return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
+    }).sort(function (a, b) { return b.salience - a.salience; });
+    var at = {
+      version: 1,
+      driver: reg.state === 'surprised' ? 'novelty-driven (bottom-up)' : 'goal-driven (top-down)',
+      focus: scored.slice(0, 3),
+      suppressed: scored.slice(3).map(function (x) { return x.id; }).slice(0, 8),
+      broadenUnderSurprise: reg.state === 'surprised',
+      note: 'ADVISORY: salience ranking exposed for the console; does not gate opportunity/diagnosis surfacing.',
+      lastAttentionAt: cm.updated || Date.now()
+    };
+    s.communicationAttention = at; return at;
+  };
+
+  // K7 — lateral inhibition (microcircuit). Shows the winner-take-most ranking that
+  // reg.inhibition implies among competing active diagnoses (advisory).
+  CommunicationBrain.prototype._computeCommunicationInhibition = function () {
+    var s = this.state, cm = s.communicationModel || {}, reg = cm.regulation || {};
+    var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var active = (s.diagnoses || []).filter(function (d) { return d.active; })
+      .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
+    var winner = active[0] || null;
+    var li = {
+      version: 1, inhibitionStrength: inhib,
+      winner: winner ? winner.id : null,
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      note: 'ADVISORY: winner-take-most ranking exposed; not applied as an opportunity down-weight (the E/I brake carries efferent dampening).',
+      lastInhibitionAt: cm.updated || Date.now()
+    };
+    s.communicationInhibition = li; return li;
+  };
+
+  // K8 — homeostatic set-point (microcircuit). Maintains an adaptive stress baseline
+  // (Turrigiano-style synaptic scaling) over the recent stressHistory, alongside the
+  // fixed CM_STRESS_FLOOR, without replacing it. Advisory: exposed as an allostatic
+  // reference; the actuation servo computes its OWN drive-deviation (from the model's
+  // learned expectedStress), so this baseline is a parallel readout, not its input.
+  CommunicationBrain.prototype._computeCommunicationHomeostasis = function () {
+    var s = this.state, cm = s.communicationModel || {};
+    var win = ((s.memory && s.memory.stressHistory) || []).slice(-CK_HOMEO_WINDOW);
+    var n = win.length, sum = 0;
+    for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
+    var baseline = n ? sum / n : 0.5;
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var scalingFactor = baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1;
+    var hm = {
+      version: 1,
+      fixedFloor: CM_STRESS_FLOOR,
+      adaptiveBaseline: Math.round(baseline * 1000) / 1000,
+      currentStress: cur,
+      deviationFromBaseline: Math.round((cur - baseline) * 1000) / 1000,
+      scalingFactor: scalingFactor,
+      samples: n,
+      note: 'adaptive set-point (synaptic scaling) alongside the fixed CM_STRESS_FLOOR; parallel allostatic readout — the actuation servo derives its own drive-deviation from the model expectedStress.',
+      lastHomeostasisAt: cm.updated || Date.now()
+    };
+    s.communicationHomeostasis = hm; return hm;
+  };
+
+  // Assemble the K1..K8 neuro-completion surface (mirrors _computeEnergyNeuroLayers).
+  // Runs all eight K-layers in the SAME order energy uses, stores each on state, and
+  // attaches a compact roll-up to state.communicationNeuro (also exposed under
+  // cognition.neuro). Additive; runs ALONGSIDE the existing actuation core.
+  CommunicationBrain.prototype._computeCommunicationNeuroLayers = function () {
+    this._computeCommunicationAfferent();          // K1 - afferent inter-brain input
+    this._computeCommunicationGainControl();       // K2 - neuromodulatory gain application
+    this._consolidateCommunicationSlowModel();     // K3 - slow consolidation / long-term plasticity
+    this._scoreCommunicationOutcomes();            // K4 - outcome / credit learning (self-consistency truth brake)
+    this._computeCommunicationPerceptionDepth();   // K5 - deep hierarchical perception
+    this._computeCommunicationAttention();         // K6 - attention / selective routing
+    this._computeCommunicationInhibition();        // K7 - lateral inhibition (microcircuit)
+    this._computeCommunicationHomeostasis();       // K8 - adaptive set-point (microcircuit)
+    var s = this.state;
+    var neuro = {
+      version: 1,
+      status: 'advisory',                          // K-layers compute+expose; actuation core carries behavior change
+      afferent: s.communicationAfferent || null,
+      gainControl: s.communicationGainControl || null,
+      slowModel: s.communicationSlowModel || null,
+      outcomeModel: s.communicationOutcomeModel || null,
+      perceptionDepth: s.communicationPerceptionDepth || null,
+      attention: s.communicationAttention || null,
+      inhibition: s.communicationInhibition || null,
+      homeostasis: s.communicationHomeostasis || null
+    };
+    s.communicationNeuro = neuro;
+    return neuro;
   };
 
   // ════════════════════════════════════════════════════════════════════════════
