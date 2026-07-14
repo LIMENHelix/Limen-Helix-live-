@@ -35,6 +35,36 @@
   function readPhase(d){ if(!d) return null; return d.brainKernelPhase || d.brainPhase || null; }
   function readTraj(d){ if(!d) return null; return d.brainKernelTrajectory || d.brainTrajectory || null; }
   function readSrc(d){ if(!d) return 'fallback'; return d.brainPhaseSource==='thing2-kernel'?'kernel':'fallback'; }
+  function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function readFeeds(d){
+    if(!d) return [];
+    var out=[];
+    if(Array.isArray(d.sources)&&d.sources.length){
+      d.sources.forEach(function(s){ if(!s)return; out.push({name:s.name||s.label||'source', live:(typeof s.live==='boolean'?s.live:null), updated:s.updated}); });
+      return out;
+    }
+    if(Array.isArray(d.brainFeeds)&&d.brainFeeds.length){
+      d.brainFeeds.forEach(function(s){ if(!s)return; if(typeof s==='string'){out.push({name:s,live:null});return;} out.push({name:s.name||s.label||'feed', live:(typeof s.live==='boolean'?s.live:null), updated:s.updated}); });
+    }
+    return out;
+  }
+  function ago(u){ if(u==null)return''; var ts=(typeof u==='number')?u:Date.parse(u); if(!ts||isNaN(ts))return''; var s=Math.max(0,Math.round((Date.now()-ts)/1000)); return s<60?s+'s':s<3600?Math.round(s/60)+'m':Math.round(s/3600)+'h'; }
+  function renderFeeds(m){
+    var d=live(m.keys), feeds=readFeeds(d);
+    if(!feeds.length){ m.feeds.innerHTML='<div class="bb-nofeeds">No feeds attached to this domain yet.</div>'; return; }
+    var liveN=feeds.filter(function(f){return f.live===true;}).length;
+    var html='<div class="bb-feed-head">Feeds &middot; '+liveN+'/'+feeds.length+' live</div>';
+    feeds.forEach(function(f){
+      var cls=f.live===true?'on':f.live===false?'off':'unk';
+      var stat=f.live===true?'LIVE':f.live===false?'OFFLINE':'UNKNOWN';
+      var age=ago(f.updated);
+      html+='<div class="bb-feed"><span class="bb-fdot '+cls+'"></span>'
+        +'<span class="bb-fname">'+esc(f.name)+'</span>'
+        +'<span class="bb-fstat '+cls+'">'+stat+'</span>'
+        +(age?'<span class="bb-fage">'+esc(age)+'</span>':'')+'</div>';
+    });
+    m.feeds.innerHTML=html;
+  }
 
   function injectCSS(){
     if(document.getElementById('limen-bb-css')) return;
@@ -47,7 +77,23 @@
       '#limen-brain-board .bb-sum{font-family:ui-monospace,monospace;font-size:11px;color:#8fa2bd;display:flex;gap:14px;flex-wrap:wrap}',
       '#limen-brain-board .bb-sum b{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:-1px}',
       '#limen-brain-board .bb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}',
-      '#limen-brain-board .bb-card{position:relative;background:linear-gradient(180deg,rgba(16,24,40,.86),rgba(10,17,30,.92));border:1px solid rgba(120,150,200,.14);border-radius:14px;padding:12px 14px;overflow:hidden}',
+      '#limen-brain-board .bb-card{position:relative;background:linear-gradient(180deg,rgba(16,24,40,.86),rgba(10,17,30,.92));border:1px solid rgba(120,150,200,.14);border-radius:14px;padding:12px 14px;overflow:hidden;cursor:pointer;transition:border-color .2s}',
+      '#limen-brain-board .bb-card:hover{border-color:rgba(120,150,200,.34)}',
+      '#limen-brain-board .bb-cx{margin-left:8px;color:#5d6f8d;font-size:11px;transition:transform .2s;flex:none}',
+      '#limen-brain-board .bb-card.open .bb-cx{transform:rotate(90deg)}',
+      '#limen-brain-board .bb-feeds{display:none;margin-top:11px;border-top:1px solid rgba(120,150,200,.14);padding-top:9px}',
+      '#limen-brain-board .bb-card.open .bb-feeds{display:block}',
+      '#limen-brain-board .bb-feed-head{font-family:ui-monospace,monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#63748f;margin-bottom:6px}',
+      '#limen-brain-board .bb-feed{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11px}',
+      '#limen-brain-board .bb-fdot{width:7px;height:7px;border-radius:50%;flex:none}',
+      '#limen-brain-board .bb-fdot.on{background:#4fd18e;box-shadow:0 0 7px #4fd18e}',
+      '#limen-brain-board .bb-fdot.off{background:#e0685c}',
+      '#limen-brain-board .bb-fdot.unk{background:#5d6f8d}',
+      '#limen-brain-board .bb-fname{color:#cdd8e8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '#limen-brain-board .bb-fstat{margin-left:auto;font-family:ui-monospace,monospace;font-size:9px;letter-spacing:.06em}',
+      '#limen-brain-board .bb-fstat.on{color:#4fd18e} #limen-brain-board .bb-fstat.off{color:#e0685c} #limen-brain-board .bb-fstat.unk{color:#63748f}',
+      '#limen-brain-board .bb-fage{color:#5d6f8d;font-family:ui-monospace,monospace;font-size:9px;margin-left:8px}',
+      '#limen-brain-board .bb-nofeeds{font-size:11px;color:#63748f;font-style:italic}',
       '#limen-brain-board .bb-card::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sev);box-shadow:0 0 14px var(--sev)}',
       '#limen-brain-board .bb-top{display:flex;align-items:center;gap:8px}',
       '#limen-brain-board .bb-dot{width:9px;height:9px;border-radius:50%;background:var(--sev);flex:none;box-shadow:0 0 8px var(--sev)}',
@@ -88,16 +134,18 @@
     D.forEach(function(row){
       var c=document.createElement('div'); c.className='bb-card';
       c.innerHTML='<div class="bb-top"><span class="bb-dot"></span><span class="bb-nm">'+row[0]+'</span>'
-        +'<span class="bb-src"><i></i><span class="bb-srct">…</span></span></div>'
+        +'<span class="bb-src"><i></i><span class="bb-srct">…</span></span><span class="bb-cx">&#9654;</span></div>'
         +'<div class="bb-mid"><span class="bb-val">0<small>/100</small></span><canvas class="bb-spark"></canvas></div>'
         +'<div class="bb-bar"><div class="bb-fill"></div></div>'
-        +'<div class="bb-tags"><span class="bb-ph">—</span><span class="bb-fam"></span><span class="bb-traj">—</span></div>';
+        +'<div class="bb-tags"><span class="bb-ph">—</span><span class="bb-fam"></span><span class="bb-traj">—</span></div>'
+        +'<div class="bb-feeds"></div>';
       g.appendChild(c);
-      var m={ keys:row[1], card:c,
+      var m={ keys:row[1], card:c, name:row[0],
         val:c.querySelector('.bb-val'), fill:c.querySelector('.bb-fill'),
         ph:c.querySelector('.bb-ph'), fam:c.querySelector('.bb-fam'), traj:c.querySelector('.bb-traj'),
-        srcW:c.querySelector('.bb-src'), srct:c.querySelector('.bb-srct'),
-        cv:c.querySelector('canvas'), buf:[], spk:0, seed:row[0].length*1.3 };
+        srcW:c.querySelector('.bb-src'), srct:c.querySelector('.bb-srct'), feeds:c.querySelector('.bb-feeds'),
+        cv:c.querySelector('canvas'), buf:[], spk:0, seed:row[0].length*1.3, open:false };
+      c.addEventListener('click', (function(mm){ return function(){ mm.open=!mm.open; mm.card.classList.toggle('open',mm.open); if(mm.open) renderFeeds(mm); }; })(m));
       size(m); cards.push(m);
     });
   }
@@ -144,7 +192,8 @@
       +'<span><b style="background:#ff6a5a"></b>breaking '+f.break+'</span>'
       +'<span><b style="background:#8a92ff"></b>driving '+f.drive+'</span>'
       +'<span style="color:#ff8a7a">'+st+' elevated</span>'
-      +'<span style="color:#34d1c8">'+k+'/20 kernel</span>'; }
+      +'<span style="color:#34d1c8">'+k+'/20 kernel</span>';
+    for(var oi=0;oi<cards.length;oi++){ if(cards[oi].open) renderFeeds(cards[oi]); } }
 
   function boot(){ injectCSS(); if(!document.getElementById('limen-brain-board')) build(); updSum(); setInterval(updSum,1500); requestAnimationFrame(loop); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
