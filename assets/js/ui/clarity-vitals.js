@@ -121,13 +121,28 @@
       '#limen-brain-board .bb-post.abstain{color:#9aa6bd;background:rgba(120,150,200,.13)}',
       '#limen-brain-board .bb-act{color:#8fa2bd}',
       '#limen-brain-board .bb-choice{color:#cdd8e8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}',
+      '#limen-brain-board #bb-ws{background:linear-gradient(180deg,rgba(20,28,48,.92),rgba(12,18,34,.95));border:1px solid rgba(120,150,200,.22);border-radius:16px;padding:15px 18px;margin-bottom:16px}',
+      '#limen-brain-board .bb-ws-top{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:8px}',
+      '#limen-brain-board .bb-ws-lab{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8fa2bd;font-weight:750}',
+      '#limen-brain-board .bb-ws-post{font-family:ui-monospace,monospace;font-weight:750;font-size:12px;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:7px}',
+      '#limen-brain-board .bb-ws-post.escalate{color:#ffb4ab;background:rgba(255,106,90,.17)}',
+      '#limen-brain-board .bb-ws-post.restrain{color:#ffd18a;background:rgba(255,193,75,.16)}',
+      '#limen-brain-board .bb-ws-post.act{color:#8fe3dd;background:rgba(52,209,200,.15)}',
+      '#limen-brain-board .bb-ws-post.hold{color:#7fdcc0;background:rgba(63,208,176,.14)}',
+      '#limen-brain-board .bb-ws-consc{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.05em}',
+      '#limen-brain-board .bb-ws-consc.restrictive{color:#ffd18a}',
+      '#limen-brain-board .bb-ws-consc.permissive{color:#7fdcc0}',
+      '#limen-brain-board .bb-ws-report{font-size:12.5px;color:#dbe4f2;line-height:1.55}',
+      '#limen-brain-board .bb-ws-spot{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}',
+      '#limen-brain-board .bb-ws-chip{font-family:ui-monospace,monospace;font-size:10px;color:#9db0cc;border:1px solid rgba(120,150,200,.26);border-radius:12px;padding:2px 9px}',
+      '#limen-brain-board .bb-ws-model{font-family:ui-monospace,monospace;font-size:8.5px;color:#5d6f8d;letter-spacing:.03em;margin-top:9px}',
       /* retire the old bouncy grey domain grid — the board replaces it */
       '.clr-domain-grid{display:none!important}'
     ].join('');
     document.head.appendChild(s);
   }
 
-  var cards=[], sumEl=null;
+  var cards=[], sumEl=null, wsEl=null;
   function build(){
     var grid=document.getElementById('console-grid');
     var host=document.createElement('section'); host.id='limen-brain-board';
@@ -135,9 +150,10 @@
     head.innerHTML='<span class="bb-title">Connectome &middot; live brain state</span>'
       +'<span class="bb-sum" id="bb-sum"></span>';
     var g=document.createElement('div'); g.className='bb-grid';
-    host.appendChild(head); host.appendChild(g);
+    var ws=document.createElement('div'); ws.id='bb-ws'; ws.innerHTML='<div class="bb-ws-report">binding domains…</div>';
+    host.appendChild(head); host.appendChild(ws); host.appendChild(g);
     if(grid&&grid.parentNode) grid.parentNode.insertBefore(host,grid); else document.body.insertBefore(host,document.body.firstChild);
-    sumEl=head.querySelector('#bb-sum');
+    sumEl=head.querySelector('#bb-sum'); wsEl=ws;
 
     D.forEach(function(row){
       var c=document.createElement('div'); c.className='bb-card';
@@ -206,7 +222,20 @@
       +'<span><b style="background:#8a92ff"></b>driving '+f.drive+'</span>'
       +'<span style="color:#ff8a7a">'+st+' elevated</span>'
       +'<span style="color:#34d1c8">'+k+'/20 kernel</span>';
-    for(var oi=0;oi<cards.length;oi++){ if(cards[oi].open) renderFeeds(cards[oi]); } }
+    for(var oi=0;oi<cards.length;oi++){ if(cards[oi].open) renderFeeds(cards[oi]); }
+    if(wsEl && window.LIMENWorkspace){
+      try{ var w=window.LIMENWorkspace.synthesize(window.LIMENDomains||{});
+        if(w && w.ready){
+          var spot=(w.broadcast||[]).map(function(b){return '<span class="bb-ws-chip">'+esc(b.domain)+' &middot; '+esc(b.posture)+'</span>';}).join('');
+          wsEl.innerHTML='<div class="bb-ws-top"><span class="bb-ws-lab">Global Workspace</span>'
+            +'<span class="bb-ws-post '+esc(w.posture)+'">'+esc(w.posture)+' &rarr; '+esc(w.boundedAction)+'</span>'
+            +'<span class="bb-ws-consc '+esc(w.conscience.state)+'">conscience: '+esc(w.conscience.state)+'</span></div>'
+            +'<div class="bb-ws-report">'+esc(w.selfReport)+'</div>'
+            +'<div class="bb-ws-spot">'+spot+'</div>'
+            +'<div class="bb-ws-model">'+esc(w.model)+'</div>';
+        }
+      }catch(e){}
+    } }
 
   function boot(){ injectCSS(); if(!document.getElementById('limen-brain-board')) build(); updSum(); setInterval(updSum,1500); requestAnimationFrame(loop); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
