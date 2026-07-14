@@ -512,7 +512,53 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeGovernanceRegulation(gm, obs, pe);
       var readyForHandoff = (gm.cycle > 0) && (predictedStress >= GM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      var nextPrior = this._updateGovernancePrior(priorIn, obs, gm.plasticity.learningRate);
+
+      // K4 CLOSED — credit assignment routed through the central honest reward gate
+      // (window.LIMENK4.credit). Governance is NOT externalRewardEligible (the validated kernel is
+      // fenced to Finance + Population): it has no external realized-outcome label, so externalOutcome
+      // is ALWAYS null and its credit is self-consistency calibration only (interpretive), NEVER reward.
+      // The gate enforces the preemption: external-reward(4) > phase-consistency(3) > call-consistency(2)
+      // > stress-consistency(1) > none. Pure math, no AI/network on the cycle. One-cycle lag: reads the
+      // PRIOR cycle's outcome model + phase dynamics (both are set later this same cycle in the neuro /
+      // actuation stack). The returned credit modulates the K4 learning rate for _updateGovernancePrior.
+      var _om = this.state.governanceOutcomeModel;
+      var _lr = gm.plasticity.learningRate;
+      // thing2 realized phase transition — SELF-CONSISTENCY calibration (interpretive), NOT external
+      // reward. Governance's phase actuation is OFF (_actuation.phase === false), so the transition hit
+      // is never live here and phaseTransitionHit stays null; `validated` would be the P3/P7 family gate
+      // only if the kernel were ever validated for this domain (it is not).
+      var _pt = (this.state.governancePhaseDynamics || {}).transition;
+      var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit !== null);
+      // Signal built from what the brain already computed. externalOutcome MUST be null (not eligible).
+      var _sig = {
+        externalOutcome: null,                                              // NOT eligible: self-consistency only, never reward
+        phaseValidated: !!(_pt && _pt.validated),                           // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+        phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,           // thing2 transition hit (interpretive); null while phase actuation is off
+        callHitRate: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,  // TRUTH BRAKE ledger (predicted-vs-realized self-consistency)
+        callSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0,
+        stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,        // raw stress self-prediction
+        stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+      };
+      var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+        ? window.LIMENK4.credit(_sig) : null;
+      var _hit, _creditSource, _isReward;
+      if (_k4) {
+        _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+        _creditSource = _k4.creditSource;
+        _isReward = !!_k4.isReward;                                         // ALWAYS false for governance (not externalRewardEligible)
+      } else {
+        // FALLBACK (gate absent) — preserve the prior credit behavior: no learning-rate modulation
+        // (governance never modulated K4 before this wiring). Never throws.
+        _hit = null;
+        _creditSource = 'none';
+        _isReward = false;                                                  // self-consistency only; never reward
+      }
+      if (_hit !== null) _lr = _gmClamp(_lr * (1 + (1 - _hit)), GM_SLOW_RATE, 0.6);
+      gm._effectiveLearningRate = _lr;
+      gm._creditSource = _creditSource;
+      gm._creditIsReward = _isReward;                                       // honest flag: false unless a real external outcome fed the gate
+
+      var nextPrior = this._updateGovernancePrior(priorIn, obs, _lr);
       gm.cycle += 1; gm.observation = obs; gm.predictionError = pe; gm.predictedStress = predictedStress; gm.regulation = reg; gm.readyForHandoff = readyForHandoff; gm.prior = nextPrior; gm.updated = obs.timestamp;
       this.state.governanceModel = gm;
 
@@ -970,7 +1016,9 @@
   // BEFORE the existing actuation stack (so K8's stress-history feeds the servo), leaving the
   // servo / E/I brake / phase / self-audit actuation and all exports untouched.
   // K4 is SELF-CONSISTENCY / TRUTH-BRAKE calibration (predicted-vs-next-realized stress), NOT an
-  // external/dopaminergic reward (that is a separate deferred task).
+  // external/dopaminergic reward. Credit assignment is routed through the central honest reward gate
+  // (window.LIMENK4.credit) in _updateGovernanceModel; governance is NOT externalRewardEligible, so
+  // externalOutcome is always null and isReward is always false (self-consistency calibration, interpretive).
   // ════════════════════════════════════════════════════════════════════════════
   var GK_OUTCOME_BUFFER = 40;   // rolling predicted-vs-realized samples
   var GK_HOMEO_WINDOW = 60;     // cycles of stress baseline for the adaptive set-point
@@ -1063,7 +1111,8 @@
 
   // K4 — outcome / credit learning (TRUTH BRAKE, self-consistency). Compares each cycle's
   // predictedStress against the NEXT cycle's realized stress. Measurement / calibration only —
-  // a self-prediction hit-rate, NOT an external reward. Deferred: dopaminergic reward signal.
+  // a self-prediction hit-rate, NOT an external reward. This hit-rate feeds the central honest reward
+  // gate (window.LIMENK4.credit) as a self-consistency calibration tier only — never ground-truth/dopaminergic reward.
   GovernanceBrain.prototype._scoreGovernanceOutcomes = function () {
     var s = this.state, gm = s.governanceModel || {};
     var buf = this._governanceOutcomeBuffer = this._governanceOutcomeBuffer || [];

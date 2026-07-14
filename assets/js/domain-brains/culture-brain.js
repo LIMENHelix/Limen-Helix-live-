@@ -460,25 +460,53 @@
       cm._effectiveFloor = _floor;
       var readyForHandoff = (cm.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-      // ── K4 CREDIT-SOURCE HOOK (mirrors energy-brain.js:1398-1414). A VALIDATED phase transition
-      //    (P3/P7, thing2 ground-truth) would PREEMPT the generic outcome ledger as the teaching signal;
-      //    culture has none (_actuation.phase=false), so it falls back to the generic ledger, then to
-      //    stress self-prediction. A low hit-rate raises the effective learning rate. Bounded, reversible. ──
+      // ── K4 CREDIT-SOURCE HOOK — credit assignment routed through the central honest reward gate
+      //    (window.LIMENK4.credit; mirrors energy-brain.js). Culture is NOT externalRewardEligible:
+      //    it is P9 with no Thing1-validated distress / external realized-outcome label, so
+      //    externalOutcome is ALWAYS null and its credit is self-consistency calibration only
+      //    (interpretive), NEVER reward. The gate enforces the preemption: external-reward(4) >
+      //    phase-consistency(3) > call-consistency(2) > stress-consistency(1) > none. A low hit-rate
+      //    raises the effective learning rate. Pure math — no AI/network on the 30s cycle. Reversible. ──
       var _lr = cm.plasticity.learningRate;
+      // thing2 realized phase transition — did a predicted transition realize over time. This is
+      // SELF-CONSISTENCY calibration (interpretive), NOT an external/dopaminergic reward. validated
+      // => P3/P7 family gate. One-cycle lag; live ONLY when phase actuation is on — culture keeps
+      // _actuation.phase=false, so this stays null/advisory and never preempts the credit ledger.
       var _pt = (this.state.culturePhaseDynamics || {}).transition;
-      var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
-      var _led = (this.state.domainNeuro || {}).outcomeLedger || null;
-      var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
-      // K4 CLOSED — fall back to the culture outcome model (realized-stress self-prediction, >=5
-      // samples; prior cycle) when no phase reward and no call ledger. Self-consistency truth-brake,
-      // NOT an external reward. Low hit-rate raises the effective learning rate. Bounded, reversible.
-      var _om = this.state.cultureOutcomeModel;
-      var _hit = _phaseReward ? (_pt.hit ? 1 : 0)
-        : _fromLedger ? _led.hitRate
-        : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+      var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit !== null);
+      var _led = (this.state.domainNeuro || {}).outcomeLedger || null;   // TRUTH BRAKE ledger
+      var _om = this.state.cultureOutcomeModel;                          // realized-stress self-prediction
+      // Signal built from what the brain already computed. externalOutcome MUST be null (not eligible).
+      var _sig = {
+        externalOutcome: null,                                           // NOT eligible: self-consistency only, never reward
+        phaseValidated: !!(_pt && _pt.validated),                        // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+        phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,        // thing2 transition hit (interpretive)
+        callHitRate: (_led && typeof _led.hitRate === 'number') ? _led.hitRate : null,     // TRUTH BRAKE ledger
+        callSamples: (_led && typeof _led.samples === 'number') ? _led.samples : 0,
+        stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,      // stress self-prediction
+        stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+      };
+      var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+        ? window.LIMENK4.credit(_sig) : null;
+      var _hit, _creditSource, _isReward;
+      if (_k4) {
+        _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+        _creditSource = _k4.creditSource;
+        _isReward = !!_k4.isReward;                                       // ALWAYS false for culture (not externalRewardEligible)
+      } else {
+        // FALLBACK (gate absent) — prior credit behavior preserved, same preemption, in-line.
+        var _phaseReward = _ptActive && !!_pt.validated;
+        var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
+        _hit = _phaseReward ? (_pt.hit ? 1 : 0)
+          : _fromLedger ? _led.hitRate
+          : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+        _creditSource = _phaseReward ? 'phase-consistency' : (_fromLedger ? 'call-consistency' : (_hit !== null ? 'stress-consistency' : 'none'));
+        _isReward = false;                                               // self-consistency only; never reward
+      }
       if (_hit !== null) _lr = _cmClamp(_lr * (1 + (1 - _hit)), CM_SLOW_RATE, 0.6);
       cm._effectiveLearningRate = _lr;
-      cm._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none'));
+      cm._creditSource = _creditSource;
+      cm._creditIsReward = _isReward;                                     // honest flag: false unless a real external outcome fed the gate
       var nextPrior = this._updateCulturePrior(priorIn, obs, _lr);
       cm.cycle += 1; cm.observation = obs; cm.predictionError = pe; cm.predictedStress = predictedStress; cm.regulation = reg; cm.readyForHandoff = readyForHandoff; cm.prior = nextPrior; cm.updated = obs.timestamp;
       this.state.cultureModel = cm;

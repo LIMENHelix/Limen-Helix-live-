@@ -49,10 +49,11 @@
     //                     _applyGenericBrakeGate for this domain; this adds only the PROPORTIONAL
     //                     E/I arm that Energy's _computeEnergyBrake carries as eiFactor.
     //   phase   = TRUE  — P0-P10 is the same substrate Energy couples on. Coherence router couples
-    //                     to co-phased stressed peers; the phase-TRANSITION reward is treated as a
-    //                     ground-truth teaching signal ONLY on P3/P7-family transitions (the phases
-    //                     Thing1 validates) and as advisory self-consistency elsewhere — the honest
-    //                     gate. Effector = credit-source into the model's effective learning rate.
+    //                     to co-phased stressed peers; the phase-TRANSITION credit is self-consistency
+    //                     calibration (interpretive) — a P3/P7-family transition hit is NOT an external
+    //                     ground-truth reward (science is not externalRewardEligible). The central
+    //                     window.LIMENK4 gate owns the tiering; here the effector is credit-source into
+    //                     the model's effective learning rate.
     //   refractory = FALSE (ADVISORY) — no honest effector. This brain has NO autonomous
     //                     emission/delivery stream to de-duplicate (opportunities are recomputed
     //                     fresh each cycle; action-draft de-dup is already handled in
@@ -597,20 +598,47 @@
 
     var readyForHandoff = (rm.cycle > 0) && (predictedStress >= RM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    // K4-style CREDIT ASSIGNMENT (phase actuation effector). A VALIDATED (P3/P7-family) phase
-    // TRANSITION that resolved to a HIT is a real ground-truth teaching signal (thing2 lineage) —
-    // preferred over the model's own prediction-error self-consistency. It preempts the default
-    // credit source and modulates the effective learning rate: a validated MISS raises plasticity
-    // (learn faster from being wrong), a validated HIT keeps it stable. Reads the PRIOR cycle's
-    // sciencePhaseDynamics (one-cycle lag, exactly like energy's K4 hook). Reversible via
-    // _actuation.phase — off => the base fixed learning rate, unchanged behavior.
+    // K4 CREDIT ASSIGNMENT — routed through the ONE honest reward gate (window.LIMENK4).
+    // THE RULE (owned centrally so it cannot be re-overclaimed): isReward is TRUE only when a REAL
+    // external realized outcome is supplied. Science is NOT externalRewardEligible — it has no
+    // external ground-truth outcome — so externalOutcome is ALWAYS null and its credit is
+    // SELF-CONSISTENCY CALIBRATION (interpretive) only, NEVER reward. A P3/P7-family phase-transition
+    // HIT is self-consistency calibration (interpretive), NEVER a ground-truth/dopaminergic reward.
+    // The gate applies the preemption order: external-reward(4) > phase-consistency(3) >
+    // call-consistency(2) > stress-consistency(1) > none. Effector = the model's effective learning
+    // rate (lower credit => higher plasticity: learn faster from being wrong; credit=1 => stable).
+    // Signal is built from what the brain already computes, read at a one-cycle lag: the PRIOR
+    // cycle's sciencePhaseDynamics.transition (phase arm, gated by _actuation.phase) and the PRIOR
+    // cycle's scienceOutcomeModel (stress self-prediction). Science has no surfaced-call resolution
+    // ledger, so the call-consistency tier is not supplied (its stress self-prediction is tier 1).
     var _lr = rm.plasticity.learningRate;
     var _pt = (this.state.sciencePhaseDynamics || {}).transition;
-    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
-    var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : null;
+    var _om = this.state.scienceOutcomeModel;
+    var _phaseActive = !!(this._actuation && this._actuation.phase);
+    var _sig = {
+      externalOutcome: null,                                                     // NOT externalRewardEligible -> always null (self-consistency only, never reward)
+      phaseValidated: !!(_phaseActive && _pt && _pt.validated),                  // P3/P7 family gate for the phase-consistency tier — self-consistency, NOT external reward
+      phaseTransitionHit: (_phaseActive && _pt && _pt.hit != null) ? (_pt.hit ? 1 : 0) : null,
+      stressSelfPred: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4) ? window.LIMENK4.credit(_sig) : null;
+    var _hit, _creditSource, _isReward;
+    if (_k4) {
+      _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+      _creditSource = _k4.creditSource;
+      _isReward = !!_k4.isReward;                                                // always false for science (no external outcome)
+    } else {
+      // FALLBACK (gate absent) — preserve prior credit behavior: validated phase-transition hit only.
+      var _phaseReward = !!(_phaseActive && _pt && _pt.validated && _pt.hit !== null);
+      _hit = _phaseReward ? (_pt.hit ? 1 : 0) : null;
+      _creditSource = _phaseReward ? 'phase-consistency' : 'prediction-error-self';
+      _isReward = false;
+    }
     if (_hit !== null) _lr = _rmClamp(_lr * (1 + (1 - _hit)), RM_SLOW_RATE, 0.6);
     rm._effectiveLearningRate = Math.round(_lr * 1000) / 1000;
-    rm._creditSource = _phaseReward ? 'phase-transition' : 'prediction-error-self';
+    rm._creditSource = _creditSource || 'none';
+    rm._creditIsReward = _isReward;                                              // false: science credit is self-consistency calibration, never external reward
     var nextPrior = this._updatePrior(priorIn, obs, _lr);
 
     rm.cycle += 1;
@@ -1090,13 +1118,14 @@
     return opps;
   };
 
-  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD. Mirrors _computeEnergyPhaseDynamics.
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION READ. Mirrors _computeEnergyPhaseDynamics.
   //  (A) coherence router: couple to co-phased, stressed peer domains via the patent Loop-1 phase
   //      matrix M (thing2 lineage). Positive M = same excitability window = communicate.
-  //  (B) phase-transition reward: did a predicted transition actually occur over time? The PREDICTION
-  //      is this brain's OWN forward read (researchModel.predictedStress vs current stress). GATED to
-  //      ground-truth ONLY on P3/P7-family transitions (Thing1-validated); advisory self-consistency
-  //      elsewhere, so it never fabricates a validated learning signal. Consumed by the K4 credit hook.
+  //  (B) phase-transition read: did a predicted transition actually occur over time? The PREDICTION
+  //      is this brain's OWN forward read (researchModel.predictedStress vs current stress). The hit is
+  //      self-consistency calibration (interpretive) — the P3/P7-family gate (validated) selects the
+  //      phase-consistency tier in the central window.LIMENK4 gate; it is NEVER an external reward
+  //      (science is not externalRewardEligible). Consumed by the K4 credit hook via LIMENK4.credit.
   // THING2 KERNEL PHASE SOURCE. Push the domain's primary scalar (state.stress = STRESS, up=bad
   // -> positive:false) into a persistent rolling window (cap 60, persisted to localStorage) and
   // run the REAL Thing2 recursive phase kernel over it. Pure math (no network, no AI): the 30s
@@ -1139,7 +1168,7 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the Thing2 recursive kernel phase when available; else fall back to the existing
@@ -1177,7 +1206,7 @@
       var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
       reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
-        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+        validated: validated, kind: validated ? 'self-consistency calibration (P3/P7 phase, interpretive)' : 'self-consistency calibration (advisory)' };
     }
     hist.push({ phase: myPhase, t: (rm.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
@@ -1186,7 +1215,7 @@
       version: 1, myPhase: myPhase,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7). Reward feeds the K4 credit hook -> effective learning rate.'
+      note: 'phase-coherence router (patent M matrix) + phase-transition read (thing2 lineage). The transition hit is self-consistency calibration (interpretive), NEVER external reward; it feeds the central window.LIMENK4 credit gate -> effective learning rate.'
     };
     s.sciencePhaseDynamics = out;
     return out;

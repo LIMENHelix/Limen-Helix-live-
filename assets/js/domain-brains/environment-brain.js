@@ -938,7 +938,52 @@
     var reg = this._computeRegulation(em, obs, pe);
 
     var readyForHandoff = (em.cycle > 0) && (predictedStress >= ENV_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-    var nextPrior = this._updatePrior(priorIn, obs, em.plasticity.learningRate);
+
+    // K4 — credit assignment routed through the central honest reward gate (window.LIMENK4.credit).
+    // Environment is NOT externalRewardEligible: it has no external realized-outcome label, so
+    // externalOutcome is ALWAYS null and its credit is self-consistency calibration (interpretive),
+    // NEVER reward. The gate enforces the preemption: external-reward(4) > phase-consistency(3) >
+    // call-consistency(2) > stress-consistency(1) > none. Pure math, no AI/network on the 30s cycle.
+    // ONE-CYCLE LAG: reads the PREVIOUS cycle's environmentOutcomeModel (the K4 TRUTH BRAKE ledger)
+    // and environmentPhaseDynamics, both refreshed later this cycle by the neuro/actuation stacks.
+    var _om = this.state.environmentOutcomeModel;              // K4 TRUTH BRAKE ledger — self-consistency calibration (interpretive)
+    var _lr = em.plasticity.learningRate;
+    // thing2 realized phase transition: SELF-CONSISTENCY calibration (interpretive), NOT external reward.
+    // validated => P3/P7 family gate for the phase-consistency tier. Environment's phase actuation is OFF
+    // (this._actuation.phase === false) and transition.hit is always null (advisory-only), so _ptActive is
+    // always false here and phaseTransitionHit stays null.
+    var _pt = (this.state.environmentPhaseDynamics || {}).transition;
+    var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit !== null);
+    // Signal built from what the brain already computed. externalOutcome MUST be null (not eligible).
+    var _sig = {
+      externalOutcome: null,                                                      // NOT eligible: self-consistency only, never reward
+      phaseValidated: !!(_pt && _pt.validated),                                   // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+      phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,                   // thing2 transition hit (interpretive)
+      callHitRate: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,   // TRUTH BRAKE ledger (predicted-vs-next-realized stress)
+      callSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0,
+      stressSelfPred: (_om && typeof _om.meanRealizedError === 'number') ? _envClamp(1 - _om.meanRealizedError, 0, 1) : null,  // raw stress self-prediction agreement
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit(_sig) : null;
+    var _hit, _creditSource, _isReward;
+    if (_k4) {
+      _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+      _creditSource = _k4.creditSource;
+      _isReward = !!_k4.isReward;                                                 // ALWAYS false for environment (not externalRewardEligible)
+    } else {
+      // FALLBACK (gate script absent) — preserve environment's prior credit behavior: the learning rate
+      // stays the fixed plasticity rate (no credit modulation), and nothing is ever labeled reward.
+      _hit = null;
+      _creditSource = 'gate-absent';
+      _isReward = false;
+    }
+    if (_hit !== null) _lr = _envClamp(_lr * (1 + (1 - _hit)), ENV_SLOW_RATE, 0.6);   // modulate the K4 learning rate by self-consistency credit
+    em._effectiveLearningRate = _lr;
+    em._creditSource = _creditSource;
+    em._creditIsReward = _isReward;                                               // honest flag: false unless a real external outcome fed the gate (never, for environment)
+
+    var nextPrior = this._updatePrior(priorIn, obs, _lr);
 
     em.cycle += 1;
     em.observation = obs;

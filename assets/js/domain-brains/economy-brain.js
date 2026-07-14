@@ -84,21 +84,21 @@
     //               confidence of surfaced opportunities and marks them held (one-cycle lag, like
     //               Energy's _applyEmissionBrake). This is the controllable output the gate requires.
     //  phase      : TRUE, but gated for honesty. The phase-coherence ROUTER (patent §3.4 Loop-1 matrix)
-    //               is deterministic advisory coupling. The phase-transition REWARD is treated as
-    //               ground-truth ONLY on P3/P7-family transitions (the phases Thing1 validates
-    //               system-wide); every other transition is labeled advisory-self-consistency and never
-    //               fabricates a validated learning signal. Economy is the MACRO AGGREGATE (not the
-    //               narrow kernel envelope Finance/Population sit in), so the ground-truth label is
-    //               weaker than Finance's — the VALIDATED gate is exactly what keeps it honest. A
-    //               validated+resolved transition preempts the recurrent stress-self-prediction as the
-    //               K4 credit source (mirrors Energy's call-ledger preemption).
+    //               is deterministic advisory coupling. The phase-transition signal is SELF-CONSISTENCY
+    //               calibration (interpretive), NEVER external reward: economy is the MACRO AGGREGATE and
+    //               is NOT externalRewardEligible, so its externalOutcome is always null. A P3/P7-family
+    //               transition only gates the phase-consistency TIER of the central K4 gate
+    //               (window.LIMENK4.credit); every other transition is advisory and never fabricates a
+    //               validated/ground-truth learning signal. A validated+resolved transition preempts the
+    //               recurrent stress-self-prediction as the K4 credit SOURCE (self-consistency
+    //               preemption, mirrors Energy's routing through the same central gate).
     // Fully reversible: flip any flag to false and the deterministic base pipeline is unchanged.
     // COST-SAFE: every method below is 100% deterministic arithmetic/graph analysis — NO fetch-to-LLM,
     // NO paid-AI, ever runs on the 30s cycle.
     this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true };
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
-    // The phase-coherence router and phase-transition reward previously read s.phase (a naive
+    // The phase-coherence router and phase-transition consistency signal previously read s.phase (a naive
     // per-cycle guess / static PHASE_M lineage). We now feed those from the REAL Thing2 kernel
     // (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries), which runs the
     // validated financial phase pipeline over this domain's own STRESS trajectory. The kernel is
@@ -831,20 +831,49 @@
 
     var readyForHandoff = (em.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    // K4 CLOSED (one-cycle lag) — credit assignment / TRUTH BRAKE. The recurrent SELF-PREDICTION
-    // (predicted-vs-next-realized stress, from the prior cycle's economyOutcomeModel) scales the
-    // effective learning rate: persistent mis-prediction (low hitRate, >=5 resolved samples) speeds
-    // adaptation. This is SELF-CONSISTENCY calibration, NOT an external/dopaminergic reward (that is a
-    // separate deferred task). A validated P3/P7 phase-transition (handled by _applyEconomyCreditSource)
-    // preempts self-prediction as the credit SOURCE; here we only scale plasticity from realized
-    // self-prediction error when phase reward is absent. Mirrors Energy's _effectiveLearningRate.
+    // K4 CLOSED (one-cycle lag) — credit assignment routed through the central honest reward gate
+    // (window.LIMENK4.credit). Economy is the MACRO AGGREGATE and is NOT externalRewardEligible: it has
+    // no external realized-outcome label, so externalOutcome is ALWAYS null and its credit is
+    // self-consistency calibration only (interpretive), NEVER reward / ground-truth / dopaminergic. The
+    // gate enforces the preemption: external-reward(4) > phase-consistency(3) > call-consistency(2) >
+    // stress-consistency(1) > none. Inputs the brain already computed feed the gate: the realized stress
+    // self-prediction (economyOutcomeModel) and the thing2 realized phase transition (PRIOR
+    // economyPhaseDynamics, one-cycle lag). The returned credit scales the effective learning rate
+    // (persistent mis-prediction speeds adaptation). Pure math — NO AI/network on the 30s cycle.
     var _om = this.state.economyOutcomeModel;
-    var _pt0 = (this.state.economyPhaseDynamics || {}).transition;
-    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt0 && _pt0.validated && _pt0.hit !== null);
-    var _hit = (!_phaseReward && _om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+    var _pt0 = (this.state.economyPhaseDynamics || {}).transition;   // PRIOR cycle's transition (one-cycle lag)
+    var _pt0Active = !!(this._actuation && this._actuation.phase && _pt0 && _pt0.hit !== null);
     var _lr = em.plasticity.learningRate;
+    // Economy has NO call-resolution (TRUTH BRAKE) ledger — only stress self-prediction — so callHitRate
+    // is null and the gate falls through call-consistency to stress-consistency.
+    var _sig = {
+      externalOutcome: null,                                             // NOT eligible: self-consistency only, never reward
+      phaseValidated: !!(_pt0 && _pt0.validated),                        // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+      phaseTransitionHit: _pt0Active ? (_pt0.hit ? 1 : 0) : null,        // thing2 realized transition hit (interpretive)
+      callHitRate: null,                                                 // no call-resolution ledger in economy
+      callSamples: 0,
+      stressSelfPred: (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null,
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit(_sig) : null;
+    var _hit, _creditSource, _isReward;
+    if (_k4) {
+      _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+      _creditSource = _k4.creditSource;
+      _isReward = !!_k4.isReward;                                        // ALWAYS false for economy (not externalRewardEligible)
+    } else {
+      // FALLBACK (gate absent) — prior credit behavior preserved, same preemption, in-line.
+      var _phaseReward = _pt0Active && !!_pt0.validated;
+      _hit = _phaseReward ? (_pt0.hit ? 1 : 0)
+        : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+      _creditSource = _phaseReward ? 'phase-consistency' : (_hit !== null ? 'stress-consistency' : 'none');
+      _isReward = false;                                                 // self-consistency only; never reward
+    }
     if (_hit !== null) _lr = _emClamp(_lr * (1 + (1 - _hit)), EM_SLOW_RATE, 0.6);
     em._effectiveLearningRate = _lr;
+    em._creditSource = _creditSource;
+    em._creditIsReward = _isReward;                                      // honest flag: false unless a real external outcome fed the gate
 
     var nextPrior = this._updateEconomyPrior(priorIn, obs, _lr);   // → next cycle reads this (K4-scaled learning rate)
 
@@ -1382,12 +1411,13 @@
     return opps;
   };
 
-  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (patent §3.4 Loop-1 + thing2 lineage) ──────
+  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION CONSISTENCY (patent §3.4 Loop-1 + thing2 lineage) ──
   // (A) ROUTER: deterministic advisory coupling — economy couples to co-phased, stressed domains via
-  //     the phase matrix M. (B) REWARD: a realized phase TRANSITION through time; treated as
-  //     ground-truth ONLY on P3/P7-family transitions (Thing1-validated phases), else labeled
-  //     advisory-self-consistency. Economy is macro-aggregate (outside the narrow kernel envelope), so
-  //     the ground-truth label is honestly weaker than Finance's; the VALIDATED gate is the safeguard.
+  //     the phase matrix M. (B) CONSISTENCY: a realized phase TRANSITION through time; this is
+  //     self-consistency calibration (interpretive), NEVER external reward. A P3/P7-family transition
+  //     gates the phase-consistency TIER of the central K4 gate; every other transition is advisory.
+  //     Economy is the macro-aggregate (outside the narrow kernel envelope) and is NOT
+  //     externalRewardEligible — externalOutcome is always null and no transition is ever ground-truth.
   // ── THING2 KERNEL PHASE REFRESH — append the domain's primary STRESS scalar (finalStress/stress;
   //    up=bad) to the persistent series, cap at 60, persist to localStorage, then run the Thing2
   //    kernel over it to derive an interpretive P0-P10 phase. Deterministic pure-math (no network/AI).
@@ -1440,7 +1470,7 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
@@ -1466,10 +1496,12 @@
       couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
     }
 
-    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    // (B) PHASE-TRANSITION CONSISTENCY — did a predicted transition actually occur (through time)?
+    //     This is SELF-CONSISTENCY calibration (interpretive), NEVER external reward. validated => the
+    //     P3/P7 family gate for the phase-consistency tier inside the central K4 gate.
     var hist = this._economyPhaseHistory = this._economyPhaseHistory || [];
     var prev = hist.length ? hist[hist.length - 1].phase : null;
-    var reward = null;
+    var transition = null;
     if (prev != null && myPhase != null && prev !== myPhase) {
       // direction prediction from the recurrent model: predictedStress above current => rising.
       var em = s.economyModel || {};
@@ -1479,8 +1511,8 @@
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
-      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
-        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+      transition = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'self-consistency calibration (phase, interpretive; P3/P7 gate)' : 'self-consistency calibration (phase, interpretive; advisory)' };
     }
     hist.push({ phase: myPhase, t: (s.economyModel && s.economyModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
@@ -1490,26 +1522,51 @@
       phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
       kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
-      transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward. Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback; reward ground-truth only on P3/P7 — economy is macro-aggregate, so weaker than the kernel-validated desks.'
+      transition: transition,
+      note: 'phase-coherence router (patent M matrix) + phase-transition consistency. Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback; a validated (P3/P7) transition is the phase-consistency tier of the central K4 gate — self-consistency calibration, NOT external reward (economy is macro-aggregate and not externalRewardEligible).'
     };
     s.economyPhaseDynamics = out;
     return out;
   };
 
-  // ── K4 CREDIT-SOURCE HOOK — a validated+resolved phase transition PREEMPTS the stress-self-prediction
-  //    as the credit source (mirrors Energy's call-ledger preemption). When the reward is ground-truth,
-  //    it gently nudges the recurrent plasticity (faster credit on a hit, slower on a miss), bounded.
-  //    This is the actuation of the phase reward — a validated reward changes learning, not just display.
+  // ── K4 CREDIT-SOURCE HOOK — routes the CURRENT-cycle credit assignment through the central honest
+  //    reward gate (window.LIMENK4.credit) using this cycle's fresh phase dynamics. A validated+resolved
+  //    thing2 phase transition is the phase-consistency tier (P3/P7 family gate) — self-consistency
+  //    calibration (interpretive), NEVER external reward: economy is NOT externalRewardEligible, so
+  //    externalOutcome is always null and isReward is always false. On a resolved phase-consistency
+  //    transition it also gently nudges the recurrent base plasticity (faster on a hit, slower on a miss),
+  //    bounded — the actuation of the phase-consistency signal on learning, not just display. Pure math,
+  //    no AI/network. Fallback preserves prior preemption when the gate is absent.
   EconomyBrain.prototype._applyEconomyCreditSource = function (em) {
     if (!em) return;
     var pd = (this._actuation && this._actuation.phase) ? this.state.economyPhaseDynamics : null;
     var pt = pd && pd.transition;
-    var phaseReward = !!(pt && pt.validated && pt.hit !== null);
-    em._creditSource = phaseReward ? 'phase-transition' : 'stress-self-pred';
-    em._creditReward = phaseReward ? { from: pt.from, to: pt.to, hit: pt.hit } : null;
-    // Bounded plasticity nudge ONLY on a validated (ground-truth) transition.
-    if (phaseReward && em.plasticity && typeof em.plasticity.learningRate === 'number') {
+    var _ptActive = !!(pt && pt.hit !== null);
+    var _om = this.state.economyOutcomeModel;
+    var _sig = {
+      externalOutcome: null,                                            // NOT eligible: self-consistency only, never reward
+      phaseValidated: !!(pt && pt.validated),                           // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+      phaseTransitionHit: _ptActive ? (pt.hit ? 1 : 0) : null,
+      callHitRate: null, callSamples: 0,                                // no call-resolution ledger in economy
+      stressSelfPred: (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null,
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit(_sig) : null;
+    var creditSource, isReward;
+    if (_k4) { creditSource = _k4.creditSource; isReward = !!_k4.isReward; }
+    else {
+      // FALLBACK (gate absent) — prior preemption preserved in-line.
+      var phaseReward = _ptActive && !!pt.validated;
+      creditSource = phaseReward ? 'phase-consistency' : (_sig.stressSelfPred !== null ? 'stress-consistency' : 'none');
+      isReward = false;
+    }
+    em._creditSource = creditSource;
+    em._creditIsReward = isReward;                                      // honest flag: false unless a real external outcome fed the gate (never, for economy)
+    em._creditReward = (creditSource === 'phase-consistency' && pt) ? { from: pt.from, to: pt.to, hit: pt.hit } : null;
+    // Bounded plasticity nudge ONLY on a resolved phase-consistency transition (self-consistency
+    // calibration, interpretive — NOT external reward). Faster credit on a hit, slower on a miss.
+    if (creditSource === 'phase-consistency' && pt && em.plasticity && typeof em.plasticity.learningRate === 'number') {
       var lr = em.plasticity.learningRate + (pt.hit ? 0.03 : -0.03);
       em.plasticity.learningRate = Math.max(0.08, Math.min(0.4, lr));
     }

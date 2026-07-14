@@ -141,9 +141,11 @@
     //               (or holds) surfaced opportunities. Same real effector as Energy (opportunity
     //               confidence + held flag), one-cycle-lag recurrent.
     //   phase:     TRUE  — Law sits at phase P7 (law.json), which IS in the Thing1-validated
-    //               family (P3/P7). So the phase-transition reward is a genuine ground-truth
-    //               teaching signal here (not fabricated), and the coherence router couples Law to
-    //               co-phased stressed peers (patent Section 3.4 Loop 1 M matrix, thing2 lineage).
+    //               family (P3/P7). So a realized phase transition is a strong self-consistency
+    //               calibration (interpretive) signal here — NOT an external/ground-truth reward
+    //               (law is not externalRewardEligible; see limen-k4-selfconsistency.js) — and the
+    //               coherence router couples Law to co-phased stressed peers (patent Section 3.4
+    //               Loop 1 M matrix, thing2 lineage).
     // selfAudit is always computed (observe-only advisory): it CONSUMES the real 87-edge law.json
     // graph via the connectivity-audit SPOF/articulation-node analysis (Neuro Ref XIV) — a real,
     // deterministic self-audit, not a clone. 100% deterministic; NO paid-AI/fetch-to-LLM ever runs
@@ -1051,17 +1053,49 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeLawRegulation(lm, obs, pe);
       var readyForHandoff = (lm.cycle > 0) && (predictedStress >= LM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      // K4 CREDIT SOURCE (phase actuation): a realized phase TRANSITION over time is a real
-      // ground-truth teaching signal — but ONLY on P3/P7-involving transitions (the phases Thing1
-      // validates). Law is a P7 domain, so its transitions are validated-family. When a validated
-      // transition resolved, prefer it over the default fixed rate: a miss raises the effective
-      // learning rate. Reads the PRIOR cycle's lawPhaseDynamics (one-cycle lag). Reversible via
-      // _actuation.phase. Deterministic; no AI.
+      // K4 CREDIT ASSIGNMENT — routed through the ONE central honest reward gate
+      // (window.LIMENK4.credit). Law is NOT externalRewardEligible: it has no external realized-
+      // outcome label, so externalOutcome is ALWAYS null and its credit is SELF-CONSISTENCY
+      // CALIBRATION (interpretive), NEVER an external/dopaminergic reward. A realized P3/P7-family
+      // phase TRANSITION is the strongest self-consistency signal (tier 3), then the TRUTH-BRAKE
+      // call hit-rate (tier 2), then raw stress self-prediction (tier 1). The gate enforces the
+      // preemption order and the isReward=false invariant centrally so it cannot be re-overclaimed.
+      // A low credit (poor calibration) raises the effective learning rate. Reads the PRIOR cycle's
+      // lawPhaseDynamics + lawOutcomeModel (one-cycle lag). Reversible via _actuation.phase.
+      // Deterministic pure math; no AI/network on the cycle.
       var _lr = lm.plasticity.learningRate;
       var _pt = (this.state.lawPhaseDynamics || {}).transition;
-      var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
-      if (_phaseReward) { _lr = _lmClamp(_lr * (1 + (1 - (_pt.hit ? 1 : 0))), LM_SLOW_RATE, 0.6); }
-      lm._creditSource = _phaseReward ? 'phase-transition' : 'default';
+      var _om = this.state.lawOutcomeModel || null;
+      var _creditSource, _isReward = false, _credit = null;
+      if (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function') {
+        // Build the honest self-consistency signal from what the brain already computes.
+        // externalOutcome MUST be null for law (not externalRewardEligible) — credit stays calibration.
+        var _sig = {
+          externalOutcome: null,                                            // law has NO external ground-truth outcome — self-consistency only
+          phaseValidated: !!(_pt && _pt.validated),                         // transition is in the P3/P7 family (tier-3 gate)
+          phaseTransitionHit: (this._actuation && this._actuation.phase && _pt && _pt.hit != null) ? (_pt.hit ? 1 : 0) : null,
+          callHitRate: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,   // TRUTH BRAKE ledger (tier 2)
+          callSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0,
+          stressSelfPred: (_om && typeof _om.meanRealizedError === 'number') ? _lmClamp(1 - _om.meanRealizedError, 0, 1) : null, // raw stress self-pred (tier 1)
+          stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+        };
+        var _k4 = window.LIMENK4.credit(_sig);
+        _credit = _k4.credit;
+        _creditSource = _k4.creditSource;
+        _isReward = _k4.isReward;   // ALWAYS false for law — the central gate enforces this
+        if (_credit !== null) { _lr = _lmClamp(_lr * (1 + (1 - _credit)), LM_SLOW_RATE, 0.6); }
+      } else {
+        // FALLBACK (window.LIMENK4 absent): preserve the prior credit behavior exactly — a resolved
+        // validated phase transition raises the rate on a miss. Still self-consistency, never reward.
+        var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+        if (_phaseReward) { _lr = _lmClamp(_lr * (1 + (1 - (_pt.hit ? 1 : 0))), LM_SLOW_RATE, 0.6); }
+        _creditSource = _phaseReward ? 'phase-consistency' : 'none';
+        _isReward = false;
+        _credit = _phaseReward ? (_pt.hit ? 1 : 0) : null;
+      }
+      lm._creditSource = _creditSource;
+      lm._creditIsReward = _isReward;   // honest: law credit is self-consistency calibration, never external reward
+      lm._credit = _credit;
       lm._effectiveLearningRate = _lr;
       var nextPrior = this._updateLawPrior(priorIn, obs, _lr);
       lm.cycle += 1; lm.observation = obs; lm.predictionError = pe; lm.predictedStress = predictedStress; lm.regulation = reg; lm.readyForHandoff = readyForHandoff; lm.prior = nextPrior; lm.updated = obs.timestamp;
@@ -1652,9 +1686,10 @@
     // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (Neuro Ref; patent Section 3.4 Loop 1) ─
     // (A) Coherence router: P0-P10 IS the phase variable, so Law couples to domains whose PHASE is
     //     coherent with its own via the M matrix (positive M = same excitability window).
-    // (B) Phase-transition reward: a realized transition over time is ground-truth (thing2). GATED
-    //     to P3/P7-involving transitions (Thing1-validated). Law sits at P7, so its transitions
-    //     ARE validated-family; elsewhere it degrades to advisory self-consistency. Deterministic.
+    // (B) Phase-transition self-consistency: a realized transition over time is self-consistency
+    //     calibration (interpretive), NOT external reward (thing2). GATED to P3/P7-involving
+    //     transitions (Thing1-validated family). Law sits at P7, so its transitions ARE validated-
+    //     family; elsewhere it degrades to weaker advisory self-consistency. Deterministic.
     P._computeLawPhaseDynamics = function () {
       var s = this.state;
       var PHASE_M = {
@@ -1666,6 +1701,7 @@
         p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
         p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
       };
+      // P3/P7 family gate for the phase-consistency tier — self-consistency, NOT external reward.
       var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
       var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
       function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
@@ -1732,7 +1768,7 @@
         var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
         var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
         reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
-          validated: validated, kind: validated ? 'ground-truth (P3/P7 validated; law is a P7 domain)' : 'advisory-self-consistency' };
+          validated: validated, kind: validated ? 'self-consistency calibration (interpretive; P3/P7 family — law is a P7 domain), NOT external reward' : 'advisory-self-consistency' };
       }
       hist.push({ phase: myPhase, t: (s.lawModel && s.lawModel.updated) || Date.now() });
       if (hist.length > 24) hist.shift();
@@ -1745,7 +1781,7 @@
         seriesN: this._phaseSeries ? this._phaseSeries.length : 0,
         coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
         transition: reward,
-        note: 'phase source = Thing2 recursive kernel (real, pure-math; positive:false STRESS series) with naive/static s.phase fallback; coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — law sits at P7).'
+        note: 'phase source = Thing2 recursive kernel (real, pure-math; positive:false STRESS series) with naive/static s.phase fallback; coherence router (patent M matrix) + phase-transition self-consistency calibration (interpretive; thing2 lineage; P3/P7 family only — law sits at P7 — NOT external reward).'
       };
       s.lawPhaseDynamics = out;
       return out;

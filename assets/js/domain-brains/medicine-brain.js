@@ -63,15 +63,18 @@
     //                       the brake already uses. Reversible (servo=false).
     //  eiBrake    = TRUE  — XIII.1 E/I balance: brake scales PROPORTIONALLY with drive via the servo
     //                       emissionFactor. Same emission effector as servo. Reversible (eiBrake=false).
-    //  phase      = FALSE — ADVISORY ONLY. The phase-transition REWARD is only a ground-truth teaching
-    //                       signal on a Thing1-VALIDATED phase (p3/p7). Medicine is NOT a validated-kernel
-    //                       domain (the validated kernel is fenced to Finance + Population), and this brain
-    //                       has NO K4 credit-ledger (its _updateHealthModel uses a fixed learning rate with
-    //                       no outcome/credit reconciliation) for a phase reward to preempt. Claiming a
-    //                       validated phase reward here would fabricate a learning signal. We still COMPUTE
-    //                       the phase-coherence router as an OBSERVE-ONLY advisory (see _computeMedicinePhaseAdvisory),
-    //                       but it never feeds credit and is never treated as ground truth. Flip to true only
-    //                       if/when medicine gains a validated phase label + a real credit ledger.
+    //  phase      = FALSE — ADVISORY ONLY. Medicine is NOT externalRewardEligible (window.LIMENK4's
+    //                       EXTERNAL_REWARD_DOMAINS fences the external realized-outcome to Finance), so a
+    //                       phase transition here can NEVER be an external / ground-truth reward — per the
+    //                       central K4 rule it is SELF-CONSISTENCY CALIBRATION (interpretive) at most.
+    //                       Medicine also computes no realized phase-transition HIT metric, so
+    //                       phaseTransitionHit stays null and the phase-consistency tier cannot even fire.
+    //                       K4 credit IS now routed through window.LIMENK4.credit (see _updateHealthModel),
+    //                       but only ever as stress self-consistency calibration; externalOutcome is always
+    //                       null. We still COMPUTE the phase-coherence router as an OBSERVE-ONLY advisory
+    //                       (see _computeMedicinePhaseAdvisory); it never feeds an external reward and is
+    //                       never treated as ground truth. Flip to true only if/when medicine gains a
+    //                       validated external outcome label.
     //
     // selfAudit is observe-only (E/I balance read + XIV single-points-of-failure on medicine's REAL
     // 80-edge graph). It genuinely consumes the real graph; it is a self-diagnostic the brain SEES,
@@ -97,8 +100,8 @@
     // scalar is STRESS (up = worse), so the kernel is called with {positive:false}.
     // The kernel supplies the coherence-router phase + phase-transition read when it
     // has >=8 samples and is loaded; otherwise the existing naive/static s.phase is the
-    // unchanged fallback. See _computeMedicinePhaseAdvisory. INTERPRETIVE only (never a
-    // validated learning signal — _actuation.phase stays false; no credit ledger here).
+    // unchanged fallback. See _computeMedicinePhaseAdvisory. INTERPRETIVE only (never an
+    // external reward — _actuation.phase stays false; K4 credit is self-consistency calibration only).
     this._kernelPhase = null;
     this._phaseSeries = [];
     try {
@@ -1157,7 +1160,49 @@
 
     var readyForHandoff = (hm.cycle > 0) && (predictedStress >= HM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    var nextPrior = this._updatePrior(priorIn, obs, hm.plasticity.learningRate);
+    // ── K4 CREDIT ASSIGNMENT via the central honest reward gate (2026-07-13) ─────────
+    // Route medicine's K4 learning-rate credit through window.LIMENK4.credit — the ONE
+    // honest reward rule. Medicine is NOT externalRewardEligible (window.LIMENK4's
+    // EXTERNAL_REWARD_DOMAINS fences the external realized-outcome to Finance), so
+    // externalOutcome is ALWAYS null here: its credit is SELF-CONSISTENCY CALIBRATION
+    // (interpretive), NEVER an external / ground-truth / dopaminergic reward. Reads the
+    // PREVIOUS cycle's advisory outputs (one-cycle lag, exactly like Energy):
+    //   phase transition — medicinePhaseDynamics.transition. Medicine computes NO realized
+    //                      phase-transition HIT metric, so phaseTransitionHit stays null and
+    //                      the phase-consistency tier cannot fire (honest: no hit to credit).
+    //                      phaseValidated = the P3/P7 family gate — self-consistency, NOT reward.
+    //   stress self-pred — medicineOutcomeModel.hitRate/samples (TRUTH-BRAKE stress self-consistency).
+    //   call ledger      — medicine has NO surfaced-call TRUTH-BRAKE ledger, so callHitRate stays null.
+    // Low self-consistency (credit) => faster relearn; high => trust the prior. Bounded to the
+    // slow/fast envelope. GUARD: if window.LIMENK4 is absent, the prior FIXED-rate behavior is kept
+    // unchanged (no throw). isReward can NEVER be true here (externalOutcome is null). PURE MATH; no AI.
+    var _lr = hm.plasticity.learningRate;
+    var _pt = (this.state.medicinePhaseDynamics || {}).transition || null;
+    var _om = this.state.medicineOutcomeModel || null;
+    var _credit = null, _creditSource = 'none', _isReward = false;
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4) ? window.LIMENK4 : null;
+    if (_k4 && typeof _k4.credit === 'function') {
+      var _sig = {
+        externalOutcome: null,                                                      // NOT externalRewardEligible => never reward; self-consistency only
+        phaseValidated: !!(_pt && _pt.validated),                                   // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+        phaseTransitionHit: (_pt && typeof _pt.hit === 'number') ? _pt.hit : null,  // medicine computes no realized transition hit => null (tier cannot fire)
+        callHitRate: null,                                                          // medicine has no surfaced-call TRUTH-BRAKE ledger
+        callSamples: 0,
+        stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,
+        stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+      };
+      var _res = _k4.credit(_sig);
+      if (_res) {
+        _credit = _res.credit; _creditSource = _res.creditSource; _isReward = !!_res.isReward;
+        if (_credit != null) _lr = _hmClamp(_lr * (1 + (1 - _credit)), HM_SLOW_RATE, 0.6);
+      }
+    }
+    hm._effectiveLearningRate = _lr;
+    hm._creditSource = _creditSource;
+    hm._creditValue = _credit;
+    hm._creditIsReward = _isReward;   // ALWAYS false for medicine (externalOutcome=null) — self-consistency calibration, never external reward
+
+    var nextPrior = this._updatePrior(priorIn, obs, _lr);
 
     hm.cycle += 1;
     hm.observation = obs;
@@ -1311,7 +1356,9 @@
   //                       opportunity cap is ADVISORY (no _applyNeuroGating here).
   //   K3 slow model     — ADVISORY: parallel slow-weight track (HM_SLOW_RATE); never touches prior.
   //   K4 outcomes       — SELF-CONSISTENCY / TRUTH-BRAKE: predicted-vs-next-realized stress. NOT an
-  //                       external/dopaminergic reward; not fed back into the fixed learning rate.
+  //                       external/dopaminergic reward. Its hitRate is routed through the central
+  //                       window.LIMENK4.credit gate as self-consistency calibration to modulate the
+  //                       learning rate (never as an external reward; externalOutcome is always null).
   //   K5 perception     — ADVISORY: estimates the portalError _computePredictionError currently zeroes.
   //   K6 attention      — ADVISORY: top-down salience ranking (not gating the pipeline yet).
   //   K7 inhibition     — winner-take-most; reg.inhibition ALSO feeds the actuated servo/E-I brake.
@@ -1406,8 +1453,9 @@
 
   // K4 — outcome / credit learning (SELF-CONSISTENCY TRUTH BRAKE). Compares each cycle's predictedStress
   // against the NEXT cycle's realized stress (online forward-prediction). This is calibration of the
-  // brain's own self-prediction — NOT an external/dopaminergic reward — and is measurement only (never
-  // fed back into the fixed learning rate). Matches Energy's _scoreEnergyOutcomes.
+  // brain's own self-prediction — NOT an external/dopaminergic reward. The scoring is measurement; its
+  // hitRate is consumed by the central K4 credit gate (window.LIMENK4.credit) in _updateHealthModel as
+  // self-consistency calibration to modulate the learning rate (never as reward). Matches Energy's _scoreEnergyOutcomes.
   MedicineBrain.prototype._scoreMedicineOutcomes = function () {
     var s = this.state, hm = s.healthModel || {};
     var buf = this._medicineOutcomeBuffer = this._medicineOutcomeBuffer || [];
@@ -1427,7 +1475,7 @@
       hitRate: n ? Math.round((hits / n) * 100) / 100 : null,     // fraction within 0.1 of realized
       loopType: 'online self-consistency (predicted-vs-next-realized stress); TRUTH-BRAKE calibration, NOT an external/dopaminergic reward',
       creditAssignmentActive: (n >= 5),
-      note: 'SELF-CONSISTENCY: reconciles each cycle predictedStress against the NEXT cycle realized stress. Measurement only; does not fabricate a reward or mutate the fixed learning rate.',
+      note: 'SELF-CONSISTENCY: reconciles each cycle predictedStress against the NEXT cycle realized stress. Measurement only; never an external reward — its hitRate feeds the central K4 self-consistency credit gate (window.LIMENK4.credit) that modulates the learning rate.',
       lastOutcomeAt: hm.updated || Date.now()
     };
     s.medicineOutcomeModel = om; return om;
@@ -1723,10 +1771,11 @@
   // PHASE-COHERENCE ROUTER — OBSERVE-ONLY ADVISORY (NOT an actuation; _actuation.phase = false).
   // Computes coupling to co-phased, stressed domains (patent Section 3.4 Loop 1 M matrix) and a phase
   // transition read. CRITICAL HONESTY GATE: the transition is marked validated ONLY on a Thing1-validated
-  // phase (p3/p7). Medicine's phase (P8) is not validated and medicine is not a validated-kernel domain,
-  // so this NEVER produces a ground-truth reward and — unlike Energy — is NOT fed into any credit ledger
-  // (this brain has none). It exists purely so the operator can SEE the coherence read; flip _actuation.phase
-  // to true only if medicine gains a validated phase label + a real K4 credit ledger to consume it.
+  // phase (p3/p7). Medicine is NOT externalRewardEligible (external outcome fenced to Finance), so this
+  // NEVER produces an external / ground-truth reward. Medicine computes no realized transition HIT, so
+  // phaseTransitionHit is null and the K4 phase-consistency tier never fires: the phase read stays purely
+  // OBSERVE-ONLY (self-consistency at most, never reward). It exists so the operator can SEE the coherence
+  // read; flip _actuation.phase to true only if medicine gains a validated external outcome label.
   MedicineBrain.prototype._computeMedicinePhaseAdvisory = function () {
     var s = this.state;
     var PHASE_M = {
@@ -1739,7 +1788,7 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
 
@@ -1799,8 +1848,8 @@
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
       transition = { from: prev, to: myPhase, wentUp: wentUp, validated: validated,
-        kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency',
-        fedToCredit: false };   // medicine has no K4 credit ledger; this is never a learning signal
+        kind: validated ? 'self-consistency calibration (P3/P7 family, interpretive)' : 'advisory-self-consistency',
+        fedToCredit: false };   // no realized transition hit is computed => phaseTransitionHit is null; the K4 phase-consistency tier never fires (self-consistency only, never external reward)
     }
     hist.push({ phase: myPhase, t: (s.healthModel && s.healthModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
@@ -1812,7 +1861,7 @@
       kernelTrajectory: (s.phaseSource === 'thing2-kernel') ? (s.kernelTrajectory || null) : null,
       seriesLen: this._phaseSeries ? this._phaseSeries.length : 0,
       coupled: coupled.slice(0, 5), couplingStrength: _medR3(couplingStrength), transition: transition,
-      note: 'OBSERVE-ONLY phase-coherence router. Phase source = Thing2 recursive kernel (interpretive, pure math) when available, else naive/static snapshot phase. Reward is NOT actuated: medicine is not a Thing1-validated-phase domain and has no credit ledger. See _actuation gate.'
+      note: 'OBSERVE-ONLY phase-coherence router. Phase source = Thing2 recursive kernel (interpretive, pure math) when available, else naive/static snapshot phase. External reward is NOT actuated: medicine is not externalRewardEligible (externalOutcome always null) and computes no realized transition hit, so the K4 phase-consistency tier never fires — self-consistency at most. See _actuation gate.'
     };
     s.medicinePhaseDynamics = out;
     return out;

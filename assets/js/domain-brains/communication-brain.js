@@ -31,10 +31,11 @@
     //                        real efferent output (crossDomainEmissions magnitude + opportunity
     //                        confidence) proportionally to the drive/inhibition deficit. Neuro Ref XIII.1.
     //   phase:      FALSE — ADVISORY ONLY. The phase-coherence router is honest+deterministic, but the
-    //                        phase-transition REWARD is NOT wired as a validated learning signal:
-    //                        communication is not a Thing1-validated domain (no p3/p7 ground-truth
-    //                        distress label) and the communicationModel uses a fixed learning rate with
-    //                        no credit ledger for a reward to preempt. Fabricating one would be dishonest.
+    //                        phase transition is NEVER wired as external reward: communication is not a
+    //                        Thing1-validated domain (no p3/p7 ground-truth distress label). K4 credit
+    //                        now routes through the central honest gate (window.LIMENK4.credit) as
+    //                        self-consistency calibration only (isReward=false); with phase advisory-OFF
+    //                        the transition does not feed that gate. Fabricating a reward would be dishonest.
     this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13) ──
@@ -535,7 +536,51 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeCommunicationRegulation(cm, obs, pe);
       var readyForHandoff = (cm.cycle > 0) && (predictedStress >= CM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      var nextPrior = this._updateCommunicationPrior(priorIn, obs, cm.plasticity.learningRate);
+
+      // ── K4 CLOSED — credit assignment routed through the central honest reward gate
+      // (window.LIMENK4.credit). Communication is NOT externalRewardEligible: it has NO
+      // external realized-outcome label, so externalOutcome is ALWAYS null and its credit is
+      // self-consistency calibration (interpretive), NEVER reward. The gate enforces the
+      // preemption external-reward(4) > phase-consistency(3) > call-consistency(2) >
+      // stress-consistency(1) > none, and returns isReward=false for every non-external tier.
+      // Pure math — no AI, no network on the 30s cycle. Reads the PRIOR cycle's outcome model +
+      // phase dynamics (one-cycle lag; mirrors energy-brain). The returned credit modulates the
+      // learning RATE only (a calibration knob), never treated as a reward/ground-truth signal.
+      var _om = this.state.communicationOutcomeModel;
+      var _lr = cm.plasticity.learningRate;
+      // thing2 realized phase transition: SELF-CONSISTENCY calibration (interpretive), NOT
+      // external reward. phase actuation is advisory-OFF for communication (this._actuation.phase
+      // = false), so phaseTransitionHit stays null (a phase transition NEVER teaches learning here).
+      var _pt = (this.state.communicationPhaseDynamics || {}).transition;
+      var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit != null);
+      // Signal built from what the brain already computed. externalOutcome MUST be null.
+      var _sig = {
+        externalOutcome: null,                                                                       // NOT eligible: self-consistency only, never reward
+        phaseValidated: !!(_pt && (_pt.validated || _pt.validatedPhaseInvolved)),                    // P3/P7 family gate for phase-consistency tier
+        phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,                                    // thing2 transition hit (interpretive; null while phase advisory-off)
+        callHitRate: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,          // TRUTH BRAKE ledger (self-consistency)
+        callSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0,
+        stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,               // stress self-prediction
+        stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+      };
+      var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+        ? window.LIMENK4.credit(_sig) : null;
+      var _hit, _creditSource, _isReward;
+      if (_k4) {
+        _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+        _creditSource = _k4.creditSource;
+        _isReward = !!_k4.isReward;                                                                  // ALWAYS false for communication (not externalRewardEligible)
+        if (_hit !== null) _lr = _cmClamp(_lr * (1 + (1 - _hit)), CM_SLOW_RATE, 0.6);                // low self-consistency ⇒ learn faster; high ⇒ hold steady
+      } else {
+        // FALLBACK (gate absent) — preserve communication's PRIOR behavior: a FIXED learning
+        // rate with NO credit modulation (the outcome model was historically exposed but never
+        // sped the learning rate). Nothing is applied to _lr; credit source reported as 'none'.
+        _hit = null; _creditSource = 'none'; _isReward = false;
+      }
+      cm._effectiveLearningRate = _lr;
+      cm._creditSource = _creditSource;
+      cm._creditIsReward = _isReward;                                                                // honest flag: false unless a real external outcome fed the gate
+      var nextPrior = this._updateCommunicationPrior(priorIn, obs, _lr);
 
       cm.cycle += 1; cm.observation = obs; cm.predictionError = pe; cm.predictedStress = predictedStress; cm.regulation = reg; cm.readyForHandoff = readyForHandoff; cm.prior = nextPrior; cm.updated = obs.timestamp;
       this.state.communicationModel = cm;
@@ -889,11 +934,13 @@
 
   // ── PHASE DYNAMICS (ADVISORY — this._actuation.phase = false) ────────────────────────────────
   // The phase-coherence ROUTER (couple to co-phased, stressed domains; patent M matrix, thing2
-  // lineage) is deterministic and honest, so it is exposed. The phase-transition REWARD is NOT
-  // wired as a validated learning signal and never feeds any learning rate: communication is not a
-  // Thing1-validated domain (no p3/p7 ground-truth distress label), and the communicationModel runs
-  // a FIXED learning rate with no credit ledger for a reward to preempt — fabricating a validated
-  // teaching signal would be dishonest (the same discipline ENERGY_NEURO_AUDIT.md applied). So the
+  // lineage) is deterministic and honest, so it is exposed. The phase-transition is NEVER wired as
+  // an external reward: communication is not a Thing1-validated domain (no p3/p7 ground-truth
+  // distress label). The K4 credit gate (window.LIMENK4.credit) treats every non-external tier —
+  // including phase-consistency — as self-consistency calibration (interpretive, isReward=false),
+  // and because phase actuation is advisory-OFF (this._actuation.phase = false) the phase transition
+  // does not even feed that gate here. Fabricating a validated/dopaminergic teaching signal from a
+  // phase transition would be dishonest (the same discipline ENERGY_NEURO_AUDIT.md applied). So the
   // transition read is marked advisory-self-consistency only.
   // Per-cycle: append the domain's primary STRESS scalar (finalStress/brainStress/stress; up=bad) to
   // the persistent series, cap at 60, persist, then run the Thing2 kernel over it to derive an
@@ -942,7 +989,7 @@
       p3: { p3: 0.08, p7: 0.05, p9: 0.04, p0: -0.06 },
       p7: { p7: 0.10, p3: 0.04, p9: 0.06, p0: -0.08 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
     // the coherence router and the phase-transition read; fall back to the existing s.phase when the
@@ -1175,7 +1222,7 @@
       callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,               // TRUTH-BRAKE calibration alias (self-consistency)
       loopType: 'online-continuous (predicted-vs-next-realized) self-consistency; NOT an external reward signal',
       creditAssignmentActive: (n >= 5),
-      note: 'TRUTH BRAKE (self-consistency): does the forecast come true. Advisory — communication runs a fixed learning rate with no validated ground-truth label, so hitRate is exposed but never speeds the learning rate (that would be an unvalidated teaching signal).',
+      note: 'TRUTH BRAKE (self-consistency calibration, interpretive): does the forecast come true. hitRate/callHitRate feed the central K4 credit gate (window.LIMENK4.credit) as self-consistency calibration ONLY — it modulates the learning RATE (a calibration knob), and is NEVER treated as an external / dopaminergic / ground-truth reward. Communication is not a Thing1-validated domain (no p3/p7 ground-truth distress label), so isReward is always false here.',
       lastOutcomeAt: cm.updated || Date.now()
     };
     s.communicationOutcomeModel = om; return om;

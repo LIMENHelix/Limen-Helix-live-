@@ -73,7 +73,8 @@
 
     // ── THING2 RECURSIVE PHASE KERNEL — persistent primary-scalar series (2026-07-13).
     // The REAL Thing2 kernel (assets/js/limen-thing2-adapter.js, pure math — NO network/AI)
-    // becomes this brain's phase source for the coherence read + phase-transition reward,
+    // becomes this brain's phase source for the coherence read + phase-transition
+    // self-consistency calibration (interpretive; a realized transition is NEVER external reward),
     // replacing the naive per-cycle / static s.phase (kept as the fallback). We accumulate
     // the domain's primary STRESS scalar (up = worse -> positive:false) across cycles.
     this._phaseSeries = [];
@@ -107,9 +108,12 @@
     //  eiBrake    : TRUE  — real effector = the same emission channel. When inhibition fails to track
     //                       drive (Neuro Ref XIII.1) the HALT brake dampens emission PROPORTIONALLY,
     //                       not just in discrete steps.
-    //  phase      : FALSE — ADVISORY ONLY. The phase-transition REWARD is only ground-truth on a
-    //                       Thing1-VALIDATED P3/P7 signal; the validated-kernel envelope is Finance +
-    //                       Population, NOT infrastructure — so a realized infra phase transition can
+    //  phase      : FALSE — ADVISORY ONLY. A realized phase transition is SELF-CONSISTENCY
+    //                       calibration (interpretive), NEVER external reward — even a validated
+    //                       P3/P7 transition is self-consistency, not reward. External reward would
+    //                       require a real external realized OUTCOME (Thing1's validated distress),
+    //                       and the validated-kernel envelope is Finance + Population, NOT
+    //                       infrastructure — so a realized infra phase transition can
     //                       never be more than advisory self-consistency here. And infra carries no
     //                       gain-control output-cap effector for a coherence router to widen (energy's
     //                       phase +1 rides on its K2 outputScale, which infra does not compute). We
@@ -1199,9 +1203,11 @@
 
   // ── PHASE-COHERENCE READ — ADVISORY ONLY (this._actuation.phase = false) ───────────────────────
   // Deliberately NOT an actuation. Two honest reasons, both required to hold before this could fire:
-  //   (a) the phase-transition REWARD is only ground-truth on a Thing1-VALIDATED P3/P7 signal; the
-  //       validated-kernel envelope is Finance + Population, NOT infrastructure — so an infra phase
-  //       transition can only ever be advisory self-consistency, never a real learning/reward signal.
+  //   (a) a realized phase transition is SELF-CONSISTENCY calibration (interpretive), NEVER external
+  //       reward; even a validated P3/P7 transition is self-consistency, not reward. External reward
+  //       requires a real external realized OUTCOME (Thing1's validated distress), and that envelope
+  //       is Finance + Population, NOT infrastructure — so an infra phase transition can only ever be
+  //       advisory self-consistency, never a real external reward signal.
   //   (b) infra has NO gain-control output-cap effector for a coherence router to widen (energy's
   //       phase +1 rides on its K2 outputScale; infra does not compute it).
   // We compute the read for VISIBILITY (so the honest boundary is inspectable) but wire NO effector.
@@ -1209,7 +1215,7 @@
   InfrastructureBrain.prototype._computeInfraPhaseAdvisory = function () {
     var s = this.state;
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
 
     // ── THING2 KERNEL PHASE SOURCE (real recursive kernel; pure math, NO network/AI) ──
     // 1) Push this cycle's PRIMARY SCALAR (stress; up = worse) to the capped/persisted series.
@@ -1789,7 +1795,53 @@
     P._updateInfraModel = function () {
       var em = this.state.infraModel || this._infraNeutralModel(); var priorIn = em.prior; var obs = this._infraObservation(); var pe = this._infraPredictionError(priorIn, obs);
       var gb = clamp(pe.novelty, 0.05, 0.95); var predicted = priorIn.expectedStress * (1 - gb) + obs.stress * gb; var reg = this._infraRegulation(em, obs, pe);
-      em.cycle += 1; em.observation = obs; em.predictionError = pe; em.predictedStress = predicted; em.regulation = reg; em.prior = this._infraUpdatePrior(priorIn, obs, LR); em.updated = obs.timestamp; this.state.infraModel = em;
+
+      // ── K4 CLOSED — credit assignment routed through the central honest reward gate
+      // (window.LIMENK4.credit). Infrastructure is NOT externalRewardEligible: it has no external
+      // realized-outcome label, so externalOutcome is ALWAYS null and its credit is self-consistency
+      // calibration only (interpretive), NEVER reward. The gate enforces the preemption:
+      // external-reward(4) > phase-consistency(3) > call-consistency(2) > stress-consistency(1) > none.
+      // Pure deterministic math, no AI/network on the cycle. The returned credit modulates the K4
+      // learning rate used for the prior update below (worse self-consistency -> faster relearning).
+      var _om = this.state.infrastructureOutcomeModel;                    // K4 stress self-prediction (prior cycle; one-cycle lag)
+      var _lr = LR;
+      // thing2 realized phase transition: SELF-CONSISTENCY calibration (interpretive), NEVER external
+      // reward. Infra phase is ADVISORY (_actuation.phase=false) and its transition carries no realized
+      // `hit`, so _ptActive is always false here -> phaseTransitionHit stays null (honest). validated =>
+      // P3/P7 family gate for the phase-consistency tier only, never reward.
+      var _pt = (this.state.infraPhaseDynamics || {}).transition;
+      var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit != null);
+      // Infra carries no TRUTH-BRAKE call-outcome ledger, so callHitRate is null (tier 2 unavailable).
+      var _sig = {
+        externalOutcome: null,                                           // NOT eligible: self-consistency only, never reward
+        phaseValidated: !!(_pt && _pt.validated),                        // P3/P7 family gate for phase-consistency tier
+        phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,        // thing2 transition hit (interpretive) — null (advisory phase)
+        callHitRate: null,                                               // no infra call-outcome ledger
+        callSamples: 0,
+        stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,   // stress self-prediction (self-consistency)
+        stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+      };
+      var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+        ? window.LIMENK4.credit(_sig) : null;
+      var _hit, _creditSource, _isReward;
+      if (_k4) {
+        _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+        _creditSource = _k4.creditSource;
+        _isReward = !!_k4.isReward;                                      // ALWAYS false for infrastructure (not externalRewardEligible)
+      } else {
+        // FALLBACK (gate absent) — prior credit behavior preserved, same preemption, in-line. Infra
+        // has only the stress-consistency tier available (no phase-actuation, no call ledger).
+        var _fromStress = !!(_om && typeof _om.hitRate === 'number' && _om.samples >= 5);
+        _hit = _fromStress ? _om.hitRate : null;
+        _creditSource = _fromStress ? 'stress-consistency' : 'none';
+        _isReward = false;                                              // self-consistency only; never reward
+      }
+      if (_hit !== null) _lr = clamp(LR * (1 + (1 - _hit)), INFRA_K_SLOW_RATE, 0.6);   // worse self-consistency -> faster relearning
+      em._effectiveLearningRate = _lr;
+      em._creditSource = _creditSource;
+      em._creditIsReward = _isReward;                                    // honest flag: false unless a real external outcome fed the gate
+
+      em.cycle += 1; em.observation = obs; em.predictionError = pe; em.predictedStress = predicted; em.regulation = reg; em.prior = this._infraUpdatePrior(priorIn, obs, _lr); em.updated = obs.timestamp; this.state.infraModel = em;
       var mem = this.state.memory || (this.state.memory = {}); var log = mem.outcomeLog || (mem.outcomeLog = []);
       log.push({ cycle: em.cycle, predictionError: Math.round(pe.total * 1000) / 1000, stress: obs.stress, activeDx: obs.diagnosisCount, regulation: reg.state, timestamp: obs.timestamp }); if (log.length > 40) log.shift();
       try { this._computeInfraHigherLayers(); } catch (e) {}

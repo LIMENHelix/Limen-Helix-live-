@@ -509,7 +509,53 @@
     // a FINAL decision that depends on the prior, not just on raw obs:
     var readyForHandoff = (em.cycle > 0) && (predictedStress >= ED_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    var nextPrior = this._updateEducationPrior(priorIn, obs, em.plasticity.learningRate);  // -> next cycle reads this
+    // K4 CLOSED — credit assignment routed through the central honest reward gate
+    // (window.LIMENK4.credit). Education is NOT externalRewardEligible: it has no external
+    // realized-outcome label, so externalOutcome is ALWAYS null and its credit is
+    // self-consistency calibration only (interpretive), NEVER reward. The gate enforces the
+    // preemption: external-reward(4) > phase-consistency(3) > call-consistency(2) >
+    // stress-consistency(1) > none. Pure math, no AI/network on the cycle.
+    // Reads the PRIOR cycle's neuro/phase telemetry (one-cycle lag: the outcome model + phase
+    // dynamics are recomputed later this cycle, in _computeEducationNeuroLayers / _compute
+    // EducationPhaseDynamics), then modulates the learning rate used to fold obs into the prior.
+    var _om = this.state.educationOutcomeModel;                           // K4 stress self-prediction (self-consistency)
+    var _lr = em.plasticity.learningRate;
+    // thing2 realized phase transition (interpretive self-consistency, NOT external reward). It is
+    // gated on the phase ACTUATION flag, which is OFF for Education (not a Thing1-validated kernel),
+    // so _ptActive is false and the phase tier can never preempt here. validated => P3/P7 family
+    // gate (hard-set false in _computeEducationPhaseDynamics — self-consistency, not reward).
+    var _pt = (this.state.educationPhaseDynamics || {}).transition;
+    var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit !== null);
+    // Signal built from what the brain already computed. externalOutcome MUST be null (not eligible).
+    var _sig = {
+      externalOutcome: null,                                             // NOT eligible: self-consistency only, never reward
+      phaseValidated: !!(_pt && _pt.validated),                          // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+      phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,          // thing2 transition hit (interpretive; null here — phase actuation off)
+      callHitRate: null,                                                 // Education has no TRUTH BRAKE call ledger yet → tier 2 never fires
+      callSamples: 0,
+      stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,   // stress self-prediction (self-consistency)
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit(_sig) : null;
+    var _hit, _creditSource, _isReward;
+    if (_k4) {
+      _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+      _creditSource = _k4.creditSource;
+      _isReward = !!_k4.isReward;                                        // ALWAYS false for education (not externalRewardEligible)
+    } else {
+      // FALLBACK (gate absent) — prior credit behavior preserved: self-consistency stress-prediction
+      // only, same preemption, in-line. Never treated as reward.
+      _hit = (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+      _creditSource = (_hit !== null) ? 'stress-consistency' : 'none';
+      _isReward = false;                                                 // self-consistency only; never reward
+    }
+    if (_hit !== null) _lr = _edClamp(_lr * (1 + (1 - _hit)), ED_SLOW_RATE, 0.6);   // lower credit → faster relearning
+    em._effectiveLearningRate = _lr;
+    em._creditSource = _creditSource;
+    em._creditIsReward = _isReward;                                      // honest flag: false unless a real external outcome fed the gate
+
+    var nextPrior = this._updateEducationPrior(priorIn, obs, _lr);  // -> next cycle reads this (learning rate modulated by K4 credit)
 
     em.cycle += 1;
     em.observation = obs;
@@ -686,7 +732,8 @@
   // K4 — outcome / credit learning (TRUTH BRAKE). Compares each cycle's predictedStress against the
   // NEXT cycle's realized stress: online forward-prediction self-consistency. This is SELF-PREDICTION
   // calibration, NOT an external/dopaminergic reward (Education has no ground-truth reward label —
-  // ENERGY_NEURO_AUDIT.md impossibility #4). Measurement only; not fed back into learning here.
+  // ENERGY_NEURO_AUDIT.md impossibility #4). Its hitRate/samples feed window.LIMENK4.credit in
+  // _updateEducationModel as the stress-consistency tier (self-consistency, never external reward).
   EducationBrain.prototype._scoreEducationOutcomes = function () {
     var s = this.state, em = s.educationModel || {};
     var buf = this._eduOutcomeBuffer = this._eduOutcomeBuffer || [];
@@ -706,7 +753,7 @@
       hitRate: n ? Math.round((hits / n) * 100) / 100 : null,                    // fraction within 0.1 of realized
       loopType: 'online-continuous self-consistency (predicted-vs-next-realized). NOT a reward signal.',
       creditAssignmentActive: (n >= 5),
-      note: 'TRUTH-BRAKE calibration: measures whether the forecast comes true. Advisory (not yet fed into the learning rate); never treated as external reward.',
+      note: 'TRUTH-BRAKE calibration: measures whether the forecast comes true. Fed into the K4 learning-rate credit via window.LIMENK4.credit as stress-consistency (self-consistency, interpretive); never treated as external reward.',
       lastOutcomeAt: em.updated || Date.now()
     };
     s.educationOutcomeModel = om; return om;
@@ -1370,7 +1417,8 @@
   };
 
   // PHASE-COHERENCE ROUTER + PHASE-TRANSITION TRACKER — ADVISORY ONLY (mirrors the STRUCTURE of
-  // _computeEnergyPhaseDynamics, but the reward is NEVER treated as ground-truth here). Rationale:
+  // _computeEnergyPhaseDynamics, but the realized transition is self-consistency calibration
+  // (interpretive), NEVER a ground-truth reward here). Rationale:
   // Education is not a Thing1-validated kernel domain (only Finance + Population are fenced), so a
   // realized P0-P10 transition carries no validated learning signal. We therefore hard-set
   // validated:false and DO NOT wire the transition into credit assignment or the emission cap.
@@ -1458,12 +1506,14 @@
     var hist = this._eduPhaseHistory = this._eduPhaseHistory || [];
     var prev = hist.length ? hist[hist.length - 1].phase : null;
     var em = s.educationModel || {};
-    var reward = null;
+    // Self-consistency calibration (interpretive), NOT an external/ground-truth reward: did the
+    // brain's own predicted stress direction agree with the realized phase-family transition.
+    var _transition = null;
     if (prev != null && myPhase != null && prev !== myPhase) {
       var predictedUp = (typeof em.predictedStress === 'number' && typeof s.stress === 'number') ? (em.predictedStress > s.stress) : false;
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
-      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+      _transition = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
         validated: false, kind: 'advisory-self-consistency (education not a Thing1-validated kernel)' };
     }
     hist.push({ phase: myPhase, t: (em && em.updated) || Date.now() });
@@ -1475,7 +1525,7 @@
       kernelTrajectory: s.kernelTrajectory || null,
       kernelCAccum: (typeof s.kernelCAccum === 'number') ? s.kernelCAccum : null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
-      transition: reward,
+      transition: _transition,
       note: 'ADVISORY phase-coherence router + self-consistency transition tracker. Phase source = Thing2 recursive kernel over the stress trajectory (interpretive, positive:false) with s.phase fallback; NOT actuated (education is not a validated kernel — no ground-truth phase reward, no credit-source preempt, no emission-cap opening).'
     };
     s.educationPhaseDynamics = out;

@@ -59,8 +59,9 @@
     //                        applies the servo dampening continuously to emissions. Only the
     //                        E/I SCALING RELATIONSHIP maps — ms-simultaneity is impossible on
     //                        a discrete feed (audit impossibility #2); documented, not faked.
-    //   phase      = FALSE — INVALID for religion. The phase-transition REWARD needs a
-    //                        Thing1-validated ground-truth label (P3/P7); religion has none
+    //   phase      = FALSE — INVALID for religion. The phase-consistency CREDIT tier would need a
+    //                        Thing1-validated ground-truth label (P3/P7) to ever be external reward;
+    //                        religion has none — its phase signal is self-consistency calibration only
     //                        (validated kernel = Finance + Population only; religion is a P9
     //                        interpretive tracker). A discrete event feed also has no
     //                        continuous rhythm/phase (audit impossibilities #3 + #4). The
@@ -129,7 +130,7 @@
     this._religionPrevPrediction = (this._religionPrevPrediction != null) ? this._religionPrevPrediction : null;  // K4 last-cycle predictedStress
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
-    // The phase-coherence router and phase-transition reward previously read s.phase (a naive
+    // The phase-coherence router and phase-transition self-consistency signal previously read s.phase (a naive
     // per-cycle guess / static PHASE_M lineage). We now feed those from the REAL Thing2 kernel
     // (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries), which runs the
     // validated financial phase pipeline over this domain's own stress trajectory. The kernel is
@@ -781,7 +782,51 @@
     var reg = this._computeReligionRegulation(rm, obs, pe);
 
     var readyForHandoff = (rm.cycle > 0) && (predictedStress >= RM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-    var nextPrior = this._updateReligionPrior(priorIn, obs, rm.plasticity.learningRate);
+
+    // ── K4 CLOSED — credit assignment routed through the central honest reward gate ──
+    // (window.LIMENK4.credit). Religion is NOT externalRewardEligible: it has no external
+    // realized-outcome label, so externalOutcome is ALWAYS null and its credit is
+    // self-consistency calibration only (interpretive), NEVER reward. The gate enforces the
+    // preemption: external-reward(4) > phase-consistency(3) > call-consistency(2) >
+    // stress-consistency(1) > none. Pure math, no AI/network on the cycle.
+    // One-cycle lag: reads the PREVIOUS cycle's religionOutcomeModel + religionPhaseDynamics.
+    var _om = this.state.religionOutcomeModel;
+    var _pt = (this.state.religionPhaseDynamics || {}).transition;
+    // Phase actuation is OFF for religion (_actuation.phase=false), so a thing2 transition is
+    // ADVISORY only and NEVER feeds credit: _ptActive stays false => phaseTransitionHit=null.
+    var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit !== null);
+    // religionOutcomeModel = predicted-vs-next-realized STRESS self-prediction (its callHitRate
+    // field measures stress agreement, not resolved external calls) => stress-consistency tier.
+    // Signal built from what the brain already computed. externalOutcome MUST be null.
+    var _sig = {
+      externalOutcome: null,                                              // NOT eligible: self-consistency only, never reward
+      phaseValidated: !!(_pt && _pt.validated),                           // P3/P7 family gate for phase-consistency tier (advisory here)
+      phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,           // thing2 transition hit (interpretive; null — phase actuation off)
+      callHitRate: null,                                                  // religion has no separate resolved-calls TRUTH BRAKE ledger
+      callSamples: 0,
+      stressSelfPred: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,  // stress self-prediction (predicted-vs-realized stress)
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit(_sig) : null;
+    var _hit, _creditSource, _isReward;
+    if (_k4) {
+      _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+      _creditSource = _k4.creditSource;
+      _isReward = !!_k4.isReward;                                         // ALWAYS false for religion (not externalRewardEligible)
+    } else {
+      // FALLBACK (gate absent) — preserve PRIOR religion behavior: K4 was advisory / not fed
+      // back, so the learning rate stays the raw rm.plasticity.learningRate (no modulation). No throw.
+      _hit = null;
+      _creditSource = 'gate-absent';
+      _isReward = false;                                                  // self-consistency only; never reward
+    }
+    var _lr = rm.plasticity.learningRate;
+    if (_hit !== null) _lr = _rmClamp(_lr * (1 + (1 - _hit)), RM_SLOW_RATE, 0.6);   // higher credit -> smaller LR bump
+    rm._effectiveLearningRate = _lr;
+    rm._creditSource = _creditSource;
+    rm._creditIsReward = _isReward;                                       // honest flag: false unless a real external outcome fed the gate
+    var nextPrior = this._updateReligionPrior(priorIn, obs, _lr);
 
     rm.cycle += 1;
     rm.observation = obs;
@@ -1231,11 +1276,12 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
+    // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward.
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
-    // the coherence router and the phase-transition reward; fall back to the existing s.phase when
+    // the coherence router and the phase-transition self-consistency signal; fall back to s.phase when
     // the kernel is unavailable (adapter missing / history < 8 / error) — fallback path unchanged.
     var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
 
@@ -1258,15 +1304,16 @@
 
     var hist = this._religionPhaseHistory = this._religionPhaseHistory || [];
     var prev = hist.length ? hist[hist.length - 1].phase : null;
-    var reward = null;
+    // Non-external phase transition = self-consistency calibration (interpretive), NEVER reward.
+    var transition = null;
     if (prev != null && myPhase != null && prev !== myPhase) {
       var rm = s.religionModel || {};
       var predictedUp = (typeof rm.predictedStress === 'number' && typeof s.stress === 'number') ? rm.predictedStress > s.stress : false;
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
-      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit, validated: validated,
-        kind: 'advisory-self-consistency', note: 'religion has NO Thing1-validated distress signal -> NEVER a true reward; advisory only, never actuated.' };
+      transition = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit, validated: validated,
+        kind: 'advisory-self-consistency', note: 'self-consistency calibration (interpretive); religion has NO Thing1-validated distress signal -> NEVER an external/true reward; advisory only, never actuated.' };
     }
     hist.push({ phase: myPhase, t: (s.religionModel && s.religionModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
@@ -1275,7 +1322,7 @@
       version: 1, observeOnly: true, actuated: false, myPhase: myPhase,
       phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
       kernelTrajectory: s.kernelTrajectory || null,
-      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000, transition: reward,
+      coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000, transition: transition,
       note: 'ADVISORY-ONLY: phase-coherence router + self-consistency transition. Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback. NOT actuated (audit impossibilities #3 continuous-rhythm + #4 ground-truth-reward). Never opens the processing window or preempts credit.'
     };
     s.religionPhaseDynamics = out;
@@ -1804,8 +1851,8 @@
       callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,               // fraction within 0.1 of realized
       loopType: 'online-continuous self-consistency (predicted-vs-next-realized stress); TRUTH BRAKE calibration, NOT an external reward',
       creditAssignmentActive: (n >= 5),
-      wouldChange: '_updateReligionModel — scale the effective learning rate by (1 - callHitRate)',
-      note: 'ADVISORY self-consistency: measures whether the brain\'s own stress forecast is realized. No dopaminergic/external reward is fabricated. Not yet fed back into learning.',
+      feedsInto: '_updateReligionModel via window.LIMENK4.credit (stress-consistency tier) — scales the effective learning rate by (1 + (1 - credit))',
+      note: 'SELF-CONSISTENCY calibration (interpretive): measures whether the brain\'s own stress forecast is realized. No dopaminergic/external reward is fabricated (isReward=false). Routed through the central K4 credit gate, which modulates the effective learning rate; falls back to the raw learning rate when the gate is absent.',
       lastOutcomeAt: rm.updated || Date.now()
     };
     s.religionOutcomeModel = om; return om;
@@ -1946,7 +1993,7 @@
         'K1 afferent -> base scoreStress already folds externalPressure into stress',
         'K2 gain -> surfaceOpportunities (outputScale cap) [advisory]',
         'K3 slow-consolidation -> fast/slow divergence regime-shift readout',
-        'K4 outcome -> _updateReligionModel (callHitRate scales learning rate) [advisory]',
+        'K4 outcome -> _updateReligionModel via window.LIMENK4.credit (stress-consistency scales learning rate) [CLOSED; self-consistency, never reward]',
         'K5 portalError -> _computeReligionPredictionError (replace hardcoded 0) [advisory]',
         'K6 attention -> surfaceOpportunities (focus boost) [advisory]',
         'K7 inhibition -> surfaceOpportunities (non-winner down-weight) [advisory]',

@@ -862,8 +862,11 @@
   // PHASE-COHERENCE ROUTER + PHASE-TRANSITION READ — ADVISORY ONLY (this._actuation.phase === false).
   // Ported from energy's _computeEnergyPhaseDynamics for observability, but agriculture's phase is
   // NOT Thing1-validated, so the transition is NEVER a ground-truth teaching signal here: `validated`
-  // is hard-forced false, `kind` is always advisory-self-consistency, and NOTHING downstream reads it
-  // to open the emission window or preempt credit (there is no K4 credit hook wired in agriculture).
+  // is hard-forced false, `kind` is always advisory-self-consistency. The K4 credit hook
+  // (_updateAgricultureModel) routes through the central honest gate (window.LIMENK4), but because
+  // _actuation.phase === false the phase transition can NEVER be promoted to the phase-consistency
+  // tier and can NEVER preempt credit or open the emission window here — it stays self-consistency
+  // calibration (interpretive), never external reward.
   // Runs deterministically; no AI, no writes to p2_agri.json.
   AgricultureBrain.prototype._computeAgriculturePhaseDynamics = function () {
     var s = this.state;
@@ -1409,9 +1412,11 @@
 
   // K4 - outcome / credit learning = SELF-CONSISTENCY / TRUTH-BRAKE calibration. Compares each
   // cycle's predictedStress against the NEXT cycle's realized stress (the online forward-prediction
-  // loop). This is the brain grading its OWN forecast against reality — NOT an external or
-  // dopaminergic reward (that is a separate, deferred task). Measurement + advisory learning rate;
-  // it does NOT mutate am.plasticity.learningRate (the validated recurrent spine is preserved).
+  // loop). This is the brain grading its OWN forecast against reality — self-consistency calibration
+  // (interpretive), NOT an external or dopaminergic reward. This scorer produces the stressSelfPred
+  // signal that _updateAgricultureModel feeds to the central honest gate (window.LIMENK4.credit);
+  // agriculture is NOT externalRewardEligible, so that gate can only ever return a self-consistency
+  // tier (isReward:false), never external reward. Measurement + the modulated K4 learning rate.
   AgricultureBrain.prototype._scoreAgricultureOutcomes = function () {
     var s = this.state, am = s.agricultureModel || {};
     var buf = this._agricultureOutcomeBuffer = this._agricultureOutcomeBuffer || [];
@@ -1593,7 +1598,49 @@
     var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
     var reg = this._computeAgricultureRegulation(am, obs, pe);
     var readyForHandoff = (am.cycle > 0) && (predictedStress >= AM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-    var nextPrior = this._updateAgriculturePrior(priorIn, obs, am.plasticity.learningRate);
+
+    // ── K4 CREDIT — routed through the CENTRAL honest reward gate (window.LIMENK4.credit) ──
+    // Agriculture is NOT externalRewardEligible: externalOutcome is ALWAYS null, so the gate can
+    // NEVER return isReward:true here. Its credit is self-consistency calibration (interpretive)
+    // only — the stress-consistency tier from the K4 self-prediction buffer (and, were _actuation.phase
+    // ever validated, the phase-consistency tier — still self-consistency, NOT external reward).
+    // Preemption is enforced centrally: external-reward(4) > phase-consistency(3) > call-consistency(2)
+    // > stress-consistency(1) > none. Pure deterministic math — no AI/network on the cycle.
+    var _om = this.state.agricultureOutcomeModel;                 // K4 self-prediction (stress-consistency tier)
+    var _pt = (this.state.agriculturePhaseDynamics || {}).transition || null;   // thing2 phase transition (advisory; validated:false)
+    var _lr = (am.plasticity && typeof am.plasticity.learningRate === 'number') ? am.plasticity.learningRate : AM_LEARNING_RATE;
+    var _sig = {
+      // NOT externalRewardEligible → externalOutcome MUST be null (no external ground-truth outcome
+      // exists for agriculture; externalOutcomeSupplied=false). This is what keeps isReward false.
+      externalOutcome: null,
+      // P3/P7 family gate for the phase-consistency tier — self-consistency, NOT external reward.
+      // _actuation.phase is false for agriculture (phase not Thing1-validated), so this is always
+      // false and the phase-consistency tier can never fire; the transition stays advisory.
+      phaseValidated: !!(this._actuation && this._actuation.phase && _pt && _pt.validated),
+      phaseTransitionHit: (_pt && _pt.hit != null) ? (_pt.hit ? 1 : 0) : null,
+      // TRUTH BRAKE ledger — agriculture has no realized call ledger; leave unset so tier 2 cannot fire.
+      callHitRate: null, callSamples: 0,
+      // stress self-prediction (K4 buffer): predicted-vs-next-realized agreement → stress-consistency tier.
+      stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _creditSource = 'none', _creditValue = null, _isReward = false;
+    if (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function') {
+      var _cr = window.LIMENK4.credit(_sig);
+      _creditValue = _cr.credit; _creditSource = _cr.creditSource; _isReward = _cr.isReward;
+      // Modulate the K4 learning rate by the (self-consistency) credit: low agreement → higher rate.
+      if (_creditValue !== null) _lr = _amClamp(_lr * (1 + (1 - _creditValue)), AM_SLOW_RATE, 0.6);
+    } else {
+      // FALLBACK (central gate absent): preserve prior agriculture behavior — K4 stays ADVISORY,
+      // the recurrent learning rate is left unmodified (validated spine preserved). Never throws.
+      _creditSource = 'none';
+    }
+    am._effectiveLearningRate = _lr;
+    am._creditSource = _creditSource;
+    am._creditValue = _creditValue;
+    am._creditIsReward = _isReward;   // ALWAYS false for agriculture (not externalRewardEligible)
+
+    var nextPrior = this._updateAgriculturePrior(priorIn, obs, _lr);
 
     // F0 lifecycle envelope fields — honest, signal-derived (no fabrication)
     var conds = this._activeConditions || [];

@@ -39,7 +39,7 @@
 
     // ══════════════════════════════════════════════════════════════════════
     // ACTUATION FLAGS — per-actuation VALIDITY GATE (honest, not a clone). Each flag is ON
-    // only where trade has a REAL controllable effector (and, for phase reward, a P3/P7 signal).
+    // only where trade has a REAL controllable effector (and, for phase-consistency calibration, a P3/P7 signal).
     // Ported to Energy's actuation depth (energy-brain.js), reading TRADE's own state/edges.
     //
     //  refractory: FALSE (advisory) — trade's action drafts are ALREADY permanently de-duplicated by
@@ -54,9 +54,10 @@
     //  eiBrake: TRUE — consumes the servo: inhibition that fails to track drive raises a proportional
     //     brake on emission continuously (Neuro Ref XIII.1). Same real effector as servo.
     //  phase: TRUE — trade has a live domain phase (state.phase) AND real P3 (THAL/NTS/CC) + P7
-    //     (OFC/vmPFC) node archetypes, so the phase-transition REWARD self-gates to ground-truth ONLY
-    //     on P3/P7 transitions and is honestly labelled advisory-self-consistency otherwise. The
-    //     phase-coherence router (patent matrix M) couples to co-phased stressed peers deterministically.
+    //     (OFC/vmPFC) node archetypes, so a realized phase transition on the P3/P7 family raises the
+    //     phase-consistency tier of the CENTRAL K4 gate (window.LIMENK4). This is self-consistency
+    //     calibration (interpretive), NEVER an external / ground-truth reward. The phase-coherence
+    //     router (patent matrix M) couples to co-phased stressed peers deterministically.
     //  selfAudit: TRUE — trade carries a real 70-edge connectome (trade.json .edges); the advisory
     //     consumes it each cycle for single-points-of-failure + hubs (observe-only, like energy).
     this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true, selfAudit: true };
@@ -958,7 +959,7 @@
     //    kernel (pure math via window.LIMENThing2; no network, no AI). Runs every cycle regardless
     //    of _actuation.phase so the persistent series never gaps. Sets this._kernelPhase (or null).
     try { this._updateKernelPhase(); } catch (e) {}
-    // ── ACTUATED PHASE DYNAMICS (coherence router + transition reward) ──
+    // ── ACTUATED PHASE DYNAMICS (coherence router + transition consistency) ──
     var _pd = null;
     try { if (this._actuation && this._actuation.phase) _pd = this._computeTradePhaseDynamics(); } catch (e) {}
     // ── SELF-AUDIT ADVISORY (E/I read + SPOF over the 70-edge connectome; observe-only) ──
@@ -967,19 +968,46 @@
     // a FINAL decision that depends on the prior, not just on raw obs:
     var readyForHandoff = (em.cycle > 0) && (predictedStress >= EM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    // K4 credit assignment — a VALIDATED (P3/P7) phase transition is a real ground-truth teaching
-    // signal (thing2 through time); prefer it over the generic outcome-ledger self-consistency, which
-    // is preferred over the fixed rate. Low hit-rate raises the effective learning rate. Reversible
-    // via _actuation.phase (falls back to ledger/fixed). One-cycle lag on the ledger (domainNeuro).
+    // K4 credit assignment — routed through the CENTRAL honest reward gate (window.LIMENK4).
+    // Trade is NOT externalRewardEligible: it has no external realized-outcome label, so
+    // externalOutcome is ALWAYS null and its credit is self-consistency calibration (interpretive),
+    // NEVER an external / ground-truth / dopaminergic reward. The gate's preemption order is
+    // external-reward(4) > phase-consistency(3) > call-consistency(2) > stress-consistency(1) > none;
+    // for trade only tiers 3/2/1 (all self-consistency) can ever fire. Low credit raises the effective
+    // learning rate. Reversible via _actuation.phase. One-cycle lag on the ledger (domainNeuro) and on
+    // the stress self-prediction track (tradeOutcomeModel, computed later in the cycle).
     var _lr = em.plasticity.learningRate;
     var _pt = _pd && _pd.transition;
-    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
+    var _phaseOn = !!(this._actuation && this._actuation.phase);
     var _led = (this.state.domainNeuro && this.state.domainNeuro.outcomeLedger) || null;
-    var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
-    var _hit = _phaseReward ? (_pt.hit ? 1 : 0) : (_fromLedger ? _led.hitRate : null);
-    if (_hit !== null) _lr = _emClamp(_lr * (1 + (1 - _hit)), EM_SLOW_RATE, 0.6);
+    var _om = this.state.tradeOutcomeModel || null;   // prior cycle's realized-stress self-prediction track
+    var _k4hit, _k4source, _k4reward;
+    if (typeof window !== 'undefined' && window.LIMENK4) {
+      var _sig = {
+        externalOutcome: null,                                  // trade is NOT externalRewardEligible — never reward
+        phaseValidated: _phaseOn && !!(_pt && _pt.validated),   // P3/P7 family gate for the phase-consistency tier
+        phaseTransitionHit: (_phaseOn && _pt && _pt.hit !== null) ? (_pt.hit ? 1 : 0) : null,   // thing2 realized transition (self-consistency)
+        callHitRate: (_led && typeof _led.hitRate === 'number') ? _led.hitRate : null,          // TRUTH BRAKE ledger
+        callSamples: (_led && typeof _led.samples === 'number') ? _led.samples : 0,
+        stressSelfPred: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,   // stress self-prediction agreement
+        stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+      };
+      var _k4 = window.LIMENK4.credit(_sig);
+      _k4hit = (_k4 && _k4.credit != null) ? _k4.credit : null;
+      _k4source = (_k4 && _k4.creditSource) || 'none';
+      _k4reward = !!(_k4 && _k4.isReward);                       // always false for trade (self-consistency only)
+    } else {
+      // FALLBACK (central gate absent) — prior self-consistency behavior, unchanged. NEVER reward.
+      var _phaseHit = !!(_phaseOn && _pt && _pt.validated && _pt.hit !== null);
+      var _fromLedger = !_phaseHit && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
+      _k4hit = _phaseHit ? (_pt.hit ? 1 : 0) : (_fromLedger ? _led.hitRate : null);
+      _k4source = _phaseHit ? 'phase-consistency' : (_fromLedger ? 'call-consistency' : 'none');
+      _k4reward = false;
+    }
+    if (_k4hit !== null) _lr = _emClamp(_lr * (1 + (1 - _k4hit)), EM_SLOW_RATE, 0.6);
     em._effectiveLearningRate = _lr;
-    em._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'outcome-ledger' : 'fixed');
+    em._creditSource = _k4source;
+    em._creditIsReward = _k4reward;   // self-consistency calibration (interpretive), never external reward for trade
     var nextPrior = this._updatePrior(priorIn, obs, _lr); // → next cycle reads this
 
     em.cycle += 1;
@@ -1120,11 +1148,12 @@
     return this._kernelPhase;
   };
 
-  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD. Mirror of energy-brain _computeEnergyPhaseDynamics.
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION CONSISTENCY. Mirror of energy-brain _computeEnergyPhaseDynamics.
   //  (A) router: couple to co-phased, stressed domains via the patent Section 3.4 Loop 1 matrix M.
-  //  (B) reward: a realized phase transition over time is a real ground-truth label ONLY on P3/P7
-  //      (the phases the kernel family validates; trade carries P3 THAL/NTS/CC + P7 OFC/vmPFC nodes);
-  //      elsewhere it is honestly labelled advisory-self-consistency (never a fabricated reward).
+  //  (B) phase consistency: whether a realized phase transition over time matched the brain's own
+  //      prediction — SELF-CONSISTENCY CALIBRATION (interpretive), NEVER an external / ground-truth reward.
+  //      The P3/P7 family (trade carries P3 THAL/NTS/CC + P7 OFC/vmPFC nodes) only gates the
+  //      phase-consistency tier of the central K4 gate; it does NOT promote this to reward.
   TradeBrain.prototype._computeTradePhaseDynamics = function () {
     var s = this.state;
     var PHASE_M = {
@@ -1137,12 +1166,12 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };               // kernel family validates P3/P7 => ground-truth
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };               // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the REAL thing2 recursive phase kernel when it produced a phase this cycle; otherwise
     // fall back to the existing naive/static domain phase (s.phase) UNCHANGED. Both the coherence
-    // router (A) and the phase-transition reward (B) below read this single myPhase.
+    // router (A) and the phase-transition consistency (B) below read this single myPhase.
     var myPhase = norm(this._kernelPhase || s.phase);
 
     // (A) COHERENCE ROUTER — couple to co-phased, stressed domains
@@ -1163,10 +1192,11 @@
       couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
     }
 
-    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    // (B) PHASE-TRANSITION CONSISTENCY — did a predicted transition actually occur (through time)?
+    //     Self-consistency calibration (interpretive), NEVER an external reward.
     var hist = this._tradePhaseHistory = this._tradePhaseHistory || [];
     var prev = hist.length ? hist[hist.length - 1].phase : null;
-    var reward = null;
+    var transition = null;
     if (prev != null && myPhase != null && prev !== myPhase) {
       var fc = (s.domainNeuro && s.domainNeuro.forecast) || null;
       var predictedUp = fc
@@ -1175,8 +1205,8 @@
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
-      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
-        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+      transition = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'self-consistency calibration (P3/P7 family, interpretive)' : 'self-consistency calibration (interpretive)' };
     }
     hist.push({ phase: myPhase, t: (s.supplyChainModel && s.supplyChainModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
@@ -1185,8 +1215,8 @@
       version: 1, myPhase: myPhase,
       phaseSource: this.state.phaseSource || 'fallback',
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
-      transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — trade carries P3 THAL/NTS/CC + P7 OFC/vmPFC nodes). myPhase = REAL thing2 kernel (window.LIMENThing2, pure math) when available, else naive/static s.phase.'
+      transition: transition,
+      note: 'phase-coherence router (patent M matrix) + phase-transition consistency (thing2 lineage; self-consistency calibration only, NEVER external reward — the P3/P7 family gates only the phase-consistency tier of the central K4 gate). myPhase = REAL thing2 kernel (window.LIMENThing2, pure math) when available, else naive/static s.phase.'
     };
     s.tradePhaseDynamics = out;
     return out;
@@ -1397,8 +1427,8 @@
   // reward). Compares each cycle's predictedStress against the NEXT cycle's realized stress — the
   // online forward-prediction loop. Measures how often the brain's own forecast comes true
   // (hitRate). NO dopaminergic/reward signal fabricated. Trade already closes the effective-
-  // learning-rate loop in _updateSupplyChainModel via the phase-transition / outcome-ledger credit
-  // source; this is the parallel realized-stress self-prediction track.
+  // learning-rate loop in _updateSupplyChainModel via the central K4 gate's self-consistency credit
+  // source (phase / call / stress consistency); this is the parallel realized-stress self-prediction track.
   TradeBrain.prototype._scoreTradeOutcomes = function () {
     var s = this.state, em = s.supplyChainModel || {};
     var buf = this._tradeOutcomeBuffer = this._tradeOutcomeBuffer || [];
@@ -1422,7 +1452,7 @@
       creditAssignmentActive: (n >= 5),
       liveCreditSource: em._creditSource || null,                               // the source actually driving the effective learning rate this cycle
       effectiveLearningRate: (typeof em._effectiveLearningRate === 'number') ? em._effectiveLearningRate : null,
-      note: 'CLOSED: _updateSupplyChainModel scales the effective learning rate from the phase-transition/outcome-ledger credit source; this track measures realized-stress self-prediction (truth brake).',
+      note: 'CLOSED: _updateSupplyChainModel scales the effective learning rate from the central K4 gate self-consistency credit source; this track measures realized-stress self-prediction (truth brake).',
       lastOutcomeAt: em.updated || Date.now()
     };
     s.tradeOutcomeModel = om; return om;

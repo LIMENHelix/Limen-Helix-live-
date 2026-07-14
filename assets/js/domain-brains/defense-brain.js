@@ -557,7 +557,44 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeDefenseRegulation(dm, obs, pe);
       var readyForHandoff = (dm.cycle > 0) && (predictedStress >= DM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      var nextPrior = this._updateDefensePrior(priorIn, obs, dm.plasticity.learningRate);
+
+      // ── K4 CREDIT ASSIGNMENT — routed through the ONE central honest reward gate (window.LIMENK4).
+      // The gate decides the tier + whether the signal is reward; the brain only supplies what it already
+      // computes. DEFENSE IS NOT externalRewardEligible (the validated kernel is fenced to Finance +
+      // Population): externalOutcome is ALWAYS null — no external realized ground-truth outcome exists here,
+      // so its credit is SELF-CONSISTENCY CALIBRATION ONLY, never reward. The gate preempts
+      // external-reward(4) > phase-consistency(3) > call-consistency(2) > stress-consistency(1) > none.
+      // Signal is read from the PRIOR cycle's K4/phase telemetry (those layers run later this cycle — a
+      // one-cycle lag, matching Energy). Pure deterministic math — NO AI, NO fetch. Guarded: if the gate is
+      // absent the fixed prior learning-rate behavior is preserved (never throws).
+      var _lr = dm.plasticity.learningRate;
+      var _om = this.state.defenseOutcomeModel || null;                             // K4 TRUTH-BRAKE self-consistency (prev cycle)
+      var _pt = (this.state.defensePhaseDynamics || {}).transition || null;         // advisory transition (hit ALWAYS null for defense)
+      if (typeof window !== 'undefined' && window.LIMENK4) {
+        var _sig = {
+          // Defense NOT externalRewardEligible -> externalOutcome MUST stay null (externalOutcomeSupplied=false).
+          externalOutcome: null,
+          phaseValidated: !!(_pt && _pt.validated),                                 // false for defense (advisory phase, not a P3/P7-validated kernel signal)
+          phaseTransitionHit: (_pt && _pt.hit != null) ? _pt.hit : null,            // null for defense (a realized transition is never ground-truth here)
+          callHitRate: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,  // TRUTH BRAKE ledger hit-rate (self-consistency)
+          callSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0,
+          stressSelfPred: (_om && typeof _om.meanRealizedError === 'number') ? Math.max(0, 1 - _om.meanRealizedError) : null,  // raw stress self-prediction agreement
+          stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+        };
+        var _cr = window.LIMENK4.credit(_sig);
+        dm._credit = (_cr && _cr.credit != null) ? _cr.credit : null;
+        dm._creditSource = (_cr && _cr.creditSource) || 'none';
+        dm._creditIsReward = !!(_cr && _cr.isReward);                               // ALWAYS false for defense (no external outcome supplied)
+        dm._creditTier = (_cr && typeof _cr.tier === 'number') ? _cr.tier : 0;
+        dm._creditLabel = (_cr && _cr.label) || '';
+        // Low self-consistency credit RAISES the effective learning rate (learn faster when the forecast misses).
+        if (dm._credit != null) _lr = _dmClamp(_lr * (1 + (1 - dm._credit)), DM_SLOW_RATE, 0.6);
+      } else {
+        // FALLBACK — central gate absent: preserve the prior fixed-rate behavior, no credit modulation.
+        dm._credit = null; dm._creditSource = 'no-gate'; dm._creditIsReward = false; dm._creditTier = 0; dm._creditLabel = 'gate-absent';
+      }
+      dm._effectiveLearningRate = _lr;
+      var nextPrior = this._updateDefensePrior(priorIn, obs, _lr);
       dm.cycle += 1; dm.observation = obs; dm.predictionError = pe; dm.predictedStress = predictedStress; dm.regulation = reg; dm.readyForHandoff = readyForHandoff; dm.prior = nextPrior; dm.updated = obs.timestamp;
       this.state.defenseModel = dm;
 
@@ -1089,8 +1126,10 @@
 
   // K4 - outcome / credit learning = TRUTH-BRAKE self-consistency. Compares each cycle's predictedStress
   // against the NEXT cycle's realized stress (online forward-prediction loop). This is SELF-CONSISTENCY
-  // calibration (does the brain's own forecast come true), NOT an external/dopaminergic reward — that is a
-  // separate deferred task and is deliberately NOT fabricated here. Measurement only; no writes to scoring.
+  // calibration (does the brain's own forecast come true), NOT an external/dopaminergic reward. This model's
+  // callHitRate/meanRealizedError are fed to the ONE central honest reward gate (window.LIMENK4) in
+  // _updateDefenseModel, which classifies them as self-consistency (never reward — defense supplies no
+  // external outcome). Measurement only here; no writes to scoring.
   DefenseBrain.prototype._scoreDefenseOutcomes = function () {
     var s = this.state, dm = s.defenseModel || {};
     var buf = this._defenseOutcomeBuffer = this._defenseOutcomeBuffer || [];
@@ -1110,7 +1149,7 @@
       callHitRate: n ? Math.round((hits / n) * 100) / 100 : null,                // fraction within 0.1 of realized (TRUTH-BRAKE calibration)
       loopType: 'online-continuous (predicted-vs-next-realized) SELF-CONSISTENCY; NOT an external reward',
       creditAssignmentActive: (n >= 5),
-      note: 'TRUTH BRAKE: realized-stress self-prediction calibration. A persistently low callHitRate means the brain should widen its own uncertainty; deliberately NOT wired to a fabricated reward signal (deferred).',
+      note: 'TRUTH BRAKE: realized-stress self-prediction calibration. A persistently low callHitRate means the brain should widen its own uncertainty. Routed through the central honest gate (window.LIMENK4) as self-consistency calibration — NEVER reward (defense supplies no external outcome).',
       lastOutcomeAt: dm.updated || Date.now()
     };
     s.defenseOutcomeModel = om; return om;

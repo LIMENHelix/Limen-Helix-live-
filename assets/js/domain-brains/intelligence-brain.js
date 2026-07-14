@@ -27,7 +27,7 @@
   IntelligenceBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
-    // ── THING2 RECURSIVE PHASE KERNEL (2026-07-13) — the coherence router + phase-transition reward
+    // ── THING2 RECURSIVE PHASE KERNEL (2026-07-13) — the coherence router + phase-transition self-consistency calibration (interpretive)
     //    previously read s.phase (a naive per-cycle guess / static PHASE_M lineage). We now feed those
     //    from the REAL Thing2 kernel (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries),
     //    which runs the validated financial phase pipeline over this domain's own STRESS trajectory. The
@@ -68,11 +68,11 @@
     //                    doc's most-repeated invariant (XIII.1). Honest: it regulates ONLY this brain's
     //                    own output, never rewrites stress/scoring/diagnoses/intelligence.json.
     //   phase:true       Router = phase-coherence coupling to co-phased stressed peers (patent M matrix,
-    //                    advisory). Reward = a realized phase TRANSITION treated as ground-truth ONLY on
-    //                    the Thing1-validated P3/P7 family; ELSEWHERE it is advisory-self-consistency and
-    //                    NEVER modulates learning (no unvalidated signal is ever counted as a reward).
-    //                    That self-limiting gate is what makes phase honest for a non-kernel domain: the
-    //                    validated K4 credit-source hook only preempts the default credit on P3/P7.
+    //                    advisory). Credit = a realized phase TRANSITION is SELF-CONSISTENCY CALIBRATION
+    //                    (interpretive), NEVER external reward — even on the Thing1-validated P3/P7 family.
+    //                    K4 credit routes through the central honest gate (window.LIMENK4.credit); the
+    //                    P3/P7 family only gates the phase-consistency TIER, it never makes the signal a
+    //                    reward. Intelligence is NOT externalRewardEligible, so isReward is always false.
     // All four are fully reversible (flip any flag to false). MIRRORS assets/data/domains/intelligence.json
     // runtime intent; the brain runs in its own context and keeps its own copy.
     this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
@@ -617,18 +617,53 @@
       var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
       var reg = this._computeIntelligenceRegulation(im, obs, pe);
       var readyForHandoff = (im.cycle > 0) && (predictedStress >= IM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
-      // ── K4 CREDIT-SOURCE HOOK (actuated, phase) — a VALIDATED phase-transition (Thing1 P3/P7 family)
-      //    is a real ground-truth teaching signal (Thing2, "through time"): it preempts the default
-      //    self-prediction credit and raises the effective learning rate when the transition prediction
-      //    missed. One-cycle lag (reads the PRIOR cycle's intelligencePhaseDynamics). Ground-truth ONLY on
-      //    P3/P7 — elsewhere the transition is advisory-self-consistency and NEVER modulates learning, so
-      //    no unvalidated signal is ever treated as a reward. Reversible via _actuation.phase.
+      // ── K4 CREDIT ASSIGNMENT — routed through the central honest reward gate (window.LIMENK4.credit).
+      //    Intelligence is NOT externalRewardEligible: it has no external realized-outcome label, so
+      //    externalOutcome is ALWAYS null and its credit is SELF-CONSISTENCY CALIBRATION only
+      //    (interpretive), NEVER reward. The gate enforces the preemption: external-reward(4) >
+      //    phase-consistency(3) > call-consistency(2) > stress-consistency(1) > none. A realized thing2
+      //    phase transition is SELF-CONSISTENCY (interpretive), never reward — even on the P3/P7 family.
+      //    Pure math, no AI/network on the 30s cycle. One-cycle lag (reads the PRIOR cycle's
+      //    intelligencePhaseDynamics / intelligenceOutcomeModel). Reversible via _actuation.phase.
+      var _om = this.state.intelligenceOutcomeModel;
       var _lr = im.plasticity.learningRate;
+      // thing2 realized phase transition: did a predicted transition actually occur over time. This is
+      // SELF-CONSISTENCY calibration (interpretive), NOT external reward. validated => P3/P7 family gates
+      // the phase-consistency TIER only. Live only when phase actuation is on (else transition is absent).
       var _pt = (this.state.intelligencePhaseDynamics || {}).transition;
-      var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
-      if (_phaseReward) _lr = _imClamp(_lr * (1 + (1 - (_pt.hit ? 1 : 0))), IM_SLOW_RATE, 0.6);
+      var _ptActive = !!(this._actuation && this._actuation.phase && _pt && _pt.hit !== null);
+      // Signal built from what the brain already computed. externalOutcome MUST be null (not eligible).
+      var _sig = {
+        externalOutcome: null,                                              // NOT eligible: self-consistency only, never reward
+        phaseValidated: !!(_pt && _pt.validated),                           // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
+        phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,           // thing2 transition hit (interpretive self-consistency)
+        callHitRate: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,   // TRUTH BRAKE ledger (self-prediction handle)
+        callSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0,
+        stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,          // stress self-prediction
+        stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+      };
+      var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+        ? window.LIMENK4.credit(_sig) : null;
+      var _hit, _creditSource, _isReward;
+      if (_k4) {
+        _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+        _creditSource = _k4.creditSource;
+        _isReward = !!_k4.isReward;                                         // ALWAYS false for intelligence (not externalRewardEligible)
+      } else {
+        // FALLBACK (gate absent) — prior credit behaviour preserved, same preemption, in-line. All tiers
+        // here are self-consistency calibration (interpretive); none is ever reward.
+        var _phaseReward = _ptActive && !!_pt.validated;
+        var _fromLedger = !_phaseReward && !!(_om && typeof _om.callHitRate === 'number' && _om.samples >= 3);
+        _hit = _phaseReward ? (_pt.hit ? 1 : 0)
+          : _fromLedger ? _om.callHitRate
+          : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+        _creditSource = _phaseReward ? 'phase-consistency' : (_fromLedger ? 'call-consistency' : (_hit !== null ? 'stress-consistency' : 'none'));
+        _isReward = false;                                                  // self-consistency only; never reward
+      }
+      if (_hit !== null) _lr = _imClamp(_lr * (1 + (1 - _hit)), IM_SLOW_RATE, 0.6);
       im._effectiveLearningRate = _lr;
-      im._creditSource = _phaseReward ? 'phase-transition (P3/P7 ground-truth)' : 'self-prediction';
+      im._creditSource = _creditSource;
+      im._creditIsReward = _isReward;                                       // honest flag: false unless a real external outcome fed the gate
       var nextPrior = this._updateIntelligencePrior(priorIn, obs, _lr);
       im.cycle += 1; im.observation = obs; im.predictionError = pe; im.predictedStress = predictedStress; im.regulation = reg; im.readyForHandoff = readyForHandoff; im.prior = nextPrior; im.updated = obs.timestamp;
       this.state.intelligenceModel = im;
@@ -655,7 +690,7 @@
       //    all deterministic, no AI, no writes to intelligence.json.
       try { if (this._actuation && this._actuation.servo) this._computeIntelligenceServo(); } catch (e) {}     // SERVO first (brake reads its emissionFactor)
       try { if (this._actuation && this._actuation.eiBrake) this._computeIntelligenceBrake(); } catch (e) {}   // E/I HALT/DAMPEN brake (reads servo + immune + conscience + regulation)
-      try { if (this._actuation && this._actuation.phase) this._computeIntelligencePhaseDynamics(); } catch (e) {} // PHASE router + transition reward (stored for next cycle's K4 credit hook)
+      try { if (this._actuation && this._actuation.phase) this._computeIntelligencePhaseDynamics(); } catch (e) {} // PHASE router + transition self-consistency calibration (stored for next cycle's K4 credit hook)
       try { this._computeIntelligenceRegulationAdvisories(); } catch (e) {}                                     // E/I balance read + self-audit (SPOF over the real edge graph)
 
       // COLLECTION POSTURE — collection-gap / threat-warning sub-portal layer (additive; BEFORE the DDP build
@@ -689,7 +724,7 @@
         intuition: this.state.intelligenceIntuition || null,
         servo: this.state.intelligenceServo || null,                         // actuated: regulate-to-target PI controller
         brake: this.state.intelligenceBrake || null,                         // actuated: E/I stop-circuit (halt/dampen/clear)
-        phaseDynamics: this.state.intelligencePhaseDynamics || null,         // actuated: coherence router + P3/P7 transition reward
+        phaseDynamics: this.state.intelligencePhaseDynamics || null,         // actuated: coherence router + P3/P7 transition self-consistency calibration (interpretive, never reward)
         regulation: this.state.intelligenceRegulation || null,               // E/I balance read + self-audit (SPOF)
         neuro: this.state.intelligenceNeuro || null,                         // K1-K8 neuro-completion stack (advisory, exposed)
         sceneLayer: this.state.collectionPostureLayer || null,
@@ -1732,10 +1767,11 @@
     s.intelligenceBrake = brake; return brake;
   };
 
-  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (actuated, phase). Router: couple to co-phased,
-  //    stressed peers (patent Section 3.4 Loop 1 coupling matrix M; thing2 lineage) — advisory. Reward:
-  //    a realized phase TRANSITION is a ground-truth teaching signal ONLY on the Thing1-validated P3/P7
-  //    family; elsewhere advisory-self-consistency (never counted as a reward — see the K4 hook gate).
+  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION SELF-CONSISTENCY (actuated, phase). Router: couple to
+  //    co-phased, stressed peers (patent Section 3.4 Loop 1 coupling matrix M; thing2 lineage) — advisory.
+  //    Credit: a realized phase TRANSITION is SELF-CONSISTENCY CALIBRATION (interpretive), NEVER external
+  //    reward — even on the Thing1-validated P3/P7 family. The P3/P7 family only gates the phase-consistency
+  //    TIER in the central K4 gate (window.LIMENK4.credit); it never makes the signal a reward.
   //    Deterministic; no AI; no writes to intelligence.json. Stored for next cycle's K4 credit hook. ──
   // ── THING2 KERNEL PHASE (pure math, guarded). Per-cycle: append the domain's primary STRESS scalar
   //    (finalStress/stress; up=bad) to the persistent series, cap at 60, persist, then run the REAL Thing2
@@ -1787,11 +1823,11 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH the
-    // coherence router and the phase-transition reward; fall back to the existing s.phase when the kernel
+    // coherence router and the phase-transition self-consistency calibration; fall back to the existing s.phase when the kernel
     // is unavailable (adapter missing / history < 8 / error) — the fallback path is unchanged.
     var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
 
@@ -1813,10 +1849,11 @@
       couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
     }
 
-    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    // (B) PHASE-TRANSITION SELF-CONSISTENCY — did a predicted transition actually occur (through time)?
+    //     This is interpretive self-consistency calibration, NEVER external reward.
     var hist = this._phaseHistory = this._phaseHistory || [];
     var prev = hist.length ? hist[hist.length - 1].phase : null;
-    var reward = null;
+    var transition = null;
     if (prev != null && myPhase != null && prev !== myPhase) {
       var fc = (s.domainNeuro && s.domainNeuro.forecast) || {};    // generic K-stack forecast
       var predictedUp = fc.direction === 'rising' ||
@@ -1824,8 +1861,8 @@
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
-      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
-        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+      transition = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'self-consistency calibration (P3/P7 phase, interpretive)' : 'advisory-self-consistency' };
     }
     hist.push({ phase: myPhase, t: (s.intelligenceModel && s.intelligenceModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
@@ -1835,8 +1872,8 @@
       phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
       kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
-      transition: reward,
-      note: 'phase-coherence router (patent M matrix; advisory) + phase-transition reward (thing2 lineage; ground-truth ONLY on P3/P7). Only a VALIDATED transition modulates learning (K4 credit hook). myPhase from Thing2 kernel when available, else s.phase fallback.'
+      transition: transition,
+      note: 'phase-coherence router (patent M matrix; advisory) + phase-transition self-consistency calibration (thing2 lineage; interpretive, NEVER external reward — even on P3/P7). K4 credit routes through the central honest gate; P3/P7 only gates the phase-consistency tier. myPhase from Thing2 kernel when available, else s.phase fallback.'
     };
     s.intelligencePhaseDynamics = out; return out;
   };

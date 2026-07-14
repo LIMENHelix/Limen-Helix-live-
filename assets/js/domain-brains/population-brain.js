@@ -44,13 +44,15 @@
     //   eiBrake    : TRUE  — the HALT/DAMPEN stop-circuit consumes the servo's emissionFactor +
     //                        the already-computed governor layers (immune/conscience/regulation).
     //                        Effector = the same emission channel. Real.
-    //   phase      : FALSE — ADVISORY ONLY. The phase-transition REWARD is a valid ground-truth
-    //                        learning signal ONLY on Thing1-validated phases (p3/p7 family).
-    //                        Population's domain phase is P5 — NOT validated — so a phase reward
-    //                        here would be fabricated ground truth. The coherence router is still
-    //                        computed as OBSERVE-ONLY telemetry (never preempts credit, never
-    //                        opens the opportunity gate). This is population's UNMAPPED boundary,
-    //                        analogous to Energy's own E/I advisory boundary.
+    //   phase      : FALSE — ADVISORY ONLY. A thing2 phase transition is SELF-CONSISTENCY
+    //                        calibration (interpretive), NEVER an external / ground-truth reward.
+    //                        On the P3/P7 family it may at most qualify for the phase-consistency
+    //                        TIER of the central K4 gate — still self-consistency, not reward.
+    //                        Population's domain phase is P5 — outside that family AND observe-only
+    //                        here — so no phase credit is emitted at all: the coherence router is
+    //                        computed as OBSERVE-ONLY telemetry (never preempts credit, never opens
+    //                        the opportunity gate). This is population's UNMAPPED boundary, analogous
+    //                        to Energy's own E/I advisory boundary.
     // selfAudit (observe-only, not a cycle actuation): TRUE — population.json carries a real
     //   72-edge graph, so the diaschisis / single-point-of-failure audit (Neuro Ref XIV) runs on
     //   the REAL graph, not a stub. Consumed as advisory (mirrors Energy's regulation advisories).
@@ -77,7 +79,8 @@
     // validated financial phase pipeline over population's own stress trajectory. The kernel is
     // PURE MATH (no network, no AI) so the 30s cycle stays deterministic. Output is INTERPRETIVE
     // posture only (interpretive:true, validated:false); we never surface it as validated, and the
-    // phase layer stays OBSERVE-ONLY (P5 is not Thing1-validated, so no phase reward is applied).
+    // phase layer stays OBSERVE-ONLY (a phase transition is self-consistency calibration, never reward;
+    // P5 is not P3/P7, so no phase credit is emitted).
     // Fallback: if the adapter is absent or history < 8, _kernelPhase stays null and s.phase is used.
     // seriesSource = STRESS (positive:false) because population's primary scalar (s.stress) rises with
     // distress (up = worse).
@@ -630,7 +633,53 @@
 
     var readyForHandoff = (pm.cycle > 0) && (predictedStress >= PM_STRESS_FLOOR) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    var nextPrior = this._updatePopulationPrior(priorIn, obs, pm.plasticity.learningRate); // → next cycle reads this
+    // K4 CLOSED — credit assignment routed through the central honest reward gate
+    // (window.LIMENK4.credit). Population is NOT externalRewardEligible: it has no external
+    // realized-outcome label, so externalOutcome is ALWAYS null and its credit is self-consistency
+    // calibration only (interpretive), NEVER reward. The gate enforces the preemption:
+    // external-reward(4) > phase-consistency(3) > call-consistency(2) > stress-consistency(1) > none.
+    // Pure math, no AI/network on the cycle. One-cycle lag: reads the prior cycle's K4 outcome model
+    // and phase dynamics (both written later in this cycle by the neuro + actuation layers).
+    var _om = this.state.populationOutcomeModel;
+    var _lr = pm.plasticity.learningRate;
+    // thing2 realized phase transition (interpretive self-consistency). Population's phase actuation is
+    // OFF and P5 is not P3/P7, so there is no realized transition hit — phaseTransitionHit stays null
+    // (observe-only). phaseValidated only flags P3/P7-family membership for the phase-consistency TIER,
+    // never reward.
+    var _pt = (this.state.populationPhaseDynamics || {}).transition;
+    var _ptActive = !!(this._actuation && this._actuation.phase && _pt && typeof _pt.hit === 'number');
+    // Signal built from what the brain already computed. externalOutcome MUST be null (not eligible).
+    var _sig = {
+      externalOutcome: null,                                              // NOT eligible: self-consistency only, never reward
+      phaseValidated: !!(_pt && _pt.validated),                           // P3/P7 family gate for phase-consistency tier (not reward)
+      phaseTransitionHit: _ptActive ? (_pt.hit ? 1 : 0) : null,           // thing2 transition hit (interpretive); null while observe-only
+      callHitRate: (_om && typeof _om.callHitRate === 'number') ? _om.callHitRate : null,  // TRUTH BRAKE ledger (forward self-prediction)
+      callSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0,
+      stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,        // stress self-prediction (tier-1 fallback)
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit(_sig) : null;
+    var _hit, _creditSource, _isReward;
+    if (_k4) {
+      _hit = (typeof _k4.credit === 'number') ? _k4.credit : null;
+      _creditSource = _k4.creditSource;
+      _isReward = !!_k4.isReward;                                         // ALWAYS false for population (not externalRewardEligible)
+    } else {
+      // FALLBACK (gate absent) — prior credit behavior preserved, same preemption, in-line.
+      var _fromLedger = !!(_om && typeof _om.callHitRate === 'number' && _om.samples >= 3);
+      _hit = _fromLedger ? _om.callHitRate
+        : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+      _creditSource = _fromLedger ? 'call-consistency' : (_hit !== null ? 'stress-consistency' : 'none');
+      _isReward = false;                                                  // self-consistency only; never reward
+    }
+    // Modulate the K4 learning rate by the credit (lower self-consistency => faster plasticity), bounded.
+    if (_hit !== null) _lr = _pmClamp(_lr * (1 + (1 - _hit)), PM_SLOW_RATE, 0.6);
+    pm._effectiveLearningRate = _lr;
+    pm._creditSource = _creditSource;
+    pm._creditIsReward = _isReward;                                       // honest flag: false unless a real external outcome fed the gate
+
+    var nextPrior = this._updatePopulationPrior(priorIn, obs, _lr); // → next cycle reads this (K4-modulated learning rate)
 
     pm.cycle += 1;
     pm.observation = obs;
@@ -1409,10 +1458,11 @@
     };
   }
 
-  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD — ADVISORY ONLY for population ────────────
+  // ── PHASE-COHERENCE ROUTER + PHASE-TRANSITION RECORD — ADVISORY ONLY for population ────────────
   // Population's domain phase is P5, which is NOT a Thing1-validated phase (validated = P3/P7 family).
-  // A phase-transition REWARD is only a legitimate ground-truth learning signal on validated phases;
-  // on P5 it would be fabricated ground truth. So this layer is OBSERVE-ONLY: it computes the
+  // A thing2 phase transition is SELF-CONSISTENCY calibration (interpretive), NEVER external / ground-
+  // truth reward; on the P3/P7 family it could at most feed the phase-consistency TIER of the central
+  // K4 gate (still self-consistency). P5 is outside that family, so this layer is OBSERVE-ONLY: it computes the
   // coherence router (which co-phased, stressed peers population would couple to) and records any
   // transition, but ALWAYS marks the transition non-validated (advisory-self-consistency) and NEVER
   // preempts a credit source or opens the opportunity gate. This is population's UNMAPPED boundary,
@@ -1471,7 +1521,7 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };  // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the Thing2 kernel phase (interpretive, from population's stress trajectory) for BOTH the
@@ -1505,8 +1555,8 @@
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
       transition = { from: prev, to: myPhase, wentUp: wentUp, validated: validated,
-        kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency',
-        actuated: false, note: 'observe-only; population phase (P5) not Thing1-validated so no phase reward is applied' };
+        kind: validated ? 'self-consistency calibration (P3/P7 phase tier, interpretive)' : 'advisory-self-consistency',
+        actuated: false, note: 'observe-only; a phase transition is self-consistency calibration (interpretive), never external reward; population phase (P5) is not P3/P7 so no phase credit is emitted' };
     }
     hist.push({ phase: myPhase, t: (s.populationModel && s.populationModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();

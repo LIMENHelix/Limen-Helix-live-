@@ -50,7 +50,7 @@
 
     // ── THING2 KERNEL PHASE SOURCE (2026-07-13): make the REAL recursive phase kernel
     //    (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries) the phase
-    //    source for this brain's coherence router + phase-transition reward. The kernel needs a
+    //    source for this brain's coherence router + phase-transition consistency. The kernel needs a
     //    short rolling history of the domain's primary scalar; restore it from localStorage so
     //    it warms up across reloads. Guarded for absent localStorage; on any failure -> []. The
     //    kernel is PURE MATH (no network, no AI) — the 30s cycle stays deterministic + cost-free.
@@ -76,8 +76,10 @@
     //                      inhibition deficit. Real effector, so honestly actuatable.
     //   phase    = TRUE  — Finance is THE Thing1-VALIDATED domain (P3/P7 family; live phase = P7; EDGAR /
     //                      bankruptcy kernel is validated in-envelope, PR-AUC 0.81/holdout 0.83). The
-    //                      phase-transition reward is genuine ground-truth on P3/P7 transitions (thing2
-    //                      lineage), not mere self-consistency — the exact condition the gate requires.
+    //                      phase-transition signal is self-consistency calibration (interpretive) — the
+    //                      P3/P7 family gates the phase-consistency TIER of the central K4 gate, but it is
+    //                      NOT external reward. External reward is reserved for a real Thing1 realized
+    //                      outcome (K4 hook), never the phase transition itself.
     //   refractory = TRUE — de-dup of the action-draft emission (a real effector). Absolute dead-time +
     //                      relative raised-bar (Neuro Ref III.3), implemented inline (deterministic; no
     //                      external module dependency). Fully reversible: flip any flag to false.
@@ -1024,13 +1026,15 @@
     return s.financeEIBrake;
   };
 
-  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (patent §3.4 Loop 1 coupling matrix M; thing2 lineage).
+  // PHASE-COHERENCE ROUTER + PHASE-TRANSITION CONSISTENCY (patent §3.4 Loop 1 coupling matrix M; thing2 lineage).
   //  Router: P0-P10 IS the phase variable — Finance couples to stressed domains whose PHASE is coherent with
   //          its own (positive M = same excitability window = communicate-through-coherence).
-  //  Reward: a realized phase TRANSITION over time is ground-truth (thing2 "goes through time"). GATED to
-  //          TRUE reward only on P3/P7-involving transitions — the phases Thing1 VALIDATES, and Finance's
-  //          home envelope (EDGAR / bankruptcy kernel; live phase P7). Elsewhere it is advisory
-  //          self-consistency, never a fabricated validated signal. Deterministic; no AI; no writes to finance.json.
+  //  Transition: a realized phase TRANSITION over time is SELF-CONSISTENCY CALIBRATION (interpretive) — the
+  //          brain's own through-time self-prediction, NOT external reward. The P3/P7 family (Thing1's
+  //          validated envelope; Finance live phase P7) gates the phase-consistency tier of the central K4
+  //          gate; it is NEVER a fabricated validated/ground-truth reward. External reward for Finance comes
+  //          ONLY via a real Thing1 realized outcome (handled in the K4 hook), not the transition itself.
+  //          Deterministic; no AI; no writes to finance.json.
   FinanceBrain.prototype._computeFinancePhaseDynamics = function () {
     var s = this.state;
     var PHASE_M = {
@@ -1042,12 +1046,12 @@
       p9:  { p9: 0.08, p7a: 0.05, p0: -0.10, p4: -0.06 },
       p10: { p10: 0.06, p0: 0.05, p6: 0.03 }
     };
-    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
+    var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     // PREFER the REAL Thing2 recursive phase kernel (this._kernelPhase, set in _updateFinanceModel)
     // when it produced a phase this cycle; otherwise fall back to the existing naive/static s.phase.
-    // Both the coherence router AND the phase-transition reward below read this single myPhase, so
+    // Both the coherence router AND the phase-transition consistency below read this single myPhase, so
     // one source-swap covers both. Fallback path is preserved unchanged.
     var phaseSource = (this._kernelPhase != null) ? 'thing2-kernel' : 'fallback';
     var myPhase = norm((this._kernelPhase != null) ? this._kernelPhase : s.phase);
@@ -1070,10 +1074,11 @@
       couplingStrength = coupled.reduce(function (a, c) { return a + c.coherence * c.stress; }, 0);
     }
 
-    // (B) PHASE-TRANSITION REWARD — did a predicted transition actually occur (through time)?
+    // (B) PHASE-TRANSITION CONSISTENCY — did a predicted transition actually occur (through time)?
+    //     This is self-consistency calibration (interpretive), NOT external reward.
     var hist = this._financePhaseHist = this._financePhaseHist || [];
     var prev = hist.length ? hist[hist.length - 1].phase : null;
-    var reward = null;
+    var transition = null;
     if (prev != null && myPhase != null && prev !== myPhase) {
       var fc = (s.domainNeuro && s.domainNeuro.forecast) || {};
       var predictedUp = fc.direction === 'rising' ||
@@ -1081,8 +1086,8 @@
       var wentUp = (BREAKING[myPhase] && !BREAKING[prev]) ? true : (BREAKING[prev] && !BREAKING[myPhase]) ? false : null;
       var hit = (wentUp !== null) ? (wentUp === !!predictedUp) : null;
       var validated = !!(VALIDATED[myPhase] || VALIDATED[prev]);
-      reward = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
-        validated: validated, kind: validated ? 'ground-truth (P3/P7 validated)' : 'advisory-self-consistency' };
+      transition = { from: prev, to: myPhase, predictedUp: !!predictedUp, wentUp: wentUp, hit: hit,
+        validated: validated, kind: validated ? 'self-consistency calibration (P3/P7 phase, interpretive)' : 'self-consistency calibration (phase, interpretive)' };
     }
     hist.push({ phase: myPhase, t: (s.financeModel && s.financeModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
@@ -1090,8 +1095,8 @@
     var out = {
       version: 1, myPhase: myPhase, phaseSource: phaseSource,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
-      transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — Finance\'s validated envelope). Phase source = ' + phaseSource + ' (thing2-kernel = real recursive phase kernel; fallback = naive s.phase).'
+      transition: transition,
+      note: 'phase-coherence router (patent M matrix) + phase-transition consistency (thing2 lineage; self-consistency calibration, interpretive — NOT external reward; P3/P7 only gates the phase-consistency tier). Phase source = ' + phaseSource + ' (thing2-kernel = real recursive phase kernel; fallback = naive s.phase).'
     };
     s.financePhaseDynamics = out;
     return out;
@@ -1495,7 +1500,7 @@
     //    Push this cycle's primary scalar onto a persisted rolling series (cap 60), then ask the
     //    REAL Thing2 kernel for the current phase. The scalar is overall STRESS (up = worse) ->
     //    positive:false. When the kernel returns a phase it PREFERENTIALLY drives the coherence
-    //    router (myPhase) + phase-transition reward in _computeFinancePhaseDynamics below;
+    //    router (myPhase) + phase-transition consistency in _computeFinancePhaseDynamics below;
     //    otherwise this._kernelPhase stays null and the existing naive s.phase is the fallback.
     //    Fully guarded: any failure or unavailability -> phaseSource='fallback', spine untouched.
     this._kernelPhase = null;
@@ -1531,8 +1536,9 @@
       this.state.phaseSource = 'fallback';
     }
 
-    // ── ACTUATION: PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (reads this cycle's
-    //    generic forecast in state.domainNeuro). Ground-truth only on P3/P7 transitions. ──
+    // ── ACTUATION: PHASE-COHERENCE ROUTER + PHASE-TRANSITION CONSISTENCY (reads this cycle's
+    //    generic forecast in state.domainNeuro). Self-consistency calibration (interpretive), NOT
+    //    external reward; P3/P7 only gates the phase-consistency tier of the central K4 gate. ──
     try { if (this._actuation && this._actuation.phase) this._computeFinancePhaseDynamics(); } catch (e) {}
     // ── ACTUATION: REGULATE-TO-TARGET SERVO (E/I). Reads reg.inhibition + the generic
     //    homeostasis deviation; effector = proportional emission dampening applied below. ──
@@ -1549,22 +1555,59 @@
 
     var readyForHandoff = (fm.cycle > 0) && (predictedStress >= _floor) && (obs.diagnosisCount > 0) && !reg.flooding && !reg.stale;
 
-    // ── K4 CREDIT-SOURCE HOOK (mirrors energy-brain.js:1398-1414). A VALIDATED phase transition
-    //    (P3/P7, thing2 ground-truth) PREEMPTS the generic outcome ledger, which PREEMPTS the K4
-    //    stress-self-prediction TRUTH BRAKE (prior cycle's financeOutcomeModel; >=5 samples). A low
-    //    hit-rate raises the effective learning rate. Bounded, reversible, self-consistency only. ──
+    // ── K4 CREDIT-SOURCE HOOK — routed through the CENTRAL honest reward gate
+    //    (assets/js/limen-k4-selfconsistency.js -> window.LIMENK4.credit). THE RULE (enforced in the
+    //    gate, so it cannot be re-overclaimed here): isReward is TRUE only for a REAL external realized
+    //    outcome (externalOutcome). A thing2 phase-transition hit, the TRUTH BRAKE call hit-rate, and
+    //    the stress self-prediction are ALL self-consistency calibration (interpretive), NEVER reward.
+    //    Gate preemption: external-reward(4) > phase-consistency(3) > call-consistency(2) >
+    //    stress-consistency(1) > none. A low credit raises the effective learning rate. Bounded,
+    //    reversible; if window.LIMENK4 is absent the prior self-consistency behavior is preserved. ──
     var _lr = fm.plasticity.learningRate;
-    var _pt = (this.state.financePhaseDynamics || {}).transition;
-    var _phaseReward = !!(this._actuation && this._actuation.phase && _pt && _pt.validated && _pt.hit !== null);
-    var _led = (this.state.domainNeuro || {}).outcomeLedger || null;
-    var _fromLedger = !_phaseReward && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
-    var _om = this.state.financeOutcomeModel;   // K4 self-prediction (prior cycle), third fallback
-    var _hit = _phaseReward ? (_pt.hit ? 1 : 0)
-      : _fromLedger ? _led.hitRate
-      : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+    var _pt = (this.state.financePhaseDynamics || {}).transition;                       // thing2 phase transition (self-consistency)
+    var _led = (this.state.domainNeuro || {}).outcomeLedger || null;                    // TRUTH BRAKE: forecast-vs-realized (self-consistency)
+    var _om = this.state.financeOutcomeModel;                                           // K4 stress self-prediction (prior cycle)
+    // Feed the phase-transition signal only when the phase actuation is on (reversible flag).
+    var _phaseOn = !!(this._actuation && this._actuation.phase && _pt && _pt.hit !== null);
+
+    // externalOutcome — Finance IS externalRewardEligible, BUT a GENUINE external realized outcome
+    // (a surfaced validated-distress call that actually resolved/deteriorated per the real Thing1
+    // signal) is NOT available client-side: _pubSignals carries current distress bands, not
+    // resolutions (and is {} until per-company scoring validates), and every ledger below is
+    // self-consistency. So pass null rather than fabricate reward. When a real resolved-outcome feed
+    // exists client-side, set _externalOutcome = { hit: <0..1> } from THAT (not stress self-pred).
+    var _externalOutcome = null;
+
+    var _sig = {
+      externalOutcome: _externalOutcome,
+      phaseValidated: !!(_pt && _pt.validated),                                          // P3/P7 family gate for phase-consistency tier (self-consistency, NOT external reward)
+      phaseTransitionHit: _phaseOn ? (_pt.hit ? 1 : 0) : null,
+      callHitRate: (_led && typeof _led.hitRate === 'number') ? _led.hitRate : null,
+      callSamples: (_led && typeof _led.samples === 'number') ? _led.samples : 0,
+      stressSelfPred: (_om && typeof _om.hitRate === 'number') ? _om.hitRate : null,
+      stressSamples: (_om && typeof _om.samples === 'number') ? _om.samples : 0
+    };
+
+    var _k4 = (typeof window !== 'undefined' && window.LIMENK4) ? window.LIMENK4.credit(_sig) : null;
+    var _hit, _creditSource, _isReward;
+    if (_k4) {
+      _hit = _k4.credit;                 // 0..1 | null
+      _creditSource = _k4.creditSource;  // external-reward | phase-consistency | call-consistency | stress-consistency | none
+      _isReward = !!_k4.isReward;        // TRUE only for a real external realized outcome (never a phase/hit-rate)
+    } else {
+      // FALLBACK (gate absent) — prior self-consistency preemption preserved: phase > call-ledger > stress.
+      var _phaseC = _phaseOn && !!(_pt && _pt.validated);
+      var _fromLedger = !_phaseC && !!(_led && typeof _led.hitRate === 'number' && _led.samples >= 3);
+      _hit = _phaseC ? (_pt.hit ? 1 : 0)
+        : _fromLedger ? _led.hitRate
+        : (_om && typeof _om.hitRate === 'number' && _om.samples >= 5) ? _om.hitRate : null;
+      _creditSource = _phaseC ? 'phase-consistency' : (_fromLedger ? 'call-consistency' : (_hit !== null ? 'stress-consistency' : 'none'));
+      _isReward = false;                 // no external realized outcome here either — self-consistency only
+    }
     if (_hit !== null) _lr = _fmClamp(_lr * (1 + (1 - _hit)), FM_SLOW_RATE, 0.6);
     fm._effectiveLearningRate = _lr;
-    fm._creditSource = _phaseReward ? 'phase-transition' : (_fromLedger ? 'call-ledger' : (_hit !== null ? 'stress-self-pred' : 'none'));
+    fm._creditSource = _creditSource;
+    fm._creditIsReward = _isReward;      // honest: interpretive self-consistency unless a real external outcome was supplied
 
     var nextPrior = this._updateFinancePrior(priorIn, obs, _lr);   // → next cycle reads this (learning rate now credit-scaled)
 
