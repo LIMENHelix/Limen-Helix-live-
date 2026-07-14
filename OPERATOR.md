@@ -10,6 +10,8 @@ nothing here fires on a clock.
 | Command | Layer | Cost | Does |
 |---|---|---|---|
 | `/status` | 1 | $0 | Repo + Vercel + ledger health board |
+| `/prompt <task>` | 1 | $0 | Build a grounded ROLE/RESEARCH/FORMAT system prompt (Martell method) |
+| `/fleet [--deliberate <domain>]` | 1 / 2 | $0 / gated | 20 named operators + master Kai; ranked decision board. Deliberate = gated AI pass |
 | `/verify` | 1 | $0 | Build/lint/route check → DEPLOYABLE verdict |
 | `/ledger [show\|add-request\|resolve\|decide]` | 1 | $0 | Read/update the tracking ledger |
 | `/audit <target>` | 2 | metered | Ranked findings, no edits |
