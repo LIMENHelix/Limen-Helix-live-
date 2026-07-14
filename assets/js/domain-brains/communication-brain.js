@@ -37,6 +37,23 @@
     //                        no credit ledger for a reward to preempt. Fabricating one would be dishonest.
     this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
 
+    // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13) ──
+    // The phase-coherence router and phase-transition reward previously read s.phase (a naive
+    // per-cycle guess / static PHASE_M lineage). We now feed those from the REAL Thing2 kernel
+    // (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries), which runs the
+    // validated financial phase pipeline over this domain's own stress trajectory. The kernel is
+    // PURE MATH (no network, no AI) so the 30s cycle stays deterministic. Output is INTERPRETIVE
+    // posture only (interpretive:true, validated:false); we never surface it as validated.
+    // Fallback: if the adapter is absent or history < 8, _kernelPhase stays null and s.phase is used.
+    this._kernelPhase = null;
+    this._phaseSeries = [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _ps = JSON.parse(localStorage.getItem('limen:phaseseries:communication'));
+        if (Array.isArray(_ps)) this._phaseSeries = _ps;
+      }
+    } catch (e) { this._phaseSeries = this._phaseSeries || []; }
+
     this.diagnosisIndex = {
       'DISINFORMATION_CRISIS':  ['misinformation_spread', 'disinformation_campaign', 'narrative_manipulation', 'amplification_bias', 'signal_degradation', 'communication_high_stress', 'macro_shock'],
       'TELECOM_FAILURE':        ['infrastructure_failure', 'network_disruption', 'connectivity_loss', 'service_outage', 'communication_high_stress'],
@@ -878,8 +895,48 @@
   // a FIXED learning rate with no credit ledger for a reward to preempt — fabricating a validated
   // teaching signal would be dishonest (the same discipline ENERGY_NEURO_AUDIT.md applied). So the
   // transition read is marked advisory-self-consistency only.
+  // Per-cycle: append the domain's primary STRESS scalar (finalStress/brainStress/stress; up=bad) to
+  // the persistent series, cap at 60, persist, then run the Thing2 kernel over it to derive an
+  // interpretive P0-P10 phase. Deterministic pure-math (no network/AI). On any failure or when the
+  // adapter/history is unavailable, _kernelPhase is set to null and the caller falls back to s.phase.
+  // seriesSource = STRESS (positive:false) because the communication scalar rises with distress.
+  CommunicationBrain.prototype._updatePhaseKernel = function () {
+    var s = this.state;
+    var scalar = (typeof s.finalStress === 'number') ? s.finalStress
+               : (typeof s.brainStress === 'number') ? s.brainStress
+               : (typeof s.stress === 'number') ? s.stress : null;
+    try {
+      if (scalar != null && isFinite(scalar)) {
+        this._phaseSeries.push(scalar);
+        while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+        try {
+          if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem('limen:phaseseries:communication', JSON.stringify(this._phaseSeries));
+          }
+        } catch (e2) {}
+      }
+    } catch (e) {}
+
+    this._kernelPhase = null;
+    s.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });  // STRESS: up = worse
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          s.kernelPhase = _kp.phase;
+          s.kernelTrajectory = _kp.trajectory;
+          s.kernelCAccum = _kp.cAccumulator;
+          s.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e3) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
+  };
+
   CommunicationBrain.prototype._computeCommunicationPhaseDynamics = function () {
     var s = this.state;
+    // Refresh the Thing2 kernel phase from this domain's stress trajectory (pure math, guarded).
+    try { this._updatePhaseKernel(); } catch (e) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
     var PHASE_M = {
       p6: { p6: 0.06, p0: 0.04, p3: -0.05 },
       p3: { p3: 0.08, p7: 0.05, p9: 0.04, p0: -0.06 },
@@ -887,7 +944,10 @@
     };
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
+    // the coherence router and the phase-transition read; fall back to the existing s.phase when the
+    // kernel is unavailable (adapter missing / history < 8 / error) — fallback path unchanged.
+    var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
     var coupled = [], couplingStrength = 0;
     if (myPhase && PHASE_M[myPhase]) {
@@ -916,9 +976,11 @@
     if (hist.length > 24) hist.shift();
     var out = {
       version: 1, actuated: false, advisory: true, myPhase: myPhase,
+      phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
+      kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: transition,
-      note: 'phase-coherence router live (advisory); phase-transition reward NOT wired as validated learning — communication is not a Thing1-validated domain.'
+      note: 'phase-coherence router live (advisory); phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback. Phase-transition reward NOT wired as validated learning — communication is not a Thing1-validated domain.'
     };
     s.communicationPhaseDynamics = out;
     return out;

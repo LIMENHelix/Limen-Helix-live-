@@ -97,6 +97,23 @@
     // NO paid-AI, ever runs on the 30s cycle.
     this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true };
 
+    // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
+    // The phase-coherence router and phase-transition reward previously read s.phase (a naive
+    // per-cycle guess / static PHASE_M lineage). We now feed those from the REAL Thing2 kernel
+    // (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries), which runs the
+    // validated financial phase pipeline over this domain's own STRESS trajectory. The kernel is
+    // PURE MATH (no network, no AI) so the 30s cycle stays deterministic. Output is INTERPRETIVE
+    // posture only (interpretive:true, validated:false); we never surface it as validated.
+    // Fallback: if the adapter is absent or history < 8, _kernelPhase stays null and s.phase is used.
+    this._kernelPhase = null;
+    this._phaseSeries = [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _ps = JSON.parse(localStorage.getItem('limen:phaseseries:economy'));
+        if (Array.isArray(_ps)) this._phaseSeries = _ps;
+      }
+    } catch (e) { this._phaseSeries = this._phaseSeries || []; }
+
     // Keys MUST match portal issue IDs in economy.json
     this.diagnosisIndex = {
       'RECESSION':        ['demand_contraction', 'gdp_decline', 'consumer_slowdown', 'retail_weakness', 'broad_slowdown', 'economy_high_stress', 'structural_stress'],
@@ -1371,8 +1388,49 @@
   //     ground-truth ONLY on P3/P7-family transitions (Thing1-validated phases), else labeled
   //     advisory-self-consistency. Economy is macro-aggregate (outside the narrow kernel envelope), so
   //     the ground-truth label is honestly weaker than Finance's; the VALIDATED gate is the safeguard.
+  // ── THING2 KERNEL PHASE REFRESH — append the domain's primary STRESS scalar (finalStress/stress;
+  //    up=bad) to the persistent series, cap at 60, persist to localStorage, then run the Thing2
+  //    kernel over it to derive an interpretive P0-P10 phase. Deterministic pure-math (no network/AI).
+  //    On any failure or when the adapter/history (< 8) is unavailable, _kernelPhase is set to null and
+  //    the caller falls back to s.phase. positive:false because the scalar RISES with distress. ──
+  EconomyBrain.prototype._updatePhaseKernel = function () {
+    var s = this.state;
+    var scalar = (typeof s.finalStress === 'number') ? s.finalStress
+               : (typeof s.brainStress === 'number') ? s.brainStress
+               : (typeof s.stress === 'number') ? s.stress : null;
+    try {
+      if (scalar != null && isFinite(scalar)) {
+        this._phaseSeries = this._phaseSeries || [];
+        this._phaseSeries.push(scalar);
+        while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+        try {
+          if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem('limen:phaseseries:economy', JSON.stringify(this._phaseSeries));
+          }
+        } catch (e2) {}
+      }
+    } catch (e) {}
+
+    this._kernelPhase = null;
+    s.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });  // STRESS: up = worse
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          s.kernelPhase = _kp.phase;
+          s.kernelTrajectory = _kp.trajectory;
+          s.kernelCAccum = _kp.cAccumulator;
+          s.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e3) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
+  };
+
   EconomyBrain.prototype._computeEconomyPhaseDynamics = function () {
     var s = this.state;
+    // Refresh the Thing2 kernel phase from this domain's stress trajectory (pure math, guarded).
+    try { this._updatePhaseKernel(); } catch (e) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
     var PHASE_M = {
       p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
       p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
@@ -1385,7 +1443,10 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
+    // the coherence router and the phase-transition reward; fall back to the existing s.phase when
+    // the kernel is unavailable (adapter missing / history < 8 / error) — fallback path unchanged.
+    var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
 
     // (A) COHERENCE ROUTER — couple to co-phased, stressed peers.
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -1426,9 +1487,11 @@
 
     var out = {
       version: 1, myPhase: myPhase,
+      phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
+      kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — economy is macro-aggregate, so weaker than the kernel-validated desks).'
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward. Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback; reward ground-truth only on P3/P7 — economy is macro-aggregate, so weaker than the kernel-validated desks.'
     };
     s.economyPhaseDynamics = out;
     return out;

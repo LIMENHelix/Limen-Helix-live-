@@ -61,6 +61,15 @@
     //     consumes it each cycle for single-points-of-failure + hubs (observe-only, like energy).
     this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true, selfAudit: true };
     this._servoIntegral = 0;
+
+    // ── THING2 RECURSIVE PHASE KERNEL wiring (real kernel via window.LIMENThing2; pure math) ──
+    // Persistent stress series feeding the kernel's phase read. Guarded for absent localStorage.
+    try {
+      var _raw = (typeof localStorage !== 'undefined' && localStorage) ? localStorage.getItem('limen:phaseseries:trade') : null;
+      this._phaseSeries = (_raw ? JSON.parse(_raw) : []) || [];
+    } catch (e) { this._phaseSeries = []; }
+    if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+    this._kernelPhase = null;    // null => fall back to the existing naive/static phase
   }
 
   TradeBrain.prototype = Object.create(Base.prototype);
@@ -945,6 +954,10 @@
     // ── ACTUATED SERVO (regulate-to-target) — reads the fresh regulation.inhibition ──
     var _servo = null;
     try { if (this._actuation && this._actuation.servo) _servo = this._computeTradeServo(reg); } catch (e) {}
+    // ── THING2 KERNEL PHASE — push this cycle's stress scalar + read the REAL recursive phase
+    //    kernel (pure math via window.LIMENThing2; no network, no AI). Runs every cycle regardless
+    //    of _actuation.phase so the persistent series never gaps. Sets this._kernelPhase (or null).
+    try { this._updateKernelPhase(); } catch (e) {}
     // ── ACTUATED PHASE DYNAMICS (coherence router + transition reward) ──
     var _pd = null;
     try { if (this._actuation && this._actuation.phase) _pd = this._computeTradePhaseDynamics(); } catch (e) {}
@@ -1070,6 +1083,43 @@
     return servo;
   };
 
+  // THING2 RECURSIVE PHASE KERNEL read. Pushes the domain's PRIMARY scalar (state.stress — a STRESS
+  // metric, up = worse, so positive:false) onto a persistent 60-sample series, then runs the REAL
+  // Thing2 kernel via window.LIMENThing2.phaseOfSeries. PURE MATH: no network, no AI, deterministic.
+  // On success sets this._kernelPhase + state.kernel*/phaseSource='thing2-kernel'; otherwise
+  // this._kernelPhase stays null and phaseSource='fallback' (the naive/static phase is used).
+  TradeBrain.prototype._updateKernelPhase = function () {
+    // (1) append this cycle's primary stress scalar; cap length 60 (drop oldest); persist.
+    try {
+      var scalar = (typeof this.state.stress === 'number') ? this.state.stress : 0;
+      if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+      this._phaseSeries.push(scalar);
+      while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+      try {
+        if (typeof localStorage !== 'undefined' && localStorage) {
+          localStorage.setItem('limen:phaseseries:trade', JSON.stringify(this._phaseSeries));
+        }
+      } catch (e) {}
+    } catch (e) {}
+
+    // (2) read the kernel (guarded). Default to fallback; only promote on a real phase.
+    this._kernelPhase = null;
+    this.state.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });   // STRESS series
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          this.state.kernelPhase = _kp.phase;
+          this.state.kernelTrajectory = _kp.trajectory;
+          this.state.kernelCAccum = _kp.cAccumulator;
+          this.state.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e) { this._kernelPhase = null; }
+    return this._kernelPhase;
+  };
+
   // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD. Mirror of energy-brain _computeEnergyPhaseDynamics.
   //  (A) router: couple to co-phased, stressed domains via the patent Section 3.4 Loop 1 matrix M.
   //  (B) reward: a realized phase transition over time is a real ground-truth label ONLY on P3/P7
@@ -1090,7 +1140,10 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };               // kernel family validates P3/P7 => ground-truth
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the REAL thing2 recursive phase kernel when it produced a phase this cycle; otherwise
+    // fall back to the existing naive/static domain phase (s.phase) UNCHANGED. Both the coherence
+    // router (A) and the phase-transition reward (B) below read this single myPhase.
+    var myPhase = norm(this._kernelPhase || s.phase);
 
     // (A) COHERENCE ROUTER — couple to co-phased, stressed domains
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -1130,9 +1183,10 @@
 
     var out = {
       version: 1, myPhase: myPhase,
+      phaseSource: this.state.phaseSource || 'fallback',
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — trade carries P3 THAL/NTS/CC + P7 OFC/vmPFC nodes).'
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — trade carries P3 THAL/NTS/CC + P7 OFC/vmPFC nodes). myPhase = REAL thing2 kernel (window.LIMENThing2, pure math) when available, else naive/static s.phase.'
     };
     s.tradePhaseDynamics = out;
     return out;

@@ -20,6 +20,25 @@
 
   GovernanceBrain.prototype.init = function () {
     Base.prototype.init.call(this);
+
+    // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
+    // The phase-coherence router and phase-transition read previously read s.phase (a naive
+    // per-cycle guess / static PHASE_M lineage). We now feed those from the REAL Thing2 kernel
+    // (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries), which runs the
+    // validated financial phase pipeline over THIS domain's own stress trajectory. The kernel is
+    // PURE MATH (no network, no AI) so the 30s cycle stays deterministic. Output is INTERPRETIVE
+    // posture only (interpretive:true, validated:false); we never surface it as validated, and it
+    // stays advisory here (governance is fenced OUT of the validated kernel — Finance+Population only).
+    // Fallback: if the adapter is absent or history < 8, _kernelPhase stays null and s.phase is used.
+    this._kernelPhase = null;
+    this._phaseSeries = [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _ps = JSON.parse(localStorage.getItem('limen:phaseseries:governance'));
+        if (Array.isArray(_ps)) this._phaseSeries = _ps;
+      }
+    } catch (e) { this._phaseSeries = this._phaseSeries || []; }
+
     this.diagnosisIndex = {
       'CONSTITUTIONAL_CRISIS':  ['legislative_stalemate', 'constitutional_stress', 'governance_credibility_shock', 'governance_high_stress', 'structural_stress'],
       'REGIME_INSTABILITY':     ['leadership_instability', 'trust_erosion', 'confidence_collapse', 'governance_high_stress', 'macro_shock'],
@@ -816,14 +835,55 @@
     return out;
   };
 
+  // Per-cycle: append the domain's primary STRESS scalar (finalStress/stress; up=bad) to the
+  // persistent series, cap at 60, persist, then run the Thing2 kernel over it to derive an
+  // interpretive P0-P10 phase. Deterministic pure-math (no network/AI). On any failure or when
+  // the adapter/history is unavailable, _kernelPhase is set to null and the caller falls back to
+  // s.phase. seriesSource = STRESS (positive:false) because governance's scalar rises with distress.
+  GovernanceBrain.prototype._updatePhaseKernel = function () {
+    var s = this.state;
+    var scalar = (typeof s.finalStress === 'number') ? s.finalStress
+               : (typeof s.stress === 'number') ? s.stress : null;
+    try {
+      if (scalar != null && isFinite(scalar)) {
+        this._phaseSeries.push(scalar);
+        while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+        try {
+          if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem('limen:phaseseries:governance', JSON.stringify(this._phaseSeries));
+          }
+        } catch (e2) {}
+      }
+    } catch (e) {}
+
+    this._kernelPhase = null;
+    s.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });  // STRESS: up = worse
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          s.kernelPhase = _kp.phase;
+          s.kernelTrajectory = _kp.trajectory;
+          s.kernelCAccum = _kp.cAccumulator;
+          s.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e3) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
+  };
+
   // PHASE-COHERENCE ROUTER + TRANSITION READ — ADVISORY ONLY (this._actuation.phase === false).
   // Governance's phase is authored/snapshot (governance.json = P7), NOT a Thing1-validated LIVE P3/P7
   // signal (the validated kernel is FENCED to Finance + Population). So a realized phase TRANSITION is
   // NEVER treated as ground-truth reward here: it stays advisory-self-consistency and drives NO credit /
   // learning / emission gating. Pure observe-only telemetry, mirroring the SHAPE of
   // _computeEnergyPhaseDynamics without the reward.
+  // PHASE SOURCE: the interpretive Thing2 recursive kernel over this domain's stress trajectory
+  // (this._kernelPhase) when available; otherwise the existing naive/static s.phase (unchanged fallback).
   GovernanceBrain.prototype._computeGovernancePhaseDynamics = function () {
     var s = this.state;
+    // Refresh the Thing2 kernel phase from this domain's stress trajectory (pure math, guarded).
+    try { this._updatePhaseKernel(); } catch (e) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
     var PHASE_M = {
       p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
       p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
@@ -835,7 +895,9 @@
     };
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the Thing2 kernel phase (interpretive) for both the coherence router and the transition
+    // read; fall back to the existing naive/static s.phase when the kernel is unavailable.
+    var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
     // (A) COHERENCE ROUTER — advisory read of co-phased, stressed peer domains.
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
     var coupled = [], couplingStrength = 0;
@@ -866,8 +928,10 @@
     if (hist.length > 24) hist.shift();
     var out = {
       version: 1, actuated: false, advisoryOnly: true, myPhase: myPhase,
+      phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
+      kernelPhase: this._kernelPhase || null, kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000, transition: transition,
-      note: 'ADVISORY phase-coherence router + transition read; NOT actuated (governance lacks a Thing1-validated P3/P7 signal). Feeds no credit/learning/emission gating.'
+      note: 'ADVISORY phase-coherence router + transition read. Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback; NOT actuated (governance lacks a Thing1-validated P3/P7 signal). Feeds no credit/learning/emission gating.'
     };
     s.governancePhaseDynamics = out;
     return out;

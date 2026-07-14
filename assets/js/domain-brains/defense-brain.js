@@ -73,6 +73,15 @@
     // methods also lazy-init defensively so a hot-reload never NPEs. 100% deterministic — no AI/fetch.
     this._defenseOutcomeBuffer = this._defenseOutcomeBuffer || [];   // K4: rolling predicted-vs-next-realized samples
     this._defensePrevPrediction = (this._defensePrevPrediction != null) ? this._defensePrevPrediction : null;  // K4: stash for next-cycle reconciliation
+
+    // ── THING2 KERNEL PHASE SOURCE (2026-07-13) — persistent primary-scalar series ──
+    // Rolling buffer of the domain's primary STRESS scalar (state.stress; up = worse) fed
+    // to the REAL Thing2 recursive phase kernel each cycle. Loaded from localStorage so the
+    // phase posture survives reloads; guarded for absent/blocked localStorage.
+    try { this._phaseSeries = JSON.parse(localStorage.getItem('limen:phaseseries:defense')) || []; }
+    catch (e) { this._phaseSeries = []; }
+    if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+    this._kernelPhase = null;
   };
 
   DefenseBrain.prototype.normalizeSignals = function () {
@@ -536,6 +545,10 @@
 
     // ── RECURRENT STEP — the proof surface (state.defenseModel) the Civilization cockpit reads ──
     P._updateDefenseModel = function () {
+      // THING2 KERNEL PHASE — extend the persistent primary-scalar series and derive the
+      // interpretive P0-P10 posture BEFORE the phase-coherence router / transition read run
+      // (they execute later via _computeDefenseActuation). Pure math, no AI/fetch.
+      try { this._updateDefensePhaseSeries(); } catch (e) {}
       var dm = this.state.defenseModel || this._neutralDefenseModel();
       var priorIn = dm.prior;
       var obs = this._buildDefenseObservation();
@@ -858,6 +871,42 @@
     return out;
   };
 
+  // ── THING2 KERNEL PHASE SOURCE (2026-07-13) ──────────────────────────────────────────────
+  // Feed the domain's primary STRESS scalar (state.stress; up = worse) into the REAL Thing2
+  // recursive phase kernel (window.LIMENThing2.phaseOfSeries) and use its interpretive P0-P10
+  // posture as the phase for the coherence router + the (advisory) phase-transition read. The
+  // kernel adapter is PURE MATH — no network, no AI — so the 30s cycle stays deterministic.
+  // seriesSource: state.stress is a STRESS metric (up = worse) -> positive:false. On any failure,
+  // absent kernel, blocked localStorage, or <8 samples, this._kernelPhase stays null and the
+  // existing authored/snapshot state.phase is used unchanged (fallback path never deleted).
+  DefenseBrain.prototype._updateDefensePhaseSeries = function () {
+    // (1) extend + persist the rolling primary-scalar series (cap 60, shift oldest)
+    var scalar = (typeof this.state.stress === 'number' && isFinite(this.state.stress)) ? this.state.stress : 0;
+    var series = this._phaseSeries || (this._phaseSeries = []);
+    series.push(scalar);
+    while (series.length > 60) series.shift();
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        localStorage.setItem('limen:phaseseries:defense', JSON.stringify(series));
+      }
+    } catch (_e) {}
+    // (2) kernel phase (guarded, pure math). Default to fallback; only promote on a real phase.
+    this._kernelPhase = null;
+    this.state.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          this.state.kernelPhase = _kp.phase;
+          this.state.kernelTrajectory = _kp.trajectory;
+          this.state.kernelCAccum = _kp.cAccumulator;
+          this.state.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (_e) { this._kernelPhase = null; this.state.phaseSource = 'fallback'; }
+  };
+
   // PHASE-COHERENCE ROUTER + TRANSITION READ — ADVISORY ONLY (this._actuation.phase === false).
   // Defense's phase is authored/snapshot, NOT a Thing1-validated P3/P7 signal (the validated kernel is
   // FENCED to Finance + Population). So a realized phase TRANSITION is NEVER treated as ground-truth
@@ -876,7 +925,10 @@
     };
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the Thing2 recursive kernel's interpretive phase when available; otherwise fall back
+    // to the authored/snapshot state.phase (unchanged legacy path). Both the coherence router (A)
+    // and the transition read (B) below read myPhase, so both consume the kernel when it is live.
+    var myPhase = (this._kernelPhase != null) ? norm(this._kernelPhase) : norm(s.phase);
     // (A) COHERENCE ROUTER — advisory read of co-phased, stressed peer domains.
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
     var coupled = [], couplingStrength = 0;
@@ -907,6 +959,7 @@
     if (hist.length > 24) hist.shift();
     var out = {
       version: 1, actuated: false, advisoryOnly: true, myPhase: myPhase,
+      phaseSource: this.state.phaseSource || 'fallback',
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000, transition: transition,
       note: 'ADVISORY phase-coherence router + transition read; NOT actuated (defense lacks a Thing1-validated P3/P7 signal). Feeds no credit/learning/emission gating.'
     };

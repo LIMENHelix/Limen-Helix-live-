@@ -127,6 +127,26 @@
     // PHASE K neuro-completion state (mirrors energy's lazy K-layer buffers; initialized here).
     this._religionOutcomeBuffer = this._religionOutcomeBuffer || [];                              // K4 truth-brake rolling window
     this._religionPrevPrediction = (this._religionPrevPrediction != null) ? this._religionPrevPrediction : null;  // K4 last-cycle predictedStress
+
+    // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
+    // The phase-coherence router and phase-transition reward previously read s.phase (a naive
+    // per-cycle guess / static PHASE_M lineage). We now feed those from the REAL Thing2 kernel
+    // (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries), which runs the
+    // validated financial phase pipeline over this domain's own stress trajectory. The kernel is
+    // PURE MATH (no network, no AI) so the 30s cycle stays deterministic. Output is INTERPRETIVE
+    // posture only (interpretive:true, validated:false); we never surface it as validated. This is
+    // still OBSERVE-ONLY for religion (_actuation.phase = false): it only changes the SOURCE of
+    // myPhase, never opens the processing window or preempts credit. seriesSource = STRESS
+    // (positive:false) — religion's primary scalar (finalStress/stress) rises with distress.
+    // Fallback: if the adapter is absent or history < 8, _kernelPhase stays null and s.phase is used.
+    this._kernelPhase = null;
+    this._phaseSeries = this._phaseSeries || [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _ps = JSON.parse(localStorage.getItem('limen:phaseseries:religion'));
+        if (Array.isArray(_ps)) this._phaseSeries = _ps;
+      }
+    } catch (e) { this._phaseSeries = this._phaseSeries || []; }
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -1161,8 +1181,47 @@
   // (B) transition: religion has NO Thing1-validated ground-truth reward label (audit
   //     impossibility #4) and a discrete feed has no continuous phase (#3), so any transition
   //     is labelled 'advisory-self-consistency' and never becomes a validated learning signal.
+  // Per-cycle: append the domain's primary STRESS scalar (finalStress/stress; up=bad) to the
+  // persistent series, cap at 60, persist, then run the Thing2 kernel over it to derive an
+  // interpretive P0-P10 phase. Deterministic pure-math (no network/AI). On any failure or when
+  // the adapter/history is unavailable, _kernelPhase is set to null and the caller falls back to
+  // s.phase. seriesSource = STRESS (positive:false) because the scalar rises with distress.
+  ReligionBrain.prototype._updatePhaseKernel = function () {
+    var s = this.state;
+    var scalar = (typeof s.finalStress === 'number') ? s.finalStress
+               : (typeof s.stress === 'number') ? s.stress : null;
+    try {
+      if (scalar != null && isFinite(scalar)) {
+        this._phaseSeries.push(scalar);
+        while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+        try {
+          if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem('limen:phaseseries:religion', JSON.stringify(this._phaseSeries));
+          }
+        } catch (e2) {}
+      }
+    } catch (e) {}
+
+    this._kernelPhase = null;
+    s.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });  // STRESS: up = worse
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          s.kernelPhase = _kp.phase;
+          s.kernelTrajectory = _kp.trajectory;
+          s.kernelCAccum = _kp.cAccumulator;
+          s.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e3) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
+  };
+
   ReligionBrain.prototype._computeReligionPhaseDynamics = function () {
     var s = this.state;
+    // Refresh the Thing2 kernel phase from this domain's stress trajectory (pure math, guarded).
+    try { this._updatePhaseKernel(); } catch (e) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
     var PHASE_M = {
       p3:  { p3: 0.08, p7a: 0.05, p9: 0.04, p0: -0.06 },
       p7a: { p7a: 0.10, p3: 0.04, p9: 0.06, p0: -0.08, p4: -0.04 },
@@ -1175,7 +1234,10 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
+    // the coherence router and the phase-transition reward; fall back to the existing s.phase when
+    // the kernel is unavailable (adapter missing / history < 8 / error) — fallback path unchanged.
+    var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
 
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
     var coupled = [], couplingStrength = 0;
@@ -1211,8 +1273,10 @@
 
     var out = {
       version: 1, observeOnly: true, actuated: false, myPhase: myPhase,
+      phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
+      kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000, transition: reward,
-      note: 'ADVISORY-ONLY: phase-coherence router + self-consistency transition. NOT actuated (audit impossibilities #3 continuous-rhythm + #4 ground-truth-reward). Never opens the processing window or preempts credit.'
+      note: 'ADVISORY-ONLY: phase-coherence router + self-consistency transition. Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback. NOT actuated (audit impossibilities #3 continuous-rhythm + #4 ground-truth-reward). Never opens the processing window or preempts credit.'
     };
     s.religionPhaseDynamics = out;
     if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;

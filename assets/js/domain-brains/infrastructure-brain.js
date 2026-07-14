@@ -71,6 +71,20 @@
   InfrastructureBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── THING2 RECURSIVE PHASE KERNEL — persistent primary-scalar series (2026-07-13).
+    // The REAL Thing2 kernel (assets/js/limen-thing2-adapter.js, pure math — NO network/AI)
+    // becomes this brain's phase source for the coherence read + phase-transition reward,
+    // replacing the naive per-cycle / static s.phase (kept as the fallback). We accumulate
+    // the domain's primary STRESS scalar (up = worse -> positive:false) across cycles.
+    this._phaseSeries = [];
+    this._kernelPhase = null;
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _psRaw = localStorage.getItem('limen:phaseseries:infrastructure');
+        if (_psRaw) { var _psArr = JSON.parse(_psRaw); if (Array.isArray(_psArr)) this._phaseSeries = _psArr; }
+      }
+    } catch (e) { this._phaseSeries = []; }
+
     // ── One-shot loaders (mirror energy-brain init): real entities, validated distress
     //    signals, real source bundles, L1 mad-lib scan, and the grid sub-portal layer. ──
     try { this._infraLoadCommandBoardCompanies(); } catch (e) {}  // C6-followup: real entities (state.companies starved)
@@ -1196,7 +1210,47 @@
     var s = this.state;
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
-    var myPhase = norm(s.phase);
+
+    // ── THING2 KERNEL PHASE SOURCE (real recursive kernel; pure math, NO network/AI) ──
+    // 1) Push this cycle's PRIMARY SCALAR (stress; up = worse) to the capped/persisted series.
+    // 2) Once >= 8 samples exist and the adapter is loaded, derive phase from the REAL kernel.
+    //    Kernel phase (when non-null) is PREFERRED as myPhase below (the coherence read) and
+    //    as the phase-transition source; on any failure/unavailability we fall back to the
+    //    existing naive/static s.phase. positive:false because stress up = worse.
+    this._kernelPhase = null;
+    var phaseSource = 'fallback';
+    try {
+      var _scalar = (typeof s.stress === 'number') ? s.stress
+                  : (typeof s.finalStress === 'number') ? s.finalStress
+                  : (typeof s.brainStress === 'number') ? s.brainStress : null;
+      if (_scalar != null && isFinite(_scalar)) {
+        if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+        this._phaseSeries.push(Number(_scalar));
+        while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+        try {
+          if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem('limen:phaseseries:infrastructure', JSON.stringify(this._phaseSeries));
+          }
+        } catch (e) {}
+      }
+    } catch (e) {}
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          s.kernelPhase = _kp.phase;
+          s.kernelTrajectory = _kp.trajectory;
+          s.kernelCAccum = _kp.cAccumulator;
+          phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e) { this._kernelPhase = null; }
+    s.phaseSource = phaseSource;
+
+    // PREFER the kernel phase (real recursive kernel) as the coherence-read / phase-transition
+    // source; fall back to the existing naive/static s.phase when the kernel is unavailable.
+    var myPhase = norm(this._kernelPhase || s.phase);
     var hist = this._infraPhaseHist = this._infraPhaseHist || [];
     var prev = hist.length ? hist[hist.length - 1].phase : null;
     var transition = null;
@@ -1208,7 +1262,9 @@
     hist.push({ phase: myPhase, t: (s.infraModel && s.infraModel.updated) || Date.now() });
     if (hist.length > 24) hist.shift();
     var out = { version: 1, actuated: false, observeOnly: true, myPhase: myPhase, transition: transition,
-      note: 'phase-coherence read for visibility; NO effector wired (infra lacks validated P3/P7 ground-truth + an output-gating effector). Advisory only.' };
+      phaseSource: phaseSource, kernelPhase: this._kernelPhase, kernelTrajectory: s.kernelTrajectory || null,
+      seriesLength: (this._phaseSeries && this._phaseSeries.length) || 0,
+      note: 'phase-coherence read for visibility; phase SOURCE = ' + phaseSource + ' (real Thing2 kernel when >=8 samples, else naive/static fallback). NO effector wired (infra lacks validated P3/P7 ground-truth + an output-gating effector). Advisory only.' };
     s.infraPhaseDynamics = out;
     if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;
     return out;

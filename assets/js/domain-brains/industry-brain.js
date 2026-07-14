@@ -78,6 +78,22 @@
     this._industryPrevPrediction = null; // last cycle's predictedStress, reconciled next cycle (K4)
     this._industrySlowModel = null;      // parallel slow-weight track (K3); created lazily in K3
 
+    // ── THING2 RECURSIVE PHASE KERNEL as the phase source (2026-07-13) ──────────────────────────
+    // The REAL Thing2 recursive phase kernel (assets/js/limen-thing2-adapter.js, PURE MATH — no
+    // network, no AI) becomes the phase source for the coherence router + phase-transition reward,
+    // with the naive/static state.phase kept as an UNCHANGED fallback. We persist a rolling window
+    // of the domain's PRIMARY STRESS scalar (this.state.stress; up = worse) across cycles and feed
+    // it to the kernel with positive:false (STRESS axis). Deterministic; guarded so cycle 1 (short
+    // series) and any kernel failure fall back to the existing naive phase (current behavior).
+    this._kernelPhase = null;            // set each cycle when the kernel returns a phase; else null
+    this._phaseSeries = [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _ps0 = JSON.parse(localStorage.getItem('limen:phaseseries:industry'));
+        if (Array.isArray(_ps0)) this._phaseSeries = _ps0;
+      }
+    } catch (_psErr) { this._phaseSeries = this._phaseSeries || []; }
+
     this.diagnosisIndex = {
       'SUPPLY_CHAIN_COLLAPSE': ['input_shortage', 'supplier_constraint', 'component_scarcity', 'critical_part_delay', 'industry_high_stress', 'macro_shock'],
       'AUTOMATION_FAILURE':     ['equipment_failure', 'automation_breakdown', 'capacity_constraint', 'production_halt', 'maintenance_backlog'],
@@ -694,6 +710,13 @@
     // Deterministic; each stores its signal on state; K4/K8 close a loop read at the TOP of the NEXT
     // cycle's _updateIndustryModel (one-cycle lag). Never rewrites stress/diagnoses/data files. ──
     try { this._computeIndustryNeuroLayers(); } catch (e) {}
+
+    // ── THING2 KERNEL PHASE SOURCE (deterministic, PURE MATH; runs BEFORE the phase router below).
+    // Push this cycle's primary STRESS scalar to the rolling series, persist it, and ask the REAL
+    // Thing2 recursive phase kernel for the interpretive phase. On success it becomes this._kernelPhase,
+    // which _computeIndustryPhaseDynamics prefers over the naive state.phase; on any failure/short
+    // history it stays null and the router falls back to state.phase (unchanged). No network / no AI. ──
+    try { this._updateIndustryKernelPhase(); } catch (e) { this._kernelPhase = null; this.state.phaseSource = 'fallback'; }
 
     // ── ACTUATION LAYER (computed here so NEXT cycle's surfaceOpportunities / K4 hook read them;
     // one-cycle lag, recurrent by design). Each behind its _actuation flag; all deterministic. ──
@@ -1470,6 +1493,39 @@
     return servo;
   };
 
+  // THING2 RECURSIVE PHASE KERNEL → phase source. Push this cycle's PRIMARY STRESS scalar
+  // (this.state.stress; up = worse => positive:false) onto a rolling series (cap 60, persisted to
+  // localStorage), then run the REAL Thing2 adapter (PURE MATH; no network, no AI). When the kernel
+  // returns a phase (>=8 samples) it becomes this._kernelPhase and phaseSource='thing2-kernel';
+  // otherwise this._kernelPhase stays null and phaseSource='fallback' (naive state.phase used).
+  // seriesSource = this.state.stress (STRESS metric, positive:false). Deterministic; fully guarded.
+  IndustryBrain.prototype._updateIndustryKernelPhase = function () {
+    var scalar = (typeof this.state.stress === 'number' && isFinite(this.state.stress)) ? this.state.stress : 0;
+    if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+    this._phaseSeries.push(scalar);
+    while (this._phaseSeries.length > 60) this._phaseSeries.shift();   // cap length 60 (shift oldest)
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        localStorage.setItem('limen:phaseseries:industry', JSON.stringify(this._phaseSeries));
+      }
+    } catch (_persistErr) {}
+
+    this._kernelPhase = null;
+    this.state.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });   // STRESS series
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          this.state.kernelPhase = _kp.phase;
+          this.state.kernelTrajectory = _kp.trajectory;
+          this.state.kernelCAccum = _kp.cAccumulator;
+          this.state.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (_kernelErr) { this._kernelPhase = null; this.state.phaseSource = 'fallback'; }
+  };
+
   // PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (patent 3.4 Loop-1 M matrix + thing2 lineage).
   //  (A) Router: Industry couples to OTHER domains whose phase is coherent with its own (positive M)
   //      AND are stressed — communication-through-coherence (same excitability window). Advisory
@@ -1492,7 +1548,10 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };               // Thing1 validates P3/P7 => ground-truth
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the REAL Thing2 kernel phase when available; else the naive/static state.phase (fallback).
+    // This single myPhase feeds BOTH (A) the coherence router and (B) the phase-transition reward.
+    var phaseSource = (this._kernelPhase != null) ? 'thing2-kernel' : 'fallback';
+    var myPhase = norm((this._kernelPhase != null) ? this._kernelPhase : s.phase);
 
     // (A) COHERENCE ROUTER — couple to co-phased, stressed peers via the registered brains.
     var coupled = [], couplingStrength = 0;
@@ -1533,10 +1592,10 @@
     if (hist.length > 24) hist.shift();
 
     var out = {
-      version: 1, myPhase: myPhase,
+      version: 1, myPhase: myPhase, phaseSource: phaseSource,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — Industry is P3).'
+      note: 'phase source = ' + phaseSource + ' (REAL Thing2 recursive kernel when available, else naive state.phase). phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — Industry is P3).'
     };
     s.industryPhaseDynamics = out;
     return out;

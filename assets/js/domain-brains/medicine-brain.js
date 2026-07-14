@@ -91,6 +91,22 @@
     };
     this._refractoryLog = Object.create(null);   // per-diagnosis last-fire log (this brain's own state)
 
+    // ── THING2 RECURSIVE PHASE KERNEL as the phase source (2026-07-13) ──────────
+    // Persistent primary-scalar history that feeds window.LIMENThing2.phaseOfSeries
+    // (the REAL recursive kernel — PURE MATH, no network, no AI). Medicine's primary
+    // scalar is STRESS (up = worse), so the kernel is called with {positive:false}.
+    // The kernel supplies the coherence-router phase + phase-transition read when it
+    // has >=8 samples and is loaded; otherwise the existing naive/static s.phase is the
+    // unchanged fallback. See _computeMedicinePhaseAdvisory. INTERPRETIVE only (never a
+    // validated learning signal — _actuation.phase stays false; no credit ledger here).
+    this._kernelPhase = null;
+    this._phaseSeries = [];
+    try {
+      var _psRaw = (typeof localStorage !== 'undefined' && localStorage)
+        ? JSON.parse(localStorage.getItem('limen:phaseseries:medicine')) : null;
+      if (_psRaw && _psRaw.length) this._phaseSeries = _psRaw;
+    } catch (e) { this._phaseSeries = []; }
+
     // Keys match medicine portal issue IDs
     this.diagnosisIndex = {
       'CARE_ACCESS_FAILURE': [
@@ -1726,7 +1742,38 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+
+    // ── THING2 KERNEL PHASE SOURCE (pure math; no network / no AI) ─────────────
+    // Push this cycle's primary scalar (STRESS, up=bad) into the persistent series,
+    // cap at 60 (drop oldest), persist. Then ask the REAL Thing2 recursive kernel for
+    // the interpretive phase. On any failure / unavailability, _kernelPhase stays null
+    // and phaseSource='fallback' (the naive/static s.phase below is used unchanged).
+    var _scalar = (typeof s.stress === 'number') ? s.stress : 0;   // medicine primary scalar = STRESS (up = worse)
+    this._phaseSeries = this._phaseSeries || [];
+    this._phaseSeries.push(_scalar);
+    while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        localStorage.setItem('limen:phaseseries:medicine', JSON.stringify(this._phaseSeries));
+      }
+    } catch (e) {}
+    this._kernelPhase = null;
+    s.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });   // STRESS => positive:false
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          s.kernelPhase = _kp.phase;
+          s.kernelTrajectory = _kp.trajectory;
+          s.kernelCAccum = _kp.cAccumulator;
+          s.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
+
+    // PREFER the Thing2 kernel phase; fall back to the naive/static snapshot phase (unchanged).
+    var myPhase = this._kernelPhase ? norm(this._kernelPhase) : norm(s.phase);
 
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
     var coupled = [], couplingStrength = 0;
@@ -1760,8 +1807,12 @@
 
     var out = {
       version: 1, observeOnly: true, actuated: false, myPhase: myPhase,
+      phaseSource: s.phaseSource || 'fallback',                 // 'thing2-kernel' when the real recursive kernel supplied the phase, else 'fallback'
+      kernelPhase: this._kernelPhase || null,
+      kernelTrajectory: (s.phaseSource === 'thing2-kernel') ? (s.kernelTrajectory || null) : null,
+      seriesLen: this._phaseSeries ? this._phaseSeries.length : 0,
       coupled: coupled.slice(0, 5), couplingStrength: _medR3(couplingStrength), transition: transition,
-      note: 'OBSERVE-ONLY phase-coherence router. Reward is NOT actuated: medicine is not a Thing1-validated-phase domain and has no credit ledger. See _actuation gate.'
+      note: 'OBSERVE-ONLY phase-coherence router. Phase source = Thing2 recursive kernel (interpretive, pure math) when available, else naive/static snapshot phase. Reward is NOT actuated: medicine is not a Thing1-validated-phase domain and has no credit ledger. See _actuation gate.'
     };
     s.medicinePhaseDynamics = out;
     return out;

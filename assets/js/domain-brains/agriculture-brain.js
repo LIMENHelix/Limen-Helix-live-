@@ -69,6 +69,25 @@
     //     PhaseDynamics() still runs for observability, but ALWAYS as advisory-self-consistency and is
     //     never wired to any effector. Do NOT flip this true without a validated agriculture kernel.
     this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+
+    // ── THING2 KERNEL PHASE SOURCE (2026-07-13) ─────────────────────────
+    // Replace the naive per-cycle / static-PHASE_M phase guess with the REAL
+    // Thing2 recursive phase kernel (window.LIMENThing2.phaseOfSeries), which
+    // is PURE MATH (no network, no AI — cycle stays deterministic). We persist
+    // the domain's own primary stress scalar as a rolling series and feed it to
+    // the kernel each cycle. Fallback to the existing s.phase is ALWAYS kept.
+    //   _phaseSeries : rolling scalar history (cap 60), STRESS metric (up=bad).
+    //   _kernelPhase : last kernel phase (p0..p10) or null when unavailable.
+    // Persisted under localStorage key limen:phaseseries:agriculture.
+    this._phaseSeries = (function () {
+      try {
+        if (typeof localStorage === 'undefined' || !localStorage) return [];
+        var raw = localStorage.getItem('limen:phaseseries:agriculture');
+        var arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) { return []; }
+    })() || [];
+    this._kernelPhase = null;
   }
 
   AgricultureBrain.prototype = Object.create(Base.prototype);
@@ -859,7 +878,43 @@
     };
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+
+    // ── THING2 KERNEL PHASE (pure math; no network, no AI) ──────────────
+    // 1) push this cycle's primary scalar. Agriculture's primary scalar is
+    //    overall STRESS (this.state.stress, up=bad) -> positive:false.
+    // 2) run the REAL Thing2 recursive phase kernel over the rolling series.
+    // On any failure or when the adapter/series is unavailable, _kernelPhase
+    // stays null and phaseSource="fallback" (existing s.phase used below).
+    this._kernelPhase = null;
+    var kernelPhaseSource = 'fallback';
+    try {
+      var _scalar = (typeof s.stress === 'number' && isFinite(s.stress)) ? s.stress : 0;
+      this._phaseSeries.push(_scalar);
+      while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+      try {
+        if (typeof localStorage !== 'undefined' && localStorage) {
+          localStorage.setItem('limen:phaseseries:agriculture', JSON.stringify(this._phaseSeries));
+        }
+      } catch (e) { /* persistence best-effort */ }
+
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          this.state.kernelPhase = _kp.phase;
+          this.state.kernelTrajectory = _kp.trajectory;
+          this.state.kernelCAccum = _kp.cAccumulator;
+          this.state.phaseSource = 'thing2-kernel';
+          kernelPhaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e) { this._kernelPhase = null; }
+    if (kernelPhaseSource !== 'thing2-kernel') { this.state.phaseSource = 'fallback'; }
+
+    // PREFER the kernel phase when available; otherwise the EXISTING naive/
+    // static s.phase (unchanged fallback). Feeds BOTH the coherence router
+    // (myPhase, below) and the phase-transition read (over _agPhaseHistory).
+    var myPhase = norm(this._kernelPhase || s.phase);
 
     // (A) coherence router — couple to co-phased, stressed peers (structural mechanism; advisory here)
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -893,6 +948,9 @@
 
     var out = {
       version: 1, advisory: true, actuated: false, myPhase: myPhase,
+      phaseSource: this.state.phaseSource || 'fallback',
+      kernelPhase: this._kernelPhase || null,
+      kernelTrajectory: (this.state.phaseSource === 'thing2-kernel') ? (this.state.kernelTrajectory || null) : null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: transition,
       note: 'ADVISORY: phase-coherence router + transition read; agriculture phase is NOT Thing1-validated, so the transition is never a ground-truth reward and drives no effector.'

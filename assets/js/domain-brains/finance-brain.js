@@ -48,6 +48,23 @@
   FinanceBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── THING2 KERNEL PHASE SOURCE (2026-07-13): make the REAL recursive phase kernel
+    //    (assets/js/limen-thing2-adapter.js -> window.LIMENThing2.phaseOfSeries) the phase
+    //    source for this brain's coherence router + phase-transition reward. The kernel needs a
+    //    short rolling history of the domain's primary scalar; restore it from localStorage so
+    //    it warms up across reloads. Guarded for absent localStorage; on any failure -> []. The
+    //    kernel is PURE MATH (no network, no AI) — the 30s cycle stays deterministic + cost-free.
+    this._kernelPhase = null;
+    this._phaseSeries = [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _savedSeries = JSON.parse(localStorage.getItem('limen:phaseseries:finance'));
+        if (Array.isArray(_savedSeries)) {
+          this._phaseSeries = _savedSeries.filter(function (v) { return typeof v === 'number' && isFinite(v); }).slice(-60);
+        }
+      }
+    } catch (_pse) { this._phaseSeries = []; }
+
     // ── OVERLAY ACTUATION (2026-07-13): port of Energy's actuation depth to Finance.
     // VALIDITY GATE (honest, per-actuation — see ENERGY_NEURO_AUDIT.md + DOMAIN_BUILDOUT_PLAYBOOK.md §E):
     //   servo    = TRUE  — Finance has a real controllable EFFECTOR: it emits opportunities +
@@ -1028,7 +1045,12 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the REAL Thing2 recursive phase kernel (this._kernelPhase, set in _updateFinanceModel)
+    // when it produced a phase this cycle; otherwise fall back to the existing naive/static s.phase.
+    // Both the coherence router AND the phase-transition reward below read this single myPhase, so
+    // one source-swap covers both. Fallback path is preserved unchanged.
+    var phaseSource = (this._kernelPhase != null) ? 'thing2-kernel' : 'fallback';
+    var myPhase = norm((this._kernelPhase != null) ? this._kernelPhase : s.phase);
 
     // (A) COHERENCE ROUTER — couple to co-phased, stressed domains
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -1066,10 +1088,10 @@
     if (hist.length > 24) hist.shift();
 
     var out = {
-      version: 1, myPhase: myPhase,
+      version: 1, myPhase: myPhase, phaseSource: phaseSource,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — Finance\'s validated envelope).'
+      note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — Finance\'s validated envelope). Phase source = ' + phaseSource + ' (thing2-kernel = real recursive phase kernel; fallback = naive s.phase).'
     };
     s.financePhaseDynamics = out;
     return out;
@@ -1468,6 +1490,46 @@
     var gainBlend = _fmClamp(pe.novelty, 0.05, 0.95);
     var predictedStress = priorIn.expectedStress * (1 - gainBlend) + obs.stress * gainBlend;
     var reg = this._computeFinanceRegulation(fm, obs, pe);
+
+    // ── THING2 KERNEL PHASE (real recursive phase kernel; PURE MATH — no network, no AI) ──
+    //    Push this cycle's primary scalar onto a persisted rolling series (cap 60), then ask the
+    //    REAL Thing2 kernel for the current phase. The scalar is overall STRESS (up = worse) ->
+    //    positive:false. When the kernel returns a phase it PREFERENTIALLY drives the coherence
+    //    router (myPhase) + phase-transition reward in _computeFinancePhaseDynamics below;
+    //    otherwise this._kernelPhase stays null and the existing naive s.phase is the fallback.
+    //    Fully guarded: any failure or unavailability -> phaseSource='fallback', spine untouched.
+    this._kernelPhase = null;
+    try {
+      var _scalar = (typeof obs.stress === 'number') ? obs.stress
+        : (typeof this.state.stress === 'number') ? this.state.stress : null;
+      if (_scalar != null && isFinite(_scalar)) {
+        var _series = this._phaseSeries || (this._phaseSeries = []);
+        _series.push(_scalar);
+        while (_series.length > 60) _series.shift();     // cap length 60; shift oldest
+        try {
+          if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem('limen:phaseseries:finance', JSON.stringify(_series));
+          }
+        } catch (_persistErr) { /* absent/full localStorage — series stays in-memory */ }
+      }
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          this.state.kernelPhase = _kp.phase;
+          this.state.kernelTrajectory = _kp.trajectory;
+          this.state.kernelCAccum = _kp.cAccumulator;
+          this.state.phaseSource = 'thing2-kernel';
+        } else {
+          this.state.phaseSource = 'fallback';
+        }
+      } else {
+        this.state.phaseSource = 'fallback';
+      }
+    } catch (_kernelErr) {
+      this._kernelPhase = null;
+      this.state.phaseSource = 'fallback';
+    }
 
     // ── ACTUATION: PHASE-COHERENCE ROUTER + PHASE-TRANSITION REWARD (reads this cycle's
     //    generic forecast in state.domainNeuro). Ground-truth only on P3/P7 transitions. ──

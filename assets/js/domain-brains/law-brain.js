@@ -165,6 +165,19 @@
     // Inbound external-signal handler: ingest cross-domain pressure as a PRIOR modifier
     // (governance/communication/medicine/infrastructure/technology -> law), NOT a second scorer.
     try { this._installLawExternalSignalHandler(); } catch (e) {}
+
+    // ── THING2 RECURSIVE PHASE KERNEL — persistent phase series (see limen-thing2-adapter.js) ──
+    // The REAL kernel (window.LIMENThing2.phaseOfSeries) becomes the phase SOURCE for the
+    // coherence router + phase-transition reward below, replacing the naive/static PHASE_M guess.
+    // Pure math (no network, no AI) — cycle stays deterministic. The series persists across loads.
+    this._kernelPhase = null;
+    this._phaseSeries = [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _ps = JSON.parse(localStorage.getItem('limen:phaseseries:law'));
+        if (Array.isArray(_ps)) this._phaseSeries = _ps;
+      }
+    } catch (e) { this._phaseSeries = []; }
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -1656,7 +1669,39 @@
       var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };
       var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };
       function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-      var myPhase = norm(s.phase);
+
+      // ── THING2 RECURSIVE PHASE KERNEL as the phase SOURCE (real kernel; PURE MATH, no net/AI) ──
+      // Each cycle: push this domain's primary STRESS scalar (up = worse -> positive:false) onto a
+      // capped-60 persistent series and let the validated Thing2 recursion pick the phase. On any
+      // failure / <8 samples / kernel absent, _kernelPhase stays null and we fall back to the
+      // existing naive/static s.phase (unchanged). Deterministic; consumed one-cycle-lag downstream.
+      if (!this._phaseSeries) this._phaseSeries = [];
+      this._kernelPhase = null;
+      this.state.phaseSource = 'fallback';
+      try {
+        var _scalar = (typeof s.finalStress === 'number') ? s.finalStress
+                    : (typeof s.brainStress === 'number') ? s.brainStress
+                    : (typeof s.stress === 'number') ? s.stress : null;
+        if (_scalar != null && isFinite(_scalar)) {
+          this._phaseSeries.push(_scalar);
+          while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+          try { if (typeof localStorage !== 'undefined' && localStorage) localStorage.setItem('limen:phaseseries:law', JSON.stringify(this._phaseSeries)); } catch (_e) {}
+        }
+        if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+          // positive:false — law's primary scalar is STRESS (up = worse), not a health metric.
+          var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });
+          if (_kp && _kp.phase) {
+            this._kernelPhase = _kp.phase;
+            this.state.kernelPhase = _kp.phase;
+            this.state.kernelTrajectory = _kp.trajectory;
+            this.state.kernelCAccum = _kp.cAccumulator;
+            this.state.phaseSource = 'thing2-kernel';
+          }
+        }
+      } catch (_e) { this._kernelPhase = null; this.state.phaseSource = 'fallback'; }
+
+      // PREFER the kernel phase when non-null; otherwise fall back to the existing naive/static phase.
+      var myPhase = norm(this._kernelPhase || s.phase);
 
       // (A) COHERENCE ROUTER
       var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -1694,9 +1739,13 @@
 
       var out = {
         version: 1, myPhase: myPhase,
+        phaseSource: this.state.phaseSource,
+        kernelPhase: this._kernelPhase || null,
+        kernelTrajectory: this.state.kernelTrajectory || null,
+        seriesN: this._phaseSeries ? this._phaseSeries.length : 0,
         coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
         transition: reward,
-        note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — law sits at P7).'
+        note: 'phase source = Thing2 recursive kernel (real, pure-math; positive:false STRESS series) with naive/static s.phase fallback; coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7 — law sits at P7).'
       };
       s.lawPhaseDynamics = out;
       return out;

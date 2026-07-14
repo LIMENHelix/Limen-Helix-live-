@@ -21,6 +21,20 @@
   TechnologyBrain.prototype.init = function () {
     Base.prototype.init.call(this);
 
+    // ── THING2 RECURSIVE PHASE KERNEL as the phase source (2026-07-13) ──
+    // Persistent stress series feeding window.LIMENThing2.phaseOfSeries (PURE MATH — no
+    // network, no AI; the 30s cycle stays deterministic). The domain primary scalar is
+    // STRESS (up = worse), so the kernel is called with positive:false. Fallback to the
+    // existing naive/static PHASE_M phase whenever the kernel is unavailable or returns null.
+    this._kernelPhase = null;
+    this._phaseSeries = [];
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        var _ps = JSON.parse(localStorage.getItem('limen:phaseseries:technology'));
+        if (Array.isArray(_ps)) this._phaseSeries = _ps;
+      }
+    } catch (_e) { this._phaseSeries = []; }
+
     // ── One-shot cognition loaders (mirror culture/infrastructure init): real entities,
     //    validated distress signals, real source bundles, L1 mad-lib scan, innovation-pipeline sub-portal. ──
     try { this._loadTechnologyCommandBoardCompanies(); } catch (e) {}  // real entities (state.companies starved)
@@ -619,6 +633,12 @@
       // cycle's K4) → regulation advisories (E/I balance + XIV self-audit, observe-only). Each guarded;
       // never throws into the scoring spine. Servo/phaseDynamics feed the PRIOR-cycle reads in
       // surfaceOpportunities + the K4 credit hook above (one-cycle lag, recurrent by design).
+      // THING2 KERNEL PHASE — push this cycle's primary scalar (STRESS) to the persistent
+      // series and derive the interpretive P0-P10 posture from the REAL recursive kernel.
+      // Runs BEFORE phase dynamics so the router + transition reward read the kernel phase.
+      // Pure math (no network/AI); guarded; on any failure _kernelPhase stays null and the
+      // phase dynamics fall back to the naive/static PHASE_M source unchanged.
+      try { this._updateTechnologyPhaseKernel(); } catch (e) {}
       try { if (this._actuation && this._actuation.servo) this._computeTechnologyServo(); } catch (e) {}
       try { if (this._actuation && this._actuation.phase) this._computeTechnologyPhaseDynamics(); } catch (e) {}
       try { this._computeTechnologyRegulationAdvisories(); } catch (e) {}
@@ -852,6 +872,46 @@
     // lineage). (A) couples to co-phased, stressed peer domains; (B) scores a realized phase
     // transition — treated as GROUND-TRUTH only on P3/P7-involving transitions (Thing1-validated),
     // else advisory-self-consistency. Deterministic; no AI; no writes to technology.json.
+    // ── THING2 RECURSIVE PHASE KERNEL — the phase SOURCE (2026-07-13) ──
+    // Each cycle: push the domain's primary scalar (state.stress / finalStress / brainStress —
+    // STRESS, up = worse) to a persistent 60-length series, then run the REAL Thing2 recursive
+    // phase kernel via window.LIMENThing2.phaseOfSeries with positive:false. Pure math — no
+    // network, no AI — so the 30s cycle stays deterministic. On any failure or when the kernel
+    // is unavailable / short of history, this._kernelPhase stays null and phaseSource='fallback',
+    // and the coherence router + phase-transition reward use the existing naive/static PHASE_M phase.
+    P._updateTechnologyPhaseKernel = function () {
+      var s = this.state || (this.state = {});
+      var scalar = (typeof s.stress === 'number') ? s.stress
+                 : (typeof s.finalStress === 'number') ? s.finalStress
+                 : (typeof s.brainStress === 'number') ? s.brainStress : null;
+      if (typeof scalar === 'number' && isFinite(scalar)) {
+        if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+        this._phaseSeries.push(scalar);
+        while (this._phaseSeries.length > 60) this._phaseSeries.shift();  // cap 60, drop oldest
+        try {
+          if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem('limen:phaseseries:technology', JSON.stringify(this._phaseSeries));
+          }
+        } catch (_e) {}
+      }
+      // Kernel phase (guarded). positive:false because the scalar is a STRESS metric (up = worse).
+      this._kernelPhase = null;
+      s.phaseSource = 'fallback';
+      try {
+        if (typeof window !== 'undefined' && window.LIMENThing2 &&
+            Array.isArray(this._phaseSeries) && this._phaseSeries.length >= 8) {
+          var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });
+          if (_kp && _kp.phase) {
+            this._kernelPhase = _kp.phase;
+            s.kernelPhase = _kp.phase;
+            s.kernelTrajectory = _kp.trajectory;
+            s.kernelCAccum = _kp.cAccumulator;
+            s.phaseSource = 'thing2-kernel';
+          }
+        }
+      } catch (_e) { this._kernelPhase = null; s.phaseSource = 'fallback'; }
+    };
+
     P._computeTechnologyPhaseDynamics = function () {
       var s = this.state, cm = s.technologyModel || {};
       var PHASE_M = {
@@ -866,7 +926,10 @@
       var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
       var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family
       function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-      var myPhase = norm(s.phase);
+      // PREFER the Thing2 recursive phase kernel; fall back to the existing naive/static s.phase.
+      // myPhase drives BOTH (A) the coherence router and (B) the phase-transition reward below.
+      var _phaseSource = (this._kernelPhase != null) ? 'thing2-kernel' : 'fallback';
+      var myPhase = norm((this._kernelPhase != null) ? this._kernelPhase : s.phase);
 
       // (A) COHERENCE ROUTER — couple to co-phased, stressed domains
       var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -902,10 +965,10 @@
       if (hist.length > 24) hist.shift();
 
       var out = {
-        version: 1, myPhase: myPhase,
+        version: 1, myPhase: myPhase, phaseSource: _phaseSource,
         coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
         transition: reward,
-        note: 'phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7).'
+        note: 'phase source = ' + _phaseSource + ' (thing2 recursive kernel preferred, naive/static PHASE_M fallback); phase-coherence router (patent M matrix) + phase-transition reward (thing2 lineage; ground-truth only on P3/P7).'
       };
       s.technologyPhaseDynamics = out;
       return out;

@@ -63,6 +63,22 @@
     this._servoIntegral = 0;
     this._sciencePhaseHistory = [];
 
+    // ── THING2 RECURSIVE PHASE KERNEL — phase source (2026-07-13) ──────────────────────────
+    // The REAL Thing2 recursive phase kernel (assets/js/limen-thing2-adapter.js -> window.LIMENThing2)
+    // becomes this brain's phase source for the coherence router + phase-transition reward. It is
+    // PURE MATH (no network, no AI); the 30s cycle stays deterministic. _phaseSeries is a persistent
+    // rolling window (cap 60) of the domain's primary STRESS scalar. _kernelPhase stays null and
+    // phaseSource='fallback' whenever the kernel is unavailable or returns no phase, in which case
+    // the existing naive/static s.phase drives phase dynamics unchanged.
+    this._kernelPhase = null;
+    this.state.phaseSource = 'fallback';
+    try {
+      this._phaseSeries = (typeof localStorage !== 'undefined')
+        ? (JSON.parse(localStorage.getItem('limen:phaseseries:science')) || [])
+        : [];
+    } catch (e) { this._phaseSeries = []; }
+    if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+
     // PHASE K neuro-completion state (K1..K8): K4 truth-brake outcome log + prev self-prediction.
     // K3 slow-model, K8 set-points, and the other K-layer surfaces are stored lazily on this.state
     // (scienceSlowModel / scienceHomeostasis / scienceNeuro), exactly like Energy's K-layers.
@@ -616,6 +632,11 @@
     // guarded, no AI, no network — never breaks a cycle.
     try { this._computeScienceNeuroLayers(); } catch (e) {}
 
+    // THING2 KERNEL PHASE — push the current primary STRESS scalar into the persistent series and
+    // ask the REAL recursive kernel for the phase, BEFORE phase dynamics reads it. Pure math,
+    // guarded, never breaks a cycle. On failure/unavailable, _kernelPhase stays null (fallback).
+    try { this._updateKernelPhase(); } catch (e) { this._kernelPhase = null; this.state.phaseSource = 'fallback'; }
+
     // ACTUATION LAYER — servo (regulate-to-target) + phase dynamics (coherence router +
     // P3/P7-gated transition reward) + E/I regulation advisories (E/I balance + self-audit
     // SPOF from science.json edges). Each behind its _actuation flag; the eiBrake EFFECTOR is
@@ -1076,6 +1097,37 @@
   //      is this brain's OWN forward read (researchModel.predictedStress vs current stress). GATED to
   //      ground-truth ONLY on P3/P7-family transitions (Thing1-validated); advisory self-consistency
   //      elsewhere, so it never fabricates a validated learning signal. Consumed by the K4 credit hook.
+  // THING2 KERNEL PHASE SOURCE. Push the domain's primary scalar (state.stress = STRESS, up=bad
+  // -> positive:false) into a persistent rolling window (cap 60, persisted to localStorage) and
+  // run the REAL Thing2 recursive phase kernel over it. Pure math (no network, no AI): the 30s
+  // cycle stays deterministic. Sets this._kernelPhase (preferred phase for the coherence router +
+  // phase-transition reward) or leaves it null so the existing naive/static s.phase remains the
+  // fallback. seriesSource = state.stress (STRESS metric, positive:false).
+  ScienceBrain.prototype._updateKernelPhase = function () {
+    if (!Array.isArray(this._phaseSeries)) this._phaseSeries = [];
+    var scalar = (this.state && typeof this.state.stress === 'number') ? this.state.stress : 0;
+    this._phaseSeries.push(scalar);
+    while (this._phaseSeries.length > 60) this._phaseSeries.shift();
+    try {
+      if (typeof localStorage !== 'undefined') localStorage.setItem('limen:phaseseries:science', JSON.stringify(this._phaseSeries));
+    } catch (e) {}
+
+    this._kernelPhase = null;
+    this.state.phaseSource = 'fallback';
+    try {
+      if (typeof window !== 'undefined' && window.LIMENThing2 && this._phaseSeries.length >= 8) {
+        var _kp = window.LIMENThing2.phaseOfSeries(this._phaseSeries, { positive: false });
+        if (_kp && _kp.phase) {
+          this._kernelPhase = _kp.phase;
+          this.state.kernelPhase = _kp.phase;
+          this.state.kernelTrajectory = _kp.trajectory;
+          this.state.kernelCAccum = _kp.cAccumulator;
+          this.state.phaseSource = 'thing2-kernel';
+        }
+      }
+    } catch (e) { this._kernelPhase = null; this.state.phaseSource = 'fallback'; }
+  };
+
   ScienceBrain.prototype._computeSciencePhaseDynamics = function () {
     var s = this.state, rm = s.researchModel || {};
     var PHASE_M = {
@@ -1090,7 +1142,10 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // Thing1 validates P3/P7 => ground-truth
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    var myPhase = norm(s.phase);
+    // PREFER the Thing2 recursive kernel phase when available; else fall back to the existing
+    // naive/static s.phase (unchanged fallback path). Drives BOTH the coherence router (A) and the
+    // phase-transition reward (B) below, and — via _sciencePhaseHistory — the reward through time.
+    var myPhase = norm((this._kernelPhase != null) ? this._kernelPhase : s.phase);
 
     // (A) COHERENCE ROUTER — couple to co-phased, stressed peers
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
