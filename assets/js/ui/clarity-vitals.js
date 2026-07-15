@@ -193,26 +193,37 @@
     ctx.strokeStyle=c; ctx.lineWidth=1.6; ctx.lineJoin='round'; ctx.shadowColor=c; ctx.shadowBlur=5; ctx.stroke(); ctx.shadowBlur=0;
     var ly=mid-m.buf[n-1]*(mid-3); ctx.beginPath(); ctx.arc(w-1,ly,2,0,7); ctx.fillStyle=c; ctx.fill(); }
 
-  function loop(){ t+=REDUCE?0:0.2;
+  // Per-FRAME (rAF): canvas sparkline ONLY. No DOM text/style writes here, so the
+  // waveform stays smooth no matter how heavy the content below the board gets.
+  // Stress + color are read from the throttled refresh (m.s / m.col).
+  function animate(){ t+=REDUCE?0:0.2;
+    for(var i=0;i<cards.length;i++){ var m=cards[i]; try{ drawSpark(m, m.s||0, m.col||'#4fd18e'); }catch(e){} }
+    requestAnimationFrame(animate);
+  }
+
+  // THROTTLED (~4x/sec): every text + style write, moved OUT of the animation frame
+  // and change-guarded so the DOM is only touched when a value actually changes
+  // (prevents the per-frame layout thrash that made the waveform stutter once the
+  // bottom content loaded). Stress feeds the waveform amplitude via m.s.
+  function refreshCards(){
     for(var i=0;i<cards.length;i++){ var m=cards[i]; var d=live(m.keys);
-      var s=readStress(d), c=sevCol(s);
-      m.card.style.setProperty('--sev',c);
-      m.val.innerHTML=Math.round(s*100)+'<small>/100</small>';
-      m.fill.style.width=(s*100)+'%';
+      var s=readStress(d), c=sevCol(s); m.s=s; m.col=c;
+      if(m._sev!==c){ m.card.style.setProperty('--sev',c); m._sev=c; }
+      var vv=Math.round(s*100); if(m._vv!==vv){ m.val.innerHTML=vv+'<small>/100</small>'; m._vv=vv; }
+      var fw=(s*100).toFixed(1)+'%'; if(m._fw!==fw){ m.fill.style.width=fw; m._fw=fw; }
       var p=readPhase(d); var pf=famOf(p); var pc=FAMCOL[pf];
-      m.card.style.setProperty('--fam',pc);
-      m.ph.textContent=p?String(p).toUpperCase():'—';
-      m.fam.textContent=p?FAMNM[pf]:'';
-      var tr=readTraj(d); m.traj.textContent=tr?String(tr).replace(/_/g,' ').toLowerCase():'—';
-      m.traj.className='bb-traj'+(/DIVERG|UNRECOV/i.test(tr||'')?' bad':/RECOVERED|STABLE/i.test(tr||'')?' good':'');
-      var sr=readSrc(d); m.srct.textContent=sr; m.srcW.className='bb-src'+(sr==='fallback'?' fb':'');
+      if(m._pc!==pc){ m.card.style.setProperty('--fam',pc); m._pc=pc; }
+      var pt=p?String(p).toUpperCase():'—'; if(m._pt!==pt){ m.ph.textContent=pt; m._pt=pt; }
+      var ft=p?FAMNM[pf]:''; if(m._ft!==ft){ m.fam.textContent=ft; m._ft=ft; }
+      var tr=readTraj(d); var trt=tr?String(tr).replace(/_/g,' ').toLowerCase():'—';
+      if(m._trt!==trt){ m.traj.textContent=trt; m.traj.className='bb-traj'+(/DIVERG|UNRECOV/i.test(tr||'')?' bad':/RECOVERED|STABLE/i.test(tr||'')?' good':''); m._trt=trt; }
+      var sr=readSrc(d); if(m._sr!==sr){ m.srct.textContent=sr; m.srcW.className='bb-src'+(sr==='fallback'?' fb':''); m._sr=sr; }
       if(m.dec){ var dc=d&&d.decision;
         if(dc&&dc.posture){ var ch=dc.choice?(' &middot; '+esc(dc.choice)):(dc.vetoed?' &middot; conscience veto':'');
-          m.dec.innerHTML='<span class="bb-post '+esc(dc.posture)+'">'+esc(dc.posture)+'</span><span class="bb-act">'+esc(dc.boundedAction||'')+'</span><span class="bb-choice">'+ch+'</span>'; }
+          var decHtml='<span class="bb-post '+esc(dc.posture)+'">'+esc(dc.posture)+'</span><span class="bb-act">'+esc(dc.boundedAction||'')+'</span><span class="bb-choice">'+ch+'</span>';
+          if(m._dec!==decHtml){ m.dec.innerHTML=decHtml; m._dec=decHtml; } }
         else if(!m.dec.innerHTML){ m.dec.innerHTML='<span class="bb-act" style="opacity:.5">deciding…</span>'; } }
-      try{ drawSpark(m,s,c); }catch(e){}
     }
-    requestAnimationFrame(loop);
   }
   var lastSum=0;
   function updSum(){ if(!sumEl) return; var f={hold:0,break:0,drive:0},st=0,k=0;
@@ -237,6 +248,8 @@
       }catch(e){}
     } }
 
-  function boot(){ injectCSS(); if(!document.getElementById('limen-brain-board')) build(); updSum(); setInterval(updSum,1500); requestAnimationFrame(loop); }
+  function boot(){ injectCSS(); if(!document.getElementById('limen-brain-board')) build();
+    refreshCards(); updSum();                 // prime m.s/m.col before the first frame draws
+    setInterval(refreshCards,250); setInterval(updSum,1500); requestAnimationFrame(animate); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 })();
