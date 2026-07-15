@@ -51,10 +51,11 @@
   function ago(u){ if(u==null)return''; var ts=(typeof u==='number')?u:Date.parse(u); if(!ts||isNaN(ts))return''; var s=Math.max(0,Math.round((Date.now()-ts)/1000)); return s<60?s+'s':s<3600?Math.round(s/60)+'m':Math.round(s/3600)+'h'; }
   function renderFeeds(m){
     var d=live(m.keys), feeds=readFeeds(d);
-    if(!feeds.length){ m.feeds.innerHTML='<div class="bb-nofeeds">No feeds attached to this domain yet.</div>'; return; }
+    if(!feeds.length){ if(m._feedHtml!=='none'){ m.feeds.innerHTML='<div class="bb-nofeeds">No feeds attached to this domain yet.</div>'; m._feedHtml='none'; } return; }
     var liveN=feeds.filter(function(f){return f.live===true;}).length;
+    var shown=feeds.slice(0,5), extra=feeds.length-shown.length;
     var html='<div class="bb-feed-head">Feeds &middot; '+liveN+'/'+feeds.length+' live</div>';
-    feeds.forEach(function(f){
+    shown.forEach(function(f){
       var cls=f.live===true?'on':f.live===false?'off':'unk';
       var stat=f.live===true?'LIVE':f.live===false?'OFFLINE':'UNKNOWN';
       var age=ago(f.updated);
@@ -63,7 +64,9 @@
         +'<span class="bb-fstat '+cls+'">'+stat+'</span>'
         +(age?'<span class="bb-fage">'+esc(age)+'</span>':'')+'</div>';
     });
-    m.feeds.innerHTML=html;
+    if(extra>0) html+='<div class="bb-fmore">+'+extra+' more</div>';
+    // change-guarded: only touch the DOM when the feed list actually changed
+    if(m._feedHtml!==html){ m.feeds.innerHTML=html; m._feedHtml=html; }
   }
 
   function injectCSS(){
@@ -137,7 +140,28 @@
       '#limen-brain-board .bb-ws-chip{font-family:ui-monospace,monospace;font-size:10px;color:#9db0cc;border:1px solid rgba(120,150,200,.26);border-radius:12px;padding:2px 9px}',
       '#limen-brain-board .bb-ws-model{font-family:ui-monospace,monospace;font-size:8.5px;color:#5d6f8d;letter-spacing:.03em;margin-top:9px}',
       /* retire the old bouncy grey domain grid — the board replaces it */
-      '.clr-domain-grid{display:none!important}'
+      '.clr-domain-grid{display:none!important}',
+      /* ── brighter + larger + feeds visible (operator request) ── */
+      '#limen-brain-board .bb-feeds{display:block}',                    /* feeds shown by default, not click-gated */
+      '#limen-brain-board .bb-sum{font-size:13px;color:#c9d7ef}',
+      '#limen-brain-board .bb-nm{font-size:1.2rem;color:#ffffff;font-weight:720}',
+      '#limen-brain-board .bb-val{font-size:2.15rem;color:#ffffff}',
+      '#limen-brain-board .bb-val small{font-size:.62rem;color:#7f93b4}',
+      '#limen-brain-board .bb-feed{font-size:13px;padding:4px 0}',
+      '#limen-brain-board .bb-fname{color:#eaf1fb}',
+      '#limen-brain-board .bb-feed-head{font-size:11px;color:#94accf;letter-spacing:.06em}',
+      '#limen-brain-board .bb-fstat{font-size:10px}',
+      '#limen-brain-board .bb-fmore{font-size:10.5px;color:#7f93b4;padding:3px 0 1px 15px;font-style:italic}',
+      '#limen-brain-board .bb-decision{font-size:12px}',
+      '#limen-brain-board .bb-post{font-size:11px}',
+      '#limen-brain-board .bb-act{color:#bccbe4}',
+      '#limen-brain-board .bb-choice{color:#eef3fb}',
+      '#limen-brain-board .bb-traj{font-size:11px;color:#c9d7ef}',
+      '#limen-brain-board .bb-fam{font-size:10px}',
+      '#limen-brain-board .bb-ph{font-size:12px}',
+      '#limen-brain-board .bb-src{font-size:10px;color:#8ea6c8}',
+      '#limen-brain-board .bb-ws-report{font-size:13.5px;color:#eaf1fb}',
+      '#limen-brain-board .bb-title{font-size:1rem;color:#ffffff}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -233,7 +257,7 @@
       +'<span><b style="background:#8a92ff"></b>driving '+f.drive+'</span>'
       +'<span style="color:#ff8a7a">'+st+' elevated</span>'
       +'<span style="color:#34d1c8">'+k+'/20 kernel</span>';
-    for(var oi=0;oi<cards.length;oi++){ if(cards[oi].open) renderFeeds(cards[oi]); }
+    for(var oi=0;oi<cards.length;oi++){ renderFeeds(cards[oi]); }   // feeds visible on every card now
     if(wsEl && window.LIMENWorkspace){
       try{ var w=window.LIMENWorkspace.synthesize(window.LIMENDomains||{});
         if(w && w.ready){
