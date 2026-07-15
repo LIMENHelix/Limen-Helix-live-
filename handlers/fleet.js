@@ -49,7 +49,8 @@ module.exports = async function handler(req, res) {
           hasLiveSignal: op.hasLiveSignal, salience: op.salience,
           posture: op.decision.posture, boundedAction: op.decision.boundedAction,
           choice: op.decision.choice, situation: op.decision.situation,
-          rationale: op.decision.rationale, vetoed: op.decision.vetoed
+          rationale: op.decision.rationale, vetoed: op.decision.vetoed,
+          cautioned: op.decision.cautioned
         };
       }),
       journaled: doJournal,

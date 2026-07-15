@@ -46,7 +46,7 @@
       var salience = stress * (0.3 + 0.7 * conf) * w;
       rows.push({
         domain: dec.domain || k, stress: stress, conf: conf, posture: post,
-        choice: dec.choice || null, vetoed: !!dec.vetoed, src: dec.phaseSource || 'fallback',
+        choice: dec.choice || null, cautioned: !!dec.cautioned, src: dec.phaseSource || 'fallback',
         action: dec.boundedAction || 'monitor', salience: salience
       });
     }
@@ -56,14 +56,18 @@
     var broadcast = rows.slice(0, SPOTLIGHT);                   // what is "in mind" right now
     var escalating = rows.filter(function (r) { return r.posture === 'escalate'; });
     var acting = rows.filter(function (r) { return r.posture === 'act' || r.posture === 'escalate'; });
-    var vetoedInSpot = broadcast.filter(function (r) { return r.vetoed; });
+    var cautionedInSpot = broadcast.filter(function (r) { return r.cautioned; });
     var fallbackActing = acting.filter(function (r) { return r.src !== 'kernel'; });
 
     // ── SYSTEM CONSCIENCE (the overriding faculty) ──
     var reasons = [];
-    if (vetoedInSpot.length) reasons.push(vetoedInSpot.length + ' domain(s) in the spotlight distrust their own signal');
-    if (acting.length && fallbackActing.length / acting.length > 0.6) reasons.push('most acting domains are on interpretive/fallback phase, not the validated kernel');
-    var conscienceState = reasons.length ? 'restrictive' : 'permissive';
+    // A cautioned domain flags ITS OWN signal as unproven and is MONITORING (recommending nothing).
+    // That is a note, not a restraint: the system does not go dark just because a signal is unproven.
+    if (cautionedInSpot.length) reasons.push(cautionedInSpot.length + ' domain(s) in the spotlight flag their own signal as unproven (monitoring, recommending nothing)');
+    // The one genuine restraint: most domains that WANT TO ACT are doing so off interpretive/fallback phase.
+    var restrain = !!(acting.length && fallbackActing.length / acting.length > 0.6);
+    if (restrain) reasons.push('most acting domains are on interpretive/fallback phase, not the validated kernel');
+    var conscienceState = restrain ? 'restrictive' : (cautionedInSpot.length ? 'cautious' : 'permissive');
 
     // ── SYSTEM DECISION (bounded, conscience-gated) ──
     var focus = broadcast[0] || null;
@@ -81,11 +85,12 @@
 
     var famCount = { escalate: escalating.length, act: acting.length - escalating.length,
       hold: rows.filter(function (r) { return r.posture === 'hold'; }).length,
+      cautioned: rows.filter(function (r) { return r.cautioned; }).length,
       abstain: rows.filter(function (r) { return r.posture === 'abstain'; }).length };
 
     var spotNames = broadcast.map(function (r) { return r.domain; }).join(', ');
     var selfReport = 'Connectome: ' + rows.length + ' domains deciding; '
-      + escalating.length + ' escalating, ' + famCount.hold + ' holding, ' + famCount.abstain + ' abstaining. '
+      + escalating.length + ' escalating, ' + famCount.hold + ' holding, ' + famCount.cautioned + ' flagging their signal unproven. '
       + 'Attention on ' + spotNames + '. Conscience ' + conscienceState
       + (reasons.length ? ' (' + reasons[0] + ')' : '') + '.';
 
