@@ -150,16 +150,31 @@ module.exports = async function handler(req, res) {
   var MATURITY_WEIGHT = { STRUCTURAL: 1.3, CONFIRMED: 1.0, FORMING: 0.7, EARLY: 0.4 };
 
   var opportunities = [];
+  // Capital-light, own-nothing opportunity TYPES per domain (curate/broker a real distress
+  // feed; sell the curation — the telescope/middleman model), NOT "build a platform/SaaS"
+  // (capital-heavy). Keyed by runtimeKey. All 20 covered so no domain falls to a generic
+  // 'domain-specific solution'. These are opportunity CATEGORIES, not claimed live deals.
   var FAMILIES = {
-    energy: ['grid resilience monitoring', 'fuel logistics intelligence', 'supply routing optimization'],
-    defense: ['threat detection platform', 'defense logistics coordination', 'situational awareness SaaS'],
-    supplyChain: ['shipping route optimization', 'cargo tracking intelligence', 'supply chain visibility platform'],
-    finance: ['risk analytics dashboard', 'volatility hedging tools', 'compliance automation'],
-    agriculture: ['food supply chain tracking', 'crop input cost monitoring', 'precision agriculture analytics'],
-    health: ['public health surveillance', 'medical supply chain monitoring', 'healthcare capacity analytics'],
-    technology: ['cybersecurity monitoring', 'infrastructure resilience testing', 'AI-driven anomaly detection'],
-    governance: ['regulatory change tracking', 'policy impact analytics', 'compliance reporting automation'],
-    industry: ['manufacturing resilience monitoring', 'industrial IoT analytics', 'equipment lifecycle optimization']
+    governance: ['regulatory-change alert digest', 'public-comment deadline feed', 'compliance-risk watchlist'],
+    economy: ['macro-shock early-warning brief', 'sector-slowdown watchlist', 'WARN/layoff signal feed'],
+    infrastructure: ['infrastructure-failure incident feed', 'utility outage lead feed', 'permit/inspection distress watchlist'],
+    energy: ['utility shutoff-notice lead feed', 'grid-strain alert digest', 'fuel-price volatility brief'],
+    agriculture: ['crop-input cost alert feed', 'ag-distress (drought/recall) digest', 'commodity supply-shock brief'],
+    industry: ['WARN layoff lead feed', 'plant-closure distress watchlist', 'supplier-failure early warning'],
+    research: ['grant-deadline research digest', 'retraction/integrity watch feed', 'emerging-whitespace brief'],
+    health: ['adverse-event (openFDA) alert feed', 'drug-recall digest', 'clinical-trial signal brief'],
+    education: ['enrollment-decline watchlist', 'district-budget distress feed', 'closure/consolidation alert'],
+    technology: ['cyber-incident (CISA KEV) feed', 'outage/breach alert digest', 'tech-layoff signal watchlist'],
+    communication: ['newsroom cut/closure feed', 'platform-policy change alert', 'information-integrity brief'],
+    culture: ['venue/label distress feed', 'trend-shift early signal brief', 'audience-migration watchlist'],
+    defense: ['procurement-notice feed', 'escalation/threat alert digest', 'supplier-risk watchlist'],
+    environment: ['hazard/disaster alert feed', 'climate-risk exposure brief', 'compliance-deadline watchlist'],
+    religion: ['congregation-decline brief', 'community-need signal feed', 'institutional-distress watchlist'],
+    population: ['demographic-shift brief', 'migration/vacancy signal feed', 'service-demand watchlist'],
+    supplyChain: ['port/customs disruption feed', 'sanctions/tariff alert digest', 'shipping-route risk brief'],
+    law: ['regulatory-enforcement feed', 'litigation-signal watchlist', 'filing-deadline digest'],
+    finance: ['distressed-issuer credit watch feed', 'bankruptcy early-warning digest', 'covenant-breach signal brief'],
+    intelligence: ['data-breach/leak feed', 'OSINT signal digest', 'anomaly-detection watchlist']
   };
 
   for (var sdk in domains) {
@@ -230,11 +245,12 @@ module.exports = async function handler(req, res) {
   }
 
   // ── Phase 25: Convergence-driven opportunities (Section 7 output contract) ──
+  // Capital-light framing: curate/broker the distress signal (feed/watchlist), not build a platform.
   var CONVERGENCE_OPP_TITLES = {
-    CONVERGENCE_TERMINAL: 'terminal convergence response platform',
-    CONVERGENCE_INSTABILITY: 'instability convergence intervention',
-    DOMAIN_STRUCTURAL: 'structural regime monitoring platform',
-    COMPANY_FAILURE_CLUSTER: 'company failure cluster advisory'
+    CONVERGENCE_TERMINAL: 'terminal-distress deal/lead feed',
+    CONVERGENCE_INSTABILITY: 'instability early-warning watchlist',
+    DOMAIN_STRUCTURAL: 'structural-regime distress watchlist',
+    COMPANY_FAILURE_CLUSTER: 'failure-cluster credit watch feed'
   };
   for (var csk in convergenceSignals) {
     var cs = convergenceSignals[csk];

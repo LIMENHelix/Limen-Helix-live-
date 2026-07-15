@@ -1940,7 +1940,8 @@
     var s = this.state, em = s.supplyChainModel || {}, bs = this._supplyChainBundleStates();
     var pe = (em.predictionError && em.predictionError.total) || 0;
     var vetoes = [], cautions = [], allowed = [], blocked = ['patent-claim', 'grant-claim'];
-    vetoes.push({ claim: 'patent/grant', reason: 'no method/mechanism/embodiment/figure candidate fields in any supply-chain bundle' });
+    // retired-lane veto removed 2026-07-14: patent/grant are dead lanes; vetoing them forced
+    // conscienceState 'restrictive' every cycle. Real vetoes (missing source bundles) still drive it.
     bs.forEach(function (b) {
       if (b.bundleStatus === 'missing') { blocked.push('strong-claim:' + b.dxId); vetoes.push({ claim: 'strong-claim:' + b.dxId, reason: 'no source bundle' }); }
       else if (b.buildMethod === 'external-source-authored') { cautions.push({ claim: 'strong-claim:' + b.dxId, reason: 'external-source-authored; human-verification-required' }); allowed.push('source-routing:' + b.dxId); }

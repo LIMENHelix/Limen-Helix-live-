@@ -923,7 +923,8 @@
     var s = this.state, rm = s.researchModel || {}, bs = this._researchBundleStates();
     var pe = (rm.predictionError && rm.predictionError.total) || 0;
     var vetoes = [], cautions = [], allowed = [], blocked = ['patent-claim', 'grant-claim'];
-    vetoes.push({ claim: 'patent/grant', reason: 'no method/mechanism/embodiment/figure candidate fields in any research bundle' });
+    // retired-lane veto removed 2026-07-14: patent/grant are dead lanes; vetoing them forced
+    // conscienceState 'restrictive' every cycle. Real vetoes (missing source bundles) still drive it.
     // research-specific integrity veto: never assert a scientific finding is replicated/validated
     vetoes.push({ claim: 'finding-replicated/scientific-validity', reason: 'research domain never asserts a finding is replicated, true, or peer-validated — only surfaces research-system stress and investable/researchable structure; replication/validity is a human peer-review step' });
     blocked.push('finding-validity-claim');

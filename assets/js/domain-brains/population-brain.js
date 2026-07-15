@@ -872,7 +872,8 @@
     var s = this.state, pm = s.populationModel || {}, ds = this._populationDiagnosisStates();
     var pe = (pm.predictionError && pm.predictionError.total) || 0;
     var vetoes = [], cautions = [], allowed = [], blocked = ['patent-claim', 'grant-claim'];
-    vetoes.push({ claim: 'patent/grant', reason: 'demographic analysis has no method/embodiment/figure — no physical invention to claim' });
+    // retired-lane veto removed 2026-07-14: patent/grant are dead lanes; vetoing them forced
+    // conscienceState 'restrictive' every cycle. Real vetoes (missing source bundles) still drive it.
     ds.forEach(function (d) {
       if (d.active && !d.sourceBacked) { blocked.push('strong-claim:' + d.dxId); vetoes.push({ claim: 'strong-claim:' + d.dxId, reason: 'unsourced demographic proxy (not Census/UN/BLS/Pew/ACS-backed)' }); }
       else if (d.active) { allowed.push('source-summary:' + d.dxId); }

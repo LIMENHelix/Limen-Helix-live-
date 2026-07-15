@@ -1069,7 +1069,8 @@
     var s = this.state, rm = s.religionModel || {}, bs = this._religionDiagnosisStates();
     var pe = (rm.predictionError && rm.predictionError.total) || 0;
     var vetoes = [], cautions = [], allowed = [], blocked = ['patent-claim', 'grant-claim'];
-    vetoes.push({ claim: 'patent/grant', reason: 'religion is not a tangible invention — no method/mechanism/embodiment/figure candidate fields exist' });
+    // retired-lane veto removed 2026-07-14: patent/grant are dead lanes; vetoing them forced
+    // conscienceState 'restrictive' every cycle. Real vetoes (missing source bundles) still drive it.
     bs.forEach(function (b) {
       if (!b.sourceBacked && b.active) {
         blocked.push('strong-claim:' + b.dxId);

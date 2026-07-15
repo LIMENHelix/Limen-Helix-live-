@@ -1138,7 +1138,8 @@
     var s = this.state, em = s.educationModel || {}, im = s.educationImmune || {}, bs = this._educationBundleStates();
     var pe = (em.predictionError && em.predictionError.total) || 0;
     var vetoes = [], cautions = [], allowed = [], blocked = ['patent-claim', 'grant-claim'];
-    vetoes.push({ claim: 'patent/grant', reason: 'lanes purged 2026-06-21; no method/mechanism/embodiment/figure candidate fields in any education bundle' });
+    // retired-lane veto removed 2026-07-14: patent/grant are dead lanes; vetoing them forced
+    // conscienceState 'restrictive' every cycle. Real vetoes (missing source bundles) still drive it.
     vetoes.push({ claim: 'unsubstantiated-student-outcome-claim', reason: 'no verified source bundle backing equity/outcome assertions about specific students or institutions' });
     bs.forEach(function (b) {
       if (b.bundleStatus === 'missing') { blocked.push('strong-claim:' + b.dxId); vetoes.push({ claim: 'strong-claim:' + b.dxId, reason: 'no source bundle' }); }

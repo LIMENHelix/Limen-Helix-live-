@@ -2084,7 +2084,8 @@
     var s = this.state, hm = s.healthModel || {}, bs = this._healthBundleStates();
     var pe = (hm.predictionError && hm.predictionError.total) || 0;
     var vetoes = [], cautions = [], allowed = [], blocked = ['patent-claim', 'grant-claim'];
-    vetoes.push({ claim: 'patent/grant', reason: 'no method/mechanism/embodiment/figure candidate fields in any medicine bundle' });
+    // retired-lane veto removed 2026-07-14: patent/grant are dead lanes; vetoing them forced
+    // conscienceState 'restrictive' every cycle. Real vetoes (missing source bundles) still drive it.
     // medicine-specific harm-prevention veto: never assert clinical/therapeutic efficacy
     vetoes.push({ claim: 'clinical-efficacy/therapeutic-recommendation', reason: 'medicine domain never asserts clinical efficacy or patient-facing treatment recommendations — care-system and investment lenses only' });
     blocked.push('clinical-efficacy-claim');
