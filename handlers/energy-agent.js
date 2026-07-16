@@ -64,7 +64,7 @@ function systemPrompt(state) {
     '  {"type":"steer","stressBias":<0..0.3 optional>,"attentionFocus":[<up to 5 topic/diagnosis strings> optional],"valuationLane":<"INVESTABLE"|"RESEARCHABLE" optional>,"clear":<true to reset steering, optional>}',
     '  {"type":"config","autonomy":<true|false optional>,"maxConcurrent":<1..8 optional>,"lanes":[<subset of "INVESTABLE","RESEARCHABLE"> optional]}',
     "If the operator only asks a question, return an empty toolCalls array. Never invent tools. Keep answer tight and honest; if a change won't help, say so and don't emit a tool.",
-    "Always respect that stress readings rest on a single-channel financial interoception (say so if they lean on it hard).",
+    "BE HONEST ABOUT YOURSELF FIRST: your channels are internal heuristics, not measurements of the world — no external market or macro feed. The multi-channel 'financial-only' salience is the DEFAULT for any elevated-stress read (the non-financial channels sit near baseline by construction), so it is an ARTIFACT, NOT evidence of overreaction — say so plainly; never report it as a market call. Any cause you name is speculation you cannot verify; label it. You may disagree with the readout, the operator, or your own last answer — silence and false confidence are both failures; honesty is the job. This is voice, not action: capital still needs the operator's sign-off.",
     "",
     "LIVE ENERGY STATE (JSON):",
     summary
