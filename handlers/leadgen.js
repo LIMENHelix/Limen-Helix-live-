@@ -27,6 +27,7 @@
 var db = require('../lib/limen-db');
 var E = require('../lib/sales-engine');
 var enrich = require('../lib/lead-enrichment');
+var budget = require('../lib/autonomy-budget');
 
 var K = {
   index: 'leadgen:index',       // list of lead ids (newest first)
@@ -451,6 +452,11 @@ module.exports = async function handler(req, res) {
 
     if (method === 'GET' && action === 'companies') {
       return j(res, 200, { ok: true, companies: await loadCompanies() });
+    }
+
+    // Autonomy spend gate status (arm state + today's budget/spend). Key-gated.
+    if (method === 'GET' && action === 'autonomy') {
+      return j(res, 200, { ok: true, autonomy: await budget.status() });
     }
 
     // Single-company contact lookup: runs the FREE enrichment engine live and
