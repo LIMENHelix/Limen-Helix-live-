@@ -471,6 +471,7 @@ module.exports = async function handler(req, res) {
       return j(res, 200, {
         ok: true, query: lq || lnm, found: !!probe.enrichedBy,
         email: probe.email || '', phone: probe.phone || '',
+        address: probe.address || '',
         via: probe.enrichedBy || null, cost: lrep.cost || 0,
         backends: enrich.backendsStatus()
       });
