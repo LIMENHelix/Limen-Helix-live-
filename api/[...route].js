@@ -144,6 +144,7 @@ const HANDLERS = {
   'limen-worker-score': require('../handlers/limen-worker-score'),
   'system-gain': require('../handlers/system-gain'),
   'limen-worker-stress-refresh': require('../handlers/limen-worker-stress-refresh'),
+  'feed-record': require('../handlers/feed-record'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
   'limen-operator-calibration': require('../handlers/limen-operator-calibration'),
