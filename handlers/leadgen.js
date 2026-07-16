@@ -26,6 +26,7 @@
 
 var db = require('../lib/limen-db');
 var E = require('../lib/sales-engine');
+var enrich = require('../lib/lead-enrichment');
 
 var K = {
   index: 'leadgen:index',       // list of lead ids (newest first)
@@ -388,7 +389,8 @@ module.exports = async function handler(req, res) {
       ok: true, surface: 'leadgen', backend: db.getBackend(),
       keyConfigured: !!(process.env.SALES_ADMIN_KEY || process.env.LEAD_ADMIN_KEY),
       domains: DOMAINS,
-      sources: SOURCE_DEFS.map(function (d) { return { id: d.id, label: d.label, kind: d.kind, status: sourceStatus(d), env: d.env || null, note: d.note }; })
+      sources: SOURCE_DEFS.map(function (d) { return { id: d.id, label: d.label, kind: d.kind, status: sourceStatus(d), env: d.env || null, note: d.note }; }),
+      enrichment: enrich.backendsStatus()
     });
   }
 
@@ -518,8 +520,19 @@ module.exports = async function handler(req, res) {
       else { return j(res, 400, { ok: false, error: 'Pull not available for source "' + source3 + '". Live pull: inbound-form, google-places (key), web-scrape, homestead-desk, finance-desk.' }); }
       if (err) return j(res, 200, { ok: false, source: source3, error: err, added: 0 });
       stampContext(got || [], body.domain, body.company);
+      // Phase 1 — contact enrichment. Desk leads (finance/homestead) arrive with
+      // no email, so autopilot's canAuto (needs state.email) can never reach them.
+      // Resolve a contact BEFORE intake and re-score/re-dedup the ones that gained
+      // one. Free backends only unless a paid provider is keyed AND armed
+      // (LEAD_ENRICH_PAID_ENABLED=1). Read-only lookup; contacts no one. Opt out
+      // per-pull with body.enrich=false.
+      var enrichReport = null;
+      if (got && got.length && body.enrich !== false) {
+        enrichReport = await enrich.enrichLeads(got, { maxAttempts: Math.min(limit3, 50) });
+        got.forEach(function (l) { if (l && l.enrichedBy) { l.score = scoreLead(l, l.source); l.dedup = dedupKey(l); } });
+      }
       var pr3 = await persistLeads(got || []);
-      return j(res, 200, { ok: true, source: source3, pulled: (got || []).length, added: pr3.addedCount, dupes: pr3.dupes, note: note });
+      return j(res, 200, { ok: true, source: source3, pulled: (got || []).length, added: pr3.addedCount, dupes: pr3.dupes, note: note, enriched: enrichReport });
     }
 
     if (method === 'POST' && action === 'reset') {
