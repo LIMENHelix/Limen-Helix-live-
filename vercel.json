@@ -46,6 +46,7 @@
     { "source": "/law", "destination": "/domain-front?domain=law" },
     { "source": "/finance", "destination": "/domain-front?domain=finance" },
     { "source": "/intelligence", "destination": "/domain-front?domain=intelligence" },
+    { "source": "/api/ddgs-search/(.*)", "destination": "/api/ddgs-search" },
     { "source": "/api/limen/(.*)", "destination": "/api/limen" }
   ],
   "redirects": [
