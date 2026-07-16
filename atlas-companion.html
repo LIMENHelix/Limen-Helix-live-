@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Operations Atlas — Companion: Sources & Dataset Guide</title>
+<style>
+:root{--bg:#0f1117;--panel:#161a23;--panel2:#1c2130;--ink:#e8eaf0;--ink2:#9aa3b5;--ink3:#6b7488;
+--accent:#5b8def;--accent2:#8b6def;--gold:#d4a94e;--border:#262c3d;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px}
+main{max-width:860px;margin:0 auto;padding:40px 28px}
+.crumb{font-size:12px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+h1{font-size:28px;margin-bottom:6px}
+.tagline{color:var(--ink2);font-style:italic;margin-bottom:26px;font-size:16px}
+h2{font-size:19px;margin:30px 0 12px;display:flex;align-items:center;gap:8px}
+h2 .bar{width:4px;height:20px;border-radius:2px;background:linear-gradient(var(--accent),var(--accent2))}
+p{margin-bottom:13px;color:#cdd3e0}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px}
+.card h3{font-size:15px;margin-bottom:4px}
+.card .meta{font-size:13.5px;color:#c3cad9}
+.chip{display:inline-block;font-size:10.5px;padding:2px 9px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);color:var(--ink2);margin-left:8px;font-weight:600;vertical-align:middle}
+.url{color:var(--gold);font-size:12.5px;font-family:ui-monospace,monospace}
+.statrow{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 10px}
+.stat{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;min-width:135px}
+.stat .n{font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .l{font-size:11px;color:var(--ink2);text-transform:uppercase;letter-spacing:.8px}
+ul{margin:0 0 13px 20px;color:#cdd3e0}
+li{margin-bottom:7px}
+code{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:1px 7px;font-size:12.5px;color:var(--gold);font-family:ui-monospace,monospace}
+footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--ink3)}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+<div class="crumb">Companion to the Business Operations Atlas</div>
+<h1>📚 Sources &amp; Dataset Guide</h1>
+<div class="tagline">What the Atlas is built from, how it's organized, and where the reusable data lives.</div>
+
+<h2><span class="bar"></span>What the Atlas contains</h2>
+<div class="statrow">
+  <div class="stat"><div class="n">20</div><div class="l">Domains</div></div>
+  <div class="stat"><div class="n">261</div><div class="l">Business types</div></div>
+  <div class="stat"><div class="n">382</div><div class="l">Positions</div></div>
+  <div class="stat"><div class="n">160</div><div class="l">Regulators</div></div>
+  <div class="stat"><div class="n">3</div><div class="l">Altitudes</div></div>
+</div>
+<p>The <b>Business Operations Atlas</b> (in your artifact sidebar) maps all 20 LIMEN Helix civilization domains — Energy, Finance, Economy, Trade, Agriculture, Infrastructure, Industry, Technology, Science, Communication, Education, Medicine, Population, Environment, Governance, Defense, Intelligence, Law, Culture, Religion — at three altitudes, the way an anatomy reference zooms from whole body to individual structures:</p>
+<ul>
+  <li><b>100,000 ft</b> — each domain's role in civilization, its interdependencies with the other 19 domains, and its regulation model.</li>
+  <li><b>10,000 ft</b> — the specific business types inside the domain, each with its NAICS 2022 code, working definition, business model and day-to-day operations, external regulation and self-regulation, and archetypal firms — plus the domain's full regulator table.</li>
+  <li><b>Ground level</b> — the positions, color-coded across five tiers (Governance, Executive, Management, Professional, Operational), each with its 2018 SOC code, reporting line, actual duties, and typical credentials.</li>
+</ul>
+<p>Its Foundations sections cover the anatomy shared by every company (12 legal forms, the universal 9-tier authority ladder, the 10 core functions, size classes) and the three-layer theory of how business regulates itself: state regulation from above, self-regulation from within, and mutual market regulation from the side.</p>
+
+<h2><span class="bar"></span>The six canonical source systems</h2>
+<p>These are the most comprehensive classifications of business and work in existence — the taxonomies governments and markets themselves use to see the economy. Every NAICS and SOC code in the Atlas is a pointer into them.</p>
+<div class="card"><h3>NAICS 2022 — North American Industry Classification System <span class="chip">1,012 industries · 20 sectors</span></h3><div class="meta">The definitive taxonomy of what businesses DO. Every establishment in North America is classified by its primary production process. Maintained by the U.S. Census Bureau with Canada and Mexico; revised every 5 years.</div><div class="url">census.gov/naics</div></div>
+<div class="card"><h3>ISIC Rev. 4 / Rev. 5 — International Standard Industrial Classification <span class="chip">21 sections · global</span></h3><div class="meta">The United Nations' worldwide equivalent — the root taxonomy from which national systems (NACE in Europe, ANZSIC, etc.) descend. The common language for comparing economies across countries.</div><div class="url">unstats.un.org</div></div>
+<div class="card"><h3>SOC 2018 — Standard Occupational Classification <span class="chip">867 occupations · 23 major groups</span></h3><div class="meta">The definitive taxonomy of what WORKERS do — every job in the U.S. economy maps to a SOC code. Maintained by the Bureau of Labor Statistics.</div><div class="url">bls.gov/soc</div></div>
+<div class="card"><h3>O*NET-SOC — Occupational Information Network <span class="chip">~900+ occupations × 200+ descriptors</span></h3><div class="meta">The deepest occupational database known — for every occupation it catalogs tasks, tools, knowledge, skills, abilities, work context, education, and wages. Sponsored by the U.S. Department of Labor.</div><div class="url">onetonline.org</div></div>
+<div class="card"><h3>GICS — Global Industry Classification Standard <span class="chip">11 sectors · 163 sub-industries</span></h3><div class="meta">How the FINANCIAL world classifies companies — MSCI and S&amp;P's standard used to sort every publicly traded firm on Earth for indexing and investment.</div><div class="url">msci.com/gics</div></div>
+<div class="card"><h3>APQC Process Classification Framework <span class="chip">13 categories · 1,000+ processes</span></h3><div class="meta">The standard taxonomy of business OPERATIONS — every activity inside a firm (develop strategy, market &amp; sell, manage supply chain, manage HR…) in a numbered hierarchy used for benchmarking worldwide.</div><div class="url">apqc.org/pcf</div></div>
+
+<h2><span class="bar"></span>Where the reusable data lives</h2>
+<p>The full structured dataset behind the Atlas is saved in your <b>Business professor and scientist</b> project, so any future Claude session can reuse it without regenerating a word:</p>
+<ul>
+  <li><code>claude/business-operations-atlas-data.json</code> — the complete dataset: universal frameworks, legal forms, the authority ladder, core functions, regulation layers, plus all 20 domains with every business type, regulator, and position.</li>
+  <li><code>claude/business-operations-atlas-README.md</code> — the guide describing the structure and how to extend it.</li>
+</ul>
+<p>Ask any session in the project to, for example, "turn the Finance domain into a Word doc," "add a 21st domain," or "build a slide deck from the Atlas data" — it can build directly from these files.</p>
+
+<footer>Companion to the Business Operations Atlas · Compiled July 12, 2026 · Sources: U.S. Census Bureau, UN Statistics Division, U.S. Bureau of Labor Statistics, U.S. Dept. of Labor, MSCI/S&amp;P, APQC.</footer>
+</main>
+</body>
+</html>

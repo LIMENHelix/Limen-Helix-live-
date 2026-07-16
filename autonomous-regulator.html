@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN Helix // Autonomous Domain Regulator</title>
+<style>
+  :root{
+    --void:#0A0F0E; --panel:#101917; --panel2:#16211F; --line:#22302D; --line2:#2E3E3A;
+    --ink:#E8EEEB; --dim:#9DB0AB; --faint:#647670;
+    --signal:#38C6BE; --money:#E0A54A; --guard:#E0685C; --healthy:#6FCF97; --neuro:#9B8CFF;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:
+      radial-gradient(1100px 600px at 78% -8%, rgba(56,198,190,.07), transparent 60%),
+      radial-gradient(900px 500px at 5% 108%, rgba(155,140,255,.06), transparent 55%),
+      var(--void);
+    color:var(--ink); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px 90px}
+  a{color:var(--signal)}
+  h1,h2,h3{font-family:var(--sans); letter-spacing:-.01em}
+  .mono{font-family:var(--mono)}
+  .up{text-transform:uppercase; letter-spacing:.14em}
+
+  /* top status bar */
+  .bar{position:sticky; top:0; z-index:20; display:flex; flex-wrap:wrap; align-items:center; gap:14px;
+    padding:12px 20px; margin:0 -20px 0; background:rgba(10,15,14,.82); backdrop-filter:blur(9px);
+    border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px}
+  .bar .brand{color:var(--ink); font-weight:600; letter-spacing:.02em}
+  .bar .sep{color:var(--faint)}
+  .bar .target{color:var(--signal)}
+  .live{display:inline-flex; align-items:center; gap:7px; color:var(--healthy); margin-left:auto}
+  .dot{width:8px; height:8px; border-radius:50%; background:var(--healthy); box-shadow:0 0 0 0 rgba(111,207,151,.6); animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(111,207,151,.55)}70%{box-shadow:0 0 0 9px rgba(111,207,151,0)}100%{box-shadow:0 0 0 0 rgba(111,207,151,0)}}
+
+  /* hero */
+  header{padding:64px 0 30px; border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono); font-size:12px; color:var(--signal); letter-spacing:.16em; text-transform:uppercase; margin:0 0 16px}
+  h1{font-size:clamp(2.1rem,5.2vw,3.3rem); line-height:1.03; font-weight:800; margin:0; text-wrap:balance}
+  h1 .g{color:var(--signal)}
+  .sub{font-family:var(--serif); font-size:1.16rem; color:var(--dim); max-width:64ch; margin:18px 0 0}
+  .targetline{margin-top:22px; display:flex; flex-wrap:wrap; gap:10px; font-family:var(--mono); font-size:12.5px}
+  .chip{border:1px solid var(--line2); border-radius:5px; padding:5px 10px; color:var(--dim); background:var(--panel)}
+  .chip b{color:var(--ink); font-weight:600}
+  .chip.sig{color:var(--signal); border-color:rgba(56,198,190,.4)}
+  .chip.mon{color:var(--money); border-color:rgba(224,165,74,.4)}
+
+  /* processing log */
+  .console{margin:26px 0 0; background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+  .console .head{display:flex; align-items:center; gap:8px; padding:9px 14px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11.5px; color:var(--faint)}
+  .tl{display:flex; gap:6px}
+  .tl i{width:10px;height:10px;border-radius:50%;display:block;background:#2b3a37}
+  .tl i:nth-child(1){background:#3a2d2d}.tl i:nth-child(2){background:#3a372a}.tl i:nth-child(3){background:#2a3a30}
+  .log{font-family:var(--mono); font-size:12.5px; line-height:1.85; padding:14px 16px; margin:0; color:var(--dim)}
+  .log .row{opacity:0; transform:translateY(3px); animation:reveal .35s ease forwards}
+  .log .t{color:var(--faint)} .log .ok{color:var(--healthy)} .log .s{color:var(--signal)} .log .m{color:var(--money)} .log .w{color:var(--guard)} .log .n{color:var(--neuro)}
+  @keyframes reveal{to{opacity:1; transform:none}}
+  @media (prefers-reduced-motion: reduce){ .log .row{opacity:1; transform:none; animation:none} .dot{animation:none} }
+
+  /* pipeline stages */
+  section{padding:46px 0 0}
+  .stage-h{display:flex; align-items:baseline; gap:14px; margin:0 0 6px}
+  .stage-n{font-family:var(--mono); font-size:12px; color:var(--signal); border:1px solid rgba(56,198,190,.35); border-radius:4px; padding:3px 8px}
+  h2{font-size:1.5rem; margin:0; font-weight:750}
+  .lead{font-family:var(--serif); color:var(--dim); max-width:70ch; margin:10px 0 20px}
+
+  .grid{display:grid; gap:14px}
+  @media(min-width:720px){ .g2{grid-template-columns:1fr 1fr} .g3{grid-template-columns:1fr 1fr 1fr} }
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px 17px}
+  .card .k{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--faint); margin:0 0 8px}
+  .card p{margin:0; color:var(--dim); font-size:.95rem}
+  .card .big{font-size:1.05rem; color:var(--ink); font-weight:600; font-family:var(--sans)}
+
+  /* kernel gauge */
+  .gauge{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+  .meter{flex:1; min-width:220px}
+  .meter .track{height:10px; border-radius:6px; background:#0c1413; border:1px solid var(--line); overflow:hidden}
+  .meter .fill{height:100%; width:0; border-radius:6px; background:linear-gradient(90deg,var(--healthy),var(--money) 62%,var(--guard)); animation:grow 1.6s .3s ease forwards}
+  @keyframes grow{to{width:81%}}
+  @media (prefers-reduced-motion: reduce){ .meter .fill{width:81%; animation:none} }
+  .meter .scale{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10.5px; color:var(--faint); margin-top:6px}
+  .readnum{font-family:var(--mono); font-size:2rem; color:var(--money); font-variant-numeric:tabular-nums}
+  .readnum small{display:block; font-size:11px; color:var(--faint); letter-spacing:.08em; text-transform:uppercase}
+
+  /* neuro map */
+  .flow{display:grid; gap:10px; grid-template-columns:1fr; margin-top:6px}
+  @media(min-width:820px){ .flow{grid-template-columns:repeat(4,1fr); align-items:stretch} }
+  .node{background:var(--panel2); border:1px solid var(--line2); border-radius:10px; padding:14px; position:relative}
+  .node .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--neuro)}
+  .node .name{font-weight:700; margin:5px 0 4px; color:var(--ink)}
+  .node .desc{font-size:.86rem; color:var(--dim); margin:0}
+  .node.diag .tag{color:var(--guard)}
+  .node.rx .tag{color:var(--money)}
+  .arrow{display:none}
+  @media(min-width:820px){ .flow .node:not(:last-child):after{content:"\2192"; position:absolute; right:-13px; top:50%; transform:translateY(-50%); color:var(--faint); font-size:15px; z-index:2} }
+
+  /* skills firing */
+  .skgroup{margin-top:14px}
+  .skgroup .lbl{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--faint); margin:0 0 8px; display:flex; align-items:center; gap:8px}
+  .fnpill{font-family:var(--mono); font-size:10px; color:var(--signal); border:1px solid rgba(56,198,190,.3); border-radius:20px; padding:2px 9px}
+  .skills{display:flex; flex-wrap:wrap; gap:7px}
+  .sk{font-family:var(--mono); font-size:12px; padding:4px 9px; border-radius:5px; border:1px solid var(--line); color:var(--faint); background:var(--panel)}
+  .sk.fire{color:var(--signal); border-color:rgba(56,198,190,.5); background:rgba(56,198,190,.08); box-shadow:0 0 0 1px rgba(56,198,190,.06) inset}
+  .sk.fire::before{content:"\25CF "; color:var(--healthy); font-size:9px}
+
+  /* advantage cards */
+  .adv{border-left:3px solid var(--signal)}
+  .adv .src{font-family:var(--mono); font-size:11px; color:var(--signal); text-transform:uppercase; letter-spacing:.08em}
+  .adv h4{margin:6px 0 6px; font-size:1rem}
+  .adv p{font-size:.9rem}
+  .adv .proof{font-family:var(--mono); font-size:11px; color:var(--money); margin-top:8px}
+
+  /* action ladder */
+  .ladder{display:grid; gap:10px; margin-top:6px}
+  .rung{display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:13px 15px}
+  .rung .lv{font-family:var(--mono); font-weight:700; color:var(--money); font-size:.9rem}
+  .rung .lv.l1{color:var(--healthy)}
+  .rung .what{font-size:.95rem}
+  .rung .what b{color:var(--ink)}
+  .rung .who{font-family:var(--mono); font-size:11px; color:var(--dim); text-align:right}
+  @media(max-width:600px){ .rung{grid-template-columns:auto 1fr} .rung .who{grid-column:2; text-align:left} }
+
+  /* residue split */
+  .split{display:grid; gap:14px; margin-top:6px}
+  @media(min-width:720px){ .split{grid-template-columns:1.3fr 1fr} }
+  .auto{border:1px solid rgba(111,207,151,.3); background:linear-gradient(180deg,rgba(111,207,151,.05),transparent)}
+  .hum{border:1px solid rgba(224,104,92,.32); background:linear-gradient(180deg,rgba(224,104,92,.05),transparent)}
+  .auto .k{color:var(--healthy)} .hum .k{color:var(--guard)}
+  ul.tick{margin:8px 0 0; padding:0; list-style:none}
+  ul.tick li{padding:5px 0 5px 22px; position:relative; font-size:.92rem; color:var(--dim)}
+  ul.tick li::before{position:absolute; left:0; top:5px; font-family:var(--mono); font-size:12px}
+  .auto ul.tick li::before{content:"\2713"; color:var(--healthy)}
+  .hum ul.tick li::before{content:"\21B5"; color:var(--guard)}
+
+  /* function legend table */
+  .fntable{width:100%; border-collapse:collapse; font-size:.9rem; margin-top:6px; overflow:hidden; border-radius:10px; border:1px solid var(--line)}
+  .fntable th,.fntable td{text-align:left; padding:10px 13px; border-bottom:1px solid var(--line); vertical-align:top}
+  .fntable th{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--faint); background:var(--panel2)}
+  .fntable tr:last-child td{border-bottom:none}
+  .fntable td:first-child{font-weight:600; color:var(--ink); white-space:nowrap}
+  .fntable tr.active td{background:rgba(56,198,190,.06)}
+  .fntable tr.active td:first-child{color:var(--signal)}
+  .scroll{overflow-x:auto}
+
+  footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--faint); line-height:1.9}
+  footer b{color:var(--dim); font-weight:600}
+  .divider{height:1px; background:var(--line); margin:0}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span class="brand">LIMEN&nbsp;HELIX</span>
+  <span class="sep">//</span>
+  <span class="up" style="color:var(--dim)">Autonomous Domain Regulator</span>
+  <span class="sep">//</span>
+  <span>target:&nbsp;<span class="target">FINANCE</span></span>
+  <span class="live"><span class="dot"></span>SENSING</span>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">// live regulation cycle</p>
+    <h1>The system is watching <span class="g">Finance</span> for the quiet failure everyone else prices in too late.</h1>
+    <p class="sub">This page is the regulator running one cycle on one domain. It senses the domain's nervous system from live feeds, names the dysregulation through the neurology map, selects the intervention that is actually proven to work, and renders the business that treats it. Finance is the example because it is the domain where our distress kernel is validated.</p>
+    <div class="targetline">
+      <span class="chip sig"><b>Feed:</b> SEC EDGAR (real-time filings)</span>
+      <span class="chip sig"><b>Instrument:</b> distress kernel</span>
+      <span class="chip"><b>Cycle:</b> sense &rarr; diagnose &rarr; select &rarr; act</span>
+      <span class="chip mon"><b>Output:</b> a business</span>
+    </div>
+
+    <div class="console" aria-label="system processing trace">
+      <div class="head"><span class="tl"><i></i><i></i><i></i></span><span>regulator.log &mdash; finance cycle</span></div>
+      <pre class="log" id="log"></pre>
+    </div>
+  </header>
+
+  <!-- STAGE 1 SENSE -->
+  <section>
+    <div class="stage-h"><span class="stage-n">01</span><h2>Sense</h2></div>
+    <p class="lead">Finance is not blind. EDGAR ingests every filing in near real time. The failure is downstream: 20,000+ filers, thousands of filings a day, and the structural tells (going-concern language, covenant breaches, liquidity notes) sit buried in exhibits while the market's attention fires only on price and earnings.</p>
+    <div class="grid g3">
+      <div class="card">
+        <p class="k">Afferent load</p>
+        <p class="big">~24,000 active filers</p>
+        <p>Machine-readable, continuous. Sensing is intact. Prioritization is not.</p>
+      </div>
+      <div class="card">
+        <p class="k">Kernel reading</p>
+        <div class="gauge">
+          <div>
+            <div class="readnum">0.81<small>PR-AUC (validated)</small></div>
+          </div>
+          <div class="meter">
+            <div class="track"><div class="fill"></div></div>
+            <div class="scale"><span>calm</span><span>elevated</span><span>distress</span></div>
+          </div>
+        </div>
+        <p style="margin-top:10px">Distress signal rising, ~10 quarters ahead of the outcome. Narrow validated envelope only.</p>
+      </div>
+      <div class="card">
+        <p class="k">What's buried</p>
+        <p class="big">Quiet structural tells</p>
+        <p>Going-concern, covenant-breach, liquidity language that no one is ranking against the noise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAGE 2 DIAGNOSE -->
+  <section>
+    <div class="stage-h"><span class="stage-n">02</span><h2>Diagnose &mdash; the neurology map</h2></div>
+    <p class="lead">The mapping turns the domain into a patient. Finance's characteristic lesion is an attention-allocation failure: the anterior-cingulate analogue fires on the loud signal and misses the salient-but-quiet one. That is a specific, nameable pathology, and it points directly at the treatment.</p>
+    <div class="flow">
+      <div class="node">
+        <div class="tag">Node / motif</div>
+        <div class="name">dACC &middot; OFC &rarr; M6</div>
+        <p class="desc">The valuation and conflict-monitoring circuit. Assigns salience, decides what deserves attention.</p>
+      </div>
+      <div class="node">
+        <div class="tag">Function</div>
+        <div class="name">Salience + latency</div>
+        <p class="desc">Senses everything, prioritizes nothing in time. Thalamic-gating analogue under sensory flood.</p>
+      </div>
+      <div class="node diag">
+        <div class="tag">Dysregulation</div>
+        <div class="name">Aberrant salience</div>
+        <p class="desc">Loud signals (price, earnings) capture attention; quiet structural distress is missed until it is already priced in.</p>
+      </div>
+      <div class="node rx">
+        <div class="tag">Indicated treatment</div>
+        <div class="name">A salience prosthetic</div>
+        <p class="desc">Restore prioritization: rank the quiet tells above the noise and route them to whoever can act on the lead time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAGE 3 SELECT -->
+  <section>
+    <div class="stage-h"><span class="stage-n">03</span><h2>Select the intervention</h2></div>
+    <p class="lead">The regulator pulls from a library of tactics that are proven to work, not invented. For a salience lesion it selects the ranked distress feed, brokered per result to a single buyer, the shape that survives a one-operator constraint. Below: the proven advantages backing the choice, then the Claude Code skills that build it.</p>
+
+    <div class="grid g3">
+      <div class="card adv">
+        <div class="src">Saraev</div>
+        <h4>Ranking is the moat</h4>
+        <p>Fan-out research on cheap models, synthesis on the strong one. The prioritization function is the defensible asset, not the raw feed.</p>
+        <div class="proof">proven: multi-agent ranking at production scale</div>
+      </div>
+      <div class="card adv">
+        <div class="src">Torti</div>
+        <h4>The audit is the front door</h4>
+        <p>A small paid readout qualifies the buyer and de-risks the close. Sell the outcome, never the tech underneath.</p>
+        <div class="proof">proven: used to close a live $9.5k deal</div>
+      </div>
+      <div class="card adv">
+        <div class="src">Anti-catalog</div>
+        <h4>Ship a tangible artifact</h4>
+        <p>Every output is a dossier a human can hold, with the filing excerpt as evidence. No chatbot, no AI at first contact.</p>
+        <div class="proof">proven: conversion math on tangible vs ephemeral</div>
+      </div>
+    </div>
+
+    <div class="skgroup">
+      <p class="lbl"><span>Skills firing this cycle</span><span class="fnpill">function: salience + latency</span></p>
+      <div class="skills">
+        <span class="sk fire">deep-research</span>
+        <span class="sk fire">businesspulse</span>
+        <span class="sk fire">digest</span>
+        <span class="sk fire">cost-aware-llm-pipeline</span>
+        <span class="sk fire">eval-harness</span>
+        <span class="sk fire">build</span>
+        <span class="sk fire">audit</span>
+        <span class="sk fire">verify</span>
+        <span class="sk fire">ship</span>
+        <span class="sk">competitiveintelligence</span>
+        <span class="sk">metricsreview</span>
+        <span class="sk">market-research</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAGE 4 ACT -->
+  <section>
+    <div class="stage-h"><span class="stage-n">04</span><h2>Act &mdash; the business it spawns</h2></div>
+    <p class="lead">The output of the cycle is not a report, it is a business: <b style="color:var(--ink)">Quiet Distress Watch</b>. A ranked, deduplicated feed of filers newly crossing distress thresholds, each with the exact filing excerpt as evidence. It climbs a capital ladder where the no-capital rung deploys first and funds the next.</p>
+    <div class="ladder">
+      <div class="rung">
+        <span class="lv l1">L1</span>
+        <span class="what"><b>Per-result distress dossier</b> brokered to one buyer. Own-nothing, EDGAR is public, rendered by the skills above. No audience required.</span>
+        <span class="who">buyer:<br>distressed-debt &amp; claims-trading firms</span>
+      </div>
+      <div class="rung">
+        <span class="lv">L2</span>
+        <span class="what"><b>Scoped alert subscription</b> with kernel score, base-rate, and per-name evidence. Funded by L1.</span>
+        <span class="who">buyer:<br>special-situations desks</span>
+      </div>
+      <div class="rung">
+        <span class="lv">L3</span>
+        <span class="what"><b>Licensed screened feed / data-room</b> against a fund's or litigation-funder's book. Funded by L1 + L2.</span>
+        <span class="who">buyer:<br>funds, litigation finance</span>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="card auto">
+        <p class="k">The system does this autonomously</p>
+        <ul class="tick">
+          <li>Ingest EDGAR + score with the kernel on a cron</li>
+          <li>Rank the quiet tells above the noise (the moat)</li>
+          <li>Render the evidence dossier per filer</li>
+          <li>Gate false positives with the audit + eval skills</li>
+          <li>Monitor the feed; retire or mutate as the domain regulates</li>
+        </ul>
+      </div>
+      <div class="card hum">
+        <p class="k">The residue it hands to you</p>
+        <ul class="tick">
+          <li>The first sales conversation with the first buyer</li>
+          <li>The regulated-advice line: signal curation, never a buy/sell recommendation</li>
+        </ul>
+        <p style="margin-top:12px; font-size:.86rem; color:var(--faint)">Autonomy does not remove these. It concentrates them into the two points where a human or a licensed party must sign.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS INVENTORY -->
+  <section>
+    <div class="stage-h"><span class="stage-n">&#8226;</span><h2>The skill inventory</h2></div>
+    <p class="lead">The regulator draws from a catalog of 355 installable Claude Code skills, organized here by the regulation function each one serves. Lit skills are the ones this Finance cycle fired. A different domain lights a different set.</p>
+
+    <div class="skgroup"><p class="lbl">Diagnostic-readout <span class="fnpill">the L1 wedge</span></p><div class="skills">
+      <span class="sk fire">businesspulse</span><span class="sk fire">deep-research</span><span class="sk fire">digest</span><span class="sk fire">metricsreview</span><span class="sk">customerpulse</span><span class="sk">builddashboard</span><span class="sk">marginanalyzer</span><span class="sk">varianceanalysis</span><span class="sk">competitiveintelligence</span><span class="sk">market-research</span>
+    </div></div>
+
+    <div class="skgroup"><p class="lbl">Salience + latency</p><div class="skills">
+      <span class="sk fire">cost-aware-llm-pipeline</span><span class="sk">prospect</span><span class="sk">sequenceload</span><span class="sk">composeoutreach</span><span class="sk">callprep</span><span class="sk">weeklyprepbrief</span>
+    </div></div>
+
+    <div class="skgroup"><p class="lbl">Afferent-sensing</p><div class="skills">
+      <span class="sk">enrichlead</span><span class="sk">leadtriage</span><span class="sk">ticketdeflector</span><span class="sk">contactresearch</span><span class="sk">accountresearch</span>
+    </div></div>
+
+    <div class="skgroup"><p class="lbl">Memory / retrieval</p><div class="skills">
+      <span class="sk">crmcleanup</span><span class="sk">crmmaintenance</span><span class="sk">kbarticle</span><span class="sk">knowledgesynthesis</span><span class="sk">memorymanagement</span>
+    </div></div>
+
+    <div class="skgroup"><p class="lbl">Efferent-output</p><div class="skills">
+      <span class="sk">contentcreation</span><span class="sk">draftcontent</span><span class="sk">contentstrategy</span><span class="sk">campaignplan</span><span class="sk">seoaudit</span><span class="sk">brandvoiceenforcement</span><span class="sk">article-writing</span><span class="sk">canvacreator</span>
+    </div></div>
+
+    <div class="skgroup"><p class="lbl">Homeostasis / allocation</p><div class="skills">
+      <span class="sk">invoicechase</span><span class="sk">recruitingpipeline</span><span class="sk">companalysis</span><span class="sk">capacityplan</span><span class="sk">planpayroll</span>
+    </div></div>
+
+    <div class="skgroup"><p class="lbl">Immune / guard</p><div class="skills">
+      <span class="sk fire">audit</span><span class="sk fire">eval-harness</span><span class="sk">compliancecheck</span><span class="sk">legalriskassessment</span><span class="sk">reviewcontract</span><span class="sk">riskassessment</span><span class="sk">tickettriage</span><span class="sk">security-review</span><span class="sk">git-guardrails-claude-code</span>
+    </div></div>
+
+    <div class="skgroup"><p class="lbl">Build &amp; orchestration infrastructure</p><div class="skills">
+      <span class="sk fire">build</span><span class="sk fire">verify</span><span class="sk fire">ship</span><span class="sk">skill-development</span><span class="sk">agent-development</span><span class="sk">mcp-builder</span><span class="sk">writing-hookify-rules</span><span class="sk">claudemdimprover</span><span class="sk">autonomous-loops</span>
+    </div></div>
+  </section>
+
+  <!-- ADVANTAGE LEDGER -->
+  <section>
+    <div class="stage-h"><span class="stage-n">&#8226;</span><h2>The proven-tactic ledger</h2></div>
+    <p class="lead">The intervention library only admits tactics with real results behind them. These are the ones the regulator is allowed to select from, mined from operators who actually make money with Claude Code.</p>
+    <div class="grid g2">
+      <div class="card adv"><div class="src">Saraev &middot; build</div><h4>Auto-research self-improvement</h4><p>Hypothesis &rarr; change &rarr; assess &rarr; keep-if-better, run autonomously. The loop that lets the regulator tune its own ranking overnight.</p><div class="proof">proven: 53% faster after an autonomous run at codebase scale</div></div>
+      <div class="card adv"><div class="src">Saraev &middot; acquire</div><h4>Demand-harvesting</h4><p>Capture demand that already exists instead of manufacturing it. The domain intelligence becomes the edge that wins the work.</p><div class="proof">proven: $500k earned via marketplace demand capture</div></div>
+      <div class="card adv"><div class="src">Torti &middot; price</div><h4>Value-based pricing</h4><p>Price the client's problem, not your hours. Cost-saving and revenue-uplift formulas turn a $500 build into a five-figure engagement.</p><div class="proof">proven: repeated across a six-figure agency</div></div>
+      <div class="card adv"><div class="src">Saraev &middot; distribute</div><h4>Parasite distribution</h4><p>Scrape proven winners, add a research twist, re-voice, auto-drip. Own-nothing distribution with no audience to build first.</p><div class="proof">proven: sold as a repeatable build</div></div>
+    </div>
+  </section>
+
+  <!-- FUNCTION LEGEND -->
+  <section>
+    <div class="stage-h"><span class="stage-n">&#8226;</span><h2>The seven functions the regulator watches</h2></div>
+    <p class="lead">Every domain fails at one or more of these. The active row is the one firing in this Finance cycle. Point the regulator at another domain and a different row lights.</p>
+    <div class="scroll">
+    <table class="fntable">
+      <thead><tr><th>Regulation function</th><th>The failure</th><th>The treatment it selects</th></tr></thead>
+      <tbody>
+        <tr><td>Afferent-sensing</td><td>Cannot feel its own inputs</td><td>Procedural capture pipeline</td></tr>
+        <tr class="active"><td>Salience + latency</td><td>Senses but cannot prioritize in time</td><td>Ranked feed brokered per result &larr; this cycle</td></tr>
+        <tr><td>Memory / retrieval</td><td>Stored potential sits inert</td><td>Reactivation and follow-up nurture</td></tr>
+        <tr><td>Efferent-output</td><td>Cannot express or act</td><td>Content, proposal, and design engines</td></tr>
+        <tr><td>Homeostasis / allocation</td><td>Misallocates resources</td><td>Invoice recovery, screening, value pricing</td></tr>
+        <tr><td>Immune / guard</td><td>Threat and compliance blind spots</td><td>Monitor-and-alert, procedural back-ends</td></tr>
+        <tr><td>Diagnostic-readout</td><td>Blind to its own state</td><td>The paid audit / interoception readout</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <footer>
+    <b>What this is.</b> A demonstration of one regulation cycle on one domain. The neurology-to-business mapping is the steering layer; the proven tactics are the intervention library; the skills are the hands.<br>
+    <b>Honesty.</b> The kernel's 0.81 PR-AUC holds only inside a narrow validated envelope. Signal curation only, never investment advice. The first sale and the regulated-advice line stay human.<br>
+    <b>Status.</b> Local demonstration for limenhelix.com. Not deployed. The full engine stays parked until the twenty domains are built into brains, then these priors reweight against real signal.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var lines=[
+    ['t','$ regulator --domain finance --cycle'],
+    ['s','[sense]   connecting SEC EDGAR feed ................. ok'],
+    ['s','[sense]   filers scanned: 24,113   filings/day: ~3,400'],
+    ['ok','[sense]   distress kernel online  PR-AUC 0.81 (validated)'],
+    ['n','[map]     node dACC/OFC -> motif M6 (salience/valuation)'],
+    ['w','[dx]      dysregulation = aberrant salience + latency'],
+    ['n','[dx]      quiet tells buried under price/earnings noise'],
+    ['s','[select]  library match -> ranked distress feed, per-result'],
+    ['s','[select]  advantages: ranking-moat, paid-audit, tangible-artifact'],
+    ['ok','[skills]  firing: deep-research, businesspulse, cost-aware, audit, build, ship'],
+    ['m','[act]     spawning business: "Quiet Distress Watch"'],
+    ['m','[act]     L1 dossier -> distressed-debt / claims-trading firms'],
+    ['ok','[loop]    monitoring feed; will mutate as domain regulates'],
+    ['w','[human]   residue -> first sale + no-advice boundary'],
+    ['ok','cycle complete. holding for next filing delta ...']
+  ];
+  var el=document.getElementById('log');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  lines.forEach(function(l,i){
+    var row=document.createElement('span');
+    row.className='row';
+    row.innerHTML='<span class="t">'+String(i).padStart(2,'0')+'  </span><span class="'+l[0]+'">'+esc(l[1])+'</span>\n';
+    if(!reduce) row.style.animationDelay=(0.12*i)+'s';
+    el.appendChild(row);
+  });
+})();
+</script>
+</body>
+</html>
