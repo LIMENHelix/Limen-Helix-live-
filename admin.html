@@ -90,7 +90,7 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
           if(!jr.ok){ out.innerHTML='<div class="r warn">'+esc(jr.error||'error')+'</div>'; return; }
           if(!jr.found){
             var ddg=(jr.backends||[]).filter(function(b){return b.id==='ddg-search';})[0];
-            var hint=(ddg&&!ddg.active)?' · ddg-search is inactive (set DDGS_API_URL in Vercel)':'';
+            var hint=(ddg&&!ddg.active)?' · free web lookup only (needs a company website)':'';
             out.innerHTML='<div class="r warn">no contact found for '+esc(org)+hint+'</div>'; return;
           }
           out.innerHTML='<div class="r"><span class="k">email</span> '+esc(jr.email||'—')+' &nbsp;&nbsp; <span class="k">phone</span> '+esc(jr.phone||'—')+' &nbsp;&nbsp; <span class="k">via</span> '+esc(jr.via||'—')+' <button class="save" id="lusave">save as lead</button></div>';
