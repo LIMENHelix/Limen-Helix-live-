@@ -42,6 +42,7 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
 .pullrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-left:4px}
 .pulllbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(214,209,198,0.4)}
 .lookup button.mini{padding:7px 12px;font-size:10px;letter-spacing:1px}
+.lookup input.mini-in{flex:0 1 auto;min-width:150px;font-size:11px;padding:7px 10px}
 </style>
 </head>
 <body>
@@ -129,13 +130,38 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
     var pf=document.getElementById('pullfin'), ph=document.getElementById('pullhome');
     if(pf) pf.addEventListener('click', function(){ pull('finance-desk', pf); });
     if(ph) ph.addEventListener('click', function(){ pull('homestead-desk', ph); });
+
+    // Google Places pull: find real B2B businesses by type + location. Each has a
+    // website, so web-contact free-enriches them. Needs GOOGLE_PLACES_API_KEY.
+    var gpq=document.getElementById('gpq'), gploc=document.getElementById('gploc'), gpbtn=document.getElementById('gpbtn');
+    function gpull(){
+      var query=((gpq&&gpq.value)||'').trim(), loc=((gploc&&gploc.value)||'').trim();
+      if(query.length<2){ out.innerHTML='<div class="r warn">enter a business type to search</div>'; return; }
+      var k=getKey(false); if(!k){ out.innerHTML='<div class="r warn">admin key required</div>'; return; }
+      var old=gpbtn.textContent; gpbtn.disabled=true; gpbtn.textContent='finding…';
+      out.innerHTML='<div class="r">finding '+esc(query)+(loc?(' in '+esc(loc)):'')+' + enriching…</div>';
+      fetch('/api/leadgen?action=pull&key='+encodeURIComponent(k),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({source:'google-places',query:query,location:loc,limit:20})})
+        .then(function(r){ return r.json().then(function(jj){ return {status:r.status,j:jj}; }); })
+        .then(function(res){
+          gpbtn.disabled=false; gpbtn.textContent=old;
+          var jr=res.j||{};
+          if(res.status===403||res.status===503){ try{sessionStorage.removeItem(KEY);}catch(e){} out.innerHTML='<div class="r warn">'+esc(jr.error||('auth '+res.status))+'</div>'; return; }
+          if(!jr.ok){ out.innerHTML='<div class="r warn">'+esc(jr.error||'pull failed')+'</div>'; return; }
+          var en=jr.enriched||{};
+          out.innerHTML='<div class="r"><span class="k">google-places</span> pulled '+(jr.pulled||0)+' · added '+(jr.added||0)+' · dupes '+(jr.dupes||0)+' · <span class="k">enriched</span> '+(en.enriched||0)+'/'+(en.attempted||0)+(jr.note?(' · '+esc(jr.note)):'')+'</div>';
+        })
+        .catch(function(){ gpbtn.disabled=false; gpbtn.textContent=old; out.innerHTML='<div class="r warn">network error</div>'; });
+    }
+    if(gpbtn) gpbtn.addEventListener('click', gpull);
+    if(gpq) gpq.addEventListener('keydown', function(e){ if(e.key==='Enter'){ gpull(); } });
+    if(gploc) gploc.addEventListener('keydown', function(e){ if(e.key==='Enter'){ gpull(); } });
   }
 
   function render(){
     var p=person();
     if(!p){ root.innerHTML=head(null)+'<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
     var h=head(p);
-    h+='<div class="lookup"><input id="luq" type="text" placeholder="🔎 company name or ticker — find a contact" autocomplete="off"><button id="lubtn">Look up</button><div class="pullrow"><span class="pulllbl">desk pull</span><button id="pullfin" class="mini">finance-desk</button><button id="pullhome" class="mini">homestead-desk</button></div><div id="luout" class="luout"></div></div>';
+    h+='<div class="lookup"><input id="luq" type="text" placeholder="🔎 company name or ticker — find a contact" autocomplete="off"><button id="lubtn">Look up</button><div class="pullrow"><span class="pulllbl">desk pull</span><button id="pullfin" class="mini">finance-desk</button><button id="pullhome" class="mini">homestead-desk</button></div><div class="pullrow"><span class="pulllbl">find B2B</span><input id="gpq" class="mini-in" type="text" placeholder="business type e.g. HVAC contractor"><input id="gploc" class="mini-in" type="text" placeholder="location e.g. Kansas City, MO"><button id="gpbtn" class="mini">find businesses</button></div><div id="luout" class="luout"></div></div>';
 
     if(p.master){
       h+=sec('Command Center',[
