@@ -453,6 +453,23 @@ module.exports = async function handler(req, res) {
       return j(res, 200, { ok: true, companies: await loadCompanies() });
     }
 
+    // Single-company contact lookup: runs the FREE enrichment engine live and
+    // returns the resolved contact WITHOUT persisting. Key-gated (an email is
+    // PII). Paid backends never fire here (cost guard). Drives the /admin bar.
+    if (method === 'GET' && action === 'lookup') {
+      var lq = clip(u.searchParams.get('org') || u.searchParams.get('q') || '', 200);
+      var lnm = clip(u.searchParams.get('name') || '', 200);
+      if (!lq && !lnm) return j(res, 400, { ok: false, error: 'Provide ?org= (company name) or ?name=.' });
+      var probe = { name: lnm, org: lq || lnm, website: clip(u.searchParams.get('website') || '', 300), email: '', phone: '', costCents: 0 };
+      var lrep = await enrich.enrichLeads([probe], { maxAttempts: 1, ddgMax: 3 });
+      return j(res, 200, {
+        ok: true, query: lq || lnm, found: !!probe.enrichedBy,
+        email: probe.email || '', phone: probe.phone || '',
+        via: probe.enrichedBy || null, cost: lrep.cost || 0,
+        backends: enrich.backendsStatus()
+      });
+    }
+
     var raw = '', body = {};
     if (method === 'POST') { raw = await readBody(req); body = raw; if (typeof raw === 'string' && raw) { try { body = JSON.parse(raw); } catch (e) { body = {}; } } if (!body || typeof body !== 'object') body = {}; }
 
