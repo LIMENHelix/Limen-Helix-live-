@@ -26,6 +26,7 @@
 
 var db = require('../lib/limen-db');
 var E = require('../lib/sales-engine');
+var enrich = require('../lib/lead-enrichment');
 
 var K = {
   index: 'leadgen:index',       // list of lead ids (newest first)
@@ -388,7 +389,8 @@ module.exports = async function handler(req, res) {
       ok: true, surface: 'leadgen', backend: db.getBackend(),
       keyConfigured: !!(process.env.SALES_ADMIN_KEY || process.env.LEAD_ADMIN_KEY),
       domains: DOMAINS,
-      sources: SOURCE_DEFS.map(function (d) { return { id: d.id, label: d.label, kind: d.kind, status: sourceStatus(d), env: d.env || null, note: d.note }; })
+      sources: SOURCE_DEFS.map(function (d) { return { id: d.id, label: d.label, kind: d.kind, status: sourceStatus(d), env: d.env || null, note: d.note }; }),
+      enrichment: enrich.backendsStatus()
     });
   }
 
@@ -449,6 +451,23 @@ module.exports = async function handler(req, res) {
 
     if (method === 'GET' && action === 'companies') {
       return j(res, 200, { ok: true, companies: await loadCompanies() });
+    }
+
+    // Single-company contact lookup: runs the FREE enrichment engine live and
+    // returns the resolved contact WITHOUT persisting. Key-gated (an email is
+    // PII). Paid backends never fire here (cost guard). Drives the /admin bar.
+    if (method === 'GET' && action === 'lookup') {
+      var lq = clip(u.searchParams.get('org') || u.searchParams.get('q') || '', 200);
+      var lnm = clip(u.searchParams.get('name') || '', 200);
+      if (!lq && !lnm) return j(res, 400, { ok: false, error: 'Provide ?org= (company name) or ?name=.' });
+      var probe = { name: lnm, org: lq || lnm, website: clip(u.searchParams.get('website') || '', 300), email: '', phone: '', costCents: 0 };
+      var lrep = await enrich.enrichLeads([probe], { maxAttempts: 1, ddgMax: 3 });
+      return j(res, 200, {
+        ok: true, query: lq || lnm, found: !!probe.enrichedBy,
+        email: probe.email || '', phone: probe.phone || '',
+        via: probe.enrichedBy || null, cost: lrep.cost || 0,
+        backends: enrich.backendsStatus()
+      });
     }
 
     var raw = '', body = {};
@@ -518,8 +537,19 @@ module.exports = async function handler(req, res) {
       else { return j(res, 400, { ok: false, error: 'Pull not available for source "' + source3 + '". Live pull: inbound-form, google-places (key), web-scrape, homestead-desk, finance-desk.' }); }
       if (err) return j(res, 200, { ok: false, source: source3, error: err, added: 0 });
       stampContext(got || [], body.domain, body.company);
+      // Phase 1 — contact enrichment. Desk leads (finance/homestead) arrive with
+      // no email, so autopilot's canAuto (needs state.email) can never reach them.
+      // Resolve a contact BEFORE intake and re-score/re-dedup the ones that gained
+      // one. Free backends only unless a paid provider is keyed AND armed
+      // (LEAD_ENRICH_PAID_ENABLED=1). Read-only lookup; contacts no one. Opt out
+      // per-pull with body.enrich=false.
+      var enrichReport = null;
+      if (got && got.length && body.enrich !== false) {
+        enrichReport = await enrich.enrichLeads(got, { maxAttempts: Math.min(limit3, 50) });
+        got.forEach(function (l) { if (l && l.enrichedBy) { l.score = scoreLead(l, l.source); l.dedup = dedupKey(l); } });
+      }
       var pr3 = await persistLeads(got || []);
-      return j(res, 200, { ok: true, source: source3, pulled: (got || []).length, added: pr3.addedCount, dupes: pr3.dupes, note: note });
+      return j(res, 200, { ok: true, source: source3, pulled: (got || []).length, added: pr3.addedCount, dupes: pr3.dupes, note: note, enriched: enrichReport });
     }
 
     if (method === 'POST' && action === 'reset') {

@@ -29,6 +29,16 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
 .gate{padding:70px 0;text-align:center;color:rgba(214,209,198,0.6)}
 .gate button{margin-top:18px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:#c9a94e;font-family:inherit;letter-spacing:2px;padding:10px 24px;border-radius:3px;cursor:pointer;text-transform:uppercase}
 .badge{background:#5ab5a0;color:#04130f;font-weight:700;border-radius:10px;padding:0 7px;font-size:0.7em;margin-left:5px}
+.lookup{margin:20px 0 2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lookup input{flex:1;min-width:220px;background:#0c0f16;border:1px solid rgba(201,169,78,0.22);color:#e8e3d9;font-family:inherit;font-size:13px;padding:10px 12px;border-radius:4px}
+.lookup input:focus{outline:none;border-color:rgba(201,169,78,0.55)}
+.lookup button{background:transparent;border:1px solid rgba(201,169,78,0.45);color:#c9a94e;font-family:inherit;letter-spacing:1.5px;font-size:11px;text-transform:uppercase;padding:10px 18px;border-radius:4px;cursor:pointer}
+.lookup button:hover{background:rgba(201,169,78,0.08)}
+.luout{width:100%}
+.luout .r{border:1px solid rgba(201,169,78,0.16);border-radius:4px;padding:10px 12px;margin-top:8px;background:#0c0f16;font-size:12px;color:rgba(214,209,198,0.85)}
+.luout .k{color:rgba(201,169,78,0.7);text-transform:uppercase;letter-spacing:1px;font-size:10px}
+.luout .warn{color:#dca87e}
+.luout .save{margin-left:12px;font-size:10px;padding:4px 10px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -56,10 +66,50 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
   function sec(title,cards,cls){ cards=cards.filter(Boolean); if(!cards.length) return ''; return '<div class="sec">'+title+'<span class="n">'+cards.length+'</span></div><div class="grid'+(cls?' '+cls:'')+'">'+cards.join('')+'</div>'; }
   function head(p){ return '<div class="top"><div class="brand"><a href="/">LIMEN HELIX</a> · Mission Control</div><h1>'+(p?(p.name||'Operator'):'Sign in')+'</h1>'+(p?'<div class="who">'+(p.master?'Master access · full system':'Assigned operator')+'</div>':'')+'</div>'; }
 
+  // Company-contact lookup bar: runs the free enrichment engine live (web-contact
+  // + ddg-search) and shows the resolved email/phone, with a save-as-lead button.
+  // Reuses the same sessionStorage key the rest of admin uses; never stores it in source.
+  function wireLookup(){
+    var q=document.getElementById('luq'), btn=document.getElementById('lubtn'), out=document.getElementById('luout');
+    if(!q||!btn||!out) return;
+    var KEY='limen_lead_admin_key';
+    function getKey(force){ var k=''; try{k=sessionStorage.getItem(KEY)||'';}catch(e){} if(!k||force){ k=(window.prompt('Paste the sales/lead admin key (SALES_ADMIN_KEY or LEAD_ADMIN_KEY, set in Vercel). Kept only in this browser tab.')||'').trim(); try{ if(k) sessionStorage.setItem(KEY,k); }catch(e){} } return k; }
+    function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function run(force){
+      var org=(q.value||'').trim(); if(org.length<2){ out.innerHTML=''; return; }
+      var k=getKey(force); if(!k){ out.innerHTML='<div class="r warn">admin key required</div>'; return; }
+      out.innerHTML='<div class="r">looking up '+esc(org)+'…</div>';
+      fetch('/api/leadgen?action=lookup&org='+encodeURIComponent(org)+'&key='+encodeURIComponent(k))
+        .then(function(r){ return r.json().then(function(jj){ return {status:r.status,j:jj}; }); })
+        .then(function(res){
+          var jr=res.j||{};
+          if(res.status===403||res.status===503){ try{sessionStorage.removeItem(KEY);}catch(e){} out.innerHTML='<div class="r warn">'+esc(jr.error||('auth '+res.status))+' · click Look up to re-enter the key</div>'; return; }
+          if(!jr.ok){ out.innerHTML='<div class="r warn">'+esc(jr.error||'error')+'</div>'; return; }
+          if(!jr.found){
+            var ddg=(jr.backends||[]).filter(function(b){return b.id==='ddg-search';})[0];
+            var hint=(ddg&&!ddg.active)?' · ddg-search is inactive (set DDGS_API_URL in Vercel)':'';
+            out.innerHTML='<div class="r warn">no contact found for '+esc(org)+hint+'</div>'; return;
+          }
+          out.innerHTML='<div class="r"><span class="k">email</span> '+esc(jr.email||'—')+' &nbsp;&nbsp; <span class="k">phone</span> '+esc(jr.phone||'—')+' &nbsp;&nbsp; <span class="k">via</span> '+esc(jr.via||'—')+' <button class="save" id="lusave">save as lead</button></div>';
+          var sv=document.getElementById('lusave');
+          if(sv) sv.addEventListener('click', function(){
+            sv.disabled=true; sv.textContent='saving…';
+            fetch('/api/leadgen?action=capture&key='+encodeURIComponent(k),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({lead:{name:org,org:org,email:jr.email,phone:jr.phone,source:'lookup'}})})
+              .then(function(r){return r.json();}).then(function(s){ sv.textContent=(s&&s.ok&&s.added)?'saved ✓':((s&&s.dupes)?'already a lead':'save failed'); })
+              .catch(function(){ sv.textContent='save failed'; });
+          });
+        })
+        .catch(function(){ out.innerHTML='<div class="r warn">network error</div>'; });
+    }
+    btn.addEventListener('click', function(){ run(false); });
+    q.addEventListener('keydown', function(e){ if(e.key==='Enter'){ run(false); } });
+  }
+
   function render(){
     var p=person();
     if(!p){ root.innerHTML=head(null)+'<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
     var h=head(p);
+    h+='<div class="lookup"><input id="luq" type="text" placeholder="🔎 company name or ticker — find a contact" autocomplete="off"><button id="lubtn">Look up</button><div id="luout" class="luout"></div></div>';
 
     if(p.master){
       h+=sec('Command Center',[
@@ -130,6 +180,8 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
 
     h+='<button class="logout" onclick="sessionStorage.removeItem(\'limen_admin\');sessionStorage.removeItem(\'limen_access\');location.reload()">Log out</button>';
     root.innerHTML=h;
+
+    wireLookup();
 
     // unread badge on the Site Requests card (only if the admin key is already in this tab)
     var badge=document.getElementById('reqBadge');

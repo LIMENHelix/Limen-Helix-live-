@@ -31,7 +31,7 @@ const OUT_DIR = path.join(ROOT, 'assets', 'data', 'deep');
 // portalKey == file prefix for all 20 brains (verified): most = domainId,
 // plus medicine='medicine', science='science', trade='trade'.
 const PORTAL_KEYS = [
-  'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
+  'p2_agri', 'communication', 'culture', 'defense', 'economy', 'education',
   'energy', 'environment', 'finance', 'governance', 'industry', 'infrastructure',
   'intelligence', 'law', 'medicine', 'population', 'religion', 'science',
   'technology', 'trade'

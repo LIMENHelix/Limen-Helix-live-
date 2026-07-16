@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIMEN Helix — Neurology & Nervous System Reference</title>
+<style>
+  :root {
+    --bg:#0e1117; --panel:#151b26; --panel2:#1b2330; --ink:#e6edf3; --muted:#9aa7b8;
+    --accent:#5eb0ef; --accent2:#7ee0c4; --line:#26313f; --crit:#f0b866; --code:#243040;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f6f8fb; --panel:#ffffff; --panel2:#eef2f7; --ink:#1a2230; --muted:#5b6675;
+    --accent:#1f6feb; --accent2:#0f9d78; --line:#dbe2ea; --crit:#a8631a; --code:#eef2f7; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{display:grid;grid-template-columns:300px 1fr;max-width:1400px;margin:0 auto;min-height:100vh}
+  nav{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+    background:var(--panel);border-right:1px solid var(--line);padding:22px 16px}
+  nav .brand{font-weight:700;font-size:15px;letter-spacing:.3px;color:var(--accent);margin-bottom:4px}
+  nav .sub{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.4}
+  nav a{display:block;text-decoration:none;color:var(--muted);padding:4px 8px;border-radius:6px;
+    font-size:13px;border-left:2px solid transparent}
+  nav a:hover{color:var(--ink);background:var(--panel2)}
+  nav a.toc-h2{font-weight:600;color:var(--ink);margin-top:8px}
+  nav a.toc-h3{padding-left:20px;font-size:12.5px}
+  main{padding:44px 56px;max-width:900px}
+  h1{font-size:30px;line-height:1.25;margin:0 0 6px;letter-spacing:-.4px}
+  h2{font-size:22px;margin:42px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+    color:var(--accent)}
+  h3{font-size:17px;margin:26px 0 8px;color:var(--accent2)}
+  h4{font-size:15px;margin:18px 0 6px;color:var(--ink)}
+  p,li{color:var(--ink)}
+  a{color:var(--accent)}
+  strong{color:var(--ink)}
+  blockquote{margin:18px 0;padding:12px 18px;background:var(--panel2);
+    border-left:3px solid var(--crit);border-radius:6px;color:var(--muted);font-size:14.5px}
+  blockquote strong{color:var(--crit)}
+  code{background:var(--code);padding:1px 6px;border-radius:5px;font-size:13.5px;
+    font-family:"SF Mono",Menlo,Consolas,monospace}
+  hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+  table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--ink);font-weight:600}
+  tr:nth-child(even) td{background:rgba(127,127,127,.04)}
+  ul,ol{padding-left:22px}
+  li{margin:4px 0}
+  .legend{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:14px 18px;margin:20px 0;font-size:13.5px;color:var(--muted)}
+  .top{position:fixed;right:22px;bottom:22px;background:var(--accent);color:#fff;
+    text-decoration:none;padding:10px 14px;border-radius:30px;font-size:13px;font-weight:600;
+    box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media (max-width:900px){
+    .wrap{grid-template-columns:1fr}
+    nav{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+    main{padding:28px 20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand">LIMEN HELIX</div>
+    <div class="sub">Comprehensive Neurology &amp; Nervous System Reference</div>
+    <a class="toc-h2" href="#part-i-organization-of-the-nervous-system">PART I — ORGANIZATION OF THE NERVOUS SYSTEM</a>
+<a class="toc-h3" href="#i1-the-two-anatomical-divisions">I.1 The two anatomical divisions</a>
+<a class="toc-h3" href="#i2-the-functional-divisions">I.2 The functional divisions</a>
+<a class="toc-h3" href="#i3-core-structural-vocabulary-definitions">I.3 Core structural vocabulary (definitions)</a>
+<a class="toc-h3" href="#i4-protection-fluid-and-clearance-indirect-but-load-bearing">I.4 Protection, fluid, and clearance (indirect but load-bearing)</a>
+<a class="toc-h2" href="#part-ii-cells-of-the-nervous-system">PART II — CELLS OF THE NERVOUS SYSTEM</a>
+<a class="toc-h3" href="#ii1-the-neuron-definition-parts">II.1 The neuron (definition + parts)</a>
+<a class="toc-h3" href="#ii2-neuron-classifications">II.2 Neuron classifications</a>
+<a class="toc-h3" href="#ii3-glia-non-neuronal-indispensable-to-dynamics">II.3 Glia (non-neuronal; indispensable to dynamics)</a>
+<a class="toc-h2" href="#part-iii-electrical-chemical-signaling">PART III — ELECTRICAL &amp; CHEMICAL SIGNALING</a>
+<a class="toc-h3" href="#iii1-resting-membrane-potential">III.1 Resting membrane potential</a>
+<a class="toc-h3" href="#iii2-graded-potentials">III.2 Graded potentials</a>
+<a class="toc-h3" href="#iii3-the-action-potential-ap">III.3 The action potential (AP)</a>
+<a class="toc-h3" href="#iii4-conduction">III.4 Conduction</a>
+<a class="toc-h3" href="#iii5-the-synapse">III.5 The synapse</a>
+<a class="toc-h3" href="#iii6-postsynaptic-integration">III.6 Postsynaptic integration</a>
+<a class="toc-h3" href="#iii7-the-neuromuscular-junction-nmj">III.7 The neuromuscular junction (NMJ)</a>
+<a class="toc-h2" href="#part-iv-neurotransmitters-receptor-systems">PART IV — NEUROTRANSMITTERS &amp; RECEPTOR SYSTEMS</a>
+<a class="toc-h3" href="#iv1-two-receptor-logics">IV.1 Two receptor logics</a>
+<a class="toc-h3" href="#iv2-amino-acid-transmitters-the-workhorses">IV.2 Amino-acid transmitters (the workhorses)</a>
+<a class="toc-h3" href="#iv3-acetylcholine-ach">IV.3 Acetylcholine (ACh)</a>
+<a class="toc-h3" href="#iv4-monoamines-neuromodulators-set-global-state">IV.4 Monoamines (neuromodulators — set global state)</a>
+<a class="toc-h3" href="#iv5-neuropeptides-others">IV.5 Neuropeptides &amp; others</a>
+<a class="toc-h3" href="#iv6-signal-termination">IV.6 Signal termination</a>
+<a class="toc-h2" href="#part-v-neuroanatomy-structures-and-what-they-do">PART V — NEUROANATOMY: STRUCTURES AND WHAT THEY DO</a>
+<a class="toc-h3" href="#v1-cerebral-cortex">V.1 Cerebral cortex</a>
+<a class="toc-h3" href="#v2-subcortical-structures">V.2 Subcortical structures</a>
+<a class="toc-h3" href="#v3-brainstem-midbrain-pons-medulla">V.3 Brainstem (midbrain, pons, medulla)</a>
+<a class="toc-h2" href="#part-vi-cranial-nerves-all-12-modality-innervation">PART VI — CRANIAL NERVES (all 12: modality + innervation)</a>
+<a class="toc-h2" href="#part-vii-spinal-cord-spinal-nerves">PART VII — SPINAL CORD &amp; SPINAL NERVES</a>
+<a class="toc-h3" href="#vii1-organization">VII.1 Organization</a>
+<a class="toc-h3" href="#vii2-major-tracts">VII.2 Major tracts</a>
+<a class="toc-h3" href="#vii3-reflexes-pattern-generators">VII.3 Reflexes &amp; pattern generators</a>
+<a class="toc-h2" href="#part-viii-autonomic-nervous-system-organ-innervation">PART VIII — AUTONOMIC NERVOUS SYSTEM (organ innervation)</a>
+<a class="toc-h3" href="#viii1-the-two-branches-structure">VIII.1 The two branches (structure)</a>
+<a class="toc-h3" href="#viii2-dual-innervation-organ-by-organ-sympathetic-parasympathetic-high-consensus">VIII.2 Dual innervation — organ-by-organ (sympathetic ↔ parasympathetic) (high, consensus)</a>
+<a class="toc-h2" href="#part-ix-enteric-nervous-system-gutbrain-axis">PART IX — ENTERIC NERVOUS SYSTEM &amp; GUT–BRAIN AXIS</a>
+<a class="toc-h2" href="#part-x-sensory-systems-all-senses-transduction-and-pathways">PART X — SENSORY SYSTEMS (all senses, transduction, and pathways)</a>
+<a class="toc-h3" href="#x1-general-principles-high">X.1 General principles (high)</a>
+<a class="toc-h3" href="#x2-somatosensation-touch-proprioception-temperature-pain-itch">X.2 Somatosensation (touch, proprioception, temperature, pain, itch)</a>
+<a class="toc-h3" href="#x3-vision">X.3 Vision</a>
+<a class="toc-h3" href="#x4-audition">X.4 Audition</a>
+<a class="toc-h3" href="#x5-vestibular-sense-balance-head-motion">X.5 Vestibular sense (balance / head motion)</a>
+<a class="toc-h3" href="#x6-olfaction-smell">X.6 Olfaction (smell)</a>
+<a class="toc-h3" href="#x7-gustation-taste">X.7 Gustation (taste)</a>
+<a class="toc-h3" href="#x8-interoception-the-body-as-a-sensory-source">X.8 Interoception (the body as a sensory source)</a>
+<a class="toc-h2" href="#part-xi-motor-systems">PART XI — MOTOR SYSTEMS</a>
+<a class="toc-h2" href="#part-xii-neuroendocrine-brainorgan-axes-indirect-coupling">PART XII — NEUROENDOCRINE &amp; BRAIN–ORGAN AXES (indirect coupling)</a>
+<a class="toc-h2" href="#part-xiii-circuit-dynamics-computational-principles">PART XIII — CIRCUIT DYNAMICS &amp; COMPUTATIONAL PRINCIPLES</a>
+<a class="toc-h3" href="#xiii1-excitationinhibition-ei-balance-fractal-critical">XIII.1 Excitation/inhibition (E/I) balance ⟨fractal-critical⟩</a>
+<a class="toc-h3" href="#xiii2-inhibitory-motifs">XIII.2 Inhibitory motifs</a>
+<a class="toc-h3" href="#xiii3-oscillations-communication-fractal-critical">XIII.3 Oscillations &amp; communication ⟨fractal-critical⟩</a>
+<a class="toc-h3" href="#xiii4-thalamocortical-gating-fractal-critical">XIII.4 Thalamocortical gating ⟨fractal-critical⟩</a>
+<a class="toc-h3" href="#xiii5-predictive-coding-prediction-error-fractal-critical">XIII.5 Predictive coding / prediction error ⟨fractal-critical⟩</a>
+<a class="toc-h3" href="#xiii6-plasticity-learning-rules-fractal-critical">XIII.6 Plasticity (learning rules) ⟨fractal-critical⟩</a>
+<a class="toc-h3" href="#xiii7-neuromodulation-gain-fractal-critical">XIII.7 Neuromodulation &amp; gain ⟨fractal-critical⟩</a>
+<a class="toc-h3" href="#xiii8-population-attractor-dynamics">XIII.8 Population &amp; attractor dynamics</a>
+<a class="toc-h3" href="#xiii9-sleep-homeostasis-offline-processing">XIII.9 Sleep, homeostasis &amp; offline processing</a>
+<a class="toc-h2" href="#part-xiv-failure-modes-pathology-at-the-neural-scale">PART XIV — FAILURE MODES / PATHOLOGY AT THE NEURAL SCALE</a>
+<a class="toc-h2" href="#part-xv-consolidated-parameter-table-timing-constants-thresholds">PART XV — CONSOLIDATED PARAMETER TABLE (timing constants &amp; thresholds)</a>
+<a class="toc-h2" href="#references-verified-via-pubmed">REFERENCES (verified via PubMed)</a>
+<a class="toc-h3" href="#coverage-integrity-notes">Coverage &amp; integrity notes</a>
+  </nav>
+  <main>
+    <span id="top"></span>
+<h1 id="limen-helix-comprehensive-neurology-nervous-system-reference">LIMEN Helix — Comprehensive Neurology &amp; Nervous System Reference</h1>
+<p><strong>Purpose.</strong> A structured, exhaustive map of the human nervous system and everything that couples to it — neurons, glia, signaling, neurotransmission, neuroanatomy, all innervations, every sensory system and its outside sources, the organs and endocrine/immune systems the nervous system controls, the circuit dynamics that make it compute, and the failure modes at each level. Scope is restricted, per request, to what participates <strong>directly or indirectly in nervous-system dynamics</strong>.</p>
+<p><strong>How to read this.</strong> Definitions are given in-line the first time a term appears. The document moves from parts (cells) → wiring (anatomy, innervation) → inputs (senses/organs) → dynamics (how the circuits actually compute) → pathology (how they break). The final section is a consolidated parameter table intended as the quantitative substrate for the LIMEN Helix build.</p>
+<p><strong>Confidence legend.</strong> Every non-trivial claim is flagged: <strong>(high)</strong> = replicated, textbook consensus; <strong>(medium)</strong> = well-supported but with active debate on details; <strong>(low)</strong> = suggestive evidence, not settled; <strong>(speculative)</strong> = plausible, not established.</p>
+<p><strong>Citation policy.</strong> Load-bearing dynamics and quantitative/timing claims are anchored to peer-reviewed sources with <strong>verified DOIs</strong> (retrieved and confirmed via PubMed; see References). Broad anatomical and definitional content is standard consensus neuroscience (Kandel <em>Principles of Neural Science</em>; Purves <em>Neuroscience</em>; Gray's Anatomy) and is flagged <strong>(high, consensus)</strong> rather than pinned to a single DOI — this is stated honestly rather than attaching invented citations. <strong>No DOI in this document is AI-generated; every DOI listed was returned by PubMed.</strong></p>
+<blockquote>
+<p><strong>A note for the LIMEN Helix frame.</strong> This is the <em>neural substrate layer</em>. Where a mechanism is load-bearing for the fractal mapping (inhibition, gating, feedback, oscillation, plasticity, homeostasis), it is marked <strong>⟨fractal-critical⟩</strong> so the cross-scale analysis knows which invariants must be preserved when rescaling to business/civilization scales. It does <strong>not</strong> contain the business-scale mappings themselves.</p>
+</blockquote>
+<hr />
+<h2 id="part-i-organization-of-the-nervous-system">PART I — ORGANIZATION OF THE NERVOUS SYSTEM</h2>
+<h3 id="i1-the-two-anatomical-divisions">I.1 The two anatomical divisions</h3>
+<ul>
+<li><strong>Central nervous system (CNS)</strong> — brain + spinal cord. The integrative core: it receives, stores, transforms, and commands. <strong>(high, consensus)</strong></li>
+<li><strong>Peripheral nervous system (PNS)</strong> — all neural tissue outside the CNS: cranial nerves (except CN II, which is a CNS tract), spinal nerves, ganglia, sensory receptors, and enteric neurons. The interface: it carries information in (afferent) and commands out (efferent). <strong>(high, consensus)</strong></li>
+</ul>
+<h3 id="i2-the-functional-divisions">I.2 The functional divisions</h3>
+<ul>
+<li><strong>Somatic nervous system</strong> — voluntary; innervates skeletal muscle (efferent) and carries conscious somatosensation (afferent). <strong>(high)</strong></li>
+<li><strong>Autonomic nervous system (ANS)</strong> — involuntary control of viscera, glands, smooth muscle, cardiac muscle. Subdivides into <strong>sympathetic</strong> (mobilization / "fight-or-flight"), <strong>parasympathetic</strong> ("rest-and-digest" / restorative), and is often grouped with the <strong>enteric</strong> system. <strong>(high)</strong> Detailed in Part VIII.</li>
+<li><strong>Enteric nervous system (ENS)</strong> — the gut's semi-autonomous network (~200–600 million neurons), capable of local reflexes without CNS input; the "second brain." <strong>(high)</strong> Detailed in Part IX.</li>
+</ul>
+<h3 id="i3-core-structural-vocabulary-definitions">I.3 Core structural vocabulary (definitions)</h3>
+<ul>
+<li><strong>Gray matter</strong> — regions dense in neuronal cell bodies, dendrites, synapses (cortex, nuclei). Where computation/integration happens.</li>
+<li><strong>White matter</strong> — myelinated axon tracts; the wiring that connects gray-matter regions. Appears white because of myelin lipid.</li>
+<li><strong>Nucleus (CNS)</strong> — a cluster of neuron cell bodies inside the CNS with a shared function (e.g., red nucleus).</li>
+<li><strong>Ganglion (PNS)</strong> — a cluster of neuron cell bodies outside the CNS (e.g., dorsal root ganglion).</li>
+<li><strong>Tract / pathway (CNS)</strong> vs <strong>nerve (PNS)</strong> — a bundle of axons; "tract" inside the CNS, "nerve" outside.</li>
+<li><strong>Afferent</strong> = toward CNS (sensory in). <strong>Efferent</strong> = away from CNS (motor/command out).</li>
+<li><strong>Decussation</strong> — crossing of a tract to the opposite (contralateral) side; the reason one hemisphere controls the opposite body half.</li>
+</ul>
+<h3 id="i4-protection-fluid-and-clearance-indirect-but-load-bearing">I.4 Protection, fluid, and clearance (indirect but load-bearing)</h3>
+<ul>
+<li><strong>Meninges</strong> — three protective layers: dura mater (tough outer), arachnoid mater (middle), pia mater (delicate inner). Subarachnoid space carries CSF and vessels. <strong>(high)</strong></li>
+<li><strong>Cerebrospinal fluid (CSF)</strong> — produced by the <strong>choroid plexus</strong> in the ventricles; cushions, buoys, and chemically stabilizes the CNS; circulates through the ventricular system to the subarachnoid space. <strong>(high)</strong></li>
+<li><strong>Ventricular system</strong> — four connected cavities (two lateral, third, fourth ventricles) containing CSF.</li>
+<li><strong>Blood–brain barrier (BBB)</strong> — tight-junctioned endothelium + astrocyte end-feet + pericytes that selectively gate what enters the CNS from blood. A chemical firewall. <strong>(high)</strong> ⟨fractal-critical: selective gating at a boundary⟩</li>
+<li><strong>Glymphatic system</strong> — a glia-(astrocyte/AQP4)-dependent perivascular clearance pathway that flushes soluble waste (including amyloid-β) from brain interstitium, <strong>markedly enhanced during sleep</strong>. According to PubMed, this waste-clearance function and its coupling to sleep/aging are reviewed by Benveniste et al., 2018 (<a href="https://doi.org/10.1159/000490349">DOI</a>). <strong>(medium — mechanism established in rodents, human details still active)</strong> ⟨fractal-critical: offline maintenance / homeostatic clearance⟩</li>
+</ul>
+<hr />
+<h2 id="part-ii-cells-of-the-nervous-system">PART II — CELLS OF THE NERVOUS SYSTEM</h2>
+<h3 id="ii1-the-neuron-definition-parts">II.1 The neuron (definition + parts)</h3>
+<p>A <strong>neuron</strong> is an electrically excitable cell that receives, integrates, and transmits information via electrochemical signals. Parts:
+- <strong>Dendrites</strong> — branched input surface; receive synaptic contacts; site of local integration and (in many cells) active dendritic computation.
+- <strong>Soma (cell body)</strong> — houses nucleus and metabolic machinery; integrates inputs toward the axon hillock.
+- <strong>Axon hillock / initial segment</strong> — the trigger zone where the action potential is initiated (highest Na⁺-channel density).
+- <strong>Axon</strong> — the output cable; can be &lt;1 mm to &gt;1 m long; may be myelinated.
+- <strong>Myelin sheath</strong> — insulating wraps (oligodendrocytes in CNS, Schwann cells in PNS) that speed conduction.
+- <strong>Nodes of Ranvier</strong> — gaps between myelin segments where the action potential regenerates (saltatory conduction).
+- <strong>Axon terminals / boutons</strong> — output sites releasing neurotransmitter onto targets.</p>
+<h3 id="ii2-neuron-classifications">II.2 Neuron classifications</h3>
+<p><strong>By function:</strong> <strong>sensory (afferent)</strong> neurons carry input from receptors; <strong>motor (efferent)</strong> neurons drive muscles/glands; <strong>interneurons</strong> (the vast majority in CNS) connect neurons within circuits, doing local computation. <strong>(high)</strong></p>
+<p><strong>By polarity/morphology:</strong> multipolar (most CNS neurons), bipolar (retina, olfactory), pseudounipolar (dorsal root ganglion sensory), unipolar. <strong>(high)</strong></p>
+<p><strong>By projection scale:</strong> <strong>projection neurons</strong> (long-range, typically glutamatergic/excitatory, e.g., cortical pyramidal cells) vs <strong>local interneurons</strong> (typically GABAergic/inhibitory). ⟨fractal-critical: long-range excitation + local inhibition is the canonical motif⟩</p>
+<p><strong>By neurotransmitter:</strong> glutamatergic (excitatory), GABAergic/glycinergic (inhibitory), cholinergic, dopaminergic, serotonergic, noradrenergic, histaminergic, peptidergic (see Part IV).</p>
+<p><strong>Key cortical interneuron classes (⟨fractal-critical⟩):</strong> PV⁺ (parvalbumin, fast-spiking, perisomatic inhibition → controls spike timing/gain), SOM⁺ (somatostatin, dendrite-targeting → controls input integration), VIP⁺ (vasoactive intestinal peptide, disinhibitory — inhibits other interneurons). The interplay of perisomatic (PV⁺) vs dendritic (SOM⁺) inhibition is a documented control axis; according to PubMed, Niethard et al., 2017 link the PV⁺/SOM⁺ balance to state-dependent regulation of cortical circuits (<a href="https://doi.org/10.3389/fncir.2017.00065">DOI</a>). <strong>(high for classes; medium for precise functional split)</strong></p>
+<h3 id="ii3-glia-non-neuronal-indispensable-to-dynamics">II.3 Glia (non-neuronal; indispensable to dynamics)</h3>
+<ul>
+<li><strong>Astrocytes</strong> — regulate the extracellular ionic/neurotransmitter milieu (K⁺ buffering, glutamate uptake), form the BBB's end-feet, supply metabolic support, and participate in the <strong>tripartite synapse</strong> (modulating transmission). ⟨fractal-critical: homeostatic buffering / substrate provisioning⟩ <strong>(high)</strong></li>
+<li><strong>Oligodendrocytes</strong> — myelinate CNS axons (one cell myelinates many axons). <strong>(high)</strong></li>
+<li><strong>Schwann cells</strong> — myelinate PNS axons (one cell, one segment); support regeneration. <strong>(high)</strong></li>
+<li><strong>Microglia</strong> — resident immune cells; surveil, prune synapses (developmentally and in disease), respond to injury; central to neuroinflammation. ⟨fractal-critical: surveillance + pruning = structural editing⟩ <strong>(high)</strong></li>
+<li><strong>Ependymal cells</strong> — line ventricles, produce/circulate CSF (choroid plexus). <strong>(high)</strong></li>
+<li><strong>Satellite glia</strong> — support PNS ganglionic neurons. <strong>(high)</strong></li>
+</ul>
+<hr />
+<h2 id="part-iii-electrical-chemical-signaling">PART III — ELECTRICAL &amp; CHEMICAL SIGNALING</h2>
+<h3 id="iii1-resting-membrane-potential">III.1 Resting membrane potential</h3>
+<p>Neurons hold a resting potential near <strong>−65 to −70 mV</strong> (inside negative), set by ion gradients (high intracellular K⁺, high extracellular Na⁺/Cl⁻/Ca²⁺), selective permeability, and the <strong>Na⁺/K⁺-ATPase</strong> pump (3 Na⁺ out / 2 K⁺ in). The <strong>Goldman–Hodgkin–Katz</strong> equation predicts the potential from all permeant ions; the <strong>Nernst</strong> equation gives the equilibrium potential for one. <strong>(high, consensus)</strong></p>
+<h3 id="iii2-graded-potentials">III.2 Graded potentials</h3>
+<p>Local, decrementing voltage changes from synaptic or receptor input. <strong>Depolarizing</strong> (toward threshold) or <strong>hyperpolarizing</strong> (away). They <strong>sum</strong> spatially and temporally at the axon initial segment — the integration step. <strong>(high)</strong></p>
+<h3 id="iii3-the-action-potential-ap">III.3 The action potential (AP)</h3>
+<p>All-or-none regenerative spike once threshold (~−55 mV) is crossed:
+1. <strong>Rising phase</strong> — voltage-gated Na⁺ channels open, Na⁺ influx, rapid depolarization to ~+30–40 mV.
+2. <strong>Falling phase</strong> — Na⁺ channels inactivate; voltage-gated K⁺ channels open, K⁺ efflux, repolarization.
+3. <strong>Afterhyperpolarization</strong> — brief undershoot before return to rest.
+- <strong>Absolute refractory period</strong> (~1–2 ms) — no second AP possible (Na⁺ channels inactivated); enforces one-way propagation and caps maximum firing rate.
+- <strong>Relative refractory period</strong> — a stronger-than-normal stimulus can fire.
+- <strong>Duration</strong> ~1 ms for the spike itself. <strong>(high, consensus)</strong>
+⟨fractal-critical: refractoriness = a built-in rate limiter / dead-time after action⟩</p>
+<h3 id="iii4-conduction">III.4 Conduction</h3>
+<ul>
+<li><strong>Continuous</strong> in unmyelinated axons (slow).</li>
+<li><strong>Saltatory</strong> in myelinated axons — the AP "jumps" node-to-node, fast and energy-efficient.</li>
+<li><strong>Conduction velocities</strong> range from ~0.5–2 m/s (unmyelinated C fibers) to ~80–120 m/s (large myelinated Aα fibers). Velocity scales with diameter and myelination. <strong>(high, consensus)</strong></li>
+</ul>
+<h3 id="iii5-the-synapse">III.5 The synapse</h3>
+<ul>
+<li><strong>Chemical synapse (dominant):</strong> AP → voltage-gated Ca²⁺ influx at terminal → vesicle fusion → neurotransmitter release into cleft → binds postsynaptic receptors → postsynaptic potential. Introduces a <strong>synaptic delay of ~0.5–1 ms</strong> and, crucially, <strong>directionality, gain control, plasticity, and sign (excitatory/inhibitory)</strong>. <strong>(high, consensus)</strong></li>
+<li><strong>Electrical synapse (gap junction):</strong> direct ionic coupling; near-instantaneous, bidirectional; synchronizes neuron ensembles (e.g., interneuron networks). ⟨fractal-critical: fast synchronization channel⟩ <strong>(high)</strong></li>
+</ul>
+<h3 id="iii6-postsynaptic-integration">III.6 Postsynaptic integration</h3>
+<ul>
+<li><strong>EPSP</strong> (excitatory postsynaptic potential) — depolarizing; <strong>IPSP</strong> (inhibitory) — hyperpolarizing/shunting.</li>
+<li><strong>Spatial summation</strong> (many inputs at once) and <strong>temporal summation</strong> (rapid succession) determine whether threshold is reached.</li>
+<li><strong>Dendritic computation</strong> — dendrites are not passive; NMDA spikes, Ca²⁺ spikes, and back-propagating APs let single neurons perform nonlinear, compartmentalized operations. Prediction-error-like computation may occur <strong>within dendritic compartments</strong> rather than in dedicated cells; according to PubMed, Mikulasch et al., 2023 argue for dendritic error computation in hierarchical predictive coding (<a href="https://doi.org/10.1016/j.tins.2022.09.007">DOI</a>). <strong>(medium — active theory)</strong> ⟨fractal-critical: local error computation⟩</li>
+</ul>
+<h3 id="iii7-the-neuromuscular-junction-nmj">III.7 The neuromuscular junction (NMJ)</h3>
+<p>Specialized cholinergic synapse: motor neuron releases <strong>acetylcholine</strong> → binds nicotinic receptors on muscle → end-plate potential → muscle AP → contraction. Acetylcholinesterase terminates the signal. A model of reliable 1:1 excitatory transmission. <strong>(high)</strong></p>
+<hr />
+<h2 id="part-iv-neurotransmitters-receptor-systems">PART IV — NEUROTRANSMITTERS &amp; RECEPTOR SYSTEMS</h2>
+<h3 id="iv1-two-receptor-logics">IV.1 Two receptor logics</h3>
+<ul>
+<li><strong>Ionotropic (ligand-gated ion channels)</strong> — fast (ms), direct; carry the moment-to-moment signal.</li>
+<li><strong>Metabotropic (G-protein-coupled)</strong> — slow (100s of ms–s), modulatory; change gain, excitability, and plasticity. ⟨fractal-critical: fast signal vs slow modulation is a recurring two-timescale design⟩ <strong>(high)</strong></li>
+</ul>
+<h3 id="iv2-amino-acid-transmitters-the-workhorses">IV.2 Amino-acid transmitters (the workhorses)</h3>
+<ul>
+<li><strong>Glutamate</strong> — principal <strong>excitatory</strong> transmitter. Receptors: <strong>AMPA</strong> (fast EPSP), <strong>NMDA</strong> (coincidence detector — requires both glutamate binding <em>and</em> postsynaptic depolarization to relieve Mg²⁺ block; gates Ca²⁺ → plasticity), <strong>kainate</strong>, and metabotropic <strong>mGluRs</strong>. ⟨fractal-critical: NMDA = AND-gate / coincidence detector driving learning⟩ <strong>(high)</strong></li>
+<li><strong>GABA (γ-aminobutyric acid)</strong> — principal <strong>inhibitory</strong> transmitter in brain. <strong>GABA_A</strong> (ionotropic, Cl⁻, fast IPSP), <strong>GABA_B</strong> (metabotropic, slow). The brake system. ⟨fractal-critical: inhibition is load-bearing — regulation, gain control, preventing runaway⟩ <strong>(high)</strong></li>
+<li><strong>Glycine</strong> — principal inhibitory transmitter in <strong>spinal cord/brainstem</strong> (ionotropic, Cl⁻). <strong>(high)</strong></li>
+</ul>
+<h3 id="iv3-acetylcholine-ach">IV.3 Acetylcholine (ACh)</h3>
+<p>NMJ transmitter and a major CNS neuromodulator (attention, arousal, learning; basal forebrain and brainstem nuclei). Receptors: <strong>nicotinic</strong> (ionotropic) and <strong>muscarinic</strong> (metabotropic, M1–M5). Also the ANS's principal transmitter at all preganglionic synapses and parasympathetic effectors. <strong>(high)</strong></p>
+<h3 id="iv4-monoamines-neuromodulators-set-global-state">IV.4 Monoamines (neuromodulators — set global state)</h3>
+<ul>
+<li><strong>Dopamine (DA)</strong> — reward-prediction-error, motivation, motor control, executive function. Nuclei: substantia nigra pars compacta (→ nigrostriatal, motor), VTA (→ mesolimbic/mesocortical, reward/cognition). Receptors D1-like (D1,D5, excitatory) and D2-like (D2,D3,D4, inhibitory). DA gates plasticity (widens STDP windows). ⟨fractal-critical: teaching/reward signal that reweights the system⟩ <strong>(high)</strong></li>
+<li><strong>Norepinephrine (NE)</strong> — arousal, vigilance, gain/"neural SNR." Source: locus coeruleus. <strong>(high)</strong></li>
+<li><strong>Serotonin (5-HT)</strong> — mood, patience, satiety, sensory gain; source: raphe nuclei; ≥14 receptor subtypes. <strong>(high)</strong></li>
+<li><strong>Histamine</strong> — wakefulness; tuberomammillary nucleus. <strong>(high)</strong></li>
+</ul>
+<h3 id="iv5-neuropeptides-others">IV.5 Neuropeptides &amp; others</h3>
+<ul>
+<li><strong>Neuropeptides</strong> (opioids/enkephalins/endorphins, substance P for pain, CRH, oxytocin, vasopressin, orexin/hypocretin for arousal, NPY for appetite) — co-released, slow, modulatory. <strong>(high)</strong></li>
+<li><strong>Endocannabinoids (anandamide, 2-AG)</strong> — <strong>retrograde</strong> messengers: made postsynaptically, act on presynaptic CB1 to <em>dial back</em> input. A negative-feedback/"volume knob." ⟨fractal-critical: retrograde negative feedback⟩ According to PubMed, endocannabinoid signaling mediates glucocorticoid negative feedback on the HPA axis (Hill &amp; Tasker, 2012, <a href="https://doi.org/10.1016/j.neuroscience.2011.12.030">DOI</a>). <strong>(high for retrograde role; medium for full HPA account)</strong></li>
+<li><strong>Nitric oxide (NO)</strong> — gasotransmitter; diffusible, retrograde, vasoactive. <strong>(high)</strong></li>
+<li><strong>ATP / adenosine (purinergic)</strong> — fast (P2X) and modulatory (adenosine → sleep pressure). <strong>(high)</strong></li>
+</ul>
+<h3 id="iv6-signal-termination">IV.6 Signal termination</h3>
+<p>Reuptake (transporters: DAT, SERT, NET, EAATs for glutamate), enzymatic degradation (acetylcholinesterase, MAO, COMT), and diffusion. Termination is as important as release — it sets signal duration and prevents excitotoxic accumulation. ⟨fractal-critical: clearance/termination bounds signal persistence⟩ <strong>(high)</strong></p>
+<hr />
+<h2 id="part-v-neuroanatomy-structures-and-what-they-do">PART V — NEUROANATOMY: STRUCTURES AND WHAT THEY DO</h2>
+<h3 id="v1-cerebral-cortex">V.1 Cerebral cortex</h3>
+<ul>
+<li><strong>Lobes:</strong> <strong>Frontal</strong> (motor, executive function, planning, working memory, personality, Broca's speech). <strong>Parietal</strong> (somatosensation, spatial attention, integration). <strong>Temporal</strong> (audition, language comprehension/Wernicke's, memory via hippocampus, object recognition). <strong>Occipital</strong> (vision). <strong>Insula</strong> (interoception, taste, salience). <strong>Limbic/cingulate</strong> (emotion, motivation). <strong>(high)</strong></li>
+<li><strong>Cortical layers (I–VI):</strong> a six-layer sheet. Layer IV = primary thalamic input (sensory); layers II/III = cortico-cortical association output; layer V = subcortical output (e.g., corticospinal); layer VI = corticothalamic feedback. This lamination implements the <strong>feedforward (up) / feedback (down)</strong> hierarchy. ⟨fractal-critical: layered hierarchy with directional in/out streams⟩ <strong>(high)</strong></li>
+<li><strong>Cortical columns / canonical microcircuit</strong> — repeating vertical modules with a stereotyped internal wiring, hypothesized as a reusable computational unit; the predictive-coding interpretation maps forward = prediction error, backward = prediction (Shipp, 2016, <a href="https://doi.org/10.3389/fpsyg.2016.01792">DOI</a>). <strong>(medium — canonical-circuit concept is standard; exact computation debated)</strong></li>
+<li><strong>Primary vs association areas:</strong> primary areas (M1, S1, V1, A1) do first-order processing; association areas integrate across modalities and time. <strong>(high)</strong></li>
+</ul>
+<h3 id="v2-subcortical-structures">V.2 Subcortical structures</h3>
+<ul>
+<li><strong>Basal ganglia</strong> (striatum = caudate + putamen, globus pallidus, subthalamic nucleus, substantia nigra) — action selection, gating of motor/cognitive programs via <strong>direct (go)</strong>, <strong>indirect (no-go)</strong>, and <strong>hyperdirect (stop)</strong> pathways. ⟨fractal-critical: selection by disinhibition; competing go/no-go loops⟩ <strong>(high)</strong></li>
+<li><strong>Thalamus</strong> — the great relay and <strong>gate</strong>: nearly all sensory input (except smell) synapses here en route to cortex, under strong corticothalamic feedback. Operates in <strong>tonic</strong> (faithful relay) vs <strong>burst</strong> (detection/alerting) modes. ⟨fractal-critical: central gating hub with top-down control⟩ <strong>(high)</strong></li>
+<li><strong>Thalamic reticular nucleus (TRN)</strong> — a GABAergic shell around the thalamus receiving collaterals from both cortico-thalamic and thalamo-cortical axons and inhibiting thalamic relay nuclei; implicated in <strong>sensory gating</strong>, attentional selection, and sleep spindles. According to PubMed, Ferrarelli &amp; Tononi, 2010 review TRN's gating role (and its failure in schizophrenia) (<a href="https://doi.org/10.1093/schbul/sbq142">DOI</a>). ⟨fractal-critical: the attention searchlight / inhibitory gatekeeper⟩ <strong>(high)</strong></li>
+<li><strong>Hypothalamus</strong> — homeostatic command center: temperature, hunger/thirst, circadian timing (SCN), autonomic and endocrine control (via pituitary). The brain's link to the body's set-points. ⟨fractal-critical: set-point regulation⟩ <strong>(high)</strong></li>
+<li><strong>Hippocampus</strong> — declarative/episodic memory formation, spatial navigation (place cells), pattern separation/completion. <strong>(high)</strong></li>
+<li><strong>Amygdala</strong> — threat detection, fear learning, emotional salience; note a <strong>complete</strong> fear circuit requires <strong>extinction</strong> (vmPFC-mediated) — fear acquisition without extinction is an incomplete circuit. ⟨fractal-critical: acquisition must be paired with extinction/regulation⟩ <strong>(high)</strong></li>
+<li><strong>Basal forebrain</strong> — cholinergic source for cortical arousal/attention. <strong>(high)</strong></li>
+<li><strong>Cerebellum</strong> — coordination, timing, motor learning, and (increasingly recognized) cognitive/temporal prediction; operates as a supervised forward-model/error-correction machine. ⟨fractal-critical: forward model + error-driven calibration⟩ <strong>(high for motor; medium for cognitive)</strong></li>
+</ul>
+<h3 id="v3-brainstem-midbrain-pons-medulla">V.3 Brainstem (midbrain, pons, medulla)</h3>
+<ul>
+<li><strong>Midbrain</strong> — superior colliculi (visual orienting), inferior colliculi (auditory), substantia nigra, red nucleus, cerebral peduncles.</li>
+<li><strong>Pons</strong> — relay between cortex and cerebellum; sleep/arousal nuclei; several cranial-nerve nuclei.</li>
+<li><strong>Medulla oblongata</strong> — <strong>autonomic vital centers</strong>: cardiovascular (heart rate, vasomotor), respiratory rhythm, reflexes (vomiting, coughing, swallowing). Pyramidal decussation. <strong>(high)</strong></li>
+<li><strong>Reticular formation</strong> — diffuse core network; the <strong>ascending reticular activating system (ARAS)</strong> sets arousal/consciousness level. ⟨fractal-critical: global gain/arousal control⟩ <strong>(high)</strong></li>
+</ul>
+<hr />
+<h2 id="part-vi-cranial-nerves-all-12-modality-innervation">PART VI — CRANIAL NERVES (all 12: modality + innervation)</h2>
+<p>Modality key: <strong>S</strong>=sensory, <strong>M</strong>=motor, <strong>B</strong>=both, <strong>P</strong>=carries parasympathetic. <strong>(high, consensus)</strong></p>
+<ul>
+<li><strong>CN I — Olfactory (S):</strong> smell. Only sense bypassing the thalamus for its primary cortex.</li>
+<li><strong>CN II — Optic (S):</strong> vision. (A CNS tract, not a true peripheral nerve.)</li>
+<li><strong>CN III — Oculomotor (M, P):</strong> most eye movements; eyelid elevation; pupil constriction + lens accommodation (parasympathetic via ciliary ganglion).</li>
+<li><strong>CN IV — Trochlear (M):</strong> superior oblique (eye down-and-in). Thinnest; only nerve exiting dorsally.</li>
+<li><strong>CN V — Trigeminal (B):</strong> facial/corneal/oral sensation (three divisions V1 ophthalmic, V2 maxillary, V3 mandibular); motor to muscles of mastication.</li>
+<li><strong>CN VI — Abducens (M):</strong> lateral rectus (eye abduction).</li>
+<li><strong>CN VII — Facial (B, P):</strong> muscles of facial expression; taste anterior ⅔ tongue; parasympathetic to lacrimal, submandibular, sublingual glands.</li>
+<li><strong>CN VIII — Vestibulocochlear (S):</strong> hearing (cochlear) + balance/head motion (vestibular).</li>
+<li><strong>CN IX — Glossopharyngeal (B, P):</strong> taste + sensation posterior ⅓ tongue; carotid baroreceptor/chemoreceptor afferents; stylopharyngeus; parotid gland (parasympathetic).</li>
+<li><strong>CN X — Vagus (B, P):</strong> the master parasympathetic nerve — innervates heart, lungs, and GI tract to the splenic flexure; visceral afferents (interoception); pharynx/larynx motor; carries the bulk of gut-brain signaling (Part IX). ⟨fractal-critical: long-range visceral feedback + parasympathetic brake⟩</li>
+<li><strong>CN XI — Accessory (M):</strong> sternocleidomastoid + trapezius (head/shoulder).</li>
+<li><strong>CN XII — Hypoglossal (M):</strong> tongue muscles.</li>
+</ul>
+<hr />
+<h2 id="part-vii-spinal-cord-spinal-nerves">PART VII — SPINAL CORD &amp; SPINAL NERVES</h2>
+<h3 id="vii1-organization">VII.1 Organization</h3>
+<ul>
+<li><strong>Gray matter (butterfly core):</strong> dorsal horn (sensory in), ventral horn (motor out), lateral horn (autonomic, thoracolumbar). <strong>White matter</strong> columns carry ascending/descending tracts.</li>
+<li><strong>31 spinal nerve pairs</strong> (8 cervical, 12 thoracic, 5 lumbar, 5 sacral, 1 coccygeal). <strong>Dorsal root</strong> = sensory (with <strong>dorsal root ganglion</strong>), <strong>ventral root</strong> = motor — <strong>Bell–Magendie law</strong>. <strong>(high)</strong></li>
+<li><strong>Dermatome</strong> — the skin area innervated by a single spinal segment; <strong>myotome</strong> — the muscles. Basis of clinical localization. <strong>(high)</strong></li>
+<li><strong>Plexuses</strong> — cervical, brachial, lumbar, sacral: nerve networks redistributing spinal fibers to limbs. <strong>(high)</strong></li>
+</ul>
+<h3 id="vii2-major-tracts">VII.2 Major tracts</h3>
+<ul>
+<li><strong>Ascending (sensory):</strong> <strong>Dorsal column–medial lemniscus (DCML)</strong> — fine touch, vibration, proprioception (crosses in medulla). <strong>Spinothalamic</strong> — pain, temperature, crude touch (crosses in cord). <strong>Spinocerebellar</strong> — unconscious proprioception to cerebellum.</li>
+<li><strong>Descending (motor):</strong> <strong>Corticospinal (pyramidal)</strong> — voluntary movement. <strong>Extrapyramidal</strong> (rubrospinal, reticulospinal, vestibulospinal, tectospinal) — posture, tone, reflexive orienting. <strong>(high)</strong></li>
+</ul>
+<h3 id="vii3-reflexes-pattern-generators">VII.3 Reflexes &amp; pattern generators</h3>
+<ul>
+<li><strong>Reflex arc</strong> — receptor → afferent → (interneuron) → efferent → effector; the minimal sensorimotor loop (e.g., monosynaptic stretch reflex; polysynaptic withdrawal reflex with <strong>reciprocal inhibition</strong> of antagonists). ⟨fractal-critical: local closed-loop control with built-in inhibition⟩ <strong>(high)</strong></li>
+<li><strong>Central pattern generators (CPGs)</strong> — spinal circuits producing rhythmic output (locomotion, breathing) without ongoing input. ⟨fractal-critical: autonomous rhythmic generators⟩ <strong>(high)</strong></li>
+</ul>
+<hr />
+<h2 id="part-viii-autonomic-nervous-system-organ-innervation">PART VIII — AUTONOMIC NERVOUS SYSTEM (organ innervation)</h2>
+<h3 id="viii1-the-two-branches-structure">VIII.1 The two branches (structure)</h3>
+<ul>
+<li><strong>Sympathetic (thoracolumbar, T1–L2):</strong> short preganglionic (ACh) → sympathetic chain/prevertebral ganglia → long postganglionic (<strong>norepinephrine</strong>, mostly). Diffuse, amplifying, mobilizing.</li>
+<li><strong>Parasympathetic (craniosacral: CN III, VII, IX, X + S2–S4):</strong> long preganglionic (ACh) → ganglia near/in organ → short postganglionic (<strong>ACh</strong>). Discrete, conserving, restorative.</li>
+<li><strong>Adrenal medulla</strong> — a modified sympathetic ganglion: preganglionic fibers trigger direct release of <strong>epinephrine/norepinephrine</strong> into blood (hormonal amplification of the sympathetic signal). ⟨fractal-critical: neural signal converted to broadcast hormonal signal⟩ <strong>(high)</strong></li>
+</ul>
+<h3 id="viii2-dual-innervation-organ-by-organ-sympathetic-parasympathetic-high-consensus">VIII.2 Dual innervation — organ-by-organ (sympathetic ↔ parasympathetic) <strong>(high, consensus)</strong></h3>
+<ul>
+<li><strong>Heart:</strong> ↑ rate &amp; contractility (sympathetic, β1) ↔ ↓ rate (vagus, M2). <strong>Baroreflex</strong> is the negative-feedback loop stabilizing blood pressure. ⟨fractal-critical: antagonistic push–pull control⟩</li>
+<li><strong>Lungs / airways:</strong> bronchodilation (sympathetic) ↔ bronchoconstriction + secretion (vagus).</li>
+<li><strong>Pupil:</strong> dilation (sympathetic) ↔ constriction (CN III parasympathetic).</li>
+<li><strong>GI tract:</strong> ↓ motility/secretion (sympathetic) ↔ ↑ motility/secretion (vagus + sacral); local control by ENS (Part IX).</li>
+<li><strong>Salivary/lacrimal glands:</strong> scant, thick secretion (sympathetic) ↔ copious, watery (parasympathetic).</li>
+<li><strong>Bladder:</strong> relaxation + sphincter tone / storage (sympathetic) ↔ detrusor contraction / voiding (sacral parasympathetic).</li>
+<li><strong>Blood vessels:</strong> predominantly sympathetic vasoconstriction (tonic vasomotor tone); the parasympathetic role is limited.</li>
+<li><strong>Liver/adipose/pancreas:</strong> sympathetic mobilizes energy (glycogenolysis, lipolysis, ↓insulin) ↔ parasympathetic favors storage/digestion.</li>
+<li><strong>Sweat glands, piloerection, most skin vessels:</strong> sympathetic-only (note: sweat glands use ACh despite being sympathetic — an exception).</li>
+<li><strong>Reproductive organs:</strong> "point and shoot" — parasympathetic (arousal/erection) and sympathetic (emission/ejaculation) cooperate.</li>
+</ul>
+<p>Principle: most viscera receive <strong>opposing</strong> inputs, and resting <strong>tone</strong> in each branch means control is bidirectional (increase <em>or</em> decrease from baseline), not just on/off. ⟨fractal-critical: tonic opposing drives = fine bidirectional regulation⟩</p>
+<hr />
+<h2 id="part-ix-enteric-nervous-system-gutbrain-axis">PART IX — ENTERIC NERVOUS SYSTEM &amp; GUT–BRAIN AXIS</h2>
+<ul>
+<li><strong>ENS structure:</strong> two plexuses in the gut wall — <strong>myenteric (Auerbach's)</strong> controls motility, <strong>submucosal (Meissner's)</strong> controls secretion/blood flow. Contains full sensory–interneuron–motor circuits and runs local reflexes autonomously. ⟨fractal-critical: a semi-autonomous peripheral "mini-brain"⟩ <strong>(high)</strong></li>
+<li><strong>Gut–brain axis:</strong> bidirectional signaling via (1) the <strong>vagus nerve</strong> (majority afferent — the gut reports up far more than the brain commands down), (2) the <strong>immune system</strong> (cytokines), (3) <strong>endocrine</strong> signals (gut hormones, cortisol), and (4) <strong>microbial metabolites</strong> (short-chain fatty acids, neurotransmitter precursors). According to PubMed, Rutsch et al., 2020 review microbiota–gut–brain signaling and its inflammatory pathways (<a href="https://doi.org/10.3389/fimmu.2020.604179">DOI</a>). ⟨fractal-critical: distributed multi-channel feedback from an outside source⟩ <strong>(medium — the axis is established; specific microbe→behavior causal chains are still being worked out)</strong></li>
+<li><strong>Serotonin note:</strong> ~90–95% of the body's serotonin is in the gut (enterochromaffin cells), acting on ENS motility and vagal afferents — an "outside source" chemically coupled to CNS state. <strong>(high)</strong></li>
+</ul>
+<hr />
+<h2 id="part-x-sensory-systems-all-senses-transduction-and-pathways">PART X — SENSORY SYSTEMS (all senses, transduction, and pathways)</h2>
+<h3 id="x1-general-principles-high">X.1 General principles <strong>(high)</strong></h3>
+<ul>
+<li><strong>Receptor / transduction</strong> — a specialized cell or ending converts a physical/chemical stimulus into a graded receptor potential, then spikes. <strong>Labeled lines</strong> preserve modality identity to the cortex.</li>
+<li><strong>Adaptation</strong> — tonic (slow-adapting, sustained) vs phasic (fast-adapting, change-detecting) receptors. ⟨fractal-critical: change-detection vs level-reporting⟩</li>
+<li><strong>Receptive field</strong> — the stimulus region that changes a neuron's firing; <strong>lateral inhibition</strong> sharpens contrast/edges. ⟨fractal-critical: lateral inhibition = contrast enhancement / competition⟩</li>
+<li><strong>Coding</strong> — intensity by rate + population size; quality by which lines; location by which receptors (somatotopy/retinotopy/tonotopy).</li>
+</ul>
+<h3 id="x2-somatosensation-touch-proprioception-temperature-pain-itch">X.2 Somatosensation (touch, proprioception, temperature, pain, itch)</h3>
+<ul>
+<li><strong>Mechanoreceptors:</strong> Merkel (fine form, SA), Meissner (flutter, FA), Pacinian (vibration, FA), Ruffini (stretch, SA). <strong>Proprioceptors:</strong> muscle spindles (length/stretch), Golgi tendon organs (tension). <strong>Thermoreceptors:</strong> warm/cold (TRP channels). <strong>Nociceptors:</strong> free endings for tissue-damaging stimuli (Aδ = fast/sharp, C = slow/burning). <strong>Pruriceptors:</strong> itch. <strong>(high)</strong></li>
+<li><strong>Pathways:</strong> fine touch/proprioception → <strong>DCML</strong>; pain/temperature → <strong>spinothalamic</strong>. Both relay through <strong>thalamus (VPL/VPM)</strong> → <strong>S1</strong>. <strong>(high)</strong></li>
+<li><strong>Pain is modulated, not just relayed:</strong> <strong>gate control</strong> (Aβ input inhibits nociceptive transmission) and <strong>descending modulation</strong> (periaqueductal gray → raphe → cord, opioidergic). ⟨fractal-critical: input can be gated/suppressed by parallel and top-down signals⟩ <strong>(high)</strong></li>
+</ul>
+<h3 id="x3-vision">X.3 Vision</h3>
+<ul>
+<li><strong>Retina:</strong> photoreceptors (<strong>rods</strong> = dim/monochrome; <strong>cones</strong> = bright/color, three types) → <strong>phototransduction</strong> (light → rhodopsin → closes cGMP-gated Na⁺ channels → hyperpolarization; the receptor <em>hyperpolarizes</em> to light — an inversion). → bipolar cells → ganglion cells (whose axons form CN II). <strong>Horizontal/amacrine</strong> cells apply lateral inhibition (center-surround). ⟨fractal-critical: center-surround = spatial band-pass filtering⟩ <strong>(high)</strong></li>
+<li><strong>Pathway:</strong> optic nerve → <strong>optic chiasm</strong> (nasal fibers cross) → optic tract → <strong>LGN of thalamus</strong> → V1 (occipital). Parallel branch to <strong>superior colliculus</strong> (orienting) and <strong>SCN</strong> (circadian). <strong>(high)</strong></li>
+<li><strong>Cortical processing:</strong> V1 → dorsal "where/how" (parietal) and ventral "what" (temporal) streams. <strong>(high)</strong></li>
+</ul>
+<h3 id="x4-audition">X.4 Audition</h3>
+<ul>
+<li><strong>Cochlea:</strong> sound → basilar membrane traveling wave → <strong>inner hair cells</strong> bend stereocilia → mechanotransduction (K⁺ influx) → CN VIII. <strong>Tonotopy:</strong> base = high frequency, apex = low. <strong>Outer hair cells</strong> provide active amplification/sharpening (cochlear amplifier — a local positive-feedback gain stage under efferent control). ⟨fractal-critical: active amplification with efferent gain control⟩ <strong>(high)</strong></li>
+<li><strong>Pathway:</strong> cochlear nuclei → superior olive (binaural localization) → inferior colliculus → <strong>MGN of thalamus</strong> → A1 (temporal). <strong>(high)</strong></li>
+</ul>
+<h3 id="x5-vestibular-sense-balance-head-motion">X.5 Vestibular sense (balance / head motion)</h3>
+<ul>
+<li><strong>Otolith organs</strong> (utricle, saccule) — linear acceleration/gravity. <strong>Three semicircular canals</strong> — angular/rotational acceleration (one per plane). Hair-cell transduction → CN VIII → vestibular nuclei → oculomotor (VOR — stabilizes gaze), cerebellum, cord (posture). ⟨fractal-critical: fast reflexive stabilization loop (VOR)⟩ <strong>(high)</strong></li>
+</ul>
+<h3 id="x6-olfaction-smell">X.6 Olfaction (smell)</h3>
+<ul>
+<li><strong>Olfactory sensory neurons</strong> in nasal epithelium express one receptor type each; axons converge by receptor identity onto <strong>glomeruli</strong> in the <strong>olfactory bulb</strong> → olfactory cortex <strong>directly</strong> (the only sense not gated first by thalamus). Combinatorial coding across ~400 human receptor types. <strong>(high)</strong></li>
+</ul>
+<h3 id="x7-gustation-taste">X.7 Gustation (taste)</h3>
+<ul>
+<li><strong>Taste receptor cells</strong> in taste buds detect five basic modalities: <strong>sweet, sour, salty, bitter, umami</strong> (fat/others debated). Ionotropic (salt/sour) and GPCR (sweet/bitter/umami) transduction → CN VII, IX, X → nucleus of the solitary tract → thalamus → insula/operculum. <strong>(high)</strong></li>
+</ul>
+<h3 id="x8-interoception-the-body-as-a-sensory-source">X.8 Interoception (the body as a sensory source)</h3>
+<p>Visceral afferents (vagal + spinal) report cardiovascular, respiratory, GI, metabolic, and inflammatory state → nucleus of the solitary tract → thalamus → <strong>insula</strong> (conscious bodily feeling) + hypothalamus/brainstem (reflex control). Basis of homeostatic emotion, effort, and the "felt" body. ⟨fractal-critical: the system continuously senses its own internal state⟩ <strong>(high for pathway; medium for the affective/predictive interpretations)</strong></p>
+<hr />
+<h2 id="part-xi-motor-systems">PART XI — MOTOR SYSTEMS</h2>
+<ul>
+<li><strong>Lower motor neuron (LMN)</strong> — ventral-horn neuron directly driving muscle; the "final common path." A <strong>motor unit</strong> = one LMN + all fibers it innervates. <strong>(high)</strong></li>
+<li><strong>Upper motor neuron (UMN)</strong> — cortical/brainstem neuron commanding LMNs. <strong>Corticospinal tract</strong> = voluntary skilled movement. <strong>(high)</strong></li>
+<li><strong>Basal ganglia loops</strong> — direct (facilitate), indirect (suppress), hyperdirect (rapid stop) select and gate actions by disinhibition of the thalamus. ⟨fractal-critical: gate-by-disinhibition; competing selection loops⟩ <strong>(high)</strong></li>
+<li><strong>Cerebellum</strong> — forward-model prediction + error correction; coordination, timing, motor learning. ⟨fractal-critical: predictive calibration⟩ <strong>(high)</strong></li>
+<li><strong>Descending modulators</strong> — reticulospinal (posture/tone), vestibulospinal (balance), rubrospinal, tectospinal (orienting). <strong>(high)</strong></li>
+</ul>
+<hr />
+<h2 id="part-xii-neuroendocrine-brainorgan-axes-indirect-coupling">PART XII — NEUROENDOCRINE &amp; BRAIN–ORGAN AXES (indirect coupling)</h2>
+<ul>
+<li><strong>Hypothalamic–pituitary system</strong> — the neural-to-hormonal bridge. Hypothalamus → <strong>posterior pituitary</strong> (direct neural release of <strong>oxytocin, vasopressin/ADH</strong>) and → <strong>anterior pituitary</strong> (via releasing hormones controlling downstream glands). <strong>(high)</strong></li>
+<li><strong>HPA axis (stress):</strong> CRH → ACTH → cortisol, with <strong>glucocorticoid negative feedback</strong> at pituitary, hypothalamus, and hippocampus. According to PubMed, Keller-Wood, 2015 reviews HPA feedback control (<a href="https://doi.org/10.1002/cphy.c140065">DOI</a>); endocannabinoids mediate rapid feedback (Hill &amp; Tasker, 2012, <a href="https://doi.org/10.1016/j.neuroscience.2011.12.030">DOI</a>). ⟨fractal-critical: multi-site negative feedback with fast + slow arms⟩ <strong>(high)</strong></li>
+<li><strong>HPT axis</strong> (TRH→TSH→thyroid; metabolic set-point), <strong>HPG axis</strong> (GnRH→LH/FSH→gonads; reproduction), <strong>GH/IGF-1</strong>, <strong>prolactin</strong> — all closed-loop with negative feedback. <strong>(high)</strong></li>
+<li><strong>Circadian system:</strong> <strong>SCN</strong> (master clock, entrained by retinal light) → pineal <strong>melatonin</strong> at night; organizes sleep, hormones, metabolism. ⟨fractal-critical: central oscillator entraining distributed clocks⟩ <strong>(high)</strong></li>
+<li><strong>Neuro-immune coupling:</strong> microglia + cytokines + the <strong>cholinergic anti-inflammatory reflex</strong> (vagal ACh dampens peripheral inflammation) tie CNS state to immune state bidirectionally. ⟨fractal-critical: neural brake on an inflammatory positive-feedback system⟩ <strong>(medium–high)</strong></li>
+<li><strong>Autonomic organ-control loops:</strong> baroreflex (BP), chemoreflex (O₂/CO₂ → breathing), thermoregulation, glucose/appetite (leptin, ghrelin, insulin sensed hypothalamically). Each is a sensor → controller → effector → feedback loop. ⟨fractal-critical: canonical control loops around set-points⟩ <strong>(high)</strong></li>
+</ul>
+<hr />
+<h2 id="part-xiii-circuit-dynamics-computational-principles">PART XIII — CIRCUIT DYNAMICS &amp; COMPUTATIONAL PRINCIPLES</h2>
+<p><em>(the layer LIMEN Helix most needs — how the wiring above actually computes)</em></p>
+<h3 id="xiii1-excitationinhibition-ei-balance-fractal-critical">XIII.1 Excitation/inhibition (E/I) balance ⟨fractal-critical⟩</h3>
+<p>Cortical networks maintain a tight balance of excitation and inhibition; inhibition tracks excitation on a millisecond timescale. This balance sets gain, dynamic range, timing precision, and stability. <strong>Loss of inhibition → runaway excitation (seizure); excess inhibition → silence.</strong> State-dependent shifts (e.g., PV⁺ perisomatic vs SOM⁺ dendritic inhibition across sleep) tune plasticity and firing (Niethard et al., 2017, <a href="https://doi.org/10.3389/fncir.2017.00065">DOI</a>). <strong>Design implication: any faithful mapping must have inhibition/"brakes" that scale with drive.</strong> <strong>(high)</strong></p>
+<h3 id="xiii2-inhibitory-motifs">XIII.2 Inhibitory motifs</h3>
+<ul>
+<li><strong>Feedforward inhibition</strong> — input excites both a target and an interneuron that inhibits the target → enforces a narrow temporal window (coincidence-detection, "AND within a time window").</li>
+<li><strong>Feedback (recurrent) inhibition</strong> — output feeds back through interneurons → self-limiting, gain control, stability.</li>
+<li><strong>Lateral inhibition</strong> — active units suppress neighbors → contrast enhancement, winner-take-all, sparsening.</li>
+<li><strong>Disinhibition</strong> — inhibiting an inhibitor (VIP⁺→SOM⁺; basal-ganglia gating) → <em>permissive gating</em> / selection. ⟨fractal-critical: all four are reused at every scale; their absence breaks the fractal⟩ <strong>(high)</strong></li>
+</ul>
+<h3 id="xiii3-oscillations-communication-fractal-critical">XIII.3 Oscillations &amp; communication ⟨fractal-critical⟩</h3>
+<p>Rhythms create periodic windows of excitability. Canonical bands: <strong>delta (~1–4 Hz)</strong> deep sleep; <strong>theta (~4–8 Hz)</strong> memory/navigation; <strong>alpha (~8–12 Hz)</strong> idling/inhibitory gating; <strong>beta (~13–30 Hz)</strong> maintenance/motor set; <strong>gamma (~30–80+ Hz)</strong> local active processing. According to PubMed:
+- <strong>Communication-through-coherence:</strong> groups that oscillate coherently open input/output windows at the same time and thus communicate effectively; incoherent groups are functionally disconnected (Fries, 2005, <a href="https://doi.org/10.1016/j.tics.2005.08.011">DOI</a>). ⟨fractal-critical: coherence = a dynamic routing/connection switch⟩
+- <strong>Dynamic network communication</strong> as a balance of oscillatory coupling and local spiking, with too-strong or too-weak coupling both pathological (Voytek &amp; Knight, 2015, <a href="https://doi.org/10.1016/j.biopsych.2015.04.016">DOI</a>). ⟨fractal-critical: an optimal coupling band — extremes fail⟩
+- <strong>Multi-band superposition</strong> carries distinct information simultaneously (Başar et al., 2006, <a href="https://doi.org/10.1016/S0079-6123(06)59004-1">DOI</a>).
+- <strong>Cross-frequency coupling</strong> (e.g., theta phase organizing gamma amplitude) nests fast local processing inside slow global frames. <strong>(high for phenomena; medium for precise computational role)</strong></p>
+<h3 id="xiii4-thalamocortical-gating-fractal-critical">XIII.4 Thalamocortical gating ⟨fractal-critical⟩</h3>
+<p>The thalamus + TRN gate what reaches cortex; tonic/burst modes and TRN inhibition implement an attentional/sensory filter under corticothalamic (top-down) control (Ferrarelli &amp; Tononi, 2010, <a href="https://doi.org/10.1093/schbul/sbq142">DOI</a>). <strong>Design implication: gating must occur <em>at the right stage</em> — filter too early (before the circuit that needs the signal) and you lose information you can't recover.</strong> <strong>(high)</strong></p>
+<h3 id="xiii5-predictive-coding-prediction-error-fractal-critical">XIII.5 Predictive coding / prediction error ⟨fractal-critical⟩</h3>
+<p>The cortex is modeled as a hierarchical generative machine: <strong>top-down predictions</strong> descend, <strong>bottom-up prediction errors</strong> ascend, and only the <em>mismatch</em> propagates upward — an efficiency and learning principle. Laminar/microcircuit correlates: forward = error, backward = prediction (Shipp, 2016, <a href="https://doi.org/10.3389/fpsyg.2016.01792">DOI</a>); errors may be computed in dendrites (Mikulasch et al., 2023, <a href="https://doi.org/10.1016/j.tins.2022.09.007">DOI</a>). ⟨fractal-critical: "prediction error drives update" is the candidate unified rule that must also generate predictions at business scale⟩ <strong>(medium — leading framework, not universally settled)</strong></p>
+<h3 id="xiii6-plasticity-learning-rules-fractal-critical">XIII.6 Plasticity (learning rules) ⟨fractal-critical⟩</h3>
+<ul>
+<li><strong>Hebbian ("fire together, wire together")</strong> — correlated activity strengthens synapses.</li>
+<li><strong>STDP (spike-timing-dependent plasticity)</strong> — order and timing matter: pre-before-post (~+10 ms window) → <strong>LTP</strong>; post-before-pre → <strong>LTD</strong>. Neuromodulators reshape the window — dopamine extends the LTP window from ~+10 to ~+30 ms and can even convert anti-Hebbian timing to potentiation (Ruan et al., 2014, <a href="https://doi.org/10.3389/fncir.2014.00038">DOI</a>). ⟨fractal-critical: a teaching signal reshapes the learning rule itself⟩</li>
+<li><strong>LTP/LTD</strong> — long-term potentiation/depression; NMDA-receptor / Ca²⁺-dependent; the cellular substrate of memory.</li>
+<li><strong>Homeostatic plasticity / synaptic scaling</strong> — global normalization that keeps overall drive in range so Hebbian learning doesn't run away. ⟨fractal-critical: a stabilizing counter-process to positive-feedback learning⟩</li>
+<li><strong>Metaplasticity</strong> — plasticity of plasticity; the threshold for change itself adapts.
+<strong>(high for existence; medium for exact in-vivo parameters)</strong></li>
+</ul>
+<h3 id="xiii7-neuromodulation-gain-fractal-critical">XIII.7 Neuromodulation &amp; gain ⟨fractal-critical⟩</h3>
+<p>Diffuse systems (DA, NE, 5-HT, ACh) don't carry detailed content; they set <strong>global regime</strong> — gain, signal-to-noise, exploration/exploitation, learning rate, arousal. A small modulatory signal reconfigures the whole network's operating point. <strong>(high)</strong></p>
+<h3 id="xiii8-population-attractor-dynamics">XIII.8 Population &amp; attractor dynamics</h3>
+<p>Information lives in <strong>distributed population activity</strong>, not single cells; <strong>sparse coding</strong> (few active units) is efficient and separable; <strong>attractor dynamics</strong> implement stable states (memories, decisions) and transitions. Emergence arises from many simple units under E/I balance — bottlenecking any of these (over-gating, over-synchrony, lost inhibition) suppresses the emergence. ⟨fractal-critical: emergence requires distributed, sparse, inhibition-balanced activity⟩ <strong>(medium–high)</strong></p>
+<h3 id="xiii9-sleep-homeostasis-offline-processing">XIII.9 Sleep, homeostasis &amp; offline processing</h3>
+<p>Sleep down-scales synapses globally while consolidating select memories (Niethard et al., 2017, <a href="https://doi.org/10.3389/fncir.2017.00065">DOI</a>) and drives glymphatic clearance (Benveniste et al., 2018, <a href="https://doi.org/10.1159/000490349">DOI</a>). ⟨fractal-critical: mandatory offline maintenance/reset phase — a system with no "downtime" accumulates damage⟩ <strong>(medium–high)</strong></p>
+<hr />
+<h2 id="part-xiv-failure-modes-pathology-at-the-neural-scale">PART XIV — FAILURE MODES / PATHOLOGY AT THE NEURAL SCALE</h2>
+<p><em>(Included deliberately: a complete map includes how each mechanism breaks. Each failure is the pathological form of a dynamic above.)</em></p>
+<ul>
+<li><strong>Seizure / epilepsy</strong> — E/I balance failure: runaway recurrent excitation when inhibition (GABAergic braking) is insufficient. The archetypal "no brakes → runaway" pathology. ⟨fractal-critical: loss of load-bearing inhibition⟩ <strong>(high)</strong></li>
+<li><strong>Excitotoxicity</strong> — excessive glutamate/NMDA → Ca²⁺ overload → cell death; failure of <em>termination/clearance</em>. ⟨fractal-critical: signal that isn't cleared becomes toxic⟩ <strong>(high)</strong></li>
+<li><strong>Cortical spreading depression</strong> — a slow wave of depolarization then silence; homeostatic overwhelm (migraine aura). <strong>(high)</strong></li>
+<li><strong>Sensory-gating failure</strong> — TRN/thalamocortical gating breakdown (e.g., schizophrenia: reduced sleep spindles, impaired gating; Ferrarelli &amp; Tononi, 2010, <a href="https://doi.org/10.1093/schbul/sbq142">DOI</a>); too little filtering → flooding, or mis-timed gating → wrong information passed. ⟨fractal-critical: gating failure = signal overload or starvation⟩ <strong>(medium–high)</strong></li>
+<li><strong>Disinhibition syndromes</strong> — losing the inhibitor releases pathological activity (basal-ganglia disorders; loss of prefrontal control). <strong>(high)</strong></li>
+<li><strong>Oscillatory pathology</strong> — over-coupling (Parkinsonian beta hypersynchrony) or under-coupling; both degrade communication (Voytek &amp; Knight, 2015, <a href="https://doi.org/10.1016/j.biopsych.2015.04.016">DOI</a>). ⟨fractal-critical: extremes of coupling both fail⟩ <strong>(medium–high)</strong></li>
+<li><strong>Neurodegeneration</strong> — protein aggregation (amyloid-β, tau, α-synuclein) + failed clearance (glymphatic decline with age; Benveniste et al., 2018, <a href="https://doi.org/10.1159/000490349">DOI</a>) + network collapse. ⟨fractal-critical: maintenance failure compounding over time⟩ <strong>(medium–high)</strong></li>
+<li><strong>Deafferentation / diaschisis</strong> — losing input (stroke, lesion) disables not just the lesioned node but distant connected regions; <strong>the network, not the node, is the unit of failure.</strong> ⟨fractal-critical: failures propagate across the graph⟩ <strong>(high)</strong></li>
+<li><strong>Incomplete-circuit pathology</strong> — a circuit built without its regulatory partner is intrinsically dysfunctional (fear acquisition without extinction; excitation without matched inhibition; feedback without the sensor). ⟨fractal-critical: this is the direct diagnostic for a broken fractal mapping — if the business/civilization mapping omits the inhibitory/feedback/extinction arm, it is <em>lesioned in the same way a brain is</em>⟩ <strong>(high, conceptual)</strong></li>
+</ul>
+<hr />
+<h2 id="part-xv-consolidated-parameter-table-timing-constants-thresholds">PART XV — CONSOLIDATED PARAMETER TABLE (timing constants &amp; thresholds)</h2>
+<p>Intended as the quantitative substrate for scale-rescaling. Confidence and source noted. Where a value is a textbook range rather than a single-study figure, it is marked <strong>(consensus)</strong> and not attached to a fabricated DOI.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Typical value</th>
+<th>Confidence</th>
+<th>Anchor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resting membrane potential</td>
+<td>−65 to −70 mV</td>
+<td>high</td>
+<td>consensus (Kandel/Purves)</td>
+</tr>
+<tr>
+<td>AP threshold</td>
+<td>~ −55 mV</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>AP duration</td>
+<td>~1 ms</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Absolute refractory period</td>
+<td>~1–2 ms</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Synaptic (chemical) delay</td>
+<td>~0.5–1 ms</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Conduction velocity (unmyelinated C)</td>
+<td>~0.5–2 m/s</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Conduction velocity (large myelinated Aα)</td>
+<td>~80–120 m/s</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>STDP LTP window (baseline)</td>
+<td>pre-before-post ~+10 ms</td>
+<td>high</td>
+<td>Ruan 2014 <a href="https://doi.org/10.3389/fncir.2014.00038">DOI</a></td>
+</tr>
+<tr>
+<td>STDP LTP window (dopamine-extended)</td>
+<td>to ~+30 ms</td>
+<td>medium</td>
+<td>Ruan 2014 <a href="https://doi.org/10.3389/fncir.2014.00038">DOI</a></td>
+</tr>
+<tr>
+<td>Gamma oscillation band</td>
+<td>~30–80+ Hz</td>
+<td>high</td>
+<td>Fries 2005 <a href="https://doi.org/10.1016/j.tics.2005.08.011">DOI</a></td>
+</tr>
+<tr>
+<td>Theta band</td>
+<td>~4–8 Hz</td>
+<td>high</td>
+<td>consensus / Voytek 2015 <a href="https://doi.org/10.1016/j.biopsych.2015.04.016">DOI</a></td>
+</tr>
+<tr>
+<td>Alpha band</td>
+<td>~8–12 Hz</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Beta band</td>
+<td>~13–30 Hz</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Delta band</td>
+<td>~1–4 Hz</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Thalamic relay modes</td>
+<td>tonic vs burst</td>
+<td>high</td>
+<td>Ferrarelli &amp; Tononi 2010 <a href="https://doi.org/10.1093/schbul/sbq142">DOI</a></td>
+</tr>
+<tr>
+<td>HPA cortisol feedback (fast, nongenomic)</td>
+<td>seconds–minutes</td>
+<td>high</td>
+<td>Keller-Wood 2015 <a href="https://doi.org/10.1002/cphy.c140065">DOI</a></td>
+</tr>
+<tr>
+<td>HPA cortisol feedback (genomic/slow)</td>
+<td>minutes–hours</td>
+<td>high</td>
+<td>Keller-Wood 2015 <a href="https://doi.org/10.1002/cphy.c140065">DOI</a></td>
+</tr>
+<tr>
+<td>Gut serotonin fraction of body total</td>
+<td>~90–95%</td>
+<td>high</td>
+<td>consensus</td>
+</tr>
+<tr>
+<td>Glymphatic clearance</td>
+<td>sleep-enhanced</td>
+<td>medium</td>
+<td>Benveniste 2018 <a href="https://doi.org/10.1159/000490349">DOI</a></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Scale-rescaling note for LIMEN Helix:</strong> when mapping any neural time constant to a business equivalent, hold the <em>ratios between constants</em> fixed, not just individual values. E.g., the ~1000× gap between AP duration (~1 ms) and slow neuromodulatory/hormonal feedback (~seconds–minutes) is the "fast signal vs slow modulation" invariant; the mapped business system must preserve an analogous fast-action / slow-governance separation, or the fractal is cosmetic, not structural.</p>
+</blockquote>
+<hr />
+<h2 id="references-verified-via-pubmed">REFERENCES (verified via PubMed)</h2>
+<p>According to PubMed, the following peer-reviewed sources anchor the dynamics/quantitative claims above. All DOIs were returned by PubMed and are provided as links.</p>
+<ol>
+<li>Ruan H, Saur T, Yao WD. <em>Dopamine-enabled anti-Hebbian timing-dependent plasticity in prefrontal circuitry.</em> Front Neural Circuits, 2014. <a href="https://doi.org/10.3389/fncir.2014.00038">DOI</a></li>
+<li>Fries P. <em>A mechanism for cognitive dynamics: neuronal communication through neuronal coherence.</em> Trends Cogn Sci, 2005. <a href="https://doi.org/10.1016/j.tics.2005.08.011">DOI</a></li>
+<li>Voytek B, Knight RT. <em>Dynamic network communication as a unifying neural basis for cognition, development, aging, and disease.</em> Biol Psychiatry, 2015. <a href="https://doi.org/10.1016/j.biopsych.2015.04.016">DOI</a></li>
+<li>Başar E, Güntekin B, Öniz A. <em>Principles of oscillatory brain dynamics and a treatise of recognition of faces and facial expressions.</em> Prog Brain Res, 2006. <a href="https://doi.org/10.1016/S0079-6123(06)59004-1">DOI</a></li>
+<li>Shipp S. <em>Neural Elements for Predictive Coding.</em> Front Psychol, 2016. <a href="https://doi.org/10.3389/fpsyg.2016.01792">DOI</a></li>
+<li>Mikulasch FA, Rudelt L, Wibral M, Priesemann V. <em>Where is the error? Hierarchical predictive coding through dendritic error computation.</em> Trends Neurosci, 2023. <a href="https://doi.org/10.1016/j.tins.2022.09.007">DOI</a></li>
+<li>Ferrarelli F, Tononi G. <em>The thalamic reticular nucleus and schizophrenia.</em> Schizophr Bull, 2010. <a href="https://doi.org/10.1093/schbul/sbq142">DOI</a></li>
+<li>Niethard N, Burgalossi A, Born J. <em>Plasticity during Sleep Is Linked to Specific Regulation of Cortical Circuit Activity.</em> Front Neural Circuits, 2017. <a href="https://doi.org/10.3389/fncir.2017.00065">DOI</a></li>
+<li>Keller-Wood M. <em>Hypothalamic-Pituitary-Adrenal Axis-Feedback Control.</em> Compr Physiol, 2015. <a href="https://doi.org/10.1002/cphy.c140065">DOI</a></li>
+<li>Hill MN, Tasker JG. <em>Endocannabinoid signaling, glucocorticoid-mediated negative feedback, and regulation of the hypothalamic-pituitary-adrenal axis.</em> Neuroscience, 2012. <a href="https://doi.org/10.1016/j.neuroscience.2011.12.030">DOI</a></li>
+<li>Rutsch A, Kantsjö JB, Ronchi F. <em>The Gut-Brain Axis: How Microbiota and Host Inflammasome Influence Brain Physiology and Pathology.</em> Front Immunol, 2020. <a href="https://doi.org/10.3389/fimmu.2020.604179">DOI</a></li>
+<li>Benveniste H, Liu X, Koundal S, et al. <em>The Glymphatic System and Waste Clearance with Brain Aging: A Review.</em> Gerontology, 2018. <a href="https://doi.org/10.1159/000490349">DOI</a></li>
+</ol>
+<p><strong>Consensus foundation (not individually DOI-pinned, flagged (high, consensus) throughout):</strong> Kandel et al., <em>Principles of Neural Science</em>; Purves et al., <em>Neuroscience</em>; <em>Gray's Anatomy</em>. These standard references underpin the anatomical, cellular, and definitional content in Parts I–XII.</p>
+<hr />
+<h3 id="coverage-integrity-notes">Coverage &amp; integrity notes</h3>
+<ul>
+<li><strong>Scope honored:</strong> included everything coupling directly or indirectly to nervous-system dynamics — CNS/PNS/ANS/ENS, neurons+glia, signaling, transmitters, full neuroanatomy, all 12 cranial nerves, spinal innervation, autonomic organ-by-organ innervation, all sensory modalities + their outside stimulus sources + transduction, motor systems, neuroendocrine/organ/immune axes, circuit dynamics, and pathology.</li>
+<li><strong>Confidence discipline:</strong> every major claim flagged; leading-but-unsettled frameworks (predictive coding, some interoception/gut-brain causal claims) marked medium.</li>
+<li><strong>Citation integrity:</strong> no invented DOIs; verified citations reserved for dynamics/quantitative claims; broad textbook content labeled consensus rather than falsely sourced.</li>
+<li><strong>Open items for deeper passes (if wanted):</strong> per-parameter DOI verification for the consensus rows; explicit fractal/business-scale mappings (deliberately excluded here per the request's neural-only scope); expansion of any single subsystem (e.g., a full retinal or cerebellar micro-reference).</li>
+</ul>
+  </main>
+</div>
+<a class="top" href="#top">↑ Top</a>
+</body>
+</html>

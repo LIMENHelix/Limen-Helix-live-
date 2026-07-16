@@ -1,0 +1,910 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN Helix — Neurology ↔ Business Cross-Reference</title>
+<style>
+:root{--bg:#0e1117;--panel:#151b26;--panel2:#1b2330;--ink:#e6edf3;--muted:#9aa7b8;
+--accent:#5eb0ef;--accent2:#7ee0c4;--line:#26313f;--crit:#f0b866;--code:#243040;
+--struct:#3fb950;--part:#d29922;--cos:#f85149;--miss:#a371f7;}
+@media (prefers-color-scheme:light){:root{--bg:#f6f8fb;--panel:#fff;--panel2:#eef2f7;
+--ink:#1a2230;--muted:#5b6675;--accent:#1f6feb;--accent2:#0f9d78;--line:#dbe2ea;
+--crit:#a8631a;--code:#eef2f7;--struct:#1a7f37;--part:#9a6700;--cos:#cf222e;--miss:#8250df;}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15.5px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{display:grid;grid-template-columns:290px 1fr;max-width:1500px;margin:0 auto;min-height:100vh}
+nav{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:var(--panel);
+border-right:1px solid var(--line);padding:22px 14px}
+nav .brand{font-weight:700;font-size:14px;color:var(--accent);margin-bottom:2px}
+nav .sub{font-size:11.5px;color:var(--muted);margin-bottom:14px;line-height:1.4}
+nav a{display:block;text-decoration:none;color:var(--muted);padding:3px 8px;border-radius:6px;font-size:12.5px}
+nav a:hover{color:var(--ink);background:var(--panel2)}
+nav a.toc-h2{font-weight:600;color:var(--ink);margin-top:7px}
+nav a.toc-h3{padding-left:16px;font-size:12px}
+.legendbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
+.legendbar span{font-size:10.5px;padding:2px 7px;border-radius:20px;font-weight:700;color:#fff}
+main{padding:40px 48px;max-width:1050px;overflow-x:auto}
+h1{font-size:27px;line-height:1.25;margin:0 0 6px}
+h2{font-size:20px;margin:38px 0 12px;padding-top:14px;border-top:1px solid var(--line);color:var(--accent)}
+h3{font-size:16px;margin:24px 0 8px;color:var(--accent2)}
+a{color:var(--accent)}strong,b{color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--panel2);border-left:3px solid var(--crit);
+border-radius:6px;color:var(--muted);font-size:14px}
+code{background:var(--code);padding:1px 6px;border-radius:5px;font-size:13px;font-family:"SF Mono",Menlo,monospace}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;position:sticky;top:0}
+tr:nth-child(even) td{background:rgba(127,127,127,.04)}
+.v{padding:1px 6px;border-radius:5px;color:#fff;font-size:11.5px;white-space:nowrap}
+b.struct{background:var(--struct)}b.part{background:var(--part)}
+b.cos{background:var(--cos)}b.miss{background:var(--miss)}
+ul,ol{padding-left:20px}li{margin:4px 0}
+.top{position:fixed;right:20px;bottom:20px;background:var(--accent);color:#fff;text-decoration:none;
+padding:9px 13px;border-radius:30px;font-size:12.5px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}nav{position:static;height:auto}main{padding:24px 16px}}
+</style></head><body>
+<div class="wrap">
+<nav><div class="brand">LIMEN HELIX</div>
+<div class="sub">Neurology ↔ Business — Fractal Isomorphism Map</div>
+<div class="legendbar">
+<span style="background:var(--struct)">STRUCTURAL</span>
+<span style="background:var(--part)">PARTIAL</span>
+<span style="background:var(--cos)">COSMETIC</span>
+<span style="background:var(--miss)">MISSING</span></div>
+<a class="toc-h2" href="#lead-analysis-fractal-integrity-before-the-tables">LEAD ANALYSIS — Fractal integrity before the tables</a>
+<a class="toc-h2" href="#chart-a-structural-functional-isomorphisms-the-similar-map">CHART A — STRUCTURAL / FUNCTIONAL ISOMORPHISMS (the "similar" map)</a>
+<a class="toc-h3" href="#a1-cells-agents-who-does-the-work">A1. Cells &amp; agents (who does the work)</a>
+<a class="toc-h3" href="#a2-signaling-how-a-decision-moves">A2. Signaling (how a decision moves)</a>
+<a class="toc-h3" href="#a3-neuromodulators-business-global-state-signals">A3. Neuromodulators → business "global state" signals</a>
+<a class="toc-h3" href="#a4-anatomy-structure-where-functions-live">A4. Anatomy → structure (where functions live)</a>
+<a class="toc-h3" href="#a5-innervation-wiring-the-connectome">A5. Innervation &amp; wiring (the connectome)</a>
+<a class="toc-h3" href="#a6-sensory-input-how-the-system-senses-its-world">A6. Sensory input (how the system senses its world)</a>
+<a class="toc-h3" href="#a7-dynamics-the-crux-does-it-actually-compute-the-same-way">A7. Dynamics — the crux (does it actually compute the same way?)</a>
+<a class="toc-h3" href="#a8-endocrine-broadcast-regulation">A8. Endocrine / broadcast / regulation</a>
+<a class="toc-h2" href="#chart-b-partial-cosmetic-sounds-similar-dynamics-differ-flagged">CHART B — PARTIAL / COSMETIC (sounds similar, dynamics differ — FLAGGED)</a>
+<a class="toc-h2" href="#chart-c-missing-asymmetric-the-high-value-gaps">CHART C — MISSING / ASYMMETRIC (the high-value gaps)</a>
+<a class="toc-h3" href="#c1-neural-mechanisms-usually-missing-in-business-build-targets">C1 — Neural mechanisms usually MISSING in business (build targets)</a>
+<a class="toc-h3" href="#c2-business-elements-with-weak-no-neural-correlate-the-other-asymmetry">C2 — Business elements with WEAK / no neural correlate (the other asymmetry)</a>
+<a class="toc-h2" href="#chart-d-pathology-map-failure-modes-must-map-too-project-mandate">CHART D — PATHOLOGY MAP (failure modes must map too — project mandate)</a>
+<a class="toc-h2" href="#fractal-integrity-verdict">FRACTAL INTEGRITY VERDICT</a>
+<a class="toc-h3" href="#provenance-integrity">Provenance &amp; integrity</a>
+</nav>
+<main><span id="top"></span>
+<h1 id="limen-helix-neurology-business-cross-reference-fractal-isomorphism-map">LIMEN Helix — Neurology ↔ Business Cross-Reference (Fractal Isomorphism Map)</h1>
+<p><strong>Sources bound.</strong> Neural side: <em>LIMEN Helix Neurology &amp; Nervous System Reference</em> (this project). Business side: your <em>Business Operations Atlas</em> — specifically its <strong>10 core functions</strong>, the <strong>9-tier universal authority ladder</strong>, the <strong>3-layer regulation model</strong> (state/vertical, self/internal, market/lateral), and the <strong>20 civilization domains at 3 altitudes</strong>. This maps the neural reference against your <em>actual</em> business structures, not a generic model.</p>
+<p><strong>Analysis axes kept separate (per project doctrine):</strong> <em>functional isomorphism</em> (does it do the same job in the system?) ≠ <em>structural isomorphism</em> (do the dynamics/thresholds/inhibition patterns actually match?) ≠ <em>fractal integrity</em> (does the recursive rule survive the scale jump?). Every row is judged on all three, not conflated.</p>
+<p><strong>Verdict codes.</strong>
+- <strong><b class="v struct">STRUCTURAL</b></strong> — same working part, same job, and the <em>dynamics</em> (feedback, gating, inhibition, timing ratios) actually match. Fractal intact.
+- <strong><b class="v part">PARTIAL</b></strong> — real correlate, right job, but the dynamics only partly match or a functional piece is thin. Fractal bends.
+- <strong><b class="v cos">COSMETIC</b></strong> — sounds alike, dynamics differ. <strong>Flagged — breaks the fractal.</strong>
+- <strong><b class="v miss">MISSING</b></strong> — the neural part is load-bearing but has no reliable business correlate. <strong>Build target / pathology risk.</strong></p>
+<p><strong>Confidence</strong> flagged per row: (high / medium / low / speculative). ⟨load-bearing⟩ marks invariants that must be preserved when rescaling.</p>
+<hr />
+<h2 id="lead-analysis-fractal-integrity-before-the-tables">LEAD ANALYSIS — Fractal integrity before the tables</h2>
+<p><strong>The single strongest structural result.</strong> Your Atlas already encodes the brain's two master control axes without naming them:</p>
+<ol>
+<li>
+<p><strong>The 9-tier authority ladder is a laminar hierarchy.</strong> Bottom-up reporting = <strong>prediction error ascending</strong>; top-down direction = <strong>predictions descending</strong>. This is the cortical feedforward/feedback lamination (Shipp, 2016, <a href="https://doi.org/10.3389/fpsyg.2016.01792">DOI</a>) at organizational scale. <strong>The fractal is intact here — provided the ladder carries signal in <em>both</em> directions and laterally.</strong> A pure top-down tree is the cosmetic (broken) version.</p>
+</li>
+<li>
+<p><strong>The 3-layer regulation model is the brain's three inhibition sources, exactly.</strong> State regulation <em>from above</em> = top-down cortical/executive control + hard external limits. Self-regulation <em>from within</em> = intrinsic inhibitory interneurons + homeostatic plasticity. Market/mutual regulation <em>from the side</em> = <strong>lateral inhibition</strong> between competing units. This is a genuine structural isomorphism — three independent brakes, same geometry (vertical / internal / lateral). ⟨load-bearing⟩ <strong>(high)</strong></p>
+</li>
+</ol>
+<p><strong>The candidate unified rule.</strong> "Prediction error drives update" (predictive coding) rescales cleanly to <strong>management-by-exception</strong>: only the <em>mismatch</em> between expectation and result should propagate upward; matches are summarized away. If your build routes full status reports upward instead of surprise-only, the rule is violated and you get executive overload (see Pathology). This is the rule to enforce across all scales. <strong>(medium — leading framework)</strong></p>
+<p><strong>The strongest missing-part finding (read this first).</strong> The brain pairs every <em>acquisition</em> mechanism with a <em>removal</em> mechanism — fear learning with <strong>extinction</strong>, Hebbian potentiation with <strong>homeostatic down-scaling</strong>, activity with <strong>glymphatic clearance during offline/sleep</strong>. Business systems reliably build the acquisition half and omit the removal half: policies are added after every incident but rarely retired, headcount/complexity grows with no global down-scaling, and there is no enforced "offline maintenance" to clear process debt. <strong>A business that only acquires is, in the precise neurological sense, a lesioned brain</strong> — over-inhibited (scar-tissue rules) and unable to clear waste (accumulating debt). These are the highest-value build targets. ⟨load-bearing⟩ <strong>(high, conceptual)</strong></p>
+<p>Scales covered below: <strong>neural ↔ business</strong>. Civilization scale (your 20 domains) is the next ring out and is noted where a mapping obviously extends; I have <strong>not</strong> independently validated the civilization tier here.</p>
+<hr />
+<h2 id="chart-a-structural-functional-isomorphisms-the-similar-map">CHART A — <b class="v struct">STRUCTURAL</b> / FUNCTIONAL ISOMORPHISMS (the "similar" map)</h2>
+<p><em>Read as: neural part → its job in the nervous system → business correlate in your Atlas → its job in the business → verdict.</em></p>
+<h3 id="a1-cells-agents-who-does-the-work">A1. Cells &amp; agents (who does the work)</h3>
+<table>
+<thead>
+<tr>
+<th>Neural part</th>
+<th>Job in the system</th>
+<th>Business correlate (Atlas)</th>
+<th>Job in the business</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Excitatory projection neuron (pyramidal)</td>
+<td>Carries signal long-range, drives targets</td>
+<td><strong>Operational workforce + Professionals/Specialists</strong> (ladder tiers 8–9)</td>
+<td>Do the actual work; carry output across the org</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Local inhibitory interneuron (PV⁺/SOM⁺)</td>
+<td>Local gain control, timing, brakes</td>
+<td><strong>Managers/Supervisors</strong> + <strong>Legal/Risk/Compliance</strong> function</td>
+<td>Throttle, gate, and time local activity; prevent runaway</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Astrocyte / glia</td>
+<td>Homeostatic buffering, substrate provisioning, tripartite modulation</td>
+<td><strong>HR/People + IT infrastructure + Facilities</strong></td>
+<td>Supply and stabilize the environment work runs in</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Microglia</td>
+<td>Surveil, prune weak/unused synapses</td>
+<td><strong>Internal audit + Corporate Strategy (portfolio pruning)</strong></td>
+<td>Cut underperforming units/projects; clean up</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Neuromodulatory nucleus (VTA, LC, raphe)</td>
+<td>Broadcast a global state signal</td>
+<td><strong>Executive leadership + incentive/comp system</strong></td>
+<td>Set org-wide tone, priorities, reward regime</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a2-signaling-how-a-decision-moves">A2. Signaling (how a decision moves)</h3>
+<table>
+<thead>
+<tr>
+<th>Neural part</th>
+<th>Job</th>
+<th>Business correlate</th>
+<th>Job</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Action potential (all-or-none, thresholded)</td>
+<td>Fire only past threshold; propagate cleanly</td>
+<td><strong>Approval/decision gate</strong> (a go/no-go that clears a bar and cascades)</td>
+<td>Commit once criteria are met; then execute</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Synapse (directional, gain, delay, plastic)</td>
+<td>Weighted, one-way handoff between units</td>
+<td><strong>Interface/handoff between functions</strong> (SLA, contract, API)</td>
+<td>Pass work across a boundary with defined weight/latency</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>EPSP/IPSP spatial+temporal summation</td>
+<td>Integrate competing inputs to threshold</td>
+<td><strong>Decision meeting / weighing pros &amp; cons before commit</strong></td>
+<td>Aggregate for/against inputs into one call</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Absolute refractory period</td>
+<td>Enforced dead-time; caps re-firing rate</td>
+<td><strong>Cooldown / change-freeze / rate limit after a decision</strong></td>
+<td>Prevent thrash by blocking immediate re-decision</td>
+<td><b class="v part">PARTIAL</b> → often <b class="v miss">MISSING</b> (see C)</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Neurotransmitter release + reuptake/degradation</td>
+<td>Emit signal, then clear it so it doesn't accumulate</td>
+<td><strong>Communicate a decision, then close/retire the record</strong></td>
+<td>Broadcast, then clear the queue/ticket</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a3-neuromodulators-business-global-state-signals">A3. Neuromodulators → business "global state" signals</h3>
+<table>
+<thead>
+<tr>
+<th>Neural modulator</th>
+<th>Job</th>
+<th>Business correlate</th>
+<th>Job</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dopamine (reward prediction error)</td>
+<td>Teach the system what to repeat; reweight toward reward</td>
+<td><strong>Incentives, KPIs, comp, bonuses</strong></td>
+<td>Reweight effort toward what's rewarded; signal "better than expected"</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Norepinephrine (arousal/gain/SNR)</td>
+<td>Raise network-wide gain under salience</td>
+<td><strong>Crisis mode / priority escalation / "all-hands"</strong></td>
+<td>Sharpen focus, raise urgency org-wide</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Serotonin (mood, patience, satiety)</td>
+<td>Set baseline tone, time horizon, "enough"</td>
+<td><strong>Culture, morale, patience for long bets</strong></td>
+<td>Set the org's baseline affect and risk patience</td>
+<td><b class="v part">PARTIAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Acetylcholine (attention/encoding)</td>
+<td>Direct attention, enable learning</td>
+<td><strong>Focus mechanisms: OKRs, "top-3 priorities"</strong></td>
+<td>Point limited attention at what matters now</td>
+<td><b class="v part">PARTIAL</b></td>
+<td>medium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a4-anatomy-structure-where-functions-live">A4. Anatomy → structure (where functions live)</h3>
+<table>
+<thead>
+<tr>
+<th>Neural structure</th>
+<th>Job</th>
+<th>Business correlate (Atlas)</th>
+<th>Job</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cortical laminar hierarchy (I–VI, up/down streams)</td>
+<td>Feedforward error up, feedback prediction down</td>
+<td><strong>9-tier authority ladder</strong></td>
+<td>Bottom-up reporting, top-down direction</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Canonical cortical column (repeating microcircuit)</td>
+<td>One reusable computation, tiled everywhere</td>
+<td><strong>The 10 core functions as a repeatable "company template"</strong> reused across all 261 business types</td>
+<td>One org template instantiated in every firm/domain</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Thalamus (relay + gate)</td>
+<td>Route the right input to the right cortex under feedback</td>
+<td><strong>Executive office / PMO / routing layer</strong></td>
+<td>Direct information and requests to the right function</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Thalamic reticular nucleus (attention gatekeeper)</td>
+<td>Inhibitory triage of what reaches cortex</td>
+<td><strong>Prioritization/triage: which initiatives get resourced</strong></td>
+<td>Decide what gets attention vs. filtered</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Basal ganglia (direct/indirect/hyperdirect: go/no-go/stop)</td>
+<td>Select one action by disinhibition, veto others</td>
+<td><strong>Capital allocation / portfolio &amp; stage-gate governance</strong></td>
+<td>Approve, kill, or halt initiatives; fund one, starve rest</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Hypothalamus (set-points, homeostasis)</td>
+<td>Hold targets; command corrective drives</td>
+<td><strong>Finance/FP&amp;A + Corporate Strategy (budgets, targets, OKRs)</strong></td>
+<td>Set targets; trigger corrective action on variance</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Cerebellum (forward model, timing, error-correction)</td>
+<td>Predict outcomes, calibrate against error</td>
+<td><strong>Ops/Quality (Six Sigma), forecasting, S&amp;OP</strong></td>
+<td>Model expected output, tighten against variance</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Hippocampus (episodic memory, encoding)</td>
+<td>Form and index new memories</td>
+<td><strong>Knowledge mgmt, CRM, institutional records</strong></td>
+<td>Capture and retrieve what happened</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Amygdala (threat detect <strong>+ extinction</strong>)</td>
+<td>Fast threat response, <em>and its removal</em></td>
+<td><strong>Risk management + incident postmortems (retiring stale controls)</strong></td>
+<td>Detect/flag threats, <em>and stand down obsolete ones</em></td>
+<td><b class="v part">PARTIAL</b> (extinction usually missing → C)</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Brainstem / ARAS (arousal, vital centers)</td>
+<td>Keep the system on; set consciousness level</td>
+<td><strong>Core "keep-the-lights-on" ops: payroll, IT uptime, security</strong></td>
+<td>Maintain baseline viability</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a5-innervation-wiring-the-connectome">A5. Innervation &amp; wiring (the connectome)</h3>
+<table>
+<thead>
+<tr>
+<th>Neural part</th>
+<th>Job</th>
+<th>Business correlate</th>
+<th>Job</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cranial/spinal nerves (labeled lines)</td>
+<td>Dedicated, typed channels in/out</td>
+<td><strong>Defined reporting lines &amp; data pipelines</strong></td>
+<td>Route specific info to specific owners</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>ANS sympathetic ↔ parasympathetic (antagonistic, <em>both tonically active</em>)</td>
+<td>Bidirectional push–pull around a set-point</td>
+<td><strong>Growth/expansion drive ↔ efficiency/consolidation drive</strong> (invest vs. cut)</td>
+<td>Dial the org up or down from baseline in both directions</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Adrenal medulla (neural signal → hormonal broadcast)</td>
+<td>Convert a local spike into a body-wide hormone surge</td>
+<td><strong>A local decision escalated into a company-wide mandate/memo</strong></td>
+<td>Turn one call into an org-wide directive</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Enteric nervous system (semi-autonomous local brain)</td>
+<td>Run local reflexes without central input</td>
+<td><strong>Autonomous business units / franchises / regional P&amp;Ls</strong></td>
+<td>Operate locally without HQ on every decision</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Reflex arc (receptor→effector, no cortex)</td>
+<td>Fast local closed loop, bypasses the top</td>
+<td><strong>SOPs / automated workflows / policy triggers</strong></td>
+<td>Standard response fires without exec involvement</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Central pattern generators (autonomous rhythm)</td>
+<td>Generate repeating output with no input</td>
+<td><strong>Recurring operating cadence: monthly close, sprint cycle</strong></td>
+<td>Produce rhythmic output automatically</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a6-sensory-input-how-the-system-senses-its-world">A6. Sensory input (how the system senses its world)</h3>
+<table>
+<thead>
+<tr>
+<th>Neural part</th>
+<th>Job</th>
+<th>Business correlate</th>
+<th>Job</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Receptors + transduction (all senses)</td>
+<td>Convert world → internal signal</td>
+<td><strong>Market research, customer feedback, telemetry, BI</strong></td>
+<td>Convert market/ops reality → internal data</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Phasic vs tonic adaptation</td>
+<td>Change-detection vs level-reporting</td>
+<td><strong>Anomaly alerts vs standing dashboards</strong></td>
+<td>Flag deltas vs report levels</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Lateral inhibition (center-surround, contrast)</td>
+<td>Sharpen signal, suppress neighbors</td>
+<td><strong>Benchmarking / internal competition for resources</strong></td>
+<td>Make the strong signal stand out; starve the weak</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Interoception (insula: internal-state sensing)</td>
+<td>Feel the body's own condition</td>
+<td><strong>Internal ops metrics, engagement surveys, financial health</strong></td>
+<td>Sense the org's own internal state</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Gut–brain axis (mostly <em>afferent</em> — gut reports up)</td>
+<td>Periphery informs center more than center commands</td>
+<td><strong>Front-line/field → HQ feedback (the field reports up more than HQ dictates down)</strong></td>
+<td>Ground truth flows upward from the edge</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a7-dynamics-the-crux-does-it-actually-compute-the-same-way">A7. Dynamics — the crux (does it actually compute the same way?)</h3>
+<table>
+<thead>
+<tr>
+<th>Neural dynamic</th>
+<th>Job</th>
+<th>Business correlate</th>
+<th>Job</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E/I balance</strong> (inhibition tracks excitation ms-by-ms)</td>
+<td>Set gain/stability; prevent runaway</td>
+<td><strong>Growth drive continuously matched by risk/compliance brakes</strong></td>
+<td>Scale ambition only as fast as controls scale</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Feedforward inhibition</td>
+<td>Narrow the time-window; guardrail before action</td>
+<td><strong>Pre-approval gates / guardrails before spend</strong></td>
+<td>Constrain before commit</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Feedback (recurrent) inhibition</td>
+<td>Self-limit output after the fact</td>
+<td><strong>Budget caps, audits, after-action controls</strong></td>
+<td>Rein in after action</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Disinhibition (inhibit the inhibitor → permit)</td>
+<td>Gate <em>by releasing a brake</em></td>
+<td><strong>Delegation of authority / removing a blocker</strong></td>
+<td>Enable action by lifting a control, not adding drive</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Oscillation / communication-through-coherence</strong> (only coherent groups exchange signal; Fries 2005 <a href="https://doi.org/10.1016/j.tics.2005.08.011">DOI</a>)</td>
+<td>Open shared time-windows so units can talk</td>
+<td><strong>Meeting cadence / planning cycles / sync rhythms</strong></td>
+<td>Only teams on the same cadence actually coordinate</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Cross-frequency coupling (theta nests gamma)</td>
+<td>Fast local cycles ride inside slow global ones</td>
+<td><strong>Daily standups inside sprints inside quarterly inside annual</strong></td>
+<td>Nest fast execution in slow strategy</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td><strong>Predictive coding</strong> (only mismatch propagates up)</td>
+<td>Compress; send surprise, not everything</td>
+<td><strong>Management-by-exception / exception reporting</strong></td>
+<td>Escalate variance, summarize the expected</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>STDP / Hebbian ("fire together, wire together"; timing-gated, dopamine-widened; Ruan 2014 <a href="https://doi.org/10.3389/fncir.2014.00038">DOI</a>)</td>
+<td>Strengthen co-active, well-timed links</td>
+<td><strong>Reinforce partnerships/processes that repeatedly succeed together</strong></td>
+<td>Institutionalize what works; incentives widen the window</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Homeostatic scaling (global normalization)</td>
+<td>Keep total drive in range so learning can't run away</td>
+<td><strong>Global headcount/spend normalization; zero-based budgeting</strong></td>
+<td>Renormalize the whole system to stay in budget</td>
+<td><b class="v part">PARTIAL</b> → often <b class="v miss">MISSING</b> (see C)</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Neuromodulation / gain control</td>
+<td>Small signal reconfigures the whole regime</td>
+<td><strong>Leadership/incentive change re-tuning org behavior without restructure</strong></td>
+<td>Shift operating point cheaply, no reorg</td>
+<td><b class="v part">PARTIAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Population / sparse / attractor coding</td>
+<td>Distributed representation; stable states</td>
+<td><strong>Distributed decision-making; stable strategic "positions"</strong></td>
+<td>No single node holds the decision; settle into strategies</td>
+<td><b class="v part">PARTIAL</b></td>
+<td>medium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a8-endocrine-broadcast-regulation">A8. Endocrine / broadcast / regulation</h3>
+<table>
+<thead>
+<tr>
+<th>Neural part</th>
+<th>Job</th>
+<th>Business correlate</th>
+<th>Job</th>
+<th>Verdict</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HPA axis</strong> — multi-site negative feedback, fast + slow arms (Keller-Wood 2015 <a href="https://doi.org/10.1002/cphy.c140065">DOI</a>)</td>
+<td>Mount a stress response, shut it off at several levels, fast and slow</td>
+<td><strong>Escalation + governance with negative feedback at manager → VP → board</strong></td>
+<td>Respond to a shock, then damp it at multiple tiers</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Hypothalamic–pituitary bridge (neural → hormonal)</td>
+<td>Convert neural decision into system-wide hormonal policy</td>
+<td><strong>Strategy → policy → company-wide directive</strong></td>
+<td>Convert a decision into standing policy</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Circadian SCN (master clock entrains distributed clocks)</td>
+<td>One clock phase-locks the whole body</td>
+<td><strong>Fiscal calendar / planning clock entraining every unit</strong></td>
+<td>One calendar synchronizes all units</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Cholinergic anti-inflammatory reflex (vagus damps inflammation)</td>
+<td>Neural brake on an immune positive-feedback loop</td>
+<td><strong>Legal/PR/Risk damping internal "inflammation" (disputes, crises, pile-ons)</strong></td>
+<td>Contain a flare before it becomes systemic</td>
+<td><b class="v struct">STRUCTURAL</b></td>
+<td>medium</td>
+</tr>
+<tr>
+<td><strong>3-layer inhibition sources</strong></td>
+<td>vertical (top-down) + intrinsic (self) + lateral (peer) brakes</td>
+<td><strong>Your 3-layer regulation model: State (vertical) / Self (internal) / Market (lateral)</strong></td>
+<td>Three independent regulation geometries</td>
+<td><b class="v struct">STRUCTURAL</b> ⟨load-bearing⟩</td>
+<td>high</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chart-b-partial-cosmetic-sounds-similar-dynamics-differ-flagged">CHART B — <b class="v part">PARTIAL</b> / <b class="v cos">COSMETIC</b> (sounds similar, dynamics differ — FLAGGED)</h2>
+<p><em>These are the fractal-breakers to watch. Each "looks like" a match but the underlying dynamics diverge.</em></p>
+<table>
+<thead>
+<tr>
+<th>Claim / mapping</th>
+<th>Why it's tempting</th>
+<th>Why it's <b class="v cos">COSMETIC</b> or <b class="v part">PARTIAL</b></th>
+<th>Correct reading</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>"IT is the firm's nervous system"</strong> (the Atlas's own phrase for the IT function)</td>
+<td>IT wires everything together</td>
+<td>IT is <strong>wiring + glia (white matter, infrastructure, buffering)</strong>, <em>not</em> the computational nervous system. The real "nervous system" is the <strong>distributed decision fabric across all tiers</strong>. Localizing cognition in IT is like calling the corpus callosum "the brain."</td>
+<td>IT = axonal tracts + astrocytic support. Cognition is distributed, not departmental.</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Org chart = brain hierarchy</strong></td>
+<td>Both are layered</td>
+<td>A brain is <strong>~80% recurrent/lateral</strong>, densely feedback-connected. A pure org <em>tree</em> has no lateral or feedback edges. Same picture, opposite connectivity.</td>
+<td>Structural only <em>if</em> lateral + feedback channels exist; otherwise cosmetic (and pathological — see C6).</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Neurotransmitter type ↔ department (1:1)</strong></td>
+<td>Both have "kinds"</td>
+<td>Mapping "dopamine = sales, serotonin = HR" is cosmetic. The real invariant is the <strong>role triad: excitatory / inhibitory / modulatory</strong>, not the named chemical.</td>
+<td>Map <em>roles</em>, not molecules.</td>
+<td>medium</td>
+</tr>
+<tr>
+<td><strong>"Fast-growth = healthy metabolism"</strong></td>
+<td>Growth feels vital</td>
+<td>Neural health is <strong>homeostasis</strong>, not maximal firing. Maximal firing = seizure. Growth without matched inhibition is the <em>pathology</em>, not the health.</td>
+<td>Health = regulated balance, not throughput.</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>CEO = "the brain"</strong></td>
+<td>Single controller intuition</td>
+<td>The brain has <strong>no CEO neuron</strong>. Control is distributed (basal ganglia select, cortex predicts, thalamus gates, brainstem arouses). A single-point controller is <em>less</em> brain-like.</td>
+<td>CEO ≈ a neuromodulatory + basal-ganglia <em>function</em>, not a homunculus.</td>
+<td>medium</td>
+</tr>
+<tr>
+<td><strong>Money = neural signal</strong></td>
+<td>Both are "signals"</td>
+<td>Money is fungible, storable, and conserved; neural signals are transient, typed, and non-conserved. Partial at best.</td>
+<td>Closest correlate is dopamine/reward <em>currency</em>, but the analogy is loose.</td>
+<td>medium</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chart-c-missing-asymmetric-the-high-value-gaps">CHART C — <b class="v miss">MISSING</b> / ASYMMETRIC (the high-value gaps)</h2>
+<p><em>Per project doctrine: if a load-bearing neural pattern has no business correlate, either the mapping is wrong or </em><em>the business is pathological — lesioned in the same way a brain is</em><em>. Each row states which.</em></p>
+<h3 id="c1-neural-mechanisms-usually-missing-in-business-build-targets">C1 — Neural mechanisms usually <b class="v miss">MISSING</b> in business (build targets)</h3>
+<table>
+<thead>
+<tr>
+<th>Neural mechanism</th>
+<th>What it does</th>
+<th>Business status</th>
+<th>Consequence if absent (the matching lesion)</th>
+<th>Priority</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Extinction learning</strong> (amygdala + vmPFC)</td>
+<td>Actively <em>removes</em> obsolete threat responses</td>
+<td>Usually <strong><b class="v miss">MISSING</b></strong> — policies added post-incident, rarely retired</td>
+<td>Accumulating "scar-tissue" rules → chronic over-inhibition / bureaucratic paralysis</td>
+<td>★★★</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Homeostatic synaptic scaling</strong></td>
+<td>Global down-scaling so learning can't run away</td>
+<td>Usually <strong><b class="v miss">MISSING</b></strong> — no global renormalization after growth</td>
+<td>Runaway headcount/complexity; local optimization with no global brake</td>
+<td>★★★</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Glymphatic clearance / offline maintenance (sleep)</strong> (Benveniste 2018 <a href="https://doi.org/10.1159/000490349">DOI</a>)</td>
+<td>Mandatory downtime clears metabolic waste</td>
+<td>Usually <strong><b class="v miss">MISSING</b></strong> — no enforced "offline" for cleanup</td>
+<td>Process/tech debt accumulates unbounded → degenerative decline</td>
+<td>★★★</td>
+<td>medium</td>
+</tr>
+<tr>
+<td><strong>Refractory period / rate-limiting</strong></td>
+<td>Dead-time preventing immediate re-firing</td>
+<td>Often <strong><b class="v miss">MISSING</b></strong> — decisions re-litigated instantly</td>
+<td>Whiplash, thrash, strategy churn</td>
+<td>★★</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Retrograde negative feedback</strong> (endocannabinoid: receiver throttles sender)</td>
+<td>The <em>receiver</em> dials the sender back</td>
+<td>Mostly <strong><b class="v miss">MISSING</b></strong> — feedback is top-down, not receiver-controlled</td>
+<td>Senders overload receivers (no downstream throttle) → flooding</td>
+<td>★★</td>
+<td>medium</td>
+</tr>
+<tr>
+<td><strong>Prediction-error-only propagation</strong></td>
+<td>Send surprise up, compress the expected</td>
+<td><strong><b class="v part">PARTIAL</b></strong> — orgs push full reports up</td>
+<td>Executive overload <em>or</em> premature over-filtering</td>
+<td>★★★</td>
+<td>medium</td>
+</tr>
+<tr>
+<td><strong>Dense recurrent / lateral connectivity</strong></td>
+<td>~80% local + lateral wiring</td>
+<td>Usually <strong><b class="v miss">MISSING</b></strong> — tree, not mesh</td>
+<td>Siloing; no cross-unit coordination without going up-and-over</td>
+<td>★★★</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Distributed / redundant control</strong></td>
+<td>No single point; graceful degradation</td>
+<td>Often <strong><b class="v miss">MISSING</b></strong> — centralized</td>
+<td>Single points of failure; brittle to key-person loss</td>
+<td>★★</td>
+<td>high</td>
+</tr>
+<tr>
+<td><strong>Metaplasticity</strong> (plasticity of plasticity)</td>
+<td>Adjusts <em>how fast</em> the system changes</td>
+<td>Usually <strong><b class="v miss">MISSING</b></strong> — change rate is fixed/ad hoc</td>
+<td>Over- or under-reactive change management</td>
+<td>★</td>
+<td>medium</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c2-business-elements-with-weak-no-neural-correlate-the-other-asymmetry">C2 — Business elements with WEAK / no neural correlate (the other asymmetry)</h3>
+<table>
+<thead>
+<tr>
+<th>Business element</th>
+<th>Why it's hard to map</th>
+<th>Closest neural correlate</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Legal ownership / shareholders (residual claimants)</td>
+<td>No neural "owner" of the brain</td>
+<td>Survival/reproduction drive (very loose)</td>
+<td>Largely <strong>no correlate</strong> — a genuine scale-specific feature</td>
+</tr>
+<tr>
+<td>External <strong>state regulators</strong> as separate agencies</td>
+<td>Brain has no external agency issuing licenses</td>
+<td>Genetic/developmental constraints + hard homeostatic limits</td>
+<td><strong><b class="v part">PARTIAL</b></strong> — constraints exist, but not as an external actor</td>
+</tr>
+<tr>
+<td>Money as fungible, storable, conserved medium</td>
+<td>Neural signals aren't conserved or stored fungibly</td>
+<td>Reward/dopamine currency</td>
+<td><strong><b class="v part">PARTIAL</b> / cosmetic</strong></td>
+</tr>
+<tr>
+<td>Explicit legal contracts</td>
+<td>Synapses aren't "negotiated"</td>
+<td>Synaptic weights (set by use, not agreement)</td>
+<td><strong><b class="v part">PARTIAL</b></strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Doctrine call:</strong> C2 items are candidates for a <em>scale-specific rule</em> — which the project says is forbidden ("no scale-dependent special cases"). Two honest options: (a) treat ownership/regulators/money as <strong>civilization-scale organs</strong> that only appear above the single-organism boundary (defensible — a single brain has no economy), or (b) accept these as places the strict fractal <strong>does not hold</strong> and label them as such. I recommend (a) but flag it as <strong>unresolved</strong> rather than asserting the fractal is intact. <strong>(medium)</strong></p>
+</blockquote>
+<hr />
+<h2 id="chart-d-pathology-map-failure-modes-must-map-too-project-mandate">CHART D — PATHOLOGY MAP (failure modes must map too — project mandate)</h2>
+<table>
+<thead>
+<tr>
+<th>Neural failure</th>
+<th>Mechanism</th>
+<th>Business failure (isomorph)</th>
+<th>Shared root cause</th>
+<th>Conf.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seizure / epilepsy</td>
+<td>E/I balance fails → runaway excitation</td>
+<td>Runaway growth/hype with no risk brake → blowup</td>
+<td>Loss of load-bearing inhibition</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Excitotoxicity</td>
+<td>Signal not cleared → Ca²⁺ overload → cell death</td>
+<td>Unresolved tickets/issues/debt accumulate → burnout, collapse</td>
+<td>Failure of <em>termination/clearance</em></td>
+<td>high</td>
+</tr>
+<tr>
+<td>Sensory-gating failure (schizophrenia; Ferrarelli &amp; Tononi 2010 <a href="https://doi.org/10.1093/schbul/sbq142">DOI</a>)</td>
+<td>Thalamic/TRN gate breaks → flooding or wrong signal passed</td>
+<td>Information overload <em>or</em> filtering out what HQ needed</td>
+<td>Gating at the wrong stage / wrong threshold</td>
+<td>med–high</td>
+</tr>
+<tr>
+<td>Disinhibition syndrome</td>
+<td>Lose the inhibitor → released pathological activity</td>
+<td>Loss of controls → fraud, misconduct, scope creep</td>
+<td>Removed brake with no replacement</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Over-inhibition</td>
+<td>Too much suppression → silence</td>
+<td>Bureaucratic paralysis; approval-gate gridlock</td>
+<td>Inhibition not matched to drive</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Neurodegeneration</td>
+<td>Aggregation + failed clearance + network collapse</td>
+<td>Tech/process debt + no cleanup → slow org decline</td>
+<td>Maintenance failure compounding</td>
+<td>med–high</td>
+</tr>
+<tr>
+<td>Diaschisis</td>
+<td>Lose one node → distant connected regions fail</td>
+<td>Key-person/vendor loss cascades across dependent units</td>
+<td>Network, not node, is the unit of failure</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Incomplete circuit (acquisition w/o extinction)</td>
+<td>Fear learned, never extinguished</td>
+<td>Policies added, never removed</td>
+<td>Built the acquisition half only</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Oscillatory pathology (β-hypersynchrony, Parkinsonian; Voytek &amp; Knight 2015 <a href="https://doi.org/10.1016/j.biopsych.2015.04.016">DOI</a>)</td>
+<td>Over-coupling <em>or</em> under-coupling both degrade communication</td>
+<td>Everyone in meetings (over-coupled, no local autonomy) <em>or</em> no shared cadence (under-coupled)</td>
+<td>Coupling outside the healthy band</td>
+<td>med–high</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="fractal-integrity-verdict">FRACTAL INTEGRITY VERDICT</h2>
+<ul>
+<li><strong>Where the fractal is intact (structural):</strong> the 9-tier ladder as laminar hierarchy; the 3-layer regulation model as the brain's three inhibition sources; E/I balance ↔ growth-vs-risk; basal-ganglia selection ↔ capital allocation; HPA feedback ↔ multi-tier governance; circadian clock ↔ fiscal calendar; oscillatory coherence ↔ meeting cadence; predictive coding ↔ management-by-exception. These carry the same <em>dynamics</em>, not just the same names. ⟨these are the invariants to preserve⟩</li>
+<li><strong>Where it's cosmetic (broken — fix in the build):</strong> "IT = nervous system," org-tree-without-lateral-edges, transmitter-to-department 1:1, growth-as-health, CEO-as-brain. Each substitutes a look-alike for the real dynamic.</li>
+<li><strong>Where it's missing (build or declare pathology):</strong> extinction, homeostatic scaling, offline/glymphatic clearance, refractory rate-limiting, receiver-side throttling, prediction-error compression, lateral/recurrent connectivity, distributed redundancy. A business lacking these is not "lean" — it is <strong>lesioned in a specific, nameable way.</strong></li>
+</ul>
+<p><strong>Scale-rescaling note (time constants).</strong> Preserve <em>ratios</em>, not values. Neural fast-signal (AP ~1 ms) vs slow-governance (hormonal feedback ~seconds–minutes) spans ~10³–10⁵. The business analog: an operational decision (minutes–hours) vs a governance/strategy cycle (weeks–quarters) must span a comparable ~10³–10⁴. If your build lets governance react as fast as operations (or operations wait as long as governance), the two-timescale invariant is broken and the fractal is cosmetic, not structural.</p>
+<p><strong>What would sharpen this next:</strong> binding each row to the <em>specific</em> business types and positions in your Atlas (261 types, 382 positions) rather than the foundational frameworks — e.g., mapping a specific SOC-coded role to a specific neuron/interneuron class, and testing the 20 civilization domains as the third fractal ring. Say the word and I'll drill any single domain or the position ladder to that resolution.</p>
+<hr />
+<h3 id="provenance-integrity">Provenance &amp; integrity</h3>
+<ul>
+<li>Neural claims trace to the project's neurology reference and its verified DOIs (re-cited inline above via PubMed). No invented citations.</li>
+<li>Business structures (10 core functions, 9-tier ladder, 3-layer regulation, 20 domains) are taken <strong>directly from your uploaded Business Operations Atlas</strong>, not assumed.</li>
+<li>Every row carries a verdict and confidence; the three analysis axes (functional / structural / fractal) are kept distinct; pathology is mapped alongside healthy dynamics per doctrine.</li>
+<li>Civilization scale is noted but <strong>not</strong> independently validated here — flagged, not asserted.</li>
+</ul></main></div>
+<a class="top" href="#top">↑ Top</a></body></html>
