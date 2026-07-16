@@ -39,6 +39,9 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
 .luout .k{color:rgba(201,169,78,0.7);text-transform:uppercase;letter-spacing:1px;font-size:10px}
 .luout .warn{color:#dca87e}
 .luout .save{margin-left:12px;font-size:10px;padding:4px 10px;letter-spacing:1px}
+.pullrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-left:4px}
+.pulllbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(214,209,198,0.4)}
+.lookup button.mini{padding:7px 12px;font-size:10px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -103,13 +106,36 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
     }
     btn.addEventListener('click', function(){ run(false); });
     q.addEventListener('keydown', function(e){ if(e.key==='Enter'){ run(false); } });
+
+    // Operator-triggered desk pull (finance/homestead): syncs the desk's candidate
+    // pool into leadgen and runs enrichment on the batch. Reads only — no send, no
+    // spend (free backends). NOT the held Phase-2 cron; this is a manual button.
+    function pull(source, b){
+      var k=getKey(false); if(!k){ out.innerHTML='<div class="r warn">admin key required</div>'; return; }
+      var old=b.textContent; b.disabled=true; b.textContent='pulling…';
+      out.innerHTML='<div class="r">pulling '+esc(source)+' + enriching…</div>';
+      fetch('/api/leadgen?action=pull&key='+encodeURIComponent(k),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({source:source,limit:25})})
+        .then(function(r){ return r.json().then(function(jj){ return {status:r.status,j:jj}; }); })
+        .then(function(res){
+          b.disabled=false; b.textContent=old;
+          var jr=res.j||{};
+          if(res.status===403||res.status===503){ try{sessionStorage.removeItem(KEY);}catch(e){} out.innerHTML='<div class="r warn">'+esc(jr.error||('auth '+res.status))+'</div>'; return; }
+          if(!jr.ok){ out.innerHTML='<div class="r warn">'+esc(jr.error||'pull failed')+'</div>'; return; }
+          var en=jr.enriched||{};
+          out.innerHTML='<div class="r"><span class="k">'+esc(source)+'</span> pulled '+(jr.pulled||0)+' · added '+(jr.added||0)+' · dupes '+(jr.dupes||0)+' · <span class="k">enriched</span> '+(en.enriched||0)+'/'+(en.attempted||0)+(jr.note?' · '+esc(jr.note):'')+'</div>';
+        })
+        .catch(function(){ b.disabled=false; b.textContent=old; out.innerHTML='<div class="r warn">network error</div>'; });
+    }
+    var pf=document.getElementById('pullfin'), ph=document.getElementById('pullhome');
+    if(pf) pf.addEventListener('click', function(){ pull('finance-desk', pf); });
+    if(ph) ph.addEventListener('click', function(){ pull('homestead-desk', ph); });
   }
 
   function render(){
     var p=person();
     if(!p){ root.innerHTML=head(null)+'<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
     var h=head(p);
-    h+='<div class="lookup"><input id="luq" type="text" placeholder="🔎 company name or ticker — find a contact" autocomplete="off"><button id="lubtn">Look up</button><div id="luout" class="luout"></div></div>';
+    h+='<div class="lookup"><input id="luq" type="text" placeholder="🔎 company name or ticker — find a contact" autocomplete="off"><button id="lubtn">Look up</button><div class="pullrow"><span class="pulllbl">desk pull</span><button id="pullfin" class="mini">finance-desk</button><button id="pullhome" class="mini">homestead-desk</button></div><div id="luout" class="luout"></div></div>';
 
     if(p.master){
       h+=sec('Command Center',[
