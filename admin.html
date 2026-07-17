@@ -43,6 +43,20 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
 .pulllbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(214,209,198,0.4)}
 .lookup button.mini{padding:7px 12px;font-size:10px;letter-spacing:1px}
 .lookup input.mini-in{flex:0 1 auto;min-width:150px;font-size:11px;padding:7px 10px}
+.lookup input.tiny-in{flex:0 0 auto;width:64px;font-size:11px;padding:7px 8px}
+.town{width:100%;margin-top:10px}
+.town .bar{height:6px;background:#0c0f16;border:1px solid rgba(201,169,78,0.18);border-radius:3px;overflow:hidden;margin:8px 0}
+.town .bar i{display:block;height:100%;background:rgba(201,169,78,0.55);width:0;transition:width .2s}
+.town .stat{font-size:11px;letter-spacing:1px;color:rgba(214,209,198,0.7);margin:6px 0}
+.town .stat b{color:#c9a94e}
+.twrap{max-height:420px;overflow:auto;border:1px solid rgba(201,169,78,0.14);border-radius:4px;margin-top:8px}
+table.tt{width:100%;border-collapse:collapse;font-size:11px}
+table.tt th{position:sticky;top:0;background:#11151d;color:rgba(201,169,78,0.7);text-align:left;padding:6px 8px;font-weight:400;letter-spacing:1px;text-transform:uppercase;font-size:9.5px}
+table.tt td{padding:5px 8px;border-top:1px solid rgba(201,169,78,0.08);color:rgba(214,209,198,0.9);vertical-align:top}
+table.tt tr:hover td{background:rgba(201,169,78,0.04)}
+table.tt td.dim{color:rgba(214,209,198,0.35)}
+.town .dl{font-size:10px;padding:7px 14px;letter-spacing:1px}
+.town .note{font-size:10px;color:rgba(214,209,198,0.5);margin-top:6px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -155,13 +169,94 @@ h1{font-size:28px;font-weight:400;letter-spacing:0.5px}
     if(gpbtn) gpbtn.addEventListener('click', gpull);
     if(gpq) gpq.addEventListener('keydown', function(e){ if(e.key==='Enter'){ gpull(); } });
     if(gploc) gploc.addEventListener('keydown', function(e){ if(e.key==='Enter'){ gpull(); } });
+
+    // Enrich-a-town: enumerate every business in a US town (OpenStreetMap) then
+    // resolve each one's contact through the SAME free lookup. OSM tags are
+    // location-correct; an enriched phone is kept only if its area code is one of
+    // the town's local codes, an enriched address only if it names the state —
+    // so a same-named business in another state is dropped, not shown as fact.
+    // Read-only: nothing is saved and no one is contacted. CSV downloads locally.
+    var twcity=document.getElementById('twcity'), twstate=document.getElementById('twstate'),
+        twbtn=document.getElementById('twbtn'), twstop=document.getElementById('twstop'),
+        twout=document.getElementById('twout');
+    var twAbort=false;
+    function areaOf(phone){ var p=String(phone||'').replace(/[^0-9]/g,''); if(p.length===11&&p[0]==='1')p=p.slice(1); if(p.length!==10)return ''; if(p[0]==='0'||p[0]==='1')return ''; return p.slice(0,3); }
+    function tcsv(s){ s=String(s==null?'':s); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+    function twRender(city,state,rows,doneN,total,running){
+      var done=rows.filter(function(r){return r.email||r.phone||r.address;}).length;
+      var em=rows.filter(function(r){return r.email;}).length, ph=rows.filter(function(r){return r.phone;}).length, ad=rows.filter(function(r){return r.address;}).length;
+      var pct=total?Math.round(doneN/total*100):0;
+      var body=rows.map(function(r){
+        return '<tr><td>'+esc(r.name)+'</td><td'+(r.phone?'':' class="dim"')+'>'+esc(r.phone||'—')+'</td><td'+(r.email?'':' class="dim"')+'>'+esc(r.email||'—')+'</td><td'+(r.address?'':' class="dim"')+'>'+esc(r.address||'—')+'</td></tr>';
+      }).join('');
+      twout.innerHTML='<div class="stat">'+esc(city)+', '+esc(state)+' — <b>'+doneN+'</b>/'+total+' processed'+(running?' …':' · done')+' &nbsp; email <b>'+em+'</b> · phone <b>'+ph+'</b> · mailable <b>'+ad+'</b></div>'
+        +'<div class="bar"><i style="width:'+pct+'%"></i></div>'
+        +'<div class="twrap"><table class="tt"><thead><tr><th>business</th><th>phone</th><th>email</th><th>mailing address</th></tr></thead><tbody>'+body+'</tbody></table></div>'
+        +(running?'':'<button class="lookup dl" id="twdl" style="margin-top:10px;background:transparent;border:1px solid rgba(201,169,78,0.45);color:#c9a94e;border-radius:4px;cursor:pointer">download CSV</button>')
+        +'<div class="note">Phone is area-code verified to '+esc(state)+' locals; address is '+esc(state)+'-verified; email is best-effort (a national chain or a same-named business elsewhere can slip in — eyeball before use). Nothing here was saved or contacted.</div>';
+      var dl=document.getElementById('twdl');
+      if(dl) dl.addEventListener('click', function(){
+        var head='name,phone,email,address\n';
+        var csv=head+rows.map(function(r){ return [r.name,r.phone,r.email,r.address].map(tcsv).join(','); }).join('\n');
+        var blob=new Blob([csv],{type:'text/csv'});
+        var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+        a.download='town-'+city.toLowerCase().replace(/\s+/g,'-')+'-'+state.toLowerCase()+'.csv'; a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+      });
+    }
+    async function runTown(){
+      var city=(twcity&&twcity.value||'').trim(), state=(twstate&&twstate.value||'').trim().toUpperCase();
+      if(city.length<2||state.length!==2){ twout.innerHTML='<div class="stat warn" style="color:#dca87e">enter a city and 2-letter state</div>'; return; }
+      var k=getKey(false); if(!k){ twout.innerHTML='<div class="stat" style="color:#dca87e">admin key required</div>'; return; }
+      twAbort=false; twbtn.disabled=true; twbtn.textContent='enumerating…'; twstop.style.display='';
+      twout.innerHTML='<div class="stat">finding businesses in '+esc(city)+', '+esc(state)+' …</div>';
+      var listRes;
+      try{
+        var r=await fetch('/api/leadgen?action=town-list&city='+encodeURIComponent(city)+'&state='+encodeURIComponent(state)+'&key='+encodeURIComponent(k));
+        listRes=await r.json();
+        if(r.status===403||r.status===503){ try{sessionStorage.removeItem(KEY);}catch(e){} twout.innerHTML='<div class="stat" style="color:#dca87e">'+esc(listRes.error||('auth '+r.status))+'</div>'; twbtn.disabled=false; twbtn.textContent='enrich town'; twstop.style.display='none'; return; }
+      }catch(e){ twout.innerHTML='<div class="stat" style="color:#dca87e">network error</div>'; twbtn.disabled=false; twbtn.textContent='enrich town'; twstop.style.display='none'; return; }
+      if(!listRes||!listRes.ok){ twout.innerHTML='<div class="stat" style="color:#dca87e">'+esc((listRes&&listRes.error)||'could not enumerate town')+'</div>'; twbtn.disabled=false; twbtn.textContent='enrich town'; twstop.style.display='none'; return; }
+      var biz=listRes.businesses||[]; var localAreas=listRes.localAreas||[]; var total=biz.length;
+      var stRe=new RegExp(',\\s*'+state+'\\b','i');
+      var rows=biz.map(function(b){ return { name:b.name, phone:b.phone||'', email:b.email||'', address:b.address||'', _osmP:!!b.phone, _osmA:!!b.address, website:b.website||'' }; });
+      twbtn.textContent='enriching…'; twRender(city,state,rows,0,total,true);
+      var idx=0, doneN=0, CONC=3;
+      async function worker(){
+        while(!twAbort){
+          var i=idx++; if(i>=total) return;
+          var row=rows[i];
+          // skip the search when OSM already gave email+phone+address
+          if(!(row.email&&row.phone&&row.address)){
+            try{
+              var lr=await fetch('/api/leadgen?action=lookup&org='+encodeURIComponent(row.name)+(row.website?('&website='+encodeURIComponent(row.website)):'')+'&key='+encodeURIComponent(k));
+              var lj=await lr.json();
+              if(lj&&lj.ok&&lj.found){
+                if(!row.email&&lj.email) row.email=lj.email;
+                if(!row.phone&&lj.phone){ var ac=areaOf(lj.phone); if(ac&&localAreas.indexOf(ac)>-1) row.phone=lj.phone; }
+                if(!row.address&&lj.address&&stRe.test(lj.address)) row.address=lj.address;
+              }
+            }catch(e){}
+          }
+          doneN++;
+          if(doneN%2===0||doneN===total) twRender(city,state,rows,doneN,total,doneN<total&&!twAbort);
+        }
+      }
+      var pool=[]; for(var w=0;w<CONC;w++) pool.push(worker());
+      await Promise.all(pool);
+      twbtn.disabled=false; twbtn.textContent='enrich town'; twstop.style.display='none';
+      twRender(city,state,rows,doneN,total,false);
+    }
+    if(twbtn) twbtn.addEventListener('click', runTown);
+    if(twstop) twstop.addEventListener('click', function(){ twAbort=true; });
+    if(twstate) twstate.addEventListener('keydown', function(e){ if(e.key==='Enter'){ runTown(); } });
   }
 
   function render(){
     var p=person();
     if(!p){ root.innerHTML=head(null)+'<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
     var h=head(p);
-    h+='<div class="lookup"><input id="luq" type="text" placeholder="🔎 company name or ticker — find a contact" autocomplete="off"><button id="lubtn">Look up</button><div class="pullrow"><span class="pulllbl">desk pull</span><button id="pullfin" class="mini">finance-desk</button><button id="pullhome" class="mini">homestead-desk</button></div><div class="pullrow"><span class="pulllbl">find B2B</span><input id="gpq" class="mini-in" type="text" placeholder="business type e.g. HVAC contractor"><input id="gploc" class="mini-in" type="text" placeholder="location e.g. Kansas City, MO"><button id="gpbtn" class="mini">find businesses</button></div><div id="luout" class="luout"></div></div>';
+    h+='<div class="lookup"><input id="luq" type="text" placeholder="🔎 company name or ticker — find a contact" autocomplete="off"><button id="lubtn">Look up</button><div class="pullrow"><span class="pulllbl">desk pull</span><button id="pullfin" class="mini">finance-desk</button><button id="pullhome" class="mini">homestead-desk</button></div><div class="pullrow"><span class="pulllbl">find B2B</span><input id="gpq" class="mini-in" type="text" placeholder="business type e.g. HVAC contractor"><input id="gploc" class="mini-in" type="text" placeholder="location e.g. Kansas City, MO"><button id="gpbtn" class="mini">find businesses</button></div><div class="pullrow"><span class="pulllbl">enrich a town</span><input id="twcity" class="mini-in" type="text" placeholder="city e.g. Lansing"><input id="twstate" class="tiny-in" type="text" placeholder="ST" maxlength="2"><button id="twbtn" class="mini">enrich town</button><button id="twstop" class="mini" style="display:none">stop</button></div><div id="luout" class="luout"></div><div id="twout" class="town"></div></div>';
 
     if(p.master){
       h+=sec('Command Center',[

@@ -27,6 +27,7 @@
 var db = require('../lib/limen-db');
 var E = require('../lib/sales-engine');
 var enrich = require('../lib/lead-enrichment');
+var townEnum = require('../lib/town-enum');
 var budget = require('../lib/autonomy-budget');
 
 var K = {
@@ -475,6 +476,25 @@ module.exports = async function handler(req, res) {
         via: probe.enrichedBy || null, cost: lrep.cost || 0,
         backends: enrich.backendsStatus()
       });
+    }
+
+    // Enumerate every business in a US town from OpenStreetMap (free, read-only).
+    // Returns OSM-seeded contacts + the town's local area codes. Does NOT enrich
+    // or persist — the /admin town button then calls action=lookup per business
+    // (each a short call) and applies the location filter client-side, so no
+    // single request runs long enough to hit the function timeout.
+    if (method === 'GET' && action === 'town-list') {
+      var tCity = clip(u.searchParams.get('city') || '', 80);
+      var tState = clip(u.searchParams.get('state') || '', 20);
+      if (!tCity || !tState) return j(res, 400, { ok: false, error: 'Provide ?city= and ?state= (e.g. city=Lansing&state=KS).' });
+      var tCap = Math.max(1, Math.min(parseInt(u.searchParams.get('cap') || '400', 10) || 400, 600));
+      try {
+        var town = await townEnum.enumerateTown(tCity, tState, { cap: tCap });
+        if (town.overpassFailed) return j(res, 200, { ok: false, error: 'OpenStreetMap (Overpass) is busy; try again in a minute.', city: tCity, state: tState });
+        return j(res, 200, { ok: true, city: town.city, state: town.state, count: town.count, localAreas: town.localAreas, businesses: town.businesses });
+      } catch (e) {
+        return j(res, 200, { ok: false, error: String((e && e.message) || e), city: tCity, state: tState });
+      }
     }
 
     var raw = '', body = {};
