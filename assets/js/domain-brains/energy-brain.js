@@ -75,12 +75,13 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: false };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
       overrideThreshold: 0.9      // reduced sensitivity: was 0.8; only stress >= 0.9 re-fires in-window
     };
+    this._refractoryBaseWindow = this._refractoryParams.absoluteWindow;   // ARM baseline: metaplasticity may raise (never lower) this, bounded; disarm restores it
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
     // The phase-coherence router and phase-transition self-consistency calibration previously read s.phase (a naive
@@ -2784,9 +2785,37 @@
       peCompression: { compressed: pec.summary.compressedCount, propagated: pec.propagated.length, ratio: pec.compressionRatio, summary: pec.summary },
       offlineMaintenance: { downscaled: (off.report.operations.downscale || {}).edgesDownscaled, pruned: (off.report.operations.prune || {}).pruned, report: off.report, actuation: 'PROPOSAL-ONLY on a deep copy; pruning is human-gated forever' },
       recurrence: { verdict: recurrence.verdict, recurrentFraction: recurrence.recurrentFraction, lateralFraction: recurrence.lateralFractionOfClassifiable },
-      incompleteCircuits: incompleteCircuits, incompleteCount: incompleteCount,
-      note: 'OVERLAY WIRING (shadow): the 6 previously-inert neuro modules + recurrenceAudit now receive live inputs (volatility/activeTriggers/load from the telemetry overlay) and compute each cycle. Nothing actuates. metaplasticity/throttle/PE are arm-eligible behind _actuation.overlays; extinction + offline pruning stay PROPOSAL-ONLY (they remove structure).'
+      incompleteCircuits: incompleteCircuits, incompleteCount: incompleteCount
     };
+
+    // ── ACTUATION (armed) ─────────────────────────────────────────────────────
+    // The ONLY overlay proposal with a live consumer is metaplasticity -> the refractory
+    // dead-time (the refractory limiter is the one behaviour-affecting overlay). Retrograde
+    // throttle has no live edge-weight consumer; PE-compression targets observe-only
+    // interoception; extinction + offline pruning REMOVE STRUCTURE and never actuate. So arming
+    // = closing the metaplasticity->refractory homeostatic loop, and nothing else.
+    // SAFETY: metaplasticity only ever RAISES the window (more conservative / fewer duplicate
+    // drafts); we clamp to [base, 1.2*base] (fail-toward-quiet) and write it IN PLACE on the live
+    // limiter's params (read each fire(), so no re-init, no event-log reset, no draft burst).
+    // Disarm restores the base window. Fully reversible via _actuation.overlays=false.
+    var applied = { refractoryAbsoluteWindow: null };
+    var base = this._refractoryBaseWindow || (this._refractoryParams && this._refractoryParams.absoluteWindow) || 900000;
+    if (armed) {
+      var wantRaw = (typeof adapted.refractoryAbsoluteWindow === 'number') ? adapted.refractoryAbsoluteWindow : base;
+      var want = Math.max(base, Math.min(base * 1.2, wantRaw));   // only raise, +20% ceiling
+      if (this._refractoryParams) this._refractoryParams.absoluteWindow = want;
+      if (this._refractoryLimiter && this._refractoryLimiter.params) this._refractoryLimiter.params.absoluteWindow = want;  // in-place; no log reset
+      applied.refractoryAbsoluteWindow = want;
+    } else {
+      // disarmed: restore the base window so nothing lingers
+      if (this._refractoryParams && this._refractoryParams.absoluteWindow !== base) this._refractoryParams.absoluteWindow = base;
+      if (this._refractoryLimiter && this._refractoryLimiter.params && this._refractoryLimiter.params.absoluteWindow !== base) this._refractoryLimiter.params.absoluteWindow = base;
+    }
+    s.energyOverlays.mode = armed ? 'armed' : 'shadow';
+    s.energyOverlays.applied = applied;
+    s.energyOverlays.actuationScope = 'metaplasticity->refractory dead-time ONLY (bounded, fail-toward-quiet, reversible). throttle=no-live-consumer; PE=observe-only; extinction+offline-prune=PROPOSAL-ONLY (remove structure, human-gated forever).';
+    s.energyOverlays.note = 'OVERLAY WIRING: the 6 formerly-inert modules + recurrenceAudit receive live inputs (volatility/activeTriggers/load) and compute each cycle. ARMED: metaplasticity raises the refractory dead-time with volatility (in-place, clamped, reversible). Everything else is proposal/observe-only; removal mechanisms never actuate.';
+
     if (s.cognition && typeof s.cognition === 'object') s.cognition.overlays = s.energyOverlays;
     return s.energyOverlays;
   };

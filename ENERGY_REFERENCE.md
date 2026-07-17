@@ -276,14 +276,18 @@ resolves undefined there. "WIRED" = executing call site on the console surface.
 incomplete-circuit audit — **all existed as files but were dead code**. The telemetry adapter already
 computed their exact inputs (volatility, activeTriggers, load/capacity), but nothing bridged producer to consumer.
 
-**UPDATE 2026-07-17 — NOW WIRED (SHADOW).** `_computeEnergyOverlays()` (`energy-brain.js`, called in the neuro
-sequence after active inference) bridges the telemetry overlay's live inputs to all 6 formerly-inert modules +
-`recurrenceAudit`, computing each every cycle onto `state.energyOverlays`. The metaplasticity→offline/PE loop is
-closed in-shadow (adapted knobs feed the offline + PE computations). Nothing actuates: `_actuation.overlays`
-(default false) arms the NON-destructive proposals later; **extinction retirement + offline pruning stay
-PROPOSAL-ONLY forever** (they remove structure). 17/17 wiring test (`test-energy-overlays-wiring.js`); each module
-verified producing a real non-noop proposal. So E-slice modules are now: refractory WIRED-behavior; ei-balance +
-connectivity (both exports) + the 6 removal modules WIRED-shadow-observable; cortex-retrieval still UNREFERENCED.
+**UPDATE 2026-07-17 — WIRED + ARMED.** `_computeEnergyOverlays()` (`energy-brain.js`, neuro sequence after active
+inference) bridges the telemetry overlay's live inputs to all 6 formerly-inert modules + `recurrenceAudit`, computing
+each every cycle onto `state.energyOverlays`; the metaplasticity→offline/PE loop is closed in-shadow. **ARMED
+(`_actuation.overlays=true`, default):** the ONE proposal with a live consumer — metaplasticity → the refractory
+dead-time — actuates: metaplasticity raises `_refractoryLimiter.params.absoluteWindow` with volatility, IN PLACE
+(read each `fire()`, no re-init / no log reset), clamped to [base, 1.2×base] and **fail-toward-quiet** (only ever
+raises the dead-time = fewer duplicate drafts), reversible (disarm restores base). Everything else stays inert-by-
+design: retrograde-throttle has no live edge-weight consumer, PE-compression targets observe-only interoception,
+and **extinction retirement + offline pruning REMOVE STRUCTURE and never actuate — proposal-only forever
+(human-gated).** 26/26 wiring test (each module non-noop; arming raises+clamps+reverts the window; removal stays
+proposal-only; energy def untouched). E-slice status now: refractory + metaplasticity→refractory WIRED-behavior;
+ei-balance + connectivity + the removal modules WIRED (shadow/proposal); cortex-retrieval still UNREFERENCED.
 
 ---
 

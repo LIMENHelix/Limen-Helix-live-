@@ -86,6 +86,9 @@ brain.state.energyInteroception = { channels: [
 ] };
 brain.state.cognition = {};
 brain._actuation = brain._actuation || {}; brain._actuation.overlays = false;
+brain._refractoryBaseWindow = 900000;
+brain._refractoryParams = { absoluteWindow: 900000, relativeWindow: 3600000, overrideThreshold: 0.9 };
+brain._refractoryLimiter = { params: { absoluteWindow: 900000 } };   // stub live limiter (fire() reads .params each call)
 var edgesBeforeJSON = JSON.stringify(brain._energyDef.edges);
 
 // ── T1 ──
@@ -126,12 +129,35 @@ assert('incomplete-circuit audit: 1 INCOMPLETE (OIL_SHOCK)', o.incompleteCount =
 console.log('T8: SHADOW — energy def + live weights untouched');
 assert('energy def edges unchanged (offline ran on a copy)', JSON.stringify(brain._energyDef.edges) === edgesBeforeJSON);
 
-// ── T9 arming toggle ──
-console.log('T9: _actuation.overlays flips the armed flag');
+// ── T9 arming actuation: metaplasticity → refractory dead-time (in-place, bounded) ──
+console.log('T9: arming raises the refractory dead-time in place (bounded, fail-toward-quiet)');
 brain._actuation.overlays = true;
 var o2 = brain._computeEnergyOverlays();
-assert('armed:true when actuation on', o2.armed === true);
-assert('still shadow mode (arming is a separate future step)', o2.mode === 'shadow');
+assert('mode armed', o2.mode === 'armed' && o2.armed === true);
+var applied = o2.applied.refractoryAbsoluteWindow;
+assert('refractory window raised above base', applied > 900000, 'applied=' + applied);
+assert('within +20% clamp (fail-toward-quiet)', applied <= 900000 * 1.2, 'applied=' + applied);
+assert('applied IN PLACE to live limiter params (no re-init)', brain._refractoryLimiter.params.absoluteWindow === applied);
+assert('applied to _refractoryParams too', brain._refractoryParams.absoluteWindow === applied);
+
+// ── T10 clamp holds at max volatility ──
+console.log('T10: clamp holds even at max volatility');
+brain._runtimeOverlay.volatility = 1;
+var o3 = brain._computeEnergyOverlays();
+assert('never exceeds +20% ceiling', o3.applied.refractoryAbsoluteWindow <= 900000 * 1.2 + 1);
+
+// ── T11 removal mechanisms never actuate, even when armed ──
+console.log('T11: extinction + offline pruning stay PROPOSAL-ONLY when armed');
+assert('extinction still proposal-only (candidates present, nothing removed)', o3.extinction.count >= 1 && /PROPOSAL-ONLY/.test(o3.extinction.actuation));
+assert('offline prunes nothing (threshold 0)', o3.offlineMaintenance.pruned === 0);
+assert('energy def edges STILL unchanged after arming', JSON.stringify(brain._energyDef.edges) === edgesBeforeJSON);
+
+// ── T12 disarm reverts the window ──
+console.log('T12: disarm restores the base refractory window');
+brain._actuation.overlays = false;
+var o4 = brain._computeEnergyOverlays();
+assert('reverts to base 900000', brain._refractoryParams.absoluteWindow === 900000 && brain._refractoryLimiter.params.absoluteWindow === 900000);
+assert('mode back to shadow', o4.mode === 'shadow');
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);
