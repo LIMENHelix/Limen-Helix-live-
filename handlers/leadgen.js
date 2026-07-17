@@ -468,7 +468,7 @@ module.exports = async function handler(req, res) {
       var lnm = clip(u.searchParams.get('name') || '', 200);
       if (!lq && !lnm) return j(res, 400, { ok: false, error: 'Provide ?org= (company name) or ?name=.' });
       var probe = { name: lnm, org: lq || lnm, website: clip(u.searchParams.get('website') || '', 300), email: '', phone: '', costCents: 0 };
-      var lrep = await enrich.enrichLeads([probe], { maxAttempts: 1, ddgMax: 3 });
+      var lrep = await enrich.enrichLeads([probe], { maxAttempts: 1, ddgMax: 3, budget: budget });
       return j(res, 200, {
         ok: true, query: lq || lnm, found: !!probe.enrichedBy,
         email: probe.email || '', phone: probe.phone || '',
@@ -572,7 +572,7 @@ module.exports = async function handler(req, res) {
       // per-pull with body.enrich=false.
       var enrichReport = null;
       if (got && got.length && body.enrich !== false) {
-        enrichReport = await enrich.enrichLeads(got, { maxAttempts: Math.min(limit3, 50) });
+        enrichReport = await enrich.enrichLeads(got, { maxAttempts: Math.min(limit3, 50), budget: budget });
         got.forEach(function (l) { if (l && l.enrichedBy) { l.score = scoreLead(l, l.source); l.dedup = dedupKey(l); } });
       }
       var pr3 = await persistLeads(got || []);
