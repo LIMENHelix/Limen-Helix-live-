@@ -10,6 +10,7 @@
 
 var db = require('../lib/limen-db');
 var companyScorer = require('../lib/company-phase-scorer');
+var phasePercept = require('../lib/phase-percept');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -102,6 +103,44 @@ module.exports = async function handler(req, res) {
     convergenceSignals = companyScorer.evaluateConvergenceSignals(domainJoin, domainSummary);
     consoleSnapshot.convergenceSignals = convergenceSignals;
     consoleSnapshot.domainCompanyJoin = domainJoin;
+
+    // ── NODE-GROUNDED PHASE (2026-07-17): correct each domain's provisional heuristic
+    // phase with the domain's own kernel-scored company nodes (active inference: prior =
+    // heuristic, evidence = node phase distribution, precision = coverage x count). When
+    // grounded, the node evidence sets the authoritative phase the master AI reads; when
+    // evidence is thin the percept ABSTAINS and the heuristic stands (never fabricated).
+    // Evidence flows nodes -> snapshot only; a node's own phase is never overwritten.
+    var groundedCount = 0, divergentCount = 0;
+    for (var pk in domainSummary) {
+      if (!domainSummary.hasOwnProperty(pk)) continue;
+      var dsum = domainSummary[pk];
+      var joinRow = domainJoin[pk];
+      var pcpt = phasePercept.computePercept(
+        { phase: dsum.phase, source: 'stress-heuristic' },
+        (joinRow && joinRow.companies) || []
+      );
+      // Always record the reading for transparency (the AI can see abstentions too).
+      dsum.phasePrior = pcpt.prior.phase;
+      dsum.phaseGrounded = pcpt.grounded;
+      dsum.phasePrecision = pcpt.precision;
+      dsum.phaseDivergent = pcpt.divergent;
+      dsum.phaseSalience = pcpt.salience;
+      dsum.phaseEvidence = { scored: pcpt.evidence.scored, coverage: pcpt.evidence.coverage, distribution: pcpt.evidence.distribution };
+      if (pcpt.grounded) {
+        groundedCount++;
+        if (pcpt.divergent) divergentCount++;
+        dsum.phase = pcpt.groundedPhase;
+        dsum.phaseLabel = phasePercept.labelFor(pcpt.groundedPhase) || dsum.phaseLabel;
+        dsum.phaseSource = 'node-grounded';
+        // keep stressRanked's phase consistent with the grounded value
+        for (var sri = 0; sri < stressRanked.length; sri++) {
+          if (stressRanked[sri].domain === pk) { stressRanked[sri].phase = pcpt.groundedPhase; break; }
+        }
+      } else {
+        dsum.phaseSource = 'stress-heuristic';
+      }
+    }
+    consoleSnapshot.phaseGroundingStats = { grounded: groundedCount, divergent: divergentCount, total: Object.keys(domainSummary).length };
   } catch (e) {
     consoleSnapshot.convergenceSignals = {};
   }
