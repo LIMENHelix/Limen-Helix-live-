@@ -2347,6 +2347,7 @@
     this._computeEnergyInteroception();     // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only divergence readout
     try { this._computeEnergyPlasticity(); } catch (e) {}   // THREE-FACTOR PLASTICITY (SHADOW) - reads fresh ledger + K4 credit; touches no live path
     try { this._computeEnergyActiveInference(); } catch (e) {}   // ACTIVE INFERENCE v1 (SHADOW) - belief update + EFE action selection; advisory only
+    try { this._computeEnergyPhasePercept(); } catch (e) {}   // PHASE PERCEPT (SHADOW) - grounds domain phase in node kernel evidence; reads fresh energyPhaseDynamics prior
     var s = this.state;
     var neuro = {
       version: 1,
@@ -2359,6 +2360,7 @@
       interoception: s.energyInteroception || null,    // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only
       plasticity: s.energyPlasticity || null,           // THREE-FACTOR PLASTICITY (SHADOW) - learned weights + diagnostics
       activeInference: s.energyActiveInference || null, // ACTIVE INFERENCE v1 (SHADOW) - beliefs + EFE action advisory
+      phasePercept: s.energyPhasePercept || null,       // PHASE PERCEPT (SHADOW) - node-grounded domain phase + prediction error
       afferent: s.energyAfferent || null,
       gainControl: s.energyGainControl || null,
       slowModel: s.energySlowModel || null,
@@ -2632,6 +2634,58 @@
       note: 'ACTIVE INFERENCE (interpretive, shadow): beliefs are a posterior over the stress trajectory, NOT a market call; action selection is advisory and gated on nothing.'
     };
     return s.energyActiveInference;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE PERCEPT (SHADOW) - 2026-07-17. The domain phase as an INFERENCE grounded
+  // in node evidence, via assets/js/limen-phase-percept.js. Today the live phase is
+  // a stress-threshold heuristic (prior-only) that discards the kernel-scored node
+  // phases already arriving on state.companies (each carries .phase + .scored from
+  // domainCompanyJoin). This computes the would-be phase as a precision-weighted
+  // posterior: prior = the brain's own expected phase (energyPhaseDynamics.myPhase,
+  // Thing2 kernel or fallback); evidence = the scored nodes' phase distribution;
+  // precision = coverage x count-saturation. Under thin evidence it ABSTAINS (holds
+  // the prior, flagged ungrounded) rather than fabricate. SHADOW: logged next to the
+  // live phase (wouldChange); nothing here sets state.phase / state.phaseLabel.
+  // CAUSAL RULE: evidence flows nodes -> brain only; the brain never writes a node's
+  // phase. Grounding flows in; nothing hallucinates outward.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._computeEnergyPhasePercept = function () {
+    var s = this.state;
+    var PH = (typeof window !== 'undefined' && window.LIMENPHASE) ? window.LIMENPHASE
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-phase-percept.js'); } catch (e) { return null; } })() : null);
+    if (!PH) { s.energyPhasePercept = { version: 1, mode: 'off', note: 'limen-phase-percept.js not loaded on this page' }; return null; }
+
+    // PRIOR: the brain's own generative-model phase (kernel-driven when phase actuation
+    // is on, else the s.phase fallback). This is top-down expectation, never evidence.
+    var pd = s.energyPhaseDynamics || {};
+    var priorPhase = pd.myPhase || s.phase || 'p0';
+    var priorSource = pd.phaseSource || (s.phaseSource || 'fallback');
+
+    // EVIDENCE: the kernel-scored node phases already on state.companies (from
+    // domainCompanyJoin). The module counts ONLY entries with scored===true.
+    var percept = PH.computePercept({ phase: priorPhase, source: priorSource }, s.companies || []);
+
+    // SHADOW comparison against what the live system actually reports today.
+    var livePhase = String(s.phase || 'p0').toLowerCase();
+    percept.livePhase = livePhase;
+    percept.liveLabel = s.phaseLabel || null;
+    percept.wouldChange = percept.grounded && (percept.groundedPhase !== livePhase);
+
+    // Behaviour log: record grounded divergences so "did node evidence correct the
+    // prior" is measurable over time (mirrors the interoception blind-channel log).
+    if (!this._energyPhaseLog) this._energyPhaseLog = [];
+    if (percept.divergent) {
+      this._energyPhaseLog.push({ cycle: (s.energyModel && s.energyModel.cycle) || 0,
+        prior: percept.prior.phase, grounded: percept.groundedPhase, precision: percept.precision,
+        error: percept.predictionError.magnitude, scored: percept.evidence.scored });
+      if (this._energyPhaseLog.length > 20) this._energyPhaseLog = this._energyPhaseLog.slice(-20);
+    }
+    percept.divergenceLog = this._energyPhaseLog.slice(-5);
+
+    s.energyPhasePercept = percept;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.phasePercept = percept;   // additive
+    return percept;
   };
 
   // ── E/I BALANCE + SELF-AUDIT ADVISORIES (additive, observe-only, 2026-07-13) ──────────────

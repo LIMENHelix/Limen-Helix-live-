@@ -1,0 +1,88 @@
+/**
+ * scripts/test-energy-phase-percept-wiring.js — dry-run the phase percept
+ * through the REAL energy-brain wiring against page stubs
+ * (run: node scripts/test-energy-phase-percept-wiring.js).
+ *
+ *   T1  _computeEnergyPhasePercept runs and reads the prior from
+ *       energyPhaseDynamics.myPhase (not the stress heuristic)
+ *   T2  scored nodes on state.companies GROUND the percept; ungrounded when absent
+ *   T3  grounded evidence that disagrees with the prior sets wouldChange + logs a divergence
+ *   T4  the percept never writes state.phase / state.phaseLabel (shadow discipline)
+ */
+var fs = require('fs');
+var path = require('path');
+
+var failures = 0, tests = 0;
+function assert(name, cond, detail) {
+  tests++;
+  if (cond) { console.log('  PASS ' + name); }
+  else { failures++; console.error('  FAIL ' + name + (detail ? ' :: ' + detail : '')); }
+}
+
+var win = { location: { pathname: '/', search: '' }, LIMENDomainBrains: { register: function () {} }, addEventListener: function () {} };
+global.window = win;
+function BaseStub(cfg) {
+  this.config = cfg || {};
+  this.state = { stress: 0.6, phase: 'p2', phaseLabel: 'RHYTHM', diagnoses: [], opportunities: [], companies: [], memory: { stressHistory: [] }, confidence: 0.8 };
+  this._externalSignals = [];
+}
+BaseStub.prototype.init = function () {}; BaseStub.prototype.start = function () {};
+BaseStub.prototype.getExternalPressure = function () { return 0.1; };
+win.LIMENDomainBrainBase = BaseStub;
+global.fetch = function () { return Promise.resolve({ ok: false, json: function () { return Promise.resolve({}); } }); };
+
+function loadScript(rel) { eval(fs.readFileSync(path.join(__dirname, '..', rel), 'utf8')); }
+loadScript('assets/js/limen-k4-selfconsistency.js');
+loadScript('assets/js/limen-plasticity.js');
+loadScript('assets/js/limen-active-inference.js');
+loadScript('assets/js/limen-phase-percept.js');
+assert('phase-percept module attached to window', !!win.LIMENPHASE);
+
+var loaded = true, err = null;
+try { loadScript('assets/js/domain-brains/energy-brain.js'); } catch (e) { loaded = false; err = e; }
+assert('energy-brain.js loads + self-instantiates', loaded && !!win.LIMENEnergyBrain, err && (err.message + '\n' + (err.stack || '').split('\n').slice(0, 4).join('\n')));
+if (!loaded || !win.LIMENEnergyBrain) { console.error('cannot continue'); process.exit(1); }
+var brain = win.LIMENEnergyBrain;
+
+// T1 + T2a — ungrounded when no scored nodes; prior read from energyPhaseDynamics
+console.log('T1/T2a: prior source + ungrounded with no evidence');
+brain.state.phase = 'p2'; brain.state.phaseLabel = 'RHYTHM';
+brain.state.energyPhaseDynamics = { myPhase: 'p3', phaseSource: 'thing2-kernel' };
+brain.state.companies = [{ name: 'A', phase: 'p3', scored: false }, { name: 'B', phase: 'p3', scored: false }];
+var p1 = brain._computeEnergyPhasePercept();
+assert('percept produced, shadow mode', !!p1 && p1.mode === 'shadow');
+assert('prior taken from energyPhaseDynamics.myPhase (p3), not stress heuristic (p2)', p1.prior.phase === 'p3' && p1.prior.source === 'thing2-kernel', JSON.stringify(p1.prior));
+assert('no scored nodes ⇒ ungrounded, holds prior', p1.grounded === false && p1.groundedPhase === 'p3');
+
+// T2b — scored nodes ground it
+console.log('T2b: scored nodes ground the percept');
+brain.state.companies = [
+  { name: 'A', phase: 'p3', scored: true }, { name: 'B', phase: 'p3', scored: true },
+  { name: 'C', phase: 'p3', scored: true }, { name: 'D', phase: 'p3', scored: true }
+];
+var p2 = brain._computeEnergyPhasePercept();
+assert('grounded on scored evidence', p2.grounded === true && p2.evidence.scored === 4);
+assert('grounded phase = p3, aligned with prior', p2.groundedPhase === 'p3' && p2.divergent === false);
+
+// T3 — divergent evidence
+console.log('T3: grounded evidence disagreeing with prior');
+brain.state.phase = 'p2'; brain.state.phaseLabel = 'RHYTHM';
+brain.state.energyPhaseDynamics = { myPhase: 'p2', phaseSource: 'fallback' };
+brain.state.companies = [
+  { name: 'A', phase: 'p7a', scored: true }, { name: 'B', phase: 'p7a', scored: true },
+  { name: 'C', phase: 'p7a', scored: true }, { name: 'D', phase: 'p7a', scored: true },
+  { name: 'E', phase: 'p7a', scored: true }
+];
+var p3 = brain._computeEnergyPhasePercept();
+assert('winner flips to node evidence (p7a)', p3.groundedPhase === 'p7a', p3.groundedPhase);
+assert('divergent flagged + prediction error > 0', p3.divergent === true && p3.predictionError.magnitude > 0);
+assert('wouldChange vs live phase (p2)', p3.wouldChange === true && p3.livePhase === 'p2');
+assert('divergence logged', Array.isArray(p3.divergenceLog) && p3.divergenceLog.length >= 1);
+
+// T4 — shadow discipline: no live-phase writes
+console.log('T4: shadow discipline — live phase untouched');
+assert('state.phase still the live heuristic value (p2), not overwritten', brain.state.phase === 'p2');
+assert('state.phaseLabel untouched (RHYTHM)', brain.state.phaseLabel === 'RHYTHM');
+
+console.log('\n' + (tests - failures) + '/' + tests + ' passed');
+process.exit(failures ? 1 : 0);
