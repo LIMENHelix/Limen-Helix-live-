@@ -79,10 +79,45 @@ assert('divergent flagged + prediction error > 0', p3.divergent === true && p3.p
 assert('wouldChange vs live phase (p2)', p3.wouldChange === true && p3.livePhase === 'p2');
 assert('divergence logged', Array.isArray(p3.divergenceLog) && p3.divergenceLog.length >= 1);
 
-// T4 — shadow discipline: no live-phase writes
-console.log('T4: shadow discipline — live phase untouched');
-assert('state.phase still the live heuristic value (p2), not overwritten', brain.state.phase === 'p2');
-assert('state.phaseLabel untouched (RHYTHM)', brain.state.phaseLabel === 'RHYTHM');
+// T4 — the percept FUNCTION itself never writes s.phase (arming is the caller's job)
+console.log('T4: percept function is pure (does not arm on its own)');
+assert('direct percept call left state.phase untouched (p2)', brain.state.phase === 'p2');
+
+// T5 — ARMING via phase dynamics: grounded divergent evidence sets the live phase
+console.log('T5: _computeEnergyPhaseDynamics ARMS the grounded phase');
+brain._kernelPhase = null;                       // no Thing2 adapter in stub ⇒ prior = s.phase
+brain.state.phase = 'p2'; brain.state.phaseLabel = 'RHYTHM'; brain.state.phaseSource = 'fallback';
+brain._phaseHistory = [];
+brain.state.companies = [
+  { name: 'A', phase: 'p7a', scored: true }, { name: 'B', phase: 'p7a', scored: true },
+  { name: 'C', phase: 'p7a', scored: true }, { name: 'D', phase: 'p7a', scored: true },
+  { name: 'E', phase: 'p7a', scored: true }
+];
+var pd = brain._computeEnergyPhaseDynamics();
+assert('authoritative phase = node-grounded p7a', pd.myPhase === 'p7a', pd.myPhase);
+assert('prior preserved separately (p2)', pd.priorPhase === 'p2' && pd.grounded === true);
+assert('phaseSource = node-grounded', pd.phaseSource === 'node-grounded');
+assert('LIVE state.phase ARMED to p7a', brain.state.phase === 'p7a', brain.state.phase);
+assert('state.phaseLabel = TERMINAL (canonical)', brain.state.phaseLabel === 'TERMINAL', brain.state.phaseLabel);
+assert('router/transition ran on the grounded phase (hist records p7a)', brain._phaseHistory[brain._phaseHistory.length - 1].phase === 'p7a');
+
+// T6 — REVERSIBILITY: flag off ⇒ reverts to the prior-only heuristic, no arming
+console.log('T6: _actuation.phasePercept=false reverts to prior-only');
+brain._actuation.phasePercept = false;
+brain.state.phase = 'p2'; brain.state.phaseLabel = 'RHYTHM';
+var pdOff = brain._computeEnergyPhaseDynamics();
+assert('authoritative phase falls back to the kernel/heuristic prior (p2)', pdOff.myPhase === 'p2', pdOff.myPhase);
+assert('grounded still reported for transparency', pdOff.grounded === true);
+assert('state.phase NOT armed (stays p2)', brain.state.phase === 'p2');
+brain._actuation.phasePercept = true;            // restore
+
+// T7 — thin evidence ⇒ abstain: no scored nodes, phase dynamics holds the prior
+console.log('T7: no scored nodes ⇒ phase dynamics holds the prior (no fabrication)');
+brain.state.phase = 'p2'; brain.state.phaseLabel = 'RHYTHM';
+brain.state.companies = [{ name: 'X', phase: 'p9', scored: false }, { name: 'Y', phase: 'p9', scored: false }];
+var pdThin = brain._computeEnergyPhaseDynamics();
+assert('ungrounded ⇒ authoritative = prior (p2)', pdThin.myPhase === 'p2' && pdThin.grounded === false);
+assert('state.phase held at prior, not fabricated to p9', brain.state.phase === 'p2');
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

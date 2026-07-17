@@ -75,7 +75,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -465,6 +465,11 @@
   EnergyBrain.prototype.scoreStress = function () {
     var self = this;
     return Base.prototype.scoreStress.call(this).then(function () {
+      // Capture the snapshot's stress-threshold phase BEFORE any node-grounded arming
+      // overwrites s.phase later this cycle. This is the honest "what the prior-only
+      // heuristic reported" baseline for the shadow comparison, and it is reset from
+      // the snapshot every cycle here (so arming s.phase never feeds back as the prior).
+      self._phaseHeuristicRaw = self.state.phase;
       // Base already folded afferent (external pressure) into stress and set
       // _externalPressureApplied. Add ONLY the operator request-steer bias here, keeping the
       // combined injection <= 0.3 so steer never dominates perception.
@@ -2272,10 +2277,21 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
-    // the coherence router and the phase-transition self-consistency calibration; fall back to the existing s.phase when
-    // the kernel is unavailable (adapter missing / history < 8 / error) — fallback path unchanged.
-    var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
+    // PRIOR (top-down expectation): the Thing2 kernel phase over this domain's stress
+    // trajectory; fall back to the snapshot s.phase when the kernel is unavailable.
+    var kernelPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
+
+    // NODE-EVIDENCE CORRECTION (active inference, 2026-07-17): correct the kernel prior with
+    // the domain's own kernel-scored node phases (state.companies from domainCompanyJoin).
+    // When the evidence is grounded (enough scored nodes) it sets the AUTHORITATIVE phase;
+    // when thin, the percept abstains and we hold the kernel prior. Evidence flows nodes ->
+    // brain only; we never write a node's phase. The router + transition below then run on
+    // the authoritative phase, so phase dynamics is grounded, not prior-only.
+    var percept = null;
+    try { percept = this._computeEnergyPhasePercept(kernelPhase, this._kernelPhase != null ? 'thing2-kernel' : 'fallback'); } catch (ePP) { percept = null; }
+    var armPercept = !!(this._actuation && this._actuation.phasePercept);
+    var grounded = !!(percept && percept.grounded);
+    var myPhase = (armPercept && grounded) ? norm(percept.groundedPhase) : kernelPhase;   // AUTHORITATIVE
 
     // (A) COHERENCE ROUTER - couple to co-phased, stressed domains
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -2313,15 +2329,30 @@
     if (hist.length > 24) hist.shift();
 
     var out = {
-      version: 1, myPhase: myPhase,
-      phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
+      version: 2, myPhase: myPhase,
+      priorPhase: kernelPhase,                        // the kernel/heuristic PRIOR before node grounding
+      grounded: grounded,                             // did node evidence ground (and possibly correct) the phase?
+      phaseSource: grounded ? 'node-grounded' : (s.phaseSource || 'fallback'),
+      phasePercept: percept ? { groundedPhase: percept.groundedPhase, precision: percept.precision,
+        scored: (percept.evidence && percept.evidence.scored) || 0, divergent: percept.divergent, salience: percept.salience } : null,
       kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition self-consistency calibration (interpretive, NOT reward). Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback; P3/P7 family only gates the phase-consistency tier — self-consistency, never external reward.'
+      note: 'ARMED: authoritative phase = node-grounded percept when the domain has enough kernel-scored companies (evidence -> brain), else the Thing2 kernel/heuristic prior (percept abstains). The coherence router + phase-transition calibration run on the authoritative phase. Interpretive, NOT external reward.'
     };
     s.energyPhaseDynamics = out;
     if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;
+
+    // ARM: set the authoritative phase every downstream consumer reads (DDP packet, console,
+    // cross-domain coupling, handoff). Reversible via this._actuation.phasePercept=false, which
+    // reverts to the prior-only heuristic. Only writes when grounded — a thin-evidence domain
+    // keeps the heuristic rather than being handed a fabricated phase. s.phase is reset from the
+    // snapshot next cycle (scoreStress), so this never becomes its own prior.
+    if (armPercept && grounded) {
+      s.phase = myPhase;
+      s.phaseLabel = ENERGY_PHASE_LABELS[myPhase] || s.phaseLabel;
+      s.phaseSource = 'node-grounded';
+    }
     return out;
   };
 
@@ -2347,7 +2378,8 @@
     this._computeEnergyInteroception();     // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only divergence readout
     try { this._computeEnergyPlasticity(); } catch (e) {}   // THREE-FACTOR PLASTICITY (SHADOW) - reads fresh ledger + K4 credit; touches no live path
     try { this._computeEnergyActiveInference(); } catch (e) {}   // ACTIVE INFERENCE v1 (SHADOW) - belief update + EFE action selection; advisory only
-    try { this._computeEnergyPhasePercept(); } catch (e) {}   // PHASE PERCEPT (SHADOW) - grounds domain phase in node kernel evidence; reads fresh energyPhaseDynamics prior
+    // NOTE: the phase percept is now computed + ARMED inside _computeEnergyPhaseDynamics (above),
+    // where it corrects the kernel prior and drives the router/transition on the grounded phase.
     var s = this.state;
     var neuro = {
       version: 1,
@@ -2650,27 +2682,41 @@
   // CAUSAL RULE: evidence flows nodes -> brain only; the brain never writes a node's
   // phase. Grounding flows in; nothing hallucinates outward.
   // ════════════════════════════════════════════════════════════════════════════
-  EnergyBrain.prototype._computeEnergyPhasePercept = function () {
+  // Canonical P0–P10 recursion-arc register (matches domain-console-brain.js).
+  var ENERGY_PHASE_LABELS = { p0: 'SOURCE', p1: 'RUPTURE', p2: 'RHYTHM', p3: 'INSTABILITY', p4: 'STABILISATION',
+    p5: 'ENDURANCE', p6: 'ORDER', p7: 'DIVERGENCE', p7a: 'TERMINAL', p7b: 'SEPARATION', p8: 'PIVOT', p9: 'COLLAPSE', p10: 'RESURRECTION' };
+
+  // Compute the phase percept from a given prior + the node evidence on state.companies.
+  // Pure/observational: sets state.energyPhasePercept and returns it. Does NOT arm s.phase
+  // (arming is the caller's job, in _computeEnergyPhaseDynamics, once the authoritative
+  // phase is known). priorPhase/priorSource optional (falls back to phase dynamics / s.phase).
+  EnergyBrain.prototype._computeEnergyPhasePercept = function (priorPhase, priorSource) {
     var s = this.state;
     var PH = (typeof window !== 'undefined' && window.LIMENPHASE) ? window.LIMENPHASE
       : (typeof module !== 'undefined' ? (function () { try { return require('../limen-phase-percept.js'); } catch (e) { return null; } })() : null);
     if (!PH) { s.energyPhasePercept = { version: 1, mode: 'off', note: 'limen-phase-percept.js not loaded on this page' }; return null; }
 
-    // PRIOR: the brain's own generative-model phase (kernel-driven when phase actuation
-    // is on, else the s.phase fallback). This is top-down expectation, never evidence.
-    var pd = s.energyPhaseDynamics || {};
-    var priorPhase = pd.myPhase || s.phase || 'p0';
-    var priorSource = pd.phaseSource || (s.phaseSource || 'fallback');
+    // PRIOR: the brain's own generative-model phase (kernel-driven when available, else the
+    // snapshot heuristic). Top-down expectation, never evidence. Passed in by phase dynamics;
+    // falls back to the prior stored on energyPhaseDynamics / s.phase for a standalone call.
+    if (priorPhase == null) {
+      var pd = s.energyPhaseDynamics || {};
+      priorPhase = pd.priorPhase || pd.myPhase || s.phase || 'p0';
+      priorSource = priorSource || pd.phaseSource || s.phaseSource || 'fallback';
+    }
 
     // EVIDENCE: the kernel-scored node phases already on state.companies (from
-    // domainCompanyJoin). The module counts ONLY entries with scored===true.
-    var percept = PH.computePercept({ phase: priorPhase, source: priorSource }, s.companies || []);
+    // domainCompanyJoin). The module counts ONLY entries with scored===true + a real phase.
+    var percept = PH.computePercept({ phase: priorPhase, source: priorSource || 'fallback' }, s.companies || []);
 
-    // SHADOW comparison against what the live system actually reports today.
-    var livePhase = String(s.phase || 'p0').toLowerCase();
+    // SHADOW comparison against the prior-only heuristic the live system reported before
+    // grounding (captured at scoreStress, so it is never the armed value).
+    var livePhase = String(this._phaseHeuristicRaw || s.phase || 'p0').toLowerCase();
     percept.livePhase = livePhase;
     percept.liveLabel = s.phaseLabel || null;
+    percept.groundedLabel = percept.grounded ? (ENERGY_PHASE_LABELS[percept.groundedPhase] || null) : null;
     percept.wouldChange = percept.grounded && (percept.groundedPhase !== livePhase);
+    percept.armed = !!(this._actuation && this._actuation.phasePercept);
 
     // Behaviour log: record grounded divergences so "did node evidence correct the
     // prior" is measurable over time (mirrors the interoception blind-channel log).
