@@ -113,3 +113,46 @@ RESOLVER and CONSOLIDATOR only become useful once months of history exist. Start
 Build/deploy is FROZEN pending funds (scope-lifted only for the deal engine). The RECORDER
 is a deploy (cron + store). Do NOT build without explicit operator go. This doc is the
 ready-to-build plan; it costs nothing until then.
+
+## DEFERRED: cross-stack credit assignment (documented so it is not silently lost)
+
+Written 2026-07-16 alongside the reward-gated plasticity build (branch agent/plasticity-v1).
+
+CURRENT APPROACH: per-layer three-factor plasticity. Each K-layer (K1-K8) owns a small
+learnable weight vector updated locally by dw = eta * pre * post * modulator, where the
+modulator is the centered self-consistency credit from the central honest gate
+(assets/js/limen-k4-selfconsistency.js) and eligibility traces bridge the truth brake's
+3-20 cycle outcome delay (assets/js/limen-plasticity.js). This is right-sized for the
+current stack: layers are shallow, coupling is mostly adjacent, and each layer's
+contribution to the outcome is close enough to its own activity for local credit to land.
+
+KNOWN WEAKNESS (deferred, not deleted): per-layer local rules assign credit poorly when it
+must travel ACROSS many layers. If an error surfaced at the output is really caused three
+layers upstream, a local rule at the upstream layer never hears about it except through the
+shared scalar modulator, which cannot say WHICH layer erred. This becomes a real problem
+only if (a) the stack deepens, or (b) cross-layer coupling becomes more load-bearing than
+it is today.
+
+THE BRIDGE WHEN THAT DAY COMES: a predictive-coding approximation of backprop
+(Whittington & Bogacz 2017-style): each layer holds an explicit error unit; errors settle
+through purely LOCAL computations that provably approximate gradient-like credit assignment
+without literal backpropagation or weight transport. Biologically plausible, still local,
+strictly more powerful for deep credit paths. Do NOT jump to literal backprop: it is a
+different and harder mechanism the brain almost certainly does not run, and nothing in this
+system needs it.
+
+TRIGGER CONDITION (revisit when EITHER holds; otherwise leave this deferred):
+  1. The K-stack grows beyond ~3 effective layers of dependency (today: K-layers act
+     side-by-side on a shared state, closer to 1-2 layers of true depth), or
+  2. Shadow diagnostics show persistent cross-layer misattribution: a layer's weights
+     oscillate or drift while the OUTCOME error clearly originates in a different layer's
+     inputs (observable in the per-layer shadowOutput-vs-staticOutput divergence logs
+     stored via /api/brain-weights history).
+A future session hitting either trigger should start from this section, not re-derive the
+argument.
+
+RELATED PROJECT-WIDE PATTERN (context, stated plainly): the fixed, non-pruning K-layer
+graph (no structural plasticity) is the acquisition-without-removal failure shape one level
+down. Any future structural-plasticity work (growing/pruning CONNECTIONS, not just
+reweighting them) must build in a removal mechanism from day one, same as RULE 2 above.
+The weight-level version already ships in this build (priorLambda shrinkage toward seed).

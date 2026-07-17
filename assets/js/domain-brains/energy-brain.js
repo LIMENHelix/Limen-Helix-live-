@@ -64,6 +64,8 @@
     this._loadDiagnosisBundles();        // G1: load real artifact-source bundles (only ones that exist)
     this._loadL1PortalDepth();           // J1: scan L1 portal branches (treatments are mad-lib -> NOT admitted; only real tickers surfaced, relevance-unverified)
     this._loadDatacenterDiagnoses();     // DC: load the data-center sub-portal (real-content, unbundled) as an additive brain LAYER — never merged into the validated 6-diagnosis spine
+    try { this._initEnergyPlasticity(); } catch (e) {}   // THREE-FACTOR PLASTICITY (SHADOW) - learnable K-layer weights, hydrated from /api/brain-weights
+    try { this._initEnergyActiveInference(); } catch (e) {}   // ACTIVE INFERENCE v1 (SHADOW) - Gaussian beliefs over (level, slope) + EFE action advisory
 
     // ── OVERLAY ACTUATION (2026-07-12): the neuro-substrate overlay now feeds ONE decision.
     // Scope = refractory de-dup only (operator-approved). Grounded in the Neurology Reference
@@ -2343,6 +2345,8 @@
     this._computeEnergyEmissionQueue();     // STEP 5 - capital-fit packaging (reads forecast + brake)
     this._runEnergyAutonomousEmission();    // STEP 6 - autonomous emission (fail-safe on brake; capital staged)
     this._computeEnergyInteroception();     // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only divergence readout
+    try { this._computeEnergyPlasticity(); } catch (e) {}   // THREE-FACTOR PLASTICITY (SHADOW) - reads fresh ledger + K4 credit; touches no live path
+    try { this._computeEnergyActiveInference(); } catch (e) {}   // ACTIVE INFERENCE v1 (SHADOW) - belief update + EFE action selection; advisory only
     var s = this.state;
     var neuro = {
       version: 1,
@@ -2353,6 +2357,8 @@
       emissionQueue: s.energyEmissionQueue || null,   // STEP 5 capital-fit packaging
       autoEmission: s.energyAutoEmission || null,      // STEP 6 autonomous emission
       interoception: s.energyInteroception || null,    // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only
+      plasticity: s.energyPlasticity || null,           // THREE-FACTOR PLASTICITY (SHADOW) - learned weights + diagnostics
+      activeInference: s.energyActiveInference || null, // ACTIVE INFERENCE v1 (SHADOW) - beliefs + EFE action advisory
       afferent: s.energyAfferent || null,
       gainControl: s.energyGainControl || null,
       slowModel: s.energySlowModel || null,
@@ -2377,6 +2383,255 @@
     s.energyNeuro = neuro;
     if (s.cognition && typeof s.cognition === 'object') s.cognition.neuro = neuro;   // additive: new key only
     return neuro;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // REWARD-GATED LOCAL PLASTICITY (three-factor, SHADOW MODE) - 2026-07-16.
+  // Each K-layer's hand-set weighted sum becomes a small LEARNABLE vector updated
+  // by Δw = η·pre·post·modulator via assets/js/limen-plasticity.js. The modulator
+  // is the SAME central honest credit gate K4 already uses (window.LIMENK4.credit)
+  // — reused, not rebuilt — centered into an RPE-like signal. For energy that
+  // signal is SELF-CONSISTENCY CALIBRATION (isReward:false), NEVER external
+  // reward; the label rides every snapshot. Eligibility traces bridge the truth
+  // brake's 3-20 cycle resolution delay. SHADOW: learned weights compute + log
+  // would-be outputs; every live path still reads the static constants. Arming is
+  // a separate operator-gated change conditioned on diag.stable (see module).
+  // Persistence (Phase 0): weights hydrate from /api/brain-weights on boot and
+  // snapshot back every PLAST_PERSIST_EVERY cycles + on tab hide, so learning
+  // survives tab close (the recorder's durable-memory fix, one layer deeper).
+  // ════════════════════════════════════════════════════════════════════════════
+  var PLAST_PERSIST_EVERY = 10;   // cycles between snapshots (~5 min at 30s)
+  var PLAST_TOKEN_KEY = 'limen:brainwts:token';   // operator-set localStorage key; absent = persistence off (compute-only)
+
+  EnergyBrain.prototype._initEnergyPlasticity = function () {
+    var P = (typeof window !== 'undefined' && window.LIMENPLASTICITY) ? window.LIMENPLASTICITY
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-plasticity.js'); } catch (e) { return null; } })() : null);
+    this._plasticity = null;
+    if (!P) return;   // module not on this page: brain runs exactly as before
+    // Seeds = the CURRENT live static constants (verified against the code they shadow).
+    // Changing a seed here invalidates the stored posterior for that layer (hydrate resets it) - deliberate.
+    var layers = {
+      K1_pressure: P.createLayer({ name: 'K1-afferent-pressure', seed: [1.0], labels: ['externalPressureWeight'],
+        eta: 0.02, modScale: 1.0, traceDecay: 0.85, priorLambda: 0.002, minW: 0, maxW: 1.5 }),
+      K2_gain: P.createLayer({ name: 'K2-output-scale', seed: [0.5], labels: ['inhibitionToScale'],
+        eta: 0.02, modScale: 1.0, traceDecay: 0.85, priorLambda: 0.002, minW: 0, maxW: 1.0 }),
+      K3_slow: P.createLayer({ name: 'K3-slow-rate', seed: [0.08], labels: ['slowConsolidationRate'],
+        eta: 0.005, modScale: 0.5, traceDecay: 0.9, priorLambda: 0.001, minW: 0.01, maxW: 0.3 }),
+      K4_lr: P.createLayer({ name: 'K4-lr-boost', seed: [1.0], labels: ['missToLrBoost'],
+        eta: 0.02, modScale: 1.0, traceDecay: 0.85, priorLambda: 0.002, minW: 0, maxW: 2.0 }),
+      K5_pe: P.createLayer({ name: 'K5-prediction-error', seed: [0.35, 0.2, 0.25, 0.15, 0.05],
+        labels: ['stressError', 'signalError', 'diagnosisError', 'opportunityError', 'portalError'],
+        eta: 0.03, modScale: 1.0, traceDecay: 0.8, priorLambda: 0.003, minW: 0, maxW: 0.8 }),
+      K6_attention: P.createLayer({ name: 'K6-salience', seed: [0.5, 0.4, 0.1, 0.5],
+        labels: ['activeBase', 'relevanceWeight', 'peWeight', 'focusBoost'],
+        eta: 0.03, modScale: 1.0, traceDecay: 0.8, priorLambda: 0.003, minW: 0, maxW: 1.0 }),
+      K7_inhib: P.createLayer({ name: 'K7-lateral-inhibition', seed: [1.0], labels: ['suppressWeight'],
+        eta: 0.02, modScale: 1.0, traceDecay: 0.85, priorLambda: 0.002, minW: 0, maxW: 1.5 }),
+      K8_floor: P.createLayer({ name: 'K8-floor-blend', seed: [0.5, 0.5], labels: ['fixedFloorShare', 'adaptiveBaselineShare'],
+        eta: 0.02, modScale: 1.0, traceDecay: 0.85, priorLambda: 0.002, minW: 0.1, maxW: 0.9 })
+    };
+    this._plasticity = { P: P, layers: layers, mod: P.createModulator(), hydrated: false, hydrateResult: null, lastPersistCycle: 0, persistEnabled: false, persistFailures: 0 };
+
+    // Phase 0 HYDRATE: reload the learned posterior from Redis (async; cycles
+    // before arrival run from seeds; shape/seed mismatches reset honestly).
+    var self = this;
+    if (typeof fetch === 'function') {
+      try {
+        fetch('/api/brain-weights?domain=energy').then(function (r) { return r.json(); }).then(function (j) {
+          if (!self._plasticity) return;
+          if (j && j.ok && j.snapshot) {
+            self._plasticity.hydrateResult = P.hydrate(self._plasticity.layers, j.snapshot);
+            P.hydrateModulator(self._plasticity.mod, j.snapshot);
+            self._plasticity.hydrated = true;
+          } else {
+            self._plasticity.hydrateResult = { restored: [], reset: [], note: 'no stored snapshot (first run)' };
+            self._plasticity.hydrated = true;
+          }
+        }).catch(function () { self._plasticity.hydrateResult = { restored: [], reset: [], note: 'hydrate fetch failed; running from seeds' }; });
+      } catch (e) {}
+    }
+    // Persist on tab hide so the last partial window isn't lost.
+    if (typeof document !== 'undefined' && document.addEventListener) {
+      try {
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'hidden') { try { self._persistEnergyPlasticity(true); } catch (e) {} }
+        });
+      } catch (e) {}
+    }
+  };
+
+  EnergyBrain.prototype._computeEnergyPlasticity = function () {
+    var pl = this._plasticity;
+    var s = this.state, em = s.energyModel || {};
+    if (!pl || !pl.P) { s.energyPlasticity = { version: 1, mode: 'off', note: 'limen-plasticity.js not loaded on this page' }; return null; }
+    var P = pl.P, L = pl.layers;
+    var obs = em.observation || {}, pe = em.predictionError || {};
+    var reg = em.regulation || {};
+    var led = s.energyOutcomeLedger || {};      // FRESH: _scoreEnergyCallOutcomes ran earlier this call
+    var om = s.energyOutcomeModel || {};
+    var hm = s.energyHomeostasis || {};
+    var at = s.energyAttention || {};
+    var li = s.energyInhibition || {};
+    var af = s.energyAfferent || {};
+
+    // ── Modulator: the SAME honest gate K4 uses, recomputed on the fresh ledger.
+    // (em stores _creditSource/_effectiveLearningRate but not the numeric credit,
+    // so we re-call the pure gate function rather than duplicating its logic.)
+    var pt = (s.energyPhaseDynamics || {}).transition;
+    var ptActive = !!(this._actuation && this._actuation.phase && pt && pt.hit !== null);
+    var k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit({
+          externalOutcome: null,                                    // energy: self-consistency only, NEVER reward
+          phaseValidated: !!(pt && pt.validated),
+          phaseTransitionHit: ptActive ? (pt.hit ? 1 : 0) : null,
+          callHitRate: (typeof led.callHitRate === 'number') ? led.callHitRate : null,
+          callSamples: led.resolvedSamples || 0,
+          stressSelfPred: (typeof om.hitRate === 'number') ? om.hitRate : null,
+          stressSamples: om.samples || 0
+        })
+      : null;
+    // NOTE: freshness keys on ledger resolvedSamples increasing. The ledger caps at
+    // EK_LEDGER_MAX by slicing oldest entries, so the count can dip and re-cross a
+    // value (rare double-teach). Acceptable in shadow; revisit before arming.
+    var modRead = P.readModulator(pl.mod, k4, led.resolvedSamples || 0);
+
+    // ── Per-layer pre/post from what THIS cycle actually computed (post = the
+    // LIVE static output; shadow weights never drive activity in shadow mode).
+    var diags = s.diagnoses || [];
+    var activeDx = diags.filter(function (d) { return d.active; });
+    var meanRel = activeDx.length ? activeDx.reduce(function (a, d) { return a + (d.relevance || 0); }, 0) / activeDx.length : 0;
+    var focusN = (at.focus || []).length;
+    var topSal = focusN ? (at.focus.reduce(function (a, f) { return a + (f.salience || 0); }, 0) / focusN) : 0;
+    var comps = li.competitors || [];
+    var meanSuppress = comps.length ? comps.reduce(function (a, c) { return a + (c.suppressBy || 0); }, 0) / comps.length : 0;
+    var slow = (s.energySlowModel || {}).slow || {};
+    var slowDelta = Math.abs((obs.stress || 0) - (slow.expectedStress || 0.5));
+    var credit = (k4 && typeof k4.credit === 'number') ? k4.credit : null;
+
+    var feeds = {
+      K1_pressure: { pre: [af.externalPressure || 0], post: af.appliedStressDelta || 0 },
+      K2_gain: { pre: [reg.inhibition || 0], post: 1 - (typeof reg.outputScale === 'number' ? reg.outputScale : 1) },
+      K3_slow: { pre: [slowDelta], post: 0.08 * slowDelta },
+      K4_lr: { pre: [credit === null ? 0 : (1 - credit)], post: em._effectiveLearningRate || 0 },
+      K5_pe: { pre: [pe.stressError || 0, pe.signalError || 0, pe.diagnosisError || 0, pe.opportunityError || 0, pe.portalError || 0], post: pe.total || 0 },
+      K6_attention: { pre: [activeDx.length ? 1 : 0, meanRel, pe.total || 0, 0], post: topSal },
+      K7_inhib: { pre: [(reg.inhibition || 0) * meanRel], post: meanSuppress },
+      K8_floor: { pre: [EM_STRESS_FLOOR, (typeof hm.adaptiveBaseline === 'number' ? hm.adaptiveBaseline : 0.5)], post: em._effectiveFloor || EM_STRESS_FLOOR }
+    };
+
+    var layersOut = {}, anyOsc = false, anyRun = false, allStable = true;
+    for (var k in L) {
+      if (!L.hasOwnProperty(k)) continue;
+      var layer = L[k], f = feeds[k];
+      P.tick(layer, f.pre, f.post);                                   // eligibility + prior shrinkage, every cycle
+      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);   // three-factor apply on NEW outcomes only
+      var shadow = P.shadowSum(layer, f.pre);                         // the would-be learned output
+      layersOut[k] = {
+        w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }),
+        labels: layer.labels, updates: layer.updates,
+        shadowOutput: shadow, staticOutput: Math.round((f.post) * 10000) / 10000,
+        wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
+        diag: layer.diag
+      };
+      if (layer.diag.oscillating) anyOsc = true;
+      if (layer.diag.runaway) anyRun = true;
+      if (!layer.diag.stable) allStable = false;
+    }
+
+    s.energyPlasticity = {
+      version: 1,
+      mode: 'shadow',                                                 // live paths read static constants; nothing here gates
+      isReward: !!(k4 && k4.isReward),                                // ALWAYS false for energy - honest label, never dropped
+      creditSource: (k4 && k4.creditSource) || 'none',
+      creditTier: (k4 && k4.tier) || 0,
+      modulator: { fresh: modRead.fresh, rpe: modRead.rpe, credit: credit, baseline: pl.mod.baseline, events: pl.mod.events,
+        latencyNote: 'truth-brake calls resolve 3-20 cycles after emission; eligibility traces bridge the gap' },
+      layers: layersOut,
+      convergence: { allStable: allStable, anyOscillating: anyOsc, anyRunaway: anyRun,
+        armGate: 'flip to live ONLY after allStable holds a full diagnostic window with zero oscillating/runaway flags (operator-gated)' },
+      persistence: { hydrated: pl.hydrated, hydrateResult: pl.hydrateResult, enabled: pl.persistEnabled, failures: pl.persistFailures },
+      note: 'THREE-FACTOR SHADOW: dw = eta*pre*post*modulator; modulator = centered self-consistency credit (interpretive, NEVER reward for energy). No live path reads these weights.'
+    };
+
+    // Phase 0 PERSIST: throttled snapshot so learning survives tab close.
+    if ((em.cycle || 0) - pl.lastPersistCycle >= PLAST_PERSIST_EVERY) {
+      pl.lastPersistCycle = em.cycle || 0;
+      try { this._persistEnergyPlasticity(false); } catch (e) {}
+    }
+    return s.energyPlasticity;
+  };
+
+  EnergyBrain.prototype._persistEnergyPlasticity = function (isUnload) {
+    var pl = this._plasticity;
+    if (!pl || !pl.P || typeof fetch !== 'function') return;
+    var token = null;
+    try { token = (typeof localStorage !== 'undefined' && localStorage) ? localStorage.getItem(PLAST_TOKEN_KEY) : null; } catch (e) {}
+    pl.persistEnabled = !!token;
+    if (!token) return;   // operator has not enabled persistence on this browser: compute-only (honest, not an error)
+    var snap = pl.P.serialize(pl.layers, pl.mod, { domain: 'energy', cycle: (this.state.energyModel || {}).cycle || 0 });
+    var body = JSON.stringify({ domain: 'energy', snapshot: snap });
+    try {
+      if (isUnload && typeof navigator !== 'undefined' && navigator.sendBeacon) {
+        // sendBeacon cannot set headers; token rides the body (handler accepts body.token).
+        var withTok = JSON.stringify({ domain: 'energy', snapshot: snap, token: token });
+        navigator.sendBeacon('/api/brain-weights', new Blob([withTok], { type: 'application/json' }));
+        return;
+      }
+      fetch('/api/brain-weights', { method: 'POST', headers: { 'content-type': 'application/json', 'x-brain-token': token }, body: body })
+        .then(function (r) { if (!r.ok) pl.persistFailures++; })
+        .catch(function () { pl.persistFailures++; });
+    } catch (e) { pl.persistFailures++; }
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // ACTIVE INFERENCE v1 (SHADOW) - 2026-07-16. Stage 1 of 3: real belief-updating
+  // (exact Bayes over hidden level+slope of the stress trajectory) + expected-
+  // free-energy action selection over the brain's EXISTING single observed
+  // channel, via assets/js/limen-active-inference.js. The observation space is
+  // deliberately narrow at this stage (that is the staging, not a gap). The
+  // selected action is LOGGED next to what the brain actually did — nothing here
+  // gates emission, attention, or the brake. Stages 2 (hand-widen observations
+  // from recorded feed history) and 3 (tune model params through the three-factor
+  // substrate) come only after this stage shows end-to-end agreement in shadow.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._initEnergyActiveInference = function () {
+    var A = (typeof window !== 'undefined' && window.LIMENACTIVEINFERENCE) ? window.LIMENACTIVEINFERENCE
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-active-inference.js'); } catch (e) { return null; } })() : null);
+    this._activeInference = A ? { A: A, ai: A.create({ level0: 0.5 }) } : null;
+  };
+
+  EnergyBrain.prototype._computeEnergyActiveInference = function () {
+    var box = this._activeInference;
+    var s = this.state, em = s.energyModel || {};
+    if (!box || !box.A) { s.energyActiveInference = { version: 1, mode: 'off', note: 'limen-active-inference.js not loaded on this page' }; return null; }
+    var A = box.A, ai = box.ai;
+    var obs = (typeof s.stress === 'number') ? s.stress : null;
+    A.updateBeliefs(ai, obs);                                       // free-energy belief update (exact for this model)
+    var led = s.energyOutcomeLedger || {};
+    var sel = A.selectAction(ai, {
+      setpoint: (em._effectiveFloor != null) ? em._effectiveFloor : 0.35,   // K8 homeostatic target as prior preference
+      callHitRate: (typeof led.callHitRate === 'number') ? led.callHitRate : null,
+      brakeActive: !!((s.energyBrake || {}).halt)
+    });
+    // What the brain ACTUALLY did this cycle (shadow comparison, the stage-1 proof metric)
+    var eq = s.energyEmissionQueue || {};
+    var emittedN = ((eq.packages || eq.queue || []).length) || 0;
+    var actual = ((s.energyBrake || {}).halt) ? 'hold-emission'
+      : (emittedN > 0) ? 'emit-call'
+      : ((s.energyAttention || {}).broadenUnderSurprise) ? 'broaden-attention' : 'observe';
+    s.energyActiveInference = {
+      version: 1,
+      mode: 'shadow',                                               // advisory only; no live path reads this
+      selected: sel.selected, selectedMaps: sel.selectedMaps,
+      actualBehavior: actual,
+      agreement: sel.selected === actual,                           // stage-1 proof metric, tracked over cycles
+      actions: sel.actions,
+      beliefs: sel.beliefs,
+      preference: sel.preference,
+      stage: '1 of 3: single-channel generative model (hand-specified). Stage 2 = hand-widen observations from recorded feed history; stage 3 = tune params via the three-factor substrate.',
+      note: 'ACTIVE INFERENCE (interpretive, shadow): beliefs are a posterior over the stress trajectory, NOT a market call; action selection is advisory and gated on nothing.'
+    };
+    return s.energyActiveInference;
   };
 
   // ── E/I BALANCE + SELF-AUDIT ADVISORIES (additive, observe-only, 2026-07-13) ──────────────
