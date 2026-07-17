@@ -270,12 +270,20 @@ resolves undefined there. "WIRED" = executing call site on the console surface.
 | energy-cortex-retrieval | 94 | **UNREFERENCED** | no script tag, no loader entry, never parsed |
 | energy-refresh-controller | 91 | **WIRED (UI, not cognition)** | feeds `energy-opportunities.html` refresh, not the brain |
 
-**Load-bearing finding.** The overlay modules implementing the biological *removal/metaplasticity*
-mechanisms — metaplasticity (BCM), extinction (vmPFC), retrograde throttle (endocannabinoid), PE-compression
-(management-by-exception), offline maintenance (glymphatic), incomplete-circuit audit — **all exist as files
-but are dead code**. The telemetry adapter even computes their exact inputs (volatility, activeTriggers,
-load/capacity), but nothing bridges producer to consumer. This is *build-but-never-wire* on top of
-*acquisition-without-removal*. Only the refractory limiter actually changes behavior.
+**Load-bearing finding (state at audit time).** The overlay modules implementing the biological
+*removal/metaplasticity* mechanisms — metaplasticity (BCM), extinction (vmPFC), retrograde throttle
+(endocannabinoid), PE-compression (management-by-exception), offline maintenance (glymphatic),
+incomplete-circuit audit — **all existed as files but were dead code**. The telemetry adapter already
+computed their exact inputs (volatility, activeTriggers, load/capacity), but nothing bridged producer to consumer.
+
+**UPDATE 2026-07-17 — NOW WIRED (SHADOW).** `_computeEnergyOverlays()` (`energy-brain.js`, called in the neuro
+sequence after active inference) bridges the telemetry overlay's live inputs to all 6 formerly-inert modules +
+`recurrenceAudit`, computing each every cycle onto `state.energyOverlays`. The metaplasticity→offline/PE loop is
+closed in-shadow (adapted knobs feed the offline + PE computations). Nothing actuates: `_actuation.overlays`
+(default false) arms the NON-destructive proposals later; **extinction retirement + offline pruning stay
+PROPOSAL-ONLY forever** (they remove structure). 17/17 wiring test (`test-energy-overlays-wiring.js`); each module
+verified producing a real non-noop proposal. So E-slice modules are now: refractory WIRED-behavior; ei-balance +
+connectivity (both exports) + the 6 removal modules WIRED-shadow-observable; cortex-retrieval still UNREFERENCED.
 
 ---
 
@@ -438,9 +446,9 @@ no fabrication). **Nothing in the chain exceeds `open-human-gate`.**
 Energy's own code exhibits the exact pattern the project keeps diagnosing at the business layer. Loaded-and-executed
 but reaching nothing:
 
-1. **6 overlay modules LOADED-BUT-INERT** (§E): metaplasticity, extinction, retrograde-throttle, PE-compressor,
-   offline-maintenance, neuro-substrate. These ARE the biological removal/metaplasticity mechanisms — present as
-   files, zero call sites.
+1. **6 overlay modules were LOADED-BUT-INERT** (§E) — the biological removal/metaplasticity mechanisms with zero
+   call sites. **RESOLVED 2026-07-17:** now WIRED in shadow via `_computeEnergyOverlays()` (proposals computed each
+   cycle; destructive ops stay proposal-only). Remaining dead: `cortex-retrieval` (unreferenced).
 2. **1 overlay UNREFERENCED**: cortex-retrieval (never even loaded). **1 half-dead**: connectivity-audit `recurrenceAudit`.
    **1 wired-to-dead-sinks**: telemetry-adapter computes volatility/triggers/load that only the inert modules would consume.
 3. **`energy-business-build.js` (771 lines) ORPHAN** — IIFE-executes every console load, never invoked.

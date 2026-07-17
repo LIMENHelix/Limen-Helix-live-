@@ -75,7 +75,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: false };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -2378,6 +2378,7 @@
     this._computeEnergyInteroception();     // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only divergence readout
     try { this._computeEnergyPlasticity(); } catch (e) {}   // THREE-FACTOR PLASTICITY (SHADOW) - reads fresh ledger + K4 credit; touches no live path
     try { this._computeEnergyActiveInference(); } catch (e) {}   // ACTIVE INFERENCE v1 (SHADOW) - belief update + EFE action selection; advisory only
+    try { this._computeEnergyOverlays(); } catch (e) {}   // NEURO-SUBSTRATE OVERLAY WIRING (SHADOW) - feeds the 6 formerly-inert modules + recurrenceAudit live inputs; proposals only, nothing actuates
     // NOTE: the phase percept is now computed + ARMED inside _computeEnergyPhaseDynamics (above),
     // where it corrects the kernel prior and drives the router/transition on the grounded phase.
     var s = this.state;
@@ -2393,6 +2394,7 @@
       plasticity: s.energyPlasticity || null,           // THREE-FACTOR PLASTICITY (SHADOW) - learned weights + diagnostics
       activeInference: s.energyActiveInference || null, // ACTIVE INFERENCE v1 (SHADOW) - beliefs + EFE action advisory
       phasePercept: s.energyPhasePercept || null,       // PHASE PERCEPT (SHADOW) - node-grounded domain phase + prediction error
+      overlays: s.energyOverlays || null,               // NEURO-SUBSTRATE OVERLAY WIRING (SHADOW) - metaplasticity/extinction/throttle/PE/offline/recurrence proposals
       afferent: s.energyAfferent || null,
       gainControl: s.energyGainControl || null,
       slowModel: s.energySlowModel || null,
@@ -2666,6 +2668,127 @@
       note: 'ACTIVE INFERENCE (interpretive, shadow): beliefs are a posterior over the stress trajectory, NOT a market call; action selection is advisory and gated on nothing.'
     };
     return s.energyActiveInference;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // NEURO-SUBSTRATE OVERLAY WIRING (SHADOW) - 2026-07-17. The six previously-INERT
+  // overlay modules (metaplasticity, extinction, retrograde-throttle, PE-compressor,
+  // offline-maintenance, neuro-substrate) + connectivity recurrenceAudit were loaded on
+  // domain-console but had no call site. Their inputs already exist: the telemetry adapter
+  // (_runtimeOverlay, computed each cycle at the pulse step) produces volatility, alias-
+  // expanded activeTriggers, and per-node load/capacity. This pass BRIDGES those inputs to
+  // all seven modules and logs their proposals on state.energyOverlays. SHADOW: nothing is
+  // applied to the live brain or energy.json. The metaplasticity->offline/PE loop is closed
+  // in-shadow (adapted knobs feed the offline + PE computations). ARMING: _actuation.overlays
+  // (default false) would let the NON-destructive proposals actuate (a future operator step);
+  // extinction retirement + offline pruning EDIT/REMOVE STRUCTURE and stay PROPOSAL-ONLY forever
+  // (human-gated). Evidence flows in, proposals flow out; nothing removes structure autonomously.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._loadEnergyDef = function () {
+    // Lazily fetch the energy runtime definition (activations/edges/issues/runtime.params) ONCE,
+    // cached on this._energyDef. Node/test callers may set this._energyDef directly. Browser:
+    // fire-and-forget; the first cycle returns null and overlays compute from the next cycle.
+    if (this._energyDef) return this._energyDef;
+    if (this._energyDefLoading) return null;
+    this._energyDefLoading = true;
+    var self = this;
+    if (typeof fetch === 'function') {
+      try {
+        fetch('/assets/data/domains/energy.json').then(function (r) { return r.json(); })
+          .then(function (def) { self._energyDef = def; })
+          .catch(function () { self._energyDefLoading = false; });
+      } catch (e) { this._energyDefLoading = false; }
+    }
+    return null;
+  };
+
+  EnergyBrain.prototype._computeEnergyOverlays = function () {
+    var s = this.state;
+    function mod(glob, reqPath) {
+      if (typeof window !== 'undefined' && window[glob]) return window[glob];
+      if (typeof module !== 'undefined') { try { return require(reqPath); } catch (e) {} }
+      return null;
+    }
+    var META = mod('EnergyMetaplasticity', '../energy-metaplasticity.js');
+    var EXT = mod('EnergyExtinction', '../energy-extinction.js');
+    var RETRO = mod('EnergyRetrogradeThrottle', '../energy-retrograde-throttle.js');
+    var PEC = mod('EnergyPredictionErrorCompressor', '../energy-prediction-error-compressor.js');
+    var OFF = mod('EnergyOfflineMaintenance', '../energy-offline-maintenance.js');
+    var NS = mod('EnergyNeuroSubstrate', '../energy-neuro-substrate.js');
+    var CONN = mod('EnergyConnectivityAudit', '../energy-connectivity-audit.js');
+    if (!(META && EXT && RETRO && PEC && OFF && NS && CONN)) {
+      s.energyOverlays = { version: 1, mode: 'off', note: 'overlay modules not loaded on this page (present only on domain-console)' };
+      return null;
+    }
+    var def = this._loadEnergyDef();
+    if (!def) { s.energyOverlays = { version: 1, mode: 'loading', note: 'energy.json runtime def loading; overlays compute next cycle' }; return null; }
+
+    var armed = !!(this._actuation && this._actuation.overlays);
+    var ov = this._runtimeOverlay || {};
+    var params = (def.runtime && def.runtime.params) || {};
+
+    // 1. VOLATILITY (XIII.6) — from the telemetry overlay, else derived from stress history.
+    var volatility = (typeof ov.volatility === 'number') ? ov.volatility : (function () {
+      var h = ((s.memory && s.memory.stressHistory) || []).slice(-12), sum = 0;
+      for (var i = 1; i < h.length; i++) sum += Math.abs((h[i].stress || 0) - (h[i - 1].stress || 0));
+      return h.length > 1 ? Math.max(0, Math.min(1, sum / (h.length - 1))) : 0;
+    })();
+
+    // 2. METAPLASTICITY (BCM, XIII.6) — volatility adapts the change-thresholds of the other mechanisms.
+    var meta = META.adaptParams(
+      { offlineDownscaleFactor: params.offlineDownscaleFactor, refractoryAbsoluteWindow: params.refractoryAbsoluteWindow, predictionErrorThreshold: params.predictionErrorThreshold },
+      { gain: (typeof params.metaplasticityGain === 'number') ? params.metaplasticityGain : 0, volatility: volatility }
+    );
+    var adapted = meta.adapted || {};
+
+    // 3. EXTINCTION (V.2) — retire activations whose alias-expanded triggers are all absent now. PROPOSAL-ONLY.
+    var activeTriggers = ov.activeTriggers || this._activeConditions || [];
+    var ext = EXT.proposeExtinction(def, activeTriggers);
+
+    // 4. RETROGRADE THROTTLE (IV.5) — overloaded receiver nodes (load/capacity>1 from the overlay proxy) dial back senders.
+    var overload = {}, actsOv = ov.activations || {};
+    Object.keys(actsOv).forEach(function (nid) {
+      var a = actsOv[nid], cap = (a && a.capacity) || 1;
+      if (a && typeof a.load === 'number' && cap > 0 && a.load / cap > 1) overload[nid] = a.load / cap;
+    });
+    var retro = RETRO.computeThrottle(def, { overload: overload, throttleGain: (typeof params.retrogradeThrottleGain === 'number') ? params.retrogradeThrottleGain : 0 });
+
+    // 5. PREDICTION-ERROR COMPRESSION (XIII.5/.7, management-by-exception) — propagate only the
+    //    surprising interoception channels; summarize the calm ones. Threshold = metaplasticity-adapted.
+    var chans = ((s.energyInteroception && s.energyInteroception.channels) || []).map(function (c) { return { id: c.name, observed: c.alarm }; });
+    var baseline = chans.length ? chans.reduce(function (a, c) { return a + (c.observed || 0); }, 0) / chans.length : 0;
+    var peThresh = (typeof adapted.predictionErrorThreshold === 'number') ? adapted.predictionErrorThreshold : (params.predictionErrorThreshold || 0);
+    var pec = PEC.compress(chans, { threshold: peThresh, predictor: 'baseline', baseline: baseline });
+
+    // 6. OFFLINE MAINTENANCE (XIII.9 down-scale/consolidate/prune) on a DEEP COPY — proposal only,
+    //    never writes energy.json. Uses the metaplasticity-adapted downscale factor (closed self-tuning loop).
+    var off = OFF.runOfflineMaintenance(def, {
+      downscaleFactor: (typeof adapted.offlineDownscaleFactor === 'number') ? adapted.offlineDownscaleFactor : (params.offlineDownscaleFactor || 1),
+      consolidateTopK: (typeof params.offlineConsolidateTopK === 'number') ? params.offlineConsolidateTopK : Infinity,
+      pruneThreshold: (typeof params.offlinePruneThreshold === 'number') ? params.offlinePruneThreshold : 0
+    });
+
+    // 7. STRUCTURAL DIAGNOSTICS — recurrence (mesh vs tree; XIII.2) + incomplete-circuit audit (XIV). Read-only.
+    var recurrence = CONN.recurrenceAudit(def);
+    var incompleteCircuits = (def.issues || []).map(function (is) { return NS.validateIncompleteCircuit(is); });
+    var incompleteCount = incompleteCircuits.filter(function (v) { return v.verdict === 'INCOMPLETE_CIRCUIT'; }).length;
+
+    s.energyOverlays = {
+      version: 1,
+      mode: 'shadow',                       // computed + logged; NOTHING applied to the live brain or energy.json
+      armed: armed,                         // _actuation.overlays; when true, non-destructive proposals may actuate (future, operator-gated)
+      volatility: Math.round(volatility * 1000) / 1000,
+      metaplasticity: { changes: meta.changes, adapted: adapted, noop: meta.noop },
+      extinction: { candidates: ext.candidates, count: ext.candidates.length, noop: ext.noop, actuation: 'PROPOSAL-ONLY (retiring a node edits energy.json — human-gated forever)' },
+      retrograde: { actions: retro.actions, throttled: retro.actions.length, noop: retro.noop },
+      peCompression: { compressed: pec.summary.compressedCount, propagated: pec.propagated.length, ratio: pec.compressionRatio, summary: pec.summary },
+      offlineMaintenance: { downscaled: (off.report.operations.downscale || {}).edgesDownscaled, pruned: (off.report.operations.prune || {}).pruned, report: off.report, actuation: 'PROPOSAL-ONLY on a deep copy; pruning is human-gated forever' },
+      recurrence: { verdict: recurrence.verdict, recurrentFraction: recurrence.recurrentFraction, lateralFraction: recurrence.lateralFractionOfClassifiable },
+      incompleteCircuits: incompleteCircuits, incompleteCount: incompleteCount,
+      note: 'OVERLAY WIRING (shadow): the 6 previously-inert neuro modules + recurrenceAudit now receive live inputs (volatility/activeTriggers/load from the telemetry overlay) and compute each cycle. Nothing actuates. metaplasticity/throttle/PE are arm-eligible behind _actuation.overlays; extinction + offline pruning stay PROPOSAL-ONLY (they remove structure).'
+    };
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.overlays = s.energyOverlays;
+    return s.energyOverlays;
   };
 
   // ════════════════════════════════════════════════════════════════════════════
