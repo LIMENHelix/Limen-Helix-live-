@@ -1097,10 +1097,10 @@
 
     // truth brake — outcome ledger (this cycle's realized vs LAST cycle's predicted stress)
     var buf = st._gkOutcomeBuf || [];
-    if (st._gkPrevPred != null) { buf.push(Math.abs(st._gkPrevPred - cur)); if (buf.length > GK_OUTCOME_BUF) buf.shift(); }
+    if (st._gkPrevPred != null) { buf.push(Math.abs(st._gkPrevPred - cur)); if (buf.length > GK_OUTCOME_BUF) buf.shift(); st._gkResolvedTotal = (st._gkResolvedTotal || 0) + 1; }
     st._gkPrevPred = ps; st._gkOutcomeBuf = buf;
     var hit = buf.length ? buf.filter(function (e) { return e <= 0.1; }).length / buf.length : null;
-    var outcomeLedger = { samples: buf.length, hitRate: hit == null ? null : Math.round(hit * 100) / 100, meanError: buf.length ? Math.round((buf.reduce(function (a, b) { return a + b; }, 0) / buf.length) * 1000) / 1000 : null, note: 'truth brake: forecast-vs-realized calibration (measurement only)' };
+    var outcomeLedger = { samples: buf.length, resolvedTotal: st._gkResolvedTotal || 0, hitRate: hit == null ? null : Math.round(hit * 100) / 100, meanError: buf.length ? Math.round((buf.reduce(function (a, b) { return a + b; }, 0) / buf.length) * 1000) / 1000 : null, note: 'truth brake: forecast-vs-realized calibration (measurement only)' };
 
     // forecast — forward render with falsifier (trend-projected, calibrated by truth brake)
     var fh = hist.slice(-GK_FORECAST_WINDOW), fn = fh.length, slope = 0;
@@ -1139,13 +1139,22 @@
   // external reward + drift-bounded), else the seed. Generic version (energy overrides with its own).
   DomainBrainBase.prototype._learnedVec = function (layerKey, seed) {
     try {
-      if (!this._actuation || this._actuation.plasticityLive === false) return seed;
       var pl = this._plasticity; if (!pl || !pl.layers) return seed;
       var layer = pl.layers[layerKey]; if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      if (!this._actuation || this._actuation.plasticityLive === false) { layer._blend = 0; return seed; }
       var d = layer.diag || {};
-      if (!d.stable || !this._plasticityRewardActive) return seed;
-      if (typeof d.driftFromSeed === 'number' && d.driftFromSeed > 0.5) return seed;
-      return layer.w;
+      // HARD preconditions: converged AND on a real external reward.
+      if (!d.stable || !this._plasticityRewardActive) { layer._blend = 0; return seed; }
+      // GRADED confidence-weighted arbitration: mix seed<->learned by w = 1 - drift/0.5 (not a hard toggle,
+      // not extinction — w is a function of instantaneous drift only, no stored suppression that can resurface).
+      var drift = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
+      var w = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      layer._blend = Math.round(w * 1000) / 1000;
+      if (w <= 0) return seed;
+      if (w >= 1) return layer.w;
+      var out = new Array(seed.length);
+      for (var i = 0; i < seed.length; i++) out[i] = (1 - w) * seed[i] + w * layer.w[i];
+      return out;
     } catch (e) { return seed; }
   };
 
@@ -1202,7 +1211,7 @@
       ? window.LIMENK4.credit({ externalOutcome: extOutcome, callHitRate: (typeof led.hitRate === 'number') ? led.hitRate : null, callSamples: led.samples || 0, stressSelfPred: (typeof led.hitRate === 'number') ? led.hitRate : null, stressSamples: led.samples || 0 })
       : null;
     this._plasticityRewardActive = !!(k4 && k4.isReward);
-    var modRead = P.readModulator(pl.mod, k4, led.samples || 0);
+    var modRead = P.readModulator(pl.mod, k4, (typeof led.resolvedTotal === 'number' ? led.resolvedTotal : (led.samples || 0)));   // MONOTONIC freshness (buffer length saturates; total does not)
 
     var feeds = {
       K_gain: { pre: [gc.inhibition || 0], post: 1 - (typeof gc.outputScale === 'number' ? gc.outputScale : 1) },
@@ -1217,10 +1226,12 @@
       var layer = L[k], f = feeds[k];
       P.tick(layer, f.pre, f.post);
       if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);
-      var live = (this._learnedVec(k, layer.seed) === layer.w);   // wired-into-live is a later increment; false in shadow
+      this._learnedVec(k, layer.seed);                            // sets layer._blend in [0,1] (graded gate)
+      var blend = (typeof layer._blend === 'number') ? layer._blend : 0;
+      var live = blend > 0;                                       // the generic K-stack consumes _learnedVec directly (armed)
       if (live) liveLayers.push(k);
       layersOut[k] = { w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }), labels: layer.labels, updates: layer.updates,
-        shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, diag: layer.diag };
+        shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, blend: blend, diag: layer.diag };
       if (!layer.diag.stable) allStable = false;
     }
 

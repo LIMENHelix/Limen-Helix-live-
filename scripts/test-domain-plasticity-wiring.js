@@ -64,8 +64,15 @@ var g = fin._plasticity.layers.K_gain;
 var before = g.w.slice();
 win.LIMENPLASTICITY.tick(g, [0.5], 0.3); win.LIMENPLASTICITY.applyModulator(g, 0.4);
 assert('weights moved on modulator', g.w.some(function (w, i) { return Math.abs(w - before[i]) > 1e-9; }));
-g.w = [0.7]; g.diag = { stable: true, driftFromSeed: 0.1 }; fin._plasticityRewardActive = true; fin._actuation = { plasticityLive: true };
-assert('stable + reward + bounded ⇒ learned weights', fin._learnedVec('K_gain', [0.5]) === g.w);
+g.w = [0.7]; g.diag = { stable: true, driftFromSeed: 0 }; fin._plasticityRewardActive = true; fin._actuation = { plasticityLive: true };
+assert('stable + reward + drift 0 ⇒ FULLY learned weights (w=1)', fin._learnedVec('K_gain', [0.5]) === g.w);
+// GRADED gate (fixes binary arbitration + hard drift reset): at drift 0.25 the arm weight w = 1 - 0.25/0.5 = 0.5
+g.diag = { stable: true, driftFromSeed: 0.25 };
+var blended = fin._learnedVec('K_gain', [0.5]);   // 0.5*0.5 (seed) + 0.5*0.7 (learned) = 0.6
+assert('graded arm: drift 0.25 ⇒ halfway blend (0.6)', Math.abs(blended[0] - 0.6) < 1e-9, JSON.stringify(blended));
+// graded fall-off (confidence-weighted, not a hard reset): at drift >= 0.5 the arm weight reaches 0 => seed
+g.diag = { stable: true, driftFromSeed: 0.5 };
+assert('graded relapse: drift>=0.5 ⇒ seed', fin._learnedVec('K_gain', [0.5])[0] === 0.5);
 fin._plasticityRewardActive = false;
 assert('self-consistency (no external reward) ⇒ seed', fin._learnedVec('K_gain', [0.5])[0] === 0.5);
 
@@ -74,7 +81,7 @@ console.log('T7: _computeGenericKStack uses learned K_attention weights when arm
 var fin2 = mkBrain('finance');
 fin2._computeDomainPlasticity();                          // inits _plasticity + _actuation.plasticityLive
 var KA = fin2._plasticity.layers.K_attention;
-KA.w = [1.0, 0, 0]; KA.diag = { stable: true, driftFromSeed: 0.1 }; fin2._plasticityRewardActive = true;
+KA.w = [1.0, 0, 0]; KA.diag = { stable: true, driftFromSeed: 0 }; fin2._plasticityRewardActive = true;   // drift 0 ⇒ full arm (w=1)
 var neuroArmed = fin2._computeGenericKStack();
 // active dx 'A': armed salience = active(1.0) + relevance*0 + pe*0 = 1.0 ; seed = 0.5 + 0.6*0.4 + 0.2*0.1 = 0.76
 assert('armed: attention salience ≈ 1.0 via learned [1,0,0]', Math.abs(neuroArmed.attention.focus[0].salience - 1.0) < 0.02, JSON.stringify(neuroArmed.attention.focus[0]));
@@ -89,6 +96,17 @@ en._runEnergyAutonomousEmission = function () {};   // mark it as energy
 var eo = en._computeDomainPlasticity();
 assert('energy returns null (uses its own)', eo === null);
 assert('energy did not get a domainPlasticity readout', !en.state.domainPlasticity);
+
+// T9 — the FRAME-VIOLATION fix: monotonic freshness counter does NOT saturate at the ledger cap.
+// The windowed buffer length (samples) plateaus at GK_OUTCOME_BUF (40); resolvedTotal keeps counting,
+// so plasticity freshness never freezes once the ledger fills (no learning-stall after arming).
+console.log('T9: monotonic resolvedTotal does not saturate (windowed samples does)');
+var mono = mkBrain('finance');
+var lastLedger = null;
+for (var c = 0; c < 120; c++) { mono.state.stress = 0.4 + 0.2 * ((c % 5) / 5); lastLedger = mono._computeGenericKStack().outcomeLedger; }
+assert('windowed samples saturates at the buffer cap (<=40)', lastLedger.samples <= 40, 'samples=' + lastLedger.samples);
+assert('monotonic resolvedTotal counted every resolution (>100, past the cap)', lastLedger.resolvedTotal > 100, 'resolvedTotal=' + lastLedger.resolvedTotal);
+assert('resolvedTotal exceeds windowed samples (freshness clock survives the cap)', lastLedger.resolvedTotal > lastLedger.samples);
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);
