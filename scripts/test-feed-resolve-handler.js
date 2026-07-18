@@ -50,6 +50,18 @@ function call(method, url, body, headers) {
   var r4 = await call('GET', '/api/feed-resolve?domain=..%2Fx');
   assert('bad domain → 400', r4.status === 400);
 
+  console.log('T5: EMIT cron derives + stores a server-side forecast (tab-independent, no token)');
+  await db.del('forecasthist:energyemit'); await db.del('feedhist:energyemit');
+  await db.set('feedhist:index', ['energyemit']);
+  var base = now - 40 * 3600 * 1000;
+  for (var i = 0; i < 12; i++) await db.lpush('feedhist:energyemit', { t: base + i * 3600 * 1000, s: 0.3 + i * 0.03 });  // rising
+  var e1 = await call('GET', '/api/feed-resolve?emit=1');   // no token — cron path
+  assert('emit stored 1 forecast', e1.status === 200 && e1.json.emitted === 1 && e1.json.domains[0] === 'energyemit', JSON.stringify(e1.json));
+  var stored = await db.lrange('forecasthist:energyemit', 0, 0);
+  assert('stored forecast is server-cron, rising', stored[0] && stored[0].src === 'server-cron' && stored[0].direction === 'rising', JSON.stringify(stored[0]));
+  var e2 = await call('GET', '/api/feed-resolve?emit=1');   // same hour ⇒ idempotent skip
+  assert('emit idempotent per hour', e2.json.emitted === 0 && e2.json.skipped >= 1);
+
   console.log('\n' + (tests - failures) + '/' + tests + ' passed');
   process.exit(failures ? 1 : 0);
 })();
