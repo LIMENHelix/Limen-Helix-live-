@@ -162,16 +162,24 @@ assert('stable but self-consistency (no external reward) ⇒ seed', brain._learn
 K5.diag = { stable: true, driftFromSeed: 0.9 }; brain._plasticityRewardActive = true;
 assert('stable + reward but drift>0.5 ⇒ seed (runaway guard)', brain._learnedVec('K5_pe', seed5) === seed5);
 
-K5.diag = { stable: true, driftFromSeed: 0.1 }; brain._plasticityRewardActive = true;
-assert('stable + external reward + drift-bounded ⇒ LEARNED weights', brain._learnedVec('K5_pe', seed5) === K5.w);
+K5.diag = { stable: true, driftFromSeed: 0 }; brain._plasticityRewardActive = true;
+assert('stable + external reward + drift 0 ⇒ FULLY learned weights (w=1)', brain._learnedVec('K5_pe', seed5) === K5.w);
 
+// GRADED gate: at drift 0.25 the arm weight is 0.5 → element-wise halfway between seed and learned
+K5.diag = { stable: true, driftFromSeed: 0.25 };
+var gradedVec = brain._learnedVec('K5_pe', seed5);
+assert('graded arm: drift 0.25 ⇒ halfway blend seed<->learned',
+  gradedVec !== seed5 && gradedVec !== K5.w && Math.abs(gradedVec[0] - (0.5 * seed5[0] + 0.5 * K5.w[0])) < 1e-9,
+  JSON.stringify(gradedVec));
+
+K5.diag = { stable: true, driftFromSeed: 0.1 };
 brain._actuation.plasticityLive = false;
 assert('reversible: plasticityLive=false ⇒ seed even when all gates pass', brain._learnedVec('K5_pe', seed5) === seed5);
 brain._actuation.plasticityLive = true;
 
 // T7 — the LIVE prediction error actually consumes the armed weights
 console.log('T7: _computePredictionError uses learned K5 weights once armed');
-K5.diag = { stable: true, driftFromSeed: 0.1 }; brain._plasticityRewardActive = true;
+K5.diag = { stable: true, driftFromSeed: 0 }; brain._plasticityRewardActive = true;   // drift 0 ⇒ full arm
 K5.w = [1.0, 0, 0, 0, 0];                                // extreme: total should track stressError alone
 var prior = { expectedStress: 0.2, expectedSignal: 0.5, expectedDiagnoses: [], expectedDiagnosisCount: 0, expectedOpportunityCount: 0 };
 var obs = { stress: 0.9, signal: 0.5, activeDiagnoses: ['X'], diagnosisCount: 1, opportunityCount: 0 };
@@ -187,7 +195,7 @@ brain._actuation.plasticityLive = true;
 brain.state.energyModel = { predictionError: { total: 0.3 }, regulation: { state: 'calm' } };
 brain.state.diagnoses = [{ id: 'X', label: 'x', active: true, relevance: 0.5 }];
 var K6 = brain._plasticity.layers.K6_attention;
-K6.w = [1.0, 0, 0, 0]; K6.diag = { stable: true, driftFromSeed: 0.1 }; brain._plasticityRewardActive = true;
+K6.w = [1.0, 0, 0, 0]; K6.diag = { stable: true, driftFromSeed: 0 }; brain._plasticityRewardActive = true;   // drift 0 ⇒ full arm
 var atArmed = brain._computeEnergyAttention();
 assert('armed: salience ≈ activeBase 1.0 (relevance/pe weights learned to 0)', Math.abs(atArmed.focus[0].salience - 1.0) < 0.02, JSON.stringify(atArmed.focus[0]));
 brain._plasticityRewardActive = false;                   // disarm this layer

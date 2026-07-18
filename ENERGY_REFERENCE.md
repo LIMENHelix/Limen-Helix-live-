@@ -621,6 +621,7 @@ Mirror each energy artifact for `<domain>`:
 The machinery is generic and mostly server-side-done; the port is: **lift ~10 substrate methods into the
 base once, set each domain's config, and recreate its data + (optionally) its live app layer.** Everything
 you copy from is embedded verbatim below.
+
 <!-- ENERGY-FULL-SOURCE:GENERATED (do not edit below; run scripts/build-energy-reference-source.mjs) -->
 
 # APPENDIX — FULL SOURCE (verbatim, generated)
@@ -630,7 +631,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 
 ## CORE BRAIN + BASE
 
-#### `assets/js/domain-brains/domain-brain-base.js`  ·  GENERIC — inherited by all 20 domains  ·  1308 lines
+#### `assets/js/domain-brains/domain-brain-base.js`  ·  GENERIC — inherited by all 20 domains  ·  1447 lines
 
 ```js
 /**
@@ -967,6 +968,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       .then(function () {
         try { self._applyRequestSteer(); } catch (e) {}       // re-apply operator steer each cycle (no-op if none)
         try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
+        try { self._computeDomainPlasticity(); } catch (e) {} // GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain (energy self-skips)
         try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
         try { self._computeGenericInteroception(); } catch (e) {}  // multimodal interoception (Phase 1): observe-only divergence read (energy self-skips)
         self.state.updated = Date.now();
@@ -1692,10 +1694,14 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     var hist = ((st.memory && st.memory.stressHistory) || []);
     var cur = (typeof st.stress === 'number') ? st.stress : 0;
 
+    // LEARNED weights (self-gated; = the seed literal until this domain's plasticity earns live control).
+    var _Wg = this._learnedVec('K_gain', [0.5]), _Wa = this._learnedVec('K_attention', [0.5, 0.4, 0.1]),
+        _Ws = this._learnedVec('K_slow', [GK_SLOW_RATE]), _Wh = this._learnedVec('K_homeo', [0.10]);
+
     // homeostasis — ADAPTIVE afferent threshold (rolling baseline; Turrigiano synaptic scaling)
     var win = hist.slice(-GK_HOMEO_WINDOW), n = win.length, sum = 0; for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
     var baseline = n ? sum / n : 0.5;
-    var homeostasis = { baseline: Math.round(baseline * 1000) / 1000, deviation: Math.round((cur - baseline) * 1000) / 1000, scalingFactor: baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1, adaptiveThreshold: Math.round(gkClamp(0.10 * (baseline / 0.5), 0.05, 0.25) * 1000) / 1000, samples: n, note: 'adaptive afferent threshold: baseline-scaled firing threshold' };
+    var homeostasis = { baseline: Math.round(baseline * 1000) / 1000, deviation: Math.round((cur - baseline) * 1000) / 1000, scalingFactor: baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1, adaptiveThreshold: Math.round(gkClamp(_Wh[0] * (baseline / 0.5), 0.05, 0.25) * 1000) / 1000, samples: n, note: 'adaptive afferent threshold: baseline-scaled firing threshold' };
 
     // brake — stop-circuit (advisory)
     var reasons = [];
@@ -1709,10 +1715,10 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 
     // gain — neuromodulation (advisory)
     var novelty = gkClamp(pe, 0.05, 0.95);
-    var gainControl = { gain: novelty, inhibition: gkClamp(1 - novelty, 0, 0.9), outputScale: gkClamp(1 - gkClamp(1 - novelty, 0, 0.9) * 0.5, 0.4, 1), note: 'graded gain (advisory)' };
+    var gainControl = { gain: novelty, inhibition: gkClamp(1 - novelty, 0, 0.9), outputScale: gkClamp(1 - gkClamp(1 - novelty, 0, 0.9) * _Wg[0], 0.4, 1), note: 'graded gain (advisory)' };
 
     // attention — top-down salience
-    var scored = diags.map(function (d) { return { id: d.id, active: !!d.active, salience: Math.round(((d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1) * 1000) / 1000 }; }).sort(function (a, b) { return b.salience - a.salience; });
+    var scored = diags.map(function (d) { return { id: d.id, active: !!d.active, salience: Math.round(((d.active ? _Wa[0] : 0) + (d.relevance || 0) * _Wa[1] + pe * _Wa[2]) * 1000) / 1000 }; }).sort(function (a, b) { return b.salience - a.salience; });
     var attention = { focus: scored.slice(0, 3), driver: reg.state === 'surprised' ? 'novelty-driven' : 'goal-driven', note: 'attention ranking (advisory)' };
 
     // inhibition — lateral, winner-take-most
@@ -1721,16 +1727,16 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 
     // slow model — consolidation track (fast-vs-slow divergence = regime shift)
     var slow = st._gkSlow || { expectedStress: 0.5, samples: 0 };
-    slow.expectedStress = gkClamp(slow.expectedStress + GK_SLOW_RATE * (cur - slow.expectedStress), 0, 1); slow.samples++;
+    slow.expectedStress = gkClamp(slow.expectedStress + _Ws[0] * (cur - slow.expectedStress), 0, 1); slow.samples++;
     st._gkSlow = slow;
     var slowModel = { expectedStress: Math.round(slow.expectedStress * 1000) / 1000, fastSlowDivergence: Math.round(Math.abs(cur - slow.expectedStress) * 1000) / 1000, regimeShift: Math.abs(cur - slow.expectedStress) > 0.25, samples: slow.samples, note: 'slow consolidation (uses slow rate 0.08)' };
 
     // truth brake — outcome ledger (this cycle's realized vs LAST cycle's predicted stress)
     var buf = st._gkOutcomeBuf || [];
-    if (st._gkPrevPred != null) { buf.push(Math.abs(st._gkPrevPred - cur)); if (buf.length > GK_OUTCOME_BUF) buf.shift(); }
+    if (st._gkPrevPred != null) { buf.push(Math.abs(st._gkPrevPred - cur)); if (buf.length > GK_OUTCOME_BUF) buf.shift(); st._gkResolvedTotal = (st._gkResolvedTotal || 0) + 1; }
     st._gkPrevPred = ps; st._gkOutcomeBuf = buf;
     var hit = buf.length ? buf.filter(function (e) { return e <= 0.1; }).length / buf.length : null;
-    var outcomeLedger = { samples: buf.length, hitRate: hit == null ? null : Math.round(hit * 100) / 100, meanError: buf.length ? Math.round((buf.reduce(function (a, b) { return a + b; }, 0) / buf.length) * 1000) / 1000 : null, note: 'truth brake: forecast-vs-realized calibration (measurement only)' };
+    var outcomeLedger = { samples: buf.length, resolvedTotal: st._gkResolvedTotal || 0, hitRate: hit == null ? null : Math.round(hit * 100) / 100, meanError: buf.length ? Math.round((buf.reduce(function (a, b) { return a + b; }, 0) / buf.length) * 1000) / 1000 : null, note: 'truth brake: forecast-vs-realized calibration (measurement only)' };
 
     // forecast — forward render with falsifier (trend-projected, calibrated by truth brake)
     var fh = hist.slice(-GK_FORECAST_WINDOW), fn = fh.length, slope = 0;
@@ -1743,6 +1749,140 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     var neuro = { version: 1, status: 'generic', homeostasis: homeostasis, brake: brake, gainControl: gainControl, attention: attention, inhibition: inhibition, slowModel: slowModel, outcomeLedger: outcomeLedger, forecast: forecast, note: 'generic K-stack (analytical + gated). Autonomous emission stays energy-specific.' };
     cog.neuro = neuro; st.domainNeuro = neuro;
     return neuro;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // GENERIC PLASTICITY SUBSTRATE (SHADOW) — 2026-07-18, the PORT of energy's three-factor
+  // plasticity lifted into the base so EVERY domain (energy self-skips, it has its own richer
+  // version) gets learnable K-stack weights. Keyed by this.domainId. Reads the generic K-stack
+  // (cog.neuro) for pre/post feeds; modulator = the resolver's external outcome (/api/feed-resolve
+  // ?domain=<domainId>, forecasts emitted by the ?emit=1 cron for all domains) once enough resolve,
+  // else self-consistency (outcomeLedger.hitRate). SHADOW: computes state.domainPlasticity; the
+  // _learnedVec self-gate + arming into the live generic K-stack is the next increment. Mirrors
+  // energy's design 1:1 (see ENERGY_REFERENCE.md §D). Degrade-safe: no module ⇒ no-op.
+  // ════════════════════════════════════════════════════════════════════════════
+  var GP_EXT_EVERY = 120, GP_MIN_EXT = 5;
+  // seeds = the generic K-stack's live literals: K_gain (outputScale coupling 0.5), K_attention
+  // (active/relevance/pe 0.5/0.4/0.1), K_slow (0.08), K_homeo (adaptive-threshold base 0.10).
+  var GP_LAYERS = [
+    { key: 'K_gain', name: 'generic-output-scale', seed: [0.5], labels: ['inhibitionToScale'], eta: 0.02, traceDecay: 0.85, priorLambda: 0.002, minW: 0, maxW: 1.0 },
+    { key: 'K_attention', name: 'generic-salience', seed: [0.5, 0.4, 0.1], labels: ['activeBase', 'relevanceWeight', 'peWeight'], eta: 0.03, traceDecay: 0.8, priorLambda: 0.003, minW: 0, maxW: 1.0 },
+    { key: 'K_slow', name: 'generic-slow-rate', seed: [0.08], labels: ['slowConsolidationRate'], eta: 0.005, modScale: 0.5, traceDecay: 0.9, priorLambda: 0.001, minW: 0.01, maxW: 0.3 },
+    { key: 'K_homeo', name: 'generic-adaptive-threshold', seed: [0.10], labels: ['thresholdBase'], eta: 0.02, traceDecay: 0.85, priorLambda: 0.002, minW: 0.02, maxW: 0.3 }
+  ];
+
+  // The self-gate: a layer's learned weights drive the live path only when earned (converged +
+  // external reward + drift-bounded), else the seed. Generic version (energy overrides with its own).
+  DomainBrainBase.prototype._learnedVec = function (layerKey, seed) {
+    try {
+      var pl = this._plasticity; if (!pl || !pl.layers) return seed;
+      var layer = pl.layers[layerKey]; if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      if (!this._actuation || this._actuation.plasticityLive === false) { layer._blend = 0; return seed; }
+      var d = layer.diag || {};
+      // HARD preconditions: converged AND on a real external reward.
+      if (!d.stable || !this._plasticityRewardActive) { layer._blend = 0; return seed; }
+      // GRADED confidence-weighted arbitration: mix seed<->learned by w = 1 - drift/0.5 (not a hard toggle,
+      // not extinction — w is a function of instantaneous drift only, no stored suppression that can resurface).
+      var drift = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
+      var w = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      layer._blend = Math.round(w * 1000) / 1000;
+      if (w <= 0) return seed;
+      if (w >= 1) return layer.w;
+      var out = new Array(seed.length);
+      for (var i = 0; i < seed.length; i++) out[i] = (1 - w) * seed[i] + w * layer.w[i];
+      return out;
+    } catch (e) { return seed; }
+  };
+
+  // Throttled resolver read (external outcome), keyed by this.domainId. Open GET, no token.
+  DomainBrainBase.prototype._refreshDomainExternalOutcome = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy has its own
+    if (typeof fetch !== 'function') return;
+    var cyc = this._cycleCount || 0;
+    if ((cyc - (this._lastExtCycle || 0)) < GP_EXT_EVERY && this._lastExtCycle) return;
+    this._lastExtCycle = cyc;
+    var self = this, dom = this.domainId;
+    try {
+      fetch('/api/feed-resolve?domain=' + encodeURIComponent(dom)).then(function (r) { return r.json(); }).then(function (j) {
+        if (j && j.ok) self._externalOutcome = { hit: (typeof j.externalHitRate === 'number') ? j.externalHitRate : null, resolvedCount: j.resolvedCount || 0 };
+      }).catch(function () {});
+    } catch (e) {}
+  };
+
+  DomainBrainBase.prototype._initDomainPlasticity = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy self-skips
+    var P = (typeof window !== 'undefined' && window.LIMENPLASTICITY) ? window.LIMENPLASTICITY
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-plasticity.js'); } catch (e) { return null; } })() : null);
+    this._plasticity = null;
+    if (!P) return;
+    var layers = {};
+    for (var i = 0; i < GP_LAYERS.length; i++) { var c = GP_LAYERS[i]; layers[c.key] = P.createLayer(c); }
+    this._plasticity = { P: P, layers: layers, mod: P.createModulator() };
+    // arm-eligible by default; the per-layer self-gate (stable + external reward + drift-bounded) is the
+    // real safety, so no layer consumes learned weights until it has earned it. Reversible.
+    if (!this._actuation) this._actuation = {};
+    if (this._actuation.plasticityLive === undefined) this._actuation.plasticityLive = true;
+  };
+
+  DomainBrainBase.prototype._computeDomainPlasticity = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return null;   // energy self-skips
+    var s = this.state;
+    if (this._plasticity === undefined) { try { this._initDomainPlasticity(); } catch (e) { this._plasticity = null; } }   // lazy init once (modules loaded by now)
+    var pl = this._plasticity;
+    if (!pl || !pl.P) { s.domainPlasticity = { version: 1, mode: 'off', note: 'limen-plasticity.js not loaded on this page' }; return null; }
+    try { this._refreshDomainExternalOutcome(); } catch (e) {}
+    var P = pl.P, L = pl.layers;
+    var n = (s.cognition && s.cognition.neuro) || {};
+    var gc = n.gainControl || {}, at = n.attention || {}, sm = n.slowModel || {}, hm = n.homeostasis || {}, led = n.outcomeLedger || {};
+    var pe = (s.cognition && s.cognition.model && ((s.cognition.model.predictionError && s.cognition.model.predictionError.total) || s.cognition.model.predictionError)) || 0;
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var activeDx = (s.diagnoses || []).filter(function (d) { return d.active; });
+    var meanRel = activeDx.length ? activeDx.reduce(function (a, d) { return a + (d.relevance || 0); }, 0) / activeDx.length : 0;
+    var topSal = (at.focus && at.focus[0] && at.focus[0].salience) || 0;
+
+    // modulator: resolver external outcome once enough resolve, else self-consistency (hitRate)
+    var extO = this._externalOutcome;
+    var extOutcome = (extO && typeof extO.hit === 'number' && (extO.resolvedCount || 0) >= GP_MIN_EXT) ? { hit: extO.hit } : null;
+    var k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit({ externalOutcome: extOutcome, callHitRate: (typeof led.hitRate === 'number') ? led.hitRate : null, callSamples: led.samples || 0, stressSelfPred: (typeof led.hitRate === 'number') ? led.hitRate : null, stressSamples: led.samples || 0 })
+      : null;
+    this._plasticityRewardActive = !!(k4 && k4.isReward);
+    var modRead = P.readModulator(pl.mod, k4, (typeof led.resolvedTotal === 'number' ? led.resolvedTotal : (led.samples || 0)));   // MONOTONIC freshness (buffer length saturates; total does not)
+
+    var feeds = {
+      K_gain: { pre: [gc.inhibition || 0], post: 1 - (typeof gc.outputScale === 'number' ? gc.outputScale : 1) },
+      K_attention: { pre: [activeDx.length ? 1 : 0, meanRel, pe], post: topSal },
+      K_slow: { pre: [Math.abs(cur - (sm.expectedStress != null ? sm.expectedStress : 0.5))], post: (sm.fastSlowDivergence || 0) },
+      K_homeo: { pre: [hm.baseline != null ? hm.baseline : 0.5], post: (hm.adaptiveThreshold || 0.1) }
+    };
+
+    var layersOut = {}, allStable = true, liveLayers = [];
+    for (var k in L) {
+      if (!L.hasOwnProperty(k)) continue;
+      var layer = L[k], f = feeds[k];
+      P.tick(layer, f.pre, f.post);
+      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);
+      this._learnedVec(k, layer.seed);                            // sets layer._blend in [0,1] (graded gate)
+      var blend = (typeof layer._blend === 'number') ? layer._blend : 0;
+      var live = blend > 0;                                       // the generic K-stack consumes _learnedVec directly (armed)
+      if (live) liveLayers.push(k);
+      layersOut[k] = { w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }), labels: layer.labels, updates: layer.updates,
+        shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, blend: blend, diag: layer.diag };
+      if (!layer.diag.stable) allStable = false;
+    }
+
+    s.domainPlasticity = {
+      version: 1, domain: this.domainId,
+      mode: liveLayers.length ? 'armed' : 'shadow',
+      isReward: !!(k4 && k4.isReward), creditSource: (k4 && k4.creditSource) || 'none', creditTier: (k4 && k4.tier) || 0,
+      rewardActive: !!this._plasticityRewardActive,
+      externalOutcome: extOutcome ? { hit: extOutcome.hit, resolvedCount: (extO && extO.resolvedCount) || 0, source: 'resolver' }
+        : { active: false, resolvedCount: (extO && extO.resolvedCount) || 0, note: 'abstaining (<' + GP_MIN_EXT + ' resolved) — self-consistency' },
+      layers: layersOut, liveLayers: liveLayers, convergence: { allStable: allStable },
+      note: 'GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency. Arming the generic K-stack into the live path is the next increment.'
+    };
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.plasticity = s.domainPlasticity;
+    return s.domainPlasticity;
   };
 
   // CLOSED LOOP — the generic brake actually gates this domain's emitted opportunities (not just
@@ -1942,7 +2082,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 })();
 ```
 
-#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3817 lines
+#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3835 lines
 
 ```js
 /**
@@ -4483,16 +4623,27 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
   //   (_actuation.plasticityLive=false forces seed everywhere).
   EnergyBrain.prototype._learnedVec = function (layerKey, seed) {
     try {
-      if (!this._actuation || this._actuation.plasticityLive === false) return seed;
-      var pl = this._plasticity;
-      if (!pl || !pl.layers) return seed;
-      var layer = pl.layers[layerKey];
-      if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      var pl = this._plasticity; if (!pl || !pl.layers) return seed;
+      var layer = pl.layers[layerKey]; if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      if (!this._actuation || this._actuation.plasticityLive === false) { layer._blend = 0; return seed; }
       var d = layer.diag || {};
-      if (!d.stable) return seed;                                 // not converged yet → seed
-      if (!this._plasticityRewardActive) return seed;             // modulator still self-consistency, not external reward → seed
-      if (typeof d.driftFromSeed === 'number' && d.driftFromSeed > 0.5) return seed;  // runaway guard → seed
-      return layer.w;                                             // EARNED: learned weights drive the live path
+      // HARD preconditions: must be converged AND on a real external reward (not self-consistency).
+      if (!d.stable || !this._plasticityRewardActive) { layer._blend = 0; return seed; }
+      // GRADED CONFIDENCE-WEIGHTED ARBITRATION between two controllers (learned vs seed), not a binary
+      // relay. Trust the learned model in proportion to (1 - drift/0.5); the learned weights stay intact,
+      // so as drift falls again w rises smoothly and the layer re-arms. NOT extinction: there is no stored
+      // "was suppressed" memory that could later resurface (renewal/relapse) — w is a function of the
+      // instantaneous drift only. The linear ramp is a stated engineering choice; the literature usually
+      // drives arbitration weight by relative reliability/uncertainty, for which drift is a proxy, not the
+      // same quantity. w=1 at drift 0; w=0 at drift>=0.5.
+      var drift = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
+      var w = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      layer._blend = Math.round(w * 1000) / 1000;
+      if (w <= 0) return seed;
+      if (w >= 1) return layer.w;
+      var out = new Array(seed.length);
+      for (var i = 0; i < seed.length; i++) out[i] = (1 - w) * seed[i] + w * layer.w[i];
+      return out;
     } catch (e) { return seed; }
   };
 
@@ -4536,7 +4687,11 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     // NOTE: freshness keys on ledger resolvedSamples increasing. The ledger caps at
     // EK_LEDGER_MAX by slicing oldest entries, so the count can dip and re-cross a
     // value (rare double-teach). Acceptable in shadow; revisit before arming.
-    var modRead = P.readModulator(pl.mod, k4, led.resolvedSamples || 0);
+    // Freshness keys on the MONOTONIC cumulative resolution count (resolvedTotal), NOT the windowed
+    // resolvedSamples — the ledger caps at EK_LEDGER_MAX and slices oldest, so the windowed count can
+    // dip (theoretical double-teach) and, worse, SATURATES near the cap once armed (learning freezes).
+    // The monotonic total makes both impossible. (This is the "revisit before arming" gate, resolved.)
+    var modRead = P.readModulator(pl.mod, k4, (typeof led.resolvedTotal === 'number' ? led.resolvedTotal : (led.resolvedSamples || 0)));
     this._plasticityRewardActive = !!(k4 && k4.isReward);   // true only when the resolver's external outcome fed the gate (tier 4)
 
     // ── Per-layer pre/post from what THIS cycle actually computed (post = the
@@ -4574,15 +4729,17 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       P.tick(layer, f.pre, f.post);                                   // eligibility + prior shrinkage, every cycle
       if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);   // three-factor apply on NEW outcomes only
       var shadow = P.shadowSum(layer, f.pre);                         // the would-be learned output
-      // LIVE = this layer is wired AND has passed the self-gate (drives the real computation now).
-      var live = !!WIRED[k] && (this._learnedVec(k, layer.seed) === layer.w);
+      // GRADED gate: _learnedVec sets layer._blend in [0,1] = how much the learned weights drive live.
+      this._learnedVec(k, layer.seed);
+      var blend = (typeof layer._blend === 'number') ? layer._blend : 0;
+      var live = !!WIRED[k] && blend > 0;                             // live = the learned trace has any grip on the real path
       if (live) liveLayers.push(k);
       layersOut[k] = {
         w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }),
         labels: layer.labels, updates: layer.updates,
         shadowOutput: shadow, staticOutput: Math.round((f.post) * 10000) / 10000,
         wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
-        wired: !!WIRED[k], live: live,
+        wired: !!WIRED[k], live: live, blend: (!!WIRED[k]) ? blend : 0,  // blend = graded arm weight (0=seed, 1=fully learned)
         diag: layer.diag
       };
       if (layer.diag.oscillating) anyOsc = true;
@@ -5214,8 +5371,8 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       if (c.status !== 'open') continue;
       c.age = (c.age || 0) + 1;
       var dxGone = c.diagnosisId && !activeIds[c.diagnosisId];
-      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; }
-      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; }
+      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
+      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
       else if (c.age >= EK_LEDGER_MAXAGE) { c.status = 'expired'; c.resolvedStress = cur; }
     }
     // 2) register new calls from current NON-HELD top opportunities (dedupe by diagnosis+path)
@@ -5236,7 +5393,8 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     var resolved = confirmed + falsified;
     var ledger = {
       version: 1, open: openN, confirmed: confirmed, falsified: falsified, expired: expired,
-      resolvedSamples: resolved,
+      resolvedSamples: resolved,                                  // WINDOWED (can dip when the ledger caps) — do NOT use for plasticity freshness
+      resolvedTotal: this._energyResolvedTotal || 0,              // MONOTONIC cumulative resolutions — the correct plasticity-freshness clock (no saturation, no double-teach)
       callHitRate: resolved >= 1 ? Math.round((confirmed / resolved) * 100) / 100 : null,
       note: 'TRUTH BRAKE: each surfaced call resolved to confirmed/falsified vs realized stress + diagnosis persistence; callHitRate feeds K4 + the halt brake.',
       lastLedgerAt: em.updated || Date.now()

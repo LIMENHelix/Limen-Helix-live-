@@ -2536,16 +2536,27 @@
   //   (_actuation.plasticityLive=false forces seed everywhere).
   EnergyBrain.prototype._learnedVec = function (layerKey, seed) {
     try {
-      if (!this._actuation || this._actuation.plasticityLive === false) return seed;
-      var pl = this._plasticity;
-      if (!pl || !pl.layers) return seed;
-      var layer = pl.layers[layerKey];
-      if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      var pl = this._plasticity; if (!pl || !pl.layers) return seed;
+      var layer = pl.layers[layerKey]; if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      if (!this._actuation || this._actuation.plasticityLive === false) { layer._blend = 0; return seed; }
       var d = layer.diag || {};
-      if (!d.stable) return seed;                                 // not converged yet → seed
-      if (!this._plasticityRewardActive) return seed;             // modulator still self-consistency, not external reward → seed
-      if (typeof d.driftFromSeed === 'number' && d.driftFromSeed > 0.5) return seed;  // runaway guard → seed
-      return layer.w;                                             // EARNED: learned weights drive the live path
+      // HARD preconditions: must be converged AND on a real external reward (not self-consistency).
+      if (!d.stable || !this._plasticityRewardActive) { layer._blend = 0; return seed; }
+      // GRADED CONFIDENCE-WEIGHTED ARBITRATION between two controllers (learned vs seed), not a binary
+      // relay. Trust the learned model in proportion to (1 - drift/0.5); the learned weights stay intact,
+      // so as drift falls again w rises smoothly and the layer re-arms. NOT extinction: there is no stored
+      // "was suppressed" memory that could later resurface (renewal/relapse) — w is a function of the
+      // instantaneous drift only. The linear ramp is a stated engineering choice; the literature usually
+      // drives arbitration weight by relative reliability/uncertainty, for which drift is a proxy, not the
+      // same quantity. w=1 at drift 0; w=0 at drift>=0.5.
+      var drift = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
+      var w = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      layer._blend = Math.round(w * 1000) / 1000;
+      if (w <= 0) return seed;
+      if (w >= 1) return layer.w;
+      var out = new Array(seed.length);
+      for (var i = 0; i < seed.length; i++) out[i] = (1 - w) * seed[i] + w * layer.w[i];
+      return out;
     } catch (e) { return seed; }
   };
 
@@ -2589,7 +2600,11 @@
     // NOTE: freshness keys on ledger resolvedSamples increasing. The ledger caps at
     // EK_LEDGER_MAX by slicing oldest entries, so the count can dip and re-cross a
     // value (rare double-teach). Acceptable in shadow; revisit before arming.
-    var modRead = P.readModulator(pl.mod, k4, led.resolvedSamples || 0);
+    // Freshness keys on the MONOTONIC cumulative resolution count (resolvedTotal), NOT the windowed
+    // resolvedSamples — the ledger caps at EK_LEDGER_MAX and slices oldest, so the windowed count can
+    // dip (theoretical double-teach) and, worse, SATURATES near the cap once armed (learning freezes).
+    // The monotonic total makes both impossible. (This is the "revisit before arming" gate, resolved.)
+    var modRead = P.readModulator(pl.mod, k4, (typeof led.resolvedTotal === 'number' ? led.resolvedTotal : (led.resolvedSamples || 0)));
     this._plasticityRewardActive = !!(k4 && k4.isReward);   // true only when the resolver's external outcome fed the gate (tier 4)
 
     // ── Per-layer pre/post from what THIS cycle actually computed (post = the
@@ -2627,15 +2642,17 @@
       P.tick(layer, f.pre, f.post);                                   // eligibility + prior shrinkage, every cycle
       if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);   // three-factor apply on NEW outcomes only
       var shadow = P.shadowSum(layer, f.pre);                         // the would-be learned output
-      // LIVE = this layer is wired AND has passed the self-gate (drives the real computation now).
-      var live = !!WIRED[k] && (this._learnedVec(k, layer.seed) === layer.w);
+      // GRADED gate: _learnedVec sets layer._blend in [0,1] = how much the learned weights drive live.
+      this._learnedVec(k, layer.seed);
+      var blend = (typeof layer._blend === 'number') ? layer._blend : 0;
+      var live = !!WIRED[k] && blend > 0;                             // live = the learned trace has any grip on the real path
       if (live) liveLayers.push(k);
       layersOut[k] = {
         w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }),
         labels: layer.labels, updates: layer.updates,
         shadowOutput: shadow, staticOutput: Math.round((f.post) * 10000) / 10000,
         wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
-        wired: !!WIRED[k], live: live,
+        wired: !!WIRED[k], live: live, blend: (!!WIRED[k]) ? blend : 0,  // blend = graded arm weight (0=seed, 1=fully learned)
         diag: layer.diag
       };
       if (layer.diag.oscillating) anyOsc = true;
@@ -3267,8 +3284,8 @@
       if (c.status !== 'open') continue;
       c.age = (c.age || 0) + 1;
       var dxGone = c.diagnosisId && !activeIds[c.diagnosisId];
-      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; }
-      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; }
+      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
+      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
       else if (c.age >= EK_LEDGER_MAXAGE) { c.status = 'expired'; c.resolvedStress = cur; }
     }
     // 2) register new calls from current NON-HELD top opportunities (dedupe by diagnosis+path)
@@ -3289,7 +3306,8 @@
     var resolved = confirmed + falsified;
     var ledger = {
       version: 1, open: openN, confirmed: confirmed, falsified: falsified, expired: expired,
-      resolvedSamples: resolved,
+      resolvedSamples: resolved,                                  // WINDOWED (can dip when the ledger caps) — do NOT use for plasticity freshness
+      resolvedTotal: this._energyResolvedTotal || 0,              // MONOTONIC cumulative resolutions — the correct plasticity-freshness clock (no saturation, no double-teach)
       callHitRate: resolved >= 1 ? Math.round((confirmed / resolved) * 100) / 100 : null,
       note: 'TRUTH BRAKE: each surfaced call resolved to confirmed/falsified vs realized stress + diagnosis persistence; callHitRate feeds K4 + the halt brake.',
       lastLedgerAt: em.updated || Date.now()
