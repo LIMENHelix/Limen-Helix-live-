@@ -147,6 +147,7 @@ const HANDLERS = {
   'feed-record': require('../handlers/feed-record'),
   'feed-resolve': require('../handlers/feed-resolve'),
   'feed-consolidate': require('../handlers/feed-consolidate'),
+  'audit-ledger': require('../handlers/audit-ledger'),
   'brain-weights': require('../handlers/brain-weights'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
