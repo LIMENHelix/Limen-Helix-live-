@@ -181,5 +181,18 @@ brain._actuation.plasticityLive = false;
 var peSeed = brain._computePredictionError(prior, obs);
 assert('disarmed: total reverts to the seed-weighted value (< armed)', peSeed.total < peArmed.total, 'seed total=' + peSeed.total);
 
+// T8 — a SECOND wired layer (K6 attention) consumes learned weights through its live function
+console.log('T8: K6 attention live path uses learned weights once armed (all-layer wiring)');
+brain._actuation.plasticityLive = true;
+brain.state.energyModel = { predictionError: { total: 0.3 }, regulation: { state: 'calm' } };
+brain.state.diagnoses = [{ id: 'X', label: 'x', active: true, relevance: 0.5 }];
+var K6 = brain._plasticity.layers.K6_attention;
+K6.w = [1.0, 0, 0, 0]; K6.diag = { stable: true, driftFromSeed: 0.1 }; brain._plasticityRewardActive = true;
+var atArmed = brain._computeEnergyAttention();
+assert('armed: salience ≈ activeBase 1.0 (relevance/pe weights learned to 0)', Math.abs(atArmed.focus[0].salience - 1.0) < 0.02, JSON.stringify(atArmed.focus[0]));
+brain._plasticityRewardActive = false;                   // disarm this layer
+var atSeed = brain._computeEnergyAttention();
+assert('disarmed: salience reverts to seed formula (0.5 + 0.5*0.4 + 0.3*0.1 = 0.73)', Math.abs(atSeed.focus[0].salience - 0.73) < 0.02, JSON.stringify(atSeed.focus[0]));
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

@@ -475,6 +475,9 @@
       // _externalPressureApplied. Add ONLY the operator request-steer bias here, keeping the
       // combined injection <= 0.3 so steer never dominates perception.
       var ext = self.state._externalPressureApplied || 0;
+      // K1 (learned): re-scale the afferent pressure the base applied at weight 1.0, once the layer earns it.
+      var _W1 = self._learnedVec('K1_pressure', [1.0]);
+      if (_W1[0] !== 1 && ext > 0) self.state.stress = Math.max(0, Math.min(1, (self.state.stress || 0) + (_W1[0] - 1) * ext));
       var rb = self._readRequestBiases ? self._readRequestBiases() : { stressBias: 0 };
       var reqDelta = Math.max(0, Math.min(0.3 - ext, rb.stressBias || 0));
       self.state._requestStressApplied = reqDelta;
@@ -1381,7 +1384,8 @@
   EnergyBrain.prototype._computeRegulation = function (em, obs, pe) {
     var gain = _emClamp(pe.novelty, 0.05, 0.95);
     var inhibition = _emClamp(1 - pe.novelty, 0, 0.9);
-    var outputScale = _emClamp(1 - inhibition * 0.5, 0.4, 1);
+    var _W2 = this._learnedVec('K2_gain', [0.5]);                 // K2 (learned): inhibition→outputScale coupling
+    var outputScale = _emClamp(1 - inhibition * _W2[0], 0.4, 1);
     var starving = obs.stress >= EM_STRESS_FLOOR && obs.opportunityCount === 0;
     // K2 stability - hysteresis so flooding does not flip each cycle at the boundary (fixes oscillation):
     // engages above the cap, releases only below 75% of it.
@@ -1416,7 +1420,7 @@
     // sustained-stress baseline cannot ratchet the handoff gate out of reach.
     var _hm = this.state.energyHomeostasis;
     var _floor = (_hm && typeof _hm.adaptiveBaseline === 'number' && _hm.samples >= 10)
-      ? _emClamp(Math.min(0.5 * EM_STRESS_FLOOR + 0.5 * _hm.adaptiveBaseline, EM_STRESS_FLOOR + 0.15), 0.15, 0.6) : EM_STRESS_FLOOR;
+      ? (function (self) { var _W8 = self._learnedVec('K8_floor', [0.5, 0.5]); return _emClamp(Math.min(_W8[0] * EM_STRESS_FLOOR + _W8[1] * _hm.adaptiveBaseline, EM_STRESS_FLOOR + 0.15), 0.15, 0.6); })(this) : EM_STRESS_FLOOR;
     em._effectiveFloor = _floor;
 
     // a FINAL decision that depends on the prior, not just on raw obs:
@@ -1463,7 +1467,8 @@
       _creditSource = _phaseReward ? 'phase-consistency' : (_fromLedger ? 'call-consistency' : (_hit !== null ? 'stress-consistency' : 'none'));
       _isReward = false;                                                  // self-consistency only; never reward
     }
-    if (_hit !== null) _lr = _emClamp(_lr * (1 + (1 - _hit)), EM_SLOW_RATE, 0.6);
+    var _W4 = this._learnedVec('K4_lr', [1.0]);                   // K4 (learned): miss→learning-rate boost gain
+    if (_hit !== null) _lr = _emClamp(_lr * (1 + _W4[0] * (1 - _hit)), EM_SLOW_RATE, 0.6);
     em._effectiveLearningRate = _lr;
     em._creditSource = _creditSource;
     em._creditIsReward = _isReward;                                       // honest flag: false unless a real external outcome fed the gate
@@ -2030,7 +2035,7 @@
       rate: EM_SLOW_RATE, note: 'parallel slow-weight track (EM_SLOW_RATE); does NOT touch em.prior'
     };
     if (obs) {
-      var r = EM_SLOW_RATE, w = slow.slow;
+      var r = this._learnedVec('K3_slow', [EM_SLOW_RATE])[0], w = slow.slow;   // K3 (learned): slow-consolidation rate (advisory track)
       w.expectedStress = _emClamp(w.expectedStress + r * ((obs.stress || 0) - w.expectedStress), 0, 1);
       w.expectedSignal = _emClamp(w.expectedSignal + r * ((obs.signal || 0) - w.expectedSignal), 0, 1);
       w.expectedDiagnosisCount = w.expectedDiagnosisCount + r * ((obs.diagnosisCount || 0) - w.expectedDiagnosisCount);
@@ -2112,10 +2117,11 @@
     var pe = (em.predictionError && em.predictionError.total) || 0;
     var rb = this._readRequestBiases ? this._readRequestBiases() : { attentionFocus: [] };
     var focus = (rb.attentionFocus || []).map(function (f) { return String(f).toLowerCase(); });
+    var _W6 = this._learnedVec('K6_attention', [0.5, 0.4, 0.1, 0.5]);   // K6 (learned): activeBase, relevanceWeight, peWeight, focusBoost
     var scored = (s.diagnoses || []).map(function (d) {
-      var sal = (d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1;
+      var sal = (d.active ? _W6[0] : 0) + (d.relevance || 0) * _W6[1] + pe * _W6[2];
       var hay = (String(d.id) + ' ' + String(d.label || '')).toLowerCase();
-      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += 0.5;   // operator steer: attention focus boost
+      if (focus.some(function (f) { return f && hay.indexOf(f) !== -1; })) sal += _W6[3];   // operator steer: attention focus boost
       return { id: d.id, active: !!d.active, salience: Math.round(sal * 1000) / 1000 };
     }).sort(function (a, b) { return b.salience - a.salience; });
     var at = {
@@ -2135,13 +2141,14 @@
   EnergyBrain.prototype._computeEnergyInhibition = function () {
     var s = this.state, em = s.energyModel || {}, reg = em.regulation || {};
     var inhib = (typeof reg.inhibition === 'number') ? reg.inhibition : 0;
+    var _W7 = this._learnedVec('K7_inhib', [1.0]);               // K7 (learned): lateral-inhibition suppress weight
     var active = (s.diagnoses || []).filter(function (d) { return d.active; })
       .sort(function (a, b) { return (b.relevance || 0) - (a.relevance || 0); });
     var winner = active[0] || null;
     var li = {
       version: 1, inhibitionStrength: inhib,
       winner: winner ? winner.id : null,
-      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * 1000) / 1000 }; }).slice(0, 6),
+      competitors: active.slice(1).map(function (d) { return { id: d.id, relevance: d.relevance, suppressBy: Math.round((d.relevance || 0) * inhib * _W7[0] * 1000) / 1000 }; }).slice(0, 6),
       note: 'CLOSED: non-winner diagnoses are down-weighted in surfaceOpportunities via _applyNeuroGating (suppressBy).',
       lastInhibitionAt: em.updated || Date.now()
     };
@@ -2609,9 +2616,10 @@
       K8_floor: { pre: [EM_STRESS_FLOOR, (typeof hm.adaptiveBaseline === 'number' ? hm.adaptiveBaseline : 0.5)], post: em._effectiveFloor || EM_STRESS_FLOOR }
     };
 
-    // Which layers are WIRED to consume learned weights in the live path (only K5 today; the rest
-    // still read literals but the self-gate + _learnedVec pattern extends to each identically).
-    var WIRED = { K5_pe: true };
+    // All eight K-layers are now WIRED to consume learned weights in the live path via _learnedVec
+    // (K1 afferent re-scale, K2 outputScale, K3 slow-rate [advisory], K4 lr-boost, K5 prediction-error,
+    // K6 salience, K7 lateral-inhibition, K8 floor-blend). Each self-arms only when its own diag passes.
+    var WIRED = { K1_pressure: true, K2_gain: true, K3_slow: true, K4_lr: true, K5_pe: true, K6_attention: true, K7_inhib: true, K8_floor: true };
     var layersOut = {}, anyOsc = false, anyRun = false, allStable = true, liveLayers = [];
     for (var k in L) {
       if (!L.hasOwnProperty(k)) continue;
