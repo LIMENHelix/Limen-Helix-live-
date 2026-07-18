@@ -2497,10 +2497,44 @@
     }
   };
 
+  // EXTERNAL OUTCOME (the RESOLVER): throttled POST of the live forecast + GET of the resolved
+  // external hit-rate, cached on this._externalOutcome. Grades the brain's forecast against RECORDED
+  // realized feed values (forward-only, independent of the trained weights) = a genuine external
+  // reward, replacing the self-consistency modulator. Gated on the durable-learning token; abstains
+  // (null) until enough forecasts resolve. Network only every EXT_RESOLVE_EVERY cycles (hourly-scale),
+  // never on the raw 30s tick; deterministic + $0 (no AI).
+  var EXT_RESOLVE_EVERY = 120;   // ~1h at 30s; matches the recorder's hourly cadence
+  var MIN_EXT_RESOLVED = 5;      // treat as reward only once >=5 forecasts have resolved (else self-consistency)
+  EnergyBrain.prototype._refreshExternalOutcome = function () {
+    var s = this.state, em = s.energyModel || {};
+    if (typeof fetch !== 'function') return;
+    var cyc = em.cycle || 0;
+    if ((cyc - (this._lastExtCycle || 0)) < EXT_RESOLVE_EVERY && this._lastExtCycle) return;
+    this._lastExtCycle = cyc;
+    var self = this;
+    var token = null;
+    try { token = (typeof localStorage !== 'undefined' && localStorage) ? localStorage.getItem(PLAST_TOKEN_KEY) : null; } catch (e) {}
+    var fc = s.energyForecast || null;
+    // POST the current forecast (durable ledger) — token-gated, hourly-idempotent server-side.
+    if (token && fc && fc.direction) {
+      try {
+        fetch('/api/feed-resolve', { method: 'POST', headers: { 'content-type': 'application/json', 'x-brain-token': token },
+          body: JSON.stringify({ domain: 'energy', forecast: { direction: fc.direction, currentStress: fc.currentStress, projectedStress: fc.projectedStress } }) }).catch(function () {});
+      } catch (e) {}
+    }
+    // GET the resolved external hit-rate (open) — this is the modulator's external outcome.
+    try {
+      fetch('/api/feed-resolve?domain=energy').then(function (r) { return r.json(); }).then(function (j) {
+        if (j && j.ok) self._externalOutcome = { hit: (typeof j.externalHitRate === 'number') ? j.externalHitRate : null, resolvedCount: j.resolvedCount || 0, at: (em.cycle || 0) };
+      }).catch(function () {});
+    } catch (e) {}
+  };
+
   EnergyBrain.prototype._computeEnergyPlasticity = function () {
     var pl = this._plasticity;
     var s = this.state, em = s.energyModel || {};
     if (!pl || !pl.P) { s.energyPlasticity = { version: 1, mode: 'off', note: 'limen-plasticity.js not loaded on this page' }; return null; }
+    try { this._refreshExternalOutcome(); } catch (e) {}
     var P = pl.P, L = pl.layers;
     var obs = em.observation || {}, pe = em.predictionError || {};
     var reg = em.regulation || {};
@@ -2516,9 +2550,15 @@
     // so we re-call the pure gate function rather than duplicating its logic.)
     var pt = (s.energyPhaseDynamics || {}).transition;
     var ptActive = !!(this._actuation && this._actuation.phase && pt && pt.hit !== null);
+    // EXTERNAL OUTCOME: the resolver's forecast-vs-realized-feed hit-rate, used as TRUE reward ONLY
+    // once >=MIN_EXT_RESOLVED forecasts have resolved; otherwise abstain (null) and the gate falls
+    // back to self-consistency calibration (honest). This is what grounds the modulator in reality.
+    var extO = this._externalOutcome;
+    var extOutcome = (extO && typeof extO.hit === 'number' && (extO.resolvedCount || 0) >= MIN_EXT_RESOLVED)
+      ? { hit: extO.hit } : null;
     var k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
       ? window.LIMENK4.credit({
-          externalOutcome: null,                                    // energy: self-consistency only, NEVER reward
+          externalOutcome: extOutcome,                              // RESOLVER: external feed-truth reward when resolved; else null (self-consistency)
           phaseValidated: !!(pt && pt.validated),
           phaseTransitionHit: ptActive ? (pt.hit ? 1 : 0) : null,
           callHitRate: (typeof led.callHitRate === 'number') ? led.callHitRate : null,
@@ -2578,16 +2618,18 @@
     s.energyPlasticity = {
       version: 1,
       mode: 'shadow',                                                 // live paths read static constants; nothing here gates
-      isReward: !!(k4 && k4.isReward),                                // ALWAYS false for energy - honest label, never dropped
+      isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)
       creditSource: (k4 && k4.creditSource) || 'none',
       creditTier: (k4 && k4.tier) || 0,
+      externalOutcome: extOutcome ? { hit: extOutcome.hit, resolvedCount: (extO && extO.resolvedCount) || 0, source: 'resolver (forecast-vs-recorded-feed-truth, forward-only)' }
+        : { active: false, resolvedCount: (extO && extO.resolvedCount) || 0, note: 'ABSTAINING: <' + MIN_EXT_RESOLVED + ' resolved forecasts — modulator falls back to self-consistency until the resolver accrues' },
       modulator: { fresh: modRead.fresh, rpe: modRead.rpe, credit: credit, baseline: pl.mod.baseline, events: pl.mod.events,
         latencyNote: 'truth-brake calls resolve 3-20 cycles after emission; eligibility traces bridge the gap' },
       layers: layersOut,
       convergence: { allStable: allStable, anyOscillating: anyOsc, anyRunaway: anyRun,
         armGate: 'flip to live ONLY after allStable holds a full diagnostic window with zero oscillating/runaway flags (operator-gated)' },
       persistence: { hydrated: pl.hydrated, hydrateResult: pl.hydrateResult, enabled: pl.persistEnabled, failures: pl.persistFailures },
-      note: 'THREE-FACTOR SHADOW: dw = eta*pre*post*modulator; modulator = centered self-consistency credit (interpretive, NEVER reward for energy). No live path reads these weights.'
+      note: 'THREE-FACTOR SHADOW: dw = eta*pre*post*modulator; modulator = the RESOLVER external outcome (forecast vs recorded feed truth) once >=' + MIN_EXT_RESOLVED + ' forecasts resolve, else self-consistency calibration. Still SHADOW: no live path reads these weights yet.'
     };
 
     // Phase 0 PERSIST: throttled snapshot so learning survives tab close.

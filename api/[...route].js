@@ -145,6 +145,7 @@ const HANDLERS = {
   'system-gain': require('../handlers/system-gain'),
   'limen-worker-stress-refresh': require('../handlers/limen-worker-stress-refresh'),
   'feed-record': require('../handlers/feed-record'),
+  'feed-resolve': require('../handlers/feed-resolve'),
   'brain-weights': require('../handlers/brain-weights'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
