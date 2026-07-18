@@ -20,6 +20,7 @@
 var db = require('../lib/limen-db');
 var resolver = require('../lib/feed-resolver');
 var consolidator = require('../lib/consolidator');
+var audit = require('../lib/audit-ledger');
 
 var FCAP = 720;                     // forecast rows to grade
 var RCAP = 2160;                    // recorder rows (~90d hourly)
@@ -73,6 +74,11 @@ module.exports = async function handler(req, res) {
       await db.set('consolidation:report:' + dom, proposal);           // latest (read endpoint serves this)
       await db.lpush('consolidation:hist:' + dom, proposal);           // append-only-ish history
       await db.ltrim('consolidation:hist:' + dom, 0, HISTCAP - 1);
+      // provenance: record this proposal generation in the tamper-evident audit ledger (propose-only event)
+      try {
+        await audit.append(db, 'consolidation', { ts: now, type: 'consolidation.proposal', actor: 'consolidator',
+          payload: { domain: dom, status: proposal.status, recommendations: proposal.recommendations.length, resolvedCount: calib.resolvedCount, applied: false } });
+      } catch (ae) { /* ledger is provenance, never blocks the read/propose path */ }
       built.push({ domain: dom, status: proposal.status, recs: proposal.recommendations.length, resolved: calib.resolvedCount });
     }
     return res.end(JSON.stringify({ ok: true, mode: 'run', built: built.length, skipped: skipped, proposals: built, appliedAnything: false, backend: db.getBackend() }));
