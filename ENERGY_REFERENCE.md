@@ -246,13 +246,14 @@ self-consistency `isReward:false`.
   plasticityLive, else w=0=seed). No stored "was-suppressed" trace ⇒ cannot reproduce renewal/relapse; the
   linear ramp and drift-as-reliability-proxy are STATED engineering choices, not derived (doctrine: matchability
   ≠ neural fidelity). Readout reports `blend`∈[0,1].
-- **Fix 3 — recency trust (staleness discount), SHADOW on energy (not armed).** The monotonic counter never
-  decays, so a stale resolver would trust old learning forever. `w = wDrift · wRecency`,
+- **Fix 3 — recency trust (staleness discount), ARMED on energy (`_actuation.recencyTrustLive=true`).** The
+  monotonic counter never decays, so a stale resolver would trust old learning forever. `w = wDrift · wRecency`,
   `wRecency = 0.5^(age/halflife)`, age = cycles since `_energyLastResolveCycle`. Folded into the SAME `w`,
   NOT a second gate (else the binary problem relocates). Split of roles: resolvedTotal = *whether to learn*;
   age = *is that learning still trustworthy now*. Precision-weighting / synaptic-tag-decay shape. Computed +
-  exposed (`layer._recency`, `energyPlasticity.recencyTrust`) every cycle; applied to live only when
-  `_actuation.recencyTrustLive` (default FALSE). Test `test-energy-recency-trust.js` 14/14.
+  exposed (`layer._recency`, `energyPlasticity.recencyTrust`) every cycle; inert until a real resolution stamps
+  `_energyLastResolveCycle` (else wRecency=1). Reversible (flip the flag ⇒ live reverts to wDrift). Test
+  `test-energy-recency-trust.js` 14/14.
 
 **TWO STANDING CONSTRAINTS for the port / arming (decide with eyes open, do NOT default):**
 1. **halflife is PER-DOMAIN**, tied to that domain's actual resolve cadence — never one constant reused
@@ -2111,7 +2112,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 })();
 ```
 
-#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3861 lines
+#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3862 lines
 
 ```js
 /**
@@ -2191,7 +2192,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: false };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -4682,9 +4683,10 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
         wRecency = Math.pow(0.5, age / EK_RECENCY_HALFLIFE);
         wRecency = Math.max(0, Math.min(1, wRecency));
       }
-      layer._recency = Math.round(wRecency * 1000) / 1000;                       // observable (shadow)
-      // SHADOW: recency is computed + exposed every cycle, but only multiplied into the live blend once
-      // _actuation.recencyTrustLive is armed. Until then live behavior is unchanged (wDrift alone).
+      layer._recency = Math.round(wRecency * 1000) / 1000;                       // observable
+      // ARMED on energy (_actuation.recencyTrustLive=true): recency multiplies into the live blend, so a
+      // stale resolver relaxes learned-weight trust back toward seed. Reversible: set the flag false and
+      // recency is computed + exposed but no longer applied (live reverts to wDrift alone). Fail-toward-seed.
       var recencyLive = !!(this._actuation && this._actuation.recencyTrustLive);
       var w = wDrift * (recencyLive ? wRecency : 1);
       layer._blend = Math.round(w * 1000) / 1000;
@@ -4802,7 +4804,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       mode: liveLayers.length ? 'armed' : 'shadow',                   // 'armed' once a wired layer passes the self-gate and drives the live path
       liveLayers: liveLayers,                                         // layers whose LEARNED weights are driving the live computation now
       recencyTrust: {                                                 // staleness discount on learned-weight trust (Fix 3)
-        live: !!(this._actuation && this._actuation.recencyTrustLive),   // false = SHADOW (computed + exposed, not applied to live)
+        live: !!(this._actuation && this._actuation.recencyTrustLive),   // true = ARMED (applied to live blend); false = computed + exposed only
         cyclesSinceResolve: (typeof this._energyLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle) : null,
         note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
       },

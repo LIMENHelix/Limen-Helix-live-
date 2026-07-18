@@ -75,7 +75,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: false };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -2566,9 +2566,10 @@
         wRecency = Math.pow(0.5, age / EK_RECENCY_HALFLIFE);
         wRecency = Math.max(0, Math.min(1, wRecency));
       }
-      layer._recency = Math.round(wRecency * 1000) / 1000;                       // observable (shadow)
-      // SHADOW: recency is computed + exposed every cycle, but only multiplied into the live blend once
-      // _actuation.recencyTrustLive is armed. Until then live behavior is unchanged (wDrift alone).
+      layer._recency = Math.round(wRecency * 1000) / 1000;                       // observable
+      // ARMED on energy (_actuation.recencyTrustLive=true): recency multiplies into the live blend, so a
+      // stale resolver relaxes learned-weight trust back toward seed. Reversible: set the flag false and
+      // recency is computed + exposed but no longer applied (live reverts to wDrift alone). Fail-toward-seed.
       var recencyLive = !!(this._actuation && this._actuation.recencyTrustLive);
       var w = wDrift * (recencyLive ? wRecency : 1);
       layer._blend = Math.round(w * 1000) / 1000;
@@ -2686,7 +2687,7 @@
       mode: liveLayers.length ? 'armed' : 'shadow',                   // 'armed' once a wired layer passes the self-gate and drives the live path
       liveLayers: liveLayers,                                         // layers whose LEARNED weights are driving the live computation now
       recencyTrust: {                                                 // staleness discount on learned-weight trust (Fix 3)
-        live: !!(this._actuation && this._actuation.recencyTrustLive),   // false = SHADOW (computed + exposed, not applied to live)
+        live: !!(this._actuation && this._actuation.recencyTrustLive),   // true = ARMED (applied to live blend); false = computed + exposed only
         cyclesSinceResolve: (typeof this._energyLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle) : null,
         note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
       },
