@@ -1221,9 +1221,10 @@
     // recency trust arm-eligible by default; inert until this domain both arms a layer AND has a
     // confidently-measured resolve cadence (derive-or-abstain), so no dormant domain is affected. Reversible.
     if (this._actuation.recencyTrustLive === undefined) this._actuation.recencyTrustLive = true;
-    // metaplasticity (adaptive η) defaults SHADOW: etaScale is computed + exposed every cycle but the
-    // static η is what actually learns until this is armed. Changes learning DYNAMICS, so shadow-first.
-    if (this._actuation.metaplasticityLive === undefined) this._actuation.metaplasticityLive = false;
+    // metaplasticity (adaptive η) ARMED by default: η*etaScale learns per layer. Inert on domains that
+    // never arm plasticity (only finance+energy are external-reward eligible), so only finance is affected
+    // here. Reversible (flip false ⇒ static η). etaScale still exposed either way.
+    if (this._actuation.metaplasticityLive === undefined) this._actuation.metaplasticityLive = true;
   };
 
   DomainBrainBase.prototype._computeDomainPlasticity = function () {
@@ -1308,8 +1309,8 @@
         note: 'halflife DERIVED from this domain\'s own resolve cadence (never borrowed); abstains until >=' + GP_RECENCY_MIN_SAMPLES + ' gaps measured'
       },
       metaplasticity: {                                           // BCM sliding-threshold adaptive learning rate (shared engine)
-        live: !!(this._actuation && this._actuation.metaplasticityLive),   // false = SHADOW (etaScale exposed, static η applied)
-        note: 'per-layer effective η adapts from each layer\'s own recent plasticity (see layer.etaScale); damps on churn/instability, permits when quiet'
+        live: !!(this._actuation && this._actuation.metaplasticityLive),   // true = ARMED (η*etaScale learns); reversible ⇒ static η
+        note: 'ARMED: per-layer effective η adapts from each layer\'s own recent plasticity (see layer.etaScale); damps on churn/instability, permits when quiet. Inert unless the domain arms plasticity (finance only).'
       },
       note: 'GENERIC PLASTICITY (ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency; graded arm gate + per-domain recency-trust decay (derive-or-abstain).'
     };
