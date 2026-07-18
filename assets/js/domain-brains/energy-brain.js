@@ -2497,13 +2497,13 @@
     }
   };
 
-  // EXTERNAL OUTCOME (the RESOLVER): throttled POST of the live forecast + GET of the resolved
-  // external hit-rate, cached on this._externalOutcome. Grades the brain's forecast against RECORDED
-  // realized feed values (forward-only, independent of the trained weights) = a genuine external
-  // reward, replacing the self-consistency modulator. Gated on the durable-learning token; abstains
-  // (null) until enough forecasts resolve. Network only every EXT_RESOLVE_EVERY cycles (hourly-scale),
-  // never on the raw 30s tick; deterministic + $0 (no AI).
-  var EXT_RESOLVE_EVERY = 120;   // ~1h at 30s; matches the recorder's hourly cadence
+  // EXTERNAL OUTCOME (the RESOLVER): the modulator's external reward. Forecasts are emitted
+  // SERVER-SIDE by the /api/feed-resolve?emit=1 cron (tab-independent, token-independent — derived
+  // from recorded feed truth, not user input) and graded vs the recorder there. This client only
+  // GETs the resolved externalHitRate (throttled ~hourly, open, $0/no AI, never the 30s tick) and
+  // feeds it to the K4 gate as externalOutcome once >=MIN_EXT_RESOLVED forecasts resolve, else
+  // abstains to self-consistency. No token needed here — the whole resolver loop self-sustains.
+  var EXT_RESOLVE_EVERY = 120;   // ~1h at 30s; the resolver only changes hourly, so no need to poll faster
   var MIN_EXT_RESOLVED = 5;      // treat as reward only once >=5 forecasts have resolved (else self-consistency)
   EnergyBrain.prototype._refreshExternalOutcome = function () {
     var s = this.state, em = s.energyModel || {};
@@ -2512,17 +2512,6 @@
     if ((cyc - (this._lastExtCycle || 0)) < EXT_RESOLVE_EVERY && this._lastExtCycle) return;
     this._lastExtCycle = cyc;
     var self = this;
-    var token = null;
-    try { token = (typeof localStorage !== 'undefined' && localStorage) ? localStorage.getItem(PLAST_TOKEN_KEY) : null; } catch (e) {}
-    var fc = s.energyForecast || null;
-    // POST the current forecast (durable ledger) — token-gated, hourly-idempotent server-side.
-    if (token && fc && fc.direction) {
-      try {
-        fetch('/api/feed-resolve', { method: 'POST', headers: { 'content-type': 'application/json', 'x-brain-token': token },
-          body: JSON.stringify({ domain: 'energy', forecast: { direction: fc.direction, currentStress: fc.currentStress, projectedStress: fc.projectedStress } }) }).catch(function () {});
-      } catch (e) {}
-    }
-    // GET the resolved external hit-rate (open) — this is the modulator's external outcome.
     try {
       fetch('/api/feed-resolve?domain=energy').then(function (r) { return r.json(); }).then(function (j) {
         if (j && j.ok) self._externalOutcome = { hit: (typeof j.externalHitRate === 'number') ? j.externalHitRate : null, resolvedCount: j.resolvedCount || 0, at: (em.cycle || 0) };

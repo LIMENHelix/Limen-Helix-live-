@@ -94,5 +94,19 @@ var now = t0 + 100 * HOUR;            // "now" well past all horizons below
   assert('hitRate 2/3', Math.abs(r.externalHitRate - 0.6667) < 0.001, 'rate=' + r.externalHitRate);
 })();
 
+// T8 — deriveForecast: server-side direction call from recorded history
+(function () {
+  console.log('T8: deriveForecast reads a direction from recorded history');
+  var rising = []; for (var i = 0; i < 12; i++) rising.push({ t: t0 + i * HOUR, s: 0.3 + i * 0.03 });
+  var fr = R.deriveForecast(rising);
+  assert('rising series ⇒ direction rising', fr && fr.direction === 'rising', JSON.stringify(fr));
+  assert('currentStress = latest recorded', fr && Math.abs(fr.currentStress - (0.3 + 11 * 0.03)) < 0.001);
+  var falling = []; for (var j = 0; j < 12; j++) falling.push({ t: t0 + j * HOUR, s: 0.8 - j * 0.03 });
+  assert('falling series ⇒ falling', R.deriveForecast(falling).direction === 'falling');
+  var flat = []; for (var k = 0; k < 12; k++) flat.push({ t: t0 + k * HOUR, s: 0.5 });
+  assert('flat series ⇒ stable', R.deriveForecast(flat).direction === 'stable');
+  assert('too little history ⇒ null', R.deriveForecast([{ t: t0, s: 0.5 }]) === null);
+})();
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

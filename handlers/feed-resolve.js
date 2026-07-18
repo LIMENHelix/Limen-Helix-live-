@@ -1,13 +1,16 @@
 /**
  * handlers/feed-resolve.js — the RESOLVER endpoint (hippocampus component 2).
  *
- *   POST /api/feed-resolve  {domain, forecast:{direction,currentStress,projectedStress}}
- *        → durably store the brain's forecast (token-gated, hourly-idempotent). This is the
- *          missing durable FORECAST LEDGER: the brain forecasts client-side and those calls
- *          evaporated; now they persist so they can be graded against what actually happened.
+ *   GET  /api/feed-resolve?emit=1   (CRON, hourly)
+ *        → derive a forecast SERVER-SIDE from each recorded domain's history and store it
+ *          durably. Tab-independent + token-independent, so the forecast ledger accrues on its
+ *          own without a browser open. This is the primary forecast source.
  *   GET  /api/feed-resolve?domain=energy
  *        → grade the stored forecasts against the RECORDER (feedhist) via lib/feed-resolver:
  *          forward-only, returns { externalHitRate, resolvedCount, pendingCount }.
+ *   POST /api/feed-resolve  {domain, forecast:{...}}
+ *        → (optional) store a client-brain forecast directly (token-gated, hourly-idempotent).
+ *          Redundant with the cron; whichever lands first that hour wins (dedup).
  *
  * WHY: the plasticity modulator was self-consistency (the brain grading its own stress calls).
  * This provides a GENUINE external outcome — the brain's forecast vs the recorded realized feed
@@ -48,6 +51,31 @@ module.exports = async function handler(req, res) {
 
   var q = {};
   try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
+
+  // ── EMIT MODE (cron): derive a forecast server-side from each domain's recorded history and
+  // store it durably. Tab-independent + token-independent (forecasts come from recorded truth,
+  // not user input), so the resolver accrues on its own. Idempotent per hour. ──
+  if (m === 'GET' && q.emit) {
+    try {
+      var idx = (await db.get('feedhist:index')) || [];
+      var nowE = Date.now(), bucketE = Math.floor(nowE / HOUR_MS);
+      var emitted = [], skipped = 0;
+      for (var ei = 0; ei < idx.length; ei++) {
+        var dom = idx[ei];
+        if (!DOMAIN_RE.test(dom)) { skipped++; continue; }
+        var fkey = 'forecasthist:' + dom;
+        var fhead = await db.lrange(fkey, 0, 0);
+        if (fhead && fhead[0] && fhead[0].madeAt && Math.floor(fhead[0].madeAt / HOUR_MS) === bucketE) { skipped++; continue; }  // already this hour
+        var rows = (await db.lrange('feedhist:' + dom, 0, 24)) || [];
+        var fc = resolver.deriveForecast(rows);
+        if (!fc) { skipped++; continue; }        // too little history to call a direction
+        await db.lpush(fkey, { madeAt: nowE, direction: fc.direction, currentStress: fc.currentStress, projectedStress: fc.projectedStress, src: 'server-cron' });
+        await db.ltrim(fkey, 0, CAP - 1);
+        emitted.push(dom);
+      }
+      return res.end(JSON.stringify({ ok: true, mode: 'emit', emitted: emitted.length, skipped: skipped, domains: emitted, backend: db.getBackend() }));
+    } catch (e) { res.statusCode = 500; return res.end(JSON.stringify({ ok: false, error: e.message })); }
+  }
 
   if (m === 'GET') {
     var domain = String(q.domain || '');
