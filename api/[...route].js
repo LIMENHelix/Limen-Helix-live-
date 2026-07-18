@@ -148,6 +148,7 @@ const HANDLERS = {
   'feed-resolve': require('../handlers/feed-resolve'),
   'feed-consolidate': require('../handlers/feed-consolidate'),
   'audit-ledger': require('../handlers/audit-ledger'),
+  'transfer-record': require('../handlers/transfer-record'),
   'brain-weights': require('../handlers/brain-weights'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
