@@ -1058,10 +1058,14 @@
     var hist = ((st.memory && st.memory.stressHistory) || []);
     var cur = (typeof st.stress === 'number') ? st.stress : 0;
 
+    // LEARNED weights (self-gated; = the seed literal until this domain's plasticity earns live control).
+    var _Wg = this._learnedVec('K_gain', [0.5]), _Wa = this._learnedVec('K_attention', [0.5, 0.4, 0.1]),
+        _Ws = this._learnedVec('K_slow', [GK_SLOW_RATE]), _Wh = this._learnedVec('K_homeo', [0.10]);
+
     // homeostasis — ADAPTIVE afferent threshold (rolling baseline; Turrigiano synaptic scaling)
     var win = hist.slice(-GK_HOMEO_WINDOW), n = win.length, sum = 0; for (var i = 0; i < n; i++) sum += (win[i].stress || 0);
     var baseline = n ? sum / n : 0.5;
-    var homeostasis = { baseline: Math.round(baseline * 1000) / 1000, deviation: Math.round((cur - baseline) * 1000) / 1000, scalingFactor: baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1, adaptiveThreshold: Math.round(gkClamp(0.10 * (baseline / 0.5), 0.05, 0.25) * 1000) / 1000, samples: n, note: 'adaptive afferent threshold: baseline-scaled firing threshold' };
+    var homeostasis = { baseline: Math.round(baseline * 1000) / 1000, deviation: Math.round((cur - baseline) * 1000) / 1000, scalingFactor: baseline > 0 ? Math.round((0.5 / Math.max(0.1, baseline)) * 1000) / 1000 : 1, adaptiveThreshold: Math.round(gkClamp(_Wh[0] * (baseline / 0.5), 0.05, 0.25) * 1000) / 1000, samples: n, note: 'adaptive afferent threshold: baseline-scaled firing threshold' };
 
     // brake — stop-circuit (advisory)
     var reasons = [];
@@ -1075,10 +1079,10 @@
 
     // gain — neuromodulation (advisory)
     var novelty = gkClamp(pe, 0.05, 0.95);
-    var gainControl = { gain: novelty, inhibition: gkClamp(1 - novelty, 0, 0.9), outputScale: gkClamp(1 - gkClamp(1 - novelty, 0, 0.9) * 0.5, 0.4, 1), note: 'graded gain (advisory)' };
+    var gainControl = { gain: novelty, inhibition: gkClamp(1 - novelty, 0, 0.9), outputScale: gkClamp(1 - gkClamp(1 - novelty, 0, 0.9) * _Wg[0], 0.4, 1), note: 'graded gain (advisory)' };
 
     // attention — top-down salience
-    var scored = diags.map(function (d) { return { id: d.id, active: !!d.active, salience: Math.round(((d.active ? 0.5 : 0) + (d.relevance || 0) * 0.4 + pe * 0.1) * 1000) / 1000 }; }).sort(function (a, b) { return b.salience - a.salience; });
+    var scored = diags.map(function (d) { return { id: d.id, active: !!d.active, salience: Math.round(((d.active ? _Wa[0] : 0) + (d.relevance || 0) * _Wa[1] + pe * _Wa[2]) * 1000) / 1000 }; }).sort(function (a, b) { return b.salience - a.salience; });
     var attention = { focus: scored.slice(0, 3), driver: reg.state === 'surprised' ? 'novelty-driven' : 'goal-driven', note: 'attention ranking (advisory)' };
 
     // inhibition — lateral, winner-take-most
@@ -1087,7 +1091,7 @@
 
     // slow model — consolidation track (fast-vs-slow divergence = regime shift)
     var slow = st._gkSlow || { expectedStress: 0.5, samples: 0 };
-    slow.expectedStress = gkClamp(slow.expectedStress + GK_SLOW_RATE * (cur - slow.expectedStress), 0, 1); slow.samples++;
+    slow.expectedStress = gkClamp(slow.expectedStress + _Ws[0] * (cur - slow.expectedStress), 0, 1); slow.samples++;
     st._gkSlow = slow;
     var slowModel = { expectedStress: Math.round(slow.expectedStress * 1000) / 1000, fastSlowDivergence: Math.round(Math.abs(cur - slow.expectedStress) * 1000) / 1000, regimeShift: Math.abs(cur - slow.expectedStress) > 0.25, samples: slow.samples, note: 'slow consolidation (uses slow rate 0.08)' };
 
@@ -1169,6 +1173,10 @@
     var layers = {};
     for (var i = 0; i < GP_LAYERS.length; i++) { var c = GP_LAYERS[i]; layers[c.key] = P.createLayer(c); }
     this._plasticity = { P: P, layers: layers, mod: P.createModulator() };
+    // arm-eligible by default; the per-layer self-gate (stable + external reward + drift-bounded) is the
+    // real safety, so no layer consumes learned weights until it has earned it. Reversible.
+    if (!this._actuation) this._actuation = {};
+    if (this._actuation.plasticityLive === undefined) this._actuation.plasticityLive = true;
   };
 
   DomainBrainBase.prototype._computeDomainPlasticity = function () {
