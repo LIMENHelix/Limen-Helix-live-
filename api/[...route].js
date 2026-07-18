@@ -149,6 +149,7 @@ const HANDLERS = {
   'feed-consolidate': require('../handlers/feed-consolidate'),
   'audit-ledger': require('../handlers/audit-ledger'),
   'transfer-record': require('../handlers/transfer-record'),
+  'memory-promote': require('../handlers/memory-promote'),
   'brain-weights': require('../handlers/brain-weights'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
