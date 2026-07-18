@@ -1221,6 +1221,9 @@
     // recency trust arm-eligible by default; inert until this domain both arms a layer AND has a
     // confidently-measured resolve cadence (derive-or-abstain), so no dormant domain is affected. Reversible.
     if (this._actuation.recencyTrustLive === undefined) this._actuation.recencyTrustLive = true;
+    // metaplasticity (adaptive η) defaults SHADOW: etaScale is computed + exposed every cycle but the
+    // static η is what actually learns until this is armed. Changes learning DYNAMICS, so shadow-first.
+    if (this._actuation.metaplasticityLive === undefined) this._actuation.metaplasticityLive = false;
   };
 
   DomainBrainBase.prototype._computeDomainPlasticity = function () {
@@ -1276,14 +1279,15 @@
       if (!L.hasOwnProperty(k)) continue;
       var layer = L[k], f = feeds[k];
       P.tick(layer, f.pre, f.post);
-      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);
+      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe, { metaplasticity: !!(this._actuation && this._actuation.metaplasticityLive) });   // η adapts (BCM sliding threshold) when armed
       this._learnedVec(k, layer.seed);                            // sets layer._blend + layer._recency
       var blend = (typeof layer._blend === 'number') ? layer._blend : 0;
       var live = blend > 0;                                       // the generic K-stack consumes _learnedVec directly (armed)
       if (live) liveLayers.push(k);
       layersOut[k] = { w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }), labels: layer.labels, updates: layer.updates,
         shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, blend: blend,
-        recency: (typeof layer._recency === 'number') ? layer._recency : 1, diag: layer.diag };
+        recency: (typeof layer._recency === 'number') ? layer._recency : 1,
+        etaScale: (layer.meta && typeof layer.meta.etaScale === 'number') ? layer.meta.etaScale : 1, diag: layer.diag };
       if (!layer.diag.stable) allStable = false;
     }
 
@@ -1302,6 +1306,10 @@
         cadenceSamples: this._extCadenceSamples || 0,             // measured gaps; needs >=' + GP_RECENCY_MIN_SAMPLES
         cyclesSinceResolve: (typeof this._extLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._extLastResolveCycle) : null,
         note: 'halflife DERIVED from this domain\'s own resolve cadence (never borrowed); abstains until >=' + GP_RECENCY_MIN_SAMPLES + ' gaps measured'
+      },
+      metaplasticity: {                                           // BCM sliding-threshold adaptive learning rate (shared engine)
+        live: !!(this._actuation && this._actuation.metaplasticityLive),   // false = SHADOW (etaScale exposed, static η applied)
+        note: 'per-layer effective η adapts from each layer\'s own recent plasticity (see layer.etaScale); damps on churn/instability, permits when quiet'
       },
       note: 'GENERIC PLASTICITY (ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency; graded arm gate + per-domain recency-trust decay (derive-or-abstain).'
     };

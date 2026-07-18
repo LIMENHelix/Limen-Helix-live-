@@ -272,6 +272,22 @@ self-consistency `isReward:false`.
    (defensible) but real forgetting is often closer to POWER-LAW; do not describe it as more biological than
    the linear drift ramp. Same class of assumption.
 
+**METAPLASTICITY (adaptive η) — `limen-plasticity.js`, SHADOW (closes the flagged metaplasticity gap).**
+The learning rate is no longer a static per-layer constant. Each layer carries `meta {theta, etaScale,
+samples}`: a BCM-like sliding modification threshold `theta` = slow EMA (`META_THETA_ALPHA=0.05`) of the
+layer's OWN recent plasticity activity (`diag.meanAbsDelta`). Effective `η = hyper.eta × etaScale`,
+`etaScale = clamp(1 − META_SENS·(activity−theta)/theta, META_ETA_MIN=0.25, META_ETA_MAX=1.5)`: churning
+FASTER than its own baseline damps η (homeostatic stabilize); quiet BELOW baseline permits η up;
+oscillating/runaway HARD-damp to the 0.25 floor — **closing the loop from the convergence diagnostics
+back into learning** (they previously only gated arming). Self-normalizing per layer from its own
+statistics = the isomorphism to per-domain halflife-from-cadence (no hand-set η schedule).
+`_updateMetaplasticity` runs every `tick`; `applyModulator(layer, rpe, {metaplasticity:bool})` applies
+`etaScale` ONLY when the opt is true — default/absent = static η (backward-compatible; `test-plasticity`
+24/24 unchanged). `meta` serializes+hydrates. Gated by `_actuation.metaplasticityLive` (default **FALSE**
+= shadow: etaScale exposed via `layer.etaScale`/`metaTheta`, static η still learns) on energy + base.
+`test-metaplasticity.js` 14/14. DISTINCT from `energy-metaplasticity.js` (that adapts OVERLAY knobs from
+volatility, gain=0 no-op — a different mechanism, not conflated).
+
 **`limen-active-inference.js`** — Kalman over (level,slope); `selectAction` EFE=risk+ambiguity over
 observe/broaden/emit/hold, setpoint=K8 floor, emit penalized by `1−callHitRate`. `_computeEnergyActiveInference
 (:2637)` records `agreement=selected===actual` (stage-1 proof). **No consumer** (DDP field only).
@@ -668,7 +684,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 
 ## CORE BRAIN + BASE
 
-#### `assets/js/domain-brains/domain-brain-base.js`  ·  GENERIC — inherited by all 20 domains  ·  1507 lines
+#### `assets/js/domain-brains/domain-brain-base.js`  ·  GENERIC — inherited by all 20 domains  ·  1515 lines
 
 ```js
 /**
@@ -1894,6 +1910,9 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     // recency trust arm-eligible by default; inert until this domain both arms a layer AND has a
     // confidently-measured resolve cadence (derive-or-abstain), so no dormant domain is affected. Reversible.
     if (this._actuation.recencyTrustLive === undefined) this._actuation.recencyTrustLive = true;
+    // metaplasticity (adaptive η) defaults SHADOW: etaScale is computed + exposed every cycle but the
+    // static η is what actually learns until this is armed. Changes learning DYNAMICS, so shadow-first.
+    if (this._actuation.metaplasticityLive === undefined) this._actuation.metaplasticityLive = false;
   };
 
   DomainBrainBase.prototype._computeDomainPlasticity = function () {
@@ -1949,14 +1968,15 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       if (!L.hasOwnProperty(k)) continue;
       var layer = L[k], f = feeds[k];
       P.tick(layer, f.pre, f.post);
-      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);
+      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe, { metaplasticity: !!(this._actuation && this._actuation.metaplasticityLive) });   // η adapts (BCM sliding threshold) when armed
       this._learnedVec(k, layer.seed);                            // sets layer._blend + layer._recency
       var blend = (typeof layer._blend === 'number') ? layer._blend : 0;
       var live = blend > 0;                                       // the generic K-stack consumes _learnedVec directly (armed)
       if (live) liveLayers.push(k);
       layersOut[k] = { w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }), labels: layer.labels, updates: layer.updates,
         shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, blend: blend,
-        recency: (typeof layer._recency === 'number') ? layer._recency : 1, diag: layer.diag };
+        recency: (typeof layer._recency === 'number') ? layer._recency : 1,
+        etaScale: (layer.meta && typeof layer.meta.etaScale === 'number') ? layer.meta.etaScale : 1, diag: layer.diag };
       if (!layer.diag.stable) allStable = false;
     }
 
@@ -1975,6 +1995,10 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
         cadenceSamples: this._extCadenceSamples || 0,             // measured gaps; needs >=' + GP_RECENCY_MIN_SAMPLES
         cyclesSinceResolve: (typeof this._extLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._extLastResolveCycle) : null,
         note: 'halflife DERIVED from this domain\'s own resolve cadence (never borrowed); abstains until >=' + GP_RECENCY_MIN_SAMPLES + ' gaps measured'
+      },
+      metaplasticity: {                                           // BCM sliding-threshold adaptive learning rate (shared engine)
+        live: !!(this._actuation && this._actuation.metaplasticityLive),   // false = SHADOW (etaScale exposed, static η applied)
+        note: 'per-layer effective η adapts from each layer\'s own recent plasticity (see layer.etaScale); damps on churn/instability, permits when quiet'
       },
       note: 'GENERIC PLASTICITY (ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency; graded arm gate + per-domain recency-trust decay (derive-or-abstain).'
     };
@@ -2179,7 +2203,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 })();
 ```
 
-#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3862 lines
+#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3868 lines
 
 ```js
 /**
@@ -2259,7 +2283,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: false };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -4845,7 +4869,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       if (!L.hasOwnProperty(k)) continue;
       var layer = L[k], f = feeds[k];
       P.tick(layer, f.pre, f.post);                                   // eligibility + prior shrinkage, every cycle
-      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);   // three-factor apply on NEW outcomes only
+      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe, { metaplasticity: !!(this._actuation && this._actuation.metaplasticityLive) });   // three-factor apply on NEW outcomes only; η adapts (BCM) when armed
       var shadow = P.shadowSum(layer, f.pre);                         // the would-be learned output
       // GRADED gate: _learnedVec sets layer._blend in [0,1] = how much the learned weights drive live.
       this._learnedVec(k, layer.seed);
@@ -4859,6 +4883,8 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
         wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
         wired: !!WIRED[k], live: live, blend: (!!WIRED[k]) ? blend : 0,  // blend = graded arm weight (0=seed, 1=fully learned)
         recency: (typeof layer._recency === 'number') ? layer._recency : 1,  // SHADOW staleness-trust factor (applied to live only when recencyTrustLive)
+        etaScale: (layer.meta && typeof layer.meta.etaScale === 'number') ? layer.meta.etaScale : 1,  // BCM effective-η multiplier (applied to learning only when metaplasticityLive)
+        metaTheta: (layer.meta && typeof layer.meta.theta === 'number') ? Math.round(layer.meta.theta * 10000) / 10000 : 0,  // sliding modification threshold
         diag: layer.diag
       };
       if (layer.diag.oscillating) anyOsc = true;
@@ -4874,6 +4900,10 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
         live: !!(this._actuation && this._actuation.recencyTrustLive),   // true = ARMED (applied to live blend); false = computed + exposed only
         cyclesSinceResolve: (typeof this._energyLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle) : null,
         note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
+      },
+      metaplasticity: {                                               // BCM sliding-threshold adaptive learning rate
+        live: !!(this._actuation && this._actuation.metaplasticityLive),  // false = SHADOW (etaScale computed + exposed, static η still applied)
+        note: 'per-layer effective η adapts from each layer\'s own recent plasticity (θ slides); churn/oscillation/runaway damp η, quiet permits it (see layer.etaScale/metaTheta)'
       },
       rewardActive: !!this._plasticityRewardActive,                   // is the modulator on the resolver's external reward (a gate precondition)?
       isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)
@@ -6048,7 +6078,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 
 ## LEARNING SUBSTRATE (SHARED modules — load, do not copy per domain)
 
-#### `assets/js/limen-plasticity.js`  ·  SHARED  ·  262 lines
+#### `assets/js/limen-plasticity.js`  ·  SHARED  ·  303 lines
 
 ```js
 // ═══════════════════════════════════════════════════════════════════
@@ -6115,6 +6145,20 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
   var RUNAWAY_FRAC = 0.95;   // magnitude ≥ frac·(ceiling magnitude) ⇒ runaway
   var BASELINE_ALPHA = 0.1;  // EMA rate for the RPE baseline
 
+  // ── METAPLASTICITY (BCM-like sliding modification threshold) ────────
+  // The learning rate is NOT a static per-layer constant. A per-layer threshold θ slides with the
+  // layer's OWN recent plasticity activity (mean |Δ|w|| from diagnostics); the EFFECTIVE η is scaled
+  // by how far current activity sits from θ. Homeostatic (BCM) direction: churning FASTER than its own
+  // recent baseline (activity > θ) ⇒ the threshold is exceeded ⇒ DAMP η (stabilize); settled BELOW
+  // baseline (activity < θ) ⇒ relax θ ⇒ permit η back up so a genuine new signal can move it. Instability
+  // flags (oscillating/runaway) hard-damp η — this closes the loop from the convergence diagnostics back
+  // into learning (before, they only gated arming downstream). Self-normalizing PER LAYER, derived from
+  // its own statistics — no hand-set η schedule (the isomorphism to per-domain halflife-from-cadence).
+  var META_THETA_ALPHA = 0.05;   // slide rate of the modification threshold (slow)
+  var META_SENS = 1.0;           // sensitivity of the η scale to (activity − θ)/θ
+  var META_ETA_MIN = 0.25;       // η damped to at most 1/4 (floor; also the instability hard-damp)
+  var META_ETA_MAX = 1.5;        // η raised to at most 3/2 when a settled layer quiets below its baseline
+
   function clamp(x, lo, hi) { x = Number(x); if (!isFinite(x)) return lo; return Math.max(lo, Math.min(hi, x)); }
   function r4(x) { return Math.round(x * 10000) / 10000; }
 
@@ -6151,6 +6195,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       updates: 0,                           // modulator applications so far
       ticks: 0,                             // cycles seen
       magHist: [],                          // rolling L2 magnitude for diagnostics
+      meta: { theta: 0, etaScale: 1, samples: 0 },  // BCM sliding threshold + current effective-η multiplier
       diag: { stable: false, oscillating: false, runaway: false, samples: 0 }
     };
   }
@@ -6188,6 +6233,26 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     return layer.diag;
   }
 
+  // ── Metaplasticity: slide the modification threshold θ and recompute the effective-η scale. ──
+  // Called every tick, AFTER diagnostics (needs meanAbsDelta). Pure; only updates layer.meta.
+  function _updateMetaplasticity(layer) {
+    var m = layer.meta; if (!m) return;
+    var activity = (layer.diag && typeof layer.diag.meanAbsDelta === 'number') ? layer.diag.meanAbsDelta : 0;
+    if (m.samples === 0) m.theta = activity;                            // seed θ to first activity
+    else m.theta = m.theta + META_THETA_ALPHA * (activity - m.theta);  // sliding modification threshold
+    m.samples++;
+    var scale;
+    if (layer.diag && (layer.diag.oscillating || layer.diag.runaway)) {
+      scale = META_ETA_MIN;                                            // instability ⇒ hard homeostatic brake
+    } else if (m.theta > 1e-9) {
+      var ratio = (activity - m.theta) / m.theta;                      // >0 ⇒ churning faster than its own baseline
+      scale = clamp(1 - META_SENS * ratio, META_ETA_MIN, META_ETA_MAX); // damp when churning, permit when quiet
+    } else {
+      scale = 1;                                                       // no measured activity yet ⇒ neutral
+    }
+    m.etaScale = r4(scale);
+  }
+
   // ── Per-cycle tick: eligibility + shrinkage. NO weight-from-modulator here. ──
   // pre: number[] (same length as w) — the layer's input vector this cycle
   // post: number   — the layer's (shadow) output this cycle
@@ -6201,16 +6266,21 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       layer.w[i] = clamp(layer.w[i], hp.minW, hp.maxW);
     }
     layer.ticks++;
-    return _updateDiagnostics(layer);
+    var d = _updateDiagnostics(layer);
+    _updateMetaplasticity(layer);                                       // slide θ + refresh etaScale (exposed)
+    return d;
   }
 
   // ── Modulator application: call ONLY when a NEW resolved outcome arrived. ──
-  // rpe: centered reward-prediction-error-like scalar (see makeModulator)
-  function applyModulator(layer, rpe) {
+  // rpe:  centered reward-prediction-error-like scalar (see makeModulator)
+  // opts: { metaplasticity?: bool } — when true, the effective η is scaled by the layer's BCM etaScale
+  //       (adaptive). Default/absent ⇒ static η (etaScale computed + exposed but NOT applied: shadow).
+  function applyModulator(layer, rpe, opts) {
     if (!layer || typeof rpe !== 'number' || !isFinite(rpe)) return null;
     var hp = layer.hyper;
+    var etaEff = hp.eta * ((opts && opts.metaplasticity && layer.meta) ? layer.meta.etaScale : 1);
     for (var i = 0; i < layer.w.length; i++) {
-      layer.w[i] = clamp(layer.w[i] + hp.eta * hp.modScale * rpe * layer.e[i], hp.minW, hp.maxW); // 3. Δw = η·pre·post·mod (pre·post lives in e)
+      layer.w[i] = clamp(layer.w[i] + etaEff * hp.modScale * rpe * layer.e[i], hp.minW, hp.maxW); // 3. Δw = η_eff·pre·post·mod
     }
     layer.updates++;
     return _updateDiagnostics(layer);
@@ -6265,7 +6335,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       if (!layers.hasOwnProperty(k)) continue;
       var L = layers[k];
       out.layers[k] = { name: L.name, labels: L.labels, seed: L.seed.map(r4), w: L.w.map(r4), e: L.e.map(r4),
-        hyper: L.hyper, updates: L.updates, ticks: L.ticks, magHist: L.magHist.slice(), diag: L.diag };
+        hyper: L.hyper, updates: L.updates, ticks: L.ticks, magHist: L.magHist.slice(), meta: L.meta, diag: L.diag };
     }
     if (meta) out.meta = meta;
     return out;
@@ -6287,6 +6357,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
         L.updates = Number(S.updates) || 0;
         L.ticks = Number(S.ticks) || 0;
         L.magHist = Array.isArray(S.magHist) ? S.magHist.slice(-DIAG_WINDOW) : [];
+        if (S.meta && typeof S.meta.theta === 'number') L.meta = { theta: Number(S.meta.theta), etaScale: (typeof S.meta.etaScale === 'number') ? Number(S.meta.etaScale) : 1, samples: Number(S.meta.samples) || 0 };
         _updateDiagnostics(L);
         restored.push(k);
       } else {
