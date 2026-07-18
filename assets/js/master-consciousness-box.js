@@ -59,6 +59,13 @@
     for (var i = 0; i < ms.length; i++) { var it = intero(ms[i]); if (it && it.salience === 'financial-only') out.push({ label: ms[i]._label, divergence: it.divergence }); }
     return out;
   }
+  // NODE-GROUNDED PHASE divergence: the domain's own kernel-scored companies disagree with its
+  // stress-heuristic phase. A real, checkable signal (audited financials), NOT the wiring artifact.
+  function groundedDivergent(ms) {
+    var out = [];
+    for (var i = 0; i < ms.length; i++) { var m = ms[i]; if (m && m.phaseGrounded && m.phaseDivergent) out.push({ label: m._label, prior: m.phasePrior, grounded: m.phaseLabel || m.phase, stress: num(m.stress) }); }
+    return out.sort(function (a, b) { return (b.stress || 0) - (a.stress || 0); });
+  }
   function byStress(ms) { return ms.slice().sort(function (a, b) { return (num(b.stress) || 0) - (num(a.stress) || 0); }); }
   function immuneFlags(ms) {
     var out = [];
@@ -92,6 +99,8 @@
     lines.push('Most stressed: ' + hot.slice(0, 3).map(function (m) { return m._label + ' ' + pct(m.stress); }).join(', ') + '.');
     if (blind.length) lines.push('BLIND-CHANNEL divergence (calm on money, alarmed elsewhere) in ' + blind.length + ': ' + blind.slice(0, 4).map(function (b) { return b.label + '→' + b.attend; }).join(', ') + '. These are where the single financial read would miss the distress.');
     else lines.push('No blind-channel divergence right now — financial reads agree with the other channels.');
+    var gdiv = groundedDivergent(ms);
+    if (gdiv.length) lines.push('NODE-GROUNDED PHASE divergence in ' + gdiv.length + ': ' + gdiv.slice(0, 4).map(function (g) { return g.label + ' companies read ' + g.grounded + ' vs stress-heuristic ' + g.prior; }).join(', ') + '. The domain\'s own kernel-scored companies disagree with its stress read — a real, checkable signal (audited financials), not the financial-only wiring artifact.');
     if (imm.length) lines.push('Immune: ' + imm.map(function (x) { return x.label + ' ' + x.immune; }).join(', ') + '.');
     var opp = allOpportunities(ms);
     lines.push(opp.length + ' opportunities surfaced across domains' + (opp.length ? '; top: ' + opp[0].label + ' — ' + opp[0].title : '') + '.');
@@ -209,7 +218,7 @@
       if (!passcode) { renderResult(pending, localAns, 'local (free)', ms, null); return; }
       try { localStorage.setItem(LS_KEY, passcode); } catch (e) {}
       // Compact per-domain projection for the model (keep the payload small).
-      var compact = ms.map(function (m) { var it = intero(m); return { domain: m._domain, label: m._label, stress: m.stress, phase: m.phaseLabel || m.phase, regulation: m.regulation, immune: m.immune, salience: it && it.salience, attend: it && it.attend, divergence: it && it.divergence, topDx: (m.activeDiagnoses || [])[0] && (m.activeDiagnoses[0].id), topOpp: (m.topOpportunities || [])[0] && (m.topOpportunities[0].title) }; });
+      var compact = ms.map(function (m) { var it = intero(m); return { domain: m._domain, label: m._label, stress: m.stress, phase: m.phaseLabel || m.phase, phaseGrounded: !!m.phaseGrounded, phaseDivergent: !!m.phaseDivergent, phasePrior: m.phasePrior || null, phaseSource: m.phaseSource || null, regulation: m.regulation, immune: m.immune, salience: it && it.salience, attend: it && it.attend, divergence: it && it.divergence, topDx: (m.activeDiagnoses || [])[0] && (m.activeDiagnoses[0].id), topOpp: (m.topOpportunities || [])[0] && (m.topOpportunities[0].title) }; });
       fetch('/api/master-agent', {
         method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ passcode: passcode, prompt: prompt, models: compact })

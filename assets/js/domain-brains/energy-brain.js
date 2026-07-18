@@ -3372,13 +3372,18 @@
 
   // Compact domain readout - the context the box/LLM gets so it "knows its own domain".
   EnergyBrain.prototype.getEnergyStateSummary = function () {
-    var s = this.state, em = s.energyModel || {}, n = s.energyNeuro || {};
+    var s = this.state, em = s.energyModel || {}, n = s.energyNeuro || {}, pd = s.energyPhaseDynamics || {};
     var active = (s.diagnoses || []).filter(function (d) { return d.active; }).map(function (d) { return { id: d.id, relevance: d.relevance, blocked: !!d.blocked }; });
     var opps = (s.opportunities || []).slice(0, 6).map(function (o) { return { title: o.title, path: o.path, confidence: o.confidence, held: !!o.held }; });
     var cfg = this._energyCapitalConfig || {};
     return {
       domain: 'energy',
       stress: Math.round((s.stress || 0) * 100) / 100, phase: s.phase || null, stressFlag: s._stressFlag || null,
+      // NODE-GROUNDED PHASE: phase is grounded in the domain's own kernel-scored companies when phaseGrounded;
+      // phaseDivergent = the grounded phase disagrees with the stress heuristic (phasePrior) = the real signal.
+      phaseGrounded: !!pd.grounded, phaseSource: pd.phaseSource || null, phasePrior: pd.priorPhase || null,
+      phaseDivergent: !!(pd.phasePercept && pd.phasePercept.divergent),
+      phasePrecision: (pd.phasePercept && typeof pd.phasePercept.precision === 'number') ? pd.phasePercept.precision : null,
       regulation: (em.regulation && em.regulation.state) || null,
       predictionError: (em.predictionError && em.predictionError.total) || null,
       predictedStress: (typeof em.predictedStress === 'number') ? Math.round(em.predictedStress * 100) / 100 : null,

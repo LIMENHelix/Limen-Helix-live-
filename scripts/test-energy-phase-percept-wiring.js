@@ -119,5 +119,20 @@ var pdThin = brain._computeEnergyPhaseDynamics();
 assert('ungrounded ⇒ authoritative = prior (p2)', pdThin.myPhase === 'p2' && pdThin.grounded === false);
 assert('state.phase held at prior, not fabricated to p9', brain.state.phase === 'p2');
 
+// T8 — the LAST HOP: grounding fields reach getEnergyStateSummary (what the AI payload reads)
+console.log('T8: getEnergyStateSummary exposes the grounding fields for the AI');
+brain.state.phase = 'p2'; brain.state.phaseLabel = 'RHYTHM';
+brain.state.companies = [
+  { name: 'A', phase: 'p7a', scored: true }, { name: 'B', phase: 'p7a', scored: true },
+  { name: 'C', phase: 'p7a', scored: true }, { name: 'D', phase: 'p7a', scored: true }, { name: 'E', phase: 'p7a', scored: true }
+];
+brain._computeEnergyPhaseDynamics();               // grounds + arms to p7a, divergent from p2
+var sum = brain.getEnergyStateSummary();
+assert('summary.phaseGrounded true', sum.phaseGrounded === true, JSON.stringify({ g: sum.phaseGrounded, d: sum.phaseDivergent, p: sum.phasePrior }));
+assert('summary.phaseDivergent true (grounded p7a vs heuristic p2)', sum.phaseDivergent === true);
+assert('summary.phasePrior = p2 (the stress heuristic the AI names alongside the grounded phase)', sum.phasePrior === 'p2');
+assert('summary.phaseSource = node-grounded', sum.phaseSource === 'node-grounded');
+assert('summary.phase = the grounded p7a', sum.phase === 'p7a');
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

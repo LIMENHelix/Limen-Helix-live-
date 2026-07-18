@@ -503,6 +503,9 @@ files + real node bindings. Machinery ports cheaply; real content is the work. A
 5. **Thin real signal:** only 3 crude-price feeds drive baseline stress; all else is event-overlay → energy stress ≈ crude price + news volume.
 6. **No consumers** for `energyPlasticity`/`energyActiveInference`/`phaseGrounded`/`phaseDivergent`; brain-weights persistence inert (token unset).
 7. **Double-grounding** after merge (server heuristic-prior + client kernel-prior); converges on same evidence, decide authority.
-8. **Master-agent prompt** still frames financial-only as artifact; not phase-grounding-aware.
+8. ~~Master-agent prompt frames financial-only as artifact; not phase-grounding-aware.~~ **RESOLVED 2026-07-17:**
+   `phaseGrounded`/`phaseDivergent`/`phasePrior` now flow brain summaries → base snapshot capture →
+   `master-consciousness-box.js:212` payload + local synthesis → `master-agent.js` prompt (grounded-divergent named
+   the high-value signal alongside blind-channel; interoception's "no external ground truth" line corrected).
 9. **~3,000+ lines dead/inert energy JS** (§K) executing to no effect.
 10. **Phase-percept feature unmerged** — the one armed learning member is branch-only, not in production.
