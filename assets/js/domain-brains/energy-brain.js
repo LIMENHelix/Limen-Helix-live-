@@ -75,7 +75,13 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: true };
+    // HOTFIX 2026-07-18: plasticityLive=false reverts ALL 8 K-layers to their hand-tuned SEED weights
+    // (fail-toward-seed) after a live "energy at 100%" regression was reported. This neutralizes the
+    // whole learned-weight path at once (K1 stress, K2 gain, K5 PE, K6 attn, K7 inhib, K8 floor, K3/K4)
+    // so energy runs on the known-good seeds it used for most of its life. Reversible: flip back to true
+    // to re-arm once the saturating layer is diagnosed. recency/metaplasticity flags are moot while off
+    // (_learnedVec short-circuits to seed when plasticityLive===false).
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: false, recencyTrustLive: true, metaplasticityLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
