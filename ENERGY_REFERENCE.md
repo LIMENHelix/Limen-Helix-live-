@@ -256,11 +256,18 @@ self-consistency `isReward:false`.
   `test-energy-recency-trust.js` 14/14.
 
 **TWO STANDING CONSTRAINTS for the port / arming (decide with eyes open, do NOT default):**
-1. **halflife is PER-DOMAIN**, tied to that domain's actual resolve cadence — never one constant reused
-   across all 20 (the same cosmetic-break risk as the K-stack literals, now a 3rd parameter; same root as the
-   6h resolver-horizon-may-not-fit-slower-domains note). Energy's `EK_RECENCY_HALFLIFE=40cy` (~2× max call
-   age) is energy-specific. The generic base was deliberately NOT given a recency factor this pass; when
-   ported, read per-domain cadence, else ABSTAIN (`wRecency=1`), never borrow a default.
+1. **halflife is PER-DOMAIN** — **DONE (Option 2, measure-or-abstain), never one shared constant.** Energy's
+   own `_learnedVec` keeps `EK_RECENCY_HALFLIFE=40cy` (~2× max call age, energy-specific). `DomainBrainBase`
+   now DERIVES `halflife = GP_RECENCY_MULT(2) × each domain's OWN measured inter-resolution cadence` — an EMA
+   of cycle-gaps between EXTERNAL resolver `resolvedCount` advances (tracked in `_computeDomainPlasticity`:
+   `_extCadenceEMA/_extCadenceSamples/_extLastResolveCycle`). `_domainRecencyHalflife()` returns `null`
+   (**ABSTAIN**, `wRecency=1`) until `GP_RECENCY_MIN_SAMPLES(5)` GAPS are measured — the guard covers SPARSE
+   history, not just zero, so a noisy early estimate is never treated as confirmed cadence. Floor
+   `GP_RECENCY_MIN_HALFLIFE(8)`; override via `config.recencyHalflifeCycles`. Only finance+energy are
+   external-reward eligible, so the other 18 carry the machinery INERT (never arm ⇒ never decay); finance is
+   the one real non-energy consumer. First self-adjusting parameter in the build (starts closing the
+   metaplasticity gap, not widening it). `test-domain-recency-trust.js` 19/19. Same root as the 6h
+   resolver-horizon-may-not-fit-slower-domains note.
 2. **exponential is a STATED CHOICE, not derived.** `0.5^(age/halflife)` is the standard precision-decay form
    (defensible) but real forgetting is often closer to POWER-LAW; do not describe it as more biological than
    the linear drift ramp. Same class of assumption.
@@ -661,7 +668,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 
 ## CORE BRAIN + BASE
 
-#### `assets/js/domain-brains/domain-brain-base.js`  ·  GENERIC — inherited by all 20 domains  ·  1447 lines
+#### `assets/js/domain-brains/domain-brain-base.js`  ·  GENERIC — inherited by all 20 domains  ·  1507 lines
 
 ```js
 /**
@@ -1792,6 +1799,11 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
   // energy's design 1:1 (see ENERGY_REFERENCE.md §D). Degrade-safe: no module ⇒ no-op.
   // ════════════════════════════════════════════════════════════════════════════
   var GP_EXT_EVERY = 120, GP_MIN_EXT = 5;
+  // RECENCY TRUST cadence (per-domain, DERIVED not borrowed): halflife = GP_RECENCY_MULT x this domain's
+  // OWN measured inter-resolution spacing. ABSTAIN (no decay) until the cadence is CONFIDENTLY known —
+  // GP_RECENCY_MIN_SAMPLES covers sparse history too, not just zero history, so a noisy early estimate is
+  // never treated as confirmed cadence. Floor prevents a tiny cadence from producing runaway-fast decay.
+  var GP_RECENCY_MULT = 2, GP_RECENCY_MIN_SAMPLES = 5, GP_RECENCY_MIN_HALFLIFE = 8;
   // seeds = the generic K-stack's live literals: K_gain (outputScale coupling 0.5), K_attention
   // (active/relevance/pe 0.5/0.4/0.1), K_slow (0.08), K_homeo (adaptive-threshold base 0.10).
   var GP_LAYERS = [
@@ -1814,7 +1826,22 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       // GRADED confidence-weighted arbitration: mix seed<->learned by w = 1 - drift/0.5 (not a hard toggle,
       // not extinction — w is a function of instantaneous drift only, no stored suppression that can resurface).
       var drift = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
-      var w = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      var wDrift = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      // RECENCY TRUST (staleness discount), PER-DOMAIN, DERIVED-OR-ABSTAIN. Trust in learned weights decays
+      // with how long since the last REAL (external resolver) resolution. halflife = this domain's OWN
+      // measured resolve cadence (never energy's 40, never a shared constant); if that cadence is not yet
+      // confidently known (sparse/zero history) the domain ABSTAINS (wRecency=1, no decay). Folded into the
+      // SAME w (not a second gate). Exponential is a STATED choice (power-law is often truer), not more
+      // biological than the linear ramp.
+      var wRecency = 1;
+      var hl = this._domainRecencyHalflife();
+      if (hl && typeof this._extLastResolveCycle === 'number') {
+        var age = Math.max(0, (this._cycleCount || 0) - this._extLastResolveCycle);
+        wRecency = Math.max(0, Math.min(1, Math.pow(0.5, age / hl)));
+      }
+      layer._recency = Math.round(wRecency * 1000) / 1000;
+      var recencyLive = !!(this._actuation && this._actuation.recencyTrustLive);
+      var w = wDrift * (recencyLive ? wRecency : 1);
       layer._blend = Math.round(w * 1000) / 1000;
       if (w <= 0) return seed;
       if (w >= 1) return layer.w;
@@ -1822,6 +1849,18 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       for (var i = 0; i < seed.length; i++) out[i] = (1 - w) * seed[i] + w * layer.w[i];
       return out;
     } catch (e) { return seed; }
+  };
+
+  // Per-domain recency halflife: explicit config override wins, else DERIVE from measured resolve cadence,
+  // else ABSTAIN (null). Abstain covers sparse history (< GP_RECENCY_MIN_SAMPLES gaps), not just zero — a
+  // shaky early estimate is never treated as confirmed cadence.
+  DomainBrainBase.prototype._domainRecencyHalflife = function () {
+    var cfg = this.config && this.config.recencyHalflifeCycles;
+    if (typeof cfg === 'number' && cfg > 0) return cfg;
+    if ((this._extCadenceSamples || 0) >= GP_RECENCY_MIN_SAMPLES && this._extCadenceEMA > 0) {
+      return Math.max(GP_RECENCY_MIN_HALFLIFE, GP_RECENCY_MULT * this._extCadenceEMA);
+    }
+    return null;
   };
 
   // Throttled resolver read (external outcome), keyed by this.domainId. Open GET, no token.
@@ -1852,6 +1891,9 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     // real safety, so no layer consumes learned weights until it has earned it. Reversible.
     if (!this._actuation) this._actuation = {};
     if (this._actuation.plasticityLive === undefined) this._actuation.plasticityLive = true;
+    // recency trust arm-eligible by default; inert until this domain both arms a layer AND has a
+    // confidently-measured resolve cadence (derive-or-abstain), so no dormant domain is affected. Reversible.
+    if (this._actuation.recencyTrustLive === undefined) this._actuation.recencyTrustLive = true;
   };
 
   DomainBrainBase.prototype._computeDomainPlasticity = function () {
@@ -1872,6 +1914,22 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 
     // modulator: resolver external outcome once enough resolve, else self-consistency (hitRate)
     var extO = this._externalOutcome;
+
+    // RECENCY CADENCE: watch the EXTERNAL resolver count advance (a real resolution) and measure THIS
+    // domain's own inter-resolution spacing in cycles (EMA). This is the derived, per-domain halflife
+    // source — never a borrowed constant. Needs >=2 advances to record one gap; halflife stays ABSTAIN
+    // until GP_RECENCY_MIN_SAMPLES gaps accrue (sparse-history guard).
+    var _rc = (extO && typeof extO.resolvedCount === 'number') ? extO.resolvedCount : null;
+    if (_rc != null && _rc > (this._extPrevResolvedCount || 0)) {
+      var _nowC = this._cycleCount || 0;
+      if (typeof this._extLastResolveCycle === 'number') {
+        var _gap = Math.max(1, _nowC - this._extLastResolveCycle);
+        this._extCadenceEMA = (this._extCadenceEMA == null) ? _gap : (0.7 * this._extCadenceEMA + 0.3 * _gap);
+        this._extCadenceSamples = (this._extCadenceSamples || 0) + 1;   // counts GAPS, not resolutions
+      }
+      this._extLastResolveCycle = _nowC;
+      this._extPrevResolvedCount = _rc;
+    }
     var extOutcome = (extO && typeof extO.hit === 'number' && (extO.resolvedCount || 0) >= GP_MIN_EXT) ? { hit: extO.hit } : null;
     var k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
       ? window.LIMENK4.credit({ externalOutcome: extOutcome, callHitRate: (typeof led.hitRate === 'number') ? led.hitRate : null, callSamples: led.samples || 0, stressSelfPred: (typeof led.hitRate === 'number') ? led.hitRate : null, stressSamples: led.samples || 0 })
@@ -1892,12 +1950,13 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       var layer = L[k], f = feeds[k];
       P.tick(layer, f.pre, f.post);
       if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);
-      this._learnedVec(k, layer.seed);                            // sets layer._blend in [0,1] (graded gate)
+      this._learnedVec(k, layer.seed);                            // sets layer._blend + layer._recency
       var blend = (typeof layer._blend === 'number') ? layer._blend : 0;
       var live = blend > 0;                                       // the generic K-stack consumes _learnedVec directly (armed)
       if (live) liveLayers.push(k);
       layersOut[k] = { w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }), labels: layer.labels, updates: layer.updates,
-        shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, blend: blend, diag: layer.diag };
+        shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, blend: blend,
+        recency: (typeof layer._recency === 'number') ? layer._recency : 1, diag: layer.diag };
       if (!layer.diag.stable) allStable = false;
     }
 
@@ -1909,7 +1968,15 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       externalOutcome: extOutcome ? { hit: extOutcome.hit, resolvedCount: (extO && extO.resolvedCount) || 0, source: 'resolver' }
         : { active: false, resolvedCount: (extO && extO.resolvedCount) || 0, note: 'abstaining (<' + GP_MIN_EXT + ' resolved) — self-consistency' },
       layers: layersOut, liveLayers: liveLayers, convergence: { allStable: allStable },
-      note: 'GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency. Arming the generic K-stack into the live path is the next increment.'
+      recencyTrust: {                                             // per-domain staleness discount (derive-or-abstain)
+        live: !!(this._actuation && this._actuation.recencyTrustLive),
+        halflifeCycles: this._domainRecencyHalflife(),            // null = ABSTAINING (cadence not yet confidently known)
+        cadenceEMA: (this._extCadenceEMA != null) ? Math.round(this._extCadenceEMA * 10) / 10 : null,
+        cadenceSamples: this._extCadenceSamples || 0,             // measured gaps; needs >=' + GP_RECENCY_MIN_SAMPLES
+        cyclesSinceResolve: (typeof this._extLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._extLastResolveCycle) : null,
+        note: 'halflife DERIVED from this domain\'s own resolve cadence (never borrowed); abstains until >=' + GP_RECENCY_MIN_SAMPLES + ' gaps measured'
+      },
+      note: 'GENERIC PLASTICITY (ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency; graded arm gate + per-domain recency-trust decay (derive-or-abstain).'
     };
     if (s.cognition && typeof s.cognition === 'object') s.cognition.plasticity = s.domainPlasticity;
     return s.domainPlasticity;
