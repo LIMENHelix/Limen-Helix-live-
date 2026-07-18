@@ -67,9 +67,13 @@
   }
 
   // Which domains may EVER supply an external reward (have a real external realized-outcome label).
-  // Conservative + honest: Finance has Thing1's validated distress outcome. Everything else = self-consistency only.
-  // A domain not in this set MUST pass externalOutcome:null (its credit stays calibration, never reward).
-  var EXTERNAL_REWARD_DOMAINS = { finance: true };
+  // Conservative + honest:
+  //   finance: Thing1's validated distress outcome.
+  //   energy:  the RESOLVER (/api/feed-resolve) grades the brain's forecast against RECORDED realized
+  //            feed values (forward-only, independent of the trained weights) — a genuine external
+  //            outcome, though external CALIBRATION (feed truth), not a "validated" distress event.
+  // Everything else = self-consistency only. A domain not in this set MUST pass externalOutcome:null.
+  var EXTERNAL_REWARD_DOMAINS = { finance: true, energy: true };
   function externalRewardEligible(domain) { return !!EXTERNAL_REWARD_DOMAINS[String(domain || '').toLowerCase()]; }
 
   var API = { credit: credit, stressConsistency: stressConsistency,
