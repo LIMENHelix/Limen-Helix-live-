@@ -119,7 +119,7 @@ var out3 = brain._computeEnergyPlasticity();
 assert('new resolved outcome ⇒ fresh, positive rpe', out3.modulator.fresh === true && out3.modulator.rpe > 0, JSON.stringify(out3.modulator));
 var moved = brain._plasticity.layers.K5_pe.w.some(function (w, i) { return Math.abs(w - wBefore[i]) > 1e-7; });
 assert('K5 weights moved on the fresh outcome (before/after)', moved, wBefore + ' -> ' + brain._plasticity.layers.K5_pe.w);
-assert('convergence block present with arm gate', !!out3.convergence && /operator-gated/.test(out3.convergence.armGate));
+assert('convergence block present with self-arm gate', !!out3.convergence && /self|drift|reversible/i.test(out3.convergence.armGate));
 
 // T4 — active inference wiring
 console.log('T4: active inference shadow wiring');
@@ -144,6 +144,42 @@ P.hydrateModulator(brain._plasticity.mod, snap);
 assert('all 8 layers restored after re-init (none reset to defaults)', res.restored.length === 8 && res.reset.length === 0, JSON.stringify(res));
 assert('learned K5 weights survive the restart', String(brain._plasticity.layers.K5_pe.w.map(function (x) { return Math.round(x * 10000) / 10000; })) === String(snap.layers.K5_pe.w));
 assert('modulator baseline survives the restart', brain._plasticity.mod.baseline === snap.modulator.baseline && brain._plasticity.mod.lastResolvedSamples === snap.modulator.lastResolvedSamples);
+
+// T6 — the SELF-GATE: learned weights drive the live path ONLY when the layer earned it
+console.log('T6: _learnedVec self-gate (stable + external reward + drift-bounded)');
+brain._initEnergyPlasticity();
+var seed5 = [0.35, 0.2, 0.25, 0.15, 0.05];
+var K5 = brain._plasticity.layers.K5_pe;
+K5.w = [0.4, 0.18, 0.22, 0.15, 0.05];                    // pretend it learned something
+brain._actuation = brain._actuation || {}; brain._actuation.plasticityLive = true;
+
+K5.diag = { stable: false, driftFromSeed: 0.1 }; brain._plasticityRewardActive = true;
+assert('unstable ⇒ seed (not consumed)', brain._learnedVec('K5_pe', seed5) === seed5);
+
+K5.diag = { stable: true, driftFromSeed: 0.1 }; brain._plasticityRewardActive = false;
+assert('stable but self-consistency (no external reward) ⇒ seed', brain._learnedVec('K5_pe', seed5) === seed5);
+
+K5.diag = { stable: true, driftFromSeed: 0.9 }; brain._plasticityRewardActive = true;
+assert('stable + reward but drift>0.5 ⇒ seed (runaway guard)', brain._learnedVec('K5_pe', seed5) === seed5);
+
+K5.diag = { stable: true, driftFromSeed: 0.1 }; brain._plasticityRewardActive = true;
+assert('stable + external reward + drift-bounded ⇒ LEARNED weights', brain._learnedVec('K5_pe', seed5) === K5.w);
+
+brain._actuation.plasticityLive = false;
+assert('reversible: plasticityLive=false ⇒ seed even when all gates pass', brain._learnedVec('K5_pe', seed5) === seed5);
+brain._actuation.plasticityLive = true;
+
+// T7 — the LIVE prediction error actually consumes the armed weights
+console.log('T7: _computePredictionError uses learned K5 weights once armed');
+K5.diag = { stable: true, driftFromSeed: 0.1 }; brain._plasticityRewardActive = true;
+K5.w = [1.0, 0, 0, 0, 0];                                // extreme: total should track stressError alone
+var prior = { expectedStress: 0.2, expectedSignal: 0.5, expectedDiagnoses: [], expectedDiagnosisCount: 0, expectedOpportunityCount: 0 };
+var obs = { stress: 0.9, signal: 0.5, activeDiagnoses: ['X'], diagnosisCount: 1, opportunityCount: 0 };
+var peArmed = brain._computePredictionError(prior, obs);
+assert('armed: total ≈ stressError (0.7) via learned K5=[1,0,0,0,0]', Math.abs(peArmed.total - 0.7) < 0.02, 'total=' + peArmed.total);
+brain._actuation.plasticityLive = false;
+var peSeed = brain._computePredictionError(prior, obs);
+assert('disarmed: total reverts to the seed-weighted value (< armed)', peSeed.total < peArmed.total, 'seed total=' + peSeed.total);
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

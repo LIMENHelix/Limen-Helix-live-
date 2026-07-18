@@ -75,7 +75,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -1357,7 +1357,9 @@
     // K5 CLOSED - deep-perception error now sourced from the perception-depth layer (prior cycle; 0 on cycle 1)
     var _pd = this.state.energyPerceptionDepth;
     var portalError = (_pd && typeof _pd.portalErrorEstimate === 'number') ? _pd.portalErrorEstimate : 0;
-    var total = _emClamp(0.35 * stressError + 0.2 * signalError + 0.25 * diagnosisError + 0.15 * opportunityError + 0.05 * portalError, 0, 1);
+    // K5 weights: the LEARNED vector once the layer has earned live control (self-gated), else the seed.
+    var W5 = this._learnedVec('K5_pe', [0.35, 0.2, 0.25, 0.15, 0.05]);
+    var total = _emClamp(W5[0] * stressError + W5[1] * signalError + W5[2] * diagnosisError + W5[3] * opportunityError + W5[4] * portalError, 0, 1);
     var novelty = Math.max(stressError, diagnosisError);
     return { total: total, stressError: stressError, signalError: signalError, diagnosisError: diagnosisError, opportunityError: opportunityError, portalError: portalError, novelty: novelty };
   };
@@ -2519,6 +2521,27 @@
     } catch (e) {}
   };
 
+  // A K-layer's LEARNED weights take over the live computation only when the layer has EARNED it;
+  // otherwise the hand-set seed, exactly as before. Automatic self-gate (no manual flip):
+  //   plasticityLive actuation on + module loaded + this layer's diagnostics STABLE (converged,
+  //   no oscillation/runaway) + the modulator is on a REAL external reward (resolver, not self-
+  //   consistency) + drift from seed bounded. Degrade-safe (returns seed on any gap) + reversible
+  //   (_actuation.plasticityLive=false forces seed everywhere).
+  EnergyBrain.prototype._learnedVec = function (layerKey, seed) {
+    try {
+      if (!this._actuation || this._actuation.plasticityLive === false) return seed;
+      var pl = this._plasticity;
+      if (!pl || !pl.layers) return seed;
+      var layer = pl.layers[layerKey];
+      if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      var d = layer.diag || {};
+      if (!d.stable) return seed;                                 // not converged yet → seed
+      if (!this._plasticityRewardActive) return seed;             // modulator still self-consistency, not external reward → seed
+      if (typeof d.driftFromSeed === 'number' && d.driftFromSeed > 0.5) return seed;  // runaway guard → seed
+      return layer.w;                                             // EARNED: learned weights drive the live path
+    } catch (e) { return seed; }
+  };
+
   EnergyBrain.prototype._computeEnergyPlasticity = function () {
     var pl = this._plasticity;
     var s = this.state, em = s.energyModel || {};
@@ -2560,6 +2583,7 @@
     // EK_LEDGER_MAX by slicing oldest entries, so the count can dip and re-cross a
     // value (rare double-teach). Acceptable in shadow; revisit before arming.
     var modRead = P.readModulator(pl.mod, k4, led.resolvedSamples || 0);
+    this._plasticityRewardActive = !!(k4 && k4.isReward);   // true only when the resolver's external outcome fed the gate (tier 4)
 
     // ── Per-layer pre/post from what THIS cycle actually computed (post = the
     // LIVE static output; shadow weights never drive activity in shadow mode).
@@ -2585,18 +2609,25 @@
       K8_floor: { pre: [EM_STRESS_FLOOR, (typeof hm.adaptiveBaseline === 'number' ? hm.adaptiveBaseline : 0.5)], post: em._effectiveFloor || EM_STRESS_FLOOR }
     };
 
-    var layersOut = {}, anyOsc = false, anyRun = false, allStable = true;
+    // Which layers are WIRED to consume learned weights in the live path (only K5 today; the rest
+    // still read literals but the self-gate + _learnedVec pattern extends to each identically).
+    var WIRED = { K5_pe: true };
+    var layersOut = {}, anyOsc = false, anyRun = false, allStable = true, liveLayers = [];
     for (var k in L) {
       if (!L.hasOwnProperty(k)) continue;
       var layer = L[k], f = feeds[k];
       P.tick(layer, f.pre, f.post);                                   // eligibility + prior shrinkage, every cycle
       if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);   // three-factor apply on NEW outcomes only
       var shadow = P.shadowSum(layer, f.pre);                         // the would-be learned output
+      // LIVE = this layer is wired AND has passed the self-gate (drives the real computation now).
+      var live = !!WIRED[k] && (this._learnedVec(k, layer.seed) === layer.w);
+      if (live) liveLayers.push(k);
       layersOut[k] = {
         w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }),
         labels: layer.labels, updates: layer.updates,
         shadowOutput: shadow, staticOutput: Math.round((f.post) * 10000) / 10000,
         wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
+        wired: !!WIRED[k], live: live,
         diag: layer.diag
       };
       if (layer.diag.oscillating) anyOsc = true;
@@ -2606,7 +2637,9 @@
 
     s.energyPlasticity = {
       version: 1,
-      mode: 'shadow',                                                 // live paths read static constants; nothing here gates
+      mode: liveLayers.length ? 'armed' : 'shadow',                   // 'armed' once a wired layer passes the self-gate and drives the live path
+      liveLayers: liveLayers,                                         // layers whose LEARNED weights are driving the live computation now
+      rewardActive: !!this._plasticityRewardActive,                   // is the modulator on the resolver's external reward (a gate precondition)?
       isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)
       creditSource: (k4 && k4.creditSource) || 'none',
       creditTier: (k4 && k4.tier) || 0,
@@ -2616,9 +2649,9 @@
         latencyNote: 'truth-brake calls resolve 3-20 cycles after emission; eligibility traces bridge the gap' },
       layers: layersOut,
       convergence: { allStable: allStable, anyOscillating: anyOsc, anyRunaway: anyRun,
-        armGate: 'flip to live ONLY after allStable holds a full diagnostic window with zero oscillating/runaway flags (operator-gated)' },
+        armGate: 'a wired layer arms ITSELF (learned weights drive the live path) when diag.stable + rewardActive + drift<0.5; no manual flip. Reversible via _actuation.plasticityLive=false.' },
       persistence: { hydrated: pl.hydrated, hydrateResult: pl.hydrateResult, enabled: pl.persistEnabled, failures: pl.persistFailures },
-      note: 'THREE-FACTOR SHADOW: dw = eta*pre*post*modulator; modulator = the RESOLVER external outcome (forecast vs recorded feed truth) once >=' + MIN_EXT_RESOLVED + ' forecasts resolve, else self-consistency calibration. Still SHADOW: no live path reads these weights yet.'
+      note: 'THREE-FACTOR: dw = eta*pre*post*modulator; modulator = the RESOLVER external outcome once >=' + MIN_EXT_RESOLVED + ' resolve, else self-consistency. Wired layers (K5) SELF-ARM into the live path once stable + on external reward + drift-bounded; until then they read the seed (safe). liveLayers lists what is driving live now.'
     };
 
     // Phase 0 PERSIST: throttled snapshot so learning survives tab close.
