@@ -496,6 +496,13 @@
       var sd = snap.domains[this.snapshotKey];
       this.state.phase = sd.phase || 'p0';
       this.state.phaseLabel = sd.phaseLabel || 'SOURCE';
+      // NODE-GROUNDED PHASE (server worker): when the domain has enough kernel-scored companies the
+      // worker overwrites sd.phase with the node-grounded value and flags it. Carry the grounding meta
+      // onto state so the summary/AI can surface a grounded-vs-heuristic divergence (the real signal).
+      this.state.phaseSource = sd.phaseSource || null;
+      this.state.phaseGrounded = !!sd.phaseGrounded;
+      this.state.phaseDivergent = !!sd.phaseDivergent;
+      this.state.phasePrior = sd.phasePrior || null;
     }
 
     // Biosensor modulation REMOVED 2026-06-18 — operator biometrics no longer
@@ -1014,6 +1021,7 @@
     return {
       domain: this.domainId, label: this.label,
       stress: Math.round((s.stress || 0) * 100) / 100, phase: s.phase || null, phaseLabel: s.phaseLabel || null,
+      phaseGrounded: !!s.phaseGrounded, phaseSource: s.phaseSource || null, phasePrior: s.phasePrior || null, phaseDivergent: !!s.phaseDivergent,
       regulation: (m.regulation && (m.regulation.state || m.regulation)) || null,
       predictionError: (m.predictionError && (typeof m.predictionError === 'object' ? m.predictionError.total : m.predictionError)) || null,
       predictedStress: (typeof m.predictedStress === 'number') ? m.predictedStress : null,

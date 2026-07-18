@@ -75,12 +75,13 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
       overrideThreshold: 0.9      // reduced sensitivity: was 0.8; only stress >= 0.9 re-fires in-window
     };
+    this._refractoryBaseWindow = this._refractoryParams.absoluteWindow;   // ARM baseline: metaplasticity may raise (never lower) this, bounded; disarm restores it
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
     // The phase-coherence router and phase-transition self-consistency calibration previously read s.phase (a naive
@@ -465,6 +466,11 @@
   EnergyBrain.prototype.scoreStress = function () {
     var self = this;
     return Base.prototype.scoreStress.call(this).then(function () {
+      // Capture the snapshot's stress-threshold phase BEFORE any node-grounded arming
+      // overwrites s.phase later this cycle. This is the honest "what the prior-only
+      // heuristic reported" baseline for the shadow comparison, and it is reset from
+      // the snapshot every cycle here (so arming s.phase never feeds back as the prior).
+      self._phaseHeuristicRaw = self.state.phase;
       // Base already folded afferent (external pressure) into stress and set
       // _externalPressureApplied. Add ONLY the operator request-steer bias here, keeping the
       // combined injection <= 0.3 so steer never dominates perception.
@@ -2272,10 +2278,21 @@
     var VALIDATED = { p3: 1, p7: 1, p7a: 1, p7b: 1 };            // P3/P7 family gate for phase-consistency tier — self-consistency, NOT external reward
     var BREAKING = { p1: 1, p3: 1, p7: 1, p7a: 1, p7b: 1, p9: 1 };  // recursion-arc BREAKING family = more-distressed
     function norm(p) { if (p == null) return null; p = String(p).toLowerCase().replace(/[^a-z0-9]/g, ''); if (p.charAt(0) !== 'p') p = 'p' + p; return p; }
-    // PREFER the Thing2 kernel phase (interpretive, from this domain's stress trajectory) for BOTH
-    // the coherence router and the phase-transition self-consistency calibration; fall back to the existing s.phase when
-    // the kernel is unavailable (adapter missing / history < 8 / error) — fallback path unchanged.
-    var myPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
+    // PRIOR (top-down expectation): the Thing2 kernel phase over this domain's stress
+    // trajectory; fall back to the snapshot s.phase when the kernel is unavailable.
+    var kernelPhase = norm(this._kernelPhase != null ? this._kernelPhase : s.phase);
+
+    // NODE-EVIDENCE CORRECTION (active inference, 2026-07-17): correct the kernel prior with
+    // the domain's own kernel-scored node phases (state.companies from domainCompanyJoin).
+    // When the evidence is grounded (enough scored nodes) it sets the AUTHORITATIVE phase;
+    // when thin, the percept abstains and we hold the kernel prior. Evidence flows nodes ->
+    // brain only; we never write a node's phase. The router + transition below then run on
+    // the authoritative phase, so phase dynamics is grounded, not prior-only.
+    var percept = null;
+    try { percept = this._computeEnergyPhasePercept(kernelPhase, this._kernelPhase != null ? 'thing2-kernel' : 'fallback'); } catch (ePP) { percept = null; }
+    var armPercept = !!(this._actuation && this._actuation.phasePercept);
+    var grounded = !!(percept && percept.grounded);
+    var myPhase = (armPercept && grounded) ? norm(percept.groundedPhase) : kernelPhase;   // AUTHORITATIVE
 
     // (A) COHERENCE ROUTER - couple to co-phased, stressed domains
     var doms = (typeof window !== 'undefined' && window.LIMENDomains) || {};
@@ -2313,15 +2330,30 @@
     if (hist.length > 24) hist.shift();
 
     var out = {
-      version: 1, myPhase: myPhase,
-      phaseSource: s.phaseSource || 'fallback',       // 'thing2-kernel' when the real kernel drove myPhase, else 'fallback'
+      version: 2, myPhase: myPhase,
+      priorPhase: kernelPhase,                        // the kernel/heuristic PRIOR before node grounding
+      grounded: grounded,                             // did node evidence ground (and possibly correct) the phase?
+      phaseSource: grounded ? 'node-grounded' : (s.phaseSource || 'fallback'),
+      phasePercept: percept ? { groundedPhase: percept.groundedPhase, precision: percept.precision,
+        scored: (percept.evidence && percept.evidence.scored) || 0, divergent: percept.divergent, salience: percept.salience } : null,
       kernelTrajectory: s.kernelTrajectory || null,
       coupled: coupled.slice(0, 5), couplingStrength: Math.round(couplingStrength * 1000) / 1000,
       transition: reward,
-      note: 'phase-coherence router (patent M matrix) + phase-transition self-consistency calibration (interpretive, NOT reward). Phase source = Thing2 recursive kernel over the stress trajectory (interpretive) with s.phase fallback; P3/P7 family only gates the phase-consistency tier — self-consistency, never external reward.'
+      note: 'ARMED: authoritative phase = node-grounded percept when the domain has enough kernel-scored companies (evidence -> brain), else the Thing2 kernel/heuristic prior (percept abstains). The coherence router + phase-transition calibration run on the authoritative phase. Interpretive, NOT external reward.'
     };
     s.energyPhaseDynamics = out;
     if (s.cognition && typeof s.cognition === 'object') s.cognition.phaseDynamics = out;
+
+    // ARM: set the authoritative phase every downstream consumer reads (DDP packet, console,
+    // cross-domain coupling, handoff). Reversible via this._actuation.phasePercept=false, which
+    // reverts to the prior-only heuristic. Only writes when grounded — a thin-evidence domain
+    // keeps the heuristic rather than being handed a fabricated phase. s.phase is reset from the
+    // snapshot next cycle (scoreStress), so this never becomes its own prior.
+    if (armPercept && grounded) {
+      s.phase = myPhase;
+      s.phaseLabel = ENERGY_PHASE_LABELS[myPhase] || s.phaseLabel;
+      s.phaseSource = 'node-grounded';
+    }
     return out;
   };
 
@@ -2347,6 +2379,9 @@
     this._computeEnergyInteroception();     // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only divergence readout
     try { this._computeEnergyPlasticity(); } catch (e) {}   // THREE-FACTOR PLASTICITY (SHADOW) - reads fresh ledger + K4 credit; touches no live path
     try { this._computeEnergyActiveInference(); } catch (e) {}   // ACTIVE INFERENCE v1 (SHADOW) - belief update + EFE action selection; advisory only
+    try { this._computeEnergyOverlays(); } catch (e) {}   // NEURO-SUBSTRATE OVERLAY WIRING (SHADOW) - feeds the 6 formerly-inert modules + recurrenceAudit live inputs; proposals only, nothing actuates
+    // NOTE: the phase percept is now computed + ARMED inside _computeEnergyPhaseDynamics (above),
+    // where it corrects the kernel prior and drives the router/transition on the grounded phase.
     var s = this.state;
     var neuro = {
       version: 1,
@@ -2359,6 +2394,8 @@
       interoception: s.energyInteroception || null,    // MULTIMODAL INTEROCEPTION (Phase 1) - observe-only
       plasticity: s.energyPlasticity || null,           // THREE-FACTOR PLASTICITY (SHADOW) - learned weights + diagnostics
       activeInference: s.energyActiveInference || null, // ACTIVE INFERENCE v1 (SHADOW) - beliefs + EFE action advisory
+      phasePercept: s.energyPhasePercept || null,       // PHASE PERCEPT (SHADOW) - node-grounded domain phase + prediction error
+      overlays: s.energyOverlays || null,               // NEURO-SUBSTRATE OVERLAY WIRING (SHADOW) - metaplasticity/extinction/throttle/PE/offline/recurrence proposals
       afferent: s.energyAfferent || null,
       gainControl: s.energyGainControl || null,
       slowModel: s.energySlowModel || null,
@@ -2632,6 +2669,221 @@
       note: 'ACTIVE INFERENCE (interpretive, shadow): beliefs are a posterior over the stress trajectory, NOT a market call; action selection is advisory and gated on nothing.'
     };
     return s.energyActiveInference;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // NEURO-SUBSTRATE OVERLAY WIRING (SHADOW) - 2026-07-17. The six previously-INERT
+  // overlay modules (metaplasticity, extinction, retrograde-throttle, PE-compressor,
+  // offline-maintenance, neuro-substrate) + connectivity recurrenceAudit were loaded on
+  // domain-console but had no call site. Their inputs already exist: the telemetry adapter
+  // (_runtimeOverlay, computed each cycle at the pulse step) produces volatility, alias-
+  // expanded activeTriggers, and per-node load/capacity. This pass BRIDGES those inputs to
+  // all seven modules and logs their proposals on state.energyOverlays. SHADOW: nothing is
+  // applied to the live brain or energy.json. The metaplasticity->offline/PE loop is closed
+  // in-shadow (adapted knobs feed the offline + PE computations). ARMING: _actuation.overlays
+  // (default false) would let the NON-destructive proposals actuate (a future operator step);
+  // extinction retirement + offline pruning EDIT/REMOVE STRUCTURE and stay PROPOSAL-ONLY forever
+  // (human-gated). Evidence flows in, proposals flow out; nothing removes structure autonomously.
+  // ════════════════════════════════════════════════════════════════════════════
+  EnergyBrain.prototype._loadEnergyDef = function () {
+    // Lazily fetch the energy runtime definition (activations/edges/issues/runtime.params) ONCE,
+    // cached on this._energyDef. Node/test callers may set this._energyDef directly. Browser:
+    // fire-and-forget; the first cycle returns null and overlays compute from the next cycle.
+    if (this._energyDef) return this._energyDef;
+    if (this._energyDefLoading) return null;
+    this._energyDefLoading = true;
+    var self = this;
+    if (typeof fetch === 'function') {
+      try {
+        fetch('/assets/data/domains/energy.json').then(function (r) { return r.json(); })
+          .then(function (def) { self._energyDef = def; })
+          .catch(function () { self._energyDefLoading = false; });
+      } catch (e) { this._energyDefLoading = false; }
+    }
+    return null;
+  };
+
+  EnergyBrain.prototype._computeEnergyOverlays = function () {
+    var s = this.state;
+    function mod(glob, reqPath) {
+      if (typeof window !== 'undefined' && window[glob]) return window[glob];
+      if (typeof module !== 'undefined') { try { return require(reqPath); } catch (e) {} }
+      return null;
+    }
+    var META = mod('EnergyMetaplasticity', '../energy-metaplasticity.js');
+    var EXT = mod('EnergyExtinction', '../energy-extinction.js');
+    var RETRO = mod('EnergyRetrogradeThrottle', '../energy-retrograde-throttle.js');
+    var PEC = mod('EnergyPredictionErrorCompressor', '../energy-prediction-error-compressor.js');
+    var OFF = mod('EnergyOfflineMaintenance', '../energy-offline-maintenance.js');
+    var NS = mod('EnergyNeuroSubstrate', '../energy-neuro-substrate.js');
+    var CONN = mod('EnergyConnectivityAudit', '../energy-connectivity-audit.js');
+    if (!(META && EXT && RETRO && PEC && OFF && NS && CONN)) {
+      s.energyOverlays = { version: 1, mode: 'off', note: 'overlay modules not loaded on this page (present only on domain-console)' };
+      return null;
+    }
+    var def = this._loadEnergyDef();
+    if (!def) { s.energyOverlays = { version: 1, mode: 'loading', note: 'energy.json runtime def loading; overlays compute next cycle' }; return null; }
+
+    var armed = !!(this._actuation && this._actuation.overlays);
+    var ov = this._runtimeOverlay || {};
+    var params = (def.runtime && def.runtime.params) || {};
+
+    // 1. VOLATILITY (XIII.6) — from the telemetry overlay, else derived from stress history.
+    var volatility = (typeof ov.volatility === 'number') ? ov.volatility : (function () {
+      var h = ((s.memory && s.memory.stressHistory) || []).slice(-12), sum = 0;
+      for (var i = 1; i < h.length; i++) sum += Math.abs((h[i].stress || 0) - (h[i - 1].stress || 0));
+      return h.length > 1 ? Math.max(0, Math.min(1, sum / (h.length - 1))) : 0;
+    })();
+
+    // 2. METAPLASTICITY (BCM, XIII.6) — volatility adapts the change-thresholds of the other mechanisms.
+    var meta = META.adaptParams(
+      { offlineDownscaleFactor: params.offlineDownscaleFactor, refractoryAbsoluteWindow: params.refractoryAbsoluteWindow, predictionErrorThreshold: params.predictionErrorThreshold },
+      { gain: (typeof params.metaplasticityGain === 'number') ? params.metaplasticityGain : 0, volatility: volatility }
+    );
+    var adapted = meta.adapted || {};
+
+    // 3. EXTINCTION (V.2) — retire activations whose alias-expanded triggers are all absent now. PROPOSAL-ONLY.
+    var activeTriggers = ov.activeTriggers || this._activeConditions || [];
+    var ext = EXT.proposeExtinction(def, activeTriggers);
+
+    // 4. RETROGRADE THROTTLE (IV.5) — overloaded receiver nodes (load/capacity>1 from the overlay proxy) dial back senders.
+    var overload = {}, actsOv = ov.activations || {};
+    Object.keys(actsOv).forEach(function (nid) {
+      var a = actsOv[nid], cap = (a && a.capacity) || 1;
+      if (a && typeof a.load === 'number' && cap > 0 && a.load / cap > 1) overload[nid] = a.load / cap;
+    });
+    var retro = RETRO.computeThrottle(def, { overload: overload, throttleGain: (typeof params.retrogradeThrottleGain === 'number') ? params.retrogradeThrottleGain : 0 });
+
+    // 5. PREDICTION-ERROR COMPRESSION (XIII.5/.7, management-by-exception) — propagate only the
+    //    surprising interoception channels; summarize the calm ones. Threshold = metaplasticity-adapted.
+    var chans = ((s.energyInteroception && s.energyInteroception.channels) || []).map(function (c) { return { id: c.name, observed: c.alarm }; });
+    var baseline = chans.length ? chans.reduce(function (a, c) { return a + (c.observed || 0); }, 0) / chans.length : 0;
+    var peThresh = (typeof adapted.predictionErrorThreshold === 'number') ? adapted.predictionErrorThreshold : (params.predictionErrorThreshold || 0);
+    var pec = PEC.compress(chans, { threshold: peThresh, predictor: 'baseline', baseline: baseline });
+
+    // 6. OFFLINE MAINTENANCE (XIII.9 down-scale/consolidate/prune) on a DEEP COPY — proposal only,
+    //    never writes energy.json. Uses the metaplasticity-adapted downscale factor (closed self-tuning loop).
+    var off = OFF.runOfflineMaintenance(def, {
+      downscaleFactor: (typeof adapted.offlineDownscaleFactor === 'number') ? adapted.offlineDownscaleFactor : (params.offlineDownscaleFactor || 1),
+      consolidateTopK: (typeof params.offlineConsolidateTopK === 'number') ? params.offlineConsolidateTopK : Infinity,
+      pruneThreshold: (typeof params.offlinePruneThreshold === 'number') ? params.offlinePruneThreshold : 0
+    });
+
+    // 7. STRUCTURAL DIAGNOSTICS — recurrence (mesh vs tree; XIII.2) + incomplete-circuit audit (XIV). Read-only.
+    var recurrence = CONN.recurrenceAudit(def);
+    var incompleteCircuits = (def.issues || []).map(function (is) { return NS.validateIncompleteCircuit(is); });
+    var incompleteCount = incompleteCircuits.filter(function (v) { return v.verdict === 'INCOMPLETE_CIRCUIT'; }).length;
+
+    s.energyOverlays = {
+      version: 1,
+      mode: 'shadow',                       // computed + logged; NOTHING applied to the live brain or energy.json
+      armed: armed,                         // _actuation.overlays; when true, non-destructive proposals may actuate (future, operator-gated)
+      volatility: Math.round(volatility * 1000) / 1000,
+      metaplasticity: { changes: meta.changes, adapted: adapted, noop: meta.noop },
+      extinction: { candidates: ext.candidates, count: ext.candidates.length, noop: ext.noop, actuation: 'PROPOSAL-ONLY (retiring a node edits energy.json — human-gated forever)' },
+      retrograde: { actions: retro.actions, throttled: retro.actions.length, noop: retro.noop },
+      peCompression: { compressed: pec.summary.compressedCount, propagated: pec.propagated.length, ratio: pec.compressionRatio, summary: pec.summary },
+      offlineMaintenance: { downscaled: (off.report.operations.downscale || {}).edgesDownscaled, pruned: (off.report.operations.prune || {}).pruned, report: off.report, actuation: 'PROPOSAL-ONLY on a deep copy; pruning is human-gated forever' },
+      recurrence: { verdict: recurrence.verdict, recurrentFraction: recurrence.recurrentFraction, lateralFraction: recurrence.lateralFractionOfClassifiable },
+      incompleteCircuits: incompleteCircuits, incompleteCount: incompleteCount
+    };
+
+    // ── ACTUATION (armed) ─────────────────────────────────────────────────────
+    // The ONLY overlay proposal with a live consumer is metaplasticity -> the refractory
+    // dead-time (the refractory limiter is the one behaviour-affecting overlay). Retrograde
+    // throttle has no live edge-weight consumer; PE-compression targets observe-only
+    // interoception; extinction + offline pruning REMOVE STRUCTURE and never actuate. So arming
+    // = closing the metaplasticity->refractory homeostatic loop, and nothing else.
+    // SAFETY: metaplasticity only ever RAISES the window (more conservative / fewer duplicate
+    // drafts); we clamp to [base, 1.2*base] (fail-toward-quiet) and write it IN PLACE on the live
+    // limiter's params (read each fire(), so no re-init, no event-log reset, no draft burst).
+    // Disarm restores the base window. Fully reversible via _actuation.overlays=false.
+    var applied = { refractoryAbsoluteWindow: null };
+    var base = this._refractoryBaseWindow || (this._refractoryParams && this._refractoryParams.absoluteWindow) || 900000;
+    if (armed) {
+      var wantRaw = (typeof adapted.refractoryAbsoluteWindow === 'number') ? adapted.refractoryAbsoluteWindow : base;
+      var want = Math.max(base, Math.min(base * 1.2, wantRaw));   // only raise, +20% ceiling
+      if (this._refractoryParams) this._refractoryParams.absoluteWindow = want;
+      if (this._refractoryLimiter && this._refractoryLimiter.params) this._refractoryLimiter.params.absoluteWindow = want;  // in-place; no log reset
+      applied.refractoryAbsoluteWindow = want;
+    } else {
+      // disarmed: restore the base window so nothing lingers
+      if (this._refractoryParams && this._refractoryParams.absoluteWindow !== base) this._refractoryParams.absoluteWindow = base;
+      if (this._refractoryLimiter && this._refractoryLimiter.params && this._refractoryLimiter.params.absoluteWindow !== base) this._refractoryLimiter.params.absoluteWindow = base;
+    }
+    s.energyOverlays.mode = armed ? 'armed' : 'shadow';
+    s.energyOverlays.applied = applied;
+    s.energyOverlays.actuationScope = 'metaplasticity->refractory dead-time ONLY (bounded, fail-toward-quiet, reversible). throttle=no-live-consumer; PE=observe-only; extinction+offline-prune=PROPOSAL-ONLY (remove structure, human-gated forever).';
+    s.energyOverlays.note = 'OVERLAY WIRING: the 6 formerly-inert modules + recurrenceAudit receive live inputs (volatility/activeTriggers/load) and compute each cycle. ARMED: metaplasticity raises the refractory dead-time with volatility (in-place, clamped, reversible). Everything else is proposal/observe-only; removal mechanisms never actuate.';
+
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.overlays = s.energyOverlays;
+    return s.energyOverlays;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // PHASE PERCEPT (SHADOW) - 2026-07-17. The domain phase as an INFERENCE grounded
+  // in node evidence, via assets/js/limen-phase-percept.js. Today the live phase is
+  // a stress-threshold heuristic (prior-only) that discards the kernel-scored node
+  // phases already arriving on state.companies (each carries .phase + .scored from
+  // domainCompanyJoin). This computes the would-be phase as a precision-weighted
+  // posterior: prior = the brain's own expected phase (energyPhaseDynamics.myPhase,
+  // Thing2 kernel or fallback); evidence = the scored nodes' phase distribution;
+  // precision = coverage x count-saturation. Under thin evidence it ABSTAINS (holds
+  // the prior, flagged ungrounded) rather than fabricate. SHADOW: logged next to the
+  // live phase (wouldChange); nothing here sets state.phase / state.phaseLabel.
+  // CAUSAL RULE: evidence flows nodes -> brain only; the brain never writes a node's
+  // phase. Grounding flows in; nothing hallucinates outward.
+  // ════════════════════════════════════════════════════════════════════════════
+  // Canonical P0–P10 recursion-arc register (matches domain-console-brain.js).
+  var ENERGY_PHASE_LABELS = { p0: 'SOURCE', p1: 'RUPTURE', p2: 'RHYTHM', p3: 'INSTABILITY', p4: 'STABILISATION',
+    p5: 'ENDURANCE', p6: 'ORDER', p7: 'DIVERGENCE', p7a: 'TERMINAL', p7b: 'SEPARATION', p8: 'PIVOT', p9: 'COLLAPSE', p10: 'RESURRECTION' };
+
+  // Compute the phase percept from a given prior + the node evidence on state.companies.
+  // Pure/observational: sets state.energyPhasePercept and returns it. Does NOT arm s.phase
+  // (arming is the caller's job, in _computeEnergyPhaseDynamics, once the authoritative
+  // phase is known). priorPhase/priorSource optional (falls back to phase dynamics / s.phase).
+  EnergyBrain.prototype._computeEnergyPhasePercept = function (priorPhase, priorSource) {
+    var s = this.state;
+    var PH = (typeof window !== 'undefined' && window.LIMENPHASE) ? window.LIMENPHASE
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-phase-percept.js'); } catch (e) { return null; } })() : null);
+    if (!PH) { s.energyPhasePercept = { version: 1, mode: 'off', note: 'limen-phase-percept.js not loaded on this page' }; return null; }
+
+    // PRIOR: the brain's own generative-model phase (kernel-driven when available, else the
+    // snapshot heuristic). Top-down expectation, never evidence. Passed in by phase dynamics;
+    // falls back to the prior stored on energyPhaseDynamics / s.phase for a standalone call.
+    if (priorPhase == null) {
+      var pd = s.energyPhaseDynamics || {};
+      priorPhase = pd.priorPhase || pd.myPhase || s.phase || 'p0';
+      priorSource = priorSource || pd.phaseSource || s.phaseSource || 'fallback';
+    }
+
+    // EVIDENCE: the kernel-scored node phases already on state.companies (from
+    // domainCompanyJoin). The module counts ONLY entries with scored===true + a real phase.
+    var percept = PH.computePercept({ phase: priorPhase, source: priorSource || 'fallback' }, s.companies || []);
+
+    // SHADOW comparison against the prior-only heuristic the live system reported before
+    // grounding (captured at scoreStress, so it is never the armed value).
+    var livePhase = String(this._phaseHeuristicRaw || s.phase || 'p0').toLowerCase();
+    percept.livePhase = livePhase;
+    percept.liveLabel = s.phaseLabel || null;
+    percept.groundedLabel = percept.grounded ? (ENERGY_PHASE_LABELS[percept.groundedPhase] || null) : null;
+    percept.wouldChange = percept.grounded && (percept.groundedPhase !== livePhase);
+    percept.armed = !!(this._actuation && this._actuation.phasePercept);
+
+    // Behaviour log: record grounded divergences so "did node evidence correct the
+    // prior" is measurable over time (mirrors the interoception blind-channel log).
+    if (!this._energyPhaseLog) this._energyPhaseLog = [];
+    if (percept.divergent) {
+      this._energyPhaseLog.push({ cycle: (s.energyModel && s.energyModel.cycle) || 0,
+        prior: percept.prior.phase, grounded: percept.groundedPhase, precision: percept.precision,
+        error: percept.predictionError.magnitude, scored: percept.evidence.scored });
+      if (this._energyPhaseLog.length > 20) this._energyPhaseLog = this._energyPhaseLog.slice(-20);
+    }
+    percept.divergenceLog = this._energyPhaseLog.slice(-5);
+
+    s.energyPhasePercept = percept;
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.phasePercept = percept;   // additive
+    return percept;
   };
 
   // ── E/I BALANCE + SELF-AUDIT ADVISORIES (additive, observe-only, 2026-07-13) ──────────────
@@ -3120,13 +3372,18 @@
 
   // Compact domain readout - the context the box/LLM gets so it "knows its own domain".
   EnergyBrain.prototype.getEnergyStateSummary = function () {
-    var s = this.state, em = s.energyModel || {}, n = s.energyNeuro || {};
+    var s = this.state, em = s.energyModel || {}, n = s.energyNeuro || {}, pd = s.energyPhaseDynamics || {};
     var active = (s.diagnoses || []).filter(function (d) { return d.active; }).map(function (d) { return { id: d.id, relevance: d.relevance, blocked: !!d.blocked }; });
     var opps = (s.opportunities || []).slice(0, 6).map(function (o) { return { title: o.title, path: o.path, confidence: o.confidence, held: !!o.held }; });
     var cfg = this._energyCapitalConfig || {};
     return {
       domain: 'energy',
       stress: Math.round((s.stress || 0) * 100) / 100, phase: s.phase || null, stressFlag: s._stressFlag || null,
+      // NODE-GROUNDED PHASE: phase is grounded in the domain's own kernel-scored companies when phaseGrounded;
+      // phaseDivergent = the grounded phase disagrees with the stress heuristic (phasePrior) = the real signal.
+      phaseGrounded: !!pd.grounded, phaseSource: pd.phaseSource || null, phasePrior: pd.priorPhase || null,
+      phaseDivergent: !!(pd.phasePercept && pd.phasePercept.divergent),
+      phasePrecision: (pd.phasePercept && typeof pd.phasePercept.precision === 'number') ? pd.phasePercept.precision : null,
       regulation: (em.regulation && em.regulation.state) || null,
       predictionError: (em.predictionError && em.predictionError.total) || null,
       predictedStress: (typeof em.predictedStress === 'number') ? Math.round(em.predictedStress * 100) / 100 : null,
