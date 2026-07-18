@@ -230,10 +230,39 @@ fresh keys on `resolvedSamples` increase), diagnostics (oscillating: 6 flips/24-
 | K8_floor | [0.5,0.5] | .02 | .85 | .002 | 0.9 |
 
 `_computeEnergyPlasticity (:2497)` re-calls the K4 gate on the fresh ledger (`externalOutcome:null`),
-per-layer tick+applyModulator+shadowSum → `s.energyPlasticity`. **No consumer** (DDP field only).
-`_persistEnergyPlasticity (:2598)` throttled 10 cycles + tab-hide, gated on `localStorage['limen:brainwts:token']`.
-Credit gate `limen-k4-selfconsistency.js`: tier4 external-reward (finance only) `isReward:true`; tiers 3/2/1
+per-layer tick+applyModulator+shadowSum → `s.energyPlasticity`. All 8 K-layers now READ `_learnedVec` in
+their live computations (ARMED). `_persistEnergyPlasticity (:2598)` throttled 10 cycles + tab-hide, gated on
+`localStorage['limen:brainwts:token']`. Credit gate `limen-k4-selfconsistency.js`: tier4 external-reward
+(finance + **energy**, added when the resolver gave energy real truth) `isReward:true`; tiers 3/2/1
 self-consistency `isReward:false`.
+
+**`_learnedVec` arm gate — the self-gated bridge from learned weights to the live path (3 fixes, 2026-07-18):**
+- **Fix 1 — monotonic freshness clock.** `readModulator` keys "fresh" on the resolution COUNT. That count
+  must be the MONOTONIC lifetime total (`_energyResolvedTotal` / generic `_gkResolvedTotal`, exposed as
+  `ledger.resolvedTotal`), NOT the windowed ledger size — the window caps (EK_LEDGER_MAX=60 / GK_OUTCOME_BUF=40)
+  and plateaus once armed, silently FREEZING learning. Windowed count is display-only.
+- **Fix 2 — graded confidence-weighted arbitration (NOT a binary relay, NOT extinction).** `w = clamp(1 −
+  drift/0.5, 0, 1)`, `out = (1−w)·seed + w·learned`. Hard preconditions kept (stable AND rewardActive AND
+  plasticityLive, else w=0=seed). No stored "was-suppressed" trace ⇒ cannot reproduce renewal/relapse; the
+  linear ramp and drift-as-reliability-proxy are STATED engineering choices, not derived (doctrine: matchability
+  ≠ neural fidelity). Readout reports `blend`∈[0,1].
+- **Fix 3 — recency trust (staleness discount), SHADOW on energy (not armed).** The monotonic counter never
+  decays, so a stale resolver would trust old learning forever. `w = wDrift · wRecency`,
+  `wRecency = 0.5^(age/halflife)`, age = cycles since `_energyLastResolveCycle`. Folded into the SAME `w`,
+  NOT a second gate (else the binary problem relocates). Split of roles: resolvedTotal = *whether to learn*;
+  age = *is that learning still trustworthy now*. Precision-weighting / synaptic-tag-decay shape. Computed +
+  exposed (`layer._recency`, `energyPlasticity.recencyTrust`) every cycle; applied to live only when
+  `_actuation.recencyTrustLive` (default FALSE). Test `test-energy-recency-trust.js` 14/14.
+
+**TWO STANDING CONSTRAINTS for the port / arming (decide with eyes open, do NOT default):**
+1. **halflife is PER-DOMAIN**, tied to that domain's actual resolve cadence — never one constant reused
+   across all 20 (the same cosmetic-break risk as the K-stack literals, now a 3rd parameter; same root as the
+   6h resolver-horizon-may-not-fit-slower-domains note). Energy's `EK_RECENCY_HALFLIFE=40cy` (~2× max call
+   age) is energy-specific. The generic base was deliberately NOT given a recency factor this pass; when
+   ported, read per-domain cadence, else ABSTAIN (`wRecency=1`), never borrow a default.
+2. **exponential is a STATED CHOICE, not derived.** `0.5^(age/halflife)` is the standard precision-decay form
+   (defensible) but real forgetting is often closer to POWER-LAW; do not describe it as more biological than
+   the linear drift ramp. Same class of assumption.
 
 **`limen-active-inference.js`** — Kalman over (level,slope); `selectAction` EFE=risk+ambiguity over
 observe/broaden/emit/hold, setpoint=K8 floor, emit penalized by `1−callHitRate`. `_computeEnergyActiveInference
@@ -2082,7 +2111,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
 })();
 ```
 
-#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3835 lines
+#### `assets/js/domain-brains/energy-brain.js`  ·  SPECIFIC — the template; port = generalize its learning-substrate methods to base + reset its config  ·  3861 lines
 
 ```js
 /**
@@ -2162,7 +2191,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: false };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -4637,7 +4666,27 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       // drives arbitration weight by relative reliability/uncertainty, for which drift is a proxy, not the
       // same quantity. w=1 at drift 0; w=0 at drift>=0.5.
       var drift = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
-      var w = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      var wDrift = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      // RECENCY TRUST (staleness discount): trust in the learned weights decays continuously with how
+      // long ago the last REAL resolution landed — precision/uncertainty grows again without fresh
+      // confirmation. This is a smooth factor folded into the SAME w (NOT a second on/off gate), so the
+      // binary-vs-graded problem cannot relocate here. Exponential (0.5^(age/halflife)) is a defensible
+      // starting shape (standard for precision decay) but is a STATED ENGINEERING CHOICE, not derived —
+      // real forgetting is often closer to power-law; do not describe it as more biological than the ramp.
+      // EK_RECENCY_HALFLIFE is tied to ENERGY's own resolve cadence; each domain must set its OWN (do not
+      // reuse one constant across all 20 — that is the cosmetic-break risk already logged for the K-stack).
+      var EK_RECENCY_HALFLIFE = 40;   // cycles; ~2x max call age (EK_LEDGER_MAXAGE=20). ENERGY-specific.
+      var wRecency = 1;
+      if (typeof this._energyLastResolveCycle === 'number') {
+        var age = Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle);
+        wRecency = Math.pow(0.5, age / EK_RECENCY_HALFLIFE);
+        wRecency = Math.max(0, Math.min(1, wRecency));
+      }
+      layer._recency = Math.round(wRecency * 1000) / 1000;                       // observable (shadow)
+      // SHADOW: recency is computed + exposed every cycle, but only multiplied into the live blend once
+      // _actuation.recencyTrustLive is armed. Until then live behavior is unchanged (wDrift alone).
+      var recencyLive = !!(this._actuation && this._actuation.recencyTrustLive);
+      var w = wDrift * (recencyLive ? wRecency : 1);
       layer._blend = Math.round(w * 1000) / 1000;
       if (w <= 0) return seed;
       if (w >= 1) return layer.w;
@@ -4740,6 +4789,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
         shadowOutput: shadow, staticOutput: Math.round((f.post) * 10000) / 10000,
         wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
         wired: !!WIRED[k], live: live, blend: (!!WIRED[k]) ? blend : 0,  // blend = graded arm weight (0=seed, 1=fully learned)
+        recency: (typeof layer._recency === 'number') ? layer._recency : 1,  // SHADOW staleness-trust factor (applied to live only when recencyTrustLive)
         diag: layer.diag
       };
       if (layer.diag.oscillating) anyOsc = true;
@@ -4751,6 +4801,11 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       version: 1,
       mode: liveLayers.length ? 'armed' : 'shadow',                   // 'armed' once a wired layer passes the self-gate and drives the live path
       liveLayers: liveLayers,                                         // layers whose LEARNED weights are driving the live computation now
+      recencyTrust: {                                                 // staleness discount on learned-weight trust (Fix 3)
+        live: !!(this._actuation && this._actuation.recencyTrustLive),   // false = SHADOW (computed + exposed, not applied to live)
+        cyclesSinceResolve: (typeof this._energyLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle) : null,
+        note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
+      },
       rewardActive: !!this._plasticityRewardActive,                   // is the modulator on the resolver's external reward (a gate precondition)?
       isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)
       creditSource: (k4 && k4.creditSource) || 'none',
@@ -5371,8 +5426,8 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
       if (c.status !== 'open') continue;
       c.age = (c.age || 0) + 1;
       var dxGone = c.diagnosisId && !activeIds[c.diagnosisId];
-      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
-      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
+      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; this._energyLastResolveCycle = this._cycleCount || 0; }
+      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; this._energyLastResolveCycle = this._cycleCount || 0; }
       else if (c.age >= EK_LEDGER_MAXAGE) { c.status = 'expired'; c.resolvedStress = cur; }
     }
     // 2) register new calls from current NON-HELD top opportunities (dedupe by diagnosis+path)
