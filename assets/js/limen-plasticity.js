@@ -62,6 +62,20 @@
   var RUNAWAY_FRAC = 0.95;   // magnitude ≥ frac·(ceiling magnitude) ⇒ runaway
   var BASELINE_ALPHA = 0.1;  // EMA rate for the RPE baseline
 
+  // ── METAPLASTICITY (BCM-like sliding modification threshold) ────────
+  // The learning rate is NOT a static per-layer constant. A per-layer threshold θ slides with the
+  // layer's OWN recent plasticity activity (mean |Δ|w|| from diagnostics); the EFFECTIVE η is scaled
+  // by how far current activity sits from θ. Homeostatic (BCM) direction: churning FASTER than its own
+  // recent baseline (activity > θ) ⇒ the threshold is exceeded ⇒ DAMP η (stabilize); settled BELOW
+  // baseline (activity < θ) ⇒ relax θ ⇒ permit η back up so a genuine new signal can move it. Instability
+  // flags (oscillating/runaway) hard-damp η — this closes the loop from the convergence diagnostics back
+  // into learning (before, they only gated arming downstream). Self-normalizing PER LAYER, derived from
+  // its own statistics — no hand-set η schedule (the isomorphism to per-domain halflife-from-cadence).
+  var META_THETA_ALPHA = 0.05;   // slide rate of the modification threshold (slow)
+  var META_SENS = 1.0;           // sensitivity of the η scale to (activity − θ)/θ
+  var META_ETA_MIN = 0.25;       // η damped to at most 1/4 (floor; also the instability hard-damp)
+  var META_ETA_MAX = 1.5;        // η raised to at most 3/2 when a settled layer quiets below its baseline
+
   function clamp(x, lo, hi) { x = Number(x); if (!isFinite(x)) return lo; return Math.max(lo, Math.min(hi, x)); }
   function r4(x) { return Math.round(x * 10000) / 10000; }
 
@@ -98,6 +112,7 @@
       updates: 0,                           // modulator applications so far
       ticks: 0,                             // cycles seen
       magHist: [],                          // rolling L2 magnitude for diagnostics
+      meta: { theta: 0, etaScale: 1, samples: 0 },  // BCM sliding threshold + current effective-η multiplier
       diag: { stable: false, oscillating: false, runaway: false, samples: 0 }
     };
   }
@@ -135,6 +150,26 @@
     return layer.diag;
   }
 
+  // ── Metaplasticity: slide the modification threshold θ and recompute the effective-η scale. ──
+  // Called every tick, AFTER diagnostics (needs meanAbsDelta). Pure; only updates layer.meta.
+  function _updateMetaplasticity(layer) {
+    var m = layer.meta; if (!m) return;
+    var activity = (layer.diag && typeof layer.diag.meanAbsDelta === 'number') ? layer.diag.meanAbsDelta : 0;
+    if (m.samples === 0) m.theta = activity;                            // seed θ to first activity
+    else m.theta = m.theta + META_THETA_ALPHA * (activity - m.theta);  // sliding modification threshold
+    m.samples++;
+    var scale;
+    if (layer.diag && (layer.diag.oscillating || layer.diag.runaway)) {
+      scale = META_ETA_MIN;                                            // instability ⇒ hard homeostatic brake
+    } else if (m.theta > 1e-9) {
+      var ratio = (activity - m.theta) / m.theta;                      // >0 ⇒ churning faster than its own baseline
+      scale = clamp(1 - META_SENS * ratio, META_ETA_MIN, META_ETA_MAX); // damp when churning, permit when quiet
+    } else {
+      scale = 1;                                                       // no measured activity yet ⇒ neutral
+    }
+    m.etaScale = r4(scale);
+  }
+
   // ── Per-cycle tick: eligibility + shrinkage. NO weight-from-modulator here. ──
   // pre: number[] (same length as w) — the layer's input vector this cycle
   // post: number   — the layer's (shadow) output this cycle
@@ -148,16 +183,21 @@
       layer.w[i] = clamp(layer.w[i], hp.minW, hp.maxW);
     }
     layer.ticks++;
-    return _updateDiagnostics(layer);
+    var d = _updateDiagnostics(layer);
+    _updateMetaplasticity(layer);                                       // slide θ + refresh etaScale (exposed)
+    return d;
   }
 
   // ── Modulator application: call ONLY when a NEW resolved outcome arrived. ──
-  // rpe: centered reward-prediction-error-like scalar (see makeModulator)
-  function applyModulator(layer, rpe) {
+  // rpe:  centered reward-prediction-error-like scalar (see makeModulator)
+  // opts: { metaplasticity?: bool } — when true, the effective η is scaled by the layer's BCM etaScale
+  //       (adaptive). Default/absent ⇒ static η (etaScale computed + exposed but NOT applied: shadow).
+  function applyModulator(layer, rpe, opts) {
     if (!layer || typeof rpe !== 'number' || !isFinite(rpe)) return null;
     var hp = layer.hyper;
+    var etaEff = hp.eta * ((opts && opts.metaplasticity && layer.meta) ? layer.meta.etaScale : 1);
     for (var i = 0; i < layer.w.length; i++) {
-      layer.w[i] = clamp(layer.w[i] + hp.eta * hp.modScale * rpe * layer.e[i], hp.minW, hp.maxW); // 3. Δw = η·pre·post·mod (pre·post lives in e)
+      layer.w[i] = clamp(layer.w[i] + etaEff * hp.modScale * rpe * layer.e[i], hp.minW, hp.maxW); // 3. Δw = η_eff·pre·post·mod
     }
     layer.updates++;
     return _updateDiagnostics(layer);
@@ -212,7 +252,7 @@
       if (!layers.hasOwnProperty(k)) continue;
       var L = layers[k];
       out.layers[k] = { name: L.name, labels: L.labels, seed: L.seed.map(r4), w: L.w.map(r4), e: L.e.map(r4),
-        hyper: L.hyper, updates: L.updates, ticks: L.ticks, magHist: L.magHist.slice(), diag: L.diag };
+        hyper: L.hyper, updates: L.updates, ticks: L.ticks, magHist: L.magHist.slice(), meta: L.meta, diag: L.diag };
     }
     if (meta) out.meta = meta;
     return out;
@@ -234,6 +274,7 @@
         L.updates = Number(S.updates) || 0;
         L.ticks = Number(S.ticks) || 0;
         L.magHist = Array.isArray(S.magHist) ? S.magHist.slice(-DIAG_WINDOW) : [];
+        if (S.meta && typeof S.meta.theta === 'number') L.meta = { theta: Number(S.meta.theta), etaScale: (typeof S.meta.etaScale === 'number') ? Number(S.meta.etaScale) : 1, samples: Number(S.meta.samples) || 0 };
         _updateDiagnostics(L);
         restored.push(k);
       } else {

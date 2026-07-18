@@ -75,7 +75,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: false };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -2661,7 +2661,7 @@
       if (!L.hasOwnProperty(k)) continue;
       var layer = L[k], f = feeds[k];
       P.tick(layer, f.pre, f.post);                                   // eligibility + prior shrinkage, every cycle
-      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);   // three-factor apply on NEW outcomes only
+      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe, { metaplasticity: !!(this._actuation && this._actuation.metaplasticityLive) });   // three-factor apply on NEW outcomes only; η adapts (BCM) when armed
       var shadow = P.shadowSum(layer, f.pre);                         // the would-be learned output
       // GRADED gate: _learnedVec sets layer._blend in [0,1] = how much the learned weights drive live.
       this._learnedVec(k, layer.seed);
@@ -2675,6 +2675,8 @@
         wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
         wired: !!WIRED[k], live: live, blend: (!!WIRED[k]) ? blend : 0,  // blend = graded arm weight (0=seed, 1=fully learned)
         recency: (typeof layer._recency === 'number') ? layer._recency : 1,  // SHADOW staleness-trust factor (applied to live only when recencyTrustLive)
+        etaScale: (layer.meta && typeof layer.meta.etaScale === 'number') ? layer.meta.etaScale : 1,  // BCM effective-η multiplier (applied to learning only when metaplasticityLive)
+        metaTheta: (layer.meta && typeof layer.meta.theta === 'number') ? Math.round(layer.meta.theta * 10000) / 10000 : 0,  // sliding modification threshold
         diag: layer.diag
       };
       if (layer.diag.oscillating) anyOsc = true;
@@ -2690,6 +2692,10 @@
         live: !!(this._actuation && this._actuation.recencyTrustLive),   // true = ARMED (applied to live blend); false = computed + exposed only
         cyclesSinceResolve: (typeof this._energyLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle) : null,
         note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
+      },
+      metaplasticity: {                                               // BCM sliding-threshold adaptive learning rate
+        live: !!(this._actuation && this._actuation.metaplasticityLive),  // false = SHADOW (etaScale computed + exposed, static η still applied)
+        note: 'per-layer effective η adapts from each layer\'s own recent plasticity (θ slides); churn/oscillation/runaway damp η, quiet permits it (see layer.etaScale/metaTheta)'
       },
       rewardActive: !!this._plasticityRewardActive,                   // is the modulator on the resolver's external reward (a gate precondition)?
       isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)
