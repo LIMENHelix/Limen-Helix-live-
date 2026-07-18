@@ -75,7 +75,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -2550,7 +2550,28 @@
       // drives arbitration weight by relative reliability/uncertainty, for which drift is a proxy, not the
       // same quantity. w=1 at drift 0; w=0 at drift>=0.5.
       var drift = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
-      var w = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      var wDrift = Math.max(0, Math.min(1, 1 - drift / 0.5));
+      // RECENCY TRUST (staleness discount): trust in the learned weights decays continuously with how
+      // long ago the last REAL resolution landed — precision/uncertainty grows again without fresh
+      // confirmation. This is a smooth factor folded into the SAME w (NOT a second on/off gate), so the
+      // binary-vs-graded problem cannot relocate here. Exponential (0.5^(age/halflife)) is a defensible
+      // starting shape (standard for precision decay) but is a STATED ENGINEERING CHOICE, not derived —
+      // real forgetting is often closer to power-law; do not describe it as more biological than the ramp.
+      // EK_RECENCY_HALFLIFE is tied to ENERGY's own resolve cadence; each domain must set its OWN (do not
+      // reuse one constant across all 20 — that is the cosmetic-break risk already logged for the K-stack).
+      var EK_RECENCY_HALFLIFE = 40;   // cycles; ~2x max call age (EK_LEDGER_MAXAGE=20). ENERGY-specific.
+      var wRecency = 1;
+      if (typeof this._energyLastResolveCycle === 'number') {
+        var age = Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle);
+        wRecency = Math.pow(0.5, age / EK_RECENCY_HALFLIFE);
+        wRecency = Math.max(0, Math.min(1, wRecency));
+      }
+      layer._recency = Math.round(wRecency * 1000) / 1000;                       // observable
+      // ARMED on energy (_actuation.recencyTrustLive=true): recency multiplies into the live blend, so a
+      // stale resolver relaxes learned-weight trust back toward seed. Reversible: set the flag false and
+      // recency is computed + exposed but no longer applied (live reverts to wDrift alone). Fail-toward-seed.
+      var recencyLive = !!(this._actuation && this._actuation.recencyTrustLive);
+      var w = wDrift * (recencyLive ? wRecency : 1);
       layer._blend = Math.round(w * 1000) / 1000;
       if (w <= 0) return seed;
       if (w >= 1) return layer.w;
@@ -2653,6 +2674,7 @@
         shadowOutput: shadow, staticOutput: Math.round((f.post) * 10000) / 10000,
         wouldChangeBy: (shadow === null) ? null : Math.round((shadow - f.post) * 10000) / 10000,
         wired: !!WIRED[k], live: live, blend: (!!WIRED[k]) ? blend : 0,  // blend = graded arm weight (0=seed, 1=fully learned)
+        recency: (typeof layer._recency === 'number') ? layer._recency : 1,  // SHADOW staleness-trust factor (applied to live only when recencyTrustLive)
         diag: layer.diag
       };
       if (layer.diag.oscillating) anyOsc = true;
@@ -2664,6 +2686,11 @@
       version: 1,
       mode: liveLayers.length ? 'armed' : 'shadow',                   // 'armed' once a wired layer passes the self-gate and drives the live path
       liveLayers: liveLayers,                                         // layers whose LEARNED weights are driving the live computation now
+      recencyTrust: {                                                 // staleness discount on learned-weight trust (Fix 3)
+        live: !!(this._actuation && this._actuation.recencyTrustLive),   // true = ARMED (applied to live blend); false = computed + exposed only
+        cyclesSinceResolve: (typeof this._energyLastResolveCycle === 'number') ? Math.max(0, (this._cycleCount || 0) - this._energyLastResolveCycle) : null,
+        note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
+      },
       rewardActive: !!this._plasticityRewardActive,                   // is the modulator on the resolver's external reward (a gate precondition)?
       isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)
       creditSource: (k4 && k4.creditSource) || 'none',
@@ -3284,8 +3311,8 @@
       if (c.status !== 'open') continue;
       c.age = (c.age || 0) + 1;
       var dxGone = c.diagnosisId && !activeIds[c.diagnosisId];
-      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
-      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; }
+      if (cur <= c.emitStress - EK_LEDGER_DELTA || dxGone) { c.status = 'falsified'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; this._energyLastResolveCycle = this._cycleCount || 0; }
+      else if (c.age >= EK_LEDGER_CONFIRM && cur >= c.emitStress) { c.status = 'confirmed'; c.resolvedStress = cur; this._energyResolvedTotal = (this._energyResolvedTotal || 0) + 1; this._energyLastResolveCycle = this._cycleCount || 0; }
       else if (c.age >= EK_LEDGER_MAXAGE) { c.status = 'expired'; c.resolvedStress = cur; }
     }
     // 2) register new calls from current NON-HELD top opportunities (dedupe by diagnosis+path)
