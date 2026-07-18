@@ -75,7 +75,7 @@
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: false };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -2694,8 +2694,8 @@
         note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
       },
       metaplasticity: {                                               // BCM sliding-threshold adaptive learning rate
-        live: !!(this._actuation && this._actuation.metaplasticityLive),  // false = SHADOW (etaScale computed + exposed, static η still applied)
-        note: 'per-layer effective η adapts from each layer\'s own recent plasticity (θ slides); churn/oscillation/runaway damp η, quiet permits it (see layer.etaScale/metaTheta)'
+        live: !!(this._actuation && this._actuation.metaplasticityLive),  // true = ARMED (η*etaScale learns); reversible (flip false ⇒ static η)
+        note: 'ARMED: per-layer effective η adapts from each layer\'s own recent plasticity (θ slides); churn/oscillation/runaway damp η, quiet permits it (see layer.etaScale/metaTheta)'
       },
       rewardActive: !!this._plasticityRewardActive,                   // is the modulator on the resolver's external reward (a gate precondition)?
       isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)

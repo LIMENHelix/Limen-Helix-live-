@@ -283,9 +283,9 @@ back into learning** (they previously only gated arming). Self-normalizing per l
 statistics = the isomorphism to per-domain halflife-from-cadence (no hand-set η schedule).
 `_updateMetaplasticity` runs every `tick`; `applyModulator(layer, rpe, {metaplasticity:bool})` applies
 `etaScale` ONLY when the opt is true — default/absent = static η (backward-compatible; `test-plasticity`
-24/24 unchanged). `meta` serializes+hydrates. Gated by `_actuation.metaplasticityLive` (default **FALSE**
-= shadow: etaScale exposed via `layer.etaScale`/`metaTheta`, static η still learns) on energy + base.
-`test-metaplasticity.js` 14/14. DISTINCT from `energy-metaplasticity.js` (that adapts OVERLAY knobs from
+24/24 unchanged). `meta` serializes+hydrates. Gated by `_actuation.metaplasticityLive`: **ARMED on energy**
+(`true`, reversible ⇒ flip false restores static η); **base stays shadow** (`false`; finance is the only
+other affected domain, arm separately). `test-metaplasticity.js` 14/14. DISTINCT from `energy-metaplasticity.js` (that adapts OVERLAY knobs from
 volatility, gain=0 no-op — a different mechanism, not conflated).
 
 **`limen-active-inference.js`** — Kalman over (level,slope); `selectAction` EFE=risk+ambiguity over
@@ -2283,7 +2283,7 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: false };
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -4902,8 +4902,8 @@ Every energy/core file embedded from disk so this doc is self-contained. Tags ma
         note: 'continuous 0.5^(age/halflife) decay of learned-weight trust; halflife=40cy is ENERGY-specific (each domain sets its own to its resolve cadence)'
       },
       metaplasticity: {                                               // BCM sliding-threshold adaptive learning rate
-        live: !!(this._actuation && this._actuation.metaplasticityLive),  // false = SHADOW (etaScale computed + exposed, static η still applied)
-        note: 'per-layer effective η adapts from each layer\'s own recent plasticity (θ slides); churn/oscillation/runaway damp η, quiet permits it (see layer.etaScale/metaTheta)'
+        live: !!(this._actuation && this._actuation.metaplasticityLive),  // true = ARMED (η*etaScale learns); reversible (flip false ⇒ static η)
+        note: 'ARMED: per-layer effective η adapts from each layer\'s own recent plasticity (θ slides); churn/oscillation/runaway damp η, quiet permits it (see layer.etaScale/metaTheta)'
       },
       rewardActive: !!this._plasticityRewardActive,                   // is the modulator on the resolver's external reward (a gate precondition)?
       isReward: !!(k4 && k4.isReward),                                // TRUE once the resolver's external outcome is used (>=MIN_EXT_RESOLVED); else false (self-consistency)
