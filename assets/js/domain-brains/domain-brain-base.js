@@ -332,6 +332,7 @@
       .then(function () {
         try { self._applyRequestSteer(); } catch (e) {}       // re-apply operator steer each cycle (no-op if none)
         try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
+        try { self._computeDomainPlasticity(); } catch (e) {} // GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain (energy self-skips)
         try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
         try { self._computeGenericInteroception(); } catch (e) {}  // multimodal interoception (Phase 1): observe-only divergence read (energy self-skips)
         self.state.updated = Date.now();
@@ -1108,6 +1109,125 @@
     var neuro = { version: 1, status: 'generic', homeostasis: homeostasis, brake: brake, gainControl: gainControl, attention: attention, inhibition: inhibition, slowModel: slowModel, outcomeLedger: outcomeLedger, forecast: forecast, note: 'generic K-stack (analytical + gated). Autonomous emission stays energy-specific.' };
     cog.neuro = neuro; st.domainNeuro = neuro;
     return neuro;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // GENERIC PLASTICITY SUBSTRATE (SHADOW) — 2026-07-18, the PORT of energy's three-factor
+  // plasticity lifted into the base so EVERY domain (energy self-skips, it has its own richer
+  // version) gets learnable K-stack weights. Keyed by this.domainId. Reads the generic K-stack
+  // (cog.neuro) for pre/post feeds; modulator = the resolver's external outcome (/api/feed-resolve
+  // ?domain=<domainId>, forecasts emitted by the ?emit=1 cron for all domains) once enough resolve,
+  // else self-consistency (outcomeLedger.hitRate). SHADOW: computes state.domainPlasticity; the
+  // _learnedVec self-gate + arming into the live generic K-stack is the next increment. Mirrors
+  // energy's design 1:1 (see ENERGY_REFERENCE.md §D). Degrade-safe: no module ⇒ no-op.
+  // ════════════════════════════════════════════════════════════════════════════
+  var GP_EXT_EVERY = 120, GP_MIN_EXT = 5;
+  // seeds = the generic K-stack's live literals: K_gain (outputScale coupling 0.5), K_attention
+  // (active/relevance/pe 0.5/0.4/0.1), K_slow (0.08), K_homeo (adaptive-threshold base 0.10).
+  var GP_LAYERS = [
+    { key: 'K_gain', name: 'generic-output-scale', seed: [0.5], labels: ['inhibitionToScale'], eta: 0.02, traceDecay: 0.85, priorLambda: 0.002, minW: 0, maxW: 1.0 },
+    { key: 'K_attention', name: 'generic-salience', seed: [0.5, 0.4, 0.1], labels: ['activeBase', 'relevanceWeight', 'peWeight'], eta: 0.03, traceDecay: 0.8, priorLambda: 0.003, minW: 0, maxW: 1.0 },
+    { key: 'K_slow', name: 'generic-slow-rate', seed: [0.08], labels: ['slowConsolidationRate'], eta: 0.005, modScale: 0.5, traceDecay: 0.9, priorLambda: 0.001, minW: 0.01, maxW: 0.3 },
+    { key: 'K_homeo', name: 'generic-adaptive-threshold', seed: [0.10], labels: ['thresholdBase'], eta: 0.02, traceDecay: 0.85, priorLambda: 0.002, minW: 0.02, maxW: 0.3 }
+  ];
+
+  // The self-gate: a layer's learned weights drive the live path only when earned (converged +
+  // external reward + drift-bounded), else the seed. Generic version (energy overrides with its own).
+  DomainBrainBase.prototype._learnedVec = function (layerKey, seed) {
+    try {
+      if (!this._actuation || this._actuation.plasticityLive === false) return seed;
+      var pl = this._plasticity; if (!pl || !pl.layers) return seed;
+      var layer = pl.layers[layerKey]; if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
+      var d = layer.diag || {};
+      if (!d.stable || !this._plasticityRewardActive) return seed;
+      if (typeof d.driftFromSeed === 'number' && d.driftFromSeed > 0.5) return seed;
+      return layer.w;
+    } catch (e) { return seed; }
+  };
+
+  // Throttled resolver read (external outcome), keyed by this.domainId. Open GET, no token.
+  DomainBrainBase.prototype._refreshDomainExternalOutcome = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy has its own
+    if (typeof fetch !== 'function') return;
+    var cyc = this._cycleCount || 0;
+    if ((cyc - (this._lastExtCycle || 0)) < GP_EXT_EVERY && this._lastExtCycle) return;
+    this._lastExtCycle = cyc;
+    var self = this, dom = this.domainId;
+    try {
+      fetch('/api/feed-resolve?domain=' + encodeURIComponent(dom)).then(function (r) { return r.json(); }).then(function (j) {
+        if (j && j.ok) self._externalOutcome = { hit: (typeof j.externalHitRate === 'number') ? j.externalHitRate : null, resolvedCount: j.resolvedCount || 0 };
+      }).catch(function () {});
+    } catch (e) {}
+  };
+
+  DomainBrainBase.prototype._initDomainPlasticity = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy self-skips
+    var P = (typeof window !== 'undefined' && window.LIMENPLASTICITY) ? window.LIMENPLASTICITY
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-plasticity.js'); } catch (e) { return null; } })() : null);
+    this._plasticity = null;
+    if (!P) return;
+    var layers = {};
+    for (var i = 0; i < GP_LAYERS.length; i++) { var c = GP_LAYERS[i]; layers[c.key] = P.createLayer(c); }
+    this._plasticity = { P: P, layers: layers, mod: P.createModulator() };
+  };
+
+  DomainBrainBase.prototype._computeDomainPlasticity = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return null;   // energy self-skips
+    var s = this.state;
+    if (this._plasticity === undefined) { try { this._initDomainPlasticity(); } catch (e) { this._plasticity = null; } }   // lazy init once (modules loaded by now)
+    var pl = this._plasticity;
+    if (!pl || !pl.P) { s.domainPlasticity = { version: 1, mode: 'off', note: 'limen-plasticity.js not loaded on this page' }; return null; }
+    try { this._refreshDomainExternalOutcome(); } catch (e) {}
+    var P = pl.P, L = pl.layers;
+    var n = (s.cognition && s.cognition.neuro) || {};
+    var gc = n.gainControl || {}, at = n.attention || {}, sm = n.slowModel || {}, hm = n.homeostasis || {}, led = n.outcomeLedger || {};
+    var pe = (s.cognition && s.cognition.model && ((s.cognition.model.predictionError && s.cognition.model.predictionError.total) || s.cognition.model.predictionError)) || 0;
+    var cur = (typeof s.stress === 'number') ? s.stress : 0;
+    var activeDx = (s.diagnoses || []).filter(function (d) { return d.active; });
+    var meanRel = activeDx.length ? activeDx.reduce(function (a, d) { return a + (d.relevance || 0); }, 0) / activeDx.length : 0;
+    var topSal = (at.focus && at.focus[0] && at.focus[0].salience) || 0;
+
+    // modulator: resolver external outcome once enough resolve, else self-consistency (hitRate)
+    var extO = this._externalOutcome;
+    var extOutcome = (extO && typeof extO.hit === 'number' && (extO.resolvedCount || 0) >= GP_MIN_EXT) ? { hit: extO.hit } : null;
+    var k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
+      ? window.LIMENK4.credit({ externalOutcome: extOutcome, callHitRate: (typeof led.hitRate === 'number') ? led.hitRate : null, callSamples: led.samples || 0, stressSelfPred: (typeof led.hitRate === 'number') ? led.hitRate : null, stressSamples: led.samples || 0 })
+      : null;
+    this._plasticityRewardActive = !!(k4 && k4.isReward);
+    var modRead = P.readModulator(pl.mod, k4, led.samples || 0);
+
+    var feeds = {
+      K_gain: { pre: [gc.inhibition || 0], post: 1 - (typeof gc.outputScale === 'number' ? gc.outputScale : 1) },
+      K_attention: { pre: [activeDx.length ? 1 : 0, meanRel, pe], post: topSal },
+      K_slow: { pre: [Math.abs(cur - (sm.expectedStress != null ? sm.expectedStress : 0.5))], post: (sm.fastSlowDivergence || 0) },
+      K_homeo: { pre: [hm.baseline != null ? hm.baseline : 0.5], post: (hm.adaptiveThreshold || 0.1) }
+    };
+
+    var layersOut = {}, allStable = true, liveLayers = [];
+    for (var k in L) {
+      if (!L.hasOwnProperty(k)) continue;
+      var layer = L[k], f = feeds[k];
+      P.tick(layer, f.pre, f.post);
+      if (modRead.fresh && modRead.rpe !== null) P.applyModulator(layer, modRead.rpe);
+      var live = (this._learnedVec(k, layer.seed) === layer.w);   // wired-into-live is a later increment; false in shadow
+      if (live) liveLayers.push(k);
+      layersOut[k] = { w: layer.w.map(function (x) { return Math.round(x * 10000) / 10000; }), labels: layer.labels, updates: layer.updates,
+        shadowOutput: P.shadowSum(layer, f.pre), staticOutput: Math.round(f.post * 10000) / 10000, live: live, diag: layer.diag };
+      if (!layer.diag.stable) allStable = false;
+    }
+
+    s.domainPlasticity = {
+      version: 1, domain: this.domainId,
+      mode: liveLayers.length ? 'armed' : 'shadow',
+      isReward: !!(k4 && k4.isReward), creditSource: (k4 && k4.creditSource) || 'none', creditTier: (k4 && k4.tier) || 0,
+      rewardActive: !!this._plasticityRewardActive,
+      externalOutcome: extOutcome ? { hit: extOutcome.hit, resolvedCount: (extO && extO.resolvedCount) || 0, source: 'resolver' }
+        : { active: false, resolvedCount: (extO && extO.resolvedCount) || 0, note: 'abstaining (<' + GP_MIN_EXT + ' resolved) — self-consistency' },
+      layers: layersOut, liveLayers: liveLayers, convergence: { allStable: allStable },
+      note: 'GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency. Arming the generic K-stack into the live path is the next increment.'
+    };
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.plasticity = s.domainPlasticity;
+    return s.domainPlasticity;
   };
 
   // CLOSED LOOP — the generic brake actually gates this domain's emitted opportunities (not just
