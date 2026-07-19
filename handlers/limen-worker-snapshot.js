@@ -11,6 +11,7 @@
 var db = require('../lib/limen-db');
 var companyScorer = require('../lib/company-phase-scorer');
 var phasePercept = require('../lib/phase-percept');
+var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: stress from node/company distress, not feed volume
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -111,6 +112,7 @@ module.exports = async function handler(req, res) {
     // evidence is thin the percept ABSTAINS and the heuristic stands (never fabricated).
     // Evidence flows nodes -> snapshot only; a node's own phase is never overwritten.
     var groundedCount = 0, divergentCount = 0;
+    var gsGroundedCount = 0, gsDivergentCount = 0;   // grounded-STRESS shadow tallies
     for (var pk in domainSummary) {
       if (!domainSummary.hasOwnProperty(pk)) continue;
       var dsum = domainSummary[pk];
@@ -139,8 +141,21 @@ module.exports = async function handler(req, res) {
       } else {
         dsum.phaseSource = 'stress-heuristic';
       }
+
+      // GROUNDED STRESS (SHADOW, 2026-07-18): stress from the domain's kernel-scored company distress
+      // (alert flags + distress trajectories + p7a/p7b/p3 counts) — NOT feed volume. Attached for
+      // OBSERVATION ONLY; dsum.stress (feed-derived) is unchanged. Abstains on thin company coverage.
+      try {
+        var gs = groundedStress.compute(joinRow);
+        dsum.groundedStress = gs;
+        if (gs.grounded && typeof dsum.stress === 'number') {
+          gsGroundedCount++;
+          if (Math.abs(gs.stress - dsum.stress) > 0.25) gsDivergentCount++;   // feed vs grounded disagree by >25pp
+        }
+      } catch (ge) { dsum.groundedStress = { grounded: false, stress: null, reason: 'compute error' }; }
     }
     consoleSnapshot.phaseGroundingStats = { grounded: groundedCount, divergent: divergentCount, total: Object.keys(domainSummary).length };
+    consoleSnapshot.stressGroundingStats = { grounded: gsGroundedCount, divergent: gsDivergentCount, total: Object.keys(domainSummary).length, note: 'SHADOW: grounded stress computed + exposed as dsum.groundedStress; feed-derived dsum.stress unchanged' };
   } catch (e) {
     consoleSnapshot.convergenceSignals = {};
   }
