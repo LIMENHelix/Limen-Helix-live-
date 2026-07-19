@@ -1,6 +1,6 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-07-18T08:39:55.596Z",
+  "generatedAt": "2026-07-19T08:52:54.486Z",
   "overall": {
     "score": 95,
     "status": "HEALTHY",
@@ -262,12 +262,12 @@
       "order": 35,
       "score": 100,
       "status": "HEALTHY",
-      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 4m old",
+      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 2m old",
       "metrics": {
         "totalCompanies": 506,
         "domainsWithCompanies": 20,
         "liveScored": 454,
-        "snapshotAgeSec": 260,
+        "snapshotAgeSec": 109,
         "probes": {
           "console-companies": 100,
           "live-scoring": 100,
@@ -1190,7 +1190,7 @@
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.001037030504014757,
+        "ageHours": 0.0012234202745225694,
         "nodeCount": 795,
         "edgeCount": 13010,
         "dampedCount": 0,
@@ -2128,6 +2128,109 @@
           "issue": "Eligible CB rows with broken portal links",
           "countBefore": 176,
           "ranAt": "2026-07-18T08:39:53.826Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 146,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 11,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
+          "count": 796,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+          "severity": "low",
+          "count": 22,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Segment breakouts sharing a parent CIK (intentional)",
+          "severity": "low",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 174,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-07-19T08:52:52.264Z",
+      "finishedAt": "2026-07-19T08:52:54.498Z",
+      "preScore": 95,
+      "postScore": 95,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 176,
+          "ranAt": "2026-07-19T08:52:52.266Z",
           "success": true,
           "summary": "completed",
           "exitCode": 0
