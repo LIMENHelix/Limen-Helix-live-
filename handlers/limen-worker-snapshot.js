@@ -113,6 +113,19 @@ module.exports = async function handler(req, res) {
     // Evidence flows nodes -> snapshot only; a node's own phase is never overwritten.
     var groundedCount = 0, divergentCount = 0;
     var gsGroundedCount = 0, gsDivergentCount = 0;   // grounded-STRESS shadow tallies
+
+    // GROUNDED-STRESS MEMORY (2026-07-19). The CISS-style composite needs two pieces of history the
+    // pure compute() cannot hold: the per-channel sample its empirical-CDF ranks against, and the
+    // EWMA correlation state. Without them C stays at identity forever and the co-movement term —
+    // the entire point of the quadratic form — never engages. Kept deliberately small: one history
+    // point per channel per HOUR (not per 15m run) and capped, because Upstash bills bandwidth.
+    var GS_HISTORY_CAP = 300;            // ~12.5 days of hourly baseline per channel
+    var GS_APPEND_MS = 60 * 60 * 1000;   // append at most hourly
+    var gsMem = null;
+    try { gsMem = await db.get('grounded_stress_memory'); } catch (me) { gsMem = null; }
+    if (!gsMem || typeof gsMem !== 'object' || !gsMem.domains) gsMem = { domains: {}, updatedAt: 0 };
+    var gsNow = Date.now();
+    var gsMemDirty = false;
     for (var pk in domainSummary) {
       if (!domainSummary.hasOwnProperty(pk)) continue;
       var dsum = domainSummary[pk];
@@ -146,16 +159,47 @@ module.exports = async function handler(req, res) {
       // (alert flags + distress trajectories + p7a/p7b/p3 counts) — NOT feed volume. Attached for
       // OBSERVATION ONLY; dsum.stress (feed-derived) is unchanged. Abstains on thin company coverage.
       try {
-        var gs = groundedStress.compute(joinRow);
+        var gsSlot = gsMem.domains[pk] || (gsMem.domains[pk] = { history: {}, corrState: null, lastAppendTs: 0 });
+        var gs = groundedStress.compute(joinRow, { history: gsSlot.history, corrState: gsSlot.corrState });
         dsum.groundedStress = gs;
-        if (gs.grounded && typeof dsum.stress === 'number') {
-          gsGroundedCount++;
-          if (Math.abs(gs.stress - dsum.stress) > 0.25) gsDivergentCount++;   // feed vs grounded disagree by >25pp
+
+        if (gs.grounded) {
+          gsSlot.corrState = gs.corrState;                 // carry the EWMA forward
+          gsMemDirty = true;
+          if (gsNow - (gsSlot.lastAppendTs || 0) >= GS_APPEND_MS) {
+            var chans = gs.channels || {};
+            for (var chName in chans) {
+              if (!chans.hasOwnProperty(chName) || !chans[chName]) continue;
+              var arr = gsSlot.history[chName] || (gsSlot.history[chName] = []);
+              arr.push(chans[chName].raw);
+              if (arr.length > GS_HISTORY_CAP) arr.splice(0, arr.length - GS_HISTORY_CAP);
+            }
+            gsSlot.lastAppendTs = gsNow;
+          }
+          if (typeof dsum.stress === 'number') {
+            gsGroundedCount++;
+            if (Math.abs(gs.stress - dsum.stress) > 0.25) gsDivergentCount++;   // feed vs grounded disagree by >25pp
+          }
         }
-      } catch (ge) { dsum.groundedStress = { grounded: false, stress: null, reason: 'compute error' }; }
+        // Keep the payload light: corrState is memory, not a console field.
+        if (dsum.groundedStress) delete dsum.groundedStress.corrState;
+      } catch (ge) { dsum.groundedStress = { grounded: false, stress: null, reason: 'compute error: ' + ge.message }; }
     }
     consoleSnapshot.phaseGroundingStats = { grounded: groundedCount, divergent: divergentCount, total: Object.keys(domainSummary).length };
-    consoleSnapshot.stressGroundingStats = { grounded: gsGroundedCount, divergent: gsDivergentCount, total: Object.keys(domainSummary).length, note: 'SHADOW: grounded stress computed + exposed as dsum.groundedStress; feed-derived dsum.stress unchanged' };
+    if (gsMemDirty) {
+      gsMem.updatedAt = gsNow;
+      try { await db.set('grounded_stress_memory', gsMem, 2592000); } catch (se) { /* memory is an optimisation, never fatal */ }
+    }
+    var gsBaseline = 0;
+    for (var gk in gsMem.domains) {
+      var gh = gsMem.domains[gk] && gsMem.domains[gk].history && gsMem.domains[gk].history.distress;
+      if (gh && gh.length > gsBaseline) gsBaseline = gh.length;
+    }
+    consoleSnapshot.stressGroundingStats = {
+      grounded: gsGroundedCount, divergent: gsDivergentCount, total: Object.keys(domainSummary).length,
+      baselineDepth: gsBaseline, baselineNeeded: 8,
+      note: 'SHADOW: CISS-style grounded stress on dsum.groundedStress; feed-derived dsum.stress unchanged. Channels rank against a rolling hourly baseline (baselineDepth); below baselineNeeded they pass through untransformed and the reading is flagged degraded.'
+    };
   } catch (e) {
     consoleSnapshot.convergenceSignals = {};
   }
