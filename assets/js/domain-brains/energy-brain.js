@@ -36,6 +36,18 @@
 
   var Base = window.LIMENDomainBrainBase;
 
+  // Count how many of a diagnosis's triggers are present in the active conditions.
+  // EXACT string match (no substring) + each trigger counted AT MOST ONCE, so relevance
+  // (matchCount / triggers.length) can never exceed 1 and 'grid' never matches 'grid_stress'.
+  function countExactTriggerMatches(triggers, conditions) {
+    triggers = triggers || []; conditions = conditions || [];
+    var set = {};
+    for (var i = 0; i < conditions.length; i++) set[String(conditions[i])] = true;
+    var n = 0;
+    for (var t = 0; t < triggers.length; t++) { if (set[String(triggers[t])]) n += 1; }
+    return n;
+  }
+
   // ══════════════════════════════════════════════════════════════════════
   // ENERGY BRAIN
   // ══════════════════════════════════════════════════════════════════════
@@ -506,23 +518,14 @@
       self.state.diagnoses = issues.map(function (iss) {
         // Check if this diagnosis matches any active conditions
         var triggers = self.diagnosisIndex[iss.id] || [];
-        var matchCount = 0;
-        for (var t = 0; t < triggers.length; t++) {
-          for (var c = 0; c < conditions.length; c++) {
-            if (conditions[c] === triggers[t] || conditions[c].indexOf(triggers[t]) !== -1) {
-              matchCount++;
-            }
-          }
-        }
-
-        var active = matchCount > 0;
-        var relevance = triggers.length > 0 ? matchCount / triggers.length : 0;
+        var matchCount = countExactTriggerMatches(triggers, conditions);   // exact match, count-once (was substring + double-count)
+        var relevance = triggers.length > 0 ? _emClamp(matchCount / triggers.length, 0, 1) : 0;
 
         return {
           id: iss.id,
           label: iss.label,
           summary: iss.summary || '',
-          active: active,
+          active: matchCount > 0,
           relevance: Math.round(relevance * 100) / 100,
           matchedConditions: matchCount,
           totalTriggers: triggers.length,
@@ -610,20 +613,23 @@
   // on any failure _cbEnergyCompanies stays [] and behavior is unchanged (no breakage).
   EnergyBrain.prototype._loadCommandBoardCompanies = function () {
     var self = this;
-    if (self._cbEnergyCompanies) return;            // one-shot
-    self._cbEnergyCompanies = [];
+    // load-STATE gate (not the array itself): an empty [] must not block a later retry.
+    if (self._cbCompaniesLoadState === 'loading' || self._cbCompaniesLoadState === 'loaded') return;
+    self._cbCompaniesLoadState = 'loading';
+    self._cbEnergyCompanies = self._cbEnergyCompanies || [];
     try {
       fetch('/assets/data/command-board-data.json')
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (data) {
-          if (!data) return;
+          if (!data) { self._cbCompaniesLoadState = 'empty'; return; }
           var arr = Array.isArray(data) ? data : (Object.keys(data).map(function (k) { return data[k]; }).find(Array.isArray) || []);
           self._cbEnergyCompanies = arr
             .filter(function (x) { return x && x.d === 'energy' && x.t; })
             .map(function (x) { return { name: x.n, ticker: x.t, cik: x.c, phase: x.p, trajectory: x.tr }; });
+          self._cbCompaniesLoadState = self._cbEnergyCompanies.length ? 'loaded' : 'empty';
         })
-        .catch(function () {});
-    } catch (e) {}
+        .catch(function () { self._cbCompaniesLoadState = 'error'; });
+    } catch (e) { self._cbCompaniesLoadState = 'error'; }
   };
 
   // 2026-06-19: distress signals come ONLY from the validated Thing pipeline
@@ -632,19 +638,22 @@
   // failure _pubSignals stays {} → zero distressed-positioning opportunities (honest).
   EnergyBrain.prototype._loadBrainSignals = function () {
     var self = this;
-    if (self._pubSignals) return;                   // one-shot
-    self._pubSignals = {};
+    // load-STATE gate: 'loaded' = got a publishable payload; 'empty'/'error' may retry (gate can open later).
+    if (self._pubSignalsLoadState === 'loading' || self._pubSignalsLoadState === 'loaded') return;
+    self._pubSignalsLoadState = 'loading';
+    self._pubSignals = self._pubSignals || {};
     try {
       fetch('/api/brain-signals?domain=energy')
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (j) {
-          if (!j || !j.publishable) return;
+          if (!j || !j.publishable) { self._pubSignals = {}; self._pubSignalsLoadState = 'empty'; return; }
           var m = {};
           j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
           self._pubSignals = m;                     // {} today (gate abstains on degenerate data)
+          self._pubSignalsLoadState = 'loaded';
         })
-        .catch(function () {});
-    } catch (e) {}
+        .catch(function () { self._pubSignalsLoadState = 'error'; });
+    } catch (e) { self._pubSignalsLoadState = 'error'; }
   };
 
   EnergyBrain.prototype.surfaceOpportunities = function () {
@@ -862,7 +871,7 @@
             path: 'INVESTABLE',
             urgency: stress > 0.70 ? 'IMMEDIATE' : 'ACTIVE',
             source: 'datacenter_diagnosis', diagnosisId: ddx.id, tier: 1, stress: stress,
-            companies: coList, datacenter: true, bundleBacked: true
+            companies: coList, datacenter: true, contentBacked: true, bundleBacked: false
           });
           add({
             title: dlab + ' — monitoring and response platform',
@@ -870,7 +879,7 @@
             path: 'INVESTABLE',
             urgency: 'ACTIVE',
             source: 'datacenter_diagnosis', diagnosisId: ddx.id, tier: 1, stress: stress,
-            companies: coList, datacenter: true, bundleBacked: true
+            companies: coList, datacenter: true, contentBacked: true, bundleBacked: false
           });
         } else if (stress >= 0.45) {
           add({
@@ -879,7 +888,7 @@
             path: 'INVESTABLE',
             urgency: 'WATCH',
             source: 'datacenter_diagnosis', diagnosisId: ddx.id, tier: 2, stress: stress,
-            companies: coList, datacenter: true, bundleBacked: true
+            companies: coList, datacenter: true, contentBacked: true, bundleBacked: false
           });
         }
       }
@@ -1246,6 +1255,14 @@
   var _origCycle = EnergyBrain.prototype.cycle;
   EnergyBrain.prototype.cycle = function () {
     var self = this;
+    // Retry soft-failed one-shot loads (publish gate may open later; CB fetch may flake), throttled 60s.
+    var _now = Date.now();
+    if ((self._pubSignalsLoadState === 'empty' || self._pubSignalsLoadState === 'error') && (_now - (self._pubSignalsRetryAt || 0) > 60000)) {
+      self._pubSignalsRetryAt = _now; self._pubSignalsLoadState = null; self._loadBrainSignals();
+    }
+    if ((self._cbCompaniesLoadState === 'empty' || self._cbCompaniesLoadState === 'error') && (_now - (self._cbCompaniesRetryAt || 0) > 60000)) {
+      self._cbCompaniesRetryAt = _now; self._cbCompaniesLoadState = null; self._loadCommandBoardCompanies();
+    }
     return _origCycle.call(this).then(function () {
       return self.resolveDeepContent();
     }).then(function () {
@@ -1671,16 +1688,11 @@
     // 1) diagnoses (activation via the same condition-match logic as the canonical spine)
     var diagnoses = dc.issues.map(function (iss) {
       var triggers = (self.diagnosisIndex && self.diagnosisIndex[iss.id]) || [];
-      var matchCount = 0;
-      for (var t = 0; t < triggers.length; t++) {
-        for (var c = 0; c < conditions.length; c++) {
-          if (conditions[c] === triggers[t] || String(conditions[c]).indexOf(triggers[t]) !== -1) matchCount++;
-        }
-      }
+      var matchCount = countExactTriggerMatches(triggers, conditions);   // exact match, count-once (was substring + double-count)
       return {
         id: iss.id, label: iss.label, summary: iss.summary || '',
         active: matchCount > 0,
-        relevance: triggers.length ? Math.round((matchCount / triggers.length) * 100) / 100 : 0,
+        relevance: triggers.length ? Math.round(_emClamp(matchCount / triggers.length, 0, 1) * 100) / 100 : 0,
         circuits: iss.circuits || [],
         source: 'datacenter', tier: 'real-content-unbundled', branch: 'datacenter'
       };
@@ -1957,11 +1969,14 @@
   //   K1 afferent integration, K2 neuromodulatory gain, K3 slow consolidation,
   //   K4 outcome / credit learning, K5 deep-perception depth, K6 attention,
   //   K7 lateral inhibition, K8 homeostatic set-point.
-  // ADVISORY BY DESIGN: every layer COMPUTES and EXPOSES its signal on state, but
-  // NONE rewires the existing scoring spine (stress, prior update, opportunity
-  // output, portalError). Each carries a `wouldChange` naming the one existing line
-  // that closes its loop, gated on operator approval. Reads cached state only; adds
-  // no network calls. Never fabricates evidence.
+  // ACTUATED (updated 2026-07-18 — was "advisory by design", now stale): several layers CLOSE
+  // their loop into the live spine when the K-stack is armed — K1 folds afferent pressure into
+  // stress (scoreStress), K2 caps opportunity output, K4 scales the learning rate, K5 feeds
+  // prediction error, K6/K7 rank, K8 sets the handoff floor. Arming is self-gated (_learnedVec:
+  // stable + external reward + drift-bounded) and reversible (_actuation.plasticityLive=false ⇒
+  // every layer falls back to its seed = the prior advisory-equivalent behavior). Each still
+  // carries a `wouldChange` naming the line it closes. Interoception + E/I advisory remain
+  // observe-only (they do NOT rewire). Reads cached state only; no network calls; never fabricates.
   // ════════════════════════════════════════════════════════════════════════════
   var EK_OUTCOME_BUFFER = 40;     // rolling predicted-vs-realized samples
   var EK_HOMEO_WINDOW = 60;       // cycles of stress baseline for the adaptive set-point
@@ -3679,7 +3694,7 @@
     var artifactContext = {
       artifactLanes: artifactLanes,
       patentReady: false, grantReady: false, sbaReady: false,   // patent/grant/loan lanes purged 2026-06-21 (also vetoed by H3 conscience)
-      investmentReady: !!(hasTreat && primaryOpp), researchReady: ready || hasTreat,
+      investmentReady: !!(hasTreat && primaryOpp && hasBundle), researchReady: ready || hasTreat,   // require source-backing (hasBundle) to match H3 conscience — no split-brain readiness
       readinessReasons: readinessReasons,
       blockers: blockers
     };
