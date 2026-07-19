@@ -6,6 +6,12 @@
 <title>LIMEN HELIX &middot; CONSOLE</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+/* ROOT FONT-SIZE (2026-07-18): the console's type is all sub-0.5rem, which is 3-8px at the browser
+   default 16px root — no html/:root font-size was ever set anywhere in the repo, so everything read
+   tiny. Set a responsive root so the existing rem scale becomes legible. Scoped to this page only.
+   Tunable: raise/lower the clamp to scale ALL console text uniformly. */
+html{font-size:clamp(24px,2.6vw,32px)}
+body{font-size:0.36rem}   /* sane default for any un-sized text (so it inherits ~12px, not 32px) */
 html,body{background:#080c14;color:#e8e3d9;font-family:monospace;height:100%;width:100%;overflow-x:hidden;-webkit-user-select:none;user-select:none}
 
 /* ═══ UNIVERSAL SECTION HEADER ═══ */
