@@ -204,6 +204,43 @@ ok('distress channel reflects 3/16 stuck', Math.abs(energy.channels.distress.raw
 console.log('        energy: stress=' + energy.stress + '  distress channel=' + energy.channels.distress.raw
   + '  unison=' + energy.channels.unison.raw);
 
+// ── 12. ADAPTER B: emits a ChannelBundle for the phase estimator ────────────────────────────────
+section('12. Adapter B (toBundle) — domain node state -> ChannelBundle for lib/phase-estimator');
+var PE = require('../lib/phase-estimator.js');
+
+ok('toBundle abstains exactly when compute abstains (thin coverage)',
+   G.toBundle(mkJoin(mkCompanies([{}, {}, {}]))).grounded === false);
+
+var bundleJoin = mkJoin(mkCompanies([
+  { phase: 'p3', trajectory: 'UNRECOVERED_P3' }, { phase: 'p3', alert: true },
+  { phase: 'p3', trajectory: 'RUPTURE' }, { phase: 'p3', alert: true },
+  { phase: 'p3', trajectory: 'STUCK' }, { phase: 'p3' }
+]));
+var bnd = G.toBundle(bundleJoin, { subjectId: 'energy', history: histCorrelated });
+ok('grounded bundle has substrate=domain + subjectId', bnd.grounded === true && bnd.substrate === 'domain' && bnd.subjectId === 'energy');
+ok('companyDistress reading carries an 11-length likelihood',
+   !!(bnd.readings[0] && bnd.readings[0].key === 'companyDistress' && Array.isArray(bnd.readings[0].likelihood) && bnd.readings[0].likelihood.length === 11));
+ok('unison/granularity emitted as null-likelihood structural context',
+   bnd.readings.slice(1).every(function (r) { return r.likelihood === null; }));
+ok('distressComposite (CISS severity) is present and in [0,1]',
+   typeof bnd.distressComposite === 'number' && bnd.distressComposite >= 0 && bnd.distressComposite <= 1);
+
+section('   distress→phase band likelihood is monotone: more distress => more rupture-band mass (P3+P7+P9)');
+function ruptureMass(L) { return L[3] + L[7] + L[9]; }
+ok('high distress loads the rupture band more than low distress',
+   ruptureMass(G.distressBandLikelihood(0.9)) > ruptureMass(G.distressBandLikelihood(0.1)),
+   'hi=' + ruptureMass(G.distressBandLikelihood(0.9)).toFixed(3) + ' lo=' + ruptureMass(G.distressBandLikelihood(0.1)).toFixed(3));
+ok('low distress loads the constructive band (P1/P2/P4/P6/P10) more',
+   (function () { var L = G.distressBandLikelihood(0.05); return (L[1] + L[2] + L[4] + L[6] + L[10]) > ruptureMass(L); })());
+
+section('   end-to-end: a high-distress domain bundle drives the estimator into the rupture band');
+var est = PE.estimate(bnd, { distressComposite: bnd.distressComposite });
+ok('estimator grounds on the bundle', est.grounded === true);
+ok('MAP phase lands in the rupture band {P3,P7,P9}',
+   [3, 7, 9].indexOf(est.phaseMAP) !== -1, 'phaseMAP=' + est.phaseMAP);
+ok('CISS severity raised stuck above zero', est.stuck > 0, 'stuck=' + est.stuck);
+console.log('        bundle: distressComposite=' + bnd.distressComposite + '  -> phaseMAP=' + est.phaseMAP + '  stuck=' + est.stuck + '  confidence=' + est.confidence);
+
 console.log('\n' + '-'.repeat(70));
 console.log(pass + ' passed, ' + fail + ' failed');
 console.log('-'.repeat(70));
