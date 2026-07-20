@@ -66,7 +66,9 @@ ok('broken-source items contribute nothing', F.toChannels([{ text: 'layoffs', qu
 section('6. Market score is ONE channel (not the label)');
 ok('marketChannel returns a channel for a numeric score', !!F.marketChannel(0.8) && F.marketChannel(0.8).key === 'marketScore');
 ok('marketChannel returns null for no score', F.marketChannel(null) === null && F.marketChannel(undefined) === null);
-ok('market signature loads the Darkness band', topPhase(F.marketChannel(0.9).likelihood) === 3);
+ok('HIGH market stress loads the Darkness band (P3)', topPhase(F.marketChannel(0.9).likelihood) === 3);
+ok('LOW market stress loads the constructive band (P4) — value-dependent, not frozen distress',
+   topPhase(F.marketChannel(0.1).likelihood) === 4, 'topPhase=' + topPhase(F.marketChannel(0.1).likelihood));
 
 // ── 7. END-TO-END: a typed feed fractal drives the estimator to the matching band ────────────────
 section('7. Typed feed fractal -> shared estimator moves the belief to the matching phase band');

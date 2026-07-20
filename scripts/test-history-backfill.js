@@ -46,7 +46,9 @@ ok('estimatorHitRate is a real number in [0,1] (not abstaining — we have histo
    typeof bf.result.estimatorHitRate === 'number' && bf.result.estimatorHitRate >= 0 && bf.result.estimatorHitRate <= 1);
 ok('reconstructed a phase trajectory to inspect the pattern', Array.isArray(bf.trajectory) && bf.trajectory.length > 20);
 ok('scope note names the market-only limit + leakage discipline', /MARKET-ONLY/.test(bf.scope) && /test set/.test(bf.scope));
+ok('skill block present with a real confusion matrix', bf.result.skill && bf.result.skill.n === bf.result.resolvedCount);
 console.log('        backfill: points=' + bf.points + ' forecasts=' + bf.forecastsBuilt + ' resolved=' + bf.result.resolvedCount + ' estimatorHitRate=' + bf.result.estimatorHitRate);
+console.log('        skill: precision=' + bf.result.skill.precision + ' recall=' + bf.result.skill.recall + ' f1=' + bf.result.skill.f1 + ' baseRate=' + bf.result.skill.baseRate);
 
 // ── 4. Too-short series abstains rather than fabricating ─────────────────────────────────────────
 section('4. Too-short history abstains, does not fabricate a result');

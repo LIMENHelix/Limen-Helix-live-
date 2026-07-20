@@ -75,6 +75,36 @@ ok('divergent market_B rate 0 — this is the re-weighting signal (trust feed_A 
    r.perChannelHitRateDivergent.market_B.hitRate === 0);
 console.log('        per-channel (divergent): feed_A=' + r.perChannelHitRateDivergent.feed_A.hitRate + ' market_B=' + r.perChannelHitRateDivergent.market_B.hitRate);
 
+// ── 4b. SKILL METRICS: accuracy alone hides a majority-class predictor ───────────────────────────
+section('4b. skillMetrics catches a majority-class predictor that accuracy alone would hide');
+// A detector that NEVER calls distress, on a series where adverse events are rare (10%). Accuracy
+// looks great (90%) but recall is 0 — it caught nothing. This is exactly the bug the real WTI
+// backfill exposed (estimator frozen calling distress every time; the mirror case is frozen-calm).
+var neverCalls = [], neverOutcomes = [];
+for (var i = 0; i < 20; i++) {
+  neverCalls.push({ madeAt: i * DAY, stuck: 0.1, beliefDistress: 0.1, channels: { m: 0.1 } });  // always below threshold => never calls
+  neverOutcomes.push({ t: i * DAY + horizon, adverse: (i < 2) ? 0.9 : 0.1 });                    // 2/20 = 10% actually adverse
+}
+var nc = L.resolve(neverCalls, neverOutcomes, { now: 1000 * DAY, horizonMs: horizon });
+ok('accuracy looks high (never-call predictor rides the skewed base rate)', nc.estimatorHitRate >= 0.85, 'got ' + nc.estimatorHitRate);
+ok('but recall is 0 — it never caught a real adverse event', nc.skill.recall === 0, JSON.stringify(nc.skill));
+ok('precision is null — it never made a positive call to be right or wrong about', nc.skill.precision === null);
+ok('skill.note WARNS about the majority-class risk', /majority-class/.test(nc.skill.note));
+console.log('        never-calls predictor: accuracy=' + nc.estimatorHitRate + ' recall=' + nc.skill.recall + ' precision=' + nc.skill.precision + ' baseRate=' + nc.skill.baseRate);
+
+// A real (if crude) detector: calls distress exactly when adverse actually happens.
+var goodCalls = [], goodOutcomes = [];
+for (i = 0; i < 20; i++) {
+  var adverse = (i < 8);   // 8/20 = 40% adverse
+  goodCalls.push({ madeAt: i * DAY, stuck: 0.5, beliefDistress: adverse ? 0.7 : 0.1, channels: { m: adverse ? 0.7 : 0.1 } });
+  goodOutcomes.push({ t: i * DAY + horizon, adverse: adverse ? 0.9 : 0.1 });
+}
+var gc = L.resolve(goodCalls, goodOutcomes, { now: 1000 * DAY, horizonMs: horizon });
+ok('a real detector shows recall 1 (caught every adverse event)', gc.skill.recall === 1, JSON.stringify(gc.skill));
+ok('and precision 1 (every call it made was right)', gc.skill.precision === 1);
+ok('f1 computed when both precision and recall exist', gc.skill.f1 === 1);
+ok('confusion matrix sums to n', gc.skill.tp + gc.skill.fp + gc.skill.fn + gc.skill.tn === gc.skill.n && gc.skill.n === gc.resolvedCount);
+
 // ── 5. Agreement cases are excluded from the divergent signal ────────────────────────────────────
 section('5. Cases where channels AGREE are not counted in the divergent signal (you learn nothing there)');
 var agree = [{ madeAt: 0, stuck: 0.6, beliefDistress: 0.7, channels: { a: 0.8, b: 0.8 } }];  // both call distress
