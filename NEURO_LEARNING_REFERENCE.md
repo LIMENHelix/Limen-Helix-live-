@@ -43,6 +43,7 @@ live in the memory directory.
 | 11 | Rescorla-Wagner / Sutton-Barto / Schultz | Reinforcement learning & reward prediction error | 5 | 2026-07-18 |
 | 12 | Hakkio-Keeton / Illing-Liu / Holló-Kremer-Lo Duca / Kritzman / Gabaix / Acemoglu / Diebold-Yilmaz / Billio-Lo / Baker-Bloom-Davis / Jurado-Ludvigson-Ng / Loughran-McDonald | Economics: financial stress measurement, aggregation, network propagation & uncertainty | 16 | 2026-07-19 |
 | 13 | Kalman / Wiener / Rao-Ballard / Friston / Bastos / Wolpert-Ghahramani-Jordan / Todorov-Jordan / Ernst-Banks / Alais-Burr / Körding-Wolpert / Knill-Pouget / Aruoba-Diebold-Scotti / Doz-Giannone-Reichlin | THE ISOMORPHISM: stress = precision-weighted state estimation, shared by neuroscience & economics (the LIMEN thread) | 5 | 2026-07-19 |
+| 14 | Bates / Elstein / Schmidt-Norman-Boshuizen / Fagan / Sackett / Norman-Eva / Graber / Croskerry | Clinical diagnostic reasoning: the medical intake (differential, pre-test probability, likelihood ratios, premature closure) — why the estimator is a workup | 8 | 2026-07-20 |
 
 ## How to extend
 Add the next creator as a new `# Creator N —` section, keep the same per-item template
@@ -3027,6 +3028,209 @@ single quoted sentence asserting the cross-disciplinary identity — it does not
 the section is explicit that the isomorphism is LIMEN's synthesis grounded in the shared equations, not a borrowed
 authority. That is the line between this being the thread the system runs on and this being a fabrication.
 
+
+# Creator 14 — Clinical Diagnostic Reasoning: The Medical Intake (why the estimator is a workup)
+
+This section documents how a clinician gathers information BEFORE committing to a diagnosis, because
+that protocol is the template the domain estimator implements. A provider does not diagnose from the
+chief complaint; they run a deliberately redundant, multi-channel, prior-then-update workup — a deep
+probe on the presenting problem, a wide independent screen across every system, and context channels —
+building a PRIOR over a RANKED hypothesis set that independent channels then update, with structural
+rules engineered to prevent collapsing to one label too early. That is the fractal-feed → belief →
+forward-outcome loop, in clinical form. This is why neurology/medicine maps to the business estimator:
+both are diagnostic instruments, and the intake is the discipline that makes a diagnosis trustworthy.
+
+**LIMEN-mapping banner (read first).** The clinical facts below are sourced. The mapping to LIMEN's
+estimator (§14.8) is LIMEN's synthesis grounded in the shared structure, not a claim from the medical
+literature. Kept distinct, same discipline as Creator 13.
+
+## 14.1 The intake structure — a deep probe plus context (Bates)
+**Mechanism (as stated).** The comprehensive history proceeds in a fixed order: Identifying data +
+source/reliability → Chief Complaint (CC, in the patient's own words, explicitly NOT a diagnosis) →
+History of Present Illness (HPI) → Past Medical / Surgical History → Medications → Allergies → Family
+History → Social History → Review of Systems → Physical Exam → Diagnostics. Each element is a distinct
+information channel weighted by source credibility; tests come LAST and selectively, because a test is
+only interpretable against a prior the history has already built.
+The HPI's primary framework in Bates is the **seven attributes of a symptom**: (1) Location; (2)
+Quality; (3) Quantity/severity; (4) Timing (onset, duration, frequency); (5) Setting; (6) Remitting/
+exacerbating (aggravating/alleviating) factors; (7) Associated manifestations — plus **pertinent
+positives and pertinent negatives** from the relevant systems. The popular mnemonics are downstream
+compressions of these seven, not the textbook's own scaffold:
+- **OLDCARTS** — Onset, Location, Duration, Character, Aggravating/Alleviating, Radiation, Timing,
+  Severity. RECORDED AMBIGUITY: the A and R letters vary across sources (A = Aggravating/Alleviating
+  combined vs A = Aggravating with a separate R = Relieving; R = Radiation vs Relieving). No governing
+  body fixes it; commit to one and note the other exists.
+- **OPQRST** — Onset, Provocation/Palliation, Quality, Region/Radiation, Severity, Timing (often
+  extended -AAA: Associated symptoms, Aggravating, Alleviating). Predominant in acute/pain/EMS.
+**Key parameters.** ~10 ordered history elements; 7 symptom attributes; pertinent positives + negatives.
+**Primary sources.** Bickley, Szilagyi et al., *Bates' Guide to Physical Examination and History
+Taking* (Wolters Kluwer/Lippincott, current eds.).
+**Confidence.** [verified] structure and the seven-attributes framework; [recalled] exact chapter
+wording. The OLDCARTS/OPQRST mnemonics are standard teaching devices (Lecturio/Osmosis/nursing texts),
+hard to pin to a single primary source; the A/R ambiguity is real and flagged.
+
+## 14.2 Review of Systems — the wide independent screen
+**Mechanism (as stated).** The ROS is a **systematic head-to-toe symptom checklist across EVERY organ
+system, run largely independently of the chief complaint** — a screen, distinct from the deep HPI. Its
+job is to catch (i) symptoms the patient did not volunteer, (ii) disease in systems unrelated to the
+CC, and (iii) pertinent negatives that constrain the differential. Stated design logic: the CC is a
+*biased, low-recall sample* of the disease state (patients report what is salient, not what is
+diagnostically decisive), so the ROS is added as a **wide-aperture, high-recall, low-specificity sweep
+deliberately run to raise sensitivity across the whole system space** before narrowing.
+**Key parameters (the countable channel set).** CMS/AMA *1995 & 1997 Documentation Guidelines for E&M
+Services* fix **14 systems**: (1) Constitutional; (2) Eyes; (3) ENT/mouth; (4) Cardiovascular; (5)
+Respiratory; (6) Gastrointestinal; (7) Genitourinary; (8) Musculoskeletal; (9) Integumentary (skin/
+breast); (10) Neurological; (11) Psychiatric; (12) Endocrine; (13) Hematologic/lymphatic; (14)
+Allergic/immunologic. A "complete ROS" historically required **≥10 of 14**. Bates' clinical taxonomy is
+similar (~15-16 head-to-toe headings). For a multi-channel mapping, treat **≈13-14 independent
+system-channels** as canonical.
+**Primary sources.** CMS/AMA 1995 & 1997 E&M Documentation Guidelines; Bates' (above).
+**Confidence.** [verified] that CMS defines 14 systems and the ≥10 completeness threshold; [recalled]
+exact guideline wording (not pulled this pass).
+
+## 14.3 Differential diagnosis + hypothetico-deductive reasoning — a belief, not a label
+**Mechanism (as stated).** Clinical reasoning is **hypothetico-deductive**: the clinician generates a
+small set of candidate hypotheses very early (seconds to minutes, before most data is in), then gathers
+data selectively to **confirm or refute** each, revising the set as data arrives. The explicit artifact
+is the **differential diagnosis** — a **ranked list of possibilities held simultaneously open**, ordered
+by BOTH probability AND "must-not-miss" severity, each carrying its own discriminating data
+requirements. The intake gathers enough to **rule in / rule out** before narrowing. Two robust empirical
+findings: clinicians hold only a **limited number** of active hypotheses at once (~4-5, working-memory
+bounded), and diagnostic skill is **content-specific** (performance on one case does not predict
+another — there is no general "good diagnostician" trait separable from domain knowledge).
+**Math / Algorithm.** Maintain a ranked hypothesis SET (a distribution), not a point estimate, until
+evidence separates them. Update sequentially as each finding arrives (§14.5).
+**Primary sources.** Elstein AS, Shulman LS, Sprafka SA, *Medical Problem Solving: An Analysis of
+Clinical Reasoning* (Harvard Univ. Press, 1978); Kassirer JP, "Diagnostic reasoning," *Ann Intern Med*
+1989 (iterative hypothesis testing).
+**Confidence.** [verified] Elstein 1978 (book; existence/authorship/year/hypothesis-generation claim
+web-verified, not PubMed-indexed); the ~4-5 and content-specificity findings verified. [recalled] exact
+Kassirer 1989 citation detail.
+
+## 14.4 Illness scripts — the structured template a finding is matched against
+**Mechanism (as stated).** Expertise rests not on superior general reasoning nor on depth of
+pathophysiology but on stored **cognitive structures describing prototypical patients — illness
+scripts** — matched against the presentation. The canonical **three-slot structure**: **Enabling
+conditions** (predisposing/contextual factors: age, sex, risk factors, exposures, priors) → **Fault**
+(the pathophysiological insult / failing mechanism) → **Consequences** (the signs, symptoms, features
+that follow). Diagnosis proceeds by **matching** the patient against activated scripts; the best-fitting
+script's unfilled slots generate expectations that drive further data-gathering. Experts' scripts carry
+little explicit causal/pathophysiological detail but rich enabling-condition + consequence knowledge —
+"**knowledge encapsulation**" (biomedical detail compiled into high-level clinical concepts); novices
+still reason through slow causal pathophysiology.
+**Key parameters.** Three slots: enabling conditions / fault / consequences.
+**Primary sources.** Schmidt HG, Norman GR, Boshuizen HP, "A cognitive perspective on medical expertise:
+theory and implication," *Acad Med* 1990 Oct;65(10):611-621, DOI 10.1097/00001888-199010000-00001.
+**Confidence.** [verified] the 1990 paper (PubMed + abstract) and the script/matching/encapsulation
+claims. [recalled] the three-slot formulation's origin in Feltovich & Barrows (1984) and Bordage/Custers
+elaborations — structure anchored in the verified 1990 paper, sub-attributions unverified.
+
+## 14.5 Bayesian diagnostic reasoning — the estimator's exact math
+**Mechanism (as stated).** A test result is only interpretable relative to the probability of disease
+*before* the test. History + exam set the **pre-test (prior) probability**; each finding's **likelihood
+ratio** moves it to a **post-test probability**. This is the Bayesian core of evidence-based diagnosis.
+**Math / Algorithm** (definitional identities, confirmed exact):
+    odds = P / (1 − P) ;   P = odds / (1 + odds)
+    LR+ = Sn / (1 − Sp) = P(finding | disease) / P(finding | no disease)
+    LR− = (1 − Sn) / Sp
+    post-test odds = pre-test odds × LR
+    multi-finding:  post-test odds = pre-test odds × LR₁ × LR₂ × … × LRₙ   (each finding a multiplicative update)
+LR = 1 → no information; LR > 1 raises disease probability; LR < 1 lowers it. **CRITICAL CAVEAT the
+sources force:** the chained product is valid ONLY when findings are **conditionally independent given
+disease status** — correlated findings **double-count** evidence. That is the clinical statement of
+channel non-independence, and the direct justification for LIMEN's decorrelation discount (§14.8).
+**Fagan's nomogram** — a three-column alignment chart (pre-test probability | LR | post-test
+probability): a straight line from the pre-test probability through the LR reads off the post-test
+probability, a graphical solver for the odds-form Bayes update.
+**Primary sources.** Fagan TJ, "Nomogram for Bayes's theorem," *N Engl J Med* 1975 Jul 31;293(5):257,
+DOI 10.1056/NEJM197507312930513. Sackett DL, Straus SE, Richardson WS, Rosenberg W, Haynes RB,
+*Evidence-Based Medicine: How to Practice and Teach EBM*, 2nd ed. (Churchill Livingstone, 2000).
+**Confidence.** [verified] Fagan 1975 (PubMed); formulas are standard identities taught in the Sackett
+text; [verified] Sackett book (web-level; exact page text not extracted, not needed for identities).
+**Cross-ref.** This is the same estimator as Creator 13 (Kalman / precision-weighting) in odds form:
+the LR is the finding's informativeness = its precision; sequential LR-multiplication = precision-
+weighted fusion. Medicine and the Bayesian brain are the same update, one in odds, one in log-precision.
+
+## 14.6 Dual-process reasoning — and why "fast = error" is wrong
+**Mechanism (as stated).** **System 1** = fast, non-analytical **pattern recognition** (script/exemplar
+matching); **System 2** = slow, effortful, **analytical/hypothetico-deductive** reasoning. LOAD-BEARING
+CAVEAT: the primary literature does NOT support "System 1 causes errors." Experts err **as often when
+being deliberately systematic/analytical**; the effective intervention is encouraging **both** modes
+(combined reasoning), yielding small but consistent accuracy gains. So a design that treats a fast/cheap
+channel as inherently untrustworthy versus a slow/expensive one is not supported — reliability is
+empirical, not a function of speed.
+**Primary sources.** Norman GR, Eva KW, "Diagnostic error and clinical reasoning," *Med Educ* 2010
+Jan;44(1):94-100, DOI 10.1111/j.1365-2923.2009.03507.x; Croskerry P (dual-process framing, see §14.7).
+**Confidence.** [verified] Norman & Eva 2010 (PubMed + abstract) and the S1≠error finding.
+
+## 14.7 Premature closure + cognitive bias — the named failure modes
+**Mechanism (as stated).** **Premature closure** — the single most common cognitive cause of diagnostic
+error — is verbatim **"the failure to continue considering reasonable alternatives after an initial
+diagnosis was reached."** It is committing to a diagnosis before it is fully verified. In a 100-case
+diagnostic-error study, **cognitive factors contributed in 74%** of cases (system factors 65%), and the
+dominant cognitive fault was **faulty synthesis, NOT faulty knowledge** — inadequate knowledge was
+uncommon. Premature closure is usually the downstream consequence of a cluster of biases:
+- **Anchoring** — locking onto early information (first impression/finding) and under-adjusting as
+  later, discordant data arrives.
+- **Confirmation bias** — seeking/over-weighting evidence that confirms the working diagnosis,
+  discounting refuting evidence.
+- **Availability** — judging a diagnosis likelier because it comes to mind easily (recent/vivid), not
+  because it is more probable.
+- **Search satisficing** — stopping the search once one plausible finding is found, missing a second
+  concurrent problem.
+The countermeasure is **metacognition / cognitive forcing** — deliberately asking "what else could this
+be?" and forcing the alternatives to be addressed. The intake structure IS the anti-premature-closure
+protocol: mandatory ROS (data beyond the working hypothesis), forced differential (alternatives listed),
+deferred testing (commitment withheld until independent channels report).
+**Primary sources.** Graber ML, Franklin N, Gordon R, "Diagnostic error in internal medicine," *Arch
+Intern Med* 2005 Jul 11;165(13):1493-1499, DOI 10.1001/archinte.165.13.1493 (premature closure
+definition + 74% figure). Croskerry P, "The importance of cognitive errors in diagnosis and strategies
+to minimize them," *Acad Med* 2003 Aug;78(8):775-780, DOI 10.1097/00001888-200308000-00003 (bias
+taxonomy + metacognition); Croskerry P, "From mindless to mindful practice," *N Engl J Med* 2013 Jun
+27;368(26):2445-2448, DOI 10.1056/NEJMp1303712.
+**Confidence.** [verified] Graber 2005 (PubMed + abstract, exact premature-closure wording and 74%);
+[verified] Croskerry 2003 & 2013 (PubMed). Bias definitions confirmed in Croskerry 2003; Tversky-Kahneman
+cognitive-science origins [recalled].
+
+## 14.8 The LIMEN mapping — why the estimator is a workup (synthesis, not sourced)
+Each clinical element has a direct estimator correlate; this is the "why we map medicine to business":
+- **Chief complaint → the flagged node / domain under review.** Scopes the encounter, is not the answer.
+- **HPI (deep probe, seven attributes) → the fractal of feeds on the distressed companies themselves** —
+  layoffs, leadership change, unit price, demand, competition, primary distressed-company sources. The
+  deep, attribute-by-attribute characterization of the presenting problem.
+- **Review of Systems (≈14 independent system-channels) → the broad-variance independent feed set.** The
+  wide-aperture screen run precisely because the chief complaint is a biased low-recall sample. "Broad
+  variance of sources" = ROS breadth; it is what makes convergence meaningful.
+- **Differential diagnosis (ranked set held open) → the phase BELIEF distribution.** Never a bare label;
+  ranked by probability AND must-not-miss severity; held open until evidence separates. This is exactly
+  the estimator outputting a belief, not a phaseMAP.
+- **Pre-test probability → beliefPred (the prior / transition step).** Set by context before any test.
+- **Likelihood ratio → channel precision / informativeness.** post-odds = pre-odds × ∏LRᵢ IS the
+  precision-weighted multi-channel fusion (Creator 13, in odds form).
+- **Conditional-independence caveat (correlated findings double-count) → the decorrelation discount
+  (eff_c).** The medical literature states the exact hazard LIMEN's groupthink mitigation addresses.
+- **Corroboration across independent channels before trust → convergence of the fractal WITH the market
+  score.** Agreement across independently-failing channels raises confidence; a single-channel
+  conclusion is provisional. When the fractal and the market DIVERGE, that is "a different diagnosis."
+- **Premature closure → the failure the estimator is built to avoid.** Abstention on thin coverage, the
+  belief-not-label output, and (the queued) forward-outcome resolution ARE the anti-premature-closure
+  protocol: do not commit before the evidence is sufficient. Graber 2005 is the citation for the gate.
+- **Anchoring → over-weighting the first/loudest channel;** the reason a validated channel must not be
+  auto-overridden and a self-report cluster must not auto-win (the HRV/groupthink case).
+- **The market score → one channel (a "prior test"), not the label; the LABEL is the forward realized
+  outcome** — the clinical analogue of the diagnosis being confirmed by the disease course, which is
+  what ultimately calibrates which findings (channels) deserved what weight.
+
+### Verification note (Creator 14)
+Core citations verified against primary sources (PubMed + DOIs): Schmidt/Norman/Boshuizen 1990, Norman &
+Eva 2010, Fagan 1975, Graber/Franklin/Gordon 2005, Croskerry 2003 & 2013. Book-level (web-verified, not
+PubMed-indexed): Elstein/Shulman/Sprafka 1978, Sackett EBM 2nd ed. The Bayesian formulas are standard
+identities. Flagged [recalled] and not re-pulled this pass: exact Bates chapter wording; the CMS
+guideline exact text (14 systems / ≥10 threshold confirmed, wording not extracted); Kassirer 1989 detail;
+the illness-script three-slot origin (Feltovich & Barrows 1984). The OLDCARTS A/R ambiguity is a genuine
+divergence across teaching sources, recorded rather than resolved. §14.8 is LIMEN synthesis grounded in
+the shared structure, explicitly not a claim from the medical literature.
+
 ---
 
-_Last updated: 2026-07-19. Firewalled from the public site via `.vercelignore` (repo/history only). Creators: 13._
+_Last updated: 2026-07-20. Firewalled from the public site via `.vercelignore` (repo/history only). Creators: 14._
