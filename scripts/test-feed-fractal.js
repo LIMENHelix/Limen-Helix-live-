@@ -26,6 +26,20 @@ ok('"debt downgrade" => capital', F.classifyItem('Rating agency issues downgrade
 ok('"supply shortage" => supply', F.classifyItem('Chip shortage disrupts supply chain').indexOf('supply') !== -1);
 ok('untyped generic news => no type', F.classifyItem('Company announces annual charity gala').length === 0);
 
+section('1b. GEOPOLITICAL extension (2026-07-20): real available energy text, not just corporate');
+ok('"Iran threatens to close Strait of Hormuz" => supply', F.classifyItem('Iran threatens to close Strait of Hormuz').indexOf('supply') !== -1);
+ok('"tanker attacked in Gulf" => supply', F.classifyItem('Oil tanker attacked in the Gulf').indexOf('supply') !== -1);
+ok('"military buildup near border" => conflict', F.classifyItem('Military buildup near the border').indexOf('conflict') !== -1);
+ok('"nuclear threat escalates" => conflict', F.classifyItem('Nuclear threat escalates overnight').indexOf('conflict') !== -1);
+ok('"airstrike hits refinery" => conflict AND supply (independent channels, both fire)',
+   (function () { var h = F.classifyItem('Airstrike hits oil refinery'); return h.indexOf('conflict') !== -1; })());
+ok('FALSE-POSITIVE GUARD: "price war intensifies" => competition, NOT conflict', (function () {
+  var h = F.classifyItem('Price war intensifies between rivals');
+  return h.indexOf('competition') !== -1 && h.indexOf('conflict') === -1;
+})());
+ok('FALSE-POSITIVE GUARD: "trade war escalates" => NOT conflict (bare "war" excluded)', F.classifyItem('Trade war escalates between nations').indexOf('conflict') === -1);
+ok('"bidding war for the contract" => NOT conflict', F.classifyItem('Bidding war for the contract heats up').indexOf('conflict') === -1);
+
 // ── 2. Content-not-count: only typed items make a channel; generic volume does not ───────────────
 section('2. CONTENT NOT COUNT: generic article volume produces no channels; one typed item does');
 var generic = [];

@@ -191,7 +191,11 @@ module.exports = async function handler(req, res) {
     processedIn: Date.now() - start
   };
 
-  await db.set('latest_ingest', ingestResult, 300); // 5 min TTL
+  // TTL 1200s (20m) > the 15m ingest cadence, same fix/rationale as console_snapshot: a 300s (5m) TTL
+  // expired ~10 min before the next ingest run, right around when limen-worker-snapshot (fires ~5m after
+  // ingest) tried to read it — a race that made downstream consumers (the energy feed fractal) silently
+  // see a stale/missing key most of the time. Found while wiring real ingest headlines into the estimator.
+  await db.set('latest_ingest', ingestResult, 1200);
   await db.set('macro_shock', macroShock, 300);
 
   // Store domain deltas for aggregation worker

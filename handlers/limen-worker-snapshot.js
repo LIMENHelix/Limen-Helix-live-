@@ -14,6 +14,8 @@ var phasePercept = require('../lib/phase-percept');
 var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: stress from node/company distress, not feed volume
 var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-weighted P0-P10 belief; grounded-stress is its Adapter B
 var energyMarketFeed = require('../lib/energy-market-feed');   // LIVE market channel, ENERGY ONLY (real, validated WTI series; see memory: energy-backfill-first-result)
+var feedFractal = require('../lib/feed-fractal');   // typed content channels (content, not article count) + geopolitical extension for real available energy text
+var energyOutcomeTracker = require('../lib/energy-outcome-tracker');   // LIVE outcome loop, ENERGY ONLY: records today's forecast, resolves matured ones vs real forward price
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -161,7 +163,7 @@ module.exports = async function handler(req, res) {
       // (alert flags + distress trajectories + p7a/p7b/p3 counts) — NOT feed volume. Attached for
       // OBSERVATION ONLY; dsum.stress (feed-derived) is unchanged. Abstains on thin company coverage.
       try {
-        var gsSlot = gsMem.domains[pk] || (gsMem.domains[pk] = { history: {}, corrState: null, lastAppendTs: 0, phaseCorr: null });
+        var gsSlot = gsMem.domains[pk] || (gsMem.domains[pk] = { history: {}, corrState: null, lastAppendTs: 0, phaseCorr: null, outcomeTrack: null });
         // ONE compute pass, via the Adapter B bundle. bundle.composite is the full CISS output.
         var bundle = groundedStress.toBundle(joinRow, { subjectId: pk, history: gsSlot.history, corrState: gsSlot.corrState });
         var gs = bundle.composite || { grounded: false, stress: null, reason: bundle.reason };
@@ -209,17 +211,77 @@ module.exports = async function handler(req, res) {
             } catch (mfe) { dsum.marketChannel = { score: null, reason: 'market feed error: ' + mfe.message }; }
           }
 
+          // LIVE FEED FRACTAL (2026-07-20, ENERGY ONLY): real per-article headlines from the already-
+          // running RSS ingest (limen-worker-ingest.js -> latest_ingest; TTL bumped 300s->1200s in this
+          // same change so it reliably survives to this read, was racing its own 15m cron). Filtered to
+          // signals whose affectedDomains includes energy, classified by CONTENT (feed-fractal.js), not
+          // counted. HONEST SCOPE: the real available text right now is geopolitical (Hormuz/Iran/
+          // military), not corporate — feed-fractal's `supply` regex was extended and a new `conflict`
+          // category added specifically to classify this real available text. The ORIGINAL corporate
+          // categories (workforce/leadership/pricing/demand/competition/litigation/recall/capital)
+          // remain UNCONNECTED to any live per-company feed, because none exists yet (company
+          // newsFeed[] is empty) — this change does not close that gap, only the geopolitical one.
+          if (pk === 'energy') {
+            try {
+              var ingest = await db.get('latest_ingest');
+              var ingestItems = [];
+              if (ingest && Array.isArray(ingest.signals)) {
+                ingest.signals.forEach(function (sig) {
+                  if (!sig || !Array.isArray(sig.affectedDomains) || sig.affectedDomains.indexOf('energy') === -1) return;
+                  var quality = sig.confidence === 'HIGH' ? 'real' : (sig.confidence === 'MEDIUM' ? 'event' : 'degraded');
+                  (sig.titles || []).forEach(function (title) { ingestItems.push({ text: title, quality: quality }); });
+                });
+              }
+              var feedChannels = feedFractal.toChannels(ingestItems);
+              feedChannels.forEach(function (fc) {
+                bundle.readings.push(fc);
+                if (gsNow - (gsSlot.lastAppendTs || 0) >= GS_APPEND_MS || !gsSlot.history[fc.key]) {
+                  var fArr = gsSlot.history[fc.key] || (gsSlot.history[fc.key] = []);
+                  fArr.push(fc.value);
+                  if (fArr.length > GS_HISTORY_CAP) fArr.splice(0, fArr.length - GS_HISTORY_CAP);
+                }
+              });
+              dsum.feedFractal = {
+                itemCount: ingestItems.length,
+                channels: feedChannels.map(function (fc) { return { key: fc.key, value: fc.value, typedItems: fc.typedItems }; })
+              };
+            } catch (ffe) { dsum.feedFractal = { itemCount: 0, reason: 'feed fractal error: ' + ffe.message }; }
+          }
+
           // PHASE ESTIMATOR (SHADOW, 2026-07-19): fuse the domain bundle into a P0-P10 belief via the
-          // shared precision-weighted core. Separate corrState (phaseCorr) from the CISS one; the
-          // distress-channel history keys the estimator's CDF (companyDistress ← the distress channel).
+          // shared precision-weighted core. Separate corrState (phaseCorr) from the CISS one. peHist is
+          // built from WHATEVER channel keys currently have history (not a fixed list) so a newly-
+          // appearing feed_* channel (from the fractal above) automatically gets CDF tracking with no
+          // further code change.
           try {
-            var peHist = { companyDistress: gsSlot.history.distress, unison: gsSlot.history.unison, granularity: gsSlot.history.granularity, marketScore: gsSlot.history.marketScore };
+            var peHist = {};
+            for (var histKey in gsSlot.history) { if (gsSlot.history.hasOwnProperty(histKey)) peHist[histKey] = gsSlot.history[histKey]; }
             var est = phaseEstimator.estimate(bundle, { corrState: gsSlot.phaseCorr, history: peHist, distressComposite: bundle.distressComposite });
             if (est.grounded) gsSlot.phaseCorr = est.corrState;   // persist estimator memory (belief carried forward)
             dsum.phaseBelief = {
               grounded: est.grounded, phaseMAP: est.phaseMAP, confidence: est.confidence, stuck: est.stuck,
               belief: (est.belief || []).map(function (x) { return Math.round(x * 1000) / 1000; })   // rounded for payload; full precision stays in phaseCorr
             };
+
+            // LIVE OUTCOME TRACKER (2026-07-20, ENERGY ONLY): records today's forecast + resolves any
+            // that have aged past the horizon, against the REAL forward WTI price. Pure core (lib/
+            // energy-outcome-tracker.js) reusing the exact functions validated on 40y of history; this
+            // worker only persists its state. DATA-STARVED BY CONSTRUCTION: the first live forecast
+            // cannot resolve for ~3 weeks. This starts the clock; it is not a result to present as
+            // "validated" until resolvedCount is large and a held-out set has been checked.
+            if (pk === 'energy' && est.grounded) {
+              try {
+                var priceReading = (typeof liveMkt !== 'undefined' && liveMkt) ? { v: liveMkt.latestPrice } : null;
+                var ot = energyOutcomeTracker.tick(gsSlot.outcomeTrack, gsNow, priceReading, est, bundle.readings, {});
+                gsSlot.outcomeTrack = ot.state;
+                gsMemDirty = true;
+                dsum.outcomeTrack = {
+                  recorded: ot.recorded, trackedForecasts: ot.result.trackedForecasts,
+                  resolvedCount: ot.result.resolvedCount, pendingCount: ot.result.pendingCount,
+                  estimatorHitRate: ot.result.estimatorHitRate, skill: ot.result.skill
+                };
+              } catch (ote) { dsum.outcomeTrack = { reason: 'outcome tracker error: ' + ote.message }; }
+            }
           } catch (pe) { dsum.phaseBelief = { grounded: false, reason: 'estimate error: ' + pe.message }; }
         }
         // Keep the payload light: corrState is memory, not a console field.
