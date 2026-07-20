@@ -90,6 +90,65 @@ ok('once aged out, its vote collapses and the live channel wins (P1)', aged.phas
 ok('no recencyHalflife => rec_c=1 (age ignored, conservative default)',
    E.estimate(bundle([{ key: 'x', likelihood: spike(5), precisionHint: 3, age: 99 }])).phaseMAP === 5);
 
+// ── 5b. REGRESSION (2026-07-20 production bug): uninformative channels cannot run away and silence real evidence
+section('5b. REGRESSION: a null-likelihood (uninformative) channel cannot accumulate runaway precision');
+// Reproduce the exact production failure: run MANY ticks with only uninformative (structural) channels
+// present (mirrors unison/granularity with no distress/market/feed signal). A uniform likelihood
+// trivially "agrees" with any belief, so pre-fix this drove its self-consistency precision toward
+// infinity over time via the shared corrState.
+var uninfState = null;
+for (var t = 0; t < 50; t++) {
+  var r = E.estimate(bundle([{ key: 'context', value: 0.5, likelihood: null }]), { corrState: uninfState });
+  uninfState = r.corrState;
+}
+ok('50 ticks of ONLY an uninformative channel => still abstains (no real precision was ever earned)',
+   E.estimate(bundle([{ key: 'context', value: 0.5, likelihood: null }]), { corrState: uninfState }).grounded === false,
+   'an uninformative-only bundle must never ground the estimator, no matter how long it runs');
+
+// Now the actual bug scenario: an uninformative channel accumulates state for many ticks ALONGSIDE a
+// calm informative channel (so the bundle grounds normally throughout) — then a NEW, dramatic,
+// real-evidence channel (a live crisis signal) arrives. Pre-fix, the long-run uninformative channel's
+// runaway precision diluted the new evidence to near-zero, freezing the belief and reporting false-high
+// confidence. Post-fix, the new evidence must still be able to move the belief.
+var mixState = null;
+for (t = 0; t < 60; t++) {   // 60 ticks of calm agreement — long enough to have caused runaway precision pre-fix
+  var mr = E.estimate(bundle([
+    { key: 'context', value: 0.5, likelihood: null },              // structural, uninformative (e.g. unison/granularity)
+    { key: 'baseline', likelihood: spike(4), precisionHint: 1 }    // calm, informative, steady P4
+  ]), { corrState: mixState });
+  mixState = mr.corrState;
+}
+var preCrisis = E.estimate(bundle([
+  { key: 'context', value: 0.5, likelihood: null },
+  { key: 'baseline', likelihood: spike(4), precisionHint: 1 }
+]), { corrState: mixState });
+ok('after 60 calm ticks, belief still sits at the calm phase (P4)', preCrisis.phaseMAP === 4, 'got P' + preCrisis.phaseMAP);
+
+var crisis = E.estimate(bundle([
+  { key: 'context', value: 0.5, likelihood: null },
+  { key: 'baseline', likelihood: spike(4), precisionHint: 1 },
+  { key: 'feed_supply', likelihood: spike(3), precisionHint: 3 }   // a NEW, real, high-precision crisis signal
+]), { corrState: mixState });
+ok('a new real crisis signal CAN move the belief off P4 despite 60 ticks of uninformative-channel history',
+   crisis.belief[3] > preCrisis.belief[3], 'preCrisis P3=' + preCrisis.belief[3] + ' crisis P3=' + crisis.belief[3]);
+ok('the uninformative channel is excluded from precision and flagged as such', (function () {
+  var ctxChan = crisis.channels.filter(function (c) { return c.key === 'context'; })[0];
+  return ctxChan && ctxChan.informative === false && ctxChan.precision === 0;
+})());
+ok('degraded.uninformativeChannels reports the count for transparency', crisis.degraded && crisis.degraded.uninformativeChannels === 1);
+console.log('        preCrisis: P4=' + preCrisis.belief[4].toFixed(3) + ' P3=' + preCrisis.belief[3].toFixed(3)
+  + '  |  crisis: P4=' + crisis.belief[4].toFixed(3) + ' P3=' + crisis.belief[3].toFixed(3) + ' MAP=P' + crisis.phaseMAP);
+
+// The mathematical claim underlying the fix, checked directly: an uninformative channel's precision
+// (rc) is 0 / excluded regardless of how "self-consistent" it has been — confidence must reflect only
+// informative-channel evidence.
+ok('confidence is computed relative to INFORMATIVE channel count, not diluted by structural channels',
+   (function () {
+     var onlyInformative = E.estimate(bundle([{ key: 'baseline', likelihood: spike(4), precisionHint: 1 }]));
+     var withContext = E.estimate(bundle([{ key: 'context', value: 0.5, likelihood: null }, { key: 'baseline', likelihood: spike(4), precisionHint: 1 }]));
+     return Math.abs(onlyInformative.confidence - withContext.confidence) < 1e-6;
+   })(), 'adding a null-likelihood channel must not change confidence at all');
+
 // ── 6. Uninformative channel does not move the belief ────────────────────────────────────────────
 section('6. A null-likelihood channel is flat (uninformative) and leaves the prior belief unmoved');
 var flat = E.estimate(bundle([{ key: 'noL', value: 0.7, likelihood: null, precisionHint: 3 }]));
