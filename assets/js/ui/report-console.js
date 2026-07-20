@@ -722,7 +722,9 @@
       if (dxList.length > 0) {
         var dxHeader = document.createElement('div');
         dxHeader.style.cssText = 'font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:#C9A94E;margin:6px 0 4px;';
-        dxHeader.textContent = 'Diagnoses (' + dxList.length + ')';
+        dxHeader.textContent = dxList.length > 5
+          ? dxList.length + ' in registry — top 5 shown'
+          : 'Diagnoses (' + dxList.length + ')';
         domCard.appendChild(dxHeader);
 
         for (var dxi = 0; dxi < Math.min(dxList.length, 5); dxi++) {
@@ -755,7 +757,15 @@
       if (txList.length > 0) {
         var txHeader = document.createElement('div');
         txHeader.style.cssText = 'font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:#C9A94E;margin:8px 0 4px;border-top:1px solid rgba(201,169,78,0.08);padding-top:6px;';
-        txHeader.textContent = 'Treatments (' + txList.length + ')';
+        // txList here is getTreatmentsOnDomainStress()'s raw deduped registry pool for this
+        // domain (every treatment tagged to it across all its portal diagnoses), NOT scored/
+        // filtered for current relevance the way portal-treatment-resolver.js's top-5 is for
+        // the main Regulation card. A bare "(944)" reads as a found/relevant count when it is
+        // really "how big is the registry" — same misleading-big-number failure mode as the
+        // old feed-volume stress bug. Say plainly what the number means.
+        txHeader.textContent = txList.length > 5
+          ? txList.length + ' in registry — top 5 shown by priority'
+          : 'Treatments (' + txList.length + ')';
         domCard.appendChild(txHeader);
 
         for (var txi2 = 0; txi2 < Math.min(txList.length, 5); txi2++) {
