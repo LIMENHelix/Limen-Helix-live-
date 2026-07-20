@@ -18,6 +18,7 @@ but doesn't actuate) / SHADOW (log-only) / ARMED (actuates live) / LOADED-BUT-IN
 - §G Directive/operator/claim/pulse layer · §H Data, server, runtime def · §I Portals/nodes/motifs/deep tree
 - §J Outward surface, generic base, consumers
 - §K DEAD/INERT SURFACE inventory · §L Port spec · §M Discrepancies & data gaps
+- §N Stress-source rework (grounded stress + phase estimator + feed fractal + outcome loop, 2026-07-19/20)
 
 ---
 
@@ -563,6 +564,302 @@ files + real node bindings. Machinery ports cheaply; real content is the work. A
    the high-value signal alongside blind-channel; interoception's "no external ground truth" line corrected).
 9. **~3,000+ lines dead/inert energy JS** (§K) executing to no effect.
 10. **Phase-percept feature unmerged** — the one armed learning member is branch-only, not in production.
+11. ~~Thin real signal: only 3 crude-price feeds drive baseline stress; all else is event-overlay.~~
+    **RESOLVED 2026-07-19/20, see §N:** `dsum.stress` no longer reads feed-volume at all for energy — it is
+    now the fused precision-weighted phase belief (company distress + live market + live typed feed
+    channels), verified live (`0.21` observed vs. the old pinned `1.0`, preserved at `_legacyFeedStress`).
+    The underlying gap this item also named — corporate feed categories with no real per-company text — is
+    NOT resolved (§N.12 item 1); only the geopolitical/market gap closed.
+
+---
+
+## §N. Stress-source rework — grounded stress + phase estimator + feed fractal + outcome loop (2026-07-19/20 build)
+
+**The problem this closes (§M item 5, verbatim from the 2026-07-17 audit):** *"only 3 crude-price feeds
+drive baseline stress; all else is event-overlay -> energy stress ~= crude price + news volume."* Confirmed
+live before this build: `dsum.stress` (what `domain-brain-base.js:488` reads and the console displays) was
+manufactured from raw feed/article **volume** (`ln(1+articles)`), not real distress — energy read pinned
+near 1.0 regardless of what was actually happening. This build replaces that path for energy, end to end,
+and in doing so built a domain-agnostic core now computing (unpromoted) on all 20 domains.
+
+Git range `453be5fd..3ce65ad2` (2026-07-19/20), 17 commits, 3 unrelated automated commits interleaved
+(`2f437e15`/`6994dd8f`/`ecb68cc5` — immune pulse + EDGAR rescore, NOT part of this build):
+
+```
+453be5fd Stress-source rework Stage 0: grounded stress in SHADOW (worker)
+3cb2d115 Grounded stress v2: CISS-style precision-weighted composite + isomorphism corpus
+a4ccbb02 Phase estimator spec: shared precision-weighted core + two adapters
+e87b6125 Phase estimator step 1: pure precision-weighted core + 30-assert suite
+589d4cc4 Phase estimator step 2: grounded-stress as Adapter B, wired shadow in worker
+18be4bb3 Phase estimator step 3: Adapter A (human sensory) stub — offline, no clinical output
+0553d7c4 Merge #1: shadow precision-weighted P0-P10 phase estimator + grounded-stress rework
+f831ac6c Feed fractal #1 (core): typed independent feed channels, content not count
+f7db69cd Outcome loop core (energy): label generator — forecast vs forward outcome
+c82a1c4c History backfill (energy market): label data now, not weeks out — leakage-safe
+b819b50c Fix market-channel value-independence bug + add skill metrics (precision/recall/F1)
+8f6d546f Wire live market channel into the worker (energy only)
+3dc46d16 Merge #2: feed fractal + outcome ledger + live energy market channel (urgent fix)
+155d89ea Wire real feed fractal + live outcome recorder into energy (both pieces)
+2a4a5363 Fix runaway precision from uninformative channels (found live in production)
+3ce65ad2 Promote grounded stress to LIVE dsum.stress (energy) + live audit organ
+```
+
+Theoretical basis researched and logged before any code: `NEURO_LEARNING_REFERENCE.md` (firewalled,
+3,236 lines, 14 "Creators") — precision-weighted Bayesian fusion (Kalman/Wiener/predictive-coding) as the
+mathematical object shared by cortical multisensory integration and the ECB's CISS systemic-stress index;
+clinical intake reasoning (Review of Systems / differential-diagnosis-held-open / premature closure) as the
+template for "don't commit to one feed as the diagnosis, hold several channels open."
+
+### N.1 The shared core — `lib/phase-estimator.js` (314 lines) · GENERIC, domain-agnostic · WIRED (all 20 domains)
+
+Precision-weighted Bayesian fusion of however many typed channels a domain has into an 11-way P0–P10
+belief (Ernst & Banks 2002 inverse-variance cue combination, extended with a CISS-style EWMA correlation
+matrix and empirical-CDF input transform). Constants `NUM_PHASES=11`(25) `EWMA_LAMBDA=0.93`(26)
+`CDF_MIN_SAMPLE=8`(27) `PRECISION_FLOOR=0.5`(28) `STUCK_ALPHA=0.5`(29, `[mark: prior]`). Functions:
+`clamp01`(32) `r3`(33) `uniform`(35) `normalize`(37) `softmax`(46) `argmax`(55) `overlap`(58) `kl`(61)
+`empiricalCdf`(68) `makeTransition`(84) `predict`(111) `updateCorrelation`(119) `estimate`(162)
+`module.exports`(299). Core fusion: `logpost[p] = log(beliefPred[p]) + Σ_c (rc/Σrk)·log(Lc[p])`.
+
+**Bug found and fixed live (`2a4a5363`):** a channel with a null/uniform likelihood (structural context,
+not a real signal) is mathematically a no-op on belief *shape* — adds the same constant to every phase,
+cancels in softmax — but was still competing for self-consistency precision. Uniform trivially "agrees"
+with an already-uncertain belief, so its residual collapsed toward 0 and its precision ran away toward
+infinity, diluting every real channel through the shared `totalPrecision` denominator while `confidence`
+(measuring total precision, not concentration) falsely inflated toward 0.999. Fixed by tracking
+`informative[k]` and excluding uninformative channels from `rcRaw`, `totalPrecision`/`rc` accumulation, the
+fusion sum, and `resVar`. `confidence` now normalizes over `informativeCount` only. Regression test
+reproduces the exact production symptom (60 ticks calm + 1 uninformative channel -> P4=0.991 fixed belief,
+matching the live bug) then proves a real crisis signal still correctly flips belief.
+
+Test: `scripts/test-phase-estimator.js` (206 lines) — **36/36 passing** (re-run fresh this audit).
+
+### N.2 Adapter B / CISS composite — `lib/grounded-stress.js` (392 lines) · ENERGY-authored, GENERIC in practice · WIRED (all 20 domains)
+
+CISS-style (Holló/Kremer/Lo Duca 2012, ECB WP 1426) quadratic-form composite `(w∘s)'C(w∘s)` over a
+time-varying EWMA(λ=0.93) correlation matrix, empirical-CDF (order-statistic) channel transform instead of
+z-scores. `CHANNEL_WEIGHTS`(60) `= {distress:0.45, unison:0.30, granularity:0.25}`, `EWMA_LAMBDA=0.93`(62),
+`CDF_MIN_SAMPLE=8`(63). Functions: `r3`(49) `clamp01`(50) `empiricalCdf`(71) `channelDistress`(92)
+`channelUnison`(127) `channelGranularity`(160) `updateCorrelation`(181) `compute`(224)
+`distressBandLikelihood`(341) `toBundle`(357) `module.exports`(379). `toBundle()` is Adapter A/B glue: emits
+a `ChannelBundle` with `companyDistress` (real distress-band likelihood) plus `unison`/`granularity`
+(structural context, null likelihood — correctly excluded from fusion precision per N.1's fix).
+
+**Scope limit, stated plainly:** this composite is built from **company channels only** — it is computed
+*before* the market/feed channels (N.3/N.4) are pushed onto the bundle, so `groundedStress.stress` alone
+cannot see a live crisis signal (a war this week can't be in last quarter's 10-Q). That is exactly why the
+promotion (N.6) uses the *fused* `phaseBelief`, not this composite, as the promoted value.
+
+Test: `scripts/test-grounded-stress.js` (247 lines) — **47/47 passing**.
+
+### N.3 Live market channel — `lib/energy-market-feed.js` (101 lines) · ENERGY-ONLY, impure/network · WIRED
+
+`parseFredCsv`(40, pure, independently tested) handles FRED's blank holiday rows, rejects non-positive
+prices (explicit scope choice — filters the real 2020-04-20 negative-WTI day). `fetchWtiSeries`/
+`getLiveMarketChannel`(96 exports) fetch FRED `DCOILWTICO` with a `cosd` range param, `AbortSignal.timeout`,
+fail soft (null on any error — estimator runs on company channels alone, never fabricates a reading).
+Reuses `history-backfill.js`'s `marketStress()` unchanged — the exact function validated on 40 years of
+real history (N.4), not a new untested formula.
+
+Test: `scripts/test-energy-market-feed.js` (45 lines) — **10/10 passing** (offline parser tests only, no
+network in the deterministic suite, matching every other lib's discipline).
+
+### N.4 Leakage-safe historical validation — `lib/history-backfill.js` (124 lines) + real 40-year run
+
+`marketStress(series, idx, opts)`(42) — point-in-time only, touches `series[<=idx]` only (trailing
+drawdown-from-peak blended with trailing volatility). `forwardAdverse(series, idx, opts)`(63) — the
+OUTCOME, strictly forward-looking `[idx+1, idx+horizonSteps]`, returns null if the window isn't fully
+available (no look-ahead). `backfill(series, opts)`(81) walks the series in order, threads `corrState`/
+`history` exactly like the live worker, reuses `phase-estimator.estimate()` and
+`outcome-ledger.scorePairs()` unchanged — the backtest is not a separate simulation, it is the real
+production code run against history.
+
+**Real result, FRED `DCOILWTICO`, keyless CSV, 10,199 valid daily points, 1986–2026, after the marketChannel
+fix (N.7):** `estimatorHitRate=0.745`, `precision=0.699`, `recall=0.084`, `f1=0.151`, `baseRate=0.268`,
+`callRate=0.032` — honest high-precision/low-recall, **unfitted** (zero tuning on this pass, so no overfit
+risk yet). Phase trajectory correctly discriminated real history: P4 (calm) at 2007 and the 2008 $145 peak;
+P3 (distress) at the Dec-2008 crash and the COVID crash. This is the single strongest piece of real evidence
+in the whole build — not a unit test on synthetic data, a real 40-year backtest that separately confirms the
+core math works on history it was never fitted to.
+
+Test: `scripts/test-history-backfill.js` (66 lines) — **13/13 passing**, including an explicit leakage-guard
+test proving `marketStress` at index i is invariant to a crash inserted after i.
+
+### N.5 Content-not-count feed channels — `lib/feed-fractal.js` (162 lines) · GENERIC mechanism, ENERGY-ONLY wiring · WIRED
+
+Typed classification of feed headlines by WHAT they say, not how many there are (`CHANNEL_TYPES`, line 46:
+workforce/leadership/pricing/demand/competition/supply/litigation/recall/capital + `conflict`, each with a
+regex classifier and its own phase-signature via `likFrom()`). `classifyItem`(84) `toChannels`(104,
+saturating `value = 1-exp(-Σquality/K)`, source-quality-weighted `{real:1.0, event:0.6, degraded:0.3,
+broken:0}`) `marketChannel`(140) `module.exports`(154).
+
+**Honest scope limit:** the 9 original categories were authored for **corporate** text (layoffs, leadership,
+pricing) but the only real text actually flowing through `latest_ingest` right now is **geopolitical**
+(Hormuz/Iran/military) — `company.newsFeed[]` is empty for every company, so those 9 categories have never
+classified a single real corporate item. The `supply` regex was extended (hormuz/strait/blockade/tanker/
+naval/shipping-route/port-closure) and a new `conflict` category added specifically to classify the text
+that is actually available, deliberately excluding a bare `\bwar\b` token so "price war"/"trade war"/
+"bidding war" still classify as `competition` (tested explicitly). Live right now: `feed_supply=0.935`,
+`feed_conflict=0.935` (23 items, 2 typed channels) — both geopolitical, neither corporate. **This gap is not
+closed by this build**; see N.9.
+
+**Bug found and fixed (`b819b50c`):** `marketChannel()` originally returned a fixed distress-ward likelihood
+regardless of the input score's value — the 40-year WTI backfill froze at P3 for the entire series and
+accuracy collapsed to exactly the base rate (0.268). Fixed to blend constructive-band (low score) with
+distress-band (high score) likelihoods, mirroring `distressBandLikelihood` in N.2.
+
+Test: `scripts/test-feed-fractal.js` (105 lines) — **35/35 passing**, including false-positive guards for
+price/trade/bidding war.
+
+### N.6 The label-generation / validation loop — `lib/outcome-ledger.js` (206 lines) + `lib/energy-outcome-tracker.js` (95 lines) · GENERIC mechanism, ENERGY-ONLY live wiring · WIRED, data-starved by construction
+
+`DISTRESS_PHASES=[3,5,7,8,9]`(32) `distressMass(vec)`(35, sums belief mass over those phases — **this exact
+quantity is what N.10 promotes to `dsum.stress`**) `buildForecast`(48) `resolve`(80, forward-only time-
+matching, no leakage) `scorePairs`(119, the pure scoring core — per-channel hit rate, and per-channel hit
+rate **restricted to divergent cases only**, which is the actual re-weighting signal: agreement teaches
+nothing, disagreement is where a channel proves or disproves itself) `skillMetrics`(175, confusion matrix +
+precision/recall/F1/baseRate/callRate — built because raw accuracy hides a majority-class predictor;
+includes a synthetic "never-calls predictor" test proving 90% accuracy with recall=0 on a 10% base rate).
+
+`energy-outcome-tracker.js`: `RECORD_INTERVAL_MS=24h`(33) `CAP=400`(34) `HORIZON_STEPS=15`(35, `[mark:
+prior]`, matches N.4's validated horizon) `tick(state, now, priceReading, est, channels, opts)`(51) —
+records at most once/day, resolves matured forecasts by reusing `history-backfill.forwardAdverse` +
+`ledger.scorePairs` unchanged.
+
+**Bug found and fixed:** the "never recorded" sentinel was `lastRecordTs: 0`, colliding with small test
+epoch values (harmless in production — real `Date.now()` dwarfs a day — but wrong on its own terms). Fixed
+to a `null` sentinel.
+
+**Live status, confirmed this audit:** `trackedForecasts: 1, resolvedCount: 0, pendingCount: 1`. The clock
+started; nothing has resolved yet (needs ~3 weeks per HORIZON_STEPS). **Do not read anything into
+`estimatorHitRate` until resolvedCount is large — right now it is `null` and the tracker's own `skill.note`
+correctly says so** ("recall 0 or no positive calls made — this may be a majority-class predictor... do not
+trust accuracy alone"). The only real validated evidence for this loop's math is N.4's historical backtest;
+the live loop is honest but young.
+
+Tests: `scripts/test-outcome-ledger.js` (118 lines) — **25/25 passing**. `scripts/test-energy-outcome-
+tracker.js` (79 lines) — **15/15 passing**.
+
+### N.7 Adapter A — `lib/phase-adapter-human.js` (172 lines) · GENERIC, offline, human-gated · UNWIRED (no server call site — by design)
+
+Human sensory channels (scent/sound/touch/thermal/taste/vision/HRV/verbalTheme/behavioral), each with a
+reliability-classed `precisionHint` (HRV validated=4, structured senses medium=1.2, self-report low=0.4).
+`HUMAN_GATE`(27, exact string) states the module structurally cannot emit diagnosis/recommendation —
+verified by a test asserting no clinical verb exists anywhere in the exported API. Exists to prove the
+SAME shared core (N.1) fuses a human sensory bundle exactly like a domain's company bundle — the
+isomorphism is not asserted, it is executed by the same function. Not wired to any product surface; this is
+intentional (human-gated actions are never autonomous per CLAUDE.md) and not a gap to close.
+
+Test: `scripts/test-phase-adapter-human.js` (85 lines) — **20/20 passing**, including a groupthink-
+protection case: validated HRV keeps `Peace` competitive against an agreeing low-precision cluster.
+
+### N.8 Worker wiring — `handlers/limen-worker-snapshot.js` (532 lines, most-modified file)
+
+Exact call sites, current line numbers:
+- **163–189** `GROUNDED STRESS (SHADOW, 2026-07-18)` — runs for **all 20 domains** (no `pk==='energy'`
+  guard here), builds the Adapter-B bundle, attaches `dsum.groundedStress`, tracks
+  `gsGroundedCount`/`gsDivergentCount` (feed-vs-grounded disagreement >25pp).
+- **191–213** `LIVE MARKET CHANNEL (2026-07-20, ENERGY ONLY)` — fails soft, never fabricates a reading.
+- **215–250** `LIVE FEED FRACTAL (2026-07-20, ENERGY ONLY)` — filters `latest_ingest` to
+  `affectedDomains.indexOf('energy')!==-1`, maps confidence HIGH/MEDIUM/LOW -> quality real/event/degraded.
+- **252–266** `PHASE ESTIMATOR (SHADOW, 2026-07-19)` — runs for **all 20 domains**; `peHist` is built
+  generically from whatever keys exist in `gsSlot.history` (not a fixed list), so a newly-appearing
+  `feed_*` channel gets CDF tracking automatically, no code change needed.
+- **267–291** `PROMOTE the grounded estimate into the LIVE, DISPLAYED dsum.stress` (**energy only** —
+  `if (pk === 'energy' && est.grounded)`) — see N.10.
+- **293–311** `LIVE OUTCOME TRACKER (2026-07-20, ENERGY ONLY)`.
+
+TTL fix (part of `155d89ea`): `handlers/limen-worker-ingest.js` — `db.set('latest_ingest', ...)` TTL
+`300s -> 1200s`. The ingest cron runs every 15 min but the old 5-min TTL expired ~10 min before the next
+refresh, racing the snapshot worker (fires ~5 min after ingest) — identical fix pattern already used for
+`console_snapshot`'s own TTL.
+
+### N.9 Live audit organ — `scripts/sense/organ-energy-estimator.mjs` (133 lines) · id `energy-estimator`, order 36 · WIRED
+
+Registered in `scripts/sense/_index.mjs:27,30`. Five live HTTP probes against the real public
+`/api/limen-snapshot?type=console` (a **second** live-data-probing organ alongside `organ-dataflow.mjs`,
+scoped to fields that one doesn't touch): market-channel reporting + staleness, feed-fractal not erroring,
+phaseBelief grounded, outcome-tracker tracking >=1 forecast, and — the one that matters most — **probe E**,
+confirming `dsum.stress !== dsum._legacyFeedStress` (the promotion is actually active this tick, not
+silently reverted). **Detection only, never healing** — a live external-API failure or stalled recorder is
+surfaced as an operator attention item, not auto-repaired (CLAUDE.md human-gated actions). First real run
+caught a genuine issue (WTI price N days stale); verified directly against the raw FRED series before
+wording the attention message, so as not to blame our own fetch code for FRED's own publication lag.
+
+### N.10 The promotion — the actual fix, verified live during this audit
+
+Every commit through `2a4a5363` deliberately left `dsum.stress` (feed-volume) untouched — correct *during*
+the build (never claim a fix is live before it demonstrably is), but it meant nothing built this session
+ever reached what the console/domain-brain actually displays
+(`assets/js/domain-brains/domain-brain-base.js:488` reads `dsum.stress` directly; it has never referenced
+`groundedStress`/`phaseBelief`). `3ce65ad2` closes that gap: `handlers/limen-worker-snapshot.js:284–291`,
+
+```js
+if (pk === 'energy' && est.grounded) {
+  dsum._legacyFeedStress = dsum.stress;
+  dsum.stress = outcomeLedger.distressMass(est.belief);
+  dsum.stressSource = 'node-market-feed-grounded';
+  ...
+}
+```
+
+promotes `outcomeLedger.distressMass(est.belief)` — deliberately **not** `groundedStress.stress` (N.2's
+scope limit: company-channels-only, can't see live crisis signal) — to the live displayed value, preserving
+the old value at `_legacyFeedStress` rather than discarding it. This mirrors the pre-existing
+`pcpt.grounded -> dsum.phase` override pattern at the same file (lines ~139–160) exactly; it is not a new
+pattern, it is the established one applied to stress.
+
+**Verified live, this audit, two consecutive worker ticks:**
+
+| tick (UTC) | `dsum.stress` | `_legacyFeedStress` | `stressSource` | note |
+|---|---|---|---|---|
+| 20:05:28 | 1 | `null` | `null` | ~1 min post-deploy — still the pre-deploy build (Vercel build/deploy lag), a false alarm, not a bug |
+| 20:20:34 | **0.210** | **1** | `node-market-feed-grounded` | promotion active — the old 100%-pegged value is now visibly preserved as the *legacy* artifact, not the displayed one |
+
+This is the direct, live answer to "Energy console still shows 100% something is way wrong": it did, for
+every tick before `3ce65ad2` deployed; it does not anymore. `energy.stress` now reads real, moving values
+(0.21 observed) instead of a value pinned by article-volume.
+
+**Cross-domain observation (unplanned finding, this audit):** `groundedStress`/`phaseBelief` are computing
+live for **all 20 domains right now** (`stressGroundingStats: {grounded:20, divergent:10, total:20,
+baselineDepth:16, baselineNeeded:8}`, `phaseGroundingStats: {grounded:20, divergent:13, total:20}`) —
+`baselineDepth=16` exceeds `CDF_MIN_SAMPLE=8`, so the empirical-CDF transform is genuinely engaged, not
+passing through untransformed. This was not scoped as part of this build (N.1/N.2 were written and wired
+"for energy" throughout), but because the worker's grounded-stress + phase-estimator block (N.8, lines
+163–266) was never given a `pk==='energy'` guard, it runs generically. **None of the other 19 domains have
+the promotion (N.10) or the market/feed enrichments (N.3/N.5)** — only energy's `dsum.stress` has been
+switched over. One domain, `population`, currently reads `groundedStress.stress: 1` — flagged here as an
+open question (thin company coverage vs. genuine extreme reading), not yet investigated; same discipline as
+§M's existing thin-data warnings, not a claim either way.
+
+### N.11 Test coverage summary (re-run fresh for this audit, all passing)
+
+| Suite | Assertions |
+|---|---|
+| `test-phase-estimator.js` | 36 |
+| `test-grounded-stress.js` | 47 |
+| `test-feed-fractal.js` | 35 |
+| `test-outcome-ledger.js` | 25 |
+| `test-history-backfill.js` | 13 |
+| `test-energy-market-feed.js` | 10 |
+| `test-energy-outcome-tracker.js` | 15 |
+| `test-phase-adapter-human.js` | 20 |
+| **Total** | **201, 0 failed** |
+
+### N.12 What this build does NOT close (stated plainly, not implied by omission)
+
+1. **The original 8 corporate feed categories are still unconnected to any real per-company text.**
+   `company.newsFeed[]` is empty; only the geopolitical/supply-shock text actually in `latest_ingest` was
+   wired (N.5). Closing this needs a real per-company text source, not more code.
+2. **The promotion (N.10) is energy-only.** The generic core (N.1/N.2) already runs on all 20 domains
+   (N.10's cross-domain observation) but nothing else has been switched over, and none of the other domains
+   have a market/feed enrichment layer (N.3/N.5 are energy-specific network calls).
+3. **The outcome loop (N.6) is data-starved by construction** — 1 tracked forecast, 0 resolved. The only
+   real validated evidence is N.4's historical backtest (precision 0.699 / recall 0.084 on 40y of real WTI,
+   unfitted); the live loop has not yet produced a single real forward-outcome result and its own skill
+   metrics correctly refuse to be trusted until it does.
+4. **`population`'s `groundedStress.stress = 1`** is unexplained (N.10) — flagged, not investigated.
+5. **Cross-domain propagation remains explicitly gated** on real outcome-label data (memory:
+   `cross-domain-propagation-gated`), unaffected by this build.
 
 ---
 
@@ -583,6 +880,13 @@ Facts that set the strategy (verified 2026-07-18):
 - **The server half already covers all 20 domains**: the recorder, the resolver (`?emit=1` loops every
   recorded domain), the company/node scorer, and the worker node-grounding pass are all domain-agnostic.
   Nothing per-domain there.
+- **A third case, found 2026-07-20 (§N):** the CISS-style grounded-stress composite + precision-weighted
+  phase-estimator fusion (`lib/grounded-stress.js` + `lib/phase-estimator.js`) already COMPUTE live for all
+  20 domains (`stressGroundingStats: grounded 20/20`) — but only energy has the promotion that makes the
+  fused result the domain's DISPLAYED `dsum.stress` (§N.10), and only energy has the live market/feed
+  enrichment channels (§N.3/§N.5) feeding it. This is cheaper than either of the two cases above: the hard
+  math is already running everywhere, the remaining work per domain is a config decision (does this domain
+  have a live market series worth adding?) plus removing one `pk==='energy'` guard for the promotion itself.
 
 **DO:** generalize energy's substrate methods into `DomainBrainBase` **once** (keyed by `this.domainId`),
 so all 20 domains inherit them; then set each domain's config and recreate its data. **DON'T:** clone
@@ -611,6 +915,7 @@ master-agent payload. **Node-grounded phase already reaches every domain** via t
 | 4 | Per-domain CONFIG | seeds, feeds, `diagnosisIndex`, `emissionRules`, interoception `W`, `EM_*`/`EK_*` | Set per domain (D.3). Mostly already present in each `<domain>-brain.js`. |
 | 5 | Per-domain DATA | `energy.json`, condition-aliases, portals, bundles, fold | Recreate per domain (D.4). This is the real work — content depth. |
 | 6 | App layer | 17 energy-*.js (business/directive/operator/P3 desk) | Optional, deliberate per-domain port; skip the orphans (§K). |
+| 7 | Stress-source promotion (§N) | `dsum.stress` = fused `outcomeLedger.distressMass(est.belief)`, gated `pk==='energy'` (`limen-worker-snapshot.js:284`) | **Cheapest delta of all six.** The fusion already runs for every domain (D.0 third case). Per domain: (a) decide if a live market/index series exists worth adding as its own channel (energy = FRED WTI; not every domain has an equivalent — don't force one, abstain is correct if none exists), (b) if yes, write a `<domain>-market-feed.js` mirroring §N.3's fail-soft/pure-parser split, (c) extend the promotion condition from `pk==='energy'` to the domain once its `est.grounded` is reliably true, (d) port the audit-organ probe pattern (§N.9) per domain or generalize probe E into a loop over all promoted domains rather than one hardcoded organ. |
 
 ## D.3 Per-domain CONFIG spec (every value that changes)
 
@@ -628,6 +933,11 @@ master-agent payload. **Node-grounded phase already reaches every domain** via t
 | truth-eligibility | `limen-k4-selfconsistency.js` `EXTERNAL_REWARD_DOMAINS` | `{finance,energy}` | add domain IFF it has external truth (Tier A: economy/supplyChain/tech/industry/agriculture/defense) |
 | Thing2 phase kernel | `_updatePhaseKernel` | stress-series -> kernel | works for ANY stress series — no change |
 | resolver horizon | `lib/feed-resolver.js` | 6h / eps 0.05 | shared — no change |
+| CISS channel weights (§N.2) | `lib/grounded-stress.js:60` `CHANNEL_WEIGHTS` | `{distress:0.45, unison:0.30, granularity:0.25}` | shared — no change (weighting method matters less than variable selection per Illing & Liu 2006, logged in `NEURO_LEARNING_REFERENCE.md` Creator 12) |
+| Live market series (§N.3), IF the domain has one | `lib/energy-market-feed.js:31` `FRED_SERIES_ID='DCOILWTICO'` | one FRED series | domain's own public index series, or **omit entirely** (abstain is correct — not every domain has a live public price/index) |
+| Feed-fractal category set (§N.5) | `lib/feed-fractal.js:46` `CHANNEL_TYPES` | 9 corporate + `conflict` | reuse the mechanism; the regex/keyword set per category is domain-specific text, same content-not-count discipline |
+| Outcome horizon/cap (§N.6) | `lib/energy-outcome-tracker.js:33-35` | 24h record / 400 cap / 15-step horizon | reuse unless the domain's underlying series has a materially different resolution cadence |
+| Stress promotion guard (§N.10) | `handlers/limen-worker-snapshot.js:284` | `if (pk==='energy' && est.grounded)` | extend to `<domain>` once ported (D.2#7) |
 
 ## D.4 Per-domain DATA recreation (the real work — content depth)
 
@@ -669,6 +979,11 @@ Mirror each energy artifact for `<domain>`:
 - On a brain page: `window.LIMEN<Domain>Brain.state.energyPlasticity` (or the generalized field) shows
   the 8 layers, `liveLayers`, and `mode`; the overlays readout; the node-grounded phase percept.
 - Adapt + run the wiring tests (`test-energy-*-wiring.js`) against the domain.
+- `/api/limen-snapshot?type=console` `domains.<domain>.groundedStress.grounded` and `.phaseBelief.grounded`
+  are already `true` before any port work (§N's D.0 third case) — confirm this, don't assume it. If porting
+  the promotion (D.2#7), confirm `domains.<domain>.stress !== ._legacyFeedStress` on a live tick, the same
+  two-tick check that caught the ~1-minute post-deploy false alarm in §N.10 (a stale tick right after deploy
+  looks identical to a broken promotion — always check a second tick before concluding either way).
 
 ## D.7 One-line summary
 

@@ -2,7 +2,7 @@
 
 Internal, repo/history only (firewalled in `.vercelignore`). This is the single "what we did, where it lives, what's needed, repeat for the next domain" map. Energy is the fully-built template; every other domain is brought up to it by the checklist in section E.
 
-Last updated: 2026-07-13.
+Last updated: 2026-07-20.
 
 ---
 
@@ -84,8 +84,18 @@ To bring domain **X** up to Energy's level:
 5. **Civilization wiring:** the brain→adapter→packet path is generic; once the brain fires `limen:domain-brain-update`, `domain-packet-adapter.js` picks X up automatically. Verify `window.LIMENDomains.<x>` gets `brainStress/Diagnoses/Opportunities`.
 6. **Operator console:** X is already one of the 20 `D[]` entries in `operator.html`; its venture portfolio works the moment the entry has `biz/blurb/node/buyer/ladder`. No per-domain code — the `/api/ventures` POST is generic.
 7. **Portals:** static `<x>_*.json` in `assets/data/domains/`. Regenerate/enrich as needed; the build queue stays operator-pulled (not auto-cron) per the cost rule.
+8. **Stress source (added 2026-07-20, full detail `ENERGY_REFERENCE.md` §N):** X's `groundedStress`/
+   `phaseBelief` are ALREADY live and grounded on `/api/limen-snapshot?type=console` — the CISS composite +
+   precision-weighted phase fusion run for all 20 domains unconditionally, no per-domain code. What Energy
+   alone has: (a) the promotion that makes the fused belief X's DISPLAYED `dsum.stress` instead of the old
+   feed-volume number (one guard clause, `limen-worker-snapshot.js:284`, currently `pk==='energy'` only),
+   and (b) a live market-channel + typed feed-fractal enrichment (energy-specific network calls; only add
+   an equivalent if X has a real live public price/index series — abstain if not, don't force one). Do NOT
+   port the promotion for a domain until you've confirmed on TWO consecutive worker ticks (5 min apart) that
+   `est.grounded` is reliably true and `stress !== _legacyFeedStress` — the first tick after any deploy can
+   still be running old code and looks identical to a broken promotion.
 
-**Rule of thumb:** the ENGINE is one; per-domain work = (a) feeds, (b) a brain JS with the right weights, (c) an edge graph, (d) honest actuation gating. Everything downstream (adapter, civilization packet, operator venture portfolio, AI switch) is shared and already built.
+**Rule of thumb:** the ENGINE is one; per-domain work = (a) feeds, (b) a brain JS with the right weights, (c) an edge graph, (d) honest actuation gating, (e) [new] flip the stress-promotion guard once a domain's live grounding is confirmed reliable. Everything downstream (adapter, civilization packet, operator venture portfolio, AI switch) is shared and already built.
 
 ---
 
@@ -96,3 +106,10 @@ To bring domain **X** up to Energy's level:
 - AI-deep venture stand-up (build the actual L1 capture page from a scaffold) — needs AI ON (now enabled) + a "run"; keep SEND/SPEND gated.
 - `/api/lead` last-mile from a stood-up L1 feeder (capture page already points at `/api/lead`).
 - Repeat section E for the next domain after Energy (candidate: Finance — already the most-validated desk).
+- **Stress-source promotion (E.8) is unclaimed for all 19 non-energy domains.** Grounding already runs
+  (confirmed live 2026-07-20: 20/20 domains `groundedStress.grounded=true`, `baselineDepth=16` past the
+  CDF threshold), so this is cheap relative to E.2-E.4 — mostly a per-domain judgment call on whether a live
+  market/index channel exists, then one line flipping the promotion guard. Finance is the obvious first
+  candidate (already Tier-A truth-eligible, most real external data of the 19).
+- One domain, `population`, currently reads `groundedStress.stress=1` in production — unexplained, not yet
+  investigated (`ENERGY_REFERENCE.md` §N.10/§N.12).
