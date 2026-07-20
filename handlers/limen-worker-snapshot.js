@@ -13,6 +13,7 @@ var companyScorer = require('../lib/company-phase-scorer');
 var phasePercept = require('../lib/phase-percept');
 var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: stress from node/company distress, not feed volume
 var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-weighted P0-P10 belief; grounded-stress is its Adapter B
+var energyMarketFeed = require('../lib/energy-market-feed');   // LIVE market channel, ENERGY ONLY (real, validated WTI series; see memory: energy-backfill-first-result)
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -184,11 +185,35 @@ module.exports = async function handler(req, res) {
             if (Math.abs(gs.stress - dsum.stress) > 0.25) gsDivergentCount++;   // feed vs grounded disagree by >25pp
           }
 
+          // LIVE MARKET CHANNEL (2026-07-20, ENERGY ONLY): the company-node channels above are quarterly-
+          // financial-lag by construction (a war this week cannot show up in a 10-Q). This adds a REAL,
+          // point-in-time market signal so a live price move is not invisible. Reuses the exact
+          // marketStress() function validated on 40y of real WTI (memory: energy-backfill-first-result;
+          // precision 0.70, recall 0.08 — a cautious, high-precision channel, correctly weighted as one
+          // vote among several, not the level-setter). Fails soft: any fetch/parse error => no channel
+          // added, estimator runs on company channels alone exactly as before (never fabricate).
+          if (pk === 'energy') {
+            try {
+              var liveMkt = await energyMarketFeed.getLiveMarketChannel();
+              if (liveMkt && liveMkt.reading) {
+                bundle.readings.push(liveMkt.reading);
+                dsum.marketChannel = { score: liveMkt.score, price: liveMkt.latestPrice, asOf: liveMkt.latestDate, source: liveMkt.source };
+                if (gsNow - (gsSlot.lastAppendTs || 0) >= GS_APPEND_MS || !gsSlot.history.marketScore) {
+                  var mArr = gsSlot.history.marketScore || (gsSlot.history.marketScore = []);
+                  mArr.push(liveMkt.score);
+                  if (mArr.length > GS_HISTORY_CAP) mArr.splice(0, mArr.length - GS_HISTORY_CAP);
+                }
+              } else {
+                dsum.marketChannel = { score: null, reason: 'live fetch unavailable this run — estimator falls back to company channels alone' };
+              }
+            } catch (mfe) { dsum.marketChannel = { score: null, reason: 'market feed error: ' + mfe.message }; }
+          }
+
           // PHASE ESTIMATOR (SHADOW, 2026-07-19): fuse the domain bundle into a P0-P10 belief via the
           // shared precision-weighted core. Separate corrState (phaseCorr) from the CISS one; the
           // distress-channel history keys the estimator's CDF (companyDistress ← the distress channel).
           try {
-            var peHist = { companyDistress: gsSlot.history.distress, unison: gsSlot.history.unison, granularity: gsSlot.history.granularity };
+            var peHist = { companyDistress: gsSlot.history.distress, unison: gsSlot.history.unison, granularity: gsSlot.history.granularity, marketScore: gsSlot.history.marketScore };
             var est = phaseEstimator.estimate(bundle, { corrState: gsSlot.phaseCorr, history: peHist, distressComposite: bundle.distressComposite });
             if (est.grounded) gsSlot.phaseCorr = est.corrState;   // persist estimator memory (belief carried forward)
             dsum.phaseBelief = {
