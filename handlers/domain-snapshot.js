@@ -1124,6 +1124,29 @@ module.exports = async function handler(req, res) {
       ])
     };
 
+    // GROUNDED STRESS PROMOTION (2026-07-20, ENERGY ONLY). This handler is the one the live
+    // browser pages actually read (shared-snapshot-engine.js:22 fetches THIS endpoint, not
+    // /api/limen-snapshot?type=console) via domain-brain-base.js:488 `this.state.stress =
+    // this._rawDomain.stress`. It computes energy.stress from feed volume (buildDomain's
+    // baselineStress+eventScore, ~line 1622) — the exact pattern that pins energy near 100%
+    // when news coverage is high but real distress is low. The precision-weighted fusion
+    // (lib/phase-estimator.js + lib/grounded-stress.js) already runs every 15 min in the
+    // worker and is already promoted into `console_snapshot` (handlers/limen-worker-snapshot.js
+    // :284) — that promotion never reached this endpoint, so the live site kept showing 100%
+    // even after the worker-side fix. Read the already-computed value here (one Redis GET, no
+    // recompute) so the actual displayed pages get it too. Fails soft: any error or missing/
+    // stale key leaves domains.energy.stress exactly as computed above (feed-derived).
+    try {
+      var _cs = await db.get('console_snapshot');
+      var _csEnergy = _cs && _cs.domains && _cs.domains.energy;
+      if (_csEnergy && typeof _csEnergy.stress === 'number' && _csEnergy.stressSource === 'node-market-feed-grounded') {
+        domains.energy._legacyFeedStress = domains.energy.stress;
+        domains.energy.stress = _csEnergy.stress;
+        domains.energy.finalStress = _csEnergy.stress;
+        domains.energy.stressSource = _csEnergy.stressSource;
+      }
+    } catch (_pe) { /* never fatal — energy.stress stays feed-derived on any error */ }
+
     // Compute meta counts
     var liveCount = 0, partialCount = 0, fallbackCount = 0;
     for (var hk in _sourceHealth) {
