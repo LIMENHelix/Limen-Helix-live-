@@ -16,6 +16,7 @@ var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-w
 var energyMarketFeed = require('../lib/energy-market-feed');   // LIVE market channel, ENERGY ONLY (real, validated WTI series; see memory: energy-backfill-first-result)
 var feedFractal = require('../lib/feed-fractal');   // typed content channels (content, not article count) + geopolitical extension for real available energy text
 var energyOutcomeTracker = require('../lib/energy-outcome-tracker');   // LIVE outcome loop, ENERGY ONLY: records today's forecast, resolves matured ones vs real forward price
+var outcomeLedger = require('../lib/outcome-ledger');   // for distressMass() — promotes the fused belief into the LIVE dsum.stress for energy (see inline comment at the call site)
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -262,6 +263,32 @@ module.exports = async function handler(req, res) {
               grounded: est.grounded, phaseMAP: est.phaseMAP, confidence: est.confidence, stuck: est.stuck,
               belief: (est.belief || []).map(function (x) { return Math.round(x * 1000) / 1000; })   // rounded for payload; full precision stays in phaseCorr
             };
+
+            // PROMOTE the grounded estimate into the LIVE, DISPLAYED dsum.stress (2026-07-20, ENERGY
+            // ONLY). Every commit up to this one deliberately left dsum.stress (feed-volume) untouched —
+            // correct DURING the build, but it meant nothing built this session ever reached what the
+            // console/domain-brain actually shows (domain-brain-base.js:488 reads dsum.stress directly;
+            // it has never referenced groundedStress/phaseBelief). Confirmed live: energy's console was
+            // still pinned near 1.0 (feed-volume artifact) throughout, unchanged by any of the fixes.
+            //
+            // Promote to outcomeLedger.distressMass(est.belief) — NOT groundedStress.stress. The CISS
+            // composite (gs.stress) is computed from company channels ONLY, before market/feed channels
+            // are pushed onto the bundle, so it structurally cannot see the live crisis signal. The
+            // fused belief's distress mass DOES incorporate company+market+feed via the full precision-
+            // weighted estimate (bug-fixed today), and it is not a new invented metric — it is the exact
+            // `beliefDistress` quantity outcome-ledger.buildForecast() already computes and the outcome
+            // loop is already scoring for correctness. The displayed number and the number being
+            // validated against real forward outcomes are now the SAME number, not two that could drift.
+            //
+            // The old value is preserved, not discarded (dsum._legacyFeedStress), for transparency.
+            if (pk === 'energy' && est.grounded) {
+              dsum._legacyFeedStress = dsum.stress;
+              dsum.stress = outcomeLedger.distressMass(est.belief);
+              dsum.stressSource = 'node-market-feed-grounded';
+              for (var sri2 = 0; sri2 < stressRanked.length; sri2++) {
+                if (stressRanked[sri2].domain === pk) { stressRanked[sri2].stress = dsum.stress; break; }
+              }
+            }
 
             // LIVE OUTCOME TRACKER (2026-07-20, ENERGY ONLY): records today's forecast + resolves any
             // that have aged past the horizon, against the REAL forward WTI price. Pure core (lib/

@@ -24,7 +24,8 @@ import * as patternBus    from './organ-pattern-bus.mjs';
 import * as deadLinks     from './organ-dead-links.mjs';
 import * as bridge        from './organ-bridge.mjs';
 import * as dataflow      from './organ-dataflow.mjs';
+import * as energyEstimator from './organ-energy-estimator.mjs';
 
 export const ORGANS = [
-  feeds, nodes, domains, dataflow, portalCorpus, deadLinks, kernel, connectome, civilization, propagator, masterBrain, patternBus, bridge
+  feeds, nodes, domains, dataflow, energyEstimator, portalCorpus, deadLinks, kernel, connectome, civilization, propagator, masterBrain, patternBus, bridge
 ].sort((a, b) => (a.order || 99) - (b.order || 99));
