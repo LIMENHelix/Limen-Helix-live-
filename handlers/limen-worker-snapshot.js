@@ -11,6 +11,8 @@
 var db = require('../lib/limen-db');
 var companyScorer = require('../lib/company-phase-scorer');
 var phasePercept = require('../lib/phase-percept');
+var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: stress from node/company distress, not feed volume
+var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-weighted P0-P10 belief; grounded-stress is its Adapter B
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -111,6 +113,20 @@ module.exports = async function handler(req, res) {
     // evidence is thin the percept ABSTAINS and the heuristic stands (never fabricated).
     // Evidence flows nodes -> snapshot only; a node's own phase is never overwritten.
     var groundedCount = 0, divergentCount = 0;
+    var gsGroundedCount = 0, gsDivergentCount = 0;   // grounded-STRESS shadow tallies
+
+    // GROUNDED-STRESS MEMORY (2026-07-19). The CISS-style composite needs two pieces of history the
+    // pure compute() cannot hold: the per-channel sample its empirical-CDF ranks against, and the
+    // EWMA correlation state. Without them C stays at identity forever and the co-movement term —
+    // the entire point of the quadratic form — never engages. Kept deliberately small: one history
+    // point per channel per HOUR (not per 15m run) and capped, because Upstash bills bandwidth.
+    var GS_HISTORY_CAP = 300;            // ~12.5 days of hourly baseline per channel
+    var GS_APPEND_MS = 60 * 60 * 1000;   // append at most hourly
+    var gsMem = null;
+    try { gsMem = await db.get('grounded_stress_memory'); } catch (me) { gsMem = null; }
+    if (!gsMem || typeof gsMem !== 'object' || !gsMem.domains) gsMem = { domains: {}, updatedAt: 0 };
+    var gsNow = Date.now();
+    var gsMemDirty = false;
     for (var pk in domainSummary) {
       if (!domainSummary.hasOwnProperty(pk)) continue;
       var dsum = domainSummary[pk];
@@ -139,8 +155,70 @@ module.exports = async function handler(req, res) {
       } else {
         dsum.phaseSource = 'stress-heuristic';
       }
+
+      // GROUNDED STRESS (SHADOW, 2026-07-18): stress from the domain's kernel-scored company distress
+      // (alert flags + distress trajectories + p7a/p7b/p3 counts) — NOT feed volume. Attached for
+      // OBSERVATION ONLY; dsum.stress (feed-derived) is unchanged. Abstains on thin company coverage.
+      try {
+        var gsSlot = gsMem.domains[pk] || (gsMem.domains[pk] = { history: {}, corrState: null, lastAppendTs: 0, phaseCorr: null });
+        // ONE compute pass, via the Adapter B bundle. bundle.composite is the full CISS output.
+        var bundle = groundedStress.toBundle(joinRow, { subjectId: pk, history: gsSlot.history, corrState: gsSlot.corrState });
+        var gs = bundle.composite || { grounded: false, stress: null, reason: bundle.reason };
+        dsum.groundedStress = gs;
+
+        if (gs.grounded) {
+          gsSlot.corrState = gs.corrState;                 // carry the CISS EWMA forward
+          gsMemDirty = true;
+          if (gsNow - (gsSlot.lastAppendTs || 0) >= GS_APPEND_MS) {
+            var chans = gs.channels || {};
+            for (var chName in chans) {
+              if (!chans.hasOwnProperty(chName) || !chans[chName]) continue;
+              var arr = gsSlot.history[chName] || (gsSlot.history[chName] = []);
+              arr.push(chans[chName].raw);
+              if (arr.length > GS_HISTORY_CAP) arr.splice(0, arr.length - GS_HISTORY_CAP);
+            }
+            gsSlot.lastAppendTs = gsNow;
+          }
+          if (typeof dsum.stress === 'number') {
+            gsGroundedCount++;
+            if (Math.abs(gs.stress - dsum.stress) > 0.25) gsDivergentCount++;   // feed vs grounded disagree by >25pp
+          }
+
+          // PHASE ESTIMATOR (SHADOW, 2026-07-19): fuse the domain bundle into a P0-P10 belief via the
+          // shared precision-weighted core. Separate corrState (phaseCorr) from the CISS one; the
+          // distress-channel history keys the estimator's CDF (companyDistress ← the distress channel).
+          try {
+            var peHist = { companyDistress: gsSlot.history.distress, unison: gsSlot.history.unison, granularity: gsSlot.history.granularity };
+            var est = phaseEstimator.estimate(bundle, { corrState: gsSlot.phaseCorr, history: peHist, distressComposite: bundle.distressComposite });
+            if (est.grounded) gsSlot.phaseCorr = est.corrState;   // persist estimator memory (belief carried forward)
+            dsum.phaseBelief = {
+              grounded: est.grounded, phaseMAP: est.phaseMAP, confidence: est.confidence, stuck: est.stuck,
+              belief: (est.belief || []).map(function (x) { return Math.round(x * 1000) / 1000; })   // rounded for payload; full precision stays in phaseCorr
+            };
+          } catch (pe) { dsum.phaseBelief = { grounded: false, reason: 'estimate error: ' + pe.message }; }
+        }
+        // Keep the payload light: corrState is memory, not a console field.
+        if (dsum.groundedStress) delete dsum.groundedStress.corrState;
+      } catch (ge) { dsum.groundedStress = { grounded: false, stress: null, reason: 'compute error: ' + ge.message }; }
     }
     consoleSnapshot.phaseGroundingStats = { grounded: groundedCount, divergent: divergentCount, total: Object.keys(domainSummary).length };
+    if (gsMemDirty) {
+      gsMem.updatedAt = gsNow;
+      try { await db.set('grounded_stress_memory', gsMem, 2592000); } catch (se) { /* memory is an optimisation, never fatal */ }
+    }
+    var gsBaseline = 0, phaseBeliefCount = 0;
+    for (var gk in gsMem.domains) {
+      var gh = gsMem.domains[gk] && gsMem.domains[gk].history && gsMem.domains[gk].history.distress;
+      if (gh && gh.length > gsBaseline) gsBaseline = gh.length;
+    }
+    for (var dk2 in domainSummary) {
+      if (domainSummary.hasOwnProperty(dk2) && domainSummary[dk2].phaseBelief && domainSummary[dk2].phaseBelief.grounded) phaseBeliefCount++;
+    }
+    consoleSnapshot.stressGroundingStats = {
+      grounded: gsGroundedCount, divergent: gsDivergentCount, total: Object.keys(domainSummary).length,
+      baselineDepth: gsBaseline, baselineNeeded: 8, phaseBelief: phaseBeliefCount,
+      note: 'SHADOW: CISS-style grounded stress on dsum.groundedStress + P0-P10 phase belief on dsum.phaseBelief (Adapter B -> shared estimator core); feed-derived dsum.stress unchanged. Channels rank against a rolling hourly baseline (baselineDepth); below baselineNeeded they pass through untransformed and the reading is flagged degraded.'
+    };
   } catch (e) {
     consoleSnapshot.convergenceSignals = {};
   }
