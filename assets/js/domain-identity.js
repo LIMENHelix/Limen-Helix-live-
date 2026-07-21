@@ -22,7 +22,21 @@
  *   id.portalKey('agriculture') → 'p2_agri'
  *   id.resolve('health')        → { canonical:'medicine', snapshotKey:'health', portalKey:'medicine', label:'Medicine & Health' }
  *
- * Exposes: window.LIMENDomainIdentity
+ * Exposes: window.LIMENDomainIdentity (browser) + module.exports (node/generators/crons/tests).
+ *
+ * DUAL EXPORT ADDED 2026-07-21 — this file was browser-ONLY (window assignment, no module.exports),
+ * so `require('./assets/js/domain-identity.js')` threw "window is not defined". That is the ROOT
+ * CAUSE of agriculture falling out of the 19/20 neuro-substrate rollout: the generator runs in node,
+ * could not load this table, and fell back to globbing `assets/data/domains/<domain>.json`. Every
+ * domain matched except agriculture, whose file is `p2_agri.json` — so it was skipped silently.
+ * The alias was never the bug; the resolver being unreachable from the code that needed it was.
+ * Matches the dual-export contract every other shared module here already uses (limen-ei-balance.js
+ * et al). Additive: the browser path is unchanged.
+ *
+ * RULE FOR ANY GENERATOR / PORT SCRIPT: never string-concatenate a domain name into a data path.
+ * Resolve it — portalKey() for portal/graph data, snapshotKey() for runtime/API reads, canonical()
+ * to normalize an unknown key. This covers all FOUR alias domains, not just agriculture: a glob-based
+ * generator mis-keys trade (supplyChain), science (research) and medicine (health) the same way.
  */
 (function () {
   'use strict';
@@ -124,7 +138,7 @@
     'TRANSIT_BREAKDOWN': 'MAINTENANCE_DEFICIT'
   };
 
-  window.LIMENDomainIdentity = {
+  var API = {
     resolve: resolve,
     canonical: canonical,
     snapshotKey: snapshotKey,
@@ -135,5 +149,9 @@
     warnIfAlias: warnIfAlias,
     INFRA_PORTAL_TO_BRAIN: INFRA_PORTAL_TO_BRAIN
   };
+
+  // Dual export (2026-07-21). Browser assignment unchanged; node/generator path added.
+  if (typeof window !== 'undefined') window.LIMENDomainIdentity = API;
+  if (typeof module !== 'undefined' && module.exports) module.exports = API;
 
 })();

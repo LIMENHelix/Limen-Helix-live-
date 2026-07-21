@@ -37,6 +37,16 @@
     //                        self-consistency calibration only (isReward=false); with phase advisory-OFF
     //                        the transition does not feed that gate. Fabricating a reward would be dishonest.
     this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    // FIX 2026-07-21 (port config sweep): _actuation.refractory was true but _refractoryParams was
+    // absent, so RefractoryLimiter constructed with the DEFAULTS (absoluteWindow:0), which
+    // limen-refractory-limiter.js treats as a NO-OP ("limiter not configured"). The armed brake did
+    // nothing. Added the D.3 "reuse" defaults (identical to energy/finance) so the armed brake
+    // actually gates duplicate drafts. Reversible: set _actuation.refractory=false to disarm.
+    this._refractoryParams = {
+      absoluteWindow: 900000,     // 15 min hard dead-time before the same diagnosis re-drafts (matches Energy)
+      relativeWindow: 3600000,    // 1 hr raised-bar window (doc 1:4 ratio preserved)
+      overrideThreshold: 0.9      // only stress >= 0.9 (or a stronger stimulus) re-fires in-window
+    };
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13) ──
     // The phase-coherence router and phase-transition reward previously read s.phase (a naive
@@ -802,7 +812,7 @@
 
   // Inline connectivity audit (Neuro Ref XIV). Removal-based articulation-node finder over the
   // undirected projection of the communication node/edge graph (~24 nodes / 89 edges — trivial).
-  // Self-contained so no other file is required (energy uses energy-connectivity-audit.js).
+  // Self-contained so no other file is required (energy uses limen-connectivity-audit.js).
   function _commSpofAudit(edges) {
     var adj = {}, nodes = {};
     for (var i = 0; i < edges.length; i++) {
