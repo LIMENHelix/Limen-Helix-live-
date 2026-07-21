@@ -849,8 +849,8 @@
     var s = this.state, out = { version: 1, observeOnly: true };
     // (1) E/I balance — is inhibition tracking drive? (shared module, generic despite the name)
     try {
-      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
-      if (!EI && typeof require === 'function') { try { EI = require('../energy-ei-balance.js'); } catch (_e) {} }
+      var EI = (typeof window !== 'undefined' && window.LIMENEIBalance) || null;
+      if (!EI && typeof require === 'function') { try { EI = require('../limen-ei-balance.js'); } catch (_e) {} }
       if (EI && typeof EI.assessFromState === 'function') out.eiBalance = EI.assessFromState(s);
     } catch (e) { out.eiBalance = null; }
     // (2) Self-audit — connectivity / single-points-of-failure on the REAL governance graph.
@@ -867,8 +867,8 @@
           try { var ed = require('../../data/domains/governance.json'); if (ed && Array.isArray(ed.edges)) { this._governanceEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
         }
       }
-      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
-      if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+      var CA = (typeof window !== 'undefined' && window.LIMENConnectivityAudit) || null;
+      if (!CA && typeof require === 'function') { try { CA = require('../limen-connectivity-audit.js'); } catch (_e) {} }
       if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
         var audit = CA.singlePointsOfFailure({ edges: edges });
         var spof = (audit && audit.articulationNodes) || [];

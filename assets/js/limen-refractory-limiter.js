@@ -1,5 +1,5 @@
 /*
- * energy-refractory-limiter.js  — ADDITIVE reference implementation
+ * limen-refractory-limiter.js  — ADDITIVE reference implementation
  * ----------------------------------------------------------------------------
  * Concrete form of the REFRACTORY_RATE_LIMIT build-target (docs/energy-refractory-rate-limit-proposal.md).
  * Source (only): LIMEN Helix Neurology Reference III.3 (absolute + relative refractory),
@@ -71,5 +71,5 @@
 
   var API = { RefractoryLimiter: RefractoryLimiter, evaluate: evaluate, DEFAULTS: DEFAULTS, TIER_SPANS: TIER_SPANS };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
-  if (root && !root.EnergyRefractoryLimiter) root.EnergyRefractoryLimiter = API;
+  if (root && !root.LIMENRefractoryLimiter) root.LIMENRefractoryLimiter = API;
 })(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : this));

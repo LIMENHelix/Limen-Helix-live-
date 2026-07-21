@@ -497,7 +497,7 @@
   };
 
   // Inline refractory limiter (Neuro Ref III.3) — no external module dependency (energy uses
-  // energy-refractory-limiter.js; that module is not loaded on the Industry console). Returns TRUE
+  // limen-refractory-limiter.js; that module is not loaded on the Industry console). Returns TRUE
   // if the diagnosis may fire, FALSE if suppressed. Absolute window = hard dead-time; relative
   // window = raised bar (a stimulus at/above overrideThreshold still fires). Deterministic.
   IndustryBrain.prototype._industryRefractoryFire = function (id, now, stress) {
@@ -1636,7 +1636,7 @@
 
   // E/I BALANCE + SELF-AUDIT (SPOF) ADVISORIES — observe-only (Neuro Ref XIII.1 + XIV). Consumes the
   // domain's 81-edge graph (industry.json edges, NOT in the live snapshot) via the connectivity
-  // audit: prefers window.EnergyConnectivityAudit (pure edge function) when present, else an inline
+  // audit: prefers window.LIMENConnectivityAudit (pure edge function) when present, else an inline
   // articulation/hub computation. Lazily fetches + caches the edges once (fire-and-forget). No AI,
   // no writes. The brain SEES its own runaway risk + brittle nodes each cycle.
   IndustryBrain.prototype._computeIndustryRegulationAdvisories = function () {
@@ -1646,7 +1646,7 @@
       var servo = s.industryServo || {};
       var drive = (typeof servo.drive === 'number') ? servo.drive : (typeof s.stress === 'number' ? s.stress : 0);
       var inhibition = (typeof servo.inhibition === 'number') ? servo.inhibition : 0;
-      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+      var EI = (typeof window !== 'undefined' && window.LIMENEIBalance) || null;
       if (EI && typeof EI.assess === 'function') {
         out.eiBalance = EI.assess({ drive: drive, inhibition: inhibition });
       } else {
@@ -1668,11 +1668,11 @@
             .catch(function () {});
         }
       }
-      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+      var CA = (typeof window !== 'undefined' && window.LIMENConnectivityAudit) || null;
       if (edges && edges.length && CA && typeof CA.singlePointsOfFailure === 'function') {
         var audit = CA.singlePointsOfFailure({ edges: edges });
         var spof = (audit && audit.articulationNodes) || [];
-        out.selfAudit = { consumed: true, source: 'EnergyConnectivityAudit', edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5), verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
+        out.selfAudit = { consumed: true, source: 'LIMENConnectivityAudit', edgeCount: edges.length, spofCount: spof.length, spof: spof.slice(0, 5), verdict: (audit && audit.verdict) || null, topHubs: (audit && audit.topHubsByDegree) || [] };
       } else if (edges && edges.length) {
         out.selfAudit = this._industrySpofInline(edges);
       } else {
@@ -1684,7 +1684,7 @@
   };
 
   // Inline single-point-of-failure / hub audit (Neuro Ref XIV diaschisis) — self-contained fallback
-  // when window.EnergyConnectivityAudit is not loaded on the Industry console. Pure function of edges.
+  // when window.LIMENConnectivityAudit is not loaded on the Industry console. Pure function of edges.
   IndustryBrain.prototype._industrySpofInline = function (edges) {
     function componentCount(nodes, es) {
       var adj = {}; nodes.forEach(function (n) { adj[n] = []; });

@@ -81,19 +81,34 @@
 
     // ── OVERLAY ACTUATION (2026-07-12): the neuro-substrate overlay now feeds ONE decision.
     // Scope = refractory de-dup only (operator-approved). Grounded in the Neurology Reference
-    // III.3 refractory mechanism, via the already-loaded energy-refractory-limiter.js module
+    // III.3 refractory mechanism, via the already-loaded limen-refractory-limiter.js module
     // (absolute dead-time + relative raised-threshold; a stronger stimulus can still fire).
     // REDUCED-SENSITIVITY weighting: override bar raised 0.8 -> 0.9 so only strong re-fires break
     // through (less chatter). Windows keep the doc ratio 1:4. Fully reversible: flip refractory=false.
     // These MIRROR assets/data/domains/energy.json runtime.params (the brain runs in its own context
     // and does not load that file); keep the two in sync when tuning.
-    // HOTFIX 2026-07-18: plasticityLive=false reverts ALL 8 K-layers to their hand-tuned SEED weights
-    // (fail-toward-seed) after a live "energy at 100%" regression was reported. This neutralizes the
-    // whole learned-weight path at once (K1 stress, K2 gain, K5 PE, K6 attn, K7 inhib, K8 floor, K3/K4)
-    // so energy runs on the known-good seeds it used for most of its life. Reversible: flip back to true
-    // to re-arm once the saturating layer is diagnosed. recency/metaplasticity flags are moot while off
-    // (_learnedVec short-circuits to seed when plasticityLive===false).
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: false, recencyTrustLive: true, metaplasticityLive: true };
+    // HOTFIX 2026-07-18: plasticityLive was set false, reverting ALL 8 K-layers to their hand-tuned
+    // SEED weights (fail-toward-seed) after a live "energy at 100%" regression was reported. That
+    // neutralized the whole learned-weight path at once pending diagnosis of the saturating layer.
+    //
+    // RE-ARMED 2026-07-21, after diagnosing it. Measured on the real brain over 400 cycles under
+    // production reward posture (resolver: 78 resolved @ 0.795):
+    //   - K6_attention is the ONLY destabilizing layer. Peak drift 0.347 vs 0.013 for the next
+    //     worst (K8_floor) — 25x. K1/K3/K7 barely move at all (<=0.001).
+    //   - Its failure mode was RE-ARMING AT PEAK DRIFT: it armed, began oscillating and was
+    //     correctly disarmed, then re-entered the live path at drift 0.347, its worst point of
+    //     the whole run, because `stable` measures recent MOVEMENT, not distance from seed.
+    //   - That hole is now closed in _learnedVec by the RE-ARM GATE (cooldown + drift ceiling).
+    //     Re-verified on the same harness: the drift-0.347 re-arm is blocked, while healthy
+    //     learning at drift 0.005-0.14 still arms normally.
+    //
+    // HONEST LIMIT: the 2026-07-18 incident itself was NOT reproduced. The synthetic trajectory
+    // degraded K6's salience discrimination to 83.8% of seed spread — real degradation, but not
+    // the reported saturation. So this arms on a FIXED MECHANISM, not on a reproduced incident.
+    // If "energy at 100%" recurs, the executive report's selfAudit now surfaces runaway/oscillating
+    // per layer (added the same day) and that is the instrument to catch it live.
+    // Reversible: set plasticityLive false and every layer reverts to seed immediately.
+    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true, phasePercept: true, overlays: true, plasticityLive: true, recencyTrustLive: true, metaplasticityLive: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)
@@ -1157,8 +1172,8 @@
     // Lazy-init the refractory limiter (III.3) from the doc-grounded module. Best-effort:
     // if the module is not loaded or actuation is off, the gate is simply skipped (prior behavior).
     if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
-        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
-      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+        typeof window !== 'undefined' && window.LIMENRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.LIMENRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
     }
 
     // For each newly active diagnosis, create action drafts
@@ -1935,6 +1950,51 @@
       nextBestAction: covered < bs.length ? 'build/verify source for uncovered diagnoses' : hv > 0 ? 'human-verify external-source bundles' : 'monitor strongest diagnosis sources',
       lastReportAt: em.updated || null
     };
+    // ── SELF-AUDIT (added 2026-07-21) — the FIRST consumer of the three shadow computations ──
+    // _computeEnergyPlasticity / _computeEnergyActiveInference / _computeEnergyOverlays have run
+    // every cycle since they were built, and repo-wide grep found NOTHING outside this file and
+    // scripts/test-energy-* reading their output. They were the §K acquisition-without-removal
+    // pattern reproduced inside the learning substrate: computed, packaged onto state, never seen.
+    // This surfaces them in the report an operator actually reads.
+    // ONE-CYCLE LAG BY CONSTRUCTION: _computeEnergyHigherLayers (called :1512) runs BEFORE
+    // _computeEnergyNeuroLayers (:1520), so these are last cycle's values — the same recurrent
+    // one-cycle lag the K-loops already use, not a bug.
+    // STILL ADVISORY: this DISPLAYS the self-audit. It does not act on it.
+    var pl = s.energyPlasticity || {}, aInf = s.energyActiveInference || {}, ov = s.energyOverlays || {};
+    var conv = pl.convergence || {}, extO = pl.externalOutcome || {};
+    // Normalize ONCE. An absent module leaves state.energyX null, so `pl.mode` is undefined rather
+    // than 'off' — comparing the raw field against 'off' silently never fires, which is exactly the
+    // case the finding exists to catch (caught by the verification harness, not by the test suite).
+    var plMode = pl.mode || 'off', aiMode = aInf.mode || 'off', ovMode = ov.mode || 'off';
+    rep.selfAudit = {
+      learning: {
+        mode: plMode,
+        metaplasticityArmed: !!(pl.metaplasticity && pl.metaplasticity.live),
+        rewardActive: !!pl.rewardActive,
+        resolvedForecasts: (typeof extO.resolvedCount === 'number') ? extO.resolvedCount : 0,
+        allStable: !!conv.allStable, oscillating: !!conv.anyOscillating, runaway: !!conv.anyRunaway
+      },
+      inference: {
+        mode: aiMode, advised: aInf.selected || null, actual: aInf.actualBehavior || null,
+        agrees: (typeof aInf.agreement === 'boolean') ? aInf.agreement : null
+      },
+      overlays: {
+        mode: ovMode,
+        refractoryWindowMs: (ov.applied && ov.applied.refractoryAbsoluteWindow) || null
+      },
+      findings: []
+    };
+    // The domain reporting on its own regulation, most severe first.
+    var f = rep.selfAudit.findings;
+    if (conv.anyRunaway) f.push('learning: a K-layer is RUNAWAY — this is the diagnostic for the 2026-07-18 saturation that disarmed plasticityLive');
+    if (conv.anyOscillating) f.push('learning: a K-layer is OSCILLATING');
+    if (aiMode === 'shadow' && aInf.agreement === false) f.push('inference: own model advised "' + aInf.selected + '" but brain did "' + aInf.actualBehavior + '"');
+    if (plMode === 'off' || aiMode === 'off' || ovMode === 'off') f.push('substrate: not all modules loaded on this page (plasticity=' + plMode + ', inference=' + aiMode + ', overlays=' + ovMode + ')');
+    // Only a destabilized learning layer escalates nextBestAction; the original is preserved,
+    // never silently discarded. Everything else stays visible in findings without hijacking.
+    var severe = f.filter(function (x) { return x.indexOf('learning:') === 0; });
+    if (severe.length) { rep.priorNextBestAction = rep.nextBestAction; rep.nextBestAction = severe[0]; }
+
     s.energyExecutiveReport = rep; return rep;
   };
 
@@ -2561,8 +2621,45 @@
       var layer = pl.layers[layerKey]; if (!layer || !layer.w || layer.w.length !== seed.length) return seed;
       if (!this._actuation || this._actuation.plasticityLive === false) { layer._blend = 0; return seed; }
       var d = layer.diag || {};
+
+      // ── RE-ARM GATE (2026-07-21) ──────────────────────────────────────────────────────────
+      // `stable` means "has not moved much RECENTLY", NOT "is close to seed". A layer that drifts
+      // a long way and then plateaus reads as converged and is re-admitted at its worst point.
+      // Measured on the real brain (scratch harness, 400 cycles, production reward posture):
+      // K6_attention armed at update 65, disarmed at 180 when it began oscillating, then RE-ARMED
+      // at drift 0.347 — the HIGHEST drift of the entire run — purely because it had stopped moving.
+      // No other layer exceeded drift 0.014, so this is a K6-shaped hole, not a general one.
+      // Two ADMISSION preconditions, both fail-toward-seed. They govern WHETHER a layer may enter
+      // the live path; the pre-existing graded blend below still governs HOW MUCH it is trusted.
+      //   (1) COOLDOWN  — after any oscillating/runaway trip, the layer must accumulate a full
+      //       DIAG_WINDOW of clean LEARNING EVENTS before re-entry. Clocked on layer.updates, not
+      //       cycles, because the magnitude history that feeds diag advances per update
+      //       (limen-plasticity.js applyModulator -> _updateDiagnostics), so the units match and an
+      //       idle brain cannot wait out a cooldown without actually re-learning.
+      //   (2) DRIFT CEILING — drift must be back under ARM_DRIFT_MAX. Set to half the blend's
+      //       zero point (0.5), so admission requires the learned vector still be meaningfully
+      //       near seed. Normal layers sit under 0.014, so this is generous to them and closed to
+      //       the pathological case.
+      // Reversible + observable: layer._armBlockedBy names the gate that held it out.
+      var ARM_COOLDOWN = 24;      // = limen-plasticity.js DIAG_WINDOW; one full diagnostic window
+      var ARM_DRIFT_MAX = 0.25;   // = half the graded blend's zero point
+      var upd = (typeof layer.updates === 'number') ? layer.updates : 0;
+      if (d.oscillating || d.runaway) {
+        layer._lastTripUpdate = upd;
+        layer._tripCount = (layer._tripCount || 0) + 1;
+      }
+
       // HARD preconditions: must be converged AND on a real external reward (not self-consistency).
-      if (!d.stable || !this._plasticityRewardActive) { layer._blend = 0; return seed; }
+      if (!d.stable || !this._plasticityRewardActive) { layer._blend = 0; layer._armBlockedBy = d.stable ? 'no-external-reward' : 'unstable'; return seed; }
+
+      if (typeof layer._lastTripUpdate === 'number' && (upd - layer._lastTripUpdate) < ARM_COOLDOWN) {
+        layer._blend = 0; layer._armBlockedBy = 'cooldown'; return seed;
+      }
+      var _driftNow = (typeof d.driftFromSeed === 'number') ? d.driftFromSeed : 0;
+      if (_driftNow > ARM_DRIFT_MAX) {
+        layer._blend = 0; layer._armBlockedBy = 'drift-ceiling'; return seed;
+      }
+      layer._armBlockedBy = null;
       // GRADED CONFIDENCE-WEIGHTED ARBITRATION between two controllers (learned vs seed), not a binary
       // relay. Trust the learned model in proportion to (1 - drift/0.5); the learned weights stay intact,
       // so as drift falls again w rises smoothly and the layer re-arms. NOT extinction: there is no stored
@@ -2801,7 +2898,7 @@
       : ((s.energyAttention || {}).broadenUnderSurprise) ? 'broaden-attention' : 'observe';
     s.energyActiveInference = {
       version: 1,
-      mode: 'shadow',                                               // advisory only; no live path reads this
+      mode: 'shadow',                                               // advisory: since 2026-07-21 the executive report's selfAudit DISPLAYS this (agreement flag), but no behavior-driving path reads it
       selected: sel.selected, selectedMaps: sel.selectedMaps,
       actualBehavior: actual,
       agreement: sel.selected === actual,                           // stage-1 proof metric, tracked over cycles
@@ -2824,7 +2921,10 @@
   // all seven modules and logs their proposals on state.energyOverlays. SHADOW: nothing is
   // applied to the live brain or energy.json. The metaplasticity->offline/PE loop is closed
   // in-shadow (adapted knobs feed the offline + PE computations). ARMING: _actuation.overlays
-  // (default false) would let the NON-destructive proposals actuate (a future operator step);
+  // (DEFAULT TRUE since 2026-07-17, see line 96 — this comment said "default false" until
+  // 2026-07-21 and was wrong; corrected before being copied into 19 domains) lets the
+  // NON-destructive proposals actuate. Live today: metaplasticity raises the refractory
+  // dead-time (mutation at the end of _computeEnergyOverlays, clamped, raise-only);
   // extinction retirement + offline pruning EDIT/REMOVE STRUCTURE and stay PROPOSAL-ONLY forever
   // (human-gated). Evidence flows in, proposals flow out; nothing removes structure autonomously.
   // ════════════════════════════════════════════════════════════════════════════
@@ -2859,7 +2959,7 @@
     var PEC = mod('EnergyPredictionErrorCompressor', '../energy-prediction-error-compressor.js');
     var OFF = mod('EnergyOfflineMaintenance', '../energy-offline-maintenance.js');
     var NS = mod('EnergyNeuroSubstrate', '../energy-neuro-substrate.js');
-    var CONN = mod('EnergyConnectivityAudit', '../energy-connectivity-audit.js');
+    var CONN = mod('LIMENConnectivityAudit', '../limen-connectivity-audit.js');
     if (!(META && EXT && RETRO && PEC && OFF && NS && CONN)) {
       s.energyOverlays = { version: 1, mode: 'off', note: 'overlay modules not loaded on this page (present only on domain-console)' };
       return null;
@@ -3036,12 +3136,20 @@
   // computed-and-discarded. Deterministic, no AI, no writes. The brain now SEES its own runaway
   // risk + brittle nodes each cycle. Actuating these into the live brake is a separate,
   // operator-scoped step (same discipline as the refractory limiter, commit 2e6f0c11).
+  // DECISION 2026-07-21 — considered connecting eiBalance to the live brake and deliberately did
+  // NOT. The brake reads s.energyServo (:3275-3290 folds servo.emissionFactor into
+  // brake.confidencePenalty); eiBalance has never driven it. Reasons, recorded so the 19-domain
+  // port does not quietly wire it: (1) plasticityLive was re-armed the SAME DAY — two simultaneous
+  // changes to the regulation spine means a regression cannot be attributed to either; (2) the
+  // eiBalance thresholds (underRatio 0.6 / overRatio 1.8 / floor 0.15) are hand-set defaults that
+  // have never been validated against an outcome, so wiring them would put unvalidated constants
+  // in front of emission. It stays OBSERVE-ONLY and honestly labelled, not quietly promoted.
   EnergyBrain.prototype._computeEnergyRegulationAdvisories = function () {
     var s = this.state, out = { version: 1, observeOnly: true };
     // (1) E/I balance - is inhibition tracking drive?
     try {
-      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
-      if (!EI && typeof require === 'function') { try { EI = require('../energy-ei-balance.js'); } catch (_e) {} }
+      var EI = (typeof window !== 'undefined' && window.LIMENEIBalance) || null;
+      if (!EI && typeof require === 'function') { try { EI = require('../limen-ei-balance.js'); } catch (_e) {} }
       if (EI && typeof EI.assessFromState === 'function') out.eiBalance = EI.assessFromState(s);
     } catch (e) { out.eiBalance = null; }
     // (2) Self-audit - CONSUME the connectivity / SPOF audit (was inert). Guarded on presence.
@@ -3063,8 +3171,8 @@
           try { var ed = require('../../data/domains/energy.json'); if (ed && Array.isArray(ed.edges)) { this._energyEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
         }
       }
-      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
-      if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+      var CA = (typeof window !== 'undefined' && window.LIMENConnectivityAudit) || null;
+      if (!CA && typeof require === 'function') { try { CA = require('../limen-connectivity-audit.js'); } catch (_e) {} }
       if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
         var audit = CA.singlePointsOfFailure({ edges: edges });
         var spof = (audit && audit.articulationNodes) || [];
@@ -3851,29 +3959,42 @@
   // ══════════════════════════════════════════════════════════════════════
 
   var _isDomainConsole = window.location.pathname.indexOf('domain-console') !== -1;
-  var _isEnergyDomain = (new URLSearchParams(window.location.search)).get('domain') === 'energy';
+  // FIX 2026-07-21: was `=== 'energy'`, which missed the console's own default. domain-isolator.js:19
+  // resolves scope ONLY from the ?domain= param (`params.get('domain') || null`), and
+  // domain-console.html falls back to 'energy' when it is absent. So a bare /domain-console.html load
+  // ran the energy brain WITHOUT its 18-module operator stack (no directive chain, no clarity
+  // operator, no pulse engine) while still looking like the energy console. A null param now counts
+  // as energy, matching the console. An explicit ?domain=<other> is still false, so no other domain's
+  // console can pick up the energy stack.
+  var _domainParam = (new URLSearchParams(window.location.search)).get('domain');
+  var _isEnergyDomain = (_domainParam === 'energy' || _domainParam === null);
   if (_isDomainConsole && _isEnergyDomain) {
     window.LIMEN_ENABLE_DIRECTIVE_EXTRACTION = true;
 
+    // REMOVED 2026-07-21 (6 entries, files deleted): energy-compensation, energy-claim-ledger,
+    // energy-claim-flow, energy-opportunity-economics, energy-operator-panel formed a
+    // window.LIMENEnergy.economy.* subsystem that self-injected DOM on timers into selectors this
+    // page does not contain (grep of domain-console.html: 0 matches for .opp-card and #oppGrid), and
+    // talked only to each other. Energy ran TWO parallel claim systems: that one, and the shared
+    // window.LIMENClaimLedger that energy-clarity-operator.js actually uses (:1221, :1318). Verified
+    // before deleting: energy-clarity-operator.js contains ZERO references to LIMENEnergy.economy.*,
+    // so the shared ledger is the live one and the cluster was orphaned. The SHARED LEDGER SURVIVES.
+    // energy-business-build.js also removed: 771 lines whose global LIMENEnergyBusinessBuild had zero
+    // callers repo-wide (finance-business-build.js:322 mentions it only in a comment).
+    // Other domains keep their own equivalents — this deletes energy's orphans, not the pattern.
     var _energyScripts = [
-      'assets/js/energy-compensation.js',
-      'assets/js/energy-claim-ledger.js',
-      'assets/js/energy-claim-flow.js',
-      'assets/js/energy-opportunity-economics.js',
       'assets/js/energy-pulse-engine.js',
-      'assets/js/energy-operator-panel.js',
       'assets/js/energy-node-business-engine.js',
       'assets/js/energy-business-review.js',
       'assets/js/energy-execution-panels.js',
-      'assets/js/energy-business-build.js',
       'assets/js/energy-directive-extractor.js',
       'assets/js/energy-directive-ranker.js',
       'assets/js/energy-directive-translator.js',
       'assets/js/energy-targeting-engine.js',
       'assets/js/energy-promotion-bridge.js',
       'assets/js/energy-clarity-operator.js',
-      'assets/js/energy-connectivity-audit.js',
-      'assets/js/energy-ei-balance.js'
+      'assets/js/limen-connectivity-audit.js',
+      'assets/js/limen-ei-balance.js'
     ];
     (function loadNext(i) {
       if (i >= _energyScripts.length) return;

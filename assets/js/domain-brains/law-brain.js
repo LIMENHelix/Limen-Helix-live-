@@ -856,8 +856,8 @@
     // REFRACTORY LIMITER (III.3): lazy-init the doc-grounded generic dead-time limiter.
     // Best-effort: if the module is absent or the flag is off, the gate is skipped (prior behavior).
     if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
-        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
-      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+        typeof window !== 'undefined' && window.LIMENRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.LIMENRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
     }
 
     for (var i = 0; i < activeDx.length; i++) {
@@ -1788,7 +1788,7 @@
     };
 
     // ── SELF-AUDIT + E/I BALANCE ADVISORY (observe-only; Neuro Ref XIII.1 + XIV) ────────────────
-    // (1) E/I balance readout via the pure EnergyEIBalance module (domain-agnostic assess()).
+    // (1) E/I balance readout via the pure LIMENEIBalance module (domain-agnostic assess()).
     // (2) CONSUMES the connectivity / single-point-of-failure audit over Law's REAL 87-edge graph
     //     (law.json edges). Edges live in law.json, not the live snapshot, so lazily fetch + cache
     //     once (browser fire-and-forget; server via require). Deterministic, no AI, no writes.
@@ -1796,8 +1796,8 @@
       var s = this.state, out = { version: 1, observeOnly: true };
       // (1) E/I balance
       try {
-        var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
-        if (!EI && typeof require === 'function') { try { EI = require('../energy-ei-balance.js'); } catch (_e) {} }
+        var EI = (typeof window !== 'undefined' && window.LIMENEIBalance) || null;
+        if (!EI && typeof require === 'function') { try { EI = require('../limen-ei-balance.js'); } catch (_e) {} }
         if (EI && typeof EI.assess === 'function') {
           var servo = s.lawServo || {};
           var drive = (typeof servo.drive === 'number') ? servo.drive : (s.stress || 0);
@@ -1820,8 +1820,8 @@
             try { var ed = require('../../data/domains/law.json'); if (ed && Array.isArray(ed.edges)) { this._lawEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
           }
         }
-        var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
-        if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+        var CA = (typeof window !== 'undefined' && window.LIMENConnectivityAudit) || null;
+        if (!CA && typeof require === 'function') { try { CA = require('../limen-connectivity-audit.js'); } catch (_e) {} }
         if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
           var audit = CA.singlePointsOfFailure({ edges: edges });
           var spof = (audit && audit.articulationNodes) || [];

@@ -1286,7 +1286,7 @@
   var MK_OUTCOME_BUFFER = 40;     // K4 rolling predicted-vs-realized samples
   var MK_HOMEO_WINDOW = 60;       // K8 cycles of stress baseline for the adaptive set-point
 
-  // Inline refractory evaluation (III.3) — mirrors energy-refractory-limiter.js evaluate(), held
+  // Inline refractory evaluation (III.3) — mirrors limen-refractory-limiter.js evaluate(), held
   // in this brain's own _refractoryLog so there is NO cross-file dependency. absolute hard block +
   // relative raised-threshold (a stronger-than-normal stimulus can still fire). Records on allow.
   MedicineBrain.prototype._medicineRefractoryFire = function (key, now, strength) {
@@ -1691,7 +1691,7 @@
     // (1) E/I balance — inhibition vs drive.
     try {
       var servo = s.medicineServo || null;
-      var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+      var EI = (typeof window !== 'undefined' && window.LIMENEIBalance) || null;
       if (EI && typeof EI.assess === 'function' && servo) {
         out.eiBalance = EI.assess({ drive: servo.drive, inhibition: servo.inhibition });
       } else if (servo) {
@@ -1720,7 +1720,7 @@
           try { var ed = require('../../data/domains/medicine.json'); if (ed && Array.isArray(ed.edges)) { this._medicineEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
         }
       }
-      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+      var CA = (typeof window !== 'undefined' && window.LIMENConnectivityAudit) || null;
       if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
         var audit = CA.singlePointsOfFailure({ edges: edges });
         var spof = (audit && audit.articulationNodes) || [];
@@ -1739,7 +1739,7 @@
   };
 
   // Inline XIV single-points-of-failure (articulation nodes = removing one raises the weakly-connected
-  // component count) + degree hubs. Mirrors energy-connectivity-audit.js singlePointsOfFailure math.
+  // component count) + degree hubs. Mirrors limen-connectivity-audit.js singlePointsOfFailure math.
   function _medicineComponentCount(nodes, edges) {
     var adj = {}; nodes.forEach(function (n) { adj[n] = []; });
     edges.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });

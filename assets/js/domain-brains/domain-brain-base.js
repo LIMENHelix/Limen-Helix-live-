@@ -335,6 +335,8 @@
         try { self._computeDomainPlasticity(); } catch (e) {} // GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain (energy self-skips)
         try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
         try { self._computeGenericInteroception(); } catch (e) {}  // multimodal interoception (Phase 1): observe-only divergence read (energy self-skips)
+        try { self._computeGenericActiveInference(); } catch (e) {}  // GENERIC ACTIVE INFERENCE (shadow, ported from energy): zero live consumer, same as energy's own (energy self-skips)
+        try { self._computeGenericPhasePercept(); } catch (e) {}     // GENERIC PHASE PERCEPT (shadow, ported from energy): node-evidence posterior, logged only (energy self-skips)
         self.state.updated = Date.now();
         self._emitEvent('domain-brain-update', { domainId: self.domainId, state: self.state });
       })
@@ -1472,6 +1474,102 @@
     };
     st.interoception = intero; cog.interoception = intero; st.domainInteroception = intero;
     return intero;
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // GENERIC ACTIVE INFERENCE (SHADOW) — 2026-07-20, PORT of energy's
+  // _initEnergyActiveInference/_computeEnergyActiveInference into the base (energy self-skips,
+  // keeps its own richer version). SAME shared module (limen-active-inference.js), same
+  // interpretive-shadow posture: beliefs are a posterior over the stress trajectory, action
+  // selection is advisory and gated on nothing, no live path reads this — mirrors energy's own
+  // zero-consumer status, not a new claim of usefulness. Energy-specific inputs
+  // (energyModel/energyBrake/energyEmissionQueue/energyAttention) are mapped to their already-
+  // generic equivalents (domainNeuro.brake, cognition.neuro.outcomeLedger, state.opportunities,
+  // cognition.neuro.attention) rather than invented fresh.
+  // ════════════════════════════════════════════════════════════════════════════
+  DomainBrainBase.prototype._initDomainActiveInference = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return;   // energy self-skips
+    var A = (typeof window !== 'undefined' && window.LIMENACTIVEINFERENCE) ? window.LIMENACTIVEINFERENCE
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-active-inference.js'); } catch (e) { return null; } })() : null);
+    this._activeInference = A ? { A: A, ai: A.create({ level0: 0.5 }) } : null;
+  };
+
+  DomainBrainBase.prototype._computeGenericActiveInference = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return null;   // energy self-skips
+    var st = this.state, cog = st.cognition; if (!cog) return null;
+    if (this._activeInference === undefined) { try { this._initDomainActiveInference(); } catch (e) { this._activeInference = null; } }
+    var box = this._activeInference;
+    if (!box || !box.A) { st.domainActiveInference = { version: 1, mode: 'off', note: 'limen-active-inference.js not loaded on this page' }; return null; }
+    var A = box.A, ai = box.ai;
+    var neuro = st.domainNeuro || cog.neuro || {};
+    var obs = (typeof st.stress === 'number') ? st.stress : null;
+    A.updateBeliefs(ai, obs);
+    var led = neuro.outcomeLedger || {};
+    var sel = A.selectAction(ai, {
+      setpoint: (neuro.homeostasis && typeof neuro.homeostasis.adaptiveThreshold === 'number') ? neuro.homeostasis.adaptiveThreshold : 0.35,
+      callHitRate: (typeof led.hitRate === 'number') ? led.hitRate : null,
+      brakeActive: !!(neuro.brake && neuro.brake.level === 'halt')
+    });
+    var emittedN = (st.opportunities || []).length;
+    var actual = (neuro.brake && neuro.brake.level === 'halt') ? 'hold-emission'
+      : (emittedN > 0) ? 'emit-call'
+      : (neuro.attention && neuro.attention.driver === 'novelty-driven') ? 'broaden-attention' : 'observe';
+    st.domainActiveInference = {
+      version: 1, domain: this.domainId, mode: 'shadow',
+      selected: sel.selected, selectedMaps: sel.selectedMaps,
+      actualBehavior: actual, agreement: sel.selected === actual,
+      actions: sel.actions, beliefs: sel.beliefs, preference: sel.preference,
+      note: 'GENERIC ACTIVE INFERENCE (ported from energy): beliefs are a posterior over the stress trajectory, NOT a market call; action selection is advisory, gated on nothing, no live consumer (same shadow status as energy\'s own).'
+    };
+    cog.activeInference = st.domainActiveInference;
+    return st.domainActiveInference;
+  };
+
+  // Canonical P0-P10 recursion-arc labels (matches ENERGY_PHASE_LABELS in energy-brain.js /
+  // domain-console-brain.js — a small shared lookup, duplicated deliberately per existing
+  // convention rather than newly centralized here).
+  var GP_PHASE_LABELS = { p0: 'SOURCE', p1: 'RUPTURE', p2: 'RHYTHM', p3: 'INSTABILITY', p4: 'STABILISATION',
+    p5: 'ENDURANCE', p6: 'ORDER', p7: 'DIVERGENCE', p7a: 'TERMINAL', p7b: 'SEPARATION', p8: 'PIVOT', p9: 'COLLAPSE', p10: 'RESURRECTION' };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // GENERIC PHASE PERCEPT (SHADOW) — 2026-07-20, PORT of energy's _computeEnergyPhasePercept.
+  // Same shared module (limen-phase-percept.js), same causal rule: evidence flows nodes -> brain
+  // only, the brain never writes a node's phase; under thin evidence it ABSTAINS (holds the
+  // prior, flagged ungrounded) rather than fabricate. SHADOW: logged next to the live phase
+  // (wouldChange); nothing here sets state.phase/state.phaseLabel.
+  // ════════════════════════════════════════════════════════════════════════════
+  DomainBrainBase.prototype._computeGenericPhasePercept = function (priorPhase, priorSource) {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return null;   // energy self-skips
+    var st = this.state;
+    var PH = (typeof window !== 'undefined' && window.LIMENPHASE) ? window.LIMENPHASE
+      : (typeof module !== 'undefined' ? (function () { try { return require('../limen-phase-percept.js'); } catch (e) { return null; } })() : null);
+    if (!PH) { st.domainPhasePercept = { version: 1, mode: 'off', note: 'limen-phase-percept.js not loaded on this page' }; return null; }
+
+    if (priorPhase == null) {
+      priorPhase = st.phase || 'p0';
+      priorSource = priorSource || st.phaseSource || 'fallback';
+    }
+    var percept = PH.computePercept({ phase: priorPhase, source: priorSource || 'fallback' }, st.companies || []);
+
+    var livePhase = String(this._phaseHeuristicRaw || st.phase || 'p0').toLowerCase();
+    percept.livePhase = livePhase;
+    percept.liveLabel = st.phaseLabel || null;
+    percept.groundedLabel = percept.grounded ? (GP_PHASE_LABELS[percept.groundedPhase] || null) : null;
+    percept.wouldChange = percept.grounded && (percept.groundedPhase !== livePhase);
+    percept.armed = !!(this._actuation && this._actuation.phasePercept);
+
+    if (!this._domainPhaseLog) this._domainPhaseLog = [];
+    if (percept.divergent) {
+      this._domainPhaseLog.push({ cycle: this._cycleCount || 0,
+        prior: percept.prior.phase, grounded: percept.groundedPhase, precision: percept.precision,
+        error: percept.predictionError.magnitude, scored: percept.evidence.scored });
+      if (this._domainPhaseLog.length > 20) this._domainPhaseLog = this._domainPhaseLog.slice(-20);
+    }
+    percept.divergenceLog = this._domainPhaseLog.slice(-5);
+
+    st.domainPhasePercept = percept;
+    if (st.cognition && typeof st.cognition === 'object') st.cognition.phasePercept = percept;
+    return percept;
   };
 
   // ══════════════════════════════════════════════════════════════════════

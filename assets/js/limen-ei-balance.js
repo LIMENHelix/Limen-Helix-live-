@@ -1,5 +1,5 @@
 /**
- * energy-ei-balance.js — Excitation/Inhibition balance controller for the Energy brain.
+ * limen-ei-balance.js — Excitation/Inhibition balance controller for the Energy brain.
  *
  * Grounded in LIMEN_Helix_Neurology_Reference.html Part XIII.1 (the doc's MOST-repeated,
  * fractal-critical invariant): inhibition must scale with excitation, millisecond by
@@ -12,7 +12,7 @@
  * The brain consumes it as an advisory (state.regulationAdvisories.eiBalance). Actuating it into
  * the live brake is a separate, operator-scoped step (same discipline as the refractory limiter).
  *
- * Dual export: window.EnergyEIBalance (browser) + module.exports (server/cron/tests).
+ * Dual export: window.LIMENEIBalance (browser) + module.exports (server/cron/tests).
  */
 (function (root) {
   'use strict';
@@ -90,5 +90,5 @@
 
   var API = { assess: assess, assessFromState: assessFromState, DEFAULTS: DEFAULTS, version: 1 };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
-  if (root) root.EnergyEIBalance = API;
+  if (root) root.LIMENEIBalance = API;
 })(typeof window !== 'undefined' ? window : this);

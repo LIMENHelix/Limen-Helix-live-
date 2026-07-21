@@ -1320,7 +1320,7 @@
     return opps;
   };
 
-  // E/I BALANCE ASSESSMENT (inline; mirrors energy-ei-balance.js). Inhibition should track drive
+  // E/I BALANCE ASSESSMENT (inline; mirrors limen-ei-balance.js). Inhibition should track drive
   // ~1:1 and never fall below the resting floor. Pure + deterministic.
   EducationBrain.prototype._edEIAssess = function (drive, inhibition) {
     function cl(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }

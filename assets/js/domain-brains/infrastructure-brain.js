@@ -1162,7 +1162,7 @@
   // self-audit (Neuro Ref XIV: the network, not the node, is the unit of failure). infrastructure.json
   // carries a real 78-edge node graph; the snapshot does NOT (it carries signals/stress only), so the
   // edges are lazily fetched + cached ONCE (browser fire-and-forget / server require) and the audit runs
-  // on the REAL graph. Uses the shared, data-agnostic EnergyConnectivityAudit module (name is historical;
+  // on the REAL graph. Uses the shared, data-agnostic LIMENConnectivityAudit module (name is historical;
   // it takes any {edges}). Deterministic, no AI, no writes.
   InfrastructureBrain.prototype._computeInfraRegulationAdvisories = function () {
     var s = this.state, out = { version: 1, observeOnly: true };
@@ -1185,8 +1185,8 @@
           try { var ed = require('../../data/domains/infrastructure.json'); if (ed && Array.isArray(ed.edges)) { this._infraEdges = ed.edges; edges = ed.edges; } } catch (_e) {}
         }
       }
-      var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
-      if (!CA && typeof require === 'function') { try { CA = require('../energy-connectivity-audit.js'); } catch (_e) {} }
+      var CA = (typeof window !== 'undefined' && window.LIMENConnectivityAudit) || null;
+      if (!CA && typeof require === 'function') { try { CA = require('../limen-connectivity-audit.js'); } catch (_e) {} }
       if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
         var audit = CA.singlePointsOfFailure({ edges: edges });
         var spof = (audit && audit.articulationNodes) || [];
@@ -1590,12 +1590,12 @@
     if (!adapters) return;
 
     // REFRACTORY GATE (III.3, actuated) — lazy-init the shared, data-agnostic RefractoryLimiter
-    // (module is namespaced EnergyRefractoryLimiter but holds NO energy data; it is a generic
+    // (module is namespaced LIMENRefractoryLimiter but holds NO energy data; it is a generic
     // two-phase absolute+relative limiter). Best-effort: if the module is not loaded on the page or
     // actuation is off, the gate is simply skipped (prior behavior, fail-open). Never breaks the cycle.
     if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
-        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
-      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+        typeof window !== 'undefined' && window.LIMENRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.LIMENRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
     }
 
     // For each newly active diagnosis, create action drafts

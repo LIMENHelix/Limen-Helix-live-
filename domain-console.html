@@ -532,6 +532,21 @@ if (!window.__isDomainPage) {
 <script src="assets/js/domain-biosensor-adapter.js"></script>
 <script src="assets/js/node-business-guard.js"></script>
 <script src="assets/js/domain-brains/domain-brain-base.js"></script>
+<!-- LEARNING SUBSTRATE — added 2026-07-21 to close the page split.
+     Until now these 5 modules loaded ONLY on the 5 brain pages (civilization.html:408-414,
+     admin-master, civilization-opportunities, helix-brain-grid, opportunities), while the 9 overlay
+     modules below loaded ONLY here. Result: energy's two halves never co-existed on any single page —
+     plasticity/active-inference/phase-percept all reported mode:'off' on this console, and the
+     refractory limiter was never constructed on the brain pages. No page ran energy complete.
+     The 101 passing wiring tests could not catch it because they stub every module into existence.
+     Order mirrors civilization.html exactly (base -> k4 -> plasticity -> active-inference ->
+     phase-percept -> thing2-adapter). Additive only: each brain guards on the global and falls back
+     to mode:'off' if absent, so this cannot break a page that was already working. -->
+<script src="assets/js/limen-k4-selfconsistency.js"></script>
+<script src="assets/js/limen-plasticity.js"></script>
+<script src="assets/js/limen-active-inference.js"></script>
+<script src="assets/js/limen-phase-percept.js"></script>
+<script type="module" src="assets/js/limen-thing2-adapter.js"></script>
 <script src="assets/js/domain-brains/portal-content-resolver.js"></script>
 <script src="assets/js/domain-brains/inter-brain-bus.js"></script>
 <script src="assets/js/action-selection-gate.js"></script>
@@ -546,9 +561,9 @@ if (!window.__isDomainPage) {
 <script src="assets/js/domain-telemetry-adapter.js"></script>
 <script src="assets/js/energy-metaplasticity.js"></script>
 <script src="assets/js/energy-offline-maintenance.js"></script>
-<script src="assets/js/energy-refractory-limiter.js"></script>
+<script src="assets/js/limen-refractory-limiter.js"></script>
 <script src="assets/js/energy-prediction-error-compressor.js"></script>
-<script src="assets/js/energy-connectivity-audit.js"></script>
+<script src="assets/js/limen-connectivity-audit.js"></script>
 <script src="assets/js/energy-retrograde-throttle.js"></script>
 <script src="assets/js/energy-extinction.js"></script>
 <script src="assets/js/energy-neuro-substrate.js"></script>

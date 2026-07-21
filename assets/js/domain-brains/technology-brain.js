@@ -466,8 +466,8 @@
     // prior behavior is unchanged. The module is graph/domain-agnostic (absolute dead-time + relative
     // raised-bar; a stronger stimulus can still fire), so technology reuses it without a new file.
     if (!this._refractoryLimiter && this._actuation && this._actuation.refractory &&
-        typeof window !== 'undefined' && window.EnergyRefractoryLimiter) {
-      try { this._refractoryLimiter = new window.EnergyRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
+        typeof window !== 'undefined' && window.LIMENRefractoryLimiter) {
+      try { this._refractoryLimiter = new window.LIMENRefractoryLimiter.RefractoryLimiter(this._refractoryParams); } catch (_e) { this._refractoryLimiter = null; }
     }
     for (var i = 0; i < activeDx.length; i++) { var dx = activeDx[i]; if (adapters.getDrafts && adapters.getDrafts({ domain: 'technology', intentId: dx.id }).length > 0) continue;
       // Once this diagnosis emitted a draft, suppress re-emission within the dead-time unless stress
@@ -1016,7 +1016,7 @@
       var s = this.state, out = { version: 1, observeOnly: true };
       // (1) E/I balance — is inhibition tracking drive?
       try {
-        var EI = (typeof window !== 'undefined' && window.EnergyEIBalance) || null;
+        var EI = (typeof window !== 'undefined' && window.LIMENEIBalance) || null;
         if (EI && typeof EI.assessFromState === 'function') out.eiBalance = EI.assessFromState(s);
         else out.eiBalance = null;
       } catch (e) { out.eiBalance = null; }
@@ -1035,7 +1035,7 @@
               .catch(function () {});
           }
         }
-        var CA = (typeof window !== 'undefined' && window.EnergyConnectivityAudit) || null;
+        var CA = (typeof window !== 'undefined' && window.LIMENConnectivityAudit) || null;
         if (CA && edges && edges.length && typeof CA.singlePointsOfFailure === 'function') {
           var audit = CA.singlePointsOfFailure({ edges: edges });
           var spof = (audit && audit.articulationNodes) || [];

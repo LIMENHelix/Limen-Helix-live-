@@ -1371,7 +1371,7 @@
   };
 
   // ── E/I BALANCE + SELF-AUDIT ADVISORIES (observe-only; Neuro Ref XIII.1 + XIV) ────────────────
-  // (1) E/I balance: is inhibition tracking drive? Inline assess (mirrors energy-ei-balance).
+  // (1) E/I balance: is inhibition tracking drive? Inline assess (mirrors limen-ei-balance).
   // (2) Self-audit: CONSUME the diaschisis / single-point-of-failure audit on population.json's
   //     REAL 72-edge graph (articulation nodes + degree hubs). Edges live only in the JSON (the
   //     live snapshot carries signals/stress only), so lazily fetch + cache them once. Deterministic,
@@ -1379,7 +1379,7 @@
   PopulationBrain.prototype._computePopulationRegulationAdvisories = function () {
     var s = this.state, self = this, out = { version: 1, observeOnly: true };
 
-    // (1) E/I balance — inline (population has no EnergyEIBalance module).
+    // (1) E/I balance — inline (population has no LIMENEIBalance module).
     try {
       var servo = s.populationServo || {};
       var drive = (typeof servo.drive === 'number') ? servo.drive : 0;
@@ -1424,7 +1424,7 @@
   };
 
   // Inline diaschisis / SPOF audit (Neuro Ref XIV) — articulation nodes + degree hubs on the graph.
-  // Self-contained (population has no EnergyConnectivityAudit module and this file touches no other).
+  // Self-contained (population has no LIMENConnectivityAudit module and this file touches no other).
   function _populationComponentCount(nodes, edges) {
     var adj = {}; nodes.forEach(function (n) { adj[n] = []; });
     edges.forEach(function (e) { if (adj[e.source] && adj[e.target]) { adj[e.source].push(e.target); adj[e.target].push(e.source); } });

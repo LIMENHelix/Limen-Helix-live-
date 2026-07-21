@@ -68,7 +68,7 @@
     // ── ACTUATION GATE (2026-07-13) — port of Energy's actuated core to economy. ──────────────────
     // VALIDITY GATE (per-actuation honesty; advisory-where-invalid is the correct answer):
     //  refractory : FALSE. Economy has NO autonomous-emission stream and NO refractory-limiter module
-    //               (Energy uses energy-refractory-limiter.js + a live emission queue). There is nothing
+    //               (Energy uses limen-refractory-limiter.js + a live emission queue). There is nothing
     //               that re-fires and needs an absolute/relative dead-time. Setting it true would
     //               fabricate an effector. Left OFF (advisory / not-applicable).
     //  servo      : TRUE. Real sensor->controller->effector loop. SENSOR = excitatory drive
@@ -1621,7 +1621,7 @@
 
   // Self-contained connectivity audit: articulation points (Tarjan) + degree hubs on the undirected
   // graph induced by the edge list. Deterministic; O(V+E). No external dependency (only economy-brain.js
-  // is edited). Mirrors what energy-connectivity-audit.js returns so downstream reads are uniform.
+  // is edited). Mirrors what limen-connectivity-audit.js returns so downstream reads are uniform.
   EconomyBrain.prototype._economyConnectivityAudit = function (edges) {
     var adj = {}, deg = {};
     function ensure(n) { if (!adj[n]) { adj[n] = []; deg[n] = 0; } }

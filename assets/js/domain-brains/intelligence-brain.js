@@ -501,7 +501,7 @@
 
   // ── REFRACTORY LIMITER (III.3, inline — no external module dependency; self-contained + deterministic).
   //    Absolute dead-time (no re-fire) + relative raised-threshold window (a stronger stimulus can still
-  //    fire) + full recovery after the relative window. Mirrors Energy's EnergyRefractoryLimiter math. ──
+  //    fire) + full recovery after the relative window. Mirrors Energy's LIMENRefractoryLimiter math. ──
   IntelligenceBrain.prototype._intelligenceRefractoryAllows = function (dxId, now, stress) {
     if (!this._refractoryState) this._refractoryState = {};
     var p = this._refractoryParams || { absoluteWindow: 900000, relativeWindow: 3600000, overrideThreshold: 0.9 };
@@ -1912,7 +1912,7 @@
     s.intelligenceRegulation = out; return out;
   };
 
-  // ── SPOF / articulation-node audit (inline; mirrors energy-connectivity-audit.singlePointsOfFailure).
+  // ── SPOF / articulation-node audit (inline; mirrors limen-connectivity-audit.singlePointsOfFailure).
   //    Deterministic O(V·(V+E)) over ~40 nodes / 80 edges = a few thousand ops/cycle. No AI, no I/O. ──
   IntelligenceBrain.prototype._intelligenceSPOF = function (edges) {
     function componentCount(nodes, edgeList) {

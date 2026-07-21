@@ -1268,7 +1268,7 @@
   };
 
   // Compact, self-contained single-points-of-failure audit over an edge list (XIV diaschisis).
-  // Mirrors energy-connectivity-audit.singlePointsOfFailure but inlined so it does not depend on
+  // Mirrors limen-connectivity-audit.singlePointsOfFailure but inlined so it does not depend on
   // the energy-only module being loaded on the science console. Pure + deterministic + read-only.
   function _scienceComponentCount(nodes, edges) {
     var adj = {}; nodes.forEach(function (n) { adj[n] = []; });

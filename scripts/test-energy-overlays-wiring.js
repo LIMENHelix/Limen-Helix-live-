@@ -47,8 +47,8 @@ loadScript('assets/js/energy-retrograde-throttle.js');
 loadScript('assets/js/energy-prediction-error-compressor.js');
 loadScript('assets/js/energy-offline-maintenance.js');
 loadScript('assets/js/energy-neuro-substrate.js');
-loadScript('assets/js/energy-connectivity-audit.js');
-assert('all 7 overlay modules attached to window', !!(win.EnergyMetaplasticity && win.EnergyExtinction && win.EnergyRetrogradeThrottle && win.EnergyPredictionErrorCompressor && win.EnergyOfflineMaintenance && win.EnergyNeuroSubstrate && win.EnergyConnectivityAudit));
+loadScript('assets/js/limen-connectivity-audit.js');
+assert('all 7 overlay modules attached to window', !!(win.EnergyMetaplasticity && win.EnergyExtinction && win.EnergyRetrogradeThrottle && win.EnergyPredictionErrorCompressor && win.EnergyOfflineMaintenance && win.EnergyNeuroSubstrate && win.LIMENConnectivityAudit));
 
 var loaded = true, err = null;
 try { loadScript('assets/js/domain-brains/energy-brain.js'); } catch (e) { loaded = false; err = e; }

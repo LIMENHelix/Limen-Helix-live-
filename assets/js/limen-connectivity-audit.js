@@ -1,5 +1,5 @@
 /*
- * energy-connectivity-audit.js  — ADDITIVE, read-only diagnostics
+ * limen-connectivity-audit.js  — ADDITIVE, read-only diagnostics
  * ----------------------------------------------------------------------------
  * Implements two cross-ref build-targets as DIAGNOSTICS on Energy's real graph:
  *   - DENSE_RECURRENT_LATERAL_CONNECTIVITY (source: neuro ref II.2/XIII.2/XIII.8; cross-ref:
@@ -90,5 +90,5 @@
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
-  if (root && !root.EnergyConnectivityAudit) root.EnergyConnectivityAudit = API;
+  if (root && !root.LIMENConnectivityAudit) root.LIMENConnectivityAudit = API;
 })(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : this));
