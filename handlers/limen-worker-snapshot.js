@@ -18,6 +18,23 @@ var feedFractal = require('../lib/feed-fractal');   // typed content channels (c
 var energyOutcomeTracker = require('../lib/energy-outcome-tracker');   // LIVE outcome loop, ENERGY ONLY: records today's forecast, resolves matured ones vs real forward price
 var outcomeLedger = require('../lib/outcome-ledger');   // for distressMass() — promotes the fused belief into the LIVE dsum.stress for energy (see inline comment at the call site)
 
+// STRESS-SOURCE PROMOTION allowlist (2026-07-20 port, task: energy-parity rollout). Which domains
+// get dsum.stress promoted to the fused precision-weighted belief instead of the feed-volume
+// legacy value. Starts as energy-only — IDENTICAL behavior to before this change. Two candidate
+// auto-gates (require agreement with the legacy value; require phaseBelief.confidence above a
+// threshold) were checked against real live data before writing this and both were WRONG:
+// energy's own verified promotion is 0.21 vs a legacy of 1.0 (a 0.79 disagreement — the point of
+// promoting), and energy's confidence (0.482) is the LOWEST of all 20 domains while the flagged
+// anomaly domain (population) has one of the HIGHEST (0.9), because this confidence formula
+// inversely tracks channel count, not trustworthiness. No numeric gate here is validated, so the
+// gate is procedural: widen this allowlist only after adding a domain and checking 2 consecutive
+// live ticks (the same check that caught the post-deploy false alarm in ENERGY_REFERENCE.md
+// §N.10), not by a formula. Settable without a redeploy via env var.
+var STRESS_PROMOTION_DOMAINS = (process.env.STRESS_PROMOTION_DOMAINS
+  ? process.env.STRESS_PROMOTION_DOMAINS.split(',').map(function (s) { return s.trim(); }).filter(Boolean)
+  : ['energy']);
+function isStressPromotionEligible(pk) { return STRESS_PROMOTION_DOMAINS.indexOf(pk) !== -1; }
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   var start = Date.now();
@@ -212,23 +229,27 @@ module.exports = async function handler(req, res) {
             } catch (mfe) { dsum.marketChannel = { score: null, reason: 'market feed error: ' + mfe.message }; }
           }
 
-          // LIVE FEED FRACTAL (2026-07-20, ENERGY ONLY): real per-article headlines from the already-
-          // running RSS ingest (limen-worker-ingest.js -> latest_ingest; TTL bumped 300s->1200s in this
-          // same change so it reliably survives to this read, was racing its own 15m cron). Filtered to
-          // signals whose affectedDomains includes energy, classified by CONTENT (feed-fractal.js), not
-          // counted. HONEST SCOPE: the real available text right now is geopolitical (Hormuz/Iran/
-          // military), not corporate — feed-fractal's `supply` regex was extended and a new `conflict`
-          // category added specifically to classify this real available text. The ORIGINAL corporate
-          // categories (workforce/leadership/pricing/demand/competition/litigation/recall/capital)
-          // remain UNCONNECTED to any live per-company feed, because none exists yet (company
-          // newsFeed[] is empty) — this change does not close that gap, only the geopolitical one.
-          if (pk === 'energy') {
+          // LIVE FEED FRACTAL (2026-07-20, ENERGY ONLY originally; PORTED 2026-07-20 to run for every
+          // domain): real per-article headlines from the already-running RSS ingest
+          // (limen-worker-ingest.js -> latest_ingest; TTL bumped 300s->1200s in this same change so it
+          // reliably survives to this read, was racing its own 15m cron). Filtered to signals whose
+          // affectedDomains includes THIS domain (was hardcoded to 'energy' — the mechanism itself
+          // (feed-fractal.js) is domain-agnostic, only this filter was hardcoded), classified by
+          // CONTENT, not counted. HONEST SCOPE: the real available text right now is mostly
+          // geopolitical (Hormuz/Iran/military) and mostly tagged as affecting energy — other domains
+          // will correctly get itemCount:0 (abstain) until latest_ingest actually carries their text;
+          // that is correct behavior, not a bug to force. The ORIGINAL corporate categories
+          // (workforce/leadership/pricing/demand/competition/litigation/recall/capital) remain
+          // UNCONNECTED to any live per-company feed for every domain, because none exists yet
+          // (company newsFeed[] is empty) — this change does not close that gap, only the
+          // per-domain filtering literal.
+          {
             try {
               var ingest = await db.get('latest_ingest');
               var ingestItems = [];
               if (ingest && Array.isArray(ingest.signals)) {
                 ingest.signals.forEach(function (sig) {
-                  if (!sig || !Array.isArray(sig.affectedDomains) || sig.affectedDomains.indexOf('energy') === -1) return;
+                  if (!sig || !Array.isArray(sig.affectedDomains) || sig.affectedDomains.indexOf(pk) === -1) return;
                   var quality = sig.confidence === 'HIGH' ? 'real' : (sig.confidence === 'MEDIUM' ? 'event' : 'degraded');
                   (sig.titles || []).forEach(function (title) { ingestItems.push({ text: title, quality: quality }); });
                 });
@@ -281,7 +302,12 @@ module.exports = async function handler(req, res) {
             // validated against real forward outcomes are now the SAME number, not two that could drift.
             //
             // The old value is preserved, not discarded (dsum._legacyFeedStress), for transparency.
-            if (pk === 'energy' && est.grounded) {
+            //
+            // PORT (2026-07-20): eligibility now reads the STRESS_PROMOTION_DOMAINS allowlist above
+            // instead of a hardcoded 'energy' literal, so this can widen to other domains without a
+            // redeploy. Default allowlist is energy-only — no behavior change until the operator
+            // explicitly widens it.
+            if (isStressPromotionEligible(pk) && est.grounded) {
               dsum._legacyFeedStress = dsum.stress;
               dsum.stress = outcomeLedger.distressMass(est.belief);
               dsum.stressSource = 'node-market-feed-grounded';
@@ -290,15 +316,26 @@ module.exports = async function handler(req, res) {
               }
             }
 
-            // LIVE OUTCOME TRACKER (2026-07-20, ENERGY ONLY): records today's forecast + resolves any
-            // that have aged past the horizon, against the REAL forward WTI price. Pure core (lib/
-            // energy-outcome-tracker.js) reusing the exact functions validated on 40y of history; this
-            // worker only persists its state. DATA-STARVED BY CONSTRUCTION: the first live forecast
+            // LIVE OUTCOME TRACKER (2026-07-20, ENERGY ONLY originally; PORTED 2026-07-20 to run for
+            // every domain): records today's forecast + resolves any that have aged past the horizon,
+            // against a REAL forward price reading. Pure core (lib/energy-outcome-tracker.js — the
+            // module is domain-agnostic despite its name: it takes no domain argument, all state is
+            // per-domain already via gsSlot which is keyed by pk) reusing the exact functions
+            // validated on 40y of WTI history. DATA-STARVED BY CONSTRUCTION: the first live forecast
             // cannot resolve for ~3 weeks. This starts the clock; it is not a result to present as
             // "validated" until resolvedCount is large and a held-out set has been checked.
-            if (pk === 'energy' && est.grounded) {
+            //
+            // priceReading is DORMANT-BY-DESIGN for every domain except energy: it is only ever
+            // sourced from `liveMkt` (the energy-only live market channel above), and `pk === 'energy'`
+            // is checked explicitly here — NOT just `typeof liveMkt !== 'undefined'` — because `liveMkt`
+            // is declared with `var` inside an energy-only block and would otherwise still hold
+            // energy's stale value on every subsequent domain in this same loop (var hoisting, not
+            // block-scoped). Until a domain gets its own live market/index series (Phase B, not
+            // fabricated here), its tracker runs with priceReading=null: the mechanism executes and
+            // reports trackedForecasts:0, nothing is silently skipped, nothing is invented.
+            if (est.grounded) {
               try {
-                var priceReading = (typeof liveMkt !== 'undefined' && liveMkt) ? { v: liveMkt.latestPrice } : null;
+                var priceReading = (pk === 'energy' && typeof liveMkt !== 'undefined' && liveMkt) ? { v: liveMkt.latestPrice } : null;
                 var ot = energyOutcomeTracker.tick(gsSlot.outcomeTrack, gsNow, priceReading, est, bundle.readings, {});
                 gsSlot.outcomeTrack = ot.state;
                 gsMemDirty = true;

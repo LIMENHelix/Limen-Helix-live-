@@ -1778,6 +1778,18 @@ function sleep(ms) {
   return new Promise(function (resolve) { setTimeout(resolve, ms); });
 }
 
+// BLS v2 request body helper (added 2026-07-21). Without a key the public API caps at 25
+// calls/day/IP; production burns that across all three BLS feeds (employment, freight PPI,
+// manufacturing PPI) and they fall back to `broken` — the runtime health board's industry
+// realFeeds=0. A free key (https://data.bls.gov/registrationEngine/) raises the cap to 500/day and
+// rides in the POST body as `registrationkey`. Additive + keyless-fallback: unset env = exactly the
+// prior behavior. Operator action: register the free key, set env BLS_API_KEY.
+function blsBody(seriesIds, startYear, endYear) {
+  var b = { seriesid: seriesIds, startyear: String(startYear), endyear: String(endYear) };
+  if (process.env.BLS_API_KEY) b.registrationkey = process.env.BLS_API_KEY;
+  return JSON.stringify(b);
+}
+
 async function timedJSON(url, opts) {
   var resp = await fetchWithRetry(url, opts);
   if (!resp.ok) {
@@ -1832,7 +1844,7 @@ async function fetchFRED() {
 
 async function fetchBLS() {
   try {
-    var body = JSON.stringify({ seriesid: ['CES0000000001'], startyear: String(new Date().getFullYear()), endyear: String(new Date().getFullYear()) });
+    var body = blsBody(['CES0000000001'], new Date().getFullYear(), new Date().getFullYear());
     var data = await timedJSON('https://api.bls.gov/publicAPI/v2/timeseries/data/', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body
     });
@@ -2400,7 +2412,7 @@ async function fetchArXivAll() {
 
 async function fetchBLSFreight() {
   try {
-    var body = JSON.stringify({ seriesid: ['PCU484121484121'], startyear: String(new Date().getFullYear()), endyear: String(new Date().getFullYear()) });
+    var body = blsBody(['PCU484121484121'], new Date().getFullYear(), new Date().getFullYear());
     var data = await timedJSON('https://api.bls.gov/publicAPI/v2/timeseries/data/', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body
     });
@@ -2667,7 +2679,7 @@ async function fetchFREDIndustry() {
 
 async function fetchBLSManufacturing() {
   try {
-    var body = JSON.stringify({ seriesid: ['PCUOMFG--OMFG--'], startyear: String(new Date().getFullYear() - 1), endyear: String(new Date().getFullYear()) });
+    var body = blsBody(['PCUOMFG--OMFG--'], new Date().getFullYear() - 1, new Date().getFullYear());
     var data = await timedJSON('https://api.bls.gov/publicAPI/v2/timeseries/data/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body });
     if (!data || data.status !== 'REQUEST_SUCCEEDED' || !data.Results || !data.Results.series || !data.Results.series[0] || !data.Results.series[0].data || !data.Results.series[0].data[0]) { trackHealth('BLS Manufacturing PPI', 'industry', 'fallback', 'BLS status: ' + (data ? data.status : 'null') + (data && data.message ? ' — ' + data.message[0] : '')); return null; }
     var val = parseFloat(data.Results.series[0].data[0].value);
