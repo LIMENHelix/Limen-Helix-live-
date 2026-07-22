@@ -1142,6 +1142,18 @@
     { key: 'K_homeo', name: 'generic-adaptive-threshold', seed: [0.10], labels: ['thresholdBase'], eta: 0.02, traceDecay: 0.85, priorLambda: 0.002, minW: 0.02, maxW: 0.3 }
   ];
 
+  // ── PERSISTENCE (Phase 1.5 of the four-lesion build) — the PORT of energy's weight
+  // persistence into the generic base, so a domain's learned plasticity survives tab
+  // close instead of resetting to seed every reload (the "theater consolidation" lesion:
+  // rescaling/replaying weights that vanish). Same proven parts as energy: serialize →
+  // POST /api/brain-weights, GET → hydrate on boot, token-gated + fail-closed. Gated to a
+  // POC ALLOWLIST (finance only) — honors the single-domain constraint; energy self-skips
+  // the generic path and keeps its own. Expanding the set is the post-proof generalization.
+  // Reversible: empty GP_PERSIST_DOMAINS ⇒ compute-only, exactly as before.
+  var GP_PERSIST_DOMAINS = { finance: true };
+  var GP_PERSIST_EVERY = 10;                          // cycles between snapshots (~5 min at 30s), matches energy
+  var GP_PERSIST_TOKEN_KEY = 'limen:brainwts:token';  // operator-set localStorage key; absent = compute-only (honest, not an error)
+
   // The self-gate: a layer's learned weights drive the live path only when earned (converged +
   // external reward + drift-bounded), else the seed. Generic version (energy overrides with its own).
   DomainBrainBase.prototype._learnedVec = function (layerKey, seed) {
@@ -1215,7 +1227,36 @@
     if (!P) return;
     var layers = {};
     for (var i = 0; i < GP_LAYERS.length; i++) { var c = GP_LAYERS[i]; layers[c.key] = P.createLayer(c); }
-    this._plasticity = { P: P, layers: layers, mod: P.createModulator() };
+    this._plasticity = { P: P, layers: layers, mod: P.createModulator(),
+      hydrated: false, hydrateResult: null, lastPersistCycle: 0, persistEnabled: false, persistFailures: 0 };
+
+    // PHASE 1.5 HYDRATE — reload the learned posterior from Redis on boot (async; cycles
+    // before arrival run from seeds; shape/seed mismatches reset honestly in the module).
+    // Gated to the persistence allowlist (finance POC): no fetch fires for any other domain.
+    if (GP_PERSIST_DOMAINS[this.domainId] && typeof fetch === 'function') {
+      var self = this;
+      try {
+        fetch('/api/brain-weights?domain=' + encodeURIComponent(this.domainId)).then(function (r) { return r.json(); }).then(function (j) {
+          if (!self._plasticity) return;
+          if (j && j.ok && j.snapshot) {
+            self._plasticity.hydrateResult = P.hydrate(self._plasticity.layers, j.snapshot);
+            P.hydrateModulator(self._plasticity.mod, j.snapshot);
+            self._plasticity.hydrated = true;
+          } else {
+            self._plasticity.hydrateResult = { restored: [], reset: [], note: 'no stored snapshot (first run)' };
+            self._plasticity.hydrated = true;
+          }
+        }).catch(function () { if (self._plasticity) self._plasticity.hydrateResult = { restored: [], reset: [], note: 'hydrate fetch failed; running from seeds' }; });
+      } catch (e) {}
+      // Persist on tab hide so the last partial window is not lost (matches energy).
+      if (typeof document !== 'undefined' && document.addEventListener) {
+        try {
+          document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'hidden') { try { self._persistDomainPlasticity(true); } catch (e) {} }
+          });
+        } catch (e) {}
+      }
+    }
     // arm-eligible by default; the per-layer self-gate (stable + external reward + drift-bounded) is the
     // real safety, so no layer consumes learned weights until it has earned it. Reversible.
     if (!this._actuation) this._actuation = {};
@@ -1302,6 +1343,8 @@
       externalOutcome: extOutcome ? { hit: extOutcome.hit, resolvedCount: (extO && extO.resolvedCount) || 0, source: 'resolver' }
         : { active: false, resolvedCount: (extO && extO.resolvedCount) || 0, note: 'abstaining (<' + GP_MIN_EXT + ' resolved) — self-consistency' },
       layers: layersOut, liveLayers: liveLayers, convergence: { allStable: allStable },
+      persistence: { enabled: !!GP_PERSIST_DOMAINS[this.domainId], hydrated: pl.hydrated, hydrateResult: pl.hydrateResult,
+        persistEnabled: pl.persistEnabled, failures: pl.persistFailures },
       recencyTrust: {                                             // per-domain staleness discount (derive-or-abstain)
         live: !!(this._actuation && this._actuation.recencyTrustLive),
         halflifeCycles: this._domainRecencyHalflife(),            // null = ABSTAINING (cadence not yet confidently known)
@@ -1317,7 +1360,44 @@
       note: 'GENERIC PLASTICITY (ported from energy): learnable K-stack weights per domain; modulator = resolver external outcome else self-consistency; graded arm gate + per-domain recency-trust decay (derive-or-abstain).'
     };
     if (s.cognition && typeof s.cognition === 'object') s.cognition.plasticity = s.domainPlasticity;
+
+    // PHASE 1.5 PERSIST — throttled snapshot so learning survives tab close (finance POC allowlist).
+    if (GP_PERSIST_DOMAINS[this.domainId]) {
+      var _cyc = this._cycleCount || 0;
+      if (_cyc - (pl.lastPersistCycle || 0) >= GP_PERSIST_EVERY) {
+        pl.lastPersistCycle = _cyc;
+        try { this._persistDomainPlasticity(false); } catch (e) {}
+      }
+    }
     return s.domainPlasticity;
+  };
+
+  // PHASE 1.5 — persist this domain's learned plasticity to /api/brain-weights (finance POC).
+  // Token from localStorage (operator opt-in; SAME key energy uses, so one switch covers both);
+  // absent ⇒ compute-only, honest not an error. Handler is fail-closed. sendBeacon on unload so
+  // the last partial window survives. Mirrors energy's _persistEnergyPlasticity 1:1. Guardrail:
+  // stores calibration state only — nothing here acts, spends, files, or contacts anyone.
+  DomainBrainBase.prototype._persistDomainPlasticity = function (isUnload) {
+    var pl = this._plasticity;
+    if (!pl || !pl.P || typeof fetch !== 'function') return;
+    if (!GP_PERSIST_DOMAINS[this.domainId]) return;
+    var token = null;
+    try { token = (typeof localStorage !== 'undefined' && localStorage) ? localStorage.getItem(GP_PERSIST_TOKEN_KEY) : null; } catch (e) {}
+    pl.persistEnabled = !!token;
+    if (!token) return;   // operator has not enabled persistence on this browser: compute-only
+    var snap = pl.P.serialize(pl.layers, pl.mod, { domain: this.domainId, cycle: this._cycleCount || 0 });
+    var body = JSON.stringify({ domain: this.domainId, snapshot: snap });
+    try {
+      if (isUnload && typeof navigator !== 'undefined' && navigator.sendBeacon) {
+        // sendBeacon cannot set headers; token rides the body (handler accepts body.token).
+        var withTok = JSON.stringify({ domain: this.domainId, snapshot: snap, token: token });
+        navigator.sendBeacon('/api/brain-weights', new Blob([withTok], { type: 'application/json' }));
+        return;
+      }
+      fetch('/api/brain-weights', { method: 'POST', headers: { 'content-type': 'application/json', 'x-brain-token': token }, body: body })
+        .then(function (r) { if (!r.ok) pl.persistFailures++; })
+        .catch(function () { pl.persistFailures++; });
+    } catch (e) { pl.persistFailures++; }
   };
 
   // CLOSED LOOP — the generic brake actually gates this domain's emitted opportunities (not just
