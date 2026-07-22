@@ -104,14 +104,15 @@ var persist2 = brainWeightsCalls().filter(function (c) { return c.method === 'PO
 assert('no persist POST without a token', persist2.length === 0);
 assert('readout reports persistEnabled=false (compute-only)', out2 && out2.persistence && out2.persistence.persistEnabled === false, JSON.stringify(out2 && out2.persistence));
 
-// ── T4 — a non-allowlisted domain never touches brain-weights ──
-console.log('T4: a non-allowlisted domain (law) never touches /api/brain-weights');
+// ── T4 — the allowlist GATE still gates. All 20 real domains are now allowlisted
+// (energy-parity rollout), so prove the gate with a synthetic id that is NOT in the set. ──
+console.log('T4: a non-allowlisted id (synthetic) never touches /api/brain-weights');
 lsStore['limen:brainwts:token'] = 'wiring-token';   // even with a token present
 fetchCalls = [];
-var law = mkBrain('law');
-var outLaw = law._computeDomainPlasticity();
-assert('law made zero brain-weights calls (no hydrate, no persist)', brainWeightsCalls().length === 0, JSON.stringify(brainWeightsCalls().map(function (c) { return c.method + ' ' + c.url; })));
-assert('law readout reports persistence disabled', outLaw && outLaw.persistence && outLaw.persistence.enabled === false, JSON.stringify(outLaw && outLaw.persistence));
+var ghost = mkBrain('notadomain');   // not in GP_PERSIST_DOMAINS
+var outGhost = ghost._computeDomainPlasticity();
+assert('non-allowlisted id made zero brain-weights calls (no hydrate, no persist)', brainWeightsCalls().length === 0, JSON.stringify(brainWeightsCalls().map(function (c) { return c.method + ' ' + c.url; })));
+assert('non-allowlisted id readout reports persistence disabled', outGhost && outGhost.persistence && outGhost.persistence.enabled === false, JSON.stringify(outGhost && outGhost.persistence));
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

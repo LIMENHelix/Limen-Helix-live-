@@ -30,9 +30,21 @@ var outcomeLedger = require('../lib/outcome-ledger');   // for distressMass() �
 // gate is procedural: widen this allowlist only after adding a domain and checking 2 consecutive
 // live ticks (the same check that caught the post-deploy false alarm in ENERGY_REFERENCE.md
 // §N.10), not by a formula. Settable without a redeploy via env var.
+//
+// 2026-07-22 — ENERGY-PARITY ROLLOUT (operator-directed): widened the default from energy-only
+// to ALL 20 domains. This is SAFE because promotion is double-gated: a domain only promotes when
+// `isStressPromotionEligible(pk) && est.grounded` — a data-thin domain whose estimator can't
+// ground simply ABSTAINS (keeps the legacy feed reading) rather than publish an ungrounded number.
+// It replaces the KNOWN-BAD feed-volume stress with grounded company/phase distress wherever the
+// data supports it. CAVEAT (honest): this skips the per-domain 2-tick verification the note above
+// recommends. Mitigation: env-reversible (set STRESS_PROMOTION_DOMAINS=energy to revert instantly,
+// no redeploy) and organ-stress-promotion.mjs auto-discovers + probes every promoted domain, so a
+// bad promotion surfaces as an operator-attention item next tick.
 var STRESS_PROMOTION_DOMAINS = (process.env.STRESS_PROMOTION_DOMAINS
   ? process.env.STRESS_PROMOTION_DOMAINS.split(',').map(function (s) { return s.trim(); }).filter(Boolean)
-  : ['energy']);
+  : ['agriculture', 'communication', 'culture', 'defense', 'economy', 'education', 'energy',
+     'environment', 'finance', 'governance', 'health', 'industry', 'infrastructure', 'intelligence',
+     'law', 'population', 'religion', 'research', 'supplyChain', 'technology']);
 function isStressPromotionEligible(pk) { return STRESS_PROMOTION_DOMAINS.indexOf(pk) !== -1; }
 
 module.exports = async function handler(req, res) {

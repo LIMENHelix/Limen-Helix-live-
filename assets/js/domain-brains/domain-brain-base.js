@@ -1150,7 +1150,11 @@
   // POC ALLOWLIST (finance only) — honors the single-domain constraint; energy self-skips
   // the generic path and keeps its own. Expanding the set is the post-proof generalization.
   // Reversible: empty GP_PERSIST_DOMAINS ⇒ compute-only, exactly as before.
-  var GP_PERSIST_DOMAINS = { finance: true };
+  // ENERGY-PARITY ROLLOUT (operator-directed 2026-07-22): widened from finance-only to ALL 20
+  // domains, so every domain's learned plasticity persists (energy keeps its own path). Trim to revert.
+  var GP_PERSIST_DOMAINS = { agriculture: 1, communication: 1, culture: 1, defense: 1, economy: 1,
+    education: 1, energy: 1, environment: 1, finance: 1, governance: 1, industry: 1, infrastructure: 1,
+    intelligence: 1, law: 1, medicine: 1, population: 1, religion: 1, science: 1, technology: 1, trade: 1 };
   var GP_PERSIST_EVERY = 10;                          // cycles between snapshots (~5 min at 30s), matches energy
   var GP_PERSIST_TOKEN_KEY = 'limen:brainwts:token';  // operator-set localStorage key; absent = compute-only (honest, not an error)
 
