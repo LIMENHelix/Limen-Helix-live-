@@ -75,7 +75,7 @@
     //                    reward. Intelligence is NOT externalRewardEligible, so isReward is always false.
     // All four are fully reversible (flip any flag to false). MIRRORS assets/data/domains/intelligence.json
     // runtime intent; the brain runs in its own context and keeps its own copy.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved, mirrors Energy)

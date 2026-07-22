@@ -150,7 +150,7 @@
     // graph via the connectivity-audit SPOF/articulation-node analysis (Neuro Ref XIV) — a real,
     // deterministic self-audit, not a clone. 100% deterministic; NO paid-AI/fetch-to-LLM ever runs
     // on the cycle. Fully reversible: flip any flag to false. Windows keep the doc's 1:4 ratio.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)

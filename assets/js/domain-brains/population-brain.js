@@ -56,7 +56,7 @@
     // selfAudit (observe-only, not a cycle actuation): TRUE — population.json carries a real
     //   72-edge graph, so the diaschisis / single-point-of-failure audit (Neuro Ref XIV) runs on
     //   the REAL graph, not a stub. Consumed as advisory (mirrors Energy's regulation advisories).
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)

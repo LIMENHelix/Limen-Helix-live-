@@ -95,7 +95,7 @@
     // Fully reversible: flip any flag to false and the deterministic base pipeline is unchanged.
     // COST-SAFE: every method below is 100% deterministic arithmetic/graph analysis — NO fetch-to-LLM,
     // NO paid-AI, ever runs on the 30s cycle.
-    this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true };
+    this._actuation = { overlays: true, overlays: true, refractory: false, servo: true, eiBrake: true, phase: true };
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
     // The phase-coherence router and phase-transition consistency signal previously read s.phase (a naive

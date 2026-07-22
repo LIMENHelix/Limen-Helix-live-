@@ -84,7 +84,7 @@
     // the 30s cycle, ever. The only network reads are static graph JSON (medicine.json edges), fetched
     // once and cached. The generative node->business slot is a documented no-op stub (see
     // _medicineGenerativeAuthoringStub) that the cycle NEVER calls.
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: false };
+    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
     // Mirror assets/data/domains/medicine.json runtime.params (the brain runs in its own context and
     // does not load that file at init); keep the two in sync when tuning.
     this._refractoryParams = {

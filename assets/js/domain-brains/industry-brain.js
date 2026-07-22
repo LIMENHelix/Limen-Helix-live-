@@ -60,7 +60,7 @@
     // Every actuation is additive + reversible (flip a flag to false) and touches ONLY the emission/
     // credit channels — never rewrites stress, scoring, diagnoses, or any data file. Deterministic:
     // NO paid-AI / fetch-to-LLM ever runs on the 30s cycle (see _authorNodeBusinessViaOperator stub).
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: true };
     // Refractory windows MIRROR assets/data/domains/industry.json runtime.params (the brain runs in
     // its own context and does not load that file); keep the two in sync when tuning. 1:4 doc ratio.
     this._refractoryParams = {

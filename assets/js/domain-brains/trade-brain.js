@@ -60,7 +60,7 @@
     //     router (patent matrix M) couples to co-phased stressed peers deterministically.
     //  selfAudit: TRUE — trade carries a real 70-edge connectome (trade.json .edges); the advisory
     //     consumes it each cycle for single-points-of-failure + hubs (observe-only, like energy).
-    this._actuation = { refractory: false, servo: true, eiBrake: true, phase: true, selfAudit: true };
+    this._actuation = { overlays: true, overlays: true, refractory: false, servo: true, eiBrake: true, phase: true, selfAudit: true };
     this._servoIntegral = 0;
 
     // ── THING2 RECURSIVE PHASE KERNEL wiring (real kernel via window.LIMENThing2; pure math) ──

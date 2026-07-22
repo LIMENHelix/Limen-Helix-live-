@@ -41,7 +41,7 @@
     //     self-consistency transition tracker), but with validated:false hard-set and no actuation.
     // Fully reversible: flip any flag. COST-SAFE: every method below is 100% deterministic; no
     // paid-AI / fetch-to-LLM call runs on the 30s cycle.
-    this._actuation = { refractory: false, servo: true, eiBrake: true, phase: false };
+    this._actuation = { overlays: true, overlays: true, refractory: false, servo: true, eiBrake: true, phase: false };
 
     // ── THING2 RECURSIVE-PHASE KERNEL as the phase source (2026-07-13, operator-approved) ──
     // The phase-coherence router + phase-transition tracker in _computeEducationPhaseDynamics

@@ -86,7 +86,7 @@
     // COST-SAFETY: every method below is 100% deterministic — NO paid-AI / LLM fetch runs on the 30s cycle.
     // The ONE generative slot (authorNodeBusinessFromServer) is NEVER called from the cycle and is
     // operator-triggered + killswitch-gated server-side (lib/ai-kill-switch spendDisabled()).
-    this._actuation = { refractory: true, servo: true, eiBrake: true, phase: true };
+    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time before the same diagnosis re-drafts (matches Energy)
       relativeWindow: 3600000,    // 1 hr raised-bar window (doc 1:4 ratio preserved)
