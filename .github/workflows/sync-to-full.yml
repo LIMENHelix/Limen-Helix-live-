@@ -36,13 +36,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout lean (canonical)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: lean
           fetch-depth: 1
 
       - name: Checkout full (target)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: LIMENHelix/Limen-Helix
           token: ${{ secrets.FULL_REPO_TOKEN }}

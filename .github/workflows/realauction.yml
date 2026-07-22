@@ -42,7 +42,7 @@ jobs:
       cancel-in-progress: false
     steps:
       - name: checkout (sparse — only the worker + its deps)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
           sparse-checkout: |
@@ -52,7 +52,7 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '22'
 
