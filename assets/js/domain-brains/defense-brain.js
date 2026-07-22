@@ -59,7 +59,7 @@
     //                        (Neuro Ref XIV) runs on the true graph (observe-only). Fully reversible.
     // All actuations affect ONLY emission (the same channel the generic brake uses); never stress/scoring/
     // diagnoses/defense.json. 100% deterministic on the 30s cycle — NO paid-AI/fetch-to-LLM ever runs here.
-    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false, selfAudit: true };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: false, selfAudit: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio, mirrors Energy)

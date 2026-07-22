@@ -43,7 +43,7 @@
     //   (selfAudit = the diaschisis/SPOF read on culture's real edge graph is VALID and consumed
     //                observe-only; it is not a behaviour-changing actuation, so it has no flag here.)
     // All actuations are DETERMINISTIC — no paid-AI / LLM fetch ever runs on the 30s cycle.
-    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio preserved)

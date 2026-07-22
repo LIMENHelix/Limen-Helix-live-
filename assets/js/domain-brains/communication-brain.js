@@ -36,7 +36,7 @@
     //                        now routes through the central honest gate (window.LIMENK4.credit) as
     //                        self-consistency calibration only (isReward=false); with phase advisory-OFF
     //                        the transition does not feed that gate. Fabricating a reward would be dishonest.
-    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
     // FIX 2026-07-21 (port config sweep): _actuation.refractory was true but _refractoryParams was
     // absent, so RefractoryLimiter constructed with the DEFAULTS (absoluteWindow:0), which
     // limen-refractory-limiter.js treats as a NO-OP ("limiter not configured"). The armed brake did

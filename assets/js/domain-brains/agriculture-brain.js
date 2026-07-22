@@ -68,7 +68,7 @@
     //     reward may never preempt credit assignment or open the emission window. _computeAgriculture
     //     PhaseDynamics() still runs for observability, but ALWAYS as advisory-self-consistency and is
     //     never wired to any effector. Do NOT flip this true without a validated agriculture kernel.
-    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
     // FIX 2026-07-21 (port config sweep): _actuation.refractory was true but _refractoryParams was
     // absent, so RefractoryLimiter constructed with the DEFAULTS (absoluteWindow:0), which
     // limen-refractory-limiter.js treats as a NO-OP ("limiter not configured"). The armed brake did

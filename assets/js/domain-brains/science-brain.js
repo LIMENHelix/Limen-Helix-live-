@@ -60,7 +60,7 @@
     //                     _checkDiagnosisActions via adapters.getDrafts), and there is no
     //                     science-refractory-limiter module. Fabricating one would be a fake clone,
     //                     so it stays off. (Same honesty as Energy's UNMAPPED E/I boundary.)
-    this._actuation = { overlays: true, overlays: true, refractory: false, servo: true, eiBrake: true, phase: true };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: true };
     this._servoIntegral = 0;
     this._sciencePhaseHistory = [];
 

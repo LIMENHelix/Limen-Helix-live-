@@ -69,7 +69,7 @@
     //    (selfAudit is computed as an observe-only advisory below — technology.json carries 85 REAL
     //     edges, so the XIV connectivity / single-point-of-failure audit runs on a real graph; it is
     //     consumed for display, not actuated into the brake, matching Energy's honest boundary.)
-    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: true };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; business-scale, not in the doc)
       relativeWindow: 3600000,    // 1 hr raised-bar window (doc 1:4 ratio preserved)

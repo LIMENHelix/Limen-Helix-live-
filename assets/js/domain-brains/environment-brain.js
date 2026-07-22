@@ -113,7 +113,7 @@
     // All actuations affect ONLY emission (the same channel the generic brake uses); never
     // stress/scoring/diagnoses/environment.json. 100% DETERMINISTIC on the 30s cycle — NO paid-AI /
     // fetch-to-LLM ever runs here. Fully reversible: flip any flag to false.
-    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false, selfAudit: true };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: false, selfAudit: true };
     this._refractoryParams = {
       absoluteWindow: 900000,     // 15 min hard dead-time (operator-set; not in the document)
       relativeWindow: 3600000,    // 1 hr raised-bar window (1:4 ratio, mirrors Energy)

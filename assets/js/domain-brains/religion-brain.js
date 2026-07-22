@@ -68,7 +68,7 @@
     //                        phase-coherence router is still computed ADVISORY/observe-only
     //                        (see _computeReligionPhaseDynamics) but NEVER actuates: it does
     //                        not open the processing window and never preempts credit.
-    this._actuation = { overlays: true, overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
+    this._actuation = { overlays: true, refractory: true, servo: true, eiBrake: true, phase: false };
     // Refractory params for the emission effector (operator-set; not from the document).
     // absolute dead-time hard-suppresses identical re-fires; within the relative window a
     // re-fire only breaks through if its magnitude ROSE by overrideDelta (a stronger stimulus
