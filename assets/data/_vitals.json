@@ -1,16 +1,17 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-07-20T09:11:15.710Z",
+  "generatedAt": "2026-07-22T08:59:31.024Z",
   "overall": {
-    "score": 95,
+    "score": 96,
     "status": "HEALTHY",
-    "summary": "13 organs · 14 attention items · feeds 77 · l1Nodes 100 · domains 100 · dataflow 100 · portalCorpus 89 · deadLinks 95 · kernel 82 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 99"
+    "summary": "14 organs · 15 attention items · feeds 77 · l1Nodes 100 · domains 100 · dataflow 100 · energy-estimator 100 · portalCorpus 89 · deadLinks 95 · kernel 82 · connectome 100 · civilization 100 · masterBrain 95 · propagator 100 · patternBus 100 · bridge 99"
   },
   "scores": {
     "feeds": 77,
     "l1Nodes": 100,
     "domains": 100,
     "dataflow": 100,
+    "energy-estimator": 100,
     "portalCorpus": 89,
     "deadLinks": 95,
     "kernel": 82,
@@ -262,12 +263,12 @@
       "order": 35,
       "score": 100,
       "status": "HEALTHY",
-      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 6m old",
+      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 9m old",
       "metrics": {
         "totalCompanies": 506,
         "domainsWithCompanies": 20,
         "liveScored": 454,
-        "snapshotAgeSec": 331,
+        "snapshotAgeSec": 518,
         "probes": {
           "console-companies": 100,
           "live-scoring": 100,
@@ -275,6 +276,82 @@
         }
       },
       "attention": []
+    },
+    "energy-estimator": {
+      "id": "energy-estimator",
+      "role": "energy grounded-stress build (live market + feed + outcome-loop probe)",
+      "order": 36,
+      "score": 100,
+      "status": "HEALTHY",
+      "summary": "5/5 energy-estimator probes green · stress=0.8234761802779975 (was 0.8228807000959772) · phaseMAP=P5",
+      "metrics": {
+        "marketChannel": {
+          "score": 0.2626232092144466,
+          "price": 79.2,
+          "asOf": "2026-07-13",
+          "source": "FRED DCOILWTICO"
+        },
+        "marketPriceAgeDays": 9,
+        "feedFractal": {
+          "itemCount": 28,
+          "channels": [
+            {
+              "key": "feed_conflict",
+              "value": 0.486582880967408,
+              "typedItems": 2
+            },
+            {
+              "key": "feed_demand",
+              "value": 0.28346868942621073,
+              "typedItems": 1
+            },
+            {
+              "key": "feed_supply",
+              "value": 0.7614874461456975,
+              "typedItems": 5
+            },
+            {
+              "key": "feed_pricing",
+              "value": 0.09516258196404037,
+              "typedItems": 1
+            }
+          ]
+        },
+        "phaseBelief": {
+          "grounded": true,
+          "phaseMAP": 5,
+          "confidence": 0.129,
+          "stuck": 0.259
+        },
+        "outcomeTrack": {
+          "trackedForecasts": 2,
+          "resolvedCount": 0,
+          "pendingCount": 2,
+          "estimatorHitRate": null
+        },
+        "stressPromotion": {
+          "stress": 0.8234761802779975,
+          "legacyFeedStress": 0.8228807000959772,
+          "source": "node-market-feed-grounded"
+        },
+        "probes": {
+          "market-channel": 100,
+          "feed-fractal": 100,
+          "phase-belief": 100,
+          "outcome-tracker": 100,
+          "stress-promoted": 100
+        },
+        "snapshotAgeSec": 518
+      },
+      "attention": [
+        {
+          "issue": "Energy market price date is 9 days old (expected <=5 incl. weekends) — may be OUR fetch stuck, or FRED's own publication lagging; verify against the raw series before assuming either",
+          "severity": "medium",
+          "count": 1,
+          "action": "curl https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO&cosd=<recent-date> directly to disambiguate our fetch vs upstream lag",
+          "organ": "energy-estimator"
+        }
+      ]
     },
     "portalCorpus": {
       "id": "portalCorpus",
@@ -1190,7 +1267,7 @@
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.0012684147135416668,
+        "ageHours": 0.001285867919921875,
         "nodeCount": 795,
         "edgeCount": 13010,
         "dampedCount": 0,
@@ -1482,6 +1559,13 @@
       "count": 2,
       "action": "add `if (d.hp)` guard before rendering link. Worst: scripts/score-companies.js, scripts/sense/organ-dead-links.mjs",
       "organ": "deadLinks"
+    },
+    {
+      "issue": "Energy market price date is 9 days old (expected <=5 incl. weekends) — may be OUR fetch stuck, or FRED's own publication lagging; verify against the raw series before assuming either",
+      "severity": "medium",
+      "count": 1,
+      "action": "curl https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO&cosd=<recent-date> directly to disambiguate our fetch vs upstream lag",
+      "organ": "energy-estimator"
     },
     {
       "issue": "Name-fingerprint dup clusters",
@@ -2405,6 +2489,224 @@
           "severity": "high",
           "count": 2,
           "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 174,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-07-21T09:00:53.001Z",
+      "finishedAt": "2026-07-21T09:00:55.226Z",
+      "preScore": 96,
+      "postScore": 96,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 176,
+          "ranAt": "2026-07-21T09:00:53.003Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 146,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 11,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
+          "count": 796,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+          "severity": "low",
+          "count": 22,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Segment breakouts sharing a parent CIK (intentional)",
+          "severity": "low",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Energy market price date is 8 days old (expected <=5 incl. weekends) — may be OUR fetch stuck, or FRED's own publication lagging; verify against the raw series before assuming either",
+          "severity": "medium",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 174,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-07-22T08:59:28.821Z",
+      "finishedAt": "2026-07-22T08:59:31.037Z",
+      "preScore": 96,
+      "postScore": 96,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 176,
+          "ranAt": "2026-07-22T08:59:28.824Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 146,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 11,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
+          "count": 796,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+          "severity": "low",
+          "count": 22,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Segment breakouts sharing a parent CIK (intentional)",
+          "severity": "low",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Energy market price date is 9 days old (expected <=5 incl. weekends) — may be OUR fetch stuck, or FRED's own publication lagging; verify against the raw series before assuming either",
+          "severity": "medium",
+          "count": 1,
+          "reason": "no registered heal"
         },
         {
           "issue": "Name-fingerprint dup clusters",
