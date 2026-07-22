@@ -486,7 +486,129 @@
       // from the PREVIOUS cycle, computes prediction error, regulates, updates the next
       // prior. Research-local + try/caught (never breaks a cycle).
       try { self._updateResearchModel(); } catch (e) {}
+      try { self._computeScienceOverlays(); } catch (e) {}   // NEURO-SUBSTRATE OVERLAY WIRING (per-domain, ported from energy 2026-07-21): invokes science's OWN overlay modules each cycle; shadow, proposals only
     });
+  };
+
+  // ════════════════════════════════════════════════════════════════════════════
+  // NEURO-SUBSTRATE OVERLAY WIRING — per-domain copy of energy's _computeEnergyOverlays
+  // (2026-07-21, full per-domain independence). Invokes science's OWN modules
+  // (window.Science{Metaplasticity,Extinction,RetrogradeThrottle,PredictionErrorCompressor,
+  // OfflineMaintenance,NeuroSubstrate,ConnectivityAudit}) against science's OWN runtime def
+  // (science.json runtime.params + edges/issues/activations). SHADOW: writes state.scienceOverlays;
+  // the only actuation is metaplasticity -> the refractory dead-time (matches energy exactly).
+  // Degrade-safe: returns mode 'off' when the modules are not on the page (they load only on the
+  // science console), 'loading' until science.json arrives.
+  // ════════════════════════════════════════════════════════════════════════════
+  ScienceBrain.prototype._loadScienceDef = function () {
+    if (this._scienceDef) return this._scienceDef;
+    if (this._scienceDefLoading) return null;
+    this._scienceDefLoading = true;
+    var self = this;
+    if (typeof fetch === 'function') {
+      try {
+        fetch('/assets/data/domains/science.json').then(function (r) { return r.json(); })
+          .then(function (def) { self._scienceDef = def; })
+          .catch(function () { self._scienceDefLoading = false; });
+      } catch (e) { this._scienceDefLoading = false; }
+    }
+    return null;
+  };
+
+  ScienceBrain.prototype._computeScienceOverlays = function () {
+    var s = this.state;
+    function mod(glob, reqPath) {
+      if (typeof window !== 'undefined' && window[glob]) return window[glob];
+      if (typeof module !== 'undefined') { try { return require(reqPath); } catch (e) {} }
+      return null;
+    }
+    var META = mod('ScienceMetaplasticity', '../science-metaplasticity.js');
+    var EXT = mod('ScienceExtinction', '../science-extinction.js');
+    var RETRO = mod('ScienceRetrogradeThrottle', '../science-retrograde-throttle.js');
+    var PEC = mod('SciencePredictionErrorCompressor', '../science-prediction-error-compressor.js');
+    var OFF = mod('ScienceOfflineMaintenance', '../science-offline-maintenance.js');
+    var NS = mod('ScienceNeuroSubstrate', '../science-neuro-substrate.js');
+    var CONN = mod('ScienceConnectivityAudit', '../science-connectivity-audit.js');
+    if (!(META && EXT && RETRO && PEC && OFF && NS && CONN)) {
+      s.scienceOverlays = { version: 1, mode: 'off', note: 'overlay modules not loaded on this page (present only on the science console)' };
+      return null;
+    }
+    var def = this._loadScienceDef();
+    if (!def) { s.scienceOverlays = { version: 1, mode: 'loading', note: 'science.json runtime def loading; overlays compute next cycle' }; return null; }
+
+    var armed = !!(this._actuation && this._actuation.overlays);
+    var ov = this._runtimeOverlay || {};
+    var params = (def.runtime && def.runtime.params) || {};
+
+    var volatility = (typeof ov.volatility === 'number') ? ov.volatility : (function () {
+      var h = ((s.memory && s.memory.stressHistory) || []).slice(-12), sum = 0;
+      for (var i = 1; i < h.length; i++) sum += Math.abs((h[i].stress || 0) - (h[i - 1].stress || 0));
+      return h.length > 1 ? Math.max(0, Math.min(1, sum / (h.length - 1))) : 0;
+    })();
+
+    var meta = META.adaptParams(
+      { offlineDownscaleFactor: params.offlineDownscaleFactor, refractoryAbsoluteWindow: params.refractoryAbsoluteWindow, predictionErrorThreshold: params.predictionErrorThreshold },
+      { gain: (typeof params.metaplasticityGain === 'number') ? params.metaplasticityGain : 0, volatility: volatility }
+    );
+    var adapted = meta.adapted || {};
+
+    var activeTriggers = ov.activeTriggers || this._activeConditions || [];
+    var ext = EXT.proposeExtinction(def, activeTriggers);
+
+    var overload = {}, actsOv = ov.activations || {};
+    Object.keys(actsOv).forEach(function (nid) {
+      var a = actsOv[nid], cap = (a && a.capacity) || 1;
+      if (a && typeof a.load === 'number' && cap > 0 && a.load / cap > 1) overload[nid] = a.load / cap;
+    });
+    var retro = RETRO.computeThrottle(def, { overload: overload, throttleGain: (typeof params.retrogradeThrottleGain === 'number') ? params.retrogradeThrottleGain : 0 });
+
+    var intero = s.scienceInteroception || (s.cognition && s.cognition.interoception) || {};
+    var chans = ((intero.channels) || []).map(function (c) { return { id: c.name, observed: c.alarm }; });
+    var baseline = chans.length ? chans.reduce(function (a, c) { return a + (c.observed || 0); }, 0) / chans.length : 0;
+    var peThresh = (typeof adapted.predictionErrorThreshold === 'number') ? adapted.predictionErrorThreshold : (params.predictionErrorThreshold || 0);
+    var pec = PEC.compress(chans, { threshold: peThresh, predictor: 'baseline', baseline: baseline });
+
+    var off = OFF.runOfflineMaintenance(def, {
+      downscaleFactor: (typeof adapted.offlineDownscaleFactor === 'number') ? adapted.offlineDownscaleFactor : (params.offlineDownscaleFactor || 1),
+      consolidateTopK: (typeof params.offlineConsolidateTopK === 'number') ? params.offlineConsolidateTopK : Infinity,
+      pruneThreshold: (typeof params.offlinePruneThreshold === 'number') ? params.offlinePruneThreshold : 0
+    });
+
+    var recurrence = CONN.recurrenceAudit(def);
+    var incompleteCircuits = (def.issues || []).map(function (is) { return NS.validateIncompleteCircuit(is); });
+    var incompleteCount = incompleteCircuits.filter(function (v) { return v.verdict === 'INCOMPLETE_CIRCUIT'; }).length;
+
+    s.scienceOverlays = {
+      version: 1, mode: 'shadow', armed: armed,
+      volatility: Math.round(volatility * 1000) / 1000,
+      metaplasticity: { changes: meta.changes, adapted: adapted, noop: meta.noop },
+      extinction: { candidates: ext.candidates, count: ext.candidates.length, noop: ext.noop, actuation: 'PROPOSAL-ONLY (retiring a node edits science.json — human-gated forever)' },
+      retrograde: { actions: retro.actions, throttled: retro.actions.length, noop: retro.noop },
+      peCompression: { compressed: pec.summary.compressedCount, propagated: pec.propagated.length, ratio: pec.compressionRatio, summary: pec.summary },
+      offlineMaintenance: { downscaled: (off.report.operations.downscale || {}).edgesDownscaled, pruned: (off.report.operations.prune || {}).pruned, report: off.report, actuation: 'PROPOSAL-ONLY on a deep copy; pruning is human-gated forever' },
+      recurrence: { verdict: recurrence.verdict, recurrentFraction: recurrence.recurrentFraction, lateralFraction: recurrence.lateralFractionOfClassifiable },
+      incompleteCircuits: incompleteCircuits, incompleteCount: incompleteCount
+    };
+
+    var applied = { refractoryAbsoluteWindow: null };
+    var base = this._refractoryBaseWindow || (this._refractoryParams && this._refractoryParams.absoluteWindow) || 900000;
+    if (armed) {
+      var wantRaw = (typeof adapted.refractoryAbsoluteWindow === 'number') ? adapted.refractoryAbsoluteWindow : base;
+      var want = Math.max(base, Math.min(base * 1.2, wantRaw));
+      if (this._refractoryParams) this._refractoryParams.absoluteWindow = want;
+      if (this._refractoryLimiter && this._refractoryLimiter.params) this._refractoryLimiter.params.absoluteWindow = want;
+      applied.refractoryAbsoluteWindow = want;
+    } else {
+      if (this._refractoryParams && this._refractoryParams.absoluteWindow !== base) this._refractoryParams.absoluteWindow = base;
+      if (this._refractoryLimiter && this._refractoryLimiter.params && this._refractoryLimiter.params.absoluteWindow !== base) this._refractoryLimiter.params.absoluteWindow = base;
+    }
+    s.scienceOverlays.mode = armed ? 'armed' : 'shadow';
+    s.scienceOverlays.applied = applied;
+    s.scienceOverlays.actuationScope = 'metaplasticity->refractory dead-time ONLY (bounded, fail-toward-quiet, reversible). throttle=no-live-consumer; PE=observe-only; extinction+offline-prune=PROPOSAL-ONLY (remove structure, human-gated forever).';
+    s.scienceOverlays.note = 'PER-DOMAIN OVERLAY WIRING (ported from energy): science runs its OWN 6 overlay modules + connectivity recurrenceAudit each cycle on science.json. ARMED: metaplasticity raises the refractory dead-time with volatility (clamped, reversible). Everything else is proposal/observe-only.';
+
+    if (s.cognition && typeof s.cognition === 'object') s.cognition.overlays = s.scienceOverlays;
+    return s.scienceOverlays;
   };
 
   // ════════════════════════════════════════════════════════════════════════════
