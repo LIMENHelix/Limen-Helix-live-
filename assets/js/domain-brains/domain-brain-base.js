@@ -334,6 +334,8 @@
         try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
         try { self._computeDomainPlasticity(); } catch (e) {} // GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain (energy self-skips)
         try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
+        try { self._computeGenericEmissionQueue(); } catch (e) {}   // STEP 5 (energy self-skips): capital-fit packaging of opportunities
+        try { self._runGenericAutonomousEmission(); } catch (e) {}  // STEP 6 (energy self-skips): autonomous emission — INTERNAL stream only + brake fail-safe + capital staged
         try { self._computeGenericInteroception(); } catch (e) {}  // multimodal interoception (Phase 1): observe-only divergence read (energy self-skips)
         try { self._computeGenericActiveInference(); } catch (e) {}  // GENERIC ACTIVE INFERENCE (shadow, ported from energy): zero live consumer, same as energy's own (energy self-skips)
         try { self._computeGenericPhasePercept(); } catch (e) {}     // GENERIC PHASE PERCEPT (shadow, ported from energy): node-evidence posterior, logged only (energy self-skips)
@@ -1157,6 +1159,7 @@
     intelligence: 1, law: 1, medicine: 1, population: 1, religion: 1, science: 1, technology: 1, trade: 1 };
   var GP_PERSIST_EVERY = 10;                          // cycles between snapshots (~5 min at 30s), matches energy
   var GP_PERSIST_TOKEN_KEY = 'limen:brainwts:token';  // operator-set localStorage key; absent = compute-only (honest, not an error)
+  var GP_EMIT_MAXCONCURRENT = 3;  // capital-fit packaging: few decision-ready calls per domain (mirrors energy EK_EMIT_MAXCONCURRENT)
 
   // The self-gate: a layer's learned weights drive the live path only when earned (converged +
   // external reward + drift-bounded), else the seed. Generic version (energy overrides with its own).
@@ -1429,6 +1432,81 @@
       st._gainGatedCount = Math.max(0, opps.length - keep);
     }
     return { level: brake.level, held: st.opportunitiesHeld };
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // AUTONOMOUS EMISSION (generic, energy-parity 2026-07-22) — the PORT of energy's
+  // STEP 5/6 into the base so EVERY domain (energy self-skips, it has its own richer
+  // version) packages + emits its calls. TWO HARD SAFETY PROPERTIES, identical to energy:
+  //   (1) INTERNAL STREAM ONLY. Research packages are written to state.domainEmitted (an
+  //       in-memory list, audience of one). There is NO external distribution anywhere in
+  //       here — no fetch, no sendBeacon, no Resend, no Lob. This is a computation, not an
+  //       outward action. NEVER bridge state.domainEmitted to an auto-send adapter
+  //       (autopilot/Resend, automail/Lob) — that would turn a contained readout into a
+  //       real, un-killswitched outward action. Keep the effector wire cut.
+  //   (2) CAPITAL IS ALWAYS HUMAN. Investment (INVESTABLE) packages carry requiresSignoff
+  //       and are STAGED, never auto-emitted. Only RESEARCHABLE packages emit autonomously.
+  // FAIL-SAFE: anything other than a clear brake holds everything. Gated by
+  // window.LIMEN_DOMAIN_AUTONOMY (default on) + per-domain _actuation.autonomousEmission.
+  // ══════════════════════════════════════════════════════════════════════
+
+  // STEP 5 — capital-fit packaging: prune this domain's opportunities to the few
+  // decision-ready calls a solo operator can act on; investment carries a sign-off gate.
+  DomainBrainBase.prototype._computeGenericEmissionQueue = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return null;   // energy self-skips (own version)
+    var s = this.state, neuro = s.domainNeuro || {}, brake = neuro.brake || {}, fc = neuro.forecast || null;
+    var lanes = ['INVESTABLE', 'RESEARCHABLE'];
+    var pool = (s.opportunities || []).filter(function (o) { return o && !o.held && o.path && lanes.indexOf(o.path) !== -1; });
+    var queue = pool.slice(0, GP_EMIT_MAXCONCURRENT).map(function (o) {
+      var capital = (o.path === 'INVESTABLE');
+      return {
+        id: o.id, title: o.title, lane: o.path, confidence: o.confidence,
+        forecast: fc ? { direction: fc.direction, projectedStress: fc.projectedStress, horizonPeriods: fc.horizonPeriods, falsifier: fc.falsifier, confidence: fc.confidence } : null,
+        thesis: o.whyNow || o.title, moneyChain: o.moneyChain || null,
+        instrument: (o.companies && o.companies.length) ? o.companies : (o.examples || []),
+        requiresSignoff: capital,                       // FINANCIAL GATE: capital always human
+        decision: capital ? 'commit-capital? (human sign-off required)' : 'research emit (autonomous-eligible)',
+        brakeLevel: brake.level || 'clear'
+      };
+    });
+    s.domainEmissionQueue = { version: 1, domain: this.domainId, maxConcurrent: GP_EMIT_MAXCONCURRENT,
+      poolSize: pool.length, queued: queue.length, prunedOut: Math.max(0, pool.length - queue.length), packages: queue,
+      note: 'capital-fit: pruned to the few decision-ready calls a solo operator can act on; investment requires sign-off, research is autonomous-eligible.',
+      lastQueueAt: Date.now() };
+    return s.domainEmissionQueue;
+  };
+
+  // STEP 6 — autonomous emission. Research emits to the INTERNAL stream; investment stages
+  // for sign-off; a non-clear brake holds everything (fail-safe). No outward action.
+  DomainBrainBase.prototype._runGenericAutonomousEmission = function () {
+    if (typeof this._runEnergyAutonomousEmission === 'function') return null;   // energy self-skips (own version)
+    var s = this.state, brake = s.domainNeuro && s.domainNeuro.brake;
+    var on = (typeof window !== 'undefined' && typeof window.LIMEN_DOMAIN_AUTONOMY !== 'undefined') ? !!window.LIMEN_DOMAIN_AUTONOMY : true;
+    if (this._actuation && this._actuation.autonomousEmission === false) on = false;   // per-domain off switch (reversible)
+    var emitted = [], staged = [], holdReason = null;
+    if (!on) holdReason = 'autonomy-off';
+    else if (!brake || brake.level !== 'clear') holdReason = 'brake-' + (brake ? brake.level : 'absent');   // FAIL-SAFE
+    var q = (s.domainEmissionQueue && s.domainEmissionQueue.packages) || [];
+    if (!holdReason) {
+      for (var i = 0; i < q.length; i++) {
+        var p = q[i];
+        if (p.requiresSignoff) { p.status = 'staged-for-signoff'; staged.push(p); }   // FINANCIAL GATE — never auto
+        else { p.status = 'emitted'; emitted.push(p); }                               // research: autonomous, internal
+      }
+    } else {
+      for (var k = 0; k < q.length; k++) { q[k].status = 'held'; staged.push(q[k]); }
+    }
+    if (emitted.length) {
+      // INTERNAL STREAM ONLY — no external distribution. Do not bridge to any auto-send adapter.
+      var stream = s.domainEmitted = s.domainEmitted || [];
+      for (var e = 0; e < emitted.length; e++) stream.push({ at: Date.now(), title: emitted[e].title, lane: emitted[e].lane, forecast: emitted[e].forecast });
+      if (stream.length > 50) s.domainEmitted = stream.slice(-50);
+    }
+    s.domainAutoEmission = { version: 1, domain: this.domainId, autonomy: on, holdReason: holdReason,
+      emittedCount: emitted.length, stagedCount: staged.length, emitted: emitted, staged: staged,
+      note: holdReason ? ('emission held: ' + holdReason + ' (fail-safe)') : 'autonomous research emission to INTERNAL stream only; investment staged for sign-off',
+      lastEmissionAt: Date.now() };
+    return s.domainAutoEmission;
   };
 
   // ══════════════════════════════════════════════════════════════════════
