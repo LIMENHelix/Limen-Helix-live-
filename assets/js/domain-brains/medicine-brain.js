@@ -840,6 +840,22 @@
     }
 
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
+
+    // MAPPED INVESTABLE UNIVERSE (2026-07-23) — attach the loaded command-board companies to the top
+    // INVESTABLE calls so they carry names (companySource:'mapped_universe', NOT a distress claim —
+    // per-company distress stays gated behind the validated _pubSignals path). Honest + reversible.
+    var _uni = (companies || []).map(function (c) { return c && (c.ticker || c.t); }).filter(Boolean).slice(0, 6);
+    if (_uni.length) {
+      var _attached = 0;
+      for (var _ui = 0; _ui < opps.length && _attached < 3; _ui++) {
+        if (opps[_ui].path === 'INVESTABLE' && !opps[_ui].companies) {
+          opps[_ui].companies = _uni.slice();
+          opps[_ui].companySource = 'mapped_universe';
+          _attached++;
+        }
+      }
+    }
+
     // Canonical enrichment — merge medicine playbook detail per opportunity
     var PB_LIST = window.LIMENMedicineOpportunityPlaybooks || [];
     var _byId = {};
