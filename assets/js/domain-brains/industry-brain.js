@@ -35,6 +35,7 @@
   IndustryBrain.prototype.init = function () {
     Base.prototype.init.call(this);
     this._loadCommandBoardCompanies();        // wire real industrial company entities (state.companies was starved)
+    try { this._loadIndustryBrainSignals(); } catch (e) {}   // validated per-company distress (kernel gate)
     this._loadIndustryDiagnosisBundles();     // G1: load real artifact-source bundles (only ones that exist)
     this._loadIndustryL1PortalDepth();        // J1: scan L1 portal branches (treatments mad-lib -> NOT admitted; real tickers only)
     this._loadProductionCapacityLayer();      // sub-layer: hand-authored production-capacity diagnoses (additive, never merged into the 5-spine)
@@ -338,7 +339,8 @@
       if (stress >= 0.55 && dx.relevance >= 0.2) add({ title: dxLabel + ' — industrial automation and throughput improvement', rank: stress * 0.85, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
       add({ title: dxLabel + ' — supplier diversification and input resilience', rank: stress * dx.relevance * 0.75, path: 'INVESTABLE', urgency: 'medium', source: 'diagnosis', diagnosisId: dx.id, tier: 1, stress: stress });
     }
-    var termCo = [] /* neutralized: distress only from validated gate (see energy-brain) */;
+    var _pub = this._pubSignals || {};
+    var termCo = (this.state.companies || []).filter(function (c) { var sg = _pub[c.ticker]; return sg && sg.band === 'elevated'; });
     if (termCo.length > 0) add({ title: 'Industry terminal entity distressed positioning', rank: 0.95, path: 'INVESTABLE', urgency: 'high', source: 'company_terminal', tier: 1, companies: termCo.map(function (c) { return c.ticker; }), stress: stress });
     if (this.state.convergence && this.state.convergence.primary_signal) add({ title: this.state.convergence.primary_signal.replace(/_/g, ' ').toLowerCase() + ' — industry convergence response', rank: 0.98, path: 'INVESTABLE', urgency: 'high', source: 'convergence', tier: 1, stress: stress });
     var emissions = this.state.crossDomainEmissions || [];
@@ -519,6 +521,24 @@
   };
 
   var _origCycle = IndustryBrain.prototype.cycle;
+  // Validated per-company distress from the kernel gate (/api/brain-signals). One-shot; {} if it abstains.
+  IndustryBrain.prototype._loadIndustryBrainSignals = function () {
+    var self = this;
+    if (self._pubSignals) return;
+    self._pubSignals = {};
+    try {
+      fetch('/api/brain-signals?domain=industry')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.publishable) return;
+          var m = {};
+          j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
+          self._pubSignals = m;
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
   IndustryBrain.prototype.cycle = function () {
     var self = this;
     return _origCycle.call(this).then(function () {

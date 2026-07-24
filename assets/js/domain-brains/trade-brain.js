@@ -123,6 +123,7 @@
     try { this._loadDiagnosisBundles(); } catch (e) {}      // G1: real artifact-source bundles (only ones that exist)
     try { this._loadTradeL1PortalDepth(); } catch (e) {}    // J1: scan L1 trade_* branches (mad-lib treatments NOT admitted; only real tickers, relevance-unverified)
     try { this._loadTradeFreightFlows(); } catch (e) {}     // FREIGHT: load the freight-flow sub-portal (real-content, unbundled) — never merged into the validated 5-diagnosis spine
+    try { this._loadTradeBrainSignals(); } catch (e) {}     // validated per-company distress (kernel gate)
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -478,8 +479,9 @@
       });
     }
 
-    // Terminal companies
-    var terminalCompanies = [] /* neutralized: distress only from validated gate (see energy-brain) */;
+    // Terminal companies — elevated band from the validated kernel gate (_pubSignals via /api/brain-signals).
+    var pub = this._pubSignals || {};
+    var terminalCompanies = (this.state.companies || []).filter(function (c) { var sg = pub[c.ticker]; return sg && sg.band === 'elevated'; });
     if (terminalCompanies.length > 0) {
       add({
         title: 'Trade terminal carrier/operator distressed positioning',
@@ -492,8 +494,8 @@
       });
     }
 
-    // Stressed but operating
-    var stressedCompanies = [] /* neutralized: distress only from validated gate */;
+    // Stressed but operating — moderate band from the validated kernel gate.
+    var stressedCompanies = (this.state.companies || []).filter(function (c) { var sg = pub[c.ticker]; return sg && sg.band === 'moderate'; });
     if (stressedCompanies.length >= 2 && stress >= 0.50) {
       add({
         title: 'Trade stressed-but-operating carrier selection',
@@ -786,6 +788,24 @@
   };
 
   var _origCycle = TradeBrain.prototype.cycle;
+  // Validated per-company distress from the kernel gate (/api/brain-signals). One-shot; {} if it abstains.
+  TradeBrain.prototype._loadTradeBrainSignals = function () {
+    var self = this;
+    if (self._pubSignals) return;
+    self._pubSignals = {};
+    try {
+      fetch('/api/brain-signals?domain=supplyChain')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.publishable) return;
+          var m = {};
+          j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
+          self._pubSignals = m;
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
   TradeBrain.prototype.cycle = function () {
     var self = this;
     return _origCycle.call(this).then(function () {

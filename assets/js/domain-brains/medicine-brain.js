@@ -180,6 +180,7 @@
     // C6-followup: load real healthcare entities from command-board-data once, and
     // load real source bundles once. Both guarded (no breakage on fetch failure).
     try { this._loadHealthCommandBoardCompanies(); } catch (e) {}
+    try { this._loadHealthBrainSignals(); } catch (e) {}          // validated per-company distress (kernel gate)
     try { this._loadDiagnosisBundles(); } catch (e) {}
     try { this._loadClinicalPipelineDiagnoses(); } catch (e) {}
   };
@@ -692,8 +693,9 @@
       }
     }
 
-    // Terminal companies
-    var terminalCompanies = [] /* neutralized: distress only from validated gate (see energy-brain) */;
+    // Terminal companies — elevated band from the validated kernel gate (_pubSignals via /api/brain-signals).
+    var pub = this._pubSignals || {};
+    var terminalCompanies = (this.state.companies || []).filter(function (c) { var sg = pub[c.ticker]; return sg && sg.band === 'elevated'; });
     if (terminalCompanies.length > 0) {
       add({
         title: 'Medicine terminal provider/device distressed positioning',
@@ -706,8 +708,8 @@
       });
     }
 
-    // Stressed but operating
-    var stressedCompanies = [] /* neutralized: distress only from validated gate */;
+    // Stressed but operating — moderate band from the validated kernel gate.
+    var stressedCompanies = (this.state.companies || []).filter(function (c) { var sg = pub[c.ticker]; return sg && sg.band === 'moderate'; });
     if (stressedCompanies.length >= 2 && stress >= 0.50) {
       add({
         title: 'Medicine stressed-but-operating provider and device selection',
@@ -1034,6 +1036,24 @@
   };
 
   var _origCycle = MedicineBrain.prototype.cycle;
+  // Validated per-company distress from the kernel gate (/api/brain-signals). One-shot; {} if it abstains.
+  MedicineBrain.prototype._loadHealthBrainSignals = function () {
+    var self = this;
+    if (self._pubSignals) return;
+    self._pubSignals = {};
+    try {
+      fetch('/api/brain-signals?domain=health')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.publishable) return;
+          var m = {};
+          j.publishable.forEach(function (s) { if (s.ticker) m[s.ticker] = s; });
+          self._pubSignals = m;
+        })
+        .catch(function () {});
+    } catch (e) {}
+  };
+
   MedicineBrain.prototype.cycle = function () {
     var self = this;
     return _origCycle.call(this).then(function () {
