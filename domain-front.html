@@ -651,6 +651,21 @@ if (C.live === 'pop') {
   loadPopLive();
 }
 
+// Per-domain hero photo (2026-07-24): every domain uses /assets/img/<route>.jpg if it exists,
+// else keeps the phase-colored fractal. Probe with an Image() so a missing file never 404s the
+// hero — onload only fires on a real image. env + population keep their explicit images above.
+if (C.live !== 'env' && C.live !== 'pop') {
+  (function () {
+    var _u = '/assets/img/' + DID + '.jpg';
+    var _p = new Image();
+    _p.onload = function () {
+      EL('heroBg').style.backgroundImage = "url('" + _u + "')";
+      EL('hero').className = 'hero photo';
+    };
+    _p.src = _u;
+  })();
+}
+
 // generic live domains (economy, law, …): render their own /api/<key>-live feed
 if (C.live && C.live !== 'env' && C.live !== 'pop') {
   EL('liveSection').style.display = '';
