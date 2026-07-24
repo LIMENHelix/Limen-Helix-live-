@@ -267,6 +267,23 @@
 
     opps.sort(function (a, b) { return (b.rank || 0) - (a.rank || 0); });
 
+    // ═══ MAPPED INVESTABLE UNIVERSE (2026-07-23) — the hole: the 26 real command-board
+    // companies loaded into state.companies were never attached to any call, so population
+    // opportunities went out nameless. Attach the mapped universe to the top INVESTABLE calls
+    // as CONTEXT (companySource:'mapped_universe'), NOT a distress claim — per-company distress
+    // stays gated behind the validated _pubSignals path (termCo above). Honest + reversible. ═══
+    var _uni = (companies || []).map(function (c) { return c && (c.ticker || c.t); }).filter(Boolean).slice(0, 6);
+    if (_uni.length) {
+      var _attached = 0;
+      for (var _ui = 0; _ui < opps.length && _attached < 3; _ui++) {
+        if (opps[_ui].path === 'INVESTABLE' && !opps[_ui].companies) {
+          opps[_ui].companies = _uni.slice();
+          opps[_ui].companySource = 'mapped_universe';
+          _attached++;
+        }
+      }
+    }
+
     // ═══ CANONICAL ENRICHMENT — merge population playbook detail per opportunity ═══
     // Playbooks loaded from assets/js/domain-brains/data/population-opportunity-playbooks.js.
     // All narrative (explain/action/valueRange/trigger/validation/steps/outcome/failure/
