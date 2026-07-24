@@ -27,16 +27,46 @@ try {
   (_eng.scores || []).forEach(function (s) { if (s.ticker) REAL.energy[s.ticker] = s; });
 } catch (e) {}
 
+// ELIG — kernel verdicts derived from the validated eligible frontier (assets/data/command-board-eligible.json),
+// the SAME per-company kernel data the Command Board (/kernel-comparison) renders. Keyed domain -> ticker.
+// This lets EVERY kernel-covered domain (not just energy) surface its verdicts through the identical honest
+// gate: each entry carries the real composite (co), alert (a), envelope status (es) and validation status (vs)
+// straight from the kernel — nothing is invented, and thing0/thing1 still abstain on anything that doesn't
+// pass (financial institutions, out-of-envelope, unvalidated). REAL (static snapshots) takes precedence.
+var ELIG = {};
+try {
+  var _elig = require('../assets/data/command-board-eligible.json');
+  (_elig.companies || []).forEach(function (c) {
+    if (!c || !c.t || !c.d) return;
+    var sicNum = parseInt(c.sic, 10);
+    var isFin = (sicNum >= 6000 && sicNum <= 6799) || String(c.sec || '').toLowerCase() === 'financials';
+    var _dk = String(c.d).toLowerCase();
+    (ELIG[_dk] = ELIG[_dk] || {})[c.t] = {
+      composite: (typeof c.co === 'number') ? c.co : null,
+      alert: !!c.a,
+      inEnvelope: /ELIGIBLE/.test(String(c.es || '')),
+      validated: String(c.vs || '') === 'validated',
+      isFinancial: isFin,
+      sic: c.sic,
+      firstAlertQuarter: c.fq || null
+    };
+  });
+} catch (e) {}
+
 function run(domain) {
   var out = { tracked: 0, scanned: 0, eligible: 0, flagged: 0, degenerate: false, publishable: [], note: '' };
   if (!CB || !CB.companies) { out.note = 'engine data unavailable'; return out; }
 
+  // Alias the console's domainId to the command-board domain key (the medicine console calls
+  // 'health', trade calls 'supplyChain', science calls 'research'). Case-insensitive throughout.
+  var ALIAS = { health: 'medicine', supplychain: 'trade', research: 'science' };
+  var dq = ALIAS[domain] || domain;
   var comps = [];
-  for (var k in CB.companies) { var e = CB.companies[k]; if (e && e.d === domain) comps.push(e); }
+  for (var k in CB.companies) { var e = CB.companies[k]; if (e && String(e.d).toLowerCase() === dq) comps.push(e); }
   out.tracked = comps.length;
   if (!comps.length) { out.note = 'no companies tracked in this domain yet'; return out; }
 
-  var realMap = REAL[domain] || {};
+  var realMap = REAL[dq] || ELIG[dq] || {};
   var hasReal = false;
   comps.forEach(function (c) { if (realMap[c.t]) { c.real = realMap[c.t]; if (!c.real.error) { hasReal = true; out.scanned++; } } });
 
