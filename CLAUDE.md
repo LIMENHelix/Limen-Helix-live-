@@ -24,10 +24,11 @@ report. These rules are non-negotiable and override any looser instruction in a 
   ranking you cannot substantiate. Only Thing1 (`api/thing1`) may say "validated"; the Thing2
   phase kernel is interpretive posture (`validated:false`), never a validated call.
 
-## Cost discipline
-- Paid AI stays behind the kill switch (`lib/ai-kill-switch`: env `LIMEN_AI_ENABLED` +
-  `LIMEN_AI_TOKENS_PER_TICK` + the runtime pause). Never add paid-AI/LLM calls on any 30s
-  regulation cycle. Prefer deterministic, free paths. Do not spend past a set budget.
+## Architecture: keep the regulation loop deterministic
+- Paid AI stays behind the kill switch (`lib/ai-kill-switch`), and never on a 30s regulation
+  cycle. That is an ARCHITECTURE rule (the loop must stay deterministic and fast), not a
+  spending limit. Prefer deterministic, free paths because they are more reliable, not to
+  conserve budget. Do not gate, defer, or hedge build work on token or funding limits.
 
 ## Scope discipline (traction over playground)
 - Build exactly the task. Do not expand it into new infrastructure "while you are here."
@@ -35,10 +36,31 @@ report. These rules are non-negotiable and override any looser instruction in a 
   rather than building it.
 - One task at a time. Finish and verify before starting anything else.
 
-## Human-gated actions (never do autonomously)
-- Never, in an `AGENT_BUILD=1` run: deploy to production, spend money, move funds, contact a
-  buyer, publish outward-facing content, sign or commit the entity, or make a legal / medical
-  / financial representation. Prepare to that line and stop, and say what human step is next.
+## Autonomous limits (`AGENT_BUILD=1`): budgeted, rate-limited, or forbidden
+Three different controls, because these are three different kinds of risk. Do NOT apply a
+blanket "never" to all of them, and do NOT put a dollar cap on the categorical ones: "$5 of
+signing a contract" is not a thing.
+
+- **METERED SPEND — allowed up to budget.** AI tokens, email, physical mail, paid APIs. Spend
+  freely up to the run budget (`AGENT_BUDGET_USD`) and the daily ceiling, refuse past it, and
+  report what was spent. Running out of budget is a normal stopping condition, not a failure.
+- **REACH — allowed, rate-limited.** Deploying to production and publishing outward posts.
+  The risk here is exposure and churn, not dollars: a two-cent deploy can still break the
+  site, so cap the RATE (deploys/day, posts/day) and keep every action revertible.
+- **FORBIDDEN autonomously, at any budget.** Moving funds OUT (payments, transfers, refunds),
+  signing or committing the entity, and legal / medical / financial representations. Prepare
+  to that line and stop, and say what the human step is.
+
+Never gate, defer or hedge ordinary build work on token or funding limits.
+
+NOT YET ENFORCED (as of 2026-07-25): the ledger in `lib/ai-orchestrator.js` (`ai:budget`,
+`_budgetGate()`) counts TOKENS per tick, not dollars, and **8 of the 12 Anthropic call sites
+bypass it** (`domain-agent`, `energy-agent`, `enrich-portal-claude`, `expand-artifact-claude`,
+`hook-studio`, `limen-reciprocity-prose-rewrite`, `master-agent`, `music-coach`). Until those
+route through one chokepoint, any budget set here is advisory. Make it real by:
+dollar-denominating the ledger with a unit-cost table, adding a per-run envelope plus a daily
+ceiling, reserving cost BEFORE the call and settling after, failing CLOSED when the ledger is
+unreachable, and closing those 8 paths.
 
 ## Voice / output
 - No long dashes. No sycophancy. Lead with the strongest objection to your own plan. Be
