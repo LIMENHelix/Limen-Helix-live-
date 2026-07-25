@@ -1177,4 +1177,135 @@ scaling) and by multilevel-modelling material than by more short-form entropy ex
 
 ---
 
-## ENTRY 008 - (next)
+## ENTRY 008 - Second audit pass: both estimators, the propagator, the Python kernel
+
+> **STATUS: [verified] code facts, [mark: IDEA] anything prescriptive.**
+> Every file/line claim below was read directly and can be re-checked. The ranking at the end is
+> opinion. Nothing was run, nothing was changed, no code was edited in producing this entry.
+
+**Date:** 2026-07-25. Read-only. Follow-up to Entry 003, which covered only the `lib/` math core.
+
+### Coverage this pass
+
+**Read in full:** `assets/js/phase-estimator.js` (515), `lib/limen-stress-propagator.js` (~700).
+**Grepped with context:** `api/helix_app/thing2/phase_engine.py` (label tables + scoring sections).
+**Still unread:** 19 of 20 domain brains, `lib/company-phase-scorer.js`, `lib/consolidator.js`,
+`lib/bridge-engine.js`, `lib/pattern-author.js`, `limen-helix-api/limen_v4_kernel.js`, and the
+~335k-line full repo. The audit still does not cover the system.
+
+---
+
+### 1. CORRECTION: the "two conflicting label registers" reading was wrong
+
+An intermediate read of this session concluded that four files disagreed about the P0-P10 names and
+that one register was stale. **That was wrong, and it is recorded here so it does not resurface.**
+
+`phase_engine.py:162-173` carries BOTH registers on the same object:
+
+    "p3":  {"name": "Darkness",   "label": "P3 · INSTABILITY", ...}
+    "p8":  {"name": "Conscience", "label": "P8 · PIVOT",       ...}
+    "p9":  {"name": "Threshold",  "label": "P9 · COLLAPSE",    ...}
+
+`name` is the INTERPRETIVE register (Darkness, Conscience, Threshold). `label` is the
+FINANCIAL-MECHANISM register (Instability, Pivot, Collapse). Every apparent mismatch is one file
+reading `name` and another reading `label`. **Deliberate dual naming, not drift.** Withdrawn.
+
+### 2. What survives that correction (two real inconsistencies)
+
+**2a. P1 is genuinely disputed.** `phase_engine.py:162` gives `name: "Rupture"` AND
+`label: "P1 · RUPTURE"` — both registers agree P1 is rupture. But `grounded-stress.js:337-338`
+places P1 in the CALM band and names it "Light". Not a register mismatch. A disagreement.
+
+**2b. The emission model and the distress readout disagree about what distress is.**
+- `grounded-stress.js:344-345` — the rupture likelihood vector puts mass ONLY on {3, 7, 9}.
+  Indices 5 and 8 get zero from both the calm and rupture vectors; they receive only the 0.01 floor
+  at line 346.
+- `outcome-ledger.js:32` — `DISTRESS_PHASES = [3, 5, 7, 8, 9]`, and `distressMass()` sums belief
+  over all five.
+
+So P5 and P8 count toward the distress headline while the emission model was never taught to
+activate them. **This sharpens Entry 003 F4:** `distressMass` sums over 5 of 11 phases, so a uniform
+belief scores ~0.45 before any real signal exists, and two of those five are phases the likelihood
+function does not deliberately drive. The `promotedStress` blend (`outcome-ledger.js:59-64`) is
+compensating for a band-membership mismatch as well as for diffuseness.
+
+### 3. The two estimators are different algorithms, not two views of one
+
+| | `lib/phase-estimator.js` | `assets/js/phase-estimator.js` |
+|---|---|---|
+| Method | Bayesian filter, precision-weighted fusion | weighted L1 similarity to attractor vectors |
+| Output | belief distribution summing to 1 | 11 scores that do NOT sum to 1 |
+| Inputs | kernel-scored companies, market, feeds | browser sim globals (`LIMENObserver`, `LIMENCuriosity`, `LIMENHebbian`, `LIMENMemory`) |
+| Abstains | yes, on thin precision (line 237) | no, always names a winner |
+| Confidence | `totalPrecision/(totalPrecision+n)` | the raw similarity score itself |
+
+**The browser file does not misrepresent itself.** Its header says heuristic-only, and it renders a
+`[HEURISTIC]` chip in the HUD (`assets/js/phase-estimator.js:434-441`). Credit where due.
+
+Two properties are still worth recording:
+
+- **Its `confidence` is not a confidence.** Line 320 sets it to `top.score`, which is
+  `sum_i w_i * (1 - |signal_i - target_i|)` (lines 254-268). A similarity, displayed as a percentage.
+- **The inertia bonus inflates that number.** Line 288 adds `+0.12` to the previous phase's score
+  before the winner is chosen. Because the winner's score IS the displayed confidence, staying put
+  mechanically raises the reported percentage by up to 12 points. The stickier the estimate looks,
+  the more confident it reads.
+
+### 4. Propagator (`lib/limen-stress-propagator.js`)
+
+**4a. [MOST CONSEQUENTIAL] The kernel's composite is not on a consistent scale across its own
+scoring paths.** Lines 356-359 state plainly that paths A and B normalize to roughly 0-3 while
+path C can spike to 30-100+. The cap at line 60 (`INTRINSIC_PROPAGATION_CAP = 5.0`) exists because
+a CB composite arrived at 107.80 against a p99 of 4.08 (lines 51-60). `pathCAnomaly` flags it.
+
+The containment is well done and the comment is explicit that it contains rather than hides. But the
+implication is larger than the cap: intrinsic stress feeds propagation, so two companies with the
+same real distress get different propagation weight depending on which path scored them. **This is
+a calibration problem INSIDE the kernel, upstream of everything in Entry 003.**
+
+**4b. Accumulation and re-propagation use different rules.** Lines 442-455 add contributions from
+the same origin along EVERY path that reaches a node. Lines 457-468 re-propagate onward only along
+the shortest path. Induced stress is therefore multi-path while onward radiation is single-path.
+Defensible as an exponential-blowup guard; recorded because it is not symmetric and is not
+documented as a choice.
+
+**4c. The inhibitory damping is close to inert.** `0.96^n` with a 0.70 floor (lines 80-81, 224-226),
+over at most 6 canonical edges, and only when BOTH endpoints are anchored by real overrides rather
+than template inheritance. Best case is a 22% reduction; most portals will sit at exactly 1.0. The
+comment calls it MVP and that is accurate, but "the system has inhibitory pathways" is currently
+closer to true in the data than in the runtime effect.
+
+**4d. A fourth hand-set weight table.** `CATEGORY_WEIGHT` and `CONFIDENCE_MULT` (lines 84-101), plus
+`HOP_ATTENUATION`, `ALERT_MULT`, `INTRINSIC_PROPAGATION_CAP`, `INHIBITORY_DAMPING_PER_EDGE`. None
+fitted, none with a fitting path. **Entry 003 F1 is wider than reported: four hand-set weight tables
+across the stack, not one.**
+
+**4e. Credit.** The determinism work is careful and deliberate: sorted slugs, sorted category keys,
+sorted edge lists, sorted Set insertion, each commented as W3 determinism. Reproducibility was
+clearly thought about.
+
+### 5. Revised ranking [mark: IDEA]
+
+The new top item is not from any video. It came from reading the propagator.
+
+    0.  Normalize kernel composite across paths A/B/C, or gate path C out of propagation
+    1.  Resolve 2b (which phases are distress) and 2a (what P1 is)
+    2.  marginal entropy / perplexity per channel        (Entry 006 diagnostic)
+    3.  Brier + log loss in outcome-ledger               (Entry 003 F2, as corrected by Entry 007)
+    4.  belief entropy + perplexity display              (Entry 003 F4 + Entry 005)
+    5.  held-out compression test vs Markov baseline     (Entry 006)
+    ... rest of Entry 003 unchanged
+
+**Rationale for item 0 sitting above everything:** calibrating a downstream layer while its input is
+un-normalized across three scoring paths is fitting to an artifact. Item 1 is above the measurement
+work for the same reason: a distress score whose band membership is disputed between two files
+cannot be meaningfully scored against outcomes until the bands agree.
+
+**Objection to my own ranking:** items 0 and 1 are cheap and unglamorous, and neither produces a new
+capability. It is possible the path-C anomaly affects so few companies that the cap already handles
+it in practice. That is checkable by counting `pathCAnomaly` flags in a live propagation run, which
+would be the honest first step rather than assuming the problem is large.
+
+---
+
+## ENTRY 009 - (next)
