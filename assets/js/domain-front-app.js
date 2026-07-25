@@ -1766,14 +1766,83 @@ function renderPhaseLadder() {
   }
 }
 renderPhaseLadder();
+// ── ATTRIBUTION ────────────────────────────────────────────────────────────
+// Where a visitor came from is only in the URL on the FIRST page they land on. Capture it
+// once and keep it for the session, or every lead from a social post attributes to nothing
+// the moment they click a second link.
+var ATTRIB = (function () {
+  var KEY = 'limen_attrib';
+  var saved = null;
+  try { saved = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { saved = null; }
+  var q = new URLSearchParams(location.search);
+  var fresh = {
+    source: q.get('utm_source') || null,
+    medium: q.get('utm_medium') || null,
+    campaign: q.get('utm_campaign') || null,
+    content: q.get('utm_content') || null,
+    referrer: (document.referrer || '').slice(0, 300) || null,
+    landedOn: '/' + DID
+  };
+  // A new campaign click overwrites; otherwise keep the original touch.
+  if (fresh.source || fresh.campaign || !saved) {
+    try { sessionStorage.setItem(KEY, JSON.stringify(fresh)); } catch (e) {}
+    return fresh;
+  }
+  return saved;
+})();
+
+/**
+ * ONE path for every lead on this page. Previously two of the three capture forms omitted
+ * `consent`, which /api/lead REQUIRES, so production answered 400 and the lead was thrown
+ * away. Both forms then showed "you're on the list" regardless, because neither checked the
+ * response. That is silent data loss behind a false confirmation, so success is now claimed
+ * ONLY when the server confirms the write.
+ */
+function submitLead(payload, els, successText) {
+  var btn = els.btn ? EL(els.btn) : null, note = els.note ? EL(els.note) : null;
+  var original = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
+  if (note) { note.textContent = ''; note.style.color = ''; }
+
+  var body = {
+    email: payload.email,
+    consent: true,                      // the form's own copy is the consent notice
+    interest: payload.interest,
+    message: payload.message || '',
+    sourcePage: '/' + DID,
+    domain: DID,
+    tier: payload.tier || null,
+    utm: ATTRIB,
+    referrer: ATTRIB.referrer
+  };
+
+  function fail(msg) {
+    if (btn) { btn.disabled = false; btn.textContent = original; }
+    if (note) { note.textContent = msg; note.style.color = 'var(--amber)'; }
+  }
+
+  return fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { httpOk: r.ok, j: j }; }); })
+    .then(function (res) {
+      if (!res.httpOk || !res.j || res.j.ok !== true) {
+        fail((res.j && res.j.error) ? res.j.error : 'That did not save. Try again in a moment.');
+        return false;
+      }
+      if (els.form) EL(els.form).style.display = 'none';
+      if (note) { note.textContent = successText; note.style.color = 'var(--green)'; }
+      return true;
+    })
+    .catch(function () { fail('Network problem. Try again in a moment.'); return false; });
+}
+
 function earlyAccess(e) {
   e.preventDefault();
   var email = EL('eaEmail').value.trim(); if (!email) return false;
-  EL('eaBtn').disabled = true; EL('eaBtn').textContent = 'Adding…';
-  fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, interest: C.name + ' add-ons (early access)', sourcePage: '/' + DID }) })
-    .then(function (r) { return r.json().catch(function () { return {}; }); })
-    .then(function () { EL('eaForm').style.display = 'none'; EL('eaNote').textContent = '✓ You’re on the early-access list. We’ll reach out as these open up.'; EL('eaNote').style.color = 'var(--green)'; })
-    .catch(function () { EL('eaBtn').disabled = false; EL('eaBtn').textContent = 'Get early access'; EL('eaNote').textContent = 'Try again in a moment.'; });
+  submitLead(
+    { email: email, interest: C.name + ' add-ons (early access)', tier: 'early-access' },
+    { btn: 'eaBtn', note: 'eaNote', form: 'eaForm' },
+    '✓ You’re on the early-access list. We’ll reach out as these open up.'
+  );
   return false;
 }
 
@@ -1782,10 +1851,10 @@ function subscribe(e) {
   e.preventDefault();
   var email = EL('capEmail').value.trim();
   if (!email) return false;
-  EL('capBtn').disabled = true; EL('capBtn').textContent = 'Adding…';
-  fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, interest: C.name, sourcePage: '/' + DID }) })
-    .then(function (r) { return r.json().catch(function () { return {}; }); })
-    .then(function () { EL('capForm').style.display = 'none'; EL('capNote').textContent = '✓ You’re on the ' + C.name + ' watchlist.'; EL('capNote').style.color = 'var(--green)'; })
-    .catch(function () { EL('capBtn').disabled = false; EL('capBtn').textContent = 'Watch this'; EL('capNote').textContent = 'Hmm, try again in a moment.'; });
+  submitLead(
+    { email: email, interest: C.name, tier: 'watchlist' },
+    { btn: 'capBtn', note: 'capNote', form: 'capForm' },
+    '✓ You’re on the ' + C.name + ' watchlist.'
+  );
   return false;
 }

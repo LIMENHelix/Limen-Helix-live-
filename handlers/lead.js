@@ -38,6 +38,55 @@ function esc(v) { return String(v == null ? '' : v).replace(/&/g, '&amp;').repla
 // Forward a captured lead to the LIMEN inbox via Resend. Fires ONLY if both
 // RESEND_API_KEY and LEAD_NOTIFY_EMAIL are set; otherwise inert. Fail-open —
 // a send failure must NEVER break the capture (the lead is already persisted).
+/**
+ * Record a captured lead as a won `source>leads` event on the sales funnel.
+ *
+ * The unit is the ACQUISITION CHANNEL, and it must be one of the options the funnel already
+ * knows (lib/sales-engine.js `source>leads`), or the play never matches and the lead lands in
+ * a bucket nothing reads. utm_medium decides it; with no UTM the honest answer is organic
+ * traffic, which maps to lead-gen-marketing rather than being guessed as social.
+ *
+ * Writes the same aggregate shape sales-engine.applyEvent produces, so /api/sales reads it
+ * without a migration.
+ */
+function channelFor(lead) {
+  var m = String((lead.utm && lead.utm.medium) || '').toLowerCase();
+  var s = String((lead.utm && lead.utm.source) || '').toLowerCase();
+  if (/social|cpc|paid.?social|organic.?social/.test(m)) return 'social';
+  if (/x|twitter|facebook|linkedin|reddit|instagram|youtube|tiktok|mastodon/.test(s)) return 'social';
+  if (/referral/.test(m)) return 'referral-loop';
+  if (/mail|email|newsletter/.test(m)) return 'mailers';
+  return 'lead-gen-marketing';
+}
+
+async function recordFunnelLead(lead) {
+  var AGG_KEY = 'sales:agg';
+  var agg = null;
+  try { agg = await db.get(AGG_KEY); } catch (e) { agg = null; }
+  if (!agg || typeof agg !== 'object') agg = {};
+
+  var unit = channelFor(lead);
+  var t = agg['source>leads'] || (agg['source>leads'] = {});
+  var u = t[unit] || (t[unit] = { attempts: 0, wins: 0, costCents: 0 });
+  u.attempts += 1;
+  u.wins += 1;          // a captured lead IS the win for the acquisition transition
+  await db.set(AGG_KEY, agg);
+
+  // Per-domain lead counts, so a front can be judged on what it actually produces.
+  if (lead.domain) {
+    var DK = 'sales:leads:by-domain';
+    var byDomain = null;
+    try { byDomain = await db.get(DK); } catch (e) { byDomain = null; }
+    if (!byDomain || typeof byDomain !== 'object') byDomain = {};
+    var d = byDomain[lead.domain] || (byDomain[lead.domain] = { leads: 0, byChannel: {} });
+    d.leads += 1;
+    d.byChannel[unit] = (d.byChannel[unit] || 0) + 1;
+    d.lastAt = lead.ts;
+    await db.set(DK, byDomain);
+  }
+  return { unit: unit };
+}
+
 async function notifyLead(lead) {
   // EASIEST path: Web3Forms — one free access key from web3forms.com (paste your inbox
   // email → get a key). NO domain/DNS verification. The key routes to that inbox.
@@ -120,6 +169,19 @@ module.exports = async function handler(req, res) {
       consent: true,
       accredited: body.accredited === true,
       sourcePage: clip(body.sourcePage, 300),
+      // ATTRIBUTION. Without these a lead from a social post is indistinguishable from
+      // organic traffic, so there is no way to tell which posts actually produce anything.
+      domain: clip(body.domain, 40),
+      tier: clip(body.tier, 40),
+      utm: (function () {
+        var u = body.utm && typeof body.utm === 'object' ? body.utm : {};
+        return {
+          source: clip(u.source, 60), medium: clip(u.medium, 60),
+          campaign: clip(u.campaign, 80), content: clip(u.content, 80),
+          landedOn: clip(u.landedOn, 60)
+        };
+      })(),
+      referrer: clip(body.referrer, 300),
       userAgent: clip(req.headers && req.headers['user-agent'], 400),
       test: isTest
     };
@@ -133,6 +195,13 @@ module.exports = async function handler(req, res) {
         res.statusCode = 500;
         return res.end(JSON.stringify({ ok: false, error: 'Write could not be confirmed.' }));
       }
+      // Enter the lead into the 5-stage funnel (leads -> appointments -> shows -> enrollments
+      // -> referrals) as a won `source>leads` acquisition. Recorded HERE, server-side, because
+      // the funnel's own event endpoint is key-gated and a public form cannot hold that key.
+      // Test submissions are excluded so probes never inflate the numbers. Never blocks the
+      // capture: a funnel write failing must not lose the lead.
+      if (!isTest) { try { await recordFunnelLead(lead); } catch (e) {} }
+
       // Forward to the LIMEN inbox (inert unless a notify channel is set; never blocks capture).
       var notifyRes = { sent: false };
       try { notifyRes = await notifyLead(lead); } catch (e) { notifyRes = { sent: false, reason: String(e && e.message || e) }; }
