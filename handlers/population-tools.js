@@ -50,8 +50,8 @@ async function build(st) {
   var listId = st ? 'ACTLISCOU' + st : 'ACTLISCOUUS';
 
   var got = await Promise.all([
-    T.fredSeries(priceId, 365),
-    T.fredSeries(incomeId, 365 * 5),
+    T.fredSeries(priceId, 365, true),
+    T.fredSeries(incomeId, 365 * 5, true),
     T.fredSeries(hpiId, 365 * 5),
     T.fredSeries(listId, 365)
   ]);
@@ -62,8 +62,31 @@ async function build(st) {
   }
 
   var now = ratio(price.value, income.value);
-  // The same ratio at the START of the price series, so the shift is shown rather than claimed.
-  var thenRatio = (price.first != null && income.first) ? ratio(price.first, income.first) : null;
+
+  // The same ratio at the START of the price series. The two series do NOT start in the same
+  // year (listing prices begin around 2016, the income series in the 1980s), so pairing each
+  // series' own earliest point compares a 2016 price against a 1984 income and produces a
+  // ratio that is not only wrong but backwards. Align on the YEAR instead.
+  var thenRatio = null, thenYear = null, thenPrice = null, thenIncome = null;
+  if (price.firstDate && income.obs && income.obs.length) {
+    var py = String(price.firstDate).slice(0, 4);
+    var match = null;
+    for (var i = 0; i < income.obs.length; i++) {
+      if (String(income.obs[i].date).slice(0, 4) === py) { match = income.obs[i]; break; }
+    }
+    // no exact year: take the earliest income point at or after the price series began
+    if (!match) {
+      for (var k = income.obs.length - 1; k >= 0; k--) {
+        if (income.obs[k].date >= price.firstDate) { match = income.obs[k]; break; }
+      }
+    }
+    if (match && match.value) {
+      thenYear = String(match.date).slice(0, 4);
+      thenPrice = price.first;
+      thenIncome = match.value;
+      thenRatio = ratio(price.first, match.value);
+    }
+  }
 
   return {
     ok: true,
@@ -74,6 +97,9 @@ async function build(st) {
     incomeFirst: income.first, incomeFirstDate: income.firstDate,
     yearsOfIncome: now,
     yearsOfIncomeThen: thenRatio,
+    thenYear: thenYear,
+    thenPrice: thenPrice,
+    thenIncome: thenIncome,
     affordableReference: AFFORDABLE_MULTIPLE,
     // what income WOULD be needed for the old rule of thumb to hold at today's price
     incomeNeededForRule: price.value != null ? Math.round(price.value / AFFORDABLE_MULTIPLE) : null,

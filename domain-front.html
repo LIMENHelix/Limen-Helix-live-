@@ -1500,11 +1500,13 @@ function pricedBody(j) {
     '<div><div class="n">' + bigUsd(j.income) + '</div><div class="k">median household income<br>' + esc(j.incomeAsOf || '') + '</div></div>' +
     '<div><div class="n" style="color:var(--amber)">' + bigUsd(j.incomeNeededForRule) + '</div><div class="k">what a household would need to earn for the old ' + ref + 'x rule to hold</div></div>' +
     '</div>';
-  if (j.yearsOfIncomeThen != null && j.priceFirstDate) {
+  // Only shown when the handler could pair a price and an income from the SAME year.
+  if (j.yearsOfIncomeThen != null && j.thenYear) {
     var delta = yrs - j.yearsOfIncomeThen;
-    h += '<div class="agnote" style="color:var(--ink);margin-top:14px"><b>Then and now.</b> In ' + esc(String(j.priceFirstDate).slice(0, 4)) +
-      ' the same measure was <b>' + j.yearsOfIncomeThen.toFixed(1) + 'x</b>. It is now <b>' + (yrs == null ? 'n/a' : yrs.toFixed(1) + 'x') + '</b>, ' +
-      (delta >= 0 ? 'a rise of ' + delta.toFixed(1) + ' years of income' : 'a fall of ' + Math.abs(delta).toFixed(1) + ' years of income') + '.</div>';
+    h += '<div class="agnote" style="color:var(--ink);margin-top:14px"><b>Then and now.</b> In ' + esc(j.thenYear) +
+      ' the median home asked ' + bigUsd(j.thenPrice) + ' against a median income of ' + bigUsd(j.thenIncome) +
+      ', or <b>' + j.yearsOfIncomeThen.toFixed(1) + 'x</b>. It is now <b>' + (yrs == null ? 'n/a' : yrs.toFixed(1) + 'x') + '</b>, ' +
+      (delta >= 0 ? 'a rise of ' + delta.toFixed(1) : 'a fall of ' + Math.abs(delta).toFixed(1)) + ' years of income.</div>';
   }
   if (j.listings != null) {
     h += '<div class="agnote">Homes currently listed: <b>' + Math.round(j.listings).toLocaleString() + '</b>' +
