@@ -1988,4 +1988,154 @@ of six overlay modules (`extinction`, `retrograde-throttle`, `prediction-error-c
 
 ---
 
-## ENTRY 013 - (next)
+## ENTRY 013 - NEUROLOGIST INPUT: the two loops, and efference copy as Lesion 1's mirror
+
+> **STATUS / PROVENANCE — read before using this entry.**
+> - **[NEUROLOGIST INPUT]** — the substance of §§1-5 below is the neurologist's read, recorded as
+>   given. It is a directive, not a builder finding.
+> - **[verified]** — the CODE facts it endorses were read this session and are cited in Entries 003
+>   and 008-012 with file:line.
+> - **[NOT VERIFIED BY THE BUILDER]** — the neuroanatomical reference-doc sections (Part X.8, XII,
+>   XIII, XIV), the Crapse & Sommer 2008 DOI, the von Holst reafference material, and every
+>   reference to "Lesion 1", "the original report §7" and "the first review" come from the
+>   neurologist and from PRIOR SESSIONS. None were independently checked in this session. Do not
+>   cite them from this document; go to the source.
+> - **[mark: IDEA]** — §6 is the builder's addition, reasoning from the neurologist's point.
+
+**Date:** 2026-07-25
+
+---
+
+### 1. The two-loop diagnosis, confirmed and named [NEUROLOGIST INPUT]
+
+The split into an interoceptive loop (closed) and a motor/sensorimotor loop (open at the far end) is
+not a metaphor. It is the anatomical distinction, and it maps exactly.
+
+**Interoceptive loop — CLOSED.** Sense self, infer state, adjust internal parameters, sense again.
+Reference doc Part X.8 (interoception, insula) plus Part XII (homeostatic set-point regulation), the
+baroreflex / HPA / thermoregulation family, where the thing sensed and the thing regulated are both
+INTERNAL. LIMEN's K-stack, homeostatic floor, brake, refractory window and BCM metaplasticity
+constitute a genuine closed interoceptive control loop. It works. Confidence: `high`.
+
+**Motor loop — OPEN at the far end.** Act, world changes, perceive the change, learn. Its closure in
+the brain is the reafference principle (Part XIII; von Holst; Crapse & Sommer). Emissions go out;
+for 18 of 20 domains nothing returns that can reach the credit gate.
+`EXTERNAL_REWARD_DOMAINS` has two entries. The loop is open.
+
+**"A brain with motor output and no proprioception is a reflex arc with extra steps"** is the
+reference doc's incomplete-circuit pathology (Part XIV) stated cleanly. A reflex arc is afferent to
+efferent with no learning from consequence.
+
+### 2. Verdict on "do we need more efferent actions" [NEUROLOGIST INPUT]
+
+**No. Adding them makes the system LESS brain-like, not more.**
+
+Efferent capacity is currently AHEAD of afferent consequence-sensing, so every effector added widens
+the gap. That is not merely inefficient; it is the wrong direction on the exact axis separating a
+reflex from a learning system. **You do not complete a sensorimotor loop by adding more motor. You
+complete it by adding the return path.**
+
+### 3. THE CENTRAL FINDING: efference copy is Lesion 1 running the other direction [NEUROLOGIST INPUT]
+
+Trace it:
+
+- **Lesion 1** (found and cut in an earlier session): a domain's own output re-entered its own
+  evidence pool UNTAGGED and was treated as afference. Self-generated signal masquerading as
+  external news. Fixed by EXCLUDING the self-generated signal.
+- **This finding** (the open motor loop): a domain acts, the world or its feeds shift, and the domain
+  has no way to tag HOW MUCH of that shift was its own doing. External change and self-caused change
+  arrive indistinguishable.
+
+**Both are the same missing mechanism: corollary discharge / efference copy, the tag marking "this
+consequence was partly me."** Lesion 1 was that mechanism failing on the INPUT side (untagged
+self-signal treated as world). The open motor loop is its absence on the OUTPUT side (self-caused
+world-change not attributed to self).
+
+The input half was diagnosed in the first review, and §7 of that report named the proper fix:
+**the correction was EXCLUSION, not CANCELLATION**, and it flagged that real reafference SUBTRACTS A
+PREDICTION AND LEAVES A RESIDUAL rather than hard-gating. **This session found where that residual
+has to live.** Efference copy is the substrate that makes cancellation (rather than exclusion)
+possible, and it is the same substrate that closes the motor loop. One mechanism answers both the
+day-one lesion's proper fix AND the far-end-open motor loop. Confidence: `high` (reafference
+principle; Crapse & Sommer 2008, DOI confirmed in an earlier session).
+
+### 4. The three recommendations, in the priority the neurology endorses [NEUROLOGIST INPUT]
+
+**1. Consequence channels, one per domain. Highest leverage. This is the motor loop's afferent
+return.** `lib/feed-resolver.js` already does exactly this for energy — grades the forecast against
+realized feed values, forward-only, independent of the trained weights, which is precisely what makes
+energy tier-4 eligible. It has not been generalized. **Same shape as every other finding this
+session: the mechanism exists, works, and is withheld from 18 of 20 domains.** Data plumbing, not
+architecture.
+
+**2. Efference copy. A CO-REQUISITE to #1, not a follow-on.** This is a correction to the builder's
+ordering. Build #1 without #2 and you get a system that closes the motor loop but cannot tell
+self-caused from world-caused change — **the exact confabulation failure the original report warned
+about ("bounded, well-behaved, and confabulating").** A consequence channel with no efference copy
+lets a domain credit or blame itself for changes it did not cause, which is learning on a corrupted
+reward, and that is the reafference lesion reappearing AT THE CREDIT GATE.
+
+Efference copy is not an enhancement. **It is what makes consequence-learning valid.** The proposed
+implementation — record what was emitted, timestamped, into the same recorder stream the resolver
+reads, so a forward outcome can be conditioned on whether an action preceded it — is structurally
+correct corollary discharge: a copy of the motor command routed to the sensory/credit side.
+
+**3. Leave active inference in SHADOW. Firm.** Its header says stage 1 of 3, single observation
+channel, hand-specified. **A generative model with ONE observation channel has almost no way to
+distinguish good predictions from lucky ones** — it is the phase-estimator's precision problem at
+n=1. Arming before stage 2 widens observations and stage 3 grounds parameters in the substrate is
+how you get a confident system with nothing behind the confidence, which is the failure this project
+exists to prevent. The code saying "stage 1 of 3, not yet" is the system correctly refusing to arm
+before it is grounded. **Do not override it.**
+
+### 5. The throughline of the whole session [NEUROLOGIST INPUT]
+
+**Every major finding has had the same shape: a real mechanism that exists and works, present in one
+or two domains, withheld from the other eighteen.** The circularity cut, the frozen channels, the
+discarded confidence signal, the CISS grounding, and now consequence channels.
+
+Same lesion class each time: **the substrate is built, the generalization is missing.**
+
+That is genuinely good news about where LIMEN is. It is much closer to "wire what exists across all
+20" than to "invent what is missing."
+
+**The motor loop is the last and biggest instance. Efference copy is the exception: it has never
+been built anywhere, not even in energy.** It is the one genuinely new construction rather than a
+generalization of something already running.
+
+**Do not add effectors. Add the return path (consequence channels) and the self-attribution tag
+(efference copy) TOGETHER, because the second is what keeps the first from confabulating.**
+
+---
+
+### 6. BUILDER ADDITION: efference copy is a PREDICTION, not just a record [mark: IDEA]
+
+Following from §3-4, one implementation subtlety that changes the design.
+
+"Record what was emitted, timestamped" is the minimum viable version and it is correct as far as it
+goes. But true corollary discharge is **a prediction of the sensory consequence, not merely a record
+of the action.** The brain does not only note "I moved"; it predicts "therefore the sensory field
+will shift thus" and subtracts that prediction. The residual is what was NOT self-caused.
+
+That distinction is exactly what §3 says the original report's §7 called for: **cancellation, not
+exclusion.** Exclusion throws the channel away. Cancellation subtracts a prediction and keeps the
+residual, which is strictly more information.
+
+So the fuller shape is:
+
+    emit action  ->  predict the expected feed consequence  ->  observe realized
+                 ->  residual = realized - predicted        ->  residual is the world-caused part
+                 ->  credit gate learns from the RESIDUAL, not the raw change
+
+**LIMEN already has the forecasting machinery this needs.** `lib/feed-resolver.js:81-99`
+(`deriveForecast`) computes a least-squares slope over recorded history and projects forward. An
+efference-copy prediction could reuse that path rather than inventing a second forecaster.
+
+Stated as `[mark: IDEA]`: the minimum version (timestamped record) is enough to START, and the
+prediction/residual version is where it has to end up if the goal is cancellation rather than
+exclusion. Building the record first and the prediction second is a legitimate sequence; building
+only the record and calling the loop closed is not.
+
+---
+
+## ENTRY 014 - (next)
