@@ -623,7 +623,7 @@ EL('tools').innerHTML = C.tools.map(function (t) {
 // Domains listed here replace their "soon" placeholder cards with working tools reading
 // live data. Everything else keeps the placeholder. Agriculture is the first port; the
 // pattern is: one /api/<domain>-tools handler, one render function, no client-side keys.
-var BUILT_TOOLS = { agriculture: renderAgTools };
+var BUILT_TOOLS = { agriculture: renderAgTools, medicine: renderMedTools, environment: renderEnvTools };
 
 function money(n, dp) { var v = Number(n); return (v < 0 ? '-$' : '$') + Math.abs(v).toFixed(dp == null ? 2 : dp); }
 function signed(n, unit) {
@@ -764,6 +764,200 @@ function wireMarginCalc(pr) {
   [elAcres, elYield, elBasis, elCost].forEach(function (e) { e.addEventListener('input', calc); });
   setYieldDefault();
   calc();
+}
+
+// ── MEDICINE TOOLS ─────────────────────────────────────────────────────────
+function renderMedTools(host) {
+  host.innerHTML = '<div class="muted">Loading live health data…</div>';
+  fetch('/api/medicine-tools').then(function (r) { return r.json(); }).then(function (j) {
+    host.innerHTML = medShortageCard(j.shortages || { ok: false }) +
+                     medOutbreakCard(j.outbreaks || { ok: false }) +
+                     medRecallCard(j.recalls || { ok: false });
+    if (j.shortages && j.shortages.ok) wireShortageSearch();
+  }).catch(function () { host.innerHTML = failBox('The health data service did not respond.'); });
+}
+
+function medShortageCard(s) {
+  if (!s.ok) return toolCard('medShortage', 'Drug shortage lookup', 'Is your medication in short supply nationally?', failBox(s.reason));
+  var bs = s.byStatus || {};
+  var counts = Object.keys(bs).map(function (k) {
+    return '<div><div class="n">' + bs[k] + '</div><div class="k">' + esc(k) + '</div></div>';
+  }).join('');
+  var recent = (s.recent || []).slice(0, 8).map(function (r) {
+    return '<div class="agrow" style="grid-template-columns:1fr 108px"><div class="nm">' + esc(r.drug || 'n/a') +
+      '<em>' + esc([r.category, r.company].filter(Boolean).join(' · ')) + '</em></div>' +
+      '<div class="agval">' + esc(r.status || '') + '<em>' + esc(r.updated || '') + '</em></div></div>';
+  }).join('');
+  var body =
+    '<div class="agform" style="grid-template-columns:1fr auto">' +
+    '<div><label for="medQ">Drug name (generic)</label><input id="medQ" type="text" placeholder="e.g. lidocaine, clonazepam" autocomplete="off"></div>' +
+    '<div><label>&nbsp;</label><button id="medGo" class="guide-cta" style="margin:0;padding:11px 18px;border:none;cursor:pointer">Check</button></div>' +
+    '</div><div id="medResult"></div>' +
+    (counts ? '<div class="agout" style="margin-top:6px">' + counts + '</div>' : '') +
+    '<div style="margin-top:18px"><div class="mig-h">Most recently updated</div>' + recent + '</div>' +
+    '<div class="agnote">' + esc(s.note) + ' Source: <a href="' + esc(s.sourceUrl) + '" target="_blank" rel="noopener">' + esc(s.source) + '</a>. ' +
+    'Search the generic name, not the brand: the FDA lists these by generic.</div>';
+  return toolCard('medShortage', 'Drug shortage lookup',
+    'Type a generic drug name to see whether the FDA has an open shortage record for it. ' + (s.total != null ? '<b>' + s.total + '</b> shortages are current right now.' : ''),
+    body);
+}
+
+function wireShortageSearch() {
+  var q = EL('medQ'), go = EL('medGo'), out = EL('medResult');
+  if (!q || !go) return;
+  function run() {
+    var v = q.value.trim();
+    if (v.length < 3) { out.innerHTML = '<div class="agnote">Enter at least three letters.</div>'; return; }
+    out.innerHTML = '<div class="agnote">Checking the FDA record…</div>';
+    fetch('/api/medicine-tools?tool=shortages&q=' + encodeURIComponent(v)).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok) { out.innerHTML = failBox(j.reason); return; }
+      if (!j.found) {
+        out.innerHTML = '<div class="agnote" style="color:var(--soft)"><b>No open FDA shortage record for "' + esc(j.query) + '".</b> ' +
+          'That is a national record only. Your pharmacy can still be out of it locally, and brand names will not match here.</div>';
+        return;
+      }
+      var cur = j.rows.filter(function (r) { return r.status === 'Current'; });
+      var head = '<div class="agnote" style="color:var(--ink)"><b>' + (cur.length ? cur.length + ' current shortage record' + (cur.length === 1 ? '' : 's') : 'No CURRENT record') +
+        '</b> for "' + esc(j.query) + '"' + (j.found > cur.length ? ', plus ' + (j.found - cur.length) + ' resolved or discontinued.' : '.') + '</div>';
+      var rows = j.rows.slice(0, 10).map(function (r) {
+        return '<div class="agrow" style="grid-template-columns:1fr 118px"><div class="nm">' + esc(r.drug || '') +
+          '<em>' + esc([r.company, r.presentation].filter(Boolean).join(' · ')) + (r.reason ? ' — ' + esc(r.reason) : '') + '</em></div>' +
+          '<div class="agval">' + esc(r.status || '') + '<em>' + esc(r.updated || '') + '</em></div></div>';
+      }).join('');
+      out.innerHTML = head + rows;
+    }).catch(function () { out.innerHTML = failBox('The lookup did not respond.'); });
+  }
+  go.addEventListener('click', run);
+  q.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+}
+
+function medOutbreakCard(o) {
+  if (!o.ok) return toolCard('medOutbreak', 'Outbreak tracker', 'What is actually spreading, and where.', failBox(o.reason));
+  var rows = (o.rows || []).map(function (r) {
+    var t = r.url ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.disease) + '</a>' : esc(r.disease);
+    return '<div class="agrow" style="grid-template-columns:1fr 104px"><div class="nm">' + t +
+      (r.where ? '<em>' + esc(r.where) + '</em>' : '') + '</div>' +
+      '<div class="agval" style="font-size:.7rem">' + esc(r.published || '') + '</div></div>';
+  }).join('');
+  return toolCard('medOutbreak', 'Outbreak tracker',
+    'Every event the World Health Organization has formally reported, newest first. Each one opens WHO\'s own report.' + (o.stale ? ' <b>Showing the last good read.</b>' : ''),
+    rows + '<div class="agnote">' + esc(o.note) + ' Source: <a href="' + esc(o.sourceUrl) + '" target="_blank" rel="noopener">' + esc(o.source) + '</a>.</div>');
+}
+
+function medRecallCard(rc) {
+  if (!rc.ok) return toolCard('medRecall', 'Plain-language recall alerts', 'What just got pulled, and whether it matters.', failBox(rc.reason));
+  var groups = (rc.groups || []).map(function (g) {
+    if (!g.ok) return '<div class="mig-h" style="margin-top:16px">' + esc(g.label) + '</div>' + failBox(g.reason);
+    if (!g.rows.length) return '';
+    var rows = g.rows.slice(0, 5).map(function (r) {
+      var col = r.risk === 'high' ? 'var(--red)' : r.risk === 'medium' ? 'var(--amber)' : 'var(--faint)';
+      return '<div class="agrow" style="grid-template-columns:1fr 96px">' +
+        '<div class="nm">' + esc(r.product || 'n/a') +
+        '<em>' + esc(r.firm || '') + (r.reason ? ' — ' + esc(r.reason) : '') + '</em>' +
+        (r.plain ? '<em style="color:' + col + ';margin-top:4px">' + esc(r.plain) + '</em>' : '') + '</div>' +
+        '<div class="agval" style="color:' + col + '">' + esc(r.classification || '') + '<em>' + esc(r.reported || '') + '</em></div></div>';
+    }).join('');
+    return '<div class="mig-h" style="margin-top:18px">' + esc(g.label) + '</div>' + rows;
+  }).join('');
+  var sub = 'The FDA sorts every recall into three classes, and the number alone tells you nothing. ' +
+    '<b>Class I</b> means a real chance of serious harm; <b>Class II</b> a temporary or unlikely one; <b>Class III</b> a rule breach, not a health risk. ' +
+    (rc.classOneCount ? '<b>' + rc.classOneCount + ' Class I</b> in this batch.' : 'No Class I in this batch.');
+  return toolCard('medRecall', 'Plain-language recall alerts', sub,
+    groups + '<div class="agnote">' + esc(rc.note) + ' Source: <a href="' + esc(rc.sourceUrl) + '" target="_blank" rel="noopener">' + esc(rc.source) + '</a>. ' +
+    'This is not a complete list of every recall, it is the most recent in each category.</div>');
+}
+
+// ── ENVIRONMENT TOOLS ──────────────────────────────────────────────────────
+function renderEnvTools(host) {
+  host.innerHTML = '<div class="muted">Loading live environment data…</div>';
+  fetch('/api/environment-tools').then(function (r) { return r.json(); }).then(function (j) {
+    host.innerHTML = envAirCard() + envFireCard(j.fires || { ok: false }) + envDroughtCard(j.drought || { ok: false });
+    wireAirLookup();
+  }).catch(function () { host.innerHTML = failBox('The environment data service did not respond.'); });
+}
+
+function envAirCard() {
+  var body =
+    '<div class="agform" style="grid-template-columns:1fr auto">' +
+    '<div><label for="envZip">ZIP code</label><input id="envZip" type="text" inputmode="numeric" maxlength="5" placeholder="e.g. 97701"></div>' +
+    '<div><label>&nbsp;</label><button id="envGo" class="guide-cta" style="margin:0;padding:11px 18px;border:none;cursor:pointer">Check air</button></div>' +
+    '</div><div id="envAirOut"></div>';
+  return toolCard('envAir', 'Air quality by ZIP',
+    'What you are breathing where you live, on the EPA\'s own 0-500 scale, plus any weather-service hazard active at that exact point. ' +
+    '<b>Water is not included:</b> the EPA\'s public drinking-water service answers too slowly and too unreliably to sit behind a live tool, and a half-working water check is worse than none.',
+    body);
+}
+
+function wireAirLookup() {
+  var z = EL('envZip'), go = EL('envGo'), out = EL('envAirOut');
+  if (!z || !go) return;
+  function run() {
+    var v = z.value.replace(/\D/g, '');
+    if (v.length !== 5) { out.innerHTML = '<div class="agnote">Enter a 5-digit ZIP.</div>'; return; }
+    out.innerHTML = '<div class="agnote">Reading the air at ' + esc(v) + '…</div>';
+    fetch('/api/environment-tools?tool=air&zip=' + v).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok) { out.innerHTML = failBox(j.reason); return; }
+      var col = j.risk === 'high' ? 'var(--red)' : j.risk === 'medium' ? 'var(--amber)' : 'var(--green)';
+      var h = '<div class="agout"><div><div class="n" style="color:' + col + '">' + j.aqi + '</div>' +
+        '<div class="k">US Air Quality Index<br>' + esc(j.place || '') + ', ' + esc(j.state || '') + '</div></div>' +
+        '<div><div class="n" style="font-size:.95rem;color:' + col + '">' + esc(j.band) + '</div><div class="k">' + esc(j.advice) + '</div></div></div>';
+      h += '<div style="margin-top:16px"><div class="mig-h">What is in it</div>' +
+        j.pollutants.map(function (p) {
+          return '<div class="agrow" style="grid-template-columns:88px 1fr 92px"><div class="nm">' + esc(p.key) + '</div>' +
+            '<div class="nm" style="font-weight:400"><em style="margin-top:0">' + esc(p.what) + '</em></div>' +
+            '<div class="agval">' + p.value + '<em>' + esc(p.unit) + '</em></div></div>';
+        }).join('') + '</div>';
+      if (j.alerts && j.alerts.length) {
+        h += '<div style="margin-top:16px"><div class="mig-h">Active at this location</div>' +
+          j.alerts.map(function (a) {
+            return '<div class="agrow" style="grid-template-columns:1fr 110px"><div class="nm">' + esc(a.event || '') +
+              (a.headline ? '<em>' + esc(a.headline) + '</em>' : '') + '</div>' +
+              '<div class="agval" style="font-size:.7rem">' + esc(a.severity || '') + '</div></div>';
+          }).join('') + '</div>';
+      } else {
+        h += '<div class="agnote">No National Weather Service alert is active at this point right now.</div>';
+      }
+      h += '<div class="agnote">' + esc(j.note) + ' Reading for ' + esc(j.observedAt || '') + '. ' +
+        'Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">' + esc(j.source) + '</a>, ' +
+        'official monitor data at <a href="https://www.airnow.gov/" target="_blank" rel="noopener">AirNow</a>.</div>';
+      out.innerHTML = h;
+    }).catch(function () { out.innerHTML = failBox('The air-quality lookup did not respond.'); });
+  }
+  go.addEventListener('click', run);
+  z.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+}
+
+function envFireCard(f) {
+  if (!f.ok) return toolCard('envFire', 'Active wildfires', 'The biggest fires burning right now.', failBox(f.reason));
+  var rows = (f.rows || []).slice(0, 12).map(function (r) {
+    var pctOut = r.contained == null ? 0 : r.contained;
+    var col = pctOut >= 90 ? 'normal' : pctOut >= 50 ? 'watch' : pctOut >= 20 ? 'stressed' : 'severe';
+    return '<div class="agrow" style="grid-template-columns:1fr 92px 74px"><div class="nm">' + esc(r.name) +
+      '<em>' + esc(r.state || '') + (r.discovered ? ' · started ' + esc(r.discovered) : '') + '</em></div>' +
+      '<div class="agbar" title="' + pctOut + '% of the perimeter contained"><i class="' + col + '" style="width:' + Math.max(2, pctOut) + '%"></i></div>' +
+      '<div class="agval">' + r.acres.toLocaleString() + '<em>acres</em></div></div>';
+  }).join('');
+  return toolCard('envFire', 'Active wildfires',
+    '<b>' + (f.rows || []).length + '</b> incidents over 100 acres, <b>' + f.totalAcres.toLocaleString() + '</b> acres between them, ' +
+    '<b>' + f.uncontained + '</b> not yet fully contained. The bar is containment.' + (f.stale ? ' <b>Showing the last good read.</b>' : ''),
+    rows + '<div class="agnote">' + esc(f.note) + ' Source: <a href="' + esc(f.sourceUrl) + '" target="_blank" rel="noopener">' + esc(f.source) + '</a>.</div>');
+}
+
+function envDroughtCard(dr) {
+  if (!dr.ok) return toolCard('envDrought', 'Drought map', 'How dry every state is right now.', failBox(dr.reason));
+  var rows = (dr.rows || []).filter(function (r) { return r.d1 > 0; }).map(function (r) {
+    var wow = r.changeD2 == null ? '' : '<em>' + (r.changeD2 > 0 ? '+' : '') + r.changeD2 + ' w/w</em>';
+    return '<div class="agrow" style="grid-template-columns:56px 1fr 74px"><div class="nm">' + esc(r.state) + '</div>' +
+      '<div class="agbar" title="' + r.d2 + '% in severe drought or worse"><i class="' + r.band + '" style="width:' + Math.max(1, Math.round(r.d2)) + '%"></i></div>' +
+      '<div class="agval">' + r.d2.toFixed(0) + '%' + wow + '</div></div>';
+  }).join('');
+  return toolCard('envDrought', 'Drought map',
+    '<b>' + dr.statesWithSevere + '</b> states have land in severe drought (D2) or worse. Bars show the share of each state at D2+; only states with some drought are listed.' +
+    (dr.stale ? ' <b>Showing the last good read.</b>' : ''),
+    '<div class="agscroll">' + rows + '</div>' +
+    '<div class="agnote">' + esc(dr.note) + ' Map date ' + esc(String(dr.mapDate || '')) + '. ' +
+    'Source: <a href="' + esc(dr.sourceUrl) + '" target="_blank" rel="noopener">' + esc(dr.source) + '</a>.<br>' +
+    '<b>Local hazard alerts</b> are already live further up this page: use the "Your area" ZIP box under the national alert count.</div>');
 }
 
 // swap the placeholder cards for real tools where a domain has them
@@ -1056,7 +1250,9 @@ fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(functi
   if (typeof d.liveCount === 'number') h += '<div class="muted" style="margin-top:10px;font-size:.78rem">' + d.liveCount + ' live sources tracked · updates continuously</div>';
   h += renderPulseDefs(d, st, stress);
   h += renderSourceLedger(d.sources || []);
-  EL('pulse').innerHTML = h;
+  // environment hides #pulseSection and renders the same content in the phase card instead;
+  // painting it here too would duplicate the whole definitions + ledger block into hidden DOM
+  if (C.live !== 'env') EL('pulse').innerHTML = h;
   if (d.phase) setFractalPhase(d.phase); // fractal hero takes the domain's live phase color/form
   if (C.live === 'env') renderPhase(d);
   else renderGuide(d);
