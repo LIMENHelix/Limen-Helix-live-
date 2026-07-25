@@ -21,8 +21,9 @@
  *
  * HONESTY, and these matter:
  *  - Listing price is what sellers ASK, not what buyers paid.
- *  - Income is per HOUSEHOLD and pre-tax, and the series lags by a year or more, so the
- *    ratio shown is slightly optimistic: today's price is divided by an older income.
+ *  - Income is per HOUSEHOLD and pre-tax, and the series lags the price series by roughly
+ *    two years (measured: 936 days vs 54). A current price divided by an older, LOWER income
+ *    inflates the multiple, so the figure reads slightly worse than reality, not better.
  *  - Price-to-income ignores mortgage rates, which change affordability a great deal.
  *  - Statewide medians hide enormous variation between a city and a rural county.
  */
