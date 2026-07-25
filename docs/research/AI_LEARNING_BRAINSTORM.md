@@ -1864,4 +1864,128 @@ predictive coding, free energy), Ben Lambert (econometrics), Mutual Information.
 
 ---
 
-## ENTRY 012 - (next)
+## ENTRY 012 - Third read pass: the credit gate, and how far the energy findings generalize
+
+> **STATUS: [verified] file/line facts and grep counts. [mark: IDEA] the ranking implications.**
+> Read-only. No code changed. Read this session: `assets/js/limen-k4-selfconsistency.js` (full),
+> `assets/js/energy-metaplasticity.js` (full), plus targeted greps across all 21 domain-brain files.
+
+**Date:** 2026-07-25
+
+---
+
+### 0. The coverage limit, measured rather than estimated
+
+"Read the rest of the project" is not achievable in a session. The actual sizes:
+
+    energy-brain.js                 282 KB   (~400 of ~6,000 lines read across this whole audit)
+    19 other domain brains          168-179 KB each   => ~3.5 MB of brain code
+    energy-node-business-engine.js  126 KB
+    energy-clarity-operator.js      115 KB
+
+So this pass did NOT read them. It ran targeted greps answering the one question that decides
+whether the earlier findings matter: **do the energy findings generalize to the other 19 domains?**
+They do, via a shared base class. Details in §3.
+
+**Anyone implementing from this document should treat §0 of Entry 009 as still binding: from a
+partial read, report what the code DOES, never what it lacks.**
+
+### 1. Eighteen of twenty domains can never receive external reward [verified]
+
+`assets/js/limen-k4-selfconsistency.js:76`:
+
+    var EXTERNAL_REWARD_DOMAINS = { finance: true, energy: true };
+
+Everything else is self-consistency calibration. The file is scrupulous about saying so:
+`isReward:false` rides every snapshot, and the preemption order is explicit and central
+(external-reward tier 4 > phase-consistency 3 > call-consistency 2 > stress-consistency 1 > none).
+The honesty is real and the central placement is the right design — it cannot be re-overclaimed
+inconsistently in one brain.
+
+**The structural fact stands anyway: 18 brains learn from agreeing with themselves.** Their
+plasticity modulator is driven by their own self-prediction. This is the circularity problem in its
+purest form, and unlike the diagnosis-layer version already cut, this one is load-bearing for
+learning rather than for display.
+
+**Cross-reference to Entry 009 §0d.** Tier 2 (`call-consistency`) reads `callHitRate` — the
+binarised metric from `outcome-ledger.scorePairs`. Whenever tier 4 is unavailable, which for 18
+domains is ALWAYS, the binarised score is what teaches. That raises the F2 item further: it is not
+one domain's learning signal, it is eighteen.
+
+### 2. Two different metaplasticity implementations. One is armed; one is a no-op. [verified]
+
+This refines Entry 010 §4, and Entry 010's claim survives.
+
+**ARMED — `assets/js/limen-plasticity.js:155-171`.** BCM sliding threshold on eta. Computed every
+tick. Applied when `_actuation.metaplasticityLive`, and `domain-brain-base.js:1307` defaults that to
+`true`. So the backprop-free adaptive gate Entry 010 pointed at as the pattern to generalise is real
+AND live. That proposal stands.
+
+**INERT — `assets/js/energy-metaplasticity.js`.** A SEPARATE overlay that adapts other mechanisms'
+knobs (offline down-scale factor, refractory window, prediction-error threshold). `DEFAULTS.gain = 0`
+with the comment "0 => no-op", and call sites (e.g. `agriculture-brain.js:1286`,
+`defense-brain.js:539`) read `params.metaplasticityGain` from the domain JSON, defaulting to 0.
+
+**So it is mathematically a no-op unless a gain is set per domain.** Built, called every cycle,
+returns its inputs unchanged. Another acquisition-without-removal instance, and one that reads as
+live in any log that only checks whether the module ran.
+
+### 3. The substrate is SHARED, not duplicated twenty times [verified]
+
+Grep counts for `_learnedVec|ActiveInference|Plasticity|LIMENK4` across the 21 files:
+
+    domain-brain-base.js   30        energy-brain.js   41
+    medicine 9, industry 8, economy 7, technology 7, communication 6, science 6
+    agriculture 5, defense 5, education 5, governance 5, intelligence 5, religion 5
+    law 4, trade 4, culture 3, environment 3, finance 3, infrastructure 3, population 3
+
+Low counts mean those brains inherit from `domain-brain-base.js` rather than carrying a copy. That
+is the lift-to-base refactor, and it is good architecture: ONE implementation, not nineteen. The
+energy findings therefore generalise by construction, not by coincidence.
+
+**One anomaly worth a look: `finance-brain.js` shows only 3 hits**, yet finance is one of only two
+domains with real external ground truth (Thing1's validated distress). The domain with the best
+available reward signal appears to run entirely on the base implementation. Not necessarily wrong.
+It is where to look first if the goal is to make the learning loop prove itself against real
+outcomes rather than self-consistency, because it is the only place tier 4 can fire from validated
+data.
+
+### 4. Actuation flags are per-brain, hand-set, and gate whole subsystems [verified]
+
+    defense-brain.js:63      { overlays:true, refractory:true, servo:true, eiBrake:true, phase:false, selfAudit:true }
+    agriculture-brain.js:72  { overlays:true, refractory:true, servo:true, eiBrake:true, phase:false }
+
+`energy-brain.js:2467` checks `_actuation.phase` before running the phase-coherence router. So on at
+least these two domains **the phase-dynamics path does not execute at all**, by a hand-set boolean.
+The flag sets also differ between brains (`defense` carries `selfAudit`, agriculture does not).
+
+This is a sixth hand-set table (after channel weights, K-layer seeds, propagator category/confidence
+weights, propagator tuning constants, and scheduler thresholds) — and unlike the others, this one
+decides whether entire subsystems run.
+
+### 5. What this changes in the ranking [mark: IDEA]
+
+No reordering. Two items gain weight and one target becomes specific:
+
+- **F2 (Brier + log loss) gains the most.** Per §1 it is the teaching signal for 18 domains, not
+  one. It was already rank 1; it is now rank 1 by a wider margin.
+- **Entry 010 §4 (generalise the BCM gate) is confirmed viable.** Per §2 the armed implementation
+  exists and works; the five frozen accumulators are the gap.
+- **New concrete target: `finance-brain.js`.** Per §3 it is the only domain where tier-4 external
+  reward can fire from validated data, and it appears to run on the base implementation. If the
+  learning loop is ever to be demonstrated on real outcomes rather than self-agreement, that is
+  where the demonstration has to happen.
+
+### 6. Still unread after three passes
+
+19 of 20 domain brains in substance (~3.5 MB), `domain-brain-base.js` beyond the grepped lines, five
+of six overlay modules (`extinction`, `retrograde-throttle`, `prediction-error-compressor`,
+`offline-maintenance`, `neuro-substrate`), `lib/consolidator.js`, `lib/bridge-engine.js`,
+`lib/pattern-author.js`, `limen-helix-api/limen_v4_kernel.js`, ~400 lines of
+`lib/company-phase-scorer.js`, the business/clarity engines (240 KB), and the ~335k-line full repo.
+
+**The audit covers the regulation and learning spine. It does not cover the system.**
+
+---
+
+## ENTRY 013 - (next)
