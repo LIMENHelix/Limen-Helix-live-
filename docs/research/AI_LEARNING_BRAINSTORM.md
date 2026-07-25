@@ -776,4 +776,179 @@ diagnosis. If F1 were not true, F2 through F4 would be solutions in search of a 
 
 ---
 
-## ENTRY 004 - (next)
+## ENTRY 004 - Does Baum-Welch fit the LIMEN estimator? (verdict: no)
+
+**Date:** 2026-07-25. Read-only check. No code changed.
+
+**Self-correction up front.** An earlier note in this session suggested Baum-Welch "may retire the
+stated blocker" on tuning the transition matrix `A`. That was wrong in a way that changes the
+decision. Baum-Welch maximizes P(observations | model). The caution at `phase-estimator.js:80-83`
+is about tuning `A` against OUTCOMES. Different objectives. An `A` that best explains the channel
+readings is not an `A` that best predicts distress. It sidesteps the blocker, it does not retire it.
+
+### What genuinely fits
+
+- **The forward pass IS an HMM forward pass.** `predict()` (`phase-estimator.js:111`) is exactly
+  `alpha_t(j) = sum_i alpha_{t-1}(i) * A[i][j]`, and the fusion block (245-254) is the emission
+  update. A discrete Bayes filter was written here without being named as one.
+- **State identity is pinned, so no label-switching.** Generic HMM fitting suffers from EM finding
+  a well-fitting model whose states mean nothing. Here `distressBandLikelihood`
+  (`grounded-stress.js:341-350`) is hand-written and phase-labeled, so holding it fixed nails P3 to
+  P3. A real advantage over off-the-shelf HMM work.
+- **`A` is already 3 parameters, not 110.** `makeTransition()` (line 84) generates the whole matrix
+  from STAY/ADV/REG. Tied-parameter EM is standard practice.
+- **The observation sequence is partly recoverable.** `limen-worker-snapshot.js:232-234` stores raw
+  channel values (cap 300, cadence 60-75 min = 12.5-15.6 days rolling) and the likelihood is a
+  deterministic function of the raw value, so `L_1..L_T` can be replayed.
+
+### What breaks it
+
+1. **It is not an HMM, because the emission depends on the filter's own past.** At line 251,
+   `w = rc[kk]/totalPrecision`, and `rc` derives from `resVar`, an EWMA of `KL(L_c, belief)` over
+   prior ticks (259-266). So the effective emission at time t is a function of the whole belief
+   trajectory. Baum-Welch's E-step needs a well-defined joint P(O,S|lambda) to take expectations
+   under. There is not one. **This is the disqualifier.**
+2. **The pooling is not a likelihood.** Exponents sum to 1, so belief is proportional to
+   prior * product of L_c^(w_c), a weighted geometric mean. A conditionally-independent HMM uses
+   exponent 1 per channel. The geometric form is a deliberate anti-double-counting choice and it is
+   a GOOD one, but it means EM's monotone-likelihood-increase guarantee does not apply.
+3. **Stored history is not reliably time-aligned.** Company channels append under `gsShouldAppend`
+   (`limen-worker-snapshot.js:227`); `marketScore` and feed channels use
+   `gsShouldAppend || !gsSlot.history[key]` (lines 256, 295). That `||` escape fires once at array
+   creation and can offset those arrays by one sample permanently. Forward-backward needs aligned
+   observation vectors.
+4. **Half the latent state is unmodeled.** `stuck` is orthogonal to phase by design (line 20) and is
+   computed from belief-shift dynamics. Fitting `A` fits the phase dimension and ignores the one
+   that actually carries distress.
+5. **Garbage-in risk, already on record.** If the grounded CISS rank is still near-constant across
+   domains, EM converges to whatever `A` makes a flat stream likely (probably STAY -> 1) and returns
+   a confident, meaningless answer. Re-verify the degeneracy status before fitting anything.
+
+### The useful finding
+
+Work out what a legal version needs: freeze `w`, replay the sequence, constrain the M-step back
+onto three parameters. Then notice what is left.
+
+**You are fitting three bounded scalars. EM buys nothing there.**
+
+The entire value of Baum-Welch is searching high-dimensional parameter spaces without enumerating
+them. Over STAY/ADV/REG on a bounded grid, brute force is trivially cheap, has no convergence
+conditions, no local-optima story, and is auditable by reading a table.
+
+More importantly, **a grid lets you choose the objective.** EM locks you into observation
+likelihood. A grid lets you score each candidate `A` against the forward-outcome Brier score from
+`outcome-ledger.js`, which is the objective F1/F2 says is missing.
+
+**Placement: this belongs AFTER F1 and F2, not before.** Grid-searching 3 parameters is easy.
+Having something meaningful to score them against is the actual work.
+
+---
+
+## ENTRY 005 - Perplexity, entropy, cross-entropy (reference + the LIMEN application)
+
+**Prompted by:** https://youtu.be/Tg9rZt96yyQ
+**Title (read off the page shell):** "Perplexity, Entropy & Cross-Entropy in 6 Minutes
+(AI Metrics Explained Fast)"
+**Captured:** 2026-07-25
+
+**HONESTY ON SOURCING.** YouTube's player metadata is JavaScript-rendered and no caption source was
+reachable, so the channel, publish date, duration, and the video's own content could NOT be
+extracted. **This entry is not a scrape of that video.** The formulas and limitations below come
+from two independent written sources, fetched and cross-checked against each other:
+- https://www.topbots.com/perplexity-and-entropy-in-nlp/
+- https://www.comet.com/site/blog/perplexity-for-llm-evaluation/
+
+Both agree on every formula stated here. Where they differ in emphasis it is noted.
+
+### The three quantities, and the one relationship that connects them
+
+**Entropy** — the average surprise in a distribution you believe is correct. The floor on how few
+bits can encode data drawn from it.
+
+    H(p) = -sum_i p_i * log(p_i)
+
+**Cross-entropy** — the average surprise when the data really comes from `p` but you encode it
+using your model `q`. Always at least as large as the true entropy.
+
+    H(p,q) = -sum_i p_i * log(q_i)          and always   H(p,q) >= H(p)
+
+The excess is the KL divergence, which is precisely the price of being wrong:
+
+    KL(p||q) = H(p,q) - H(p)
+
+**Perplexity** — cross-entropy, exponentiated back out of log space.
+
+    PPL = b^H(p,q)      b = 2 for bits, e for nats
+
+### Why perplexity is worth the extra step
+
+It converts an abstract bit-count into an **effective branching factor**: how many equally-likely
+options the model is effectively choosing between.
+
+| Cross-entropy (bits) | Perplexity | Reads as |
+|---|---|---|
+| 1.0 | 2.0 | effectively a coin flip |
+| 2.0 | 4.0 | effectively 4 equally-likely options |
+| 3.32 | 10.0 | effectively 10 equally-likely options |
+
+"The model is choosing among 4 options" is a sentence a non-technical operator can act on.
+"Cross-entropy 2.0" is not. Same number, and the exponential is the entire difference.
+
+### Documented limitations (do not skip these)
+
+1. **Perplexity measures certainty, NOT correctness.** A model can be confidently wrong or
+   correctly unconfident, and perplexity cannot tell those apart. This is the single most important
+   caveat and it is the exact reason perplexity does not replace a calibration check.
+2. **Not comparable across models.** Depends on tokenization, vocabulary size, context length, and
+   preprocessing. Cross-model perplexity comparisons are mostly meaningless.
+3. **Weak on long-range structure.** Correlates poorly with genuine comprehension.
+4. **Gameable by artifacts.** Punctuation and repeated spans lower it without improving anything.
+5. **Never sufficient alone.** Must be paired with task-specific measures.
+
+### THE LIMEN APPLICATION (the reason this entry exists)
+
+`phase-estimator.js` emits an 11-element belief vector every tick. Its perplexity is:
+
+    PPL(belief) = exp( -sum_p belief[p] * ln(belief[p]) )
+
+and it is **bounded between 1 and 11 by construction**:
+
+| PPL(belief) | Meaning |
+|---|---|
+| 1.0 | the estimator is certain: one phase, no ambiguity |
+| ~3 | effectively choosing between 3 of the 11 phases |
+| 11.0 | uniform: the estimator knows nothing |
+
+**This is the missing confidence measure from Entry 003 / F4, in the form an operator can read.**
+
+Three reasons it beats what is there now:
+
+1. `confidence = totalPrecision / (totalPrecision + informativeCount)` (line 277) measures how much
+   evidence ARRIVED. Perplexity measures how concentrated the ANSWER is. Those are different
+   things and the code currently uses one as the other.
+2. It has units an operator understands. "Energy is effectively choosing between 2.1 phases,
+   agriculture between 9.4" is immediately legible. A 0-1 confidence of 0.13 is not.
+3. It is the principled version of the `promotedStress` patch (`outcome-ledger.js:44-64`). That bug
+   was diffuse belief smearing across 5 of 11 phases and saturating the distress mass. A belief with
+   PPL 9.4 is visibly near-uninformative; the current confidence scalar hid that.
+
+**The code is closer to this than it looks.** `kl()` already exists at `phase-estimator.js:61`. And
+since `KL(p||q) = H(p,q) - H(p)`, the entropy term is the piece already being implicitly subtracted
+in the residual at line 263. Adding `H(belief)` is a few lines against machinery that is already there.
+
+**Objection to my own suggestion.** Limitation #1 above applies with full force: perplexity of the
+belief measures how sure the estimator is, and says NOTHING about whether it is right. It would be
+a genuine improvement to the display layer and to F4, and it is NOT a substitute for F1/F2. Shipping
+a prettier confidence number without the calibration work behind it would make the system more
+convincing without making it more correct, which is the wrong direction. Pair it with the Brier
+score or do not ship it.
+
+### Where this sits relative to the shortlist
+
+Slots into Entry 003 item #2 (belief entropy) and makes it more valuable than originally scoped:
+same three lines of math, but exponentiate at the display layer and the operator gets an effective
+phase count instead of a unitless score. Cost is unchanged. Interpretability gain is large.
+
+---
+
+## ENTRY 006 - (next)
