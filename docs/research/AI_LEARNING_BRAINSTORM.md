@@ -1084,4 +1084,97 @@ degenerate, items 1 through 4 are all premature and the real work is upstream in
 
 ---
 
-## ENTRY 007 - (next)
+## ENTRY 007 - Why cross-entropy and not squared error, and a correction to Entry 003
+
+> **STATUS: [verified] math, [mark: IDEA] application.** The gradient derivation below is standard
+> and cited. The recommendation it forces about LIMEN's scoring choice is reasoning, not a
+> measured result. Nothing here has been run.
+
+**Prompted by:** https://youtu.be/2Edj6nmSGOQ
+**Title (read off the page shell):** "Why Every AI Model is Obsessed with Cross-Entropy"
+**Captured:** 2026-07-25
+
+**SOURCING LIMITS.** Third video in a row where channel, date, duration and content could not be
+extracted (JS-rendered metadata, no reachable captions). **Not a scrape.** Material from:
+- https://susanqq.github.io/tmp_post/2017-09-05-crossentropyvsmes/
+- https://medium.com/@gosavipranav123/cross-entropy-vs-mse-understanding-loss-functions-in-classification-a07163cfc46a
+
+Marginal value of this entry is NARROWER than 005 and 006: three of the videos sent so far cover
+the same topic cluster, and the doc already had cross-entropy from four angles. **One thing in it
+is genuinely new and it contradicts an earlier recommendation, so it is recorded.**
+
+### The actual answer to "why is every model obsessed with cross-entropy"
+
+It is not that cross-entropy is a more accurate measure of error. It is what happens to the
+GRADIENT.
+
+**Softmax output with cross-entropy loss.** The derivative of the loss with respect to the logit:
+
+    dL/dz_i = p_i - y_i
+
+That is it. Prediction minus target. No activation-derivative factor anywhere.
+
+**Sigmoid output with squared error.** The chain rule drags the activation derivative in:
+
+    dL/dz = (p - y) * sigma'(z) = (p - y) * p * (1 - p)
+
+**The failure mode:** when the model is CONFIDENTLY WRONG (p near 0 while y = 1), the factor
+`p*(1-p)` goes to zero. The gradient vanishes. Learning stalls **exactly in the case where the
+model most needs correcting.**
+
+Cross-entropy in the same situation has gradient `p - y = -1`, full strength.
+
+Two more properties that follow:
+- **Cross-entropy is the negative log-likelihood of a categorical model.** Minimising it IS maximum
+  likelihood estimation. It is not an arbitrary choice of distance.
+- **Convexity.** Squared error composed with a sigmoid is non-convex and has a flat region for large
+  negative logits. Cross-entropy is convex in the logits, so there is always a gradient pointing
+  somewhere useful.
+
+### CORRECTION to Entry 003, finding F2
+
+Entry 003 said: *"Prefer Brier over log loss here. Brier is bounded, and log loss explodes on a
+confident miss, which at current sample sizes would let one bad call dominate."*
+
+**That was one-sided and the reasoning above is why.** Brier score IS mean squared error on
+probability vectors. So Brier inherits exactly the weakness described above: it under-penalises
+confident errors, and its gradient is weakest precisely where the model is most wrong. What Entry
+003 framed as Brier's advantage (log loss "exploding") is, for FITTING purposes, log loss's whole
+point. The explosion is the signal.
+
+**Refined position, which depends on what the score is FOR:**
+
+| Purpose | Use | Why |
+|---|---|---|
+| **Reporting** to an operator | **Brier** | bounded [0,1], no infinities, robust at small n, still a proper scoring rule so it cannot be gamed by dishonest probabilities |
+| **Fitting** by gradient descent | **Log loss** | gradient stays strong on confident errors; it is the MLE objective |
+| **Fitting by grid search** (Entry 004, 3 params) | **either** | enumeration does not use gradients at all, so the saturation argument does not apply |
+
+**Practical consequence for LIMEN:** the Entry 004 conclusion is unaffected. Grid-searching
+STAY/ADV/REG over a bounded grid never computes a gradient, so Brier is perfectly fine there. The
+correction bites only if channel weights or `precisionHint` are later fitted by gradient descent
+(Entry 003 F1/item 6), where log loss should be the objective and Brier the thing shown on the
+console.
+
+Cheapest resolution: **compute both.** They are each a handful of lines over the same resolved
+pairs, they answer different questions, and disagreement between them is itself informative (it
+means confident errors are concentrated somewhere).
+
+### What is NOT new here
+
+For completeness, so a later reader does not mistake this for more than it is: the definition of
+cross-entropy, its relation to entropy and KL, and perplexity are all already in Entries 001, 005
+and 006. This entry adds only the gradient argument and the correction it forces.
+
+### Note on the source cluster
+
+Three videos supplied so far (`Tg9rZt96yyQ`, `FlaJPxP8sd8`, `2Edj6nmSGOQ`) are all short explainers
+on entropy / cross-entropy / perplexity, and none could be scraped directly. The topic is now
+covered thoroughly from primary sources. **Further videos in this same cluster are unlikely to add
+anything.** The open items in Entry 003 are calibration, proper scoring rules in practice, and
+fitting few parameters on thin data, and those are served better by Guo et al. 2017 (temperature
+scaling) and by multilevel-modelling material than by more short-form entropy explainers.
+
+---
+
+## ENTRY 008 - (next)
