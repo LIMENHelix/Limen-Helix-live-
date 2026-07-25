@@ -1739,11 +1739,31 @@ var PHASE_LADDER = [
 ];
 function renderPhaseLadder() {
   var host = EL('phaseLadder'); if (!host) return;
-  host.innerHTML = PHASE_LADDER.map(function (x) {
+  // Per-domain offers override the generic rungs for P1-P3, the three that actually convert.
+  // Each is built from a tool already live on this page, and carries the fastest cadence its
+  // SOURCE can truthfully support. Quarterly bank filings cannot promise a daily alert, so
+  // Finance does not claim one. Domains without an override fall back to the generic ladder.
+  var off = (window.LIMEN_DOMAIN_OFFERS && window.LIMEN_DOMAIN_OFFERS.get(DID)) || null;
+  var rows = PHASE_LADDER.map(function (x) {
+    if (!off) return x;
+    var k = x.p.toLowerCase();
+    var o = off[k];
+    if (!o) return x;
+    return { p: x.p, phase: x.phase, name: o.name, line: o.line, price: o.price, cadence: o.cadence, free: x.free };
+  });
+  host.innerHTML = rows.map(function (x) {
     return '<div class="prow' + (x.free ? ' free' : '') + '"><div class="pnum">' + x.p + '</div>' +
-      '<div class="pmid"><span class="pt">' + esc(x.name) + '</span><span class="pph">' + esc(x.phase) + '</span><div class="pl">' + esc(x.line) + '</div></div>' +
+      '<div class="pmid"><span class="pt">' + esc(x.name) + '</span><span class="pph">' + esc(x.phase) + '</span><div class="pl">' + esc(x.line) + '</div>' +
+      (x.cadence ? '<div class="pcad">updates ' + esc(x.cadence) + '</div>' : '') + '</div>' +
       '<div class="pprice">' + esc(x.price) + '</div></div>';
   }).join('');
+  // Say who this ladder is for, so the reader can self-select instead of guessing.
+  if (off && off.who) {
+    var sub = host.parentNode && host.parentNode.querySelector('.sub');
+    if (sub) sub.innerHTML = 'The live read is free. Everything past it is built for <b>' + esc(off.who) +
+      '</b>, and every paid tier is a tool on this page watching your own situation instead of you checking it. ' +
+      'Each states the fastest its source can actually move.';
+  }
 }
 renderPhaseLadder();
 function earlyAccess(e) {
