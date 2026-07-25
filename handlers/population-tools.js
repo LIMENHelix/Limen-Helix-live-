@@ -110,7 +110,14 @@ async function build(st) {
     sourceUrl: 'https://fred.stlouisfed.org/series/' + priceId,
     source: 'FRED (St. Louis Fed): Realtor.com listing prices and Census median household income',
     note: 'Years of income is the median asking price divided by median household income. A multiple near ' + AFFORDABLE_MULTIPLE + 'x was the long-standing lender rule of thumb for affordable.',
-    caveat: 'Listing price is what sellers ASK, not what buyers paid. Income is per household, pre-tax, and lags by a year or more, so this ratio is if anything flattering. It also ignores mortgage rates, and a statewide median hides big differences between a city and a rural county.'
+    // The direction of the income lag was stated backwards in the first version. Dividing a
+    // CURRENT price by an OLDER, lower income inflates the multiple, so the bias runs against
+    // affordability, not for it. Measured 2026-07-25: price was 54 days old, income 936 days.
+    incomeLagDays: (function () {
+      var pd = Date.parse(price.date), idt = Date.parse(income.date);
+      return (pd && idt) ? Math.round((pd - idt) / 86400000) : null;
+    })(),
+    caveat: 'Listing price is what sellers ASK, not what buyers paid. Income is per household and pre-tax, and the income series lags the price series by roughly two years, so a current price is being divided by an older and lower income. That pushes the multiple UP, meaning this reads slightly worse than reality rather than better. It also ignores mortgage rates, and a statewide median hides big differences between a city and a rural county.'
   };
 }
 
@@ -120,9 +127,9 @@ module.exports = async function handler(req, res) {
     if (q.tool === 'state' && q.st) {
       var st = String(q.st).toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
       if (STATES.indexOf(st) === -1) return T.send(res, { ok: false, reason: 'Pick a valid two-letter US state code.' });
-      return T.send(res, await T.cached('population:tool:priced:v2:' + st, TTL, function () { return build(st); }));
+      return T.send(res, await T.cached('population:tool:priced:v3:' + st, TTL, function () { return build(st); }));
     }
-    var out = await T.cached('population:tool:priced:v2:US', TTL, function () { return build(null); });
+    var out = await T.cached('population:tool:priced:v3:US', TTL, function () { return build(null); });
     out.states = STATES;
     return T.send(res, out);
   } catch (e) {

@@ -1321,7 +1321,7 @@ function eduRows(rows) {
   }).join('');
 }
 function renderEduTools(host) {
-  var body = searchForm('eduQ', 'eduGo', 'College or school name', 'e.g. University of Missouri',
+  var body = '<div id="eduVintage"></div>' + searchForm('eduQ', 'eduGo', 'College or school name', 'e.g. University of Missouri',
     '<div><label for="eduSt">State</label><input id="eduSt" type="text" maxlength="2" placeholder="MO" style="text-transform:uppercase"></div>') +
     '<div id="eduOut"></div>' +
     '<div class="agnote"><b>How to read it.</b> <b>Finish</b> is the share of students who actually complete. Where it is low, most students take on the debt and never receive the degree, ' +
@@ -1340,7 +1340,10 @@ function renderEduTools(host) {
         if (!j.ok) { out.innerHTML = failBox(j.reason); return; }
         if (!j.rows.length) { out.innerHTML = '<div class="agnote">No school matches "' + esc(j.query) + '"' + (j.state ? ' in ' + esc(j.state) : '') + '.</div>'; return; }
         var worst = j.rows.filter(function (s) { return s.completionRate != null && s.completionRate < 0.35; }).length;
+        var vin = EL('eduVintage');
+        if (vin && j.vintage) vin.innerHTML = '<div class="agwarn" style="margin-bottom:14px"><b>Read this first.</b> ' + esc(j.vintage) + '</div>';
         out.innerHTML = '<div class="agnote" style="color:var(--ink)"><b>' + j.found + ' match' + (j.found === 1 ? '' : 'es') + '</b>' +
+          (j.dataYear ? ', from the <b>' + j.dataYear + '</b> data release' : '') +
           (worst ? ', <span style="color:var(--red)">' + worst + ' where fewer than a third of students finish</span>' : '') + '.</div>' + eduRows(j.rows);
       }).catch(function () { out.innerHTML = failBox('The Scorecard lookup did not respond.'); });
   });
@@ -1497,7 +1500,8 @@ function pricedBody(j) {
     '<div><div class="n" style="color:' + col + '">' + (yrs == null ? 'n/a' : yrs.toFixed(1) + 'x') + '</div>' +
     '<div class="k">years of the median household income to buy the median home</div></div>' +
     '<div><div class="n">' + bigUsd(j.price) + '</div><div class="k">median asking price<br>' + esc(j.priceAsOf || '') + (j.priceChangeYear != null ? ', ' + signed(j.priceChangeYear) + ' in a year' : '') + '</div></div>' +
-    '<div><div class="n">' + bigUsd(j.income) + '</div><div class="k">median household income<br>' + esc(j.incomeAsOf || '') + '</div></div>' +
+    '<div><div class="n">' + bigUsd(j.income) + '</div><div class="k">median household income<br>' + esc(j.incomeAsOf || '') +
+    (j.incomeLagDays ? ', ' + (Math.round(j.incomeLagDays / 36.5) / 10) + ' yrs behind the price' : '') + '</div></div>' +
     '<div><div class="n" style="color:var(--amber)">' + bigUsd(j.incomeNeededForRule) + '</div><div class="k">what a household would need to earn for the old ' + ref + 'x rule to hold</div></div>' +
     '</div>';
   // Only shown when the handler could pair a price and an income from the SAME year.
