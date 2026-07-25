@@ -30,7 +30,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function EnvironmentBrain() {
-    Base.call(this, {
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+      
       domainId: 'environment',
       label: 'Environment',
       snapshotKey: 'environment',
@@ -321,24 +322,16 @@
       }
     }
 
-    // Stress-derived conditions — tiered activation
-    if (this.state.stress >= 0.35) {
-      this._activeConditions.push('ecosystem_disruption');
-      this._activeConditions.push('habitat_loss');
-    }
-    if (this.state.stress >= 0.50) {
-      this._activeConditions.push('soil_degradation');
-      this._activeConditions.push('habitat_fragmentation');
-    }
-    if (this.state.stress >= 0.60) {
-      this._activeConditions.push('environment_high_stress');
-      this._activeConditions.push('food_chain_imbalance');
-    }
-    if (this.state.stress >= 0.70) {
-      this._activeConditions.push('sea_level');
-      this._activeConditions.push('land_use_conflict');
-    }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 7: ecosystem_disruption, habitat_loss, soil_degradation, habitat_fragmentation, environment_high_stress, food_chain_imbalance, land_use_conflict
+    //    REMOVED, no other source in this file : 2: sea_level, structural_stress
+
 
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) {

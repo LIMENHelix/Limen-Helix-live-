@@ -52,7 +52,8 @@
   // ══════════════════════════════════════════════════════════════════════
 
   function InfrastructureBrain() {
-    Base.call(this, {
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+      
       domainId: 'infrastructure',
       label: 'Infrastructure',
       snapshotKey: 'infrastructure',
@@ -452,20 +453,16 @@
     // so the keyword+threshold filters above rarely fire. When computed stress
     // is elevated, push conditions that match real diagnosisIndex triggers so
     // diagnoses can activate. Tiered: higher stress → more categories.
-    if (this.state.stress >= 0.40) {
-      this._activeConditions.push('structural_stress');
-      this._activeConditions.push('aging_infrastructure');
-    }
-    if (this.state.stress >= 0.55) {
-      this._activeConditions.push('grid_stress');
-      this._activeConditions.push('utility_failure');
-      this._activeConditions.push('deferred_maintenance');
-    }
-    if (this.state.stress >= 0.70) {
-      this._activeConditions.push('capacity_constraint');
-      this._activeConditions.push('asset_deterioration');
-      this._activeConditions.push('inspection_failure');
-    }
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 5: grid_stress, utility_failure, deferred_maintenance, capacity_constraint, inspection_failure
+    //    REMOVED, no other source in this file : 3: structural_stress, aging_infrastructure, asset_deterioration
+
 
     if (this.state.stress >= 0.70) this.state._stressFlag = 'HIGH';
     else if (this.state.stress >= 0.50) this.state._stressFlag = 'ELEVATED';

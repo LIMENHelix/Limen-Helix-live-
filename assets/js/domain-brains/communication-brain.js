@@ -13,7 +13,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function CommunicationBrain() {
-    Base.call(this, { domainId: 'communication', label: 'Communication', snapshotKey: 'communication', cycleInterval: 30000 });
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'communication', label: 'Communication', snapshotKey: 'communication', cycleInterval: 30000 });
   }
   CommunicationBrain.prototype = Object.create(Base.prototype);
   CommunicationBrain.prototype.constructor = CommunicationBrain;
@@ -221,11 +222,16 @@
       }
     }
 
-    if (this.state.stress >= 0.20) { this._activeConditions.push('echo_chamber'); this._activeConditions.push('audience_fragmentation'); }
-    if (this.state.stress >= 0.35) { this._activeConditions.push('communication_high_stress'); this._activeConditions.push('information_contamination'); }
-    if (this.state.stress >= 0.50) { this._activeConditions.push('narrative_manipulation'); this._activeConditions.push('regulatory_overreach'); }
-    if (this.state.stress >= 0.60) { this._activeConditions.push('content_suppression'); this._activeConditions.push('platform_dominance'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 5: information_contamination, narrative_manipulation, regulatory_overreach, content_suppression, platform_dominance
+    //    REMOVED, no other source in this file : 4: echo_chamber, audience_fragmentation, communication_high_stress, structural_stress
+
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('information_control');
     if (extPressure >= 0.20) this._activeConditions.push('editorial_capture');

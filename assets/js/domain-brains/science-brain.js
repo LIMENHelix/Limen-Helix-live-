@@ -11,7 +11,8 @@
   if (!window.LIMENDomainBrainBase) { console.warn('[ScienceBrain] Base not loaded'); return; }
   var Base = window.LIMENDomainBrainBase;
 
-  function ScienceBrain() { Base.call(this, { domainId: 'research', label: 'Research', snapshotKey: 'research', portalKey: 'science', cycleInterval: 30000 }); }
+  function ScienceBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'research', label: 'Research', snapshotKey: 'research', portalKey: 'science', cycleInterval: 30000 }); }
   ScienceBrain.prototype = Object.create(Base.prototype);
   ScienceBrain.prototype.constructor = ScienceBrain;
 
@@ -199,11 +200,16 @@
     if (snap && snap.defenseSignals) { for (var si = 0; si < snap.defenseSignals.length; si++) { var sig = snap.defenseSignals[si]; if (sig.affectedDomains && (sig.affectedDomains.indexOf('research') !== -1 || sig.affectedDomains.indexOf('science') !== -1)) { this._activeConditions.push(sig.eventType); signals.push('FEED [DEFENSE]: ' + (sig.eventType || '').replace(/_/g, ' ')); } } }
     if (snap && snap.macroShock && snap.macroShock.detected) this._activeConditions.push('macro_shock');
 
-    if (this.state.stress >= 0.30) { this._activeConditions.push('methodology_weakness'); this._activeConditions.push('data_fragmentation'); }
-    if (this.state.stress >= 0.45) { this._activeConditions.push('negative_result_suppression'); this._activeConditions.push('reporting_gap'); }
-    if (this.state.stress >= 0.55) this._activeConditions.push('science_high_stress');
-    if (this.state.stress >= 0.65) { this._activeConditions.push('consensus_breakdown'); this._activeConditions.push('researcher_exodus'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 0 of these tokens. The domain's OTHER conditions (funding_gap, retraction_surge, publication_skew, ...) are feed-derived and unaffected
+    //    REMOVED, no other source in this file : 8: methodology_weakness, data_fragmentation, negative_result_suppression, reporting_gap, science_high_stress, consensus_breakdown, researcher_exodus, structural_stress
+
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('workforce_gap');
 

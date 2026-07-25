@@ -28,7 +28,8 @@
   if (!window.LIMENDomainBrainBase) { console.warn('[IndustryBrain] Base not loaded'); return; }
   var Base = window.LIMENDomainBrainBase;
 
-  function IndustryBrain() { Base.call(this, { domainId: 'industry', label: 'Industry', snapshotKey: 'industry', cycleInterval: 30000 }); }
+  function IndustryBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'industry', label: 'Industry', snapshotKey: 'industry', cycleInterval: 30000 }); }
   IndustryBrain.prototype = Object.create(Base.prototype);
   IndustryBrain.prototype.constructor = IndustryBrain;
 
@@ -270,12 +271,16 @@
     if (snap && snap.defenseSignals) { for (var si = 0; si < snap.defenseSignals.length; si++) { var sig = snap.defenseSignals[si]; if (sig.affectedDomains && sig.affectedDomains.indexOf('industry') !== -1) { this._activeConditions.push(sig.eventType); signals.push('FEED [DEFENSE]: ' + (sig.eventType || '').replace(/_/g, ' ')); } } }
     if (snap && snap.macroShock && snap.macroShock.detected) this._activeConditions.push('macro_shock');
 
-    // Stress-derived
-    if (this.state.stress >= 0.30) { this._activeConditions.push('equipment_failure'); this._activeConditions.push('reliability_decline'); }
-    if (this.state.stress >= 0.45) { this._activeConditions.push('labor_shortage'); this._activeConditions.push('contractor_limit'); }
-    if (this.state.stress >= 0.55) this._activeConditions.push('industry_high_stress');
-    if (this.state.stress >= 0.65) { this._activeConditions.push('production_halt'); this._activeConditions.push('input_shortage'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 5: reliability_decline, labor_shortage, contractor_limit, production_halt, input_shortage
+    //    REMOVED, no other source in this file : 3: equipment_failure, industry_high_stress, structural_stress
+
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('critical_part_delay');
 

@@ -13,7 +13,7 @@
   var Base = window.LIMENDomainBrainBase;
 
   function TechnologyBrain() {
-    Base.call(this, { domainId: 'technology', label: 'Technology', snapshotKey: 'technology', cycleInterval: 30000 });
+    Base.call(this, { domainId: 'technology', label: 'Technology', snapshotKey: 'technology', cycleInterval: 30000, groundedOnly: true });
   }
   TechnologyBrain.prototype = Object.create(Base.prototype);
   TechnologyBrain.prototype.constructor = TechnologyBrain;
@@ -252,11 +252,17 @@
       }
     }
 
-    if (this.state.stress >= 0.20) { this._activeConditions.push('dependency_failure'); this._activeConditions.push('credential_compromise'); }
-    if (this.state.stress >= 0.35) { this._activeConditions.push('infrastructure_attack'); this._activeConditions.push('cloud_disruption'); }
-    if (this.state.stress >= 0.50) { this._activeConditions.push('technology_high_stress'); this._activeConditions.push('compliance_violation'); }
-    if (this.state.stress >= 0.60) { this._activeConditions.push('manufacturing_bottleneck'); this._activeConditions.push('component_scarcity'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) ───────────────────────────────────────────────────
+    // REMOVED: four stress-threshold blocks (0.20 / 0.35 / 0.50 / 0.60) plus a maturity gate
+    // that synthesized nine conditions from this domain's own previous-cycle stress scalar.
+    //
+    // SURVIVE on real feeds (still pushed above): dependency_failure, infrastructure_attack,
+    // compliance_violation, component_scarcity.
+    // GONE, and correctly so — no technology feed carries them, so they were asserted purely
+    // from the scalar: credential_compromise, cloud_disruption, technology_high_stress,
+    // manufacturing_bottleneck, structural_stress.
+    // Reground any of those to a real feed to bring the diagnosis back; do not re-derive it
+    // from stress.
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('supply_constraint');
     if (extPressure >= 0.20) this._activeConditions.push('competitive_distortion');

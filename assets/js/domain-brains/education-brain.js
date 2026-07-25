@@ -13,7 +13,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function EducationBrain() {
-    Base.call(this, { domainId: 'education', label: 'Education', snapshotKey: 'education', cycleInterval: 30000 });
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'education', label: 'Education', snapshotKey: 'education', cycleInterval: 30000 });
   }
   EducationBrain.prototype = Object.create(Base.prototype);
   EducationBrain.prototype.constructor = EducationBrain;
@@ -176,11 +177,16 @@
       }
     }
 
-    if (this.state.stress >= 0.20) { this._activeConditions.push('infrastructure_degradation'); this._activeConditions.push('burnout_epidemic'); }
-    if (this.state.stress >= 0.35) { this._activeConditions.push('recruitment_deficit'); this._activeConditions.push('pedagogical_mismatch'); }
-    if (this.state.stress >= 0.50) { this._activeConditions.push('education_high_stress'); this._activeConditions.push('automation_displacement'); }
-    if (this.state.stress >= 0.60) { this._activeConditions.push('oversight_failure'); this._activeConditions.push('adaptive_failure'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 0 of these tokens. The domain's OTHER conditions (budget_shortfall, digital_divide, retention_failure, ...) are feed-derived and unaffected
+    //    REMOVED, no other source in this file : 9: infrastructure_degradation, burnout_epidemic, recruitment_deficit, pedagogical_mismatch, education_high_stress, automation_displacement, oversight_failure, adaptive_failure, structural_stress
+
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('resource_scarcity');
     if (extPressure >= 0.20) this._activeConditions.push('workforce_gap');

@@ -13,7 +13,7 @@
   var Base = window.LIMENDomainBrainBase;
 
   function CultureBrain() {
-    Base.call(this, { domainId: 'culture', label: 'Culture', snapshotKey: 'culture', cycleInterval: 30000 });
+    Base.call(this, { domainId: 'culture', label: 'Culture', snapshotKey: 'culture', cycleInterval: 30000, groundedOnly: true });
   }
   CultureBrain.prototype = Object.create(Base.prototype);
   CultureBrain.prototype.constructor = CultureBrain;
@@ -91,10 +91,11 @@
     for (var i = 0; i < rawSignals.length; i++) signals.push(rawSignals[i]);
     this._activeConditions = [];
 
-    // Long-arc baseline — culture always has identity and cohesion pressure
-    this._activeConditions.push('identity_fracture');
-    this._activeConditions.push('participation_decay');
-    signals.push('BASELINE: Persistent cultural identity and participation posture pressure');
+    // CIRCULARITY CUT (2026-07-24) — REMOVED an unconditional baseline that pushed
+    // identity_fracture + participation_decay on every single cycle regardless of any input.
+    // A condition that is always true carries no information: it produced two permanently
+    // active diagnoses that no observation could ever turn off. Neither token has any other
+    // source in this file, so both are now gone until a real culture feed can carry them.
 
     var feeds = this.state.feeds;
     for (var fi = 0; fi < feeds.length; fi++) {
@@ -155,11 +156,22 @@
       }
     }
 
-    if (this.state.stress >= 0.20) { this._activeConditions.push('norm_instability'); this._activeConditions.push('symbolic_disunity'); }
-    if (this.state.stress >= 0.35) { this._activeConditions.push('cultural_loss'); this._activeConditions.push('audience_collapse'); }
-    if (this.state.stress >= 0.50) { this._activeConditions.push('culture_high_stress'); this._activeConditions.push('cultural_manipulation'); }
-    if (this.state.stress >= 0.60) { this._activeConditions.push('ideology_lockin'); this._activeConditions.push('ritual_confusion'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — culture is the worst case, stated plainly ────────
+    // REMOVED: four stress-threshold blocks (0.20 / 0.35 / 0.50 / 0.60) plus a maturity gate
+    // that synthesized norm_instability, symbolic_disunity, cultural_loss, audience_collapse,
+    // culture_high_stress, cultural_manipulation, ideology_lockin, ritual_confusion and
+    // structural_stress.
+    //
+    // ALL NINE had zero other source in this file. Worse, culture has no numeric stress driver
+    // at all and is capped at 0.30 by the LOW_SIGNAL guard (handlers/domain-snapshot.js), so
+    // the 0.20 block fired off a number that was structurally incapable of meaning anything,
+    // and the three higher blocks could never fire. That is fabrication on top of a placeholder.
+    //
+    // What culture still has, all evidence-derived: disengagement + value_conflict (feeds),
+    // expression_suppression, narrative_monopolization, heritage_loss, monument_destruction,
+    // tribal_segmentation, social_cohesion_erosion, creative_weakness (raw-signal keywords),
+    // defense event types, macro_shock. Expect a visibly emptier culture console. That is the
+    // honest reading, not a regression. Give culture a real numeric feed to restore depth.
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('interpretive_narrowing');
     if (extPressure >= 0.20) this._activeConditions.push('institutional_decline');

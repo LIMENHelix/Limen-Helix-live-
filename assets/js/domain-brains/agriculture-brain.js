@@ -44,7 +44,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function AgricultureBrain() {
-    Base.call(this, {
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+      
       domainId: 'agriculture',
       label: 'Agriculture',
       snapshotKey: 'agriculture',
@@ -327,7 +328,17 @@
     if (this.state.stress >= 0.55) {
       this._activeConditions.push('_stress_supply_flag');
     }
-    if (this.state.stress >= 0.65) this._activeConditions.push('ag_high_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 0: the 4 _stress_* reporting flags above are KEPT — inert by prefix, and honest
+    //    REMOVED here (1): ag_high_stress. It SURVIVES on real evidence via _add() elsewhere
+    //    in this file (feed value >= 100, and an /agricultural crisis|food insecurity/ raw-signal
+    //    match), so agriculture loses nothing — only the stress-manufactured copy is gone.
     if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('_stress_weather_flag');
 
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;

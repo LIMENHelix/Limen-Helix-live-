@@ -13,7 +13,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function GovernanceBrain() {
-    Base.call(this, { domainId: 'governance', label: 'Governance', snapshotKey: 'governance', cycleInterval: 30000 });
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'governance', label: 'Governance', snapshotKey: 'governance', cycleInterval: 30000 });
   }
   GovernanceBrain.prototype = Object.create(Base.prototype);
   GovernanceBrain.prototype.constructor = GovernanceBrain;
@@ -235,10 +236,16 @@
     }
     if (snap && snap.macroShock && snap.macroShock.detected) this._activeConditions.push('macro_shock');
 
-    if (this.state.stress >= 0.35) { this._activeConditions.push('trust_erosion'); this._activeConditions.push('policy_conflict'); }
-    if (this.state.stress >= 0.50) { this._activeConditions.push('fragmented_agency'); this._activeConditions.push('inconsistent_execution'); }
-    if (this.state.stress >= 0.60) this._activeConditions.push('governance_high_stress');
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 5: trust_erosion, policy_conflict, fragmented_agency, inconsistent_execution, governance_high_stress
+    //    REMOVED, no other source in this file : 1: structural_stress
+
 
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('cross_branch_incoherence');

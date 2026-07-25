@@ -53,7 +53,8 @@
   // ══════════════════════════════════════════════════════════════════════
 
   function EnergyBrain() {
-    Base.call(this, {
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24: deep-digest must not activate from stress
+      
       domainId: 'energy',
       label: 'Energy',
       snapshotKey: 'energy',

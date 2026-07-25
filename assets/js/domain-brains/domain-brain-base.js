@@ -243,6 +243,12 @@
     this._timer = null;
     this._cycleCount = 0;
 
+    // CIRCULARITY CUT (2026-07-24). When true, this domain may not manufacture a condition
+    // or activate a diagnosis from its own stress scalar — every condition must trace to a
+    // feed, an event, or a peer signal. Off by default so the 17 un-regrounded domains keep
+    // their existing behaviour. See _applyDeepDigest and each brain's normalizeSignals.
+    this.groundedOnly = !!config.groundedOnly;
+
     // State contract
     this.state = {
       domainId: this.domainId,
@@ -637,9 +643,25 @@
     var list = (self._deepDigest && self._deepDigest.diagnoses) || [];
     if (!list.length) return;
 
+    // GROUNDED MODE (2026-07-24 circularity cut). Default path (17 domains) is unchanged:
+    // gate + rank deep dx on the domain's own stress scalar. But that makes an "active
+    // diagnosis" a restatement of stress rather than independent evidence — the same defect
+    // being removed from normalizeSignals. Domains that set `groundedOnly = true` instead gate
+    // on how many EVIDENCE-derived conditions actually fired this cycle, and rank by the
+    // digest's own pre-computed order rather than by stress.
+    // Flip `groundedOnly` on per domain as each one's conditions get regrounded.
     var stress = self.state.stress || 0;
-    if (stress < 0.30) return;                       // only surface deep dx under real stress
-    var cap = Math.max(0, Math.min(8, Math.round(stress * 8)));
+    var cap;
+    if (self.groundedOnly) {
+      var nEvidence = (self._activeConditions || []).filter(function (c) {
+        return String(c).charAt(0) !== '_';        // `_`-prefixed tokens are reporting flags, not evidence
+      }).length;
+      if (nEvidence === 0) return;                 // no evidence this cycle -> surface nothing
+      cap = Math.max(0, Math.min(8, nEvidence));
+    } else {
+      if (stress < 0.30) return;                   // only surface deep dx under real stress
+      cap = Math.max(0, Math.min(8, Math.round(stress * 8)));
+    }
     if (cap === 0) return;
 
     if (!Array.isArray(self.state.diagnoses)) self.state.diagnoses = [];
@@ -663,7 +685,15 @@
         label: d.label || d.id,
         summary: d.summary || '',
         active: true,
-        relevance: Math.min(1, 0.4 + stress * 0.5),
+        // Grounded mode must not re-encode stress as relevance. Rank WITHIN THE SURFACED
+        // WINDOW is the only non-circular ordering available here. Held to 0.85..0.40 on
+        // purpose: ranking against the full 180-entry digest compresses everything to ~1.0,
+        // which reads as more certain than the feed-derived diagnoses it sits beside and
+        // sails through downstream `relevance >= 0.2` gates. Deep-digest entries are context,
+        // never the strongest finding on the board.
+        relevance: self.groundedOnly
+          ? Math.round((0.85 - 0.45 * ((added - 1) / Math.max(1, cap - 1))) * 1000) / 1000
+          : Math.min(1, 0.4 + stress * 0.5),
         circuits: (d.circuits || []).map(function (n) { return { nodeId: n }; }),
         source: 'deep-digest',
         subportal: d.slug || null,

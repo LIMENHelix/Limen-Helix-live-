@@ -26,7 +26,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function ReligionBrain() {
-    Base.call(this, {
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+      
       domainId: 'religion',
       label: 'Religion',
       snapshotKey: 'religion',
@@ -364,24 +365,16 @@
       }
     }
 
-    // Stress-derived conditions — tiered activation
-    if (this.state.stress >= 0.30) {
-      this._activeConditions.push('community_disengagement');
-      this._activeConditions.push('declining_legitimacy');
-    }
-    if (this.state.stress >= 0.45) {
-      this._activeConditions.push('attendance_contraction');
-      this._activeConditions.push('youth_disengagement');
-    }
-    if (this.state.stress >= 0.55) {
-      this._activeConditions.push('authority_erosion');
-      this._activeConditions.push('religion_high_stress');
-    }
-    if (this.state.stress >= 0.65) {
-      this._activeConditions.push('polarizing_rhetoric');
-      this._activeConditions.push('grievance_amplification');
-    }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 6: community_disengagement, attendance_contraction, youth_disengagement, authority_erosion, religion_high_stress, grievance_amplification
+    //    REMOVED, no other source in this file : 3: declining_legitimacy, polarizing_rhetoric, structural_stress
+
 
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('identity_hardening');

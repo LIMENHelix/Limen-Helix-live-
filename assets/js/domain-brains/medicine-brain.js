@@ -34,7 +34,8 @@
       label: 'Medicine & Health',
       snapshotKey: 'health',
       portalKey: 'medicine',
-      cycleInterval: 30000
+      cycleInterval: 30000,
+      groundedOnly: true          // circularity cut 2026-07-24: no condition may come from own stress
     });
   }
 
@@ -392,25 +393,25 @@
       this._activeConditions.push('care_deferral');
     }
 
-    // Baseline conditions — always present when feeds are live
-    // These ensure the regulation playbook populates even at low stress
-    if (feeds.length > 0) {
-      this._activeConditions.push('treatment_demand');
-      this._activeConditions.push('chronic_deterioration');
-    }
-    if (this.state.stress >= 0.15) {
-      this._activeConditions.push('care_deferral');
-      this._activeConditions.push('quality_variation');
-    }
-    if (this.state.stress >= 0.30) {
-      this._activeConditions.push('metabolic_burden');
-      this._activeConditions.push('diagnostic_uncertainty');
-      this._activeConditions.push('delayed_care');
-    }
-    if (this.state.stress >= 0.45) {
-      this._activeConditions.push('fragmented_pathway');
-      this._activeConditions.push('evidence_lag');
-    }
+    // ── CIRCULARITY CUT (2026-07-24) ───────────────────────────────────────────────────
+    // REMOVED: an unconditional baseline (treatment_demand + chronic_deterioration pushed
+    // whenever any feed was live) and three stress-threshold blocks at 0.15 / 0.30 / 0.45
+    // that synthesized care_deferral, quality_variation, metabolic_burden,
+    // diagnostic_uncertainty, delayed_care, fragmented_pathway and evidence_lag.
+    //
+    // Why: normalizeSignals runs BEFORE scoreStress, so those gates read the PREVIOUS cycle's
+    // stress. The resulting "active diagnosis" was a relabelling of one scalar, not independent
+    // evidence — and because emissions are gated on an active diagnosis and peers fold received
+    // pressure back into stress, it closed a feedback ring carrying no new information.
+    //
+    // Nothing here is lost that had real evidence behind it. All five of
+    // care_deferral (Fed Reg CMS >=5, macro shock), quality_variation (FDA recalls >25,
+    // Retraction Watch >=15, Fed Reg FDA >=10), diagnostic_uncertainty (Retraction Watch >=5),
+    // delayed_care (Fed Reg CMS >=10) and evidence_lag (ClinicalTrials <200, PubMed <100,
+    // NIH Grants <10, Fed Reg NIH >=3, FDA recalls >40) still fire above, from feeds.
+    // treatment_demand and chronic_deterioration likewise (openFDA volume, Fed Reg CDC >=6).
+    // metabolic_burden and fragmented_pathway now come ONLY from peer pressure below — they
+    // have no medicine feed of their own, which is the honest reading of their evidence base.
 
     // Stress-derived flags — _stress_ prefix prevents evidence family bypass
     if (this.state.stress >= 0.65) this._activeConditions.push('_stress_health_high');

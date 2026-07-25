@@ -38,7 +38,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function EconomyBrain() {
-    Base.call(this, {
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+      
       domainId: 'economy',
       label: 'Economy',
       snapshotKey: 'economy',
@@ -284,11 +285,18 @@
       this._activeConditions.push('_stress_slowdown_flag');
       this._activeConditions.push('_stress_credit_flag');
     }
-    if (this.state.stress >= 0.65) this._activeConditions.push('economy_high_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 0: the 5 _stress_* reporting flags above are KEPT — inert by prefix, and honest
+    //    REMOVED, no other source in this file : 2: economy_high_stress, structural_stress
     if (this.state.stress >= 0.75) {
       this._activeConditions.push('_stress_capital_flag');
     }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
 
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) {

@@ -19,7 +19,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function IntelligenceBrain() {
-    Base.call(this, { domainId: 'intelligence', label: 'Intelligence', snapshotKey: 'intelligence', cycleInterval: 30000 });
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'intelligence', label: 'Intelligence', snapshotKey: 'intelligence', cycleInterval: 30000 });
   }
   IntelligenceBrain.prototype = Object.create(Base.prototype);
   IntelligenceBrain.prototype.constructor = IntelligenceBrain;
@@ -258,11 +259,16 @@
       }
     }
 
-    if (this.state.stress >= 0.20) { this._activeConditions.push('coordination_failure'); this._activeConditions.push('analytic_distortion'); }
-    if (this.state.stress >= 0.35) { this._activeConditions.push('weak_anomaly_detection'); this._activeConditions.push('signal_blindness'); }
-    if (this.state.stress >= 0.50) { this._activeConditions.push('intelligence_high_stress'); this._activeConditions.push('narrative_capture'); }
-    if (this.state.stress >= 0.60) { this._activeConditions.push('oversight_failure'); this._activeConditions.push('trust_boundary_breach'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 7: coordination_failure, analytic_distortion, weak_anomaly_detection, signal_blindness, narrative_capture, oversight_failure, trust_boundary_breach
+    //    REMOVED, no other source in this file : 2: intelligence_high_stress, structural_stress
+
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('trust_boundary_breach');
     if (extPressure >= 0.20) this._activeConditions.push('adversarial_penetration');

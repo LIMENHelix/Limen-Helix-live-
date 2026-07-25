@@ -29,7 +29,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function LawBrain() {
-    Base.call(this, {
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+      
       domainId: 'law',
       label: 'Law',
       snapshotKey: 'law',
@@ -411,9 +412,16 @@
       this._activeConditions.push('macro_shock');
     }
 
-    // Stress-derived conditions
-    if (this.state.stress >= 0.65) this._activeConditions.push('law_high_stress');
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 0 of these 2 tokens. Law's other ~15 conditions are feed/event-derived and unaffected
+    //    REMOVED, no other source in this file : 2: law_high_stress, structural_stress
+
 
     // Check cross-domain pressure
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;

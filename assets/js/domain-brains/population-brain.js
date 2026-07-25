@@ -19,7 +19,8 @@
   var Base = window.LIMENDomainBrainBase;
 
   function PopulationBrain() {
-    Base.call(this, { domainId: 'population', label: 'Population', snapshotKey: 'population', cycleInterval: 30000 });
+    Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'population', label: 'Population', snapshotKey: 'population', cycleInterval: 30000 });
   }
   PopulationBrain.prototype = Object.create(Base.prototype);
   PopulationBrain.prototype.constructor = PopulationBrain;
@@ -188,11 +189,16 @@
       }
     }
 
-    if (this.state.stress >= 0.30) { this._activeConditions.push('demographic_distortion'); this._activeConditions.push('service_overload'); }
-    if (this.state.stress >= 0.45) { this._activeConditions.push('workforce_imbalance'); this._activeConditions.push('infrastructure_strain'); }
-    if (this.state.stress >= 0.55) { this._activeConditions.push('population_high_stress'); this._activeConditions.push('urban_influx'); }
-    if (this.state.stress >= 0.65) { this._activeConditions.push('healthcare_overload'); this._activeConditions.push('access_inequality'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 1: demographic_distortion
+    //    REMOVED, no other source in this file : 8: service_overload, workforce_imbalance, infrastructure_strain, population_high_stress, urban_influx, healthcare_overload, access_inequality, structural_stress
+
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('density_spike');
     if (extPressure >= 0.20) this._activeConditions.push('refugee_flow');

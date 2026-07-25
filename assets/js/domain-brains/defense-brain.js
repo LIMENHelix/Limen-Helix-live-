@@ -9,7 +9,8 @@
   if (!window.LIMENDomainBrainBase) { console.warn('[DefenseBrain] Base not loaded'); return; }
   var Base = window.LIMENDomainBrainBase;
 
-  function DefenseBrain() { Base.call(this, { domainId: 'defense', label: 'Defense', snapshotKey: 'defense', cycleInterval: 30000 }); }
+  function DefenseBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
+       domainId: 'defense', label: 'Defense', snapshotKey: 'defense', cycleInterval: 30000 }); }
   DefenseBrain.prototype = Object.create(Base.prototype);
   DefenseBrain.prototype.constructor = DefenseBrain;
 
@@ -256,11 +257,16 @@
     }
     if (snap && snap.macroShock && snap.macroShock.detected) this._activeConditions.push('macro_shock');
 
-    if (this.state.stress >= 0.30) { this._activeConditions.push('surveillance_miss'); this._activeConditions.push('analysis_failure'); }
-    if (this.state.stress >= 0.45) { this._activeConditions.push('supply_chain_military'); this._activeConditions.push('domestic_instability'); }
-    if (this.state.stress >= 0.55) this._activeConditions.push('defense_high_stress');
-    if (this.state.stress >= 0.65) { this._activeConditions.push('deterrence_failure'); this._activeConditions.push('infrastructure_hack'); }
-    if (this.state.maturity === 'STRUCTURAL') this._activeConditions.push('structural_stress');
+    // ── CIRCULARITY CUT (2026-07-24) — no condition may be manufactured from this
+    //    domain's own stress scalar. normalizeSignals runs BEFORE scoreStress, so these
+    //    gates read the PREVIOUS cycle's stress: the resulting "active diagnosis" restated
+    //    one number instead of adding evidence, and because emissions are gated on an
+    //    active diagnosis and peers fold received pressure back into stress, it closed a
+    //    feedback ring carrying no new information. Reground to a real feed to restore a
+    //    condition; never re-derive one from stress.
+    //    SURVIVES on real feeds/events : 6: analysis_failure, supply_chain_military, domestic_instability, defense_high_stress, deterrence_failure, infrastructure_hack
+    //    REMOVED, no other source in this file : 2: surveillance_miss, structural_stress
+
     var extPressure = this.getExternalPressure ? this.getExternalPressure() : 0;
     if (extPressure >= 0.10) this._activeConditions.push('protest_escalation');
 
