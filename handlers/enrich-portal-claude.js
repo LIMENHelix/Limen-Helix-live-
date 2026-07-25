@@ -425,6 +425,11 @@ async function callAnthropic(body, opts) {
   const timer = setTimeout(() => controller.abort(), ANTHROPIC_TIMEOUT_MS);
 
   let resp, json;
+    const _agBody = requestBody;
+  // Budget gate. Refusal here is a normal stop (out of budget / operator pause),
+  // not an upstream failure, so it reports its own reason.
+  const _agGuard = await require('../lib/anthropic-call').guard(_agBody, 'enrich-portal-claude');
+  if (!_agGuard.ok) return { ok: false, refused: true, detail: _agGuard.reason };
   try {
     resp = await fetch(ENDPOINT, {
       method: 'POST',
@@ -433,10 +438,11 @@ async function callAnthropic(body, opts) {
         'anthropic-version': ANTHROPIC_VERSION,
         'content-type': 'application/json'
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify(_agBody),
       signal: controller.signal
     });
     json = await resp.json();
+    await require('../lib/anthropic-call').close(_agGuard, json);
   } catch (err) {
     clearTimeout(timer);
     return { ok: false, status: 0, reason: 'fetch-failed', detail: String(err && err.message || err) };

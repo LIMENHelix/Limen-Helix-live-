@@ -71,13 +71,19 @@ function userPrompt(bpm, vibe, theme) {
 async function callClaude(system, user) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 45000);
+  const _agBody = { model: MODEL, max_tokens: MAX_TOKENS, system: system, messages: [{ role: 'user', content: user }] };
+  // Budget gate. Refusal here is a normal stop (out of budget / operator pause),
+  // not an upstream failure, so it reports its own reason rather than an HTTP error.
+  const _agGuard = await require('../lib/anthropic-call').guard(_agBody, 'hook-studio');
+  if (!_agGuard.ok) return { ok: false, refused: true, detail: _agGuard.reason };
   try {
     const r = await fetch(ENDPOINT, {
       method: 'POST', signal: controller.signal,
       headers: { 'content-type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': VERSION },
-      body: JSON.stringify({ model: MODEL, max_tokens: MAX_TOKENS, system: system, messages: [{ role: 'user', content: user }] })
+      body: JSON.stringify(_agBody)
     });
     const j = await r.json();
+    await require('../lib/anthropic-call').close(_agGuard, j);
     if (!r.ok) return { ok: false, detail: j };
     return { ok: true, text: (j.content && j.content[0] && j.content[0].text) || '' };
   } catch (e) { return { ok: false, detail: String(e && e.message || e) }; }

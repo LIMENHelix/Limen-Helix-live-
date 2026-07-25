@@ -108,14 +108,20 @@ function parseReply(text) {
 async function callClaude(system, user) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 45000);
+  // Sonnet 5: adaptive thinking is on by default; keep it summarized-off (omitted) and modest effort for a chat box.
+  const _agBody = { model: MODEL, max_tokens: MAX_TOKENS, output_config: { effort: 'low' }, system: system, messages: [{ role: 'user', content: user }] };
+  // Budget gate. Refusal here is a normal stop (out of budget / operator pause), not an
+  // upstream failure, so it reports its own reason rather than an HTTP error.
+  const _agGuard = await require('../lib/anthropic-call').guard(_agBody, 'domain-agent');
+  if (!_agGuard.ok) return { ok: false, refused: true, detail: _agGuard.reason };
   try {
-    // Sonnet 5: adaptive thinking is on by default; keep it summarized-off (omitted) and modest effort for a chat box.
     const r = await fetch(ENDPOINT, {
       method: 'POST', signal: controller.signal,
       headers: { 'content-type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': VERSION },
-      body: JSON.stringify({ model: MODEL, max_tokens: MAX_TOKENS, output_config: { effort: 'low' }, system: system, messages: [{ role: 'user', content: user }] })
+      body: JSON.stringify(_agBody)
     });
     const j = await r.json();
+    await require('../lib/anthropic-call').close(_agGuard, j);
     if (!r.ok) return { ok: false, detail: j };
     var text = '';
     if (Array.isArray(j.content)) { for (var i = 0; i < j.content.length; i++) { if (j.content[i] && j.content[i].type === 'text') { text = j.content[i].text; break; } } }

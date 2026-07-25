@@ -327,6 +327,16 @@ async function callAnthropic(systemPrompt, userPrompt) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), ANTHROPIC_TIMEOUT_MS);
   try {
+    const _agBody = {
+      model: ANTHROPIC_MODEL,
+      max_tokens: ANTHROPIC_MAX_TOKENS,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }]
+    };
+    // Budget gate. Refusal here is a normal stop (out of budget / operator pause), not an
+    // upstream failure, so it reports its own reason.
+    const _agGuard = await require('../lib/anthropic-call').guard(_agBody, 'limen-reciprocity-prose-rewrite');
+    if (!_agGuard.ok) { clearTimeout(timer); return { ok: false, error: 'budget-refused', detail: _agGuard.reason }; }
     const r = await fetch(ENDPOINT, {
       method: 'POST',
       headers: {
@@ -334,16 +344,12 @@ async function callAnthropic(systemPrompt, userPrompt) {
         'x-api-key': ANTHROPIC_API_KEY,
         'anthropic-version': ANTHROPIC_VERSION
       },
-      body: JSON.stringify({
-        model: ANTHROPIC_MODEL,
-        max_tokens: ANTHROPIC_MAX_TOKENS,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      }),
+      body: JSON.stringify(_agBody),
       signal: controller.signal
     });
     clearTimeout(timer);
     const j = await r.json();
+    await require('../lib/anthropic-call').close(_agGuard, j);
     if (!r.ok) {
       return { ok: false, error: 'anthropic-non-2xx', status: r.status, body: j };
     }
