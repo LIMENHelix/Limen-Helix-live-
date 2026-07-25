@@ -1733,4 +1733,135 @@ cadence, not by watching anything.
 
 ---
 
-## ENTRY 011 - (next)
+## ENTRY 011 - Session procedures worth keeping, and the consolidated source list
+
+> **STATUS: [verified] procedures, actually executed this session. [mark: IDEA] nothing here.**
+> This entry exists because these four items came up in working conversation and would otherwise be
+> lost when the session ends. None are research findings; all are operational.
+
+**Date:** 2026-07-25
+
+---
+
+### 1. Multiple windows on one repo: what is safe and what is not
+
+**Different projects = safe.** One window on LIMEN, one on Killswitch, one on Spectrum Circle.
+Different directories, different git repos, zero interference.
+
+**Same repo = four real risks.**
+
+1. **Index contention.** Git has ONE staging area per repo. Window A's `git add -A` will grab
+   Window B's half-finished edits. Most likely failure, and silent.
+2. **Stale-view clobbering.** Each window caches its own view of a file. A reads `lib/foo.js`, B
+   edits it, A writes its version back. B's change is gone with no error.
+3. **Branch switching.** A `git checkout` in one window moves the ground under the other two. Their
+   next edit lands on the wrong branch.
+4. **Double deploys.** Two windows pushing `main` = two Vercel builds. Build CPU from frequent
+   deploys is the largest cost line.
+
+**Rules that make it safe:**
+- One WRITER per repo. Other windows on that repo stay read-only. Read-only in parallel is
+  completely safe.
+- **Never `git add -A` or `git commit -am` in a shared repo.** Stage explicit paths, and check
+  `git diff --cached --name-only` before every commit. That one habit neutralises risk 1.
+- Only one window pushes. Ever.
+- For two genuine writers, use separate branches or git worktrees so each gets its own index.
+
+**Observed live this session:** `main` moved under this window at least three times, and the hashes
+of two of its own commits changed (`f3a2d35d` -> `161a9ce6`, `cbdcc2a9` -> `71ab2331`), the signature
+of another window pulling and rebasing. The risk is not theoretical.
+
+### 2. Pushing your own work without shipping anyone else's [verified procedure]
+
+Problem: commits from two windows interleave on `main`, so there is no prefix that excludes theirs.
+Pushing at all would ship their in-progress application code and trigger a production deploy.
+
+Procedure that worked, and never touches the other window's working tree (no checkout, no branch
+switch in the main tree):
+
+    # 1. verify your commits touch only what you think
+    git show --pretty="" --name-only <sha>        # per commit
+    git show -s --format="%an" <sha>              # confirm author
+
+    # 2. build the branch in a TEMPORARY worktree off origin/main
+    git worktree add <tmpdir> -b agent/<slug> origin/main
+
+    # 3. cherry-pick your commits, oldest first
+    git -C <tmpdir> cherry-pick <sha1> <sha2> ...
+
+    # 4. verify BEFORE pushing (see §3 for why three-dot)
+    $base = git -C <tmpdir> merge-base origin/main HEAD
+    git -C <tmpdir> diff --name-only $base HEAD   # must list only your files
+    Get-FileHash <tmpdir>/<file>                  # must match your local copy
+
+    # 5. push the branch, then clean up
+    git -C <tmpdir> push -u origin agent/<slug>
+    git worktree remove <tmpdir> --force
+
+A branch push creates at most a Vercel PREVIEW build. It never deploys production. Only `main` does.
+
+### 3. The two-dot / three-dot diff trap [verified, hit live]
+
+When verifying "what does my branch change", **`git diff origin/main` (two-dot) is the wrong
+command** if `origin/main` has moved since the branch was created.
+
+Two-dot compares the two TIPS, so it reports changes made ON MAIN by someone else as though they
+were differences you introduced. It ran this session and listed four files (`domain-front.html`,
+`handlers/education-tools.js`, `handlers/population-tools.js`, plus the doc) when the branch touched
+exactly one.
+
+**Correct check** — changes on your branch since it diverged:
+
+    $base = git merge-base origin/main HEAD
+    git diff --name-only $base HEAD
+
+Or equivalently `git diff --name-only origin/main...HEAD` (three dots). A two-dot diff against a
+moving target will either alarm you falsely or, worse, reassure you falsely.
+
+### 4. Consolidated source list, ranked by what it would unblock
+
+Scattered across Entries 002, 007 and 009. Collected here.
+
+**Highest value, and NOT in 3Blue1Brown:**
+
+1. **Hidden Markov models + Baum-Welch / EM.** `lib/phase-estimator.js` IS an HMM forward pass;
+   `predict()` is literally `alpha_t(j) = sum_i alpha_(t-1)(i)·A[i][j]`. Search:
+   `hidden Markov model forward algorithm`, `Baum-Welch`, `EM algorithm HMM`.
+   (Entry 004 concluded Baum-Welch does NOT fit this estimator. The literature is still the right
+   map for the structure.)
+2. **Markov regime-switching models.** A 35-year econometrics literature on latent discrete states
+   driving observed series, which is P0-P10 exactly. Search: `Markov switching model`,
+   `Hamilton regime switching`, `regime detection time series`.
+3. **Small-data statistics: partial pooling.** The answer to twenty domains with almost no
+   observations each. **Richard McElreath's Statistical Rethinking lectures** are on YouTube and
+   this is their central subject. Search: `hierarchical model partial pooling`,
+   `regularizing priors`, `shrinkage estimator`.
+4. **Local-learning literature** (added after Entry 009): predictive coding, equilibrium
+   propagation, feedback alignment, target propagation. This is the material actually adjacent to
+   this architecture — gradient-quality learning from biologically plausible local rules.
+   Whittington & Bogacz on predictive coding approximating backprop is the bridge paper.
+
+**Useful, thinner on video:**
+
+5. **Calibration and proper scoring rules.** Guo et al. 2017 (temperature scaling) is short and
+   better than any video. Search: `reliability diagram`, `expected calibration error`.
+6. **SVD / PCA / eigendecomposition on data.** Steve Brunton (U. Washington) has extensive
+   playlists, plus Kalman filters and data-driven dynamical systems. Closest thing on YouTube to
+   LIMEN's actual mathematical shape.
+7. **Backprop from scratch in code.** Karpathy Zero to Hero / micrograd. Two chapters of sentdex's
+   NNFS (the hand-coded cross-entropy loss and the optimizer loop) cover the same ground.
+
+**Creators worth searching by name:** Richard McElreath (highest fit), Steve Brunton,
+Andrej Karpathy, StatQuest / Josh Starmer, Artem Kirsanov (computational neuroscience,
+predictive coding, free energy), Ben Lambert (econometrics), Mutual Information.
+
+**What YouTube will NOT answer, so do not go looking:**
+- What LIMEN should optimise. Nobody has this problem; it is a decision, not a lookup.
+- Stress-index construction. The code already cites the right central-bank working papers
+  (Holló/Kremer/Lo Duca, Illing & Liu, Gabaix, Kritzman). There is no video.
+- Whether a cross-domain phase attractor exists. That is the unclaimed result. If it were on
+  YouTube it would not be unclaimed.
+
+---
+
+## ENTRY 012 - (next)
