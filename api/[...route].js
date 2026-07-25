@@ -159,6 +159,7 @@ const HANDLERS = {
   'limen-reciprocity-prose-rewrite': require('../handlers/limen-reciprocity-prose-rewrite'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),
   'limen-snapshot': require('../handlers/limen-snapshot'),
+  'grounded-stress-history': require('../handlers/grounded-stress-history'),
   'limen-stress-propagation': require('../handlers/limen-stress-propagation'),
   'limen-stress-slim': require('../handlers/limen-stress-slim'),
   'limen-worker-autofire': require('../handlers/limen-worker-autofire'),
