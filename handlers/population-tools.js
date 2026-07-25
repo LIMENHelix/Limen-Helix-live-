@@ -120,9 +120,9 @@ module.exports = async function handler(req, res) {
     if (q.tool === 'state' && q.st) {
       var st = String(q.st).toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
       if (STATES.indexOf(st) === -1) return T.send(res, { ok: false, reason: 'Pick a valid two-letter US state code.' });
-      return T.send(res, await T.cached('population:tool:priced:' + st, TTL, function () { return build(st); }));
+      return T.send(res, await T.cached('population:tool:priced:v2:' + st, TTL, function () { return build(st); }));
     }
-    var out = await T.cached('population:tool:priced:US', TTL, function () { return build(null); });
+    var out = await T.cached('population:tool:priced:v2:US', TTL, function () { return build(null); });
     out.states = STATES;
     return T.send(res, out);
   } catch (e) {
