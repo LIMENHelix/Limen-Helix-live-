@@ -623,7 +623,33 @@ EL('tools').innerHTML = C.tools.map(function (t) {
 // Domains listed here replace their "soon" placeholder cards with working tools reading
 // live data. Everything else keeps the placeholder. Agriculture is the first port; the
 // pattern is: one /api/<domain>-tools handler, one render function, no client-side keys.
-var BUILT_TOOLS = { agriculture: renderAgTools, medicine: renderMedTools, environment: renderEnvTools };
+var BUILT_TOOLS = {
+  agriculture: renderAgTools, medicine: renderMedTools, environment: renderEnvTools,
+  finance: renderFinTools, technology: renderTechTools, industry: renderIndTools,
+  law: renderLawTools, religion: renderRelTools
+};
+// compact USD for figures that run to billions
+function bigUsd(n) {
+  if (n == null || !isFinite(n)) return 'n/a';
+  var a = Math.abs(n);
+  if (a >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
+  if (a >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
+  if (a >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+  if (a >= 1e3) return '$' + Math.round(n / 1e3) + 'K';
+  return '$' + Math.round(n);
+}
+function searchForm(inputId, btnId, label, placeholder, extra) {
+  return '<div class="agform" style="grid-template-columns:1fr ' + (extra ? 'auto ' : '') + 'auto">' +
+    '<div><label for="' + inputId + '">' + label + '</label><input id="' + inputId + '" type="text" autocomplete="off" placeholder="' + placeholder + '"></div>' +
+    (extra || '') +
+    '<div><label>&nbsp;</label><button id="' + btnId + '" class="guide-cta" style="margin:0;padding:11px 18px;border:none;cursor:pointer">Search</button></div></div>';
+}
+function bindSearch(inputId, btnId, run) {
+  var i = EL(inputId), b = EL(btnId);
+  if (!i || !b) return;
+  b.addEventListener('click', run);
+  i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+}
 
 function money(n, dp) { var v = Number(n); return (v < 0 ? '-$' : '$') + Math.abs(v).toFixed(dp == null ? 2 : dp); }
 function signed(n, unit) {
@@ -958,6 +984,254 @@ function envDroughtCard(dr) {
     '<div class="agnote">' + esc(dr.note) + ' Map date ' + esc(String(dr.mapDate || '')) + '. ' +
     'Source: <a href="' + esc(dr.sourceUrl) + '" target="_blank" rel="noopener">' + esc(dr.source) + '</a>.<br>' +
     '<b>Local hazard alerts</b> are already live further up this page: use the "Your area" ZIP box under the national alert count.</div>');
+}
+
+// ── FINANCE: bank health check (FDIC Call Report) ──────────────────────────
+function bankRows(rows) {
+  return rows.map(function (b) {
+    var cap = b.equityToAssets;
+    var cls = cap == null ? '' : cap >= 10 ? 'normal' : cap >= 8 ? 'watch' : cap >= 6 ? 'stressed' : 'severe';
+    return '<div class="agrow" style="grid-template-columns:1fr 92px 96px"><div class="nm">' + esc(b.name || '') +
+      '<em>' + esc([b.city, b.state].filter(Boolean).join(', ')) + (b.branches ? ' · ' + b.branches + (b.branches === 1 ? ' branch' : ' branches') : '') +
+      (b.classPlain ? ' · ' + esc(b.classPlain) : '') + (b.active ? '' : ' · <b>NOT ACTIVE</b>') + '</em></div>' +
+      '<div class="agbar" title="' + (cap == null ? 'n/a' : cap + '% equity to assets') + '"><i class="' + cls + '" style="width:' + Math.min(100, Math.max(2, (cap || 0) * 6)) + '%"></i></div>' +
+      '<div class="agval">' + bigUsd(b.assetsUsd) + '<em>' + (cap == null ? '' : cap + '% capital') + '</em></div></div>';
+  }).join('');
+}
+function renderFinTools(host) {
+  host.innerHTML = '<div class="muted">Loading FDIC data…</div>';
+  fetch('/api/finance-tools').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { host.innerHTML = toolCard('finBank', 'Bank health check', 'What your bank told its regulator.', failBox(j.reason)); return; }
+    var body = searchForm('finQ', 'finGo', 'Bank name', 'e.g. Commerce Bank',
+      '<div><label for="finSt">State</label><input id="finSt" type="text" maxlength="2" placeholder="MO" style="text-transform:uppercase"></div>') +
+      '<div id="finOut"></div>' +
+      '<div style="margin-top:14px"><div class="mig-h">Largest US banks, for scale</div>' + bankRows(j.rows || []) + '</div>' +
+      '<div class="agnote">' + esc(j.note) + ' Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">' + esc(j.source) + '</a>.</div>';
+    host.innerHTML = toolCard('finBank', 'Bank health check',
+      'Every US bank files a Call Report with its regulator each quarter. This shows what yours reported: size, how much of it is real capital, and how profitably it is running. ' +
+      'The bar is <b>equity to assets</b>, the cushion between losses and depositors.', body);
+    bindSearch('finQ', 'finGo', function () {
+      var q = EL('finQ').value.trim(), st = (EL('finSt').value || '').trim();
+      var out = EL('finOut');
+      if (q.length < 3) { out.innerHTML = '<div class="agnote">Enter at least three letters.</div>'; return; }
+      out.innerHTML = '<div class="agnote">Reading the FDIC register…</div>';
+      fetch('/api/finance-tools?tool=bank&q=' + encodeURIComponent(q) + (st ? '&state=' + encodeURIComponent(st) : ''))
+        .then(function (r) { return r.json(); }).then(function (s) {
+          if (!s.ok) { out.innerHTML = failBox(s.reason); return; }
+          if (!s.rows.length) { out.innerHTML = '<div class="agnote">No FDIC-insured bank matches "' + esc(s.query) + '"' + (s.state ? ' in ' + esc(s.state) : '') + '.</div>'; return; }
+          out.innerHTML = '<div class="agnote" style="color:var(--ink)"><b>' + s.found + ' match' + (s.found === 1 ? '' : 'es') + '</b>, closest name match first.</div>' + bankRows(s.rows);
+        }).catch(function () { out.innerHTML = failBox('The bank lookup did not respond.'); });
+    });
+  }).catch(function () { host.innerHTML = failBox('The finance data service did not respond.'); });
+}
+
+// ── TECHNOLOGY: actively-exploited vulnerability checker (CISA KEV) ─────────
+function kevRows(rows) {
+  var today = new Date().toISOString().slice(0, 10);
+  return rows.map(function (v) {
+    var overdue = v.due && v.due < today;
+    return '<div class="agrow" style="grid-template-columns:1fr 118px"><div class="nm">' +
+      (v.url ? '<a href="' + esc(v.url) + '" target="_blank" rel="noopener">' + esc(v.cve) + '</a>' : esc(v.cve)) +
+      ' · ' + esc([v.vendor, v.product].filter(Boolean).join(' ')) +
+      '<em>' + esc(v.name || '') + '</em>' +
+      (v.ransomware ? '<em style="color:var(--red)">Linked to a known ransomware campaign.</em>' : '') +
+      (v.action ? '<em style="color:var(--soft)">Required action: ' + esc(v.action) + '</em>' : '') + '</div>' +
+      '<div class="agval" style="color:' + (overdue ? 'var(--red)' : 'var(--soft)') + '">' + esc(v.due || '') +
+      '<em>' + (overdue ? 'fix overdue' : 'fix by') + '</em></div></div>';
+  }).join('');
+}
+function renderTechTools(host) {
+  host.innerHTML = '<div class="muted">Loading the exploited-vulnerability catalog…</div>';
+  fetch('/api/technology-tools').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { host.innerHTML = toolCard('techKev', 'Is it being exploited right now?', 'Check your software against CISA\'s live catalog.', failBox(j.reason)); return; }
+    var vendors = (j.topVendors || []).map(function (v) {
+      return '<span class="names"><span>' + esc(v.vendor) + ' ' + v.count + '</span></span>';
+    }).join('');
+    var body = searchForm('techQ', 'techGo', 'Vendor, product or CVE', 'e.g. Fortinet, SharePoint, CVE-2026-1234') +
+      '<div id="techOut"></div>' +
+      '<div class="agout" style="margin-top:6px">' +
+      '<div><div class="n">' + j.total + '</div><div class="k">flaws under confirmed attack</div></div>' +
+      '<div><div class="n" style="color:var(--red)">' + j.ransomwareCount + '</div><div class="k">tied to ransomware campaigns</div></div>' +
+      '<div><div class="n">' + j.recentCount + '</div><div class="k">added in the last 30 days</div></div></div>' +
+      '<div style="margin-top:18px"><div class="mig-h">Just added</div>' + kevRows(j.recent || []) + '</div>' +
+      '<div style="margin-top:16px"><div class="mig-h">Most-listed vendors</div><div class="names">' +
+      (j.topVendors || []).map(function (v) { return '<span>' + esc(v.vendor) + ' · ' + v.count + '</span>'; }).join('') + '</div></div>' +
+      '<div class="agnote">' + esc(j.note) + ' Catalog version ' + esc(j.catalogVersion || '') + '. ' +
+      'Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">' + esc(j.source) + '</a>.</div>';
+    host.innerHTML = toolCard('techKev', 'Is it being exploited right now?',
+      'CISA keeps a catalog of vulnerabilities with <b>confirmed exploitation in the wild</b> — a far smaller and more urgent set than "known vulnerabilities". ' +
+      'Search anything you run. Federal agencies are legally bound to the fix-by dates shown; they make a good yardstick for everyone else.', body);
+    bindSearch('techQ', 'techGo', function () {
+      var q = EL('techQ').value.trim(), out = EL('techOut');
+      if (q.length < 2) { out.innerHTML = '<div class="agnote">Enter at least two characters.</div>'; return; }
+      out.innerHTML = '<div class="agnote">Searching the catalog…</div>';
+      fetch('/api/technology-tools?tool=kev&q=' + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (s) {
+        if (!s.ok) { out.innerHTML = failBox(s.reason); return; }
+        if (!s.found) { out.innerHTML = '<div class="agnote"><b>Nothing matching "' + esc(s.query) + '" is in the actively-exploited catalog.</b> ' + esc(s.note) + '</div>'; return; }
+        out.innerHTML = '<div class="agnote" style="color:var(--ink)"><b>' + s.found + ' actively exploited</b> matching "' + esc(s.query) + '" · ' +
+          '<span style="color:var(--red)">' + s.ransomware + ' tied to ransomware</span> · ' + s.overdue + ' past the federal fix date.</div>' + kevRows(s.rows);
+      }).catch(function () { out.innerHTML = failBox('The catalog search did not respond.'); });
+    });
+  }).catch(function () { host.innerHTML = failBox('The technology data service did not respond.'); });
+}
+
+// ── INDUSTRY: open safety recalls on your vehicle (NHTSA) ───────────────────
+function renderIndTools(host) {
+  host.innerHTML = '<div class="muted">Loading vehicle data…</div>';
+  fetch('/api/industry-tools').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { host.innerHTML = toolCard('indRecall', 'Open recalls on your vehicle', 'Free to fix, no time limit.', failBox(j.reason)); return; }
+    var years = (j.years || []).map(function (y) { return '<option value="' + y + '"' + (y === j.defaultYear ? ' selected' : '') + '>' + y + '</option>'; }).join('');
+    var body =
+      '<div class="agform" style="grid-template-columns:110px 1fr 1fr auto">' +
+      '<div><label for="indYear">Year</label><select id="indYear">' + years + '</select></div>' +
+      '<div><label for="indMake">Make</label><select id="indMake"><option>loading…</option></select></div>' +
+      '<div><label for="indModel">Model</label><select id="indModel"><option>pick a make</option></select></div>' +
+      '<div><label>&nbsp;</label><button id="indGo" class="guide-cta" style="margin:0;padding:11px 18px;border:none;cursor:pointer">Check</button></div>' +
+      '</div><div id="indOut"></div>' +
+      '<div class="agnote">Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">NHTSA vehicle safety recalls</a>. ' +
+      'To confirm whether your exact car is still unrepaired, check its VIN at <a href="https://www.nhtsa.gov/recalls" target="_blank" rel="noopener">nhtsa.gov/recalls</a>.</div>';
+    host.innerHTML = toolCard('indRecall', 'Open recalls on your vehicle',
+      'A safety recall is repaired <b>free at any franchised dealer, with no time limit</b>, no matter who owns the car now or how old it is. ' +
+      'Most owners never find out. This also surfaces the two flags that change what you do today: <b>do not drive</b> and <b>do not park indoors</b>.', body);
+    var yEl = EL('indYear'), mkEl = EL('indMake'), mdEl = EL('indModel'), out = EL('indOut');
+    function loadMakes() {
+      mkEl.innerHTML = '<option>loading…</option>'; mdEl.innerHTML = '<option>pick a make</option>';
+      fetch('/api/industry-tools?tool=makes&year=' + yEl.value).then(function (r) { return r.json(); }).then(function (m) {
+        if (!m.ok) { mkEl.innerHTML = '<option>unavailable</option>'; return; }
+        mkEl.innerHTML = '<option value="">choose…</option>' + m.makes.map(function (x) { return '<option>' + esc(x) + '</option>'; }).join('');
+      }).catch(function () { mkEl.innerHTML = '<option>unavailable</option>'; });
+    }
+    function loadModels() {
+      if (!mkEl.value) { mdEl.innerHTML = '<option>pick a make</option>'; return; }
+      mdEl.innerHTML = '<option>loading…</option>';
+      fetch('/api/industry-tools?tool=models&year=' + yEl.value + '&make=' + encodeURIComponent(mkEl.value)).then(function (r) { return r.json(); }).then(function (m) {
+        if (!m.ok) { mdEl.innerHTML = '<option>unavailable</option>'; return; }
+        mdEl.innerHTML = '<option value="">choose…</option>' + m.models.map(function (x) { return '<option>' + esc(x) + '</option>'; }).join('');
+      }).catch(function () { mdEl.innerHTML = '<option>unavailable</option>'; });
+    }
+    yEl.addEventListener('change', loadMakes);
+    mkEl.addEventListener('change', loadModels);
+    EL('indGo').addEventListener('click', function () {
+      if (!mkEl.value || !mdEl.value) { out.innerHTML = '<div class="agnote">Pick a make and model.</div>'; return; }
+      out.innerHTML = '<div class="agnote">Checking NHTSA…</div>';
+      fetch('/api/industry-tools?tool=recalls&year=' + yEl.value + '&make=' + encodeURIComponent(mkEl.value) + '&model=' + encodeURIComponent(mdEl.value))
+        .then(function (r) { return r.json(); }).then(function (s) {
+          if (!s.ok) { out.innerHTML = failBox(s.reason); return; }
+          if (!s.count) { out.innerHTML = '<div class="agnote" style="color:var(--green)"><b>No open safety recall</b> listed for a ' + yEl.value + ' ' + esc(mkEl.value) + ' ' + esc(mdEl.value) + '.</div>'; return; }
+          var urgent = s.rows.filter(function (x) { return x.parkIt || x.parkOutSide; });
+          var h = '';
+          if (urgent.length) {
+            h += '<div class="agfail" style="color:var(--red);border-color:rgba(224,90,80,.4);background:rgba(224,90,80,.08)"><b>Urgent:</b> ' +
+              urgent.map(function (x) { return x.parkIt ? 'NHTSA says do not drive this vehicle until the recall is fixed.' : 'NHTSA says park it outside and away from buildings until fixed — fire risk.'; }).join(' ') + '</div>';
+          }
+          h += '<div class="agnote" style="color:var(--ink)"><b>' + s.count + ' recall' + (s.count === 1 ? '' : 's') + '</b> for the ' + s.year + ' ' + esc(s.make) + ' ' + esc(s.model) + '.</div>';
+          h += s.rows.map(function (x) {
+            return '<div class="agrow" style="grid-template-columns:1fr 104px"><div class="nm">' + esc(x.component || '') +
+              (x.consequence ? '<em><b>Risk:</b> ' + esc(x.consequence) + '</em>' : '') +
+              (x.remedy ? '<em><b>Fix:</b> ' + esc(x.remedy) + '</em>' : '') + '</div>' +
+              '<div class="agval" style="font-size:.68rem">' + esc(x.campaign || '') + '<em>' + esc(x.reported || '') + '</em></div></div>';
+          }).join('');
+          h += '<div class="agnote">' + esc(s.note) + '</div>';
+          out.innerHTML = h;
+        }).catch(function () { out.innerHTML = failBox('The recall lookup did not respond.'); });
+    });
+    loadMakes();
+  }).catch(function () { host.innerHTML = failBox('The industry data service did not respond.'); });
+}
+
+// ── LAW: what is open for public comment right now (Federal Register) ───────
+function commentRows(rows) {
+  return rows.map(function (x) {
+    var d = x.daysLeft;
+    var col = d == null ? 'var(--soft)' : d <= 3 ? 'var(--red)' : d <= 10 ? 'var(--amber)' : 'var(--soft)';
+    return '<div class="agrow" style="grid-template-columns:1fr 96px"><div class="nm">' +
+      (x.url ? '<a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(x.title) + '</a>' : esc(x.title)) +
+      '<em>' + esc((x.agencies || []).join(' · ')) + '</em>' +
+      (x.abstract ? '<em style="color:var(--soft)">' + esc(x.abstract) + '</em>' : '') +
+      (x.commentUrl ? '<em><a href="' + esc(x.commentUrl) + '" target="_blank" rel="noopener" style="color:var(--gold)">File a comment →</a></em>' : '') + '</div>' +
+      '<div class="agval" style="color:' + col + '">' + (d == null ? '' : d + 'd') + '<em>closes ' + esc(x.closes || '') + '</em></div></div>';
+  }).join('');
+}
+function renderLawTools(host) {
+  host.innerHTML = '<div class="muted">Loading open comment windows…</div>';
+  fetch('/api/law-tools').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { host.innerHTML = toolCard('lawComment', 'Open for public comment', 'Rules you can still push back on.', failBox(j.reason)); return; }
+    var body = searchForm('lawQ', 'lawGo', 'Filter by topic', 'e.g. firearms, medicare, emissions') +
+      '<div id="lawOut"></div>' +
+      '<div class="agout" style="margin-top:6px">' +
+      '<div><div class="n">' + j.total + '</div><div class="k">proposed rules open for comment</div></div>' +
+      '<div><div class="n" style="color:var(--red)">' + j.closingWeek + '</div><div class="k">close within 7 days</div></div></div>' +
+      '<div style="margin-top:18px"><div class="mig-h">Closing soonest</div><div class="agscroll">' + commentRows(j.rows || []) + '</div></div>' +
+      '<div class="agnote">' + esc(j.note) + ' Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">' + esc(j.source) + '</a>.</div>';
+    host.innerHTML = toolCard('lawComment', 'Open for public comment',
+      'Before a federal rule becomes binding it must be posted for public comment, and the agency must consider what comes in. ' +
+      'These are the windows still open, soonest deadline first. <b>You do not need a lawyer to file one.</b>', body);
+    bindSearch('lawQ', 'lawGo', function () {
+      var q = EL('lawQ').value.trim(), out = EL('lawOut');
+      if (q.length < 3) { out.innerHTML = '<div class="agnote">Enter at least three letters.</div>'; return; }
+      out.innerHTML = '<div class="agnote">Searching open dockets…</div>';
+      fetch('/api/law-tools?tool=comments&q=' + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (s) {
+        if (!s.ok) { out.innerHTML = failBox(s.reason); return; }
+        if (!s.rows.length) { out.innerHTML = '<div class="agnote">' + esc(s.note) + '</div>'; return; }
+        out.innerHTML = '<div class="agnote" style="color:var(--ink)"><b>' + s.rows.length + ' open</b> matching "' + esc(s.query) + '".</div>' + commentRows(s.rows);
+      }).catch(function () { out.innerHTML = failBox('The docket search did not respond.'); });
+    });
+  }).catch(function () { host.innerHTML = failBox('The law data service did not respond.'); });
+}
+
+// ── RELIGION: what a congregation or charity reports to the IRS ─────────────
+function renderRelTools(host) {
+  var body = searchForm('relQ', 'relGo', 'Congregation or charity name', 'e.g. Catholic Charities',
+    '<div><label for="relSt">State</label><input id="relSt" type="text" maxlength="2" placeholder="MO" style="text-transform:uppercase"></div>') +
+    '<div id="relOut"></div>' +
+    '<div class="agnote"><b>Churches are not required to file a Form 990.</b> A congregation with no filings is completely normal and is not a warning sign. ' +
+    'Source: <a href="https://projects.propublica.org/nonprofits/" target="_blank" rel="noopener">ProPublica Nonprofit Explorer</a>, from IRS filings.</div>';
+  host.innerHTML = toolCard('relOrg', 'Where the money actually goes',
+    'Most tax-exempt organisations file a Form 990 every year: what they took in, what they spent, what they hold. It is public, and almost nobody reads it. ' +
+    'Look up any congregation, relief agency or faith-based charity before you give.', body);
+  bindSearch('relQ', 'relGo', function () {
+    var q = EL('relQ').value.trim(), st = (EL('relSt').value || '').trim(), out = EL('relOut');
+    if (q.length < 3) { out.innerHTML = '<div class="agnote">Enter at least three letters.</div>'; return; }
+    out.innerHTML = '<div class="agnote">Searching IRS filings…</div>';
+    fetch('/api/religion-tools?tool=org&q=' + encodeURIComponent(q) + (st ? '&state=' + encodeURIComponent(st) : ''))
+      .then(function (r) { return r.json(); }).then(function (s) {
+        if (!s.ok) { out.innerHTML = failBox(s.reason); return; }
+        if (!s.rows.length) { out.innerHTML = '<div class="agnote">Nothing found for "' + esc(s.query) + '".</div>'; return; }
+        out.innerHTML = '<div class="agnote" style="color:var(--ink)"><b>' + s.found + ' match' + (s.found === 1 ? '' : 'es') + '.</b> Pick one to see its filings.</div>' +
+          s.rows.map(function (o) {
+            return '<div class="agrow" style="grid-template-columns:1fr 104px;cursor:pointer" data-ein="' + esc(o.ein) + '">' +
+              '<div class="nm">' + esc(o.name || '') + '<em>' + esc([o.city, o.state].filter(Boolean).join(', ')) +
+              (o.category ? ' · ' + esc(o.category) : '') + ' · EIN ' + esc(o.einFormatted || '') + '</em></div>' +
+              '<div class="agval" style="font-size:.68rem;color:var(--gold)">view<em>filings</em></div></div>';
+          }).join('') + '<div id="relDetail"></div>';
+        Array.prototype.forEach.call(out.querySelectorAll('[data-ein]'), function (el) {
+          el.addEventListener('click', function () { showOrg(el.getAttribute('data-ein')); });
+        });
+      }).catch(function () { out.innerHTML = failBox('The lookup did not respond.'); });
+  });
+}
+function showOrg(ein) {
+  var d = EL('relDetail');
+  if (!d) return;
+  d.innerHTML = '<div class="agnote">Reading Form 990 filings…</div>';
+  fetch('/api/religion-tools?tool=detail&ein=' + encodeURIComponent(ein)).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { d.innerHTML = failBox(j.reason); return; }
+    var h = '<div style="margin-top:16px"><div class="mig-h">' + esc(j.name || '') + ' · ' + esc([j.city, j.state].filter(Boolean).join(', ')) + '</div>';
+    if (!j.filings.length) {
+      h += '<div class="agnote">' + esc(j.note) + '</div>';
+    } else {
+      h += j.filings.map(function (f) {
+        var s = f.surplus;
+        return '<div class="agrow" style="grid-template-columns:66px 1fr 1fr 96px"><div class="nm">' + esc(String(f.year || '')) + '</div>' +
+          '<div class="agval" style="text-align:left">' + bigUsd(f.revenue) + '<em>came in</em></div>' +
+          '<div class="agval" style="text-align:left">' + bigUsd(f.expenses) + '<em>went out</em></div>' +
+          '<div class="agval" style="color:' + (s == null ? 'var(--soft)' : s < 0 ? 'var(--amber)' : 'var(--green)') + '">' +
+          (s == null ? 'n/a' : bigUsd(s)) + '<em>' + (s == null ? '' : s < 0 ? 'shortfall' : 'surplus') + '</em></div></div>';
+      }).join('');
+      h += '<div class="agnote">' + esc(j.note) + ' <a href="' + esc(j.profileUrl) + '" target="_blank" rel="noopener">Full filings and PDFs →</a></div>';
+    }
+    d.innerHTML = h + '</div>';
+  }).catch(function () { d.innerHTML = failBox('The filing lookup did not respond.'); });
 }
 
 // swap the placeholder cards for real tools where a domain has them
