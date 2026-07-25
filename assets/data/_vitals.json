@@ -1,6 +1,6 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-07-24T08:59:30.096Z",
+  "generatedAt": "2026-07-25T08:47:27.449Z",
   "overall": {
     "score": 96,
     "status": "HEALTHY",
@@ -263,12 +263,12 @@
       "order": 35,
       "score": 100,
       "status": "HEALTHY",
-      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 9m old",
+      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 12m old",
       "metrics": {
         "totalCompanies": 506,
         "domainsWithCompanies": 20,
         "liveScored": 454,
-        "snapshotAgeSec": 513,
+        "snapshotAgeSec": 726,
         "probes": {
           "console-companies": 100,
           "live-scoring": 100,
@@ -283,7 +283,7 @@
       "order": 36,
       "score": 100,
       "status": "HEALTHY",
-      "summary": "20 domain(s) promoted (economy, energy, environment, health, technology, research, supplyChain, governance, infrastructure, agriculture, industry, education, communication, culture, defense, religion, population, law, finance, intelligence) · 62/62 probes green",
+      "summary": "19 domain(s) promoted (economy, energy, environment, health, technology, research, supplyChain, governance, infrastructure, agriculture, industry, education, communication, culture, defense, religion, population, law, intelligence) · 59/59 probes green",
       "metrics": {
         "economy.feedFractal": {
           "itemCount": 0,
@@ -293,7 +293,7 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.867,
-          "stuck": 0.214
+          "stuck": 0.215
         },
         "economy.outcomeTrack": {
           "trackedForecasts": 0
@@ -309,28 +309,28 @@
           "asOf": "2026-07-20",
           "source": "FRED DCOILWTICO"
         },
-        "energy.marketPriceAgeDays": 4,
+        "energy.marketPriceAgeDays": 5,
         "energy.feedFractal": {
-          "itemCount": 30,
+          "itemCount": 25,
           "channels": [
             {
-              "key": "feed_supply",
-              "value": 0.9760870071371947,
-              "typedItems": 12
+              "key": "feed_conflict",
+              "value": 0.9485253932982992,
+              "typedItems": 11
             },
             {
-              "key": "feed_conflict",
-              "value": 0.8111243971624382,
-              "typedItems": 5
+              "key": "feed_supply",
+              "value": 0.8453617354507452,
+              "typedItems": 6
+            },
+            {
+              "key": "feed_litigation",
+              "value": 0.09516258196404037,
+              "typedItems": 1
             },
             {
               "key": "feed_pricing",
-              "value": 0.3296799539643607,
-              "typedItems": 2
-            },
-            {
-              "key": "feed_demand",
-              "value": 0.18126924692201807,
+              "value": 0.09516258196404037,
               "typedItems": 1
             }
           ]
@@ -338,18 +338,18 @@
         "energy.phaseBelief": {
           "grounded": true,
           "phaseMAP": 5,
-          "confidence": 0.145,
-          "stuck": 0.263
+          "confidence": 0.11,
+          "stuck": 0.254
         },
         "energy.outcomeTrack": {
-          "trackedForecasts": 4,
+          "trackedForecasts": 5,
           "resolvedCount": 0,
-          "pendingCount": 4,
+          "pendingCount": 5,
           "estimatorHitRate": null
         },
         "energy.stressPromotion": {
-          "stress": 0.8257818792226629,
-          "legacyFeedStress": 0.8287634447642503,
+          "stress": 0.8027710462158655,
+          "legacyFeedStress": 0.8022391388307704,
           "source": "node-market-feed-grounded"
         },
         "environment.feedFractal": {
@@ -367,24 +367,24 @@
         },
         "environment.stressPromotion": {
           "stress": 0.13286102265856384,
-          "legacyFeedStress": 0.96,
+          "legacyFeedStress": 1,
           "source": "node-market-feed-grounded"
         },
         "health.feedFractal": {
-          "itemCount": 1,
+          "itemCount": 0,
           "channels": []
         },
         "health.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.892,
-          "stuck": 0.302
+          "stuck": 0.278
         },
         "health.outcomeTrack": {
           "trackedForecasts": 0
         },
         "health.stressPromotion": {
-          "stress": 0.037703975547245916,
+          "stress": 0.037703975547246235,
           "legacyFeedStress": 1,
           "source": "node-market-feed-grounded"
         },
@@ -396,13 +396,13 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.89,
-          "stuck": 0.223
+          "stuck": 0.169
         },
         "technology.outcomeTrack": {
           "trackedForecasts": 0
         },
         "technology.stressPromotion": {
-          "stress": 0.04636522937993016,
+          "stress": 0.046365229379929936,
           "legacyFeedStress": 0.3,
           "source": "node-market-feed-grounded"
         },
@@ -414,7 +414,7 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.882,
-          "stuck": 0.602
+          "stuck": 0.569
         },
         "research.outcomeTrack": {
           "trackedForecasts": 0
@@ -425,47 +425,42 @@
           "source": "node-market-feed-grounded"
         },
         "supplyChain.feedFractal": {
-          "itemCount": 14,
+          "itemCount": 9,
           "channels": [
             {
               "key": "feed_supply",
-              "value": 0.9349977460369654,
-              "typedItems": 9
+              "value": 0.8453617354507452,
+              "typedItems": 6
             },
             {
-              "key": "feed_pricing",
-              "value": 0.3296799539643607,
+              "key": "feed_conflict",
+              "value": 0.18126924692201807,
               "typedItems": 2
             },
             {
-              "key": "feed_demand",
-              "value": 0.18126924692201807,
+              "key": "feed_pricing",
+              "value": 0.09516258196404037,
               "typedItems": 1
             }
           ]
         },
         "supplyChain.phaseBelief": {
           "grounded": true,
-          "phaseMAP": 2,
-          "confidence": 0.346,
-          "stuck": 0.14
+          "phaseMAP": 4,
+          "confidence": 0.403,
+          "stuck": 0.165
         },
         "supplyChain.outcomeTrack": {
           "trackedForecasts": 0
         },
         "supplyChain.stressPromotion": {
-          "stress": 0.19544933593113525,
+          "stress": 0.11338272003315755,
           "legacyFeedStress": 1,
           "source": "node-market-feed-grounded"
         },
         "governance.feedFractal": {
-          "itemCount": 6,
+          "itemCount": 5,
           "channels": [
-            {
-              "key": "feed_supply",
-              "value": 0.28346868942621073,
-              "typedItems": 1
-            },
             {
               "key": "feed_conflict",
               "value": 0.28346868942621073,
@@ -476,14 +471,14 @@
         "governance.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.472,
+          "confidence": 0.678,
           "stuck": 0.197
         },
         "governance.outcomeTrack": {
           "trackedForecasts": 0
         },
         "governance.stressPromotion": {
-          "stress": 0.06630674158285182,
+          "stress": 0.05716328710763473,
           "legacyFeedStress": 0.3,
           "source": "node-market-feed-grounded"
         },
@@ -501,26 +496,26 @@
           "trackedForecasts": 0
         },
         "infrastructure.stressPromotion": {
-          "stress": 0.01986074893335758,
-          "legacyFeedStress": 0.78,
+          "stress": 0.019860748933309615,
+          "legacyFeedStress": 0.79,
           "source": "node-market-feed-grounded"
         },
         "agriculture.feedFractal": {
-          "itemCount": 9,
+          "itemCount": 6,
           "channels": [
             {
               "key": "feed_supply",
-              "value": 0.8233055542434032,
-              "typedItems": 6
+              "value": 0.8111243971624382,
+              "typedItems": 5
             },
             {
               "key": "feed_pricing",
-              "value": 0.3296799539643607,
-              "typedItems": 2
+              "value": 0.09516258196404037,
+              "typedItems": 1
             },
             {
-              "key": "feed_demand",
-              "value": 0.18126924692201807,
+              "key": "feed_conflict",
+              "value": 0.09516258196404037,
               "typedItems": 1
             }
           ]
@@ -528,48 +523,48 @@
         "agriculture.phaseBelief": {
           "grounded": true,
           "phaseMAP": 3,
-          "confidence": 0.23,
-          "stuck": 0.242
+          "confidence": 0.141,
+          "stuck": 0.243
         },
         "agriculture.outcomeTrack": {
           "trackedForecasts": 0
         },
         "agriculture.stressPromotion": {
-          "stress": 0.9823972362304787,
+          "stress": 0.9842597878291152,
           "legacyFeedStress": 0.84,
           "source": "node-market-feed-grounded"
         },
         "industry.feedFractal": {
-          "itemCount": 5,
+          "itemCount": 2,
           "channels": [
             {
-              "key": "feed_pricing",
-              "value": 0.3296799539643607,
+              "key": "feed_conflict",
+              "value": 0.18126924692201807,
               "typedItems": 2
             },
             {
-              "key": "feed_demand",
-              "value": 0.18126924692201807,
+              "key": "feed_litigation",
+              "value": 0.09516258196404037,
               "typedItems": 1
             },
             {
-              "key": "feed_supply",
-              "value": 0.3296799539643607,
-              "typedItems": 2
+              "key": "feed_pricing",
+              "value": 0.09516258196404037,
+              "typedItems": 1
             }
           ]
         },
         "industry.phaseBelief": {
           "grounded": true,
           "phaseMAP": 2,
-          "confidence": 0.395,
-          "stuck": 0.408
+          "confidence": 0.404,
+          "stuck": 0.396
         },
         "industry.outcomeTrack": {
           "trackedForecasts": 0
         },
         "industry.stressPromotion": {
-          "stress": 0.04721847319685911,
+          "stress": 0.03770415037427141,
           "legacyFeedStress": 0.3,
           "source": "node-market-feed-grounded"
         },
@@ -599,13 +594,13 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.891,
-          "stuck": 0.395
+          "stuck": 0.336
         },
         "communication.outcomeTrack": {
           "trackedForecasts": 0
         },
         "communication.stressPromotion": {
-          "stress": 0.04363419820492043,
+          "stress": 0.04363419820492017,
           "legacyFeedStress": 0.71,
           "source": "node-market-feed-grounded"
         },
@@ -617,26 +612,26 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.892,
-          "stuck": 0.43
+          "stuck": 0.433
         },
         "culture.outcomeTrack": {
           "trackedForecasts": 0
         },
         "culture.stressPromotion": {
-          "stress": 0.03716969341261902,
+          "stress": 0.03716969341261946,
           "legacyFeedStress": 0.3,
           "source": "node-market-feed-grounded"
         },
         "defense.feedFractal": {
-          "itemCount": 20,
+          "itemCount": 21,
           "channels": [
             {
-              "key": "feed_supply",
-              "value": 0.9030280321355949,
-              "typedItems": 7
+              "key": "feed_conflict",
+              "value": 0.9371287733993328,
+              "typedItems": 9
             },
             {
-              "key": "feed_conflict",
+              "key": "feed_supply",
               "value": 0.8111243971624382,
               "typedItems": 5
             }
@@ -645,15 +640,15 @@
         "defense.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.492,
-          "stuck": 0.236
+          "confidence": 0.449,
+          "stuck": 0.152
         },
         "defense.outcomeTrack": {
           "trackedForecasts": 0
         },
         "defense.stressPromotion": {
-          "stress": 0.16444495050687483,
-          "legacyFeedStress": 0.5,
+          "stress": 0.155394359921657,
+          "legacyFeedStress": 0.49,
           "source": "node-market-feed-grounded"
         },
         "religion.feedFractal": {
@@ -664,7 +659,7 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.87,
-          "stuck": 0.167
+          "stuck": 0.168
         },
         "religion.outcomeTrack": {
           "trackedForecasts": 0
@@ -682,7 +677,7 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.882,
-          "stuck": 0.39
+          "stuck": 0.391
         },
         "population.outcomeTrack": {
           "trackedForecasts": 0
@@ -706,47 +701,8 @@
           "trackedForecasts": 0
         },
         "law.stressPromotion": {
-          "stress": 0.04801557495052493,
+          "stress": 0.0480155749505247,
           "legacyFeedStress": 0.51,
-          "source": "node-market-feed-grounded"
-        },
-        "finance.feedFractal": {
-          "itemCount": 23,
-          "channels": [
-            {
-              "key": "feed_supply",
-              "value": 0.9305165487771985,
-              "typedItems": 8
-            },
-            {
-              "key": "feed_conflict",
-              "value": 0.8111243971624382,
-              "typedItems": 5
-            },
-            {
-              "key": "feed_pricing",
-              "value": 0.3296799539643607,
-              "typedItems": 2
-            },
-            {
-              "key": "feed_demand",
-              "value": 0.18126924692201807,
-              "typedItems": 1
-            }
-          ]
-        },
-        "finance.phaseBelief": {
-          "grounded": true,
-          "phaseMAP": 3,
-          "confidence": 0.134,
-          "stuck": 0.17
-        },
-        "finance.outcomeTrack": {
-          "trackedForecasts": 0
-        },
-        "finance.stressPromotion": {
-          "stress": 0.9579261852214269,
-          "legacyFeedStress": 0.55,
           "source": "node-market-feed-grounded"
         },
         "intelligence.feedFractal": {
@@ -763,7 +719,7 @@
           "trackedForecasts": 0
         },
         "intelligence.stressPromotion": {
-          "stress": 0.019860748933357583,
+          "stress": 0.019860748933309615,
           "legacyFeedStress": 0.53,
           "source": "node-market-feed-grounded"
         },
@@ -824,14 +780,11 @@
           "law:feed-fractal": 100,
           "law:phase-belief": 100,
           "law:stress-promoted": 100,
-          "finance:feed-fractal": 100,
-          "finance:phase-belief": 100,
-          "finance:stress-promoted": 100,
           "intelligence:feed-fractal": 100,
           "intelligence:phase-belief": 100,
           "intelligence:stress-promoted": 100
         },
-        "snapshotAgeSec": 513,
+        "snapshotAgeSec": 726,
         "promotedDomains": [
           "economy",
           "energy",
@@ -851,7 +804,6 @@
           "religion",
           "population",
           "law",
-          "finance",
           "intelligence"
         ]
       },
@@ -1771,7 +1723,7 @@
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.0011784556070963542,
+        "ageHours": 0.001754381578233507,
         "nodeCount": 795,
         "edgeCount": 13010,
         "dampedCount": 0,
@@ -3442,6 +3394,109 @@
           "issue": "Eligible CB rows with broken portal links",
           "countBefore": 176,
           "ranAt": "2026-07-24T08:59:28.085Z",
+          "success": true,
+          "summary": "completed",
+          "exitCode": 0
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 146,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 11,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
+          "severity": "med",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
+          "count": 796,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+          "severity": "low",
+          "count": 22,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Segment breakouts sharing a parent CIK (intentional)",
+          "severity": "low",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "high",
+          "count": 2,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 174,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-07-25T08:47:24.945Z",
+      "finishedAt": "2026-07-25T08:47:27.462Z",
+      "preScore": 96,
+      "postScore": 96,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 176,
+          "ranAt": "2026-07-25T08:47:24.948Z",
           "success": true,
           "summary": "completed",
           "exitCode": 0
