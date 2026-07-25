@@ -951,4 +951,137 @@ phase count instead of a unitless score. Cost is unchanged. Interpretability gai
 
 ---
 
-## ENTRY 006 - (next)
+## ENTRY 006 - Entropy and compression, and the label-free test it hands LIMEN
+
+> **STATUS: [mark: IDEA] — PROPOSAL ONLY. NOT BUILT, NOT RUN, NOT VALIDATED.**
+>
+> Nothing in this entry has been executed against LIMEN data. The compression test described below
+> is a DESIGN, not a result. No number in it has been measured. It has not been reviewed by anyone
+> other than its author, and it may be wrong in ways section "Objections" does not anticipate.
+>
+> Two things ARE established and separable from the idea:
+>  - **[verified]** Shannon's source coding theorem as stated below, from the cited sources.
+>  - **[verified]** the file/line facts about where LIMEN persists channel history.
+>
+> Everything connecting those two to a conclusion about LIMEN is **[mark: IDEA]**. If any part of
+> this is later run, the result belongs in a NEW entry with its own status label. Do not edit this
+> entry to look like it was validated. Do not quote its ranking as a finding. Do not present the
+> "revised standing" list as a decision; it is one author's opinion about an unrun test.
+
+**Prompted by:** https://youtu.be/FlaJPxP8sd8
+**Title (read off the page shell):** "What is Entropy? and its relation to Compression"
+**Captured:** 2026-07-25
+
+**SOURCING LIMITS, same as Entry 005.** Channel, date, duration and the video's own content could
+NOT be extracted (JS-rendered metadata, no reachable captions, video ID not indexed by search).
+**This is not a scrape of that video.** The material below is from:
+- https://en.wikipedia.org/wiki/Shannon%27s_source_coding_theorem
+- https://en.wikipedia.org/wiki/Entropy_coding
+- https://gwlucastrig.github.io/GridfourDocs/notes/EntropyMetricForDataCompression.html
+
+### Shannon's source coding theorem
+
+Entropy is not a metaphor for compressibility. It is the exact, provable floor.
+
+For N i.i.d. draws from a source with entropy H(X):
+- **Achievability:** the data can be encoded in slightly more than N*H(X) bits with vanishing loss
+  as N grows.
+- **Converse:** encoding in fewer than N*H(X) bits makes information loss virtually certain.
+
+For symbol codes over an alphabet of size a:
+
+    H(X)/log2(a)  <=  E[codeword length]  <  H(X)/log2(a) + 1
+
+**This is a mathematical impossibility result, not a statement about current algorithms.** ZIP,
+LZ77, Huffman, arithmetic coding, ANS: none beats source entropy on average. Huffman lands within
+1 bit per symbol of the bound; arithmetic coding and asymmetric numeral systems get closer by
+avoiding the whole-bit granularity.
+
+**The caveat that matters most for LIMEN:** the theorem is stated for i.i.d. sources. For data with
+temporal dependence, the marginal entropy OVERSTATES the achievable code length, because a model
+that exploits the dependence does better. Kolmogorov complexity is the right frame for the general
+case. **That gap is exactly where a model earns its keep.**
+
+### The LIMEN application: a falsifiable test that needs NO outcome labels
+
+This is the most useful thing in this doc so far, so state it precisely.
+
+**The claim under test:** LIMEN's 11-phase latent structure captures real structure in the domain
+channel streams.
+
+**The test:** does the 11-state phase model compress a held-out channel stream better than simpler
+baselines?
+
+    baseline 0   marginal entropy H(X) of the channel, ignoring time entirely
+    baseline 1   first-order Markov chain on the discretised channel value
+    model        the 11-state phase model with transition matrix A
+
+Score each by per-sample cross-entropy on **held-out** data. If the phase model does not beat the
+baselines, the phase structure is not earning its keep on that domain's data.
+
+**Why this is worth more than it looks:**
+
+1. **It needs no outcome labels.** F1's blocker is that forward outcomes are scarce and slow. This
+   test uses only the observation stream, which is already persisted:
+   `limen-worker-snapshot.js:232-234`, 300 samples per channel at 60-75 min = 12.5-15.6 days rolling,
+   times 20 domains.
+2. **It can FALSIFY, which is the point.** Everything else in the audit measures how well the system
+   does something. This can show the phase model explains nothing, which is the more valuable answer
+   if true, and is the direction the standing research-integrity rule points.
+3. **It reuses the Entry 004 machinery.** Observation-likelihood scoring is exactly what Baum-Welch
+   would have maximised. Entry 004 concluded that objective is wrong for predicting distress. It is
+   the RIGHT objective for this question: does the model explain the data.
+
+### The 5-line diagnostic to run FIRST
+
+Before any of the above, compute the marginal entropy of each channel's stored 300-sample history.
+
+    H(channel) = -sum_v p(v) * ln p(v)          over the observed value histogram
+    PPL(channel) = exp(H)                        effective number of distinct states visited
+
+**If H is near zero, the channel carries no information and NO model can be validated against it.**
+Any model would "compress" a constant stream perfectly and the comparison would be vacuous.
+
+This is a direct, numeric test of the degeneracy already on record (grounded CISS rank sitting at a
+near-constant 0.5042 across all 20 domains, ~70% of channel weight carrying zero information). It
+costs one pass over data already in Redis, changes nothing, and either quantifies the problem or
+shows it has been fixed. **Run this before anything else in this document.**
+
+### Objections to my own proposal
+
+1. **Compression is not prediction.** A model that explains the observation stream is not thereby a
+   model that predicts distress. Same distinction as Entry 004. Passing this test would NOT validate
+   any distress claim and must never be reported as if it did.
+2. **More parameters compress training data better by construction.** An 11-state model will beat a
+   1-state model on data it was fitted to, every time, meaninglessly. Held-out data is mandatory.
+   The principled alternative is MDL: total cost = code length of the data + code length of the
+   model, which prices the extra parameters explicitly. MDL is the natural frame here since the
+   whole discussion is already in bits.
+3. **Non-i.i.d. data breaks the clean theorem.** Channel streams are autocorrelated. The marginal
+   entropy baseline is therefore a weak baseline, and beating it proves little. Baseline 1 (a
+   first-order Markov chain) is the honest bar, because it captures temporal dependence WITHOUT any
+   phase structure. If the 11-phase model cannot beat a plain Markov chain on discretised values,
+   the phases are decoration.
+4. **This could be motivated reasoning.** The compression frame arrived from a video, not from the
+   code. The defense is that it produces a test designed to FALSIFY the system's central structural
+   claim, which is the opposite of the failure mode. If I had proposed a compression metric that
+   the system was likely to pass, that would be the tell.
+
+### Revised standing
+
+The label-free compression test moves ABOVE most of the Entry 003 shortlist, because it is the only
+item that can invalidate the architecture rather than improve its measurement. Revised order:
+
+    0.  marginal entropy / perplexity per channel      (5 lines, run today, pure diagnostic)
+    1.  Brier / log-loss in outcome-ledger              (Entry 003 F2)
+    2.  belief entropy + perplexity display             (Entry 003 F4 + Entry 005)
+    3.  held-out compression test vs Markov baseline    (this entry)
+    4.  calibration curve / ECE                         (Entry 003 F2 second half)
+    ... rest of Entry 003 shortlist unchanged
+
+Item 0 is a measurement on existing data with no code path touched. If item 0 shows the channels are
+degenerate, items 1 through 4 are all premature and the real work is upstream in the feeds.
+
+---
+
+## ENTRY 007 - (next)
