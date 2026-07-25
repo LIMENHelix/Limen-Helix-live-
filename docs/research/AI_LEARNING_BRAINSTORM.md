@@ -1308,4 +1308,265 @@ would be the honest first step rather than assuming the problem is large.
 
 ---
 
-## ENTRY 009 - (next)
+## ENTRY 009 - sentdex / NNFS assessment, and the company scorer
+
+> **STATUS: [verified] code facts, [mark: IDEA] anything prescriptive.**
+> Read-only. No code was edited. Operator chose **document only, no code** when asked whether
+> "build accordingly to the ideas in the document" meant code or document.
+>
+> **THIS ENTRY CARRIES MAJOR CORRECTIONS TO ENTRY 003.** Section 0 below withdraws one finding and
+> reverses another. Read Section 0 before treating anything in Entry 003 as current.
+
+**Date:** 2026-07-25
+
+---
+
+### 0. CORRECTIONS TO ENTRY 003 — one finding withdrawn, one reversed
+
+Directive from the neurologist, correctly: judging a brain rendering for not doing backpropagation
+is criticizing it for being a brain. Entry 003 was written from six `lib/` files plus one function
+of one domain brain out of twenty, and the learning substrate lives in `assets/js/`. The files were
+then read. Results below.
+
+#### 0a. F6 — WITHDRAWN, not revised
+
+F6 said: *"the only learning rule present is Hebbian, and it optimizes nothing."* **False.**
+
+`assets/js/limen-active-inference.js` implements expected free energy explicitly and correctly:
+- `updateBeliefs` (lines 78-100) is exact Kalman predict/update on a linear-Gaussian model. For that
+  model class Kalman IS variational free-energy minimisation. The header states this and it is right.
+- `selectAction` (lines 104-153) computes `G = risk + ambiguity` per action, where
+  `risk(mean) = (mean - setpoint)^2 / (2*prefSigma^2)` (pragmatic, line 114) and
+  `ambiguity(v) = 0.5*(ln(2*pi*e) + ln v)` (line 115) — **the exact differential entropy of a
+  Gaussian**, the epistemic term. Softmin over G selects.
+
+That is textbook active inference with correct formulas, not a gesture at it. There IS an objective
+function. F6 was built on a function seen in a grep and never opened. Withdrawn on the record.
+
+`assets/js/limen-plasticity.js` reinforces the withdrawal. Its header states the frame in the code
+itself at line 6: **"NOT backprop. No differentiable graph, no weight transport."** The design
+choice Entry 003 criticised is documented as deliberate. And the rule is not raw Hebbian:
+- **RPE centering** (lines 23-26, 216-236): K4 credit is 0..1 and always positive, so raw it could
+  only grow weights. Centered against an EMA baseline, `rpe = credit - baseline`, it becomes an
+  ERROR signal. Better-than-usual calibration reinforces; worse weakens.
+- **Eligibility traces** (lines 18-22, 181): the truth brake resolves calls 3-20 cycles after
+  emission, so the activity that earned the credit is gone when the modulator lands. The trace is
+  what stays eligible. That is the biological answer to temporal credit assignment.
+- **Prior shrinkage from day one** (lines 29-33, 182): `w <- w + priorLambda*(seed - w)`. The seed
+  IS the Bayesian prior; drift from it is the learned posterior shift. Stated in the code.
+- **BCM metaplasticity** (lines 65-77, 155-171): eta is not constant. A per-layer threshold theta
+  slides with the layer's own activity and eta scales by `(activity - theta)/theta`. Instability
+  flags hard-damp it. Self-normalising per layer from its own statistics.
+
+#### 0b. F1 — SUBSTANTIALLY WRONG, narrowed to a fragment
+
+F1 said: *"the outcome ledger generates a training signal that nothing consumes."* Tracing it:
+
+    led.callHitRate + led.resolvedTotal -> window.LIMENK4.credit()   (energy-brain.js:2729-2747)
+      -> readModulator -> centered RPE -> applyModulator -> Δw on 8 K-layers
+      (all marked WIRED:true at line 2777, self-arming via _learnedVec)
+
+And `energy-brain.js:2723-2728` goes further: `this._externalOutcome`, the feed-resolver's
+forecast-vs-realised hit rate, is used as **true reward** once `MIN_EXT_RESOLVED` forecasts resolve,
+abstaining to self-consistency below that.
+
+**The loop is closed.** What survives is a fragment: `perChannelHitRateDivergent` specifically still
+has no consumer, and `CHANNEL_WEIGHTS` / `precisionHint` in `lib/` are still unfitted.
+
+The "hand-set constants everywhere" complaint also weakens here. eta is BCM-adaptive; seeds are
+priors with explicit decay toward them. That is a Bayesian design, not a pile of magic numbers.
+
+#### 0c. F3 and F4 — narrowed
+
+- **F3** ("softmax has no temperature") holds only for `lib/phase-estimator.js`. Temperature exists
+  in the system: `limen-active-inference.js:70` defines `tau: 0.05`, used in the softmin at line 139.
+- **F4** ("belief entropy computed nowhere") holds only for the 11-phase CATEGORICAL belief.
+  `ambiguity()` computes Gaussian belief entropy.
+
+#### 0d. F2 — SURVIVES, and matters MORE than Entry 003 rated it
+
+The `callHitRate` feeding K4 is the binarised hit rate from `outcome-ledger.scorePairs`
+(`estimatorCalled === adverseEvent`). So the RPE driving all eight K-layers is centered on a metric
+that discards magnitude on both sides and has zero derivative almost everywhere.
+
+**The measurement weakness propagates directly into the learning signal.** Brier or log loss in the
+ledger is therefore not a reporting improvement. It changes what the synapses are taught with.
+
+#### 0e. Honest accounting
+
+Of Entry 003's eight findings: **one withdrawn (F6), one substantially wrong (F1), two narrowed
+(F3, F4), four intact (F5, F7, F8, and F2 which rises).** Entry 008's kernel path A/B/C scale
+problem and Entry 009 §3b's silent registry fallback are untouched by any of this and stand.
+
+Credit where the read found it: the code had already caught a bug in this exact area
+(`energy-brain.js:2740-2746`) — keying modulator freshness on the windowed `resolvedSamples` would
+saturate near the ledger cap once armed and silently freeze learning; resolved by switching to the
+monotonic `resolvedTotal`. That is the class of bug this audit would have hunted for, already found.
+
+---
+
+### 1. Source identification
+
+**Supplied link:** https://youtu.be/Wo5dMEP_BbI
+**Title (read off the page shell):** "Neural Networks from Scratch - P.1 Intro and Neuron Code"
+
+That video IS sentdex, so the link and the request to "complete sentdex videos" are one thing: the
+**Neural Networks from Scratch** series.
+
+- Author: Harrison Kinsley (sentdex), with Daniel Kukieła on the book
+- Channel: active since December 2012, 1M+ subscribers
+- Book + companion site: https://nnfs.io/
+- Free video series accompanies the book
+- Scope: code a neuron, stack layers, activation functions, loss, backpropagation, optimizers, in
+  Python and NumPy with no ML libraries
+
+Same sourcing wall as Entries 005 to 007: channel, date and duration are JS-rendered and were not
+extractable. Series scope above is from the book/site listings, not from watching.
+
+### 2. Assessment: what transfers to LIMEN and what does not [mark: IDEA]
+
+Applying the same filter Entry 007 applied to the entropy cluster, honestly.
+
+**What transfers (two chapters):**
+
+- **Categorical cross-entropy loss, implemented by hand.** This is Entry 007's gradient argument as
+  working code rather than prose. Reading an implementation where `dL/dz = p - y` falls out of the
+  algebra is the fastest way to stop treating it as a formula to trust.
+- **The optimizer loop.** SGD and its variants. This is the direct cure for Entry 003 F6, where
+  LIMEN runs `Δw = η·pre·post·modulator` (Hebbian) against no objective at all. Seeing a loop that
+  computes a loss, takes its gradient, and steps, makes the absence in LIMEN concrete.
+
+**What does not transfer, stated correctly this time:**
+
+An earlier draft of this entry said "LIMEN does not need a neural network." **That sentence was
+wrong and is retracted.** It was a system-wide architectural verdict reached from six `lib/` files
+and one function of one domain brain, and it posed a fork that does not exist. A Bayes filter and a
+neural network are not alternatives — deep state-space models, neural HMMs and amortised inference
+combine them routinely.
+
+The correct statement is narrower and points the other way:
+
+**LIMEN is a neural computation and needs to be one. What it does not need, and should not have, is
+a BACKPROP-TRAINED network.** Backpropagation requires weight transport (the backward pass needs an
+exact transposed copy of the forward weights) and non-local error signals. Biological synapses have
+neither. This is the weight-transport problem and it has been the central obstacle to biological
+plausibility for decades. For a brain rendering, **biological plausibility is the specification,
+not a limitation.** A system faithfully reproducing backprop would be LESS brain-like.
+
+What a brain rendering consists of computationally is a third thing with a precise name:
+hierarchical **predictive coding** performing approximate Bayesian inference through LOCAL update
+rules. Predictive coding has been shown to approximate backprop under specific conditions without
+weight transport or non-local errors (Whittington & Bogacz). That is the bridge, and it is what
+LIMEN already contains:
+- `lib/phase-percept.js` computes precision-weighted prediction error. That IS predictive coding.
+- `limen-plasticity.js` is the neo-Hebbian three-factor rule, the correct biological answer to how
+  a synapse learns without backprop.
+- `limen-active-inference.js` minimises expected free energy (see §0a).
+
+So the NNFS content that does not transfer is specific: dense layers, ReLU, and a softmax classifier
+on spiral data trained by backprop. Not "neural networks."
+
+**Verdict.** Two chapters are worth extracting. Watching the full series to get them is a poor trade
+against Guo et al. 2017 (temperature scaling), McElreath's partial-pooling lectures, or the
+local-learning literature (predictive coding, equilibrium propagation, feedback alignment, target
+propagation) which is the material actually adjacent to this architecture.
+
+### 3. `lib/company-phase-scorer.js` (first 200 lines read)
+
+**3a. It is the CONSUMER of the kernel score, not the producer.** Line 42 sets
+`SCORE_API_BASE: 'https://limenhelix.com/api/limen/score'` and the file calls it per CIK. So the
+path A/B/C scale problem recorded in Entry 008 §4a originates UPSTREAM of this file, inside the
+kernel API. **This relocates Entry 008's rank-0 item: the fix belongs in the kernel scorer, not in
+the propagator and not here.**
+
+**3b. Silent registry degradation [NEW FINDING].** Line 109:
+
+    var COMPANY_REGISTRY = _loadRegistryFromCommandBoard() || [ ...~100 hardcoded companies... ];
+
+The live registry is 506 CIKs loaded from `command-board-data.json` (lines 79-107, three candidate
+paths, each in a try/catch that falls through silently). If none resolve on a cold start, scoring
+runs against a stale hardcoded list roughly a fifth the size, **with no flag, no log line, and no
+alarm**. Downstream, `grounded-stress.compute()` only abstains below `minScored: 4`, so it would
+report `grounded: true` over a fifth of the universe and nothing would indicate the difference.
+
+Cheap mitigation if this is ever built: have the loader record which path resolved (or that it fell
+back) and surface it on the snapshot, the same way `massWeighted:false` is surfaced in
+`grounded-stress.js`. That pattern already exists in the codebase; it just is not applied here.
+
+**3c. Cadence discrepancy [VERIFY BEFORE TRUSTING].** The scheduler comment at lines 47-49 computes
+full coverage as `506/(30+30) ≈ 8.4 ticks × 3 min = 25 min`, assuming a **3-minute** cron. But
+`limen-worker-snapshot.js:161-167` describes a **15-minute** worker cron with measured 60-75 minute
+effective gaps. If 15 minutes is the live schedule, full company-scoring coverage takes roughly two
+hours, not 25 minutes. **I did not read the cron config**, so this is a flagged discrepancy and not
+a finding. Resolvable by reading `vercel.json`.
+
+**3d. A fifth hand-set threshold table.** Lines 32-35: `DOMAIN_STRESS_ELEVATED: 0.65`,
+`DOMAIN_STRESS_HIGH: 0.70`, `P7A_COUNT_MIN: 2`, `P3_COUNT_MIN: 3`. Entry 003 F1 now spans five
+tables: channel weights, K-layer seeds, propagator category/confidence weights, propagator tuning
+constants, and these scheduler thresholds.
+
+**3e. Credit.** The comment at lines 37-41 documents a real production outage precisely: using
+`process.env.VERCEL_URL` returned a 401 HTML auth page behind Deployment Protection instead of
+JSON, producing `Unexpected token '<'` and `totalScored: 0` for **every** company, silently. That
+is exactly the kind of failure that should be written down at the call site, and it was.
+
+### 4. Revised ranking [mark: IDEA]
+
+Rebuilt after §0. F6 is gone from the list entirely. F2 rises, because §0d showed the binarised
+hit rate is not merely a reporting metric — it is what teaches eight K-layers.
+
+    0.  Normalize the kernel composite across paths A/B/C — IN THE KERNEL API (per §3a),
+        not in the propagator. Untouched by the §0 corrections.
+    0b. Surface registry-load provenance so a 506 -> ~100 fallback cannot happen silently (§3b)
+    1.  Brier + log loss in outcome-ledger    (F2, per §0d — changes the LEARNING signal,
+                                               not just the console)
+    2.  Resolve which phases are distress (Entry 008 §2b) and what P1 is (§2a)
+    3.  marginal entropy / perplexity per channel            (Entry 006 diagnostic)
+    4.  categorical belief entropy + perplexity display      (F4 as narrowed by §0c + Entry 005)
+    5.  held-out compression test vs Markov baseline         (Entry 006)
+    --  F6 REMOVED (withdrawn, §0a)
+    --  F1 reduced to: give perChannelHitRateDivergent a consumer; fit CHANNEL_WEIGHTS (§0b)
+
+0b remains cheap and remains above most capability work: it guards against a silent wrong answer.
+
+**What §0 did NOT change.** Rank 0 and 0b are data-integrity problems in the kernel scorer and the
+registry loader. No amount of correct learning machinery downstream compensates for composites on
+three uncalibrated scales, or for scoring a fifth of the universe without saying so.
+
+### 5. Coverage, and the lesson about how this audit failed
+
+**Read across Entries 003, 008, 009:** the `lib/` math core, both phase estimators, the propagator,
+the first 200 lines of the company scorer, `limen-active-inference.js` (full),
+`limen-plasticity.js` (full), and the plasticity/active-inference/overlay call sites in
+`energy-brain.js`.
+
+**Still unread:** remaining ~400 lines of `company-phase-scorer.js`, 19 of 20 domain brains, the six
+overlay modules (`energy-metaplasticity`, `energy-extinction`, `energy-retrograde-throttle`,
+`energy-prediction-error-compressor`, `energy-offline-maintenance`, `energy-neuro-substrate`),
+`limen-k4-selfconsistency.js`, `consolidator.js`, `bridge-engine.js`, `pattern-author.js`,
+`limen-helix-api/limen_v4_kernel.js`, the kernel API scorer, and the ~335k-line full repo.
+
+**The most important unread file is the kernel scorer behind `/api/limen/score`.** Rank 0 lives
+there and every downstream number inherits from it.
+
+#### The methodological lesson, recorded because it will recur
+
+Entry 003 audited `lib/` — the server side — and issued verdicts about the system. **The learning
+substrate is not in `lib/`.** It is in `assets/js/`, in the client-side domain brains. One function
+of one brain out of twenty was read, and an architecture verdict followed.
+
+Two of the errors this produced were not small. F6 asserted an absence that a 165-line file
+contradicts outright. F1 asserted an open loop that is closed and traceable in four hops.
+
+The failure mode is specific and repeatable: **naming what is absent is far more dangerous than
+describing what is present, because absence can only be established by exhaustive reading, and this
+audit was never exhaustive.** Descriptive findings from a partial read (Entry 008's kernel scale
+problem, §3b's registry fallback) survived contact with more reading. Every finding phrased as
+"LIMEN does not have X" did not.
+
+Standing correction for future passes on this file: from a partial read, report what the code DOES.
+Do not report what it lacks.
+
+---
+
+## ENTRY 010 - (next)
