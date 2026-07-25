@@ -153,8 +153,15 @@ module.exports = async function handler(req, res) {
     // EWMA correlation state. Without them C stays at identity forever and the co-movement term —
     // the entire point of the quadratic form — never engages. Kept deliberately small: one history
     // point per channel per HOUR (not per 15m run) and capped, because Upstash bills bandwidth.
-    var GS_HISTORY_CAP = 300;            // ~12.5 days of hourly baseline per channel
-    var GS_APPEND_MS = 60 * 60 * 1000;   // append at most hourly
+    // CADENCE IS NOT HOURLY (corrected 2026-07-25 from measurement, not from the code's intent).
+    // GS_APPEND_MS gates on `>= 1h elapsed` but is only EVALUATED when the 15-min worker cron
+    // fires, so an append lands on the first tick at or past 60 min. That adds up to one full tick
+    // of drift per cycle: measured gaps 74.98 min (14:36 -> 15:51) and 74.4 min (15:51 -> 17:05).
+    // Real cadence is 60-75 min, so 300 samples is 12.5 to 15.6 DAYS depending on cron jitter, not
+    // the flat 12.5 the old comment claimed. Do not treat sample count as a stand-in for a time
+    // horizon here; it is only a faithful proxy while sampling is uniform, and it already isn't.
+    var GS_HISTORY_CAP = 300;            // 12.5-15.6 days at the measured 60-75 min cadence
+    var GS_APPEND_MS = 60 * 60 * 1000;   // FLOOR on the gap, not the period (cron quantises it up)
     var gsMem = null;
     try { gsMem = await db.get('grounded_stress_memory'); } catch (me) { gsMem = null; }
     if (!gsMem || typeof gsMem !== 'object' || !gsMem.domains) gsMem = { domains: {}, updatedAt: 0 };
