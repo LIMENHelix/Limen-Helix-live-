@@ -629,7 +629,8 @@ var BUILT_TOOLS = {
   finance: renderFinTools, technology: renderTechTools, industry: renderIndTools,
   law: renderLawTools, religion: renderRelTools, economy: renderEconTools,
   education: renderEduTools, governance: renderGovTools, defense: renderDefTools,
-  intelligence: renderIntelTools, science: renderSciTools
+  intelligence: renderIntelTools, science: renderSciTools,
+  population: renderPopTools, trade: renderTradeTools
 };
 // compact USD for figures that run to billions
 function bigUsd(n) {
@@ -1486,6 +1487,89 @@ function renderSciTools(host) {
       }).catch(function () { out.innerHTML = failBox('NIH RePORTER did not respond.'); });
     });
   }).catch(function () { host.innerHTML = failBox('The science data service did not respond.'); });
+}
+
+// ── POPULATION: how many years of income is a house? ───────────────────────
+function pricedBody(j) {
+  var yrs = j.yearsOfIncome, ref = j.affordableReference;
+  var col = yrs == null ? 'var(--soft)' : yrs >= 6 ? 'var(--red)' : yrs >= 4.5 ? 'var(--amber)' : yrs >= ref ? 'var(--gold)' : 'var(--green)';
+  var h = '<div class="agout">' +
+    '<div><div class="n" style="color:' + col + '">' + (yrs == null ? 'n/a' : yrs.toFixed(1) + 'x') + '</div>' +
+    '<div class="k">years of the median household income to buy the median home</div></div>' +
+    '<div><div class="n">' + bigUsd(j.price) + '</div><div class="k">median asking price<br>' + esc(j.priceAsOf || '') + (j.priceChangeYear != null ? ', ' + signed(j.priceChangeYear) + ' in a year' : '') + '</div></div>' +
+    '<div><div class="n">' + bigUsd(j.income) + '</div><div class="k">median household income<br>' + esc(j.incomeAsOf || '') + '</div></div>' +
+    '<div><div class="n" style="color:var(--amber)">' + bigUsd(j.incomeNeededForRule) + '</div><div class="k">what a household would need to earn for the old ' + ref + 'x rule to hold</div></div>' +
+    '</div>';
+  if (j.yearsOfIncomeThen != null && j.priceFirstDate) {
+    var delta = yrs - j.yearsOfIncomeThen;
+    h += '<div class="agnote" style="color:var(--ink);margin-top:14px"><b>Then and now.</b> In ' + esc(String(j.priceFirstDate).slice(0, 4)) +
+      ' the same measure was <b>' + j.yearsOfIncomeThen.toFixed(1) + 'x</b>. It is now <b>' + (yrs == null ? 'n/a' : yrs.toFixed(1) + 'x') + '</b>, ' +
+      (delta >= 0 ? 'a rise of ' + delta.toFixed(1) + ' years of income' : 'a fall of ' + Math.abs(delta).toFixed(1) + ' years of income') + '.</div>';
+  }
+  if (j.listings != null) {
+    h += '<div class="agnote">Homes currently listed: <b>' + Math.round(j.listings).toLocaleString() + '</b>' +
+      (j.listingsChangeYear != null ? ', ' + signed(j.listingsChangeYear) + ' against a year ago' : '') + '.' +
+      (j.hpiChange5yr != null ? ' House prices are ' + signed(j.hpiChange5yr) + ' over five years.' : '') + '</div>';
+  }
+  return h;
+}
+function renderPopTools(host) {
+  host.innerHTML = '<div class="muted">Reading the housing series…</div>';
+  fetch('/api/population-tools').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { host.innerHTML = toolCard('popPriced', 'How many years of income is a house?', 'Price against pay, where you live.', failBox(j.reason)); return; }
+    var opts = (j.states || []).map(function (s) { return '<option>' + s + '</option>'; }).join('');
+    var body =
+      '<div class="agform" style="grid-template-columns:130px auto 1fr">' +
+      '<div><label for="popSt">Your state</label><select id="popSt"><option value="">United States</option>' + opts + '</select></div>' +
+      '<div><label>&nbsp;</label><button id="popGo" class="guide-cta" style="margin:0;padding:11px 18px;border:none;cursor:pointer">Show</button></div><div></div></div>' +
+      '<div id="popOut">' + pricedBody(j) + '</div>' +
+      '<div class="agnote">' + esc(j.note) + '<br><b>Limits.</b> ' + esc(j.caveat) + ' ' +
+      'Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">' + esc(j.source) + '</a>.</div>';
+    host.innerHTML = toolCard('popPriced', 'How many years of income is a house?',
+      'Everyone knows housing got expensive. Almost nobody can say by how much against what people where they live actually earn. ' +
+      'That is this number, and lenders long treated about <b>3x income</b> as the affordable line.', body);
+    EL('popGo').addEventListener('click', function () {
+      var st = EL('popSt').value, out = EL('popOut');
+      out.innerHTML = '<div class="agnote">Reading…</div>';
+      fetch('/api/population-tools' + (st ? '?tool=state&st=' + encodeURIComponent(st) : ''))
+        .then(function (r) { return r.json(); }).then(function (s) {
+          out.innerHTML = s.ok ? pricedBody(s) : failBox(s.reason);
+        }).catch(function () { out.innerHTML = failBox('The housing lookup did not respond.'); });
+    });
+  }).catch(function () { host.innerHTML = failBox('The population data service did not respond.'); });
+}
+
+// ── TRADE: who America buys from, and what it sells back ───────────────────
+function renderTradeTools(host) {
+  host.innerHTML = '<div class="muted">Reading the trade ledger…</div>';
+  fetch('/api/trade-tools').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { host.innerHTML = toolCard('trdWho', 'Who America buys from', 'Goods in, goods out, by partner.', failBox(j.reason)); return; }
+    var rows = j.partners.map(function (p) {
+      var gapCol = p.gap < 0 ? 'var(--red)' : 'var(--green)';
+      return '<div class="agrow" style="grid-template-columns:1fr 104px 104px"><div class="nm">' +
+        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(p.name) + '</a>' +
+        '<em>bought ' + bigUsd(p.imports) + (p.importsChangeYear != null ? ' (' + (p.importsChangeYear > 0 ? '+' : '') + p.importsChangeYear + '% y/y)' : '') +
+        ' · sold ' + bigUsd(p.exports) + (p.exportsChangeYear != null ? ' (' + (p.exportsChangeYear > 0 ? '+' : '') + p.exportsChangeYear + '% y/y)' : '') + '</em>' +
+        (p.boughtPerDollarSold != null ? '<em>$' + p.boughtPerDollarSold.toFixed(2) + ' bought for every $1 sold</em>' : '') + '</div>' +
+        '<div class="agval" style="color:' + gapCol + '">' + bigUsd(Math.abs(p.gap)) + '<em>' + (p.gap < 0 ? 'deficit' : 'surplus') + '</em></div>' +
+        '<div class="agval" style="font-size:.68rem">' + esc(p.asOf || '') + '<em>month</em></div></div>';
+    }).join('');
+    var prices = j.prices.map(function (p) {
+      if (p.ok === false) return '<div class="agrow" style="grid-template-columns:1fr 96px"><div class="nm">' + esc(p.label) + '<em>' + esc(p.reason) + '</em></div><div class="agval">n/a</div></div>';
+      return '<div class="agrow" style="grid-template-columns:1fr 96px"><div class="nm">' +
+        '<a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(p.label) + '</a><em>' + esc(p.what) + '</em></div>' +
+        '<div class="agval">' + (p.changeYear == null ? 'n/a' : signed(p.changeYear)) + '<em>in a year</em></div></div>';
+    }).join('');
+    var body =
+      '<div style="margin-top:4px"><div class="mig-h">By partner, newest month</div>' + rows + '</div>' +
+      (j.unavailablePartners && j.unavailablePartners.length ? '<div class="agnote">Not available on this read: ' + esc(j.unavailablePartners.join(', ')) + '.</div>' : '') +
+      '<div style="margin-top:18px"><div class="mig-h">What imported goods cost now</div>' + prices + '</div>' +
+      (j.totalBalance != null ? '<div class="agnote" style="color:var(--ink)"><b>Total goods and services balance: ' + bigUsd(j.totalBalance) + '</b> for ' + esc(j.totalBalanceAsOf || '') + '. This one DOES include services.</div>' : '') +
+      '<div class="agnote">' + esc(j.note) + '<br><b>Limits.</b> ' + esc(j.caveat) + ' ' +
+      'Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">' + esc(j.source) + '</a>.</div>';
+    host.innerHTML = toolCard('trdWho', 'Who America buys from, and what it sells back',
+      'The monthly ledger, partner by partner, plus the number that actually reaches a household: what imported goods cost now against a year ago.', body);
+  }).catch(function () { host.innerHTML = failBox('The trade data service did not respond.'); });
 }
 
 // swap the placeholder cards for real tools where a domain has them
