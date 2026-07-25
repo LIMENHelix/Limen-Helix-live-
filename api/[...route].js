@@ -95,6 +95,8 @@ const HANDLERS = {
   'agriculture-tools': require('../handlers/agriculture-tools'),
   'medicine-tools': require('../handlers/medicine-tools'),
   'environment-tools': require('../handlers/environment-tools'),
+  'economy-tools': require('../handlers/economy-tools'),
+  'education-tools': require('../handlers/education-tools'),
   'finance-tools': require('../handlers/finance-tools'),
   'technology-tools': require('../handlers/technology-tools'),
   'industry-tools': require('../handlers/industry-tools'),

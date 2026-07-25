@@ -626,7 +626,8 @@ EL('tools').innerHTML = C.tools.map(function (t) {
 var BUILT_TOOLS = {
   agriculture: renderAgTools, medicine: renderMedTools, environment: renderEnvTools,
   finance: renderFinTools, technology: renderTechTools, industry: renderIndTools,
-  law: renderLawTools, religion: renderRelTools
+  law: renderLawTools, religion: renderRelTools, economy: renderEconTools,
+  education: renderEduTools
 };
 // compact USD for figures that run to billions
 function bigUsd(n) {
@@ -1232,6 +1233,114 @@ function showOrg(ein) {
     }
     d.innerHTML = h + '</div>';
   }).catch(function () { d.innerHTML = failBox('The filing lookup did not respond.'); });
+}
+
+// ── ECONOMY: your receipt from the government (Treasury MTS) ───────────────
+function renderEconTools(host) {
+  host.innerHTML = '<div class="muted">Reading the Treasury ledger…</div>';
+  fetch('/api/economy-tools').then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { host.innerHTML = toolCard('econReceipt', 'Your receipt from the government', 'Itemised, from Treasury\'s own ledger.', failBox(j.reason)); return; }
+    var perDollar = j.spentPerDollar;
+    var body =
+      '<div class="agout">' +
+      '<div><div class="n">' + bigUsd(j.receipts) + '</div><div class="k">collected from everyone, so far this fiscal year</div></div>' +
+      '<div><div class="n">' + bigUsd(j.outlays) + '</div><div class="k">spent over the same period</div></div>' +
+      '<div><div class="n" style="color:var(--red)">$' + perDollar.toFixed(2) + '</div><div class="k">spent for every $1 collected</div></div>' +
+      '<div><div class="n" style="color:var(--red)">' + Math.round(j.interestShareOfReceipts * 100) + '&cent;</div><div class="k">of every dollar collected went to interest on past borrowing</div></div>' +
+      '</div>' +
+      '<div class="agform" style="grid-template-columns:1fr auto;margin-top:18px">' +
+      '<div><label for="econTax">What you paid in federal tax last year</label><input id="econTax" type="number" min="0" step="100" placeholder="e.g. 12000"></div>' +
+      '<div><label>&nbsp;</label><button id="econGo" class="guide-cta" style="margin:0;padding:11px 18px;border:none;cursor:pointer">Itemise it</button></div>' +
+      '</div>' +
+      '<div class="agnote" style="margin-top:-6px">Line 24 of your 1040, or add up box 2 on your W-2s. Nothing you type is stored or sent anywhere; the arithmetic runs in your browser.</div>' +
+      '<div id="econOut"></div>' +
+      '<div class="agnote"><b>Method.</b> ' + esc(j.method) + ' ' + esc(j.note) + '<br>' +
+      'Figures as of ' + esc(j.asOf) + '. Source: <a href="' + esc(j.sourceUrl) + '" target="_blank" rel="noopener">' + esc(j.source) + '</a>. ' +
+      'Agency lines account for ' + (100 - Math.abs(j.residualShare * 100)).toFixed(2) + '% of total outlays; the ' + bigUsd(Math.abs(j.residual)) + ' remainder is unallocated in Treasury\'s own table and is not hidden here.</div>';
+    host.innerHTML = toolCard('econReceipt', 'Your receipt from the government',
+      'A shop hands you an itemised receipt for $4. The federal government takes thousands and itemises nothing. ' +
+      'This is the itemisation, straight from Treasury\'s Monthly Treasury Statement.', body);
+
+    var run = function () {
+      var tax = parseFloat(EL('econTax').value);
+      var out = EL('econOut');
+      if (!isFinite(tax) || tax <= 0) { out.innerHTML = '<div class="agnote">Enter what you paid, as a number.</div>'; return; }
+      var spend = j.agencies.filter(function (a) { return a.amount > 0; });
+      var back = j.agencies.filter(function (a) { return a.amount < 0; });
+      var h = '<div class="agout" style="margin-top:14px">' +
+        '<div><div class="n" style="color:var(--red)">' + money(tax * j.interestShareOfOutlays, 0) + '</div><div class="k">of your money went to interest on debt run up before now</div></div>' +
+        '<div><div class="n" style="color:var(--red)">' + money(tax * (perDollar - 1), 0) + '</div><div class="k">spent in your name on top of what you paid, and borrowed</div></div>' +
+        '<div><div class="n">' + money(tax * perDollar, 0) + '</div><div class="k">total spent in your name</div></div></div>';
+      h += '<div style="margin-top:18px"><div class="mig-h">Where your ' + money(tax, 0) + ' went</div>' +
+        spend.map(function (a) {
+          var amt = tax * a.share;
+          if (amt < 1) return '';
+          return '<div class="agrow" style="grid-template-columns:1fr 74px 84px"><div class="nm">' + esc(a.name.replace('--Military Programs', ', military')) +
+            (a.plain ? '<em>' + esc(a.plain) + '</em>' : '') + '</div>' +
+            '<div class="agbar"><i class="' + (a.share > 0.15 ? 'severe' : a.share > 0.05 ? 'stressed' : a.share > 0.01 ? 'watch' : 'normal') + '" style="width:' + Math.max(2, Math.round(a.share * 100 * 3.4)) + '%"></i></div>' +
+            '<div class="agval">' + money(amt, 0) + '<em>' + (a.share * 100).toFixed(1) + '%</em></div></div>';
+        }).join('') + '</div>';
+      if (back.length) {
+        h += '<div style="margin-top:14px"><div class="mig-h">Flowing back in</div>' +
+          back.map(function (a) {
+            return '<div class="agrow" style="grid-template-columns:1fr 84px"><div class="nm">' + esc(a.name) +
+              (a.plain ? '<em>' + esc(a.plain) + '</em>' : '') + '</div>' +
+              '<div class="agval" style="color:var(--green)">' + money(Math.abs(tax * a.share), 0) + '<em>credited</em></div></div>';
+          }).join('') + '</div>';
+      }
+      out.innerHTML = h;
+    };
+    bindSearch('econTax', 'econGo', run);
+  }).catch(function () { host.innerHTML = failBox('The Treasury ledger did not respond.'); });
+}
+
+// ── EDUCATION: does this degree pay for itself? (College Scorecard) ────────
+function eduRows(rows) {
+  return rows.map(function (s) {
+    var fin = s.completionRate;
+    var finPct = fin == null ? null : Math.round(fin * 100);
+    var finCol = finPct == null ? 'var(--soft)' : finPct < 35 ? 'var(--red)' : finPct < 55 ? 'var(--amber)' : 'var(--green)';
+    var de = s.debtToEarnings;
+    var deCol = de == null ? 'var(--soft)' : de >= 1 ? 'var(--red)' : de >= 0.6 ? 'var(--amber)' : 'var(--green)';
+    var facts = [];
+    if (s.medianDebt != null) facts.push('borrows ' + money(s.medianDebt, 0));
+    if (s.medianEarnings10yr != null) facts.push('earns ' + money(s.medianEarnings10yr, 0) + ' ten years on');
+    if (s.annualCost != null) facts.push(money(s.annualCost, 0) + '/yr sticker');
+    return '<div class="agrow" style="grid-template-columns:1fr 92px 88px"><div class="nm">' +
+      '<a href="' + esc(s.scorecardUrl) + '" target="_blank" rel="noopener">' + esc(s.name) + '</a>' +
+      (s.forProfit ? ' <span class="srcm m-n" style="margin:0">for-profit</span>' : '') +
+      '<em>' + esc([s.city, s.state].filter(Boolean).join(', ')) + (s.ownership ? ' · ' + esc(s.ownership) : '') + '</em>' +
+      '<em>' + esc(facts.join(' · ')) + '</em>' +
+      (finPct != null && finPct < 50 ? '<em style="color:var(--red)">Only ' + finPct + ' of every 100 who start here finish. The rest carry the debt without the degree.</em>' : '') +
+      '</div>' +
+      '<div class="agval" style="color:' + finCol + '">' + (finPct == null ? 'n/a' : finPct + '%') + '<em>finish</em></div>' +
+      '<div class="agval" style="color:' + deCol + '">' + (de == null ? 'n/a' : de.toFixed(2)) + '<em>debt vs pay</em></div></div>';
+  }).join('');
+}
+function renderEduTools(host) {
+  var body = searchForm('eduQ', 'eduGo', 'College or school name', 'e.g. University of Missouri',
+    '<div><label for="eduSt">State</label><input id="eduSt" type="text" maxlength="2" placeholder="MO" style="text-transform:uppercase"></div>') +
+    '<div id="eduOut"></div>' +
+    '<div class="agnote"><b>How to read it.</b> <b>Finish</b> is the share of students who actually complete. Where it is low, most students take on the debt and never receive the degree, ' +
+    'and student debt is not dischargeable in bankruptcy. <b>Debt vs pay</b> is median borrowing divided by median earnings ten years after enrolling: at 1.00 a graduate owes a full year of income. ' +
+    'Earnings count only students who received federal aid, and half of graduates earn less than the median shown. Field of study moves earnings far more than the school does. ' +
+    'Source: <a href="https://collegescorecard.ed.gov/" target="_blank" rel="noopener">U.S. Department of Education, College Scorecard</a>. Not advice.</div>';
+  host.innerHTML = toolCard('eduValue', 'Does this degree pay for itself?',
+    'Every college is sold as an investment. The Department of Education publishes what each one\'s students actually borrow, what they actually earn a decade later, and how many of them finish at all. ' +
+    'Those three numbers together answer the question the brochure will not.', body);
+  bindSearch('eduQ', 'eduGo', function () {
+    var q = EL('eduQ').value.trim(), st = (EL('eduSt').value || '').trim(), out = EL('eduOut');
+    if (q.length < 3) { out.innerHTML = '<div class="agnote">Enter at least three letters.</div>'; return; }
+    out.innerHTML = '<div class="agnote">Reading the Scorecard…</div>';
+    fetch('/api/education-tools?tool=school&q=' + encodeURIComponent(q) + (st ? '&state=' + encodeURIComponent(st) : ''))
+      .then(function (r) { return r.json(); }).then(function (j) {
+        if (!j.ok) { out.innerHTML = failBox(j.reason); return; }
+        if (!j.rows.length) { out.innerHTML = '<div class="agnote">No school matches "' + esc(j.query) + '"' + (j.state ? ' in ' + esc(j.state) : '') + '.</div>'; return; }
+        var worst = j.rows.filter(function (s) { return s.completionRate != null && s.completionRate < 0.35; }).length;
+        out.innerHTML = '<div class="agnote" style="color:var(--ink)"><b>' + j.found + ' match' + (j.found === 1 ? '' : 'es') + '</b>' +
+          (worst ? ', <span style="color:var(--red)">' + worst + ' where fewer than a third of students finish</span>' : '') + '.</div>' + eduRows(j.rows);
+      }).catch(function () { out.innerHTML = failBox('The Scorecard lookup did not respond.'); });
+  });
 }
 
 // swap the placeholder cards for real tools where a domain has them
