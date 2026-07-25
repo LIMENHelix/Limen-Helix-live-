@@ -245,4 +245,535 @@ These are idea seeds, not build orders. Nothing here is validated and several of
 
 ---
 
-## ENTRY 002 - (next)
+## ENTRY 002 - Full 3Blue1Brown library index (175 lessons)
+
+**Channel:** https://www.youtube.com/@3blue1brown
+**Site:** https://www.3blue1brown.com
+**Captured:** 2026-07-25
+**Author:** Grant Sanderson
+
+### How this was obtained, and what is verified
+
+The YouTube channel page and the site's topic pages are JavaScript-rendered, so they return
+nothing useful to a scraper. The complete list came from the site's own sitemap
+(`https://www.3blue1brown.com/sitemap.xml`), which enumerates every lesson page.
+
+Note: their sitemap is published with a `localhost:37359` base URL, a build bug on their end.
+The paths are correct. Every URL below is `https://www.3blue1brown.com/lessons/<slug>`.
+
+- **VERIFIED:** all 175 slugs and URLs (straight from the sitemap). Titles, publish dates, and
+  content notes for the 13 lessons in the AI/ML core section below (each page fetched individually).
+- **NOT VERIFIED:** titles in the full index are shorthand I derived from the slug, not official
+  titles. Use them to navigate, not to quote.
+- **Caveat:** this is the library as the *site* lists it. The YouTube channel additionally carries
+  shorts, livestreams, and re-uploads that never got a lesson page. Also, a handful of entries
+  below are talks, announcements, or contest-results pages rather than teaching videos
+  (`some1`, `some2`, `some3-results`, `tedx-talk`, `harvey-mudd-speech`, `spheres-talk`,
+  `transformers-talk`, `lockdown-math-announcement`, `qa3`, `qa4`).
+
+---
+
+### A. THE AI / ML CORE (fetched and verified, read these first)
+
+This is the whole reason to care about this channel for our purposes. Seven-chapter arc plus
+four adjacent pieces.
+
+| # | Title | Published | Slug |
+|---|---|---|---|
+| Ch.1 | But what is a Neural Network? | 2017-10-05 | `neural-networks` |
+| Ch.2 | Gradient Descent, How Neural Networks Learn | 2017-10-16 | `gradient-descent` |
+| Ch.3 | What is backpropagation really doing? | 2017-11-03 | `backpropagation` |
+| Ch.4 | Backpropagation Calculus | 2017-11-03 | `backpropagation-calculus` |
+| Ch.5 | Transformers, the tech behind LLMs | 2024-04 | `gpt` |
+| Ch.6 | Attention in transformers, step-by-step | 2024 | `attention` |
+| Ch.7 | How might LLMs store facts | 2024-08-31 | `mlp` |
+
+Plus:
+
+| Title | Published | Slug |
+|---|---|---|
+| Large Language Models explained briefly | 2024-11-20 | `mini-llm` |
+| Reinventing Entropy \| Compression & Intelligence Pt.1 | 2026-06-07 | `entropy` |
+| But what is Cross-Entropy? \| Compression is Intelligence Pt.2 | 2026-07-16 | `cross-entropy` |
+| But how do AI images and videos actually work? (guest: Welch Labs) | 2025-07-25 | `diffusion-models` |
+| But what is a convolution? | 2022-11-18 | `convolutions` |
+| Analyzing our neural network (appendix to Ch.1) | 2017 | `neural-network-analysis` |
+
+#### Substance worth carrying out of each
+
+**Ch.1 `neural-networks`.** The MNIST digit classifier as the worked example. Architecture: 784
+input neurons (28x28 pixels), two hidden layers of 16 neurons, 10 outputs. **13,002 total weights
+and biases.** A neuron holds an activation in [0,1]; it computes a weighted sum of the previous
+layer plus a bias, then squashes with sigmoid. The whole layer is `sigma(W a + b)`, one matrix
+multiply. The aspirational story is hierarchical feature detection (pixels to edges to loops to
+digits). Note that Ch.1 sells this story and the appendix (`neural-network-analysis`) then admits
+the trained network does not actually do that. That honesty is the most valuable part.
+
+Modern note the lesson makes: ReLU replaced sigmoid in practice because it trains far better.
+
+**Ch.2 `gradient-descent`.** Cost = sum of squared differences between actual and desired output
+activations, averaged over training examples. The 13,002 parameters become one column vector; the
+cost is a function from 13,002 dimensions to 1. The gradient points in the direction of steepest
+increase, so you step along `-eta * grad(C)`. Two ideas that pay off forever: (a) the gradient's
+*magnitudes* tell you which parameters matter most, not just which direction to move; (b) the cost
+function must be smooth for any of this to work, which is why activations are continuous rather
+than binary.
+
+**Ch.3 `backpropagation`.** Backprop is just an efficient algorithm for computing that gradient.
+Three ways to raise a neuron's activation: change its bias, change its incoming weights (most
+effective on connections from already-bright neurons, which is literally Hebbian "fire together,
+wire together"), or change the previous layer's activations (which you cannot do directly, so you
+record it as a request and pass it back). Every output neuron sends competing requests backward;
+you sum them and recurse.
+
+**Stochastic gradient descent:** rather than averaging over the whole dataset per step, shuffle and
+use mini-batches of roughly 100. Each step is a worse estimate of the true gradient but you take
+vastly more of them. This is the drunk-man-stumbling-downhill-fast tradeoff, and it is why every
+training loop you will ever write has a `batch_size`.
+
+**Ch.4 `backpropagation-calculus`.** The chain rule made concrete. For the simplest chain,
+`C0 = (a[L] - y)^2`, the sensitivity of cost to a weight decomposes into three factors:
+- `dz[L]/dw[L] = a[L-1]` (a weight's influence scales with the activation feeding it)
+- `da[L]/dz[L] = sigma'(z[L])`
+- `dC0/da[L] = 2(a[L] - y)`
+
+The bias case is identical except the first factor is 1. The multi-neuron case adds an index and a
+sum over downstream paths. **If you understand nothing else, understand that a weight's gradient is
+proportional to the activation on its input side.** That single fact explains dead neurons,
+vanishing gradients, why initialization scale matters, and why normalization layers exist.
+
+**Ch.5 `gpt`.** Covered in full in Entry 001 above.
+
+**Ch.6 `attention`.** Query, key, value. Each token emits a query ("what am I looking for?") and a
+key ("what do I offer?"). Dot every query against every key to build a relevance grid, softmax down
+each column, then use those weights to sum value vectors and add the result to the embedding.
+
+GPT-3 numbers: key/query space is 128-dimensional, so `W_Q` and `W_K` are each 128 x 12,288 =
+**1,572,864 parameters per head.** The value map is factored into a down-projection and an
+up-projection (128 x 12,288 and 12,288 x 128) rather than one 12,288 x 12,288 matrix, which is a
+low-rank trick that keeps the parameter count matched to the other three. 96 heads per block, 96
+blocks. That is ~600M parameters per attention block and ~58B total.
+
+**Masking:** entries where a token would attend to a *later* token are set to negative infinity
+before the softmax, which zeroes them. This is not a safety feature, it is a training efficiency
+feature: it lets a single sequence serve as many training examples at once, one per position.
+
+**Cost:** the attention pattern is O(n^2) in context length. That is the entire reason long context
+is expensive and the entire reason the field keeps inventing alternatives.
+
+**Ch.7 `mlp`.** The chapter that reframes everything. Structure per block: up-projection, add bias,
+ReLU, down-projection, add bias. Vectors do **not** talk to each other here; the same operation
+runs on each position in parallel.
+
+GPT-3 numbers: embedding 12,288 wide, MLP hidden layer **49,152 neurons** (4x), so the up and down
+projections are ~604M parameters each, ~1.2B per block, ~116B total. **The MLPs are about
+two-thirds of the entire model.**
+
+The interpretation offered: the up-projection's rows each ask a yes/no question of the vector (a
+dot product against some learned direction, plus a bias threshold). ReLU turns that into an AND
+gate. The down-projection's columns are then "what to add to the residual stream if that neuron
+fired." So a row might ask "does this vector encode Michael Jordan?" and the matching column adds
+the basketball direction.
+
+**Superposition, and why it matters far beyond this video.** In `n` dimensions you can fit only `n`
+exactly perpendicular vectors. But if you relax to *nearly* perpendicular (say 85 to 95 degrees),
+the number you can pack grows exponentially with `n`. In GPT-3's 12,288 dimensions that is on the
+order of **40 billion** near-orthogonal directions. Consequence: individual neurons do not
+correspond to individual concepts. Features are smeared across many neurons and many features share
+each neuron. Any claim of the form "this unit represents X" is almost certainly reading a
+superposition. This is the mathematical basis for sparse-autoencoder interpretability work, and it
+is a direct warning about over-interpreting any single channel in any system we build.
+
+**`mini-llm`.** The 7-minute version of the whole story, for someone who will never watch 3 hours.
+Useful framings: training data scale for GPT-3 is on the order of what a human would take 2,600+
+years of nonstop reading to consume; training compute is well over 100 million years of operations
+at a billion ops per second. Also the clearest short statement that **pre-training makes a text
+predictor, and RLHF is a separate stage that turns it into an assistant.** Ch.5 skips that entirely.
+
+**`entropy` and `cross-entropy` (2026, the newest material).** Framed as "Compression &
+Intelligence." Entropy is the floor on how few bits can encode data drawn from a known
+distribution. Cross-entropy is what it costs when your model of the probabilities is *wrong*:
+`H(p,q) = -sum p(x) log q(x)`. The excess over true entropy is the KL divergence, the price of your
+error.
+
+**Why this pair is the most underrated thing on the list:** cross-entropy is the loss function LLMs
+are actually trained on. Every chapter above describes the architecture; this pair describes the
+objective. And the framing "compression is intelligence" is the direct line to why next-token
+prediction produces general capability at all: to compress text optimally you must model the
+process that generated it, which means modeling the world.
+
+**`diffusion-models`** (guest, Welch Labs). Iterative denoising plus CLIP to bridge text and image.
+The counterpart to the whole transformer arc for the image/video side.
+
+**`convolutions`.** Discrete convolution as one operation appearing in three places: probability
+(distribution of a sum of random variables), image processing (blur, edge detection kernels), and
+polynomial multiplication. Then the payoff: convolution in one domain is pointwise multiplication in
+the frequency domain, so the FFT turns an O(n^2) convolution into O(n log n). Direct sequel:
+`convolutions2` (the FFT-based fast multiplication), `image-convolution`, `gaussian-convolution`.
+
+---
+
+### B. COMPLETE INDEX, all 175 lessons
+
+Grouping is mine. Slugs are verified; labels are slug-derived shorthand, not official titles.
+URL pattern: `https://www.3blue1brown.com/lessons/<slug>`
+
+**Neural networks / AI (13)** - see section A above
+`neural-networks` · `gradient-descent` · `backpropagation` · `backpropagation-calculus` ·
+`neural-network-analysis` · `gpt` · `attention` · `mlp` · `mini-llm` · `transformers-talk` ·
+`diffusion-models` · `entropy` · `cross-entropy`
+
+**Essence of Linear Algebra (16)** - the single best prerequisite series for ML
+`eola-preview` · `vectors` · `span` · `linear-transformations` · `matrix-multiplication` ·
+`3d-transformations` · `determinant` · `inverse-matrices` · `nonsquare-matrices` · `dot-products` ·
+`cross-products` · `cross-products-extended` · `change-of-basis` · `eigenvalues` ·
+`abstract-vector-spaces` · `quick-eigen`
+
+**Essence of Calculus (15)**
+`essence-of-calculus` · `derivatives` · `derivatives-power-rule` · `chain-rule-and-product-rule` ·
+`eulers-number` · `implicit-differentiation` · `limits` · `epsilon-delta` · `integration` ·
+`area-and-slope` · `higher-order-derivatives` · `taylor-series` · `taylor-series-geometric-view` ·
+`l-hopitals-rule` · `derivatives-trig-functions`
+
+**Differential equations (9)**
+`differential-equations` · `pdes` · `heat-equation` · `diffusion-equation` · `laplace-transform` ·
+`laplace-for-odes` · `matrix-exponents` · `divergence-and-curl` · `derivatives-and-transforms`
+
+**Fourier / signal processing (7)**
+`fourier-transforms` · `fourier-series` · `fourier-series-montage` · `discrete-fourier-transform` ·
+`convolutions` · `convolutions2` · `image-convolution`
+
+**Probability & statistics (11)**
+`bayes-theorem` · `bayes-theorem-quick` · `better-bayes` · `binomial-distributions` · `pdfs` ·
+`clt` · `gaussian-integral` · `gaussian-convolution` · `bertrands-paradox` · `hyperdarts` ·
+`epidemic-simulations`
+
+**Computer science / cryptography / algorithms (12)**
+`binary-counting` · `hamming-codes` · `hamming-codes-2` · `bitcoin` · `256-bit-security` ·
+`grover` · `grover-clarification` · `seam-carving` · `wordle` · `wordle-2` · `alpha-geometry` ·
+`dp3t`
+
+**Physics (16)**
+`clacks` · `clacks-solution` · `clacks-via-light` · `colliding-blocks-v2` · `brachistochrone` ·
+`snells-law` · `light-quantum-mechanics` · `uncertainty-principle` · `turbulence` ·
+`feynmans-lost-lecture` · `barber-pole-1` · `barber-pole-2` · `prism` ·
+`refractive-index-questions` · `holograms` · `phase-change`
+
+**Astronomy (2)**
+`cosmic-distance-1` · `cosmic-distance-2`
+
+**Geometry / topology / 3D rotation (18)**
+`quaternions` · `quaternions-and-3d-rotation` ·
+`inscribed-rectangle-problem` · `inscribed-rect-v2` · `borsuk-ulam` · `hairy-ball` · `sphere-area` ·
+`one-more-dim` · `higher-dimensions` · `shadows` · `dandelin-spheres` · `windmills` ·
+`three-utilities` · `eulers-characteristic-formula` · `incomplete-cubes` · `euclid` ·
+`print-gallery` · `spheres-talk`
+
+**Number theory & series (13)**
+`zeta` · `basel-problem` · `wallis-product` · `leibniz-formula` · `prime-spirals` ·
+`prime-number-race` · `pythagorean-triples` · `borwein` · `moser` · `moser-reboot` ·
+`hardest-problem` · `pi-was-628` · `winding-numbers`
+
+**Complex analysis / Euler's formula (8)**
+`eulers-formula-old` · `eulers-formula-poem` · `eulers-formula-dynamically` ·
+`eulers-formula-via-group-theory` · `complex-exponents` · `holomorphic-dynamics` ·
+`newtons-fractal` · `triangle-of-power`
+
+**Group theory / other algebra (2)**
+`groups-and-monsters` · `cramers-rule`
+
+**Fractals (3)**
+`fractal-dimension` · `hilbert-curve` · `hanoi-and-sierpinski`
+
+**Puzzles (5)**
+`chessboard-puzzle` · `subsets-puzzle` · `visual-proofs` · `music-and-measure-theory` ·
+`exponential-and-epidemics`
+
+**Lockdown Math, 2020 livestream series (11)**
+`lockdown-math-announcement` · `ldm-quadratic` · `ldm-logarithms` · `ldm-natural-logs` ·
+`ldm-trigonometry` · `ldm-complex-numbers` · `ldm-eulers-formula` · `ldm-i-to-i` ·
+`ldm-imaginary-interest` · `ldm-power-towers` · `ldm-tips-to-problem-solving`
+
+**Meta: talks, teaching philosophy, community (14)**
+`inventing-math` · `tattoos-on-math` · `tedx-talk` · `harvey-mudd-speech` · `ego-and-math` ·
+`pedagogical-curse` · `manim-demo` · `qa3` · `qa4` · `some1` · `some1-results` · `some2` ·
+`some2-results` · `some3-results`
+
+---
+
+### C. Recommended order for AI/coding purposes
+
+If the goal is understanding modern AI rather than general math enrichment, most of the 175 is
+optional. The efficient path:
+
+**Tier 1, non-negotiable (about 5 hours):**
+1. Essence of Linear Algebra, `eola-preview` through `eigenvalues`. Everything in ML is matrices.
+   If `change-of-basis` and `eigenvalues` are not intuitive, nothing downstream will be.
+2. Neural Networks Ch.1 to Ch.4. Backprop is the only learning algorithm in play.
+3. Ch.5 to Ch.7 (transformers, attention, MLPs). Already summarized in Entry 001 and section A.
+
+**Tier 2, the objective function (about 1 hour):**
+4. `entropy` then `cross-entropy`. What the model is actually minimizing. Newest material,
+   published 2026, and the one most people have not watched.
+5. `mini-llm` for the RLHF piece that Ch.5 omits.
+
+**Tier 3, adjacent and genuinely useful:**
+6. `convolutions` + `convolutions2` (CNNs, FFT, and the O(n log n) trick).
+7. `bayes-theorem` + `better-bayes` (evidence updating, directly applicable to any scoring system).
+8. `clt` + `gaussian-integral` (why normal distributions are everywhere, and what a
+   standard deviation actually buys you).
+9. `hamming-codes` (error correction; also just an unusually beautiful piece of engineering).
+10. `diffusion-models` for the image/video side.
+11. `grover` if quantum ever becomes relevant. Currently it does not.
+
+**Skip unless curious:** physics, astronomy, geometry, number theory, Lockdown Math, puzzles.
+Excellent, not on the critical path.
+
+---
+
+### D. Brainstorm additions from the full-library view
+
+11. **`manim` is the tool behind every one of these animations, and it is open source Python.**
+    https://github.com/3b1b/manim (Grant's own) and https://www.manim.community (the maintained
+    community fork; use this one). Direct application: any LIMEN concept that is currently a wall
+    of text or a static diagram could be a 60-second animation. The phase arc P0 to P10, the
+    stress-fusion pipeline, the four-layer architecture. This is the highest-leverage item on this
+    page for explaining the system to a non-technical audience, and it costs nothing but time.
+    Caveat before getting excited: manim is slow to author. Budget hours per minute of output.
+
+12. **The Ch.1-to-appendix arc is a model for honest reporting.** Ch.1 teaches the appealing
+    hierarchical-features story. `neural-network-analysis` then shows the trained network does not
+    do that. He shipped the correction as part of the curriculum rather than quietly leaving the
+    nice story standing. Worth copying: when a LIMEN component turns out not to work the way the
+    documentation says, the fix is an appended correction, not an edited claim.
+
+13. **"Compression is intelligence" as a lens on what we are building.** If intelligence is
+    modeling a generating process well enough to compress its output, then the honest test of any
+    LIMEN domain model is: does it compress that domain's data stream better than a naive baseline?
+    That is a measurable, falsifiable question, and cross-entropy against a baseline is the exact
+    metric. Much sharper than "does the stress score look right." Flagged as an idea, not a plan.
+
+14. **Superposition as a hard constraint on interpretability claims.** Repeating from section A
+    because it matters: near-orthogonal packing means high-dimensional representations do not have
+    one-concept-per-dimension. If any part of the system claims a specific channel "means"
+    something, that claim needs evidence beyond the name we gave it.
+
+15. **SoME (Summer of Math Exposition)** is Grant's annual contest for explanatory content:
+    `some1`, `some2`, `some3-results`. The winners are a curated list of the best explanations of
+    hard technical ideas made by amateurs. Useful as a study set if the goal is learning to
+    *explain* technical systems, which is most of what selling one requires.
+
+---
+
+## ENTRY 003 - Audit: applying the 3B1B material to the LIMEN codebase
+
+**Date:** 2026-07-25
+**Type:** READ-ONLY audit. No code was changed. This entry is a report, not a build order.
+**Question asked:** what in the author's material would push the existing code beyond its
+current state?
+
+### Coverage, stated rather than implied
+
+| Repo | Code files | Lines |
+|---|---|---|
+| `C:\Users\Chris\Limen-Helix-live-` | 1,322 | 370,196 |
+| `C:\Users\Chris\Limen-Helix` (full source) | 1,073 | 334,940 |
+
+**Read in full** (live repo): `lib/phase-estimator.js` (315), `lib/grounded-stress.js` (393),
+`lib/outcome-ledger.js` (232), `lib/phase-percept.js` (130), `lib/feed-resolver.js` (102),
+`lib/thing-formulas.js` (89). Plus the plasticity and K-stack regions of
+`assets/js/domain-brains/energy-brain.js`.
+
+**Grepped, not read:** everything else in both repos, for every relevant math signature
+(`softmax`, `crossEntropy`, `brier`, `log_loss`, `eigen`, `backprop`, `temperature`, `entropy`,
+`calibrat`, `learningRate`, `precisionHint`, `CHANNEL_WEIGHTS`).
+
+**Result of the full-repo grep:** every hit was in `assets/data/**` JSON payloads. No math code.
+So the entire mathematical core of the system is roughly 1,300 lines across six files in the live
+repo's `lib/`. The 705k combined line count overstates the size of the surface these findings touch.
+
+**Not verified:** I did not read the ~335k lines of the full repo, and nothing below rests on it.
+
+---
+
+### HEADLINE
+
+There is a learning substrate and there is an outcome substrate. Both are built and both run
+every cycle. **They are not connected to each other.**
+
+`lib/outcome-ledger.js:23-24` states it directly: "This module GENERATES that data; it does not
+yet consume it."
+
+Every finding below is a variation on that one fact.
+
+---
+
+### F1 — The training signal is produced and then discarded
+
+`lib/outcome-ledger.js:183` computes `perChannelHitRateDivergent`, and its own inline comment
+calls it "the re-weighting signal." Repo-wide grep: **nothing reads it.**
+
+Meanwhile the things it would feed are all hardcoded:
+- `lib/grounded-stress.js:60` — `CHANNEL_WEIGHTS = { distress: 0.45, unison: 0.30, granularity: 0.25 }`.
+  An `opts.weights` override exists (line 227) and no caller ever passes it.
+- `precisionHint` (`lib/phase-estimator.js:213`) is the file's own "preferred, independent"
+  precision path. Grep: set only in `lib/phase-adapter-human.js` from a hand-written reliability
+  table, and in test scripts. The domain adapter `grounded-stress.toBundle()` (line 357) never
+  sets it at all, so every domain channel falls back to self-consistency precision — which
+  `phase-estimator.js:288` itself flags as "[mark: prior] correlated-channel groupthink risk."
+
+The loop is open at both ends: nothing writes the weights, nothing reads the signal that would.
+
+### F2 — The scoring binarizes before it measures, which destroys the gradient
+
+The direct hit from the newest author material (`entropy` + `cross-entropy`, 2026).
+
+`lib/outcome-ledger.js:152-154`:
+```js
+var adverseEvent    = p.adverse >= adverseThreshold;
+var estimatorCalled = f.beliefDistress >= callThreshold;
+var hit = (estimatorCalled === adverseEvent) ? 1 : 0;
+```
+
+The estimator emits an 11-way distribution plus a confidence. Both sides collapse to one bit
+before anything is scored. Two consequences:
+
+1. A forecast of 0.41 and one of 0.99 score **identically**. So do 0.39 and 0.01.
+2. Hit rate is piecewise-constant in the weights, so its derivative is **zero almost everywhere**.
+   Even given the will to tune `CHANNEL_WEIGHTS` against it, there is no direction to move in.
+   You are reduced to grid search over a step function.
+
+Cross-entropy (and Brier, `(p-y)^2`) are *proper scoring rules*: minimized only by honest
+probabilities, and differentiable, so they yield a per-weight direction. This is 3B1B Ch.2-4
+applied to a system that currently has no objective function at all.
+
+**Prefer Brier over log loss here.** Brier is bounded; log loss explodes on a confident miss, and
+at current sample sizes one bad call would dominate the metric.
+
+**The other half of the same gap:** `skillMetrics` (`outcome-ledger.js:199`) measures
+*discrimination* only — precision, recall, F1, base rate. Grep-confirmed: there is **no
+calibration measure anywhere in `lib/`**. No reliability curve, no ECE. A model can have strong
+recall and be systematically overconfident, and nothing in the codebase would surface it.
+
+### F3 — `softmax` has no temperature, and `confidence` is not derived from the belief
+
+`lib/phase-estimator.js:46` — `softmax(logv)`, no `T` parameter.
+
+The fusion step at lines 251-252:
+```js
+var w = rc[kk] / totalPrecision;
+logpost[p] += w * Math.log(L[kk][p] + EPS);
+```
+Weights sum to 1, so this is a **geometric mean** of channel likelihoods, not a product. That is a
+deliberate anti-double-counting choice and it is defensible. But it makes the fused belief
+systematically **flatter** than a true posterior, and nothing in the code accounts for that.
+
+Then line 277: `confidence = totalPrecision / (totalPrecision + informativeCount)`. That measures
+*how much evidence arrived*, not *how concentrated the answer is*. The code uses one as the other.
+
+**Cheapest high-value change in this audit:** divide `logpost` by a scalar `T` before the softmax,
+then fit `T` on held-out outcome data against the calibration curve. One parameter, standard
+method (temperature scaling / Platt), no architecture change, and it is the smallest possible
+first use of data already being collected.
+
+### F4 — The `promotedStress` bug is a missing entropy term
+
+`lib/outcome-ledger.js:44-49` documents a real production failure from 2026-07-24: a diffuse
+belief spread across 5 of the 11 phases saturated `distressMass` near 1.0, so agriculture and
+finance (confidence ~0.13, CISS ~0.25) displayed 0.98 distress, **above** energy at 0.80.
+Uncertainty was being rendered as maximum distress.
+
+The fix at lines 59-64 blends the mass against a CISS floor in proportion to confidence. It works.
+It is also a patch over a missing quantity: the thing being reached for is the **entropy of the
+belief**. Grep-confirmed: Shannon entropy of the belief is computed **nowhere** in `lib/`.
+`kl()` exists (`phase-estimator.js:61`); `H()` does not.
+
+`1 - H(belief)/log(11)` is the direct measure of "how concentrated is this answer," it is three
+lines, and it would turn the ad hoc ratio at line 277 into a derived quantity.
+
+### F5 — The cited construct is one eigendecomposition away, and the matrix already exists
+
+`lib/grounded-stress.js:114-125` cites the Kritzman/Li/Page/Rigobon **absorption ratio**, then
+implements a Herfindahl of the phase histogram instead, with the comment "in the only form the
+available data supports."
+
+The absorption ratio is *defined* as the variance share carried by the top eigenvectors of the
+correlation matrix. `updateCorrelation()` (line 181) **already builds that matrix.** It is 3x3.
+A closed-form eigendecomposition of a 3x3 symmetric matrix gives the actual cited construct
+instead of a proxy for it.
+
+Honest limit: with only three channels the absorption ratio is coarse and should not be oversold.
+But the file says the data does not support it, and the data does.
+
+### F6 — The only learning rule present is Hebbian, and it is explicitly fed a non-reward
+
+`assets/js/domain-brains/energy-brain.js:2782-2784` runs three-factor plasticity:
+`Δw = η·pre·post·modulator`, with eligibility traces.
+
+That is biologically motivated. It is **not gradient descent on any objective** — a Hebbian rule
+has no loss function, so there is no sense in which those weights are provably improving at
+anything measurable.
+
+And the modulator is explicitly not an outcome. `energy-brain.js:1468-1473`: energy "is NOT
+externalRewardEligible: it has no external realized-outcome label, so externalOutcome is ALWAYS
+null and its credit is self-consistency calibration only (interpretive), NEVER reward."
+
+So the learning rule is driven by the system's agreement with itself, while an independent
+forward-outcome signal sits unconsumed two modules away. The circular-inference cut that was
+applied at the diagnosis layer has not been applied at the learning layer.
+
+### F7 — Attention is the right shape for propagation, but it is downstream, not a shortcut
+
+`lib/limen-stress-propagator.js` (32KB, the largest math file) and cross-domain propagation is
+gated pending weight validation. Q/K/V attention is structurally the right answer to "which domain
+should influence which," and masking plus softmax normalization are already familiar from the
+estimator.
+
+**Argument against building it next:** attention's relevance matrix has to be *learned*, from the
+same outcome data F1 says nothing consumes. Built before the outcome loop closes, it is a 20x20
+hand-set weight matrix wearing a better name. This is item 7, not item 1.
+
+### F8 — If the transition matrix is ever fitted, fit 3 numbers and not 110
+
+`lib/phase-estimator.js:80-83` — the 11x11 transition matrix `A` is a stated prior carrying an
+explicit instruction not to tune it against outcomes until a labeled benchmark exists. That
+discipline is correct and should stay.
+
+For whenever that changes: `A` has 110 free parameters and there is an overfit wall on record.
+But `makeTransition()` (line 84) generates the entire matrix from **three scalars** (`STAY`,
+`ADV`, `REG`). Three parameters are tractable on far less data than 110. That is the version that
+could actually work.
+
+---
+
+### Ranked shortlist
+
+| # | Change | Effort | Why |
+|---|---|---|---|
+| 1 | Brier / log-loss alongside `hitRate` in `outcome-ledger.scorePairs` | Small | First differentiable objective in the system. Everything else depends on it. |
+| 2 | Belief entropy; derive `confidence` from it | Small | Fixes the root cause that `promotedStress` currently patches. |
+| 3 | Temperature scalar on `softmax`, fit on held-out outcomes | Small | One parameter, standard method, first real use of collected data. |
+| 4 | Reliability curve / ECE beside `skillMetrics` | Small | Overconfidence is currently undetectable. |
+| 5 | Eigendecompose the 3x3 `C` for a true absorption ratio | Small | Delivers the construct the file already cites. |
+| 6 | Feed `perChannelHitRateDivergent` into `precisionHint` | Medium | Closes the loop. Gated on #1 and on enough resolved forecasts. |
+| 7 | Attention-shaped cross-domain propagation | Large | Only after #6. |
+
+Items 1-5 are all small, all inside `lib/`, and none require new data, new infrastructure, or a
+paid API call. They are measurement changes, not capability changes.
+
+### Strongest objection to this audit
+
+Items 1-5 make the system **more legible, not more capable.** None will make a dashboard number
+look better. Item 1 will most likely reveal that the estimator is worse-calibrated than the
+current hit rate implies. That is the point of doing it, but it should be expected going in rather
+than discovered as a nasty surprise.
+
+A second objection worth recording: this audit reads the author's material as a source of
+*methods*, and there is a real risk of method-shopping — reaching for cross-entropy because it was
+just watched rather than because the problem demanded it. The defense is that F1 (an open loop) was
+found by reading the code, not by reading the videos. The videos supplied the fix, not the
+diagnosis. If F1 were not true, F2 through F4 would be solutions in search of a problem.
+
+---
+
+## ENTRY 004 - (next)
