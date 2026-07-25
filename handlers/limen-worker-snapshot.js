@@ -202,7 +202,18 @@ module.exports = async function handler(req, res) {
         if (gs.grounded) {
           gsSlot.corrState = gs.corrState;                 // carry the CISS EWMA forward
           gsMemDirty = true;
-          if (gsNow - (gsSlot.lastAppendTs || 0) >= GS_APPEND_MS) {
+          // APPEND-ORDERING FIX (2026-07-25). The loop below advances gsSlot.lastAppendTs to gsNow.
+          // The marketScore block and the feed block further down then re-tested that SAME field, so
+          // by the time they ran their gate read `0 >= GS_APPEND_MS` — always false. Their only other
+          // escape (`!gsSlot.history[key]`) is true exactly once, at array creation. So after their
+          // first ever sample those channels could NEVER append again, and at length 1 they also sit
+          // below CDF_MIN_SAMPLE (8), meaning they could never be rank-transformed either: frozen
+          // AND permanently untransformable. Confirmed live before the fix — energy carried
+          // distress=118 against marketScore=1 and feed_supply=1, i.e. the channels specifically
+          // added to carry live external signal (a war this week cannot show up in a 10-Q) were the
+          // only ones not accumulating. Decide ONCE, before any mutation, and reuse that decision.
+          var gsShouldAppend = (gsNow - (gsSlot.lastAppendTs || 0)) >= GS_APPEND_MS;
+          if (gsShouldAppend) {
             var chans = gs.channels || {};
             for (var chName in chans) {
               if (!chans.hasOwnProperty(chName) || !chans[chName]) continue;
@@ -230,7 +241,7 @@ module.exports = async function handler(req, res) {
               if (liveMkt && liveMkt.reading) {
                 bundle.readings.push(liveMkt.reading);
                 dsum.marketChannel = { score: liveMkt.score, price: liveMkt.latestPrice, asOf: liveMkt.latestDate, source: liveMkt.source };
-                if (gsNow - (gsSlot.lastAppendTs || 0) >= GS_APPEND_MS || !gsSlot.history.marketScore) {
+                if (gsShouldAppend || !gsSlot.history.marketScore) {
                   var mArr = gsSlot.history.marketScore || (gsSlot.history.marketScore = []);
                   mArr.push(liveMkt.score);
                   if (mArr.length > GS_HISTORY_CAP) mArr.splice(0, mArr.length - GS_HISTORY_CAP);
@@ -269,7 +280,7 @@ module.exports = async function handler(req, res) {
               var feedChannels = feedFractal.toChannels(ingestItems);
               feedChannels.forEach(function (fc) {
                 bundle.readings.push(fc);
-                if (gsNow - (gsSlot.lastAppendTs || 0) >= GS_APPEND_MS || !gsSlot.history[fc.key]) {
+                if (gsShouldAppend || !gsSlot.history[fc.key]) {
                   var fArr = gsSlot.history[fc.key] || (gsSlot.history[fc.key] = []);
                   fArr.push(fc.value);
                   if (fArr.length > GS_HISTORY_CAP) fArr.splice(0, fArr.length - GS_HISTORY_CAP);
