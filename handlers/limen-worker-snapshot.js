@@ -304,14 +304,17 @@ module.exports = async function handler(req, res) {
             // it has never referenced groundedStress/phaseBelief). Confirmed live: energy's console was
             // still pinned near 1.0 (feed-volume artifact) throughout, unchanged by any of the fixes.
             //
-            // Promote to outcomeLedger.distressMass(est.belief) — NOT groundedStress.stress. The CISS
-            // composite (gs.stress) is computed from company channels ONLY, before market/feed channels
-            // are pushed onto the bundle, so it structurally cannot see the live crisis signal. The
-            // fused belief's distress mass DOES incorporate company+market+feed via the full precision-
-            // weighted estimate (bug-fixed today), and it is not a new invented metric — it is the exact
-            // `beliefDistress` quantity outcome-ledger.buildForecast() already computes and the outcome
-            // loop is already scoring for correctness. The displayed number and the number being
-            // validated against real forward outcomes are now the SAME number, not two that could drift.
+            // Promote to a CONFIDENCE-WEIGHTED blend of the fused belief's distress mass and the CISS
+            // floor (outcomeLedger.promotedStress). Rationale: distressMass(belief) incorporates
+            // company+market+feed via the full precision-weighted estimate, so it CAN see a live crisis
+            // the company-only CISS misses — BUT it sums 5 of the 11 arc phases, so a DIFFUSE (low-
+            // confidence) belief smears across them and saturates near 1.0. Live 2026-07-24 that put
+            // agriculture/finance (confidence ~0.13, CISS ~0.25) at 0.98, above energy (0.80) — the
+            // system displaying uncertainty as maximum distress. promotedStress trusts the belief's
+            // mass to the extent the belief is concentrated (confidence) and blends the rest toward the
+            // grounded CISS; a genuine concentrated signal still climbs with no ceiling. The number
+            // displayed and the number the outcome loop scores (beliefDistress) share the same belief,
+            // so they track the same crisis; the display is just no longer allowed to saturate on doubt.
             //
             // The old value is preserved, not discarded (dsum._legacyFeedStress), for transparency.
             //
@@ -321,7 +324,10 @@ module.exports = async function handler(req, res) {
             // explicitly widens it.
             if (isStressPromotionEligible(pk) && est.grounded) {
               dsum._legacyFeedStress = dsum.stress;
-              dsum.stress = outcomeLedger.distressMass(est.belief);
+              dsum._beliefDistressRaw = outcomeLedger.distressMass(est.belief);   // pre-blend mass, kept for transparency
+              dsum.stress = outcomeLedger.promotedStress(
+                est.belief, est.confidence,
+                (gs && typeof gs.stress === 'number') ? gs.stress : null);
               dsum.stressSource = 'node-market-feed-grounded';
               for (var sri2 = 0; sri2 < stressRanked.length; sri2++) {
                 if (stressRanked[sri2].domain === pk) { stressRanked[sri2].stress = dsum.stress; break; }
