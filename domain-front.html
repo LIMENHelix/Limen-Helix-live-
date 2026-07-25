@@ -125,6 +125,60 @@
   .tool span{font-size:.82rem;color:var(--soft)}
   .tool.soon{opacity:.6}
   .soonbadge{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:3px;padding:2px 6px;float:right}
+  .tool.livetool{opacity:1;border-color:var(--line2)}
+  .livebadge{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);border:1px solid rgba(90,190,140,.4);border-radius:3px;padding:2px 6px;float:right}
+  /* pulse: definitions + the source ledger behind the read */
+  .defs{margin-top:15px;border-top:1px solid var(--line);padding-top:13px}
+  .defs summary{cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);list-style:none;outline:none}
+  .defs summary::-webkit-details-marker{display:none}
+  .defs summary::before{content:'▸  '}
+  .defs[open] summary::before{content:'▾  '}
+  .defs summary:hover{color:var(--soft)}
+  .defs dl{margin:13px 0 0}
+  .defrow{display:grid;grid-template-columns:145px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);line-height:1.55}
+  .defrow:last-child{border-bottom:none}
+  .defrow dt{font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--soft)}
+  .defrow dd{margin:0;color:var(--soft);font-size:.83rem}
+  .defrow dd b{color:var(--ink);font-weight:600}
+  .defrow dd .num{font-family:var(--mono);color:var(--ink)}
+  .srcrow{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.83rem;flex-wrap:wrap}
+  .srcrow:last-child{border-bottom:none}
+  .srcdot{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:0 0 auto}
+  .srcdot.on{background:var(--green);box-shadow:0 0 6px rgba(90,190,140,.7)}
+  .srcrow a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line2)}
+  .srcrow a:hover{color:var(--gold);border-color:var(--gold)}
+  .srcrow .nolink{color:var(--soft)}
+  .srcm{font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:3px;padding:2px 6px;margin-left:auto}
+  .srcm.m-n{color:var(--amber);border-color:rgba(224,164,60,.38)}
+  .sig a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line2)}
+  .sig a:hover{color:var(--gold);border-color:var(--gold)}
+  .sigsrc{font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.05em;display:block;margin:4px 0 0 20px}
+  @media(max-width:560px){.defrow{grid-template-columns:1fr;gap:4px}}
+  /* built-out domain tools (agriculture) */
+  .agrow{display:grid;grid-template-columns:118px 1fr 74px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:.85rem}
+  .agrow:last-child{border-bottom:none}
+  .agrow .nm{color:var(--ink);font-weight:600}
+  .agrow .nm em{display:block;font-style:normal;font-size:.7rem;color:var(--faint);font-weight:400;margin-top:2px}
+  .agbar{height:7px;background:var(--panel2);border:1px solid var(--line);border-radius:2px;overflow:hidden;position:relative}
+  .agbar i{display:block;height:100%}
+  .agbar i.normal{background:var(--green)} .agbar i.watch{background:var(--gold)}
+  .agbar i.stressed{background:var(--amber)} .agbar i.severe{background:var(--red)}
+  .agval{font-family:var(--mono);font-size:.78rem;color:var(--ink);text-align:right}
+  .agval em{font-style:normal;color:var(--faint);font-size:.66rem;display:block;margin-top:2px}
+  .up{color:var(--red)} .down{color:var(--green)}
+  .agform{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:11px;margin:4px 0 16px}
+  .agform label{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+  .agform input,.agform select{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--line2);border-radius:3px;padding:10px 11px;color:var(--ink);font-size:.9rem;font-family:var(--mono);outline:none;box-sizing:border-box}
+  .agform input:focus,.agform select:focus{border-color:var(--gold)}
+  .agform select{font-family:var(--sans)}
+  .agout{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+  .agout div{background:var(--panel);padding:15px 14px}
+  .agout .n{font-family:var(--mono);font-size:1.32rem;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .agout .k{font-size:.72rem;color:var(--soft);margin-top:6px}
+  .agnote{font-size:.74rem;color:var(--faint);margin-top:14px;line-height:1.6}
+  .agnote a{color:var(--soft)}
+  .agscroll{max-height:420px;overflow-y:auto;margin-right:-6px;padding-right:6px}
+  .agfail{font-size:.83rem;color:var(--amber);background:rgba(224,164,60,.07);border:1px solid rgba(224,164,60,.25);border-radius:4px;padding:12px 14px}
   /* action guide */
   .guide-cond{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
   .chip{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line2);border-radius:3px;padding:7px 12px;color:var(--soft);cursor:pointer;background:transparent;transition:all .12s}
@@ -268,6 +322,7 @@ void main(){
 }
 </script>
 <script src="/assets/js/domain-guides.js"></script>
+<script src="/assets/js/source-links.js"></script>
 <canvas id="fractal"></canvas>
 
 <div class="wrap">
@@ -564,6 +619,161 @@ EL('tools').innerHTML = C.tools.map(function (t) {
   return '<div class="tool soon"><span class="soonbadge">soon</span><b>' + esc(t) + '</b><span>Free tool, in build.</span></div>';
 }).join('');
 
+// ── BUILT TOOLS ────────────────────────────────────────────────────────────
+// Domains listed here replace their "soon" placeholder cards with working tools reading
+// live data. Everything else keeps the placeholder. Agriculture is the first port; the
+// pattern is: one /api/<domain>-tools handler, one render function, no client-side keys.
+var BUILT_TOOLS = { agriculture: renderAgTools };
+
+function money(n, dp) { var v = Number(n); return (v < 0 ? '-$' : '$') + Math.abs(v).toFixed(dp == null ? 2 : dp); }
+function signed(n, unit) {
+  if (n == null || !isFinite(n)) return '<em>n/a</em>';
+  var cls = n > 0 ? 'up' : n < 0 ? 'down' : '';
+  return '<span class="' + cls + '">' + (n > 0 ? '+' : '') + n.toFixed(1) + (unit || '%') + '</span>';
+}
+function toolCard(id, title, sub, bodyHtml) {
+  return '<div class="card" id="' + id + '"><h2><span class="livedot"></span> ' + esc(title) + ' <span class="updated">live</span></h2>' +
+    '<div class="sub">' + sub + '</div>' + bodyHtml + '</div>';
+}
+function failBox(reason) {
+  return '<div class="agfail"><b>Not available right now.</b> ' + esc(reason || 'The source did not answer on this read.') +
+    ' Nothing is estimated in its place.</div>';
+}
+
+function renderAgTools(host) {
+  host.innerHTML = '<div class="muted">Loading live agriculture data…</div>';
+  fetch('/api/agriculture-tools').then(function (r) { return r.json(); }).then(function (j) {
+    var html = '';
+    html += agDroughtCard(j.drought || { ok: false });
+    html += agInputsCard(j.inputs || { ok: false });
+    html += agMarginCard(j.prices || { ok: false });
+    host.innerHTML = html;
+    if (j.prices && j.prices.ok) wireMarginCalc(j.prices);
+  }).catch(function (e) {
+    host.innerHTML = failBox('The agriculture data service did not respond.');
+  });
+}
+
+// Tool 1 — crop condition map (US Drought Monitor, weekly)
+function agDroughtCard(dr) {
+  if (!dr.ok) return toolCard('agDrought', 'Crop condition map', 'Drought stress across the 24 biggest farm states.', failBox(dr.reason));
+  var stale = dr.stale ? ' <b>Showing the last good read</b> (' + esc(dr.staleReason || '') + ').' : '';
+  var rows = dr.rows.map(function (r) {
+    var w = Math.max(1, Math.round(r.d2));
+    var wow = r.changeD2 == null ? '' : '<em>' + (r.changeD2 > 0 ? '+' : '') + r.changeD2 + ' w/w</em>';
+    return '<div class="agrow"><div class="nm">' + esc(r.name) + '<em>' + esc(r.crops) + '</em></div>' +
+      '<div class="agbar" title="' + r.d2 + '% of the state in severe drought or worse"><i class="' + r.band + '" style="width:' + w + '%"></i></div>' +
+      '<div class="agval">' + r.d2.toFixed(0) + '%' + wow + '</div></div>';
+  }).join('');
+  var worst = dr.rows[0];
+  var sub = 'Percent of each state in <b>severe drought or worse</b> (D2-D4), the level where yield loss and herd-culling decisions start. ' +
+    'Worst right now: <b>' + esc(worst.name) + '</b> at ' + worst.d2.toFixed(0) + '%.' + stale;
+  return toolCard('agDrought', 'Crop condition map', sub,
+    '<div class="agscroll">' + rows + '</div>' +
+    '<div class="agnote">Weekly map, released every Thursday. Map date ' + esc(String(dr.mapDate || '')) + '. ' +
+    'Source: <a href="' + esc(dr.sourceUrl) + '" target="_blank" rel="noopener">' + esc(dr.source) + '</a>. ' +
+    'Bars show D2+; a state can be badly dry (D0-D1) and still read low here.</div>');
+}
+
+// Tool 2 — input & fertilizer prices (FRED)
+function agInputsCard(inp) {
+  if (!inp.ok) return toolCard('agInputs', 'Input & fertilizer prices', 'What it costs to put a crop in the ground.', failBox(inp.reason));
+  var stale = inp.stale ? ' <b>Showing the last good read.</b>' : '';
+  var rows = inp.rows.map(function (r) {
+    if (!r.ok) return '<div class="agrow"><div class="nm">' + esc(r.label) + '<em>' + esc(r.reason || 'unavailable') + '</em></div><div></div><div class="agval">n/a</div></div>';
+    var val = r.kind === 'usd' ? money(r.value, 2) : r.value.toFixed(1);
+    return '<div class="agrow"><div class="nm"><a href="' + esc(r.url) + '" target="_blank" rel="noopener" style="color:inherit">' + esc(r.label) + '</a>' +
+      '<em>' + esc(r.what) + '</em></div>' +
+      '<div class="agval" style="text-align:left">' + signed(r.changeMonth) + ' <em>1 month</em></div>' +
+      '<div class="agval">' + val + '<em>' + esc(r.unit) + '</em></div></div>';
+  }).join('');
+  var yoy = inp.rows.filter(function (r) { return r.ok && r.changeYear != null; })
+    .map(function (r) { return esc(r.label) + ' ' + (r.changeYear > 0 ? '+' : '') + r.changeYear + '%'; }).join(' · ');
+  return toolCard('agInputs', 'Input & fertilizer prices',
+    'Producer prices for the inputs that set your cost of production, and which way they are moving.' + stale,
+    rows + '<div class="agnote"><b>Year over year:</b> ' + (yoy || 'n/a') + '.<br>' +
+    esc(inp.note) + ' Source: <a href="' + esc(inp.sourceUrl) + '" target="_blank" rel="noopener">' + esc(inp.source) + '</a>.</div>');
+}
+
+// Tool 3 — farm-margin estimator (live board price + the grower's own numbers)
+function agMarginCard(pr) {
+  if (!pr.ok) return toolCard('agMargin', 'Farm-margin estimator', 'What this crop pencils out to per acre.', failBox(pr.reason));
+  var opts = pr.rows.filter(function (r) { return r.ok; }).map(function (r) {
+    return '<option value="' + esc(r.crop) + '">' + esc(r.label) + ' — ' + money(r.price, 2) + '/bu</option>';
+  }).join('');
+  var body =
+    '<div class="agform">' +
+    '<div><label for="agCrop">Crop</label><select id="agCrop">' + opts + '</select></div>' +
+    '<div><label for="agAcres">Acres</label><input id="agAcres" type="number" min="1" step="1" value="500"></div>' +
+    '<div><label for="agYield">Yield (bu/acre)</label><input id="agYield" type="number" min="1" step="1"></div>' +
+    '<div><label for="agBasis">Basis ($/bu)</label><input id="agBasis" type="number" step="0.01" value="-0.30"></div>' +
+    '<div><label for="agCost">Your cost ($/acre)</label><input id="agCost" type="number" min="0" step="1" placeholder="enter yours"></div>' +
+    '</div><div class="agout" id="agOut"></div>' +
+    '<div class="agnote" id="agNote"></div>';
+  return toolCard('agMargin', 'Farm-margin estimator',
+    'Live board price against <b>your</b> yield, basis and cost. Nothing is assumed about your operation: yield starts at the US average and cost starts blank, because your cost is the number that decides this.',
+    body);
+}
+
+function wireMarginCalc(pr) {
+  var byCrop = {};
+  pr.rows.forEach(function (r) { if (r.ok) byCrop[r.crop] = r; });
+  var elCrop = EL('agCrop'), elAcres = EL('agAcres'), elYield = EL('agYield'),
+      elBasis = EL('agBasis'), elCost = EL('agCost'), out = EL('agOut'), note = EL('agNote');
+  if (!elCrop) return;
+
+  function calc() {
+    var r = byCrop[elCrop.value];
+    if (!r) return;
+    var acres = parseFloat(elAcres.value) || 0;
+    var yld = parseFloat(elYield.value) || 0;
+    var basis = parseFloat(elBasis.value); if (!isFinite(basis)) basis = 0;
+    var cost = parseFloat(elCost.value);
+    var cash = r.price + basis;
+    var revAcre = cash * yld;
+    var hasCost = isFinite(cost) && cost >= 0;
+    var marginAcre = hasCost ? revAcre - cost : null;
+    var breakeven = (hasCost && yld > 0) ? cost / yld : null;
+
+    out.innerHTML =
+      '<div><div class="n">' + money(cash, 2) + '</div><div class="k">Your cash price per bushel<br>board ' + money(r.price, 2) + ' + basis ' + money(basis, 2) + '</div></div>' +
+      '<div><div class="n">' + money(revAcre, 0) + '</div><div class="k">Revenue per acre</div></div>' +
+      '<div><div class="n">' + (marginAcre == null ? '—' : money(marginAcre, 0)) + '</div><div class="k">' + (marginAcre == null ? 'Enter your cost per acre' : 'Margin per acre') + '</div></div>' +
+      '<div><div class="n">' + (marginAcre == null ? '—' : money(marginAcre * acres, 0)) + '</div><div class="k">Margin on ' + (acres || 0) + ' acres</div></div>';
+
+    var msg = '';
+    if (breakeven != null) {
+      msg += '<b>Break-even cash price: ' + money(breakeven, 2) + '/bu</b> at ' + yld + ' bu/acre. ' +
+        'You are ' + (cash >= breakeven ? 'above' : 'below') + ' it by ' + money(Math.abs(cash - breakeven), 2) + '. ';
+    }
+    msg += 'Board price is the ' + esc(r.label) + ' front-month future (' + esc(r.symbol) + '), ' +
+      (r.changeDay != null ? signed(r.changeDay) + ' on the day, ' : '') +
+      (r.changeMonth != null ? signed(r.changeMonth) + ' on the month. ' : '');
+    msg += esc(pr.note) + ' Basis defaults to -$0.30; ask your elevator for today\'s real number. ' +
+      'For a starting point on costs by crop and region, see the USDA ERS ' +
+      '<a href="https://www.ers.usda.gov/data-products/commodity-costs-and-returns" target="_blank" rel="noopener">commodity costs and returns</a> tables. ' +
+      'This is an arithmetic calculator, not marketing advice.';
+    note.innerHTML = msg;
+  }
+
+  function setYieldDefault() {
+    var r = byCrop[elCrop.value];
+    if (r && r.typicalYield) elYield.value = r.typicalYield;
+  }
+  elCrop.addEventListener('change', function () { setYieldDefault(); calc(); });
+  [elAcres, elYield, elBasis, elCost].forEach(function (e) { e.addEventListener('input', calc); });
+  setYieldDefault();
+  calc();
+}
+
+// swap the placeholder cards for real tools where a domain has them
+if (BUILT_TOOLS[DID]) {
+  EL('toolsCard').style.display = 'none';
+  var _tw = document.createElement('div');
+  EL('guideSection').appendChild(_tw);
+  BUILT_TOOLS[DID](_tw);
+}
+
 // ── phase-colored WebGL fractal hero (ported from the LIMEN biosensor) ──
 // each phase = a color + chaos (form) + form-vector [pow, ship, twist]. The domain's
 // live phase (from limen-snapshot) sets the target; the shader eases toward it, so the
@@ -708,19 +918,144 @@ function loadGeneric() {
 
 // ── live pulse from the CACHED snapshot (fast: ~400ms) ──
 function statusColor(s) { return s === 'ELEVATED' ? 'var(--red)' : s === 'ACTIVE' ? 'var(--amber)' : 'var(--green)'; }
+
+// Plain-language definition of each P0-P10 position, for the cycle-position glossary row.
+var PHASE_DEF = {
+  p0:'SOURCE — at rest. No transition is underway.',
+  p1:'RUPTURE — something broke the old pattern. First signals of a change.',
+  p2:'RHYTHM — activity and momentum are building into a repeatable pattern.',
+  p3:'INSTABILITY — pressure points and early cracks are showing.',
+  p4:'STABILISATION — restructuring under load to hold the system together.',
+  p5:'ENDURANCE — carrying a heavy, sustained load. Not a spike; pressure it has held for a while.',
+  p6:'ORDER — the pieces have re-aligned around a shared response.',
+  p7:'DIVERGENCE — at a fork. It could tip either way from here.',
+  p7a:'TERMINAL — the fork resolved toward breakdown.',
+  p7b:'SEPARATION — parts of the system are splitting off on their own paths.',
+  p8:'PIVOT — a new configuration is locking into place.',
+  p9:'COLLAPSE — shedding load and winding the cycle down.',
+  p10:'RESURRECTION — resetting and rebuilding for the next cycle.'
+};
+var MATURITY_DEF = {
+  EARLY:'the reading is new and thinly corroborated',
+  FORMING:'the reading is taking shape but not yet confirmed across feeds',
+  CONFIRMED:'multiple independent feeds agree on it',
+  STRUCTURAL:'it has held long enough, across enough feeds, to be a standing condition rather than a spike'
+};
+function pct(x) { return Math.round(x * 100) + '%'; }
+function defRow(term, body) { return '<div class="defrow"><dt>' + term + '</dt><dd>' + body + '</dd></div>'; }
+
+// The full source ledger: every feed behind this domain's read, what it is, and where to
+// read it yourself. Link + method come from assets/js/source-links.js; a source we have no
+// verified page for renders as plain text rather than a guessed link.
+function renderSourceLedger(sources) {
+  if (!sources || !sources.length) return '';
+  var L = window.LIMEN_SOURCE_LINKS;
+  var rows = sources.map(function (s) {
+    var meta = L ? L.lookup(s.name) : null;
+    var nm = meta ? '<a href="' + esc(meta.url) + '" target="_blank" rel="noopener">' + esc(s.name) + '</a>'
+                  : '<span class="nolink">' + esc(s.name) + '</span>';
+    var tag = meta ? '<span class="srcm m-' + meta.method + '" title="' + esc(meta.methodNote) + '">' + esc(meta.methodLabel) + '</span>' : '';
+    return '<div class="srcrow"><span class="srcdot' + (s.live ? ' on' : '') + '" title="' + (s.live ? 'answered on the last read' : 'did not answer on the last read') + '"></span>' + nm + tag + '</div>';
+  }).join('');
+  var liveN = sources.filter(function (s) { return s.live; }).length;
+  return '<details class="defs"><summary>Every source behind this read (' + liveN + ' of ' + sources.length + ' answering)</summary>' +
+    '<div class="sub" style="margin:12px 0 4px">A green dot means the feed answered on the last read. <b>Direct feed</b> is read straight from that organisation. ' +
+    '<b>News search</b> counts matching stories in a Google News search, so it measures coverage, not the organisation\'s own data. Every name links to the page it is read from.</div>' +
+    rows + '</details>';
+}
+
+// What each number on this card actually means, in plain language, with this domain's real
+// figures substituted in. No claim here is generated: every number comes off the snapshot.
+function renderPulseDefs(d, st, stress) {
+  var rows = '';
+  var conf = d._confidence || {};
+  var gs = d.groundedStress || null;
+  var ch = d._channels || {};
+
+  rows += defRow('Status', 'A plain band for the pressure number below: <b>CALM</b> under 40%, <b>ACTIVE</b> 40-65%, <b>ELEVATED</b> above 65%. ' +
+    'Right now this domain reads <b>' + esc(st) + '</b>.');
+
+  if (stress != null) {
+    var how = d.stressSource
+      ? 'It is a <b>grounded</b> reading: the individual companies and assets LIMEN tracks inside this domain are scored first, and the domain number is the precision-weighted belief across them. ' +
+        'The raw feed-volume figure was <span class="num">' + pct(d._legacyFeedStress != null ? d._legacyFeedStress : stress) + '</span>; grounding moved it to <span class="num">' + pct(stress) + '</span>.'
+      : 'It is a <b>feed-derived</b> reading: the average of the stress-carrying feeds that answered, capped. This domain is not yet node-grounded.';
+    rows += defRow('Pressure ' + pct(stress), 'How hard this domain is being pushed right now, 0% to 100%. ' + how);
+  }
+
+  if (gs && typeof gs.stress === 'number') {
+    var chan = gs.channels || {};
+    var parts = [];
+    if (chan.distress) parts.push('distress <span class="num">' + pct(chan.distress.raw) + '</span>');
+    if (chan.unison) parts.push('unison <span class="num">' + pct(chan.unison.raw) + '</span>');
+    if (chan.granularity) parts.push('spread <span class="num">' + pct(chan.granularity.raw) + '</span>');
+    rows += defRow('Stress composite', 'A second, stricter reading (<span class="num">' + pct(gs.stress) + '</span>) built the way central banks build financial-stress indexes ' +
+      '(the ECB\'s CISS method, Holló/Kremer/Lo Duca 2012). Three channels' + (parts.length ? ' — ' + parts.join(', ') + ' — ' : ' ') +
+      'are ranked against this domain\'s own history and then weighted by how much they <b>move together</b>. It only reads high when the channels co-move, so one loud feed cannot drive it. ' +
+      'Coverage <span class="num">' + pct(gs.coverage || 0) + '</span> of tracked nodes.');
+  }
+
+  var phase = String(d.phase || '').toLowerCase();
+  if (phase && PHASE_DEF[phase]) {
+    rows += defRow('Cycle position', 'Where this domain sits on a repeating 11-step arc LIMEN uses to read any system, P0 to P10. It is a <b>position, not a forecast</b>. ' +
+      'Currently <b>' + esc(String(phase).toUpperCase()) + ' · ' + esc(PHASE_DEF[phase]) + '</b>' +
+      (d.phaseGrounded ? ' Set by the domain\'s own scored nodes (' + (d.phaseEvidence && d.phaseEvidence.scored || 0) + ' scored, ' + pct((d.phaseEvidence && d.phaseEvidence.coverage) || 0) + ' coverage), not by the pressure number alone.'
+                       : ' Estimated from pressure and maturity; there is not yet enough node evidence to ground it.'));
+  }
+  if (d.maturity && MATURITY_DEF[d.maturity]) {
+    rows += defRow('Maturity', 'How established that reading is. <b>' + esc(d.maturity) + '</b> means ' + esc(MATURITY_DEF[d.maturity]) + '. ' +
+      'The ladder runs EARLY → FORMING → CONFIRMED → STRUCTURAL.');
+  }
+  if (typeof d.confidence === 'number') {
+    rows += defRow('Read confidence ' + pct(d.confidence), 'How much weight to put on this card, from four inputs: ' +
+      'source quality <span class="num">' + pct(conf.sourceQuality || 0) + '</span>, ' +
+      'corroboration <span class="num">' + pct(conf.corroboration || 0) + '</span>, ' +
+      'specificity <span class="num">' + pct(conf.specificity || 0) + '</span>, ' +
+      'recency <span class="num">' + pct(conf.recency || 0) + '</span>. ' +
+      'Low confidence means the feeds disagree or are thin, not that nothing is happening.');
+  }
+  if (ch.stressDriverCount != null) {
+    var plural = function (n, one, many) { return '<span class="num">' + n + '</span> ' + (n === 1 ? one : many); };
+    rows += defRow('Feed roles', plural(ch.stressDriverCount, 'feed can', 'feeds can') + ' raise pressure (stress drivers), ' +
+      plural(ch.activitySourceCount || 0, 'only measures', 'only measure') + ' activity, and ' +
+      plural(ch.eventFeedCount || 0, 'is a news/event feed', 'are news/event feeds') + '. ' +
+      'News feeds are deliberately barred from driving pressure on their own.');
+  }
+  rows += defRow('Loudest signal', 'The single highest-ranked item across this domain\'s live feeds on the last read. It is <b>what the feeds are saying</b>, not a LIMEN conclusion, and it links to the original.');
+  if (!rows) return '';
+  return '<details class="defs"><summary>What these numbers mean</summary><dl>' + rows + '</dl>' +
+    '<div class="disc">Educational information, not professional, financial, or emergency advice.</div></details>';
+}
+
 fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(function (j) {
   var d = (j.domains || j)[C.key] || {};
   var stress = typeof d.stress === 'number' ? d.stress : null;
   var st = stress != null ? (stress > 0.65 ? 'ELEVATED' : stress > 0.4 ? 'ACTIVE' : 'CALM') : 'QUIET';
-  var sigs = [];
-  if (d.phaseLabel) sigs.push('Cycle position: ' + String(d.phaseLabel).toLowerCase() + (d.maturity ? ' · ' + String(d.maturity).toLowerCase() : ''));
-  if (d.topSignal) sigs.push(String(d.topSignal).replace(/_/g, ' '));
   var h = '<div class="pulse-top"><span class="status" style="color:' + statusColor(st) + ';border-color:' + statusColor(st) + '55">' + st + '</span>';
   if (stress != null) h += '<span class="barlbl">pressure ' + Math.round(stress * 100) + '%</span><div class="bar"><i style="width:' + Math.round(stress * 100) + '%"></i></div>';
   h += '</div>';
-  if (sigs.length) h += sigs.map(function (s) { return '<div class="sig"><span class="dot">●</span>' + esc(s) + '</div>'; }).join('');
-  else h += '<div class="muted">Quiet right now, no elevated signals.</div>';
+
+  var sigHtml = '';
+  if (d.phaseLabel) {
+    sigHtml += '<div class="sig"><span class="dot">●</span>Cycle position: ' + esc(String(d.phaseLabel).toLowerCase()) +
+      (d.maturity ? ' · ' + esc(String(d.maturity).toLowerCase()) : '') + '</div>';
+  }
+  if (d.topSignal) {
+    // Link the loudest signal to the actual article when the feed gave us one. When it did
+    // not, fall back to the source's own page. Never fabricate a destination.
+    var sigTxt = String(d.topSignal).replace(/_/g, ' ');
+    var srcMeta = (d.topSignalSource && window.LIMEN_SOURCE_LINKS) ? window.LIMEN_SOURCE_LINKS.lookup(d.topSignalSource) : null;
+    var href = d.topSignalUrl || (srcMeta && srcMeta.url) || null;
+    var body = href ? '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(sigTxt) + '</a>' : esc(sigTxt);
+    sigHtml += '<div class="sig"><span class="dot">●</span>' + body +
+      (d.topSignalSource ? '<span class="sigsrc">from ' + esc(d.topSignalSource) + (d.topSignalUrl ? ' · opens the original' : ' · opens the source') + '</span>' : '') +
+      '</div>';
+  }
+  h += sigHtml || '<div class="muted">Quiet right now, no elevated signals.</div>';
+
   if (typeof d.liveCount === 'number') h += '<div class="muted" style="margin-top:10px;font-size:.78rem">' + d.liveCount + ' live sources tracked · updates continuously</div>';
+  h += renderPulseDefs(d, st, stress);
+  h += renderSourceLedger(d.sources || []);
   EL('pulse').innerHTML = h;
   if (d.phase) setFractalPhase(d.phase); // fractal hero takes the domain's live phase color/form
   if (C.live === 'env') renderPhase(d);
@@ -769,6 +1104,11 @@ function renderPhase(d) {
   h += '</div>';
   h += renderFeeds(d.sources || []);
   h += '<div class="disc" style="margin-top:14px">“Phase” is LIMEN Helix’s own reading of the system’s state, one position on a repeating 0 to 10 cycle. We show only the phase it is in now, not a forecast.</div>';
+  // environment hides the pulse card, so the definitions and the source ledger hang here instead
+  var _es = typeof d.stress === 'number' ? d.stress : null;
+  var _eb = _es != null ? (_es > 0.65 ? 'ELEVATED' : _es > 0.4 ? 'ACTIVE' : 'CALM') : 'QUIET';
+  h += renderPulseDefs(d, _eb, _es);
+  h += renderSourceLedger(d.sources || []);
   h += '</div></div>';
   EL('phaseBody').innerHTML = h;
 }

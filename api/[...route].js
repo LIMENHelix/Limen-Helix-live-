@@ -92,6 +92,7 @@ const HANDLERS = {
   'religion-live': require('../handlers/religion-live'),
   'governance-markets': require('../handlers/governance-markets'),
   'agriculture-markets': require('../handlers/agriculture-markets'),
+  'agriculture-tools': require('../handlers/agriculture-tools'),
   'communication-markets': require('../handlers/communication-markets'),
   'medicine-markets': require('../handlers/medicine-markets'),
   'education-markets': require('../handlers/education-markets'),

@@ -103,6 +103,11 @@ module.exports = async function handler(req, res) {
       status: d.status || 'UNKNOWN',
       liveCount: d.liveCount || 0,
       topSignal: (d.signals && d.signals[0]) || null,
+      // Carry the top signal's real article link + originating feed through to the cached
+      // snapshot the public fronts read. Null when the feed gave no link (most non-RSS
+      // sources) — the front then falls back to linking the source itself, never invents one.
+      topSignalUrl: (d.signalLinks && d.signalLinks[0]) || null,
+      topSignalSource: (d.signalSources && d.signalSources[0]) || null,
       sources: (d.sources || []).map(function(s) { return { name: s.name, live: s.live, channel: s.channel || null }; }),
       _channels: d._channels || null,
       _confidence: d._confidence || null
