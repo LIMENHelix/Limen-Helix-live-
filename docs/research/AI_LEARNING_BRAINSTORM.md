@@ -1569,4 +1569,168 @@ Do not report what it lacks.
 
 ---
 
-## ENTRY 010 - (next)
+## ENTRY 010 - LSTM gating, the frozen forget gate, and a rank-0 restatement
+
+> **STATUS: [verified] LSTM equations and LIMEN file/line facts. [mark: IDEA] every claim that
+> adaptive retention would improve regulation.** Read-only. No code changed. The lambda cadence
+> mismatch in §3 is checkable arithmetic; the proposed fix in §4 is not measured.
+
+**Prompted by:** https://youtu.be/YCzL96nL7j0
+**Title (read off the page shell):** "Long Short-Term Memory (LSTM), Clearly Explained" (StatQuest)
+**Captured:** 2026-07-25
+
+**SOURCING.** Same JS wall as Entries 005-007 and 009: channel, date, duration and content not
+extractable, and the web-search backend returned 529 on three attempts. **Not a scrape of the
+video.** Equations below are from https://en.wikipedia.org/wiki/Long_short-term_memory.
+
+---
+
+### 1. The one equation that matters
+
+    c_t = f_t ⊙ c_(t-1) + i_t ⊙ c̃_t
+
+A running accumulator whose retention rate `f_t` is **computed from the current input every step**.
+The full set:
+
+    f_t = σ(W_f x_t + U_f h_(t-1) + b_f)        forget gate
+    i_t = σ(W_i x_t + U_i h_(t-1) + b_i)        input gate
+    c̃_t = tanh(W_c x_t + U_c h_(t-1) + b_c)     candidate
+    c_t = f_t ⊙ c_(t-1) + i_t ⊙ c̃_t             cell state
+    o_t = σ(W_o x_t + U_o h_(t-1) + b_o)        output gate
+    h_t = o_t ⊙ tanh(c_t)                       hidden output
+
+The gradient survives long horizons because the cell state's path is gated-additive rather than
+repeatedly multiplied by a weight matrix. The forget gate is the whole contribution: a value in
+[0,1] per dimension per step deciding what to keep.
+
+### 2. LIMEN has five of these, all with the gate frozen [verified]
+
+| Location | Update | Rate |
+|---|---|---|
+| `lib/phase-estimator.js:272` | `stuckAcc = λ·prev + (1−λ)·blockage` | λ = 0.93 fixed |
+| `lib/phase-estimator.js:265` | `resVar = λ·prev + (1−λ)·residual²` | λ = 0.93 fixed |
+| `lib/phase-estimator.js:125,130` | correlation var/cov EWMA | λ = 0.93 fixed |
+| `lib/grounded-stress.js:188,193` | correlation var/cov EWMA | λ = 0.93 fixed |
+| `assets/js/limen-plasticity.js:181` | `e = traceDecay·e + pre·post` | 0.85 fixed |
+| `assets/js/domain-brains/energy-brain.js:1412-1416` | `prior + lr·(obs − prior)` | lr fixed |
+
+Every one has the form `c_t = f·c_(t-1) + i·x_t` with **f and i as constants**. Structurally these
+ARE LSTM cell states. The only missing piece is that the gate never opens or closes.
+
+The standing memory note on adaptive cadence already names this problem in the operator's own words:
+the **"forget-vs-remember contradiction."** The LSTM forget gate is the canonical solution to it.
+
+### 3. The checkable defect: lambda was imported across sampling frequencies [verified arithmetic]
+
+`lib/grounded-stress.js:62` is honest about provenance: "CISS uses 0.93, fitted to a 5-dim IGARCH on
+the demeaned subindices." **That ECB fit was on WEEKLY financial data.**
+
+LIMEN applies the same constant at a measured 60-75 minute cadence
+(`handlers/limen-worker-snapshot.js:161-167`).
+
+Effective memory of an EWMA is roughly `1/(1−λ)` samples. At λ=0.93 that is ~14 samples.
+
+    at weekly cadence     14 samples ≈ one quarter
+    at 70-minute cadence  14 samples ≈ 16 hours
+
+**The constant was carried over without rescaling for sampling frequency.** Every EWMA in the stack
+is therefore remembering on a horizon nobody chose. This is arithmetic, not inference, and it is the
+most likely candidate for a regulation formula behaving wrong. Verify before acting: confirm the
+live cadence and confirm no caller overrides `EWMA_LAMBDA`.
+
+### 4. Do NOT import an LSTM. Generalize the gate LIMEN already built. [mark: IDEA]
+
+LSTM gates are learned by backpropagation through time. Entry 009 §0 established backprop is off the
+table by design, and correctly so for a brain rendering.
+
+**But an adaptive gate that needs no backprop already exists in this codebase.**
+`assets/js/limen-plasticity.js:155-171`, the BCM metaplasticity: a threshold theta slides with the
+layer's own recent activity, and the effective rate scales by `(activity − theta)/theta`.
+Input-dependent, derived from local statistics only, no gradient path.
+
+So the finding is not "LIMEN lacks gating." It is that **the pattern exists in exactly one module
+and is hardcoded in the other five.** The generalization is direct:
+
+    f_t   = clamp(1 − sens·(surprise_t − theta_t)/theta_t, f_min, f_max)
+    theta_t ← theta_t + alpha·(surprise_t − theta_t)
+
+High surprise relative to the channel's OWN baseline means forget faster. Settled means remember
+longer. That is BCM applied to the accumulator instead of to the learning rate, and it dissolves
+forget-vs-remember without picking a side. Biologically plausible, local, no backprop.
+
+### 5. Convergence already present: the output gate [verified]
+
+LSTM separates what is remembered from what is exposed: `h_t = o_t ⊙ tanh(c_t)`.
+
+`lib/outcome-ledger.js:59-64` does the same thing. `promotedStress` gates internal `distressMass`
+by confidence before display. **An output gate was built here independently, for the same reason.**
+The architectural instinct is right; it simply has not been recognised as a general pattern and
+applied to the retention side.
+
+---
+
+### 6. RANK-0 RESTATEMENT — correction to Entry 008 §4a and Entry 009 §4
+
+`/api/limen/score` was finally opened (`api/limen.py:214` → `api/helix_app/thing1/limen_backtest.py`).
+
+**`limen_backtest.py:1113`: `composite = max(path_a, path_b, path_c)`**
+
+| Path | Formula (lines 1104-1111) | Range |
+|---|---|---|
+| A | `2.5·stress_rate + 0.5·max_consec/10 + 0.5·max(max_p3−p3_entry,0) + sustained_bonus` | **unbounded** |
+| B | `1.0·stress_rate + 2.0·cash_decline` | **bounded [0,3]** |
+| C | rupture score (acute shock) | **unbounded**, 30-100+ observed |
+
+Path A is unbounded because two terms scale with QUARTER COUNT, not distress intensity:
+`max_consec/10`, and `sustained_bonus = (max_consec_sustained − 3)·0.20` (line 1099). A company
+stressed 40 quarters outscores one stressed 10 quarters at identical intensity. That is a
+history-length bias. Path B, capped at 3 because both terms are in [0,1], **structurally cannot win
+the max() for any long-history company.**
+
+**Correction.** Entry 008 called this "a calibration problem inside the kernel." Imprecise, and the
+precise version changes the fix:
+
+- The **alert** is well-formed. Per-path thresholds (A=1.1, B=1.5, C=1.5 at lines 832-843), each
+  path compared to its own, OR'd at line 1119. Sound.
+- It is **`composite` as a magnitude** that is not meaningful — and the codebase already says so.
+  `lib/thing-formulas.js:54`: *"alert is the validated classification; composite is descriptive."*
+- The defect is downstream: `lib/limen-stress-propagator.js:349-351` consumes `composite` as
+  intrinsic stress magnitude, multiplies by `ALERT_MULT`, and propagates it. That uses a descriptive
+  field as a metric, against the kernel's own documented contract.
+
+The 107.80-against-p99-4.08 outlier is path C firing at ~72x its threshold: correct as a boolean,
+meaningless as a magnitude.
+
+**Revised rank 0:** not "normalize the kernel." Either give the propagator a bounded per-path
+normalised magnitude, or have it propagate from the alert plus path identity instead of from
+`composite`. Smaller and better targeted than Entry 008 proposed.
+
+### 7. Ranking after this entry [mark: IDEA]
+
+    0.  Propagator stops consuming `composite` as a magnitude (§6) — kernel needs no change
+    0b. Surface registry-load provenance (Entry 009 §3b)
+    1.  Brier + log loss in outcome-ledger (F2 — teaches the K-layers, per Entry 009 §0d)
+    2.  Verify the lambda cadence mismatch (§3) — arithmetic, no code change to check
+    3.  Resolve which phases are distress (Entry 008 §2b) and what P1 is (§2a)
+    4.  marginal entropy / perplexity per channel (Entry 006 diagnostic)
+    5.  Generalize the BCM gate to the five frozen accumulators (§4)
+    6.  categorical belief entropy + perplexity display (Entry 009 §0c + Entry 005)
+    7.  held-out compression test vs Markov baseline (Entry 006)
+
+### 8. Objection to this entry
+
+§4 proposes changing how long five accumulators remember, on the argument that a fixed rate cannot
+serve both regimes. **That argument is sound and still does not establish that adaptive retention
+would improve anything measurable here.** The honest sequence is item 4 before item 5: measure what
+those channels actually carry before changing how long they carry it. If the Entry 006 diagnostic
+shows the channels are near-constant, retention length is irrelevant and the real work is upstream
+in the feeds.
+
+Second objection, the standing one: the LSTM frame arrived from a video, not from the code. What
+protects it is §3 — the lambda mismatch is arithmetic that holds regardless of whether the LSTM
+framing is useful, and it was found by checking the constant's provenance against the measured
+cadence, not by watching anything.
+
+---
+
+## ENTRY 011 - (next)
