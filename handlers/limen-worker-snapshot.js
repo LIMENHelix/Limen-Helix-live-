@@ -289,7 +289,46 @@ module.exports = async function handler(req, res) {
                   (sig.titles || []).forEach(function (title) { ingestItems.push({ text: title, quality: quality }); });
                 });
               }
-              var feedChannels = feedFractal.toChannels(ingestItems);
+              // ── DEAFFERENTATION FIX (2026-07-26) ────────────────────────────────────────────
+              // `latest_ingest` is FOUR geopolitical Google News queries (limen-worker-ingest.js:17-20:
+              // iran/hormuz/missile, oil price/shipping, food shortage/grain, military escalation), and
+              // its event->domain mapping can only ever emit ten names: agriculture, defense, energy,
+              // finance, governance, health, industry, infrastructure, supplyChain, technology. The other
+              // TEN — communication, culture, economy, education, environment, intelligence, law,
+              // population, religion, science — can never be tagged, so the filter above always returned
+              // empty for them and they received NO feed channel, ever. Measured 2026-07-26: 13 of 20
+              // domains had live feeds and zero reaching this layer, 164 live sources discarded.
+              //
+              // That is not a mis-set gate, it is a missing wire. domain-snapshot ALREADY fetches
+              // per-domain headlines for all 20 (648 signals/cycle; religion 76, culture 76, population
+              // 53, intelligence 52 — all from their own sources: Vatican News, UNFPA, USCIRF, Pew).
+              // feed-fractal.js's own header says its input is "dsum.sources[] from domain-snapshot.js",
+              // so wiring that in RESTORES the documented design rather than inventing one.
+              //
+              // UNION, not replacement: energy/finance/defense etc. keep everything latest_ingest gave
+              // them and gain their own per-domain text, so no domain regresses. Dry-run over live data:
+              // domains with feed channels goes 7 -> 19 (science alone still abstains, correctly, with
+              // zero typed matches over 24 signals).
+              var domainRow = domains[pk];
+              if (domainRow && Array.isArray(domainRow.signals)) {
+                domainRow.signals.forEach(function (t) {
+                  if (typeof t === 'string' && t) ingestItems.push({ text: t });   // quality omitted -> toChannels defaults 0.6 ('event')
+                });
+              }
+
+              // MIN_TYPED_ITEMS — the honesty floor. toChannels emits a channel on a SINGLE keyword hit,
+              // and the classifier is keyword-based by its own admission (feed-fractal.js header), so one
+              // hit across 76 headlines is not evidence. Measured false positive it removes: religion and
+              // population both produced feed_demand from ONE match on "bishops DEMAND justice" — the verb,
+              // not economic demand. Keeping it would manufacture a channel from an ambiguous word, which
+              // is the same fabrication the 2026-07-24 circularity cut removed, arriving by another door.
+              // At 2 this keeps law/litigation(16), industry/recall(14), culture/leadership(3) and drops
+              // the single-hit artifacts. Raising it costs real thin-but-true channels; lowering it to 1
+              // restores the fabrication. Deliberately a stated choice, not a tuned one [mark: prior].
+              var MIN_TYPED_ITEMS = 2;
+              var feedChannels = feedFractal.toChannels(ingestItems).filter(function (fc) {
+                return (fc.typedItems || 0) >= MIN_TYPED_ITEMS;
+              });
               feedChannels.forEach(function (fc) {
                 bundle.readings.push(fc);
                 if (gsShouldAppend || !gsSlot.history[fc.key]) {
