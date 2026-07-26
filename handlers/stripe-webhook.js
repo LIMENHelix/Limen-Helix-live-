@@ -108,18 +108,52 @@ function customField(obj, key) {
   return null;
 }
 
-function welcomeEmail(sub, offer) {
+function money(cents) { return '$' + ((cents || 0) / 100).toFixed(2); }
+function today() { return new Date().toISOString().slice(0, 10); }
+
+/**
+ * The welcome email IS the receipt for the first payment. Two separate emails at signup, one
+ * saying welcome and one saying you paid, is noise; a person wants one message that confirms
+ * what they bought, what it cost, and when it happens again.
+ */
+function welcomeEmail(sub, offer, paidCents) {
   var watchLine = sub.watch ? ('We are watching: ' + sub.watch + '\n\n') : '';
+  var amount = paidCents != null ? paidCents : sub.priceCents;
   return {
-    subject: 'You are on: ' + (offer ? offer.name : 'your LIMEN watch'),
+    subject: 'Receipt and welcome: ' + (offer ? offer.name : 'your LIMEN watch'),
     body:
       'Thanks for subscribing.\n\n' +
+      '--- RECEIPT ---\n' +
+      'Item:    ' + (offer ? offer.name : sub.rung) + ' (' + sub.domain + ')\n' +
+      'Paid:    ' + money(amount) + '\n' +
+      'Date:    ' + today() + '\n' +
+      'Renews:  monthly, ' + money(sub.priceCents) + ' until cancelled\n' +
+      (sub.subscriptionId ? 'Ref:     ' + sub.subscriptionId + '\n' : '') +
+      '---------------\n\n' +
       (offer ? (offer.name + '\n' + offer.line + '\n\n') : '') +
       watchLine +
       (offer && offer.cadence ? ('How often it moves: ' + offer.cadence + '\n\n') : '') +
       'Your first briefing arrives on the next run. Every figure in it comes from the federal ' +
       'source named beside it, and you can check any of them yourself at ' + SITE + '/' + sub.domain + '\n\n' +
       'If a source has nothing new, we send nothing rather than padding it out.\n\n' +
+      'To cancel, reply to this email and we will stop the subscription.\n'
+  };
+}
+
+/** Receipt for a RENEWAL. The first payment is covered by the welcome email above. */
+function renewalReceipt(sub, cents, invoiceUrl) {
+  return {
+    subject: 'Receipt: ' + (sub.offer || sub.rung) + ' renewed',
+    body:
+      'Your subscription renewed.\n\n' +
+      '--- RECEIPT ---\n' +
+      'Item:    ' + (sub.offer || sub.rung) + ' (' + sub.domain + ')\n' +
+      'Paid:    ' + money(cents) + '\n' +
+      'Date:    ' + today() + '\n' +
+      (sub.watch ? 'Watching: ' + sub.watch + '\n' : '') +
+      '---------------\n\n' +
+      (invoiceUrl ? ('Full invoice: ' + invoiceUrl + '\n\n') : '') +
+      'Nothing to do. Your briefings continue as normal.\n\n' +
       'To cancel, reply to this email and we will stop the subscription.\n'
   };
 }
@@ -170,7 +204,7 @@ module.exports = async function handler(req, res) {
           await recordEnrollment(meta.domain, obj.amount_total || 0);
           // Deliver immediately: they paid, so they should hear from us now, not on the cron.
           try {
-            var mail = welcomeEmail(act.subscriber, offer);
+            var mail = welcomeEmail(act.subscriber, offer, obj.amount_total);
             await crm.sendToLead(act.subscriber.email, mail.subject, mail.body);
             out.welcomeSent = true;
           } catch (e) { out.welcomeSent = false; out.welcomeError = e.message; }
@@ -178,6 +212,32 @@ module.exports = async function handler(req, res) {
       }
       // Book the income to the finance ledger regardless of which product it was.
       try { await stripe.recordWebhook(raw, sig); } catch (e) {}
+    }
+
+    else if (evt.type === 'invoice.payment_succeeded') {
+      // Renewals only. billing_reason 'subscription_create' is the FIRST payment, and the
+      // welcome email already carries that receipt; sending a second one would be noise.
+      var reason = String(obj.billing_reason || '');
+      out.billingReason = reason;
+      if (reason === 'subscription_cycle') {
+        var who = null;
+        try {
+          var email = obj.customer_email || (obj.customer_details && obj.customer_details.email) || null;
+          if (email) who = await subs.get(email);
+        } catch (e) {}
+        if (who && who.active) {
+          try {
+            var rc = renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url);
+            await crm.sendToLead(who.email, rc.subject, rc.body);
+            out.receiptSent = true;
+          } catch (e) { out.receiptSent = false; out.receiptError = e.message; }
+          await recordEnrollment(who.domain, obj.amount_paid || 0);
+        } else {
+          out.receiptSent = false;
+          out.note = 'No active subscriber matched this invoice, so no receipt was sent.';
+        }
+      }
+      out.handled = true;
     }
 
     else if (evt.type === 'customer.subscription.deleted') {

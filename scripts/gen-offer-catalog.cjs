@@ -52,7 +52,7 @@ ALL_DOMAINS.forEach(function (d) {
   var o = api.get(d);
   if (!o) return;
   var entry = { who: o.who, band: o.band, rungs: {} };
-  ['p1', 'p2', 'p3'].forEach(function (k) {
+  ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'].forEach(function (k) {
     if (!o[k]) return;
     var c = cents(o[k].price);
     if (c === null) {

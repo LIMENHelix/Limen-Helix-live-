@@ -1755,6 +1755,18 @@ function wireBuyButtons(host) {
     if (!btn) return;
     ev.preventDefault();
 
+    // P10 is priced per engagement, so there is no amount to charge. Send them to the
+    // enquiry form rather than showing a Subscribe button that cannot complete.
+    if (btn.getAttribute('data-enquire')) {
+      var form = EL('eaForm') || EL('capForm');
+      if (form) {
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var input = EL('eaEmail') || EL('capEmail');
+        if (input) setTimeout(function () { input.focus(); }, 400);
+      }
+      return;
+    }
+
     var row = btn.closest('.prow');
     var note = row && row.parentNode ? row.parentNode.querySelector('.pbuynote') : null;
     if (note) note.remove();
@@ -1810,7 +1822,8 @@ function renderPhaseLadder() {
       '<div class="pmid"><span class="pt">' + esc(x.name) + '</span><span class="pph">' + esc(x.phase) + '</span><div class="pl">' + esc(x.line) + '</div>' +
       (x.cadence ? '<div class="pcad">updates ' + esc(x.cadence) + '</div>' : '') + '</div>' +
       '<div class="pprice">' + esc(x.price) +
-        (x.buy ? '<button type="button" class="pbuy" data-rung="' + x.buy + '">Subscribe</button>' : '') +
+        (x.buy ? '<button type="button" class="pbuy" data-rung="' + x.buy + '">Subscribe</button>'
+               : (x.p === 'P10' ? '<button type="button" class="pbuy" data-enquire="1">Enquire</button>' : '')) +
       '</div></div>';
   }).join('');
   wireBuyButtons(host);

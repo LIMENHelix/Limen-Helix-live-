@@ -34,6 +34,21 @@
     business: { p1: '$9 / mo', p2: '$14 / mo', p3: '$19 / mo' }   // compliance, procurement, institutional
   };
 
+  // Rungs P4-P9 are the SAME product in every domain: they act on the signal rather than
+  // being domain-specific readings of it, so they carry one description and one price
+  // everywhere. P1-P3 stay bespoke because what "your signal" means genuinely differs
+  // between a grower and a bank compliance officer.
+  //
+  // P0 is free and P10 is priced per engagement, so neither is a checkout.
+  var GENERIC = {
+    p4: { name: 'The Playbook',  line: 'Turn the signal into steadiness: deep, tailored what-to-do plans.',            price: '$9 / mo',  cadence: 'on request' },
+    p5: { name: 'The Record',    line: 'The long view: history, trends, and the trajectory of this domain over time.', price: '$9 / mo',  cadence: 'monthly' },
+    p6: { name: 'Command',       line: 'Coordinate the whole: every place or asset you track, in one dashboard.',      price: '$12 / mo', cadence: 'live' },
+    p7: { name: 'The Fork',      line: 'At a decision point: compare paths and model which way to go.',                price: '$12 / mo', cadence: 'on request' },
+    p8: { name: 'The Analyst',   line: 'Step back and understand: a custom, expert read on your exact situation.',     price: '$19 / mo', cadence: 'monthly' },
+    p9: { name: 'Live Edge',     line: 'When timing is everything: real-time, instant alerts, poised to act.',         price: '$14 / mo', cadence: 'as it happens' }
+  };
+
   var OFFERS = {
     agriculture: {
       band: 'consumer', who: 'growers, ag lenders and food buyers',
@@ -155,7 +170,9 @@
         who: o.who, band: o.band,
         p1: { name: o.p1.name, line: o.p1.line, cadence: o.p1.cadence, price: 'from ' + b.p1 },
         p2: { name: o.p2.name, line: o.p2.line, cadence: o.p2.cadence, price: 'from ' + b.p2 },
-        p3: { name: o.p3.name, line: o.p3.line, cadence: o.p3.cadence, price: 'from ' + b.p3 }
+        p3: { name: o.p3.name, line: o.p3.line, cadence: o.p3.cadence, price: 'from ' + b.p3 },
+        p4: GENERIC.p4, p5: GENERIC.p5, p6: GENERIC.p6,
+        p7: GENERIC.p7, p8: GENERIC.p8, p9: GENERIC.p9
       };
     }
   };
