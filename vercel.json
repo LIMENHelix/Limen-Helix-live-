@@ -37,6 +37,10 @@
     {
       "path": "/api/social-cron?post=1",
       "schedule": "0 0,2,12,14,16,18,20,22 * * *"
+    },
+    {
+      "path": "/api/subscriber-digest",
+      "schedule": "30 13 * * *"
     }
   ],
   "functions": {

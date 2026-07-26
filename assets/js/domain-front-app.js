@@ -1737,6 +1737,60 @@ var PHASE_LADDER = [
   { p: 'P9', phase: 'Threshold', name: 'Live Edge', line: 'When timing is everything: real-time, instant alerts, poised to act.', price: 'from $14 / mo' },
   { p: 'P10', phase: 'Renewal', name: 'The Engine', line: 'The whole system inside your operation: API, embeds, done-for-you.', price: 'Custom' }
 ];
+/**
+ * Turn a Subscribe press into a real Stripe checkout.
+ *
+ * The button sends only the DOMAIN and the RUNG. The price is looked up on the server from
+ * lib/offer-catalog.js, so nothing here can ask to pay less, and there is no amount in this
+ * file that could drift from what is actually charged.
+ *
+ * If payments are not switched on yet the server says so in plain words and we show that,
+ * rather than a dead button or a silent failure.
+ */
+function wireBuyButtons(host) {
+  if (!host || host.__buyWired) return;
+  host.__buyWired = true;
+  host.addEventListener('click', function (ev) {
+    var btn = ev.target && ev.target.closest ? ev.target.closest('.pbuy') : null;
+    if (!btn) return;
+    ev.preventDefault();
+
+    var row = btn.closest('.prow');
+    var note = row && row.parentNode ? row.parentNode.querySelector('.pbuynote') : null;
+    if (note) note.remove();
+
+    var label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Opening…';
+
+    function say(msg, bad) {
+      btn.disabled = false;
+      btn.textContent = label;
+      var d = document.createElement('div');
+      d.className = 'pbuynote' + (bad ? ' bad' : '');
+      d.textContent = msg;
+      if (row && row.parentNode) row.parentNode.insertBefore(d, row.nextSibling);
+    }
+
+    fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        domain: DID,
+        rung: btn.getAttribute('data-rung'),
+        utm: (typeof ATTRIB !== 'undefined' && ATTRIB) ? ATTRIB : null,
+        referrer: document.referrer || null
+      })
+    })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
+      .then(function (res) {
+        if (res.j && res.j.ok && res.j.url) { window.location.href = res.j.url; return; }
+        say((res.j && res.j.error) || 'Could not start checkout. Try again in a moment.', true);
+      })
+      .catch(function () { say('Could not reach the payment service. Try again in a moment.', true); });
+  });
+}
+
 function renderPhaseLadder() {
   var host = EL('phaseLadder'); if (!host) return;
   // Per-domain offers override the generic rungs for P1-P3, the three that actually convert.
@@ -1749,14 +1803,17 @@ function renderPhaseLadder() {
     var k = x.p.toLowerCase();
     var o = off[k];
     if (!o) return x;
-    return { p: x.p, phase: x.phase, name: o.name, line: o.line, price: o.price, cadence: o.cadence, free: x.free };
+    return { p: x.p, phase: x.phase, name: o.name, line: o.line, price: o.price, cadence: o.cadence, free: x.free, buy: k };
   });
   host.innerHTML = rows.map(function (x) {
     return '<div class="prow' + (x.free ? ' free' : '') + '"><div class="pnum">' + x.p + '</div>' +
       '<div class="pmid"><span class="pt">' + esc(x.name) + '</span><span class="pph">' + esc(x.phase) + '</span><div class="pl">' + esc(x.line) + '</div>' +
       (x.cadence ? '<div class="pcad">updates ' + esc(x.cadence) + '</div>' : '') + '</div>' +
-      '<div class="pprice">' + esc(x.price) + '</div></div>';
+      '<div class="pprice">' + esc(x.price) +
+        (x.buy ? '<button type="button" class="pbuy" data-rung="' + x.buy + '">Subscribe</button>' : '') +
+      '</div></div>';
   }).join('');
+  wireBuyButtons(host);
   // Say who this ladder is for, so the reader can self-select instead of guessing.
   if (off && off.who) {
     var sub = host.parentNode && host.parentNode.querySelector('.sub');
