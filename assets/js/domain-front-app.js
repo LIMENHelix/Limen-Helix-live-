@@ -1746,9 +1746,9 @@ function loadCountyDeals(L) {
 // ── phase path: P0 free, P1-P10 add-ons (each an analogy for the phase) ──
 var PHASE_LADDER = [
   { p: 'P0', phase: 'Source', name: 'The Live Watch', line: 'The raw, live read of this domain. What you are using right now.', price: 'Free', free: true },
-  { p: 'P1', phase: 'Emergence', name: 'Your Signal', line: 'The moment it becomes yours: an alert the instant something moves for your place.', price: 'from $3 / mo' },
-  { p: 'P2', phase: 'Rhythm', name: 'The Briefing', line: 'A steady pulse: a daily or weekly digest you can sync your week to.', price: 'from $5 / mo' },
-  { p: 'P3', phase: 'Stress', name: 'Early Warning', line: 'Catch the cracks before they break: threshold and anomaly alerts.', price: 'from $7 / mo' },
+  { p: 'P1', phase: 'Emergence', name: 'Your Signal', line: 'The moment it becomes yours: an alert the instant something moves for your place.', price: 'from $4 / mo' },
+  { p: 'P2', phase: 'Rhythm', name: 'The Briefing', line: 'A steady pulse: a daily or weekly digest you can sync your week to.', price: 'from $6 / mo' },
+  { p: 'P3', phase: 'Stress', name: 'Early Warning', line: 'Catch the cracks before they break: threshold and anomaly alerts.', price: 'from $8 / mo' },
   { p: 'P4', phase: 'Stabilization', name: 'The Playbook', line: 'Turn the signal into steadiness: deep, tailored what-to-do plans.', price: 'from $9 / mo' },
   { p: 'P5', phase: 'Endurance', name: 'The Record', line: 'The long view: history, trends, and this domain’s trajectory over time.', price: 'from $9 / mo' },
   { p: 'P6', phase: 'Order', name: 'Command', line: 'Coordinate the whole: every place or asset you track, in one dashboard.', price: 'from $12 / mo' },

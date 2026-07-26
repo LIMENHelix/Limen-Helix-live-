@@ -15,24 +15,29 @@
  * promise daily and does not. Drought is weekly. CISA KEV is near-daily. Selling a cadence
  * the source cannot support is the fastest way to earn a refund and lose the account.
  *
- * PRICE BANDS reflect who the buyer is, not how hard the work is. A grower watching input
- * costs and a bank compliance officer screening names are not the same willingness to pay.
+ * PRICING is flat across domains for the three chargeable rungs. Same mechanic, same price.
+ * The competitor is not another vendor, it is "I will just ask an AI", so the price has to
+ * stay under the point where someone substitutes a chatbot that cannot see today's data.
  */
 (function () {
 
-  // audience band -> price points for the three converting rungs
+  // ONE PRICE EVERYWHERE for the three chargeable rungs.
   //
-  // PRICED BY WHAT IT COSTS US TO DELIVER, not by what the buyer could bear. These are alerts
-  // and digests assembled from free federal sources; the honest price of a watched threshold
-  // and an email is a few dollars, and charging $49 for one invites the comparison to a free
-  // government mailing list, which we lose. Single digits are the default. Double digits are
-  // only for rungs that are genuinely intensive: many entities tracked at once, or a
-  // cross-source join we have to compute rather than forward.
-  var BANDS = {
-    consumer: { p1: '$3 / mo', p2: '$5 / mo', p3: '$7 / mo' },    // households, growers, patients, families
-    pro:      { p1: '$5 / mo', p2: '$8 / mo', p3: '$12 / mo' },   // operators, small firms, journalists
-    business: { p1: '$9 / mo', p2: '$14 / mo', p3: '$19 / mo' }   // compliance, procurement, institutional
-  };
+  // The competitor is not another data vendor, it is "I will just ask an AI". A chatbot can
+  // explain what a rule means; it cannot tell you that YOUR drug went short today or that
+  // YOUR comment window shuts on Thursday. That gap is the whole product, and it is only
+  // worth paying for while the price sits below the point where someone shrugs and asks a
+  // chatbot instead. Price too high and they substitute something worse and never come back.
+  //
+  // Delivery costs almost nothing: the federal sources are free, and a subscriber is a few
+  // API calls and one email a month. The real cost is Stripe, which takes $0.30 + 2.9% per
+  // charge. That is 13% of a $3 subscription but 10% of a $4 one, so the old $3 floor was the
+  // worst of both worlds: it looked cheapest and handed Stripe the largest share.
+  //
+  // The old consumer/pro/business split charged $3, $5 and $9 for the SAME mechanic depending
+  // on who was buying. That is willingness-to-pay, and it aims the highest price at exactly
+  // the people most able to replace us with a chatbot. Same work, same price.
+  var PRICES = { p1: '$4 / mo', p2: '$6 / mo', p3: '$8 / mo' };
 
   // Rungs P4-P9 are ENQUIRE-ONLY, deliberately.
   //
@@ -169,16 +174,15 @@
   };
 
   window.LIMEN_DOMAIN_OFFERS = {
-    bands: BANDS,
+    prices: PRICES,
     get: function (domain) {
       var o = OFFERS[domain];
       if (!o) return null;
-      var b = BANDS[o.band] || BANDS.pro;
       return {
         who: o.who, band: o.band,
-        p1: { name: o.p1.name, line: o.p1.line, cadence: o.p1.cadence, price: 'from ' + b.p1 },
-        p2: { name: o.p2.name, line: o.p2.line, cadence: o.p2.cadence, price: 'from ' + b.p2 },
-        p3: { name: o.p3.name, line: o.p3.line, cadence: o.p3.cadence, price: 'from ' + b.p3 },
+        p1: { name: o.p1.name, line: o.p1.line, cadence: o.p1.cadence, price: 'from ' + PRICES.p1 },
+        p2: { name: o.p2.name, line: o.p2.line, cadence: o.p2.cadence, price: 'from ' + PRICES.p2 },
+        p3: { name: o.p3.name, line: o.p3.line, cadence: o.p3.cadence, price: 'from ' + PRICES.p3 },
         p4: GENERIC.p4, p5: GENERIC.p5, p6: GENERIC.p6,
         p7: GENERIC.p7, p8: GENERIC.p8, p9: GENERIC.p9
       };
