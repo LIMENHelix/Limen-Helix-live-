@@ -261,7 +261,7 @@ function medShortageCard(s) {
     '<div class="agnote">' + esc(s.note) + ' Source: <a href="' + esc(s.sourceUrl) + '" target="_blank" rel="noopener">' + esc(s.source) + '</a>. ' +
     'Search the generic name, not the brand: the FDA lists these by generic.</div>';
   return toolCard('medShortage', 'Drug shortage lookup',
-    'Type a generic drug name to see whether the FDA has an open shortage record for it. ' + (s.total != null ? '<b>' + s.total + '</b> shortages are current right now.' : ''),
+    'Type a generic drug name to see whether the FDA has an open shortage record for it. ' + (s.distinctDrugs != null ? '<b>' + s.distinctDrugs + '</b> drugs are in current shortage, across ' + s.total + ' manufacturer records.' : (s.total != null ? '<b>' + s.total + '</b> current shortage records.' : '')),
     body);
 }
 

@@ -19,7 +19,7 @@
 var db = require('../lib/limen-db');
 
 var TTL = { shortages: 6 * 3600 * 1000, outbreaks: 6 * 3600 * 1000, recalls: 3 * 3600 * 1000, search: 6 * 3600 * 1000 };
-var KEY = { shortages: 'medicine:tool:shortages:v1', outbreaks: 'medicine:tool:outbreaks:v1', recalls: 'medicine:tool:recalls:v1' };
+var KEY = { shortages: 'medicine:tool:shortages:v2', outbreaks: 'medicine:tool:outbreaks:v1', recalls: 'medicine:tool:recalls:v1' };
 
 function getJSON(url, ms) {
   var ctl = new AbortController();
@@ -78,14 +78,28 @@ async function fetchShortages() {
   if (counts.status === 200 && counts.body && counts.body.results) {
     counts.body.results.forEach(function (c) { byStatus[c.term] = c.count; });
   }
+
+  // `total` counts RECORDS, and one drug has a record per manufacturer presentation:
+  // 1,175 current records were only 73 distinct drugs, so reporting the record count as a
+  // drug count overstates by ~16x. Bucketing by generic name gives the number of DRUGS,
+  // which is what a reader assumes they are being told.
+  var distinctDrugs = null, topDrug = null;
+  var byDrug = await getJSON(SHORTAGE_BASE + '?search=' + encodeURIComponent('status:"Current"') + '&count=generic_name.exact&limit=1000');
+  if (byDrug.status === 200 && byDrug.body && Array.isArray(byDrug.body.results)) {
+    distinctDrugs = byDrug.body.results.length;
+    if (byDrug.body.results[0]) topDrug = { name: byDrug.body.results[0].term, records: byDrug.body.results[0].count };
+  }
+
   return {
     ok: true,
     total: (cur.body.meta && cur.body.meta.results && cur.body.meta.results.total) || null,
+    distinctDrugs: distinctDrugs,
+    topDrug: topDrug,
     byStatus: byStatus,
     recent: cur.body.results.map(shortageRow),
     source: 'FDA Drug Shortages, via openFDA',
     sourceUrl: 'https://www.accessdata.fda.gov/scripts/drugshortages/',
-    note: 'These are shortages the FDA has been told about by manufacturers. A drug missing from this list can still be unavailable at your pharmacy, which is a local supply problem rather than a national one.'
+    note: 'One drug has a separate record per manufacturer presentation, so the record count runs far ahead of the number of drugs affected. These are shortages the FDA has been told about by manufacturers. A drug missing from this list can still be unavailable at your pharmacy, which is a local supply problem rather than a national one.'
   };
 }
 
