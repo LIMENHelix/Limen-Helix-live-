@@ -103,6 +103,7 @@ const HANDLERS = {
   'science-tools': require('../handlers/science-tools'),
   'population-tools': require('../handlers/population-tools'),
   'trade-tools': require('../handlers/trade-tools'),
+  'social-status': require('../handlers/social-status'),
   'finance-tools': require('../handlers/finance-tools'),
   'technology-tools': require('../handlers/technology-tools'),
   'industry-tools': require('../handlers/industry-tools'),
