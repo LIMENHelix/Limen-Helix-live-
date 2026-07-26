@@ -2395,4 +2395,129 @@ on this list.**
 
 ---
 
-## ENTRY 015 - (next)
+## ENTRY 015 - Is long/short-term memory essential for LIMEN? (and a correction)
+
+> **STATUS: [verified] all file/line facts below were read directly. [mark: IDEA] only the closing
+> "what's still missing" claim.** Read-only. No code changed.
+
+**Date:** 2026-07-26
+
+---
+
+### 0. CORRECTION issued before the answer
+
+In conversation this session the builder claimed **"the genuine gap is episodic memory — LIMEN's
+memory is almost entirely statistical aggregation, it compresses history into summary statistics
+and discards the events."**
+
+**That was wrong.** It was said before reading `lib/memory-tiers.js`, which formalises a FIVE-TIER
+model in which episodic is tier 2 and already exists. Same error class as Entry 009 §5 and Entry 011
+§5(a): **an absence asserted from a partial read.** Third occurrence in one session. The rule is not
+being internalised, so it is restated here: **do not name what is missing until the relevant file has
+been opened.**
+
+### 1. The answer: it already has both, and they are load-bearing, not optional
+
+**LIMEN has a formalised five-tier memory model** (`lib/memory-tiers.js:18-24`), consumed live by
+`handlers/memory-promote.js:15,51-55` which writes `semantic:<domain>` to the store:
+
+    working     console_snapshot                          transient, current cycle
+    episodic    feedhist:<d> + forecasthist:<d>           recorded observations, forecasts, resolved outcomes
+    semantic    semantic:<d>                              stabilised cross-run patterns
+    procedural  brainwts:<d>                              learned K-layer weights + modulator
+    audit       audit:<stream>                            immutable hash-chained provenance
+
+**Short-term mechanisms, verified:**
+
+    phase-estimator.js:272     stuckAcc EWMA
+    phase-estimator.js:265     resVar per-channel EWMA
+    phase-estimator.js:125     correlation var/cov EWMA
+    grounded-stress.js:188     correlation var/cov EWMA
+    limen-plasticity.js:181    eligibility traces (traceDecay)
+    phase-estimator.js:294     beliefPrev carried in corrState
+    limen-active-inference.js:60-62   Kalman belief state (mu, Sigma)
+    limen-plasticity.js:114-115       24-cycle magnitude window + BCM sliding threshold theta
+
+**Long-term mechanisms, verified:**
+
+    limen-worker-snapshot.js:232-234  300-sample channel history (12.5-15.6 days rolling)
+    limen-plasticity.js:247-285       weights serialize + hydrate across restarts
+    limen-plasticity.js:182           seed as permanent prior, with decay-toward-prior
+    company-phase-scorer.js:44,60     24h company phase TTL, 500-entry transition log
+    memory-tiers.js:49-68             evidence-gated promotion, minRuns 3
+    memory-tiers.js:71-81             EXPLICIT expiry, 30-day TTL, never silent
+
+### 2. Why it is essential rather than decorative
+
+Three things break entirely without memory, and all three are core:
+
+**`stuck` cannot be computed.** `phase-estimator.js:269-271` derives it as
+`expectedShift - actualShift`, comparing belief across time. `stuck` IS the distress signal. No
+memory, no stuck, no product.
+
+**The empirical-CDF transform needs history.** `CDF_MIN_SAMPLE = 8`. Below that, raw values pass
+through unranked and the channel is flagged degraded — which is the honest failure mode the code
+already documents.
+
+**The correlation matrix collapses to identity.** That kills the CISS quadratic form
+`(w∘s)' C (w∘s)`, and that form is the entire reason a domain reads stressed only when channels
+CO-MOVE rather than merely average high. Without history, LIMEN degrades into exactly the weighted
+average it was built not to be (`grounded-stress.js:14-19`).
+
+So memory is the substrate the central math stands on, not a feature layered onto it.
+
+### 3. The real defect is not absence. It is frozen gates.
+
+Every one of the five accumulators has the form `c_t = f·c_(t-1) + i·x_t` with `f` a HARDCODED
+constant (λ=0.93, or 0.85 for the eligibility trace). **LIMEN remembers but cannot decide how much
+to remember based on what is happening.** Full treatment in Entry 010 §2-4; the item is Entry 014 #10.
+
+This is also why the λ provenance problem matters: 0.93 came from a weekly-data fit and is applied at
+a 60-75 minute cadence, so effective memory is ~16 hours when nobody chose 16 hours
+(`grounded-stress.js:62` vs `limen-worker-snapshot.js:161-167`).
+
+### 4. Do NOT build an LSTM
+
+"Long short-term memory" is one mechanism: a short-term state that can persist long via a gated cell.
+**LIMEN's structural equivalent already exists** — the five accumulators ARE cell states. LSTM gates
+are learned by backpropagation through time, which is off the table by design for a brain rendering
+(Entry 009 §0, Entry 013 §2). The backprop-free adaptive gate already exists AND is armed:
+`limen-plasticity.js:155-171`, BCM sliding threshold, defaulted true at `domain-brain-base.js:1307`.
+
+**Generalise that. Do not import an architecture to get a capability the codebase already has.**
+
+### 5. What is genuinely still missing, stated narrowly this time [mark: IDEA]
+
+Not episodic memory. **Content-addressable retrieval.**
+
+`memory-tiers.js:30-45` (`tallyCandidates`) counts how often a recommendation `kind` STRING recurs
+across consolidation runs. That is exact-match frequency counting. It stabilises "this recommendation
+keeps coming up" into a semantic record, which is real and useful.
+
+What no code seen so far does is compare a CURRENT trajectory against STORED episodes by
+**similarity**. So this query is unanswerable:
+
+    "this domain's trajectory resembles what energy did in March — what happened next?"
+
+The 300-sample history exists and is queryable, but it is consumed only for CDF ranking, not for
+nearest-neighbour or shape matching.
+
+**Is that essential?** For what LIMEN currently claims, no. **For the cross-domain thesis, yes and
+unavoidably** — because "this domain's pattern resembles that domain's past pattern" IS the unclaimed
+result. A cross-domain phase attractor cannot be tested without retrieving and comparing specific
+episodes across domains.
+
+Marked `[mark: IDEA]` and deliberately hedged as "no code seen so far," because the last three
+absence claims in this document were wrong. Files that could falsify it and have NOT been read:
+`lib/consolidator.js`, `lib/bridge-engine.js`, `lib/pattern-author.js`, and the consolidation
+history the promotion path reads from.
+
+### 6. One thing worth confirming
+
+`handlers/memory-promote.js` exposes `?run=1` to trigger promotion. **Whether that is on a cron or is
+operator-pulled was not determined.** If nothing calls it, the semantic tier is defined and empty,
+which would be a different (and familiar) problem from the one described above.
+
+---
+
+## ENTRY 016 - (next)
