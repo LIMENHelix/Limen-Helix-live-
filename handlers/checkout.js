@@ -91,6 +91,10 @@ module.exports = async function handler(req, res) {
       return send(res, {
         ok: true,
         enabled: stripe.hasKey(),
+        // test vs live, derived from the key PREFIX. Never returns the key itself. This is
+        // the only safe way to answer "can this take real money right now?" since Vercel
+        // will not read a sensitive value back.
+        mode: stripe.keyMode(),
         reason: stripe.hasKey() ? null : 'Payments are not enabled yet: STRIPE_SECRET_KEY is not set on this deployment.',
         count: rungs.length,
         rungs: rungs
