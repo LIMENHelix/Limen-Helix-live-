@@ -18,13 +18,14 @@
   /* hero, full-bleed, phase-colored WebGL fractal behind the content/image */
   .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);min-height:84vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden;background:transparent}
   /* the fractal is a FULL-PAGE fixed backdrop behind all content */
-  /* CONFINED TO THE HERO. It used to be position:fixed inset:0, so it painted behind the
-     whole page and bled past the image. .hero is position:relative + overflow:hidden, so
-     absolute here clips it to exactly the hero box. */
-  #fractal{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+  /* FULL-PAGE BACKDROP. The fractal is the page background everywhere; where a hero photo
+     exists the photo is opaque and covers it, so the fractal sits BEHIND the image rather
+     than bleeding through it. z-index:-1 keeps it under all content. */
+  #fractal{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;display:block;background:#0a0d14}
   /* a soft dark veil over the fractal so bright phases stay moody behind the cards */
-  /* the full-page veil is gone with the full-page fractal: it now has nothing to dim */
-  .hero-bg{position:absolute;inset:0;z-index:1;background-size:cover;background-position:center 46%;opacity:.78;display:none;pointer-events:none}
+  /* a soft dark veil over the fractal so bright phases stay moody behind the cards */
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,11,18,.12),rgba(8,11,18,.36))}
+  .hero-bg{position:absolute;inset:0;z-index:1;background-size:cover;background-position:center 46%;opacity:1;display:none;pointer-events:none}
   .hero.photo .hero-bg{display:block}
   .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
     background:radial-gradient(66% 54% at 50% 47%,rgba(4,8,15,.42),transparent 72%),linear-gradient(180deg,rgba(5,9,16,.16),rgba(5,9,16,.34))}
