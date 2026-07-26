@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Subscribers (admin)</title>
+<script src="/assets/js/auth-gate.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#05060a;color:rgba(220,215,200,0.9);font-family:'IBM Plex Mono',monospace;padding:24px;font-size:13px}
+  h1{font-size:0.8rem;letter-spacing:4px;color:#C9A94E;text-transform:uppercase;margin-bottom:4px}
+  .sub{font-size:0.62rem;letter-spacing:2px;color:rgba(200,195,184,0.4);margin-bottom:18px}
+  .bar{margin-bottom:18px;font-size:0.7rem;color:rgba(200,195,184,0.6)}
+  .bar a{color:rgba(201,169,78,0.7)}
+  .bar button{background:none;border:1px solid rgba(201,169,78,0.35);color:rgba(201,169,78,0.8);
+              font-family:inherit;font-size:0.6rem;letter-spacing:1px;padding:3px 10px;cursor:pointer;text-transform:uppercase}
+  .bar button:hover{background:rgba(201,169,78,0.08)}
+  .stats{display:flex;flex-wrap:wrap;gap:1px;background:rgba(201,169,78,0.12);border:1px solid rgba(201,169,78,0.12);margin-bottom:22px}
+  .stat{background:#05060a;padding:9px 14px;flex:1 1 8rem}
+  .stat .k{font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(201,169,78,0.55);display:block}
+  .stat .v{font-size:0.95rem;color:rgba(220,215,200,0.92);margin-top:3px;display:block}
+  h2{font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,169,78,0.6);margin:26px 0 8px}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:0.72rem;min-width:640px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(201,169,78,0.1);vertical-align:top}
+  th{color:rgba(201,169,78,0.6);letter-spacing:1px;text-transform:uppercase;font-size:0.58rem;white-space:nowrap}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr.off{opacity:0.5}
+  .tag{font-size:0.53rem;letter-spacing:1.2px;padding:1px 6px;text-transform:uppercase;border:1px solid currentColor;white-space:nowrap}
+  .tag.on{color:#7fae86}
+  .tag.no{color:#dca87e}
+  .tag.gen{color:#c98f8f}
+  .empty,.loading{padding:40px;text-align:center;color:rgba(200,195,184,0.4);letter-spacing:2px}
+  .note{margin-top:22px;font-size:0.6rem;color:rgba(200,195,184,0.35);line-height:1.6;max-width:680px}
+  .note b{color:rgba(200,195,184,0.55)}
+</style>
+</head>
+<body>
+  <h1>Subscribers</h1>
+  <div class="sub">who is paying, what they asked us to watch, and who tried to buy</div>
+  <div class="bar">
+    <a href="/admin">&larr; admin</a> &middot;
+    <a href="/admin-social">post queue</a> &middot;
+    <button id="reload">reload</button>
+    <button id="rekey">change key</button>
+  </div>
+  <div id="stats"></div>
+  <div id="mount"><div class="loading">loading…</div></div>
+  <div class="note">
+    <b>Read only.</b> Nothing on this page activates, cancels, refunds or emails anyone. Access is
+    granted and revoked by Stripe alone, through the webhook. <b>Generic</b> marks a subscriber
+    whose domain has no per-subject filter yet, so their briefing is the domain-wide read and
+    their email says so. <b>Started checkout</b> lists people who opened a checkout, including
+    those who did not finish, which is the most useful follow-up list on the site.
+  </div>
+
+<script>
+  var KEY_STORE = 'limen_lead_admin_key';
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function money(c){ return c==null ? '—' : '$' + (c/100).toFixed(2); }
+  function day(s){ return s ? String(s).slice(0,10) : '—'; }
+
+  function getKey(force){
+    var k=''; try{ k = sessionStorage.getItem(KEY_STORE) || ''; }catch(e){}
+    if(!k || force){
+      k = (window.prompt('Paste an admin key (SALES_ADMIN_KEY, LEAD_ADMIN_KEY or ADMIN_MASTER).\nStored only in this browser tab.')||'').trim();
+      try{ if(k) sessionStorage.setItem(KEY_STORE,k); }catch(e){}
+    }
+    return k;
+  }
+
+  function statBox(k,v){ return '<div class="stat"><span class="k">'+esc(k)+'</span><span class="v">'+esc(v)+'</span></div>'; }
+
+  function render(j){
+    var s = j.stats || {};
+    document.getElementById('stats').className='stats';
+    document.getElementById('stats').innerHTML =
+      statBox('Paying now', s.active==null?'—':s.active) +
+      statBox('Monthly revenue', money(s.mrrCents)) +
+      statBox('Cancelled', s.cancelled==null?'—':s.cancelled) +
+      statBox('Started checkout', (j.intents||[]).length);
+
+    var h = '';
+    var subs = j.subscribers || [];
+    if(!subs.length){
+      h += '<div class="empty">no subscribers yet</div>';
+    } else {
+      h += '<h2>Subscribers</h2><div class="scroll"><table><thead><tr>' +
+           '<th>Email</th><th>Domain</th><th>Plan</th><th>Watching</th><th>Price</th>' +
+           '<th>State</th><th>Since</th><th>Last sent</th></tr></thead><tbody>';
+      subs.forEach(function(x){
+        h += '<tr class="'+(x.active?'':'off')+'">' +
+             '<td>'+esc(x.email)+'</td>' +
+             '<td>'+esc(x.domain||'—')+'</td>' +
+             '<td>'+esc(x.offer||x.rung||'—')+'</td>' +
+             '<td>'+esc(x.watch||'—')+(x.personal?'':' <span class="tag gen">generic</span>')+'</td>' +
+             '<td class="num">'+money(x.priceCents)+'</td>' +
+             '<td>'+(x.active?'<span class="tag on">paying</span>':'<span class="tag no">'+esc(x.endedReason||'ended')+'</span>')+'</td>' +
+             '<td>'+day(x.since)+'</td>' +
+             '<td>'+day(x.lastSentAt)+'</td>' +
+             '</tr>';
+      });
+      h += '</tbody></table></div>';
+    }
+
+    var its = j.intents || [];
+    if(its.length){
+      h += '<h2>Started checkout</h2><div class="scroll"><table><thead><tr>' +
+           '<th>When</th><th>Domain</th><th>Plan</th><th>Email</th><th>Price</th><th>Came from</th></tr></thead><tbody>';
+      its.forEach(function(x){
+        var src = x.utm && (x.utm.campaign || x.utm.source) ? ((x.utm.source||'')+(x.utm.campaign?' / '+x.utm.campaign:'')) : 'direct';
+        h += '<tr><td>'+esc(String(x.at||'').slice(0,16).replace('T',' '))+'</td>' +
+             '<td>'+esc(x.domain||'—')+'</td><td>'+esc(x.rung||'—')+'</td>' +
+             '<td>'+esc(x.email||'—')+'</td><td class="num">'+money(x.priceCents)+'</td>' +
+             '<td>'+esc(src)+(x.blocked?' <span class="tag no">blocked</span>':'')+'</td></tr>';
+      });
+      h += '</tbody></table></div>';
+    }
+    document.getElementById('mount').innerHTML = h;
+  }
+
+  function load(force){
+    var mount = document.getElementById('mount');
+    var k = getKey(force);
+    if(!k){ mount.innerHTML='<div class="empty">admin key required</div>'; return; }
+    mount.innerHTML='<div class="loading">loading…</div>';
+    fetch('/api/subscribers?key='+encodeURIComponent(k))
+      .then(function(r){ return r.json().then(function(j){ return {status:r.status,j:j}; }); })
+      .then(function(res){
+        if(res.status===401){
+          try{ sessionStorage.removeItem(KEY_STORE); }catch(e){}
+          mount.innerHTML='<div class="empty">key rejected &middot; click "change key"</div>'; return;
+        }
+        if(!res.j.ok){ mount.innerHTML='<div class="empty">'+esc(res.j.error||('error '+res.status))+'</div>'; return; }
+        render(res.j);
+      })
+      .catch(function(e){ mount.innerHTML='<div class="empty">'+esc(e.message||'request failed')+'</div>'; });
+  }
+
+  document.getElementById('reload').addEventListener('click', function(){ load(false); });
+  document.getElementById('rekey').addEventListener('click', function(){ load(true); });
+  load(false);
+</script>
+</body>
+</html>

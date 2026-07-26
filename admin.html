@@ -307,7 +307,8 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
       h+=sec('Admin Tools',[
         card('/admin-leads','Front-Page Leads','Sign-ups'),
         card('/admin-requests','Site Requests <span id="reqBadge"></span>','Change requests'),
-        card('/admin-social','Post Queue','Review what goes out on Bluesky')
+        card('/admin-social','Post Queue','Review what goes out on Bluesky'),
+        card('/admin-subscribers','Subscribers','Who is paying, and who started checkout')
       ]);
     } else {
       h+=sec('Your Domains', (p.domains||[]).map(function(d){
