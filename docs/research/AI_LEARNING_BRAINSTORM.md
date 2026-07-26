@@ -851,10 +851,13 @@ Having something meaningful to score them against is the actual work.
 (AI Metrics Explained Fast)"
 **Captured:** 2026-07-25
 
-**HONESTY ON SOURCING.** YouTube's player metadata is JavaScript-rendered and no caption source was
-reachable, so the channel, publish date, duration, and the video's own content could NOT be
-extracted. **This entry is not a scrape of that video.** The formulas and limitations below come
-from two independent written sources, fetched and cross-checked against each other:
+**SOURCING [CORRECTED 2026-07-26].** An earlier version of this header said the channel, date and
+duration "could NOT be extracted". **That was false** — the YouTube Data API returns them and the
+key was in the repo the whole time (see Entry 011 §5). Actual metadata:
+**"Perplexity, Entropy & Cross-Entropy in 6 Minutes" — Ai Feed Hub, 2025-10-28, 7m07s.**
+The video's CONTENT is still not retrievable (`captions.download` is owner-OAuth only), so **this
+entry is not a scrape of that video.** The formulas below come from two independent written sources,
+cross-checked against each other:
 - https://www.topbots.com/perplexity-and-entropy-in-nlp/
 - https://www.comet.com/site/blog/perplexity-for-llm-evaluation/
 
@@ -972,9 +975,10 @@ phase count instead of a unitless score. Cost is unchanged. Interpretability gai
 **Title (read off the page shell):** "What is Entropy? and its relation to Compression"
 **Captured:** 2026-07-25
 
-**SOURCING LIMITS, same as Entry 005.** Channel, date, duration and the video's own content could
-NOT be extracted (JS-rendered metadata, no reachable captions, video ID not indexed by search).
-**This is not a scrape of that video.** The material below is from:
+**SOURCING [CORRECTED 2026-07-26].** The earlier "not extractable" claim was false; see Entry 011 §5.
+Actual metadata: **"What is Entropy? and its relation to Compression" — Iain Explains Signals,
+Systems, and Digital Comms, 2020-11-18, 13m54s.** Content is still not retrievable, so **this is not
+a scrape of that video.** The material below is from:
 - https://en.wikipedia.org/wiki/Shannon%27s_source_coding_theorem
 - https://en.wikipedia.org/wiki/Entropy_coding
 - https://gwlucastrig.github.io/GridfourDocs/notes/EntropyMetricForDataCompression.html
@@ -1094,8 +1098,9 @@ degenerate, items 1 through 4 are all premature and the real work is upstream in
 **Title (read off the page shell):** "Why Every AI Model is Obsessed with Cross-Entropy"
 **Captured:** 2026-07-25
 
-**SOURCING LIMITS.** Third video in a row where channel, date, duration and content could not be
-extracted (JS-rendered metadata, no reachable captions). **Not a scrape.** Material from:
+**SOURCING [CORRECTED 2026-07-26].** The earlier "not extractable" claim was false; see Entry 011 §5.
+Actual metadata: **"Why Every AI Model is Obsessed with Cross-Entropy" — Neural Nexus, 2026-06-18,
+7m25s.** Content still not retrievable, so **not a scrape.** Material from:
 - https://susanqq.github.io/tmp_post/2017-09-05-crossentropyvsmes/
 - https://medium.com/@gosavipranav123/cross-entropy-vs-mse-understanding-loss-functions-in-classification-a07163cfc46a
 
@@ -1420,8 +1425,9 @@ That video IS sentdex, so the link and the request to "complete sentdex videos" 
 - Scope: code a neuron, stack layers, activation functions, loss, backpropagation, optimizers, in
   Python and NumPy with no ML libraries
 
-Same sourcing wall as Entries 005 to 007: channel, date and duration are JS-rendered and were not
-extractable. Series scope above is from the book/site listings, not from watching.
+**[CORRECTED 2026-07-26]** the earlier "not extractable" note was false; see Entry 011 §5. Actual
+metadata: **"Neural Networks from Scratch - P.1 Intro and Neuron Code" — sentdex, 2020-04-11,
+16m59s.** Series scope above is from the book/site listings, not from watching.
 
 ### 2. Assessment: what transfers to LIMEN and what does not [mark: IDEA]
 
@@ -1579,9 +1585,10 @@ Do not report what it lacks.
 **Title (read off the page shell):** "Long Short-Term Memory (LSTM), Clearly Explained" (StatQuest)
 **Captured:** 2026-07-25
 
-**SOURCING.** Same JS wall as Entries 005-007 and 009: channel, date, duration and content not
-extractable, and the web-search backend returned 529 on three attempts. **Not a scrape of the
-video.** Equations below are from https://en.wikipedia.org/wiki/Long_short-term_memory.
+**SOURCING [CORRECTED 2026-07-26].** The earlier "not extractable" claim was false; see Entry 011 §5.
+Actual metadata: **"Long Short-Term Memory (LSTM), Clearly Explained" — StatQuest with Josh Starmer,
+2022-11-07, 20m45s.** Content still not retrievable, so **not a scrape of the video.** Equations
+below are from https://en.wikipedia.org/wiki/Long_short-term_memory.
 
 ---
 
@@ -1861,6 +1868,46 @@ predictive coding, free energy), Ben Lambert (econometrics), Mutual Information.
   (Holló/Kremer/Lo Duca, Illing & Liu, Gabaix, Kritzman). There is no video.
 - Whether a cross-domain phase attractor exists. That is the unclaimed result. If it were on
   YouTube it would not be unclaimed.
+
+### 5. PROCESS LESSON: before recording a limitation, grep the repo for the capability
+
+**Four failures, all in this session, all inside this document.**
+
+**(a) A limitation was recorded five times without checking for the capability.** Entries 005, 006,
+007, 009 and 010 each stated the video's channel, date and duration were "not extractable" because
+YouTube's page metadata is JS-rendered. **The repo being audited already contained the fix:**
+
+    lib/youtube.js:19-20                 process.env.YOUTUBE_API_KEY, googleapis.com/youtube/v3
+    handlers/youtube-signal.js           key-gated live endpoint
+    lib/stream-ops.js:26                 youtube: ['YOUTUBE_API_KEY']
+    assets/data/capital-engine.json:43   connector registered
+    API_KEY_COMPANIES.md:41              documents the Data API v3 key
+
+One grep would have found it. **"WebFetch did not return it" is a fact about one tool.
+"Not extractable" is a claim about the world, and it was false.** The five headers are corrected.
+Metadata came back for all 7 IDs on the first call. Scope of the fix: the API returns title,
+channel, date, duration and counts; it does NOT return transcripts (`captions.download` requires
+OAuth as the video OWNER), so "not a scrape of the video" stays accurate everywhere.
+
+**RULE: before writing a limitation into a deliverable, grep the working repo for the capability.**
+
+**(b) The Desktop copy is not a backup.** It was deleted in the same event that emptied the working
+tree. **Only the pushed branch held.** That argues for pushing after every entry rather than
+batching, which is the opposite of the deploy-batching rule and is a real distinction: batching
+protects build minutes, pushing protects work.
+
+**(c) Check `git branch --show-current` before concluding a file is gone.** The document vanished
+from disk and two diagnostic rounds went into treating it as a deletion. Cause: another window had
+checked out `agent/gazette-endpoint`, a branch that never contained the file. Nothing was lost.
+A branch switch and a deletion look identical from the working tree; they are not remotely the same.
+
+**(d) Assumed shared provenance without checking.** Three short entropy videos were treated as one
+creator's series. They are three unrelated channels, and two have double-digit and triple-digit view
+counts. This changed no mathematics — the substance came from written sources — but the assumption
+was never tested and one API call would have tested it.
+
+**All four are the same error as Entry 009 §5, which was written in this session and then violated
+in this session: an ABSENCE reported from a PARTIAL ATTEMPT.**
 
 ---
 
