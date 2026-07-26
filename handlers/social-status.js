@@ -15,6 +15,7 @@
  */
 var T = require('../lib/tool-fetch');
 var social = require('../lib/social-post');
+var db = require('../lib/limen-db');
 
 // name -> what it unlocks. Presence only; values are never read into the response.
 var EXPECTED = [
@@ -78,6 +79,31 @@ module.exports = async function handler(req, res) {
         try { var k = require('../lib/ai-kill-switch'); return !!(await k.spendDisabled()); } catch (e) { return null; }
       })()
     };
+
+    // A post published at 14:00:33 while the rate ledger stayed at 0 and the post log stayed
+    // empty. Both are written with db.set, which returns true even for the in-memory fallback,
+    // so a non-persisting write looks identical to a successful one. That silently disables the
+    // daily cap AND loses the AT URI needed to delete a post. Round-trip a scratch key to find
+    // out which it is instead of guessing.
+    if (q.dbcheck === '1') {
+      var probeKey = 'social:probe:v1';
+      var stamp = new Date().toISOString();
+      var wrote = null, readBack = null, err = null;
+      try {
+        wrote = await db.set(probeKey, { stamp: stamp });
+        var got = await db.get(probeKey);
+        readBack = got && got.stamp ? got.stamp : null;
+      } catch (e) { err = e.message; }
+      out.dbCheck = {
+        backend: (typeof db.getBackend === 'function') ? db.getBackend() : null,
+        setReturned: wrote,
+        persisted: readBack === stamp,
+        readBack: readBack,
+        error: err,
+        rateKeyNow: await (async function () { try { return await db.get('social:rate:v1'); } catch (e) { return 'unreadable'; } })(),
+        postLogLength: await (async function () { try { var l = await db.get('social:posted:v1'); return Array.isArray(l) ? l.length : (l === null ? 'null' : typeof l); } catch (e) { return 'unreadable'; } })()
+      };
+    }
 
     var rate = await social.rateStatus('bluesky');
     if (rate.ok) out.blueskyRate = { usedToday: rate.used, capPerDay: rate.cap, remaining: rate.remaining };
