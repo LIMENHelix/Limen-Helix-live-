@@ -1,32 +1,49 @@
 /**
- * api/hero-image.js — generate a domain hero image with xAI, so the 400px thumbnails can go.
+ * api/hero-image.js — generate domain hero images with xAI, triggered by cron, not by a key.
  *
- *   GET /api/hero-image?key=...&domain=industry            → JSON: the prompt used + image URL
- *   GET /api/hero-image?key=...&domain=industry&raw=1      → the JPEG bytes themselves, so it
- *                                                            can be saved straight to disk
- *   GET /api/hero-image?key=...&domain=industry&prompt=... → override the prompt to iterate
+ *   (Vercel scheduler)                    → generates ONE missing image per run, then stops
+ *   GET /api/hero-image?list=1            → PUBLIC. what has been generated so far
+ *   GET /api/hero-image?key=...&domain=x  → manual override, still available
+ *   GET /api/hero-image?key=...&domain=x&raw=1 → the JPEG bytes
  *
- * WHY SERVER-SIDE. XAI_API_KEY only exists in the Vercel environment and Vercel will not read a
- * secret back out, so the call has to happen where the key lives.
+ * WHY THE SPLIT. Generating costs money; retrieving does not, and these images are destined to
+ * be public static files in assets/img/ anyway. So GENERATION is gated to Vercel's own
+ * scheduler (or an admin key) and RETRIEVAL is public. That means no key has to be handled by a
+ * person to get the results out.
  *
- * WHAT THIS IS AND IS NOT. These are DECORATIVE hero backdrops. Nothing here produces data, a
- * figure, or anything a reader could mistake for evidence. That distinction matters on a site
- * whose whole claim is that its numbers are checkable: an illustrated header is fine, an
- * illustrated statistic would not be. The prompts below are deliberately abstract and generic
- * for that reason, and none of them depicts a real place, event or person.
+ * SELF-TERMINATING BY DESIGN. Each cron run generates at most one image, and only for a domain
+ * with no stored result. Once every domain has one, the cron finds nothing to do and spends
+ * nothing. It cannot loop.
  *
- * METERED SPEND. Image generation is billed per image. This does one image per request, is
- * key-gated, and refuses when the key is absent, so it cannot loop or run unattended.
+ * HARD SPEND CAP. A counter in Redis caps total generations ever at HERO_IMAGE_CAP (default
+ * 40, against 20 domains). If the counter cannot be read, generation REFUSES. A runaway image
+ * loop is the one failure mode here that costs real money, so it fails closed.
+ *
+ * Only the xAI URL is stored, not the bytes. Upstash bills bandwidth and these are ~300KB
+ * each; a URL is a few hundred bytes. The images are fetched from those URLs once and committed
+ * as static files, after which this endpoint is scaffolding.
+ *
+ * WHAT THIS IS NOT. Decorative backdrops. Nothing here produces a figure or anything a reader
+ * could mistake for evidence, which matters on a site whose claim is that its numbers are
+ * checkable. Prompts are abstract and none depicts a real place, event or person.
  */
 var T = require('../lib/tool-fetch');
+var db = require('../lib/limen-db');
 
 var ENDPOINT = 'https://api.x.ai/v1/images/generations';
 var MODEL = process.env.XAI_IMAGE_MODEL || 'grok-imagine-image-quality';
+var STORE_KEY = 'hero:img:v1';
+var COUNT_KEY = 'hero:img:count:v1';
 var KEY_VARS = ['SOCIAL_CRON_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY'];
 
+function cap() {
+  var n = parseInt(process.env.HERO_IMAGE_CAP, 10);
+  return isFinite(n) && n >= 0 ? n : 40;
+}
+
 // Deliberately abstract. A hero sits behind white headline text, so these ask for dark,
-// low-contrast, wide compositions with the subject centred: the hero box is landscape on
-// desktop and PORTRAIT on a phone, and `cover` crops hard to the middle.
+// low-contrast, wide compositions with the subject CENTRED: the hero box is landscape on
+// desktop and PORTRAIT on a phone, where cover crops hard to the middle and discards the sides.
 var SUBJECT = {
   agriculture:  'vast farmland under low dramatic light, irrigation lines receding to the horizon',
   communication: 'communication towers and dish arrays silhouetted against a dark dusk sky',
@@ -55,110 +72,139 @@ var STYLE = 'Cinematic wide landscape photograph, 16:9, muted desaturated palett
             'no text, no words, no lettering, no watermark, no people in the foreground, ' +
             'no logos, photographic realism, shallow contrast.';
 
-function authorized(req) {
+function cronHit(req) {
+  var h = req.headers || {};
+  // Same pattern as handlers/autopilot.js and handlers/social-cron.js. Vercel sends
+  // x-vercel-signature on this project, NOT x-vercel-cron, which is why both are accepted.
+  if (process.env.CRON_SECRET) return h['authorization'] === 'Bearer ' + process.env.CRON_SECRET;
+  return !!(h['x-vercel-cron'] || h['x-vercel-signature']);
+}
+
+function keyed(req) {
   var q = req.query || {};
   var supplied = q.key ? String(q.key) : '';
   var configured = KEY_VARS.map(function (n) { return process.env[n] ? String(process.env[n]).trim() : ''; }).filter(Boolean);
-  if (!configured.length) return false;
-  return !!(supplied && configured.indexOf(supplied) !== -1);
+  return !!(configured.length && supplied && configured.indexOf(supplied) !== -1);
+}
+
+async function loadStore() {
+  var s = await db.get(STORE_KEY);
+  return (s && typeof s === 'object') ? s : {};
+}
+
+async function generate(domain, promptOverride) {
+  var key = process.env.XAI_API_KEY || process.env.GROK_API_KEY;
+  if (!key) return { ok: false, error: 'XAI_API_KEY is not set on this deployment.' };
+
+  var prompt = promptOverride ? String(promptOverride).slice(0, 900) : (SUBJECT[domain] + '. ' + STYLE);
+  var body = { model: MODEL, prompt: prompt, n: 1, aspect_ratio: '16:9' };
+
+  async function call(b) {
+    var r = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+      body: JSON.stringify(b)
+    });
+    var j = await r.json().catch(function () { return null; });
+    return { ok: r.ok, status: r.status, j: j };
+  }
+
+  var res = await call(body);
+  // aspect_ratio is not a pinned parameter name in the docs; retry once without it rather than
+  // failing the whole request on an unknown field.
+  if (!res.ok) { delete body.aspect_ratio; res = await call(body); }
+  if (!res.ok || !res.j) {
+    return { ok: false, error: 'xAI returned ' + res.status, detail: res.j && (res.j.error && res.j.error.message || JSON.stringify(res.j).slice(0, 240)) };
+  }
+
+  var item = (res.j.data && res.j.data[0]) || res.j;
+  var url = item.url || item.image_url || null;
+  var b64 = item.b64_json || item.base64 || null;
+  if (!url && !b64) return { ok: false, error: 'xAI response carried no image' };
+
+  return { ok: true, url: url, hasBase64: !!b64, b64: b64, prompt: prompt, revised: item.revised_prompt || null };
 }
 
 module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
-    if (!authorized(req)) {
-      return T.send(res, { ok: false, error: 'Not authorized. Pass ?key= with an admin key.' }, 401);
-    }
-
-    var key = process.env.XAI_API_KEY || process.env.GROK_API_KEY;
-    if (!key) {
-      return T.send(res, { ok: false, error: 'XAI_API_KEY is not set on this deployment.' }, 503);
-    }
-
-    var domain = String(q.domain || '').toLowerCase().trim();
-    if (!q.prompt && !SUBJECT[domain]) {
+    // ── PUBLIC: what has been generated. No key, no cost, nothing sensitive. ──
+    if (q.list === '1') {
+      var store = await loadStore();
+      var done = Object.keys(store);
+      var count = 0;
+      try { count = parseInt(await db.get(COUNT_KEY), 10) || 0; } catch (e) {}
       return T.send(res, {
-        ok: false,
-        error: 'Unknown domain. Pass one of these, or supply &prompt= to override.',
-        domains: Object.keys(SUBJECT)
-      }, 400);
+        ok: true,
+        generated: done.length,
+        ofDomains: Object.keys(SUBJECT).length,
+        spentImages: count,
+        capImages: cap(),
+        pending: Object.keys(SUBJECT).filter(function (d) { return !store[d]; }),
+        images: store,
+        note: 'URLs come from xAI and may expire. Fetch and commit them to assets/img/<domain>.jpg.'
+      });
     }
 
-    var prompt = q.prompt ? String(q.prompt).slice(0, 900) : (SUBJECT[domain] + '. ' + STYLE);
+    var isCron = cronHit(req);
+    var isKeyed = keyed(req);
+    if (!isCron && !isKeyed) {
+      return T.send(res, { ok: false, error: 'Generation is restricted. Add ?list=1 to read results without a key.' }, 401);
+    }
 
-    var body = {
-      model: MODEL,
-      prompt: prompt,
-      n: 1
-    };
-    // The docs describe aspect ratio and resolution options without pinning the parameter
-    // names, so these are sent best-effort: if the API ignores or rejects an unknown field we
-    // still want the image rather than a hard failure.
-    if (q.aspect !== '0') body.aspect_ratio = q.aspect || '16:9';
+    // ── SPEND CAP. Fails CLOSED: an unreadable counter refuses to generate. ──
+    var used;
+    try { used = parseInt(await db.get(COUNT_KEY), 10) || 0; }
+    catch (e) { return T.send(res, { ok: false, error: 'Spend counter unreachable; refusing to generate.' }, 503); }
+    if (used >= cap()) {
+      return T.send(res, { ok: false, error: 'Image cap reached: ' + used + ' of ' + cap() + '. Raise HERO_IMAGE_CAP to continue.', spentImages: used }, 429);
+    }
 
-    var r = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    var j = await r.json().catch(function () { return null; });
+    var store2 = await loadStore();
 
-    if (!r.ok || !j) {
-      // retry once without the unpinned aspect field before giving up
-      if (body.aspect_ratio) {
-        delete body.aspect_ratio;
-        r = await fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        });
-        j = await r.json().catch(function () { return null; });
-      }
-      if (!r.ok || !j) {
-        return T.send(res, {
-          ok: false,
-          error: 'xAI returned ' + r.status,
-          detail: j && (j.error && j.error.message || JSON.stringify(j).slice(0, 300)),
-          model: MODEL
-        }, 502);
+    // A cron run picks the FIRST domain with no stored image and stops when there are none.
+    var domain = String(q.domain || '').toLowerCase().trim();
+    if (isCron && !domain) {
+      domain = Object.keys(SUBJECT).filter(function (d) { return !store2[d]; })[0] || '';
+      if (!domain) {
+        return T.send(res, { ok: true, done: true, generated: Object.keys(store2).length, note: 'Every domain already has an image. Nothing generated, nothing spent.' });
       }
     }
-
-    var item = (j.data && j.data[0]) || j;
-    var url = item.url || item.image_url || null;
-    var b64 = item.b64_json || item.base64 || null;
-
-    if (!url && !b64) {
-      return T.send(res, { ok: false, error: 'xAI response carried no image', raw: JSON.stringify(j).slice(0, 400) }, 502);
+    if (!q.prompt && !SUBJECT[domain]) {
+      return T.send(res, { ok: false, error: 'Unknown domain.', domains: Object.keys(SUBJECT) }, 400);
+    }
+    // Never silently regenerate and re-charge for something already done.
+    if (isCron && store2[domain]) {
+      return T.send(res, { ok: true, skipped: domain, note: 'Already generated; not regenerating.' });
     }
 
-    // raw=1 streams the bytes so the file can be saved straight to assets/img/<domain>.jpg
-    if (q.raw === '1') {
+    var g = await generate(domain, q.prompt);
+    if (!g.ok) return T.send(res, { ok: false, domain: domain, error: g.error, detail: g.detail }, 502);
+
+    try { await db.set(COUNT_KEY, used + 1); } catch (e) {}
+    store2[domain] = { url: g.url, prompt: g.prompt, revised: g.revised, at: new Date().toISOString(), model: MODEL };
+    try { await db.set(STORE_KEY, store2); } catch (e) {}
+
+    if (q.raw === '1' && (g.b64 || g.url)) {
       var buf;
-      if (b64) {
-        buf = Buffer.from(b64, 'base64');
-      } else {
-        var img = await fetch(url);
+      if (g.b64) buf = Buffer.from(g.b64, 'base64');
+      else {
+        var img = await fetch(g.url);
         if (!img.ok) return T.send(res, { ok: false, error: 'could not fetch the generated image (' + img.status + ')' }, 502);
         buf = Buffer.from(await img.arrayBuffer());
       }
       res.statusCode = 200;
       res.setHeader('Content-Type', 'image/jpeg');
       res.setHeader('Content-Length', buf.length);
-      res.setHeader('Content-Disposition', 'inline; filename="' + (domain || 'hero') + '.jpg"');
       res.setHeader('Cache-Control', 'no-store');
       return res.end(buf);
     }
 
     return T.send(res, {
-      ok: true,
-      domain: domain || null,
-      model: MODEL,
-      prompt: prompt,
-      url: url,
-      hasBase64: !!b64,
-      revisedPrompt: item.revised_prompt || null,
-      note: 'Add &raw=1 to the same URL to download the JPEG itself. Decorative only: nothing here is data.'
+      ok: true, domain: domain, model: MODEL, url: g.url, prompt: g.prompt,
+      spentImages: used + 1, capImages: cap(),
+      remaining: Object.keys(SUBJECT).filter(function (d) { return !store2[d]; }),
+      note: 'Decorative only: nothing here is data. Read all results with ?list=1, no key needed.'
     });
   } catch (e) {
     return T.send(res, { ok: false, error: e.message || 'handler error' }, 500);
