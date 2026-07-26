@@ -1,241 +1,159 @@
-# VIDEO ENGINE LINE — agent-to-agent production on the P0-P10 arc
+# VIDEO ENGINE — driving a video P0 to P10 (idea to viral)
 
 **Status:** design artifact. Not run. `[mark: IDEA]`
 **Firewalled:** `docs/research/`, `.vercelignore` line 108.
-**Created:** 2026-07-26
+**Created:** 2026-07-26. **Rewritten same day** — v1 was an assembly line, which is the wrong shape.
 
 ---
 
-## §1 The mapping
+## §0 What changed from v1, and why it matters
 
-P0-P10 is a developmental arc. A video is a thing that comes into being, and the arc says HOW.
-Each stage is one agent, one duty, one artifact. The artifact is the only interface.
+**v1 treated P0-P10 as production STEPS** — S2 is scripting, S4 is editing, S6 is locking. A
+conveyor. Every video walks the same path at the same speed and comes out the end.
 
-| # | Phase | Register | The stage's real question | Artifact out |
+**That is wrong. P0-P10 is the state of the VIDEO, not the stage of the work.**
+
+A video is *in* a phase. It has a condition. The system's job is to diagnose which phase it is in
+and apply the intervention that unblocks the transition to the next one. Two videos in the same
+week can be in P2 and P6. A video can sit in P4 for a month.
+
+**Distress is a stuck transition.** A video stuck at P4 (competent, not spreading) needs a
+completely different intervention than one stuck at P2 (no form yet). A conveyor cannot tell those
+apart because it only knows what step it is on. A state machine can.
+
+This makes the video engine the SAME ARCHITECTURE as LIMEN itself: diagnose phase from observables,
+detect stuck, intervene, re-measure.
+
+---
+
+## §1 THE CEILING — read this before building anything
+
+**P0 → P6 is craft. Controllable.** You can reliably take a video from nothing to genuinely
+well-made. Every transition in that range responds to work.
+
+**P7 → P10 is not controllable.** Divergence, threshold and virality are algorithm, timing,
+audience mood, and luck. **No system makes a video go viral.** Anything claiming a reliable
+idea-to-viral path is selling something.
+
+What a real system CAN do, in descending order of honesty:
+
+1. **Guarantee P0→P6.** Craft is learnable and repeatable. This is most of the value.
+2. **Raise P(P7 divergence).** Packaging, timing, distribution, and format-fit shift the odds.
+   They do not decide the outcome.
+3. **DETECT A BREAKOUT EARLY AND FEED IT.** ← the largest recoverable value, and the most missed.
+   The first 2-24 hours of a P7 divergence are when intervention still compounds. Most creators
+   publish and move on.
+4. **Kill fast at P7a.** Sunk cost is the main enemy after publish.
+
+**Expected distribution, stated as a prior `[mark: prior]`:** of 100 ideas that enter at P0,
+roughly 25-40 reach P6 (well-made and published), 3-8 achieve P7 divergence, and 1 or fewer reaches
+P10. **A system that claims better than that is measuring something other than virality.**
+
+---
+
+## §2 The phase table — video state, signature, blocker, intervention
+
+| Phase | The video's condition | Observable signature | What blocks the exit | Intervention |
 |---|---|---|---|---|
-| **S0** | P0 | Source | Who is this channel and what is its format? | `CHANNEL_PROFILE` |
-| **S1** | P1 | Rupture | What claim breaks through the feed? | `HOOK_SET` (20-40) |
-| **S2** | P2 | Rhythm | What is the beat structure that holds attention? | `SCRIPT` + `BEAT_MAP` |
-| **S3** | P3 | Instability | Rough assets. It does NOT work yet. | `RAW_ASSETS` |
-| **S4** | P4 | Stabilisation | Cut it until variance drops. | `ROUGH_CUT` |
-| **S5** | P5 | Endurance | Where do viewers leave? | `RETENTION_AUDIT` |
-| **S6** | P6 | Order | Lock the structure. | `FINAL_CUT` |
-| **S7** | P7 | Divergence | Packaging: does it travel or die? | `PACKAGE_SET` |
-| **S7a** | P7a | Terminal | Kill it. Do not publish. | `POST_MORTEM` |
-| **S7b** | P7b | Separation | Repackage / reposition instead. | `REPACKAGE` |
-| **S8** | P8 | Pivot | Metadata + placement. | `PUBLISH_KIT` |
-| **S9** | P9 | Threshold | **HUMAN.** Publish or hold. | `DECISION` |
-| **S10** | P10 | Resurrection | Measure, re-baseline, seed the next. | `BASELINE_DELTA` |
-
-**The loop closes.** S10 writes back into S0's `CHANNEL_PROFILE`. Each cycle the channel knows
-more about itself than the last. That is what makes the line developmental rather than a conveyor.
+| **P0** Source | Void. Raw material only. | nothing exists | no rupture yet | mine the source: comments, search gaps, own back-catalogue, adjacent-domain transfer |
+| **P1** Rupture | An idea has broken in. | one sentence that stops a scroll | it does not actually disrupt anything | force the contradiction: what does the audience believe that this breaks |
+| **P2** Rhythm | The idea has found form. | beat structure, a reason-to-stay every 15-20s | shapeless; no cadence | impose the channel's own format fingerprint, not a generic one |
+| **P3** Instability | Made, but not working. | assembled, high variance, beats misfire | patching symptoms instead of naming the mode | characterise the failure mode FIRST; do not fix until named |
+| **P4** Stabilisation | It works. Competent. | clean, coherent, holds together | competent is not compelling | raise the stakes or cut length; competence without tension dies here |
+| **P5** Endurance | Holds attention under load. | retention curve survives the drop points | first 15s not earning the rest | rebuild the opening only; the rest is fine |
+| **P6** Order | Fully formed. Well-made. | locked, on-format, publishable | **NOTHING. This is the honest terminus of craft.** | publish. Everything past here is probability. |
+| **P7** Divergence | Published. Breaking one way or the other. | CTR and early retention diverge from channel median | packaging promises what the video does not deliver | repackage within hours; title/thumb are the only live levers |
+| **P7a** Terminal | Not travelling. | flat vs channel baseline at 48h | sunk cost | **kill. record why. do not rescue.** |
+| **P7b** Separation | Found a smaller, different audience. | engagement high, reach low | wrong frame, right content | re-cut for that audience; short-form, series entry, different promise |
+| **P8** Pivot | Someone else's pattern picked it up. | traffic source shifts to suggested/external | invisible to the creator | watch traffic sources, not view count |
+| **P9** Threshold | Tipping. Algorithm deciding. | velocity accelerating, not decaying | **not controllable** | feed it: shorts cut from it, community post, reply to every comment, sequel queued |
+| **P10** Resurrection | Viral. Own life. New baseline. | sustained multiple of channel median | complacency | **treat as the new P0.** Mine it for the next idea. |
 
 ---
 
-## §2 The three principles the line is built on
+## §3 Stuck detection — the actual product
 
-**1. Overproduce, then prune under load.** S1 emits 20-40 hooks, not one. S7 emits 6-10 packages,
-not one. You cannot know which hook works by arguing about hooks. Most die, and the deaths are the
-product. Survival target: **1 published video per 25-40 hooks.**
+Distress is not a phase. **It is failure to leave one.**
 
-**2. Ground in artifacts, never descriptions.** Any stage reasoning about style must consume real
-frames, real titles, real numbers — not a description of them. A stage that cannot cite a real
-artifact HALTS.
+    stuck(video, phase) = time_in_phase / median_time_in_that_phase_for_this_channel
 
-**3. The artifact is the only interface.** A stage reads the previous artifact and nothing else. If
-something is missing it HALTS and names the gap. It does not go fetch, and it does not re-read the
-original brief. This is what stops S4 from quietly re-scoping toward what S2 already decided.
+Flag `stuck > 2`. The phase where a creator's videos pile up names their real bottleneck:
 
----
+- **Stuck at P1** — ideas never rupture. Making content nobody was asking about.
+- **Stuck at P2** — ideas exist, form never arrives. No repeatable structure. Most common early failure.
+- **Stuck at P3** — endless tinkering. Fixing symptoms because the failure mode was never named.
+- **Stuck at P4** — **the most common professional plateau.** Everything is competent. Nothing is
+  compelling. Craft is sufficient and stakes are absent.
+- **Stuck at P6** — finished videos not shipping. Perfectionism as avoidance.
+- **Stuck at P7** — publishing into silence repeatedly. Usually packaging, not content.
 
-## §3 Stage briefs
-
-`<<PRIOR>>` = previous artifact, pasted whole.
-
-### S0 — SOURCE. Channel profile.
-
-    ROLE: Channel analyst. You describe what IS, never what should be.
-    INPUT: channel handle + 3-5 real frames from inside actual videos (not thumbnails) +
-           the last 50 video titles with view counts and durations.
-    DUTY:
-      1. Niche, audience, and the promise the channel makes.
-      2. FORMAT FINGERPRINT: median duration, upload cadence, title grammar, opening structure.
-      3. What the channel does NOT do. Absences define a format as much as presences.
-      4. Current arc position (see §5) with the evidence for it.
-    HALT IF: fewer than 3 real in-video frames supplied. Thumbnails are not frames.
-    OUT: CHANNEL_PROFILE { niche, audience, promise, format_fingerprint, absences, arc_position }
-
-### S1 — RUPTURE. Hooks.
-
-    ROLE: Generator. Not a critic. Criticism is S7's job and someone else does it.
-    INPUT: <<S0>>
-    DUTY:
-      1. Emit 20-40 hooks. Each is ONE sentence a viewer would stop scrolling for.
-      2. Vary the RUPTURE TYPE and label each: CONTRADICTION (received wisdom is wrong),
-         REVELATION (hidden mechanism), STAKES (cost of not knowing), IDENTITY (this is about you),
-         NUMBER (a specific surprising quantity), DEMONSTRATION (I did the thing).
-      3. Include hooks you expect to fail. The failure distribution is data.
-      4. Do NOT rank, filter, justify, or estimate effort.
-    FORBIDDEN: evaluating merit, saying anything is "strong" or "weak".
-    OUT: HOOK_SET [ { id, hook, rupture_type } ]
-
-### S2 — RHYTHM. Script and beat map.
-
-    ROLE: Structurer. Attention is a cadence problem before it is a content problem.
-    INPUT: <<S1>> (operator picks 1-3 hooks) + <<S0>> format fingerprint
-    DUTY:
-      1. Script to the channel's OWN median duration, not to a generic ideal.
-      2. BEAT_MAP: every 15-20s, name the beat and the reason a viewer stays through it.
-      3. Mark the three highest-risk drop points explicitly.
-      4. Open on the rupture. The hook is not a preamble to the video, it IS the first beat.
-    HALT IF: any 30s stretch has no named reason-to-stay.
-    OUT: SCRIPT + BEAT_MAP [ { t_start, beat, reason_to_stay, drop_risk } ]
-
-### S3 — INSTABILITY. Raw assets. Expect failure.
-
-    ROLE: Prototyper. Build the crudest version that RUNS end to end.
-    INPUT: <<S2>>
-    DUTY:
-      1. Generate every asset: scene images/clips, VO, music bed, at throwaway quality.
-      2. Assemble in sequence. It will be ugly. Ship it to S4 ugly.
-      3. Record what BROKE: inconsistent character, wrong pacing, VO mismatch, dead beat.
-      4. **Do NOT fix anything.** Patching here hides the failure mode from S4.
-    RULE: this pass is disposable. Optimising it is the most common way this line fails.
-    OUT: RAW_ASSETS + FAILURE_LOG [ { beat, what_broke, class } ]
-
-### S4 — STABILISATION. Cut until variance drops.
-
-    ROLE: Editor. You may now fix, and ONLY what S3's failure log named.
-    INPUT: <<S3>>
-    DUTY:
-      1. Address each logged failure. Nothing else.
-      2. Enforce continuity: character, palette, VO level, pacing.
-      3. State what is now stable and what still is not.
-      4. If a failure survives two passes, route the beat to S7a — cut it, do not rescue it.
-    OUT: ROUGH_CUT + STABILITY_REPORT
-
-### S5 — ENDURANCE. Retention stress.
-
-    ROLE: Adversarial viewer. Assume a hostile, distracted audience.
-    INPUT: <<S4>> + <<S2>> BEAT_MAP
-    DUTY:
-      1. Walk the cut against the beat map. At every marked drop point, state whether the
-         reason-to-stay actually lands ON SCREEN, not in intention.
-      2. Name every SILENT failure: a beat that is boring but not obviously broken. These are the
-         dangerous class because nothing flags them.
-      3. First 15 seconds get their own line-by-line pass. That is where the video lives or dies.
-      4. Every silent failure needs a fix or the beat is cut.
-    OUT: RETENTION_AUDIT [ { t, verdict, silent_failure?, fix_or_cut } ]
-
-### S6 — ORDER. Lock.
-
-    ROLE: Finisher.
-    INPUT: <<S5>>
-    DUTY: apply S5's cuts, final audio balance, captions, chapters. Lock the structure.
-          State the final duration against the channel's median from S0. Deviation needs a reason.
-    OUT: FINAL_CUT + duration_vs_format_median
-
-### S7 — DIVERGENCE. Packaging. The real breakpoint.
-
-    ROLE: Packager. This stage decides whether the work travels. Overproduce here.
-    INPUT: <<S6>> + <<S0>>
-    DUTY:
-      1. Emit 8-12 TITLE candidates and 6-10 THUMBNAIL concepts. Independently, not paired.
-      2. Each must be grounded in the channel's OWN title grammar from S0, not generic best practice.
-      3. For each, name what a viewer believes BEFORE clicking and what they get after. A gap
-         between those two is a retention bomb — flag it.
-      4. Route: strong package ⇒ S8. No package survives its own gap check ⇒ S7b. Video cannot be
-         packaged honestly at all ⇒ S7a.
-    OUT: PACKAGE_SET [ { title|thumb, promise_before, delivery_after, gap_flag } ] + ROUTE
-
-### S7a — TERMINAL. Kill.
-
-    ROLE: Coroner. **The most valuable stage in the line.**
-    DUTY:
-      1. What was expected, what happened, which stage it truly died at.
-      2. One sentence so nobody remakes this.
-      3. What transfers to other videos.
-    RULE: a well-recorded kill is a success. Most hooks end here by design.
-    OUT: POST_MORTEM { expected, observed, died_at, do_not_remake_because, transferable }
-
-### S7b — SEPARATION. Repackage.
-
-    ROLE: Repositioner. The video is fine; the frame is wrong.
-    DUTY: re-angle for a different audience or format (short-form cut, series entry, different
-          promise). State how the surviving form DIFFERS from the original intent. It always does.
-    OUT: REPACKAGE + drifted_from_original
-
-### S8 — PIVOT. Publish kit.
-
-    ROLE: Metadata builder.
-    INPUT: <<S7>>
-    DUTY: description with real timestamps, tags from the channel's own vocabulary, pinned comment,
-          end screen, placement (series? playlist? standalone?), publish window vs channel cadence.
-    OUT: PUBLISH_KIT (all fields in copyable blocks)
-
-### S9 — THRESHOLD. HUMAN. No agent occupies this stage.
-
-    PRESENTED: the cut, the chosen package, the promise/delivery gap check, the publish kit,
-               and explicitly: WHAT GOES PUBLIC AND UNDER WHOSE NAME.
-    DECISION: publish | hold | kill-to-S7a
-    RULE: publishing is outward-facing. No agent publishes, schedules, infers approval, or reads
-          silence as consent. This is a hard gate, not a checkpoint.
-
-### S10 — RESURRECTION. Measure and re-baseline.
-
-    ROLE: Instrument. **Measure the PROCESS, not just the echo.**
-    INPUT: published video + channel history
-    DUTY — track these, in this priority order:
-      1. **Retention curve** vs S2's BEAT_MAP. Did drops land where S5 predicted?
-      2. **Cadence** — did this ship on the channel's rhythm?
-      3. **Duration** vs format median.
-      4. **Title vocabulary** — did it extend or dilute the channel's grammar?
-      5. Views. LAST, and weighted least.
-    WHY THAT ORDER: views are algorithm-mediated and lag by weeks. Measured directly, a view count
-    tells you almost nothing about whether the process worked. The first four are controllable and
-    immediate. **A video can be well-made and unlucky; only 1-4 separate those.**
-    OUT: BASELINE_DELTA -> written back into S0's CHANNEL_PROFILE
+**The stuck phase is the diagnosis. The intervention column in §2 is the treatment.** That is the
+whole system, and it is the same regulation logic as LIMEN's domain brains.
 
 ---
 
-## §4 Where the humans are
+## §4 Agents
 
-    S1  operator picks 1-3 hooks from 20-40      (cheap, high leverage)
-    S7  operator picks the package                (this decides reach)
-    S9  operator publishes                        (HARD GATE, outward-facing)
+Not a chain. A **diagnostician plus a bench of specialists**, dispatched by phase.
 
-Everything else runs agent-to-agent. Three touch points, all at genuine decision boundaries.
+    DIAGNOSTICIAN   reads the artifact + channel baseline, returns { phase, confidence, stuck, blocker }
+                    ABSTAINS on thin evidence rather than guessing a phase. Never skips ahead.
 
-## §5 Channel arc position (what S0 reports, and how S10 updates it)
+    Then dispatch ONE specialist for the diagnosed phase:
 
-The CHANNEL walks the same arc the video does, slower. From public catalog data only:
+    SOURCE-MINER    P0   comment mining, search-gap analysis, back-catalogue transfer
+    RUPTURE-SMITH   P1   20-40 hooks, six rupture types, no ranking, includes expected failures
+    RHYTHM-SETTER   P2   beat map to the channel's own median duration
+    FAILURE-NAMER   P3   characterise, do NOT fix. Naming is the whole duty.
+    STAKES-RAISER   P4   the P4 plateau specialist. Tension, not polish.
+    OPENING-SURGEON P5   first 15s only, rebuilt line by line
+    PACKAGER        P7   8-12 titles, 6-10 thumbs, generated independently, each gap-checked
+    CORONER         P7a  post-mortem. Most-used specialist by design.
+    RE-CUTTER       P7b  re-frame for the audience that actually showed up
+    AMPLIFIER       P9   breakout response, hours not days
+    MINER           P10  treat the hit as new source material
 
-    P1  irregular cadence, wide duration spread, no title grammar
-    P2  cadence regularising, format emerging
-    P3  high variance, multiple formats running at once, none dominant
-    P4  variance dropping, one format pulling ahead
-    P6  tight cadence, tight duration, systematic title grammar, series forming
-    P7  a second format appears alongside the first (divergence)
-    P7b one format abandoned  <- THIS IS THE TRANSITION, not noise
-    P10 new stable format at a higher level than the pre-break baseline
+**Human gates, three:**
+- hook selection (P1) — cheap, high leverage
+- package selection (P7) — this decides reach
+- **publish (P6→P7) — HARD GATE. Outward-facing. No agent publishes, schedules, or infers approval.**
 
-**Measured on:** upload cadence, duration spread, title-vocabulary drift, format mix.
-**NOT measured on view counts.** A shuffle control on 1,912 real videos showed windowed view
-levels carry no more sequential structure than randomised order (1.0-1.5x). Views are the echo.
-Cadence, duration and format are the process.
+---
 
-## §6 Executable surface
+## §5 What to measure, and in what order
 
-    S1, S2, S7, S8   text agents, runnable today
-    S3, S4, S6       ai-video-skill: programmatic motion graphics (free, local),
-                     fal.ai text-to-video, HeyGen avatar
-    S5               agent pass over the cut against the beat map
-    S10              YouTube Data API for cadence/duration/vocabulary;
-                     retention requires YouTube Analytics OAuth on an OWNED channel
+    1. Time-in-phase per video          -> the stuck map. THE PRODUCT.
+    2. Retention vs the P2 beat map     -> did the structure hold where it was designed to
+    3. First-24h velocity vs channel median -> P7 divergence signal, the only early one
+    4. Traffic source mix               -> P8 detection; invisible in view count
+    5. CTR vs channel median            -> packaging, isolated from content
+    6. Total views                      -> LAST, weighted least
+
+**Why views are last.** A shuffle control on 1,912 real videos across four channels found windowed
+view levels carry no more sequential structure than randomised order — 1.0x on the channel whose
+arc looked most dramatic, 1.5x at best elsewhere. Views are algorithm-mediated and lag by weeks.
+**A video can be excellent and unlucky. Only 1-5 separate craft failure from bad luck.** A system
+optimising on views cannot tell you which one happened, and will therefore teach you the wrong
+lesson roughly as often as the right one.
+
+---
+
+## §6 The honest summary
+
+**This system cannot make a video go viral.** It can:
+
+- take an idea reliably from P0 to P6 (well-made, on-format, published)
+- tell you WHICH transition you are stuck at, which is the thing creators cannot self-diagnose
+- raise the odds at P7 through packaging and timing
+- catch a P9 breakout inside hours, when feeding it still compounds
+- kill dead videos fast instead of nursing them
+
+**P10 remains a probability, not a destination.** The system's real output is a higher hit rate and
+a much shorter time-to-kill, not a viral guarantee.
 
 ## §7 First run
 
-Do not start at S0 with a new channel. Start by running S0 + §5 against a channel you already
-watch, and check whether the reported arc position matches what you know happened. If S0 cannot
-recover a transition you can see with your own eyes, the instrument is wrong and nothing
-downstream is worth building yet.
+Do not start on a new video. **Run the DIAGNOSTICIAN over an existing catalogue** and produce the
+stuck map. If it says a creator is stuck at P4 and they recognise that as true, the instrument
+works. If it cannot recover a bottleneck the creator already knows they have, nothing downstream is
+worth building.
