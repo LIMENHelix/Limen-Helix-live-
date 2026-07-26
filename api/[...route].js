@@ -125,6 +125,7 @@ const HANDLERS = {
   'expand-artifact': require('../handlers/expand-artifact'),
   'expand-artifact-claude': require('../handlers/expand-artifact-claude'),
   'fleet': require('../handlers/fleet'),
+  'gazette': require('../handlers/gazette'),
   'opportunities': require('../handlers/opportunities'),
   'domain-snapshot': require('../handlers/domain-snapshot'),
   'domain-snapshot-debug': require('../handlers/domain-snapshot-debug'),
