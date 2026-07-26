@@ -83,7 +83,7 @@ module.exports = async function handler(req, res) {
     if ((req.method || 'GET') === 'GET') {
       var rungs = [];
       catalog.domains().forEach(function (d) {
-        ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'].forEach(function (r) {
+        ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'].forEach(function (r) {
           var o = catalog.lookup(d, r);
           if (o) rungs.push({ domain: d, rung: r, name: o.name, priceCents: o.priceCents, cadence: o.cadence });
         });

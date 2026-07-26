@@ -55,11 +55,11 @@ ALL_DOMAINS.forEach(function (d) {
   // pay for a watch with no source behind it. Excluded entirely rather than priced.
   if (o.noSource) { console.log('  SKIPPED ' + d + ': no live tool endpoint, not sellable'); return; }
   var entry = { who: o.who, band: o.band, rungs: {} };
-  ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'].forEach(function (k) {
+  ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'].forEach(function (k) {
     if (!o[k]) return;
-    // Enquire-only rungs are never priced server-side. If it is not in this catalogue,
-    // /api/checkout cannot charge for it, no matter what the browser asks for.
-    if (o[k].enquire) return;
+    // A phase absent from a domain's offers is absent from this catalogue, so /api/checkout
+    // cannot charge for it no matter what the browser asks. Absence IS the gate now: a domain
+    // only lists the phases lib/phase-map.js found a real signal for.
     var c = cents(o[k].price);
     if (c === null) {
       console.error('FAIL: ' + d + '.' + k + ' has an unparseable price: ' + o[k].price);
@@ -69,7 +69,7 @@ ALL_DOMAINS.forEach(function (d) {
       console.error('FAIL: ' + d + '.' + k + ' is ' + c + ' cents, below the $0.50 minimum.');
       process.exit(1);
     }
-    entry.rungs[k] = { name: o[k].name, line: o[k].line, cadence: o[k].cadence, priceCents: c };
+    entry.rungs[k] = { name: o[k].name, line: o[k].line, cadence: o[k].cadence, shape: o[k].shape, priceCents: c };
     rungs++;
   });
   catalog[d] = entry;

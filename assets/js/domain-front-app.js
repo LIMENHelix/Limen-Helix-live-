@@ -1745,17 +1745,17 @@ function loadCountyDeals(L) {
 
 // ── phase path: P0 free, P1-P10 add-ons (each an analogy for the phase) ──
 var PHASE_LADDER = [
-  { p: 'P0', phase: 'Source', name: 'The Live Watch', line: 'The raw, live read of this domain. What you are using right now.', price: 'Free', free: true },
-  { p: 'P1', phase: 'Emergence', name: 'Your Signal', line: 'The moment it becomes yours: an alert the instant something moves for your place.', price: 'from $4 / mo' },
-  { p: 'P2', phase: 'Rhythm', name: 'The Briefing', line: 'A steady pulse: a daily or weekly digest you can sync your week to.', price: 'from $6 / mo' },
-  { p: 'P3', phase: 'Stress', name: 'Early Warning', line: 'Catch the cracks before they break: threshold and anomaly alerts.', price: 'from $8 / mo' },
-  { p: 'P4', phase: 'Stabilization', name: 'The Playbook', line: 'Turn the signal into steadiness: deep, tailored what-to-do plans.', price: 'from $9 / mo' },
-  { p: 'P5', phase: 'Endurance', name: 'The Record', line: 'The long view: history, trends, and this domain’s trajectory over time.', price: 'from $9 / mo' },
-  { p: 'P6', phase: 'Order', name: 'Command', line: 'Coordinate the whole: every place or asset you track, in one dashboard.', price: 'from $12 / mo' },
-  { p: 'P7', phase: 'Separation', name: 'The Fork', line: 'At a decision point: compare paths and model which way to go.', price: 'from $12 / mo' },
-  { p: 'P8', phase: 'Reflection', name: 'The Analyst', line: 'Step back and understand: a custom, expert read on your exact situation.', price: 'from $19 / mo' },
-  { p: 'P9', phase: 'Threshold', name: 'Live Edge', line: 'When timing is everything: real-time, instant alerts, poised to act.', price: 'from $14 / mo' },
-  { p: 'P10', phase: 'Renewal', name: 'The Engine', line: 'The whole system inside your operation: API, embeds, done-for-you.', price: 'Custom' }
+  { p: 'P0', phase: 'Source', name: 'Source', line: 'Undifferentiated potential. Nothing is in transition yet: the live read, free.', price: 'Free', free: true },
+  { p: 'P1', phase: 'First Distinction', name: 'First Distinction', line: 'The first measurable difference, when something becomes distinguishable from its background.', price: 'not available for this domain' },
+  { p: 'P2', phase: 'Rhythm', name: 'Rhythm', line: 'The first stable recurring structure: a repeatable loop the system can sustain.', price: 'not available for this domain' },
+  { p: 'P3', phase: 'Fracture', name: 'Fracture', line: 'Pattern coherence breaks. The diagnostic moment that reveals the limit of the current structure.', price: 'not available for this domain' },
+  { p: 'P4', phase: 'Scaffolding', name: 'Scaffolding', line: 'External support brought in to hold the fracture. Coherence held from outside, not self-generated.', price: 'not available for this domain' },
+  { p: 'P5', phase: 'Endurance', name: 'Endurance', line: 'The scaffolds internalised: a new regime running on its own generation.', price: 'not available for this domain' },
+  { p: 'P6', phase: 'Order', name: 'Order', line: 'Mature coordinated order. Differentiated parts locked to shared goals.', price: 'not available for this domain' },
+  { p: 'P7', phase: 'Separation', name: 'Separation', line: 'Individuation under tension. Parts separate cleanly while retaining integration.', price: 'not available for this domain' },
+  { p: 'P8', phase: 'Conscience', name: 'Conscience', line: 'The system monitors itself, detects its own error and corrects course unforced.', price: 'not available for this domain' },
+  { p: 'P9', phase: 'Threshold', name: 'Threshold', line: 'Maximum saturation and poised disequilibrium: resolution and collapse equally likely.', price: 'not available for this domain' },
+  { p: 'P10', phase: 'Renewal', name: 'Renewal', line: 'Repatterned at a new level. Not restoration, a new normal.', price: 'not available for this domain' },
 ];
 /**
  * Turn a Subscribe press into a real Stripe checkout.

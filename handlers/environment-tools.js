@@ -19,8 +19,9 @@
  */
 var db = require('../lib/limen-db');
 
-var TTL = { fires: 30 * 60 * 1000, drought: 6 * 3600 * 1000, air: 30 * 60 * 1000 };
-var KEY = { fires: 'environment:tool:fires:v1', drought: 'environment:tool:drought:v1' };
+var TTL = { fires: 30 * 60 * 1000, drought: 6 * 3600 * 1000, air: 30 * 60 * 1000, support: 6 * 3600 * 1000 };
+var KEY = { fires: 'environment:tool:fires:v1', drought: 'environment:tool:drought:v1', support: 'environment:tool:support:v1' };
+var fema = require('../lib/fema');
 
 function getJSON(url, ms, headers) {
   var ctl = new AbortController();
@@ -244,6 +245,13 @@ module.exports = async function handler(req, res) {
     if (tool === 'air') { res.statusCode = 200; return res.end(JSON.stringify(await fetchAir(q.zip))); }
     if (tool === 'fires') { res.statusCode = 200; return res.end(JSON.stringify(await cached('fires', fetchFires))); }
     if (tool === 'drought') { res.statusCode = 200; return res.end(JSON.stringify(await cached('drought', fetchDrought))); }
+    // P4 SCAFFOLDING: federal support switched on. A declaration is the moment a state stops
+    // absorbing an event alone, which is the arc's definition of external structure holding a
+    // fracture, published as a dated fact rather than inferred from a number.
+    if (tool === 'support') {
+      res.statusCode = 200;
+      return res.end(JSON.stringify(await cached('support', function () { return fema.recent({ days: 90 }); })));
+    }
     var all = await Promise.all([cached('fires', fetchFires), cached('drought', fetchDrought)]);
     res.statusCode = 200;
     return res.end(JSON.stringify({ ok: true, fires: all[0], drought: all[1] }));
