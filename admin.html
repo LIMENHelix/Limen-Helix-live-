@@ -255,6 +255,26 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
     if(twstate) twstate.addEventListener('keydown', function(e){ if(e.key==='Enter'){ runTown(); } });
   }
 
+  /* Ask the paper what it publishes and redraw the Documents section from
+     the answer. Allowed to fail: on a miss the static card stays, which is
+     the front page, which is always true. */
+  function loadPapers(){
+    var host=document.getElementById('papersec');
+    if(!host) return;
+    fetch('https://limenhelix.news/editions/index.json',{mode:'cors',cache:'no-store'})
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(ix){
+        if(!ix||!ix.papers||!ix.papers.length) return;
+        var cards=ix.papers.map(function(p){
+          var d=p.headline||p.standfirst||'';
+          if(p.wire) d=d?(d+' &middot; live wire'):'Written edition, with a live wire';
+          return xcard(p.url, p.nameplate||p.edition, d);
+        });
+        host.innerHTML=sec('Documents',cards);
+      })
+      .catch(function(){});
+  }
+
   function render(){
     var p=person();
     if(!p){ root.innerHTML=head(null)+'<div class="gate">You are not signed in.<br><button onclick="LimenAdminLogin.open()">Admin login</button></div>'; return; }
@@ -304,11 +324,14 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
          implied a body of work that did not exist. The generator is still
          running and the Energy edition still pulls its live wire from it,
          which is what it is good at. */
-      h+=sec('Documents',[
-        xcard('https://limenhelix.news/','The LIMEN Helix Gazette','The paper, front page'),
-        xcard('https://limenhelix.news/energy','Energy Gazette','Written edition, with a live wire'),
-        xcard('https://limenhelix.com/api/gazette?d=energy','Energy wire','The feed the Energy edition reads, as JSON')
-      ]);
+      /* Documents. The list is not kept here. The paper publishes
+         editions/index.json describing what it actually prints, and this
+         reads it, so writing a paper is enough to make it appear and
+         nobody has to remember to edit this file. The cards below are what
+         shows before the fetch lands, and what stays if it never does. */
+      h+='<div id="papersec">'+sec('Documents',[
+        xcard('https://limenhelix.news/','The LIMEN Helix Gazette','The paper, front page')
+      ])+'</div>';
       h+=sec('System',[
         card('/pages','Site Map','Every page'),
         card('/phase-map','Phase Map','P0 to P10'),
@@ -344,6 +367,7 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
 
     h+='<button class="logout" onclick="sessionStorage.removeItem(\'limen_admin\');sessionStorage.removeItem(\'limen_access\');location.reload()">Log out</button>';
     root.innerHTML=h;
+    loadPapers();
 
     wireLookup();
 
