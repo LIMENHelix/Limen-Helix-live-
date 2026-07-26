@@ -2138,4 +2138,214 @@ only the record and calling the loop closed is not.
 
 ---
 
-## ENTRY 014 - (next)
+## ENTRY 014 - WHAT IS ACTUALLY USEFUL FOR LIMEN (read this one, skip the rest)
+
+> **This entry supersedes the ranked lists in Entries 003, 008, 009, 010 and 012.**
+> Entries 001-013 record how each item was arrived at, including two withdrawn findings and
+> several corrections. This entry is the distilled answer to one question: **what from all of it
+> changes LIMEN.** Every item names a file and line. Source material is tagged in one word and
+> otherwise irrelevant.
+>
+> `[verified]` = read directly in the code. `[IDEA]` = reasoning, not measured, not run.
+
+---
+
+### RUN THIS FIRST — it decides whether the rest is worth doing
+
+**0. Marginal entropy per channel.** `[IDEA]` ~5 lines, pure measurement, no behaviour change.
+
+    H(channel)   = -sum_v p(v) ln p(v)   over the stored value histogram
+    PPL(channel) = exp(H)                 effective number of distinct states visited
+
+Data is already persisted: `handlers/limen-worker-snapshot.js:232-234`, 300 samples per channel,
+20 domains. **If H is near zero the channel carries no information and nothing downstream can be
+validated against it.** This is the numeric test of the known CISS degeneracy. If it fails, items
+1-6 are premature and the real work is upstream in the feeds.
+
+---
+
+### TIER 1 — changes what the system LEARNS FROM
+
+**1. Proper scoring in the outcome ledger.** `outcome-ledger.js:143-189` `[verified defect]`
+
+    adverseEvent    = p.adverse       >= adverseThreshold     // line 152
+    estimatorCalled = f.beliefDistress >= callThreshold        // line 153
+    hit = (estimatorCalled === adverseEvent)                   // line 154
+
+Both sides are binarised before scoring. 0.41 and 0.99 score identically. The metric is
+piecewise-constant, so its derivative is zero almost everywhere and it cannot point a fit anywhere.
+
+**Why this is rank 1 and not a reporting nicety:** that `callHitRate` is K4 tier 2
+(`limen-k4-selfconsistency.js:50-53`), and tier 4 external reward is available to only two domains
+(`EXTERNAL_REWARD_DOMAINS = { finance, energy }`, line 76). **For the other 18 domains the
+binarised metric IS the teaching signal**, feeding the centered RPE that updates eight K-layers.
+
+Add Brier `(p-y)^2` for reporting (bounded, robust at small n) and log loss for any gradient fit
+(strong gradient exactly where the model is confidently wrong). Compute both; disagreement between
+them localises confident errors.
+
+**2. Consequence channels, one per domain.** `[IDEA]` The motor loop's afferent return.
+
+`lib/feed-resolver.js` already does this for energy: grades a forecast against realised recorded
+values, forward-only, independent of the trained weights. That is exactly what makes energy
+tier-4 eligible. **It has never been generalised.** For each domain, name one observable that
+changes downstream of its actions and can be recorded forward-only.
+
+**3. Efference copy.** `[IDEA]` **The one genuinely new construction in this document.**
+
+Every other item generalises something that already runs somewhere. This exists nowhere, not even
+in energy. Without it a domain cannot distinguish self-caused change from world-caused change, so
+item 2 built alone would learn from confounded signal and credit itself for changes it did not
+cause. **Co-requisite with item 2, not a follow-on.**
+
+Minimum viable: record what was emitted, timestamped, into the recorder stream the resolver reads,
+so a forward outcome can be conditioned on whether an action preceded it.
+Where it must end up: predict the expected consequence and keep the residual.
+
+    emit -> predict expected feed consequence -> observe realised
+         -> residual = realised - predicted   -> credit gate learns from the RESIDUAL
+
+`lib/feed-resolver.js:81-99` (`deriveForecast`) already computes forward projections and is the
+path to reuse. Record-first-prediction-second is a legitimate sequence; record-only and calling the
+loop closed is not.
+
+---
+
+### TIER 2 — changes what the system can SEE ABOUT ITSELF
+
+**4. Belief entropy, displayed as perplexity.** `phase-estimator.js:277` `[verified gap]`
+
+Current: `confidence = totalPrecision / (totalPrecision + informativeCount)`. That measures how much
+evidence ARRIVED, not how concentrated the ANSWER is, and the code uses one as the other.
+
+    PPL(belief) = exp( -sum_p belief[p] ln belief[p] )     bounded [1, 11] by construction
+
+Reads as **"how many of the 11 phases is the estimator effectively choosing between."** Energy at
+2.1 versus agriculture at 9.4 is actionable; `confidence: 0.13` is not. Also the principled version
+of the `promotedStress` patch (`outcome-ledger.js:44-64`), whose documented failure was a diffuse
+belief smearing across 5 of 11 phases and saturating.
+
+Ship it with item 1 or not at all: perplexity measures certainty, not correctness, and a prettier
+confidence number without calibration behind it makes the system more convincing without making it
+more correct.
+
+**5. Calibration curve / ECE.** `outcome-ledger.js:199` `[verified gap]`
+
+`skillMetrics` measures discrimination only (precision, recall, F1). Grep-confirmed: **no
+calibration measure exists anywhere in `lib/`.** Overconfidence is currently undetectable.
+
+---
+
+### TIER 3 — defects found by reading, independent of any external material
+
+**6. The propagator uses a descriptive field as a metric.** `limen-stress-propagator.js:349-351` `[verified]`
+
+`limen_backtest.py:1113` sets `composite = max(path_a, path_b, path_c)` across incompatible scales:
+path A unbounded and biased by history length, path B capped at 3 so it structurally cannot win the
+max, path C unbounded (30-100+ observed, one at 107.80 against a p99 of 4.08).
+
+**The alert is sound** (per-path thresholds, OR'd) and `thing-formulas.js:54` already states
+composite is descriptive while alert is the validated call. The propagator consumes composite as an
+intrinsic stress magnitude anyway. Fix: propagate from alert + path identity, or normalise per path.
+**The kernel needs no change.**
+
+**7. Silent registry degradation.** `company-phase-scorer.js:109` `[verified]`
+
+    var COMPANY_REGISTRY = _loadRegistryFromCommandBoard() || [ ~100 hardcoded ];
+
+Live registry is 506 CIKs. Three candidate paths, each in a try/catch that falls through with no
+log. On failure, scoring runs on a fifth of the universe and `grounded-stress` still reports
+`grounded: true`. The fix pattern already exists in this codebase (`massWeighted:false`).
+
+**8. Lambda imported across sampling frequencies.** `grounded-stress.js:62` `[verified arithmetic]`
+
+`λ = 0.93` came from the ECB CISS fit on **weekly** data; LIMEN applies it at a measured 60-75
+minute cadence (`limen-worker-snapshot.js:161-167`). Effective memory `1/(1-λ)` is ~14 samples:
+a quarter at weekly, **~16 hours** at 70 minutes. Every EWMA in the stack remembers on a horizon
+nobody chose.
+
+**9. The emission model and the distress readout disagree.** `[verified]`
+
+`grounded-stress.js:344-345` puts rupture mass only on {3,7,9}. `outcome-ledger.js:32` sums distress
+over {3,5,7,8,9}. P5 and P8 count toward the headline while the likelihood function never
+deliberately drives them. Also `grounded-stress.js:337-338` calls P1 calm/"Light" while both
+registers in `phase_engine.py:162` call it RUPTURE.
+
+---
+
+### TIER 4 — structural, worth doing after the above
+
+**10. Unfreeze the five accumulators.** `[IDEA]`
+
+    phase-estimator.js:272   stuckAcc      λ=0.93 fixed
+    phase-estimator.js:265   resVar        λ=0.93 fixed
+    phase-estimator.js:125   correlation   λ=0.93 fixed
+    grounded-stress.js:188   correlation   λ=0.93 fixed
+    limen-plasticity.js:181  eligibility   0.85 fixed
+
+All have the form `c_t = f·c_(t-1) + i·x_t` with f constant. That is an LSTM cell state with the
+gate welded shut, and it is the "forget-vs-remember contradiction" already named in the
+adaptive-cadence work. **Do not import an LSTM** (backprop is off the table by design). The
+backprop-free adaptive gate already exists and is armed: `limen-plasticity.js:155-171`, BCM sliding
+threshold, `domain-brain-base.js:1307` defaults it true. Generalise that pattern to the other five.
+
+**11. Temperature on the fusion softmax.** `phase-estimator.js:46` `[verified gap]`
+
+No `T`. The weighted geometric pooling at lines 251-252 makes the belief systematically flatter than
+a true posterior and nothing accounts for it. One scalar, fit on held-out data. Temperature exists
+elsewhere in the system (`limen-active-inference.js:70`, `tau: 0.05`), so the pattern is familiar.
+
+**12. Absorption ratio from the matrix already built.** `grounded-stress.js:114-125` `[verified]`
+
+The file cites Kritzman's absorption ratio then implements a phase-histogram Herfindahl instead,
+commenting "in the only form the available data supports." But `updateCorrelation()` (line 181)
+already builds the correlation matrix. It is 3x3. The cited construct is one closed-form
+eigendecomposition away. Coarse at three channels; still the real quantity rather than a proxy.
+
+**13. Label-free falsification test.** `[IDEA]`
+
+Does the 11-phase model compress a held-out channel stream better than a first-order Markov chain on
+discretised values? Needs **no outcome labels**, uses data already stored, and **can falsify the
+phase structure** rather than merely measure it. Held-out data mandatory, or MDL. Beating a marginal
+baseline proves little; the honest bar is the Markov chain.
+
+**14. Superposition as an epistemics guardrail.** Not a build.
+
+High-dimensional spaces pack far more near-orthogonal directions than they have dimensions, so
+concepts are not one-per-unit. **Any claim that a specific node or channel "represents" a specific
+real-world factor needs evidence beyond the name assigned to it.** Applies directly to the ~124-node
+business graph.
+
+---
+
+### TIER 5 — literature, no build
+
+- **HMMs / Baum-Welch.** `phase-estimator.js` IS an HMM forward pass; `predict()` at line 111 is
+  literally `alpha_t(j) = sum_i alpha_(t-1)(i)·A[i][j]`. Entry 004 concluded Baum-Welch does NOT fit
+  (the emission depends on the filter's own past), but the literature is the right map.
+- **Markov regime-switching.** 35 years of econometrics on latent discrete states driving observed
+  series. That is P0-P10 exactly, with known estimation procedures and failure modes.
+- **Partial pooling / multilevel models.** The answer to 20 domains with thin data each. Lets all 20
+  share strength instead of fitting nothing.
+- **Local-learning literature.** Predictive coding, equilibrium propagation, feedback alignment,
+  target propagation. Gradient-quality learning from biologically plausible local rules. This is the
+  material actually adjacent to this architecture.
+- **Guo et al. 2017**, temperature scaling. Short, and better than any video on calibration.
+- **If `A` is ever fitted**, fit the 3 scalars `makeTransition()` generates it from
+  (`phase-estimator.js:84`), not the 110 matrix cells.
+
+---
+
+### THE ONE-LINE SUMMARY
+
+**Almost nothing here is missing architecture. Nearly every item is a mechanism that already exists
+and works in one or two domains and was never generalised to the other eighteen.** The circularity
+cut, the frozen channels, the discarded confidence signal, the CISS grounding, consequence channels.
+LIMEN is much closer to "wire what exists across all 20" than to "invent what is missing."
+
+**Efference copy (item 3) is the sole exception, and therefore the only genuinely new construction
+on this list.**
+
+---
+
+## ENTRY 015 - (next)
