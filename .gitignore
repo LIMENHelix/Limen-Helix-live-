@@ -96,3 +96,13 @@ docs/research/saraev-transcripts-corpus.txt
 # Enriched town lead lists (scripts/enrich-town.mjs) - real business contact
 # data, NEVER commit to this PUBLIC repo.
 assets/data/town-*.csv
+
+# Ad-hoc curl scratch from endpoint debugging (raw response headers + fetched page
+# dumps, ~800KB of them). Regenerable in one command; never source. Root-anchored so
+# a real file of the same name in a subdirectory is still tracked normally.
+/body.html
+/head.txt
+/lh.txt
+/nh.txt
+/live.html
+/l2.html
