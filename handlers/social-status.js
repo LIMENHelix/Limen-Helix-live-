@@ -56,6 +56,20 @@ module.exports = async function handler(req, res) {
       note: 'Presence only. Secret VALUES are never returned by this endpoint. Add missing variables in Vercel > Settings > Environment Variables, then redeploy.'
     };
 
+    // WHY posting is or is not happening, in one place. Without this, a silent block looks
+    // identical to a cron that never fired, which is exactly the confusion that cost a day of
+    // posts when the AI kill switch was gating this path.
+    var blockedReason = await social.postingBlocked();
+    out.posting = {
+      enabled: !blockedReason,
+      blockedReason: blockedReason || null,
+      envSwitch: process.env.SOCIAL_POSTING_ENABLED == null ? '(unset, defaults to on)' : String(process.env.SOCIAL_POSTING_ENABLED),
+      // reported for diagnosis only: posting no longer depends on it
+      aiKillSwitchWouldBlock: await (async function () {
+        try { var k = require('../lib/ai-kill-switch'); return !!(await k.spendDisabled()); } catch (e) { return null; }
+      })()
+    };
+
     var rate = await social.rateStatus('bluesky');
     if (rate.ok) out.blueskyRate = { usedToday: rate.used, capPerDay: rate.cap, remaining: rate.remaining };
 
