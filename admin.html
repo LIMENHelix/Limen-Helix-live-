@@ -298,19 +298,17 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
         card('/project-planner','Project Planner','Liz, public lead page'),
         card('/project-radar','Project Radar','Liz, bids and leads')
       ]);
-      /* Documents. One newspaper per domain, published at limenhelix.news.
-         Energy is written: an essay, its own fables and two translated
-         columns, with live headlines carried in underneath. The other
-         nineteen are compiled from that domain's named public feeds, which
-         is accurate and impersonal, and says so. Both read at the same
-         address, /<domain>. */
-      h+=sec('Documents', [
-        xcard('https://limenhelix.news/','The LIMEN Helix Gazette','The paper itself, front page'),
-        xcard('https://limenhelix.com/api/gazette','Edition index','What every edition is compiled from, as JSON')
-      ].concat(ALL_DOMAINS.map(function(d){
-        return xcard('https://limenhelix.news/'+d, d,
-          d==='energy' ? 'Newspaper &middot; written edition' : 'Newspaper &middot; compiled from feeds');
-      })), 'dgrid');
+      /* Documents. Two papers, both written. The compiled per-domain
+         editions were withdrawn: a headline list poured into the shape of
+         an essay is not a newspaper, and listing nineteen of them here
+         implied a body of work that did not exist. The generator is still
+         running and the Energy edition still pulls its live wire from it,
+         which is what it is good at. */
+      h+=sec('Documents',[
+        xcard('https://limenhelix.news/','The LIMEN Helix Gazette','The paper, front page'),
+        xcard('https://limenhelix.news/energy','Energy Gazette','Written edition, with a live wire'),
+        xcard('https://limenhelix.com/api/gazette?d=energy','Energy wire','The feed the Energy edition reads, as JSON')
+      ]);
       h+=sec('System',[
         card('/pages','Site Map','Every page'),
         card('/phase-map','Phase Map','P0 to P10'),
