@@ -109,6 +109,7 @@ const HANDLERS = {
   'stripe-webhook': require('../handlers/stripe-webhook'),
   'subscriber-digest': require('../handlers/subscriber-digest'),
   'subscribers': require('../handlers/subscribers'),
+  'hero-image': require('../handlers/hero-image'),
   'finance-tools': require('../handlers/finance-tools'),
   'technology-tools': require('../handlers/technology-tools'),
   'industry-tools': require('../handlers/industry-tools'),
