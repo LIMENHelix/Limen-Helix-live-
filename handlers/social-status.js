@@ -64,6 +64,15 @@ module.exports = async function handler(req, res) {
       enabled: !blockedReason,
       blockedReason: blockedReason || null,
       envSwitch: process.env.SOCIAL_POSTING_ENABLED == null ? '(unset, defaults to on)' : String(process.env.SOCIAL_POSTING_ENABLED),
+      // Is the cron secret actually usable? Reports LENGTH, never the value. Vercel redacts
+      // every secret on `env pull`, so an empty or malformed write is otherwise undetectable
+      // until a scheduled job starts failing. Once CRON_SECRET is set, every cron handler that
+      // checks it REQUIRES the bearer, so a blank value would silently break autopilot too.
+      cronSecret: {
+        configured: !!process.env.CRON_SECRET,
+        length: (process.env.CRON_SECRET || '').length,
+        usable: (process.env.CRON_SECRET || '').trim().length >= 16
+      },
       // reported for diagnosis only: posting no longer depends on it
       aiKillSwitchWouldBlock: await (async function () {
         try { var k = require('../lib/ai-kill-switch'); return !!(await k.spendDisabled()); } catch (e) { return null; }
