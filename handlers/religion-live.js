@@ -28,6 +28,8 @@ function j(res, code, obj) { res.statusCode = code; res.setHeader('content-type'
 function decode(s) { return String(s == null ? '' : s).replace(/<!\[CDATA\[/g, '').replace(/\]\]>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&').trim(); }
 function m1(re, s) { var m = re.exec(s); return m ? m[1] : ''; }
 
+var RSS_CAP = 100;   // Google News RSS hard limit per query
+
 async function fetchTheme(label, query) {
   var url = 'https://news.google.com/rss/search?q=' + encodeURIComponent(query) + '&hl=en-US&gl=US&ceid=US:en';
   var r = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }); if (!r.ok) throw new Error('rss ' + r.status);
@@ -41,7 +43,11 @@ async function fetchTheme(label, query) {
     else { var dash = title.lastIndexOf(' - '); if (dash > 30) { if (!source) source = title.slice(dash + 3); title = title.slice(0, dash); } }
     if (title && link) items.push({ title: title, meta: label + ' · ' + (source || 'News') + (pub ? ' · ' + pub.slice(0, 12) : ''), href: link });
   }
-  return { label: label, count: (body.split('<item>').length - 1), items: items };
+  // Google News RSS returns AT MOST 100 items per query. A theme that comes back with 100 is
+  // at the ceiling, so the number is a floor, not a count, and two themes at 100 cannot be
+  // ranked against each other. Carry that fact rather than pretending 100 is a measurement.
+  var n = body.split('<item>').length - 1;
+  return { label: label, count: n, capped: n >= RSS_CAP, items: items };
 }
 
 async function build() {
@@ -73,14 +79,31 @@ async function build() {
   themes.sort(function (a, b) { return b.count - a.count; });
 
   if (themes.length) {
-    var total = themes.reduce(function (s, t) { return s + t.count; }, 0);
-    if (themes[0]) out.stats.push({ n: themes[0].count.toLocaleString(), k: 'Top faith story now', c: themes[0].label + ', most coverage' });
+    // When every theme is at the feed ceiling, the ranking is an artefact of the cap, not a
+    // reading of attention: sort() picks an arbitrary winner among ties and the copy then
+    // claims it has "most coverage". Suppress the ranked claims entirely in that case.
+    var allCapped = themes.every(function (t) { return t.capped; });
+    var topTied = themes.length > 1 && themes[0].capped && themes[1].capped;
+
+    if (!allCapped && !topTied && themes[0]) {
+      out.stats.push({ n: themes[0].count.toLocaleString(), k: 'Top faith story now', c: themes[0].label + ', most coverage' });
+      out.wow.push('In the news right now, the most-covered religious theme is ' + themes[0].label.toLowerCase() + ' (' + themes[0].count.toLocaleString() + ' stories).');
+    }
+
     out.sections.push({
       title: 'Faith in the news by theme', note: 'Google News',
-      sub: 'How much the press is covering each side of religious life right now. A rough read on attention, not importance.',
-      rows: themes.map(function (t) { return { name: t.label, value: t.count.toLocaleString() + ' stories', dir: t.count >= 80 ? 'neg' : '' }; })
+      sub: allCapped
+        ? 'Every theme is at the feed ceiling of ' + RSS_CAP + ' items, so these are floors rather than counts and cannot be ranked against each other. All it tells you is that all three are busy.'
+        : 'How much the press is covering each side of religious life right now. A rough read on attention, not importance. ' + RSS_CAP + ' is the feed ceiling, so a theme showing ' + RSS_CAP + '+ is not measured.',
+      rows: themes.map(function (t) {
+        return {
+          name: t.label,
+          value: t.capped ? (RSS_CAP + '+ stories') : (t.count.toLocaleString() + ' stories'),
+          vsub: t.capped ? 'at feed limit' : '',
+          dir: (!t.capped && t.count >= 80) ? 'neg' : ''
+        };
+      })
     });
-    if (themes[0]) out.wow.push('In the news right now, the most-covered religious theme is ' + themes[0].label.toLowerCase() + ' (' + themes[0].count.toLocaleString() + ' stories).');
     var maxRounds = 3;
     for (var round = 0; round < maxRounds; round++) themes.forEach(function (t) { if (t.items[round]) out.cards.push(t.items[round]); });
   }

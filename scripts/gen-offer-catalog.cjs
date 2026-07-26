@@ -54,6 +54,9 @@ ALL_DOMAINS.forEach(function (d) {
   var entry = { who: o.who, band: o.band, rungs: {} };
   ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'].forEach(function (k) {
     if (!o[k]) return;
+    // Enquire-only rungs are never priced server-side. If it is not in this catalogue,
+    // /api/checkout cannot charge for it, no matter what the browser asks for.
+    if (o[k].enquire) return;
     var c = cents(o[k].price);
     if (c === null) {
       console.error('FAIL: ' + d + '.' + k + ' has an unparseable price: ' + o[k].price);

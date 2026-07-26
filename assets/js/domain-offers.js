@@ -34,19 +34,27 @@
     business: { p1: '$9 / mo', p2: '$14 / mo', p3: '$19 / mo' }   // compliance, procurement, institutional
   };
 
-  // Rungs P4-P9 are the SAME product in every domain: they act on the signal rather than
-  // being domain-specific readings of it, so they carry one description and one price
-  // everywhere. P1-P3 stay bespoke because what "your signal" means genuinely differs
-  // between a grower and a bank compliance officer.
+  // Rungs P4-P9 are ENQUIRE-ONLY, deliberately.
   //
-  // P0 is free and P10 is priced per engagement, so neither is a checkout.
+  // They are shown and priced so the ladder is legible, but they cannot be bought with a
+  // click, because nothing in this system delivers them yet. Delivery is lib/digest.js, which
+  // produces watches and briefings: that is P1-P3. There is no mechanism that produces "deep,
+  // tailored what-to-do plans" or "a custom, expert read on your exact situation" — those are
+  // human work, and their copy is still generic placeholder text repeated across all 18
+  // domains.
+  //
+  // Taking a card for a monthly product that no code and no scheduled human step delivers is
+  // how you earn refunds and chargebacks. `enquire: true` routes them to a conversation
+  // instead. Flip one to a Subscribe rung the day it has a real delivery path, not before.
+  //
+  // P0 is free and P10 is priced per engagement, so neither is a checkout either.
   var GENERIC = {
-    p4: { name: 'The Playbook',  line: 'Turn the signal into steadiness: deep, tailored what-to-do plans.',            price: '$9 / mo',  cadence: 'on request' },
-    p5: { name: 'The Record',    line: 'The long view: history, trends, and the trajectory of this domain over time.', price: '$9 / mo',  cadence: 'monthly' },
-    p6: { name: 'Command',       line: 'Coordinate the whole: every place or asset you track, in one dashboard.',      price: '$12 / mo', cadence: 'live' },
-    p7: { name: 'The Fork',      line: 'At a decision point: compare paths and model which way to go.',                price: '$12 / mo', cadence: 'on request' },
-    p8: { name: 'The Analyst',   line: 'Step back and understand: a custom, expert read on your exact situation.',     price: '$19 / mo', cadence: 'monthly' },
-    p9: { name: 'Live Edge',     line: 'When timing is everything: real-time, instant alerts, poised to act.',         price: '$14 / mo', cadence: 'as it happens' }
+    p4: { name: 'The Playbook',  line: 'Turn the signal into steadiness: deep, tailored what-to-do plans.',            price: '$9 / mo',  cadence: 'on request', enquire: true },
+    p5: { name: 'The Record',    line: 'The long view: history, trends, and the trajectory of this domain over time.', price: '$9 / mo',  cadence: 'monthly', enquire: true },
+    p6: { name: 'Command',       line: 'Coordinate the whole: every place or asset you track, in one dashboard.',      price: '$12 / mo', cadence: 'live', enquire: true },
+    p7: { name: 'The Fork',      line: 'At a decision point: compare paths and model which way to go.',                price: '$12 / mo', cadence: 'on request', enquire: true },
+    p8: { name: 'The Analyst',   line: 'Step back and understand: a custom, expert read on your exact situation.',     price: '$19 / mo', cadence: 'monthly', enquire: true },
+    p9: { name: 'Live Edge',     line: 'When timing is everything: real-time, instant alerts, poised to act.',         price: '$14 / mo', cadence: 'as it happens', enquire: true }
   };
 
   var OFFERS = {
@@ -76,8 +84,8 @@
     },
     population: {
       band: 'consumer', who: 'buyers, movers and local officials',
-      p1: { name: 'Your Market Watch', line: 'Price-to-income for the states you are choosing between, so you can see where you can actually afford to live.', cadence: 'monthly' },
-      p2: { name: 'The Affordability Brief', line: 'Listing counts, price moves and how far your income goes, tracked across your shortlist.', cadence: 'monthly' },
+      p1: { name: 'Your Market Watch', line: 'Price-to-income for the states you are choosing between, so you can see where you can actually afford to live.', cadence: 'monthly', enquire: true },
+      p2: { name: 'The Affordability Brief', line: 'Listing counts, price moves and how far your income goes, tracked across your shortlist.', cadence: 'monthly', enquire: true },
       p3: { name: 'Priced-Out Warning', line: 'When a market you are watching crosses the multiple where a household on the local median can no longer buy.', cadence: 'monthly' }
     },
     religion: {
@@ -88,8 +96,8 @@
     },
     economy: {
       band: 'pro', who: 'small business owners, planners and journalists',
-      p1: { name: 'Your Tax Receipt', line: 'Your itemised share of federal spending, re-cut every month as Treasury publishes, including what you paid toward debt interest.', cadence: 'monthly' },
-      p2: { name: 'The Fiscal Brief', line: 'Where the money went this month, which agencies moved, and how far spending ran past collection.', cadence: 'monthly' },
+      p1: { name: 'Your Tax Receipt', line: 'Your itemised share of federal spending, re-cut every month as Treasury publishes, including what you paid toward debt interest.', cadence: 'monthly', enquire: true },
+      p2: { name: 'The Fiscal Brief', line: 'Where the money went this month, which agencies moved, and how far spending ran past collection.', cadence: 'monthly', enquire: true },
       p3: { name: 'Deficit & Rate Warning', line: 'When the gap between what Washington collects and spends breaks its own trend, and what that has historically meant for rates.', cadence: 'monthly' }
     },
     law: {
@@ -107,13 +115,13 @@
     science: {
       band: 'pro', who: 'researchers, journalists and grant writers',
       p1: { name: 'Your Funding Watch', line: 'Track institutions or subject areas and see the federal awards as they post, with amounts and investigators.', cadence: 'per RePORTER update' },
-      p2: { name: 'The Money Brief', line: 'Who is funding your field, how much, and which institutions are gaining or losing share.', cadence: 'monthly' },
+      p2: { name: 'The Money Brief', line: 'Who is funding your field, how much, and which institutions are gaining or losing share.', cadence: 'monthly', enquire: true },
       p3: { name: 'Conflict Warning', line: 'When a study making news is funded by a party with an interest in its result, surfaced from the award record.', cadence: 'on publication' }
     },
     trade: {
       band: 'pro', who: 'importers, buyers and manufacturers',
-      p1: { name: 'Your Lane Watch', line: 'The partners you buy from, tracked monthly: volume, direction and what imported goods now cost.', cadence: 'monthly' },
-      p2: { name: 'The Import Cost Brief', line: 'Import price moves separated from fuel noise, so you see what is really happening to landed cost.', cadence: 'monthly' },
+      p1: { name: 'Your Lane Watch', line: 'The partners you buy from, tracked monthly: volume, direction and what imported goods now cost.', cadence: 'monthly', enquire: true },
+      p2: { name: 'The Import Cost Brief', line: 'Import price moves separated from fuel noise, so you see what is really happening to landed cost.', cadence: 'monthly', enquire: true },
       p3: { name: 'Supply Shift Warning', line: 'When trade with a partner you depend on breaks its trend, months before it shows up in your invoices.', cadence: 'monthly' }
     },
     infrastructure: {

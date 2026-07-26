@@ -1842,10 +1842,20 @@ function renderPulseDefs(d, st, stress) {
   }
   if (ch.stressDriverCount != null) {
     var plural = function (n, one, many) { return '<span class="num">' + n + '</span> ' + (n === 1 ? one : many); };
-    rows += defRow('Feed roles', plural(ch.stressDriverCount, 'feed can', 'feeds can') + ' raise pressure (stress drivers), ' +
-      plural(ch.activitySourceCount || 0, 'only measures', 'only measure') + ' activity, and ' +
-      plural(ch.eventFeedCount || 0, 'is a news/event feed', 'are news/event feeds') + '. ' +
-      'News feeds are deliberately barred from driving pressure on their own.');
+    // The three counts do NOT partition the feeds. stressDriver + activity is the tracked
+    // total; eventFeed is a SEPARATE label that overlaps both, so reading them as three
+    // exclusive buckets adds up to more feeds than exist. Say which is which.
+    var tracked = (ch.stressDriverCount || 0) + (ch.activitySourceCount || 0);
+    rows += defRow('Feed roles',
+      'Of <span class="num">' + tracked + '</span> tracked feeds, ' +
+      plural(ch.stressDriverCount, 'can', 'can') + ' raise pressure (stress drivers) and ' +
+      plural(ch.activitySourceCount || 0, 'only measures', 'only measure') + ' activity. ' +
+      'Separately, ' + plural(ch.eventFeedCount || 0, 'is a news/event feed', 'are news/event feeds') +
+      ' — that label overlaps the other two rather than adding to them. ' +
+      'News feeds are deliberately barred from driving pressure on their own.' +
+      (ch.stressDriverCount === 0
+        ? ' <b>Nothing in this domain can currently raise pressure</b>, so the pressure number below is a floor produced by activity volume alone, not a reading of stress.'
+        : ''));
   }
   rows += defRow('Loudest signal', 'The single highest-ranked item across this domain\'s live feeds on the last read. It is <b>what the feeds are saying</b>, not a LIMEN conclusion, and it links to the original.');
   if (!rows) return '';
@@ -1860,6 +1870,16 @@ fetch('/api/limen-snapshot').then(function (r) { return r.json(); }).then(functi
   var h = '<div class="pulse-top"><span class="status" style="color:' + statusColor(st) + ';border-color:' + statusColor(st) + '55">' + st + '</span>';
   if (stress != null) h += '<span class="barlbl">pressure ' + Math.round(stress * 100) + '%</span><div class="bar"><i style="width:' + Math.round(stress * 100) + '%"></i></div>';
   h += '</div>';
+
+  // A domain with no stress drivers has no feed that CAN move this number. Showing it beside
+  // a status band implies a reading that does not exist, so label it where the reader sees it
+  // rather than only in the glossary they may never open.
+  var chTop = d._channels || {};
+  if (stress != null && chTop.stressDriverCount === 0) {
+    h += '<div class="muted" style="margin-top:6px;font-size:.76rem;color:var(--amber)">' +
+         'No feed in this domain can raise pressure yet — every source here only measures activity, ' +
+         'so treat this bar as coverage volume, not stress.</div>';
+  }
 
   var sigHtml = '';
   if (d.phaseLabel) {
@@ -2396,7 +2416,7 @@ function renderPhaseLadder() {
     var k = x.p.toLowerCase();
     var o = off[k];
     if (!o) return x;
-    return { p: x.p, phase: x.phase, name: o.name, line: o.line, price: o.price, cadence: o.cadence, free: x.free, buy: k };
+    return { p: x.p, phase: x.phase, name: o.name, line: o.line, price: o.price, cadence: o.cadence, free: x.free, buy: o.enquire ? null : k, enquire: !!o.enquire };
   });
   host.innerHTML = rows.map(function (x) {
     return '<div class="prow' + (x.free ? ' free' : '') + '"><div class="pnum">' + x.p + '</div>' +
@@ -2404,7 +2424,7 @@ function renderPhaseLadder() {
       (x.cadence ? '<div class="pcad">updates ' + esc(x.cadence) + '</div>' : '') + '</div>' +
       '<div class="pprice">' + esc(x.price) +
         (x.buy ? '<button type="button" class="pbuy" data-rung="' + x.buy + '">Subscribe</button>'
-               : (x.p === 'P10' ? '<button type="button" class="pbuy" data-enquire="1">Enquire</button>' : '')) +
+               : (x.free ? '' : '<button type="button" class="pbuy" data-enquire="1">Enquire</button>')) +
       '</div></div>';
   }).join('');
   wireBuyButtons(host);
