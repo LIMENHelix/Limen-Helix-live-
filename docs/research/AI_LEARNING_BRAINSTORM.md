@@ -2520,4 +2520,142 @@ which would be a different (and familiar) problem from the one described above.
 
 ---
 
-## ENTRY 016 - (next)
+## ENTRY 016 - BUG LIST (live probe + code read, 2026-07-26)
+
+> **STATUS: [verified] every file:line was read directly; every latency number was measured against
+> the live site. [inferred] the failure MECHANISM for bugs 1-3 is read from the code path, not from
+> an observed Upstash failure.** Read-only. No code changed, nothing fixed.
+
+**Method.** (a) GET sweep of 96 live endpoints + 7 pages on limenhelix.com, warm and cold.
+(b) Full read of `lib/limen-db.js`. (c) Pattern greps across `lib/` and `handlers/`.
+(d) `vercel.json` cron and function config.
+
+---
+
+### FIRST, A CORRECTION TO MY OWN INSTRUMENT
+
+The probe initially reported **16 problems. 15 were the probe's fault.**
+
+- 13 "BAD-JSON": the probe captured only the first 4KB of each body, then ran `JSON.parse` on a
+  truncated string. Re-fetched in full: **all 13 valid JSON.**
+- 1 "404" on `/domains`: a path I invented for the probe list. Nothing on the site links to it.
+- 2 "OK:FALSE" (`/api/feed-resolve`, `/api/memory-promote`): correct 400s on a missing required
+  param. Working as designed.
+
+**Recorded because it is the same failure as Entry 011 §5: a limitation reported from a partial
+attempt.** A truncated read is not a malformed response. Verify the instrument before reporting
+what it found.
+
+---
+
+### THE BUGS
+
+#### 1. `db.set()` returns `true` on a failed Redis write — `lib/limen-db.js:45-48, 84` [verified code path]
+
+**Severity: highest, because all persistence runs through this.**
+
+    // _redisRequest, line 45
+    if (data.error) { console.error(...); return null; }   // logs, returns null, does NOT throw
+
+    // set(), lines 78-88
+    try { await _redisRequest('SET', [...]); return true; }   // <- always reached
+    catch (e) { return false; }                               // <- only fires on a NETWORK throw
+
+An application-level Upstash error (`{error: ...}`) yields `null`, not an exception. The `catch`
+never runs. **`set()` reports success on a write that did not happen.** Identical pattern in
+`lpush` (line 106).
+
+Any caller trusting the boolean is trusting a value that structurally cannot report a Redis-side
+failure.
+
+#### 2. Failed writes read back as successful on the same lambda — `lib/limen-db.js:75, 58-67` [verified]
+
+`set()` writes `_memStore` unconditionally at line 75, BEFORE attempting Redis. `get()` tries Redis
+first and, when Redis returns nothing, falls through to `_memStore`.
+
+Sequence: write fails silently (bug 1) -> the same warm lambda reads it back correctly -> the next
+lambda gets nothing. **Divergence that looks correct under test and fails in production.** This is
+the "it worked when I tested it" class, sitting underneath the entire persistence layer.
+
+#### 3. Memory and Redis diverge by construction — `lib/limen-db.js:105-113, 128-136` [verified]
+
+- `lpush` writes memory ONLY when Redis fails (line 106 returns early on success).
+- `ltrim` mutates memory ALWAYS, even when Redis is authoritative.
+
+The in-memory store is therefore neither a mirror nor a cache. It is an inconsistent third state
+that `get()` will silently serve.
+
+#### 4. The scheduler capacity comment is wrong by 5x — `lib/company-phase-scorer.js:47-49` [verified]
+
+Flagged as a discrepancy in Entry 009 §3c. **Now confirmed** against `vercel.json`, which runs
+`limen-worker-snapshot` at `5,20,35,50` — four times an hour.
+
+The comment computes full coverage as `506/(30+30) ≈ 8.4 ticks × 3 min = 25 min`, assuming a
+3-minute cron. At 15-minute spacing that is **just over 2 hours**. Any scheduling decision made
+from that comment is wrong by 5x.
+
+#### 5. `hero-image` cron runs every 5 minutes — `vercel.json` [verified]
+
+`*/5 * * * *` = **288 invocations/day**. Worth confirming this is deliberate, given function cost
+is the largest billing line.
+
+#### 6. `/api/feed-status` takes 8.2 seconds WARM — [verified, measured twice]
+
+Not a cold start. Confirmed on a second warm pass in the same sweep where `wave-radar` dropped
+3012ms -> 115ms and `civil-radar` 561ms -> 108ms. feed-status stayed at 8.2s; `domain-snapshot`
+stayed at 5.5s with a 401KB payload.
+
+`maxDuration` is 800s so it will not 504, but 8 seconds on a user-facing endpoint is a real defect.
+The shape suggests serial upstream fetches where `Promise.all` would collapse it.
+
+Payload sizes worth review: `domain-snapshot` 401KB, `limen-snapshot` 190KB, `opportunities` 157KB.
+
+#### 7. 62 of 103 channels emit a literal constant — [verified, measured live]
+
+`distress` and `granularity` constant in **20/20 domains**, 140 samples, SD 0.0000. `unison`
+constant in 8/20. See Entry 014 item 0 and the measurement run; 0.5042 is the exact arithmetic of
+ranking a constant against itself, `(n+1)/(2n)` at n=120.
+
+#### 8. Propagator consumes a descriptive field as a metric — `lib/limen-stress-propagator.js:349-351` [verified]
+
+`composite = max(path_a, path_b, path_c)` across incompatible scales, while
+`lib/thing-formulas.js:54` states composite is descriptive and the ALERT is the validated call. Full
+treatment in Entry 010 §6.
+
+#### 9. Silent 506 -> ~100 CIK registry fallback — `lib/company-phase-scorer.js:109` [verified]
+
+Three candidate paths, each in a try/catch that falls through with no log. On failure, scoring runs
+on a fifth of the universe and `grounded-stress` still reports `grounded: true`.
+
+---
+
+### CHECKED AND CLEAN
+
+- **All 96 probed endpoints: 200 or a correct 4xx.** No 500s, no broken handlers, no HTML-on-API
+  (the `Unexpected token '<'` class documented at `company-phase-scorer.js:37-41` is not recurring).
+- **`JSON.parse` on request bodies is consistently guarded** across handlers — `autopilot`,
+  `biosensor-state`, `brain-cognition`, `brain-weights`, `crm`, `energy-entry`,
+  `cron-rebuild-engine-outputs`, `cron-repair-held`, `deal-engine`. That whole class is handled well.
+- **`lrange` negative-index arithmetic is correct** against Redis LRANGE semantics, including the
+  `stop === -1` special case. Checked specifically; it is not a bug.
+
+---
+
+### SCOPE
+
+**Read in full for this pass:** `lib/limen-db.js`, `vercel.json`.
+**Probed live:** 96 endpoints, 7 pages.
+**Grepped:** `lib/` and `handlers/` for empty catches, loose equality, unguarded parse, sort
+mutation, and unawaited async.
+
+**NOT read:** `lib/consolidator.js`, `lib/bridge-engine.js`, `lib/pattern-author.js`, the 20 domain
+brains, the Python kernel side.
+
+**Bugs 1-3 are the highest severity because they sit beneath everything else, and they are the
+least directly observed.** The mechanism is read from the code path, not from a witnessed Upstash
+failure. Confirm against actual Upstash error behaviour before acting: the load-bearing assumption
+is that `_redisRequest` returns rather than throws on `{error: ...}`.
+
+---
+
+## ENTRY 017 - (next)
