@@ -51,6 +51,9 @@ var count = 0, rungs = 0;
 ALL_DOMAINS.forEach(function (d) {
   var o = api.get(d);
   if (!o) return;
+  // A domain whose tool endpoint does not exist cannot be sold at any rung: the buyer would
+  // pay for a watch with no source behind it. Excluded entirely rather than priced.
+  if (o.noSource) { console.log('  SKIPPED ' + d + ': no live tool endpoint, not sellable'); return; }
   var entry = { who: o.who, band: o.band, rungs: {} };
   ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'].forEach(function (k) {
     if (!o[k]) return;

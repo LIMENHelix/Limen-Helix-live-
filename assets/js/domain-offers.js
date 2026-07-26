@@ -130,12 +130,22 @@
       p3: { name: 'Supply Shift Warning', line: 'When trade with a partner you depend on breaks its trend, months before it shows up in your invoices.', cadence: 'monthly' }
     },
     infrastructure: {
+      // NO SOURCE. handlers/infrastructure-tools.js does not exist and is not registered,
+      // so /api/infrastructure-tools 404s: the free card is broken and a paid watch would have
+      // nothing behind it. Unsellable until the handler exists. Do NOT clear this flag to
+      // tidy the ladder; clear it when the endpoint answers.
+      noSource: true,
       band: 'pro', who: 'logistics, facilities and local officials',
       p1: { name: 'Your Route Watch', line: 'Airports, grids and corridors you depend on, watched for delays, ground stops and closures.', cadence: 'minute to minute' },
       p2: { name: 'The Disruption Brief', line: 'What failed this week across the systems you rely on, and how long it took to come back.', cadence: 'daily' },
       p3: { name: 'Cascade Warning', line: 'When a single failure starts propagating across connected systems rather than staying local.', cadence: 'same day' }
     },
     communication: {
+      // NO SOURCE. handlers/communication-tools.js does not exist and is not registered,
+      // so /api/communication-tools 404s: the free card is broken and a paid watch would have
+      // nothing behind it. Unsellable until the handler exists. Do NOT clear this flag to
+      // tidy the ladder; clear it when the endpoint answers.
+      noSource: true,
       band: 'pro', who: 'publishers, PR and policy staff',
       p1: { name: 'Your Proceeding Watch', line: 'FCC filings and proceedings that touch your spectrum, broadband or licence, as they post.', cadence: 'daily' },
       p2: { name: 'The Filing Brief', line: 'Who is petitioning on the rules that govern your channel, and what they are asking for.', cadence: 'daily' },
@@ -179,7 +189,7 @@
       var o = OFFERS[domain];
       if (!o) return null;
       return {
-        who: o.who, band: o.band,
+        who: o.who, band: o.band, noSource: !!o.noSource,
         p1: { name: o.p1.name, line: o.p1.line, cadence: o.p1.cadence, price: 'from ' + PRICES.p1 },
         p2: { name: o.p2.name, line: o.p2.line, cadence: o.p2.cadence, price: 'from ' + PRICES.p2 },
         p3: { name: o.p3.name, line: o.p3.line, cadence: o.p3.cadence, price: 'from ' + PRICES.p3 },
