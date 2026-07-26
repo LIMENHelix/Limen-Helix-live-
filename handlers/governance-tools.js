@@ -15,8 +15,10 @@
  * and loans are far larger in most states and are NOT counted here.
  */
 var T = require('../lib/tool-fetch');
+var PT = require('../lib/procurement-text');
 
 var URL_CAT = 'https://api.usaspending.gov/api/v2/search/spending_by_category/recipient/';
+var URL_AWARD = 'https://api.usaspending.gov/api/v2/search/spending_by_award/';
 var TTL = 12 * 3600 * 1000;
 
 var STATES = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND '
@@ -37,8 +39,42 @@ function baseFilters() {
   };
 }
 
+
+// A ranked list of who collected the most is a leaderboard, not information. The question a
+// reader has is what the money BOUGHT. spending_by_category returns names and totals only, so
+// pull the individual awards too and carry their descriptions.
+//
+// Descriptions arrive as procurement shorthand and some are pure classification codes
+// ("IGF::OT::IGF") that mean nothing to a reader. Those are reported as not stated rather than
+// dressed up as an answer.
+
+async function topAwards(filters) {
+  var r = await T.postJSON(URL_AWARD, {
+    filters: Object.assign({ award_type_codes: ['A', 'B', 'C', 'D'] }, filters),
+    fields: ['Award ID', 'Recipient Name', 'Award Amount', 'Description', 'Awarding Agency', 'Start Date'],
+    sort: 'Award Amount', order: 'desc', limit: 15
+  }, 18000);
+  if (r.status !== 200 || !r.body || !Array.isArray(r.body.results)) return [];
+  return r.body.results.map(function (x) {
+    return {
+      recipient: x['Recipient Name'] || null,
+      amount: Number(x['Award Amount']) || 0,
+      bought: PT.plainDescription(x['Description']),
+      agency: x['Awarding Agency'] || null,
+      started: x['Start Date'] || null,
+      awardId: x['Award ID'] || null
+    };
+  }).filter(function (x) { return x.recipient && x.amount; });
+}
+
 async function query(filters, label) {
-  var r = await T.postJSON(URL_CAT, { filters: filters, category: 'recipient', limit: 20 }, 18000);
+  // both reads in parallel: who collected it, and what it bought
+  var both = await Promise.all([
+    T.postJSON(URL_CAT, { filters: filters, category: 'recipient', limit: 20 }, 18000),
+    topAwards(filters).catch(function () { return []; })
+  ]);
+  var r = both[0];
+  var awards = both[1];
   if (r.status !== 200 || !r.body || !Array.isArray(r.body.results)) {
     return { ok: false, reason: 'USAspending returned ' + (r.status || 'no response') + '.' };
   }
@@ -56,6 +92,10 @@ async function query(filters, label) {
   var total = rows.reduce(function (s, x) { return s + x.amount; }, 0);
   return {
     ok: true, scope: label, rows: rows, shownTotal: total,
+    // what the largest awards actually paid for
+    awards: awards,
+    describedAwards: awards.filter(function (a) { return a.bought; }).length,
+    undescribedAwards: awards.filter(function (a) { return !a.bought; }).length,
     fyStart: fyStart(), asOf: todayIso(),
     source: 'USAspending.gov (U.S. Treasury)',
     sourceUrl: 'https://www.usaspending.gov/search',
@@ -68,7 +108,7 @@ async function nationwide() { return query(baseFilters(), 'the United States'); 
 async function byState(stRaw) {
   var st = String(stRaw || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
   if (STATES.indexOf(st) === -1) return { ok: false, reason: 'Pick a valid two-letter US state code.' };
-  return T.cached('governance:tool:state:' + st, TTL, async function () {
+  return T.cached('governance:tool:state:v2:' + st, TTL, async function () {
     var f = baseFilters();
     f.place_of_performance_locations = [{ country: 'USA', state: st }];
     var out = await query(f, st);
@@ -81,7 +121,7 @@ module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
     if (q.tool === 'state' && q.st) return T.send(res, await byState(q.st));
-    var out = await T.cached('governance:tool:national:v1', TTL, nationwide);
+    var out = await T.cached('governance:tool:national:v2', TTL, nationwide);
     out.states = STATES;
     return T.send(res, out);
   } catch (e) {

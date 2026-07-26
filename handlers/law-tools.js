@@ -26,7 +26,13 @@ function daysLeft(closeIso) {
 }
 
 function buildUrl(extraQuery) {
-  var f = ['title', 'comments_close_on', 'html_url', 'agencies', 'publication_date', 'abstract', 'document_number', 'regulations_dot_gov_info', 'type'];
+  var f = ['title', 'comments_close_on', 'html_url', 'agencies', 'publication_date', 'abstract',
+           'document_number', 'regulations_dot_gov_info', 'type',
+           // The three that turn a count into a reading:
+           //   significant     — the agency's own flag for an economically significant rule ($100M+)
+           //   cfr_references  — WHICH body of regulation changes, i.e. who is actually regulated
+           //   action          — whether this is a real proposal, a correction, or a deadline extension
+           'significant', 'cfr_references', 'action'];
   // The API cannot order by comment_date — only by publication date or relevance. Ordering by
   // publication is NOT the same as closing soonest, so pull a wide page and sort on the real
   // deadline below. Without this the "closing this week" count reads 0 while windows are shutting.
@@ -36,6 +42,48 @@ function buildUrl(extraQuery) {
     + f.map(function (x) { return '&fields%5B%5D=' + x; }).join('');
   if (extraQuery) u += '&conditions%5Bterm%5D=' + encodeURIComponent(extraQuery);
   return u;
+}
+
+
+// CFR title -> who is actually regulated, in words a person recognises. A rule citing 21 CFR
+// is about food, drugs or medical devices no matter what the title says; one citing 49 CFR is
+// about trucking, rail or aviation. This is the difference between "a rule was published" and
+// "this affects your pharmacy".
+var CFR_SECTOR = {
+  7: 'farming and food production', 9: 'meat and poultry inspection', 10: 'energy and nuclear',
+  12: 'banks and credit unions', 14: 'aviation and space', 15: 'trade and exports',
+  16: 'consumer protection and advertising', 17: 'securities and commodities trading',
+  19: 'customs and imports', 20: 'benefits and disability', 21: 'food, drugs and medical devices',
+  22: 'foreign relations', 23: 'highways', 24: 'housing and mortgages', 25: 'tribal affairs',
+  26: 'tax', 27: 'alcohol, tobacco and firearms', 29: 'workplaces and worker safety',
+  30: 'mining', 31: 'money and financial crime', 32: 'defense', 33: 'waterways and ports',
+  34: 'schools and student aid', 36: 'parks and public forests', 38: 'veterans',
+  40: 'the environment and emissions', 41: 'federal contracting', 42: 'public health and Medicare',
+  43: 'public lands', 45: 'welfare and human services', 46: 'shipping', 47: 'telecoms and broadband',
+  48: 'federal procurement', 49: 'transport, trucking and rail', 50: 'wildlife and fisheries'
+};
+
+function sectors(refs) {
+  if (!Array.isArray(refs)) return [];
+  var seen = {}, out = [];
+  refs.forEach(function (r) {
+    var name = CFR_SECTOR[r && r.title];
+    if (name && !seen[name]) { seen[name] = 1; out.push(name); }
+  });
+  return out;
+}
+
+// The `action` line tells you whether the window is real. A correction or an extension is not
+// a new proposal, and presenting it as one inflates how much is genuinely open.
+function actionKind(action) {
+  var a = String(action || '').toLowerCase();
+  if (/extension|reopening|reopen/.test(a)) return 'comment period extended';
+  if (/correction/.test(a)) return 'correction to an earlier notice';
+  if (/withdraw/.test(a)) return 'withdrawal';
+  if (/final rule/.test(a)) return 'final rule';
+  if (/advance notice|anprm/.test(a)) return 'early-stage, pre-proposal';
+  if (/proposed rule|nprm/.test(a)) return 'proposed rule';
+  return null;
 }
 
 function row(x) {
@@ -48,6 +96,11 @@ function row(x) {
     closes: x.comments_close_on || null,
     daysLeft: daysLeft(x.comments_close_on),
     abstract: (x.abstract || '').slice(0, 400) || null,
+    // WHAT IT DOES, not that it exists.
+    sectors: sectors(x.cfr_references),
+    significant: x.significant === true,
+    actionKind: actionKind(x.action),
+    action: (x.action || '').slice(0, 160) || null,
     documentNumber: x.document_number || null,
     url: x.html_url || null,
     // regulations.gov is where a comment is actually filed; the Federal Register page links on
@@ -63,12 +116,35 @@ function shape(r, extra) {
   var all = r.body.results.map(row).filter(function (x) { return x.closes; });
   all.sort(function (a, b) { return String(a.closes).localeCompare(String(b.closes)); });   // soonest deadline first
   var rows = all.slice(0, 20);
+  // WHAT IS IN THEM, not how many there are. A count of open rules is a volume metric; what a
+  // reader needs is which of these actually bite, on whom, and by when.
+  var soon = all.filter(function (x) { return x.daysLeft != null && x.daysLeft <= 7; });
+  var sig = all.filter(function (x) { return x.significant; });
+
+  // Which parts of life have a window open right now, commonest first.
+  var tally = {};
+  all.forEach(function (x) { (x.sectors || []).forEach(function (n) { tally[n] = (tally[n] || 0) + 1; }); });
+  var bySector = Object.keys(tally).map(function (n) { return { sector: n, open: tally[n] }; })
+    .sort(function (a, b) { return b.open - a.open; }).slice(0, 8);
+
+  // The single rule most worth a reader's attention: economically significant if any is,
+  // otherwise simply the next window to shut. Named, with what it does and who it hits.
+  var lead = (sig.length ? sig : all)[0] || null;
+
   var base = {
     ok: true,
     total: r.body.count || all.length,
     rows: rows,
     // counted across everything fetched, not just the 20 shown, or the number understates itself
-    closingWeek: all.filter(function (x) { return x.daysLeft != null && x.daysLeft <= 7; }).length,
+    closingWeek: soon.length,
+    significantOpen: sig.length,
+    significantClosingWeek: soon.filter(function (x) { return x.significant; }).length,
+    bySector: bySector,
+    lead: lead ? {
+      title: lead.title, sectors: lead.sectors, significant: lead.significant,
+      actionKind: lead.actionKind, daysLeft: lead.daysLeft, closes: lead.closes,
+      abstract: lead.abstract, agencies: lead.agencies, commentUrl: lead.commentUrl, url: lead.url
+    } : null,
     source: 'Federal Register',
     sourceUrl: 'https://www.federalregister.gov/documents/current',
     note: 'These are PROPOSED rules, not final ones, which is the only stage at which public comment carries weight. Agencies must consider substantive comments on the record. A comment from an ordinary member of the public counts; it does not need to be written by a lawyer.'
@@ -84,7 +160,7 @@ async function openComments() {
 async function searchComments(qRaw) {
   var q = T.cleanQuery(qRaw, 60);
   if (q.length < 3) return { ok: false, reason: 'Enter at least three letters to search by topic.' };
-  return T.cachedQuery('law:tool:comments:' + T.slugKey(q), TTL_Q, async function () {
+  return T.cachedQuery('law:tool:comments:v2:' + T.slugKey(q), TTL_Q, async function () {
     var r = await T.getJSON(buildUrl(q), 12000);
     var out = shape(r, { query: q });
     if (out.ok && !out.rows.length) {
@@ -98,7 +174,7 @@ module.exports = async function handler(req, res) {
   var q = req.query || {};
   try {
     if (q.tool === 'comments' && q.q) return T.send(res, await searchComments(q.q));
-    return T.send(res, await T.cached('law:tool:comments:open:v1', TTL, openComments));
+    return T.send(res, await T.cached('law:tool:comments:open:v2', TTL, openComments));
   } catch (e) {
     return T.send(res, { ok: false, reason: e.message || 'handler error' }, 500);
   }

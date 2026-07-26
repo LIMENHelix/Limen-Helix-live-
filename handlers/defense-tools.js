@@ -16,6 +16,14 @@
  * spending would be flatly wrong, so the payload and the card both say so.
  */
 var T = require('../lib/tool-fetch');
+var PT = require('../lib/procurement-text');
+
+// Contract descriptions arrive as procurement shorthand. "IGF::OT::IGF" is not a description
+// at all, it is an inherently-governmental-function classification flag, and printing it as
+// the answer to "what did this buy?" is worse than admitting we do not know. "LRIP LOT 12"
+// is F-35 production and "SSN 802 LONG LEAD TIME MATERIAL" is submarine parts, but only to
+// someone who already speaks the language.
+
 
 var URL_AWARD = 'https://api.usaspending.gov/api/v2/search/spending_by_award/';
 var URL_CAT = 'https://api.usaspending.gov/api/v2/search/spending_by_category/recipient/';
@@ -49,7 +57,9 @@ async function topAwards() {
     return {
       recipient: x['Recipient Name'] || null,
       amount: x['Award Amount'] || null,
-      description: (x['Description'] || '').slice(0, 220) || null,
+      description: PT.plainDescription(x['Description']),
+      // keep the original so the claim is checkable against USAspending itself
+      descriptionRaw: (x['Description'] || '').slice(0, 220) || null,
       branch: x['Awarding Sub Agency'] || null,
       started: x['Start Date'] || null,
       awardId: x['Award ID'] || null,
