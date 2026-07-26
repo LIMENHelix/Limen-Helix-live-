@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX · Post Queue (admin)</title>
+<!-- Client-side gate: bounces to / if not authorized. Same posture as the other
+     internal pages. NOT real security; the server enforces the key. -->
+<script src="/assets/js/auth-gate.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#05060a;color:rgba(220,215,200,0.9);font-family:'IBM Plex Mono',monospace;padding:24px;font-size:13px}
+  h1{font-size:0.8rem;letter-spacing:4px;color:#C9A94E;text-transform:uppercase;margin-bottom:4px}
+  .sub{font-size:0.62rem;letter-spacing:2px;color:rgba(200,195,184,0.4);margin-bottom:18px}
+  .bar{margin-bottom:18px;font-size:0.7rem;color:rgba(200,195,184,0.6)}
+  .bar a{color:rgba(201,169,78,0.7)}
+  .bar button{background:none;border:1px solid rgba(201,169,78,0.35);color:rgba(201,169,78,0.8);
+              font-family:inherit;font-size:0.6rem;letter-spacing:1px;padding:3px 10px;cursor:pointer;text-transform:uppercase}
+  .bar button:hover{background:rgba(201,169,78,0.08)}
+
+  .stats{display:flex;flex-wrap:wrap;gap:1px;background:rgba(201,169,78,0.12);
+         border:1px solid rgba(201,169,78,0.12);margin-bottom:22px}
+  .stat{background:#05060a;padding:9px 14px;flex:1 1 9rem}
+  .stat .k{font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(201,169,78,0.55);display:block}
+  .stat .v{font-size:0.85rem;color:rgba(220,215,200,0.92);margin-top:3px;display:block;word-break:break-word}
+
+  .feed{display:grid;gap:14px;max-width:640px}
+  .post{border:1px solid rgba(201,169,78,0.16);background:rgba(255,255,255,0.012)}
+  .post.blocked{border-color:rgba(220,168,126,0.32)}
+  .phead{display:flex;align-items:center;gap:9px;padding:11px 14px 4px}
+  .disc{width:30px;height:30px;flex:0 0 auto;border-radius:50%;background:#C9A94E;color:#05060a;
+        display:grid;place-items:center;font-size:0.6rem;font-weight:700;letter-spacing:0.5px}
+  .who{font-size:0.72rem;line-height:1.35;min-width:0}
+  .who b{color:rgba(230,225,212,0.95)}
+  .who span{display:block;color:rgba(200,195,184,0.42);font-size:0.63rem}
+  .dom{margin-left:auto;font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;
+       color:rgba(201,169,78,0.6);white-space:nowrap}
+
+  /* The post body must read as a POST, not as console output: system sans, normal size. */
+  .ptext{padding:8px 14px 12px;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         font-size:0.93rem;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;
+         color:rgba(228,223,210,0.94)}
+  .ptext a{color:#7fb3de;text-decoration:none}
+  .ptext a:hover,.ptext a:focus-visible{text-decoration:underline}
+
+  .pfoot{border-top:1px dashed rgba(201,169,78,0.16);padding:7px 14px;display:flex;
+         flex-wrap:wrap;gap:4px 16px;align-items:center;font-size:0.6rem;
+         color:rgba(200,195,184,0.5);letter-spacing:0.5px}
+  .pfoot a{color:rgba(201,169,78,0.7)}
+  .tag{font-size:0.53rem;letter-spacing:1.5px;padding:1px 7px;text-transform:uppercase;border:1px solid currentColor}
+  .tag.ok{color:#7fae86}
+  .tag.no{color:#dca87e}
+  .why{padding:8px 14px 12px;font-size:0.68rem;color:#dca87e;line-height:1.55}
+
+  .empty,.loading{padding:40px;text-align:center;color:rgba(200,195,184,0.4);letter-spacing:2px}
+  .note{margin-top:22px;font-size:0.6rem;color:rgba(200,195,184,0.35);line-height:1.6;max-width:640px}
+  .note b{color:rgba(200,195,184,0.55)}
+</style>
+</head>
+<body>
+  <h1>Post Queue</h1>
+  <div class="sub">what would go out on Bluesky, built from live data</div>
+  <div class="bar">
+    <a href="/admin">&larr; admin</a> &middot;
+    <span id="acct">loading…</span> &middot;
+    <button id="reload">reload</button>
+    <button id="rekey">change key</button>
+  </div>
+  <div id="stats"></div>
+  <div id="mount"><div class="loading">loading…</div></div>
+  <div class="note">
+    <b>Nothing on this page publishes anything.</b> It calls the preview path only. Posting happens
+    from <code>/api/social-cron?post=1</code>, which is a separate explicit action, capped per day,
+    and every published post records an ID so it can be deleted.
+    A domain marked <b>would skip</b> has no live data for its claim right now, or its text ran past
+    the 300-character limit. It is skipped rather than padded or trimmed, because a post that
+    invents a number to fill a template is worse than no post.
+    Each post links to the domain page that shows the source behind its figure.
+  </div>
+
+<script>
+  // No key in source. The operator pastes an admin key at runtime; it lives only in this tab's
+  // sessionStorage, and the server is what actually enforces it.
+  var KEY_STORE = 'limen_lead_admin_key';
+
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function getKey(forcePrompt){
+    var k = '';
+    try { k = sessionStorage.getItem(KEY_STORE) || ''; } catch(e){}
+    if (!k || forcePrompt) {
+      k = (window.prompt('Paste an admin key (SALES_ADMIN_KEY, LEAD_ADMIN_KEY or ADMIN_MASTER, set in Vercel).\nStored only in this browser tab - never saved to source.') || '').trim();
+      try { if (k) sessionStorage.setItem(KEY_STORE, k); } catch(e){}
+    }
+    return k;
+  }
+
+  // Render the text with its URL as a real link, using text nodes so nothing needs escaping.
+  function renderText(el, text){
+    el.textContent = '';
+    var re = /https?:\/\/\S+/g, last = 0, m;
+    while ((m = re.exec(text)) !== null){
+      if (m.index > last) el.appendChild(document.createTextNode(text.slice(last, m.index)));
+      var a = document.createElement('a');
+      a.href = m[0]; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = m[0].replace(/^https:\/\//,'').split('?')[0];
+      el.appendChild(a);
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) el.appendChild(document.createTextNode(text.slice(last)));
+  }
+
+  function card(p, isNext){
+    var art = document.createElement('article');
+    art.className = 'post' + (p.ok ? '' : ' blocked');
+
+    var head = document.createElement('div');
+    head.className = 'phead';
+    head.innerHTML = '<div class="disc">LH</div>' +
+      '<div class="who"><b>LIMEN Helix</b><span>@limenhelix.bsky.social</span></div>';
+    var dom = document.createElement('span');
+    dom.className = 'dom';
+    dom.textContent = (isNext ? 'next up · ' : '') + p.domain;
+    head.appendChild(dom);
+    art.appendChild(head);
+
+    if (p.text){
+      var body = document.createElement('div');
+      body.className = 'ptext';
+      renderText(body, p.text);
+      art.appendChild(body);
+    }
+    if (!p.ok && p.reason){
+      var why = document.createElement('div');
+      why.className = 'why';
+      why.textContent = p.reason;
+      art.appendChild(why);
+    }
+
+    var foot = document.createElement('div');
+    foot.className = 'pfoot';
+    var tag = document.createElement('span');
+    tag.className = 'tag ' + (p.ok ? 'ok' : 'no');
+    tag.textContent = p.ok ? 'would post' : 'would skip';
+    foot.appendChild(tag);
+    if (p.length != null){
+      var len = document.createElement('span');
+      len.textContent = p.length + ' / 300 characters';
+      foot.appendChild(len);
+    }
+    var link = document.createElement('a');
+    link.href = '/' + p.domain; link.target = '_blank'; link.rel = 'noopener';
+    link.textContent = 'sources on /' + p.domain + ' ↗';
+    foot.appendChild(link);
+    art.appendChild(foot);
+    return art;
+  }
+
+  function statBox(k, v){
+    return '<div class="stat"><span class="k">' + esc(k) + '</span><span class="v">' + esc(v) + '</span></div>';
+  }
+
+  function load(forcePrompt){
+    var mount = document.getElementById('mount');
+    var k = getKey(forcePrompt);
+    if (!k){ mount.innerHTML = '<div class="empty">admin key required</div>'; return; }
+    mount.innerHTML = '<div class="loading">building all 11 from live data…</div>';
+
+    fetch('/api/social-cron?all=1&key=' + encodeURIComponent(k))
+      .then(function(r){ return r.json().then(function(j){ return { status: r.status, j: j }; }); })
+      .then(function(res){
+        var j = res.j || {};
+        if (res.status === 401){
+          try { sessionStorage.removeItem(KEY_STORE); } catch(e){}
+          mount.innerHTML = '<div class="empty">key rejected &middot; click "change key" to re-enter</div>';
+          return;
+        }
+        if (!j.ok){
+          mount.innerHTML = '<div class="empty">' + esc(j.reason || j.error || ('error ' + res.status)) + '</div>';
+          return;
+        }
+
+        document.getElementById('acct').textContent = '@limenhelix.bsky.social';
+        var lp = j.lastPosted && j.lastPosted.at ? (j.lastPosted.domain + ' · ' + String(j.lastPosted.at).slice(0,10)) : 'never';
+        document.getElementById('stats').className = 'stats';
+        document.getElementById('stats').innerHTML =
+          statBox('Would post now', j.ready + ' of ' + j.total) +
+          statBox('Posted today', j.rate ? (j.rate.usedToday + ' of ' + j.rate.capPerDay) : 'unknown') +
+          statBox('Last posted', lp) +
+          statBox('Built', String(j.generatedAt || '').slice(11,16) + ' UTC');
+
+        var feed = document.createElement('div');
+        feed.className = 'feed';
+        (j.posts || []).forEach(function(p, i){ feed.appendChild(card(p, i === 0)); });
+        mount.innerHTML = '';
+        mount.appendChild(feed);
+      })
+      .catch(function(e){
+        mount.innerHTML = '<div class="empty">' + esc(e.message || 'request failed') + '</div>';
+      });
+  }
+
+  document.getElementById('reload').addEventListener('click', function(){ load(false); });
+  document.getElementById('rekey').addEventListener('click', function(){ load(true); });
+  load(false);
+</script>
+</body>
+</html>
