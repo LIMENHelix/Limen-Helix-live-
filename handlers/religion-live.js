@@ -9,7 +9,9 @@
  * Redis-cached ~1 h. Stale-on-failure; each source isolated.
  */
 var db = require('../lib/limen-db');
-var KEY = 'rel:live:v1';
+// v2: the theme rows gained a `vsub` and capped themes now render as "100+". Without moving
+// the key, Redis serves the old shape for a full hour and the fix looks like it did nothing.
+var KEY = 'rel:live:v2';
 var TTL_MS = 60 * 60 * 1000;
 
 // Pew Research, Global Religious Landscape (share of world population). Reference data.
