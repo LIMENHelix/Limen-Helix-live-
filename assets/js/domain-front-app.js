@@ -1066,7 +1066,16 @@ function setFractalPhase(phase) {
   var lc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(lc); gl.vertexAttribPointer(lc, 2, gl.FLOAT, false, 0, 0);
   var uR = gl.getUniformLocation(pr, 'u_res'), uT = gl.getUniformLocation(pr, 'u_time'), uC = gl.getUniformLocation(pr, 'u_color'),
       uH = gl.getUniformLocation(pr, 'u_chaos'), uPow = gl.getUniformLocation(pr, 'u_pow'), uShip = gl.getUniformLocation(pr, 'u_ship'), uTwist = gl.getUniformLocation(pr, 'u_twist');
-  function sz() { var d = Math.min(window.devicePixelRatio || 1, 1.5); cv.width = Math.max(1, (window.innerWidth * d) | 0); cv.height = Math.max(1, (window.innerHeight * d) | 0); gl.viewport(0, 0, cv.width, cv.height); }
+  // Size from the CANVAS's own box, not the window. It used to read window.innerWidth/Height,
+  // which was right while it was a full-page backdrop and wrong the moment it was clipped to
+  // the hero: the shader would render for a window-shaped viewport inside a hero-shaped box
+  // and stretch.
+  function sz() {
+    var d = Math.min(window.devicePixelRatio || 1, 1.5);
+    var w = cv.clientWidth || window.innerWidth, h = cv.clientHeight || window.innerHeight;
+    cv.width = Math.max(1, (w * d) | 0); cv.height = Math.max(1, (h * d) | 0);
+    gl.viewport(0, 0, cv.width, cv.height);
+  }
   sz(); addEventListener('resize', sz);
   var run = true, tAcc = 0, last = Date.now();
   document.addEventListener('visibilitychange', function () { run = !document.hidden; if (run) loop(); });
