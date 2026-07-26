@@ -5,13 +5,16 @@
  *   GET /api/social-cron?key=...&post=1     → actually publishes.
  *   GET /api/social-cron?key=...&domain=law → force a specific domain (preview or post).
  *
- * DEFAULTS TO PREVIEW ON PURPOSE. Publishing requires post=1, so a stray hit on this URL,
- * a browser prefetch, or a misconfigured cron cannot put something on a public timeline. The
- * one irreversible action in this system should need an explicit argument.
+ * DEFAULTS TO PREVIEW FOR HUMANS. A hit with an admin key publishes nothing unless post=1, so
+ * a stray click or a browser prefetch cannot put something on a public timeline.
  *
- * Every other guard lives in lib/social-post.js and applies here unchanged: operator kill
- * switch first, then the daily rate cap, then the post; failures release the rate slot; every
- * published post records its AT URI so it can be deleted.
+ * A SCHEDULED run publishes without it. Requiring post=1 from the scheduler is fragile, because
+ * Vercel can strip the query string off a cron path, and a schedule that quietly previews
+ * forever looks exactly like one that never fired.
+ *
+ * Every other guard lives in lib/social-post.js and applies here unchanged: the operator's
+ * posting pause first, then the daily rate cap, then the post; failures release the rate slot;
+ * every published post records its AT URI so it can be deleted.
  *
  * Rotation is persisted so the same domain does not repeat back to back across invocations.
  */
@@ -25,6 +28,16 @@ var LAST_KEY = 'social:lastDomain:v1';
 // Any operator-level admin key opens this. They already gate lead PII, which is more
 // sensitive than a post preview, and accepting them means the admin console can use the key
 // it has already prompted for instead of asking for a second one.
+function cronHit(req) {
+  var h = req.headers || {};
+  // Matches the pattern already proven by handlers/autopilot.js. CRON_SECRET is spoof-proof
+  // and wins when set; otherwise Vercel identifies itself with a header. It sends
+  // x-vercel-signature, NOT x-vercel-cron, on this project, and checking only the latter is
+  // why every scheduled run returned 401 while the endpoint looked perfectly healthy.
+  if (process.env.CRON_SECRET) return h['authorization'] === 'Bearer ' + process.env.CRON_SECRET;
+  return !!(h['x-vercel-cron'] || h['x-vercel-signature']);
+}
+
 var KEY_VARS = ['SOCIAL_CRON_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY'];
 
 function authorized(req) {
@@ -34,9 +47,7 @@ function authorized(req) {
                            .filter(Boolean);
   if (!configured.length) return false;          // no key configured anywhere = closed, not open
   if (supplied && configured.indexOf(supplied) !== -1) return true;
-  // Vercel's scheduler sends this header; it cannot set a query string on a cron path.
-  var h = req.headers || {};
-  return !!(h['x-vercel-cron'] || h['X-Vercel-Cron']);
+  return cronHit(req);
 }
 
 module.exports = async function handler(req, res) {
@@ -79,7 +90,12 @@ module.exports = async function handler(req, res) {
       rate: rate.ok ? { usedToday: rate.used, capPerDay: rate.cap, remaining: rate.remaining } : null
     };
 
-    if (q.post !== '1') {
+    // A SCHEDULED run publishes. Requiring ?post=1 here would be fragile: Vercel can strip the
+    // query string from a cron path (autopilot carries the same warning), and a schedule that
+    // silently previews forever is indistinguishable from one that never fired. A human or a
+    // browser still has to ask for it explicitly.
+    var wantPost = q.post === '1' || cronHit(req);
+    if (!wantPost) {
       preview.published = false;
       preview.note = 'Preview only. Add &post=1 to publish. Publishing is never the default.';
       return T.send(res, preview);

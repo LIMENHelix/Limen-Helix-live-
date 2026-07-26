@@ -21,6 +21,16 @@ var subs = require('../lib/subscriptions');
 var digest = require('../lib/digest');
 var crm = require('../lib/crm-send');
 
+function cronHit(req) {
+  var h = req.headers || {};
+  // Matches the pattern already proven by handlers/autopilot.js. CRON_SECRET is spoof-proof
+  // and wins when set; otherwise Vercel identifies itself with a header. It sends
+  // x-vercel-signature, NOT x-vercel-cron, on this project, and checking only the latter is
+  // why every scheduled run returned 401 while the endpoint looked perfectly healthy.
+  if (process.env.CRON_SECRET) return h['authorization'] === 'Bearer ' + process.env.CRON_SECRET;
+  return !!(h['x-vercel-cron'] || h['x-vercel-signature']);
+}
+
 var KEY_VARS = ['SOCIAL_CRON_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY'];
 
 function authorized(req) {
@@ -28,8 +38,7 @@ function authorized(req) {
   var supplied = q.key ? String(q.key) : '';
   var configured = KEY_VARS.map(function (nm) { return process.env[nm] ? String(process.env[nm]).trim() : ''; }).filter(Boolean);
   if (!configured.length) return { ok: false, cron: false };
-  var h = req.headers || {};
-  var cron = !!(h['x-vercel-cron'] || h['X-Vercel-Cron']);
+  var cron = cronHit(req);
   if (cron) return { ok: true, cron: true };
   if (supplied && configured.indexOf(supplied) !== -1) return { ok: true, cron: false };
   return { ok: false, cron: false };
