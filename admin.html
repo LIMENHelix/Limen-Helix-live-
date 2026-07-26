@@ -81,6 +81,9 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
     return null;
   }
   function card(href,title,desc){ return '<a class="card" href="'+href+'"><div class="t">'+title+'</div><div class="d">'+(desc||'')+'</div></a>'; }
+  /* the papers live on limenhelix.news, so they open in their own tab
+     rather than navigating the console away from itself */
+  function xcard(href,title,desc){ return '<a class="card" href="'+href+'" target="_blank" rel="noopener"><div class="t">'+title+'</div><div class="d">'+(desc||'')+'</div></a>'; }
   function sec(title,cards,cls){ cards=cards.filter(Boolean); if(!cards.length) return ''; return '<div class="sec">'+title+'<span class="n">'+cards.length+'</span></div><div class="grid'+(cls?' '+cls:'')+'">'+cards.join('')+'</div>'; }
   function head(p){ return '<div class="top"><div class="brand"><a href="/">LIMEN HELIX</a> · Mission Control</div><h1>'+(p?(p.name||'Operator'):'Sign in')+'</h1>'+(p?'<div class="who">'+(p.master?'Master access · full system':'Assigned operator')+'</div>':'')+'</div>'; }
 
@@ -295,6 +298,19 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
         card('/project-planner','Project Planner','Liz, public lead page'),
         card('/project-radar','Project Radar','Liz, bids and leads')
       ]);
+      /* Documents. One newspaper per domain, published at limenhelix.news.
+         Energy is written: an essay, its own fables and two translated
+         columns, with live headlines carried in underneath. The other
+         nineteen are compiled from that domain's named public feeds, which
+         is accurate and impersonal, and says so. Both read at the same
+         address, /<domain>. */
+      h+=sec('Documents', [
+        xcard('https://limenhelix.news/','The LIMEN Helix Gazette','The paper itself, front page'),
+        xcard('https://limenhelix.com/api/gazette','Edition index','What every edition is compiled from, as JSON')
+      ].concat(ALL_DOMAINS.map(function(d){
+        return xcard('https://limenhelix.news/'+d, d,
+          d==='energy' ? 'Newspaper &middot; written edition' : 'Newspaper &middot; compiled from feeds');
+      })), 'dgrid');
       h+=sec('System',[
         card('/pages','Site Map','Every page'),
         card('/phase-map','Phase Map','P0 to P10'),
