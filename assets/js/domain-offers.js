@@ -21,10 +21,17 @@
 (function () {
 
   // audience band -> price points for the three converting rungs
+  //
+  // PRICED BY WHAT IT COSTS US TO DELIVER, not by what the buyer could bear. These are alerts
+  // and digests assembled from free federal sources; the honest price of a watched threshold
+  // and an email is a few dollars, and charging $49 for one invites the comparison to a free
+  // government mailing list, which we lose. Single digits are the default. Double digits are
+  // only for rungs that are genuinely intensive: many entities tracked at once, or a
+  // cross-source join we have to compute rather than forward.
   var BANDS = {
-    consumer: { p1: '$4 / mo', p2: '$6 / mo', p3: '$9 / mo' },   // households, growers, patients, families
-    pro:      { p1: '$9 / mo', p2: '$14 / mo', p3: '$19 / mo' },  // operators, small firms, journalists
-    business: { p1: '$19 / mo', p2: '$29 / mo', p3: '$49 / mo' }  // compliance, procurement, institutional
+    consumer: { p1: '$3 / mo', p2: '$5 / mo', p3: '$7 / mo' },    // households, growers, patients, families
+    pro:      { p1: '$5 / mo', p2: '$8 / mo', p3: '$12 / mo' },   // operators, small firms, journalists
+    business: { p1: '$9 / mo', p2: '$14 / mo', p3: '$19 / mo' }   // compliance, procurement, institutional
   };
 
   var OFFERS = {
