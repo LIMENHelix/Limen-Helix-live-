@@ -309,10 +309,25 @@ module.exports = async function handler(req, res) {
               // them and gain their own per-domain text, so no domain regresses. Dry-run over live data:
               // domains with feed channels goes 7 -> 19 (science alone still abstains, correctly, with
               // zero typed matches over 24 signals).
+              // Each routed headline carries its OWN source's quality class, not a flat default.
+              // domain-snapshot grades every source (`classification`: real 1.0 / event 0.6 /
+              // degraded 0.3 / broken 0.0) and `signalSources[i]` names the source that produced
+              // `signals[i]` — verified aligned 20/20 domains, 629 of 646 signals resolving to a
+              // graded source. Passing the class through is what keeps feedFractal's intensity
+              // (Sum quality / K) precision-weighted rather than treating a degraded feed and a real
+              // one as equal evidence, and it makes `broken` sources contribute nothing, since
+              // toChannels skips q <= 0. An unresolved source falls back to 'event' (0.6), never
+              // to 'real' — the conservative direction.
               var domainRow = domains[pk];
               if (domainRow && Array.isArray(domainRow.signals)) {
-                domainRow.signals.forEach(function (t) {
-                  if (typeof t === 'string' && t) ingestItems.push({ text: t });   // quality omitted -> toChannels defaults 0.6 ('event')
+                var srcQuality = {};
+                (domainRow.sources || []).forEach(function (sc) {
+                  if (sc && sc.name) srcQuality[sc.name] = sc.classification || sc.signalType || 'event';
+                });
+                var sigSrc = Array.isArray(domainRow.signalSources) ? domainRow.signalSources : [];
+                domainRow.signals.forEach(function (t, si) {
+                  if (typeof t !== 'string' || !t) return;
+                  ingestItems.push({ text: t, quality: srcQuality[sigSrc[si]] || 'event' });
                 });
               }
 
