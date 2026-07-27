@@ -103,8 +103,11 @@ var now = t0 + 100 * HOUR;            // "now" well past all horizons below
   assert('currentStress = latest recorded', fr && Math.abs(fr.currentStress - (0.3 + 11 * 0.03)) < 0.001);
   var falling = []; for (var j = 0; j < 12; j++) falling.push({ t: t0 + j * HOUR, s: 0.8 - j * 0.03 });
   assert('falling series ⇒ falling', R.deriveForecast(falling).direction === 'falling');
+  // A flat series REFUSES rather than calling "stable". Calling stable on a flat line
+  // is always right, which is exactly how six domains came to report perfect accuracy.
   var flat = []; for (var k = 0; k < 12; k++) flat.push({ t: t0 + k * HOUR, s: 0.5 });
-  assert('flat series ⇒ stable', R.deriveForecast(flat).direction === 'stable');
+  assert('flat series ⇒ null (refuses, does not call stable)', R.deriveForecast(flat) === null,
+    JSON.stringify(R.deriveForecast(flat)));
   assert('too little history ⇒ null', R.deriveForecast([{ t: t0, s: 0.5 }]) === null);
 })();
 
@@ -201,6 +204,46 @@ var now = t0 + 100 * HOUR;            // "now" well past all horizons below
   assert('the reported delta matches what was graded', r.resolved[0].delta === 0.02, JSON.stringify(r.resolved[0].delta));
   var r2 = R.resolve([{ madeAt: t0, direction: 'stable', currentStress: 0.5 }], [{ t: t0 + H, s: 0.53 }], { now: now });
   assert('one step beyond the band ⇒ miss', r2.externalHitRate === 0, JSON.stringify(r2.resolved));
+})();
+
+// T15 — REGRESSION. The variance gate: a window spanning less than the dead-band has
+// no expressible direction, so the forecaster must abstain instead of taking a free
+// hit. This is the single change that ends "six domains report 1.0 accuracy".
+(function () {
+  console.log('T15: a series that does not move is refused, not forecast');
+  function mk(vals) { return vals.map(function (v, i) { return { t: t0 + i * HOUR, s: v }; }); }
+
+  assert('zero variance ⇒ refused', R.deriveForecast(mk([0.51, 0.51, 0.51, 0.51, 0.51, 0.51])) === null);
+  // moves, but by less than one dead-band across the whole window (the law/defense shape)
+  assert('range 0.01, under the band ⇒ refused',
+    R.deriveForecast(mk([0.50, 0.51, 0.50, 0.51, 0.50, 0.51])) === null,
+    JSON.stringify(R.deriveForecast(mk([0.50, 0.51, 0.50, 0.51, 0.50, 0.51]))));
+  // exactly at the band is still refused: it must CLEAR the band, not merely touch it
+  assert('range exactly 0.02 ⇒ refused', R.deriveForecast(mk([0.50, 0.52, 0.50, 0.52])) === null);
+  var live = R.deriveForecast(mk([0.50, 0.53, 0.50, 0.53, 0.50, 0.53]));
+  assert('range 0.03, over the band ⇒ forecast made', live !== null, JSON.stringify(live));
+
+  // The gate is per-WINDOW, not per-domain: a domain that goes quiet abstains for that
+  // stretch and resumes when it moves again.
+  var quietThenAlive = mk([0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.40, 0.55]);
+  assert('a quiet stretch alone ⇒ refused', R.deriveForecast(quietThenAlive.slice(0, 7)) === null);
+  assert('the same series once it moves ⇒ forecast made', R.deriveForecast(quietThenAlive) !== null);
+})();
+
+// T16 — the end-to-end consequence, in the exact shape of law/culture/technology in
+// production: a flat domain ABSTAINS instead of reporting a perfect hit rate.
+(function () {
+  console.log('T16: a flat domain abstains instead of scoring 1.0');
+  var rows = [], fcs = [];
+  for (var i = 0; i < 40; i++) rows.push({ t: t0 + i * HOUR, s: 0.51 });
+  for (var k = 12; k < 34; k++) {
+    var fc = R.deriveForecast(rows.slice(0, k + 1));
+    if (fc) fcs.push({ madeAt: rows[k].t, direction: fc.direction, currentStress: fc.currentStress });
+  }
+  assert('no forecast is even produced', fcs.length === 0, 'produced ' + fcs.length);
+  var r = R.resolve(fcs, rows, { now: now });
+  assert('so the resolver abstains (null), not 1.0', r.externalHitRate === null, JSON.stringify(r.externalHitRate));
+  assert('and skill is null, not a misleading 0', r.skill === null, JSON.stringify(r.skill));
 })();
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');

@@ -1144,6 +1144,13 @@ module.exports = async function handler(req, res) {
         domains.energy.stress = _csEnergy.stress;
         domains.energy.finalStress = _csEnergy.stress;
         domains.energy.stressSource = _csEnergy.stressSource;
+        // The basis has to be overridden too, or it keeps describing the feed-volume
+        // computation this line just replaced. buildDomain sees energy's uncapped
+        // value exceed its ceiling and calls it 'clamped'; the value actually
+        // published here is the precision-weighted market fusion, which is the most
+        // grounded reading in the system and is free to move across its full range.
+        domains.energy.stressBasis = 'measured';
+        domains.energy.stressUsable = true;
       }
     } catch (_pe) { /* never fatal — energy.stress stays feed-derived on any error */ }
 
@@ -1514,6 +1521,7 @@ function buildDomain(key, sources, opts) {
   }
 
   var stress, activity, confidence, maturity, cadence, status;
+  var simulated = false;    // set only on the no-live-sources path below
 
   // ── Stress: from stress-driver sources only ──
   if (stressDrivers.length > 0) {
@@ -1626,6 +1634,7 @@ function buildDomain(key, sources, opts) {
     var offset = key.length * 1.7;
     stress = round(0.15 + Math.sin(t + offset) * 0.05);
     activity = 0;
+    simulated = true;   // a sine wave of the clock. NEVER let this reach the recorder.
     signals.push('simulated - no live sources');
   }
 
@@ -1681,13 +1690,40 @@ function buildDomain(key, sources, opts) {
     eventScore = round(eventIntensity * diversityFactor);
   }
 
-  var finalStress;
-  if (lowSignal) {
-    finalStress = round(Math.min(0.3, baselineStress + (eventScore * 0.2)));
-  } else {
-    finalStress = round(Math.min(1, baselineStress + (eventScore * 0.3)));
-  }
+  var ceiling = lowSignal ? 0.3 : 1;
+  var uncappedStress = baselineStress + (eventScore * (lowSignal ? 0.2 : 0.3));
+  var finalStress = round(Math.min(ceiling, uncappedStress));
   stress = finalStress;
+
+  /**
+   * IS THIS NUMBER A MEASUREMENT, OR IS IT THE GUARD RAIL?
+   *
+   * Established 2026-07-27 by replaying 262h of recorder history: five of the twenty
+   * domains (culture, governance, health, population, technology) compute an uncapped
+   * stress ABOVE their ceiling every single hour, so Math.min returns the ceiling
+   * exactly, every time. The value they publish is the clamp, not a reading. It never
+   * moves because it cannot.
+   *
+   * That is fine for display, where a capped number is the honest thing to show. It is
+   * NOT fine downstream: the recorder stored the clamp, deriveForecast forecast the
+   * clamp, the resolver graded "stable" correct against the clamp, and the reward came
+   * back 1.0. Six domains were reporting perfect forecast accuracy off a guard rail.
+   *
+   * So the snapshot now says which it is. `stressUsable` is the flag the learning chain
+   * reads; anything not `measured` must not be recorded as an observation. See
+   * handlers/feed-record.js, which drops the value rather than storing a fiction.
+   *
+   *   simulated         no live sources at all: stress is a sine wave of the clock
+   *   activity-fallback no stress-driver feed exists; derived from activity volume
+   *   clamped           the computed value is at or above its ceiling, so min() pins it
+   *   measured          a real stress driver, below the ceiling, free to move
+   */
+  var stressBasis;
+  if (simulated) stressBasis = 'simulated';
+  else if (stressDrivers.length === 0) stressBasis = 'activity-fallback';
+  else if (uncappedStress >= ceiling) stressBasis = 'clamped';
+  else stressBasis = 'measured';
+  var stressUsable = stressBasis === 'measured';
 
   // ── Maturity classification (23B) ──
   // STRUCTURAL: stress > 0.5, confidence > 0.7, stress drivers >= 2
@@ -1714,6 +1750,12 @@ function buildDomain(key, sources, opts) {
     baselineStress: baselineStress,
     eventScore: eventScore,
     finalStress: finalStress,
+    // Whether `stress` above is a reading or a guard rail. The learning chain gates
+    // on stressUsable; the display does not have to. See the block above finalStress.
+    stressBasis: stressBasis,
+    stressUsable: stressUsable,
+    uncappedStress: round(uncappedStress),
+    stressCeiling: ceiling,
     activity: activity,
     maturity: maturity,
     updated: Date.now(),

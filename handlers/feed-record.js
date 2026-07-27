@@ -52,9 +52,28 @@ function compactSource(s) {
   return (o.n || o.s !== undefined || o.a !== undefined || o.v !== undefined) ? o : null;
 }
 
+/**
+ * NEVER RECORD A SIMULATED STRESS VALUE.
+ *
+ * A domain with no live sources at all gets `stress = 0.15 + sin(clock) * 0.05`
+ * (handlers/domain-snapshot.js, the FALLBACK branch). That is honest at the source: it
+ * ships a 'simulated - no live sources' signal alongside. But this recorder used to
+ * store it with no check, so a sine wave of the wall clock would enter the durable
+ * history indistinguishable from a reading, and everything downstream would forecast
+ * and grade it as though it were the world.
+ *
+ * No domain is on that path today, so this closes a latent hole rather than an active
+ * leak. It is the only stress value dropped here. Everything else is recorded, and the
+ * decision about whether a series carries enough signal to forecast is made downstream
+ * by lib/feed-resolver.deriveForecast, which measures the actual variance of the actual
+ * window. That belongs there and not here: a value can be perfectly real and still have
+ * nothing to predict, and only the history can tell you which.
+ */
 function compactRow(t, d) {
   var row = { t: t };
-  if (isNum(d.stress)) row.s = r4(d.stress);
+  var fabricated = d.stressBasis === 'simulated';
+  if (isNum(d.stress) && !fabricated) row.s = r4(d.stress);
+  else if (isNum(d.stress)) { row.sx = r4(d.stress); row.sb = 'simulated'; }
   if (isNum(d.activity)) row.a = r4(d.activity);
   if (isNum(d.confidence)) row.c = r4(d.confidence);
   if (d.maturity) row.m = String(d.maturity);
