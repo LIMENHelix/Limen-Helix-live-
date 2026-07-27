@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>LIMEN Helix · Main Brain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#c9a94e; --gold-dim:rgba(201,169,78,0.55); --gold-ghost:rgba(201,169,78,0.2);
+    --live:#8fcbb6; --starve:#d6a95e; --dead:#8a6060; --fail:#d97070;
+    --never:#5a5750; --veto:#c25b5b; --open:#c25b5b;
+    --bg:#0a0b0e; --panel:rgba(13,14,18,0.97); --ink:#d8d3c9; --dim:#7d786f;
+    --hair:rgba(255,255,255,0.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    -webkit-font-smoothing:antialiased}
+  body{padding-top:108px}
+
+  /* Entry flash: hands off from the sun on /civilization so the two halves of
+     the transition read as one movement instead of a page load. */
+  #flash{position:fixed;inset:0;background:#fff6e0;z-index:60;pointer-events:none;
+    opacity:1;transition:opacity 560ms cubic-bezier(.16,.7,.3,1)}
+  body.opened #flash{opacity:0}
+
+  /* ── header ─────────────────────────────────────────────────────── */
+  header{position:fixed;top:0;left:0;right:0;height:52px;z-index:30;
+    display:flex;align-items:center;gap:14px;padding:0 20px;
+    border-bottom:1px solid var(--hair);background:rgba(10,11,14,0.96)}
+  .brand{font-size:0.78rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dim)}
+  .brand a{color:inherit;text-decoration:none}
+  .brand a:hover{color:var(--gold)}
+  .sep{color:var(--gold-ghost)}
+  .title{font-size:0.78rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+  .sub{font-size:0.72rem;color:var(--dim)}
+  .spacer{flex:1}
+  button.pill{font-size:0.72rem;letter-spacing:1.5px;padding:5px 12px;border-radius:3px;
+    border:1px solid var(--gold-ghost);background:transparent;color:var(--dim);
+    cursor:pointer;font-family:inherit;transition:.16s}
+  button.pill:hover{border-color:var(--gold-dim);color:var(--ink)}
+  button.pill.on{border-color:var(--live);color:var(--live)}
+
+  /* ── control bar ────────────────────────────────────────────────── */
+  #controls{position:fixed;top:52px;left:0;right:0;height:56px;z-index:29;
+    display:flex;align-items:center;gap:10px;padding:0 20px;overflow-x:auto;
+    border-bottom:1px solid var(--hair);background:rgba(12,13,17,0.97)}
+  .ctl{display:flex;align-items:center;gap:9px;padding:6px 11px;border-radius:3px;
+    border:1px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.02);flex:none}
+  .ctl .lab{font-size:0.64rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+  .ctl .val{font-size:0.74rem;letter-spacing:0.5px}
+  .ctl .val.live{color:var(--live)} .ctl .val.off{color:var(--veto)}
+  .ctl .val.blocked{color:var(--starve)}
+  .ctl button{font-family:inherit;font-size:0.68rem;letter-spacing:1.2px;padding:4px 9px;
+    border-radius:3px;cursor:pointer;background:transparent;transition:.16s}
+  .ctl button.stop{border:1px solid rgba(194,91,91,0.5);color:#d98080}
+  .ctl button.stop:hover{background:rgba(194,91,91,0.15)}
+  .ctl button.go{border:1px solid rgba(143,203,182,0.5);color:var(--live)}
+  .ctl button.go:hover{background:rgba(143,203,182,0.15)}
+  .ctl button[disabled]{opacity:0.4;cursor:not-allowed}
+  .ctl .why{font-size:0.65rem;color:var(--starve);max-width:330px;line-height:1.4}
+  .ctl.paid{border-color:rgba(214,169,94,0.4)}
+  .ctl .coin{color:var(--starve);font-size:0.78rem}
+
+  /* ── registers ──────────────────────────────────────────────────── */
+  section.reg{border-bottom:1px solid var(--hair);padding:0 0 8px}
+  .reghead{display:flex;align-items:baseline;gap:14px;padding:20px 24px 6px;flex-wrap:wrap}
+  .regnum{font-size:0.66rem;letter-spacing:3px;color:var(--gold-ghost)}
+  .regname{font-size:0.9rem;letter-spacing:3.4px;text-transform:uppercase;color:var(--gold);font-weight:400}
+  .regsub{font-size:0.73rem;color:var(--dim);line-height:1.6;max-width:640px}
+  .regstat{margin-left:auto;font-size:0.72rem;color:var(--dim);text-align:right;line-height:1.6}
+  .regstat b{font-weight:500;color:var(--ink)}
+  .regstat .bad{color:var(--fail)}
+
+  /* I — harness */
+  #harnesswrap{position:relative;height:660px;overflow:hidden}
+  #harnesswrap svg{display:block;width:100%;height:100%}
+
+  /* II — loop */
+  #loopwrap{position:relative;display:flex;gap:0;align-items:stretch;flex-wrap:wrap}
+  #loopsvg{flex:1 1 560px;min-width:520px;height:520px}
+  #loopsvg svg{display:block;width:100%;height:100%}
+  #loopside{flex:1 1 380px;min-width:340px;padding:8px 24px 22px;font-size:0.75rem;line-height:1.7}
+  .hop{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer}
+  .hop:hover{background:rgba(255,255,255,0.02)}
+  .hop.sel{background:rgba(201,169,78,0.06)}
+  .hop .dot{width:9px;height:9px;border-radius:50%;flex:none;margin-top:6px}
+  .hop .nm{flex:1}
+  .hop .nm b{font-weight:500;letter-spacing:0.4px}
+  .hop .nm .ev{display:block;color:var(--dim);font-size:0.71rem;line-height:1.55;margin-top:1px}
+  .hop .vd{flex:none;font-size:0.66rem;letter-spacing:1.8px;text-transform:uppercase;margin-top:4px}
+  .vd.closed{color:var(--live)} .vd.open{color:var(--fail)}
+  .vd.inverted{color:var(--veto)} .vd.struct{color:var(--starve)}
+  .vd.unknown{color:var(--never)}
+
+  /* III — field */
+  #field{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
+    gap:1px;background:var(--hair);border-top:1px solid var(--hair);margin-top:10px}
+  .cell{background:var(--bg);padding:11px 13px 12px;cursor:pointer;transition:.14s;position:relative}
+  .cell:hover{background:rgba(255,255,255,0.025)}
+  .cell.probing{opacity:0.55}
+  .cell .dn{font-size:0.73rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink)}
+  .cell .sv{font-size:1.32rem;font-weight:300;letter-spacing:0.5px;margin-top:3px;line-height:1.15}
+  .cell .meta{font-size:0.665rem;color:var(--dim);line-height:1.6;margin-top:3px}
+  .cell .spark{display:block;width:100%;height:26px;margin-top:7px}
+  .cell .flag{display:inline-block;font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;
+    padding:1px 5px;border-radius:2px;margin-right:4px;margin-top:5px}
+  .flag.const{background:rgba(194,91,91,0.16);color:#d98080;border:1px solid rgba(194,91,91,0.35)}
+  .flag.capped{background:rgba(214,169,94,0.14);color:var(--starve);border:1px solid rgba(214,169,94,0.32)}
+  .flag.sat{background:rgba(217,112,112,0.14);color:var(--fail);border:1px solid rgba(217,112,112,0.32)}
+  .flag.sim{background:rgba(194,91,91,0.24);color:#e59a9a;border:1px solid rgba(194,91,91,0.5)}
+  .flag.real{background:rgba(143,203,182,0.12);color:var(--live);border:1px solid rgba(143,203,182,0.3)}
+  .flag.idle{background:transparent;color:var(--never);border:1px solid rgba(90,87,80,0.5)}
+
+  /* ── inspector ──────────────────────────────────────────────────── */
+  #insp{position:fixed;right:18px;top:120px;width:330px;z-index:25;max-height:calc(100vh - 150px);
+    overflow-y:auto;border:1px solid rgba(255,255,255,0.1);background:var(--panel);
+    padding:15px 16px;display:none;font-size:0.76rem;line-height:1.65;
+    box-shadow:0 10px 40px rgba(0,0,0,0.5)}
+  #insp.show{display:block}
+  #insp button.x{position:absolute;top:8px;right:9px;width:24px;height:24px;padding:0;
+    background:transparent;border:none;color:var(--dim);font-family:inherit;
+    font-size:1.05rem;line-height:1;cursor:pointer;border-radius:3px}
+  #insp button.x:hover{color:var(--ink);background:rgba(255,255,255,0.07)}
+  #insp h3{margin:0 34px 3px 0;font-size:0.84rem;letter-spacing:0.5px;color:var(--gold);font-weight:500}
+  #insp .role{font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+  #insp .st{font-size:0.72rem;margin:8px 0 11px;letter-spacing:1px;text-transform:uppercase}
+  #insp .row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05)}
+  #insp .k{color:var(--dim);flex:none}
+  #insp .v{color:var(--ink);text-align:right;word-break:break-word}
+  #insp .v.bad{color:var(--fail)}
+  #insp .v.never{color:var(--never);font-style:italic}
+  #insp .note{margin-top:10px;color:var(--dim);font-size:0.72rem;line-height:1.6}
+  #insp .valve{margin-top:13px;padding-top:12px;border-top:1px solid var(--gold-ghost)}
+  #insp .valve .lbl{font-size:0.66rem;letter-spacing:2.4px;text-transform:uppercase;
+    color:var(--veto);margin-bottom:8px}
+  #insp button.sw{width:100%;padding:9px;border-radius:3px;cursor:pointer;
+    font-family:inherit;font-size:0.73rem;letter-spacing:1.5px;transition:.16s}
+  #insp button.sw.open{border:1px solid rgba(194,91,91,0.5);background:transparent;color:#d98080}
+  #insp button.sw.open:hover{background:rgba(194,91,91,0.15)}
+  #insp button.sw.shut{border:1px solid rgba(143,203,182,0.5);background:rgba(194,91,91,0.12);color:var(--live)}
+  #insp button.sw.shut:hover{background:rgba(143,203,182,0.15)}
+  #insp .vstate{margin-top:8px;font-size:0.7rem;color:var(--dim);line-height:1.55}
+
+  /* ── the honest empty state ─────────────────────────────────────── */
+  #dark{position:absolute;inset:0;z-index:12;display:none;place-items:center;
+    background:rgba(10,11,14,0.9)}
+  #dark.show{display:grid}
+  #dark .box{max-width:560px;padding:26px 30px;border:1px solid var(--gold-ghost);
+    background:var(--panel);text-align:center}
+  #dark h2{margin:0 0 12px;font-size:0.88rem;letter-spacing:2.6px;text-transform:uppercase;
+    color:var(--gold);font-weight:400}
+  #dark p{margin:0 0 10px;font-size:0.78rem;line-height:1.75;color:#a9a49a}
+  #dark .why{color:var(--dim);font-size:0.73rem;line-height:1.75}
+
+  /* ── legend ─────────────────────────────────────────────────────── */
+  .legend{display:flex;align-items:center;gap:22px;padding:10px 24px 16px;flex-wrap:wrap}
+  .lg{display:flex;align-items:center;gap:8px;font-size:0.71rem;color:var(--dim)}
+  .sw9{width:9px;height:9px;border-radius:1px;flex:none}
+  .sw9.hollow{background:none;border:1px solid var(--never)}
+  .lg .ln{width:22px;height:0;border-top:1.6px solid #6f7a8c;flex:none}
+  .lg .ln.dash{border-top:1px dashed #3a3f4a}
+  .lgtitle{font-size:0.66rem;letter-spacing:2px;text-transform:uppercase;
+    color:var(--gold-dim);margin-right:-12px}
+
+  /* ── key gate ───────────────────────────────────────────────────── */
+  #gate{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:var(--bg)}
+  #gate.hide{display:none}
+  #gate .box{width:350px;padding:28px;border:1px solid var(--gold-ghost);text-align:center}
+  #gate h2{margin:0 0 6px;font-size:0.84rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--gold);font-weight:400}
+  #gate p{margin:0 0 18px;font-size:0.74rem;color:var(--dim);line-height:1.6}
+  #gate input{width:100%;padding:10px;background:rgba(255,255,255,0.04);
+    border:1px solid var(--gold-ghost);color:var(--ink);font-family:inherit;
+    font-size:0.78rem;margin-bottom:11px}
+  #gate input:focus{outline:none;border-color:var(--gold-dim)}
+  #gate button{width:100%;padding:10px;background:transparent;border:1px solid var(--gold-dim);
+    color:var(--gold);font-family:inherit;font-size:0.74rem;letter-spacing:2.4px;
+    text-transform:uppercase;cursor:pointer}
+  #gate button:hover{background:rgba(201,169,78,0.1)}
+  #gate .err{margin-top:11px;font-size:0.71rem;color:var(--fail);min-height:2.4em;line-height:1.5}
+
+  @media (max-width:900px){
+    #loopsvg{min-width:100%;height:440px}
+    #insp{position:static;width:auto;max-height:none;margin:0 18px 18px}
+  }
+</style>
+</head>
+<body>
+
+<div id="flash"></div>
+
+<header>
+  <div class="brand"><a href="/">LIMEN HELIX</a></div>
+  <div class="sep">·</div>
+  <div class="title">Main Brain</div>
+  <div class="sub">what ran, what it learned, what is dark</div>
+  <div class="spacer"></div>
+  <button class="pill" id="btnLive">live</button>
+  <button class="pill" onclick="location.href='/civilization'">&larr; civilization</button>
+</header>
+
+<div id="controls"></div>
+
+<!-- ═══ I. THE HARNESS ═══════════════════════════════════════════════ -->
+<section class="reg">
+  <div class="reghead">
+    <span class="regnum">I</span>
+    <span class="regname">The Harness</span>
+    <span class="regsub">Every scheduled job, arranged by what it does to the world.
+      Afferent left, efferent right, the veto on the efferent path only.
+      Nothing here is animated by a schedule; a spike is a recorded run.</span>
+    <span class="regstat" id="hstat"></span>
+  </div>
+  <div id="harnesswrap">
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="dark">
+      <div class="box">
+        <h2>No activity recorded</h2>
+        <p>Nothing has reported a run yet, so there is nothing to draw.</p>
+        <div class="why">A schedule is not evidence that a job ran. This diagram
+          animates recorded events and nothing else, so an empty ledger stays unlit
+          rather than idling. It fills in on its own as jobs begin reporting.</div>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <span class="lgtitle">State</span>
+    <span class="lg"><span class="sw9" style="background:var(--live)"></span>running to schedule</span>
+    <span class="lg"><span class="sw9" style="background:var(--starve)"></span>late</span>
+    <span class="lg"><span class="sw9" style="background:var(--dead)"></span>not running</span>
+    <span class="lg"><span class="sw9" style="background:var(--fail)"></span>failing</span>
+    <span class="lg"><span class="sw9 hollow"></span>never observed</span>
+    <span class="lgtitle">Line</span>
+    <span class="lg"><span class="ln"></span>traffic recorded</span>
+    <span class="lg"><span class="ln dash"></span>declared, nothing recorded</span>
+    <span class="lg"><span class="sw9" style="background:var(--veto)"></span>valve shut</span>
+  </div>
+</section>
+
+<!-- ═══ II. THE LOOP ═════════════════════════════════════════════════ -->
+<section class="reg">
+  <div class="reghead">
+    <span class="regnum">II</span>
+    <span class="regname">The Loop</span>
+    <span class="regsub">The nine hops between sensing a thing and having learned from it.
+      Measured on load, not asserted. Two hops cannot be probed at all because
+      the path does not exist in code; those are marked structural rather than
+      guessed at. A ring that does not close is drawn not closing.</span>
+    <span class="regstat" id="lstat"></span>
+  </div>
+  <div id="loopwrap">
+    <div id="loopsvg"><svg id="lsvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div id="loopside"></div>
+  </div>
+</section>
+
+<!-- ═══ III. THE FIELD ═══════════════════════════════════════════════ -->
+<section class="reg">
+  <div class="reghead">
+    <span class="regnum">III</span>
+    <span class="regname">The Field</span>
+    <span class="regsub">Twenty domains, each showing the stress scalar the recorder
+      actually stores. Click one to pull its recorded history and its forecast
+      calibration. Probes are per-domain on purpose: a resolver read scans thousands
+      of rows, and firing twenty of them on every page load is a bandwidth bill,
+      not a dashboard.</span>
+    <span class="regstat" id="fstat"></span>
+  </div>
+  <div id="field"></div>
+</section>
+
+<div id="insp"></div>
+
+<div id="gate">
+  <div class="box">
+    <h2>Main Brain</h2>
+    <p>Operator key required.</p>
+    <input id="gk" type="password" placeholder="admin key" autocomplete="off">
+    <button id="gb">Enter</button>
+    <div class="err" id="ge"></div>
+  </div>
+</div>
+
+<script src="assets/js/main-brain.js?v=1"></script>
+</body>
+</html>
