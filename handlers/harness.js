@@ -23,6 +23,8 @@
 
 var HB = require('../lib/heartbeat');
 var MAP = require('../lib/harness-map');
+var KS = require('../lib/ai-kill-switch');
+var SOCIAL = require('../lib/social-post');
 
 var KEY_VARS = ['HARNESS_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY', 'CRON_SECRET'];
 
@@ -88,6 +90,35 @@ function expectedGapMs(schedule) {
   return null;
 }
 
+/**
+ * The AI spend picture, with the two boundaries kept separate because they are
+ * not the same kind of control. `envEnabled` needs a Vercel change and a
+ * redeploy; `runtimePaused` is instant. Collapsing them into one "AI: on/off"
+ * would tell the operator they can reach something they cannot.
+ */
+async function aiState() {
+  var envEnabled = !KS.aiDisabled();
+  var tokensPerTick = parseInt(process.env.LIMEN_AI_TOKENS_PER_TICK || '0', 10);
+  var runtimePaused = await KS.spendPausedRuntime();
+  var blocked = await KS.spendDisabled();
+  return {
+    envEnabled: envEnabled,
+    envVar: 'LIMEN_AI_ENABLED',
+    tokensPerTick: tokensPerTick,
+    runtimePaused: runtimePaused,
+    spending: !blocked,
+    reason: !envEnabled ? 'env-disabled'
+      : (runtimePaused ? 'operator-paused' : (tokensPerTick <= 0 ? 'budget-zero' : 'live')),
+    // Stated plainly so the panel never implies the switch reaches further than it does.
+    controllableHere: envEnabled,
+    needsVercel: !envEnabled
+      ? 'Set LIMEN_AI_ENABLED=1 and LIMEN_AI_TOKENS_PER_TICK to a non-zero value in Vercel, then redeploy. Until then this switch cannot enable spend.'
+      : null,
+    // The one paid job that ignores all of the above.
+    ungatedPaidJobs: Object.keys(MAP.COST).filter(function (k) { return MAP.COST[k].killSwitch === false; })
+  };
+}
+
 module.exports = async function handler(req, res) {
   try {
     var u = new URL(req.url, 'http://local');
@@ -110,6 +141,31 @@ module.exports = async function handler(req, res) {
       var wantOpen = !(open === '0' || open === 'false' || open === 'no');
       var r = await HB.setValve(valveJob, wantOpen, q.get('reason') || 'set from the harness panel');
       return send(res, r, r.ok ? 200 : 400);
+    }
+
+    // ── write: the AI spend switch ────────────────────────────────────────
+    // Runtime only. LIMEN_AI_ENABLED is an environment variable and no request
+    // can change it, so this flips the Redis pause that lib/ai-kill-switch
+    // consults. It can only pause spend the env already permits; it can never
+    // open spend past the env boundary. Saying otherwise would be a lie about
+    // where the operator's authority actually reaches.
+    var ai = q.get('ai');
+    if (ai) {
+      if (ai !== 'pause' && ai !== 'resume') return send(res, { ok: false, error: 'ai must be pause or resume' }, 400);
+      await KS.setSpendPaused(ai === 'pause');
+      var st = await aiState();
+      return send(res, { ok: true, ai: st,
+        note: ai === 'pause' ? 'Autonomous AI spend paused. Takes effect immediately, no redeploy.'
+          : (st.envEnabled ? 'Runtime pause lifted. Spend is live within the token ceiling.'
+                           : 'Runtime pause lifted, but LIMEN_AI_ENABLED is not 1, so spend stays blocked at the environment boundary.') });
+    }
+
+    // ── write: the social posting pause ───────────────────────────────────
+    var soc = q.get('social');
+    if (soc) {
+      if (soc !== 'pause' && soc !== 'resume') return send(res, { ok: false, error: 'social must be pause or resume' }, 400);
+      var r2 = await SOCIAL.setPaused(soc === 'pause', 'set from the harness panel');
+      return send(res, r2.ok ? { ok: true, social: r2.state } : r2, r2.ok ? 200 : 500);
     }
 
     // ── write: a run reported from outside Vercel (GitHub Actions) ────────
@@ -139,8 +195,10 @@ module.exports = async function handler(req, res) {
       // Overdue only when we know the expected gap AND have a baseline to
       // measure from. Never observed = "never", which is not the same as late.
       var overdue = (gap && since != null) ? (since > gap * 1.5) : null;
+      var money = MAP.costOf(j.job);
       return {
         job: j.job,
+        cost: money,
         declared: { schedule: j.schedule, source: j.source, path: j.path, kind: j.kind, role: j.role, note: j.note, expectedGapMs: gap },
         observed: last ? { at: last.at, ok: last.ok, ms: last.ms, note: last.note, sinceMs: since, overdue: overdue }
                        : { at: null, ok: null, ms: null, note: null, sinceMs: null, overdue: null, neverObserved: true },
@@ -150,10 +208,15 @@ module.exports = async function handler(req, res) {
 
     var observedCount = jobs.filter(function (j) { return !j.observed.neverObserved; }).length;
 
+    var socialState = await SOCIAL.isPaused();
+
     return send(res, {
       ok: true,
       at: now,
       roles: MAP.ROLES,
+      ai: await aiState(),
+      social: socialState,
+      paidJobs: Object.keys(MAP.COST),
       jobs: jobs,
       spikes: led.spikes,
       spikeCap: led.cap,

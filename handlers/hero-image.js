@@ -15,9 +15,19 @@
  * with no stored result. Once every domain has one, the cron finds nothing to do and spends
  * nothing. It cannot loop.
  *
- * HARD SPEND CAP. A counter in Redis caps total generations ever at HERO_IMAGE_CAP (default
- * 40, against 20 domains). If the counter cannot be read, generation REFUSES. A runaway image
- * loop is the one failure mode here that costs real money, so it fails closed.
+ * THREE INDEPENDENT BRAKES, because this is the only paid job on the schedule.
+ *   1. lib/ai-kill-switch  — the same gate every other paid caller respects.
+ *      Added 2026-07-27. Until then this handler consulted NO kill switch, so it
+ *      kept generating through the 2026-06-26 billing stop; "AI is off" was not
+ *      strictly true while this cron ran. A counter is a cap, not a switch: it
+ *      cannot be turned off, only used up.
+ *   2. lib/spend-meter     — reserve before, settle after, against a run and a
+ *      daily dollar ceiling. Fails CLOSED when the ledger is unreachable.
+ *   3. HERO_IMAGE_CAP      — a counter in Redis capping total generations ever
+ *      (default 40, against 20 domains). If it cannot be read, generation
+ *      REFUSES.
+ * A runaway image loop is the one failure mode here that costs real money, so
+ * every one of the three fails closed rather than open.
  *
  * Only the xAI URL is stored, not the bytes. Upstash bills bandwidth and these are ~300KB
  * each; a URL is a few hundred bytes. The images are fetched from those URLs once and committed
@@ -29,12 +39,31 @@
  */
 var T = require('../lib/tool-fetch');
 var db = require('../lib/limen-db');
+var ks = require('../lib/ai-kill-switch');
+var meter = require('../lib/spend-meter');
 
 var ENDPOINT = 'https://api.x.ai/v1/images/generations';
 var MODEL = process.env.XAI_IMAGE_MODEL || 'grok-imagine-image-quality';
 var STORE_KEY = 'hero:img:v1';
 var COUNT_KEY = 'hero:img:count:v1';
 var KEY_VARS = ['SOCIAL_CRON_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY'];
+
+/**
+ * Dollars per generated image.
+ *
+ * lib/spend-meter refuses to guess vendor per-unit prices, and this is a guess,
+ * so it is deliberately a HIGH one. The only figure I could source is $0.02 for
+ * `grok-imagine-image`, and this deployment defaults to the dearer
+ * `-quality` variant, whose price I have not verified. Over-estimating makes a
+ * budget refuse early; under-estimating spends real money while reporting less.
+ * Only one of those is recoverable.
+ *
+ * Set XAI_IMAGE_USD once you have the real number off an xAI invoice.
+ */
+function imageUsd() {
+  var n = parseFloat(process.env.XAI_IMAGE_USD);
+  return isFinite(n) && n >= 0 ? n : 0.10;
+}
 
 function cap() {
   var n = parseInt(process.env.HERO_IMAGE_CAP, 10);
@@ -96,6 +125,27 @@ async function generate(domain, promptOverride) {
   var key = process.env.XAI_API_KEY || process.env.GROK_API_KEY;
   if (!key) return { ok: false, error: 'XAI_API_KEY is not set on this deployment.' };
 
+  // ── the kill switch ──────────────────────────────────────────────────────
+  // This handler spent money for months without consulting it. It was the only
+  // paid AI caller in the repo that did not, which meant "AI is disabled" was
+  // never strictly true while this cron ran every five minutes. The hard
+  // counter below is a cap, not a switch: it cannot be turned off, only used up.
+  if (await ks.spendDisabled()) {
+    return { ok: false, disabled: true,
+      error: 'AI spend is disabled (LIMEN_AI_ENABLED, or the operator pause). No image generated.' };
+  }
+
+  // ── the budget ───────────────────────────────────────────────────────────
+  // Reserve BEFORE the call so an over-budget generation is refused rather than
+  // discovered afterwards, and settle after so the ledger reflects reality.
+  var rsv = await meter.reserve({
+    kind: 'image', costUsd: imageUsd(),
+    label: 'hero-image:' + (domain || 'manual') + ':' + MODEL
+  });
+  if (!rsv.ok) {
+    return { ok: false, budgetBlocked: true, error: rsv.reason || 'spend refused by the budget meter' };
+  }
+
   var prompt = promptOverride ? String(promptOverride).slice(0, 900) : (SUBJECT[domain] + '. ' + STYLE);
   var body = { model: MODEL, prompt: prompt, n: 1, aspect_ratio: '16:9' };
 
@@ -113,16 +163,28 @@ async function generate(domain, promptOverride) {
   // aspect_ratio is not a pinned parameter name in the docs; retry once without it rather than
   // failing the whole request on an unknown field.
   if (!res.ok) { delete body.aspect_ratio; res = await call(body); }
+  // Settle every path, or the reservation sits against the budget until it ages
+  // out and blocks generations that should have been allowed.
+  // A rejected request produced no image, so it settles at zero. A successful
+  // one settles at the reserved estimate, since images are fixed-price.
   if (!res.ok || !res.j) {
+    await meter.settle(rsv.id, { costUsd: 0 });
     return { ok: false, error: 'xAI returned ' + res.status, detail: res.j && (res.j.error && res.j.error.message || JSON.stringify(res.j).slice(0, 240)) };
   }
 
   var item = (res.j.data && res.j.data[0]) || res.j;
   var url = item.url || item.image_url || null;
   var b64 = item.b64_json || item.base64 || null;
-  if (!url && !b64) return { ok: false, error: 'xAI response carried no image' };
+  if (!url && !b64) {
+    // A 2xx that carried no image. The call was accepted, so assume it billed.
+    await meter.settle(rsv.id, {});
+    return { ok: false, error: 'xAI response carried no image' };
+  }
 
-  return { ok: true, url: url, hasBase64: !!b64, b64: b64, prompt: prompt, revised: item.revised_prompt || null };
+  var charged = await meter.settle(rsv.id, {});
+  return { ok: true, url: url, hasBase64: !!b64, b64: b64, prompt: prompt,
+           revised: item.revised_prompt || null,
+           spentUsd: (charged && charged.chargedUsd != null) ? charged.chargedUsd : null };
 }
 
 module.exports = async function handler(req, res) {
