@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN HELIX &middot; THE GAZETTE</title>
+<meta name="description" content="The LIMEN Helix Gazette. One written paper per domain, published at limenhelix.news.">
+<style>
+:root{--bg:#050810;--ink:#e8e3d9;--gold:rgba(201,169,78,1);--gold5:rgba(201,169,78,0.5);
+      --gold2:rgba(201,169,78,0.22);--line:rgba(201,169,78,0.14);--warm:#c9a94e}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink);font-family:ui-monospace,Menlo,Consolas,monospace;margin:0;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 20px 90px}
+h1{font-size:20px;letter-spacing:3px;color:var(--gold);margin:0 0 4px;font-weight:600}
+.sub{color:var(--gold5);font-size:12px;letter-spacing:1px;margin-bottom:26px}
+.spine{border:1px solid var(--gold2);border-radius:8px;padding:14px 16px;margin-bottom:12px;font-size:12px;color:var(--gold5);line-height:1.65}
+.spine b{color:var(--ink)}
+.spine a{color:var(--gold)}
+.masthead{display:flex;align-items:center;gap:16px;border:1px solid var(--gold2);border-radius:8px;padding:16px 18px;margin-bottom:26px;background:rgba(255,255,255,0.012);text-decoration:none}
+.masthead:hover{background:rgba(201,169,78,0.06)}
+.masthead .lede{font-size:15px;color:var(--gold);letter-spacing:2px}
+.masthead .say{font-size:11.5px;color:var(--gold5);margin-top:4px;letter-spacing:.4px}
+.masthead .go{margin-left:auto;font-size:11px;color:var(--gold5);white-space:nowrap}
+h2{font-size:12px;letter-spacing:2px;color:var(--gold5);text-transform:uppercase;margin:30px 0 12px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-left:3px solid var(--gold2);border-radius:7px;padding:13px 15px;background:rgba(255,255,255,0.012);text-decoration:none;display:block}
+.card:hover{border-left-color:var(--gold);background:rgba(201,169,78,0.05)}
+.card .nm{font-size:13.5px;color:var(--gold);letter-spacing:1px}
+.card .hd{font-size:12.5px;color:var(--ink);margin-top:6px;line-height:1.45}
+.card .u{font-size:10.5px;color:var(--gold5);margin-top:7px;letter-spacing:.5px}
+.pend{border:1px dashed var(--line);border-radius:7px;padding:11px 13px;font-size:11.5px;color:var(--gold5);letter-spacing:.5px}
+.note{margin-top:30px;border:1px solid var(--gold2);border-radius:8px;padding:16px 18px;font-size:11.5px;color:var(--gold5);line-height:1.7}
+.note b{color:var(--ink)}
+.loading{font-size:12px;color:var(--gold5)}
+a{color:var(--gold5)}
+@media(max-width:640px){.wrap{padding:26px 15px 70px}.masthead{flex-wrap:wrap}.masthead .go{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>THE LIMEN HELIX GAZETTE</h1>
+  <div class="sub">limenhelix.news &middot; one written paper per domain</div>
+
+  <a class="masthead" href="https://limenhelix.news/" target="_blank" rel="noopener">
+    <div>
+      <div class="lede">READ THE PAPER</div>
+      <div class="say">The front page. Kept by Chris Hubbel, Lansing, Kansas.</div>
+    </div>
+    <div class="go">limenhelix.news &rarr;</div>
+  </a>
+
+  <div class="spine">
+    A newspaper that revises itself while you read it. Passages disintegrate and are
+    spoken back differently; the margins notice how long you have been still; a fractal
+    runs in the space beside the print. Each domain gets its own edition at
+    <b>limenhelix.news/&lt;domain&gt;</b>, with its own masthead, its own essay and its
+    own live wire.
+  </div>
+
+  <h2>Editions published</h2>
+  <div id="papers" class="loading">reading limenhelix.news&hellip;</div>
+
+  <h2>Not yet written</h2>
+  <div id="pending" class="pend">&hellip;</div>
+
+  <div class="note">
+    <b>What is real and what is not.</b> The essays are written. They are stories, and
+    the people in them are invented. The <b>facts</b> those stories turn on are real and
+    checkable: the Kansas Cold Weather Rule tracking the forecast rather than the season,
+    net migration being a subtraction that records nothing while a town turns over,
+    observation status not counting as admission, a burial ground outliving the
+    congregation that owed it. Each paper carries its sources in the footnotes.
+    <br><br>
+    The <b>wire</b> is real. Every item in the miscellany that was carried in names the
+    feed that carried it, and those arrive at runtime from the same domain feeds this
+    site reads. The photographs are stock and say so in their captions.
+    <br><br>
+    The paper prints in one ink. The only thing on it allowed colour is the mark.
+  </div>
+
+</div>
+
+<script src="/assets/js/limen-nav.js"></script>
+<script>
+/* The list is not kept here. The paper publishes editions/index.json describing what it
+   actually prints, and this reads it, so writing a paper is enough to make it appear.
+   Allowed to fail: on a miss the page still carries the masthead link, which is the
+   only thing on it that is always true. */
+(function () {
+  var ALL = ['governance','economy','infrastructure','energy','agriculture','industry',
+             'science','medicine','education','technology','communication','culture',
+             'defense','environment','religion','population','trade','law','finance',
+             'intelligence'];
+  var out = document.getElementById('papers');
+  var pend = document.getElementById('pending');
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) {
+    return ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c]; }); }
+
+  fetch('https://limenhelix.news/editions/index.json', { mode: 'cors', cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (ix) {
+      if (!ix || !ix.papers) throw 0;
+      var written = ix.papers.filter(function (p) { return p.slug; });
+      out.className = 'grid';
+      out.innerHTML = written.map(function (p) {
+        return '<a class="card" href="' + esc(p.url) + '" target="_blank" rel="noopener">'
+          + '<div class="nm">' + esc(p.nameplate || p.edition) + '</div>'
+          + '<div class="hd">' + esc(p.headline || p.standfirst || '') + '</div>'
+          + '<div class="u">limenhelix.news/' + esc(p.slug) + '</div></a>';
+      }).join('');
+      var have = written.map(function (p) { return p.slug; });
+      var left = ALL.filter(function (d) { return have.indexOf(d) < 0; });
+      pend.textContent = left.length
+        ? left.length + ' of 20 still to write: ' + left.join(', ')
+        : 'All twenty are written.';
+    })
+    .catch(function () {
+      out.textContent = 'The paper is not answering. It is at limenhelix.news.';
+      pend.textContent = '';
+    });
+})();
+</script>
+</body>
+</html>

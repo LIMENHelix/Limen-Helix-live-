@@ -11,6 +11,7 @@
 
   var PUBLIC = [
     { h: 'Home', u: '/' },
+    { h: 'The Gazette', u: '/news' },
     { h: 'Energy Bill X-Ray', u: '/energy' },
     { h: 'Energy Markets', u: '/energy-markets' },
     { h: 'Utility Watch', u: '/utility-watch' },
