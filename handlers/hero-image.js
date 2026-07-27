@@ -210,3 +210,7 @@ module.exports = async function handler(req, res) {
     return T.send(res, { ok: false, error: e.message || 'handler error' }, 500);
   }
 };
+
+// Every run records itself. lib/heartbeat is the spike log the /brain view
+// animates: one beat is one spike, and silence is what starves an edge to nothing.
+module.exports = require('../lib/heartbeat').wrap('hero-image', module.exports);

@@ -110,6 +110,7 @@ const HANDLERS = {
   'subscriber-digest': require('../handlers/subscriber-digest'),
   'subscribers': require('../handlers/subscribers'),
   'hero-image': require('../handlers/hero-image'),
+  'harness': require('../handlers/harness'),
   'finance-tools': require('../handlers/finance-tools'),
   'technology-tools': require('../handlers/technology-tools'),
   'industry-tools': require('../handlers/industry-tools'),

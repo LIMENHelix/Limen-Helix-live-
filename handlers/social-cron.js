@@ -121,3 +121,8 @@ module.exports = async function handler(req, res) {
     return T.send(res, { ok: false, reason: e.message || 'handler error' }, 500);
   }
 };
+
+// Outward-acting: this sends something into the world on a timer. Records every
+// run AND consults the veto first, which is a separate structure that can cancel
+// it without this handler being changed or redeployed.
+module.exports = require('../lib/heartbeat').guard('social-cron', module.exports);

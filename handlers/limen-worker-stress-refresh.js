@@ -134,3 +134,7 @@ module.exports = async function handler(req, res) {
     return res.end(JSON.stringify({ ok: false, error: 'internal', detail: String((err && err.message) || err) }));
   }
 };
+
+// Every run records itself. lib/heartbeat is the spike log the /brain view
+// animates: one beat is one spike, and silence is what starves an edge to nothing.
+module.exports = require('../lib/heartbeat').wrap('limen-worker-stress-refresh', module.exports);

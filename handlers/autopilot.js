@@ -309,3 +309,8 @@ module.exports = async function handler(req, res) {
     return j(res, 500, { ok: false, error: String(e && e.message || e) });
   }
 };
+
+// Outward-acting: this sends something into the world on a timer. Records every
+// run AND consults the veto first, which is a separate structure that can cancel
+// it without this handler being changed or redeployed.
+module.exports = require('../lib/heartbeat').guard('autopilot', module.exports);

@@ -156,3 +156,7 @@ module.exports = async function handler(req, res) {
     note: written ? 'recorded' : (skipped ? 'idempotent-skip (already recorded this hour)' : 'no domains in snapshot')
   });
 };
+
+// Every run records itself. lib/heartbeat is the spike log the /brain view
+// animates: one beat is one spike, and silence is what starves an edge to nothing.
+module.exports = require('../lib/heartbeat').wrap('feed-record', module.exports);

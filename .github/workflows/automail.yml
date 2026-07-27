@@ -31,3 +31,19 @@ jobs:
           K='${{ secrets.LEAD_ADMIN_KEY }}'
           echo "snapshot: $(curl -s -X POST https://limenhelix.com/api/homestead-validation -H 'content-type: application/json' -d "{\"key\":\"$K\",\"action\":\"snapshot\"}")"
           echo "check:    $(curl -s -X POST https://limenhelix.com/api/homestead-validation -H 'content-type: application/json' -d "{\"key\":\"$K\",\"action\":\"check\"}")"
+      - name: report this run to the harness
+        # Records that this job ran, so /api/harness can tell "never ran" from
+        # "ran and failed". Never fails the job: a ledger outage must not look
+        # like a work outage.
+        if: always()
+        continue-on-error: true
+        env:
+          HARNESS_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          if [ "$JOB_STATUS" = "success" ]; then OK=1; else OK=0; fi
+          curl -sS -m 15 -o /dev/null -G https://limenhelix.com/api/harness \
+            --data-urlencode "beat=automail" \
+            --data-urlencode "ok=$OK" \
+            --data-urlencode "note=$JOB_STATUS" \
+            --data-urlencode "key=$HARNESS_KEY" || true
