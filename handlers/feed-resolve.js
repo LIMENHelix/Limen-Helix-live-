@@ -85,7 +85,14 @@ module.exports = async function handler(req, res) {
       var recorder = (await db.lrange('feedhist:' + domain, 0, 2160)) || [];
       var out = resolver.resolve(forecasts, recorder, { now: Date.now() });
       // keep the response small: drop the per-forecast detail unless explicitly asked
-      var body = { ok: true, domain: domain, externalHitRate: out.externalHitRate, resolvedCount: out.resolvedCount,
+      //
+      // `skill` and `alwaysStableRate` ship alongside the hit rate and are NOT
+      // optional extras. A hit rate on its own cannot tell a forecast from an
+      // abstention: a domain whose stress never moves scores 1.0 by calling
+      // "stable" forever. Consumers must gate on skill. See lib/feed-resolver.js.
+      var body = { ok: true, domain: domain, externalHitRate: out.externalHitRate,
+        alwaysStableRate: out.alwaysStableRate, skill: out.skill, directional: out.directional,
+        resolvedCount: out.resolvedCount, eps: out.eps,
         pendingCount: out.pendingCount, storedForecasts: forecasts.length, recorderRows: recorder.length,
         horizonMs: out.horizonMs, note: out.note, backend: db.getBackend() };
       if (q.detail) body.resolved = out.resolved.slice(0, 50);

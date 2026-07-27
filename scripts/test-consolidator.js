@@ -62,7 +62,16 @@ console.log('T5: low hit-rate ⇒ recalibrate; overconfidence ⇒ downscale (pro
 var p5 = C.buildProposal('finance', c2Extend(), null, { now: 1 });
 function c2Extend() { var c = C.calibration(mkFcConf(9, 9), mkResolveConf(3, 9)); return c; }
 function mkFcConf(hits, total) { var a = []; for (var i = 0; i < total; i++) a.push({ madeAt: i, confidence: 0.9 }); return a; }
-function mkResolveConf(hits, total) { var res = []; for (var i = 0; i < total; i++) res.push({ madeAt: i, direction: 'rising', hit: i < hits ? 1 : 0 }); return { resolved: res, resolvedCount: total, pendingCount: 0, externalHitRate: Math.round((hits / total) * 10000) / 10000 }; }
+// `base` is the always-stable baseline the resolver now reports alongside the hit
+// rate. Default 0 so these fixtures describe a MOVING series, where a good hit rate
+// really is skill. T6b below covers the degenerate case where it is not.
+function mkResolveConf(hits, total, base) {
+  var res = []; for (var i = 0; i < total; i++) res.push({ madeAt: i, direction: 'rising', hit: i < hits ? 1 : 0 });
+  var hr = Math.round((hits / total) * 10000) / 10000, b = (base == null) ? 0 : base;
+  return { resolved: res, resolvedCount: total, pendingCount: 0, externalHitRate: hr,
+           alwaysStableRate: b, skill: Math.round((hr - b) * 10000) / 10000,
+           directional: { n: total, hits: hits, hitRate: hr, signAccuracy: hr } };
+}
 assert('proposed status', p5.status === 'proposed');
 assert('recalibrate-forecast rec present (hitRate 0.33 < 0.4)', p5.recommendations.some(function (r) { return r.kind === 'recalibrate-forecast'; }), JSON.stringify(p5.recommendations.map(function (r) { return r.kind; })));
 assert('downscale-confidence rec present (overconfident)', p5.recommendations.some(function (r) { return r.kind === 'downscale-confidence'; }));
@@ -72,10 +81,34 @@ var goodCalib = C.calibration([], mkResolveConf(8, 10));   // hit-rate 0.8
 var pRun = C.buildProposal('energy', goodCalib, { available: true, stability: 'runaway', layers: {} }, { now: 1 });
 assert('runaway ⇒ freeze-or-rollback', pRun.recommendations.some(function (r) { return r.kind === 'freeze-or-rollback'; }));
 var pProm = C.buildProposal('energy', goodCalib, { available: true, stability: 'stable', layers: {} }, { now: 1 });
-assert('stable + hit-rate 0.8 ⇒ promotion-candidate', pProm.recommendations.some(function (r) { return r.kind === 'promotion-candidate'; }));
+assert('stable + hit-rate 0.8 + POSITIVE skill ⇒ promotion-candidate', pProm.recommendations.some(function (r) { return r.kind === 'promotion-candidate'; }));
+
+// T6b — the degeneracy the promotion gate exists to catch. A domain whose stress
+// scalar never moves scores a hit rate of exactly 1.0 by calling "stable" forever.
+// Eight of the twenty live domains have zero variance across the whole recorded
+// history, and eleven produce no directional call at all. It must NOT be proposed for
+// arming on the strength of a constant.
+console.log('T6b: a perfect hit-rate with ZERO skill is not a promotion candidate');
+var flatCalib = C.calibration([], mkResolveConf(10, 10, 1));   // hit-rate 1.0, baseline 1.0 ⇒ skill 0
+assert('skill computed as 0', flatCalib.skill === 0, JSON.stringify(flatCalib.skill));
+var pFlat = C.buildProposal('law', flatCalib, { available: true, stability: 'stable', layers: {} }, { now: 1 });
+assert('hit-rate 1.0 but NOT a promotion candidate',
+  !pFlat.recommendations.some(function (r) { return r.kind === 'promotion-candidate'; }),
+  JSON.stringify(pFlat.recommendations.map(function (r) { return r.kind; })));
+assert('flagged no-skill instead', pFlat.recommendations.some(function (r) { return r.kind === 'no-skill'; }),
+  JSON.stringify(pFlat.recommendations.map(function (r) { return r.kind; })));
+assert('and says why in plain terms', /abstention, not competence/.test(flatCalib.skillNote || ''), flatCalib.skillNote);
+
+// T6c — a resolver result with no baseline at all (older stored proposals) must be
+// treated as "cannot promote", never as skill 0 passing the gate by accident.
+console.log('T6c: a missing baseline blocks promotion rather than defaulting');
+var noBase = C.calibration([], { resolved: mkResolveConf(8, 10).resolved, resolvedCount: 10, pendingCount: 0, externalHitRate: 0.8 });
+assert('skill is null, not 0', noBase.skill === null, JSON.stringify(noBase.skill));
+var pNoBase = C.buildProposal('energy', noBase, { available: true, stability: 'stable', layers: {} }, { now: 1 });
+assert('not a promotion candidate', !pNoBase.recommendations.some(function (r) { return r.kind === 'promotion-candidate'; }));
 
 console.log('T7: propose-only invariant on EVERY proposal + recommendation');
-[p4, p5, pRun, pProm].forEach(function (p, i) {
+[p4, p5, pRun, pProm, pFlat, pNoBase].forEach(function (p, i) {
   assert('proposal[' + i + '] applied:false + requiresHumanReview:true', p.applied === false && p.requiresHumanReview === true);
   assert('proposal[' + i + '] every rec applied:false', p.recommendations.every(function (r) { return r.applied === false; }));
 });

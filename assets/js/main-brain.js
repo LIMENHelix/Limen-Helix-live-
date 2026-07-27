@@ -585,29 +585,34 @@
                      : { verdict: 'open', evidence: 'nothing has aged past the horizon yet' };
       } },
     { id: 'reward', name: 'REWARD', what: 'the score becomes a usable teaching signal',
+      // Reads SKILL, not the hit rate. The resolver now reports what a forecaster
+      // that never calls a direction would have scored on the same rows, so this
+      // hop can tell competence from abstention instead of inferring it from
+      // per-forecast detail. A hit rate of 1.0 on a constant series is abstention.
       probe: function (d) {
         var r = d.resolve;
         if (!r || typeof r.externalHitRate !== 'number') {
-          return { verdict: 'open', evidence: 'hit rate abstains (null)' };
+          return { verdict: 'open', evidence: 'hit rate abstains (null): nothing has resolved yet' };
         }
-        var det = (r.resolved || []);
-        if (!det.length) return { verdict: 'unknown', evidence: 'hit rate ' + r.externalHitRate + ', no detail returned' };
-        var dir = det.filter(function (x) { return x.direction !== 'stable'; });
-        var dirHits = dir.filter(function (x) { return x.hit; }).length;
-        var stable = det.filter(function (x) { return x.direction === 'stable'; });
-        if (!dir.length) {
-          return { verdict: 'inverted',
-            evidence: 'every one of the last ' + det.length + ' calls was "stable". The reward ' +
-                      'cannot distinguish a forecast from an abstention.' };
+        var dir = r.directional || {};
+        var hit = r.externalHitRate, base = r.alwaysStableRate, skill = r.skill;
+        if (typeof skill !== 'number') {
+          return { verdict: 'unknown', evidence: 'hit rate ' + hit + ', but no baseline reported to compare it against' };
         }
-        if (dirHits === 0) {
+        if (!dir.n) {
           return { verdict: 'inverted',
-            evidence: dir.length + ' directional calls, ' + dirHits + ' credited. Only "stable" ' +
-                      'ever scores (' + stable.filter(function (x) { return x.hit; }).length + '/' +
-                      stable.length + '). A learner on this signal converges to never calling a direction.' };
+            evidence: 'every one of ' + r.resolvedCount + ' calls was "stable", so the hit rate of ' + hit +
+                      ' is the abstention rate. This series does not move: there is nothing here to learn from.' };
+        }
+        if (skill <= 0) {
+          return { verdict: 'inverted',
+            evidence: 'hit rate ' + hit + ' against an always-stable baseline of ' + base + ', so skill is ' +
+                      skill + '. ' + dir.hits + '/' + dir.n + ' directional calls credited, sign accuracy ' +
+                      dir.signAccuracy + '. Below 0.5 means the calls are backwards, not merely noisy.' };
         }
         return { verdict: 'closed',
-          evidence: dirHits + '/' + dir.length + ' directional calls credited, hit rate ' + r.externalHitRate };
+          evidence: 'skill +' + skill + ' (hit ' + hit + ' vs baseline ' + base + '), ' +
+                    dir.hits + '/' + dir.n + ' directional calls credited, sign accuracy ' + dir.signAccuracy };
       } },
     { id: 'update', name: 'UPDATE', what: 'the teaching signal changes a weight', structural: true,
       probe: function () {
