@@ -176,7 +176,6 @@ const HANDLERS = {
   'transfer-record': require('../handlers/transfer-record'),
   'memory-promote': require('../handlers/memory-promote'),
   'brain-weights': require('../handlers/brain-weights'),
-  'brain-weights-cron': require('../handlers/brain-weights-cron'),
   'limen-intents': require('../handlers/limen-intents'),
   'limen-iteration': require('../handlers/limen-iteration'),
   'limen-operator-calibration': require('../handlers/limen-operator-calibration'),
