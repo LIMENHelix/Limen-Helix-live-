@@ -1136,23 +1136,49 @@ module.exports = async function handler(req, res) {
     // even after the worker-side fix. Read the already-computed value here (one Redis GET, no
     // recompute) so the actual displayed pages get it too. Fails soft: any error or missing/
     // stale key leaves domains.energy.stress exactly as computed above (feed-derived).
+    // GENERALIZED 2026-07-28 FROM ENERGY-ONLY TO EVERY PROMOTED DOMAIN.
+    //
+    // The worker has computed the grounded promotion for ALL 20 domains for some time
+    // (limen-worker-snapshot.js STRESS_PROMOTION_DOMAINS lists all twenty, and writes the
+    // result into console_snapshot with stressSource 'node-market-feed-grounded'). This
+    // block then read `_cs.domains.energy` and assigned `domains.energy` — two hardcoded
+    // literals — so nineteen domains' grounded stress was computed every cycle and thrown
+    // away at the last hop. Measured live before this change: 1 of 20 domains carried
+    // stressSource, and 5 of the other 19 were publishing `stressBasis: 'clamped'`, i.e.
+    // the ceiling rather than a reading.
+    //
+    // Now it loops. A domain is promoted ONLY if the worker actually marked it grounded, so
+    // this reads what was computed rather than deciding anything itself: no worker promotion
+    // means no change here, and the feed-derived value stands exactly as before. Still one
+    // Redis GET, still fails soft.
+    var _promotedDomains = [];
     try {
       var _cs = await db.get('console_snapshot');
-      var _csEnergy = _cs && _cs.domains && _cs.domains.energy;
-      if (_csEnergy && typeof _csEnergy.stress === 'number' && _csEnergy.stressSource === 'node-market-feed-grounded') {
-        domains.energy._legacyFeedStress = domains.energy.stress;
-        domains.energy.stress = _csEnergy.stress;
-        domains.energy.finalStress = _csEnergy.stress;
-        domains.energy.stressSource = _csEnergy.stressSource;
-        // The basis has to be overridden too, or it keeps describing the feed-volume
-        // computation this line just replaced. buildDomain sees energy's uncapped
-        // value exceed its ceiling and calls it 'clamped'; the value actually
-        // published here is the precision-weighted market fusion, which is the most
-        // grounded reading in the system and is free to move across its full range.
-        domains.energy.stressBasis = 'measured';
-        domains.energy.stressUsable = true;
+      var _csDomains = (_cs && _cs.domains) || null;
+      var _promoted = [];
+      if (_csDomains) {
+        for (var _pk in domains) {
+          if (!Object.prototype.hasOwnProperty.call(domains, _pk)) continue;
+          var _csD = _csDomains[_pk];
+          if (!_csD || typeof _csD.stress !== 'number') continue;
+          if (_csD.stressSource !== 'node-market-feed-grounded') continue;
+          domains[_pk]._legacyFeedStress = domains[_pk].stress;
+          domains[_pk].stress = _csD.stress;
+          domains[_pk].finalStress = _csD.stress;
+          domains[_pk].stressSource = _csD.stressSource;
+          // The basis has to be overridden too, or it keeps describing the feed-volume
+          // computation these lines just replaced. buildDomain sees the uncapped value
+          // exceed its ceiling and calls it 'clamped'; what is published here is the
+          // precision-weighted fusion, which is free to move across its full range.
+          domains[_pk].stressBasis = 'measured';
+          domains[_pk].stressUsable = true;
+          _promoted.push(_pk);
+        }
       }
-    } catch (_pe) { /* never fatal — energy.stress stays feed-derived on any error */ }
+      // Named in the payload so it is verifiable from outside which domains are publishing a
+      // grounded number and which are still feed-derived, without reading the worker's state.
+      _promotedDomains = _promoted;
+    } catch (_pe) { /* never fatal — stress stays feed-derived on any error */ }
 
     // Compute meta counts
     var liveCount = 0, partialCount = 0, fallbackCount = 0;
@@ -1169,7 +1195,11 @@ module.exports = async function handler(req, res) {
         fetchedAt: now,
         liveCount: liveCount,
         partialCount: partialCount,
-        fallbackCount: fallbackCount
+        fallbackCount: fallbackCount,
+        // Which domains published a GROUNDED stress this cycle rather than a feed-derived one.
+        // Exposed so the split is checkable from outside the process: for a long time this was
+        // ['energy'] while the worker was computing all twenty.
+        promotedStressDomains: _promotedDomains
       },
       sourceHealth: _sourceHealth
     });
