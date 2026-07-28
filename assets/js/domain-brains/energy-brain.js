@@ -2605,7 +2605,32 @@
     var self = this;
     try {
       fetch('/api/feed-resolve?domain=energy').then(function (r) { return r.json(); }).then(function (j) {
-        if (j && j.ok) self._externalOutcome = { hit: (typeof j.externalHitRate === 'number') ? j.externalHitRate : null, resolvedCount: j.resolvedCount || 0, at: (em.cycle || 0) };
+        if (!j || !j.ok) return;
+        /**
+         * Read `skill`, not `externalHitRate` — the same correction made in
+         * domain-brain-base.js, and energy needs it just as much despite BEING
+         * externalRewardEligible. Eligibility says a real external outcome is
+         * available for this domain; it says nothing about whether the forecast beat
+         * abstaining. Measured live 2026-07-28 energy reports hitRate 0.5344 against
+         * an always-stable baseline of 0.664, so skill is -0.1296 and directional
+         * sign accuracy is 0.1139, well below chance. Feeding 0.5344 in as reward
+         * trains the K-layers on a forecaster that is anti-correlated with its target.
+         *
+         * Magnitude is the normalized skill score (fraction of the headroom above the
+         * baseline actually captured), and reward is withheld unless skill > 0, in
+         * which case the gate falls back to self-consistency. Today that means energy
+         * abstains, which is the correct reading of a negative skill.
+         */
+        var _hit = (typeof j.externalHitRate === 'number') ? j.externalHitRate : null;
+        var _base = (typeof j.alwaysStableRate === 'number') ? j.alwaysStableRate : null;
+        var _skill = (typeof j.skill === 'number') ? j.skill : null;
+        var _credit = null;
+        if (_hit !== null && _base !== null && _skill !== null && _skill > 0) {
+          var _head = 1 - _base;
+          _credit = (_head > 1e-9) ? Math.round(Math.max(0, Math.min(1, (_hit - _base) / _head)) * 10000) / 10000 : null;
+        }
+        self._externalOutcome = { hit: _credit, rawHitRate: _hit, baseline: _base, skill: _skill,
+          resolvedCount: j.resolvedCount || 0, at: (em.cycle || 0) };
       }).catch(function () {});
     } catch (e) {}
   };
@@ -2728,6 +2753,7 @@
       ? { hit: extO.hit } : null;
     var k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
       ? window.LIMENK4.credit({
+          domain: 'energy',                                         // enforced inside credit() too, not just asserted here
           externalOutcome: extOutcome,                              // RESOLVER: external feed-truth reward when resolved; else null (self-consistency)
           phaseValidated: !!(pt && pt.validated),
           phaseTransitionHit: ptActive ? (pt.hit ? 1 : 0) : null,

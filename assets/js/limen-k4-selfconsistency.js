@@ -35,10 +35,29 @@
   function credit(sig) {
     sig = sig || {};
     var ext = sig.externalOutcome;
-    // TIER 4 — TRUE external reward. The ONLY path that is reward / ground-truth.
+    /**
+     * TIER 4 — TRUE external reward. The ONLY path that is reward / ground-truth.
+     *
+     * THE ELIGIBILITY LIST IS ENFORCED HERE NOW. It used to be a comment below
+     * ("a domain not in this set MUST pass externalOutcome:null") that trusted the
+     * caller, and the caller did not comply: domain-brain-base.js granted tier 4 to
+     * any domain whose resolver returned a numeric hit, so 13 ineligible domains were
+     * receiving "external ground-truth reward" and ten of them at exactly 1.0,
+     * because a stress scalar that never moves makes "stable" correct on every row.
+     * A guard that lives only in the caller is not a guard.
+     *
+     * Fails CLOSED on the domain: if `domain` is supplied and is not eligible, tier 4
+     * is refused and the signal falls through to self-consistency. `domain` is
+     * optional only so that existing callers which already pass externalOutcome:null
+     * keep working unchanged; every caller that supplies a real outcome passes it.
+     */
     if (ext && typeof ext.hit === 'number') {
-      return { credit: clamp01(ext.hit), creditSource: 'external-reward', isReward: true, tier: 4,
-        label: 'external ground-truth reward' };
+      if (sig.domain != null && !externalRewardEligible(sig.domain)) {
+        ext = null;   // ineligible: refuse reward, fall through to self-consistency
+      } else {
+        return { credit: clamp01(ext.hit), creditSource: 'external-reward', isReward: true, tier: 4,
+          label: 'external ground-truth reward' };
+      }
     }
     // ── everything below is SELF-CONSISTENCY calibration (interpretive), NEVER reward ──
     // TIER 3 — thing2 realized phase-transition consistency (through-time self-prediction).

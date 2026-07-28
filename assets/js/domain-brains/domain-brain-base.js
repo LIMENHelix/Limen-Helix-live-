@@ -1251,7 +1251,43 @@
     var self = this, dom = this.domainId;
     try {
       fetch('/api/feed-resolve?domain=' + encodeURIComponent(dom)).then(function (r) { return r.json(); }).then(function (j) {
-        if (j && j.ok) self._externalOutcome = { hit: (typeof j.externalHitRate === 'number') ? j.externalHitRate : null, resolvedCount: j.resolvedCount || 0 };
+        if (!j || !j.ok) return;
+        /**
+         * READ `skill`, NOT `externalHitRate`. lib/feed-resolver.js says so in as many
+         * words, and this line is the caller it was addressed to.
+         *
+         * A hit rate alone cannot tell a forecast from an abstention. Eight domains
+         * record a stress scalar that never moves, so "stable" is right on every row
+         * and they publish externalHitRate exactly 1.0 with ZERO directional calls.
+         * Measured live 2026-07-28: culture, religion, law, technology, governance,
+         * education and defense all report hitRate 1.0, baseline 1.0, skill 0.
+         * Feeding that 1.0 in as reward taught those K-layers that whatever they
+         * already do is perfectly right, most strongly where the evidence is weakest.
+         *
+         * The magnitude is the NORMALIZED skill score: the fraction of the headroom
+         * above the always-stable baseline that the forecast actually captured. It is
+         * 0 when a domain does no better than abstaining and 1 only at perfect, so a
+         * flat series cannot manufacture reward no matter how high its hit rate reads.
+         * Reward is withheld entirely unless skill is strictly positive; the caller
+         * then falls back to self-consistency, which is the honest state.
+         *
+         * Live at time of writing NO domain has positive skill (energy -0.1296,
+         * finance -0.0858, everything else 0), so this abstains everywhere. That is
+         * the correct reading of the evidence, not a regression.
+         */
+        var _hit = (typeof j.externalHitRate === 'number') ? j.externalHitRate : null;
+        var _base = (typeof j.alwaysStableRate === 'number') ? j.alwaysStableRate : null;
+        var _skill = (typeof j.skill === 'number') ? j.skill : null;
+        var _credit = null;
+        if (_hit !== null && _base !== null && _skill !== null && _skill > 0) {
+          var _head = 1 - _base;                 // headroom above the abstention baseline
+          _credit = (_head > 1e-9) ? Math.round(Math.max(0, Math.min(1, (_hit - _base) / _head)) * 10000) / 10000 : null;
+        }
+        self._externalOutcome = {
+          hit: _credit,                          // null = abstain (never the raw hit rate)
+          rawHitRate: _hit, baseline: _base, skill: _skill,
+          resolvedCount: j.resolvedCount || 0
+        };
       }).catch(function () {});
     } catch (e) {}
   };
@@ -1341,9 +1377,23 @@
       this._extLastResolveCycle = _nowC;
       this._extPrevResolvedCount = _rc;
     }
-    var extOutcome = (extO && typeof extO.hit === 'number' && (extO.resolvedCount || 0) >= GP_MIN_EXT) ? { hit: extO.hit } : null;
-    var k4 = (typeof window !== 'undefined' && window.LIMENK4 && typeof window.LIMENK4.credit === 'function')
-      ? window.LIMENK4.credit({ externalOutcome: extOutcome, callHitRate: (typeof led.hitRate === 'number') ? led.hitRate : null, callSamples: led.samples || 0, stressSelfPred: (typeof led.hitRate === 'number') ? led.hitRate : null, stressSamples: led.samples || 0 })
+    /**
+     * ELIGIBILITY IS ENFORCED HERE, not assumed.
+     *
+     * limen-k4-selfconsistency.js keeps EXTERNAL_REWARD_DOMAINS = {finance, energy} and
+     * its comment says "a domain not in this set MUST pass externalOutcome:null". That
+     * was a comment addressed to this line, and this line did not honour it: every one
+     * of the 19 non-energy brains routes through here, and the only conditions were a
+     * numeric hit and a resolved count. So the list was documentation, not a control.
+     * It is now checked on both sides — here, and again inside credit() — because a
+     * guard that lives only in the caller is the arrangement that failed.
+     */
+    var _k4api = (typeof window !== 'undefined' && window.LIMENK4) ? window.LIMENK4 : null;
+    var _eligible = !!(_k4api && typeof _k4api.externalRewardEligible === 'function'
+      && _k4api.externalRewardEligible(this.domainId));
+    var extOutcome = (_eligible && extO && typeof extO.hit === 'number' && (extO.resolvedCount || 0) >= GP_MIN_EXT) ? { hit: extO.hit } : null;
+    var k4 = (_k4api && typeof _k4api.credit === 'function')
+      ? _k4api.credit({ domain: this.domainId, externalOutcome: extOutcome, callHitRate: (typeof led.hitRate === 'number') ? led.hitRate : null, callSamples: led.samples || 0, stressSelfPred: (typeof led.hitRate === 'number') ? led.hitRate : null, stressSamples: led.samples || 0 })
       : null;
     this._plasticityRewardActive = !!(k4 && k4.isReward);
     var modRead = P.readModulator(pl.mod, k4, (typeof led.resolvedTotal === 'number' ? led.resolvedTotal : (led.samples || 0)));   // MONOTONIC freshness (buffer length saturates; total does not)
