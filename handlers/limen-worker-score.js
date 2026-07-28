@@ -9,11 +9,15 @@
 // the SAME per-run concurrency (avoids the EDGAR-throttling that bigger batches hit).
 
 var db = require('../lib/limen-db');
+var DOMAIN_NAMES = require('../lib/domain-names');
 var companyScorer = require('../lib/company-phase-scorer');
 
 // snapshot uses runtime keys; the company registry (scoreBatch) uses portal keys —
 // map so dual-key domains (research/health/supplyChain) get priority scoring too.
-var RUNTIME_TO_PORTAL = { research: 'science', health: 'medicine', supplyChain: 'trade' };
+// Domain naming is reconciled in ONE place: lib/domain-names.js. This map used to be
+// written out here by hand, one of eight such copies. See that file for how a missing
+// alias disguises itself as absent data.
+
 
 module.exports = async function handler(req, res) {
   try {
@@ -22,7 +26,7 @@ module.exports = async function handler(req, res) {
     var domainHealth = {};
     for (var dk in domains) {
       if (!domains.hasOwnProperty(dk)) continue;
-      var pk = RUNTIME_TO_PORTAL[dk] || dk;
+      var pk = DOMAIN_NAMES.toCanonical(dk);
       domainHealth[pk] = { stress: (domains[dk] && domains[dk].stress) || 0 };
     }
     // scoreBatch reads only domainHealth[key].stress. If no cached snapshot, it

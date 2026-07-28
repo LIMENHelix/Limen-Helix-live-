@@ -14,6 +14,7 @@
  * public front reads through, and the formula is one file to swap (lib/thing-formulas.js).
  */
 var F = require('../lib/thing-formulas');
+var DOMAIN_NAMES = require('../lib/domain-names');
 var CB = null;
 try { CB = require('../assets/data/command-board-data.json'); } catch (e) {}
 
@@ -59,8 +60,8 @@ function run(domain) {
 
   // Alias the console's domainId to the command-board domain key (the medicine console calls
   // 'health', trade calls 'supplyChain', science calls 'research'). Case-insensitive throughout.
-  var ALIAS = { health: 'medicine', supplychain: 'trade', research: 'science' };
-  var dq = ALIAS[domain] || domain;
+
+  var dq = DOMAIN_NAMES.toCanonical(domain).toLowerCase();
   var comps = [];
   for (var k in CB.companies) { var e = CB.companies[k]; if (e && String(e.d).toLowerCase() === dq) comps.push(e); }
   out.tracked = comps.length;

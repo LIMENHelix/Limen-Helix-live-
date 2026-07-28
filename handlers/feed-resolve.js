@@ -24,6 +24,7 @@
 
 var db = require('../lib/limen-db');
 var resolver = require('../lib/feed-resolver');
+var DOMAIN_NAMES = require('../lib/domain-names');
 
 var CAP = 720;                    // ~30 days of hourly forecasts per domain
 var HOUR_MS = 60 * 60 * 1000;
@@ -51,8 +52,9 @@ var TOKEN = process.env.BRAIN_WEIGHTS_TOKEN || '';   // reuse the durable-learni
  * Applied to reads AND writes, so a client posting under a canonical name lands in the
  * same store the cron emits to, rather than starting a second orphan ledger.
  */
-var STORE_ALIAS = { medicine: 'health', science: 'research', trade: 'supplyChain' };
-function storeKey(d) { return Object.prototype.hasOwnProperty.call(STORE_ALIAS, d) ? STORE_ALIAS[d] : d; }
+// Reconciled in ONE place now (lib/domain-names.js). This map was written out here by hand
+// earlier the same day, one of eight such copies across lib/ and handlers/.
+function storeKey(d) { return DOMAIN_NAMES.toRuntime(d); }
 
 function readBody(req) {
   return new Promise(function (resolve) {

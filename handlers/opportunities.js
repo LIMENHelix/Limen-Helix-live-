@@ -19,6 +19,7 @@
 'use strict';
 
 var path = require('path');
+var DOMAIN_NAMES = require('../lib/domain-names');
 var fs = require('fs');
 
 var _nodes = null;
@@ -74,8 +75,8 @@ module.exports = async function handler(req, res) {
       var db = require('../lib/limen-db');
       var snap = await db.get('console_snapshot');
       var dom = (snap && snap.domains) || {};
-      var alias = { research: 'science', health: 'medicine', supplyChain: 'trade' };
-      for (var k in dom) { if (dom.hasOwnProperty(k)) stress[alias[k] || k] = (dom[k] && dom[k].stress) || 0; }
+
+      for (var k in dom) { if (dom.hasOwnProperty(k)) stress[DOMAIN_NAMES.toCanonical(k)] = (dom[k] && dom[k].stress) || 0; }
     } catch (e) {}
 
     // expand node x binding x dysregulation-direction -> opportunity

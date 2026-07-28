@@ -23,12 +23,16 @@
  */
 
 var db = require('../lib/limen-db');
+var DOMAIN_NAMES = require('../lib/domain-names');
 
 var DOMAINS = ['agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
   'energy', 'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence',
   'law', 'medicine', 'population', 'religion', 'science', 'technology', 'trade'];
 // console_snapshot uses three alias keys for the live-stress layer.
-var ALIAS = { medicine: 'health', science: 'research', trade: 'supplyChain' };
+// Domain naming is reconciled in ONE place: lib/domain-names.js. This map used to be
+// written out here by hand, one of eight such copies. See that file for how a missing
+// alias disguises itself as absent data.
+
 
 var K = {
   config: 'spine:config',
@@ -66,7 +70,7 @@ async function loadCompanies() { var c = await db.get(K.companies); return Array
 // snapshot alias keys (health/supplyChain/research), so match on the alias.
 function eventMagFor(domain, snap) {
   var ds = (snap && snap.defenseSignals) || [];
-  var key = ALIAS[domain] || domain;
+  var key = DOMAIN_NAMES.toRuntime(domain);
   var mag = 0, et = null, conf = 0;
   for (var i = 0; i < ds.length; i++) {
     var aff = ds[i].affectedDomains || [];
@@ -87,7 +91,7 @@ function domainSignals(snap, overrides) {
   var domainsRaw = (snap && snap.domains) || {};
   var out = {};
   DOMAINS.forEach(function (d) {
-    var key = ALIAS[d] || d;
+    var key = DOMAIN_NAMES.toRuntime(d);
     var x = domainsRaw[key];
     var structural = x ? num(x.stress, 0) : 0;
     var confidence = x ? num(x.confidence, 0) : 0;
