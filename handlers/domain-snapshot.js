@@ -1516,7 +1516,14 @@ function buildDomain(key, sources, opts) {
       // carry the real headlines + freshest-headline signal so the Signals dropdown can
       // expand each feed to its top stories (RSS feeds only; undefined elsewhere = omitted)
       headlines: (d.headlines && d.headlines.length) ? d.headlines : undefined,
-      signal: d.signal || undefined
+      signal: d.signal || undefined,
+      // RSS receptor diagnostics: raw page size, recency density and median article
+      // age. Present only on RSS feeds; omitted (undefined) everywhere else. These
+      // exist so receptor saturation and dead sources stay measurable from outside
+      // the process, without a redeploy, the way /api/grounded-stress-history made
+      // the channel histories readable.
+      activity: (typeof d.activity === 'number') ? d.activity : undefined,
+      rss: d._meta || undefined
     });
   }
 
@@ -1529,9 +1536,16 @@ function buildDomain(key, sources, opts) {
     for (var si = 0; si < stressDrivers.length; si++) sSum += (stressDrivers[si].data.stress || 0);
     stress = round(sSum / stressDrivers.length);
   } else if (activitySources.length > 0) {
-    var aSum = 0;
-    for (var ai = 0; ai < activitySources.length; ai++) aSum += (activitySources[ai].data.activity || 0);
-    stress = round(Math.min(0.25, (aSum / activitySources.length) * 0.3));
+    // Average over sources that actually CARRY an activity number. `|| 0` used to
+    // count a source with no activity field as a measured zero, which silently
+    // dragged the mean down in proportion to how many such sources a domain had.
+    // See the matching change in the activity block below, and _fetchRSS.
+    var aSum = 0, aN = 0;
+    for (var ai = 0; ai < activitySources.length; ai++) {
+      var _av = activitySources[ai].data.activity;
+      if (typeof _av === 'number' && isFinite(_av)) { aSum += _av; aN++; }
+    }
+    stress = aN > 0 ? round(Math.min(0.25, (aSum / aN) * 0.3)) : 0.15;
   } else {
     stress = 0.15;
   }
@@ -1571,9 +1585,14 @@ function buildDomain(key, sources, opts) {
 
   // ── Activity: from activity-channel sources ──
   if (activitySources.length > 0) {
-    var actSum = 0;
-    for (var aci = 0; aci < activitySources.length; aci++) actSum += (activitySources[aci].data.activity || 0);
-    activity = round(actSum / activitySources.length);
+    // Denominator counts only sources carrying a real activity number (see above).
+    // A source without one is missing data, not an observation of zero activity.
+    var actSum = 0, actN = 0;
+    for (var aci = 0; aci < activitySources.length; aci++) {
+      var _acv = activitySources[aci].data.activity;
+      if (typeof _acv === 'number' && isFinite(_acv)) { actSum += _acv; actN++; }
+    }
+    activity = actN > 0 ? round(actSum / actN) : 0;
   } else {
     activity = 0;
   }
@@ -4841,7 +4860,6 @@ async function _fetchRSS(query, sourceName, domain, channel) {
     clearTimeout(tid);
     var xml = await resp.text();
     var count = (xml.match(/<item>/gi) || []).length;
-    var norm = clamp(count / 100, 0, 1); // normalized 0-1 against RSS max ~100
 
     // Capture the actual REAL headlines (not just a count) so the Signals dropdown shows
     // what's really going on in the world, and changes as the news changes (refreshed every
@@ -4852,7 +4870,19 @@ async function _fetchRSS(query, sourceName, domain, channel) {
     // guessed URL. Google News RSS links are news.google.com redirects to the publisher.
     var headlines = [], headlineLinks = [];
     var _items = xml.split(/<item>/i).slice(1);
-    for (var _hi = 0; _hi < _items.length && headlines.length < 5; _hi++) {
+    // AFFERENT TRANSDUCTION (2026-07-28). The receptor reads RECENT DENSITY, not raw
+    // count — see the norm computation below for why. Ages are collected on this same
+    // pass over the items, so the change costs zero extra fetches and zero extra parses
+    // of the document; <pubDate> is already present on every item Google returns
+    // (verified live: 100 items, 100 pubDates).
+    var _now = Date.now(), _ages = [];
+    for (var _hi = 0; _hi < _items.length; _hi++) {
+      var _pm = _items[_hi].match(/<pubDate>([\s\S]*?)<\/pubDate>/i);
+      if (_pm) {
+        var _pt = Date.parse(_pm[1].replace(/<!\[CDATA\[|\]\]>/g, '').trim());
+        if (!isNaN(_pt)) _ages.push((_now - _pt) / 86400000); // age in days
+      }
+      if (headlines.length >= 5) continue;   // headlines capped at 5; dates are not
       var _tm = _items[_hi].match(/<title>([\s\S]*?)<\/title>/i);
       if (!_tm) continue;
       var _t = _tm[1].replace(/<!\[CDATA\[|\]\]>/g, '')
@@ -4864,6 +4894,31 @@ async function _fetchRSS(query, sourceName, domain, channel) {
       headlines.push(_t);
       headlineLinks.push(/^https?:\/\//i.test(_l) ? _l : null);
     }
+
+    // ── THE RECEPTOR ──────────────────────────────────────────────────────
+    // WAS: norm = count / 100. Google News RSS pages at exactly 100 items, so any
+    // query with 100+ indexed articles reported 1.0 forever. Measured live 2026-07-28:
+    // 89 of 275 sources (32.4%) pinned at exactly 100, religion 15/15 — ONE distinct
+    // value across its entire afferent surface. Across a 24-source sample, raw count
+    // produced 4 distinct values (21 at the ceiling); 7-day density produced 18,
+    // spanning the full 0..100 range. The denominator stays 100 because that is still
+    // the page size: norm is "how much of a full page is from the last 7 days", which
+    // is bounded 0..1 by construction and needs no invented scale factor.
+    // A source with no parseable dates falls back to the old count behaviour rather
+    // than reporting 0, so a feed that omits pubDate degrades instead of going dark.
+    var _recent7d = 0, _recent1d = 0, _recent30d = 0;
+    for (var _ai = 0; _ai < _ages.length; _ai++) {
+      if (_ages[_ai] <= 1) _recent1d++;
+      if (_ages[_ai] <= 7) _recent7d++;
+      if (_ages[_ai] <= 30) _recent30d++;
+    }
+    var _medianAge = null;
+    if (_ages.length) {
+      var _sorted = _ages.slice().sort(function(a, b) { return a - b; });
+      _medianAge = Math.round(_sorted[Math.floor(_sorted.length / 2)] * 10) / 10;
+    }
+    var _dated = _ages.length > 0;
+    var norm = _dated ? clamp(_recent7d / 100, 0, 1) : clamp(count / 100, 0, 1);
     var _topSignal = headlines.length
       ? (headlines[0] + (count > 1 ? '  (+' + (count - 1) + ' more)' : ''))
       : (count + ' news articles on ' + domain);
@@ -4871,17 +4926,38 @@ async function _fetchRSS(query, sourceName, domain, channel) {
 
     trackHealth(sourceName, domain, 'live', null, count);
 
+    // Diagnostic fields carried on every RSS source. articleCount is the raw page
+    // size the receptor USED to publish — kept so the saturation this fix removes
+    // stays measurable, and so a reviewer can tell a genuinely quiet feed (low
+    // count) from a dead one (high count, high medianAgeDays). medianAgeDays is the
+    // dead-source detector: measured live 2026-07-28, Pew Religion 312d, USCIRF 129d
+    // and Orthodox Christianity 117d were all reporting the ceiling.
+    var _meta = {
+      articleCount: count, recent1d: _recent1d, recent7d: _recent7d,
+      recent30d: _recent30d, medianAgeDays: _medianAge, dated: _dated
+    };
+
     if (channel === 'stress') {
       // Stress driver: crisis keyword RSS. Scale by domain sensitivity.
       // Note: _isRss:true marks these as RSS-derived for the global classifier;
       // they are demoted to DEGRADED (activity bucket) regardless of this channel.
       var STRESS_SCALE = { defense: 30, supplyChain: 35, energy: 35 };
       var scale = STRESS_SCALE[domain] || 50;
-      var stress = clamp(count / scale, 0.05, 0.85);
-      return { value: count, label: count + ' articles', stress: round(stress), channel: 'stress', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, updated: Date.now(), fetchedAt: Date.now(), _isRss: true };
+      var stress = clamp((_dated ? _recent7d : count) / scale, 0.05, 0.85);
+      // `activity` is set here too, and that is the bug fix, not a spare field.
+      // _classifyFeed marks every _isRss source EVENT, and the EVENT branch routes
+      // any non-context source into activitySources — including these, whose channel
+      // is 'stress'. The activity mean then adds `data.activity || 0`, so before this
+      // line each stress-channel RSS source injected a hard ZERO into its domain's
+      // activity average. Measured live 2026-07-28: energy (11 such sources, no other
+      // activity source) published activity exactly 0, as did industry, infrastructure,
+      // supplyChain and agriculture; religion read 0.33 = 0.99 x 5/15. Every domain
+      // with no RSS-stress sources sat at 0.70-0.83. Volume is well defined for these
+      // feeds, so they now contribute it instead of a zero.
+      return { value: count, label: count + ' articles', stress: round(stress), activity: round(norm), channel: 'stress', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, updated: Date.now(), fetchedAt: Date.now(), _isRss: true, _meta: _meta };
     }
     // Activity indicator: volume only, does not drive stress
-    return { value: count, label: count + ' articles', activity: round(norm), channel: 'activity', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, updated: Date.now(), fetchedAt: Date.now(), _isRss: true };
+    return { value: count, label: count + ' articles', activity: round(norm), channel: 'activity', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, updated: Date.now(), fetchedAt: Date.now(), _isRss: true, _meta: _meta };
   } catch (e) {
     trackHealth(sourceName, domain, 'fallback', e.message || 'RSS fetch failed');
     return null;
