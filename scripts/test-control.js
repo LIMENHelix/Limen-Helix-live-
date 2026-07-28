@@ -203,7 +203,9 @@ function run() {
             .filter(function (d) { return d.querySelector('.dnm').textContent === n; })[0];
         }
         var desks = doc.querySelectorAll('#desks .desk');
-        ok(desks.length >= 8, 'expected the full desk set, got ' + desks.length);
+        ok(desks.length >= 9, 'expected the full desk set, got ' + desks.length);
+        ok(deskBy('Relay'), 'Relay has no desk');
+        ok(deskBy('Medicine'), 'Medicine has no desk');
 
         // Sales runs autopilot (ok) AND subscriber-digest (never observed).
         // Taking the best would paint it green; it must take the worst.
@@ -226,7 +228,13 @@ function run() {
 
         // Things this deployment cannot reach are listed, and never as switches.
         var els = doc.querySelectorAll('#elsewhere .cap');
-        ok(els.length === 3, 'expected 3 unreachable properties, got ' + els.length);
+        ok(els.length === 1, 'expected 1 unreachable property, got ' + els.length);
+        // Relay and Tension are IN LIMEN Helix. Both were wrongly listed as
+        // external from stale notes; the repo shows relay handlers and a page,
+        // and the medical front is here. Only killswitch.domains has no trace.
+        var elTxt = doc.getElementById('elsewhere').textContent;
+        ok(!/Relay/i.test(elTxt), 'Relay is in this repo but is listed as unreachable');
+        ok(!/TENSION/i.test(elTxt), 'Tension is in this repo but is listed as unreachable');
         ok(doc.querySelectorAll('#elsewhere .lever').length === 0,
            'an unreachable property rendered a lever');
         ok(/killswitch\.domains/.test(doc.getElementById('elsewhere').textContent),

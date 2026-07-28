@@ -134,9 +134,12 @@
     { id: 'distress', nm: 'Distress desks', does: 'Finance, energy and industry distress scoring — the validated Thing 1 path.',
       jobs: ['energy-distress'], page: '/admin-finance.html',
       routes: 'finance-distress · energy-distress · industry-status (+ ingest and status each)' },
-    { id: 'relay', nm: 'Relay', does: 'Margin and checkout for the relay lane.',
+    { id: 'relay', nm: 'Relay', does: 'Margin and checkout for the relay lane. Lives here, not elsewhere.',
       jobs: [], page: '/relay-margin',
       routes: 'relay-margin · relay-checkout' },
+    { id: 'medicine', nm: 'Medicine', does: 'The medical front — clinical surface, treatment discovery, and 140+ medicine portals.',
+      jobs: [], page: '/treatment-discovery',
+      routes: 'medicine-live · medicine-markets · medicine-tools · fetch-doc' },
     { id: 'fitness', nm: 'Fitness', does: 'Programming, evidence and the program feed.',
       jobs: [], page: '/fitness.html',
       routes: 'fitness-program · fitness-program-feed · fitness-evidence' },
@@ -153,15 +156,19 @@
   /**
    * ELSEWHERE — real properties this board CANNOT reach.
    *
-   * They are separate deployments with their own credentials, so nothing here
-   * can read or change them. Listing them as switches would be the same theatre
-   * this page exists to avoid; listing them at all is still right, because "not
-   * on the board" should never be mistaken for "does not exist".
+   * Separate deployments with their own credentials, so nothing here can read or
+   * change them. They get no switch — that would be the theatre this page exists
+   * to avoid — but they are listed, because "not on the board" must never read
+   * as "does not exist".
+   *
+   * THIS LIST STARTED WRONG AND WAS CUT DOWN. Relay and Tension were both on it,
+   * both from stale notes, and both are in LIMEN Helix: Relay as relay-margin
+   * and relay-checkout with its own page, Tension on the medical front. Only put
+   * something here when the repo shows no trace of it, which is a check anyone
+   * can run — not a recollection.
    */
   var ELSEWHERE = [
-    { nm: 'killswitch.domains', why: 'Separate Vercel project. Deploys by CLI over the whole tree — a git push here does not touch it.' },
-    { nm: 'Relay broker', why: 'Separate project on your machine (C:\\Users\\Chris\\broker). No shared API with this deployment.' },
-    { nm: 'TENSION fitness site', why: 'Separate property. The /fitness page in this repo is the LIMEN admin surface, not that site.' }
+    { nm: 'killswitch.domains', why: 'Separate Vercel project. Deploys by CLI over the whole tree — a git push here does not touch it. No handler, page or route for it exists in this repo.' }
   ];
 
   // ── boot ──────────────────────────────────────────────────────────────────
