@@ -240,6 +240,69 @@ module.exports = async function handler(req, res) {
       return send(res, { ok: true, recorded: row });
     }
 
+    // ── read: what is actually wired ──────────────────────────────────────
+    /**
+     * CAPABILITY READINESS, READ OFF THE RUNNING DEPLOYMENT.
+     *
+     * This endpoint exists because of a specific mistake worth not repeating: a
+     * console was built with each switch's readiness HARDCODED from reading the
+     * code. lib/crm-send.js opens with `if (!apiKey) reason = 'RESEND_API_KEY not
+     * set'`, which says what happens WHEN it is missing — not that it is missing.
+     * RESEND_API_KEY and the BLUESKY_* pair are set in Vercel and working;
+     * .env.local does not carry them and Vercel's sensitive env cannot be read
+     * from a workstation. So the code guard was mistaken for evidence and two
+     * working capabilities were reported as broken.
+     *
+     * The only thing that knows is the deployment itself. It answers here.
+     *
+     * PRESENCE ONLY — the same rule handlers/social-status.js already follows.
+     * A secret's VALUE is never returned. `set: true` means the variable is
+     * non-empty in this environment, nothing more.
+     */
+    if (q.get('caps')) {
+      var need = function (vars) {
+        return vars.map(function (v) {
+          return { env: v, set: !!(process.env[v] && String(process.env[v]).trim()) };
+        });
+      };
+      var cap = function (id, label, vars, note) {
+        var vs = need(vars);
+        var missing = vs.filter(function (v) { return !v.set; }).map(function (v) { return v.env; });
+        return {
+          id: id, label: label, vars: vs, missing: missing,
+          // wired   every variable it needs is present here
+          // needsEnv one or more are not set in THIS environment
+          // unbuilt  declared with no variables because no code path exists yet
+          state: !vars.length ? 'unbuilt' : (missing.length ? 'needsEnv' : 'wired'),
+          note: note || null
+        };
+      };
+      return send(res, {
+        ok: true,
+        at: Date.now(),
+        capabilities: [
+          cap('email', 'Send email', ['RESEND_API_KEY'],
+              'lib/crm-send.js. RESEND_FROM_EMAIL decides whether it can leave the sandbox.'),
+          cap('emailFrom', 'Verified from-address', ['RESEND_FROM_EMAIL'],
+              'Reported, not judged. Email sends end to end today.'),
+          cap('bluesky', 'Post to Bluesky', ['BLUESKY_HANDLE', 'BLUESKY_APP_PASSWORD'],
+              'lib/social-post.js'),
+          cap('leadNotify', 'Lead notification', ['LEAD_NOTIFY_EMAIL'], 'handlers/lead.js'),
+          cap('web3forms', 'Lead capture fallback', ['WEB3FORMS_ACCESS_KEY'], 'handlers/lead.js'),
+          cap('ai', 'Paid model calls', ['LIMEN_AI_ENABLED'],
+              'Environment boundary. The runtime pause is separate and lives in Redis.'),
+          cap('video', 'Render a video', [],
+              'The Gazette pipeline drives Chrome locally. No server endpoint renders one.'),
+          cap('mail', 'Post physical mail', [],
+              'lib/print-pipeline.js composes a piece. Nothing transmits it.'),
+          cap('calls', 'Place a call', [],
+              'No telephony in the repo. First-strike calling is the operator, by design.')
+        ],
+        note: 'Presence only. No secret value is ever returned. "unbuilt" means no code path ' +
+              'exists yet, which is different from a variable being unset.'
+      });
+    }
+
     // ── read: the flow chart ──────────────────────────────────────────────
     if (q.get('flow')) {
       var fg = readFlow();

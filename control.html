@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>LIMEN Helix · Control</title>
+<style>
+  :root{
+    --ground:#08090c; --floor:#0d0f14; --raised:#12151c; --deep:#050609;
+    --gold:#c9a94e; --gold-dim:rgba(201,169,78,0.5); --gold-ghost:rgba(201,169,78,0.14);
+    --ink:#d8d3c9; --dim:#8b857b; --faint:#5a564f;
+    --live:#8fcbb6; --key:#d6a95e; --unbuilt:#4a4740; --hot:#d97070;
+    --hair:rgba(255,255,255,0.06);
+    --mono:'IBM Plex Mono',ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--mono);
+    -webkit-font-smoothing:antialiased;font-size:15px;
+    background-image:radial-gradient(ellipse 90% 60% at 50% -10%, #111621 0%, var(--ground) 62%)}
+  .wrap{max-width:1460px;margin:0 auto;padding:24px 20px 80px}
+
+  .top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+    padding-bottom:15px;border-bottom:1px solid var(--hair)}
+  .mark{font-size:0.72rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold-dim)}
+  .mark a{color:inherit;text-decoration:none}
+  .mark a:hover{color:var(--gold)}
+  h1{font-size:1.2rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);
+    font-weight:500;margin:0}
+  .who{margin-left:auto;font-size:0.75rem;color:var(--dim);letter-spacing:1px;text-align:right}
+  .who b{color:var(--ink);font-weight:500}
+  .who .cov{display:block;color:var(--faint);font-size:0.72rem;margin-top:2px}
+
+  .gatehead{margin-top:16px;font-size:0.81rem;color:var(--dim);line-height:1.7;max-width:94ch;
+    padding:12px 15px;background:var(--deep);border-left:3px solid var(--gold);border-radius:0 3px 3px 0}
+  .gatehead b{color:var(--gold)}
+
+  h2{font-size:0.75rem;letter-spacing:3.4px;text-transform:uppercase;color:var(--gold);
+    font-weight:500;margin:34px 0 4px}
+  .h2s{font-size:0.79rem;color:var(--dim);margin:0 0 15px;max-width:82ch;line-height:1.65}
+
+  /* ── levers ───────────────────────────────────────────────────── */
+  .board{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .sw{position:relative;display:flex;gap:15px;align-items:flex-start;padding:15px 16px;
+    background:var(--raised);border:1px solid var(--hair);border-radius:4px;
+    border-top:2px solid var(--unbuilt);transition:.16s}
+  .sw.on{background:#151b1a;border-top-color:var(--live);border-color:rgba(143,203,182,0.26)}
+  .sw:not(.on):not(.pending){border-top-color:var(--key)}
+  .sw.pending{opacity:.6}
+  .sw.busy{opacity:.72}
+  .sw .meta{flex:1;min-width:0}
+  .sw .nm{font-size:0.95rem;color:var(--ink)}
+  .sw .ds{font-size:0.73rem;color:var(--faint);margin-top:4px;line-height:1.5}
+  .sw .stt{font-size:0.73rem;color:var(--dim);margin-top:8px}
+  .sw.on .stt{color:var(--live)}
+  .sw .stt.warn{color:var(--key)}
+  .sw .blocked{font-size:0.71rem;color:var(--key);margin-top:7px;line-height:1.55;
+    padding-top:7px;border-top:1px dashed rgba(214,169,94,0.3)}
+
+  .lever{flex:none;width:44px;height:70px;border-radius:4px;background:var(--deep);
+    border:1px solid #262b34;padding:4px;cursor:pointer;position:relative;
+    box-shadow:inset 0 2px 7px rgba(0,0,0,0.8)}
+  .lever:disabled{cursor:not-allowed;opacity:0.4}
+  .lever .knob{position:absolute;left:4px;right:4px;height:30px;border-radius:3px;
+    background:linear-gradient(180deg,#3a4049 0%,#22262d 100%);
+    border:1px solid #454b55;top:34px;transition:top .13s cubic-bezier(.3,1.4,.5,1);
+    box-shadow:0 2px 5px rgba(0,0,0,0.65)}
+  .lever .knob::after{content:'';position:absolute;left:9px;right:9px;top:13px;height:1px;
+    background:rgba(255,255,255,0.16);box-shadow:0 3px 0 rgba(255,255,255,0.1),0 -3px 0 rgba(255,255,255,0.1)}
+  .sw.on .lever .knob{top:4px;background:linear-gradient(180deg,#7fbfa8 0%,#4d8a75 100%);
+    border-color:#8fcbb6;box-shadow:0 2px 5px rgba(0,0,0,0.6),0 0 16px rgba(143,203,182,0.45)}
+  .lever .lbl{position:absolute;left:0;right:0;text-align:center;font-size:0.55rem;
+    letter-spacing:1.5px;color:var(--faint)}
+  .lever .lbl.i{top:9px} .lever .lbl.o{bottom:9px}
+  .sw.on .lever .lbl.i{color:var(--live)}
+  .lever:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ── capabilities ─────────────────────────────────────────────── */
+  .capgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+  .cap{display:flex;gap:12px;padding:13px 15px;background:var(--raised);
+    border:1px solid var(--hair);border-radius:4px}
+  .cap .dot{width:9px;height:9px;border-radius:50%;flex:none;margin-top:5px;background:var(--unbuilt)}
+  .cap.wired .dot{background:var(--live)}
+  .cap.needsEnv .dot{background:var(--key)}
+  .cap.unknown .dot{background:var(--unbuilt)}
+  .cap.unbuilt{background:transparent;border-style:dashed}
+  .cap.unbuilt .dot{background:transparent;border:1px solid var(--unbuilt)}
+  .cap .nm{font-size:0.9rem;color:var(--ink)}
+  .cap.unbuilt .nm{color:var(--dim)}
+  .cap .ds{font-size:0.72rem;color:var(--faint);margin-top:3px}
+  .cap .gov{font-size:0.72rem;color:var(--dim);margin-top:6px}
+  .cap .gov b{color:var(--ink);font-weight:500}
+  .cap .why{font-size:0.72rem;color:var(--faint);margin-top:5px;line-height:1.5}
+
+  /* ── floor ────────────────────────────────────────────────────── */
+  .floor{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px}
+  .st{position:relative;padding:11px 12px;background:var(--floor);
+    border:1px solid var(--hair);border-radius:3px;overflow:hidden}
+  .st .nm{font-size:0.94rem;color:var(--ink)}
+  .st .dm{font-size:0.67rem;color:var(--faint);letter-spacing:1.3px;text-transform:uppercase;margin-top:2px}
+  .st .lamp{position:absolute;top:10px;right:10px;width:6px;height:6px;border-radius:50%;
+    background:transparent;border:1px solid var(--unbuilt)}
+  .st.live .lamp{background:var(--live);border-color:var(--live)}
+  .st .pst{font-size:0.68rem;color:var(--faint);margin-top:6px;letter-spacing:0.4px}
+  /* An operator at the gate is the most actionable thing on the page. */
+  .st.p-open-human-gate{border-color:var(--gold);background:#151209}
+  .st.p-open-human-gate .pst{color:var(--gold)}
+  .st.p-open-human-gate .lamp{background:var(--gold);border-color:var(--gold)}
+  .st.p-recommend{border-color:rgba(143,203,182,0.3)}
+  .st.p-recommend .pst{color:var(--live)}
+  .waiting{font-size:0.82rem;color:var(--dim);margin:0 0 12px}
+  .waiting.hot{color:var(--gold)} .waiting b{color:var(--gold);font-weight:500}
+  .st::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--gold)}
+  .st.fire::after{animation:sweep .8s ease-out}
+  @keyframes sweep{0%{width:0;opacity:1}100%{width:100%;opacity:0}}
+
+  /* ── log ──────────────────────────────────────────────────────── */
+  .log{background:var(--deep);border:1px solid var(--hair);border-radius:4px;
+    padding:12px 15px;max-height:260px;overflow-y:auto}
+  .log .row{display:flex;gap:12px;font-size:0.78rem;padding:5px 0;
+    border-bottom:1px solid rgba(255,255,255,0.035);line-height:1.5}
+  .log .row:last-child{border-bottom:none}
+  .log .t{color:var(--faint);flex:none;font-variant-numeric:tabular-nums}
+  .log .m{color:var(--dim)} .log .m b{color:var(--ink);font-weight:500}
+  .log .m .g{color:var(--live)} .log .m .w{color:var(--key)} .log .m .x{color:var(--hot)}
+  .quiet{font-size:0.78rem;color:var(--faint);font-style:italic}
+
+  #gate{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:var(--ground)}
+  #gate.hide{display:none}
+  #gate .box{width:min(420px,90vw);padding:28px;border:1px solid var(--gold-ghost);text-align:center}
+  #gate h2{margin:0 0 6px;font-size:0.84rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--gold);font-weight:400}
+  #gate p{margin:0 0 18px;font-size:0.74rem;color:var(--dim);line-height:1.65}
+  #gate input{width:100%;padding:10px;background:rgba(255,255,255,0.04);
+    border:1px solid var(--gold-ghost);color:var(--ink);font-family:inherit;
+    font-size:0.78rem;margin-bottom:11px;text-align:center;letter-spacing:1px}
+  #gate input:focus{outline:none;border-color:var(--gold-dim)}
+  #gate button{width:100%;padding:10px;background:transparent;border:1px solid var(--gold-dim);
+    color:var(--gold);font-family:inherit;font-size:0.74rem;letter-spacing:2.4px;
+    text-transform:uppercase;cursor:pointer}
+  #gate button:hover{background:rgba(201,169,78,0.1)}
+  #gate .err{margin-top:11px;font-size:0.7rem;color:var(--hot);min-height:2.4em;line-height:1.5}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+    <span class="mark"><a href="/">LIMEN Helix</a></span>
+    <h1>Control</h1>
+    <span class="who">operator <b>Chris</b><span class="cov" id="cov"></span></span>
+  </div>
+
+  <div class="gatehead">
+    <b>These levers are the human gate.</b> Every operator mandate in
+    <code>lib/operator-fleet.js</code> ends <em>"I never spend, send, or act on my own"</em>, and
+    Kai's ends <em>"I open a human gate; I never walk through it."</em> The fleet cannot throw
+    anything on this page. You can.
+  </div>
+
+  <h2>The board</h2>
+  <p class="h2s">Six pieces of state a human can flip. Each reads its position from the server —
+  a lever is disabled and says <em>reading…</em> until the real state arrives, and never sits ON
+  for decoration. A throw is reconciled against the server's answer; a rejected write springs the
+  lever back and says why.</p>
+  <div class="board" id="board"></div>
+
+  <h2>Wired, but not a switch</h2>
+  <p class="h2s">These work and are in use. They have no on/off of their own — they are exercised
+  by the jobs above, so the lever that actually governs each one is named rather than duplicated
+  as a dead handle.</p>
+  <div class="capgrid" id="caps"></div>
+
+  <h2>No code path yet</h2>
+  <p class="h2s">Not a missing setting. Nothing behind these at all — they are builds.</p>
+  <div class="capgrid" id="unbuilt"></div>
+
+  <h2>The floor</h2>
+  <p class="h2s">The twenty named operators, from <code>/api/fleet</code>. Each carries a posture
+  bounded to abstain, watching, has a call, or <em>wants you</em> &mdash; and that last one is an
+  operator asking for the gate above. Those sort to the front.</p>
+  <div class="waiting" id="waiting">reading the fleet&hellip;</div>
+  <div class="floor" id="floor"></div>
+
+  <h2>Command log</h2>
+  <div class="log" id="log"><div class="quiet">nothing thrown this session</div></div>
+</div>
+
+<div id="gate">
+  <div class="box">
+    <h2>Control</h2>
+    <p>The operator's board. Throwing a lever here changes what the system does.</p>
+    <input id="gk" type="password" placeholder="admin key" autocomplete="off">
+    <button id="gb">Enter</button>
+    <div class="err" id="ge"></div>
+  </div>
+</div>
+
+<script src="/assets/js/control.js?v=1"></script>
+</body>
+</html>
