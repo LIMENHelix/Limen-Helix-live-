@@ -31,6 +31,29 @@ var MAX_BYTES = 4 * 1024;
 var DOMAIN_RE = /^[a-z][a-zA-Z]{1,23}$/;
 var TOKEN = process.env.BRAIN_WEIGHTS_TOKEN || '';   // reuse the durable-learning opt-in; fail-closed when unset
 
+/**
+ * CANONICAL NAME -> RUNTIME STORE KEY.
+ *
+ * The system carries two naming systems for the same three domains. The console and
+ * the canonical registry say medicine / science / trade; the snapshot, and therefore
+ * the recorder keys this endpoint reads, say health / research / supplyChain. The map
+ * already exists twice elsewhere (lib/company-phase-scorer.js KEYMAP and
+ * handlers/brain-signals.js ALIAS); the resolver never had it.
+ *
+ * The effect was a silent false negative, not an error: /api/feed-resolve?domain=medicine
+ * read `feedhist:medicine`, which does not exist, and returned resolvedCount 0 with
+ * externalHitRate null, which reads exactly like "this domain has no history yet".
+ * Measured live 2026-07-28: medicine / science / trade all reported 0 resolved while
+ * health / research / supplyChain reported 238, 238 and 247 from the SAME rows. That is
+ * what put "17 of 20 domains, medicine + science + trade still null" in the notes; the
+ * consequence channels were never missing, the alias was.
+ *
+ * Applied to reads AND writes, so a client posting under a canonical name lands in the
+ * same store the cron emits to, rather than starting a second orphan ledger.
+ */
+var STORE_ALIAS = { medicine: 'health', science: 'research', trade: 'supplyChain' };
+function storeKey(d) { return Object.prototype.hasOwnProperty.call(STORE_ALIAS, d) ? STORE_ALIAS[d] : d; }
+
 function readBody(req) {
   return new Promise(function (resolve) {
     if (req.body !== undefined && req.body !== null) return resolve(req.body);
@@ -80,9 +103,10 @@ module.exports = async function handler(req, res) {
   if (m === 'GET') {
     var domain = String(q.domain || '');
     if (!DOMAIN_RE.test(domain)) { res.statusCode = 400; return res.end(JSON.stringify({ ok: false, error: 'bad domain' })); }
+    var sk = storeKey(domain);   // medicine -> health, science -> research, trade -> supplyChain
     try {
-      var forecasts = (await db.lrange('forecasthist:' + domain, 0, CAP - 1)) || [];
-      var recorder = (await db.lrange('feedhist:' + domain, 0, 2160)) || [];
+      var forecasts = (await db.lrange('forecasthist:' + sk, 0, CAP - 1)) || [];
+      var recorder = (await db.lrange('feedhist:' + sk, 0, 2160)) || [];
       var out = resolver.resolve(forecasts, recorder, { now: Date.now() });
       // keep the response small: drop the per-forecast detail unless explicitly asked
       //
@@ -90,7 +114,11 @@ module.exports = async function handler(req, res) {
       // optional extras. A hit rate on its own cannot tell a forecast from an
       // abstention: a domain whose stress never moves scores 1.0 by calling
       // "stable" forever. Consumers must gate on skill. See lib/feed-resolver.js.
-      var body = { ok: true, domain: domain, externalHitRate: out.externalHitRate,
+      var body = { ok: true, domain: domain,
+        // Named when the request used a canonical alias, so a reader can see WHICH
+        // store answered and never mistake shared rows for two independent series.
+        storeKey: (sk !== domain) ? sk : undefined,
+        externalHitRate: out.externalHitRate,
         alwaysStableRate: out.alwaysStableRate, skill: out.skill, directional: out.directional,
         resolvedCount: out.resolvedCount, eps: out.eps,
         pendingCount: out.pendingCount, storedForecasts: forecasts.length, recorderRows: recorder.length,
@@ -112,7 +140,8 @@ module.exports = async function handler(req, res) {
     if (!f || ['rising', 'falling', 'stable'].indexOf(f.direction) === -1 || typeof f.currentStress !== 'number') {
       res.statusCode = 400; return res.end(JSON.stringify({ ok: false, error: 'forecast{direction,currentStress} required' }));
     }
-    var key = 'forecasthist:' + dom;
+    var key = 'forecasthist:' + storeKey(dom);   // same alias as the read path, or a client posting
+                                                 // under a canonical name opens a second orphan ledger
     var now = Date.now(), hourBucket = Math.floor(now / HOUR_MS);
     try {
       // idempotent per hour: at most one forecast per domain per hour (matches recorder cadence)
