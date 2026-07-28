@@ -35,6 +35,10 @@
       "schedule": "42 * * * *"
     },
     {
+      "path": "/api/brain-weights-cron",
+      "schedule": "47 * * * *"
+    },
+    {
       "path": "/api/social-cron?post=1",
       "schedule": "0 0,2,12,14,16,18,20,22 * * *"
     },
@@ -50,7 +54,7 @@
   "functions": {
     "api/**": {
       "excludeFiles": "{assets/**,*.html,_*.js,*.json,scripts/**}",
-      "includeFiles": "{api/protected-docs/**,api/helix_app/**,assets/data/*.json}",
+      "includeFiles": "{api/protected-docs/**,api/helix_app/**,assets/data/*.json,assets/js/limen-plasticity.js,assets/js/limen-k4-selfconsistency.js}",
       "maxDuration": 800
     }
   },
