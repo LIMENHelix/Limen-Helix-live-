@@ -2,6 +2,7 @@
  * handlers/harness.js — the ledger endpoint. Read what actually ran; flip a valve.
  *
  * GET /api/harness?key=…                          the whole board
+ * GET /api/harness?key=…&graph=1                  the derived wiring harness
  * GET /api/harness?key=…&valve=<job>&open=0|1     shut or open an outward job
  * GET /api/harness?key=…&beat=<job>&ok=1&ms=1234  report a run (GitHub Actions)
  *
@@ -21,10 +22,42 @@
  * environment, this endpoint is off rather than open.
  */
 
+var fs = require('fs');
+var path = require('path');
+
 var HB = require('../lib/heartbeat');
+var DB = require('../lib/limen-db');
 var MAP = require('../lib/harness-map');
 var KS = require('../lib/ai-kill-switch');
 var SOCIAL = require('../lib/social-post');
+
+/**
+ * The derived wiring harness, built by scripts/build-harness-graph.js.
+ *
+ * It lives in api/protected-docs/ for one reason: it is a complete internal
+ * topology (every handler, every store key, every external dependency) and
+ * assets/data/*.json is served publicly. api/protected-docs is bundled into the
+ * function by vercel.json includeFiles and is not statically served, so the map
+ * is readable here and nowhere else.
+ *
+ * Read once per cold start. It only changes on deploy, so re-reading 220KB on
+ * every poll would be pure bandwidth.
+ */
+var _graph;
+function readGraph() {
+  if (_graph !== undefined) return _graph;
+  var cands = [
+    path.join(__dirname, '..', 'api', 'protected-docs', 'harness-graph.json'),
+    path.join(process.cwd(), 'api', 'protected-docs', 'harness-graph.json')
+  ];
+  for (var i = 0; i < cands.length; i++) {
+    try {
+      if (fs.existsSync(cands[i])) { _graph = JSON.parse(fs.readFileSync(cands[i], 'utf8')); return _graph; }
+    } catch (e) { /* try the next candidate */ }
+  }
+  _graph = null;
+  return _graph;
+}
 
 var KEY_VARS = ['HARNESS_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY', 'CRON_SECRET'];
 
@@ -183,6 +216,25 @@ module.exports = async function handler(req, res) {
       return send(res, { ok: true, recorded: row });
     }
 
+    // ── read: the wiring harness ──────────────────────────────────────────
+    // Served separately from the board because it is 220KB and changes only on
+    // deploy, while the board is polled every 15s. The client fetches this once.
+    if (q.get('graph')) {
+      var g = readGraph();
+      if (!g) {
+        return send(res, {
+          ok: false,
+          error: 'The wiring graph has not been built, or was not bundled into this deployment.',
+          fix: 'Run: node scripts/build-harness-graph.js  then commit api/protected-docs/harness-graph.json'
+        }, 503);
+      }
+      // Joins the derived graph to the declared schedule, so the sheet can mark
+      // which pins are scheduled jobs without restating harness-map on the client.
+      var scheduled = {};
+      MAP.JOBS.forEach(function (j) { scheduled['handlers/' + j.job + '.js'] = { schedule: j.schedule, kind: j.kind, role: j.role, source: j.source }; });
+      return send(res, { ok: true, graph: g, scheduled: scheduled });
+    }
+
     // ── read: the board ───────────────────────────────────────────────────
     var names = MAP.names();
     var led = await HB.read(names, parseInt(q.get('limit'), 10) || 120);
@@ -210,10 +262,24 @@ module.exports = async function handler(req, res) {
 
     var socialState = await SOCIAL.isPaused();
 
+    // Store freshness: when each namespace was last written. This is the other
+    // half of the sheet's motion. Coverage is PARTIAL by construction (only
+    // writes routed through lib/limen-db are instrumented) and is reported as
+    // such, because a freshness map presented as complete would make the
+    // uninstrumented paths look dead rather than unmeasured.
+    var touched = {};
+    try { touched = await DB.touched(); } catch (e) { touched = {}; }
+
     return send(res, {
       ok: true,
       at: now,
       roles: MAP.ROLES,
+      stores: {
+        touched: touched,
+        coverage: 'Writes through lib/limen-db only. Files holding their own Upstash ' +
+                  'credentials, and those on lib/redis-kv, do not report; their conductors ' +
+                  'stay dark whether or not they carried traffic.'
+      },
       ai: await aiState(),
       social: socialState,
       paidJobs: Object.keys(MAP.COST),
