@@ -92,6 +92,28 @@
   .cap .gov b{color:var(--ink);font-weight:500}
   .cap .why{font-size:0.72rem;color:var(--faint);margin-top:5px;line-height:1.5}
 
+  /* ── desks ────────────────────────────────────────────────────── */
+  .desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:11px}
+  .desk{padding:14px 16px;background:var(--raised);border:1px solid var(--hair);
+    border-radius:4px;border-left:3px solid var(--unbuilt)}
+  .desk.s-ok{border-left-color:var(--live)}
+  .desk.s-warn{border-left-color:var(--key)}
+  .desk.s-bad{border-left-color:var(--hot)}
+  .desk.s-none{border-left-color:var(--unbuilt);border-left-style:dashed}
+  .desk.s-ondemand{border-left-color:var(--gold-dim)}
+  .dhead{display:flex;align-items:baseline;gap:10px}
+  .dnm{font-size:0.98rem;color:var(--ink)}
+  .dst{margin-left:auto;font-size:0.66rem;letter-spacing:1.6px;text-transform:uppercase;
+    color:var(--faint);flex:none}
+  .desk.s-ok .dst{color:var(--live)} .desk.s-warn .dst{color:var(--key)}
+  .desk.s-bad .dst{color:var(--hot)} .desk.s-ondemand .dst{color:var(--gold-dim)}
+  .ddoes{font-size:0.79rem;color:var(--dim);margin-top:6px;line-height:1.55}
+  .djobs{font-size:0.73rem;color:var(--faint);margin-top:8px;line-height:1.5}
+  .droutes{font-size:0.7rem;color:#4a463f;margin-top:6px;line-height:1.5;word-break:break-word}
+  .dgo{display:inline-block;margin-top:10px;font-size:0.73rem;color:var(--gold-dim);
+    text-decoration:none;letter-spacing:0.6px}
+  .dgo:hover{color:var(--gold)}
+
   /* ── floor ────────────────────────────────────────────────────── */
   .floor{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px}
   .st{position:relative;padding:11px 12px;background:var(--floor);
@@ -175,6 +197,19 @@
   <h2>No code path yet</h2>
   <p class="h2s">Not a missing setting. Nothing behind these at all — they are builds.</p>
   <div class="capgrid" id="unbuilt"></div>
+
+  <h2>The desks</h2>
+  <p class="h2s">Every venture this deployment runs, grouped by what it is FOR rather than by
+  handler name &mdash; 175 routes and 19 scheduled jobs. Each desk's state is the WORST state
+  among its jobs, read off the same ledger as the levers: observed, never inferred from a
+  schedule. A desk with no schedule says <em>on demand</em>, which is an answer, not a fault.</p>
+  <div class="desks" id="desks"></div>
+
+  <h2>Elsewhere</h2>
+  <p class="h2s">Real properties this board cannot reach. Separate deployments with their own
+  credentials &mdash; nothing here can read or change them. Listed anyway, because "not on the
+  board" must never read as "does not exist".</p>
+  <div class="capgrid" id="elsewhere"></div>
 
   <h2>The floor</h2>
   <p class="h2s">The twenty named operators, from <code>/api/fleet</code>. Each carries a posture

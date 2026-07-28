@@ -105,6 +105,65 @@
     { nm: 'Place a call', why: 'No telephony anywhere in the repo. First-strike calling is the operator, by design.' }
   ];
 
+  /**
+   * THE DESKS — every venture this deployment actually runs.
+   *
+   * The board above holds the six controls. This is the rest of the estate: 175
+   * routes and 19 scheduled jobs, grouped by the thing they are FOR rather than
+   * by handler name. Each desk names the jobs behind it, so its "last run" is
+   * read off the same ledger as the levers — observed, never inferred from a
+   * schedule.
+   *
+   * `jobs` are declared job names from lib/harness-map.js. `page` is a surface
+   * that exists in this repo. Nothing here is aspirational: a desk with no job
+   * says so rather than implying a cadence it does not have.
+   */
+  var DESKS = [
+    { id: 'homestead', nm: 'Homestead', does: 'Real-estate deal desk — auction ingest, per-deal CRM state, revenue tracking.',
+      jobs: ['realauction', 'automail'], page: '/admin-homestead.html',
+      routes: 'homestead · homestead-status · homestead-validation · homestead-automail' },
+    { id: 'companies', nm: 'Companies', does: '796 company portals — scored, enriched, and re-ranked weekly.',
+      jobs: ['rescore-portals'], page: '/flow',
+      routes: 'fetch-portal · enrich-portal-claude (paid) · expand-artifact' },
+    { id: 'sales', nm: 'Sales & CRM', does: 'Lead capture, pipeline, appointments, subscriber billing.',
+      jobs: ['autopilot', 'subscriber-digest'], page: '/sales.html',
+      routes: 'lead · leadgen · crm · sales · subscribers · checkout · stripe-webhook' },
+    { id: 'opportunity', nm: 'Opportunity', does: 'Where the next deal comes from — radar, RFPs, deal and capital engines.',
+      jobs: ['warn', 'edgar'], page: '/admin-deals.html',
+      routes: 'wave-radar · civil-radar · civil-rfps · deal-engine · capital-engine · ventures · skip-trace' },
+    { id: 'distress', nm: 'Distress desks', does: 'Finance, energy and industry distress scoring — the validated Thing 1 path.',
+      jobs: ['energy-distress'], page: '/admin-finance.html',
+      routes: 'finance-distress · energy-distress · industry-status (+ ingest and status each)' },
+    { id: 'relay', nm: 'Relay', does: 'Margin and checkout for the relay lane.',
+      jobs: [], page: '/relay-margin',
+      routes: 'relay-margin · relay-checkout' },
+    { id: 'fitness', nm: 'Fitness', does: 'Programming, evidence and the program feed.',
+      jobs: [], page: '/fitness.html',
+      routes: 'fitness-program · fitness-program-feed · fitness-evidence' },
+    { id: 'paper', nm: 'Paper trading', does: 'Simulated positions and orders. No money moves.',
+      jobs: [], page: null,
+      routes: 'paper-trade · paper-orders · paper-positions' },
+    { id: 'publish', nm: 'Publishing', does: 'The Gazette, hero images, music, and print-from-pattern.',
+      jobs: ['hero-image', 'social-cron'], page: '/admin-social.html',
+      routes: 'gazette · hero-image · music-coach (paid) · music-feed · print-from-pattern' },
+    { id: 'health', nm: 'System health', does: 'The immune pulse that audits 14 organs and applies bounded heals.',
+      jobs: ['immune-system'], page: '/vitals', routes: 'limen-health · audit-ledger · redis-diag' }
+  ];
+
+  /**
+   * ELSEWHERE — real properties this board CANNOT reach.
+   *
+   * They are separate deployments with their own credentials, so nothing here
+   * can read or change them. Listing them as switches would be the same theatre
+   * this page exists to avoid; listing them at all is still right, because "not
+   * on the board" should never be mistaken for "does not exist".
+   */
+  var ELSEWHERE = [
+    { nm: 'killswitch.domains', why: 'Separate Vercel project. Deploys by CLI over the whole tree — a git push here does not touch it.' },
+    { nm: 'Relay broker', why: 'Separate project on your machine (C:\\Users\\Chris\\broker). No shared API with this deployment.' },
+    { nm: 'TENSION fitness site', why: 'Separate property. The /fitness page in this repo is the LIMEN admin surface, not that site.' }
+  ];
+
   // ── boot ──────────────────────────────────────────────────────────────────
   function init() {
     wireGate();
@@ -231,6 +290,7 @@
   function render() {
     renderLevers();
     renderCaps();
+    renderDesks();
     renderFloor();
     renderLog();
     if (board && board.coverage) {
@@ -293,6 +353,56 @@
 
     var u = $('unbuilt');
     u.innerHTML = UNBUILT.map(function (x) {
+      return '<div class="cap unbuilt"><span class="dot"></span><div class="meta">' +
+        '<div class="nm">' + esc(x.nm) + '</div><div class="why">' + esc(x.why) + '</div></div></div>';
+    }).join('');
+  }
+
+  /**
+   * A desk's state is the WORST state among its jobs, because a desk with one
+   * dead job is not a healthy desk. A desk with no job at all is "on demand" —
+   * it runs when something calls it — which is a real answer, not a failure.
+   */
+  function deskState(d) {
+    if (!d.jobs.length) return { s: 'ondemand', note: 'on demand — no schedule' };
+    if (!board) return { s: 'unknown', note: 'reading…' };
+    var worst = null, notes = [];
+    d.jobs.forEach(function (name) {
+      var j = null;
+      (board.jobs || []).forEach(function (x) { if (x.job === name) j = x; });
+      if (!j) { notes.push(name + ': not declared'); rank('unknown'); return; }
+      var o = j.observed || {};
+      var s = o.neverObserved ? 'none' : (o.ok === false ? 'bad' : (o.overdue ? 'warn' : 'ok'));
+      notes.push(name + ': ' + (o.neverObserved ? 'never run' :
+        (o.ok === false ? 'FAILED ' + ago(o.at) : ago(o.at))));
+      rank(s);
+    });
+    function rank(s) {
+      var R = { bad: 0, none: 1, warn: 2, unknown: 3, ok: 4 };
+      if (worst === null || R[s] < R[worst]) worst = s;
+    }
+    return { s: worst || 'unknown', note: notes.join(' · ') };
+  }
+
+  function renderDesks() {
+    var host = $('desks');
+    if (!host) return;
+    host.innerHTML = DESKS.map(function (d) {
+      var st = deskState(d);
+      return '<div class="desk s-' + st.s + '">' +
+        '<div class="dhead"><span class="dnm">' + esc(d.nm) + '</span>' +
+        '<span class="dst">' + esc(st.s === 'ondemand' ? 'on demand' :
+          (st.s === 'ok' ? 'running' : st.s === 'bad' ? 'failing' :
+           st.s === 'none' ? 'never run' : st.s === 'warn' ? 'overdue' : 'reading…')) + '</span></div>' +
+        '<div class="ddoes">' + esc(d.does) + '</div>' +
+        '<div class="djobs">' + esc(st.note) + '</div>' +
+        '<div class="droutes">' + esc(d.routes) + '</div>' +
+        (d.page ? '<a class="dgo" href="' + esc(d.page) + '">open ' + esc(d.page) + ' &rarr;</a>' : '') +
+        '</div>';
+    }).join('');
+
+    var el = $('elsewhere');
+    if (el) el.innerHTML = ELSEWHERE.map(function (x) {
       return '<div class="cap unbuilt"><span class="dot"></span><div class="meta">' +
         '<div class="nm">' + esc(x.nm) + '</div><div class="why">' + esc(x.why) + '</div></div></div>';
     }).join('');

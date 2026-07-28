@@ -195,6 +195,45 @@ function run() {
            'the waiting count is wrong: ' + doc.getElementById('waiting').textContent);
         ok(/wants you/.test(sts[0].textContent), 'the posture is not said in plain words');
 
+        // ── the desks ───────────────────────────────────────────────────
+        // A desk takes the WORST state among its jobs: one dead job means the
+        // desk is not healthy, however well the others are running.
+        function deskBy(n) {
+          return Array.prototype.slice.call(doc.querySelectorAll('#desks .desk'))
+            .filter(function (d) { return d.querySelector('.dnm').textContent === n; })[0];
+        }
+        var desks = doc.querySelectorAll('#desks .desk');
+        ok(desks.length >= 8, 'expected the full desk set, got ' + desks.length);
+
+        // Sales runs autopilot (ok) AND subscriber-digest (never observed).
+        // Taking the best would paint it green; it must take the worst.
+        var sales = deskBy('Sales & CRM');
+        ok(sales && /s-none/.test(sales.className),
+           'Sales has a never-run job but the desk does not show it (' +
+           (sales ? sales.className : 'missing') + ')');
+        ok(sales && /never run/i.test(sales.textContent), 'the desk does not name the dead job');
+
+        // Publishing runs social-cron, whose last run FAILED.
+        var pub = deskBy('Publishing');
+        ok(pub && /s-bad/.test(pub.className),
+           'a desk with a failing job does not read as failing');
+
+        // A desk with NO schedule is "on demand" — an answer, not a fault.
+        var relay = deskBy('Relay');
+        ok(relay && /s-ondemand/.test(relay.className),
+           'a desk with no scheduled job should read on demand, not broken');
+        ok(relay && /on demand/i.test(relay.textContent), 'on-demand is not stated');
+
+        // Things this deployment cannot reach are listed, and never as switches.
+        var els = doc.querySelectorAll('#elsewhere .cap');
+        ok(els.length === 3, 'expected 3 unreachable properties, got ' + els.length);
+        ok(doc.querySelectorAll('#elsewhere .lever').length === 0,
+           'an unreachable property rendered a lever');
+        ok(/killswitch\.domains/.test(doc.getElementById('elsewhere').textContent),
+           'killswitch.domains is not listed');
+
+        console.log('[control] desks: ' + desks.length + ' · worst-of-jobs honoured · ' +
+          els.length + ' unreachable properties listed, none as switches');
         console.log('[control] measured: 6 levers · 3 capabilities · 3 unbuilt · ' +
           sts.length + ' operators (1 at the gate, sorted first) · ' +
           'rejected write sprang back · accepted write re-read');
