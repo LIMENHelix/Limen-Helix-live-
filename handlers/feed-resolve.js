@@ -92,7 +92,9 @@ module.exports = async function handler(req, res) {
         var rows = (await db.lrange('feedhist:' + dom, 0, 24)) || [];
         var fc = resolver.deriveForecast(rows);
         if (!fc) { skipped++; continue; }        // too little history to call a direction
-        await db.lpush(fkey, { madeAt: nowE, direction: fc.direction, currentStress: fc.currentStress, projectedStress: fc.projectedStress, src: 'server-cron' });
+        // Stamp the model that produced this call. resolve() grades only matching rows, so a
+        // future model change cannot silently blend two forecasters into one hit rate.
+        await db.lpush(fkey, { madeAt: nowE, direction: fc.direction, currentStress: fc.currentStress, projectedStress: fc.projectedStress, model: fc.model || resolver.FORECAST_MODEL, src: 'server-cron' });
         await db.ltrim(fkey, 0, CAP - 1);
         emitted.push(dom);
       }
@@ -107,7 +109,7 @@ module.exports = async function handler(req, res) {
     try {
       var forecasts = (await db.lrange('forecasthist:' + sk, 0, CAP - 1)) || [];
       var recorder = (await db.lrange('feedhist:' + sk, 0, 2160)) || [];
-      var out = resolver.resolve(forecasts, recorder, { now: Date.now() });
+      var out = resolver.resolve(forecasts, recorder, { now: Date.now(), model: resolver.FORECAST_MODEL });
       // keep the response small: drop the per-forecast detail unless explicitly asked
       //
       // `skill` and `alwaysStableRate` ship alongside the hit rate and are NOT
@@ -121,6 +123,10 @@ module.exports = async function handler(req, res) {
         externalHitRate: out.externalHitRate,
         alwaysStableRate: out.alwaysStableRate, skill: out.skill, directional: out.directional,
         resolvedCount: out.resolvedCount, eps: out.eps,
+        // Which forecaster these numbers belong to, and how many stored rows were left out
+        // because they came from a different one. Non-zero modelSkipped right after a model
+        // change is expected, and clears as the new ledger fills.
+        model: out.model, modelSkipped: out.modelSkipped,
         pendingCount: out.pendingCount, storedForecasts: forecasts.length, recorderRows: recorder.length,
         horizonMs: out.horizonMs, note: out.note, backend: db.getBackend() };
       if (q.detail) body.resolved = out.resolved.slice(0, 50);
@@ -149,8 +155,13 @@ module.exports = async function handler(req, res) {
       if (head && head[0] && head[0].madeAt && Math.floor(head[0].madeAt / HOUR_MS) === hourBucket) {
         return res.end(JSON.stringify({ ok: true, domain: dom, stored: false, note: 'idempotent-skip (already stored this hour)' }));
       }
+      // A posted forecast comes from the browser brain, which is NOT the server model, so it
+      // is stamped as its own model and is therefore not graded into the server model's skill.
+      // Callers that genuinely produce mrev1 calls may say so explicitly. Untagged stays
+      // 'client': the safe direction, since the number this feeds now gates reward.
       var row = { madeAt: now, direction: f.direction, currentStress: Math.round(f.currentStress * 10000) / 10000,
-        projectedStress: (typeof f.projectedStress === 'number') ? Math.round(f.projectedStress * 10000) / 10000 : null };
+        projectedStress: (typeof f.projectedStress === 'number') ? Math.round(f.projectedStress * 10000) / 10000 : null,
+        model: (typeof f.model === 'string' && f.model) ? f.model : 'client' };
       await db.lpush(key, row);
       await db.ltrim(key, 0, CAP - 1);
       return res.end(JSON.stringify({ ok: true, domain: dom, stored: true, backend: db.getBackend() }));

@@ -66,7 +66,9 @@ module.exports = async function handler(req, res) {
       var recorder = (await db.lrange('feedhist:' + dom, 0, RCAP)) || [];
       var weightHist = (await db.lrange('brainwts:hist:' + dom, 0, WHIST - 1)) || [];
 
-      var resolved = resolver.resolve(forecasts, recorder, { now: now });
+      // Same model filter the read path uses: the consolidator's calibration must describe
+      // ONE forecaster, or its proposals are derived from a blend of two.
+      var resolved = resolver.resolve(forecasts, recorder, { now: now, model: resolver.FORECAST_MODEL });
       var calib = consolidator.calibration(forecasts, resolved);
       var drift = consolidator.weightDrift(weightHist);
       var proposal = consolidator.buildProposal(dom, calib, drift, { now: now });
