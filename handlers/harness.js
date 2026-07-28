@@ -59,6 +59,30 @@ function readGraph() {
   return _graph;
 }
 
+/**
+ * The flow graph — sources → portals → domains → data → brain → business,
+ * built by scripts/build-flow-graph.js and served to /flow.
+ *
+ * Same protected location and the same read-once rule as the wiring graph: it
+ * names every internal store key and every external host, so it must not sit in
+ * assets/data (which is publicly served), and it only changes on deploy.
+ */
+var _flow;
+function readFlow() {
+  if (_flow !== undefined) return _flow;
+  var cands = [
+    path.join(__dirname, '..', 'api', 'protected-docs', 'flow-graph.json'),
+    path.join(process.cwd(), 'api', 'protected-docs', 'flow-graph.json')
+  ];
+  for (var i = 0; i < cands.length; i++) {
+    try {
+      if (fs.existsSync(cands[i])) { _flow = JSON.parse(fs.readFileSync(cands[i], 'utf8')); return _flow; }
+    } catch (e) { /* try the next candidate */ }
+  }
+  _flow = null;
+  return _flow;
+}
+
 var KEY_VARS = ['HARNESS_KEY', 'ADMIN_MASTER', 'ADMIN_MASTER_KEY', 'SALES_ADMIN_KEY', 'LEAD_ADMIN_KEY', 'CRON_SECRET'];
 
 function send(res, payload, status) {
@@ -214,6 +238,23 @@ module.exports = async function handler(req, res) {
         note: q.get('note') || null
       });
       return send(res, { ok: true, recorded: row });
+    }
+
+    // ── read: the flow chart ──────────────────────────────────────────────
+    if (q.get('flow')) {
+      var fg = readFlow();
+      if (!fg) {
+        return send(res, {
+          ok: false,
+          error: 'The flow graph has not been built, or was not bundled into this deployment.',
+          fix: 'Run: node scripts/build-flow-graph.js  then commit api/protected-docs/flow-graph.json'
+        }, 503);
+      }
+      var sched = {};
+      MAP.JOBS.forEach(function (j) {
+        sched['handlers/' + j.job + '.js'] = { job: j.job, schedule: j.schedule, kind: j.kind, role: j.role, source: j.source };
+      });
+      return send(res, { ok: true, flow: fg, scheduled: sched });
     }
 
     // ── read: the wiring harness ──────────────────────────────────────────

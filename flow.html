@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>LIMEN Helix · Flow</title>
+<style>
+  :root{
+    --ground:#0a0b0e; --panel:#11141a; --sunk:#0d0f14;
+    --gold:#c9a94e; --gold-dim:rgba(201,169,78,0.55); --gold-ghost:rgba(201,169,78,0.18);
+    --ink:#d8d3c9; --dim:#8b857b; --faint:#5f5a52;
+    --ok:#8fcbb6; --warn:#d6a95e; --bad:#d97070; --none:#6b6760; --unknown:#4e4b46;
+    --edge:#2c323c; --hair:rgba(255,255,255,0.07);
+    --mono:'IBM Plex Mono',ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--mono);
+    -webkit-font-smoothing:antialiased;font-size:15px}
+
+  header{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;
+    padding:0 20px;height:54px;border-bottom:1px solid var(--hair);
+    background:rgba(10,11,14,0.97);backdrop-filter:blur(8px)}
+  .brand{font-size:0.74rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dim)}
+  .brand a{color:inherit;text-decoration:none}
+  .brand a:hover{color:var(--gold)}
+  .sep{color:var(--gold-ghost)}
+  .title{font-size:0.74rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+  .spacer{flex:1}
+  button.chip{font-family:inherit;font-size:0.7rem;letter-spacing:1.4px;text-transform:uppercase;
+    padding:6px 12px;border-radius:2px;cursor:pointer;background:transparent;
+    border:1px solid rgba(255,255,255,0.12);color:var(--dim)}
+  button.chip:hover{border-color:var(--gold-ghost);color:var(--ink)}
+
+  /* ── breadcrumb: how deep you are ────────────────────────────────── */
+  #crumbs{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:12px 20px;
+    border-bottom:1px solid var(--hair);background:rgba(12,13,17,0.9)}
+  button.crumb{font-family:inherit;font-size:0.74rem;letter-spacing:1.5px;text-transform:uppercase;
+    background:none;border:none;color:var(--faint);cursor:pointer;padding:3px 4px}
+  button.crumb:hover{color:var(--gold)}
+  #crumbs .crumb:last-of-type{color:var(--gold)}
+  .carr{color:var(--unknown)}
+
+  .vhead{padding:26px 20px 4px;max-width:1500px;margin:0 auto}
+  #vtitle{font-size:1.9rem;letter-spacing:0.5px;color:var(--gold);font-weight:400;margin:0}
+  #vsub{font-size:0.86rem;color:var(--dim);margin-top:5px}
+  #vnote{font-size:0.85rem;color:#b7b1a6;line-height:1.65;margin-top:14px;max-width:80ch;
+    padding:12px 15px;background:var(--sunk);border-left:3px solid var(--gold-ghost);border-radius:0 3px 3px 0}
+
+  /* ── the stack: layers top to bottom, arrows between ─────────────── */
+  #stack{max-width:1500px;margin:0 auto;padding:18px 20px 90px}
+  .layer{background:var(--panel);border:1px solid var(--hair);border-radius:4px;padding:14px 16px 16px}
+  .lhead{display:flex;align-items:baseline;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+  .lname{font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+  .lnote{font-size:0.78rem;color:var(--faint)}
+  .row{display:flex;flex-wrap:wrap;gap:10px}
+
+  .flowarrow{display:flex;justify-content:center;height:34px;position:relative}
+  .flowarrow span{width:1px;background:var(--edge);position:relative}
+  .flowarrow span::after{content:'';position:absolute;bottom:0;left:-4px;
+    border-left:4.5px solid transparent;border-right:4.5px solid transparent;
+    border-top:7px solid var(--edge)}
+
+  .box{position:relative;flex:1 1 236px;max-width:340px;min-height:104px;text-align:left;
+    font-family:inherit;color:inherit;display:flex;flex-direction:column;gap:3px;
+    padding:13px 15px 26px;border-radius:3px;background:var(--sunk);
+    border:1px solid var(--edge);border-left:4px solid var(--unknown);transition:.14s}
+  button.box{cursor:pointer}
+  button.box:hover{background:#141821;border-color:var(--gold-ghost)}
+  .box.s-ok{border-left-color:var(--ok)}
+  .box.s-warn{border-left-color:var(--warn)}
+  .box.s-bad{border-left-color:var(--bad)}
+  .box.s-none{border-left-color:var(--none);border-left-style:dashed}
+  .box.s-unknown{border-left-color:var(--unknown);border-left-style:dotted}
+  .blab{font-size:0.95rem;color:var(--ink);padding-right:52px;line-height:1.35}
+  .bn{position:absolute;top:11px;right:14px;font-size:1.25rem;font-weight:300;
+    color:var(--dim);font-variant-numeric:tabular-nums}
+  .box.s-ok .bn{color:var(--ok)} .box.s-warn .bn{color:var(--warn)} .box.s-bad .bn{color:var(--bad)}
+  .bsub{font-size:0.76rem;color:var(--faint);line-height:1.5}
+  .bwhy{font-size:0.76rem;color:var(--dim);line-height:1.5;margin-top:2px}
+  .bstate{position:absolute;left:15px;bottom:8px;font-size:0.66rem;letter-spacing:1.6px;
+    text-transform:uppercase;color:var(--unknown)}
+  .box.s-ok .bstate{color:var(--ok)} .box.s-warn .bstate{color:var(--warn)}
+  .box.s-bad .bstate{color:var(--bad)} .box.s-none .bstate{color:var(--none)}
+  button.door::after{content:'▸';position:absolute;right:14px;bottom:7px;color:var(--faint);font-size:0.9rem}
+  button.door.open::after{content:'▾'}
+  button.door:hover::after{color:var(--gold)}
+
+  .box.mini{min-height:0;flex:1 1 208px;max-width:290px;padding:9px 12px 10px;
+    border-left-width:2px;border-left-color:var(--edge)}
+  .box.mini .blab{font-size:0.83rem;padding-right:18px}
+
+  .sublist{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--edge)}
+  .sublist.open{display:block}
+
+  #gate{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:var(--ground)}
+  #gate.hide{display:none}
+  #gate .box2{width:min(420px,90vw);padding:28px;border:1px solid var(--gold-ghost);text-align:center}
+  #gate h2{margin:0 0 6px;font-size:0.84rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--gold);font-weight:400}
+  #gate p{margin:0 0 18px;font-size:0.74rem;color:var(--dim);line-height:1.65}
+  #gate input{width:100%;padding:10px;background:rgba(255,255,255,0.04);
+    border:1px solid var(--gold-ghost);color:var(--ink);font-family:inherit;
+    font-size:0.78rem;margin-bottom:11px;text-align:center;letter-spacing:1px}
+  #gate input:focus{outline:none;border-color:var(--gold-dim)}
+  #gate button{width:100%;padding:10px;background:transparent;border:1px solid var(--gold-dim);
+    color:var(--gold);font-family:inherit;font-size:0.74rem;letter-spacing:2.4px;
+    text-transform:uppercase;cursor:pointer}
+  #gate button:hover{background:rgba(201,169,78,0.1)}
+  #gate .err{margin-top:11px;font-size:0.7rem;color:var(--bad);min-height:2.4em;line-height:1.5}
+
+  @media (max-width:620px){ .box{max-width:none} #vtitle{font-size:1.4rem} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><a href="/">LIMEN HELIX</a></div>
+  <div class="sep">·</div>
+  <div class="title">Flow</div>
+  <div class="spacer"></div>
+  <button class="chip" id="up">↑ up a layer</button>
+</header>
+
+<div id="crumbs"></div>
+
+<div class="vhead">
+  <h1 id="vtitle">—</h1>
+  <div id="vsub"></div>
+  <div id="vnote" style="display:none"></div>
+</div>
+
+<div id="stack"></div>
+
+<div id="gate">
+  <div class="box2">
+    <h2>Flow</h2>
+    <p>Sources, portals, domains, data, brain, business — top to bottom.
+       Every box opens into the next layer. Key-gated.</p>
+    <input id="gk" type="password" placeholder="admin key" autocomplete="off">
+    <button id="gb">Enter</button>
+    <div class="err" id="ge"></div>
+  </div>
+</div>
+
+<script src="/assets/js/flow.js?v=1"></script>
+</body>
+</html>
