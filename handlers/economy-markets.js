@@ -12,12 +12,9 @@ var CACHE_KEY = 'economy:markets:v1';
 var TTL_MS = 15 * 60 * 1000;
 
 // Broad-market macro proxies — the real-economy pulse (NOT individual companies)
-var TICKERS = [
-  'SPY','DIA','QQQ','IWM',          // equity breadth (large/blue-chip/tech/small-cap)
-  'TLT','IEF','SHY','HYG','LQD',     // rates & credit (long/mid/short treasuries, high-yield, IG)
-  'GLD','DBC','USO','UUP',           // commodities & dollar (gold, broad commodity, oil, USD index)
-  'VIXY','TIP','XLY','XLP'           // volatility, inflation-protected, cyclical vs defensive consumer
-];
+// Basket lives in lib/domain-baskets.js: it now drives BOTH these display quotes and a real
+// estimator channel (lib/domain-market-feed.js), and those two must never diverge.
+var TICKERS = require('../lib/domain-baskets').get('economy');
 
 async function fetchQuote(symbol) {
   var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(symbol) + '?range=1d&interval=5m';

@@ -12,13 +12,9 @@ var CACHE_KEY = 'culture:markets:v1';
 var TTL_MS = 15 * 60 * 1000;
 
 // Curated union of culture/media themed tickers
-var TICKERS = [
-  'SPOT','WMG','UMG.AS','SIRI','CSGP',                    // recorded music / streaming audio
-  'NFLX','WBD','PARA','DIS','SONY','CMCSA',               // film / TV / studios
-  'LYV','EDR','MSGE','MSGS','WWE',                        // live events / venues / experiences
-  'ROKU','TTD','META','GOOGL','PINS','SNAP',              // distribution / attention / discovery
-  'TKO','MANU','FUBO'                                     // sports-culture / fan platforms (context)
-];
+// Basket lives in lib/domain-baskets.js: it now drives BOTH these display quotes and a real
+// estimator channel (lib/domain-market-feed.js), and those two must never diverge.
+var TICKERS = require('../lib/domain-baskets').get('culture');
 
 async function fetchQuote(symbol) {
   var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(symbol) + '?range=1d&interval=5m';

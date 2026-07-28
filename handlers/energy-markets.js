@@ -18,15 +18,9 @@ var CACHE_KEY = 'energy:markets:v1';
 var TTL_MS = 15 * 60 * 1000;
 
 // Canonical union of every ticker used by the themed baskets on energy-markets.html
-var TICKERS = [
-  'NEE','VST','CEG','GEV','ETN','PWR','SO','D',          // data-center power + grid
-  'CCJ','BWXT','SMR','OKLO','LEU',                        // nuclear / uranium / SMR
-  'XOM','CVX','COP','OXY','SLB',                          // oil & gas
-  'LNG','EQT','KMI','WMB',                                // natural gas / LNG
-  'FSLR','BEP','ENPH','RUN',                              // renewables / solar
-  'DUK','AEP','EXC','AWK','WTRG','XYL',                   // utilities + water
-  'XLE','XLU','URA','TAN'                                 // ETFs (context)
-];
+// Basket lives in lib/domain-baskets.js: it now drives BOTH these display quotes and a real
+// estimator channel (lib/domain-market-feed.js), and those two must never diverge.
+var TICKERS = require('../lib/domain-baskets').get('energy');
 
 async function fetchQuote(symbol) {
   var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(symbol) + '?range=1d&interval=5m';

@@ -14,6 +14,8 @@ var phasePercept = require('../lib/phase-percept');
 var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: stress from node/company distress, not feed volume
 var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-weighted P0-P10 belief; grounded-stress is its Adapter B
 var energyMarketFeed = require('../lib/energy-market-feed');   // LIVE market channel, ENERGY ONLY (real, validated WTI series; see memory: energy-backfill-first-result)
+var domainMarketFeed = require('../lib/domain-market-feed');   // LIVE market channel for the other 19, off each domain's curated basket
+var domainBaskets = require('../lib/domain-baskets');          // the baskets themselves, shared with handlers/<domain>-markets.js
 var feedFractal = require('../lib/feed-fractal');   // typed content channels (content, not article count) + geopolitical extension for real available energy text
 var energyOutcomeTracker = require('../lib/energy-outcome-tracker');   // LIVE outcome loop, ENERGY ONLY: records today's forecast, resolves matured ones vs real forward price
 var outcomeLedger = require('../lib/outcome-ledger');   // for distressMass() — promotes the fused belief into the LIVE dsum.stress for energy (see inline comment at the call site)
@@ -247,6 +249,19 @@ module.exports = async function handler(req, res) {
           // precision 0.70, recall 0.08 — a cautious, high-precision channel, correctly weighted as one
           // vote among several, not the level-setter). Fails soft: any fetch/parse error => no channel
           // added, estimator runs on company channels alone exactly as before (never fabricate).
+          //
+          // GENERALIZED 2026-07-28 FROM ENERGY-ONLY TO ALL 20. The reason is measured, not
+          // aspirational: in the live channel store `distress` carries ONE distinct value across
+          // 182 samples in every domain and `granularity` likewise, so 70% of composite weight is
+          // a constant, while `marketScore` was the one channel demonstrated to carry information
+          // and it existed for a single domain. Energy was not better designed, it was better
+          // INSTRUMENTED. Every domain already had a curated ticker basket in
+          // handlers/<domain>-markets.js driving display quotes off a public keyless feed; this
+          // routes that same data into the estimator as an equal-weight index scored by the SAME
+          // validated marketStress(). Measured across all 20 baskets before wiring: 20 distinct
+          // scores, range 0.041-0.371, with technology and infrastructure high on real drawdowns
+          // of 19.2% and 10.1%. Energy keeps its FRED WTI spot series, which is a truer instrument
+          // for it than an equity basket.
           if (pk === 'energy') {
             try {
               var liveMkt = await energyMarketFeed.getLiveMarketChannel();
@@ -262,6 +277,26 @@ module.exports = async function handler(req, res) {
                 dsum.marketChannel = { score: null, reason: 'live fetch unavailable this run — estimator falls back to company channels alone' };
               }
             } catch (mfe) { dsum.marketChannel = { score: null, reason: 'market feed error: ' + mfe.message }; }
+          } else {
+            // Every non-energy domain: equal-weight index of its own basket, same scorer, same
+            // append discipline, same abstain discipline. Returns null (no channel, no history
+            // append, estimator unchanged) on a thin basket or any fetch failure — a missing
+            // channel is a lower-precision estimate, never a fabricated one.
+            try {
+              var domMkt = await domainMarketFeed.getLiveMarketChannel(pk, domainBaskets.get(pk));
+              if (domMkt && domMkt.reading) {
+                bundle.readings.push(domMkt.reading);
+                dsum.marketChannel = { score: domMkt.score, index: domMkt.latestPrice, asOf: domMkt.latestDate,
+                  source: domMkt.source, tickersLive: domMkt.tickersLive, tickersRequested: domMkt.tickersRequested };
+                if (gsShouldAppend || !gsSlot.history.marketScore) {
+                  var dArr = gsSlot.history.marketScore || (gsSlot.history.marketScore = []);
+                  dArr.push(domMkt.score);
+                  if (dArr.length > GS_HISTORY_CAP) dArr.splice(0, dArr.length - GS_HISTORY_CAP);
+                }
+              } else {
+                dsum.marketChannel = { score: null, reason: 'basket index unavailable this run (thin basket or fetch failure) — estimator falls back to company channels alone' };
+              }
+            } catch (dmfe) { dsum.marketChannel = { score: null, reason: 'domain market feed error: ' + dmfe.message }; }
           }
 
           // LIVE FEED FRACTAL (2026-07-20, ENERGY ONLY originally; PORTED 2026-07-20 to run for every

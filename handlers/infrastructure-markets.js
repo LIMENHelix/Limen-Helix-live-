@@ -14,14 +14,9 @@ var CACHE_KEY = 'infrastructure:markets:v1';
 var TTL_MS = 15 * 60 * 1000;
 
 // Canonical union of every ticker used by the themed civil baskets
-var TICKERS = [
-  'ACM','J','WSP.TO','BSY','TRMB','HXGBY',                // engineering / design / survey & GIS
-  'PWR','GVA','MTZ','FIX','STRL',                          // heavy-civil & electrical construction
-  'VMC','MLM','NUE','EXP','SUM',                           // aggregates / steel / materials
-  'FTNT','PANW','SBGSY','ROK',                             // cyber-physical / grid & SCADA security + automation
-  'AWK','WTRG','XYL','WMS',                                // water utilities & infrastructure
-  'BIP','PAVE','IFRA','IGF'                                // infrastructure funds / ETFs (context)
-];
+// Basket lives in lib/domain-baskets.js: it now drives BOTH these display quotes and a real
+// estimator channel (lib/domain-market-feed.js), and those two must never diverge.
+var TICKERS = require('../lib/domain-baskets').get('infrastructure');
 
 async function fetchQuote(symbol) {
   var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(symbol) + '?range=1d&interval=5m';

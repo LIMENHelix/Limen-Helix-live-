@@ -10,11 +10,9 @@ var db = require('../lib/limen-db');
 var CACHE_KEY = 'education:markets:v1';
 var TTL_MS = 15 * 60 * 1000;
 
-var TICKERS = [
-  'CHGG','COUR','DUOL','TWOU',  // edtech / online learning
-  'LRN','ATGE','LOPE','STRA','LAUR','UTI',  // K-12 / higher-ed / for-profit / vocational
-  'PSO.L','SCHL'                       // publishing / curriculum (context)
-];
+// Basket lives in lib/domain-baskets.js: it now drives BOTH these display quotes and a real
+// estimator channel (lib/domain-market-feed.js), and those two must never diverge.
+var TICKERS = require('../lib/domain-baskets').get('education');
 
 async function fetchQuote(symbol) {
   var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(symbol) + '?range=1d&interval=5m';
