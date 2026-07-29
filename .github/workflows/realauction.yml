@@ -23,9 +23,13 @@ on:
         required: false
         default: ''
       maxdates:
-        description: 'Auction dates per county'
+        description: 'Auction dates per county (soonest first)'
         required: false
-        default: '4'
+        default: '10'
+      months:
+        description: 'Extra calendar months to read past the current one'
+        required: false
+        default: '2'
       debug:
         description: 'Set 1 to dump raw label/value pairs (no enrich/write)'
         required: false
@@ -65,7 +69,11 @@ jobs:
           RA_INGEST_URL: https://limenhelix.com/api/realauction-ingest
           RA_INGEST_KEY: ${{ secrets.LEAD_ADMIN_KEY }}
           RA_COUNTIES: ${{ github.event.inputs.counties }}
-          RA_MAX_DATES: ${{ github.event.inputs.maxdates || '3' }}
+          # 3 kept only the three SOONEST dates, which at month end were the
+          # three least mailable. Raised alongside RA_MONTHS_AHEAD so the window
+          # actually reaches past an 8-day letter floor.
+          RA_MAX_DATES: ${{ github.event.inputs.maxdates || '10' }}
+          RA_MONTHS_AHEAD: ${{ github.event.inputs.months || '2' }}
           RA_DEBUG_RAW: ${{ github.event.inputs.debug }}
       - name: report this run to the harness
         # Records that this job ran, so /api/harness can tell "never ran" from

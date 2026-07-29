@@ -19,13 +19,23 @@
  */
 'use strict';
 
-// puppeteer-core (local, system Chrome) OR full puppeteer (CI, bundled chromium)
+// puppeteer-core (local, system Chrome) OR full puppeteer (CI, bundled chromium).
+//
+// Resolved LAZILY. At module scope a missing browser threw on require, which
+// meant the file could not be imported at all — so the pure date logic, the part
+// most worth testing and the part that carried the month-end bug, was reachable
+// only by launching Chrome at a WAF-protected site. Nothing here needs a browser
+// until run() actually scrapes.
 var puppeteer, launchOpts = { headless: 'new', args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'] };
-try {
-  puppeteer = require('puppeteer'); // CI: bundled chromium
-} catch (e) {
-  puppeteer = require('puppeteer-core');
-  launchOpts.executablePath = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+function loadBrowser() {
+  if (puppeteer) return puppeteer;
+  try {
+    puppeteer = require('puppeteer');            // CI: bundled chromium
+  } catch (e) {
+    puppeteer = require('puppeteer-core');       // local: system Chrome
+    launchOpts.executablePath = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+  }
+  return puppeteer;
 }
 
 var db = null;
@@ -139,31 +149,143 @@ function parseMoney(s) {
   return isNaN(n) ? null : Math.round(n);
 }
 
-// pull upcoming dates that actually have auctions off the month calendar
-async function auctionDates(page, county) {
-  await page.goto('https://' + county.host + '/index.cfm?zaction=USER&zmethod=CALENDAR', { waitUntil: 'networkidle2', timeout: 60000 });
-  await wait(2500);
-  var dates = await page.evaluate(function () {
+/**
+ * Read the auction days off ONE rendered calendar month.
+ * A day with auctions shows a count + a time (e.g. "2 Foreclosure ... 11:00 AM").
+ */
+function readCalendarMonth(page) {
+  return page.evaluate(function () {
     var out = [];
     document.querySelectorAll('[dayid]').forEach(function (box) {
       var d = (box.getAttribute('dayid') || '').trim();
       var txt = (box.innerText || '').replace(/\s+/g, ' ');
-      // a day with auctions shows a count + a time (e.g. "2 Foreclosure ... 11:00 AM")
       var has = /\d\s*(Foreclosure|Tax|Auction|FC)/i.test(txt) || /\d{1,2}:\d\d\s*(AM|PM)/i.test(txt);
       if (/^\d\d\/\d\d\/\d{4}$/.test(d) && has) out.push(d);
     });
     return out;
   });
-  // dedupe + future-only + cap
-  var seen = {}, keep = [];
-  var today = new Date(); today.setHours(0, 0, 0, 0);
-  dates.forEach(function (d) {
-    if (seen[d]) return; seen[d] = 1;
-    var p = d.split('/'); var dt = new Date(+p[2], +p[0] - 1, +p[1]);
-    if (dt >= today) keep.push(d);
+}
+
+/**
+ * Step the calendar to the next month, and RETURN WHETHER IT ACTUALLY MOVED.
+ *
+ * These are ColdFusion calendars behind a WAF and the navigation control is not
+ * documented, so this tries the shapes these sites use and verifies the result
+ * instead of trusting any one of them. Verification is the whole point: a wrong
+ * selector that silently re-reads the same month would double every date and
+ * look like success. If nothing moves we say so and keep the single month.
+ */
+async function nextCalendarMonth(page) {
+  var before = (await readCalendarMonth(page)).join('|');
+  var beforeAny = await page.evaluate(function () {
+    var el = document.querySelector('[dayid]');
+    return el ? el.getAttribute('dayid') : '';
   });
-  keep.sort(function (a, b) { var A = a.split('/'), B = b.split('/'); return new Date(+A[2], +A[0], +A[1]) - new Date(+B[2], +B[0], +B[1]); });
-  return keep.slice(0, MAX_DATES);
+
+  var moved = await page.evaluate(function () {
+    // Ordered most- to least-specific. Each returns true only if it found and
+    // clicked something plausible.
+    var sels = [
+      '#calendarNext', '.calendarNext', '#NextMonth', '.NextMonth',
+      '[onclick*="NextMonth"]', '[onclick*="nextMonth"]', '[onclick*="calMonth"]',
+      '.CALNAV .next', '.calnav .next', 'a[title*="Next" i]', 'img[alt*="Next" i]'
+    ];
+    for (var i = 0; i < sels.length; i++) {
+      var el = document.querySelector(sels[i]);
+      if (el) { (el.click ? el : el.parentElement).click(); return true; }
+    }
+    // Last resort: an arrow glyph in a small clickable element.
+    var cand = Array.prototype.slice.call(document.querySelectorAll('a,div,span,td'))
+      .filter(function (e) {
+        var t = (e.textContent || '').trim();
+        return (t === '>' || t === '»' || t === '►' || t === '→') && e.offsetParent !== null;
+      });
+    if (cand.length) { cand[cand.length - 1].click(); return true; }
+    return false;
+  });
+  if (!moved) return false;
+
+  await wait(2500);
+  var afterAny = await page.evaluate(function () {
+    var el = document.querySelector('[dayid]');
+    return el ? el.getAttribute('dayid') : '';
+  });
+  var after = (await readCalendarMonth(page)).join('|');
+  // It counts as moved only if the grid genuinely changed. Same first day AND
+  // same auction set means we clicked something inert.
+  return (afterAny !== beforeAny) || (after !== before && after.length > 0);
+}
+
+/**
+ * Upcoming auction dates for a county.
+ *
+ * WHY THIS WALKS FORWARD A FEW MONTHS
+ * It used to load the current month only and take the soonest MAX_DATES. That
+ * makes the usable horizon collapse as the month runs out: scraped on the 29th,
+ * the only remaining days ARE the 29th, 30th and 31st — two days of lead time,
+ * and on the 31st, none. Since a physical letter needs roughly eight days to
+ * arrive before the sale, most of the harvest was unmailable by construction,
+ * and the closer to month-end the worse it got.
+ *
+ * So it now reads MONTHS_AHEAD extra months and keeps the soonest MAX_DATES
+ * across the whole span. Dates still start from today — the near ones are real
+ * auctions and other parts of the desk want them — but the window no longer
+ * ends at an arbitrary calendar boundary.
+ */
+var MONTHS_AHEAD = parseInt(process.env.RA_MONTHS_AHEAD || '2', 10);
+
+async function auctionDates(page, county) {
+  await page.goto('https://' + county.host + '/index.cfm?zaction=USER&zmethod=CALENDAR', { waitUntil: 'networkidle2', timeout: 60000 });
+  await wait(2500);
+
+  var dates = await readCalendarMonth(page);
+  var monthsRead = 1;
+  for (var m = 0; m < MONTHS_AHEAD; m++) {
+    var ok = false;
+    try { ok = await nextCalendarMonth(page); } catch (e) { ok = false; }
+    if (!ok) break;                          // navigation unavailable; keep what we have
+    monthsRead++;
+    try { dates = dates.concat(await readCalendarMonth(page)); } catch (e) { /* keep going */ }
+  }
+
+  var keep = pickDates(dates, new Date(), MAX_DATES);
+  // Reported so a collapsed horizon is visible in the CI log rather than showing
+  // up weeks later as letters that cannot arrive in time.
+  if (keep.length) {
+    var lead = daysBetween(new Date(), keep[keep.length - 1]);
+    var soon = daysBetween(new Date(), keep[0]);
+    console.log('  [' + county.key + '] ' + monthsRead + ' month(s) read, ' +
+      keep.length + ' date(s), lead ' + soon + '-' + lead + ' days');
+  } else {
+    console.log('  [' + county.key + '] ' + monthsRead + ' month(s) read, no upcoming auction dates');
+  }
+  return keep;
+}
+
+// ── pure helpers, so the horizon logic is testable without a browser ─────────
+function parseMDY(s) {
+  var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(s || '').trim());
+  return m ? new Date(+m[3], +m[1] - 1, +m[2]) : null;
+}
+function daysBetween(from, mdy) {
+  var d = parseMDY(mdy);
+  if (!d) return null;
+  var a = Date.UTC(from.getFullYear(), from.getMonth(), from.getDate());
+  return Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - a) / 86400000);
+}
+/** dedupe, drop the past, sort ascending, cap. */
+function pickDates(dates, today, cap) {
+  var seen = {}, keep = [];
+  var t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  (dates || []).forEach(function (d) {
+    if (seen[d]) return;
+    var dt = parseMDY(d);
+    if (!dt) return;
+    seen[d] = 1;
+    if (dt >= t) keep.push(d);
+  });
+  keep.sort(function (a, b) { return parseMDY(a) - parseMDY(b); });
+  return keep.slice(0, cap);
 }
 
 async function scrapeDate(page, county, date) {
@@ -260,7 +382,7 @@ async function run() {
   var only = (process.env.RA_COUNTIES || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
   var counties = only.length ? COUNTIES.filter(function (c) { return only.indexOf(c.key) >= 0; }) : COUNTIES;
 
-  var browser = await puppeteer.launch(launchOpts);
+  var browser = await loadBrowser().launch(launchOpts);
   var page = await browser.newPage();
   await page.setUserAgent(UA);
 
@@ -350,4 +472,11 @@ async function run() {
   return live.length;
 }
 
-run().then(function (n) { process.exit(0); }).catch(function (e) { console.error('FATAL', e); process.exit(1); });
+// Run when invoked directly (CI does `node scripts/realauction-scrape.js`), but
+// stay inert when required — the horizon logic is pure and worth testing without
+// launching a browser at a WAF-protected site.
+if (require.main === module) {
+  run().then(function (n) { process.exit(0); }).catch(function (e) { console.error('FATAL', e); process.exit(1); });
+}
+
+module.exports = { pickDates: pickDates, daysBetween: daysBetween, parseMDY: parseMDY };
