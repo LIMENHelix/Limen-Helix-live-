@@ -133,6 +133,31 @@ module.exports = async function handler(req, res) {
       var prev = await db.get('brainwts:' + storeKey);
       var mod = P.createModulator();
       if (prev) P.hydrateModulator(mod, prev);
+
+      /**
+       * THE HIGH-WATER MARK IS ONLY COMPARABLE WITHIN ONE FORECAST MODEL.
+       *
+       * readModulator advances only when resolvedCount EXCEEDS lastResolvedSamples, which is
+       * the right rule for "only new outcomes teach" — but that counter is a count of the
+       * PREVIOUS model's resolved forecasts. Changing the forecaster resets resolvedCount to
+       * zero (rows from a retired model are excluded, not graded), so a stored high-water mark
+       * silently becomes an unreachable ceiling.
+       *
+       * Observed live: finance carried lastResolvedSamples 417 against a current resolvedCount
+       * of 0. At roughly one resolution an hour that domain could not have advanced for about
+       * seventeen days, and nothing would have reported it as stuck — it would simply never
+       * learn. Culture was worse: baseline 1.0, earned under the reward defect that credited a
+       * flat series for calling "stable" forever.
+       *
+       * So the modulator is stamped with the model that produced its counter, and a model
+       * change resets the counter AND the baseline. Carrying a baseline across a grader change
+       * would centre the reward prediction error on a number the new grader never assigned.
+       * Same reasoning as stamping the forecasts themselves; a counter is state too.
+       */
+      var prevModel = (prev && prev.meta && prev.meta.forecastModel) || null;
+      var modelChanged = prevModel !== resolver.FORECAST_MODEL;
+      if (modelChanged) { mod.lastResolvedSamples = 0; mod.baseline = null; }
+
       var before = mod.events;
       var read = P.readModulator(mod, k4, resolved.resolvedCount || 0);
       var didAdvance = mod.events > before;
@@ -147,7 +172,12 @@ module.exports = async function handler(req, res) {
         meta: { domain: dom, storeKey: storeKey, source: 'server-cron', rpe: read.rpe,
           resolvedCount: resolved.resolvedCount || 0, skill: resolved.skill,
           hitRate: resolved.externalHitRate, baseline: resolved.alwaysStableRate,
-          forecastModel: resolved.model, layersFrom: (prev && prev.layers) ? 'stored' : 'none' }
+          // forecastModel is what makes the counter above interpretable on the NEXT run.
+          // modelReset records that a retired model's high-water mark was cleared, so the
+          // discontinuity is visible in the record rather than looking like lost history.
+          forecastModel: resolver.FORECAST_MODEL, modelReset: modelChanged || undefined,
+          previousModel: modelChanged ? prevModel : undefined,
+          layersFrom: (prev && prev.layers) ? 'stored' : 'none' }
       };
 
       if (canWrite) {
