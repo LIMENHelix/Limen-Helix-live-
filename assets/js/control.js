@@ -40,7 +40,7 @@
   var KEY_STORE = 'limen.harness.key';
   var POLL_MS = 15000;
 
-  var key = '', board = null, caps = null, roster = [], busy = {};
+  var key = '', board = null, caps = null, roster = [], busy = {}, kai = null;
   var log = [];
 
   function $(id) { return document.getElementById(id); }
@@ -257,6 +257,11 @@
    */
   function loadRoster() {
     jget('/api/fleet').then(function (r) {
+      // Kai's own read comes back on the same call. He speaks ONE system
+      // decision — posture, bounded action, and which domain currently has the
+      // floor — and that belongs above the levers, because it is the thing the
+      // levers are an answer to.
+      if (r.j && r.j.master) kai = { master: r.j.master, system: r.j.system || null, ranAt: r.j.ranAt || null };
       var list = r.j && r.j.operators;
       if (!Array.isArray(list) || !list.length) return;
       roster = list.map(function (o) {
@@ -304,6 +309,7 @@
 
   // ── render ────────────────────────────────────────────────────────────────
   function render() {
+    renderKai();
     renderLevers();
     renderCaps();
     renderDesks();
@@ -313,6 +319,49 @@
       $('cov').textContent = board.coverage.observed + ' of ' + board.coverage.declared +
         ' jobs observed' + (board.coverage.neverObserved ? ' · ' + board.coverage.neverObserved + ' never ran' : '');
     }
+  }
+
+  /**
+   * Kai, above the board.
+   *
+   * He is the orchestrator: he runs the salience competition and speaks one
+   * system decision. His mandate ends "I open a human gate; I never walk through
+   * it" — so his line sits directly above the levers, which are that gate. That
+   * adjacency is the argument the page is making, and without it the board is
+   * just a row of switches.
+   *
+   * Unmeasured until /api/fleet answers. It says so rather than showing a calm
+   * default, same rule as every other reading here.
+   */
+  var POSTURE_SAY = {
+    hold: 'holding', monitor: 'watching', act: 'ready to act',
+    escalate: 'escalating', abstain: 'abstaining'
+  };
+  function renderKai() {
+    var host = $('kai');
+    if (!host) return;
+    if (!kai) {
+      host.innerHTML = '<div class="badge">KAI</div><div class="said">' +
+        '<div class="n">Orchestrator</div>' +
+        '<div class="m">reading the fleet…</div></div>';
+      return;
+    }
+    var s = kai.system || {};
+    var say;
+    if (!s.ready) {
+      say = 'No live signal to compete on yet. <em>' + esc(kai.master.mandate) + '</em>';
+    } else {
+      var focus = s.focus && s.focus.domain ? s.focus.domain : null;
+      say = 'System posture <b>' + esc(POSTURE_SAY[s.posture] || s.posture || '—') + '</b>' +
+            (s.boundedAction ? ' · bounded to <b>' + esc(s.boundedAction) + '</b>' : '') +
+            (focus ? ' · the floor is with <b>' + esc(focus) + '</b>' : '') +
+            (typeof s.systemStress === 'number' ? ' · system stress ' + s.systemStress.toFixed(2) : '') +
+            '<em> — I open a human gate; I never walk through it.</em>';
+    }
+    host.innerHTML =
+      '<div class="badge">KAI</div>' +
+      '<div class="said"><div class="n">Orchestrator · speaks one system decision</div>' +
+      '<div class="m">' + say + '</div></div>';
   }
 
   function renderLevers() {
@@ -340,6 +389,18 @@
     });
   }
 
+  /**
+   * Capabilities render as the SAME tile as a lever, minus the handle.
+   *
+   * The mock-up had twelve levers and read like a control room; the built page
+   * split them into a short board plus two lists and read like a report. But
+   * three of those twelve cannot be switched and three more do not exist, so
+   * putting handles back would be the lie this page exists to avoid.
+   *
+   * So the tile shape is shared and only the CONTROL differs: a lever where
+   * something flips, a state chip where nothing does. Same density, same
+   * scanning, no handle that goes nowhere.
+   */
   function renderCaps() {
     var host = $('caps');
     host.innerHTML = '';
@@ -357,20 +418,23 @@
         }
       }
       var d = document.createElement('div');
-      d.className = 'cap ' + state;
+      d.className = 'sw cap-tile s-' + state;
       d.innerHTML =
-        '<span class="dot"></span>' +
+        '<div class="chip ' + state + '">' +
+          (state === 'wired' ? 'ON' : state === 'needsEnv' ? 'ENV' : '—') +
+          '<span>no switch</span></div>' +
         '<div class="meta"><div class="nm">' + esc(c.nm) + '</div>' +
         '<div class="ds">' + esc(c.via) + '</div>' +
-        '<div class="gov">governed by <b>' + esc(c.governedBy) + '</b></div>' +
+        '<div class="stt">governed by ' + esc(c.governedBy) + '</div>' +
         '<div class="why">' + esc(why) + '</div></div>';
       host.appendChild(d);
     });
 
     var u = $('unbuilt');
     u.innerHTML = UNBUILT.map(function (x) {
-      return '<div class="cap unbuilt"><span class="dot"></span><div class="meta">' +
-        '<div class="nm">' + esc(x.nm) + '</div><div class="why">' + esc(x.why) + '</div></div></div>';
+      return '<div class="sw cap-tile s-none"><div class="chip none">—<span>not built</span></div>' +
+        '<div class="meta"><div class="nm">' + esc(x.nm) + '</div>' +
+        '<div class="why">' + esc(x.why) + '</div></div></div>';
     }).join('');
   }
 

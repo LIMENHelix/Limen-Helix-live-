@@ -39,6 +39,20 @@
     font-weight:500;margin:34px 0 4px}
   .h2s{font-size:0.79rem;color:var(--dim);margin:0 0 15px;max-width:82ch;line-height:1.65}
 
+  /* ── Kai ──────────────────────────────────────────────────────── */
+  .kai{display:flex;align-items:center;gap:18px;margin:22px 0 6px;padding:16px 20px;
+    background:linear-gradient(180deg,#141822 0%,var(--raised) 100%);
+    border:1px solid var(--gold-ghost);border-radius:4px;flex-wrap:wrap;
+    position:relative;overflow:hidden}
+  .kai::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+  .kai .badge{width:50px;height:50px;border-radius:50%;border:1.5px solid var(--gold);
+    display:grid;place-items:center;font-size:1.05rem;letter-spacing:2px;color:var(--gold);flex:none}
+  .kai .said{flex:1;min-width:280px}
+  .kai .said .n{font-size:0.7rem;letter-spacing:2.6px;text-transform:uppercase;color:var(--gold-dim)}
+  .kai .said .m{font-size:0.9rem;color:var(--ink);margin-top:5px;line-height:1.6}
+  .kai .said .m b{color:var(--gold);font-weight:500}
+  .kai .said .m em{color:var(--dim);font-style:normal}
+
   /* ── levers ───────────────────────────────────────────────────── */
   .board{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
   .sw{position:relative;display:flex;gap:15px;align-items:flex-start;padding:15px 16px;
@@ -74,6 +88,19 @@
   .lever .lbl.i{top:9px} .lever .lbl.o{bottom:9px}
   .sw.on .lever .lbl.i{color:var(--live)}
   .lever:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* A capability wears the lever's shell with a chip where the handle would be:
+     the board keeps its density without growing a control that does nothing. */
+  .cap-tile .chip{flex:none;width:44px;min-height:70px;border-radius:4px;background:var(--deep);
+    border:1px dashed #2b313a;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:4px;font-size:0.7rem;letter-spacing:1.4px;color:var(--faint)}
+  .cap-tile .chip span{font-size:0.5rem;letter-spacing:0.8px;text-transform:uppercase;opacity:.75}
+  .cap-tile .chip.wired{color:var(--live);border-color:rgba(143,203,182,0.4)}
+  .cap-tile .chip.needsEnv{color:var(--key);border-color:rgba(214,169,94,0.4)}
+  .cap-tile.s-wired{border-top-color:var(--live)}
+  .cap-tile.s-needsEnv{border-top-color:var(--key)}
+  .cap-tile.s-none{border-top-color:var(--unbuilt);opacity:.72}
+  .cap-tile .why{font-size:0.72rem;color:var(--faint);margin-top:6px;line-height:1.5}
 
   /* ── capabilities ─────────────────────────────────────────────── */
   .capgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
@@ -181,6 +208,8 @@
     anything on this page. You can.
   </div>
 
+  <div class="kai" id="kai"></div>
+
   <h2>The board</h2>
   <p class="h2s">Six pieces of state a human can flip. Each reads its position from the server —
   a lever is disabled and says <em>reading…</em> until the real state arrives, and never sits ON
@@ -188,15 +217,11 @@
   lever back and says why.</p>
   <div class="board" id="board"></div>
 
-  <h2>Wired, but not a switch</h2>
-  <p class="h2s">These work and are in use. They have no on/off of their own — they are exercised
-  by the jobs above, so the lever that actually governs each one is named rather than duplicated
-  as a dead handle.</p>
-  <div class="capgrid" id="caps"></div>
-
-  <h2>No code path yet</h2>
-  <p class="h2s">Not a missing setting. Nothing behind these at all — they are builds.</p>
-  <div class="capgrid" id="unbuilt"></div>
+  <p class="h2s" style="margin:18px 0 12px">Below the line: wired and in use, but with no on/off of
+  their own — they are exercised by the levers above, so each names the one that governs it. Then
+  the three with no code path at all, which are builds rather than settings.</p>
+  <div class="board" id="caps"></div>
+  <div class="board" id="unbuilt" style="margin-top:10px"></div>
 
   <h2>The desks</h2>
   <p class="h2s">Every venture this deployment runs, grouped by what it is FOR rather than by

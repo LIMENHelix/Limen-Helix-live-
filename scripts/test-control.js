@@ -59,7 +59,12 @@ var capsBody = { ok: true, capabilities: [
   { id: 'email', label: 'Send email', state: 'wired', missing: [] },
   { id: 'bluesky', label: 'Post to Bluesky', state: 'wired', missing: [] }
 ] };
-var rosterBody = { ok: true, operators: [
+var rosterBody = { ok: true,
+  master: { name: 'Kai', role: 'orchestrator',
+    mandate: 'I coordinate the twenty operators and speak one system decision. I open a human gate; I never walk through it.' },
+  system: { ready: true, systemStress: 0.42, posture: 'hold', boundedAction: 'monitor',
+            focus: { domain: 'energy', posture: 'monitor' } },
+  operators: [
   { name: 'Vera', domain: 'governance', posture: 'monitor', hasLiveSignal: true },
   { name: 'Juno', domain: 'energy', posture: 'abstain', hasLiveSignal: false },
   { name: 'Vale', domain: 'finance', posture: 'open-human-gate', hasLiveSignal: true,
@@ -120,14 +125,28 @@ function run() {
     var ls = levers();
     ok(ls.length === 6, 'expected 6 levers, got ' + ls.length);
 
+    // Kai frames the board — his mandate ends "I open a human gate; I never walk
+    // through it", and the levers are that gate. He must speak the REAL system
+    // decision, not a calm default.
+    var kaiTxt = doc.getElementById('kai').textContent;
+    ok(/KAI/.test(kaiTxt), 'Kai is not on the board');
+    ok(/holding/.test(kaiTxt), 'Kai does not report the live system posture');
+    ok(/energy/.test(kaiTxt), 'Kai does not name the domain holding the floor');
+    ok(/never walk through it/.test(kaiTxt), "Kai's gate line is missing — it is the page's thesis");
+
     // ── 4. no fake handles ────────────────────────────────────────────
-    var capBlocks = doc.querySelectorAll('#caps .cap');
+    var capBlocks = doc.querySelectorAll('#caps .cap-tile');
     ok(capBlocks.length === 4, 'expected 4 capability rows, got ' + capBlocks.length);
     ok(doc.querySelectorAll('#caps .lever').length === 0,
        'a capability rendered a lever — email/bluesky/leads have no on/off');
+    // It shares the lever's shell for density, so the distinguishing mark is the
+    // chip standing where the handle would be. No chip and no lever = a tile the
+    // operator cannot tell is inert.
+    ok(doc.querySelectorAll('#caps .chip').length === capBlocks.length,
+       'a capability tile has neither a lever nor a state chip');
     ok(doc.querySelectorAll('#unbuilt .lever').length === 0, 'an unbuilt row rendered a lever');
-    ok(doc.querySelectorAll('#unbuilt .cap').length === 3,
-       'expected 3 unbuilt rows, got ' + doc.querySelectorAll('#unbuilt .cap').length);
+    ok(doc.querySelectorAll('#unbuilt .cap-tile').length === 3,
+       'expected 3 unbuilt rows, got ' + doc.querySelectorAll('#unbuilt .cap-tile').length);
     // Physical mail IS built — Lob is wired in homestead-automail.js. It was
     // wrongly listed as having no code path; assert it never goes back.
     var unbuiltTxt = doc.getElementById('unbuilt').textContent;
