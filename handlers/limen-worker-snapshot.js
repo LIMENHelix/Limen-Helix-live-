@@ -354,6 +354,42 @@ module.exports = async function handler(req, res) {
             }
           } catch (sce) { dsum.seriesChannel = { score: null, reason: 'series feed error: ' + sce.message }; }
 
+          //
+          // TEXT CHANNEL (2026-07-29). The reading produced by handlers/domain-text-read.js from
+          // the headlines this system already fetches. It is READ here, never produced here: that
+          // handler runs on its own 3-hourly cron and is the only thing that spends, which keeps
+          // this worker deterministic and free exactly as the architecture rule requires.
+          //
+          // Every score behind this has survived citation verification — each driver carries a
+          // verbatim quote checked against the headline it cites, and a domain whose drivers all
+          // failed verification abstains rather than publish. Measured on the first live run: 10
+          // of 55 drivers were dropped as unverifiable. So this channel carries model judgement,
+          // but only judgement that could be traced back to real text.
+          //
+          // Stale readings are refused. The store is at most 3h old by design; anything older
+          // than 6h means the reader stopped, and a frozen opinion presented as a live one is the
+          // failure this whole codebase keeps rediscovering.
+          try {
+            var tr = await db.get('domain:textread');
+            var trAgeMs = tr && tr.generatedAt ? (gsNow - tr.generatedAt) : null;
+            var trRow = (tr && tr.domains) ? tr.domains[pk] : null;
+            if (trRow && trRow.abstained === false && typeof trRow.score === 'number' && trAgeMs !== null && trAgeMs < 6 * 3600 * 1000) {
+              bundle.readings.push({ key: 'textScore', value: trRow.score, likelihood: null });
+              dsum.textChannel = { score: trRow.score, confidence: trRow.confidence, summary: trRow.summary,
+                drivers: (trRow.drivers || []).length, driversDropped: trRow.driversDropped || 0,
+                headlines: trRow.headlines, ageMinutes: Math.round(trAgeMs / 60000), model: trRow.model };
+              if (gsShouldAppend || !gsSlot.history.textScore) {
+                var tArr = gsSlot.history.textScore || (gsSlot.history.textScore = []);
+                tArr.push(trRow.score);
+                if (tArr.length > GS_HISTORY_CAP) tArr.splice(0, tArr.length - GS_HISTORY_CAP);
+              }
+            } else {
+              dsum.textChannel = { score: null, reason: !tr ? 'no text reading stored yet'
+                : (trAgeMs !== null && trAgeMs >= 6 * 3600 * 1000) ? ('stale (' + Math.round(trAgeMs / 3600000) + 'h old) — refusing a frozen opinion')
+                : (trRow && trRow.abstained) ? ('reader abstained: ' + trRow.reason) : 'no reading for this domain' };
+            }
+          } catch (tce) { dsum.textChannel = { score: null, reason: 'text channel error: ' + tce.message }; }
+
           // LIVE FEED FRACTAL (2026-07-20, ENERGY ONLY originally; PORTED 2026-07-20 to run for every
           // domain): real per-article headlines from the already-running RSS ingest
           // (limen-worker-ingest.js -> latest_ingest; TTL bumped 300s->1200s in this same change so it
