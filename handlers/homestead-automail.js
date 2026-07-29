@@ -118,9 +118,58 @@ module.exports = async function handler(req, res) {
     var deals = (await db.get('realauction:deals')) || [];
     var mailed = (await db.get(MAILED)) || {};
     var enabled = (st.states && st.states.length) ? st.states : ['FL'];
+    /**
+     * LEAD TIME. A letter that lands after the sale is worse than no letter.
+     *
+     * This filter did not exist. Selection was work-first + owner address +
+     * equity + state + not-already-mailed, sorted by tier, and nothing asked how
+     * many days were left. A sale three days out therefore got a physical letter
+     * that could not arrive in time: Lob prints the next business day and first
+     * class runs about four to six business days after that, so roughly EIGHT
+     * calendar days is the floor for a piece that is still useful on arrival.
+     *
+     * Three ways a deal fails the check, counted separately because they mean
+     * different things and the operator should see which is happening:
+     *   past      the sale has already happened; mailing is pure waste
+     *   tooSoon   real, but it cannot arrive in time
+     *   noDate    no parseable saleDate. Skipped rather than mailed, because the
+     *             letter body interpolates fmtDate(saleDate) and would post a
+     *             piece reading "a court sale scheduled for soon".
+     *
+     * minLeadDays sits on the arm-switch state next to cap, so it is tunable
+     * without a deploy. Postage is spent per piece; this is money, not a nicety.
+     */
+    var MIN_LEAD_DAYS = (typeof st.minLeadDays === 'number' && st.minLeadDays >= 0) ? st.minLeadDays : 8;
+    var skipped = { past: 0, tooSoon: 0, noDate: 0 };
+
+    function daysUntilSale(d) {
+      var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(d.saleDate || '').trim());
+      if (!m) return null;                                  // unparseable → caller counts noDate
+      var when = Date.UTC(+m[3], +m[1] - 1, +m[2]);
+      if (!isFinite(when)) return null;
+      var today = new Date();
+      var now = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+      return Math.round((when - now) / 86400000);
+    }
+
     var picks = deals.filter(function (d) { return d.workFirst && d.owner && d.owner.mailAddr && (d.equity || 0) > 0 && enabled.indexOf((d.state || 'FL').toUpperCase()) >= 0; })
       .filter(function (d) { return !mailed[d.parcel || d.caseNumber]; })
-      .sort(function (a, b) { return ((a.tier || 9) - (b.tier || 9)) || ((b.priority || 0) - (a.priority || 0)); })
+      .filter(function (d) {
+        var n = daysUntilSale(d);
+        if (n === null) { skipped.noDate++; return false; }
+        if (n < 0) { skipped.past++; return false; }
+        if (n < MIN_LEAD_DAYS) { skipped.tooSoon++; return false; }
+        d._daysOut = n;
+        return true;
+      })
+      // Soonest ELIGIBLE sale first, then tier, then priority. A deal nine days
+      // out is more urgent than one ninety days out at the same tier, and the
+      // cap means the far-off ones get another run tomorrow anyway.
+      .sort(function (a, b) {
+        return (a._daysOut - b._daysOut) ||
+               ((a.tier || 9) - (b.tier || 9)) ||
+               ((b.priority || 0) - (a.priority || 0));
+      })
       .slice(0, st.cap || 20);
     var sent = [], fails = 0;
     for (var i = 0; i < picks.length; i++) {
@@ -129,12 +178,26 @@ module.exports = async function handler(req, res) {
       else sent.push(k);
     }
     if (live && sent.length) { sent.forEach(function (k) { mailed[k] = Date.now(); }); await db.set(MAILED, mailed); st.mailedTotal = (st.mailedTotal || 0) + sent.length; st.lastRunMs = Date.now(); await db.set(STATE, st); }
-    return j(res, 200, { ok: true, mode: live ? 'sent' : 'dry-run', count: sent.length, candidates: picks.length, fails: fails, needReturnAddress: !FROM.line1, hasLobKey: !!LOB });
+    return j(res, 200, {
+      ok: true, mode: live ? 'sent' : 'dry-run', count: sent.length, candidates: picks.length,
+      fails: fails, needReturnAddress: !FROM.line1, hasLobKey: !!LOB,
+      // Reported, never silent. "0 sent" with 40 skipped for lead time is a
+      // working filter; "0 sent" with nothing skipped is an empty pipeline. The
+      // operator cannot tell those apart without these counts.
+      minLeadDays: MIN_LEAD_DAYS,
+      skipped: skipped,
+      skippedTotal: skipped.past + skipped.tooSoon + skipped.noDate,
+      soonestMailedDays: picks.length ? picks[0]._daysOut : null
+    });
   }
 
   if (method === 'POST') {
     if (typeof body.armed === 'boolean') st.armed = body.armed;
     if (body.cap != null) st.cap = Math.max(1, Math.min(200, parseInt(body.cap, 10) || 20));
+    // Tunable without a deploy. 0 means "mail regardless of how close the sale
+    // is", which is a real choice the operator may want for a fast local carrier
+    // — so it is allowed, but it has to be chosen rather than defaulted into.
+    if (body.minLeadDays != null) st.minLeadDays = Math.max(0, Math.min(120, parseInt(body.minLeadDays, 10) || 0));
     if (Array.isArray(body.states)) st.states = body.states.map(function (s) { return String(s).toUpperCase().trim(); }).filter(Boolean);
     if (body.config && typeof body.config === 'object') {
       CFG_FIELDS.forEach(function (k) { if (body.config[k] != null) cfg[k] = String(body.config[k]).slice(0, 120).trim(); });
