@@ -155,8 +155,36 @@ module.exports = async function handler(req, res) {
        * Same reasoning as stamping the forecasts themselves; a counter is state too.
        */
       var prevModel = (prev && prev.meta && prev.meta.forecastModel) || null;
-      var modelChanged = prevModel !== resolver.FORECAST_MODEL;
-      if (modelChanged) { mod.lastResolvedSamples = 0; mod.baseline = null; }
+      var nowResolved = resolved.resolvedCount || 0;
+
+      /**
+       * THE INVARIANT, not the stamp. Within ONE model's ledger resolvedCount only grows, so
+       * lastResolvedSamples can never legitimately exceed it. If it does, the counter belongs
+       * to a different ledger and is a ceiling the current one may never reach.
+       *
+       * Comparing model stamps was my first attempt and it cannot work here: the previous run
+       * of this cron already wrote `forecastModel: mrev1` onto snapshots whose counters came
+       * from the RETIRED forecaster, because the stamp was taken from the resolver's current
+       * model rather than from the counter's provenance. The stamp now agrees while the counter
+       * does not, so any rule that trusts the stamp is permanently blind to exactly the domains
+       * that need fixing. The invariant does not care what the record claims — it compares two
+       * numbers that cannot both be true.
+       *
+       * It resets to ZERO, not to the current count. Clamping to resolvedCount was my first
+       * attempt and it is silently wrong: it marks this ledger's resolutions as already seen,
+       * so a domain with 250 genuinely resolved outcomes it had never learned from would skip
+       * all of them. A counter belonging to another ledger means this modulator has seen
+       * NOTHING from the current one, and zero is the only honest statement of that.
+       *
+       * The benign case stays safe. Forecasts age out at CAP, so resolvedCount can dip at a
+       * rollover boundary; the cost there is one extra advance, not corrupted state. The
+       * baseline is cleared alongside, because a baseline earned under a different grader
+       * centres the reward prediction error on a number this grader never assigned — culture
+       * was carrying 1.0, the saturated value from the reward defect.
+       */
+      var staleCounter = mod.lastResolvedSamples > nowResolved;
+      var priorCounter = mod.lastResolvedSamples;
+      if (staleCounter) { mod.lastResolvedSamples = 0; mod.baseline = null; }
 
       var before = mod.events;
       var read = P.readModulator(mod, k4, resolved.resolvedCount || 0);
@@ -175,8 +203,12 @@ module.exports = async function handler(req, res) {
           // forecastModel is what makes the counter above interpretable on the NEXT run.
           // modelReset records that a retired model's high-water mark was cleared, so the
           // discontinuity is visible in the record rather than looking like lost history.
-          forecastModel: resolver.FORECAST_MODEL, modelReset: modelChanged || undefined,
-          previousModel: modelChanged ? prevModel : undefined,
+          forecastModel: resolver.FORECAST_MODEL,
+          // Records that a counter from another ledger was clamped, and from what, so the
+          // discontinuity reads as a deliberate correction rather than lost history.
+          counterReset: staleCounter || undefined,
+          counterWas: staleCounter ? priorCounter : undefined,
+          previousModel: (prevModel && prevModel !== resolver.FORECAST_MODEL) ? prevModel : undefined,
           layersFrom: (prev && prev.layers) ? 'stored' : 'none' }
       };
 
