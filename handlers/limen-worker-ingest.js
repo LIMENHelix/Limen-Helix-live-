@@ -13,11 +13,39 @@
 var db = require('../lib/limen-db');
 
 // Import defense signal logic (same as api/defense-signals.js core)
+/**
+ * WIDENED 2026-07-29 FROM 10 DOMAINS TO 20.
+ *
+ * The four queries below the divider are the original set: geopolitical, energy, food and
+ * military. Everything they can produce maps, through DOMAIN_MAP, onto ten domain names, so
+ * communication, culture, economy, education, environment, intelligence, law, population,
+ * religion and research could NEVER be tagged by this path no matter what happened in the
+ * world. Not "rarely" — structurally never, because no keyword in the map emitted their names.
+ *
+ * Worth being precise about what that cost, because it was overstated in earlier notes: this
+ * is the second of TWO afferent paths. handlers/domain-snapshot.js carries 275 per-domain
+ * sources and always reached all 20. What the missing ten actually lost was the `feed_*` typed
+ * content channels, which are built from this ingest's output — measured 2026-07-29, feed
+ * channels were present on 8 of the 10 tagged domains and 0 of the 10 untagged. One channel
+ * family, not their afferent supply.
+ */
 var FEED_URLS = [
+  // ── original four (defense / energy / supply / military) ────────────────
   'https://news.google.com/rss/search?q=iran+OR+israel+OR+hormuz+OR+missile+OR+refinery+OR+tanker+OR+naval+attack&hl=en-US&gl=US&ceid=US:en',
   'https://news.google.com/rss/search?q=oil+price+OR+energy+crisis+OR+shipping+disruption+OR+port+attack&hl=en-US&gl=US&ceid=US:en',
   'https://news.google.com/rss/search?q=food+shortage+OR+grain+export+OR+fertilizer+crisis+OR+supply+chain+disruption&hl=en-US&gl=US&ceid=US:en',
-  'https://news.google.com/rss/search?q=military+escalation+OR+war+OR+invasion+OR+nato+OR+nuclear+threat&hl=en-US&gl=US&ceid=US:en'
+  'https://news.google.com/rss/search?q=military+escalation+OR+war+OR+invasion+OR+nato+OR+nuclear+threat&hl=en-US&gl=US&ceid=US:en',
+  // ── added, one per previously-unreachable domain ───────────────────────
+  'https://news.google.com/rss/search?q=inflation+OR+recession+OR+interest+rate+decision+OR+unemployment+rate+OR+GDP+growth&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=climate+change+OR+wildfire+OR+flooding+OR+drought+OR+emissions+OR+biodiversity+loss&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=court+ruling+OR+lawsuit+filed+OR+antitrust+OR+indictment+OR+regulatory+enforcement&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=university+enrollment+OR+school+closure+OR+education+funding+OR+student+debt+OR+teacher+shortage&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=press+freedom+OR+disinformation+OR+media+layoffs+OR+censorship+OR+telecom+outage&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=espionage+OR+surveillance+program+OR+intelligence+agency+OR+classified+leak+OR+cyber+espionage&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=migration+surge+OR+refugee+crisis+OR+census+data+OR+housing+shortage+OR+birth+rate&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=religious+persecution+OR+interfaith+OR+church+closure+OR+faith+leaders+OR+sectarian+violence&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=research+funding+cut+OR+scientific+study+OR+clinical+trial+results+OR+laboratory+discovery&hl=en-US&gl=US&ceid=US:en',
+  'https://news.google.com/rss/search?q=arts+funding+OR+museum+OR+film+industry+OR+music+industry+OR+cultural+heritage&hl=en-US&gl=US&ceid=US:en'
 ];
 
 var EVENT_KEYWORDS = {
@@ -33,7 +61,36 @@ var EVENT_KEYWORDS = {
   MILITARY_ESCALATION: ['military buildup', 'troops deployed', 'mobilization', 'invasion', 'war'],
   NUCLEAR_THREAT: ['nuclear', 'nuclear threat', 'nuclear weapon', 'nuclear strike'],
   SANCTIONS: ['sanctions', 'embargo', 'trade ban', 'economic sanctions'],
-  CYBER_ATTACK: ['cyber attack', 'cyberattack', 'infrastructure hack']
+  CYBER_ATTACK: ['cyber attack', 'cyberattack', 'infrastructure hack'],
+
+  // ── added 2026-07-29 for the ten domains that had no reachable event type ──
+  // Phrases are preferred over bare words throughout. A single common word behaves
+  // very differently once matching is word-boundary aware (see the matcher below),
+  // and a two-word phrase is far less likely to be a coincidence in a headline.
+  MONETARY_SHOCK: ['interest rate hike', 'rate cut', 'inflation surge', 'recession warning',
+    'unemployment rises', 'gdp contraction', 'credit crunch', 'bond selloff'],
+  CLIMATE_EVENT: ['wildfire', 'flooding', 'drought', 'heat wave', 'hurricane', 'emissions rise',
+    'biodiversity loss', 'deforestation', 'oil spill'],
+  LEGAL_ACTION: ['court ruling', 'lawsuit filed', 'antitrust', 'class action', 'indictment',
+    'consent decree', 'regulatory enforcement', 'appeals court'],
+  EDUCATION_STRESS: ['school closure', 'university enrollment', 'education funding', 'student debt',
+    'teacher shortage', 'campus protest', 'accreditation'],
+  MEDIA_PRESSURE: ['press freedom', 'disinformation', 'media layoffs', 'censorship',
+    'journalist detained', 'telecom outage', 'network outage'],
+  // 'cyberespionage' is listed separately because the closed-up spelling is common in this
+  // beat and a leading \b will not find 'espionage' inside it. Same convention CYBER_ATTACK
+  // already uses for 'cyberattack' vs 'cyber attack'. Found by auditing what the boundary
+  // matcher dropped: 2 of the 81 dropped hits were real signal, and this recovers both.
+  ESPIONAGE: ['espionage', 'cyberespionage', 'surveillance program', 'classified leak',
+    'intelligence agency', 'counterintelligence', 'spy ring'],
+  POPULATION_PRESSURE: ['refugee crisis', 'migration surge', 'housing shortage', 'birth rate',
+    'population decline', 'displacement', 'aging population'],
+  RELIGIOUS_TENSION: ['religious persecution', 'sectarian violence', 'church closure',
+    'interfaith', 'blasphemy', 'religious freedom'],
+  RESEARCH_DISRUPTION: ['research funding', 'grant cut', 'clinical trial', 'retraction',
+    'laboratory closure', 'scientific breakthrough'],
+  CULTURAL_SHIFT: ['arts funding', 'museum closure', 'film industry', 'music industry',
+    'cultural heritage', 'box office']
 };
 
 var DOMAIN_MAP = {
@@ -49,8 +106,65 @@ var DOMAIN_MAP = {
   MILITARY_ESCALATION: { domains: ['defense', 'finance', 'energy', 'governance'], magnitude: 0.9 },
   NUCLEAR_THREAT: { domains: ['defense', 'governance', 'finance', 'energy', 'health'], magnitude: 0.95 },
   SANCTIONS: { domains: ['finance', 'supplyChain', 'energy', 'industry'], magnitude: 0.6 },
-  CYBER_ATTACK: { domains: ['technology', 'defense', 'infrastructure', 'energy'], magnitude: 0.7 }
+  CYBER_ATTACK: { domains: ['technology', 'defense', 'infrastructure', 'energy'], magnitude: 0.7 },
+
+  // ── added 2026-07-29. Every previously-unreachable domain now has at least one
+  // event type that can name it. Magnitudes are deliberately LOWER than the
+  // geopolitical set above: a court ruling is a real signal, but it is not a strait
+  // closure, and inflating it would let routine news outrank an actual shock in
+  // domainSignals[].totalMag. Secondary domains are listed only where the coupling is
+  // direct enough to defend, not to make the graph look connected.
+  MONETARY_SHOCK:      { domains: ['economy', 'finance', 'population'], magnitude: 0.6 },
+  CLIMATE_EVENT:       { domains: ['environment', 'agriculture', 'infrastructure'], magnitude: 0.55 },
+  LEGAL_ACTION:        { domains: ['law', 'governance', 'finance'], magnitude: 0.45 },
+  EDUCATION_STRESS:    { domains: ['education', 'population'], magnitude: 0.45 },
+  MEDIA_PRESSURE:      { domains: ['communication', 'governance'], magnitude: 0.5 },
+  ESPIONAGE:           { domains: ['intelligence', 'defense', 'technology'], magnitude: 0.6 },
+  POPULATION_PRESSURE: { domains: ['population', 'infrastructure', 'economy'], magnitude: 0.5 },
+  RELIGIOUS_TENSION:   { domains: ['religion', 'culture'], magnitude: 0.55 },
+  RESEARCH_DISRUPTION: { domains: ['research', 'health', 'education'], magnitude: 0.45 },
+  CULTURAL_SHIFT:      { domains: ['culture', 'communication'], magnitude: 0.4 }
 };
+
+/**
+ * WORD-BOUNDARY MATCHING, compiled once.
+ *
+ * Classification used `text.indexOf(keyword) !== -1`, a raw substring test. With `war` among
+ * MILITARY_ESCALATION's keywords that fires on "warehouse", "warning", "award", "forward" and
+ * "wartime" — so an article about a warehouse fire could raise a military-escalation signal
+ * across defense, finance, energy and governance. Same defect class as lib/feed-fractal.js
+ * classifying "Federal Bureau of Investigation" as litigation.
+ *
+ * That mattered less while the keyword set was thirteen geopolitical types; it matters a lot
+ * more now that ten more event types feed ten more domains, because a false positive here does
+ * not just mis-tag one article, it injects a signal into every domain the event type maps to.
+ *
+ * A PLAIN \b ON BOTH ENDS IS WRONG, and measuring caught it before this shipped. Anchoring
+ * "airstrike" that way stops matching "airstrikes"; likewise "strike"/"strikes" and
+ * "oil price"/"oil prices". Against a live run it silently dropped 9 hits, and the ones I
+ * inspected were plurals in real headlines — trading a false-positive problem for a
+ * false-negative one, on a system whose whole difficulty is too little signal.
+ *
+ * So: leading \b to stop mid-word matches (award, forward, reward), and a trailing optional
+ * inflection before the closing \b. "war" matches war and wars but not warehouse, warning or
+ * wartime. "oil price" matches oil prices. Suffixes are enumerated rather than using \w* on
+ * purpose — \w* would readmit warehouse through the front door.
+ *
+ * Regexes are built at module load, not per article: the classifier tests every keyword
+ * against every article, and recompiling inside that loop would be the expensive way to do
+ * identical work.
+ */
+var KEYWORD_RE = (function () {
+  var out = {};
+  for (var et in EVENT_KEYWORDS) {
+    if (!EVENT_KEYWORDS.hasOwnProperty(et)) continue;
+    out[et] = EVENT_KEYWORDS[et].map(function (kw) {
+      var esc = String(kw).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp('\\b' + esc + '(?:s|es|ed|ing)?\\b', 'i');
+    });
+  }
+  return out;
+})();
 
 function _extractTag(xml, tag) {
   var re = new RegExp('<' + tag + '[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]></' + tag + '>', 'i');
@@ -114,9 +228,9 @@ module.exports = async function handler(req, res) {
   for (var ai = 0; ai < deduped.length; ai++) {
     var text = (deduped[ai].title + ' ' + deduped[ai].description).toLowerCase();
     if (now - deduped[ai].pubDate > 24 * 3600000) continue;
-    for (var et in EVENT_KEYWORDS) {
-      for (var ki = 0; ki < EVENT_KEYWORDS[et].length; ki++) {
-        if (text.indexOf(EVENT_KEYWORDS[et][ki]) !== -1) {
+    for (var et in KEYWORD_RE) {
+      for (var ki = 0; ki < KEYWORD_RE[et].length; ki++) {
+        if (KEYWORD_RE[et][ki].test(text)) {
           if (!clusters[et]) clusters[et] = { type: et, count: 0, titles: [] };
           clusters[et].count++;
           if (clusters[et].titles.length < 5) clusters[et].titles.push(deduped[ai].title);
