@@ -122,12 +122,19 @@ function run() {
 
     // ── 4. no fake handles ────────────────────────────────────────────
     var capBlocks = doc.querySelectorAll('#caps .cap');
-    ok(capBlocks.length === 3, 'expected 3 capability rows, got ' + capBlocks.length);
+    ok(capBlocks.length === 4, 'expected 4 capability rows, got ' + capBlocks.length);
     ok(doc.querySelectorAll('#caps .lever').length === 0,
        'a capability rendered a lever — email/bluesky/leads have no on/off');
     ok(doc.querySelectorAll('#unbuilt .lever').length === 0, 'an unbuilt row rendered a lever');
     ok(doc.querySelectorAll('#unbuilt .cap').length === 3,
        'expected 3 unbuilt rows, got ' + doc.querySelectorAll('#unbuilt .cap').length);
+    // Physical mail IS built — Lob is wired in homestead-automail.js. It was
+    // wrongly listed as having no code path; assert it never goes back.
+    var unbuiltTxt = doc.getElementById('unbuilt').textContent;
+    ok(!/physical mail/i.test(unbuiltTxt),
+       'physical mail is wired to Lob but is listed as having no code path');
+    ok(/lob\.com/i.test(doc.getElementById('caps').textContent),
+       'the Lob transmit path is not shown as a capability');
 
     // ── 2. each lever matches the server ──────────────────────────────
     var social = leverBy('Social posting');

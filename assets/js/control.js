@@ -92,16 +92,25 @@
   // the board never implies a control that does not exist.
   var CAPS_SHOWN = [
     { id: 'email', nm: 'Send email', via: 'lib/crm-send.js → Resend',
-      governedBy: 'Auto-mail', need: ['email'] },
+      governedBy: 'Subscriber digest · lead capture · CRM send', need: ['email'] },
+    // NOT email. Physical letters, and dormant until armed from /admin-homestead.
+    { id: 'lob', nm: 'Post physical mail', via: 'handlers/homestead-automail.js → api.lob.com/v1/letters',
+      governedBy: 'Auto-mail — an ARM switch, off by default', need: [] },
     { id: 'bluesky', nm: 'Post to Bluesky', via: 'lib/social-post.js → bsky.social',
       governedBy: 'Social posting · Social cron', need: ['bluesky'] },
     { id: 'leads', nm: 'Capture leads', via: 'handlers/lead.js → limen:leadgen:*',
       governedBy: 'always on — inbound', need: [] }
   ];
 
+  /**
+   * Genuinely no code path. Physical mail was on this list and should not have
+   * been: handlers/homestead-automail.js POSTs to api.lob.com/v1/letters. I read
+   * lib/print-pipeline.js, found no transmit, and stopped instead of grepping for
+   * a carrier. The bar for this list is a repo-wide search that finds nothing.
+   */
   var UNBUILT = [
     { nm: 'Render a video', why: 'The Gazette pipeline drives Chrome on your machine. No server endpoint renders one.' },
-    { nm: 'Post physical mail', why: 'lib/print-pipeline.js composes a piece. Nothing transmits it to a printer or carrier.' },
+    { nm: 'Send a text', why: 'No SMS provider anywhere in the repo. Autonomous texting is the highest-liability channel; it needs consent tracking before a line of it is written.' },
     { nm: 'Place a call', why: 'No telephony anywhere in the repo. First-strike calling is the operator, by design.' }
   ];
 
