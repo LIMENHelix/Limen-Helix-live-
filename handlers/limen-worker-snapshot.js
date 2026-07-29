@@ -15,6 +15,7 @@ var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: s
 var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-weighted P0-P10 belief; grounded-stress is its Adapter B
 var energyMarketFeed = require('../lib/energy-market-feed');   // LIVE market channel, ENERGY ONLY (real, validated WTI series; see memory: energy-backfill-first-result)
 var domainMarketFeed = require('../lib/domain-market-feed');   // LIVE market channel for the other 19, off each domain's curated basket
+var domainSeriesFeed = require('../lib/domain-series-feed');   // DEEP free FRED series per domain — energy's WTI pattern, generalised
 var domainBaskets = require('../lib/domain-baskets');          // the baskets themselves, shared with handlers/<domain>-markets.js
 var feedFractal = require('../lib/feed-fractal');   // typed content channels (content, not article count) + geopolitical extension for real available energy text
 var energyOutcomeTracker = require('../lib/energy-outcome-tracker');   // LIVE outcome loop, ENERGY ONLY: records today's forecast, resolves matured ones vs real forward price
@@ -321,6 +322,37 @@ module.exports = async function handler(req, res) {
               }
             } catch (dmfe) { dsum.marketChannel = { score: null, reason: 'domain market feed error: ' + dmfe.message }; }
           }
+
+          //
+          // DEEP SERIES CHANNEL (2026-07-29). Energy's WTI pattern, generalised. A free keyless
+          // FRED series per domain, ten years deep, scored by the SAME marketStress() validated on
+          // 40y of WTI. This is a SEPARATE channel from marketScore (equity baskets) on purpose:
+          // swapping the instrument under an existing channel key would mix two instruments inside
+          // one history and corrupt every rank taken against it.
+          //
+          // Why it matters more than the basket: technology's recorder held ONE distinct value and
+          // its series holds 2,507. Environment 33 -> 523. Economy 8 -> 259. The instrument gap was
+          // never structural, it was one hardcoded series id.
+          //
+          // Abstains where no defensible series exists (defense, governance, research, law,
+          // intelligence) rather than substituting a generic macro number and calling it a domain
+          // signal. Fails soft exactly like the other channels.
+          try {
+            var serCh = await domainSeriesFeed.getSeriesChannel(pk);
+            if (serCh && serCh.reading) {
+              bundle.readings.push(serCh.reading);
+              dsum.seriesChannel = { score: serCh.score, seriesId: serCh.seriesId, label: serCh.label,
+                quality: serCh.quality, cadence: serCh.cadence, points: serCh.points,
+                distinct: serCh.distinct, latestValue: serCh.latestValue, asOf: serCh.latestDate };
+              if (gsShouldAppend || !gsSlot.history.seriesScore) {
+                var sArr = gsSlot.history.seriesScore || (gsSlot.history.seriesScore = []);
+                sArr.push(serCh.score);
+                if (sArr.length > GS_HISTORY_CAP) sArr.splice(0, sArr.length - GS_HISTORY_CAP);
+              }
+            } else {
+              dsum.seriesChannel = { score: null, reason: 'no deep series wired for this domain yet' };
+            }
+          } catch (sce) { dsum.seriesChannel = { score: null, reason: 'series feed error: ' + sce.message }; }
 
           // LIVE FEED FRACTAL (2026-07-20, ENERGY ONLY originally; PORTED 2026-07-20 to run for every
           // domain): real per-article headlines from the already-running RSS ingest
