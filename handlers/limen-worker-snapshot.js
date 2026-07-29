@@ -174,6 +174,25 @@ module.exports = async function handler(req, res) {
     if (!gsMem || typeof gsMem !== 'object' || !gsMem.domains) gsMem = { domains: {}, updatedAt: 0 };
     var gsNow = Date.now();
     var gsMemDirty = false;
+
+    /**
+     * FIRST PASS: the sibling sample for the cross-sectional fallback.
+     *
+     * distress and unison come from company fundamentals, which update quarterly, but this worker
+     * samples them hourly. Measured over 201 samples: ONE distinct value per domain, both
+     * channels, every domain. A temporal rank against that history returns (n+1)/2n regardless of
+     * input, which is how seven domains came to publish exactly 0.2524 forever and how a domain
+     * at raw 0.000 and one at raw 0.231 both reported "precisely median".
+     *
+     * The information is in the cross-section, not the series: right now distress has 17 distinct
+     * values across the 20 domains and unison 16. So compute() ranks against siblings when, and
+     * only when, a channel's own history cannot rank anything. This pass is cheap (it reuses the
+     * already-fetched join and computes two channel functions per domain, no I/O) and has to
+     * happen before the per-domain loop because a domain cannot be its own comparison group.
+     */
+    var gsCrossSection = null;
+    try { gsCrossSection = groundedStress.buildCrossSection(domainJoin); }
+    catch (xe) { gsCrossSection = null; }   // fail soft: no siblings simply means no fallback
     for (var pk in domainSummary) {
       if (!domainSummary.hasOwnProperty(pk)) continue;
       var dsum = domainSummary[pk];
@@ -209,7 +228,11 @@ module.exports = async function handler(req, res) {
       try {
         var gsSlot = gsMem.domains[pk] || (gsMem.domains[pk] = { history: {}, corrState: null, lastAppendTs: 0, phaseCorr: null, outcomeTrack: null });
         // ONE compute pass, via the Adapter B bundle. bundle.composite is the full CISS output.
-        var bundle = groundedStress.toBundle(joinRow, { subjectId: pk, history: gsSlot.history, corrState: gsSlot.corrState });
+        // gsCrossSection is built ONCE before this loop (see above): the raw distress/unison of
+        // every scorable domain at this instant. compute() falls back to ranking against it only
+        // when a channel's own history is flat, which is the state these two channels are
+        // permanently in because they derive from quarterly fundamentals sampled hourly.
+        var bundle = groundedStress.toBundle(joinRow, { subjectId: pk, history: gsSlot.history, corrState: gsSlot.corrState, crossSection: gsCrossSection });
         var gs = bundle.composite || { grounded: false, stress: null, reason: bundle.reason };
         dsum.groundedStress = gs;
 
