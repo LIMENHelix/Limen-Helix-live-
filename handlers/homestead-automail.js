@@ -177,7 +177,14 @@ module.exports = async function handler(req, res) {
       if (live) { var r = await lobSend(d, LOB, FROM, PHONE, NAME); if (r.ok) sent.push(k); else fails++; }
       else sent.push(k);
     }
-    if (live && sent.length) { sent.forEach(function (k) { mailed[k] = Date.now(); }); await db.set(MAILED, mailed); st.mailedTotal = (st.mailedTotal || 0) + sent.length; st.lastRunMs = Date.now(); await db.set(STATE, st); }
+    // Persist the skip counts even on a dry run and even when nothing was sent —
+    // especially then. A run that mails nothing because forty deals were inside
+    // the lead time is the run the operator most needs to see afterwards, and
+    // the admin page can only show it if it was written down.
+    st.lastSkipped = skipped;
+    st.lastRunMs = Date.now();
+    if (live && sent.length) { sent.forEach(function (k) { mailed[k] = Date.now(); }); await db.set(MAILED, mailed); st.mailedTotal = (st.mailedTotal || 0) + sent.length; }
+    await db.set(STATE, st);
     return j(res, 200, {
       ok: true, mode: live ? 'sent' : 'dry-run', count: sent.length, candidates: picks.length,
       fails: fails, needReturnAddress: !FROM.line1, hasLobKey: !!LOB,
@@ -217,6 +224,10 @@ module.exports = async function handler(req, res) {
   var conf = {}; CFG_FIELDS.forEach(function (k) { conf[k] = cfg[k] || ''; });
   return j(res, 200, {
     ok: true, armed: !!st.armed, cap: st.cap || 20, states: st.states,
+    // `st.minLeadDays || 8` would turn a deliberate 0 back into 8 on every read,
+    // so the operator's choice to disable the gate would silently undo itself.
+    minLeadDays: (typeof st.minLeadDays === 'number') ? st.minLeadDays : 8,
+    lastSkipped: st.lastSkipped || null,
     mailedTotal: st.mailedTotal || 0, lastRunMs: st.lastRunMs || null,
     mailedKeys: Object.keys(m), hasLobKey: !!(process.env.LOB_API_KEY),
     hasReturnAddr: !!fromCfg().line1, config: conf

@@ -145,9 +145,20 @@ function run() {
             ok(b4.skipped.noDate === 1, 'a dateless deal must still be skipped with the gate off');
             ok(b4.candidates === 4, 'expected 4 candidates with the gate off, got ' + b4.candidates);
 
+            // The admin page can only show the skip counts if the run wrote
+            // them down, and a deliberate 0 must survive a read.
+            return call({ key: 'testadmin' }).then(function (g) {
+              var gb = g.body || {};
+              ok(gb.minLeadDays === 0,
+                 'a deliberate minLeadDays=0 did not survive the status read (got ' + gb.minLeadDays + ')');
+              ok(gb.lastSkipped && gb.lastSkipped.past === 1,
+                 'the run did not persist its skip counts for the admin page');
+              return null;
+            }).then(function () {
             console.log('[automail] with an 8-day floor: 2 of 6 deals mailable · ' +
               'skipped 1 past, 2 too soon, 1 undated · soonest eligible 12 days out');
             return null;
+            });
           });
         });
       });

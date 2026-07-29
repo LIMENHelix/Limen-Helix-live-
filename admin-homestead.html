@@ -414,6 +414,14 @@ function renderArm(s){
     '<div class="sw'+(s.armed?' on':'')+'" id="armSw"><i></i></div>'+
     '<div class="lbl">Autonomous auto-mail<span class="st '+stCls+'">'+stTxt+'</span></div>'+
     '<div class="meta">cap <input id="armCap" type="number" value="'+(s.cap||20)+'" min="1" max="200"> letters/day · '+(s.mailedTotal||0)+' mailed all-time · last run '+last+'</div>'+
+    // Lead time. Lob prints next business day and first class runs 4-6 business
+    // days after, so under ~8 days a letter cannot arrive before the sale. The
+    // skip counts from the last run sit beside it, because "0 mailed" means two
+    // opposite things depending on whether anything was skipped.
+    '<div class="meta">min lead <input id="armLead" type="number" value="'+(s.minLeadDays==null?8:s.minLeadDays)+'" min="0" max="120"> days before sale'+
+      (s.lastSkipped ? ' · last run skipped <b>'+(s.lastSkipped.tooSoon||0)+'</b> too soon, <b>'+
+        (s.lastSkipped.past||0)+'</b> already sold, <b>'+(s.lastSkipped.noDate||0)+'</b> undated' : '')+
+      '<span style="color:var(--dim,#8b857b)"> &nbsp;0 = mail regardless (past + undated still skipped)</span></div>'+
     '<div class="meta" style="flex-basis:100%">mail states: '+box('FL','Florida')+box('OH','Ohio')+box('TX','Texas')+
       ' &nbsp;·&nbsp; <a href="#" id="cfgToggle" style="color:var(--teal)">⚙ Mail setup</a>'+
       ' &nbsp;·&nbsp; <button id="armTest" style="font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--txt);cursor:pointer">✉ Send test letter to me</button></div>'+
@@ -423,6 +431,9 @@ function renderArm(s){
       :(s.armed?'<div class="warn" style="color:#7fd8b0">● LIVE - the daily run mails up to '+(s.cap||20)+' letters across ['+states.join(', ')+']. Send yourself a test first.</div>':'')));
   $('#armSw').onclick=function(){ setArm({armed:!s.armed}); };
   $('#armCap').onchange=function(){ setArm({cap:parseInt(this.value,10)||20}); };
+  // parseInt('0') is 0, which is falsy — `|| 8` would silently refuse the one
+  // value the operator has to choose deliberately. Guard on isNaN instead.
+  $('#armLead').onchange=function(){ var n=parseInt(this.value,10); setArm({minLeadDays:isNaN(n)?8:n}); };
   [].forEach.call(document.querySelectorAll('.armSt'),function(cb){ cb.onchange=function(){ setArm({states:[].filter.call(document.querySelectorAll('.armSt'),function(x){return x.checked;}).map(function(x){return x.value;})}); }; });
   $('#armTest').onclick=sendTestLetter;
   $('#cfgToggle').onclick=function(e){ e.preventDefault(); var f=$('#mailCfgForm'); f.style.display=(f.style.display==='none'?'block':'none'); };
