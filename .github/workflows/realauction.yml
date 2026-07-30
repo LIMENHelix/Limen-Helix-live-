@@ -34,6 +34,10 @@ on:
         description: 'Set 1 to dump raw label/value pairs (no enrich/write)'
         required: false
         default: ''
+      debugcal:
+        description: 'Set 1 to dump the calendar month-navigation DOM and stop'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -75,6 +79,7 @@ jobs:
           RA_MAX_DATES: ${{ github.event.inputs.maxdates || '10' }}
           RA_MONTHS_AHEAD: ${{ github.event.inputs.months || '2' }}
           RA_DEBUG_RAW: ${{ github.event.inputs.debug }}
+          RA_DEBUG_CAL: ${{ github.event.inputs.debugcal }}
       - name: report this run to the harness
         # Records that this job ran, so /api/harness can tell "never ran" from
         # "ran and failed". Never fails the job: a ledger outage must not look

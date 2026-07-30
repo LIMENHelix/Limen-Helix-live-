@@ -234,9 +234,61 @@ async function nextCalendarMonth(page) {
  */
 var MONTHS_AHEAD = parseInt(process.env.RA_MONTHS_AHEAD || '2', 10);
 
+/**
+ * RA_DEBUG_CAL=1 — dump the calendar's navigation DOM and stop.
+ *
+ * The first attempt at month navigation guessed at selectors and matched nothing
+ * on any of 77 counties. These sites 403 every request that is not a real
+ * browser, so the structure cannot be inspected from a workstation — but the
+ * scraper is already inside one. It reports what is actually there instead of
+ * anyone guessing a second time.
+ */
+async function dumpCalendarNav(page, county) {
+  var found = await page.evaluate(function () {
+    function desc(e) {
+      return {
+        tag: e.tagName, id: e.id || null,
+        cls: (e.className && e.className.baseVal !== undefined ? e.className.baseVal : e.className) || null,
+        onclick: e.getAttribute && e.getAttribute('onclick'),
+        href: e.getAttribute && e.getAttribute('href'),
+        text: (e.textContent || '').trim().slice(0, 40)
+      };
+    }
+    var out = { candidates: [], inputs: [], fns: [], title: document.title };
+    // Anything whose id/class/onclick smells like month navigation.
+    Array.prototype.slice.call(document.querySelectorAll('a,button,div,span,td,img,input'))
+      .forEach(function (e) {
+        var hay = [e.id, (e.className && e.className.baseVal !== undefined ? e.className.baseVal : e.className),
+                   e.getAttribute('onclick'), e.getAttribute('href'), e.getAttribute('alt'),
+                   e.getAttribute('title'), (e.textContent || '').trim()].join(' ').toLowerCase();
+        if (/cal|month|prev|next|forward|back|»|›/.test(hay) && hay.length < 400) out.candidates.push(desc(e));
+      });
+    Array.prototype.slice.call(document.querySelectorAll('input,select')).forEach(function (e) {
+      out.inputs.push({ name: e.name || null, id: e.id || null, type: e.type || null, value: (e.value || '').slice(0, 30) });
+    });
+    // Global functions that look like they drive the calendar.
+    for (var k in window) {
+      try { if (typeof window[k] === 'function' && /cal|month/i.test(k)) out.fns.push(k); } catch (e) {}
+    }
+    return out;
+  });
+  console.log('  [' + county.key + '] CALENDAR NAV DUMP');
+  console.log('    title: ' + found.title);
+  console.log('    fns: ' + (found.fns.join(', ') || 'none'));
+  found.candidates.slice(0, 25).forEach(function (c) {
+    console.log('    <' + c.tag + '> id=' + c.id + ' cls=' + c.cls +
+      ' onclick=' + c.onclick + ' href=' + c.href + ' text="' + c.text + '"');
+  });
+  found.inputs.slice(0, 15).forEach(function (i) {
+    console.log('    input name=' + i.name + ' id=' + i.id + ' type=' + i.type + ' value=' + i.value);
+  });
+}
+
 async function auctionDates(page, county) {
   await page.goto('https://' + county.host + '/index.cfm?zaction=USER&zmethod=CALENDAR', { waitUntil: 'networkidle2', timeout: 60000 });
   await wait(2500);
+
+  if (process.env.RA_DEBUG_CAL === '1') { await dumpCalendarNav(page, county); return []; }
 
   var dates = await readCalendarMonth(page);
   var monthsRead = 1;
