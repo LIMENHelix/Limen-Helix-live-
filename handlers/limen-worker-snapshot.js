@@ -233,7 +233,23 @@ module.exports = async function handler(req, res) {
         // every scorable domain at this instant. compute() falls back to ranking against it only
         // when a channel's own history is flat, which is the state these two channels are
         // permanently in because they derive from quarterly fundamentals sampled hourly.
-        var bundle = groundedStress.toBundle(joinRow, { subjectId: pk, history: gsSlot.history, corrState: gsSlot.corrState, crossSection: gsCrossSection });
+        /**
+         * The fast channel the composite needs, taken from the LAST stored sample rather than
+         * this tick's fetch. The market feeds are fetched further down, after the composite is
+         * computed, and reordering that loop to get them earlier would be a bigger change than
+         * this is worth. Using the previous sample is also the more defensible choice: it is a
+         * value that already existed when this tick began, so there is no chance of a fetch
+         * completed mid-tick leaking into the reading that grades it.
+         *
+         * A one-tick lag on a daily-updating instrument costs nothing. Absent on the first ever
+         * run for a domain, in which case the composite simply renormalises over the channels
+         * that computed, exactly as it does for religion whose basket is too thin to score.
+         */
+        var _mkHist = gsSlot.history && gsSlot.history.marketScore;
+        var _fast = (Array.isArray(_mkHist) && _mkHist.length)
+          ? { marketScore: _mkHist[_mkHist.length - 1] } : null;
+
+        var bundle = groundedStress.toBundle(joinRow, { subjectId: pk, history: gsSlot.history, corrState: gsSlot.corrState, crossSection: gsCrossSection, fastChannels: _fast });
         var gs = bundle.composite || { grounded: false, stress: null, reason: bundle.reason };
         dsum.groundedStress = gs;
 
