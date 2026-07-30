@@ -311,7 +311,43 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
   renderHist(); renderSub();
 })();
 </script>
-<style>:root{--panel:rgba(14,19,29,.60);--panel2:rgba(18,24,38,.54)}.card{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.hero{background:linear-gradient(180deg,rgba(7,11,18,.66),rgba(7,11,18,.86)),url('/assets/img/culture.jpg') center/cover;padding:72px 24px 48px;border-radius:16px;overflow:hidden}.hero h1,.hero p,.hero .promise span{text-shadow:0 2px 16px rgba(0,0,0,.6)}</style>
+<style>
+:root{--panel:rgba(14,19,29,.60);--panel2:rgba(18,24,38,.54)}
+.card{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+
+/* FULL-BLEED HERO. This page is on the older inline-CSS template, not domain-front.css, so it
+   does not get the .hero.photo > .hero-bg treatment the newer domain pages use. The image was
+   therefore boxed inside .wrap (max-width:760px) with a 16px radius, sitting as a card rather
+   than covering the top of the page.
+   Breaking out of a centred container: width:100vw plus a negative margin of half the leftover
+   viewport. min-height is in vh so the image actually covers the top on any screen instead of
+   collapsing to whatever the text needs. The inner text is re-capped so full-bleed does not
+   mean full-width paragraphs. */
+.hero{
+  position:relative;
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  border-radius:0;
+  min-height:clamp(340px,52vh,560px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:64px 24px 56px;
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(7,11,18,.58),rgba(7,11,18,.86)),
+             url('/assets/img/culture.jpg') center 45%/cover no-repeat;
+}
+/* the container is 760px; keep the words on that measure even though the image is not */
+.hero > *{max-width:720px;width:100%}
+.hero h1,.hero p,.hero .promise span{text-shadow:0 2px 16px rgba(0,0,0,.6)}
+/* 100vw is viewport-inclusive of the scrollbar; clip the axis so it cannot introduce a
+   horizontal scroll. clip rather than hidden so any sticky positioning still works. */
+html,body{overflow-x:clip;max-width:100%}
+@media (max-width:640px){ .hero{min-height:clamp(280px,44vh,420px);padding:48px 18px 40px} }
+</style>
 <script src="/assets/js/limen-phase-fractal.js" data-domain="culture"></script>
 </body>
 </html>
