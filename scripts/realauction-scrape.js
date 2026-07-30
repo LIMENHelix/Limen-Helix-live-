@@ -175,45 +175,66 @@ function readCalendarMonth(page) {
  * selector that silently re-reads the same month would double every date and
  * look like success. If nothing moves we say so and keep the single month.
  */
-async function nextCalendarMonth(page) {
-  var before = (await readCalendarMonth(page)).join('|');
-  var beforeAny = await page.evaluate(function () {
-    var el = document.querySelector('[dayid]');
-    return el ? el.getAttribute('dayid') : '';
+/**
+ * Step the calendar to the next month by FOLLOWING THE LINK THE PAGE PROVIDES.
+ *
+ * The first attempt clicked at guessed selectors and matched nothing on any of
+ * 77 counties. A debug dump from inside the browser (RA_DEBUG_CAL=1) showed why:
+ * there is nothing to click at. Navigation is an ordinary anchor carrying a
+ * ColdFusion timestamp in the query string —
+ *
+ *   <div class="CALNAV">
+ *     <a href="/index.cfm?zaction=user&zmethod=calendar&selCalDate={ts '2026-08-01 00:00:00'}">
+ *
+ * Two of them sit on every month, previous and next. Rather than match on the
+ * label — which is "August> >" here and would differ per skin — both hrefs are
+ * parsed for their selCalDate and the LATER one is taken. That is unambiguous
+ * regardless of wording, and it means the site's own URL is used rather than one
+ * I construct and have to encode correctly.
+ *
+ * Still verified: the displayed month must actually change, or it reports false
+ * and the caller keeps the single month.
+ */
+function displayedMonth(page) {
+  return page.evaluate(function () {
+    var el = document.querySelector('.CALDATE');
+    return el ? (el.textContent || '').trim() : '';
   });
+}
 
-  var moved = await page.evaluate(function () {
-    // Ordered most- to least-specific. Each returns true only if it found and
-    // clicked something plausible.
-    var sels = [
-      '#calendarNext', '.calendarNext', '#NextMonth', '.NextMonth',
-      '[onclick*="NextMonth"]', '[onclick*="nextMonth"]', '[onclick*="calMonth"]',
-      '.CALNAV .next', '.calnav .next', 'a[title*="Next" i]', 'img[alt*="Next" i]'
-    ];
-    for (var i = 0; i < sels.length; i++) {
-      var el = document.querySelector(sels[i]);
-      if (el) { (el.click ? el : el.parentElement).click(); return true; }
-    }
-    // Last resort: an arrow glyph in a small clickable element.
-    var cand = Array.prototype.slice.call(document.querySelectorAll('a,div,span,td'))
-      .filter(function (e) {
-        var t = (e.textContent || '').trim();
-        return (t === '>' || t === '»' || t === '►' || t === '→') && e.offsetParent !== null;
+async function nextCalendarMonth(page, host) {
+  var before = await displayedMonth(page);
+
+  var href = await page.evaluate(function () {
+    var best = null, bestT = -Infinity;
+    Array.prototype.slice.call(document.querySelectorAll('.CALNAV a[href], a[href*="selCalDate"]'))
+      .forEach(function (a) {
+        var h = a.getAttribute('href') || '';
+        var m = /selCalDate=([^&]+)/i.exec(h);
+        if (!m) return;
+        // {ts '2026-08-01 00:00:00'} once decoded — pull the ISO date out of it.
+        var d = /(\d{4})-(\d{2})-(\d{2})/.exec(decodeURIComponent(m[1]));
+        if (!d) return;
+        var t = Date.UTC(+d[1], +d[2] - 1, +d[3]);
+        if (t > bestT) { bestT = t; best = h; }
       });
-    if (cand.length) { cand[cand.length - 1].click(); return true; }
-    return false;
+    return best;
   });
-  if (!moved) return false;
+  if (!href) return false;
 
-  await wait(2500);
-  var afterAny = await page.evaluate(function () {
-    var el = document.querySelector('[dayid]');
-    return el ? el.getAttribute('dayid') : '';
-  });
-  var after = (await readCalendarMonth(page)).join('|');
-  // It counts as moved only if the grid genuinely changed. Same first day AND
-  // same auction set means we clicked something inert.
-  return (afterAny !== beforeAny) || (after !== before && after.length > 0);
+  var url = /^https?:/i.test(href) ? href
+          : 'https://' + host + (href.charAt(0) === '/' ? '' : '/') + href;
+  try {
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+  } catch (e) { return false; }
+  await wait(2000);
+
+  var after = await displayedMonth(page);
+  // "August 2026" must not equal "July 2026". If the label is missing on some
+  // skin, fall back to the day grid changing.
+  if (before && after) return after !== before;
+  var grid = (await readCalendarMonth(page)).join('|');
+  return grid.length > 0;
 }
 
 /**
@@ -294,7 +315,7 @@ async function auctionDates(page, county) {
   var monthsRead = 1;
   for (var m = 0; m < MONTHS_AHEAD; m++) {
     var ok = false;
-    try { ok = await nextCalendarMonth(page); } catch (e) { ok = false; }
+    try { ok = await nextCalendarMonth(page, county.host); } catch (e) { ok = false; }
     if (!ok) break;                          // navigation unavailable; keep what we have
     monthsRead++;
     try { dates = dates.concat(await readCalendarMonth(page)); } catch (e) { /* keep going */ }
