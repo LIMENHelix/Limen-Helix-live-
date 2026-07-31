@@ -117,6 +117,30 @@ instruction would have produced "command not found" and taught the operator to d
 
 ---
 
+## LINK-INTEGRITY SWEEP · 2026-07-31
+
+After the fractal-network fix, every navigable surface was checked for the same pattern:
+**rendering a link to something structurally incapable of resolving.**
+
+| surface | uses | verdict |
+|---|---|---|
+| `company-portal.html` functionalNetwork | 51 | **WAS BROKEN, FIXED.** `hasLink = !!(e.slug \|\| e.cik)` linked all 9 categories. 8,404 category-error links removed |
+| `assets/js/company-portal-ui.js` | — | clean, mentions functionalNetwork only in a comment; builds no fn links |
+| `lib/limen-stress-propagator.js` | graph edges | **clean by construction.** `if (!targetSlug) continue; // edge to a node we don't have`. Nodes come only from portals, so regulators/executives never become phantom nodes |
+| `portal.html?domain=` | 46 | destinations deploy — 3,713 of 3,715 domain JSONs (only 2 are L4+, excluded by design). `portal-content-resolver.js` adds a 1h negative cache against the undeployed-deep-tree 404 storm |
+| `helix-report.html?cik=` | 39 | page exists, 7 absence handlers |
+| `investment-console.html?opp=` | 32 | page exists, 12 absence handlers; the id comes from a live object already on the page, not a stored slug |
+| `portal-ui.js` drill (ENTER PORTAL) | — | gated on `n.childPortal` declared in the data, then resolved through the negative-cache fallback |
+
+**The pattern existed in exactly one place.** Everything else either gates on a data-declared
+flag, drops unresolvable targets before use, or degrades to a designed empty state.
+
+The generalisable rule, now that it has cost two wrong calls: *check what the page DOES with the
+data before judging whether stale data matters.* The 165 aliases looked cosmetic until the
+question became "what references these", which surfaced 16,424 dead links across all 796 portals.
+
+---
+
 ## AUDIT COVERAGE · proven, not assumed
 
 A CI simulation (`git ls-files` INTERSECT the sparse-checkout patterns, with `fs` stubbed to raise
