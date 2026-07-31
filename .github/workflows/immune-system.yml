@@ -49,11 +49,23 @@ jobs:
       #   - assets/js/company-portal-ui.js     -> organ-dead-links.mjs:121 probes it for the
       #     `cp-empty` graceful fallback and sets severity `fallbackPresent ? low : high`.
       #     Absent from the checkout, so CI read false and escalated the finding to HIGH.
-      # Still open and NOT fixed here: walk(ROOT) in organ-dead-links only sees the sparse cone,
-      # so its surface scan misses every root .html and most of assets/js. It found 2 unguarded
-      # surfaces; a full-tree run finds 35. Widening the cone trades disk for accuracy and is an
-      # operator call. The durable fix is for organs to declare required inputs and report
-      # "input missing" instead of inferring a system property from an ENOENT.
+      # WIDENED 2026-07-31, because the cost argument turned out to run the other way. Measured:
+      #   already in the cone   assets/data/companies 48M (796 files) + scripts/lib/handlers/api
+      #                         14M + three assets/js subsets 5.2M  ~= 67M
+      #   was excluded          rest of assets/js ~17M + every .html 31M              ~= 48M
+      # So the audit was already pulling 48M of company JSON while omitting the 48M that contains
+      # the actual surfaces. Roughly doubling a 67M checkout on a runner that already has a
+      # "free up runner disk" step is not a real cost.
+      #
+      # What it buys, measured: 37 files across the full tree build company-portal links — 19 at
+      # root, 17 in assets/js, 1 in scripts/. The cone let organ-dead-links see ONE of them, so it
+      # reported "1 total emitters" and scored 100 while 36 surfaces went unaudited. Every organ
+      # that walks the tree had the same blind spot.
+      #
+      # Still true and NOT fixed here: an organ that probes a path in a try/catch still cannot
+      # tell "file absent" from "property absent". Widening the cone removes today's instances;
+      # the durable fix is for organs to declare required inputs and report "input missing"
+      # instead of inferring a system property from an ENOENT.
       #
       # assets/data/brain-connectome.json is REQUIRED by lib/limen-stress-propagator.js
       # loadInhibitoryEdges(). It was absent from the sparse list below until 2026-07-31, so
@@ -83,11 +95,8 @@ jobs:
             assets/data/companies-manifest.json
             assets/data/company-aliases.json
             assets/data/stress-network-state.json
-            assets/js/company-portal-ui.js
-            assets/js/limen/
-            assets/js/civilization/
-            assets/js/domain-brains/
-            assets/js/master-brain-executor.js
+            assets/js/
+            *.html
             limen-helix-api/limen_v4_kernel.js
             limen-helix-api/limen_backtest_kernel.js
             package.json
