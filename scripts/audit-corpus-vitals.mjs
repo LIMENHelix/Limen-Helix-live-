@@ -173,8 +173,30 @@ for (const k in byBase) if (byBase[k].length > 1) dupRisk.byBase.push({ key: k, 
 for (const k in byCik) if (k && k !== '0' && k !== '0000000000' && byCik[k].length > 1) dupRisk.byCik.push({ cik: k, slugs: byCik[k] });
 
 // ─── CB wiring health (curated 506 + eligible 302) ────────────────
+/**
+ * `broken` conflated TWO defects with different remedies, and the attention item it produced
+ * named an action that could not work.
+ *
+ *   REWIRABLE  — the row's slug does not resolve, but a portal DOES exist for the row's CIK
+ *                under another slug. This is a pointer problem. wire-eligible-slugs.mjs fixes it.
+ *   NOT BUILT  — the row's slug does not resolve and NO portal exists for that CIK at all.
+ *                No wiring script can fix this; the portal has to be generated.
+ *
+ * Everything was reported as the first kind, with the action "run scripts/wire-eligible-slugs.mjs".
+ * That script only repoints slugs at portals that already exist and sets `hp`. Measured
+ * 2026-07-31 on the live corpus: 301 eligible companies, 115 with a portal, 186 without,
+ * "slugs fixed: 0". So the healer ran, correctly did nothing, exited 0, and heal-corpus recorded
+ * success while the count stayed at 176 for nineteen days.
+ *
+ * Splitting them makes each count actionable: one has a registered heal that can move it, the
+ * other belongs to the paused portal-regen queue and should stop being offered a wiring fix.
+ *
+ * The `eligibleWiring` score below is deliberately left on total `broken`. It is really a
+ * build-coverage measure rather than a wiring measure, but changing a score changes organ
+ * health, and that is a separate decision from making the queue honest.
+ */
 function wiringFor(filePath) {
-  let r = { totalRows: 0, withSlug: 0, resolving: 0, broken: 0, hpTrue: 0, brokenList: [] };
+  let r = { totalRows: 0, withSlug: 0, resolving: 0, broken: 0, brokenRewirable: 0, brokenNoPortal: 0, hpTrue: 0, brokenList: [] };
   try {
     const cb = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     const rows = cb.companies || [];
@@ -186,7 +208,14 @@ function wiringFor(filePath) {
       if (row.hp) r.hpTrue++;
       const eff = aliases[row.s] || row.s;
       if (fs.existsSync(path.join(DIR, eff + '.json'))) r.resolving++;
-      else { r.broken++; if (r.brokenList.length < 25) r.brokenList.push({ name: row.n, s: row.s, cik: row.c }); }
+      else {
+        r.broken++;
+        // A portal for this CIK under a DIFFERENT slug means the pointer is wrong and a
+        // wiring pass can fix it. No portal for the CIK at all means it was never built.
+        const cikSlugs = byCik[norm(row.c)] || [];
+        if (cikSlugs.length > 0) r.brokenRewirable++; else r.brokenNoPortal++;
+        if (r.brokenList.length < 25) r.brokenList.push({ name: row.n, s: row.s, cik: row.c, rewirable: cikSlugs.length > 0 });
+      }
     }
   } catch (e) {}
   return r;
@@ -219,8 +248,14 @@ const attention = [];
 if (placeholder.totalDN > 0) attention.push({ issue: 'DATA_NEEDED placeholders present', count: placeholder.totalDN, severity: 'high', action: 'run scripts/scrub-data-needed-corpus.mjs --apply' });
 if (dupRisk.byName.length > 0) attention.push({ issue: 'Name-fingerprint dup clusters', count: dupRisk.byName.length, severity: 'high', action: 'review scripts/_dedup-analysis.mjs output and choose canonicals' });
 if (dupRisk.byCik.length > 1) attention.push({ issue: 'CIK collisions (real ciks shared)', count: dupRisk.byCik.length, severity: 'high', action: 'inspect each — usually intentional segment (Abbott/abbott_metabolic), else dedup' });
-if (curatedHealth.broken > 0) attention.push({ issue: 'Curated CB rows with broken portal links', count: curatedHealth.broken, severity: 'med', action: 'run scripts/wire-cb-slugs.mjs' });
-if (eligibleHealth.broken > 0) attention.push({ issue: 'Eligible CB rows with broken portal links', count: eligibleHealth.broken, severity: 'med', action: 'run scripts/wire-eligible-slugs.mjs' });
+// Rewirable: a portal exists for the CIK under another slug, so a wiring pass CAN fix it.
+if (curatedHealth.brokenRewirable > 0) attention.push({ issue: 'Curated CB rows with broken portal links', count: curatedHealth.brokenRewirable, severity: 'med', action: 'run scripts/wire-cb-slugs.mjs' });
+if (eligibleHealth.brokenRewirable > 0) attention.push({ issue: 'Eligible CB rows with broken portal links', count: eligibleHealth.brokenRewirable, severity: 'med', action: 'run scripts/wire-eligible-slugs.mjs' });
+// Not built: no portal exists for the CIK at all. No wiring script can move this number, and
+// offering one is what kept a no-op heal reporting success. This belongs to the portal-regen
+// backlog, which is deliberately paused (scripts/autonomous-portal-regen.mjs queues, never builds).
+if (curatedHealth.brokenNoPortal > 0) attention.push({ issue: 'Curated CB rows whose portal was never built', count: curatedHealth.brokenNoPortal, severity: 'med', action: 'portal does not exist for this CIK — belongs to the portal-regen queue, NOT a wiring fix. hp is already false so the board does not render a dead link.' });
+if (eligibleHealth.brokenNoPortal > 0) attention.push({ issue: 'Eligible CB rows whose portal was never built', count: eligibleHealth.brokenNoPortal, severity: 'med', action: 'portal does not exist for this CIK — belongs to the portal-regen queue, NOT a wiring fix. hp is already false so the board does not render a dead link.' });
 if (thin.below20.length > 0) attention.push({ issue: 'Thin portals (<20 fn entries)', count: thin.below20.length, severity: 'med', action: 'review for regeneration or deletion' });
 if (domainRouting.mismatches.length > 0) attention.push({ issue: 'Domain mis-routing (pharma SIC on non-medicine domain)', count: domainRouting.mismatches.length, severity: 'med', action: 'fix domainId at source (CB data) and re-wire' });
 if (categoryBleed.pureMisslot > 0) attention.push({ issue: 'Category bleed (competitors in supplier/customer slots)', count: categoryBleed.pureMisslot, severity: 'low', action: 'run scripts/fix-fn-category-bleed.mjs --apply' });
