@@ -425,10 +425,35 @@
         var ticker = e.ticker || e.shortName || '';
         var subtitle = e._group + (ticker && ticker !== name ? ' \u00b7 ' + ticker : '');
         var note = e.relationshipNote || e.role || '';
-        var hasLink = !!(e.slug || e.cik);
-        var href = e.slug
-          ? 'company-portal.html?company=' + encodeURIComponent(e.slug)
-          : (e.cik ? 'helix-report.html?cik=' + encodeURIComponent(e.cik) : null);
+        /**
+         * ONLY LINK ENTRIES THAT COULD HAVE A COMPANY PORTAL.
+         *
+         * This was `!!(e.slug || e.cik)` — every entry with a slug became a clickable company
+         * portal regardless of what kind of thing it was. Measured 2026-07-31 across all 796
+         * portals: 16,424 of 30,457 functionalNetwork entries (53.9%) led nowhere, and every
+         * single portal had dead clicks in its network panel.
+         *
+         * Over half of that was a CATEGORY ERROR, not a missing portal:
+         *   regulators     3898/3915  100%  — SEC, FTC, EPA, FDA are government agencies
+         *   executiveTeam  2576/2589   99%  — these are PEOPLE
+         *   marketSignals  1930/2049   94%  — not entities at all
+         * Those 8,404 can never resolve, because a company portal for the SEC is not a thing
+         * that should exist. They now render as plain text: still visible, still carrying their
+         * relationshipNote and confidence chips, just not pretending to be navigable.
+         *
+         * The remaining dead links are genuine companies without a portal yet (suppliers 36%,
+         * competitors 44%, capitalProviders 42%, customers 32%, logistics 23%). Those stay
+         * clickable and land on the graceful absent page, which is the designed behaviour and
+         * the honest representation of the portal backlog. Auditor stays linkable for the same
+         * reason: an audit firm is a company, it just has no portal built.
+         */
+        var PORTAL_CAPABLE = { 'Suppliers': 1, 'Logistics': 1, 'Competitors': 1, 'Customers': 1, 'Capital Providers': 1, 'Auditor': 1 };
+        var canPortal = PORTAL_CAPABLE[e._group] === 1;
+        var hasLink = canPortal && !!(e.slug || e.cik);
+        var href = !canPortal ? null
+          : (e.slug
+            ? 'company-portal.html?company=' + encodeURIComponent(e.slug)
+            : (e.cik ? 'helix-report.html?cik=' + encodeURIComponent(e.cik) : null));
         var openTag = hasLink
           ? '<a href="' + href + '" style="display:block;text-decoration:none;color:inherit;padding:8px 10px;background:' + meta.bg + ';border:1px solid ' + meta.color + ';border-left-width:3px;transition:all 0.2s" onmouseover="this.style.background=\'rgba(201,169,78,0.08)\'" onmouseout="this.style.background=\'' + meta.bg + '\'">'
           : '<div style="padding:8px 10px;background:' + meta.bg + ';border:1px solid ' + meta.color + ';border-left-width:3px">';
