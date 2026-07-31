@@ -187,7 +187,15 @@
       for (var si = 0; si < snap.defenseSignals.length; si++) {
         var sig = snap.defenseSignals[si];
         if (sig.affectedDomains && sig.affectedDomains.indexOf('finance') !== -1) {
-          var sigAge = sig.timestamp ? (now - new Date(sig.timestamp).getTime()) : Infinity;
+          // `timestamp` is NOT a per-signal field. handlers/defense-signals.js:152-163 builds each
+          // signal with { eventType, articleCount, confidence, confidenceValue, magnitude,
+          // affectedDomains, titles, earliest, latest, clusterSpanMinutes }. `timestamp` exists only
+          // on the response ENVELOPE (:274), and limen-worker-snapshot.js:128 copies signals verbatim.
+          // So sig.timestamp was always undefined -> sigAge Infinity -> sigFresh false -> the whole
+          // event branch took the EXPIRED path on every tick, in all 6 brains that have it. `latest`
+          // is the real recency: cluster.latest = max(article.pubDate) (defense-signals.js:130,138).
+          var _sigT = sig.timestamp || sig.latest;
+          var sigAge = _sigT ? (now - new Date(_sigT).getTime()) : Infinity;
           if (sigAge <= EVENT_TTL) {
             this._activeConditions.push(sig.eventType);
           }
