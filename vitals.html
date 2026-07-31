@@ -114,6 +114,39 @@ a:hover{color:#C9A94E}
 <div class="sect">IMMUNE LOG · RECENT HEALS</div>
 <div id="heal-log"></div>
 
+<!--
+  Where the autonomic pulse reports and where it waits. These are the only three places the
+  loop touches outside this page, and none of them were linked from anywhere, so "what did the
+  immune system actually do last night" required knowing the repo URL by heart.
+
+  The repo is PRIVATE. gate-master.js is a client-side redirect, so this HTML is served to
+  anyone who asks for it; the only thing these URLs expose is the repo name, and they 404 for
+  anyone not on the team.
+-->
+<div class="sect">GATE &amp; APPROVAL · where the pulse reports, and where it waits for you</div>
+<div class="organ-detail-card">
+  <div class="detail-row">
+    <span><a href="https://github.com/LIMENHelix/Limen-Helix-live-/pulls" target="_blank" rel="noopener">Pull requests</a>
+      · a heal that touches CODE is branched and parked here. Nothing in a PR is live — merging is what deploys.</span>
+    <b>APPROVE</b>
+  </div>
+  <div class="detail-row">
+    <span><a href="https://github.com/LIMENHelix/Limen-Helix-live-/actions/workflows/immune-system.yml" target="_blank" rel="noopener">Pulse run log</a>
+      · every 24h run, step by step. A gated heal prints a warning naming its branch.</span>
+    <b>WHAT IT DID</b>
+  </div>
+  <div class="detail-row">
+    <span><a href="https://github.com/LIMENHelix/Limen-Helix-live-/commits/main" target="_blank" rel="noopener">Commits to main</a>
+      · DATA deltas ship straight here and auto-deploy: this page, corpus heals, alias and slug fixes.</span>
+    <b>ALREADY LIVE</b>
+  </div>
+  <div class="organ-detail-meta">
+    Split enforced by <code>.github/workflows/immune-system.yml</code>: <code>assets/data/**</code> commits to main,
+    everything else is branched to <code>agent/immune-heal-&lt;utc&gt;</code> and needs a human merge.
+    Empty pull-requests list is the normal state — no heal writes code yet.
+  </div>
+</div>
+
 <div class="footer">
   LIMEN HELIX · system vitals (schema vitals/2.0) · 10 organ sensors in <code>scripts/sense/</code> · aggregated by <code>scripts/audit-system-vitals.mjs</code>
 </div>
