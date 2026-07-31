@@ -37,7 +37,8 @@ paths. Never infer a system property from a read failure.
 |---|---|---|---|---|
 | 1 | **Organs still infer from ENOENT** | 13 of 14 | only `organ-propagator` declares inputs | every other organ can still manufacture a finding from a missing file. Highest leverage: it stops NEW phantoms |
 | 2 | **`organ-propagator` score ignores `dampedCount`** | 1 | `scoreParts = presence + fresh + size` | it measured `0 damped` for weeks and scored 100. A vital sign that cannot affect the diagnosis |
-| 3 | **Dead-link guards** | 25 surfaces | see chart below | real but LOW harm: `cbDeadCount = 0`, fallback page handles it. 16 of 25 are one repeated pattern |
+| 3 | **Dead-link guards** | 25 surfaces | see chart below | **ROOT CAUSE FIXED** — links now resolve 97.6% vs 30.0%. The 25 emitters are still technically unguarded; the remaining 2.4% is the 8 ambiguous tickers, which correctly land on the absent page. Downgrade, do not delete: threading `hp` is still the tidy fix |
+| 3b | **Aliases pointing at portals that do not exist** | 165 | `hubbell_incorporated -> hubbell`, `idex_corp -> idex`, `itron_inc -> itron` — target `.json` absent | pre-existing, found while fixing #3. A link resolving through one of these still lands on the absent page, so harm equals having no alias. Stale map entries, probably portals renamed or never built |
 | 4 | **`wire-eligible-slugs.mjs` fixes 0 of 2 rewirable rows** | 2 | dry run says `slugs fixed: 0` while 2 rows have a portal under another slug for the same CIK | narrow CIK/alias matching gap. Small and now visible because the healer reports NO EFFECT |
 | 5 | **Master Brain gates 4 retired lanes** | 4 | `master-living-brain.js:35-40` gates patent/grant/sba/franchise | strategy retired those lanes; the executor still thresholds them |
 | 6 | **Master Brain inbox never built** | 1 | `assets/data/_master-inbox.json` absent | `scripts/build-master-inbox.mjs --apply` exists and has never run |
@@ -58,12 +59,22 @@ Surfaces that build `company-portal.html?company=<slug>` with no `hp` guard. Mea
 2026-07-31 on the full tree: **25 unguarded, 51 total emitters, 1 already guarded**
 (`assets/js/kernel-comparison.js` — use it as the reference implementation).
 
-**Current harm: none measured.** `cbDeadCount = 0`, so no Command Board row currently points at
-a missing portal, and `company-portal-ui.js` lands on a graceful absent-portal page rather than a
-404. This is a UX correctness item, not a live breakage. Recorded so it stops being rediscovered.
+**The real defect was not the missing guard.** 15 of these build the URL from `t.ticker` when the
+row has no CIK. Measured before the fix: of 703 portals carrying a ticker, the ticker was the slug
+for 190 (27.0%), resolved through the alias map for 21 (3.0%), and **resolved to nothing for 492
+(70.0%)**. A labelled COMPANY PORTAL button failed seven times in ten. Not a 404 —
+`company-portal-ui.js:1464` tries the slug, then the alias map, then a graceful absent page — but a
+70% miss on an action button is a defect, not a mitigation.
 
-**16 of the 25 are one repeated pattern** (`*-clarity-operator.js`, one per domain, same code).
-Fix the pattern once and the count drops from 25 to 9.
+**FIXED at the resolver, not at the 25 emitters.** `scripts/wire-ticker-aliases.mjs` fills the map
+the receiver already consults, so every emitter is fixed at once including any written later.
+**Resolve rate 30.0% → 97.6%.** The residual 2.4% is 8 ambiguous tickers held by several portals
+(`abt`, `googl`, `amzn`, `msft`, `fdx`, `ge`, `ctlt`, `atai`) which are deliberately not guessed;
+sending an operator to the wrong subsidiary is worse than the absent page.
+
+**Still open, downgraded:** the 25 emit points remain formally unguarded, and **16 of the 25 are one
+repeated pattern** (`*-clarity-operator.js`, one per domain, same line). Threading `hp` would drop
+the count from 25 to 9. Worth doing, no longer urgent.
 
 | # | file | unguarded | group |
 |---|---|---|---|
