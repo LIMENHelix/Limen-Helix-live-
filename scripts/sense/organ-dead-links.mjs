@@ -44,12 +44,29 @@ function* walk(dir, depth = 0) {
 export function sense() {
   // Pass 1: find every file that constructs company-portal links
   const LINK_RE = /company-portal\.html\?company=/g;
+  /**
+   * Separate NON-global copy for the per-line scan below. `.test()` on a /g regex is stateful:
+   * it advances lastIndex and returns false on the next call even when the string matches, so
+   * the old loop silently skipped every other hit while the /g copy was still needed for the
+   * whole-file `.match()` count. Two regexes, one job each.
+   */
+  const LINK_LINE_RE = /company-portal\.html\?company=/;
   const HP_GATE_RE = /\b(?:d\.hp|row\.hp|\.hp\b|hasPortal)/;
+  /**
+   * Lines that only TALK about the link are not surfaces that BUILD it. Both entries this organ
+   * reported as HIGH on the 2026-07-30 pulse were of this kind: score-companies.js:66 is a
+   * comment explaining slug resolution, and the other hit was THIS FILE matching its own
+   * LINK_RE literal and header comment. A detector that counts itself as a defect manufactures
+   * work, and the finding sat at HIGH.
+   */
+  const COMMENT_LINE_RE = /^\s*(?:\/\/|\/\*|\*|#)/;
+  const SELF = path.relative(ROOT, fileURLToPath(import.meta.url)).replace(/\\/g, '/');
   const unguardedSurfaces = [];
   const guardedSurfaces = [];
   let totalEmitters = 0;
   for (const file of walk(ROOT)) {
     const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    if (rel === SELF) continue;                       // never report the scanner as a surface
     let src; try { src = fs.readFileSync(file, 'utf8'); } catch (e) { continue; }
     const emitters = (src.match(LINK_RE) || []).length;
     if (emitters === 0) continue;
@@ -59,7 +76,8 @@ export function sense() {
     const lines = src.split('\n');
     let hasAnyGate = false, gatedCount = 0, unguardedCount = 0;
     for (let i = 0; i < lines.length; i++) {
-      if (LINK_RE.test(lines[i])) {
+      if (COMMENT_LINE_RE.test(lines[i])) continue;   // prose about the link, not a link
+      if (LINK_LINE_RE.test(lines[i])) {
         const window = lines.slice(Math.max(0, i - 5), i + 1).join('\n');
         if (HP_GATE_RE.test(window)) { gatedCount++; hasAnyGate = true; }
         else unguardedCount++;

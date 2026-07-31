@@ -32,6 +32,21 @@ jobs:
       group: immune-system
       cancel-in-progress: false
     steps:
+      # SPARSE CHECKOUT IS A DIAGNOSTIC HAZARD, not just a disk optimisation. Several organs
+      # probe for a file inside a try/catch and treat a read failure as evidence about the
+      # SYSTEM rather than about the checkout. Two confirmed cases, both fixed by listing the
+      # file below:
+      #   - assets/data/brain-connectome.json  -> propagator reported inhibitoryEdgesLoaded:0
+      #     and ran purely additive for weeks.
+      #   - assets/js/company-portal-ui.js     -> organ-dead-links.mjs:121 probes it for the
+      #     `cp-empty` graceful fallback and sets severity `fallbackPresent ? low : high`.
+      #     Absent from the checkout, so CI read false and escalated the finding to HIGH.
+      # Still open and NOT fixed here: walk(ROOT) in organ-dead-links only sees the sparse cone,
+      # so its surface scan misses every root .html and most of assets/js. It found 2 unguarded
+      # surfaces; a full-tree run finds 35. Widening the cone trades disk for accuracy and is an
+      # operator call. The durable fix is for organs to declare required inputs and report
+      # "input missing" instead of inferring a system property from an ENOENT.
+      #
       # assets/data/brain-connectome.json is REQUIRED by lib/limen-stress-propagator.js
       # loadInhibitoryEdges(). It was absent from the sparse list below until 2026-07-31, so
       # every snapshot this job committed carried inhibitoryEdgesLoaded:0 and the propagation
@@ -60,6 +75,7 @@ jobs:
             assets/data/companies-manifest.json
             assets/data/company-aliases.json
             assets/data/stress-network-state.json
+            assets/js/company-portal-ui.js
             assets/js/limen/
             assets/js/civilization/
             assets/js/domain-brains/
