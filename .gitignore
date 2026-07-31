@@ -39,8 +39,6 @@ _verify_triage.log
 # Read paths live in Upstash Redis (UPSTASH_REDIS_REST_URL + _TOKEN in Vercel)
 # or are recomputed on-demand from source data.
 # assets/data/_vitals.json — committed: vitals.html fetches it as a static asset (un-ignored 2026-06-04, lean-first; mirrors full ce59e48)
-assets/data/_master-inbox.json
-assets/data/_bridge-build-log.json
 assets/data/_engine-build-log.json
 assets/data/_autonomous-regen-queue.json
 assets/data/_pattern-proposals.json
@@ -106,3 +104,10 @@ assets/data/town-*.csv
 /nh.txt
 /live.html
 /l2.html
+
+# NOT ignored (2026-07-31): organ-master-brain and organ-bridge audit the FRESHNESS of
+# _master-inbox.json and _bridge-build-log.json. While these were ignored, CI could never see
+# them, so the daily pulse silently skipped both staleness checks. Measured on the full tree at
+# the time of tracking: bridge readings 1130h stale (47 days), master inbox 1429h (59 days) —
+# neither had ever appeared in the operator queue. Tracked so the audit can actually run.
+# Same precedent as assets/data/_vitals.json, which has always been tracked and committed.

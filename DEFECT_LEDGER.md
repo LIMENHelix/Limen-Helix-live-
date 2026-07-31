@@ -45,7 +45,7 @@ gap and refuse to invent the finding. Use `_inputs.mjs` for any new organ.
 | 3b | **Aliases pointing at portals that do not exist** | 165 | `hubbell_incorporated -> hubbell`, `idex_corp -> idex`, `itron_inc -> itron` — target `.json` absent | pre-existing, found while fixing #3. A link resolving through one of these still lands on the absent page, so harm equals having no alias. Stale map entries, probably portals renamed or never built |
 | 4 | **`wire-eligible-slugs.mjs` fixes 0 of 2 rewirable rows** | 2 | dry run says `slugs fixed: 0` while 2 rows have a portal under another slug for the same CIK | narrow CIK/alias matching gap. Small and now visible because the healer reports NO EFFECT |
 | 5 | **Master Brain gates 4 retired lanes** | 4 | `master-living-brain.js:35-40` gates patent/grant/sba/franchise | strategy retired those lanes; the executor still thresholds them |
-| 6 | **Master Brain inbox not auditable** | 1 | `_master-inbox.json` is gitignored; exists locally at 171 KB, generated 2026-06-01 | it WAS built — the old "never built" finding was a phantom. Real question: should a runtime artifact CI cannot see be tracked, or should the check move? |
+| ~~6~~ | ~~**Master Brain inbox not auditable**~~ | — | **FIXED 2026-07-31** — tracked + added to the cone; CI now reports it **1431h stale (60 days)**, which it could never see before | the artifact was built; the audit was blind |
 | 7 | **Dead tickers in live baskets** | 14 | ATGE, CNHI, DFS, EDR, FOVL, GDIT, KOCG, MAXR, PARA, PSO.L, SUM, TWOU, VRNT, WWE | `GDIT` was never a ticker. These handlers serve production |
 | 8 | **Null kernel composite on ELIGIBLE portals** | 1 | vitals HIGH | kernel never scored them — CIK mismatch or API failure during generation |
 | 9 | **Name-fingerprint dup clusters** | 1 | vitals HIGH | needs a human canonical choice, `scripts/_dedup-analysis.mjs` |
@@ -96,6 +96,26 @@ the count from 25 to 9. Worth doing, no longer urgent.
 
 Reference fix, already correct in `assets/js/kernel-comparison.js`: gate on `hp` before rendering
 the link — `if (d.hp) { …render link… }`, else render the name unlinked.
+
+---
+
+## AUDIT COVERAGE · proven, not assumed
+
+A CI simulation (`git ls-files` INTERSECT the sparse-checkout patterns, with `fs` stubbed to raise
+ENOENT for everything else) runs all 14 organs in exactly the environment the daily pulse gets.
+As of 2026-07-31: **no organ is missing an input, and CI agrees with the full tree on every organ
+score.** Two checks that CI had NEVER been able to run now do:
+
+| check | was | now |
+|---|---|---|
+| Master Brain inbox freshness | invisible (gitignored) | **1431h stale — 60 days** |
+| Bridge readings freshness | invisible (gitignored) | **1131h stale — 47 days** |
+
+Re-run that simulation after any change to the cone or to `.gitignore`. Those two files were
+gitignored while two organs audited their freshness, so the pulse silently skipped both for months.
+
+**Honest score preview:** running the organs on the full tree after these fixes gives overall **89**,
+not the 96 the last pulse reported. The drop is organs finally seeing the whole body.
 
 ---
 

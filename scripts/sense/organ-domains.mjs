@@ -27,7 +27,11 @@ const REQUIRED_MARKERS = ['LIMENDomainBrainBase', 'window.LIMEN'];
 
 export function sense() {
   if (!fs.existsSync(DOMAIN_BRAINS_DIR)) {
-    return { score: 0, status: 'IN_PAIN', summary: 'domain-brains dir missing — no cortical circuits', metrics: {}, attention: [{ issue: 'assets/js/domain-brains directory missing', severity: 'high', count: 1, action: 'restore from git history', organ: id }] };
+    // Do NOT assert deletion from an absent directory. 85 files are tracked under
+    // assets/js/domain-brains/ and assets/js/ is in the immune-system.yml cone, so absence here
+    // is far more likely a checkout gap than a deleted cortex. Same bug class as _inputs.mjs
+    // documents. Score still 0 because the organ genuinely cannot measure anything.
+    return { score: 0, status: 'IN_PAIN', summary: 'domain-brains dir not readable — cannot measure cortical circuits', metrics: { inputMissing: 'assets/js/domain-brains/' }, attention: [{ issue: 'assets/js/domain-brains not readable — cannot audit cortical circuits', severity: 'high', count: 1, action: 'CHECK THE CHECKOUT FIRST: 85 files are tracked there and assets/js/ is in the immune-system.yml sparse list, so this is probably an environment gap, not a deletion. If the cone is correct, then restore from git history.', organ: id }] };
   }
   const files = fs.readdirSync(DOMAIN_BRAINS_DIR).filter(f => (f.endsWith('-brain.js') || f.endsWith('-brain.mjs')) && !NON_DOMAIN_BRAIN_FILES.includes(f.replace(/-brain\.(js|mjs)$/, '')));
   const present = new Set(files.map(f => f.replace(/-brain\.(js|mjs)$/, '')));
