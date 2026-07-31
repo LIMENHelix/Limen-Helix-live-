@@ -99,6 +99,21 @@ the link — `if (d.hp) { …render link… }`, else render the name unlinked.
 
 ---
 
+## STOPPED PIPELINES · found by the scoring fix, then actually restarted
+
+Both surfaced only because item #2 made staleness affect the score. Both are now RUN, not reported.
+
+| pipeline | was | cause | now |
+|---|---|---|---|
+| bridge readings | 1131h (47 days) stale, organ 99/HEALTHY | nothing prompted a rebuild while staleness was unscored | **run** — 511 portals re-evaluated, organ 99/HEALTHY with freshness 100 |
+| master inbox | 1431h (60 days) stale, organ 95/HEALTHY | **`scripts/build-master-inbox.mjs` did not exist in this repo**, nor did `lib/master-brain-consumer.js`. Both lived only in the full repo. /vitals told the operator to run a script that was not there | **ported + run** — inbox rebuilt, 2013/2504 artifacts ready, organ 63/IN_PAIN → 96/HEALTHY |
+
+The inbox case is the sharpest example of the whole ledger: a finding, a severity, and a
+recommended action, all of which pointed at a script that had never been ported. Following the
+instruction would have produced "command not found" and taught the operator to distrust the queue.
+
+---
+
 ## AUDIT COVERAGE · proven, not assumed
 
 A CI simulation (`git ls-files` INTERSECT the sparse-checkout patterns, with `fs` stubbed to raise
