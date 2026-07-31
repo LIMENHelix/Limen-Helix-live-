@@ -152,6 +152,41 @@ if (!DRY) {
     process.exit(2);
   }
   const post = JSON.parse(fs.readFileSync(VITALS, 'utf8'));
+
+  /**
+   * VERIFY EACH HEAL AGAINST THE RE-AUDIT. A heal is not successful because it exited 0.
+   *
+   * `success` used to be `r.status === 0` and nothing more, and the heal records were written
+   * BEFORE this re-audit, so the proof was computed and never compared back. The live vitals
+   * carried the consequence: wire-eligible-cb ran 2026-07-12 with countBefore 176, exitCode 0,
+   * success true, preScore 95, postScore 95 — and the very same file, regenerated 19 days later,
+   * still reported that issue at 176. vitals.html:228 renders success as a green tick, so a heal
+   * that changed nothing displayed as a heal that worked.
+   *
+   * That is the difference between an immune system and a system that says it has one, and it is
+   * the precondition for healing without a prompt: an autonomous healer whose success criterion
+   * is its own exit code cannot tell you it failed.
+   *
+   * success now REQUIRES the defect count to have fallen. exitOk keeps the old meaning so a
+   * crashed healer stays distinguishable from a healer that ran cleanly and accomplished nothing.
+   * The change is one-directional: nothing that was false becomes true.
+   */
+  const postCounts = new Map((post.operatorAttention || []).map(a => [a.issue, a.count || 0]));
+  for (const h of heals) {
+    if (h.planned) continue;
+    const before = h.countBefore || 0;
+    const after = postCounts.has(h.issue) ? postCounts.get(h.issue) : 0;   // issue gone entirely = 0
+    h.exitOk = h.success === true;
+    h.countAfter = after;
+    h.resolved = after === 0;
+    h.success = h.exitOk && after < before;
+    if (h.exitOk && !h.success) {
+      h.summary = 'NO EFFECT — exited 0 but the count did not fall (' + before + ' → ' + after + '). ' + (h.summary || '');
+    } else if (h.success) {
+      h.summary = 'healed ' + before + ' → ' + after + '. ' + (h.summary || '');
+    }
+  }
+
   // merge in heal log
   post.lastHeals = (pre.lastHeals || []).concat([{ startedAt, finishedAt: new Date().toISOString(), preScore: pre.overall.score, postScore: post.overall.score, heals, skipped }]).slice(-20);
   fs.writeFileSync(VITALS, JSON.stringify(post, null, 2));
@@ -161,7 +196,12 @@ if (!DRY) {
   const fmt = obj => Object.entries(obj).map(([k, v]) => k + '=' + v).join(' ');
   console.log('pre:     ' + fmt(pre.scores));
   console.log('post:    ' + fmt(post.scores));
-  console.log('heals run:    ' + heals.filter(h => h.success).length + '/' + heals.length);
+  const noEffect = heals.filter(h => h.exitOk && !h.success);
+  console.log('heals VERIFIED (count actually fell): ' + heals.filter(h => h.success).length + '/' + heals.length);
+  if (noEffect.length) {
+    console.log('heals that exited 0 and changed NOTHING: ' + noEffect.length);
+    for (const h of noEffect) console.log('  · ' + h.name + ' — ' + h.countBefore + ' → ' + h.countAfter + ' — ' + h.issue);
+  }
   console.log('operator-attention remaining: ' + (post.operatorAttention || []).length);
 } else {
   console.log('\n(dry run — nothing written)');
