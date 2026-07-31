@@ -32,6 +32,12 @@ jobs:
       group: immune-system
       cancel-in-progress: false
     steps:
+      # assets/data/brain-connectome.json is REQUIRED by lib/limen-stress-propagator.js
+      # loadInhibitoryEdges(). It was absent from the sparse list below until 2026-07-31, so
+      # every snapshot this job committed carried inhibitoryEdgesLoaded:0 and the propagation
+      # ran PURELY ADDITIVE — stress could accumulate but never regulate. The file has been
+      # tracked in git since the initial commit and deploys fine as a static asset; it was only
+      # ever missing from THIS checkout, and the loader's catch swallowed the ENOENT.
       - name: checkout (sparse — only what the autonomic loop needs)
         uses: actions/checkout@v5
         with:
@@ -50,6 +56,7 @@ jobs:
             assets/data/command-board-eligible.json
             assets/data/brain-node-domains.json
             assets/data/connectome-node-registry.json
+            assets/data/brain-connectome.json
             assets/data/companies-manifest.json
             assets/data/company-aliases.json
             assets/data/stress-network-state.json

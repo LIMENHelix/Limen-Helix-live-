@@ -51,6 +51,14 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   try {
     var bySlug = {}, generatedAt = null, source = 'file';
+    /**
+     * The propagator's own stats were computed every run and dropped here, which is why an
+     * inhibitory-edge outage was invisible from outside for weeks: stats.inhibitoryEdgesLoaded
+     * was the only place it surfaced, and this endpoint is the only fresh (Redis-backed) view
+     * of a run. Passing them through costs a few hundred bytes and makes "is regulation actually
+     * on in production" answerable with a fetch instead of a code read.
+     */
+    var stats = null;
     var slim = await db.get('stress_slim');
     if (slim && slim.byCik) {
       var keys = Object.keys(slim.byCik);
@@ -64,13 +72,14 @@ module.exports = async function handler(req, res) {
         }
       }
       generatedAt = slim.generatedAt || null;
+      stats = slim.stats || null;
       source = 'redis';
     } else {
       var f = _fromFile();
       bySlug = f.bySlug; generatedAt = f.generatedAt; source = f.source;
     }
     res.statusCode = 200;
-    return res.end(JSON.stringify({ ok: true, source: source, generatedAt: generatedAt, count: Object.keys(bySlug).length, bySlug: bySlug }));
+    return res.end(JSON.stringify({ ok: true, source: source, generatedAt: generatedAt, count: Object.keys(bySlug).length, stats: stats, bySlug: bySlug }));
   } catch (err) {
     res.statusCode = 500;
     return res.end(JSON.stringify({ ok: false, error: 'internal', detail: String((err && err.message) || err) }));
