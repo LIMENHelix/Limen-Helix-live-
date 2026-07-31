@@ -17,17 +17,21 @@ reported `success: true` on a heal whose count sat unchanged for nineteen days.
 **A probe reads a path inside a `try/catch`, the read fails, and the failure is recorded as a
 fact about the system rather than a fact about the environment.**
 
-Three separate confirmed instances, all found 2026-07-30/31:
+**Four** confirmed instances, all found 2026-07-30/31:
 
 | where | the ENOENT | what it was reported as |
 |---|---|---|
 | `lib/limen-stress-propagator.js` | `assets/data/brain-connectome.json` absent from the sparse checkout | `inhibitoryEdgesLoaded: 0` — read as "the system has no regulation" |
 | `scripts/sense/organ-dead-links.mjs:121` | `assets/js/company-portal-ui.js` absent from the sparse checkout | `fallbackPresent = false` → finding escalated to **HIGH** |
 | `scripts/sense/organ-propagator.mjs` | n/a — a hardcoded string, no probe at all | "NO downstream consumers", MED, for two months after the wiring existed |
+| `scripts/sense/organ-master-brain.mjs` | `assets/data/_master-inbox.json` is **gitignored**, so CI never sees it | "Master Brain inbox never built", MED, on every pulse. The file exists: 171 KB, generated 2026-06-01 |
+| `scripts/sense/organ-feeds.mjs` | *latent* — `snapshotSrc` defaulted to `''` | would have put **all 20 domains** in "NO feed source" at HIGH from one unreadable file. Never fired; one cone edit away |
 
-**The fix pattern** (applied to `organ-propagator.mjs` only so far, use it as the template):
-declare required inputs, and on failure emit `INPUT MISSING, not a system finding` naming the
-paths. Never infer a system property from a read failure.
+**FIXED 2026-07-31** by `scripts/sense/_inputs.mjs` and six organs. Accessors return `null` on
+failure, never `[]` or `{}`. Findings that depend on a null input are **suppressed, not guessed**,
+and the gap is reported separately at LOW. Verified two ways: all 14 organs byte-identical with
+inputs present, and 4 fault-injection cases reproducing each phantom above — 4/4 now report the
+gap and refuse to invent the finding. Use `_inputs.mjs` for any new organ.
 
 ---
 
@@ -41,7 +45,7 @@ paths. Never infer a system property from a read failure.
 | 3b | **Aliases pointing at portals that do not exist** | 165 | `hubbell_incorporated -> hubbell`, `idex_corp -> idex`, `itron_inc -> itron` — target `.json` absent | pre-existing, found while fixing #3. A link resolving through one of these still lands on the absent page, so harm equals having no alias. Stale map entries, probably portals renamed or never built |
 | 4 | **`wire-eligible-slugs.mjs` fixes 0 of 2 rewirable rows** | 2 | dry run says `slugs fixed: 0` while 2 rows have a portal under another slug for the same CIK | narrow CIK/alias matching gap. Small and now visible because the healer reports NO EFFECT |
 | 5 | **Master Brain gates 4 retired lanes** | 4 | `master-living-brain.js:35-40` gates patent/grant/sba/franchise | strategy retired those lanes; the executor still thresholds them |
-| 6 | **Master Brain inbox never built** | 1 | `assets/data/_master-inbox.json` absent | `scripts/build-master-inbox.mjs --apply` exists and has never run |
+| 6 | **Master Brain inbox not auditable** | 1 | `_master-inbox.json` is gitignored; exists locally at 171 KB, generated 2026-06-01 | it WAS built — the old "never built" finding was a phantom. Real question: should a runtime artifact CI cannot see be tracked, or should the check move? |
 | 7 | **Dead tickers in live baskets** | 14 | ATGE, CNHI, DFS, EDR, FOVL, GDIT, KOCG, MAXR, PARA, PSO.L, SUM, TWOU, VRNT, WWE | `GDIT` was never a ticker. These handlers serve production |
 | 8 | **Null kernel composite on ELIGIBLE portals** | 1 | vitals HIGH | kernel never scored them — CIK mismatch or API failure during generation |
 | 9 | **Name-fingerprint dup clusters** | 1 | vitals HIGH | needs a human canonical choice, `scripts/_dedup-analysis.mjs` |
