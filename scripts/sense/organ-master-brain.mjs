@@ -92,19 +92,43 @@ export function sense() {
             'To check, look on the operator machine or run scripts/build-master-inbox.mjs --apply locally. ' +
             'To make it auditable, track the artifact.',
     organ: id });
-  else if (inboxAgeHours !== null && inboxAgeHours > 6) attention.push({ issue: 'Master Brain inbox stale (>6h)', severity: 'low', count: Math.round(inboxAgeHours), action: 'invoke build-master-inbox.mjs (also runs in the autonomic loop)', organ: id });
+  // Severity scales with age. A 6h-stale inbox is hygiene; a 60-day-stale one means the pipeline
+  // is not running, and it now costs ~32 score points, so reporting it as LOW would put the
+  // finding and the score in open disagreement.
+  else if (inboxAgeHours !== null && inboxAgeHours > 6) attention.push({
+    issue: 'Master Brain inbox stale (' + (inboxAgeHours > 336 ? Math.round(inboxAgeHours / 24) + ' DAYS' : Math.round(inboxAgeHours) + 'h') + ')',
+    severity: inboxAgeHours > 336 ? 'high' : inboxAgeHours > 48 ? 'med' : 'low',
+    count: Math.round(inboxAgeHours),
+    action: 'run scripts/build-master-inbox.mjs --apply. Beyond ~14 days this is not staleness, it is a pipeline that stopped: nothing has gated or prioritised engine outputs since then.', organ: id });
   if (inboxStats && inboxStats.readyToFire === 0 && inboxStats.totalCandidates > 0) attention.push({ issue: 'All ' + inboxStats.totalCandidates + ' candidate artifacts INHIBITED — readiness/salience thresholds too high OR engine outputs too placeholder-heavy', severity: 'low', count: inboxStats.totalCandidates, action: 'inspect /master-inbox.html or master-brain-consumer.js thresholds', organ: id });
 
   const lanesScore = Math.round(lanesPresent.length / SIX_LANES.length * 100);
   const structuralPassed = Object.values(checks).filter(Boolean).length;
   const structuralScore = Math.round(structuralPassed / Object.keys(checks).length * 100);
-  const score = Math.round((lanesScore + structuralScore) / 2);
+  /**
+   * FRESHNESS IS SCORED, because it was measured and discarded. inboxAgeHours has been computed
+   * all along, printed into the summary, and excluded from the score — so the organ read
+   * "inbox 1431h old" (60 days) and still reported 95/HEALTHY. Same defect as the propagator's
+   * dampedCount. organ-propagator already scores freshness, so this is the house pattern, not a
+   * new idea.
+   *
+   * NULL when unmeasurable, never 0: no inbox, or an inbox with no generatedAt, means the term
+   * is dropped from the average rather than scored as a failure. Scoring absence as zero would
+   * recreate the ENOENT-inference bug inside the scorer.
+   *
+   * Decay: full credit under 6h (the existing attention threshold), reaching 0 at ~7 days.
+   * [mark: prior] — no fitted basis, chosen to match the 6h threshold the organ already uses.
+   */
+  const freshScore = (inboxAgeHours === null) ? null
+    : Math.max(0, Math.min(100, Math.round(100 - (inboxAgeHours - 6) * (100 / 162))));
+  const mbParts = [lanesScore, structuralScore].concat(freshScore === null ? [] : [freshScore]);
+  const score = Math.round(mbParts.reduce((a, b) => a + b, 0) / mbParts.length);
   const status = score >= 90 ? 'HEALTHY' : score >= 75 ? 'DEGRADED' : 'IN_PAIN';
 
   return {
     score, status,
     summary: `${lanesPresent.length}/${SIX_LANES.length} engine lanes · ${structuralPassed}/${Object.keys(checks).length} markers` + (inboxStats ? ` · inbox ${inboxStats.readyToFire}/${inboxStats.totalCandidates} ready (${inboxAgeHours !== null ? inboxAgeHours.toFixed(1) + 'h old' : 'fresh'})` : ' · inbox ✗'),
-    metrics: { present, lanesPresent, lanesMissing, checks, inbox: inboxStats, inboxAgeHours, scoreParts: { lanes: lanesScore, structural: structuralScore } },
+    metrics: { present, lanesPresent, lanesMissing, checks, inbox: inboxStats, inboxAgeHours, scoreParts: { lanes: lanesScore, structural: structuralScore, freshness: freshScore } },
     attention
   };
 }

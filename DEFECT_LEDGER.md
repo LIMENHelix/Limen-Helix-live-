@@ -40,7 +40,7 @@ gap and refuse to invent the finding. Use `_inputs.mjs` for any new organ.
 | # | item | count | evidence | why it is here |
 |---|---|---|---|---|
 | ~~1~~ | ~~**Organs still infer from ENOENT**~~ | ~~13 of 14~~ | **FIXED 2026-07-31** — `scripts/sense/_inputs.mjs` + 5 organs guarded | see FIXED table |
-| 2 | **`organ-propagator` score ignores `dampedCount`** | 1 | `scoreParts = presence + fresh + size` | it measured `0 damped` for weeks and scored 100. A vital sign that cannot affect the diagnosis |
+| ~~2~~ | ~~**Scores that ignore what the organ measures**~~ | 3 organs | **FIXED 2026-07-31** — propagator scores `regulation`, master-brain and bridge score `freshness` | replaying the historical 0-damped state now gives **67 IN_PAIN + a HIGH**, where it scored **100 HEALTHY** before |
 | 3 | **Dead-link guards** | 25 surfaces | see chart below | **ROOT CAUSE FIXED** — links now resolve 97.6% vs 30.0%. The 25 emitters are still technically unguarded; the remaining 2.4% is the 8 ambiguous tickers, which correctly land on the absent page. Downgrade, do not delete: threading `hp` is still the tidy fix |
 | 3b | **Aliases pointing at portals that do not exist** | 165 | `hubbell_incorporated -> hubbell`, `idex_corp -> idex`, `itron_inc -> itron` — target `.json` absent | pre-existing, found while fixing #3. A link resolving through one of these still lands on the absent page, so harm equals having no alias. Stale map entries, probably portals renamed or never built |
 | 4 | **`wire-eligible-slugs.mjs` fixes 0 of 2 rewirable rows** | 2 | dry run says `slugs fixed: 0` while 2 rows have a portal under another slug for the same CIK | narrow CIK/alias matching gap. Small and now visible because the healer reports NO EFFECT |

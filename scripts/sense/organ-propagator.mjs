@@ -80,6 +80,8 @@ export function sense() {
   // Inputs it needs are declared, and if they cannot be read this reports INPUT MISSING rather
   // than inferring a system property from an ENOENT. That inference is the exact bug that hid the
   // connectome outage and manufactured a HIGH finding in organ-dead-links.
+
+
   const consumers = { action: [], display: [], scheduled: [], paused: [], inputsMissing: [] };
   try {
     const hdir = path.join(ROOT, 'handlers');
@@ -129,13 +131,54 @@ export function sense() {
   const presenceScore = (present.propagator ? 50 : 0) + (present.snapshot ? 50 : 0);
   const freshScore = ageHours === null ? 50 : Math.max(0, 100 - Math.round(ageHours * 5));
   const sizeScore = nodeCount === 0 ? 0 : Math.min(100, Math.round(nodeCount / 5));
-  const score = Math.round((presenceScore + freshScore + sizeScore) / 3);
+
+  /**
+   * REGULATION — measured since the inhibitory primitive landed, and until 2026-07-31 excluded
+   * from the score.
+   *
+   * The organ computed dampedCount, printed "0 damped" into its own summary string, and scored
+   * 100/HEALTHY on presence + freshness + size. So for as long as the connectome was missing from
+   * the CI checkout, the immune system had a sensor pointed exactly at the outage, read zero from
+   * it every day, and reported perfect health. A vital sign that cannot move the diagnosis is not
+   * a vital sign.
+   *
+   * What this term asks is "is inhibition FIRING", not "is there enough of it". The propagator is
+   * additive by construction; damping is the only thing that lets stress regulate rather than only
+   * accumulate. So zero damped nodes with edges loaded is the failure state and scores 0.
+   *
+   * REG_TARGET_SHARE is a STATED PRIOR [mark: prior], not a fitted value. There is no measured
+   * basis for "the right share of portals to be damped" — damping requires both endpoints of an
+   * inhibitory edge to be anchored in a portal's brainNodeMapping overrides, which is a coverage
+   * property of the corpus, not a health target. 10% is set low deliberately: the question is
+   * whether regulation operates at all, so the term saturates quickly and does not punish a
+   * corpus for having fewer anchored portals. Live at time of writing: 354/795 = 44.5%.
+   *
+   * NULL, NOT ZERO, when it cannot be measured — the item #1 discipline. If the connectome failed
+   * to load, that is an input gap already reported by inhibitoryLoadError, and scoring it as 0
+   * would recreate the exact bug this term exists to catch, one level up.
+   */
+  const REG_TARGET_SHARE = 0.10;   // [mark: prior] — see above
+  const snapStats = (snap && snap.stats) || {};
+  const edgesLoaded = typeof snapStats.inhibitoryEdgesLoaded === 'number' ? snapStats.inhibitoryEdgesLoaded : null;
+  let regulationScore = null;
+  if (snapStats.inhibitoryLoadError) regulationScore = null;          // could not read the connectome
+  else if (edgesLoaded === null) regulationScore = null;              // snapshot predates the stat
+  else if (edgesLoaded === 0) regulationScore = null;                 // no edges to fire: unmeasurable, not unhealthy
+  else if (nodeCount === 0) regulationScore = null;
+  else regulationScore = dampedCount === 0 ? 0 : Math.min(100, Math.round((dampedCount / nodeCount) / REG_TARGET_SHARE * 100));
+
+  const parts = [presenceScore, freshScore, sizeScore].concat(regulationScore === null ? [] : [regulationScore]);
+  const score = Math.round(parts.reduce((a, b) => a + b, 0) / parts.length);
+
+  // The state that hid for weeks: edges load, nothing damps, propagation is purely additive.
+  if (regulationScore === 0) attention.push({ issue: 'Inhibition loaded but firing on ZERO portals — propagation is purely additive', severity: 'high', count: edgesLoaded || 0,
+    action: 'the connectome parsed and ' + (edgesLoaded || 0) + ' inhibitory edges loaded, but no portal has both endpoints anchored in its brainNodeMapping overrides, so stress can only accumulate and never regulate. Inspect computeInhibitoryDamping() in lib/limen-stress-propagator.js and the node bindings on the portals.', organ: id });
   const status = score >= 90 ? 'HEALTHY' : score >= 75 ? 'DEGRADED' : 'IN_PAIN';
 
   return {
     score, status,
     summary: `${nodeCount} nodes · ${edgeCount} edges · ${dampedCount} damped · ${pathCCount} pathC · ${alertCount} alert · snapshot ${ageHours === null ? 'missing' : ageHours.toFixed(1) + 'h old'}`,
-    metrics: { present, ageHours, nodeCount, edgeCount, dampedCount, pathCCount, alertCount, networkPushedCount, consumers, scoreParts: { presence: presenceScore, fresh: freshScore, size: sizeScore } },
+    metrics: { present, ageHours, nodeCount, edgeCount, dampedCount, pathCCount, alertCount, networkPushedCount, consumers, scoreParts: { presence: presenceScore, fresh: freshScore, size: sizeScore, regulation: regulationScore } },
     attention
   };
 }

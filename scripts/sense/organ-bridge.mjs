@@ -109,7 +109,21 @@ export function sense() {
   // (15 patterns is a starting library — expect to grow over time.)
   const coverageScore = Math.round(coverage * 100);
   const libraryScore = Math.min(100, Math.round(patternCount * 5));   // 20 patterns = full
-  const score = Math.round((coverageScore + libraryScore) / 2);
+  /**
+   * FRESHNESS IS SCORED. The staleness of _bridge-build-log.json was measured, emitted as a LOW
+   * attention item, and left out of the score — so bridge readings sat 1131h (47 days) old while
+   * the organ reported 99/HEALTHY. Worse, the log was gitignored until 2026-07-31, so CI could
+   * not even see it and the attention item never fired there either. Both halves fixed.
+   *
+   * NULL when there is no log or no generatedAt: dropped from the average, not scored 0.
+   * Full credit under 24h (the threshold already used above), 0 at ~14 days. [mark: prior]
+   */
+  const bridgeAgeHours = (lastBatch && lastBatch.generatedAt)
+    ? (Date.now() - new Date(lastBatch.generatedAt).getTime()) / 3600000 : null;
+  const freshScore = bridgeAgeHours === null ? null
+    : Math.max(0, Math.min(100, Math.round(100 - (bridgeAgeHours - 24) * (100 / 312))));
+  const brParts = [coverageScore, libraryScore].concat(freshScore === null ? [] : [freshScore]);
+  const score = Math.round(brParts.reduce((a, b) => a + b, 0) / brParts.length);
   const status = score >= 90 ? 'HEALTHY' : score >= 75 ? 'DEGRADED' : 'IN_PAIN';
 
   const attention = [];
@@ -125,7 +139,12 @@ export function sense() {
   const ioItem = io.attention(id); if (ioItem) attention.push(ioItem);
   if (lastBatch && lastBatch.generatedAt) {
     const ageHours = (Date.now() - new Date(lastBatch.generatedAt).getTime()) / 3600000;
-    if (ageHours > 24) attention.push({ issue: 'Bridge readings stale (>24h)', severity: 'low', count: Math.round(ageHours), action: 'run scripts/build-bridge-readings.mjs --apply', organ: id });
+    // Age-graded for the same reason as organ-master-brain: staleness now moves the score.
+    if (ageHours > 24) attention.push({
+      issue: 'Bridge readings stale (' + (ageHours > 336 ? Math.round(ageHours / 24) + ' DAYS' : Math.round(ageHours) + 'h') + ')',
+      severity: ageHours > 336 ? 'high' : ageHours > 72 ? 'med' : 'low',
+      count: Math.round(ageHours),
+      action: 'run scripts/build-bridge-readings.mjs --apply. Beyond ~14 days the bridge layer is not being re-evaluated at all, so every derived angle downstream is built on a stale mapping.', organ: id });
   }
 
   return {
@@ -146,7 +165,7 @@ export function sense() {
       lastEvaluated: lastEvalSample,
       engineOutputs: { portalsWithOutputs: withEngineOutputs, totalArtifacts, byLane: byLaneArtifacts },
       verbiageLibrary: { present: !!verbiage, lanes: verbiageLanes, schemaVersion: verbiage && verbiage.schemaVersion },
-      scoreParts: { coverage: coverageScore, library: libraryScore }
+      scoreParts: { coverage: coverageScore, library: libraryScore, freshness: freshScore }
     },
     attention
   };
