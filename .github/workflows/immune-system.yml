@@ -36,8 +36,15 @@ jobs:
       # probe for a file inside a try/catch and treat a read failure as evidence about the
       # SYSTEM rather than about the checkout. Two confirmed cases, both fixed by listing the
       # file below:
-      #   - assets/data/brain-connectome.json  -> propagator reported inhibitoryEdgesLoaded:0
-      #     and ran purely additive for weeks.
+      #   - assets/data/brain-connectome.json  -> the snapshot THIS JOB commits reported
+      #     inhibitoryEdgesLoaded:0, so /vitals and the public /api/limen-stress-propagation
+      #     both showed "0 damped" and the organ scored 100 on presence+fresh+size.
+      #     CORRECTION 2026-07-31, measured after deploy: the LIVE hourly Vercel path was fine
+      #     all along — /api/limen-stress-slim reports inhibitoryEdgesLoaded 6, loadError null,
+      #     354 of 795 nodes damped, avg damping 0.9526. Only this job's checkout was blind.
+      #     So this was an OBSERVABILITY outage, not a regulation outage. An earlier commit
+      #     message here said the propagation "ran purely additive"; that was true of the
+      #     committed snapshot and false of the running system.
       #   - assets/js/company-portal-ui.js     -> organ-dead-links.mjs:121 probes it for the
       #     `cp-empty` graceful fallback and sets severity `fallbackPresent ? low : high`.
       #     Absent from the checkout, so CI read false and escalated the finding to HIGH.
