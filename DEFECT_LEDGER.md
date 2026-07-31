@@ -42,11 +42,11 @@ gap and refuse to invent the finding. Use `_inputs.mjs` for any new organ.
 | ~~1~~ | ~~**Organs still infer from ENOENT**~~ | ~~13 of 14~~ | **FIXED 2026-07-31** — `scripts/sense/_inputs.mjs` + 5 organs guarded | see FIXED table |
 | ~~2~~ | ~~**Scores that ignore what the organ measures**~~ | 3 organs | **FIXED 2026-07-31** — propagator scores `regulation`, master-brain and bridge score `freshness` | replaying the historical 0-damped state now gives **67 IN_PAIN + a HIGH**, where it scored **100 HEALTHY** before |
 | 3 | **Dead-link guards** | 25 surfaces | see chart below | **ROOT CAUSE FIXED** — links now resolve 97.6% vs 30.0%. The 25 emitters are still technically unguarded; the remaining 2.4% is the 8 ambiguous tickers, which correctly land on the absent page. Downgrade, do not delete: threading `hp` is still the tidy fix |
-| 3b | **Aliases pointing at portals that do not exist** | 165 | `hubbell_incorporated -> hubbell`, `idex_corp -> idex`, `itron_inc -> itron` — target `.json` absent | pre-existing, found while fixing #3. A link resolving through one of these still lands on the absent page, so harm equals having no alias. Stale map entries, probably portals renamed or never built |
+| 3b | **Aliases pointing at portals that do not exist** | 165 | verified 2026-07-31 | **COSMETIC — do not 'repair'.** An alias to a missing portal behaves identically to no alias: both fall through `company-portal-ui.js:1464` to the graceful absent page. Breakdown: **155 delete-only**, 2 redundant, and **8 'near-match repairable' that are TRAPS** — `hess_corporation→hess` near-matches `hess_midstream_lp` (different company), `google_llc` near-matches `google_cloud` (subsidiary). Auto-repairing by name proximity would send the operator to the WRONG entity, which is strictly worse than the absent page |
 | 4 | **`wire-eligible-slugs.mjs` fixes 0 of 2 rewirable rows** | 2 | dry run says `slugs fixed: 0` while 2 rows have a portal under another slug for the same CIK | narrow CIK/alias matching gap. Small and now visible because the healer reports NO EFFECT |
 | 5 | **Master Brain gates 4 retired lanes** | 4 | `master-living-brain.js:35-40` gates patent/grant/sba/franchise | strategy retired those lanes; the executor still thresholds them |
 | ~~6~~ | ~~**Master Brain inbox not auditable**~~ | — | **FIXED 2026-07-31** — tracked + added to the cone; CI now reports it **1431h stale (60 days)**, which it could never see before | the artifact was built; the audit was blind |
-| 7 | **Dead tickers in live baskets** | 14 | ATGE, CNHI, DFS, EDR, FOVL, GDIT, KOCG, MAXR, PARA, PSO.L, SUM, TWOU, VRNT, WWE | `GDIT` was never a ticker. These handlers serve production |
+| ~~7~~ | ~~**Dead tickers in live baskets**~~ | 14 | **ALREADY FIXED — verified 2026-07-31** | all 14 are in `DEAD_SYMBOLS` (`lib/domain-market-feed.js:60-63`) and filtered before any fetch. Probed all **321** tickers against the live endpoint: exactly 14 dead, 307 live, 0 indeterminate — the list is complete. Display path clean too (failed fetches dropped; `/api/culture-markets` returns 22 quotes, zero dead). Religion correctly abstains at 2 live < MIN_TICKERS 3, which the module documents. Residue is ~14 wasted fetch attempts per display cycle |
 | 8 | **Null kernel composite on ELIGIBLE portals** | 1 | vitals HIGH | kernel never scored them — CIK mismatch or API failure during generation |
 | 9 | **Name-fingerprint dup clusters** | 1 | vitals HIGH | needs a human canonical choice, `scripts/_dedup-analysis.mjs` |
 | 10 | **Domain mis-routing** | 5 | pharma SIC on non-medicine domain | fix `domainId` at CB source, then re-wire |
@@ -76,9 +76,12 @@ the receiver already consults, so every emitter is fixed at once including any w
 (`abt`, `googl`, `amzn`, `msft`, `fdx`, `ge`, `ctlt`, `atai`) which are deliberately not guessed;
 sending an operator to the wrong subsidiary is worse than the absent page.
 
-**Still open, downgraded:** the 25 emit points remain formally unguarded, and **16 of the 25 are one
-repeated pattern** (`*-clarity-operator.js`, one per domain, same line). Threading `hp` would drop
-the count from 25 to 9. Worth doing, no longer urgent.
+**Threading `hp` is NOT a simple edit, verified 2026-07-31.** The emit points hold `t.cik` and
+`t.ticker` and nothing else — there is no `hp` field to gate on. Doing it properly means shipping a
+portal-existence index (the 150 KB `companies-manifest.json`) to 25 surfaces, which costs more than
+the problem. And after the alias fix these links resolve **97.6%** of the time, so a gate would
+remove links that mostly work. The residual 2.4% is the 8 ambiguous tickers, which SHOULD land on
+the absent page. **Closed as not-worth-fixing rather than left open forever.**
 
 | # | file | unguarded | group |
 |---|---|---|---|
