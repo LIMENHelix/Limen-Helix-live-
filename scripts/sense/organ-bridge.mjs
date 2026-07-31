@@ -14,6 +14,7 @@
 //   - portals with no bridge match (the library-gap frontier)
 //   - derivedAngles density (how many engine-feedable angles exist per portal)
 import fs from 'node:fs';
+import { inputs } from './_inputs.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -29,11 +30,21 @@ export const role = 'brain↔business bridge layer (idea generation)';
 export const order = 110;   // after the body's sensing organs — output layer
 
 export function sense() {
-  let lib; try { lib = JSON.parse(fs.readFileSync(PATTERNS_PATH, 'utf8')); } catch (e) { lib = { patterns: [] }; }
-  const patterns = lib.patterns || [];
+  /**
+   * Declared inputs. Both of these previously collapsed to an empty value on a read failure, and
+   * both feed a HIGH finding: an unreadable bridge-patterns.json became "Bridge pattern library is
+   * EMPTY", and an unreadable verbiage-templates.json became "Verbiage template library missing".
+   * Neither could tell "read fine, genuinely empty" from "could not read", which is the bug
+   * documented in _inputs.mjs and confirmed four times in two days.
+   */
+  const io = inputs();
+  const lib = io.json(PATTERNS_PATH, 'assets/data/bridge-patterns.json');
+  const libReadable = lib !== null;
+  const patterns = (lib && lib.patterns) || [];
   const patternCount = patterns.length;
   // verbiage library — templates the engine lanes use to mint real-shaped artifacts
-  let verbiage = null; try { verbiage = JSON.parse(fs.readFileSync(VERBIAGE_PATH, 'utf8')); } catch (e) {}
+  const verbiage = io.json(VERBIAGE_PATH, 'assets/data/verbiage-templates.json');
+  const verbiageReadable = verbiage !== null;
   const verbiageLanes = (verbiage && verbiage.lanes) ? Object.keys(verbiage.lanes) : [];
   const verbiageReady = verbiageLanes.length >= 4;   // patent + grant + sba + investment minimum
 
@@ -49,8 +60,10 @@ export function sense() {
   const blindToBridge = [];
   let lastEvalSample = null;
 
-  let files = [];
-  try { files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_')); } catch (e) {}
+  // Unreadable corpus dir must not read as "0 portals bridged". io.dir returns null, never [].
+  const filesOrNull = io.dir(DIR, 'assets/data/companies/', f => f.endsWith('.json') && !f.startsWith('_'));
+  const corpusReadable = filesOrNull !== null;
+  const files = filesOrNull || [];
   for (const f of files) {
     let p; try { p = JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')); } catch (e) { continue; }
     total++;
@@ -100,11 +113,16 @@ export function sense() {
   const status = score >= 90 ? 'HEALTHY' : score >= 75 ? 'DEGRADED' : 'IN_PAIN';
 
   const attention = [];
-  if (patternCount === 0) attention.push({ issue: 'Bridge pattern library is EMPTY', severity: 'high', count: 1, action: 'restore assets/data/bridge-patterns.json', organ: id });
-  if (!verbiage) attention.push({ issue: 'Verbiage template library missing — engine outputs will read generated, not approved', severity: 'high', count: 1, action: 'restore assets/data/verbiage-templates.json (distilled from real USPTO/NIH/SBA/investor samples)', organ: id });
+  // Guarded: only claim the library is empty if it was actually READ. An unreadable file is an
+  // audit gap (reported LOW by io.attention below), not a HIGH system defect.
+  if (!libReadable) attention.push({ issue: 'bridge-patterns.json unreadable', severity: 'high', count: 1, action: 'this file IS listed in the immune-system.yml sparse checkout, so absence here is a real gap, not a checkout artifact — restore assets/data/bridge-patterns.json', organ: id });
+  else if (patternCount === 0) attention.push({ issue: 'Bridge pattern library is EMPTY', severity: 'high', count: 1, action: 'file reads fine and contains no patterns — restore assets/data/bridge-patterns.json', organ: id });
+  // Same guard. Unreadable => io.attention() reports the gap; it is not a missing library.
+  if (!verbiageReadable) attention.push({ issue: 'Verbiage template library unreadable — engine outputs will read generated, not approved', severity: 'high', count: 1, action: 'this file IS in the sparse checkout, so absence is real — restore assets/data/verbiage-templates.json (distilled from real USPTO/NIH/SBA/investor samples)', organ: id });
   else if (!verbiageReady) attention.push({ issue: 'Verbiage library incomplete — needs all 4 lanes (patent, grant, sba, investment)', severity: 'med', count: 4 - verbiageLanes.length, action: 'expand assets/data/verbiage-templates.json', organ: id });
-  if (withBridges < total * 0.7 && total > 0) attention.push({ issue: 'Bridge coverage below 70% — many portals have no neuro↔business mapping', severity: 'med', count: total - withBridges, action: 'either expand bridge-patterns.json to cover more business signatures, OR these portals genuinely lack pathology pattern (informational)', organ: id });
+  if (corpusReadable && withBridges < total * 0.7 && total > 0) attention.push({ issue: 'Bridge coverage below 70% — many portals have no neuro↔business mapping', severity: 'med', count: total - withBridges, action: 'either expand bridge-patterns.json to cover more business signatures, OR these portals genuinely lack pathology pattern (informational)', organ: id });
   for (const pd of patternDominance) attention.push({ issue: 'Pattern dominance: ' + pd.patternId + ' matches ' + Math.round(pd.shareOfMatches * 100) + '% of all bridges (over-firing?)', severity: 'low', count: pd.count, action: 'tighten indicators in pattern ' + pd.patternId + ' to be more specific', organ: id });
+  const ioItem = io.attention(id); if (ioItem) attention.push(ioItem);
   if (lastBatch && lastBatch.generatedAt) {
     const ageHours = (Date.now() - new Date(lastBatch.generatedAt).getTime()) / 3600000;
     if (ageHours > 24) attention.push({ issue: 'Bridge readings stale (>24h)', severity: 'low', count: Math.round(ageHours), action: 'run scripts/build-bridge-readings.mjs --apply', organ: id });

@@ -18,6 +18,7 @@
 // Legacy K1 readings still live at portal.financialHealth.composite; we
 // honor both during the migration window.
 import fs from 'node:fs';
+import { inputs } from './_inputs.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -67,8 +68,16 @@ export function sense() {
   let blindPortals = []; // portals with NO kernel reading (the K3 frontier)
   let bySector = {};     // sector → { total, k1, k2, k3, blind }
 
-  let files = [];
-  try { files = fs.readdirSync(PORTAL_DIR).filter(f => f.endsWith('.json') && !f.startsWith('_')); } catch (e) {}
+  /**
+   * An unreadable corpus dir used to collapse to files = [], which makes total = 0 and every
+   * coverage figure read as "no portals have kernel readings". The findings below happen to be
+   * guarded by `total > 0`, so it has not fired — but that is luck, not design, and the next
+   * finding added here would inherit the hazard. io.dir returns null on failure, never [].
+   */
+  const io = inputs();
+  const filesOrNull = io.dir(PORTAL_DIR, 'assets/data/companies/', f => f.endsWith('.json') && !f.startsWith('_'));
+  const corpusReadable = filesOrNull !== null;
+  const files = filesOrNull || [];
   for (const f of files) {
     let p; try { p = JSON.parse(fs.readFileSync(path.join(PORTAL_DIR, f), 'utf8')); } catch (e) { continue; }
     total++;
@@ -135,13 +144,19 @@ export function sense() {
   // Empty K2 is expected/acceptable (informational), not a system failure. To build it out later:
   // repoint persist-k2-readings.mjs (its /api/helix/helix-report/score route 404s) + have the
   // Python kernel emit the Thing 2 section (currently stays intrinsic_only with no relational signal).
-  if (k2Cov < 1.0 && total > 0) attention.push({ issue: 'K2 (Thing 2 polyvagal) reserved — not populated', severity: 'low', count: total - k2Have, action: 'EXPECTED: Thing 2 is the interpretive, unvalidated layer (not a public default). Building it out is optional — repoint persist-k2-readings.mjs + emit the Thing 2 section.', organ: id });
+  if (corpusReadable && k2Cov < 1.0 && total > 0) attention.push({ issue: 'K2 (Thing 2 polyvagal) reserved — not populated', severity: 'low', count: total - k2Have, action: 'EXPECTED: Thing 2 is the interpretive, unvalidated layer (not a public default). Building it out is optional — repoint persist-k2-readings.mjs + emit the Thing 2 section.', organ: id });
   // Blind portals — no kernel of any kind. These are the K3 frontier.
-  if (blindPortals.length > 0 || (total - anyKernel) > 0) attention.push({ issue: 'Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier', severity: 'med', count: total - anyKernel, action: 'these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.', organ: id });
-  if (k1Cov === 0 && total > 0) attention.push({ issue: 'K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot', severity: 'low', count: total, action: 'informational — K1 nulls are expected for off-EDGAR portals', organ: id });
+  if (corpusReadable && (blindPortals.length > 0 || (total - anyKernel) > 0)) attention.push({ issue: 'Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier', severity: 'med', count: total - anyKernel, action: 'these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.', organ: id });
+  if (corpusReadable && k1Cov === 0 && total > 0) attention.push({ issue: 'K1 (financial kernel) ZERO coverage — expected during migration if all readings are in legacy financialHealth slot', severity: 'low', count: total, action: 'informational — K1 nulls are expected for off-EDGAR portals', organ: id });
+  const ioItem = io.attention(id); if (ioItem) attention.push(ioItem);
   if (cikCollisions.length > 0) attention.push({ issue: 'Accidental CIK duplicates in companies-manifest', severity: 'high', count: cikCollisions.length, action: 'dedup — same-CIK entries with no segment marker (true duplicates)', organ: id });
   if (cikSegments.length > 0) attention.push({ issue: 'Segment breakouts sharing a parent CIK (intentional)', severity: 'low', count: cikSegments.length, action: 'informational — distinct named divisions of one SEC filer (a division has no own CIK); e.g. ' + (cikSegments[0].names || []).join(' + '), organ: id });
-  if (!present.helixApp || !present.phaseEngine) attention.push({ issue: 'Python kernel files missing', severity: 'high', count: Object.values(present).filter(v => !v).length, action: 'restore api/helix_app/', organ: id });
+  /**
+   * api/helix_app/ holds .py files. The immune workflow checks out `api/` so they should be
+   * present, but a .py under a JS tree is exactly the kind of path a future cone edit drops.
+   * State the ambiguity in the action rather than asserting the kernel was deleted.
+   */
+  if (!present.helixApp || !present.phaseEngine) attention.push({ issue: 'Python kernel files not found', severity: 'high', count: Object.values(present).filter(v => !v).length, action: 'restore api/helix_app/ — but FIRST confirm this is not a checkout gap: api/ is in the immune-system.yml sparse list, so if this appears only in CI, check the cone before assuming deletion', organ: id });
 
   // Score reflects only ACTIVE kernels. K1 is the validated kernel. K2 (Thing 2 polyvagal)
   // and K3 (relational-only) are RESERVED interpretive slots — Thing 2 is explicitly NOT a

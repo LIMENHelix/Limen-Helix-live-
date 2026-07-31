@@ -69,7 +69,29 @@ export function sense() {
   if (!checks.weightBlend) attention.push({ issue: '65/35 civ/connectome weight blend not detected', severity: 'med', count: 1, action: 'verify integration weights in master-living-brain.js', organ: id });
   if (!checks.enginePersistEndpoint) attention.push({ issue: 'api/limen-engine-output.js missing — engine outputs cannot persist', severity: 'high', count: 1, action: 'restore persistence endpoint', organ: id });
   if (!checks.readyToSignGate) attention.push({ issue: 'READY-TO-SIGN gating not detected — H6 human-click contract may be broken', severity: 'med', count: 1, action: 'inspect master-brain-executor.js qualification gates', organ: id });
-  if (!present.inbox) attention.push({ issue: 'Master Brain inbox never built — engine outputs not gated/prioritized yet', severity: 'med', count: 1, action: 'run scripts/build-master-inbox.mjs --apply', organ: id });
+  /**
+   * THE INBOX IS GITIGNORED, so its absence proves nothing about whether it was ever built.
+   *
+   * This used to emit "Master Brain inbox never built" at MED whenever the file was absent.
+   * assets/data/_master-inbox.json is in .gitignore and is not tracked, so a fresh CI checkout
+   * NEVER has it, and the finding fired on every pulse regardless of reality. Measured
+   * 2026-07-31: the file exists on the operator's machine, 171 KB, generated 2026-06-01, with a
+   * populated stats / laneThresholds / phaseInhibit / queues / topPriority structure. It was
+   * built. CI simply cannot see it, and never will while it stays untracked.
+   *
+   * Fourth instance of the same bug in two days: a read failure reported as a system property.
+   * See scripts/sense/_inputs.mjs for the full list.
+   *
+   * The honest statement is environment-scoped. It says the artifact is absent HERE, says why
+   * that is expected, and drops to LOW so it cannot outrank a measured defect.
+   */
+  if (!present.inbox) attention.push({
+    issue: 'Master Brain inbox absent in this checkout (gitignored — absence is not evidence)',
+    severity: 'low', count: 1,
+    action: 'assets/data/_master-inbox.json is in .gitignore, so CI never sees it and this cannot be verified here. ' +
+            'To check, look on the operator machine or run scripts/build-master-inbox.mjs --apply locally. ' +
+            'To make it auditable, track the artifact.',
+    organ: id });
   else if (inboxAgeHours !== null && inboxAgeHours > 6) attention.push({ issue: 'Master Brain inbox stale (>6h)', severity: 'low', count: Math.round(inboxAgeHours), action: 'invoke build-master-inbox.mjs (also runs in the autonomic loop)', organ: id });
   if (inboxStats && inboxStats.readyToFire === 0 && inboxStats.totalCandidates > 0) attention.push({ issue: 'All ' + inboxStats.totalCandidates + ' candidate artifacts INHIBITED — readiness/salience thresholds too high OR engine outputs too placeholder-heavy', severity: 'low', count: inboxStats.totalCandidates, action: 'inspect /master-inbox.html or master-brain-consumer.js thresholds', organ: id });
 

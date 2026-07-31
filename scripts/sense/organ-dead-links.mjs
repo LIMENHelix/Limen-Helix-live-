@@ -13,6 +13,7 @@
 //   (2) ACTUAL = how many CB rows are referenced by some surface but the
 //       portal file doesn't exist. These ARE dead clicks waiting to happen.
 import fs from 'node:fs';
+import { inputs } from './_inputs.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -117,11 +118,22 @@ export function sense() {
   // the link wouldn't render at all), not a user-facing break — so it should not zero
   // the score. We still surface the count so the surfaces stay visible for a future
   // proper-gating pass; the realized dead-click count (cbDeadCount) carries the real harm.
-  let fallbackPresent = false;
-  try { fallbackPresent = /cp-empty/.test(fs.readFileSync(path.join(ROOT, 'assets', 'js', 'company-portal-ui.js'), 'utf8')); } catch (e) {}
+  /**
+   * THIS EXACT LINE manufactured a HIGH finding for weeks. fallbackPresent defaulted to false
+   * on a read failure and fed the severity ternary below.
+   * assets/js/company-portal-ui.js was not in the CI sparse checkout, so the read threw, the
+   * flag went false, and the item was escalated to HIGH on every pulse. The file existed the
+   * whole time and the fallback was present. Fixed in the cone AND here, because the cone can
+   * change again and this line must not be able to invent a severity from an ENOENT.
+   */
+  const io = inputs();
+  const cpuSrc = io.text(path.join(ROOT, 'assets', 'js', 'company-portal-ui.js'), 'assets/js/company-portal-ui.js');
+  const fallbackKnown = cpuSrc !== null;
+  const fallbackPresent = fallbackKnown ? /cp-empty/.test(cpuSrc) : null;
 
   const attention = [];
-  if (unguardedSurfaces.length > 0) attention.push({ issue: 'Surfaces build company-portal links without an hp gate', severity: fallbackPresent ? 'low' : 'high', count: unguardedSurfaces.length, action: (fallbackPresent ? 'MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. ' : 'add `if (d.hp)` guard before rendering link. ') + 'Worst: ' + unguardedSurfaces.slice(0, 5).map(s => s.file).join(', '), organ: id });
+  if (unguardedSurfaces.length > 0) attention.push({ issue: 'Surfaces build company-portal links without an hp gate', severity: fallbackPresent === false ? 'high' : 'low', count: unguardedSurfaces.length, action: (fallbackPresent === true ? 'MITIGATED by company-portal-ui.js graceful fallback (lands on absent-portal page, not a 404). For best UX, thread `hp` to these emit points and gate the link. ' : fallbackPresent === false ? 'add `if (d.hp)` guard before rendering link. ' : 'SEVERITY UNKNOWN — company-portal-ui.js could not be read, so whether the graceful fallback exists is unmeasured. Held at LOW rather than guessing HIGH. ') + 'Worst: ' + unguardedSurfaces.slice(0, 5).map(s => s.file).join(', '), organ: id });
+  const ioItem = io.attention(id); if (ioItem) attention.push(ioItem);
   if (cbDeadCount > 0) attention.push({ issue: 'CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)', severity: 'med', count: cbDeadCount, action: 'either build the missing portals (paused queue) or accept the absence — company-portal-ui.js now handles gracefully', organ: id });
 
   const surfaceScore = unguardedSurfaces.length === 0

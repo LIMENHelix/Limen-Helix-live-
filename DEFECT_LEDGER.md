@@ -35,7 +35,7 @@ paths. Never infer a system property from a read failure.
 
 | # | item | count | evidence | why it is here |
 |---|---|---|---|---|
-| 1 | **Organs still infer from ENOENT** | 13 of 14 | only `organ-propagator` declares inputs | every other organ can still manufacture a finding from a missing file. Highest leverage: it stops NEW phantoms |
+| ~~1~~ | ~~**Organs still infer from ENOENT**~~ | ~~13 of 14~~ | **FIXED 2026-07-31** — `scripts/sense/_inputs.mjs` + 5 organs guarded | see FIXED table |
 | 2 | **`organ-propagator` score ignores `dampedCount`** | 1 | `scoreParts = presence + fresh + size` | it measured `0 damped` for weeks and scored 100. A vital sign that cannot affect the diagnosis |
 | 3 | **Dead-link guards** | 25 surfaces | see chart below | **ROOT CAUSE FIXED** — links now resolve 97.6% vs 30.0%. The 25 emitters are still technically unguarded; the remaining 2.4% is the 8 ambiguous tickers, which correctly land on the absent page. Downgrade, do not delete: threading `hp` is still the tidy fix |
 | 3b | **Aliases pointing at portals that do not exist** | 165 | `hubbell_incorporated -> hubbell`, `idex_corp -> idex`, `itron_inc -> itron` — target `.json` absent | pre-existing, found while fixing #3. A link resolving through one of these still lands on the absent page, so harm equals having no alias. Stale map entries, probably portals renamed or never built |
@@ -112,6 +112,7 @@ states how it was verified, not that it was committed.
 
 | commit | defect | verified by |
 |---|---|---|
+| _pending_ | **ENOENT-inference across the sense organs.** `organ-feeds` defaulted `snapshotSrc` to `''`, so one unreadable file would have made all 20 domains read as uncovered and fired a HIGH. `organ-bridge` collapsed two libraries to empty, producing two false HIGHs. `organ-dead-links` invented severity from a missing file. `organ-kernel` collapsed the corpus to zero. `organ-master-brain` reported a gitignored artifact as never built | before/after fingerprint of all 14 organs: **identical** with inputs present; then 4 fault-injection cases reproducing each historical phantom: **4/4 report the gap and refuse to invent the finding** |
 | `6d2d6c2a` | `sevRank[a.severity] \|\| 9` — `high` ranks 0, `0 \|\| 9` is 9, so HIGH sorted BELOW med and low | 08:00 pulse: HIGH now at positions 1-2, was 12-14 |
 | `f9674559` | `organ-dead-links` counted itself and comment lines; `/g` regex used with `.test()` in a loop skipped every other hit; HIGH severity came from a file missing from the checkout | full-tree run: 2 → 25 unguarded surfaces, item no longer HIGH |
 | `1ce3dfe0` | `brain-connectome.json` missing from the sparse checkout | 08:00 pulse summary: `0 damped` → `354 damped` |

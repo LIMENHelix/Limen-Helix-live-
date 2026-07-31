@@ -6,6 +6,7 @@
 // requirement, parse strategy, and domain binding. A misconfigured source =
 // silent feed failure at runtime.
 import fs from 'node:fs';
+import { inputs } from './_inputs.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -39,16 +40,29 @@ export function sense() {
   // feed-status.js is a diagnostics endpoint; the real feed SOURCE-OF-TRUTH is the snapshot
   // builder (handlers/domain-snapshot.js), which builds feeds for all 20 domains under runtime
   // keys (medicine→health, science→research). Credit a domain if it's fed by EITHER.
-  let snapshotSrc = '';
-  try { snapshotSrc = fs.readFileSync(path.join(ROOT, 'handlers', 'domain-snapshot.js'), 'utf8'); } catch (e) {}
+  /**
+   * THE WORST INSTANCE OF THE ENOENT-INFERENCE BUG IN THIS DIRECTORY.
+   *
+   * snapshotSrc defaulted to '' on a read failure, and fedBySnapshot() greps it. An empty
+   * string matches nothing, so EVERY canonical domain fell into uncoveredDomains and this
+   * organ emitted a HIGH "Canonical domains with NO feed source" naming all twenty — from a
+   * single unreadable file. handlers/ is in the sparse checkout today, so it has not fired,
+   * but it was one checkout edit away from declaring the entire sensory cortex dead.
+   */
+  const io = inputs();
+  const snapshotSrc = io.text(path.join(ROOT, 'handlers', 'domain-snapshot.js'), 'handlers/domain-snapshot.js');
+  const snapshotReadable = snapshotSrc !== null;
   const RUNTIME_ALIAS = { medicine: 'health', science: 'research' };   // canonical → snapshot runtime key
-  const fedBySnapshot = (d) => { const k = RUNTIME_ALIAS[d] || d; return new RegExp("['\"`]" + k + "['\"`]").test(snapshotSrc); };
+  const fedBySnapshot = (d) => { const k = RUNTIME_ALIAS[d] || d; return snapshotReadable ? new RegExp("['\"`]" + k + "['\"`]").test(snapshotSrc) : false; };
   const coveredDomains = CANONICAL_DOMAINS.filter(d => byDomain[d] || fedBySnapshot(d));
   const uncoveredDomains = CANONICAL_DOMAINS.filter(d => !byDomain[d] && !fedBySnapshot(d));
 
   const attention = [];
   if (sources.length < 30) attention.push({ issue: 'Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js', severity: 'low', count: sources.length, action: 'optionally expand handlers/feed-status.js diagnostics registry', organ: id });
-  if (uncoveredDomains.length > 0) attention.push({ issue: 'Canonical domains with NO feed source (in feed-status.js OR domain-snapshot.js)', severity: 'high', count: uncoveredDomains.length, action: 'add at least one feed source per canonical domain: ' + uncoveredDomains.join(', '), organ: id });
+  // Guarded: with domain-snapshot.js unreadable, half the evidence for coverage is absent and
+  // this finding would name all 20 domains from one failed read. Suppressed; io.attention reports why.
+  if (snapshotReadable && uncoveredDomains.length > 0) attention.push({ issue: 'Canonical domains with NO feed source (in feed-status.js OR domain-snapshot.js)', severity: 'high', count: uncoveredDomains.length, action: 'add at least one feed source per canonical domain: ' + uncoveredDomains.join(', '), organ: id });
+  const ioItem = io.attention(id); if (ioItem) attention.push(ioItem);
 
   const domainCoverageScore = Math.round(coveredDomains.length / CANONICAL_DOMAINS.length * 100);
   const sourceDensityScore = Math.min(100, Math.round(sources.length / 41 * 100));
