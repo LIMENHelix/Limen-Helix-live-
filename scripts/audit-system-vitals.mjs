@@ -52,9 +52,19 @@ for (const organ of ORGANS) {
 const overallScore = organScores.length ? Math.round(organScores.reduce((s, v) => s + v, 0) / organScores.length) : 0;
 const status = overallScore >= 90 ? 'HEALTHY' : overallScore >= 75 ? 'DEGRADED' : 'IN_PAIN';
 
-// Sort attention: high severity first, then by count
+/**
+ * Sort attention: high severity first, then by count.
+ *
+ * `??` NOT `||`. high ranks 0, and 0 is falsy, so `sevRank[a.severity] || 9` handed every HIGH
+ * item the unknown-severity fallback of 9 and sorted it BELOW every med (1) and low (2). The
+ * operator queue rendered in the order med, low, high for as long as this line has existed:
+ * on the 2026-07-30 pulse the three HIGH items sat at positions 12, 13 and 14 of 14, under
+ * seven MED and four LOW. vitals.html iterates this array as stored and does not re-sort, so
+ * the page showed the inversion exactly. The comment above the old line already claimed the
+ * correct behaviour, which is why nobody re-read the expression.
+ */
 const sevRank = { high: 0, med: 1, low: 2 };
-allAttention.sort((a, b) => (sevRank[a.severity] || 9) - (sevRank[b.severity] || 9) || (b.count || 0) - (a.count || 0));
+allAttention.sort((a, b) => (sevRank[a.severity] ?? 9) - (sevRank[b.severity] ?? 9) || (b.count || 0) - (a.count || 0));
 
 // Build summary banner — one organ per line per the user's "all levels" requirement
 const banner = ORGANS.map(o => o.id + ' ' + organs[o.id].score).join(' · ');
