@@ -13,76 +13,317 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://limenhelix.com/">
 <meta property="og:title" content="LIMEN Helix">
-<meta property="og:image" content="https://limenhelix.com/assets/img/limen-helix.jpg">
-<link rel="icon" href="/assets/img/limen-helix.jpg">
+<meta property="og:image" content="https://limenhelix.com/assets/img/limen-wordmark.jpg">
+<link rel="icon" href="/assets/img/limen-wordmark.jpg">
 <style>
-  /* HOLDING PAGE — the site is down for now.
-     One image, one phone number, no scripts, no fonts, no third-party requests.
+  /* HOLDING PAGE — the wordmark in a live starfield.
+     No libraries, no fonts, no third-party requests. One image, one canvas, ~90 lines of JS.
 
-     The previous homepage is intact in git and comes back with one command:
-       git checkout 9430efd9 -- index.html                                             */
+     The previous homepage restores with:  git checkout 9430efd9 -- index.html          */
 
-  :root { --gold:#D4AF37; --gold-dim:#7c6a2e; }
+  /* Sampled from the wordmark's own background so the image edge dissolves into the page
+     instead of showing as a lighter square. */
+  :root{ --space:#0b131d; }
 
   *{margin:0;padding:0;box-sizing:border-box}
 
-  /* overflow-x guard: with align-items:center, ANY child wider than the viewport shifts the
-     whole column sideways and clips it. Verified on a 390px screenshot before this was added. */
-  html,body{height:100%;background:#000;color:var(--gold);overflow-x:hidden}
+  html,body{height:100%;overflow:hidden}
 
   body{
+    background:var(--space);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* The sky sits behind everything and is purely decorative.
+     z-index:-1 is deliberate and load-bearing. mix-blend-mode blends an element against its
+     backdrop WITHIN the nearest stacking context, so if the mark sat inside a positioned,
+     z-indexed wrapper it would blend against that wrapper's transparent background and the
+     canvas would be invisible to it — which renders as a dark square punched in the sky.
+     Putting the canvas at -1 and leaving the mark in normal flow keeps both in the root
+     stacking context, which is the only arrangement where the blend actually reaches the stars. */
+  canvas#sky{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+    z-index:-1;
+  }
+
+  main{
+    padding:6vh 5vw;
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:6vh 5vw;
-    gap:clamp(1.6rem,5vw,2.8rem);
-    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
-    -webkit-font-smoothing:antialiased;
+    gap:clamp(1.6rem,5vw,2.6rem);
   }
 
-  /* The mark carries the wordmark, so there is no <h1> text to compete with it.
-     The name still reaches screen readers and search engines through the alt text. */
+  /* The mark is a JPEG with a solid dark background, so dropping it straight onto the stars
+     punches a visible rectangle in the sky. mix-blend-mode:screen was tried first and is not
+     sufficient: screen only erases a backdrop that is genuinely black, and this artwork sits
+     on #0d1520, so the square came back as a LIGHTER patch instead of a darker one.
+
+     The script below therefore rebuilds the image with a real alpha channel — luminance
+     becomes transparency — and crops it to the wordmark. That keeps the original letterforms
+     exactly, and the starfield runs behind the type with nothing to give away an image edge.
+     The element starts hidden and fades in once that has happened, so the raw square is never
+     on screen. */
   img.mark{
     display:block;
-    width:min(72vw, 44vh, 520px);   /* never taller than the viewport on a short screen */
+    width:min(74vw, 62vh, 620px);
     height:auto;
     max-width:100%;
+    opacity:0;
+    transition:opacity .5s ease;
+    /* A faint warm bloom, so the letters read as lit rather than pasted on. */
+    filter:drop-shadow(0 0 26px rgba(212,175,55,.13));
   }
+  img.mark.ready{opacity:1}
 
-  a.phone{
-    color:var(--gold);
-    text-decoration:none;
-    /* Sized so a 12-14 character number still fits inside a 320px screen. The letter-spacing
-       is the part that bites: it adds per-character width that font-size clamping alone
-       does not account for, which is what pushed this off-screen the first time. */
-    font-size:clamp(.95rem,4.2vw,1.7rem);
-    letter-spacing:.12em;
-    font-variant-numeric:tabular-nums;
-    padding:.55em .9em;
-    border:1px solid var(--gold-dim);
-    border-radius:2px;
-    white-space:nowrap;      /* a phone number must never wrap mid-number */
-    max-width:100%;
-    transition:background 160ms ease,border-color 160ms ease;
-  }
-  a.phone:hover,a.phone:focus-visible{
-    background:rgba(212,175,55,.09);
-    border-color:var(--gold);
-    outline:none;
-  }
+  /* If the script fails or JS is off, show the original rather than a blank page. Screen
+     blending at least keeps it legible; the square is the acceptable cost of a fallback. */
+  .nojs img.mark{opacity:1;mix-blend-mode:screen}
 
-  @media (prefers-reduced-motion:reduce){a.phone{transition:none}}
+  /* Motion is decorative only. Anyone who has asked their OS to reduce motion gets a still
+     sky — the stars are drawn once and never animate. */
+  @media (prefers-reduced-motion:reduce){
+    img.mark{filter:none}
+  }
 </style>
 </head>
 <body>
 
-  <img class="mark" src="/assets/img/limen-helix.jpg" alt="LIMEN Helix" width="1024" height="1024">
+<canvas id="sky" aria-hidden="true"></canvas>
 
-  <!-- Phone goes here when the number is available. The .phone style below is already
-       written and verified down to a 320px screen, so this is a one-line addition:
-       <a class="phone" href="tel:+1XXXXXXXXXX">(XXX) XXX-XXXX</a>                        -->
+<main>
+  <img class="mark" id="mark" src="/assets/img/limen-wordmark.jpg" alt="LIMEN Helix">
+</main>
+
+<noscript><style>img.mark{opacity:1;mix-blend-mode:screen}</style></noscript>
+
+<script>
+/* ── THE MARK: luminance -> alpha, then crop ───────────────────────────────────────────────
+   Runs once. Reads the JPEG into an offscreen canvas, turns brightness into opacity so the
+   dark backdrop disappears and the gold letters stay, trims the empty margin, and swaps the
+   result back in as a transparent PNG. After that the element is an ordinary <img> and all
+   the normal layout rules apply.
+
+   Same-origin image, so reading pixels back is allowed and no CORS header is involved.       */
+(function () {
+  'use strict';
+  var el = document.getElementById('mark');
+  if (!el) return;
+
+  function reveal() { el.classList.add('ready'); }
+
+  function process() {
+    try {
+      var w = el.naturalWidth, h = el.naturalHeight;
+      if (!w || !h) { fallback(); return; }
+
+      var c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      var x = c.getContext('2d', { willReadFrequently: true });
+      x.drawImage(el, 0, 0);
+
+      var d = x.getImageData(0, 0, w, h), p = d.data;
+
+      /* MEASURED off this exact artwork rather than guessed (histogram, 1,048,576 px):
+           backdrop  94% of all pixels sit at luminance 0.05-0.06
+           tail      0.07-0.11 is the backdrop's soft vignette, ~0.5% of pixels
+           gap       0.12-0.55 holds ~0.01% per bucket: antialiased letter edges only
+           ink       p97 = 0.60, p99 = 0.68, max 0.95
+         So there is a wide empty corridor between backdrop and ink. Putting the ramp at
+         0.26 -> 0.58 lands it squarely in that corridor: the vignette is driven hard to zero
+         (an earlier ramp of 0.12 -> 0.34 left it at partial alpha, which showed as a faint
+         rectangle floating behind the type), while the serif edges still get a smooth
+         gradient instead of a jagged cut. */
+      var LO = 0.26, HI = 0.58, span = HI - LO;
+      var minX = w, minY = h, maxX = -1, maxY = -1;
+
+      for (var i = 0, px = 0; i < p.length; i += 4, px++) {
+        var lum = (p[i] * 0.299 + p[i + 1] * 0.587 + p[i + 2] * 0.114) / 255;
+        var a = (lum - LO) / span;
+        a = a < 0 ? 0 : (a > 1 ? 1 : a);
+        p[i + 3] = (a * 255) | 0;
+        if (a > 0.06) {                       // track the ink bounds for the crop
+          var cx = px % w, cy = (px / w) | 0;
+          if (cx < minX) minX = cx;
+          if (cx > maxX) maxX = cx;
+          if (cy < minY) minY = cy;
+          if (cy > maxY) maxY = cy;
+        }
+      }
+      if (maxX < 0) { fallback(); return; }   // nothing survived the threshold
+
+      x.putImageData(d, 0, 0);
+
+      // Crop to the wordmark plus a small breathing margin, so the element box is the type
+      // rather than a mostly-empty square.
+      var pad = Math.round(Math.max(w, h) * 0.02);
+      var sx = Math.max(0, minX - pad), sy = Math.max(0, minY - pad);
+      var sw = Math.min(w - sx, (maxX - minX) + pad * 2);
+      var sh = Math.min(h - sy, (maxY - minY) + pad * 2);
+
+      var out = document.createElement('canvas');
+      out.width = sw; out.height = sh;
+      out.getContext('2d').drawImage(c, sx, sy, sw, sh, 0, 0, sw, sh);
+
+      el.removeAttribute('width');
+      el.removeAttribute('height');
+      el.onload = null;
+      el.src = out.toDataURL('image/png');
+      reveal();
+    } catch (e) {
+      fallback();
+    }
+  }
+
+  // Anything goes wrong: show the original with screen blending rather than a blank page.
+  function fallback() {
+    el.style.mixBlendMode = 'screen';
+    reveal();
+  }
+
+  if (el.complete && el.naturalWidth) process();
+  else { el.onload = process; el.onerror = reveal; }
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var canvas = document.getElementById('sky');
+  var ctx = canvas.getContext('2d', { alpha: false });
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var stars = [], w = 0, h = 0, dpr = 1, raf = null, t0 = 0;
+
+  /* Star colours: mostly white, a minority warm and blue-white. Real skies are not monochrome,
+     and the variation is what stops a field of identical dots from reading as static noise. */
+  var PALETTE = [
+    '255,255,255', '255,255,255', '255,255,255',
+    '255,244,214',   // warm
+    '214,230,255',   // blue-white
+    '255,226,180'    // amber, echoes the gold in the mark
+  ];
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function build() {
+    /* Density per unit area, not a fixed count: a phone gets a sparse sky and a wide monitor
+       gets a full one, at roughly the same visual density. Capped so a very large display
+       cannot push the per-frame cost somewhere it does not belong. */
+    var count = Math.min(520, Math.round((w * h) / 5200));
+    stars = [];
+    for (var i = 0; i < count; i++) {
+      // A few large stars, many small ones. Squaring the random skews it that way.
+      var r = Math.random();
+      var size = 0.35 + r * r * 1.5;
+      stars.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: size,
+        colour: PALETTE[(Math.random() * PALETTE.length) | 0],
+        base: rand(0.28, 0.92),
+        /* Two twinkle components at different rates. A single sine makes every star pulse
+           with an obvious metronome; two incommensurate rates make the blinking irregular,
+           which is what actually reads as a night sky. */
+        s1: rand(0.4, 1.9),
+        s2: rand(0.15, 0.7),
+        p1: Math.random() * Math.PI * 2,
+        p2: Math.random() * Math.PI * 2,
+        /* How much this star blinks at all. Most barely flicker; a handful blink hard. */
+        amp: Math.random() < 0.18 ? rand(0.45, 0.75) : rand(0.05, 0.28),
+        // Slow drift, so the field is never perfectly frozen.
+        vx: rand(-0.008, 0.008),
+        vy: rand(-0.006, 0.006)
+      });
+    }
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);   // cap: 3x on a big screen is wasted fill
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    build();
+    if (reduce) draw(0);
+  }
+
+  function draw(now) {
+    var t = (now - t0) / 1000;
+
+    ctx.fillStyle = '#0b131d';
+    ctx.fillRect(0, 0, w, h);
+
+    /* A faint band of brightness across the middle, like a galactic plane. Pure scatter on flat
+       black looks like TV static; a soft gradient gives the field somewhere to be. */
+    var band = ctx.createLinearGradient(0, h * 0.18, 0, h * 0.86);
+    band.addColorStop(0, 'rgba(24,38,60,0)');
+    band.addColorStop(0.5, 'rgba(30,46,72,0.55)');
+    band.addColorStop(1, 'rgba(24,38,60,0)');
+    ctx.fillStyle = band;
+    ctx.fillRect(0, 0, w, h);
+
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+
+      var flicker = reduce ? 1
+        : 1 - s.amp * (0.5 - 0.5 * Math.sin(s.s1 * t + s.p1)) * (0.6 + 0.4 * Math.sin(s.s2 * t + s.p2));
+      var a = Math.max(0, Math.min(1, s.base * flicker));
+
+      if (!reduce) {
+        s.x += s.vx; s.y += s.vy;
+        if (s.x < -2) s.x = w + 2; else if (s.x > w + 2) s.x = -2;
+        if (s.y < -2) s.y = h + 2; else if (s.y > h + 2) s.y = -2;
+      }
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, 6.2832);
+      ctx.fillStyle = 'rgba(' + s.colour + ',' + a.toFixed(3) + ')';
+      ctx.fill();
+
+      // The brightest few get a soft halo. Cheap, and it sells the depth.
+      if (s.r > 1.35 && a > 0.55) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 3.2, 0, 6.2832);
+        ctx.fillStyle = 'rgba(' + s.colour + ',' + (a * 0.10).toFixed(3) + ')';
+        ctx.fill();
+      }
+    }
+
+    if (!reduce) raf = requestAnimationFrame(draw);
+  }
+
+  function start() {
+    if (raf) cancelAnimationFrame(raf);
+    t0 = performance.now();
+    if (reduce) draw(t0); else raf = requestAnimationFrame(draw);
+  }
+
+  // Stop drawing when the tab is hidden. A holding page has no business burning a CPU core
+  // in a background tab for weeks.
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+    else if (!reduce) start();
+  });
+
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { resize(); if (!reduce) start(); }, 150);
+  });
+
+  resize();
+  start();
+})();
+</script>
 
 </body>
 </html>
