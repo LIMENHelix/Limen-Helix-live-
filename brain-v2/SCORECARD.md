@@ -1,135 +1,95 @@
 # BRAIN-V2 vs THE COMPLETENESS CHECKLIST
 
-Scored 2026-08-01 against **LIMEN Helix — The Complete Working Brain v1.0**, Part 8.
-Honest score: **3 pass, 1 partial, 24 fail.**
+Scored against **`SPEC.md` Part 8** (LIMEN Helix — The Complete Working Brain v1.0).
 
-That is not a bad result for one day. It is a precise one, and it is the first time this
-project has had a number instead of an impression.
-
----
-
-## PASS (3)
-
-| # | Test | Evidence |
+| date | score | what existed |
 |---|---|---|
-| **8** | ≥2 interoceptive channels live per domain | 18 declared in `bind/energy.js`; **6 live** on 361 hours of real replay (fredCrude, nwsAlerts, cisaKev, gridRel, petroStatus, electricity) |
-| **9** | A channel inventory exists and feeds confidence | `sensors[]` carries `state ∈ {measured, absent, dead, unknown}` per channel; `blind[]` is mandatory; `state.confidence = totalPrecision/(totalPrecision+1)` is computed **only from channels that passed the liveness gate**. Lose channels → confidence falls. **This is INV-13 / the anosognosia fix, and it is the first thing that got built.** |
-| **26** | Precision derived per-channel from own noise, never consensus | `precision = 1/P`, where `P` is that channel's own Kalman covariance. Agreement between channels contributes **nothing** to weight. B0's hard rule, satisfied by construction rather than by discipline |
+| 2026-08-01 (morning) | **3 / 28** | afferent layer only: `core/brain.js`, `core/channel.js` |
+| 2026-08-01 (this build) | **23 / 28** | the closed loop: `kernel/` + 20 executed acceptance tests |
+
+Reproduce both numbers with `node brain-v2/test/loop-acceptance.js`. The checklist rows are
+evaluated from live runtime state, not from a table someone maintains by hand — a row passes
+because a measurement said so in that run, or it fails.
 
 ---
 
-## PARTIAL (1)
+## The five that still fail, and why each is a real gap rather than a wording problem
 
-| # | Test | Where it stands |
+| # | Test | Status |
 |---|---|---|
-| **27** | Each domain's cadence derived from its own event spacing | Cadence is **declared** per channel and liveness/baseline sampling now happens at that cadence — fixed today after the replay flagged `fredCrude` DEAD for the crime of being a daily series read hourly. But cadence is still *asserted in the manifest*, not *derived from observed spacing* (B3/B17). Half the requirement |
+| **10** | Divergence between channels logged as a first-class signal | **NOT BUILT.** `core/brain.js` fuses channel departures into one number. When two channels disagree about the same latent state that disagreement is averaged away rather than emitted. SPEC B5 calls the divergence detector a required output, and it is the informative signal, not noise to be smoothed. |
+| **22** | Learning rates derived per-node from own statistics | **NOT BUILT — the metaplasticity gap, still open.** Every rate here is SET: forward-model `lr`, per-channel `q`/`r`, all six critic weights, the trust gate, the accumulator bound. Each is marked `[mark: prior]` at its definition. This is the finding the project's own review history has logged at least four times, and this build widened it rather than closing it. |
+| **24** | Lateral connectivity between peer domains | **NOT BUILT.** One domain is bound. A lateral edge *type* exists in `packet.js` and is exercised by `connectome.js`, but there is no peer to connect to, so the property is untested rather than satisfied. |
+| **25** | Topology-editing mechanism (pruning) | **NOT BUILT.** Weights change and episodes retire, but nothing edits the graph structure. Per SPEC B16 this is the only mechanism that changes topology rather than weights; without it the graph can only grow. |
+| **27** | Cadence derived from each domain's own event spacing | **PARTIAL.** Cadence is *declared* per channel and does real work — it drives uncertainty growth during silence and decimates liveness sampling. It is not *derived* from observed spacing. Declared is better than inherited, and it is not the same as measured. |
 
 ---
 
-## FAIL (24)
+## What the run actually measured, on 362 recorded hours of real energy data
 
-Grouped by what is actually missing, not row order.
+Everything below is a number from `node brain-v2/run.js 362 --fresh`, not an estimate.
 
-**No motor path at all — B11, B14 (rows 1, 2, 3, 20)**
-Nothing executes. No subscriber, no `executed` flag, no efference copy, no refractoriness or
-adaptation. `efferent.declaredNone = true` — the brain says so rather than implying otherwise,
-which satisfies R7 of my own contract but satisfies **none** of B11.
-
-**No inhibition (rows 4, 5)**
-There is no inhibitory mechanism of any kind — not scalar, not shunting. The precision floor is
-a threshold, not inhibition. Rows 4 and 5 are not "partially met by the gate"; they are absent.
-
-**Feedforward-only — INV-7 violation (rows 6, 7, 24)**
-No descending path. No L6 equivalent. No lateral connectivity between domains. Every channel
-reports up; nothing predicts down. **This is the pathology the document names as the root
-failure the project keeps rediscovering, and I rebuilt it.** Partial credit on row 7 only: the
-quantity that ascends *is* a residual (departure from the channel's own baseline), so it is a
-local prediction error — but there is no top-down prediction to subtract, so it is not L5.
-
-**No selection (rows 17, 18, 19)**
-No basal ganglia. No default-deny, no hyperdirect stop, no actor/critic separation.
-
-**One modulator, and it isn't one (row 11)**
-Zero neuromodulators. Precision is a weight, not a modulator — it cannot gate plasticity,
-interrupt, switch encode/consolidate, or set a horizon.
-
-**No consolidation (rows 12, 13, 14, 15)**
-No offline state, no write authority, no downscaling, no differential retention.
-
-**No removal (rows 16, 25)**
-INV-1 violated wholesale. Channels can be added; nothing prunes. No topology editing.
-
-**No learning (rows 21, 22, 23)**
-No `M`, because there are no resolved outcomes to derive one from. `q` and `r` are hand-set
-`[mark: prior]` per channel — **this is precisely the metaplasticity gap the document names as
-the most-repeated finding in the project's history, and I widened it by 18 constants.**
-
-**No boundary (row 28)**
-No B1. External content enters the same substrate as internal state.
+- **18 channels declared, 6 live, 10 dead (constant across their liveness window), 2 absent.**
+  Confidence 0.71, computed as `coverage(6 live) x consistency`, so it falls when channels are
+  lost. One live channel at perfect self-agreement caps at 0.33.
+- **Prediction hit rate 0.736 over n=307, with 81 genuine misses.** The first version of this
+  loop scored 1.000 over 314, which was not a good system but an unfalsifiable band; the
+  interval is now derived from each variable's own observed sd and the registry refuses a band
+  it cannot be wrong about.
+- **255 actions released, 77 held, 253 executed, 0 dead axons.**
+- **Deterministic replay verified:** two independent runs over the same 120 rows produced
+  identical state hashes and an identical ordered sequence of 2,790 trace records.
+- **Restart verified across a real process boundary:** one OS process ran 80 ticks and exited,
+  a second restored at tick 80 and continued to 160, carrying episodes, resolved predictions,
+  forward-model weights and per-channel observation noise.
 
 ---
 
-## WHERE brain-v2 SITS IN THE BLOCK MODEL
+## The one thing this build does NOT prove, stated plainly
 
-**B0 (afferent interface) + the channel-inventory half of B17 + the inventory requirement of B5.**
+**Reafference cancellation is wired, invoked, and returned zero every time.**
 
-One block of eighteen, plus one requirement borrowed from a second.
+`B14` exists: efference copies are emitted at command time, `actuate.js` throws without one,
+and the residual arithmetic (`observed − predicted − efferenceExplained`) runs on every
+resolution. The forward model learns from supervised error and survives restart.
 
-It is, however, the correct first block by the document's own argument: B5 is named as *"the
-block the current system is most specifically lesioned in"*, and the channel inventory is
-described as the thing that separates alexithymia from **anosognosia** — losing a sense versus
-not knowing you lost it, where the second *"produces confabulation"*.
+But the forward model refuses to subtract until it has `trustN = 8` independent observations,
+and across 362 recorded hours the action that moves a measured variable (`raise_attention`) won
+selection rarely enough that the model reached **n = 2**. So the subtracted term was 0 on
+**0 of 338** resolutions.
 
-Today's replay is that inventory doing its job: energy declares 18 channels, and **10 of them
-have not moved in two weeks**. Nothing in the system said so before.
+That is the intended behaviour — subtracting an unmeasured quantity would itself be a
+fabrication, and an inflated `n` is worse than a small one because the small one abstains. It
+is also the honest limit of the claim: **the cancellation path is T5 (runtime output observed),
+not T8.** Nothing here demonstrates that self-caused change was successfully separated from
+world-caused change on real data. It demonstrates that the machinery to do so exists, runs, and
+correctly declines to guess.
 
----
-
-## THE ORDERING CONSTRAINT I NOW HAVE TO RESPECT
-
-Part 15 says B14 is not Phase 3 material — efference copy must exist **before the first real
-action executes**, or the system scores its own effects as external validation.
-
-That is not hypothetical here. `lib/limen-policy.js` `recommendLane()` already applies
-propagator network stress to lane salience, and `limen-worker-autoqueue` is the consumer —
-**paused since 2026-06-01 pending Gate A.** That paused handler *is* B11 for the opportunity
-path. When it unpauses, the system will change which companies surface, then read the changed
-surfacing as evidence, with no efference copy anywhere in the stack.
-
-**Gate A should not open without B14.** That is a concrete, dated consequence of Part 15, not a
-restatement of it.
+A defect found while measuring this: the same efference copy was originally learned from once
+per prediction in its window, so 2 copies produced 15 "observations" and pushed the model past
+its trust gate on the strength of one event. Fixed — one claim, one comparison
+(`predict.js`, `fm.consumed`).
 
 ---
 
-## THE ONE THING I WOULD ADD TO THE SPEC
+## Truth ladder (MASTER_PROMPT §16), per block
 
-The document is right about *what* is required. It is silent on *what can be validated versus
-merely instantiated*, and at this data budget that distinction bites.
+| block | level | basis |
+|---|---|---|
+| B0 afferent, B5 interoception | **T7** | runs, changes state, survives restart |
+| B1 boundary | **T6** | denies 4 attack classes; quarantine file written |
+| B7/B9 connectome | **T6** | bounded routing, INV-7 reciprocity satisfied |
+| B8 prediction | **T8** | full predict → resolve → error loop, 307 resolutions |
+| B10 selection | **T8** | released, held, and suppressed with recorded reasons |
+| B11 motor | **T8** | 253 executions, `executed` written by the actuator |
+| B12 modulators | **T6** | four axes, orthogonality measured over real traffic |
+| B13 consolidation | **T6** | 14 passes, write authority, multiplicative downscale verified |
+| B14 forward model | **T5** | emitted, learned, persisted — **cancellation unexercised** |
+| B15 episodic | **T7** | 332 episodes, retrievable by trace, survives restart |
+| B17 self-model | **T7** | channel inventory drives confidence |
+| B2 reflex, B3 CPG, B6 set-points, B16 glia | **T0–T1** | B3 and B6 partial inside `vitals.js`; B2 and B16 absent |
 
-Measured: ~250 resolved observations per domain, ~14 nominal sensors, **6 that actually move**.
-At a ~10% event rate that is under 2 events per variable, against a literature floor of 10
-(Peduzzi 1996) and ~20 for stable held-out estimates (Austin & Steyerberg 2017).
-
-Consequence for the build: **B12's modulators, B10's critic, B13's tagging thresholds and
-B17's learning rates cannot be fitted. They can only be set.** That is not an argument against
-building them — INV-6 and INV-11 stand — but every parameter in those blocks must ship marked
-`[mark: prior]` and stay marked until outcomes accumulate. Blocks that *require* fitted
-parameters to be meaningful should be built last, not first, regardless of where they sit in
-the anatomy.
-
-This is the same failure class as 180 diagnoses against 14 conditions: an architecture whose
-resolution exceeds its evidence. The spec's own INV-13 and B17 confidence rule are the guard;
-this note just names the budget explicitly.
-
----
-
-## NEXT, GIVEN THE SPEC
-
-Not more B0. The honest order from Part 6's loop dependencies:
-
-1. **B14 first, alone.** Efference copy is cheap — a record of what was commanded and a
-   prediction of what should follow. It has no dependencies and it is the precondition for
-   every outcome-based block being trustworthy. It can be built before B11 exists.
-2. **B11 immediately after, with B14 already in place.** Close L3 and L4 together.
-3. **B9 descending** — the L6 equivalent. Fixes the INV-7 violation I just rebuilt.
-4. Everything else in loop order.
+**Brain maturity (MASTER_PROMPT §19): B5.** Action selection with measured outcome feedback is
+demonstrated. B6 is not — there is no second domain, so cross-domain coordination is untested.
+B7 is not — learning happens (forward model, critic history) but is not validated under
+controlled conditions.
