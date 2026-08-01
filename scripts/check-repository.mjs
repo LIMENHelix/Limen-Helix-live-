@@ -98,13 +98,20 @@ try {
     for (const m of block.matchAll(/^\s*'([a-z0-9-]+)'\s*:/gim)) registered.add(m[1]);
   } catch { /* no catch-all: fall through to the per-file check below */ }
 
-  const files = new Set(tracked('api/*.js', 'handlers/*.js').map(p => path.basename(p, '.js')));
+  /* Both runtimes count. Twelve Python handlers live under api/ (helix.py,
+     limen.py, ddgs-search.py and friends). None is a cron target today, but
+     resolving only .js would report a future Python cron as missing, and a check
+     that cries wolf is a check somebody turns off. */
+  const files = new Set([
+    ...tracked('api/*.js', 'handlers/*.js').map(p => path.basename(p, '.js')),
+    ...tracked('api/*.py').map(p => path.basename(p, '.py'))
+  ]);
 
   for (const c of crons) {
     cronChecked++;
     const name = String(c.path).replace(/^\/api\//, '').split('?')[0];
     if (!registered.has(name) && !files.has(name)) {
-      failures.push({ f: 'vercel.json', why: 'cron "' + c.path + '" resolves to no handler (not in HANDLERS, no api/' + name + '.js, no handlers/' + name + '.js)' });
+      failures.push({ f: 'vercel.json', why: 'cron "' + c.path + '" resolves to no handler (not in HANDLERS, no api/' + name + '.{js,py}, no handlers/' + name + '.js)' });
     }
   }
 } catch (e) {
