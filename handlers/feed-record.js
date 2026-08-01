@@ -38,8 +38,44 @@ var SNAPSHOT_URL = 'https://www.limenhelix.com/api/domain-snapshot';
 function r4(n) { return Math.round(n * 10000) / 10000; }
 function isNum(n) { return typeof n === 'number' && isFinite(n); }
 
-// Pull whatever numeric fields a source object actually carries (shape-tolerant).
-function compactSource(s) {
+/**
+ * Pull whatever numeric fields a source object actually carries (shape-tolerant).
+ *
+ * FIXED 2026-08-01 — `value` SATURATES, so recording it alone recorded nothing.
+ *
+ * Measured over the 362 hours this recorder had already stored for energy: of 18 sources,
+ * 10 produced exactly ONE distinct value across the whole fortnight and 2 produced none.
+ * The cause is that news-backed sources report `value` = article count, and a Google News
+ * query returns a full page, so `value` is pinned at 100 forever. The recorder was faithfully
+ * storing a constant and the history looked flat because the field was flat, not the world.
+ *
+ * Downstream this is not cosmetic: anything learning from this history sees ten dead series
+ * and correctly refuses to use them, so most of the domain is unreadable by construction.
+ *
+ * The fix is to stop betting on one field. `value` is kept exactly as before (nothing that
+ * reads `v` changes), and the fields that move are recorded alongside it:
+ *
+ *   hc  headline count        — differs from `value` when the feed returns fewer than a page
+ *   hh  headline-set hash     — CHANGES WHENEVER THE STORIES CHANGE, even at value=100.
+ *                               This is the one that rescues the ten dead channels: the
+ *                               article count is pinned but the articles themselves turn over.
+ *   r7  rss.recent7d          — recorded when present; it is the un-saturated recency count
+ *   ua  age of the reading    — ms between the source's own update stamp and this row
+ *   q   quality               — already computed upstream, never stored until now
+ *
+ * All additive. Every existing field keeps its name and meaning, so old rows stay readable
+ * and nothing that parses them needs to change.
+ */
+function headlineHash(list) {
+  // Cheap stable 32-bit hash of the joined headline set. Not cryptographic: it only has to
+  // change when the set changes, which is the entire requirement.
+  var s = list.join('');
+  var h = 5381;
+  for (var i = 0; i < s.length; i++) { h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; }
+  return h;
+}
+
+function compactSource(s, rowT) {
   if (!s || typeof s !== 'object') return null;
   var o = {};
   if (s.name) o.n = String(s.name).slice(0, 48);
@@ -48,8 +84,24 @@ function compactSource(s) {
   if (isNum(s.stress)) o.s = r4(s.stress);
   if (isNum(s.activity)) o.a = r4(s.activity);
   if (isNum(s.value)) o.v = r4(s.value);
+
+  if (isNum(s.quality)) o.q = r4(s.quality);
+
+  if (Array.isArray(s.headlines) && s.headlines.length) {
+    o.hc = s.headlines.length;
+    o.hh = headlineHash(s.headlines);
+  }
+  if (s.rss && typeof s.rss === 'object') {
+    if (isNum(s.rss.recent7d)) o.r7 = s.rss.recent7d;
+    if (isNum(s.rss.recent24h)) o.r1 = s.rss.recent24h;
+    if (isNum(s.rss.medianAgeDays)) o.ma = r4(s.rss.medianAgeDays);
+  }
+  // Staleness, as a number rather than a timestamp: how old was this reading when recorded.
+  var stamp = isNum(s.updated) ? s.updated : (isNum(s.fetchedAt) ? s.fetchedAt : null);
+  if (stamp !== null && isNum(rowT)) o.ua = Math.max(0, rowT - stamp);
+
   // keep a source only if it carries at least a name or a number
-  return (o.n || o.s !== undefined || o.a !== undefined || o.v !== undefined) ? o : null;
+  return (o.n || o.s !== undefined || o.a !== undefined || o.v !== undefined || o.hh !== undefined) ? o : null;
 }
 
 /**
@@ -80,7 +132,7 @@ function compactRow(t, d) {
   if (isNum(d.liveCount)) row.lc = d.liveCount;
   var srcs = Array.isArray(d.sources) ? d.sources : [];
   var comp = [];
-  for (var i = 0; i < srcs.length; i++) { var cs = compactSource(srcs[i]); if (cs) comp.push(cs); }
+  for (var i = 0; i < srcs.length; i++) { var cs = compactSource(srcs[i], t); if (cs) comp.push(cs); }
   if (comp.length) row.src = comp;
   return row;
 }
