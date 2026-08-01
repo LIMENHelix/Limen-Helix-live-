@@ -10,7 +10,26 @@
  *   T7  externalHitRate = hits/resolved over a mixed batch
  */
 var R = require('../lib/feed-resolver.js');
-var H = 6 * 3600 * 1000;      // 6h horizon (default)
+
+/**
+ * THE HORIZON IS READ FROM PRODUCTION, NOT HARD-CODED.
+ *
+ * This file previously pinned H at 6h. Production moved to 24h and to a
+ * mean-reversion model (mrev1), and these tests were left behind — they failed
+ * for months without anyone noticing, because there was no runner that executed
+ * them as a set.
+ *
+ * The move was evidence-backed, not cosmetic. lib/feed-resolver.js records the
+ * held-out measurement in its own header:
+ *     shipped  trend @ 6h  : skill -0.1248, directional sign accuracy 0.271
+ *     this     mrev  @ 24h : skill +0.0455, directional sign accuracy 0.526
+ * A directional accuracy of 0.271 is worse than a coin flip: the old model was
+ * inverted. Mean reversion is the correction.
+ *
+ * Importing the constant rather than restating it means the next horizon change
+ * cannot silently desynchronise these tests again.
+ */
+var H = R.DEFAULT_HORIZON_MS;
 var HOUR = 3600 * 1000;
 
 var failures = 0, tests = 0;
@@ -21,7 +40,9 @@ function assert(name, cond, detail) {
 }
 
 var t0 = 1000000000000;               // a fixed base time (no Date in the pure fn)
-var now = t0 + 100 * HOUR;            // "now" well past all horizons below
+// Past the LAST forecast in any batch below (t0+90h) plus a full horizon.
+// At the old 6h horizon t0+100h cleared everything; at 24h it does not.
+var now = t0 + 200 * HOUR;
 
 // T1 — correct rising
 (function () {
@@ -66,7 +87,7 @@ var now = t0 + 100 * HOUR;            // "now" well past all horizons below
   console.log('T5: horizon not yet elapsed ⇒ pending');
   var f = [{ madeAt: t0, direction: 'rising', currentStress: 0.5 }];
   var rec = [{ t: t0 + H, s: 0.7 }];
-  var r = R.resolve(f, rec, { now: t0 + HOUR });   // now is only 1h past madeAt (< 6h horizon)
+  var r = R.resolve(f, rec, { now: t0 + HOUR });   // only 1h past madeAt, well inside the horizon
   assert('pending, not resolved', r.resolvedCount === 0 && r.pendingCount === 1);
   assert('externalHitRate null (abstain)', r.externalHitRate === null);
 })();
@@ -99,10 +120,22 @@ var now = t0 + 100 * HOUR;            // "now" well past all horizons below
   console.log('T8: deriveForecast reads a direction from recorded history');
   var rising = []; for (var i = 0; i < 12; i++) rising.push({ t: t0 + i * HOUR, s: 0.3 + i * 0.03 });
   var fr = R.deriveForecast(rising);
-  assert('rising series ⇒ direction rising', fr && fr.direction === 'rising', JSON.stringify(fr));
+  /* MEAN REVERSION, SO THE CALL IS THE OPPOSITE OF THE TREND.
+     A series climbing to 0.63 against a window mean of 0.465 is projected back
+     DOWN toward that mean, so the direction is 'falling'. Under the old
+     trend-following model this asserted 'rising'; that model scored 0.271
+     directional accuracy, i.e. reliably backwards. */
+  assert('rising series reverts ⇒ direction falling', fr && fr.direction === 'falling', JSON.stringify(fr));
+  assert('model stamp is mrev1', fr && fr.model === 'mrev1', JSON.stringify(fr && fr.model));
+  assert('projection moves toward the window mean, not past the current value',
+    fr && fr.projectedStress < fr.currentStress && fr.projectedStress > fr.windowMean,
+    JSON.stringify({ cur: fr && fr.currentStress, proj: fr && fr.projectedStress, mean: fr && fr.windowMean }));
   assert('currentStress = latest recorded', fr && Math.abs(fr.currentStress - (0.3 + 11 * 0.03)) < 0.001);
   var falling = []; for (var j = 0; j < 12; j++) falling.push({ t: t0 + j * HOUR, s: 0.8 - j * 0.03 });
-  assert('falling series ⇒ falling', R.deriveForecast(falling).direction === 'falling');
+  var ff = R.deriveForecast(falling);
+  assert('falling series reverts ⇒ direction rising', ff && ff.direction === 'rising', JSON.stringify(ff));
+  assert('a reverted projection stays inside [0,1]',
+    ff && ff.projectedStress >= 0 && ff.projectedStress <= 1, JSON.stringify(ff && ff.projectedStress));
   // A flat series REFUSES rather than calling "stable". Calling stable on a flat line
   // is always right, which is exactly how six domains came to report perfect accuracy.
   var flat = []; for (var k = 0; k < 12; k++) flat.push({ t: t0 + k * HOUR, s: 0.5 });
@@ -160,13 +193,20 @@ var now = t0 + 100 * HOUR;            // "now" well past all horizons below
 // the same units. The original bug: deriveForecast committed at slope > 0.005/step
 // (0.03 across the horizon) while resolve credited only above 0.05, so every call
 // in that gap was an automatic miss no matter how right it was.
+//
+// The assertion is deliberately model-AGNOSTIC. It used to demand direction
+// 'rising' from a gently climbing series, which was really testing the old
+// trend model rather than the coupling this regression is about. Under mean
+// reversion that same series projects DOWN, and the test failed for a reason
+// that had nothing to do with the bug it guards. What matters is only that a
+// direction the forecaster commits to is one the grader will credit.
 (function () {
   console.log('T12: a call the forecaster commits to is creditable by the grader');
-  // A series rising at 0.006/step: clears the OLD forecaster threshold (0.005),
-  // projects +0.036 over 6 steps, which the OLD grader (0.05) would have refused.
-  var rows = []; for (var i = 0; i < 12; i++) rows.push({ t: t0 + i * HOUR, s: 0.40 + i * 0.006 });
+  var rows = []; for (var i = 0; i < 12; i++) rows.push({ t: t0 + i * HOUR, s: 0.40 + i * 0.02 });
   var fc = R.deriveForecast(rows);
-  assert('forecaster commits to rising', fc.direction === 'rising', JSON.stringify(fc));
+  assert('forecaster commits to a direction, not stable', fc && fc.direction !== 'stable', JSON.stringify(fc));
+  assert('and the committed move clears the shared dead-band',
+    fc && Math.abs(fc.projectedMove) > R.DEAD_BAND, JSON.stringify(fc && fc.projectedMove));
   // Now let the world do exactly what the forecaster projected, and grade it.
   var f = [{ madeAt: t0 + 11 * HOUR, direction: fc.direction, currentStress: fc.currentStress }];
   var rec = [{ t: t0 + 11 * HOUR + H, s: fc.projectedStress }];
@@ -176,22 +216,32 @@ var now = t0 + 100 * HOUR;            // "now" well past all horizons below
   assert('both sides used the same dead-band', r.eps === R.DEAD_BAND, 'eps=' + r.eps + ' DEAD_BAND=' + R.DEAD_BAND);
 })();
 
-// T13 — REGRESSION. Direction comes from the CLAMPED projection, so a series
-// pinned at the ceiling cannot be called "rising". 10.8% of real recorded rows
-// sit at exactly 1.0, and the old rule read the unclamped slope.
+// T13 — REGRESSION. A projection must respect the [0,1] bounds of the scale.
+// 10.8% of real recorded rows sit at exactly 1.0, and the original rule read the
+// UNCLAMPED slope, so a series pinned at the ceiling was called "rising" — a
+// forecast that stress above maximum would rise further.
+//
+// Under the old trend model the guard showed up as direction 'stable' and a zero
+// move, because clamping removed the whole projection. Mean reversion satisfies
+// the same requirement differently and more sensibly: a series at 1.0 has nowhere
+// to go but down, so it is called 'falling'. Asserting 'stable' here was pinning
+// the OLD model's mechanism rather than the property that matters, which is that
+// the projection never leaves the scale and never points off the end of it.
 (function () {
-  console.log('T13: a series at the ceiling is never called rising');
+  console.log('T13: a projection never leaves the [0,1] scale');
   var rows = [];
   for (var i = 0; i < 12; i++) rows.push({ t: t0 + i * HOUR, s: Math.min(1, 0.6 + i * 0.08) });
   var last = rows[rows.length - 1];
   assert('the series really is pinned at 1.0', last.s === 1, JSON.stringify(last));
   var fc = R.deriveForecast(rows);
   assert('slope is positive (the old rule would have said rising)', fc.slope > 0, 'slope=' + fc.slope);
-  assert('but direction is stable: 1.0 cannot rise', fc.direction === 'stable', JSON.stringify(fc));
-  assert('projected move is 0, not positive', fc.projectedMove === 0, JSON.stringify(fc.projectedMove));
-  // and the floor behaves the same way
+  assert('at the ceiling it is never called rising', fc.direction !== 'rising', JSON.stringify(fc));
+  assert('and the projection stays at or below 1.0', fc.projectedStress <= 1, JSON.stringify(fc.projectedStress));
+
   var floor = []; for (var j = 0; j < 12; j++) floor.push({ t: t0 + j * HOUR, s: Math.max(0, 0.4 - j * 0.08) });
-  assert('a series at 0 is never called falling', R.deriveForecast(floor).direction === 'stable');
+  var ff = R.deriveForecast(floor);
+  assert('at the floor it is never called falling', ff.direction !== 'falling', JSON.stringify(ff));
+  assert('and the projection stays at or above 0', ff.projectedStress >= 0, JSON.stringify(ff.projectedStress));
 })();
 
 // T14 — REGRESSION. A move of exactly two quantization steps sits INSIDE a

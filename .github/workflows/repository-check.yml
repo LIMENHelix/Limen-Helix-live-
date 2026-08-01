@@ -1,0 +1,56 @@
+name: repository check
+
+# Runs the same two things a person would run locally:
+#   npm run check     every tracked JS and JSON parses, every cron resolves
+#   npm run test:unit all 38 Node tests, each in its own process
+#
+# WHY THIS EXISTS. Two of those tests had been failing for months without anyone
+# noticing, because there was no way to run them as a set. Production moved to a
+# 24h horizon and a mean-reversion model and the fixtures were left behind. A
+# suite nobody runs is not a suite.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A second push to the same branch cancels the first: no point finishing a run
+# whose commit has already been superseded.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # --ignore-scripts: nothing here needs a postinstall, and running arbitrary
+      # dependency scripts in CI is a supply-chain surface for no benefit.
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      - name: Repository check
+        run: npm run check
+
+      # Runs even if the check above failed, so one PR shows both sets of
+      # problems rather than hiding the tests behind a syntax error.
+      - name: Tests
+        if: '!cancelled()'
+        run: npm run test:unit
+
+      - name: Python syntax
+        if: '!cancelled()'
+        run: python -m compileall -q api scripts

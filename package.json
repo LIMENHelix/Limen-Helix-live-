@@ -1,4 +1,9 @@
 {
+  "name": "limen-helix-live",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "docx": "^9.0.3",
     "hono": "^4.12.25",
@@ -9,6 +14,9 @@
     "acorn-walk": "^8.3.5"
   },
   "scripts": {
+    "check": "node scripts/check-repository.mjs",
+    "test:unit": "node scripts/run-tests.mjs",
+    "test": "npm run check && npm run test:unit",
     "harness:graph": "node scripts/build-harness-graph.js",
     "harness:test": "node scripts/test-db-touch.js"
   }

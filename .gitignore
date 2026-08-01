@@ -111,3 +111,10 @@ assets/data/town-*.csv
 # the time of tracking: bridge readings 1130h stale (47 days), master inbox 1429h (59 days) —
 # neither had ever appeared in the operator queue. Tracked so the audit can actually run.
 # Same precedent as assets/data/_vitals.json, which has always been tracked and committed.
+
+# Python bytecode caches, anywhere in the tree. Three were tracked before the
+# per-directory rules above existed; git keeps tracking a file even after it is
+# ignored, so those needed git rm --cached. These two patterns cover any future
+# directory without needing a new line each time.
+__pycache__/
+*.py[cod]
