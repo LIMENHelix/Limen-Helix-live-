@@ -29,6 +29,25 @@
  * A model that is reliably wrong learns fast. A model that is wrong at random learns
  * slowly, which is correct: nothing there is learnable yet.
  *
+ * RELIABILITY HAS TWO INDEPENDENT PARTS, and the first version had only one.
+ *
+ * That version mapped every error through Math.abs before measuring variance. So a
+ * model erring +0.2, -0.2, +0.2, -0.2 — overshooting the target and reversing its
+ * correction every single step — presented as zero variance, reliability 1.0, and
+ * the MAXIMUM learning rate. Exactly backwards: alternating signs are the signature
+ * of a learner already stepping too far, and the response has to be to slow down.
+ * Measured before the fix: alternating +-0.2 and steady +0.2 both returned 0.2500.
+ *
+ *   DIRECTIONAL  |mean(e)| / mean(|e|), on SIGNED errors. 1.0 when every correction
+ *                pulls the same way (a real bias worth chasing), 0 when they cancel
+ *                (oscillation, or noise around a correct model).
+ *   MAGNITUDE    1 / (1 + var(|e|)/mean(|e|)^2). Catches errors of wildly differing
+ *                size that happen to share a sign.
+ *
+ * reliability = directional * magnitude — both must hold. A caller that passes
+ * already-absolute errors gets directional = 1 and the old magnitude-only behaviour,
+ * which is why kernel/predict.js records the SIGNED supervised error.
+ *
  * THE SAFEGUARD THAT MATTERS MOST. The rate applied to update k must be derived from
  * history STRICTLY BEFORE k. Deriving it from history that includes k would let an
  * outcome set the rate that then grades it, which is the same circularity the
@@ -83,12 +102,20 @@ function deriveRate(history, opts) {
      than an error twice the target, because the rate is bounded either way. */
   var need = clamp(mean / target, 0, 1);
 
-  /* RELIABILITY. Scale-free: variance is compared against the mean it belongs to, so
-     a channel measured in dollars and one measured in article counts are judged on
-     the same footing. A block whose errors scatter as widely as they are large gets
-     ~0.5 and halves its own rate. */
-  var rel = mean > 1e-12 ? 1 / (1 + varc / (mean * mean)) : 1;
+  /* MAGNITUDE CONSISTENCY. Scale-free: variance is compared against the mean it
+     belongs to, so a channel measured in dollars and one measured in article counts
+     are judged on the same footing. Errors that scatter as widely as they are large
+     get ~0.5 and halve their own rate. */
+  var magRel = mean > 1e-12 ? 1 / (1 + varc / (mean * mean)) : 1;
 
+  /* DIRECTIONAL CONSISTENCY, on the SIGNED errors. This is the part that was missing.
+     |mean| / mean|.| is 1 when every correction pulls the same way and 0 when they
+     cancel. A model whose errors alternate sign is overshooting; speeding it up makes
+     the oscillation worse, so it must read as unreliable however tidy its magnitudes. */
+  var signedMean = h.reduce(function (a, b) { return a + b; }, 0) / h.length;
+  var dirRel = mean > 1e-12 ? Math.abs(signedMean) / mean : 1;
+
+  var rel = dirRel * magRel;
   var rate = min + (max - min) * need * rel;
 
   return {
@@ -97,14 +124,18 @@ function deriveRate(history, opts) {
     n: h.length,
     basis: {
       meanAbsError: mean,
+      meanSignedError: signedMean,
       errorVariance: varc,
       targetError: target,
       need: need,
+      directionalConsistency: dirRel,
+      magnitudeConsistency: magRel,
       reliability: rel
     },
     why: 'n=' + h.length + ', mean |error| ' + mean.toFixed(4) + ' against target ' + target +
-         ' ⇒ need ' + need.toFixed(3) + '; error variance ' + varc.toFixed(5) +
-         ' ⇒ reliability ' + rel.toFixed(3) + '. Reliably wrong learns fast, randomly wrong learns slowly.'
+         ' ⇒ need ' + need.toFixed(3) + '; magnitude consistency ' + magRel.toFixed(3) +
+         ' x directional consistency ' + dirRel.toFixed(3) + ' ⇒ reliability ' + rel.toFixed(3) +
+         '. Reliably wrong learns fast; wrong at random, or oscillating in sign, learns slowly.'
   };
 }
 
@@ -132,13 +163,55 @@ function rateFor(ledger, key, opts) {
   return r;
 }
 
+var HIST_CAP = 256;
+
 function record(ledger, key, error) {
   if (typeof error !== 'number' || !isFinite(error)) return { recorded: false, why: 'non-finite error' };
   if (!ledger.hist[key]) ledger.hist[key] = [];
   ledger.hist[key].push(error);
-  if (ledger.hist[key].length > 256) ledger.hist[key].shift();
+  var evicted = ledger.hist[key].length > HIST_CAP ? ledger.hist[key].shift() : null;
   ledger.version++;
-  return { recorded: true, n: ledger.hist[key].length };
+  return { recorded: true, n: ledger.hist[key].length, evicted: evicted };
+}
+
+/**
+ * UNRECORD — undo the most recent record() for a key.
+ *
+ * Rollback that restores weights but not the ledger that produced them is not
+ * reversible, it is half-reversible, which is worse: the weights say an update never
+ * happened while the learning rate still reflects it, so the next update is graded by
+ * an error the system claims to have undone. That was live until 2026-08-01 — a
+ * rolled-back poison update left its error in the ledger and inflated every
+ * subsequent rate.
+ *
+ * HONEST LIMIT. Once a key passes HIST_CAP entries, record() evicts the oldest and
+ * that value is gone; unrecord cannot put it back. So a rollback deeper than the
+ * eviction boundary restores the tail but not the head, and says so via `exact`.
+ * Rolling back k updates with k far below 256 — every real use — is exact.
+ */
+function unrecord(ledger, key) {
+  var h = ledger.hist[key];
+  if (!h || !h.length) return { removed: false, why: 'nothing recorded for ' + key };
+  var v = h.pop();
+  ledger.version++;
+  return { removed: true, value: v, n: h.length, exact: h.length < HIST_CAP - 1 };
+}
+
+/** Serialise the whole ledger. Weights that survive restart with a blank error history
+ *  are not restart-equivalent: the same model resumes at the abstention floor and has
+ *  to re-earn a rate it already measured. */
+function serializeLedger(ledger) {
+  return { opts: ledger.opts, hist: ledger.hist, applied: ledger.applied, version: ledger.version };
+}
+
+function restoreLedger(o) {
+  var led = createLedger((o && o.opts) || {});
+  if (o) {
+    led.hist = o.hist || Object.create(null);
+    led.applied = o.applied || Object.create(null);
+    led.version = o.version || 0;
+  }
+  return led;
 }
 
 /** What every key is currently doing, for the self-model. */
@@ -161,6 +234,9 @@ module.exports = {
   createLedger: createLedger,
   rateFor: rateFor,
   record: record,
+  unrecord: unrecord,
+  serializeLedger: serializeLedger,
+  restoreLedger: restoreLedger,
   report: report,
-  MIN_N: MIN_N, RATE_MIN: RATE_MIN, RATE_MAX: RATE_MAX
+  MIN_N: MIN_N, RATE_MIN: RATE_MIN, RATE_MAX: RATE_MAX, HIST_CAP: HIST_CAP
 };

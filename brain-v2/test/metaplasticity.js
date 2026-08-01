@@ -139,5 +139,122 @@ function assert(name, cond, detail) {
     String(PRED.getModel(fm, 'k', 'v').gain));
 })();
 
+// ── T8: sign, not just size ───────────────────────────────────────────────────
+(function () {
+  console.log('T8: errors that reverse direction are not "consistent"');
+  /* The bug this closes: history was mapped through Math.abs BEFORE variance was
+     measured, so +0.2,-0.2,+0.2,-0.2 had zero variance and took the maximum rate.
+     Alternating signs mean the learner is stepping past the target and correcting
+     back; speeding it up makes the oscillation worse. */
+  var alternating = [0.2, -0.2, 0.2, -0.2, 0.2, -0.2, 0.2, -0.2, 0.2, -0.2];
+  var steady      = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
+
+  var ra = META.deriveRate(alternating), rs = META.deriveRate(steady);
+  assert('both have identical mean |error|',
+    Math.abs(ra.basis.meanAbsError - rs.basis.meanAbsError) < 1e-12,
+    ra.basis.meanAbsError + ' vs ' + rs.basis.meanAbsError);
+  assert('and identical magnitude consistency',
+    Math.abs(ra.basis.magnitudeConsistency - rs.basis.magnitudeConsistency) < 1e-12);
+  assert('so ONLY direction can separate them', ra.rate < rs.rate * 0.1,
+    'alternating ' + ra.rate.toFixed(4) + ' vs steady ' + rs.rate.toFixed(4));
+  assert('the oscillating model drops to the floor', ra.rate === META.RATE_MIN, String(ra.rate));
+  assert('the biased model takes the ceiling', rs.rate === META.RATE_MAX, String(rs.rate));
+  assert('directional consistency is what did it',
+    ra.basis.directionalConsistency < 1e-9 && rs.basis.directionalConsistency > 0.99,
+    ra.basis.directionalConsistency + ' vs ' + rs.basis.directionalConsistency);
+
+  // A partial reversal should land between the two, not at an extreme.
+  var mostly = [0.2, 0.2, 0.2, -0.2, 0.2, 0.2, 0.2, -0.2, 0.2, 0.2];
+  var rm = META.deriveRate(mostly);
+  assert('a mostly-one-way series lands between floor and ceiling',
+    rm.rate > ra.rate && rm.rate < rs.rate, String(rm.rate));
+})();
+
+// ── T9: rollback must undo the learning system, not just the weights ──────────
+(function () {
+  console.log('T9: rollback restores sse and the error ledger, not only the weights');
+  var fm = PRED.createForwardModel();
+  for (var i = 0; i < 10; i++) {
+    var c = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'a' + i, actionKind: 'k', variable: 'v', magnitude: 1, emittedAt: i });
+    PRED.learn(fm, c, 0.1, i);
+  }
+  var m = PRED.getModel(fm, 'k', 'v');
+  var snap = { gain: m.gain, bias: m.bias, n: m.n, sse: m.sse, hist: fm.meta.hist[m.key].length };
+  var rateBefore = META.rateFor(fm.meta, m.key).rate;
+
+  var bad = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'aBAD', actionKind: 'k', variable: 'v', magnitude: 1, emittedAt: 99 });
+  PRED.learn(fm, bad, 99, 99);                 // one wildly poisoned outcome
+  var out = PRED.rollback(fm, 1);
+
+  assert('n restored', m.n === snap.n, snap.n + ' -> ' + m.n);
+  assert('gain restored', Math.abs(m.gain - snap.gain) < 1e-12);
+  /* Before the fix this read 0.0542 -> 9788.37: the weights claimed the update never
+     happened while RMSE still reported it. */
+  assert('sse restored, so RMSE does not still report the undone update',
+    Math.abs(m.sse - snap.sse) < 1e-12, snap.sse + ' -> ' + m.sse);
+  assert('the error ledger shrank back too', fm.meta.hist[m.key].length === snap.hist,
+    snap.hist + ' -> ' + fm.meta.hist[m.key].length);
+  assert('so the NEXT learning rate is the pre-poison one',
+    Math.abs(META.rateFor(fm.meta, m.key).rate - rateBefore) < 1e-12);
+  assert('and the rollback reports its ledger restoration was exact', out.ledgerExact === true);
+
+  // An undone update must be re-learnable, or rollback is a one-way loss.
+  var again = PRED.learn(fm, bad, 0.1, 100);
+  assert('the undone efference copy can be learned from again', again.updated === true, JSON.stringify(again.why));
+})();
+
+// ── T10: the learning system must survive restart ─────────────────────────────
+(function () {
+  console.log('T10: metaplasticity survives serialize/restore');
+  var fm = PRED.createForwardModel();
+  for (var i = 0; i < 12; i++) {
+    var c = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'a' + i, actionKind: 'k', variable: 'v', magnitude: 1, emittedAt: i });
+    PRED.learn(fm, c, 0.3, i);
+  }
+  var before = PRED.forwardModelReport(fm).learningRates;
+  assert('a rate was measured before restart', before.length === 1 && before[0].state === 'measured',
+    JSON.stringify(before));
+
+  // Through JSON, exactly as the store writes and reads it.
+  var round = PRED.deserialize(JSON.parse(JSON.stringify(PRED.serialize(fm))));
+  var after = PRED.forwardModelReport(round).learningRates;
+
+  /* Before the fix this was [] — the weights survived and the history that governs
+     how they change did not, so the restored brain silently reverted to the
+     abstention floor and had to re-earn a rate it had already measured. */
+  assert('the ledger survives the round trip', after.length === 1, JSON.stringify(after));
+  assert('with the same n', after[0].n === before[0].n, before[0].n + ' -> ' + after[0].n);
+  assert('and the same derived rate', Math.abs(after[0].rate - before[0].rate) < 1e-12,
+    before[0].rate + ' -> ' + after[0].rate);
+
+  // The next update after restart must use the restored rate, not the floor.
+  var c2 = PRED.efferenceCopy(round, { traceId: 't', actionId: 'aNext', actionKind: 'k', variable: 'v', magnitude: 1, emittedAt: 500 });
+  PRED.learn(round, c2, 0.3, 500);
+  var rec = round.history[round.history.length - 1];
+  assert('the first post-restart update is MEASURED, not abstained', rec.rateState === 'measured', rec.rateState);
+  assert('and does not apply the abstention floor', rec.learningRate > META.RATE_MIN, String(rec.learningRate));
+
+  // A snapshot written before meta was serialised must still restore, just empty.
+  var legacy = PRED.serialize(fm); delete legacy.meta;
+  var old = PRED.deserialize(JSON.parse(JSON.stringify(legacy)));
+  assert('a pre-2026-08-01 snapshot still loads, with an empty ledger',
+    PRED.forwardModelReport(old).learningRates.length === 0);
+})();
+
+// ── T11: abstention means the floor, not the old constant ─────────────────────
+(function () {
+  console.log('T11: an abstaining model creeps at the floor, it does not use fm.lr');
+  var fm = PRED.createForwardModel();           // fm.lr default 0.10
+  var e = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'a0', actionKind: 'k', variable: 'v', magnitude: 1, emittedAt: 0 });
+  PRED.learn(fm, e, 0.3, 0);
+  var rec = fm.history[0];
+  assert('the first update abstains', rec.rateState === 'abstained', rec.rateState);
+  /* This applied 0.1 until 2026-08-01: the derived floor was computed, labelled, and
+     then discarded for the exact constant this module exists to remove — over the
+     first eight updates, where the model knows least. */
+  assert('and applies the derived floor', rec.learningRate === META.RATE_MIN, String(rec.learningRate));
+  assert('not the hard-set fm.lr', rec.learningRate !== fm.lr, String(rec.learningRate));
+})();
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

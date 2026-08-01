@@ -200,7 +200,20 @@ function observe(ch, z, now) {
    * channel can actually answer. The Kalman update still runs on every observation — only the
    * liveness/baseline history is decimated.
    */
-  var period = ch.cadenceMs || 0;
+  /**
+   * MEASURED cadence, not declared. This read ch.cadenceMs until 2026-08-01, which
+   * made the cadence-inference commit half a fix: predict() grew uncertainty against
+   * the measured period while sampling stayed decimated at the declared one. The
+   * three channels found to change every 1-4h while declared 24h therefore still
+   * threw away 23 of every 24 liveness samples — the exact information loss that
+   * commit reported fixing. Measured before this line changed: 48 hourly
+   * observations on a daily-declared channel retained 2 samples.
+   *
+   * NO FEEDBACK LOOP. inferCadence reads ch.changeAt, which is appended below on
+   * every observation regardless of whether this period sampled. So the estimator's
+   * input is never the estimator's own output; sampling can follow it safely.
+   */
+  var period = effectiveCadence(ch) || 0;
   var newPeriod = (ch.lastSampleAt == null) || !period || (now - ch.lastSampleAt) >= period;
   if (newPeriod) {
     ch.seen.push(z);
@@ -251,7 +264,12 @@ function step(ch, reading, now) {
   }
 
   if (live === 'dead') {
-    var per = ch.cadenceMs || 0;
+    /* THE SECOND SAMPLING PATH, and it read ch.cadenceMs until 2026-08-01 too. This
+       one governs how fast a dead channel can come back: liveness needs 12 samples
+       showing movement, so sampling a revived channel at a wrongly-declared 24h means
+       12 days to be called live again instead of 12 of its real periods. Fixing
+       observe() alone would have left recovery broken while making detection work. */
+    var per = effectiveCadence(ch) || 0;
     if (ch.lastSampleAt == null || !per || (now - ch.lastSampleAt) >= per) {
       ch.seen.push(reading.value);
       if (ch.seen.length > 64) ch.seen.shift();

@@ -117,9 +117,26 @@ var HOUR = 3600000, DAY = 24 * HOUR;
 
   assert('some channels earned a measured cadence', measured.length >= 4, String(measured.length));
   assert('every sensor carries a cadence verdict', out.sensors.every(function (s) { return !!s.cadence && !!s.cadence.state; }));
-  assert('channels that never move abstain rather than inventing a period',
-    out.sensors.filter(function (s) { return s.state === 'dead'; })
-      .every(function (s) { return s.cadence.state === 'abstained'; }));
+
+  /* THE ASSERTION HERE USED TO BE "every dead channel abstains", and it was wrong.
+     It conflated two claims that are measured over different spans:
+       state === 'dead'          flat across the last 12 SAMPLES — a claim about NOW
+       cadence === 'abstained'   fewer than 6 change events EVER — a claim about history
+     A channel can legitimately be both live-over-history and flat-right-now. It only
+     looked consistent while sampling was decimated at the declared cadence: 12
+     samples of a 24h-declared channel spanned 12 days, so nothing read as recently
+     flat. Sampling gridRel at its measured 2h shrinks that window to 24 hours, and
+     it has genuinely not moved for a day despite 41 changes over the full 361. The
+     narrower window is the more useful question — "has it moved in the last 12
+     periods it could have moved in" — so the system is right and the old assertion
+     was the thing that had to change. */
+  var neverMoved = out.sensors.filter(function (s) { return s.cadence.changes <= 1; });
+  assert('a channel that never moved cannot claim a period',
+    neverMoved.length > 0 && neverMoved.every(function (s) { return s.cadence.state === 'abstained'; }),
+    neverMoved.map(function (s) { return s.key + ':' + s.cadence.state; }).join(', '));
+  assert('a dead-right-now channel may still have a measured history, and that is not a contradiction',
+    out.sensors.filter(function (s) { return s.state === 'dead' && s.cadence.state === 'measured'; })
+      .every(function (s) { return s.cadence.changes >= 6; }));
   /* This is a finding, not a fixture: three channels declared daily change every
      1-4h in the recorded history. Asserting it holds keeps the finding from
      quietly disappearing if the manifest is edited. */

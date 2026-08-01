@@ -376,14 +376,23 @@ function learn(fm, efference, actualDelta, now) {
   var err = actualDelta - predicted;           // SUPERVISED error. Signed. Not a reward.
   var mag = efference.magnitude || 1;
 
-  var before = { gain: m.gain, bias: m.bias, n: m.n };
+  var before = { gain: m.gain, bias: m.bias, n: m.n, sse: m.sse };
 
   /* METAPLASTICITY. The rate is derived from THIS model's own prior errors, and the
      order here is the safeguard: rateFor() reads history recorded before now, and
      the current error is recorded afterwards. Deriving the rate from history that
      included this error would let an outcome set the rate that then grades it. */
   var lrInfo = META.rateFor(fm.meta, m.key, { min: 0.005, max: 0.25 });
-  var lr = lrInfo.state === 'measured' ? lrInfo.rate : fm.lr;
+  /* USE THE DERIVED RATE IN BOTH STATES. This line read
+       lrInfo.state === 'measured' ? lrInfo.rate : fm.lr
+     until 2026-08-01, which threw the abstention floor away and applied the old
+     hard-set 0.10 for exactly the first eight updates — the window where the model
+     knows least and a fast rate does the most damage. It also made the feature a
+     no-op for any model that never reached n=8, while the record still labelled the
+     update `abstained`. Measured: first update reported state 'abstained' and
+     applied 0.1. Abstention means CREEP AT THE FLOOR, not fall back to the constant
+     this module exists to remove. */
+  var lr = lrInfo.rate;
 
   // Normalised delta rule: the 1+mag^2 denominator stops a large-magnitude action from
   // dominating the fit, which at n<10 would otherwise let one event set the model.
@@ -419,18 +428,51 @@ function learnLatency(fm, efference, observedLatencyMs) {
   return { updated: true, latencyMs: m.latencyMs };
 }
 
-/** Undo the last k updates by replaying history. TEST 20 for the forward model specifically. */
+/**
+ * Undo the last k updates by replaying history. TEST 20 for the forward model specifically.
+ *
+ * AN UPDATE IS FOUR THINGS, NOT TWO. Until 2026-08-01 this restored gain, bias and n
+ * and left behind both the squared error and the metaplasticity ledger entry. The
+ * result was a model whose weights claimed an update never happened while its RMSE
+ * and its next learning rate both still reflected it. Measured on a rolled-back
+ * poison update: n correctly back to 10, sse 0.0542 -> 9788.37, ledger 10 -> 11.
+ *
+ * Half-reversible is worse than not reversible, because it looks clean. Everything
+ * the update touched is undone here, or the undo is not one.
+ */
 function rollback(fm, k) {
-  var undone = [];
+  var undone = [], inexact = [];
   for (var i = 0; i < k && fm.history.length; i++) {
     var rec = fm.history.pop();
     var m = fm.models[rec.modelKey];
-    if (m) { m.gain = rec.before.gain; m.bias = rec.before.bias; m.n = rec.before.n; }
+    if (m) {
+      m.gain = rec.before.gain;
+      m.bias = rec.before.bias;
+      m.n = rec.before.n;
+      /* before.sse was added 2026-08-01. Records written before that lack it, so fall
+         back to subtracting the squared error — exact either way, since learn() adds
+         precisely that. Clamped at 0 against float drift over a long history. */
+      m.sse = (typeof rec.before.sse === 'number')
+        ? rec.before.sse
+        : Math.max(0, m.sse - rec.supervisedError * rec.supervisedError);
+    }
+    /* The error that set the NEXT rate has to go too, or an undone outcome keeps
+       grading the updates that follow it. */
+    var un = META.unrecord(fm.meta, rec.modelKey);
+    if (un.removed && un.exact === false) inexact.push(rec.modelKey);
     if (rec.efferenceId && fm.consumed) delete fm.consumed[rec.efferenceId];   // undone means re-learnable
     undone.push(rec);
   }
   fm.version++;
-  return { undone: undone.length, records: undone };
+  return {
+    undone: undone.length,
+    records: undone,
+    /* Stated rather than silent: past the ledger's 256-entry cap the oldest errors
+       have been evicted and cannot be restored, so a very deep rollback recovers the
+       tail but not the head. */
+    ledgerExact: inexact.length === 0,
+    inexactKeys: inexact
+  };
 }
 
 function clamp(v, lo, hi) { return v < lo ? lo : (v > hi ? hi : v); }
@@ -453,9 +495,22 @@ function forwardModelReport(fm) {
   };
 }
 
-/** Serialise / restore — the forward model must survive restart or L4 reopens every boot. */
+/**
+ * Serialise / restore — the forward model must survive restart or L4 reopens every boot.
+ *
+ * THE LEARNING SYSTEM IS PART OF THE STATE. `meta` was omitted here until 2026-08-01,
+ * so a restart restored the weights and dropped the error history that governs how
+ * they change. Measured: a round trip kept the model and its ten observations and
+ * returned learningRates: []. The restored brain therefore resumed at the abstention
+ * floor and had to re-earn a rate it had already measured — not restart-equivalent,
+ * which is the property the whole store layer exists to provide.
+ */
 function serialize(fm) {
-  return { models: fm.models, lr: fm.lr, gainBound: fm.gainBound, trustN: fm.trustN, version: fm.version, consumed: fm.consumed, history: fm.history.slice(-512) };
+  return {
+    models: fm.models, lr: fm.lr, gainBound: fm.gainBound, trustN: fm.trustN,
+    version: fm.version, consumed: fm.consumed, history: fm.history.slice(-512),
+    meta: META.serializeLedger(fm.meta)
+  };
 }
 function deserialize(o) {
   var fm = createForwardModel({ lr: o.lr, gainBound: o.gainBound, trustN: o.trustN });
@@ -463,6 +518,9 @@ function deserialize(o) {
   fm.version = o.version || 0;
   fm.consumed = o.consumed || Object.create(null);
   fm.history = o.history || [];
+  /* A snapshot written before meta was serialised restores to an empty ledger, which
+     is the old behaviour and correct for that data — there is nothing to restore. */
+  fm.meta = META.restoreLedger(o.meta);
   return fm;
 }
 

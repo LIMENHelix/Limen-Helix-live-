@@ -56,18 +56,33 @@ for (const f of tracked('*.js', '*.mjs', '*.cjs')) {
   try { src = readFileSync(f, 'utf8'); }
   catch (e) { failures.push({ f, why: 'unreadable: ' + e.message }); continue; }
 
-  // Try as a module first, then as a script. A file is only broken if neither
-  // grammar accepts it — .js here is legitimately both, depending on the file.
+  /* THE GRAMMAR IS DECIDED BY THE EXTENSION, because Node decides it that way.
+     This used to try module then script for every file and accept either, which
+     passed things Node rejects at load: an `import` inside a .cjs, or CommonJS-only
+     syntax inside a .mjs. A checker that green-lights a file the runtime refuses is
+     worse than no checker.
+
+     .js stays ambiguous on purpose. package.json declares no "type", so Node reads
+     .js as CommonJS — but this repo also serves .js files to the browser via
+     <script type="module">, and those legitimately use import/export. Only for that
+     extension is "either grammar accepts it" the honest test. */
+  const ext = f.slice(f.lastIndexOf('.'));
+  const grammars = ext === '.mjs' ? ['module'] : ext === '.cjs' ? ['script'] : ['module', 'script'];
+
   let err = null;
-  for (const sourceType of ['module', 'script']) {
+  for (const sourceType of grammars) {
     try {
       parse(src, { ecmaVersion: 'latest', sourceType, allowHashBang: true, allowReturnOutsideFunction: true });
       err = null;
       break;
     } catch (e) { err = e; }
   }
-  if (err) failures.push({ f, why: 'syntax error line ' + (err.loc?.line ?? '?') + ': ' + err.message });
-  else jsOk++;
+  if (err) {
+    failures.push({
+      f, why: 'syntax error line ' + (err.loc?.line ?? '?') + ': ' + err.message +
+        (grammars.length === 1 ? '  (parsed as ' + grammars[0] + ', which ' + ext + ' requires)' : '')
+    });
+  } else jsOk++;
 }
 
 // ── 2. JSON parses ─────────────────────────────────────────────────────────

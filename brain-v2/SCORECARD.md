@@ -5,23 +5,31 @@ Scored against **`SPEC.md` Part 8** (LIMEN Helix — The Complete Working Brain 
 | date | score | what existed |
 |---|---|---|
 | 2026-08-01 (morning) | **3 / 28** | afferent layer only: `core/brain.js`, `core/channel.js` |
-| 2026-08-01 (this build) | **23 / 28** | the closed loop: `kernel/` + 20 executed acceptance tests |
+| 2026-08-01 (closed loop) | **23 / 28** | the closed loop: `kernel/` + 20 executed acceptance tests |
+| 2026-08-01 (rows 10/22/27) | ~~26 / 28~~ **withdrawn** | overstated: rows 10 and 22 were scored as passes while partly built |
+| 2026-08-01 (current) | **24 / 28 complete, 2 partial, 2 not built** | rows 10 and 22 honestly partial; row 27 completed |
 
-Reproduce both numbers with `node brain-v2/test/loop-acceptance.js`. The checklist rows are
+Reproduce every number with `node brain-v2/test/loop-acceptance.js`. The checklist rows are
 evaluated from live runtime state, not from a table someone maintains by hand — a row passes
-because a measurement said so in that run, or it fails.
+because a measurement said so in that run, or it does not.
+
+**THE 26/28 WAS WRONG, and the way it went wrong is worth keeping.** The checklist scored each
+row `true|false`, so a partly-built row had to be called done or nothing, and the pressure ran
+one way. Row 22's own description ended with the word PARTIAL while the row scored `true`. Row
+10 was scored on detection alone when SPEC B5 asks for direction, magnitude *and* resolution
+outcome. Scoring now has three states and a row cannot contradict its own text.
 
 ---
 
-## The five that still fail, and why each is a real gap rather than a wording problem
+## Where each incomplete row actually stands
 
 | # | Test | Status |
 |---|---|---|
-| **10** | Divergence between channels logged as a first-class signal | **NOT BUILT.** `core/brain.js` fuses channel departures into one number. When two channels disagree about the same latent state that disagreement is averaged away rather than emitted. SPEC B5 calls the divergence detector a required output, and it is the informative signal, not noise to be smoothed. |
-| **22** | Learning rates derived per-node from own statistics | **NOT BUILT — the metaplasticity gap, still open.** Every rate here is SET: forward-model `lr`, per-channel `q`/`r`, all six critic weights, the trust gate, the accumulator bound. Each is marked `[mark: prior]` at its definition. This is the finding the project's own review history has logged at least four times, and this build widened it rather than closing it. |
+| **10** | Divergence between channels logged as a first-class signal | **PARTIAL.** `core/divergence.js` runs beside fusion on declared channel pairs and reports the full gap instead of the mean it would fuse to — a -1.8/+2.4 pair yields 4.2 sd, not 0.3. Direction and magnitude are logged. **The resolution outcome SPEC B5 asks for is not:** a divergence has no id, no open/resolved status, no evaluation horizon and no grader, so it can never close as sensor failure vs genuine regime split vs a wrong relationship declaration. The statistics also need work — the gap is a raw difference of two per-channel z-scores against a flat 2 sd threshold, which ignores the variance of that difference. |
+| **22** | Learning rates derived per-node from own statistics | **PARTIAL.** `core/metaplasticity.js` derives the forward-model rate per model key from that key's own prior errors, bounded, abstaining below n=8, taken strictly before the current error is recorded, and surviving both rollback and restart. **That is ONE node.** Per-channel `q`/`r`, all six critic weights, the trust gate and the accumulator bound are still SET and still marked `[mark: prior]`. The finding this project's review history has logged four times is narrowed, not closed. |
 | **24** | Lateral connectivity between peer domains | **NOT BUILT.** One domain is bound. A lateral edge *type* exists in `packet.js` and is exercised by `connectome.js`, but there is no peer to connect to, so the property is untested rather than satisfied. |
 | **25** | Topology-editing mechanism (pruning) | **NOT BUILT.** Weights change and episodes retire, but nothing edits the graph structure. Per SPEC B16 this is the only mechanism that changes topology rather than weights; without it the graph can only grow. |
-| **27** | Cadence derived from each domain's own event spacing | **PARTIAL.** Cadence is *declared* per channel and does real work — it drives uncertainty growth during silence and decimates liveness sampling. It is not *derived* from observed spacing. Declared is better than inherited, and it is not the same as measured. |
+| **27** | Cadence derived from each domain's own event spacing | **COMPLETE**, as of the liveness fix. `inferCadence` measures the median interval between VALUE CHANGES rather than between polls, and abstains to the declared prior below 6 changes. Both consumers now use the measured period. It shipped half-applied: `predict()` grew uncertainty against the measured value while `observe()` still sampled at the declared one, so the three channels found to change every 1-4h while declared 24h kept discarding 23 of every 24 liveness samples — 2 retained of 48, against 43 now. **Open modelling question:** the interval between value changes is a process timescale, not necessarily a reporting cadence, and with `CHANGE_EPS` at 1e-9 a noisy continuous feed will "change" every poll and collapse the estimate back to the poll rate. Arrival cadence and state-change timescale should eventually be tracked separately. |
 
 ---
 

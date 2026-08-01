@@ -586,10 +586,18 @@ var ROWS = [
         var r = D.detect([{key:'a',fusable:true,precision:1,departure:{z:-1.8,n:12}},
                           {key:'b',fusable:true,precision:1,departure:{z:2.4,n:12}}],
                          [D.relate('a','b','shared latent','agree','test')]);
-        return r.detected && Math.abs(r.divergences[0].magnitude - 4.2) < 1e-9;
+        var detects = r.detected && Math.abs(r.divergences[0].magnitude - 4.2) < 1e-9;
+        /* SPEC B5 asks for direction, magnitude AND resolution outcome. Two of three
+           are built, so this is PARTIAL and not a pass. */
+        return detects ? 'partial' : false;
       })(), 'core/divergence.js runs beside fusion on the per-channel departures. ' +
            (require('../bind/energy.js').RELATIONSHIPS||[]).length + ' declared pairs on energy; ' +
-           'a -1.8/+2.4 pair reports the full 4.2 sd gap instead of the 0.3 sd mean it would fuse to'],
+           'a -1.8/+2.4 pair reports the full 4.2 sd gap instead of the 0.3 sd mean it would fuse to. ' +
+           'PARTIAL: direction and magnitude are logged, RESOLUTION OUTCOME is not. A divergence is an ' +
+           'instantaneous alert with no id, no open/resolved status, no evaluation horizon and no grader, ' +
+           'so it can never close as sensor-failure vs real regime split vs bad declaration. Also: the gap ' +
+           'is a raw difference of two per-channel z-scores against a flat 2 sd threshold, which ignores ' +
+           'the variance of that difference'],
   [11, '>=3 modulators computing different quantities', orth.satisfiesRow11, orth.why],
   [12, 'offline state that excludes encoding', MAIN.consolidator.passes > 0, CON.run(CON.create(), MAIN.memory, { now: 0, arousalState: 'wake' }).refused === 'state_exclusivity' ? 'consolidation REFUSED in wake state; ' + MAIN.consolidator.passes + ' passes ran offline' : 'no refusal'],
   [13, 'offline pass holds write authority', !!(consPass && consPass.writeAuthority && consPass.writes.length), consPass ? consPass.writes.length + ' writes performed, not proposed' : 'no pass ran'],
@@ -607,13 +615,21 @@ var ROWS = [
         var scattered  = [0.01,0.45,0.02,0.38,0.05,0.41,0.01,0.39,0.03,0.45];
         var rc = M.deriveRate(consistent), rs = M.deriveRate(scattered);
         // measured, bounded, abstains when thin, and reliability (not just error size) separates them
-        return rc.state === 'measured' && rs.state === 'measured'
+        var derives = rc.state === 'measured' && rs.state === 'measured'
             && rc.rate > rs.rate * 1.5
-            && M.deriveRate([0.1,0.2]).state === 'abstained';
+            && M.deriveRate([0.1,0.2]).state === 'abstained'
+            // sign reversal must read as unreliable, not as tidy consistency
+            && M.deriveRate([0.2,-0.2,0.2,-0.2,0.2,-0.2,0.2,-0.2]).rate < M.deriveRate([0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2]).rate * 0.1;
+        /* The row text has said PARTIAL since it was written. It scored `true`
+           anyway, which is the row contradicting itself. ONE forward-model rate is
+           derived; channel q/r and the six critic weights are still hand-set, so
+           "learning rates derived per-node" is not yet true of the node population. */
+        return derives ? 'partial' : false;
       })(), 'core/metaplasticity.js derives the forward-model rate per model key from its own prior errors. ' +
-           'Reliably wrong learns at ~0.25, wrong-at-random with the SAME mean error at ~0.14, already-accurate ' +
-           'at ~0.05, under 8 outcomes abstains to the floor. The rate is taken before the current error is ' +
-           'recorded, so an outcome cannot set the rate that grades it. PARTIAL: channel q/r and the six critic ' +
+           'Reliably wrong learns at 0.25, wrong-at-random with the SAME mean error at ~0.14, already-accurate ' +
+           'at ~0.05, sign-alternating at the 0.005 floor, under 8 outcomes abstains to the floor. The rate is ' +
+           'taken before the current error is recorded, so an outcome cannot set the rate that grades it, and it ' +
+           'survives both rollback and restart. PARTIAL: this is ONE node. Channel q/r and the six critic ' +
            'weights are still SET.'],
   [23, 'homeostatic timescale strictly slower than Hebbian', ts.passes, ts.why],
   [24, 'lateral connectivity between peer domains', false, 'NOT BUILT: one domain is bound. A lateral EDGE TYPE exists and is exercised, but there is no peer to connect to.'],
@@ -626,16 +642,33 @@ var ROWS = [
         // 20 days polled hourly, value changing once a day: must read DAILY, not hourly.
         for (var d=0; d<20; d++) for (var h=0; h<24; h++) C.observe(ch, 100 + d*5, t + d*86400000 + h*3600000);
         var c = C.inferCadence(ch);
-        return c.state === 'measured' && Math.abs(c.cadenceMs - 86400000) < 3600000 && c.changes === 20;
+        var infers = c.state === 'measured' && Math.abs(c.cadenceMs - 86400000) < 3600000 && c.changes === 20;
+
+        /* MEASURING IT IS HALF THE ROW; USING IT IS THE ROW. This check passed while
+           liveness sampling still decimated at the DECLARED cadence, so a channel
+           measured hourly and declared daily kept throwing away 23 of 24 samples —
+           the loss the feature was built to stop. Assert the consumption, not just
+           the measurement. */
+        var fast = C.createChannel({ key:'f', cadenceMs: 86400000 });   // declared daily
+        for (var i=0; i<48; i++) C.observe(fast, 50+i, t + i*3600000);  // moves hourly
+        var uses = C.effectiveCadence(fast) < 2*3600000 && fast.seen.length > 24;
+        return (infers && uses) ? true : false;
       })(), 'core/channel.js inferCadence measures the median interval between VALUE CHANGES, not between polls, ' +
            'and abstains to the declared prior below 6 changes. On the recorded corpus it caught 3 channels ' +
-           'declared 24h that actually change every 1-4h'],
+           'declared 24h that actually change every 1-4h. Both consumers use the MEASURED period: uncertainty ' +
+           'growth in predict() and liveness sampling in observe() (the second was still on the declared value ' +
+           'until 2026-08-01, retaining 2 of 48 samples where it now retains 43)'],
   [28, 'boundary gates external content by provenance', true, 'barrier.js default-deny; ' + BAR.ADMITTED_CLASSES.length + ' admitted classes, unlisted refused']
 ];
-var passed = 0;
+/* THREE STATES, NOT TWO. A row scored true|false forces every partly-built thing to
+   be called done or nothing, and the pressure runs one way: row 22 scored `true`
+   while its own description ended "PARTIAL". A checklist that cannot say "partial"
+   will overstate, and this one did — it reported 26/28 when 24 rows were complete. */
+var passed = 0, partial = 0, failed = 0;
 ROWS.forEach(function (r) {
-  if (r[2]) passed++;
-  console.log('  ' + (r[2] ? 'PASS' : 'FAIL') + ' ' + pad(String(r[0]), 3) + pad(r[1], 48) + ' ' + String(r[3]).slice(0, 96));
+  var mark = r[2] === true ? 'PASS' : (r[2] === 'partial' ? 'PART' : 'FAIL');
+  if (r[2] === true) passed++; else if (r[2] === 'partial') partial++; else failed++;
+  console.log('  ' + mark + ' ' + pad(String(r[0]), 3) + pad(r[1], 48) + ' ' + String(r[3]).slice(0, 96));
 });
 
 console.log('');
@@ -644,6 +677,12 @@ var p = results.filter(function (r) { return r.pass; }).length;
 var f = results.filter(function (r) { return !r.pass && !r.cannotRun; });
 console.log('  acceptance tests : ' + p + ' / ' + results.length + ' pass');
 if (f.length) console.log('  FAILED           : ' + f.map(function (r) { return 'TEST ' + r.n + ' ' + r.name; }).join(', '));
-console.log('  SPEC part 8      : ' + passed + ' / 28 rows pass');
+console.log('  SPEC part 8      : ' + passed + ' / 28 rows COMPLETE' +
+            (partial ? ', ' + partial + ' partial' : '') +
+            (failed ? ', ' + failed + ' not built' : ''));
+console.log('  partial rows     : ' + (ROWS.filter(function (r) { return r[2] === 'partial'; })
+              .map(function (r) { return r[0]; }).join(', ') || 'none') +
+            '   not built: ' + (ROWS.filter(function (r) { return r[2] === false; })
+              .map(function (r) { return r[0]; }).join(', ') || 'none'));
 console.log('');
 process.exit(f.length ? 1 : 0);
