@@ -9,18 +9,19 @@ helix-kernel-v4.js
 # Server-side audit log (best-effort local writes; runtime data, not source)
 api/audit/reconciliation_log.jsonl
 api/helix_app/audit/reconciliation_log.jsonl
-api/__pycache__/
-api/thing1/__pycache__/
-api/thing2/__pycache__/
-api/audit/__pycache__/
-api/helix_app/__pycache__/
-api/helix_app/audit/__pycache__/
-api/helix_app/thing1/__pycache__/
-api/helix_app/thing2/__pycache__/
+# (Python bytecode is ignored tree-wide at the bottom of this file. The eight
+# hand-listed api/*/__pycache__ paths that used to sit here were redundant with
+# it and had to be extended by hand for every new package.)
 
 # Node deps + local toolchain
 node_modules/
-package-lock.json
+
+# package-lock.json IS COMMITTED, deliberately. It was ignored here until
+# 2026-08-01, which made `npm ci` (and setup-node's `cache: npm`) impossible:
+# both refuse to run without a lockfile in the tree, so the CI workflow added on
+# 2026-07-31 could never have completed a single run. Ignoring it also meant the
+# dependency versions that pass locally were never the versions CI or Vercel
+# resolved. A lockfile is a build input, not a build artifact.
 
 # Local backup snapshots of refreshed data files
 assets/data/command-board-data.json.before-*
@@ -54,8 +55,8 @@ assets/printed/
 # 84MB build artifact — render files in treatment-discovery/ are the committed output
 assets/data/treatment-discovery-cube.json
 
-# Kernel-validation bytecode + working logs (runtime, not source)
-scripts/kernel-validation/__pycache__/
+# Kernel-validation working logs (runtime, not source). Its bytecode is covered
+# by the tree-wide __pycache__ rule at the bottom.
 scripts/*.log
 scripts/*.jsonl
 

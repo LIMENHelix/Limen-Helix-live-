@@ -30,9 +30,12 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      # cache: npm and `npm ci` below BOTH refuse to run without a committed
+      # package-lock.json. It was in .gitignore until 2026-08-01, so this job as
+      # first written could never have finished a single run.
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: npm
