@@ -70,13 +70,22 @@
      exactly, and the starfield runs behind the type with nothing to give away an image edge.
      The element starts hidden and fades in once that has happened, so the raw square is never
      on screen. */
+  /* The wrapper sizes itself to the mark, and the shine layer sits exactly on top of it.
+     No z-index here on purpose: position:relative alone does not create a stacking context,
+     so the shine's screen blend can still reach the mark and the stars beneath it. */
+  .markwrap{
+    position:relative;
+    display:inline-block;
+    line-height:0;
+  }
+
   img.mark{
     display:block;
     width:min(74vw, 62vh, 620px);
     height:auto;
     max-width:100%;
     opacity:0;
-    transition:opacity .5s ease;
+    transition:opacity .6s ease;
     /* A warm bloom plus a small lift. Against a dark, colourful field the gold sampled from
        the JPEG reads muted — the surrounding nebula raises the eye's adaptation point, so the
        same pixels look dimmer than they do on the flat original. The brightness/saturate pair
@@ -86,16 +95,85 @@
       drop-shadow(0 0 6px rgba(255,225,150,.14))
       brightness(1.10) saturate(1.12);
   }
-  img.mark.ready{opacity:1}
+  img.mark.ready{
+    opacity:1;
+    /* The bloom breathes. Slow enough (9s) that you notice it without watching for it. */
+    animation:breathe 9s ease-in-out infinite;
+  }
+
+  /* The trough is the previous STATIC look, not something dimmer than it. An earlier version
+     dipped to brightness(1.08) with a 26px bloom, which made the low half of the cycle read as
+     a slightly faded logo rather than as a glow at rest. Breathing should only ever add. */
+  @keyframes breathe{
+    0%,100%{ filter:drop-shadow(0 0 30px rgba(212,175,55,.20)) drop-shadow(0 0 6px rgba(255,225,150,.14)) brightness(1.10) saturate(1.12) }
+    50%    { filter:drop-shadow(0 0 52px rgba(212,175,55,.40)) drop-shadow(0 0 12px rgba(255,225,150,.26)) brightness(1.19) saturate(1.18) }
+  }
+
+  /* ── THE SWEEP ────────────────────────────────────────────────────────────────────────
+     A specular highlight travelling across the letters, the way light moves over polished
+     metal when you tilt it.
+
+     It works by masking: the layer is a plain diagonal gradient, and the wordmark's own alpha
+     channel is used as a mask, so the band is only ever visible ON the letters and never in
+     the space around them. The mask URL is the same generated PNG the <img> uses, set from
+     JS once the alpha extraction has finished.
+
+     Masking rather than a blend was the right call: a blended band would light the nebula and
+     the gap between letters just as much as the gold, which reads as a searchlight passing
+     over the page instead of a shine on the type.
+
+     The animation runs 0 -> 50% -> 100% with the two ends identical, so the band travels one
+     way and then back rather than jumping. ease-in-out makes it slow at each turn, which is
+     what makes it feel like a pendulum instead of a loop. */
+  .shine{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .6s ease;
+    /* BAND WIDTH IS THE WHOLE EFFECT.
+       The first attempt spread the highlight from 38% to 62% of a gradient sized at 280%,
+       which works out to roughly two thirds of the wordmark's width. At that width it does
+       not read as a light travelling across the letters at all — it reads as the whole mark
+       slowly getting brighter and then dimmer, which is not what a glint looks like.
+       Narrowing it to 44%-56% puts the streak at about a third of the width, with a hard
+       white core, and it reads as a specular highlight moving over metal. */
+    background:linear-gradient(
+      100deg,
+      rgba(255,255,255,0)    43%,
+      rgba(255,238,196,.28)  47%,
+      rgba(255,253,240,1)    50%,
+      rgba(255,238,196,.28)  53%,
+      rgba(255,255,255,0)    57%
+    );
+    background-size:300% 100%;
+    background-repeat:no-repeat;
+    -webkit-mask-size:100% 100%;
+            mask-size:100% 100%;
+    -webkit-mask-repeat:no-repeat;
+            mask-repeat:no-repeat;
+    mix-blend-mode:screen;
+  }
+  .shine.ready{
+    opacity:1;
+    animation:sweep 7.5s ease-in-out infinite;
+  }
+
+  @keyframes sweep{
+    0%   { background-position:135% 0 }
+    50%  { background-position:-35% 0 }
+    100% { background-position:135% 0 }
+  }
 
   /* If the script fails or JS is off, show the original rather than a blank page. Screen
      blending at least keeps it legible; the square is the acceptable cost of a fallback. */
   .nojs img.mark{opacity:1;mix-blend-mode:screen}
 
   /* Motion is decorative only. Anyone who has asked their OS to reduce motion gets a still
-     sky — the stars are drawn once and never animate. */
+     sky, a still bloom, and no sweep — but still sees the mark. */
   @media (prefers-reduced-motion:reduce){
-    img.mark{filter:none}
+    img.mark.ready{animation:none}
+    .shine{display:none}
   }
 </style>
 </head>
@@ -104,7 +182,10 @@
 <canvas id="sky" aria-hidden="true"></canvas>
 
 <main>
-  <img class="mark" id="mark" src="/assets/img/limen-wordmark.jpg" alt="LIMEN Helix">
+  <div class="markwrap">
+    <img class="mark" id="mark" src="/assets/img/limen-wordmark.jpg" alt="LIMEN Helix">
+    <span class="shine" id="shine" aria-hidden="true"></span>
+  </div>
 </main>
 
 <noscript><style>img.mark{opacity:1;mix-blend-mode:screen}</style></noscript>
@@ -120,9 +201,21 @@
 (function () {
   'use strict';
   var el = document.getElementById('mark');
+  var shine = document.getElementById('shine');
   if (!el) return;
 
   function reveal() { el.classList.add('ready'); }
+
+  /* Point the sweep's mask at the generated transparent PNG. Until this runs the shine layer
+     has no mask at all, and an unmasked gradient would paint a bright band straight across the
+     page — so it is held at opacity 0 in CSS and only revealed here, once it has something to
+     be shaped by. */
+  function armShine(url) {
+    if (!shine) return;
+    shine.style.webkitMaskImage = 'url(' + url + ')';
+    shine.style.maskImage = 'url(' + url + ')';
+    shine.classList.add('ready');
+  }
 
   function process() {
     try {
@@ -180,7 +273,9 @@
       el.removeAttribute('width');
       el.removeAttribute('height');
       el.onload = null;
-      el.src = out.toDataURL('image/png');
+      var url = out.toDataURL('image/png');
+      el.src = url;
+      armShine(url);
       reveal();
     } catch (e) {
       fallback();
