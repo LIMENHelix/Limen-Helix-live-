@@ -90,10 +90,14 @@
        the JPEG reads muted — the surrounding nebula raises the eye's adaptation point, so the
        same pixels look dimmer than they do on the flat original. The brightness/saturate pair
        compensates for that rather than changing the brand colour in any real sense. */
+    /* Three stacked shadows rather than one: a tight hot core, a mid halo, and a wide dim
+       spill. A single large blur just makes a soft smudge; stacking radii is what gives the
+       glow a falloff that reads as light rather than as blur. */
     filter:
-      drop-shadow(0 0 30px rgba(212,175,55,.20))
-      drop-shadow(0 0 6px rgba(255,225,150,.14))
-      brightness(1.10) saturate(1.12);
+      drop-shadow(0 0 14px rgba(255,214,120,.30))
+      drop-shadow(0 0 44px rgba(212,175,55,.30))
+      drop-shadow(0 0 90px rgba(180,130,40,.18))
+      brightness(1.14) saturate(1.16);
   }
   img.mark.ready{
     opacity:1;
@@ -105,8 +109,16 @@
      dipped to brightness(1.08) with a 26px bloom, which made the low half of the cycle read as
      a slightly faded logo rather than as a glow at rest. Breathing should only ever add. */
   @keyframes breathe{
-    0%,100%{ filter:drop-shadow(0 0 30px rgba(212,175,55,.20)) drop-shadow(0 0 6px rgba(255,225,150,.14)) brightness(1.10) saturate(1.12) }
-    50%    { filter:drop-shadow(0 0 52px rgba(212,175,55,.40)) drop-shadow(0 0 12px rgba(255,225,150,.26)) brightness(1.19) saturate(1.18) }
+    0%,100%{ filter:
+      drop-shadow(0 0 14px rgba(255,214,120,.30))
+      drop-shadow(0 0 44px rgba(212,175,55,.30))
+      drop-shadow(0 0 90px rgba(180,130,40,.18))
+      brightness(1.14) saturate(1.16) }
+    50%    { filter:
+      drop-shadow(0 0 20px rgba(255,232,160,.46))
+      drop-shadow(0 0 70px rgba(226,186,70,.50))
+      drop-shadow(0 0 140px rgba(200,145,45,.30))
+      brightness(1.26) saturate(1.24) }
   }
 
   /* ── THE SWEEP ────────────────────────────────────────────────────────────────────────
@@ -156,13 +168,23 @@
   }
   .shine.ready{
     opacity:1;
-    animation:sweep 7.5s ease-in-out infinite;
+    animation:sweep 11s linear infinite;
   }
 
+  /* ONE DIRECTION, LEFT TO RIGHT, WITH A REST BETWEEN PASSES.
+     Previously this ran 0 -> 50% -> 100% and swept back the way it came, which reads as a
+     light rocking rather than a light passing. Now the band travels once and the return is a
+     hard jump from -40% back to 140% — invisible, because the highlight is fully off the
+     letters at both of those positions.
+
+     The pass occupies the first 62% of the cycle and the remaining 38% holds it off-screen.
+     That rest is deliberate: a highlight in constant motion becomes wallpaper, while one that
+     arrives every few seconds stays an event. Linear timing, because ease-in-out would spend
+     its slow moments at the two ends, which is exactly where nothing is visible. */
   @keyframes sweep{
-    0%   { background-position:135% 0 }
-    50%  { background-position:-35% 0 }
-    100% { background-position:135% 0 }
+    0%   { background-position:140% 0 }
+    62%  { background-position:-40% 0 }
+    100% { background-position:-40% 0 }
   }
 
   /* If the script fails or JS is off, show the original rather than a blank page. Screen
@@ -362,11 +384,20 @@
        had a wide cloud sitting at (0.50, 0.48) and the gold wordmark lost its contrast against
        it — the type has to win, and colour behind type is the fastest way to lose it. The
        colour now frames the centre instead of filling it. */
+    /* Eight clouds instead of four, with hotter hues and higher alpha. The palette is drawn
+       from what real emission nebulae actually are: H-alpha rose and crimson, OIII teal, plus
+       reflection blue and violet from dust scattering starlight. An amber region echoes the
+       gold in the mark without sitting near it. Still all pushed to the edges — the centre
+       stays dark so the type keeps its contrast. */
     var clouds = [
-      { x: 0.12, y: 0.22, r: 0.40, c: '96,64,190', a: 0.13 },   // violet, top-left
-      { x: 0.86, y: 0.18, r: 0.34, c: '40,96,190', a: 0.12 },   // blue, top-right
-      { x: 0.80, y: 0.84, r: 0.40, c: '150,60,140', a: 0.10 },  // magenta, bottom-right
-      { x: 0.16, y: 0.86, r: 0.34, c: '30,120,150', a: 0.10 }   // teal, bottom-left
+      { x: 0.10, y: 0.18, r: 0.40, c: '132,72,220', a: 0.20 },  // violet
+      { x: 0.30, y: 0.08, r: 0.30, c: '210,70,150', a: 0.16 },  // rose, H-alpha
+      { x: 0.90, y: 0.14, r: 0.36, c: '48,120,225', a: 0.19 },  // blue
+      { x: 0.72, y: 0.06, r: 0.26, c: '30,180,190', a: 0.14 },  // teal, OIII
+      { x: 0.88, y: 0.80, r: 0.40, c: '200,60,120', a: 0.17 },  // magenta
+      { x: 0.62, y: 0.95, r: 0.30, c: '150,60,210', a: 0.14 },  // purple
+      { x: 0.12, y: 0.86, r: 0.36, c: '20,150,175', a: 0.17 },  // cyan
+      { x: 0.34, y: 0.96, r: 0.26, c: '225,140,60', a: 0.11 }   // amber
     ];
 
     clouds.forEach(function (cl) {
@@ -453,17 +484,22 @@
        real, so a soft pool of shadow at centre is physically unremarkable — but its actual job
        is contrast: the gold has to read at a glance, and it cannot do that over lit gas.
        Applied after the clouds and before the vignette so it darkens colour, not just edges. */
-    var clear = bgx.createRadialGradient(w / 2, h * 0.5, 0, w / 2, h * 0.5, diag * 0.30);
-    clear.addColorStop(0, 'rgba(3,5,10,0.62)');
-    clear.addColorStop(0.55, 'rgba(3,5,10,0.34)');
-    clear.addColorStop(1, 'rgba(3,5,10,0)');
+    /* Deepened when the palette got richer. Brighter, more saturated gas around the edges
+       compresses the whole image toward mid-tone, and the type loses its separation along with
+       it. Pushing the clearing harder does two things at once: the gold regains contrast, and
+       the colour actually reads MORE saturated, because it now has something dark to sit
+       against instead of blending into a uniformly lit field. */
+    var clear = bgx.createRadialGradient(w / 2, h * 0.5, 0, w / 2, h * 0.5, diag * 0.34);
+    clear.addColorStop(0, 'rgba(2,4,9,0.78)');
+    clear.addColorStop(0.45, 'rgba(2,4,9,0.52)');
+    clear.addColorStop(1, 'rgba(2,4,9,0)');
     bgx.fillStyle = clear;
     bgx.fillRect(0, 0, w, h);
 
     // A soft vignette pulls the eye to the centre, where the wordmark is.
     var vg = bgx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.25, w / 2, h / 2, diag * 0.62);
     vg.addColorStop(0, 'rgba(0,0,0,0)');
-    vg.addColorStop(1, 'rgba(0,0,0,0.55)');
+    vg.addColorStop(1, 'rgba(0,0,0,0.62)');
     bgx.fillStyle = vg;
     bgx.fillRect(0, 0, w, h);
   }
