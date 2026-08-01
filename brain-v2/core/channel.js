@@ -46,9 +46,10 @@ function createChannel(spec) {
     // SET parameters [mark: prior] — see header on why these are not fitted
     q: (typeof spec.q === 'number') ? spec.q : 0.02,   // process noise per cadence-period
     r: (typeof spec.r === 'number') ? spec.r : 0.10,   // observation noise
-    // history, only for the liveness test
+    // history: liveness test AND the per-channel baseline that makes fusion unit-free
     seen: [],
     lastObsAt: null,
+    lastSampleAt: null,     // liveness/baseline sampling clock — see observe()
     updates: 0
   };
 }
@@ -104,11 +105,35 @@ function observe(ch, z, now) {
   var innovation = z - ch.x;
   ch.x = ch.x + K * innovation;
   ch.P = (1 - K) * ch.P;
-  ch.lastObsAt = now;
   ch.updates++;
-  ch.seen.push(z);
-  if (ch.seen.length > 64) ch.seen.shift();
-  return { innovation: innovation, gain: K, prior: pre, posterior: ch.x };
+
+  /**
+   * LIVENESS SAMPLES ARE TAKEN AT THE CHANNEL'S OWN CADENCE, NOT PER OBSERVATION.
+   *
+   * Found by replaying 361 hours of real recorded energy: fredCrude was flagged DEAD. It is
+   * not dead — FRED WTI is a DAILY series being read HOURLY, so of course twelve consecutive
+   * hourly reads carry the same daily close. Judging liveness on raw consecutive observations
+   * declares every slow channel dead the moment it is polled faster than it updates.
+   *
+   * That is the same defect this project has hit five times already under other names: one
+   * clock applied to signals that move at different rates. The contract's own R6 says state
+   * every clock; the first version of this file declared cadence and then ignored it.
+   *
+   * Fix: a liveness sample is only recorded once per cadence period. A daily channel polled
+   * hourly contributes one sample per day, so "has this moved" is asked at the rate the
+   * channel can actually answer. The Kalman update still runs on every observation — only the
+   * liveness/baseline history is decimated.
+   */
+  var period = ch.cadenceMs || 0;
+  var newPeriod = (ch.lastSampleAt == null) || !period || (now - ch.lastSampleAt) >= period;
+  if (newPeriod) {
+    ch.seen.push(z);
+    if (ch.seen.length > 64) ch.seen.shift();
+    ch.lastSampleAt = now;
+  }
+
+  ch.lastObsAt = now;
+  return { innovation: innovation, gain: K, prior: pre, posterior: ch.x, sampled: newPeriod };
 }
 
 /**
@@ -126,19 +151,26 @@ function step(ch, reading, now) {
   var out = {
     key: ch.key, source: ch.source, cadenceMs: ch.cadenceMs, units: ch.units,
     value: ch.x, variance: ch.P, precision: 1 / Math.max(ch.P, 1e-9),
+    departure: null,                       // set below; the unit-free quantity fusion uses
     liveness: live, updates: ch.updates, innovation: null,
     state: 'absent', why: null, fusable: false
   };
 
   if (reading == null || typeof reading.value !== 'number' || !isFinite(reading.value)) {
     out.why = 'no reading this cycle — predict-only, variance grew to ' + ch.P.toFixed(4);
-    out.fusable = live === 'live';   // a live channel still contributes its (now weaker) belief
+    out.departure = departure(ch);
+    out.fusable = live === 'live' && out.departure !== null;
+    if (live === 'live' && out.departure === null) out.why += '; no baseline yet — not fusable';
     return out;
   }
 
   if (live === 'dead') {
-    ch.seen.push(reading.value);
-    if (ch.seen.length > 64) ch.seen.shift();
+    var per = ch.cadenceMs || 0;
+    if (ch.lastSampleAt == null || !per || (now - ch.lastSampleAt) >= per) {
+      ch.seen.push(reading.value);
+      if (ch.seen.length > 64) ch.seen.shift();
+      ch.lastSampleAt = now;
+    }
     out.state = 'dead';
     out.why = 'constant across the last ' + Math.min(ch.seen.length, LIVENESS_WINDOW) +
               ' readings — a channel that does not move is dead, not calm; refusing to fuse it';
@@ -149,17 +181,47 @@ function step(ch, reading, now) {
   var upd = observe(ch, reading.value, now);
   out.value = ch.x; out.variance = ch.P; out.precision = 1 / Math.max(ch.P, 1e-9);
   out.innovation = upd ? upd.innovation : null;
+  out.departure = departure(ch);
   out.liveness = liveness(ch);
   out.state = out.liveness === 'unknown' ? 'unknown' : 'measured';
   out.why = out.liveness === 'unknown'
     ? 'only ' + ch.updates + ' observations — cannot yet judge whether this channel moves'
-    : null;
-  out.fusable = out.liveness === 'live';
+    : (out.departure === null ? 'no baseline yet — measured but not fusable' : null);
+  out.fusable = out.liveness === 'live' && out.departure !== null;
   return out;
+}
+
+var BASELINE_MIN_N = 8;
+
+/**
+ * DEPARTURE — the channel's reading expressed in its OWN standard deviations.
+ *
+ * This is what makes cross-channel fusion mean anything. Crude is $/bbl, an RSS channel is
+ * an article count, KEV is a vulnerability count. A precision-weighted mean of the raw values
+ * is arithmetic on incommensurable units and would be dominated by whichever channel happens
+ * to have the largest numbers. Measured on the live payload: energy's RSS values run 52-100
+ * while recent7d runs 1-34, so raw fusion would let a saturated count outvote a real price move.
+ *
+ * Departure removes the unit. Every channel then contributes the same thing — "how far am I
+ * from my own normal" — which is also exactly the quantity dysregulation is defined on, so
+ * the fused state and the detector finally speak the same language.
+ *
+ * Returns null when the baseline is too thin to be meaningful. null is NOT zero: a channel
+ * with no baseline has not said "I am normal", it has said nothing.
+ */
+function departure(ch) {
+  var h = ch.seen.slice(0, -1);
+  if (h.length < BASELINE_MIN_N) return null;
+  var m = h.reduce(function (a, b) { return a + b; }, 0) / h.length;
+  var sd = Math.sqrt(h.reduce(function (a, b) { return a + (b - m) * (b - m); }, 0) / h.length);
+  if (sd <= 1e-9) return null;              // constant baseline — the liveness gate owns this case
+  return { z: (ch.x - m) / sd, mean: m, sd: sd, n: h.length };
 }
 
 module.exports = {
   createChannel: createChannel,
+  departure: departure,
+  BASELINE_MIN_N: BASELINE_MIN_N,
   liveness: liveness,
   predict: predict,
   observe: observe,

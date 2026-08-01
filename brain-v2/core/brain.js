@@ -115,35 +115,52 @@ function cycle(brain, readings, now) {
   } else if (totalPrecision < PRECISION_FLOOR) {
     state = { abstained: true, why: 'total precision ' + totalPrecision.toFixed(3) + ' < floor ' + PRECISION_FLOOR + ' — holding the prior rather than emitting a number', totalPrecision: totalPrecision };
   } else {
-    var v = fusable.reduce(function (a, s) { return a + s.value * s.precision; }, 0) / totalPrecision;
+    /**
+     * FUSE DEPARTURES, NOT LEVELS.
+     *
+     * Each channel contributes its reading in its OWN standard deviations, not its raw value.
+     * Crude is $/bbl, an RSS channel is an article count, KEV is a vulnerability count — a
+     * precision-weighted mean of the raw numbers is arithmetic on incommensurable units, and
+     * would be dominated by whichever channel happens to carry the biggest integers. Measured
+     * on the live energy payload: RSS `value` runs 52-100 while `recent7d` runs 1-34, so raw
+     * fusion lets a saturated article count outvote a genuine price move.
+     *
+     * In departure units every channel says the same thing — "how far am I from my own normal"
+     * — which is also the quantity dysregulation is defined on, so the state and the detector
+     * finally speak one language.
+     */
+    var v = fusable.reduce(function (a, s) { return a + s.departure.z * s.precision; }, 0) / totalPrecision;
     state = {
-      value: v,
+      departure: v,                                        // in pooled standard deviations
       totalPrecision: totalPrecision,
       confidence: totalPrecision / (totalPrecision + 1),   // bounded, monotone in evidence
-      basis: 'precision-weighted fusion of ' + fusable.length + ' live channel(s)',
-      basisOf: fusable.map(function (s) { return s.key; })
+      basis: 'precision-weighted fusion of ' + fusable.length + ' live channel departure(s)',
+      basisOf: fusable.map(function (s) { return s.key; }),
+      units: "standard deviations from each channel own baseline"
     };
   }
 
-  // ── DETECT — dysregulation is departure from this domain's OWN baseline ──────────────
-  var dys = { detected: false, why: 'insufficient baseline' };
-  if (!state.abstained) {
-    brain.history.push(state.value);
+  /**
+   * DETECT. The fused state is ALREADY a departure, so dysregulation is a threshold on it —
+   * no second baseline, no re-derivation. Each contributing channel is named with its own
+   * departure so the finding can be read back to the sensor that caused it (R4).
+   */
+  var dys;
+  if (state.abstained) {
+    dys = { detected: false, why: 'state abstained — dysregulation is unmeasured, NOT absent' };
+  } else {
+    brain.history.push(state.departure);
     if (brain.history.length > BASELINE_WINDOW * 4) brain.history.shift();
-    var h = brain.history.slice(0, -1).slice(-BASELINE_WINDOW);
-    if (h.length >= 8) {
-      var m = h.reduce(function (a, b) { return a + b; }, 0) / h.length;
-      var sd = Math.sqrt(h.reduce(function (a, b) { return a + (b - m) * (b - m); }, 0) / h.length);
-      if (sd <= 1e-9) {
-        dys = { detected: false, why: 'baseline has zero spread — cannot judge departure; treat as unmeasured, not calm' };
-      } else {
-        var z = (state.value - m) / sd;
-        dys = {
-          detected: Math.abs(z) >= DYS_SIGMA, z: z, baselineMean: m, baselineSd: sd, n: h.length,
-          basis: 'departure from own ' + h.length + '-cycle baseline, threshold ' + DYS_SIGMA + ' sd [mark: prior]'
-        };
-      }
-    }
+    var drivers = fusable
+      .filter(function (s) { return Math.abs(s.departure.z) >= DYS_SIGMA; })
+      .sort(function (a, b) { return Math.abs(b.departure.z) - Math.abs(a.departure.z); })
+      .map(function (s) { return { key: s.key, z: s.departure.z, n: s.departure.n }; });
+    dys = {
+      detected: Math.abs(state.departure) >= DYS_SIGMA,
+      departure: state.departure,
+      drivers: drivers,
+      basis: 'fused departure vs ' + DYS_SIGMA + ' sd threshold [mark: prior]; each channel z-scored against its own >=8-observation baseline'
+    };
   }
 
   // ── FIND — a finding may only fire on channels that actually reported ────────────────
@@ -159,8 +176,13 @@ function cycle(brain, readings, now) {
         why: 'requires [' + need.join(', ') + ']; live this cycle: [' + have.join(', ') + ']' });
       return;
     }
+    // A finding sees three things: raw filtered values, the fused state, and each required
+    // channel's DEPARTURE. Thresholds belong on departures — a raw threshold on a saturated
+    // count is what latched the old conditions permanently on.
+    var vals = {}, deps = {};
+    have.forEach(function (k) { vals[k] = liveKeys[k].value; deps[k] = liveKeys[k].departure; });
     var ok = true;
-    try { ok = f.test(have.reduce(function (o, k) { o[k] = liveKeys[k].value; return o; }, {}), state); }
+    try { ok = f.test(vals, state, deps); }
     catch (e) { ok = false; }
     if (ok) fired.push({ id: f.id, active: true, triggeredBy: need.slice(), basis: f.basis || 'threshold on live channels' });
     else candidates.push({ id: f.id, active: false, triggerSource: 'evaluated', why: 'conditions not met' });

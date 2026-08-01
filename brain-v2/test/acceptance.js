@@ -45,8 +45,12 @@ console.log('\n=== 1. STARVED: every sensor absent => zero findings, zero defaul
 
 console.log('\n=== 2. ONE SENSOR: only findings that sensor supports appear ===');
 (function () {
+  // Step at the CHANNEL'S OWN cadence. crude is declared daily, so 12 hourly ticks is one
+  // liveness sample and the brain correctly refuses to judge it. This test previously stepped
+  // hourly and passed only because liveness ignored cadence — the replay on 361 hours of real
+  // energy exposed that, and the fix moved fredCrude/cisaKev/gridRel from DEAD to LIVE.
   var b = mk(), out = null;
-  for (var i = 0; i < 12; i++) out = B.cycle(b, { crude: { value: 0.85 + (i % 3) * 0.02 } }, i * HOUR);
+  for (var i = 0; i < 12; i++) out = B.cycle(b, { crude: { value: 0.85 + (i % 3) * 0.02 } }, i * 24 * HOUR);
   var ids = out.findings.map(function (f) { return f.id; });
   ok('OIL_SHOCK fires', ids.indexOf('OIL_SHOCK') !== -1, JSON.stringify(ids));
   ok('GRID_STRESS does NOT fire (its sensor never spoke)', ids.indexOf('GRID_STRESS') === -1);
