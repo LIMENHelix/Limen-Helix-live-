@@ -50,7 +50,15 @@ function createChannel(spec) {
     seen: [],
     lastObsAt: null,
     lastSampleAt: null,     // liveness/baseline sampling clock — see observe()
-    updates: 0
+    updates: 0,
+    /* CADENCE INFERENCE (SPEC row 27). Timestamps at which this channel's value
+       actually CHANGED, and the last value seen. Deliberately not every observation:
+       the interval between observations is the POLL rate, which is a fact about our
+       scheduler, not about the world. A daily series polled hourly would measure as
+       hourly and every downstream horizon would be wrong by 24x. The interval between
+       changes is the rate the source can actually answer at. */
+    changeAt: [],
+    lastValue: null
   };
 }
 
@@ -79,16 +87,84 @@ function liveness(ch) {
   return (hi - lo) <= LIVENESS_EPS ? 'dead' : 'live';
 }
 
+var CHANGE_EPS = 1e-9;
+var CADENCE_MIN_CHANGES = 6;   // intervals need at least this many change events
+
+/**
+ * INFER CADENCE from this channel's own observed change spacing. SPEC row 27.
+ *
+ * Returns the MEDIAN interval between changes, not the mean: one long outage would
+ * drag a mean to nonsense, and a median survives it. Jitter is reported as the median
+ * absolute deviation for the same reason.
+ *
+ * ABSTAINS below CADENCE_MIN_CHANGES. A channel that has changed twice has one
+ * interval, and one interval is an anecdote. Abstaining hands the declared cadence
+ * back to the caller, which is a stated prior rather than a measurement, and it is
+ * labelled as such.
+ */
+function inferCadence(ch) {
+  var t = ch.changeAt || [];
+  if (t.length < CADENCE_MIN_CHANGES) {
+    return {
+      state: 'abstained',
+      cadenceMs: ch.cadenceMs || null,
+      source: 'declared',
+      changes: t.length,
+      why: 'only ' + t.length + ' change event(s); ' + CADENCE_MIN_CHANGES +
+           ' needed before an interval is worth anything. Falling back to the DECLARED cadence, which is a prior.'
+    };
+  }
+  var iv = [];
+  for (var i = 1; i < t.length; i++) { var d = t[i] - t[i - 1]; if (d > 0) iv.push(d); }
+  if (!iv.length) {
+    return { state: 'abstained', cadenceMs: ch.cadenceMs || null, source: 'declared', changes: t.length,
+             why: 'all change events share a timestamp; no interval to measure' };
+  }
+  var sorted = iv.slice().sort(function (a, b) { return a - b; });
+  var med = sorted[Math.floor(sorted.length / 2)];
+  var dev = sorted.map(function (x) { return Math.abs(x - med); }).sort(function (a, b) { return a - b; });
+  var mad = dev[Math.floor(dev.length / 2)];
+
+  var declared = ch.cadenceMs || null;
+  var ratio = declared ? med / declared : null;
+  return {
+    state: 'measured',
+    cadenceMs: med,
+    jitterMs: mad,
+    source: 'measured',
+    changes: t.length,
+    intervals: iv.length,
+    declaredMs: declared,
+    ratio: ratio,
+    /* A large gap between declared and measured is the finding, not an error to
+       silence: it means the manifest is wrong about how fast this source moves. */
+    disagreesWithDeclared: ratio !== null && (ratio > 2 || ratio < 0.5),
+    why: 'median of ' + iv.length + ' inter-change intervals' +
+         (ratio !== null ? '; declared ' + Math.round(declared / 3600000) + 'h, measured ' +
+          (med / 3600000).toFixed(1) + 'h (' + ratio.toFixed(2) + 'x)' : '')
+  };
+}
+
+/** The cadence to actually USE: measured where earned, declared until then. */
+function effectiveCadence(ch) {
+  var c = inferCadence(ch);
+  return c.cadenceMs || ch.cadenceMs || null;
+}
+
 /**
  * Advance the belief to `now` without an observation. Uncertainty grows in proportion to how
  * many of THIS channel's own periods have elapsed (R6) — a quarterly sensor silent for a day
  * has barely aged; an hourly one silent for a day is nearly blind.
  */
 function predict(ch, now) {
+  /* Uncertainty grows in units of THIS channel's own period. Using the measured
+     cadence once it is earned means a source that turns out to move faster than
+     declared also goes uncertain faster, which is the whole point of measuring it. */
+  var period = effectiveCadence(ch);
   var dt;
   if (ch.lastObsAt == null) dt = 1;
-  else if (!ch.cadenceMs) dt = 1;
-  else dt = Math.max(0, (now - ch.lastObsAt) / ch.cadenceMs);
+  else if (!period) dt = 1;
+  else dt = Math.max(0, (now - ch.lastObsAt) / period);
   ch.P = ch.P + ch.q * dt;
   return ch;
 }
@@ -132,6 +208,15 @@ function observe(ch, z, now) {
     ch.lastSampleAt = now;
   }
 
+  /* Record only genuine changes. CHANGE_EPS exists because a float that differs in
+     the fifteenth decimal place is not news; without it, quantisation noise would
+     read as a change every poll and collapse the inferred cadence to the poll rate. */
+  if (ch.lastValue === null || Math.abs(z - ch.lastValue) > CHANGE_EPS) {
+    ch.changeAt.push(now);
+    if (ch.changeAt.length > 64) ch.changeAt.shift();
+    ch.lastValue = z;
+  }
+
   ch.lastObsAt = now;
   return { innovation: innovation, gain: K, prior: pre, posterior: ch.x, sampled: newPeriod };
 }
@@ -153,6 +238,7 @@ function step(ch, reading, now) {
     value: ch.x, variance: ch.P, precision: 1 / Math.max(ch.P, 1e-9),
     departure: null,                       // set below; the unit-free quantity fusion uses
     liveness: live, updates: ch.updates, innovation: null,
+    cadence: inferCadence(ch),
     state: 'absent', why: null, fusable: false
   };
 
@@ -220,6 +306,9 @@ function departure(ch) {
 
 module.exports = {
   createChannel: createChannel,
+  inferCadence: inferCadence,
+  effectiveCadence: effectiveCadence,
+  CADENCE_MIN_CHANGES: CADENCE_MIN_CHANGES,
   departure: departure,
   BASELINE_MIN_N: BASELINE_MIN_N,
   liveness: liveness,

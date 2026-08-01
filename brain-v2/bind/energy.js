@@ -25,8 +25,52 @@
 
 'use strict';
 
+var DIV = require('../core/divergence.js');
+
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
+
+/**
+ * DECLARED RELATIONSHIPS — which channels claim to observe the SAME latent variable.
+ *
+ * Only declared pairs are ever compared for disagreement (core/divergence.js). An
+ * all-pairs comparison would fire constantly on channels that have no business
+ * agreeing: crude price and NOAA weather alerts are not measuring one thing, so
+ * their gap means nothing.
+ *
+ * Each entry has to name the latent variable, and that requirement is the point. If
+ * you cannot say what two channels both observe, they are not comparable, and the
+ * declaration is a commitment you can be caught being wrong about.
+ */
+var REL = [
+  // Three independent reads of one price. These should track closely; a gap means
+  // one feed is stale or a key expired, which is worth knowing on its own.
+  DIV.relate('fredCrude', 'eiaPetro', 'crude oil price level', 'agree',
+    'FRED WTI and EIA Brent are different benchmarks but move with one oil market; a sustained gap usually means one feed stopped updating rather than that the spread moved'),
+  DIV.relate('fredCrude', 'massiveOil', 'crude oil price level', 'agree',
+    'Polygon CL is the same underlying as FRED WTI; disagreement here is a data problem, not a market one'),
+
+  // Grid stress read two ways: reliability coverage and electricity-market coverage.
+  DIV.relate('gridRel', 'electricity', 'electric grid stress', 'agree',
+    'FERC/NERC reliability coverage and EIA electricity coverage both rise when the grid is under strain'),
+
+  // Gas supply read through pipeline gas and seaborne LNG.
+  DIV.relate('natGas', 'lng', 'natural gas supply pressure', 'agree',
+    'domestic gas and LNG coverage both respond to the same supply squeeze; divergence separates a US-local event from a global one'),
+
+  // Renewables output pressure.
+  DIV.relate('solar', 'wind', 'renewable generation attention', 'agree',
+    'solar and wind coverage co-move with intermittency events; one moving alone points at a technology-specific story'),
+
+  // Nuclear: news attention against regulatory filing activity.
+  DIV.relate('nuclear', 'fedRegNrc', 'nuclear sector activity', 'agree',
+    'coverage and NRC filing volume both track nuclear activity, on different lags; news leading filings by a wide margin is the informative case'),
+
+  // The one declared INVERTING pair. Coal transition coverage rises as coal is
+  // displaced; renewable coverage rises for the same reason, from the other side.
+  DIV.relate('coal', 'solar', 'coal-to-renewable displacement', 'invert',
+    'coverage of coal retirement and of solar buildout are two faces of one transition; them rising TOGETHER is the anomaly, not them diverging')
+];
 
 /** Reads a value out of a live /api/domain-snapshot source object. */
 function pickLive(src, field) {
@@ -151,6 +195,7 @@ function readRecorderRow(row) {
 module.exports = {
   domain: 'energy',
   CHANNELS: CHANNELS,
+  RELATIONSHIPS: REL,
   FINDINGS: FINDINGS,
   SIGMA: SIGMA,
   readLive: readLive,
@@ -162,6 +207,7 @@ module.exports = {
       levelsPerSensor: 3,
       channels: CHANNELS,
       findings: FINDINGS,
+      relationships: REL,
       efferent: null   // R7: nothing consumes this yet, and it says so
     };
   }

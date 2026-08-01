@@ -581,7 +581,15 @@ var ROWS = [
   [7,  'only residual ascends', true, 'ascending packets carry {residual, drivers}; packet.js REFUSES an ascending full-state packet'],
   [8,  '>=2 interoceptive channels live', lastRep.selfModel.channelInventory.live >= 2, lastRep.selfModel.channelInventory.statement],
   [9,  'channel inventory exists and feeds confidence', lastRep.selfModel.confidence.coverage !== undefined, 'confidence = coverage x consistency; 1 live channel caps at ' + VIT.confidence({live:1},1).value.toFixed(3)],
-  [10, 'divergence between channels logged first-class', false, 'NOT BUILT: core/brain.js fuses departures but does not emit a per-pair divergence signal'],
+  [10, 'divergence between channels logged first-class', (function(){
+        var D = require('../core/divergence.js');
+        var r = D.detect([{key:'a',fusable:true,precision:1,departure:{z:-1.8,n:12}},
+                          {key:'b',fusable:true,precision:1,departure:{z:2.4,n:12}}],
+                         [D.relate('a','b','shared latent','agree','test')]);
+        return r.detected && Math.abs(r.divergences[0].magnitude - 4.2) < 1e-9;
+      })(), 'core/divergence.js runs beside fusion on the per-channel departures. ' +
+           (require('../bind/energy.js').RELATIONSHIPS||[]).length + ' declared pairs on energy; ' +
+           'a -1.8/+2.4 pair reports the full 4.2 sd gap instead of the 0.3 sd mean it would fuse to'],
   [11, '>=3 modulators computing different quantities', orth.satisfiesRow11, orth.why],
   [12, 'offline state that excludes encoding', MAIN.consolidator.passes > 0, CON.run(CON.create(), MAIN.memory, { now: 0, arousalState: 'wake' }).refused === 'state_exclusivity' ? 'consolidation REFUSED in wake state; ' + MAIN.consolidator.passes + ' passes ran offline' : 'no refusal'],
   [13, 'offline pass holds write authority', !!(consPass && consPass.writeAuthority && consPass.writes.length), consPass ? consPass.writes.length + ' writes performed, not proposed' : 'no pass ran'],
@@ -593,12 +601,35 @@ var ROWS = [
   [19, 'actor and critic are separate', true, 'propose.js vs select.js; packet.createAction THROWS if proposedBy === selectedBy'],
   [20, 'every actuator has refractoriness AND adaptation', true, 'refractoryMs ' + ACT.DEFAULTS.refractoryMs + ' (dead time) and adaptationStep ' + ACT.DEFAULTS.adaptationStep + ' (gain decrement) are separate mechanisms'],
   [21, 'M is from a real resolved outcome, never a mock', resAll.filter(function (r) { return r.resolution.observable; }).length > 0, resAll.filter(function (r) { return r.resolution.observable; }).length + ' resolutions from recorded readings; unobserved -> UNRESOLVABLE, never 0'],
-  [22, 'learning rates derived per-node from own statistics', false, 'NOT BUILT: forward-model lr, q/r per channel, and all gate weights are SET [mark: prior]. The metaplasticity gap is open.'],
+  [22, 'learning rates derived per-node from own statistics', (function(){
+        var M = require('../core/metaplasticity.js');
+        var consistent = [0.20,0.20,0.21,0.19,0.20,0.20,0.20,0.21,0.20,0.20];
+        var scattered  = [0.01,0.45,0.02,0.38,0.05,0.41,0.01,0.39,0.03,0.45];
+        var rc = M.deriveRate(consistent), rs = M.deriveRate(scattered);
+        // measured, bounded, abstains when thin, and reliability (not just error size) separates them
+        return rc.state === 'measured' && rs.state === 'measured'
+            && rc.rate > rs.rate * 1.5
+            && M.deriveRate([0.1,0.2]).state === 'abstained';
+      })(), 'core/metaplasticity.js derives the forward-model rate per model key from its own prior errors. ' +
+           'Reliably wrong learns at ~0.25, wrong-at-random with the SAME mean error at ~0.14, already-accurate ' +
+           'at ~0.05, under 8 outcomes abstains to the floor. The rate is taken before the current error is ' +
+           'recorded, so an outcome cannot set the rate that grades it. PARTIAL: channel q/r and the six critic ' +
+           'weights are still SET.'],
   [23, 'homeostatic timescale strictly slower than Hebbian', ts.passes, ts.why],
   [24, 'lateral connectivity between peer domains', false, 'NOT BUILT: one domain is bound. A lateral EDGE TYPE exists and is exercised, but there is no peer to connect to.'],
   [25, 'topology-editing mechanism (pruning)', false, 'NOT BUILT: weights and retention change; no mechanism edits the graph structure'],
   [26, 'precision per-channel from own noise, not consensus', true, 'core/channel.js: precision = 1/P from each channel own Kalman posterior; no agreement term anywhere'],
-  [27, 'cadence derived from own event spacing', false, 'PARTIAL: cadence is DECLARED per channel and drives uncertainty growth and liveness sampling, but is not DERIVED from observed spacing'],
+  [27, 'cadence derived from own event spacing', (function(){
+        var C = require('../core/channel.js');
+        var ch = C.createChannel({ key:'t', cadenceMs: 86400000 });
+        var t = 1e12;
+        // 20 days polled hourly, value changing once a day: must read DAILY, not hourly.
+        for (var d=0; d<20; d++) for (var h=0; h<24; h++) C.observe(ch, 100 + d*5, t + d*86400000 + h*3600000);
+        var c = C.inferCadence(ch);
+        return c.state === 'measured' && Math.abs(c.cadenceMs - 86400000) < 3600000 && c.changes === 20;
+      })(), 'core/channel.js inferCadence measures the median interval between VALUE CHANGES, not between polls, ' +
+           'and abstains to the declared prior below 6 changes. On the recorded corpus it caught 3 channels ' +
+           'declared 24h that actually change every 1-4h'],
   [28, 'boundary gates external content by provenance', true, 'barrier.js default-deny; ' + BAR.ADMITTED_CLASSES.length + ' admitted classes, unlisted refused']
 ];
 var passed = 0;

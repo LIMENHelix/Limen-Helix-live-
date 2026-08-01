@@ -28,6 +28,7 @@
 'use strict';
 
 var CH = require('./channel.js');
+var DIV = require('./divergence.js');
 
 /**
  * PRECISION FLOOR — the second gate.
@@ -81,6 +82,10 @@ function createBrain(spec) {
     },
     channels: channels,
     findings: findings,
+    /* Declared channel pairs that claim to observe the same latent variable.
+       Only these are compared for disagreement — see core/divergence.js on why an
+       all-pairs sweep is noise rather than information. */
+    relationships: spec.relationships || [],
     efferent: spec.efferent || null,     // R7: declared consumers, or explicitly none
     history: [],                          // fused state, for the baseline
     cycles: 0
@@ -188,6 +193,19 @@ function cycle(brain, readings, now) {
     else candidates.push({ id: f.id, active: false, triggerSource: 'evaluated', why: 'conditions not met' });
   });
 
+  /**
+   * DIVERGENCE — computed on the SENSORS, deliberately not on the fused state.
+   *
+   * Fusion is where disagreement is destroyed: two live channels pointing opposite
+   * ways average to something unremarkable, and the fused scalar cannot express the
+   * gap that produced it. So this runs against the per-channel departures, beside the
+   * fusion rather than after it, and it is reported as its own field.
+   *
+   * SPEC row 10. Absent this, a domain can report a calm state while its instruments
+   * are in open contradiction.
+   */
+  var divergence = DIV.detect(sensors, brain.relationships);
+
   // ── REPORT ───────────────────────────────────────────────────────────────────────────
   return {
     domain: brain.domain,
@@ -197,6 +215,7 @@ function cycle(brain, readings, now) {
     sensors: sensors,
     state: state,
     dysregulation: dys,
+    divergence: divergence,
     findings: fired,
     candidates: candidates,
     efferent: brain.efferent

@@ -35,6 +35,7 @@
 'use strict';
 
 var PK = require('./packet.js');
+var META = require('../core/metaplasticity.js');
 
 // ─────────────────────────────────────────────────────────────────────────────────────────
 // PREDICTION REGISTRY
@@ -255,7 +256,11 @@ function createForwardModel(opts) {
   opts = opts || {};
   return {
     models: Object.create(null),
-    lr: (typeof opts.lr === 'number') ? opts.lr : 0.10,   // [mark: prior] bounded step
+    /* lr is now a FLOOR and a fallback, not the operating rate. Each model derives
+       its own from its own error history (SPEC row 22); this is what it uses until
+       it has earned a measurement. */
+    lr: (typeof opts.lr === 'number') ? opts.lr : 0.10,
+    meta: META.createLedger({ targetError: (typeof opts.targetError === 'number') ? opts.targetError : 0.05 }),
     gainBound: (typeof opts.gainBound === 'number') ? opts.gainBound : 4.0,
     trustN: (typeof opts.trustN === 'number') ? opts.trustN : 8,  // observations before trusted
     version: 0,
@@ -372,18 +377,29 @@ function learn(fm, efference, actualDelta, now) {
   var mag = efference.magnitude || 1;
 
   var before = { gain: m.gain, bias: m.bias, n: m.n };
+
+  /* METAPLASTICITY. The rate is derived from THIS model's own prior errors, and the
+     order here is the safeguard: rateFor() reads history recorded before now, and
+     the current error is recorded afterwards. Deriving the rate from history that
+     included this error would let an outcome set the rate that then grades it. */
+  var lrInfo = META.rateFor(fm.meta, m.key, { min: 0.005, max: 0.25 });
+  var lr = lrInfo.state === 'measured' ? lrInfo.rate : fm.lr;
+
   // Normalised delta rule: the 1+mag^2 denominator stops a large-magnitude action from
   // dominating the fit, which at n<10 would otherwise let one event set the model.
-  var step = fm.lr * err / (1 + mag * mag);
+  var step = lr * err / (1 + mag * mag);
   m.gain = clamp(m.gain + step * mag, -fm.gainBound, fm.gainBound);
   m.bias = clamp(m.bias + step * 0.5, -fm.gainBound, fm.gainBound);
   m.n++;
   m.sse += err * err;
   m.lastUpdate = now;
 
+  META.record(fm.meta, m.key, err);          // strictly AFTER the rate was taken
+
   var rec = {
     at: now, modelKey: m.key, traceId: efference.traceId, actionId: efference.actionId, efferenceId: efference.id,
     predicted: predicted, actual: actualDelta, supervisedError: err,
+    learningRate: lr, rateState: lrInfo.state, rateBasis: lrInfo.why,
     before: before, after: { gain: m.gain, bias: m.bias, n: m.n }
   };
   fm.history.push(rec);
@@ -432,7 +448,8 @@ function forwardModelReport(fm) {
       };
     }),
     updates: fm.history.length,
-    version: fm.version
+    version: fm.version,
+    learningRates: META.report(fm.meta)
   };
 }
 
