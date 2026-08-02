@@ -252,6 +252,25 @@ function step(ch, reading, now) {
     departure: null,                       // set below; the unit-free quantity fusion uses
     liveness: live, updates: ch.updates, innovation: null,
     cadence: inferCadence(ch),
+    /**
+     * THE SOURCE-CADENCE OBSERVATION IDENTITY. Consumers that need to know "did this
+     * channel actually say something new" must use these, NOT `updates`.
+     *
+     * `updates` counts POLLS: observe() increments it on every valid reading, including
+     * a re-read of an unchanged value. Verified — observing 5 five times takes updates
+     * from 0 to 5 while the value never moved. Anything counting evidence from it is
+     * counting the scheduler.
+     *
+     *   sampleAt  advances at most once per the channel's own (measured) cadence
+     *             period. Polling faster than the source cannot advance it, which is
+     *             exactly the property "new data arrived" needs.
+     *   changes   genuine value changes recorded, from the same clock cadence
+     *             inference uses.
+     */
+    sampleAt: ch.lastSampleAt,
+    samples: ch.seen.length,
+    changes: ch.changeAt.length,
+    updates: ch.updates,
     state: 'absent', why: null, fusable: false
   };
 
@@ -284,6 +303,10 @@ function step(ch, reading, now) {
 
   var upd = observe(ch, reading.value, now);
   out.value = ch.x; out.variance = ch.P; out.precision = 1 / Math.max(ch.P, 1e-9);
+  /* Re-read AFTER observe(), or the sensor reports the pre-observation identity and a
+     consumer counting evidence is always one cycle behind. */
+  out.sampleAt = ch.lastSampleAt; out.samples = ch.seen.length;
+  out.changes = ch.changeAt.length; out.updates = ch.updates;
   out.innovation = upd ? upd.innovation : null;
   out.departure = departure(ch);
   out.liveness = liveness(ch);

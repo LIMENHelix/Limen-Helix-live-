@@ -584,13 +584,15 @@ var ROWS = [
   [10, 'divergence between channels logged first-class', (function(){
         var D = require('../core/divergence.js');
         var HOUR = 3600000;
-        /* `u` is the channel.js updates counter. It must ADVANCE for a cycle to count
-           as a new observation — repeated polling of unchanged readings is one
-           observation, not many (see test/divergence.js T30). */
-        var _u = 0;
-        function s(k, z, u){ return { key:k, fusable:true, precision:1, state:'measured', updates: u === undefined ? 1 : u,
+        /* `sampleAt` is the SOURCE-CADENCE observation identity, the one divergence.js
+           counts evidence from. It must advance for a cycle to be new evidence: polling
+           the same reading repeatedly is one observation, not many. Deliberately NOT
+           `updates`, which channel.js increments on every poll (see divergence.js T30). */
+        var _sa = 0;
+        function s(k, z, sa){ return { key:k, fusable:true, precision:1, state:'measured',
+          sampleAt: sa === undefined ? 1 : sa,
           cadenceMs:HOUR, cadence:{state:'measured',cadenceMs:HOUR}, departure:{z:z,mean:.5,sd:.1,n:24} }; }
-        function moving(za, zb){ var i = ++_u; return [s('a', za, i), s('b', zb, i)]; }
+        function moving(za, zb){ var i = ++_sa; return [s('a', za, i), s('b', zb, i)]; }
         var rel = [D.relate('a','b','shared latent','agree','test')];
 
         // 1. DIRECTION + MAGNITUDE, against the gap's own standard error.
@@ -611,8 +613,8 @@ var ROWS = [
           return { led: led, out: { resolved: resolved } };
         }
         var diverged = [s('a',-2.2), s('b',2.2)];
-        var conv = runTo([diverged, [s('a',0,2), s('b',0.1,2)]]);
-        var sens = runTo([diverged, [s('a',-2.2,2), {key:'b',fusable:false,state:'dead',precision:1,departure:null}]]);
+        var conv = runTo([diverged, [s('a',0,900), s('b',0.1,900)]]);
+        var sens = runTo([diverged, [s('a',-2.2,900), {key:'b',fusable:false,state:'dead',precision:1,departure:null}]]);
         var persSeq = []; for (var pi = 0; pi < 14; pi++) persSeq.push(moving(-2.2, 2.2));
         var pers = runTo(persSeq);
 

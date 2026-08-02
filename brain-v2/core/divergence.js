@@ -378,6 +378,12 @@ function createLedger(opts) {
     open: Object.create(null),   // relKey -> claim. At most one open claim per relationship.
     closed: [],                  // resolved claims, oldest first
     droppedClosed: 0,            // trimmed past CLOSED_CAP, counted rather than forgotten
+    /* CUMULATIVE, and deliberately separate from `closed`. `closed` is a bounded buffer
+       of DETAILED records; these are the running totals over everything that ever
+       resolved. Deriving the report from the buffer alone meant a trimmed ledger
+       reported a shorter, cleaner history than actually occurred — the counter said
+       records were dropped while the rollups quietly forgot them. */
+    totals: { byOutcome: Object.create(null), byRelationship: Object.create(null) },
     version: 0
   };
 }
@@ -418,16 +424,31 @@ function deriveHorizon(a, b, periods) {
 }
 
 /**
- * A fingerprint of what the two channels have actually SAID, used to tell a new
- * observation from a repeated poll. Prefers channel.js's `updates` counter (which only
- * advances on a real Kalman update); falls back to the departure pair the statistic is
- * computed from.
+ * THE OBSERVATION IDENTITY, and getting this wrong twice is instructive.
+ *
+ * v1 counted every call, so the scheduler manufactured evidence outright.
+ * v2 keyed on channel.js's `updates` counter, on my own comment that it "only advances
+ *    on a real Kalman update". It does not. observe() increments `updates` on EVERY
+ *    valid reading, including a re-read of an unchanged value — verified: observing 5
+ *    five times takes updates 0 -> 5 with the value never moving. So v2 counted polls
+ *    too, just with an extra step. The unit test passed only because it held `updates`
+ *    fixed BY HAND, which tested the comment rather than the runtime.
+ *
+ * The honest identity is `sampleAt`: channel.js advances it at most once per that
+ * channel's own MEASURED cadence period, so polling faster than the source cannot move
+ * it. That is precisely "the upstream source supplied new data".
+ *
+ * Returns per-side identities so the caller can require the SLOWER side to speak — the
+ * question cannot be settled faster than the slow instrument can answer it, which is
+ * the same reasoning the horizon already uses.
  */
-function sampleSignature(a, b) {
-  var ua = a && typeof a.updates === 'number' ? a.updates : null;
-  var ub = b && typeof b.updates === 'number' ? b.updates : null;
-  if (ua !== null && ub !== null) return 'u:' + ua + '/' + ub;
-  return 'z:' + (a && a.departure ? a.departure.z : 'x') + '/' + (b && b.departure ? b.departure.z : 'x');
+function observationIdentity(s) {
+  if (!s) return null;
+  if (typeof s.sampleAt === 'number') return 'sa:' + s.sampleAt;
+  /* No sample clock (a hand-built fixture, or a sensor shape predating this field).
+     Fall back to the departure, which is what the statistic is computed from: if it did
+     not move, this cycle contributed nothing. Never fall back to `updates`. */
+  return s.departure ? 'z:' + s.departure.z : null;
 }
 
 function sensorCadence(s) {
@@ -516,7 +537,12 @@ function observe(ledger, sensors, relationships, now, opts) {
           latest: g,
           leading: g.differenceZ > 0 ? rel.a : rel.b,
           observations: 1,
-          sampleSignature: sampleSignature(a, b),
+          slowObservations: 1,
+          /* Which side reports least often. Its cadence sets the horizon, and it also
+             gates the evidence count, for the same reason. */
+          slowSide: (sensorCadence(a) || 0) >= (sensorCadence(b) || 0) ? 'a' : 'b',
+          identityA: observationIdentity(a),
+          identityB: observationIdentity(b),
           repeatPolls: 0,
           lastSeenAt: now,
           resolution: null
@@ -550,10 +576,18 @@ function observe(ledger, sensors, relationships, now, opts) {
        * genuinely new readings that happen to land on identical z values, which is the
        * conservative direction.
        */
-      var sig = sampleSignature(a, b);
-      if (sig !== claim.sampleSignature) {
+      var ida = observationIdentity(a), idb = observationIdentity(b);
+      var movedA = ida !== null && ida !== claim.identityA;
+      var movedB = idb !== null && idb !== claim.identityB;
+      if (movedA) claim.identityA = ida;
+      if (movedB) claim.identityB = idb;
+
+      if (movedA || movedB) {
         claim.observations++;
-        claim.sampleSignature = sig;
+        /* The SLOWER side is the one that gates a persistence verdict. A fast channel
+           reporting twelve times while the slow one has said nothing since the claim
+           opened is not twelve pieces of evidence about whether they disagree. */
+        if (claim.slowSide === 'a' ? movedA : movedB) claim.slowObservations++;
       } else {
         claim.repeatPolls = (claim.repeatPolls || 0) + 1;
       }
@@ -570,7 +604,8 @@ function observe(ledger, sensors, relationships, now, opts) {
          the clock alone let a 12-hour outage plus one reading resolve `persistent` from
          two observations. */
       var timeUp = claim.evaluateAt !== null && now >= claim.evaluateAt;
-      var enoughEvidence = claim.observations >= minObs;
+      /* Counted on the SLOW side, not on total cycles. */
+      var enoughEvidence = claim.slowObservations >= minObs;
 
       if (timeUp && enoughEvidence) {
         /* JUDGED ON THE STANDING GAP, NOT A SINGLE SPIKE. The first version classified
@@ -648,6 +683,17 @@ function close(ledger, k, claim, outcome, now, finalGap, why) {
       : null
   };
   delete ledger.open[k];
+
+  /* Tallied HERE, when it resolves, so the totals are independent of whether the
+     detailed record later falls out of the bounded buffer. */
+  if (!ledger.totals) ledger.totals = { byOutcome: Object.create(null), byRelationship: Object.create(null) };
+  ledger.totals.byOutcome[outcome] = (ledger.totals.byOutcome[outcome] || 0) + 1;
+  var rk = relKey({ a: claim.channels[0], b: claim.channels[1], latent: claim.latent, expect: claim.expect });
+  var t = ledger.totals.byRelationship[rk] ||
+    (ledger.totals.byRelationship[rk] = { pair: claim.channels, latent: claim.latent, expect: claim.expect, total: 0, outcomes: Object.create(null) });
+  t.total++;
+  t.outcomes[outcome] = (t.outcomes[outcome] || 0) + 1;
+
   ledger.closed.push(claim);
   /* Bounded. An unbounded array lives inside every snapshot, so "keep everything" means
      the snapshot grows without limit for as long as the process runs. What was dropped
@@ -681,22 +727,20 @@ function describe(opened, updated, resolved, ledger) {
  * declarations keep failing.
  */
 function report(ledger) {
+  var totals = ledger.totals || { byOutcome: {}, byRelationship: {} };
   var counts = {};
-  Object.keys(OUTCOME).forEach(function (k) { counts[OUTCOME[k]] = 0; });
-  ledger.closed.forEach(function (c) { counts[c.resolution.outcome]++; });
+  /* FROM THE CUMULATIVE TALLY, not from the bounded buffer. Counting the buffer meant
+     everything trimmed past CLOSED_CAP silently vanished from the outcome distribution
+     and from the suspect-declaration check. */
+  Object.keys(OUTCOME).forEach(function (k) { counts[OUTCOME[k]] = totals.byOutcome[OUTCOME[k]] || 0; });
 
   /* KEYED BY THE RELATIONSHIP, NOT THE CHANNEL PAIR. Grouping on channels alone merged
      two declarations that relate the same pair through different latents, so their
      outcomes were pooled and neither could be judged on its own record. */
-  var byRelationship = {};
-  ledger.closed.forEach(function (c) {
-    var k = c.channels[0] + '~' + c.channels[1] + '~' + c.latent + '~' + c.expect;
-    if (!byRelationship[k]) {
-      byRelationship[k] = { pair: c.channels, latent: c.latent, expect: c.expect, total: 0, outcomes: {} };
-    }
-    byRelationship[k].total++;
-    byRelationship[k].outcomes[c.resolution.outcome] = (byRelationship[k].outcomes[c.resolution.outcome] || 0) + 1;
-  });
+  /* Also cumulative, and keyed by the SAME canonical relKey the ledger uses. This block
+     used to rebuild the key by raw concatenation, so escaping the ledger key alone left
+     report() still collapsing ('a~b','c') and ('a','b~c') into one row. */
+  var byRelationship = totals.byRelationship;
 
   /* A declaration that only ever resolves into a standing gap is worth re-examining,
      and this is the surface that says so. Sensor failures and withdrawals are excluded
@@ -711,14 +755,15 @@ function report(ledger) {
 
   return {
     open: openClaims(ledger).length,
-    resolved: ledger.closed.length,
+    resolved: Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0),
+    retainedRecords: ledger.closed.length,
     droppedClosed: ledger.droppedClosed || 0,
     outcomes: counts,
     byRelationship: byRelationship,
     suspectDeclarations: suspect,
-    why: ledger.closed.length === 0
+    why: Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) === 0
       ? 'no divergence has resolved yet — outcome distribution is UNMEASURED, not empty'
-      : ledger.closed.length + ' resolved' +
+      : Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) + ' resolved' +
         (ledger.droppedClosed ? ' (+' + ledger.droppedClosed + ' older ones trimmed past the ' + CLOSED_CAP + ' cap)' : '') +
         ': ' + Object.keys(counts).filter(function (o) { return counts[o]; })
           .map(function (o) { return counts[o] + ' ' + o; }).join(', ')
@@ -732,7 +777,9 @@ function serializeLedger(ledger) {
      quiet history while silently having discarded hundreds of resolutions. */
   return {
     opts: ledger.opts, open: ledger.open, closed: ledger.closed,
-    droppedClosed: ledger.droppedClosed || 0, version: ledger.version
+    droppedClosed: ledger.droppedClosed || 0,
+    totals: ledger.totals || { byOutcome: {}, byRelationship: {} },
+    version: ledger.version
   };
 }
 function restoreLedger(o) {
@@ -741,6 +788,7 @@ function restoreLedger(o) {
     l.open = o.open || Object.create(null);
     l.closed = o.closed || [];
     l.droppedClosed = o.droppedClosed || 0;
+    l.totals = o.totals || { byOutcome: Object.create(null), byRelationship: Object.create(null) };
     l.version = o.version || 0;
   }
   return l;

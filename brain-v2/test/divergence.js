@@ -234,16 +234,48 @@ var REL = [DIV.relate('a', 'b', 'shared latent', 'agree', 'both track it')];
 /* cadence must be present for a horizon to exist: 1h each ⇒ horizon 12h. */
 function withCadence(s) { s.cadenceMs = HOUR; s.cadence = { state: 'measured', cadenceMs: HOUR }; return s; }
 function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b', zb))]; }
-/* A pair carrying GENUINELY NEW readings each cycle. The plain pair() above repeats the
-   same two departures, which since T30 correctly counts as ONE observation however many
-   times it is polled — so any test that needs observations to accumulate must feed real
-   movement, exactly as the world would. */
-var _tick = 0;
+/**
+ * A pair whose SOURCE CLOCK advances — one new sample per cadence period, as a real
+ * channel would produce. `sampleAt` is the identity divergence.js counts evidence from,
+ * so this models a source that genuinely spoke rather than a scheduler that polled.
+ * T30 proves the real-channel behaviour; these shaped sensors keep the lifecycle tests
+ * readable without re-deriving a baseline in every one.
+ */
+var _sample = 0;
 function moving(za, zb) {
-  var i = ++_tick;
+  var at = 1e12 + (++_sample) * HOUR;
   var sa = withCadence(live('a', za)), sb = withCadence(live('b', zb));
-  sa.updates = i; sb.updates = i;
+  sa.sampleAt = at; sb.sampleAt = at;
   return [sa, sb];
+}
+/**
+ * REAL SENSORS, from core/channel.js step(), not handmade objects.
+ *
+ * The previous version of this helper set `updates` by hand to make a cycle look like
+ * new evidence. That tested my own comment rather than the runtime — and the comment was
+ * wrong: channel.js increments `updates` on every poll, unchanged value or not. A
+ * fixture built from an assumption cannot check that assumption.
+ *
+ * `feed` drives genuine channel.step() calls, so sampleAt, departure, precision,
+ * liveness and the cadence verdict all come from the real pipeline.
+ */
+var CH = require('../core/channel.js');
+function makePair(cadenceMs) {
+  return {
+    a: CH.createChannel({ key: 'a', cadenceMs: cadenceMs, r: 0.01 }),
+    b: CH.createChannel({ key: 'b', cadenceMs: cadenceMs, r: 0.01 }),
+    t: 1e12, i: 0
+  };
+}
+/** One real cycle: both channels observe, at the channel's own cadence. */
+function feed(P, va, vb, stepMs) {
+  var at = P.t + (P.i++) * (stepMs || HOUR);
+  return [CH.step(P.a, { value: va }, at), CH.step(P.b, { value: vb }, at)];
+}
+/** Build a baseline deep enough that departure() is defined, then diverge. */
+function baselined(P, n) {
+  for (var i = 0; i < (n || 14); i++) feed(P, 0.50 + (i % 4) * 0.01, 0.50 + (i % 4) * 0.01);
+  return P;
 }
 
 // ── T11: a claim opens once and keeps its identity ────────────────────────────
@@ -721,43 +753,43 @@ function moving(za, zb) {
   try { fs.rmSync(dir, { recursive: true, force: true }); } catch (e) { /* best effort */ }
 })();
 
-// ── T30: repeated polling is not evidence ─────────────────────────────────────
+// ── T30: repeated polling is not evidence (REAL channels) ────────────────────
 (function () {
-  console.log('T30: polling the same readings twelve times is ONE observation, not twelve');
-  /* MIN_OBSERVATIONS was meant to stop the clock alone deciding persistence. But the
-     counter incremented on every call, so a scheduler running faster than the sensors
-     could manufacture the six required observations without either channel producing a
-     single new reading — the clock deciding again, one layer down. */
-  function still(u) {
-    var sa = withCadence(live('a', -2.2)), sb = withCadence(live('b', 2.2));
-    sa.updates = u; sb.updates = u;          // channel.js increments this only on a real update
-    return [sa, sb];
-  }
-  var led = DIV.createLedger(), t = 1e12;
-  DIV.observe(led, still(1), REL, t);
+  console.log('T30: polling the same reading is ONE observation — proved on real channel.step()');
+  /* THIS TEST WAS WRONG BEFORE, and the way it was wrong is the lesson. It set
+     `updates` by hand to simulate "no new data", on my comment that channel.js only
+     advances updates for genuinely new readings. It does not — it advances on every
+     poll. So the production bug survived while the test went green. This version drives
+     real channels and never fabricates their internals. */
+  var P = baselined(makePair(HOUR));
+  var led = DIV.createLedger();
+
+  // Diverge, then poll the SAME values many times inside one cadence period.
+  var sensors = feed(P, 0.90, 0.10);
+  DIV.observe(led, sensors, REL, P.t);
   var claim = led.open[Object.keys(led.open)[0]];
-  assert('opens with one observation', claim.observations === 1, String(claim.observations));
+  assert('a claim opened on real sensors', !!claim, JSON.stringify(Object.keys(led.open)));
 
-  // 30 polls, no new sensor updates, well past both the horizon and MIN_OBSERVATIONS.
-  var resolvedAny = [];
-  for (var i = 1; i <= 30; i++) {
-    resolvedAny = resolvedAny.concat(DIV.observe(led, still(1), REL, t + i * HOUR).resolved);
+  /* Confirm the trap is real: updates DOES advance on unchanged re-reads, so anything
+     counting evidence from it would count these. */
+  var before = { updates: sensors[0].updates, sampleAt: sensors[0].sampleAt };
+  var repeats = [], at = P.t + 3600000;
+  for (var i = 0; i < 20; i++) {
+    at += 60000;                                   // poll every minute, cadence is hourly
+    repeats = [CH.step(P.a, { value: 0.90 }, at), CH.step(P.b, { value: 0.10 }, at)];
+    DIV.observe(led, repeats, REL, at);
   }
-  assert('30 identical polls do NOT accumulate observations', claim.observations === 1,
-    String(claim.observations));
-  assert('the repeats are counted separately, not discarded silently', claim.repeatPolls === 30,
+  assert('updates DID advance on the repeats (the trap the old test hid)',
+    repeats[0].updates > before.updates, before.updates + ' -> ' + repeats[0].updates);
+  assert('but sampleAt advanced at most once per cadence period',
+    repeats[0].sampleAt - before.sampleAt <= 3600000,
+    String(repeats[0].sampleAt - before.sampleAt));
+  assert('so sub-cadence polling did not manufacture observations',
+    claim.slowObservations < DIV.MIN_OBSERVATIONS,
+    claim.slowObservations + ' slow-side observations after 20 extra polls');
+  assert('and the repeats are counted, not discarded silently', claim.repeatPolls > 0,
     String(claim.repeatPolls));
-  assert('and it cannot resolve persistent on polling alone', resolvedAny.length === 0,
-    JSON.stringify(resolvedAny.map(function (c) { return c.resolution.outcome; })));
-
-  // Now let the sensors actually speak, and it resolves properly.
-  var got = [];
-  for (var j = 31; j <= 45; j++) {
-    got = got.concat(DIV.observe(led, still(j), REL, t + j * HOUR).resolved);
-  }
-  assert('real updates DO accumulate and it resolves', got.length === 1, String(got.length));
-  assert('with at least the minimum genuine observations',
-    got[0].resolution.observations >= DIV.MIN_OBSERVATIONS, String(got[0].resolution.observations));
+  assert('the claim has NOT resolved on polling alone', claim.status === 'open', claim.status);
 })();
 
 // ── T31: the relationship key cannot collide ──────────────────────────────────
