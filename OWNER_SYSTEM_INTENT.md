@@ -26,8 +26,9 @@ of owner intent. Setting `approved_by` and `approved_at` is the owner's act alon
 
 ## 1. What the system is for
 
-1. **Handle roughly 456k of portal data productively.** The unit is UNRESOLVED — see §4. It
-   must be recorded, not inferred.
+1. **Handle the 465,939-file domain corpus productively.** Confirmed 2026-08-02: "456k" means
+   465,939 domain JSON files in the FULL repo, one per domain node, L1-L8. See §4.1 for the
+   reproducing command and depth distribution.
 2. **Turn that corpus into business opportunities and research opportunities.** This is the
    product. A brain that regulates itself beautifully on one bound domain and produces no
    opportunity from the corpus has not met the requirement.
@@ -54,48 +55,51 @@ operationally unwired` are both legitimate results. **Neither axis may silently 
 other**, and a single blended score is not permitted — it is how a naming quarrel gets to
 delete working software, and how unwired code gets to look finished.
 
-## 4. UNRESOLVED — owner input required, engineer must not decide
+## 4. Owner-resolved facts, and what remains open
 
-### 4.1 What "456k" counts
+### 4.1 What "456k" counts — RESOLVED 2026-08-02 by the owner
 
-`456k` appears nowhere in either repository (searched `456k`, `456K`, `456,000`, `456000`).
-Rather than invent a unit, here is what is actually there, measured 2026-08-02. **The owner
-selects; the engineer does not.**
+**456k = 465,939 domain JSON files in the FULL repository.**
 
-Full repo (`C:\Users\Chris\Limen-Helix`, 595,286 tracked files):
+```
+repo:     C:\Users\Chris\Limen-Helix        (full, 595,286 tracked files)
+command:  git ls-files 'assets/data/domains/*.json' | wc -l
+result:   465939                            measured 2026-08-02
+```
 
-| candidate | count | note |
-|---|---:|---|
-| domain JSON files, all levels | **465,939** | closest to "approximately 456k" |
-| domain JSON files, L4 and deeper | 462,226 | the set `.vercelignore` excludes from deploy |
-| domain JSON files, L1–L6 | 435,853 | |
-| all JSON under `assets/data/` | 467,577 | |
-| portal HTML files | 126,237 | |
+The unit is **files** — one JSON per domain node. Not records, entities, relationships or
+fields. Depth distribution at that measurement:
 
-Live repo (`C:\Users\Chris\Limen-Helix-live-`, 9,949 tracked files):
-
-| candidate | count |
+| level | files |
 |---|---:|
-| portal-registry entries (`portals`) | 173,652 |
-| distinct domain IDs | 68,923 |
-| domain JSON files | 3,715 |
-| portal HTML files | 3,287 |
-| companies by CIK | 543 |
+| L1 | 28 |
+| L2 | 419 |
+| L3 | 3,266 |
+| L4 | 14,733 |
+| L5 | 120,512 |
+| L6 | 296,895 |
+| L7 | 30,085 |
+| L8 | 1 |
 
-None equals 456k exactly. The nearest is 465,939 domain JSON files in the full repo.
-**Do not treat that as confirmed.** Record: the number, the unit, the repo it is measured in,
-and the command that reproduces it.
+**This corpus lives in the FULL repo, not the live one.** The live repo
+(`Limen-Helix-live-`) tracks only 3,715 of those domain JSONs — the L1-L3 tier that
+`.vercelignore` deploys — plus a 173,652-entry portal registry that indexes the rest. Any
+acceptance test for the corpus mission has to reach the full repo or that registry; running
+against the live repo alone touches under 1% of the corpus.
 
-### 4.2 Legal entity name
+### 4.2 Legal entity name — RESOLVED 2026-08-02 by the owner
 
-Two names appear as fact in tracked documents:
+**The legal entity is `LIMEN Helix Transformational Sciences LLC`.**
 
-- `docs/MASTER_CONTEXT.md:11` — `LIMEN Helix LLC`
-- `FINANCE_PORTAL_SIGNOFF.md:9` — `LIMEN Helix Transformational Sciences LLC`
+`FINANCE_PORTAL_SIGNOFF.md:9` was correct. `docs/MASTER_CONTEXT.md:11` ("LIMEN Helix LLC")
+is wrong and has been corrected in place with a note.
 
-**Neither may be used in any legal, financial, customer-facing, or external document until the
-owner confirms which is current.** This must not be resolved by picking the newer file, by
-inference, or from code.
+**One check before this goes on anything binding.** The owner confirmed the entity in prose
+containing two evident typing slips ("Transformatinal Sciencess"). I have used the spelling
+already present in three tracked files — `LIMEN Helix Transformational Sciences LLC` —
+because it matches the intent. For a registered legal name the exact characters matter, so
+**verify against the filing itself before this appears on a contract, invoice, filing, or
+customer-facing document.** My reading of a typo is not authority over a legal name.
 
 ### 4.3 Repository visibility
 

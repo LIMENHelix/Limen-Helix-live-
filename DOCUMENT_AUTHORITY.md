@@ -48,8 +48,8 @@ or "validated" without a row here supporting that status.**
 
 | path | class | issue |
 |---|---|---|
-| `docs/MASTER_CONTEXT.md` | `UNCONFIRMED_ENGINEERING_STRATEGY` | L53-54 retires patents/grants/loans/SBA/franchise "never reintroduce"; L11 asserts a legal entity name; adopts "money, atoms, or audience" and a Dan Martell strategy as standing truth. **Stop loading automatically in prompt-generation commands.** |
-| `FINANCE_PORTAL_SIGNOFF.md` | `STALE_OR_CONFLICTED` | L9 names a DIFFERENT legal entity than `MASTER_CONTEXT.md`. Both suppressed externally until resolved. |
+| `docs/MASTER_CONTEXT.md` | `UNCONFIRMED_ENGINEERING_STRATEGY` | L53-54 retires patents/grants/loans/SBA/franchise "never reintroduce"; its legal entity line was WRONG and is corrected (owner-confirmed 2026-08-02); adopts "money, atoms, or audience" and a Dan Martell strategy as standing truth. **Stop loading automatically in prompt-generation commands.** |
+| `FINANCE_PORTAL_SIGNOFF.md` | `OWNER_CONFIRMED` (entity name only) | **RESOLVED 2026-08-02.** Its entity name was the CORRECT one: `LIMEN Helix Transformational Sciences LLC`. Exact registered spelling still to be checked against the filing. |
 | `DAN_MARTELL_AI_PLAYBOOK.md`, `ACTIVATION_PLAYBOOK.md` | `ENGINEERING_HYPOTHESIS` | third-party method, adopted without recorded approval |
 
 ### brain-v2
@@ -110,6 +110,29 @@ claiming internal status must instead state:
 deployed_to_website: yes|no      # controlled by .vercelignore
 repository_visibility: public|private   # controlled by GitHub — currently PUBLIC
 ```
+
+## Resolved 2026-08-02 by owner confirmation
+
+| item | resolution |
+|---|---|
+| what "456k" counts | **465,939 domain JSON files** in the FULL repo (`git ls-files 'assets/data/domains/*.json' \| wc -l`). Unit is files, one per domain node, L1-L8. |
+| legal entity | **`LIMEN Helix Transformational Sciences LLC`**. `FINANCE_PORTAL_SIGNOFF.md` was right; `docs/MASTER_CONTEXT.md` was wrong and is corrected. Exact registered spelling still to be verified against the filing. |
+
+Still open: repository visibility, the four-way permission conflict, and ratification of
+`OWNER_SYSTEM_INTENT.md` itself.
+
+## Entity-name contamination in generated output
+
+`_sbir_rewrite.md` (untracked, on disk) carries the **wrong** entity name three times in what
+reads as grant-application text. It is a retired-lane artifact and is gitignored, so it is not
+in the repository — but it is exactly the failure the system's own review rubric predicted:
+`SYSTEM_MAP_FULL.md` records a `lessonid "entity-coherence-and-assignment"` risk that
+"a single bridge pattern may generate legally incoherent lanes (patent owned by entity A, grant
+awarded to entity B, loan to entity C) with no documented assignment chain", and notes the
+system "does not enforce it on output". The rubric was right and unenforced.
+
+**Any generator that emits an entity name must read it from one place.** Until that exists,
+treat every generated lane document as carrying an unverified entity.
 
 ## Open supersession debt
 
