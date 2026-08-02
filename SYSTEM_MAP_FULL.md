@@ -1,5 +1,12 @@
 # LIMEN HELIX — FULL SYSTEM MAP
 
+<!-- AUTHORITY: MEASURED_SNAPSHOT — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02.** Compiled 2026-06-07 and calls its measurements "exact"
+> with no validity date and no reproducing command. Treat as a snapshot at that date, not as
+> current truth, and re-verify against code before acting on it.
+
+
+
 > Read-only library map of the entire codebase. Generated 2026-06-07 by a 28-agent parallel audit (all 111 commits walked, every file family measured). **Nothing in the repo was modified to produce this document.** This is the prerequisite reference for the Vercel Hono consolidation (see section 24).
 
 ## MEASURED SCALE (exact, not estimated)

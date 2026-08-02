@@ -1,5 +1,13 @@
 # LIMEN Helix — Neural Completeness Assessment
 
+<!-- AUTHORITY: STALE_OR_CONFLICTED — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02.** At least one confident claim in this file (that every
+> edge weight is hardcoded 0.3) was later corrected by `PROTECTED_FILES.md`. The correction
+> lives in a different document, so a reader here can miss it. Verify every claim against
+> current code before use.
+
+
+
 *Prepared for neurological review, 2026-07-21. An honest map of what the domain-brain code computes,
 rated against real neuroanatomy and physiology. Firewalled (repo/history only).*
 

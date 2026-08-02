@@ -1,5 +1,14 @@
 # Finance Portal — Human Sign-Off Enumeration
 
+<!-- AUTHORITY: STALE_OR_CONFLICTED — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02.** The legal entity named in this file
+> ("LIMEN Helix Transformational Sciences LLC") conflicts with `docs/MASTER_CONTEXT.md:11`
+> ("LIMEN Helix LLC"). This audit cannot determine which is current, and it must not be settled
+> by inference, by code, or by whichever file is newer. **Suppress both from all external,
+> legal, financial and customer-facing material until the owner confirms.**
+
+
+
 The autonomous engine builds, proposes, routes, and produces on its own. It **halts** at every point
 below, where a human signature is legally required. This is the connective tissue between
 "the system runs itself" and "the system can run itself tomorrow without tripping a regulator."

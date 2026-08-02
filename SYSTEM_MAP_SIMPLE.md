@@ -1,5 +1,12 @@
 # LIMEN HELIX — THE SYSTEM ON ONE PAGE
 
+<!-- AUTHORITY: STALE_OR_CONFLICTED — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02.** This distils a 2026-06-07 snapshot into "the only five
+> decisions that matter". A dated measurement cannot license a permanent decision frame.
+> Orientation only.
+
+
+
 > Companion to SYSTEM_MAP_FULL.md (the 9,300-line reference). Read THIS to decide; open the big one only to look up details. Generated 2026-06-07.
 
 ## The system in one sentence

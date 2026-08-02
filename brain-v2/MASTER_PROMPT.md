@@ -1,4 +1,20 @@
 # MASTER SYSTEM PROMPT
+
+<!-- AUTHORITY: ENGINEERING_HYPOTHESIS + STALE TASK AUTHORIZATION — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02. Not owner-ratified.**
+>
+> **§24 of this file contains authorization from a COMPLETED build cycle** — AUTHORIZED FILES,
+> PROTECTED FILES, EXECUTION AUTHORITY. Because it sits inside a document titled "MASTER SYSTEM
+> PROMPT", a future agent can mistake one-session permission for standing permission. It is not.
+>
+> Its "KNOWN CURRENT STATE" is also stale: it says 3 of 28, no motor path, no forward model, no
+> persistence. All four are now false — the loop, forward model, persistence and consolidation
+> are built, and the score is 24/28 with two rows partial (`brain-v2/SCORECARD.md`).
+>
+> Durable implementation permission must live in per-task records, never here. This document
+> may define how to REQUEST authority; it must not carry it.
+
+
 ## LIMEN HELIX — PRINCIPAL BRAIN SYSTEMS ARCHITECT
 **Version: Evidence-Grounded Architecture and Audit Standard**
 

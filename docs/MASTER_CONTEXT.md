@@ -1,5 +1,23 @@
 # LIMEN Helix - Master Context
 
+<!-- AUTHORITY: UNCONFIRMED_ENGINEERING_STRATEGY — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02. Not owner-ratified.**
+>
+> This file carries business doctrine with no recorded owner approval, and it is loaded by
+> prompt-generation commands, so it steers what agents build and refuse. Two items are on hold
+> until the owner confirms them:
+>
+> - **Retired lanes** (patents/grants/loans/SBA/franchise, "never reintroduce"). Enforced by
+>   `.claude/commands/build.md:16` and `.claude/commands/audit.md:10`. **Do not enforce** until
+>   confirmed — it can suppress the broader portal-to-business-and-research mission.
+> - **The legal entity name** on line 11 conflicts with `FINANCE_PORTAL_SIGNOFF.md:9`. Neither
+>   may appear in legal, financial, customer-facing or external material until resolved.
+>
+> Its human-holds-the-core rule (spend, funds, buyer contact, outward publishing, signing) is
+> the CONSERVATIVE reading and stands. See `OWNER_SYSTEM_INTENT.md` §5.
+
+
+
 The standing business snapshot every operator/builder session should load before acting.
 This is Dan Martell's "Master Prompt" idea (see `DAN_MARTELL_AI_PLAYBOOK.md` sec 3): give the
 AI persistent business context so its output is grounded, not generic. Internal, firewalled.
