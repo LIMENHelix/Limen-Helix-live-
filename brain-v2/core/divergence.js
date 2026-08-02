@@ -391,7 +391,14 @@ function createLedger(opts) {
  * same tick received byte-identical ids and `report()` merged their outcomes into one
  * row. An id that collides is not an id.
  */
-function relKey(rel) { return rel.a + '~' + rel.b + '~' + rel.latent + '~' + rel.expect; }
+/* The fields are channel keys and free-text latents, so they can legitimately contain
+   the delimiters. Raw concatenation is ambiguous: ('a~b','c') and ('a','b~c') collapse
+   to the same string. Escaping the separators (and the escape character itself) makes
+   the encoding injective, so distinct tuples cannot produce the same key. */
+function esc(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/~/g, '\\~').replace(/@/g, '\\@');
+}
+function relKey(rel) { return esc(rel.a) + '~' + esc(rel.b) + '~' + esc(rel.latent) + '~' + esc(rel.expect); }
 function claimId(rel, now) { return 'dv_' + relKey(rel) + '@' + now; }
 
 /**
@@ -408,6 +415,19 @@ function deriveHorizon(a, b, periods) {
   if (!ca && !cb) return null;
   var slower = Math.max(ca || 0, cb || 0);
   return slower > 0 ? slower * periods : null;
+}
+
+/**
+ * A fingerprint of what the two channels have actually SAID, used to tell a new
+ * observation from a repeated poll. Prefers channel.js's `updates` counter (which only
+ * advances on a real Kalman update); falls back to the departure pair the statistic is
+ * computed from.
+ */
+function sampleSignature(a, b) {
+  var ua = a && typeof a.updates === 'number' ? a.updates : null;
+  var ub = b && typeof b.updates === 'number' ? b.updates : null;
+  if (ua !== null && ub !== null) return 'u:' + ua + '/' + ub;
+  return 'z:' + (a && a.departure ? a.departure.z : 'x') + '/' + (b && b.departure ? b.departure.z : 'x');
 }
 
 function sensorCadence(s) {
@@ -496,6 +516,8 @@ function observe(ledger, sensors, relationships, now, opts) {
           latest: g,
           leading: g.differenceZ > 0 ? rel.a : rel.b,
           observations: 1,
+          sampleSignature: sampleSignature(a, b),
+          repeatPolls: 0,
           lastSeenAt: now,
           resolution: null
         };
@@ -512,7 +534,29 @@ function observe(ledger, sensors, relationships, now, opts) {
         return;
       }
 
-      claim.observations++;
+      /**
+       * AN OBSERVATION IS NEW EVIDENCE, NOT A POLL.
+       *
+       * This counter used to increment on every call, so a scheduler running faster
+       * than the sensors could manufacture the six observations that MIN_OBSERVATIONS
+       * requires without either channel producing a single new reading — turning
+       * "graded on evidence, not the clock" back into "graded on the clock", one layer
+       * down. Polling the same two values twelve times is one observation, not twelve.
+       *
+       * `updates` is channel.js's count of actual Kalman updates and is the truthful
+       * signal when present. Fixtures that do not carry it fall back to the departure
+       * pair, which is what the statistic is computed from: if neither departure moved,
+       * this cycle contributed nothing to the question. The fallback can undercount two
+       * genuinely new readings that happen to land on identical z values, which is the
+       * conservative direction.
+       */
+      var sig = sampleSignature(a, b);
+      if (sig !== claim.sampleSignature) {
+        claim.observations++;
+        claim.sampleSignature = sig;
+      } else {
+        claim.repeatPolls = (claim.repeatPolls || 0) + 1;
+      }
       claim.lastSeenAt = now;
       claim.latest = g;
       claim.leading = g.differenceZ > 0 ? rel.a : rel.b;
@@ -683,13 +727,20 @@ function report(ledger) {
 
 /** Restore across restart — an open claim that forgets it was open cannot resolve. */
 function serializeLedger(ledger) {
-  return { opts: ledger.opts, open: ledger.open, closed: ledger.closed, version: ledger.version };
+  /* droppedClosed is part of the history, not a runtime counter. Omitting it reset the
+     trim count to zero on every restart, so a long-lived ledger would report a short,
+     quiet history while silently having discarded hundreds of resolutions. */
+  return {
+    opts: ledger.opts, open: ledger.open, closed: ledger.closed,
+    droppedClosed: ledger.droppedClosed || 0, version: ledger.version
+  };
 }
 function restoreLedger(o) {
   var l = createLedger((o && o.opts) || {});
   if (o) {
     l.open = o.open || Object.create(null);
     l.closed = o.closed || [];
+    l.droppedClosed = o.droppedClosed || 0;
     l.version = o.version || 0;
   }
   return l;

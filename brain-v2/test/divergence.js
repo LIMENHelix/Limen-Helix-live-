@@ -234,6 +234,17 @@ var REL = [DIV.relate('a', 'b', 'shared latent', 'agree', 'both track it')];
 /* cadence must be present for a horizon to exist: 1h each ⇒ horizon 12h. */
 function withCadence(s) { s.cadenceMs = HOUR; s.cadence = { state: 'measured', cadenceMs: HOUR }; return s; }
 function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b', zb))]; }
+/* A pair carrying GENUINELY NEW readings each cycle. The plain pair() above repeats the
+   same two departures, which since T30 correctly counts as ONE observation however many
+   times it is polled — so any test that needs observations to accumulate must feed real
+   movement, exactly as the world would. */
+var _tick = 0;
+function moving(za, zb) {
+  var i = ++_tick;
+  var sa = withCadence(live('a', za)), sb = withCadence(live('b', zb));
+  sa.updates = i; sb.updates = i;
+  return [sa, sb];
+}
 
 // ── T11: a claim opens once and keeps its identity ────────────────────────────
 (function () {
@@ -301,8 +312,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   console.log('T14: a gap that survives its horizon resolves as PERSISTENT, and says what it cannot prove');
   var led = DIV.createLedger();
   var t = 1e12, out = null;
-  DIV.observe(led, pair(-2.2, 2.2), REL, t);
-  for (var i = 1; i <= 12; i++) out = DIV.observe(led, pair(-2.2, 2.2), REL, t + i * HOUR);
+  DIV.observe(led, moving(-2.2, 2.2), REL, t);
+  for (var i = 1; i <= 12; i++) out = DIV.observe(led, moving(-2.2, 2.2), REL, t + i * HOUR);
 
   assert('resolved at the horizon, not before', out.resolved.length === 1, JSON.stringify(out.why));
   var r = out.resolved[0].resolution;
@@ -324,8 +335,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   console.log('T15: a gap past p<1e-6 blames the declaration, not the world');
   var led = DIV.createLedger();
   var t = 1e12, out = null;
-  DIV.observe(led, pair(-6, 6), REL, t);
-  for (var i = 1; i <= 12; i++) out = DIV.observe(led, pair(-6, 6), REL, t + i * HOUR);
+  DIV.observe(led, moving(-6, 6), REL, t);
+  for (var i = 1; i <= 12; i++) out = DIV.observe(led, moving(-6, 6), REL, t + i * HOUR);
   var r = out.resolved[0].resolution;
   /* Renamed from implausible_declaration. Significance cannot tell a wrong declaration
      from a genuine structural break, so the outcome no longer asserts which it is. */
@@ -387,8 +398,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   var t = 1e12;
   for (var k = 0; k < 3; k++) {
     var base = t + k * 100 * HOUR;
-    DIV.observe(led, pair(-6, 6), REL, base);
-    for (var i = 1; i <= 12; i++) DIV.observe(led, pair(-6, 6), REL, base + i * HOUR);
+    DIV.observe(led, moving(-6, 6), REL, base);
+    for (var i = 1; i <= 12; i++) DIV.observe(led, moving(-6, 6), REL, base + i * HOUR);
   }
   var rep = DIV.report(led);
   assert('three resolutions, all bad', rep.resolved === 3, JSON.stringify(rep.outcomes));
@@ -558,8 +569,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   /* The failure: `now >= evaluateAt` alone. A process down for 12h that came back with
      one reading resolved `persistent` from two observations. */
   var led = DIV.createLedger(), t = 1e12;
-  DIV.observe(led, pair(-2.2, 2.2), REL, t);
-  var out = DIV.observe(led, pair(-2.2, 2.2), REL, t + 12 * HOUR);   // horizon elapsed, 2 observations
+  DIV.observe(led, moving(-2.2, 2.2), REL, t);
+  var out = DIV.observe(led, moving(-2.2, 2.2), REL, t + 12 * HOUR);   // horizon elapsed, 2 observations
 
   assert('it does NOT resolve on the clock alone', out.resolved.length === 0, JSON.stringify(out.why));
   assert('it stays open', out.openCount === 1);
@@ -569,7 +580,7 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   // Feed the missing observations; it resolves on whichever cycle earns it.
   var got = [];
   for (var i = 13; i <= 20; i++) {
-    got = got.concat(DIV.observe(led, pair(-2.2, 2.2), REL, t + i * HOUR).resolved);
+    got = got.concat(DIV.observe(led, moving(-2.2, 2.2), REL, t + i * HOUR).resolved);
   }
   assert('once enough observations arrive it resolves', got.length === 1, String(got.length));
   assert('with at least the minimum observation count',
@@ -587,7 +598,7 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   var led = DIV.createLedger(), t = 1e12, got = [];
   DIV.observe(led, pair(-6, 6), REL, t);                                   // one spike
   for (var i = 1; i <= 14; i++) {                                          // then moderate
-    got = got.concat(DIV.observe(led, pair(-2.2, 2.2), REL, t + i * HOUR).resolved);
+    got = got.concat(DIV.observe(led, moving(-2.2, 2.2), REL, t + i * HOUR).resolved);
   }
   assert('it resolved exactly once', got.length === 1, String(got.length));
   var r = got[0].resolution;
@@ -708,6 +719,94 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
     'closed=' + revived.brain.divergences.closed.length);
 
   try { fs.rmSync(dir, { recursive: true, force: true }); } catch (e) { /* best effort */ }
+})();
+
+// ── T30: repeated polling is not evidence ─────────────────────────────────────
+(function () {
+  console.log('T30: polling the same readings twelve times is ONE observation, not twelve');
+  /* MIN_OBSERVATIONS was meant to stop the clock alone deciding persistence. But the
+     counter incremented on every call, so a scheduler running faster than the sensors
+     could manufacture the six required observations without either channel producing a
+     single new reading — the clock deciding again, one layer down. */
+  function still(u) {
+    var sa = withCadence(live('a', -2.2)), sb = withCadence(live('b', 2.2));
+    sa.updates = u; sb.updates = u;          // channel.js increments this only on a real update
+    return [sa, sb];
+  }
+  var led = DIV.createLedger(), t = 1e12;
+  DIV.observe(led, still(1), REL, t);
+  var claim = led.open[Object.keys(led.open)[0]];
+  assert('opens with one observation', claim.observations === 1, String(claim.observations));
+
+  // 30 polls, no new sensor updates, well past both the horizon and MIN_OBSERVATIONS.
+  var resolvedAny = [];
+  for (var i = 1; i <= 30; i++) {
+    resolvedAny = resolvedAny.concat(DIV.observe(led, still(1), REL, t + i * HOUR).resolved);
+  }
+  assert('30 identical polls do NOT accumulate observations', claim.observations === 1,
+    String(claim.observations));
+  assert('the repeats are counted separately, not discarded silently', claim.repeatPolls === 30,
+    String(claim.repeatPolls));
+  assert('and it cannot resolve persistent on polling alone', resolvedAny.length === 0,
+    JSON.stringify(resolvedAny.map(function (c) { return c.resolution.outcome; })));
+
+  // Now let the sensors actually speak, and it resolves properly.
+  var got = [];
+  for (var j = 31; j <= 45; j++) {
+    got = got.concat(DIV.observe(led, still(j), REL, t + j * HOUR).resolved);
+  }
+  assert('real updates DO accumulate and it resolves', got.length === 1, String(got.length));
+  assert('with at least the minimum genuine observations',
+    got[0].resolution.observations >= DIV.MIN_OBSERVATIONS, String(got[0].resolution.observations));
+})();
+
+// ── T31: the relationship key cannot collide ──────────────────────────────────
+(function () {
+  console.log('T31: delimiters inside channel names or latents cannot forge a collision');
+  /* Raw concatenation with ~ is ambiguous: ('a~b','c') and ('a','b~c') produce the same
+     string, so two different declarations would share one ledger slot and one id. */
+  var led = DIV.createLedger(), t = 1e12;
+  var tricky = [
+    DIV.relate('a~b', 'c', 'L', 'agree', 'w'),
+    DIV.relate('a', 'b~c', 'L', 'agree', 'w')
+  ];
+  var sensors = [
+    withCadence(live('a~b', -2.2)), withCadence(live('c', 2.2)),
+    withCadence(live('a', -2.2)), withCadence(live('b~c', 2.2))
+  ];
+  var o = DIV.observe(led, sensors, tricky, t);
+  assert('both declarations open their own claim', o.opened.length === 2, String(o.opened.length));
+  assert('under distinct ledger keys', Object.keys(led.open).length === 2,
+    JSON.stringify(Object.keys(led.open)));
+  assert('with distinct ids', o.opened[0].id !== o.opened[1].id,
+    o.opened[0].id + ' vs ' + o.opened[1].id);
+
+  // An @ in a latent must not forge the timestamp boundary either.
+  var at = DIV.createLedger();
+  var o2 = DIV.observe(at, pair(-2.2, 2.2),
+    [DIV.relate('a', 'b', 'L@9999', 'agree', 'w')], t);
+  assert('an @ inside a latent is escaped, not treated as the time separator',
+    /\\@9999/.test(o2.opened[0].id), o2.opened[0].id);
+})();
+
+// ── T32: the trim count survives restart ──────────────────────────────────────
+(function () {
+  console.log('T32: droppedClosed persists, or a trimmed history reads as a quiet one');
+  var led = DIV.createLedger(), t = 1e12;
+  for (var i = 0; i < DIV.CLOSED_CAP + 7; i++) {
+    var base = t + i * 100 * HOUR;
+    DIV.observe(led, pair(-2.2, 2.2), REL, base);
+    DIV.observe(led, pair(0, 0), REL, base + HOUR);
+  }
+  assert('some were trimmed', led.droppedClosed === 7, String(led.droppedClosed));
+
+  var round = DIV.restoreLedger(JSON.parse(JSON.stringify(DIV.serializeLedger(led))));
+  /* Without this the counter reset to zero on every restart, so a long-lived ledger
+     would report a short, clean history while having silently discarded resolutions. */
+  assert('the trim count survives the round trip', round.droppedClosed === 7,
+    String(round.droppedClosed));
+  assert('and the report still admits the history is incomplete',
+    /older ones trimmed past the/.test(DIV.report(round).why), DIV.report(round).why);
 })();
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');

@@ -584,8 +584,13 @@ var ROWS = [
   [10, 'divergence between channels logged first-class', (function(){
         var D = require('../core/divergence.js');
         var HOUR = 3600000;
-        function s(k, z){ return { key:k, fusable:true, precision:1, state:'measured',
+        /* `u` is the channel.js updates counter. It must ADVANCE for a cycle to count
+           as a new observation — repeated polling of unchanged readings is one
+           observation, not many (see test/divergence.js T30). */
+        var _u = 0;
+        function s(k, z, u){ return { key:k, fusable:true, precision:1, state:'measured', updates: u === undefined ? 1 : u,
           cadenceMs:HOUR, cadence:{state:'measured',cadenceMs:HOUR}, departure:{z:z,mean:.5,sd:.1,n:24} }; }
+        function moving(za, zb){ var i = ++_u; return [s('a', za, i), s('b', zb, i)]; }
         var rel = [D.relate('a','b','shared latent','agree','test')];
 
         // 1. DIRECTION + MAGNITUDE, against the gap's own standard error.
@@ -597,17 +602,19 @@ var ROWS = [
 
         // 2. RESOLUTION OUTCOME — a claim opens once, keeps an id, closes graded.
         var t = 1e12;
+        /* Collects resolutions across EVERY cycle. Reading only the last one missed
+           claims that closed earlier, which is how this check briefly reported row 10
+           as not-built after the evidence rule landed. */
         function runTo(seq){
-          var led = D.createLedger();
-          var out = null;
-          seq.forEach(function(step, i){ out = D.observe(led, step, rel, t + i*HOUR); });
-          return { led: led, out: out };
+          var led = D.createLedger(), resolved = [];
+          seq.forEach(function(step, i){ resolved = resolved.concat(D.observe(led, step, rel, t + i*HOUR).resolved); });
+          return { led: led, out: { resolved: resolved } };
         }
         var diverged = [s('a',-2.2), s('b',2.2)];
-        var conv = runTo([diverged, [s('a',0), s('b',0.1)]]);
-        var sens = runTo([diverged, [s('a',-2.2), {key:'b',fusable:false,state:'dead',precision:1,departure:null}]]);
-        var pers = runTo([diverged,diverged,diverged,diverged,diverged,diverged,
-                          diverged,diverged,diverged,diverged,diverged,diverged,diverged]);
+        var conv = runTo([diverged, [s('a',0,2), s('b',0.1,2)]]);
+        var sens = runTo([diverged, [s('a',-2.2,2), {key:'b',fusable:false,state:'dead',precision:1,departure:null}]]);
+        var persSeq = []; for (var pi = 0; pi < 14; pi++) persSeq.push(moving(-2.2, 2.2));
+        var pers = runTo(persSeq);
 
         var grades =
           conv.out.resolved[0] && conv.out.resolved[0].resolution.outcome === D.OUTCOME.CONVERGED &&
@@ -618,9 +625,9 @@ var ROWS = [
 
         // 3. The claim must be stable across cycles and survive restart.
         var one = D.createLedger();
-        D.observe(one, diverged, rel, t);
+        D.observe(one, moving(-2.2, 2.2), rel, t);
         var id = Object.keys(one.open).map(function(k){ return one.open[k].id; })[0];
-        D.observe(one, diverged, rel, t + HOUR);
+        D.observe(one, moving(-2.2, 2.2), rel, t + HOUR);
         var stable = Object.keys(one.open).length === 1 &&
                      one.open[Object.keys(one.open)[0]].id === id &&
                      one.open[Object.keys(one.open)[0]].observations === 2;

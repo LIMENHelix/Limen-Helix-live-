@@ -196,22 +196,51 @@ function record(ledger, key, error) {
  * pointing at the undone update meant the self-model reported a rate that no longer
  * governed anything.
  */
-function unrecord(ledger, key, evicted) {
+function unrecord(ledger, key, evicted, previousApplied) {
   var h = ledger.hist[key];
   if (!h || !h.length) return { removed: false, why: 'nothing recorded for ' + key };
   var v = h.pop();
-  var restored = false;
-  if (typeof evicted === 'number' && isFinite(evicted)) { h.unshift(evicted); restored = true; }
-  /* The cached rate described the state we just undid. Stale is worse than absent:
-     absent abstains, stale asserts. */
-  delete ledger.applied[key];
+
+  /**
+   * EXACTNESS COMES FROM PROVENANCE, NOT FROM LENGTH. Two wrong versions preceded this:
+   *
+   *   v1  `h.length < HIST_CAP - 1`  — wrong in both directions: false at the cap with
+   *       no eviction, true again after evictions had already lost data.
+   *   v2  `restored || h.length < HIST_CAP` — evaluated AFTER pop(), so the array is
+   *       necessarily below the cap and the flag was effectively ALWAYS true. It
+   *       reported exact restoration even when no provenance existed at all.
+   *
+   * The caller is the only one who knows. record() returns `evicted`: a number when it
+   * pushed something off the front, null when it did not. So there are three states and
+   * they must not collapse into two:
+   *
+   *   a finite number  -> restored to the head; exact
+   *   null             -> caller KNOWS nothing was evicted; exact
+   *   undefined        -> no provenance (legacy record); UNKNOWN, and unknown is not exact
+   */
+  var restored = false, provenance;
+  if (typeof evicted === 'number' && isFinite(evicted)) { h.unshift(evicted); restored = true; provenance = 'restored'; }
+  else if (evicted === null) provenance = 'none_evicted';
+  else provenance = 'unknown';
+
+  /* RESTORE the cached rate, do not just drop it. Deleting left the ledger in a state
+     it was never actually in, which is not an undo — it is a third state. When the
+     caller supplies what was there before, put it back; only when it cannot is the key
+     cleared, and then `appliedRestored` says so. */
+  if (previousApplied === null) delete ledger.applied[key];
+  else if (previousApplied !== undefined) ledger.applied[key] = previousApplied;
+  else delete ledger.applied[key];
+
   ledger.version++;
   return {
     removed: true, value: v, n: h.length,
     restoredEvicted: restored,
-    /* Inexact ONLY when the array was full at record time and no evicted value came
-       back to fill the hole. */
-    exact: restored || h.length < HIST_CAP
+    appliedRestored: previousApplied !== undefined,
+    provenance: provenance,
+    exact: provenance !== 'unknown' && previousApplied !== undefined,
+    why: provenance === 'unknown'
+      ? 'no eviction provenance was supplied, so whether the oldest error was lost is UNKNOWN — reported inexact rather than assumed clean'
+      : null
   };
 }
 

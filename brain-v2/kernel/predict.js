@@ -295,6 +295,33 @@ function getModel(fm, actionKind, variable) {
  */
 function efferenceCopy(fm, spec) {
   var m = getModel(fm, spec.actionKind, spec.variable);
+
+  /**
+   * MAGNITUDE IS VALIDATED HERE, at the boundary, and ZERO IS A REAL VALUE.
+   *
+   * Two defects lived on this line and the one in learn():
+   *
+   *   `typeof x === 'number'` admits NaN and Infinity, because both ARE numbers.
+   *   Either one flows straight into predictedDelta = gain*magnitude + bias, and from
+   *   there into the supervised error, the gain, the bias and the ledger — every
+   *   downstream quantity becomes non-finite and stays that way. A model cannot be
+   *   un-poisoned by later good data.
+   *
+   *   A magnitude of 0 is a legitimate claim: "this action moves that variable by
+   *   nothing". propose.js DEFAULTS expectedMagnitude to 0, so this was not a
+   *   hypothetical — every zero-magnitude action was being described as a
+   *   full-strength one further down.
+   *
+   * Non-finite is refused outright rather than defaulted. Defaulting a garbage input
+   * to 1 would invent a claim the caller never made, which is the same class of error
+   * as scoring an absent observation as zero.
+   */
+  if (spec.magnitude !== undefined && spec.magnitude !== null &&
+      (typeof spec.magnitude !== 'number' || !isFinite(spec.magnitude))) {
+    throw new Error('efference copy for ' + spec.actionKind + '/' + spec.variable +
+      ' has a non-finite magnitude (' + spec.magnitude + '). An action whose size is not a ' +
+      'finite number cannot make a falsifiable claim about its own effect.');
+  }
   var magnitude = (typeof spec.magnitude === 'number') ? spec.magnitude : 1;
   var predictedDelta = m.gain * magnitude + m.bias;
   var trusted = m.n >= fm.trustN;
@@ -374,9 +401,25 @@ function learn(fm, efference, actualDelta, now) {
   var m = getModel(fm, efference.actionKind, efference.variable);
   var predicted = efference.predictedDelta;
   var err = actualDelta - predicted;           // SUPERVISED error. Signed. Not a reward.
-  var mag = efference.magnitude || 1;
+  /* ZERO IS PRESERVED. `efference.magnitude || 1` turned a genuine zero-magnitude
+     action into a full-strength one, and propose.js defaults expectedMagnitude to 0,
+     so this fired on real data. With mag=0 the gain term correctly learns nothing —
+     you cannot estimate a slope from a zero input — while the bias still takes the
+     error, which is exactly right. */
+  var mag = (typeof efference.magnitude === 'number' && isFinite(efference.magnitude))
+    ? efference.magnitude : 1;
 
   var before = { gain: m.gain, bias: m.bias, n: m.n, sse: m.sse };
+
+  /* CAPTURED BEFORE rateFor(), which overwrites applied[key] as a side effect. Taking
+     it afterwards would have stored the NEW cached rate as though it were the old one,
+     so rollback would have "restored" the very value it was meant to undo. `applied` is
+     the ledger's cache of the last rate handed out for this key; rollback must put the
+     previous one back rather than dropping it, or the undo leaves the ledger in a state
+     it was never actually in. null means there was no cached rate, which is a different
+     fact from "we do not know". */
+  var previousApplied = fm.meta.applied[m.key] !== undefined
+    ? JSON.parse(JSON.stringify(fm.meta.applied[m.key])) : null;
 
   /* METAPLASTICITY. The rate is derived from THIS model's own prior errors, and the
      order here is the safeguard: rateFor() reads history recorded before now, and
@@ -413,6 +456,7 @@ function learn(fm, efference, actualDelta, now) {
        is carried here so rollback can put it back. Without it a deep rollback silently
        loses the oldest error and the restored rate is subtly wrong forever. */
     evictedFromLedger: recorded.evicted !== undefined ? recorded.evicted : null,
+    previousApplied: previousApplied,
     before: before, after: { gain: m.gain, bias: m.bias, n: m.n }
   };
   fm.history.push(rec);
@@ -462,7 +506,7 @@ function rollback(fm, k) {
     }
     /* The error that set the NEXT rate has to go too, or an undone outcome keeps
        grading the updates that follow it. */
-    var un = META.unrecord(fm.meta, rec.modelKey, rec.evictedFromLedger);
+    var un = META.unrecord(fm.meta, rec.modelKey, rec.evictedFromLedger, rec.previousApplied);
     if (un.removed && un.exact === false) inexact.push(rec.modelKey);
     if (rec.efferenceId && fm.consumed) delete fm.consumed[rec.efferenceId];   // undone means re-learnable
     undone.push(rec);
