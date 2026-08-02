@@ -7,7 +7,8 @@ Scored against **`SPEC.md` Part 8** (LIMEN Helix — The Complete Working Brain 
 | 2026-08-01 (morning) | **3 / 28** | afferent layer only: `core/brain.js`, `core/channel.js` |
 | 2026-08-01 (closed loop) | **23 / 28** | the closed loop: `kernel/` + 20 executed acceptance tests |
 | 2026-08-01 (rows 10/22/27) | ~~26 / 28~~ **withdrawn** | overstated: rows 10 and 22 were scored as passes while partly built |
-| 2026-08-01 (current) | **24 / 28 complete, 2 partial, 2 not built** | rows 10 and 22 honestly partial; row 27 completed |
+| 2026-08-01 (rescored) | **24 / 28 complete, 2 partial, 2 not built** | rows 10 and 22 honestly partial; row 27 completed |
+| 2026-08-01 (current) | **25 / 28 complete, 1 partial, 2 not built** | row 10 closed: divergence resolution lifecycle + corrected statistic |
 
 Reproduce every number with `node brain-v2/test/loop-acceptance.js`. The checklist rows are
 evaluated from live runtime state, not from a table someone maintains by hand — a row passes
@@ -25,11 +26,30 @@ outcome. Scoring now has three states and a row cannot contradict its own text.
 
 | # | Test | Status |
 |---|---|---|
-| **10** | Divergence between channels logged as a first-class signal | **PARTIAL.** `core/divergence.js` runs beside fusion on declared channel pairs and reports the full gap instead of the mean it would fuse to — a -1.8/+2.4 pair yields 4.2 sd, not 0.3. Direction and magnitude are logged. **The resolution outcome SPEC B5 asks for is not:** a divergence has no id, no open/resolved status, no evaluation horizon and no grader, so it can never close as sensor failure vs genuine regime split vs a wrong relationship declaration. The statistics also need work — the gap is a raw difference of two per-channel z-scores against a flat 2 sd threshold, which ignores the variance of that difference. |
+| **10** | Divergence between channels logged as a first-class signal | **COMPLETE as a mechanism, UNEXERCISED on real data.** A claim now opens once when a declared pair clears threshold, carries a stable id, and closes exactly once as `converged`, `sensor_failure`, `persistent`, or `implausible_declaration`. The grader's job is to keep an outage apart from a regime split — without it both enter downstream reasoning as the same fact. `persistent` declares the two hypotheses it *cannot* separate (real separation vs a mis-declared relationship) rather than picking the flattering one. The horizon is derived, not set: 12 periods of the slower channel, reusing `channel.js`'s own `LIVENESS_WINDOW`, and **null** rather than invented when neither channel states a cadence — a claim with no horizon never becomes `persistent`, because "we waited long enough" is meaningless without knowing how fast the slow side can speak. Statistics corrected: the gap is tested against its own standard error, since two already-standardised quantities differ by ~1.41 from their own noise alone. A raw 3.0 sd gap at n=12 is 1.88 se and correctly no longer fires; the old flat threshold was too lax by ~1.4x. Covariance is assumed zero, which is conservative — positive correlation would shrink the spread, so the error points at silence rather than false alarms. Open claims survive restart. 102 assertions. |
 | **22** | Learning rates derived per-node from own statistics | **PARTIAL.** `core/metaplasticity.js` derives the forward-model rate per model key from that key's own prior errors, bounded, abstaining below n=8, taken strictly before the current error is recorded, and surviving both rollback and restart. **That is ONE node.** Per-channel `q`/`r`, all six critic weights, the trust gate and the accumulator bound are still SET and still marked `[mark: prior]`. The finding this project's review history has logged four times is narrowed, not closed. |
 | **24** | Lateral connectivity between peer domains | **NOT BUILT.** One domain is bound. A lateral edge *type* exists in `packet.js` and is exercised by `connectome.js`, but there is no peer to connect to, so the property is untested rather than satisfied. |
 | **25** | Topology-editing mechanism (pruning) | **NOT BUILT.** Weights change and episodes retire, but nothing edits the graph structure. Per SPEC B16 this is the only mechanism that changes topology rather than weights; without it the graph can only grow. |
 | **27** | Cadence derived from each domain's own event spacing | **COMPLETE**, as of the liveness fix. `inferCadence` measures the median interval between VALUE CHANGES rather than between polls, and abstains to the declared prior below 6 changes. Both consumers now use the measured period. It shipped half-applied: `predict()` grew uncertainty against the measured value while `observe()` still sampled at the declared one, so the three channels found to change every 1-4h while declared 24h kept discarding 23 of every 24 liveness samples — 2 retained of 48, against 43 now. **Open modelling question:** the interval between value changes is a process timescale, not necessarily a reporting cadence, and with `CHANGE_EPS` at 1e-9 a noisy continuous feed will "change" every poll and collapse the estimate back to the poll rate. Arrival cadence and state-change timescale should eventually be tracked separately. |
+
+---
+
+## A finding the divergence lifecycle produced on its first real run
+
+Replaying all 362 hours with the lifecycle wired in, **it fired nothing** — and the reason
+is a defect in the energy binding rather than in divergence:
+
+- **6 of the 7 declared energy relationships are dead letters.** `fredCrude/eiaPetro`,
+  `fredCrude/massiveOil`, `natGas/lng`, `solar/wind`, `nuclear/fedRegNrc` and `coal/solar`
+  were skipped on **every one of 362 cycles**, because one side is permanently non-fusable
+  — 11 of 18 energy channels are dead. Those six declarations cannot produce a divergence
+  in either direction no matter what the world does.
+- The seventh, `gridRel/electricity`, was comparable in **140 of 362** cycles and never
+  cleared 2 se.
+
+So the lifecycle is proven on constructed fixtures and has never run in anger. Both facts
+are asserted in `test/divergence.js` T21, so reviving those channels will fail the test and
+force the numbers to be re-read rather than letting a stale "0 divergences" pass as calm.
 
 ---
 

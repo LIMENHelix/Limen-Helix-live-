@@ -583,21 +583,60 @@ var ROWS = [
   [9,  'channel inventory exists and feeds confidence', lastRep.selfModel.confidence.coverage !== undefined, 'confidence = coverage x consistency; 1 live channel caps at ' + VIT.confidence({live:1},1).value.toFixed(3)],
   [10, 'divergence between channels logged first-class', (function(){
         var D = require('../core/divergence.js');
-        var r = D.detect([{key:'a',fusable:true,precision:1,departure:{z:-1.8,n:12}},
-                          {key:'b',fusable:true,precision:1,departure:{z:2.4,n:12}}],
-                         [D.relate('a','b','shared latent','agree','test')]);
-        var detects = r.detected && Math.abs(r.divergences[0].magnitude - 4.2) < 1e-9;
-        /* SPEC B5 asks for direction, magnitude AND resolution outcome. Two of three
-           are built, so this is PARTIAL and not a pass. */
-        return detects ? 'partial' : false;
-      })(), 'core/divergence.js runs beside fusion on the per-channel departures. ' +
-           (require('../bind/energy.js').RELATIONSHIPS||[]).length + ' declared pairs on energy; ' +
-           'a -1.8/+2.4 pair reports the full 4.2 sd gap instead of the 0.3 sd mean it would fuse to. ' +
-           'PARTIAL: direction and magnitude are logged, RESOLUTION OUTCOME is not. A divergence is an ' +
-           'instantaneous alert with no id, no open/resolved status, no evaluation horizon and no grader, ' +
-           'so it can never close as sensor-failure vs real regime split vs bad declaration. Also: the gap ' +
-           'is a raw difference of two per-channel z-scores against a flat 2 sd threshold, which ignores ' +
-           'the variance of that difference'],
+        var HOUR = 3600000;
+        function s(k, z){ return { key:k, fusable:true, precision:1, state:'measured',
+          cadenceMs:HOUR, cadence:{state:'measured',cadenceMs:HOUR}, departure:{z:z,mean:.5,sd:.1,n:24} }; }
+        var rel = [D.relate('a','b','shared latent','agree','test')];
+
+        // 1. DIRECTION + MAGNITUDE, against the gap's own standard error.
+        var det = D.detect([s('a',-1.8), s('b',2.4)], rel);
+        var detects = det.detected &&
+          Math.abs(det.divergences[0].magnitude - 4.2) < 1e-9 &&
+          det.divergences[0].standardizedGap > 0 &&
+          det.divergences[0].standardizedGap < det.divergences[0].magnitude;
+
+        // 2. RESOLUTION OUTCOME — a claim opens once, keeps an id, closes graded.
+        var t = 1e12;
+        function runTo(seq){
+          var led = D.createLedger();
+          var out = null;
+          seq.forEach(function(step, i){ out = D.observe(led, step, rel, t + i*HOUR); });
+          return { led: led, out: out };
+        }
+        var diverged = [s('a',-2.2), s('b',2.2)];
+        var conv = runTo([diverged, [s('a',0), s('b',0.1)]]);
+        var sens = runTo([diverged, [s('a',-2.2), {key:'b',fusable:false,state:'dead',precision:1,departure:null}]]);
+        var pers = runTo([diverged,diverged,diverged,diverged,diverged,diverged,
+                          diverged,diverged,diverged,diverged,diverged,diverged,diverged]);
+
+        var grades =
+          conv.out.resolved[0] && conv.out.resolved[0].resolution.outcome === D.OUTCOME.CONVERGED &&
+          sens.out.resolved[0] && sens.out.resolved[0].resolution.outcome === D.OUTCOME.SENSOR &&
+          pers.out.resolved[0] && pers.out.resolved[0].resolution.outcome === D.OUTCOME.PERSISTENT &&
+          // and persistence declares what it cannot separate
+          pers.out.resolved[0].resolution.confounded.hypotheses.length === 2;
+
+        // 3. The claim must be stable across cycles and survive restart.
+        var one = D.createLedger();
+        D.observe(one, diverged, rel, t);
+        var id = Object.keys(one.open).map(function(k){ return one.open[k].id; })[0];
+        D.observe(one, diverged, rel, t + HOUR);
+        var stable = Object.keys(one.open).length === 1 &&
+                     one.open[Object.keys(one.open)[0]].id === id &&
+                     one.open[Object.keys(one.open)[0]].observations === 2;
+        var restored = D.restoreLedger(JSON.parse(JSON.stringify(D.serializeLedger(one))));
+        var survives = D.report(restored).open === 1;
+
+        return (detects && grades && stable && survives) ? true : false;
+      })(), 'core/divergence.js runs beside fusion on per-channel departures and now CLOSES. A claim opens ' +
+           'once, carries a stable id, and resolves exactly once into converged / sensor_failure / persistent / ' +
+           'implausible_declaration; persistent states the two hypotheses it cannot separate. The horizon is ' +
+           'derived (12 periods of the slower channel, reusing channel.js LIVENESS_WINDOW) and is null rather ' +
+           'than invented when neither states a cadence. The gap is tested against its OWN standard error ' +
+           '(two standardised quantities differ by ~1.41 from noise alone), so a raw 3.0 sd gap at n=12 is ' +
+           '1.88 se and correctly no longer fires. Open claims survive restart. ' +
+           'UNEXERCISED ON REAL DATA: replaying 362h, 6 of 7 declared energy relationships were skipped every ' +
+           'cycle because one side is permanently dead, and the 7th cleared nothing in 140 comparable cycles'],
   [11, '>=3 modulators computing different quantities', orth.satisfiesRow11, orth.why],
   [12, 'offline state that excludes encoding', MAIN.consolidator.passes > 0, CON.run(CON.create(), MAIN.memory, { now: 0, arousalState: 'wake' }).refused === 'state_exclusivity' ? 'consolidation REFUSED in wake state; ' + MAIN.consolidator.passes + ' passes ran offline' : 'no refusal'],
   [13, 'offline pass holds write authority', !!(consPass && consPass.writeAuthority && consPass.writes.length), consPass ? consPass.writes.length + ' writes performed, not proposed' : 'no pass ran'],

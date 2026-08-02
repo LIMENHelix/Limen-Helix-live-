@@ -86,6 +86,10 @@ function createBrain(spec) {
        Only these are compared for disagreement — see core/divergence.js on why an
        all-pairs sweep is noise rather than information. */
     relationships: spec.relationships || [],
+    /* Open + resolved divergence claims. State, deliberately: a divergence that is
+       recomputed from scratch every cycle can never be graded, and SPEC B5 asks for a
+       resolution outcome, not an alert. */
+    divergences: DIV.createLedger(),
     efferent: spec.efferent || null,     // R7: declared consumers, or explicitly none
     history: [],                          // fused state, for the baseline
     cycles: 0
@@ -205,6 +209,14 @@ function cycle(brain, readings, now) {
    * are in open contradiction.
    */
   var divergence = DIV.detect(sensors, brain.relationships);
+
+  /* AND THE LIFECYCLE. detect() is a fact about this cycle; the ledger is what turns a
+     recurring alert into a claim that opens once, carries an id, and closes with a
+     stated outcome. Without it the same disagreement is rediscovered and forgotten
+     every cycle, and an outage is indistinguishable from a regime split downstream. */
+  var divergenceLifecycle = DIV.observe(brain.divergences, sensors, brain.relationships, now);
+  divergence.lifecycle = divergenceLifecycle;
+  divergence.outcomes = DIV.report(brain.divergences);
 
   // ── REPORT ───────────────────────────────────────────────────────────────────────────
   return {
