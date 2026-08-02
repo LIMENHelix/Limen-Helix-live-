@@ -119,3 +119,13 @@ assets/data/town-*.csv
 # directory without needing a new line each time.
 __pycache__/
 *.py[cod]
+
+# Headless Chrome user-data profiles, left behind by the screenshot/video runs.
+# 11MB each and they contain Default/Login Data, Default/Network/Cookies and Trust
+# Tokens — browser credential stores. This repo's source is publicly readable and
+# main auto-deploys, so these must never be tracked. Regenerable: Chrome rebuilds a
+# profile on next launch.
+/cp_*/
+
+# Screenshots produced by those same runs. Regenerable output, not source.
+/shots/
