@@ -403,12 +403,16 @@ function learn(fm, efference, actualDelta, now) {
   m.sse += err * err;
   m.lastUpdate = now;
 
-  META.record(fm.meta, m.key, err);          // strictly AFTER the rate was taken
+  var recorded = META.record(fm.meta, m.key, err);   // strictly AFTER the rate was taken
 
   var rec = {
     at: now, modelKey: m.key, traceId: efference.traceId, actionId: efference.actionId, efferenceId: efference.id,
     predicted: predicted, actual: actualDelta, supervisedError: err,
     learningRate: lr, rateState: lrInfo.state, rateBasis: lrInfo.why,
+    /* If this record pushed the ledger past its cap, the value that fell off the front
+       is carried here so rollback can put it back. Without it a deep rollback silently
+       loses the oldest error and the restored rate is subtly wrong forever. */
+    evictedFromLedger: recorded.evicted !== undefined ? recorded.evicted : null,
     before: before, after: { gain: m.gain, bias: m.bias, n: m.n }
   };
   fm.history.push(rec);
@@ -458,7 +462,7 @@ function rollback(fm, k) {
     }
     /* The error that set the NEXT rate has to go too, or an undone outcome keeps
        grading the updates that follow it. */
-    var un = META.unrecord(fm.meta, rec.modelKey);
+    var un = META.unrecord(fm.meta, rec.modelKey, rec.evictedFromLedger);
     if (un.removed && un.exact === false) inexact.push(rec.modelKey);
     if (rec.efferenceId && fm.consumed) delete fm.consumed[rec.efferenceId];   // undone means re-learnable
     undone.push(rec);

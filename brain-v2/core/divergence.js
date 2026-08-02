@@ -58,8 +58,16 @@ var CH = require('./channel.js');
  *
  * and each term is available or honestly boundable:
  *
- *   Var(z) = 1                     a standardised quantity has unit variance, by
- *                                  construction, not by assumption.
+ *   Var(z) ~ 1                     APPROXIMATELY unit variance. An earlier version of
+ *                                  this comment said "by construction, not by
+ *                                  assumption", and that overstated it: departure z is
+ *                                  a Kalman-FILTERED posterior divided by an ESTIMATED
+ *                                  baseline sd, and neither step guarantees unit
+ *                                  variance. The filter smooths, which shrinks it; the
+ *                                  estimated denominator adds spread of its own. It is
+ *                                  a serviceable approximation, not an identity, which
+ *                                  is why the operating point below is measured rather
+ *                                  than read off a normal table.
  *          + (1 + z^2/2) / n       the mean and sd were themselves estimated from n
  *                                  baseline samples, so z is an ESTIMATE. This is the
  *                                  delta-method standard error of a standardised
@@ -81,28 +89,57 @@ var CH = require('./channel.js');
  * divergence so a caller can see belief confidence separately.
  */
 function varianceOfZ(z, n) {
-  var est = (typeof n === 'number' && n > 0) ? (1 + (z * z) / 2) / n : 1;
-  return 1 + est;
+  if (!isFinite(z)) return null;
+  /* n < 1 means NO baseline. The first version returned est = 1 there, which made a
+     channel with zero baseline samples look MORE certain than one with a single sample
+     (est 1 vs 5.125). No data must abstain, not present as confidence. */
+  if (typeof n !== 'number' || !isFinite(n) || n < 1) return null;
+  return 1 + (1 + (z * z) / 2) / n;
 }
 
 /**
- * How much of a gap counts, IN UNITS OF ITS OWN STANDARD ERROR.
+ * How much of a gap counts, in units of the difference's own estimated spread.
  *
- * 2.0 [mark: prior] — two justifications that happen to agree. It is the threshold
- * core/brain.js uses for dysregulation, so "this channel departed" and "these channels
- * disagree" stay on one scale; and for a two-sided test it is the conventional 5%
- * level (1.96). Note this is STRICTER than the old raw 2.0: a raw gap now needs to be
- * roughly 2.9 sd before it clears the same number.
+ * 2.0 [mark: prior] — the same threshold core/brain.js uses for dysregulation, so "this
+ * channel departed" and "these channels disagree" stay on one scale. It is STRICTER
+ * than the old raw 2.0: a raw gap now needs roughly 2.9 sd to clear it.
+ *
+ * IT IS NOT THE 5% LEVEL, AND SAYING SO WAS WRONG. An earlier version of this comment
+ * justified 2.0 as "the conventional 5% level (1.96)". That is what 2.0 would mean for
+ * a genuine standard normal, and this quantity is not one: departure z is a
+ * Kalman-filtered posterior divided by an estimated baseline sd, so unit variance is an
+ * approximation rather than a construction, and the zero-covariance assumption makes
+ * the denominator deliberately too wide.
+ *
+ * MEASURED instead of assumed, in test/divergence-calibration.js, by simulating two
+ * channels observing ONE latent through the real channel.js pipeline so every detection
+ * is a false positive by construction:
+ *
+ *     equal noise      0.76%  (34 / 4480 comparable readings)
+ *     6x uneven noise  1.34%  (60 / 4480)
+ *
+ * So the true operating point is roughly 1%, about a sixth of nominal — conservative in
+ * the documented direction, but NOT calibrated. Quote the measured rate, never a
+ * p-value. Power is measured too, because a test that never fires is deaf rather than
+ * careful: on data that genuinely separates it detects 69% of readings.
  */
 var DIVERGE_Z = 2.0;
 
 /**
- * Past this, the relationship DECLARATION is the likelier fault rather than the world.
+ * Past this the gap is EXTREME. It is not, on its own, proof of anything.
  *
- * 5.0 [mark: prior], and the reasoning is the point: at 5 standard errors the null
- * "these two observe the same latent" is rejected at p < 1e-6. A one-in-a-million
- * disagreement between instruments is a less economical explanation than someone
- * having declared a relationship that does not hold.
+ * 5.0 [mark: prior]. An earlier version claimed "p < 1e-6" here. That number was never
+ * measured and is not supported: calibration at 2.0 came in at 0.76% against a nominal
+ * 5%, so this statistic's tail does not follow the normal quantiles the p-value was
+ * read off. What IS measured is that 5.0 never fired once in 4480 null readings — a
+ * bound, not a probability, and 4480 samples cannot evidence a one-in-a-million rate
+ * either way. An earlier version also named the outcome
+ * `implausible_declaration`, which asserts the declaration is at fault. That claim is
+ * not available from significance alone — a genuine structural break can violate a
+ * perfectly correct relationship by any margin you like, and no test can tell the two
+ * apart from the gap's size. Size shifts which reading is more economical; it does not
+ * settle it. The outcome is now `extreme_persistent` and carries the same `confounded`
+ * record as `persistent`.
  */
 var IMPLAUSIBLE_Z = 5.0;
 
@@ -124,8 +161,27 @@ var OUTCOME = {
   CONVERGED:   'converged',              // came back into agreement, both sides live
   SENSOR:      'sensor_failure',         // a side stopped reporting while open
   PERSISTENT:  'persistent',             // survived the horizon with both sides live
-  IMPLAUSIBLE: 'implausible_declaration' // too far apart for the declaration to hold
+  EXTREME:     'extreme_persistent',     // as persistent, but past the 5.0 se mark
+  WITHDRAWN:   'declaration_withdrawn'   // the relationship was removed while open
 };
+
+/**
+ * A claim is graded persistent only after this many DISTINCT observations, in addition
+ * to the horizon elapsing.
+ *
+ * The horizon alone was not enough, and the failure was concrete: if the process is
+ * down for 12 hours and comes back with one reading, `now >= evaluateAt` is true and
+ * the claim resolved `persistent` on the strength of TWO observations. That is time
+ * passing being mistaken for evidence arriving. Both conditions must hold now — enough
+ * wall-clock for the slow channel to have spoken, AND enough actual readings to show
+ * it did.
+ */
+var MIN_OBSERVATIONS = 6;
+
+/** Resolved claims retained. Beyond this the oldest are dropped, and the count of
+ *  dropped ones is reported rather than silently forgotten — an unbounded array inside
+ *  a snapshot grows the snapshot forever. */
+var CLOSED_CAP = 512;
 
 /**
  * Declare a relationship between two channels.
@@ -185,9 +241,13 @@ function detect(sensors, relationships, opts) {
       return;
     }
 
-    comparable++;
-
     var g = gapStatistic(a, b, rel.expect);
+    if (!g.computable) {
+      skipped.push({ pair: rel.a + '/' + rel.b, reason: 'not_computable', why: g.why });
+      return;
+    }
+
+    comparable++;
     if (g.standardizedGap < zThresh) return;
 
     divergences.push({
@@ -212,8 +272,9 @@ function detect(sensors, relationships, opts) {
       ],
       why: rel.why,
       note: g.standardizedGap >= IMPLAUSIBLE_Z
-        ? 'at ' + g.standardizedGap.toFixed(1) + ' standard errors the shared-latent claim is rejected at p < 1e-6 — ' +
-          'a wrong relationship declaration is a more economical explanation than a real disagreement this large. ' +
+        ? 'at ' + g.standardizedGap.toFixed(1) + ' se the gap is far past anything measured under a shared ' +
+          'latent (5.0 se never fired in 4480 null readings). A wrong relationship declaration is the more ' +
+          'economical reading, though a real structural break can also violate a correct one by any margin. ' +
           'Check that ' + rel.a + ' and ' + rel.b + ' genuinely observe "' + rel.latent + '"'
         : 'both channels are live and disagree about "' + rel.latent + '" by ' + g.magnitude.toFixed(2) +
           ' sd (' + g.standardizedGap.toFixed(2) + ' se); this is a signal in its own right, not an averaging error'
@@ -248,13 +309,35 @@ function gapStatistic(a, b, expect) {
      opposite, and it is their AGREEMENT that would be the anomaly. */
   var za = a.departure.z;
   var zb = expect === 'invert' ? -b.departure.z : b.departure.z;
+
+  /* NON-FINITE INPUT MUST NOT READ AS CALM. Until 2026-08-02 a NaN departure produced
+     magnitude NaN, se NaN and standardizedGap 0 — because `se > 0` is false for NaN —
+     so a broken channel silently reported NO DIVERGENCE. An Infinity produced a NaN
+     gap, and `NaN >= threshold` is also false, with the same result. Garbage in, false
+     reassurance out, which is the single worst direction for this module to fail. */
+  var va = varianceOfZ(za, a.departure.n);
+  var vb = varianceOfZ(zb, b.departure.n);
+  if (va === null || vb === null) {
+    return {
+      computable: false,
+      differenceZ: null, magnitude: null, standardError: null, standardizedGap: null,
+      why: 'not computable: ' +
+        (!isFinite(za) ? a.key + ' departure is ' + za :
+         !isFinite(zb) ? b.key + ' departure is ' + zb :
+         'a baseline count is missing or below 1 (' + a.key + ' n=' + a.departure.n +
+         ', ' + b.key + ' n=' + b.departure.n + ')') +
+        '. This is UNMEASURABLE, not agreement.'
+    };
+  }
+
   var d = za - zb;
-  var se = Math.sqrt(varianceOfZ(za, a.departure.n) + varianceOfZ(zb, b.departure.n));
+  var se = Math.sqrt(va + vb);
   return {
+    computable: true,
     differenceZ: d,
     magnitude: Math.abs(d),
     standardError: se,
-    standardizedGap: se > 0 ? Math.abs(d) / se : 0
+    standardizedGap: Math.abs(d) / se     // se >= sqrt(2) always, so never a divide by zero
   };
 }
 
@@ -292,13 +375,24 @@ function gapStatistic(a, b, expect) {
 function createLedger(opts) {
   return {
     opts: opts || {},
-    open: Object.create(null),   // pairKey -> claim. At most one open claim per pair.
+    open: Object.create(null),   // relKey -> claim. At most one open claim per relationship.
     closed: [],                  // resolved claims, oldest first
+    droppedClosed: 0,            // trimmed past CLOSED_CAP, counted rather than forgotten
     version: 0
   };
 }
 
-function pairKey(rel) { return rel.a + '~' + rel.b + '~' + rel.latent; }
+/**
+ * A relationship's identity is (a, b, latent, expect) — NOT just the channel pair.
+ *
+ * Two declarations can legitimately relate the same two channels through different
+ * latents, and they are different claims that can resolve differently. The public id
+ * omitted latent and expect until 2026-08-02, so two such relationships opening on the
+ * same tick received byte-identical ids and `report()` merged their outcomes into one
+ * row. An id that collides is not an id.
+ */
+function relKey(rel) { return rel.a + '~' + rel.b + '~' + rel.latent + '~' + rel.expect; }
+function claimId(rel, now) { return 'dv_' + relKey(rel) + '@' + now; }
 
 /**
  * The horizon this claim will be graded on, derived from the channels rather than set.
@@ -340,9 +434,26 @@ function observe(ledger, sensors, relationships, now, opts) {
   (sensors || []).forEach(function (s) { byKey[s.key] = s; });
 
   var opened = [], updated = [], resolved = [];
+  var minObs = (typeof opts.minObservations === 'number') ? opts.minObservations : MIN_OBSERVATIONS;
+
+  /* WITHDRAWN DECLARATIONS. Only current relationships are iterated below, so a claim
+     whose declaration was removed from the manifest would sit open forever — invisible
+     to the grader and still counted in `open`. Sweep them first and close them honestly:
+     the claim did not resolve, its question was retracted. */
+  var declared = Object.create(null);
+  (relationships || []).forEach(function (rel) { declared[relKey(rel)] = true; });
+  Object.keys(ledger.open).forEach(function (k) {
+    if (declared[k]) return;
+    var stranded = ledger.open[k];
+    resolved.push(close(ledger, k, stranded, OUTCOME.WITHDRAWN, now, null,
+      'the relationship declaration was removed from the manifest while this divergence was ' +
+      'open, so the question it was asking no longer exists. This is NOT a finding about ' +
+      stranded.latent + ' — it is a change to our own model, recorded so the claim does not ' +
+      'sit open forever unexamined.'));
+  });
 
   (relationships || []).forEach(function (rel) {
-    var k = pairKey(rel);
+    var k = relKey(rel);
     var claim = ledger.open[k] || null;
     var a = byKey[rel.a], b = byKey[rel.b];
     var comparable = a && b && a.fusable && b.fusable && a.departure && b.departure;
@@ -360,13 +471,19 @@ function observe(ledger, sensors, relationships, now, opts) {
     }
 
     var g = gapStatistic(a, b, rel.expect);
+    if (!g.computable) {
+      /* Unmeasurable is not agreement and not disagreement. An open claim cannot be
+         graded on a reading that does not exist, so it simply waits. */
+      if (claim) { claim.lastUncomputableAt = now; claim.uncomputable = (claim.uncomputable || 0) + 1; }
+      return;
+    }
     var diverging = g.standardizedGap >= zThresh;
 
     // ── still standing, or newly opened ──────────────────────────────────────────
     if (diverging) {
       if (!claim) {
         claim = {
-          id: 'dv_' + rel.a + '~' + rel.b + '@' + now,
+          id: claimId(rel, now),
           channels: [rel.a, rel.b],
           latent: rel.latent,
           expect: rel.expect,
@@ -404,19 +521,30 @@ function observe(ledger, sensors, relationships, now, opts) {
       }
       ledger.version++;
 
-      if (claim.evaluateAt !== null && now >= claim.evaluateAt) {
-        var implausible = claim.peak.standardizedGap >= implausibleZ;
+      /* TWO CONDITIONS, NOT ONE. Elapsed horizon says enough time passed for the slow
+         channel to have spoken; the observation count says it actually did. Grading on
+         the clock alone let a 12-hour outage plus one reading resolve `persistent` from
+         two observations. */
+      var timeUp = claim.evaluateAt !== null && now >= claim.evaluateAt;
+      var enoughEvidence = claim.observations >= minObs;
+
+      if (timeUp && enoughEvidence) {
+        /* JUDGED ON THE STANDING GAP, NOT A SINGLE SPIKE. The first version classified
+           on `peak`, so one extreme reading that then decayed to a moderate standing gap
+           still branded the declaration implausible for good. What matters at resolution
+           is what the gap IS, not the worst it ever was; the peak is still reported. */
+        var extreme = g.standardizedGap >= implausibleZ;
         resolved.push(close(ledger, k, claim,
-          implausible ? OUTCOME.IMPLAUSIBLE : OUTCOME.PERSISTENT, now, g,
-          implausible
-            ? 'stood for its full horizon and peaked at ' + claim.peak.standardizedGap.toFixed(1) +
-              ' se, past the p < 1e-6 point. A relationship declared between ' + rel.a + ' and ' +
-              rel.b + ' over "' + rel.latent + '" that is violated this hard is more likely wrong ' +
-              'than describing a real split.'
-            : 'stood for its full horizon with both channels live, across ' + claim.observations +
-              ' checks. The two sources are genuinely reporting different things about "' +
-              rel.latent + '".'));
+          extreme ? OUTCOME.EXTREME : OUTCOME.PERSISTENT, now, g,
+          'stood for its full horizon with both channels live, across ' + claim.observations +
+          ' observations, ending at ' + g.standardizedGap.toFixed(2) + ' se (peak ' +
+          claim.peak.standardizedGap.toFixed(2) + ')' +
+          (extreme ? ' — past 5.0 se, which never fired under a simulated shared latent.' : '.')));
       } else {
+        claim.pending = timeUp
+          ? 'horizon elapsed but only ' + claim.observations + ' of ' + minObs +
+            ' observations — waiting for evidence, not for the clock'
+          : null;
         updated.push(claim);
       }
       return;
@@ -451,21 +579,36 @@ function close(ledger, k, claim, outcome, now, finalGap, why) {
     finalGap: finalGap ? finalGap.standardizedGap : null,
     why: why,
     /* WHAT THIS OUTCOME CANNOT SETTLE, stated rather than left for a reader to assume.
-       `persistent` is the one that matters: a standing gap between two live channels
-       is equally consistent with the sources having genuinely come apart and with the
-       relationship having been mis-declared in the first place. The data cannot
-       separate them, so the record says so instead of picking the flattering one. */
-    confounded: outcome === OUTCOME.PERSISTENT
+       A standing gap between two live channels is equally consistent with the sources
+       having genuinely come apart and with the relationship having been mis-declared.
+       The data cannot separate them, so the record says so instead of picking one.
+
+       EXTREME IS CONFOUNDED TOO. An earlier version called the extreme case
+       `implausible_declaration`, which asserts the declaration is the fault. Statistical
+       significance cannot distinguish a wrong declaration from a genuine structural
+       break — a real regime change can violate a perfectly correct relationship by any
+       margin you like. Size shifts which hypothesis is more economical; it does not
+       settle it, and the outcome name no longer pretends otherwise. */
+    confounded: (outcome === OUTCOME.PERSISTENT || outcome === OUTCOME.EXTREME)
       ? {
           hypotheses: ['regime_separation', 'wrong_relationship_declaration'],
           why: 'a standing gap between two live channels fits both. Separating them needs ' +
                'evidence this brain does not have: whether the pair agreed over a longer prior ' +
-               'history, or an independent third channel on the same latent.'
+               'history, or an independent third channel on the same latent.' +
+               (outcome === OUTCOME.EXTREME
+                 ? ' The size makes a wrong declaration the more economical reading, but a real ' +
+                   'structural break can violate a correct relationship by any margin — significance ' +
+                   'does not decide between them.'
+                 : '')
         }
       : null
   };
   delete ledger.open[k];
   ledger.closed.push(claim);
+  /* Bounded. An unbounded array lives inside every snapshot, so "keep everything" means
+     the snapshot grows without limit for as long as the process runs. What was dropped
+     is counted, because a silently shortened history reads as a quiet one. */
+  while (ledger.closed.length > CLOSED_CAP) { ledger.closed.shift(); ledger.droppedClosed++; }
   ledger.version++;
   return claim;
 }
@@ -498,32 +641,42 @@ function report(ledger) {
   Object.keys(OUTCOME).forEach(function (k) { counts[OUTCOME[k]] = 0; });
   ledger.closed.forEach(function (c) { counts[c.resolution.outcome]++; });
 
-  var byPair = {};
+  /* KEYED BY THE RELATIONSHIP, NOT THE CHANNEL PAIR. Grouping on channels alone merged
+     two declarations that relate the same pair through different latents, so their
+     outcomes were pooled and neither could be judged on its own record. */
+  var byRelationship = {};
   ledger.closed.forEach(function (c) {
-    var k = c.channels.join('~');
-    if (!byPair[k]) byPair[k] = { pair: c.channels, latent: c.latent, total: 0, outcomes: {} };
-    byPair[k].total++;
-    byPair[k].outcomes[c.resolution.outcome] = (byPair[k].outcomes[c.resolution.outcome] || 0) + 1;
+    var k = c.channels[0] + '~' + c.channels[1] + '~' + c.latent + '~' + c.expect;
+    if (!byRelationship[k]) {
+      byRelationship[k] = { pair: c.channels, latent: c.latent, expect: c.expect, total: 0, outcomes: {} };
+    }
+    byRelationship[k].total++;
+    byRelationship[k].outcomes[c.resolution.outcome] = (byRelationship[k].outcomes[c.resolution.outcome] || 0) + 1;
   });
 
-  /* A declaration that only ever resolves implausible or persistent is a declaration
-     worth re-examining, and this is the surface that says so. */
-  var suspect = Object.keys(byPair).map(function (k) { return byPair[k]; })
+  /* A declaration that only ever resolves into a standing gap is worth re-examining,
+     and this is the surface that says so. Sensor failures and withdrawals are excluded
+     from the denominator: neither is evidence about the declaration. */
+  var suspect = Object.keys(byRelationship).map(function (k) { return byRelationship[k]; })
     .filter(function (p) {
-      var bad = (p.outcomes[OUTCOME.IMPLAUSIBLE] || 0) + (p.outcomes[OUTCOME.PERSISTENT] || 0);
-      return p.total >= 3 && bad === p.total;
+      var informative = (p.outcomes[OUTCOME.CONVERGED] || 0) + (p.outcomes[OUTCOME.PERSISTENT] || 0) +
+                        (p.outcomes[OUTCOME.EXTREME] || 0);
+      var bad = (p.outcomes[OUTCOME.EXTREME] || 0) + (p.outcomes[OUTCOME.PERSISTENT] || 0);
+      return informative >= 3 && bad === informative;
     });
 
   return {
     open: openClaims(ledger).length,
     resolved: ledger.closed.length,
+    droppedClosed: ledger.droppedClosed || 0,
     outcomes: counts,
-    byPair: byPair,
+    byRelationship: byRelationship,
     suspectDeclarations: suspect,
     why: ledger.closed.length === 0
       ? 'no divergence has resolved yet — outcome distribution is UNMEASURED, not empty'
-      : ledger.closed.length + ' resolved: ' +
-        Object.keys(counts).filter(function (o) { return counts[o]; })
+      : ledger.closed.length + ' resolved' +
+        (ledger.droppedClosed ? ' (+' + ledger.droppedClosed + ' older ones trimmed past the ' + CLOSED_CAP + ' cap)' : '') +
+        ': ' + Object.keys(counts).filter(function (o) { return counts[o]; })
           .map(function (o) { return counts[o] + ' ' + o; }).join(', ')
   };
 }
@@ -555,5 +708,7 @@ module.exports = {
   OUTCOME: OUTCOME,
   DIVERGE_Z: DIVERGE_Z,
   IMPLAUSIBLE_Z: IMPLAUSIBLE_Z,
+  MIN_OBSERVATIONS: MIN_OBSERVATIONS,
+  CLOSED_CAP: CLOSED_CAP,
   HORIZON_PERIODS: HORIZON_PERIODS
 };

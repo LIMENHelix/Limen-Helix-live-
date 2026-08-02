@@ -184,17 +184,35 @@ function record(ledger, key, error) {
  * rolled-back poison update left its error in the ledger and inflated every
  * subsequent rate.
  *
- * HONEST LIMIT. Once a key passes HIST_CAP entries, record() evicts the oldest and
- * that value is gone; unrecord cannot put it back. So a rollback deeper than the
- * eviction boundary restores the tail but not the head, and says so via `exact`.
- * Rolling back k updates with k far below 256 — every real use — is exact.
+ * EXACTNESS IS NOW A FACT, NOT A PROXY. The first version inferred it from array
+ * length (`h.length < HIST_CAP - 1`), which was wrong in BOTH directions: a ledger
+ * sitting exactly at the cap with no eviction ever reported `exact: false`, and a
+ * ledger that HAD evicted 50 entries reported `exact: true` once unrecords brought its
+ * length back down. Callers now pass back the value record() evicted, which is
+ * restored to the head, so the undo is genuinely exact — and when the caller has no
+ * evicted value to give, that is the only case reported inexact.
+ *
+ * `applied` is cleared too. It caches the last rate handed out for a key; leaving it
+ * pointing at the undone update meant the self-model reported a rate that no longer
+ * governed anything.
  */
-function unrecord(ledger, key) {
+function unrecord(ledger, key, evicted) {
   var h = ledger.hist[key];
   if (!h || !h.length) return { removed: false, why: 'nothing recorded for ' + key };
   var v = h.pop();
+  var restored = false;
+  if (typeof evicted === 'number' && isFinite(evicted)) { h.unshift(evicted); restored = true; }
+  /* The cached rate described the state we just undid. Stale is worse than absent:
+     absent abstains, stale asserts. */
+  delete ledger.applied[key];
   ledger.version++;
-  return { removed: true, value: v, n: h.length, exact: h.length < HIST_CAP - 1 };
+  return {
+    removed: true, value: v, n: h.length,
+    restoredEvicted: restored,
+    /* Inexact ONLY when the array was full at record time and no evicted value came
+       back to fill the hole. */
+    exact: restored || h.length < HIST_CAP
+  };
 }
 
 /** Serialise the whole ledger. Weights that survive restart with a blank error history

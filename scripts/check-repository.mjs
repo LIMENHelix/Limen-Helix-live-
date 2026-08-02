@@ -56,18 +56,31 @@ for (const f of tracked('*.js', '*.mjs', '*.cjs')) {
   try { src = readFileSync(f, 'utf8'); }
   catch (e) { failures.push({ f, why: 'unreadable: ' + e.message }); continue; }
 
-  /* THE GRAMMAR IS DECIDED BY THE EXTENSION, because Node decides it that way.
-     This used to try module then script for every file and accept either, which
-     passed things Node rejects at load: an `import` inside a .cjs, or CommonJS-only
-     syntax inside a .mjs. A checker that green-lights a file the runtime refuses is
-     worse than no checker.
+  /* THE GRAMMAR IS DECIDED BY THE EXTENSION AND THE PATH, because Node decides it
+     that way. This used to try module then script for every file and accept either,
+     which passed things Node rejects at load: an `import` inside a .cjs, or
+     CommonJS-only syntax inside a .mjs. A checker that green-lights a file the runtime
+     refuses is worse than no checker.
 
-     .js stays ambiguous on purpose. package.json declares no "type", so Node reads
-     .js as CommonJS — but this repo also serves .js files to the browser via
-     <script type="module">, and those legitimately use import/export. Only for that
-     extension is "either grammar accepts it" the honest test. */
+     .js WAS then left ambiguous, which was still too loose. package.json declares no
+     "type", so Node reads every .js it requires as CommonJS — a server-side .js with
+     `import` at the top is a boot failure, and the Hono catch-all makes one such
+     failure take down the whole /api surface. Accepting either grammar everywhere
+     meant the check could not see that.
+
+     Measured: 9 tracked .js files use ESM syntax, and ALL of them sit under assets/ or
+     limen-helix-api/ — browser modules loaded via <script type="module">, and a
+     separate package. Nothing Node requires from api/, handlers/, lib/ or scripts/
+     needs the module grammar. So the ambiguity is confined to the paths that earned
+     it, and everything on the server path must parse as the script Node will treat it
+     as. */
   const ext = f.slice(f.lastIndexOf('.'));
-  const grammars = ext === '.mjs' ? ['module'] : ext === '.cjs' ? ['script'] : ['module', 'script'];
+  const BROWSER_OR_FOREIGN = /^(assets\/|limen-helix-api\/)/;
+  const grammars =
+    ext === '.mjs' ? ['module'] :
+    ext === '.cjs' ? ['script'] :
+    BROWSER_OR_FOREIGN.test(f) ? ['module', 'script'] :
+    ['script'];
 
   let err = null;
   for (const sourceType of grammars) {

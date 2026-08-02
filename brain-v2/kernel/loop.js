@@ -55,6 +55,7 @@ var MOD   = require('./modulators.js');
 var VIT   = require('./vitals.js');
 var PROP  = require('./propose.js');
 var BRAIN = require('../core/brain.js');
+var DIV   = require('../core/divergence.js');
 
 var VERSION = 'brain-v2/kernel/1.0.0';
 
@@ -807,6 +808,13 @@ function serialize(loop) {
     channels: loop.brain.channels,
     brainHistory: loop.brain.history,
     brainCycles: loop.brain.cycles,
+    /* OPEN DIVERGENCE CLAIMS. Omitted until 2026-08-02, which made the ledger's own
+       "survives restart" test true of the helper and false of the application: the unit
+       test round-tripped DIV.serializeLedger directly, while the real path goes through
+       here and dropped the ledger entirely. An open claim vanished on every restart and
+       could never resolve. Testing the helper instead of the path it is reached by is
+       the exact self-confirmation this file's header warns about elsewhere. */
+    divergences: DIV.serializeLedger(loop.brain.divergences),
     registry: { predictions: loop.registry.predictions, order: loop.registry.order, resolved: loop.registry.resolved, version: loop.registry.version },
     forwardModel: PRED.serialize(loop.forwardModel),
     gate: SEL.serialize(loop.gate),
@@ -837,6 +845,9 @@ function restore(spec, snap) {
   if (snap.channels) loop.brain.channels = snap.channels;
   loop.brain.history = snap.brainHistory || [];
   loop.brain.cycles = snap.brainCycles || 0;
+  /* A snapshot written before divergences were persisted restores an empty ledger,
+     which is correct for that data — there is nothing to restore. */
+  loop.brain.divergences = DIV.restoreLedger(snap.divergences);
   if (snap.registry) {
     loop.registry.predictions = snap.registry.predictions || Object.create(null);
     loop.registry.order = snap.registry.order || [];

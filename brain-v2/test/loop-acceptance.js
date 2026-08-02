@@ -627,16 +627,26 @@ var ROWS = [
         var restored = D.restoreLedger(JSON.parse(JSON.stringify(D.serializeLedger(one))));
         var survives = D.report(restored).open === 1;
 
-        return (detects && grades && stable && survives) ? true : false;
+        /* PARTIAL, not complete. The mechanism is built and the defects found on
+           2026-08-02 are fixed, but two things a "complete" row would need are absent:
+           the statistic is measured at ~1% false-positive against a nominal 5%, so it
+           is conservative but NOT calibrated; and the whole lifecycle remains
+           UNEXERCISED on real data, because 6 of 7 declared energy relationships are
+           dead letters. Scoring this true on a mechanism that has never once fired in
+           production is the same overclaim the 26/28 already had to withdraw. */
+        return (detects && grades && stable && survives) ? 'partial' : false;
       })(), 'core/divergence.js runs beside fusion on per-channel departures and now CLOSES. A claim opens ' +
            'once, carries a stable id, and resolves exactly once into converged / sensor_failure / persistent / ' +
            'implausible_declaration; persistent states the two hypotheses it cannot separate. The horizon is ' +
            'derived (12 periods of the slower channel, reusing channel.js LIVENESS_WINDOW) and is null rather ' +
            'than invented when neither states a cadence. The gap is tested against its OWN standard error ' +
            '(two standardised quantities differ by ~1.41 from noise alone), so a raw 3.0 sd gap at n=12 is ' +
-           '1.88 se and correctly no longer fires. Open claims survive restart. ' +
-           'UNEXERCISED ON REAL DATA: replaying 362h, 6 of 7 declared energy relationships were skipped every ' +
-           'cycle because one side is permanently dead, and the 7th cleared nothing in 140 comparable cycles'],
+           '1.88 se and correctly no longer fires. Open claims survive LOOP.serialize/restore (the real path, ' +
+           'not just the ledger helper). PARTIAL for two reasons. (1) NOT CALIBRATED: the measured ' +
+           'false-positive rate under a simulated shared latent is 0.76-1.34%, not the 5% the threshold was ' +
+           'first justified as; conservative in the documented direction but the p-value labels were withdrawn. ' +
+           '(2) UNEXERCISED ON REAL DATA: replaying 362h, 6 of 7 declared energy relationships were skipped ' +
+           'every cycle because one side is permanently dead, and the 7th cleared nothing in 140 comparable cycles'],
   [11, '>=3 modulators computing different quantities', orth.satisfiesRow11, orth.why],
   [12, 'offline state that excludes encoding', MAIN.consolidator.passes > 0, CON.run(CON.create(), MAIN.memory, { now: 0, arousalState: 'wake' }).refused === 'state_exclusivity' ? 'consolidation REFUSED in wake state; ' + MAIN.consolidator.passes + ' passes ran offline' : 'no refusal'],
   [13, 'offline pass holds write authority', !!(consPass && consPass.writeAuthority && consPass.writes.length), consPass ? consPass.writes.length + ' writes performed, not proposed' : 'no pass ran'],
