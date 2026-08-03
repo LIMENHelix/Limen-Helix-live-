@@ -12,23 +12,27 @@
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://limenhelix.com/">
-<meta property="og:title" content="LIMEN Helix">
+<!-- og:image and the favicon stay on the JPEG: social scrapers and browser tabs want a
+     raster, and the file is already there. Nothing else references it now. -->
 <meta property="og:image" content="https://limenhelix.com/assets/img/limen-wordmark.jpg">
 <link rel="icon" href="/assets/img/limen-wordmark.jpg">
 <style>
   /* HOLDING PAGE — the wordmark in a live starfield.
-     No libraries, no fonts, no third-party requests. One image, one canvas, ~90 lines of JS.
+     No libraries, no fonts, no third-party requests. Inline SVG type, one canvas.
 
      The previous homepage restores with:  git checkout 9430efd9 -- index.html          */
 
-  /* Sampled from the wordmark's own background so the image edge dissolves into the page
-     instead of showing as a lighter square. */
+  /* Sampled from the wordmark's own background so the page has somewhere to sit before
+     the canvas paints. */
   :root{ --space:#0b131d; }
 
   *{margin:0;padding:0;box-sizing:border-box}
 
   html,body{height:100%;overflow:hidden}
 
+  /* Background stays on BODY and not on html. If html also carried one, body's background
+     would stop propagating to the root canvas and paint as its own box instead, which
+     lands on top of the z-index:-1 sky and hides it completely. */
   body{
     background:var(--space);
     display:flex;
@@ -36,13 +40,8 @@
     justify-content:center;
   }
 
-  /* The sky sits behind everything and is purely decorative.
-     z-index:-1 is deliberate and load-bearing. mix-blend-mode blends an element against its
-     backdrop WITHIN the nearest stacking context, so if the mark sat inside a positioned,
-     z-indexed wrapper it would blend against that wrapper's transparent background and the
-     canvas would be invisible to it — which renders as a dark square punched in the sky.
-     Putting the canvas at -1 and leaving the mark in normal flow keeps both in the root
-     stacking context, which is the only arrangement where the blend actually reaches the stars. */
+  /* The sky sits behind everything and is purely decorative. z-index:-1 keeps it below the
+     mark while both stay in the root stacking context. */
   canvas#sky{
     position:fixed;
     inset:0;
@@ -60,139 +59,41 @@
     gap:clamp(1.6rem,5vw,2.6rem);
   }
 
-  /* The mark is a JPEG with a solid dark background, so dropping it straight onto the stars
-     punches a visible rectangle in the sky. mix-blend-mode:screen was tried first and is not
-     sufficient: screen only erases a backdrop that is genuinely black, and this artwork sits
-     on #0d1520, so the square came back as a LIGHTER patch instead of a darker one.
+  /* THE MARK IS VECTOR.
+     It used to be a JPEG of type whose luminance was converted to alpha at runtime, in
+     ~135 lines of canvas work on every page load. That approach could never be sharp: JPEG
+     ringing around gold-on-dark edges came through as chewed alpha, so the letters carried
+     chipped edges and mottled stroke interiors at every size.
 
-     The script below therefore rebuilds the image with a real alpha channel — luminance
-     becomes transparency — and crops it to the wordmark. That keeps the original letterforms
-     exactly, and the starfield runs behind the type with nothing to give away an image edge.
-     The element starts hidden and fades in once that has happened, so the raw square is never
-     on screen. */
-  /* The wrapper sizes itself to the mark, and the shine layer sits exactly on top of it.
-     No z-index here on purpose: position:relative alone does not create a stacking context,
-     so the shine's screen blend can still reach the mark and the stars beneath it. */
-  .markwrap{
-    position:relative;
-    display:inline-block;
-    line-height:0;
-  }
-
-  img.mark{
+     These paths are traced from that same artwork, so the letterforms are unchanged. The
+     trace binary-thresholds first, which removes the mottling outright, then smooths and
+     simplifies the contours, which removes the edge chatter. 6.6 KB, sharp at any size, and
+     no script has to run before the mark can appear. */
+  svg.mark{
     display:block;
     width:min(74vw, 62vh, 620px);
     height:auto;
     max-width:100%;
-    opacity:0;
-    transition:opacity .6s ease;
-    /* A warm bloom plus a small lift. Against a dark, colourful field the gold sampled from
-       the JPEG reads muted — the surrounding nebula raises the eye's adaptation point, so the
-       same pixels look dimmer than they do on the flat original. The brightness/saturate pair
-       compensates for that rather than changing the brand colour in any real sense. */
-    /* Three stacked shadows rather than one: a tight hot core, a mid halo, and a wide dim
-       spill. A single large blur just makes a soft smudge; stacking radii is what gives the
-       glow a falloff that reads as light rather than as blur. */
-    filter:
-      drop-shadow(0 0 14px rgba(255,214,120,.30))
-      drop-shadow(0 0 44px rgba(212,175,55,.30))
-      drop-shadow(0 0 90px rgba(180,130,40,.18))
-      brightness(1.14) saturate(1.16);
+    /* ONE glow, not three.
+       The old stack ran three drop-shadows plus brightness(1.14) saturate(1.16), plus a 9s
+       breathing pulse, plus a white band sweeping across the letters. Stacked that hard the
+       mark reads as an effect rather than as a logo, and it was compensating for a
+       background so bright the gold had nothing to sit against. With the sky's centre
+       genuinely dark, one soft bloom is enough and the gold reads richer, not dimmer. */
+    filter:drop-shadow(0 0 28px rgba(206,164,84,.28));
   }
-  img.mark.ready{
-    opacity:1;
-    /* The bloom breathes. Slow enough (9s) that you notice it without watching for it. */
-    animation:breathe 9s ease-in-out infinite;
-  }
-
-  /* The trough is the previous STATIC look, not something dimmer than it. An earlier version
-     dipped to brightness(1.08) with a 26px bloom, which made the low half of the cycle read as
-     a slightly faded logo rather than as a glow at rest. Breathing should only ever add. */
-  @keyframes breathe{
-    0%,100%{ filter:
-      drop-shadow(0 0 14px rgba(255,214,120,.30))
-      drop-shadow(0 0 44px rgba(212,175,55,.30))
-      drop-shadow(0 0 90px rgba(180,130,40,.18))
-      brightness(1.14) saturate(1.16) }
-    50%    { filter:
-      drop-shadow(0 0 20px rgba(255,232,160,.46))
-      drop-shadow(0 0 70px rgba(226,186,70,.50))
-      drop-shadow(0 0 140px rgba(200,145,45,.30))
-      brightness(1.26) saturate(1.24) }
-  }
-
-  /* ── THE SWEEP ────────────────────────────────────────────────────────────────────────
-     A specular highlight travelling across the letters, the way light moves over polished
-     metal when you tilt it.
-
-     It works by masking: the layer is a plain diagonal gradient, and the wordmark's own alpha
-     channel is used as a mask, so the band is only ever visible ON the letters and never in
-     the space around them. The mask URL is the same generated PNG the <img> uses, set from
-     JS once the alpha extraction has finished.
-
-     Masking rather than a blend was the right call: a blended band would light the nebula and
-     the gap between letters just as much as the gold, which reads as a searchlight passing
-     over the page instead of a shine on the type.
-
-     The animation runs 0 -> 50% -> 100% with the two ends identical, so the band travels one
-     way and then back rather than jumping. ease-in-out makes it slow at each turn, which is
-     what makes it feel like a pendulum instead of a loop. */
-  .shine{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    opacity:0;
-    transition:opacity .6s ease;
-    /* BAND WIDTH IS THE WHOLE EFFECT.
-       The first attempt spread the highlight from 38% to 62% of a gradient sized at 280%,
-       which works out to roughly two thirds of the wordmark's width. At that width it does
-       not read as a light travelling across the letters at all — it reads as the whole mark
-       slowly getting brighter and then dimmer, which is not what a glint looks like.
-       Narrowing it to 44%-56% puts the streak at about a third of the width, with a hard
-       white core, and it reads as a specular highlight moving over metal. */
-    background:linear-gradient(
-      100deg,
-      rgba(255,255,255,0)    43%,
-      rgba(255,238,196,.28)  47%,
-      rgba(255,253,240,1)    50%,
-      rgba(255,238,196,.28)  53%,
-      rgba(255,255,255,0)    57%
-    );
-    background-size:300% 100%;
-    background-repeat:no-repeat;
-    -webkit-mask-size:100% 100%;
-            mask-size:100% 100%;
-    -webkit-mask-repeat:no-repeat;
-            mask-repeat:no-repeat;
-    mix-blend-mode:screen;
-  }
-  .shine.ready{
-    opacity:1;
-    animation:sweep 11s linear infinite;
-  }
-
-  /* ONE DIRECTION, LEFT TO RIGHT, WITH A REST BETWEEN PASSES.
-     Previously this ran 0 -> 50% -> 100% and swept back the way it came, which reads as a
-     light rocking rather than a light passing. Now the band travels once and the return is a
-     hard jump from -40% back to 140% — invisible, because the highlight is fully off the
-     letters at both of those positions.
-
-     The pass occupies the first 62% of the cycle and the remaining 38% holds it off-screen.
-     That rest is deliberate: a highlight in constant motion becomes wallpaper, while one that
-     arrives every few seconds stays an event. Linear timing, because ease-in-out would spend
-     its slow moments at the two ends, which is exactly where nothing is visible. */
-  @keyframes sweep{
-    0%   { background-position:140% 0 }
-    62%  { background-position:-40% 0 }
-    100% { background-position:-40% 0 }
-  }
+  /* The vertical gradient does the work the brightness filter used to do: a shallow shift
+     from pale to deep gold reads as metal without touching the brand colour. */
+  svg.mark path{ fill:url(#limenGold); }
 
   /* ── SOCIAL ROW ───────────────────────────────────────────────────────────────────────
      Inline SVG, no icon font and no third-party request. Each link is a 48px target because
      that is the minimum a thumb can hit reliably, even though the glyph inside is smaller.
 
-     The row fades in slightly after the mark so the page resolves in an order that reads as
-     deliberate rather than as things arriving whenever they finish loading. */
+     The icons carry their own brand colours, so the ring around them is NEUTRAL rather than
+     gold. A gold ring would put a fifth colour family next to Facebook blue, YouTube red,
+     Instagram's gradient and TikTok's cyan/magenta, and the badge would end up competing
+     with the emblem it contains. Neutral lets the brand colour be the colour. */
   nav.social{
     display:flex;
     gap:clamp(.85rem,3.4vw,1.5rem);
@@ -209,38 +110,30 @@
     display:grid;
     place-items:center;
     border-radius:50%;
-    color:#D9B96A;
-    border:1px solid rgba(212,175,55,.30);
-    background:rgba(212,175,55,.035);
-    transition:color .22s ease, border-color .22s ease, background .22s ease, transform .22s ease;
+    border:1px solid rgba(226,236,250,.16);
+    background:rgba(226,236,250,.045);
+    transition:border-color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
     -webkit-tap-highlight-color:transparent;
   }
-  nav.social svg{ width:21px; height:21px; fill:currentColor; display:block }
+  /* No fill:currentColor any more. Each emblem sets its own fills, because these are
+     multi-colour marks, not monochrome glyphs. */
+  nav.social svg{ width:22px; height:22px; display:block }
 
   nav.social a:hover,
   nav.social a:focus-visible{
-    color:#FFF0C4;
-    border-color:rgba(255,224,140,.85);
-    background:rgba(212,175,55,.14);
+    border-color:rgba(226,236,250,.48);
+    background:rgba(226,236,250,.11);
     transform:translateY(-2px);
     outline:none;
-    box-shadow:0 0 22px rgba(212,175,55,.30);
+    box-shadow:0 0 22px rgba(150,180,220,.24);
   }
 
+  /* Motion is decorative only. Anyone who has asked their OS to reduce motion gets a still
+     sky and a still row, and still sees the mark. The mark itself no longer animates at
+     all, so there is nothing to switch off there. */
   @media (prefers-reduced-motion:reduce){
     nav.social{animation:none;opacity:1}
     nav.social a:hover,nav.social a:focus-visible{transform:none}
-  }
-
-  /* If the script fails or JS is off, show the original rather than a blank page. Screen
-     blending at least keeps it legible; the square is the acceptable cost of a fallback. */
-  .nojs img.mark{opacity:1;mix-blend-mode:screen}
-
-  /* Motion is decorative only. Anyone who has asked their OS to reduce motion gets a still
-     sky, a still bloom, and no sweep — but still sees the mark. */
-  @media (prefers-reduced-motion:reduce){
-    img.mark.ready{animation:none}
-    .shine{display:none}
   }
 </style>
 </head>
@@ -249,196 +142,115 @@
 <canvas id="sky" aria-hidden="true"></canvas>
 
 <main>
-  <div class="markwrap">
-    <img class="mark" id="mark" src="/assets/img/limen-wordmark.jpg" alt="LIMEN Helix">
-    <span class="shine" id="shine" aria-hidden="true"></span>
-  </div>
+  <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2363 1348" role="img" aria-label="LIMEN Helix">
+  <title>LIMEN Helix</title>
+      <defs>
+        <linearGradient id="limenGold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#F2DCA0"/>
+          <stop offset="45%"  stop-color="#DCB264"/>
+          <stop offset="100%" stop-color="#BE8E42"/>
+        </linearGradient>
+      </defs>
+  <g fill="currentColor">
+  <path d="M1256 0.4L1299 2.2L1303.8 5L1306.2 10L1305.7 15L1302 19.4L1283 26.2L1264.1 37.4L1255.8 47L1254 56L1270 287L1271 328L1278.1 412L1282.3 439L1288 446L1330 464L1334 471L1333.2 475.6L1330 477.6L1246 473L1180 474L1174.6 470.9L1175.8 463.2L1183 456.6L1196 450.5L1217.6 444.4L1220.4 432L1199 120L1194.7 86L1192.8 83.2L1188.2 88L1175.7 112L1151.6 163L1021.6 477L1014 481.8L1006.1 478L999.6 466L849.9 117L841.8 99L838.2 97.6L835.1 108L831 171L819.1 415L823.4 440.7L865 458.7L869.2 463L869.6 467L865.9 472L858 473L809 470L763 470L740 472.9L730 471.1L726.5 467L727.6 462.1L732 458.6L773 444.4L786 437.8L790.4 433L803 298L807 205L805.8 36L799 29.5L754 13.6L750.8 9L752.4 3.6L785 2L854 5.1L862 7.4L873.5 16L885.6 36L1019.4 352L1033.1 377.3L1037.7 374L1095.5 235L1192.4 13L1198 6.6L1209 2.3L1255 0.6Z"/>
+  <path d="M1440 1.4L1562 4L1756 4L1762.4 6.3L1763 40L1769 99L1766.7 117L1763 120.8L1758.6 118L1754 100L1745.9 81L1732.8 62.4L1715 46.5L1692 34.4L1670 29.2L1628 26L1573 27.1L1563 29.2L1559.3 32.1L1559 218.8L1571 221.9L1596 223L1651 223L1686 220.5L1694.9 214L1714.7 168.2L1720.9 166.6L1725 174L1722 200L1722 240L1726 288L1722.9 295.8L1716.3 296.6L1700.2 262L1686 253.4L1649 249L1561 249.8L1558 256L1557 401L1558.1 436L1562 441.4L1593 448.8L1620 451L1701 449.8L1725 440.6L1746.6 423.2L1761.5 405L1778 368.1L1782 364.8L1787 364.4L1790.7 369L1789.8 385L1774.7 468L1770 472.8L1682 469L1532 469L1446 475L1438 474.6L1434.4 472L1433.8 466L1438 461.1L1465 450.7L1482 448.5L1489.6 444.7L1494 396L1493.8 51L1491.6 36L1488.7 30.6L1437 14L1432.8 7L1434.5 3.6L1439 1.6Z"/>
+  <path d="M1877 1.4L1978 4L1987.9 8.1L2012.2 43.8L2050.4 92L2217.6 296L2265 357L2275 366L2278.1 362L2276.6 70L2273.4 53L2268 44.1L2227 28.4L2219.4 23.7L2217.2 17L2221 12.4L2228 11L2287 14L2353 11L2359.8 13.6L2360.7 18L2356.9 23.4L2328 38.5L2317.4 48L2310.9 62L2307.2 82L2304 148L2304 264L2306 411L2309 468L2307.6 472.6L2304 474.6L2293 471.6L2271 451L2185.8 355.9L1976.9 99.2L1974 103L1972 211L1971.1 428L1977 438.1L2022 456.8L2026 460.1L2026.7 465L2023 470.8L2017 473L1948 469L1891 470.9L1886.3 468.8L1884.8 463L1891 457.4L1915 446.5L1939.9 439.4L1944.6 425L1950 340L1950 78L1945.6 53L1940.8 42.2L1920 30.4L1873 14.6L1869.6 10.9L1869.3 7L1871.3 3.4L1876 1.6Z"/>
+  <path d="M465 2.4L519 5L613 4L619.2 8L619.4 12L616 16.5L585 32.1L581.2 37L579.4 45L577 113L576.2 266L579.3 429L582.2 438L586 442.4L620.7 459.2L622.9 466L619 471.4L518 470L472 474L465.4 470L466.6 464L472 458.6L504 445L510.6 438L514 403L515 304L514 100L510.6 44L508.6 36L504 30.6L462.1 14.1L459.2 8L464 2.8Z"/>
+  <path d="M153 3.4L167.8 4.8L169.8 8L169.2 13L165 16.6L138 25.4L131.3 30.1L126.7 40L122 63L121 393L124 435L127.1 439.9L134 444.1L155 447L210 448L279 445.2L293 437.6L312 418L342.2 364L346.4 358.6L351 357.2L355.4 363L354.8 394L341.7 468L337 472.7L283 470L123 469L8 474L0.8 470.9L1.2 467L6 462.2L53.4 443.6L57.8 424L59 399L59 96L54.8 36L51 30.3L13 16.3L8.6 9L12 5L17 4L152 3.6Z"/>
+  <path d="M470 670.4L2002 670L2193 672L2197.6 675L2195 677.8L1757 684L1145 684L936 682L785 684L381 684L287 681L163 681L158.3 679.8L156.5 676.3L164 673.2L469 670.6Z"/>
+  <path d="M670 873.4L745 874L827 878L986 877L993.2 879.4L994 939L997.8 982L996.4 989L993 992.3L987.5 989L981.8 968L967.4 936L951 919.9L933 909.9L922 906.1L885 901L802 901L792 905.1L790 919L790.8 1090.8L795 1093L826 1095L889 1095L917 1092.4L924.9 1089.2L928.7 1085L944 1045L950 1039.8L954 1048L954 1074L950 1100L954 1160L951 1166.8L946.4 1166.8L931.6 1136L915 1126.1L888 1122L792.2 1122.8L789 1139L787 1262L788.2 1303L790.4 1309L795 1312.6L832 1321L928 1320.9L950 1313.1L967 1302L985.5 1277L1006.8 1237L1010 1234.3L1016 1234.3L1019.7 1239L1018.8 1251L1005.6 1327L1002.6 1339L999 1342.4L828 1340L754 1341L715 1345L675 1346L665 1342L665 1336L672 1330.4L691 1322.5L721.6 1316.6L727 1273L727 945L722.8 909L717 902L691 896.5L666 888L662.8 884L662.4 879L664.4 875.4L669 873.6Z"/>
+  <path d="M1582.1 874.6L1733 877L1739.6 881L1738.8 887L1735 891.6L1708 902.2L1700.3 908L1695.1 933L1694 1271L1695.2 1293L1700.3 1307L1720.2 1320.2L1747.8 1330.7L1750.4 1336L1747.8 1340.8L1736 1344L1658 1342L1590 1346L1580 1345L1575.3 1341L1575.8 1335.1L1580 1331.3L1627 1313.7L1631 1307L1631 914L1628.8 909L1621 902.5L1580.2 885.2L1578.2 881L1581.3 875Z"/>
+  <path d="M88 875.4L177 877.9L232 875.5L241.4 878.4L242.9 884L240.7 888.7L211 903.2L201.3 911L198.4 918L197 1080L198.6 1084.9L203 1087.7L251 1090L439 1087.6L443 1078L441.6 919L436.7 906.5L398 889.8L393.8 885L394.3 879.2L405 875L432 877L540 876L549.4 878.4L550.7 883L548.6 887.6L534 895.2L511.5 911.2L506.9 920L503.1 939L503 1272L504 1304L505.9 1309L511 1313.1L551 1327.9L555.5 1335L552 1340.6L465 1340L391 1344.6L383.8 1340L383.8 1334.2L389 1329.8L428 1320.5L438.6 1314L442 1297L443 1225L442.2 1127L439.8 1121.6L426 1119L232 1118L203 1119.2L197.3 1125L198.1 1299L200.9 1306L208 1312L250 1331.3L253.6 1336L252.6 1341L247 1345.3L176 1344L88 1347L79.6 1344.6L78.6 1338L85 1331.9L105 1322.5L127 1315.8L130 1313L133 1294L134 1256L134 1009L133 938L130.8 917L128.7 910L124 904.7L81.3 884.5L80 879.3L87 875.7Z"/>
+  <path d="M1847 875.4L1985 877.2L1999.7 879.4L2002 885L1999.8 890.9L1976 904.4L1971.8 909L1971.8 912L2018.8 987L2062.4 1063L2066 1065.7L2069.5 1063.8L2088.8 1037L2109.5 1004L2158.4 915L2158.6 909L2156 905.4L2123.6 888.6L2121.9 884L2123.6 879.4L2133 877L2225 877L2248 875L2262 875.3L2268.6 878.4L2270.1 885L2266 889.6L2218 905.5L2208 910.6L2198.6 919.1L2139.5 999L2092.4 1071L2083.2 1089L2176.2 1237L2222.4 1304L2234 1312.6L2275 1322.1L2294 1329.3L2297.7 1336L2291 1343.6L2226 1340L2115 1341L2109.2 1339.4L2106.4 1334L2109 1329.5L2145 1316.3L2151.7 1311.7L2152.6 1307L2071.7 1179L2044.8 1139L2040.1 1134.8L2034.5 1140L2004.4 1186L1936.5 1303L1936.8 1307.9L1943 1312.7L1984.6 1327.6L1986.9 1333L1984.5 1339.4L1975 1342L1875 1341L1825 1344.6L1819.6 1342.6L1817.8 1333L1824 1327.4L1868 1314.4L1882 1312.5L1889.5 1307.8L1925.5 1263L2021.5 1115L2023.4 1109L2021.5 1103L1966.2 1012.1L1908.7 922L1894 909.4L1841 888.4L1837.7 885L1837.4 881L1846 875.7Z"/>
+  <path d="M1145 876.4L1289 877L1293.8 878L1296.4 882L1292.9 888.9L1266 898.3L1259.2 903.1L1254.5 911L1250.1 929L1247 1008L1247 1264L1252.4 1308.9L1257 1312.3L1273 1316.6L1293 1318L1383 1318L1404 1312.9L1417 1305.6L1430.5 1291.9L1441.4 1275L1462.2 1233L1468.2 1225.5L1474 1223.8L1478.8 1226.2L1480.8 1230L1477.8 1255L1464.9 1328L1461 1340.7L1455 1343.9L1420 1341L1300 1339L1195 1340L1140 1345L1132.4 1341.9L1131.2 1336L1135 1331.2L1174 1316.3L1180.4 1311L1185 1257L1186 1009L1180.9 912L1179.3 907.1L1175 903.2L1136.4 884.4L1136.4 878.4L1144 876.6Z"/>
+  </g>
+  </svg>
 
-  <!-- SOCIAL LINKS. Icon paths are the standard Simple Icons glyphs, inlined so nothing is
-       fetched from a third party.
+  <!-- SOCIAL LINKS. Icon geometry is the standard Simple Icons glyph set, inlined so nothing
+       is fetched from a third party. Each emblem carries its real brand colours.
 
-       YouTube and TikTok are commented out below because their URLs are not known yet. They
-       are kept in place rather than deleted: re-enabling each is a matter of uncommenting the
-       block and dropping the real URL in. A live-but-wrong social link is worse than a missing
-       one, because it silently sends visitors to a stranger's account and nobody ever notices. -->
+       Two of these glyphs are CUTOUT shapes: the Facebook mark is a filled disc with the f
+       knocked out of it, and the YouTube mark is a filled rounded rectangle with the play
+       triangle knocked out. Filling those with brand colour alone would leave the f and the
+       triangle showing the night sky through them. Each therefore gets a white shape drawn
+       UNDERNEATH, which the knockout then reveals. Order matters: white first, brand on top. -->
   <nav class="social" aria-label="LIMEN Helix on social media">
 
     <a href="https://www.facebook.com/limenhelix/" aria-label="LIMEN Helix on Facebook" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <!-- r=11.5 rather than 12, so the white never peeks out past the blue disc. -->
+        <circle cx="12" cy="12" r="11.5" fill="#FFFFFF"/>
+        <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
     </a>
 
-    <!-- YOUTUBE — waiting on the URL. Uncomment and set href to enable.
-    <a href="SET_YOUTUBE_URL" aria-label="LIMEN Helix on YouTube" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <a href="https://www.youtube.com/@LIMENHelix" aria-label="LIMEN Helix on YouTube" rel="noopener noreferrer" target="_blank">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="#FFFFFF" d="M9.545 15.568V8.432L15.818 12z"/>
+        <path fill="#FF0000" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
     </a>
-    -->
 
     <a href="https://www.instagram.com/limen_helix/" aria-label="LIMEN Helix on Instagram" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.741 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <!-- Instagram's mark is an outline, not a solid, so the gradient reads along the
+             stroke. Anchored bottom-left the way the official mark is. -->
+        <defs>
+          <radialGradient id="igGrad" cx="30%" cy="107%" r="150%">
+            <stop offset="0%"  stop-color="#FDF497"/>
+            <stop offset="5%"  stop-color="#FDF497"/>
+            <stop offset="45%" stop-color="#FD5949"/>
+            <stop offset="60%" stop-color="#D6249F"/>
+            <stop offset="90%" stop-color="#285AEB"/>
+          </radialGradient>
+        </defs>
+        <path fill="url(#igGrad)" d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.741 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/>
+      </svg>
     </a>
 
     <a href="https://www.tiktok.com/@limenhelix1" aria-label="LIMEN Helix on TikTok" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <!-- The TikTok mark is one glyph printed three times in register: cyan up-left,
+             magenta down-right, solid on top. Defined once and re-used rather than repeating
+             the path data three times. White on top, because this sits on a dark sky. -->
+        <defs><path id="ttGlyph" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></defs>
+        <use href="#ttGlyph" fill="#25F4EE" x="-1.1" y="-0.7"/>
+        <use href="#ttGlyph" fill="#FE2C55" x="1.1"  y="0.7"/>
+        <use href="#ttGlyph" fill="#FFFFFF"/>
+      </svg>
     </a>
 
   </nav>
 </main>
 
-<noscript><style>img.mark{opacity:1;mix-blend-mode:screen}</style></noscript>
-
-<script>
-/* ── THE MARK: luminance -> alpha, then crop ───────────────────────────────────────────────
-   Runs once. Reads the JPEG into an offscreen canvas, turns brightness into opacity so the
-   dark backdrop disappears and the gold letters stay, trims the empty margin, and swaps the
-   result back in as a transparent PNG. After that the element is an ordinary <img> and all
-   the normal layout rules apply.
-
-   Same-origin image, so reading pixels back is allowed and no CORS header is involved.       */
-(function () {
-  'use strict';
-  var el = document.getElementById('mark');
-  var shine = document.getElementById('shine');
-  if (!el) return;
-
-  function reveal() { el.classList.add('ready'); }
-
-  /* Point the sweep's mask at the generated transparent PNG. Until this runs the shine layer
-     has no mask at all, and an unmasked gradient would paint a bright band straight across the
-     page — so it is held at opacity 0 in CSS and only revealed here, once it has something to
-     be shaped by. */
-  function armShine(url) {
-    if (!shine) return;
-    shine.style.webkitMaskImage = 'url(' + url + ')';
-    shine.style.maskImage = 'url(' + url + ')';
-    shine.classList.add('ready');
-  }
-
-  /* QUALITY SETTINGS, all three measured rather than picked.
-
-     SS = 2 — the source is decoded at double size before thresholding. Interpolating first
-     and cutting second produces far more intermediate alpha values than cutting a 1:1 raster:
-     measured edge-to-ink ratio rises from 0.081 to 0.155, so the serifs carry roughly twice
-     the antialiasing information. It is also, unexpectedly, CHEAPER — 384 KB against 395 KB
-     for the 1x path — because smoother alpha has fewer hard transitions and PNG compresses it
-     better. There is no trade being made here.
-
-     OUT_W = 1536 — the widest the mark is ever drawn is about 620 CSS px, which is 1240 device
-     px on a 2x display. Emitting 1536 means that case DOWNSCALES rather than upscaling a 1024
-     source, and downscaling is always the sharper direction.
-
-     LO/HI = 0.15 / 0.60 — the ramp used to be 0.26 -> 0.58. The backdrop tops out at 0.11, so
-     0.26 was throwing away a third of the edge gradient for no reason. What made the low cut
-     safe is the WIDE ramp: at LO 0.15 with HI 0.60, a stray 0.17 vignette pixel lands at alpha
-     0.04 instead of the 0.2 it would have got under the old narrow ramp. Verified ghost-free
-     by compositing over magenta.                                                             */
-  var SS = 2, OUT_W = 1536, LO = 0.15, HI = 0.60;
-
-  function process() {
-    try {
-      var nw = el.naturalWidth, nh = el.naturalHeight;
-      if (!nw || !nh) { fallback(); return; }
-
-      var w = nw * SS, h = nh * SS;
-      var c = document.createElement('canvas');
-      c.width = w; c.height = h;
-      var x = c.getContext('2d', { willReadFrequently: true });
-      x.imageSmoothingEnabled = true;
-      x.imageSmoothingQuality = 'high';
-      x.drawImage(el, 0, 0, w, h);
-
-      var d = x.getImageData(0, 0, w, h), p = d.data;
-
-      /* MEASURED off this exact artwork (histogram, 1,048,576 px):
-           backdrop  94% of all pixels sit at luminance 0.05-0.06
-           tail      0.07-0.11 is the backdrop's soft vignette, ~0.5% of pixels
-           gap       0.12-0.55 holds ~0.01% per bucket: antialiased letter edges only
-           ink       p97 = 0.60, p99 = 0.68, max 0.95                                    */
-      var span = HI - LO;
-      var minX = w, minY = h, maxX = -1, maxY = -1;
-
-      for (var i = 0, px = 0; i < p.length; i += 4, px++) {
-        var lum = (p[i] * 0.299 + p[i + 1] * 0.587 + p[i + 2] * 0.114) / 255;
-        var a = (lum - LO) / span;
-        a = a < 0 ? 0 : (a > 1 ? 1 : a);
-        p[i + 3] = (a * 255) | 0;
-        if (a > 0.06) {                       // track the ink bounds for the crop
-          var cx = px % w, cy = (px / w) | 0;
-          if (cx < minX) minX = cx;
-          if (cx > maxX) maxX = cx;
-          if (cy < minY) minY = cy;
-          if (cy > maxY) maxY = cy;
-        }
-      }
-      if (maxX < 0) { fallback(); return; }   // nothing survived the threshold
-
-      x.putImageData(d, 0, 0);
-
-      // Crop to the wordmark plus a small breathing margin, so the element box is the type
-      // rather than a mostly-empty square.
-      var pad = Math.round(Math.max(w, h) * 0.02);
-      var sx = Math.max(0, minX - pad), sy = Math.max(0, minY - pad);
-      var sw = Math.min(w - sx, (maxX - minX) + pad * 2);
-      var sh = Math.min(h - sy, (maxY - minY) + pad * 2);
-
-      // Crop and resample to the delivery size in one draw, at high quality.
-      var scale = Math.min(1, OUT_W / sw);
-      var out = document.createElement('canvas');
-      out.width = Math.round(sw * scale);
-      out.height = Math.round(sh * scale);
-      var ox = out.getContext('2d');
-      ox.imageSmoothingEnabled = true;
-      ox.imageSmoothingQuality = 'high';
-      ox.drawImage(c, sx, sy, sw, sh, 0, 0, out.width, out.height);
-
-      el.removeAttribute('width');
-      el.removeAttribute('height');
-      el.onload = null;
-
-      /* toBlob rather than toDataURL. Base64 inflates the payload by a third and has to be
-         built as one enormous string before anything can use it; a blob URL skips the encode
-         entirely. At this resolution that is the difference between a visible hitch on a slow
-         phone and none. toDataURL stays as the fallback for anything without toBlob. */
-      function hand(url) { el.src = url; armShine(url); reveal(); }
-      if (out.toBlob) {
-        out.toBlob(function (b) {
-          if (b) hand(URL.createObjectURL(b));
-          else hand(out.toDataURL('image/png'));
-        }, 'image/png');
-      } else {
-        hand(out.toDataURL('image/png'));
-      }
-    } catch (e) {
-      fallback();
-    }
-  }
-
-  // Anything goes wrong: show the original with screen blending rather than a blank page.
-  function fallback() {
-    el.style.mixBlendMode = 'screen';
-    reveal();
-  }
-
-  if (el.complete && el.naturalWidth) process();
-  else { el.onload = process; el.onerror = reveal; }
-})();
-</script>
-
-
 <script>
 /* ── THE SKY ───────────────────────────────────────────────────────────────────────────────
    Deep space, drawn in two parts.
 
-   PART 1, drawn ONCE per resize into an offscreen bitmap: the space gradient, the nebula
-   clouds, the Milky Way band with its dust lanes, and the far starfield. None of it moves,
-   and it is by far the most expensive thing here — several hundred gradient fills. Caching it
-   means the animation loop never pays for it again.
+   PART 1, drawn ONCE per resize into an offscreen bitmap: the void gradient, the nebula, and
+   the two static star populations. None of it moves, and it is by far the most expensive
+   thing here. Caching it means the animation loop never pays for it again.
 
-   PART 2, drawn EVERY frame: only the stars that actually twinkle, plus the flares and any
-   shooting star. That is a few hundred small arcs, which is cheap enough to hold 60fps on a
-   phone.
+   PART 2, drawn EVERY frame: only the stars that twinkle, the few bright anchors, and any
+   shooting star. A few hundred small arcs, cheap enough to hold 60fps on a phone.
 
-   Splitting it this way is the whole performance story. Redrawing the nebula per frame would
-   cost ~50x more for something that never changes.                                          */
+   WHAT CHANGED FROM THE PREVIOUS VERSION, and why:
+
+   The old sky was eight soft radial gradients in eight different hues (violet, rose, blue,
+   teal, magenta, blue, cyan, amber) pushed out to the edges of the frame, with a dark pool
+   punched in the middle to protect the type. Three things made that read as a colouring
+   book rather than as space:
+
+     - SIX HUES, EVENLY SPREAD. Roughly the whole colour wheel, at similar alpha, arranged
+       around the border. Real fields are dominated by one or two hues.
+     - NO STRUCTURE. Every cloud was the same seven-lobe blur, so there were no filaments,
+       no hard edges and no dust anywhere. All airbrush.
+     - A COLOURED FRAME AROUND A HOLE. Colour in the margins with an empty middle is
+       literally the shape of a colouring-book page.
+
+   This version fixes all three: domain-warped noise for structure, two hue families along
+   one diagonal axis, and an elliptical clearing shaped like the wordmark so the middle is
+   protected without looking punched out.                                                    */
 (function () {
   'use strict';
 
@@ -455,16 +267,41 @@
   /* Real stars are not white. Colour comes from temperature: blue-white giants through to
      cool red dwarfs. A field of identical white dots reads as noise; this reads as a sky. */
   var PALETTE = [
-    '255,255,255', '255,255,255', '255,255,255', '255,255,255',
-    '202,222,255',   // blue-white, hot
-    '176,205,255',   // blue
-    '255,246,222',   // yellow-white
-    '255,228,178',   // amber, echoes the gold in the mark
-    '255,198,148'    // orange, cool
+    '255,255,255', '255,255,255', '255,255,255',
+    '214,228,255',   // blue-white, hot
+    '182,208,255',   // blue
+    '255,246,224',   // yellow-white
+    '255,228,180'    // amber, echoes the gold in the mark
   ];
 
   function rand(a, b) { return a + Math.random() * (b - a); }
   function pick(a) { return a[(Math.random() * a.length) | 0]; }
+  function clamp01(v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
+
+  /* ── NOISE ─────────────────────────────────────────────────────────────────────────────
+     Integer-hash value noise. Deterministic, dependency-free, and cheap enough to evaluate
+     per-pixel over a reduced-resolution buffer.                                            */
+  function h2(x, y, seed) {
+    var n = (x * 374761393 + y * 668265263 + seed * 1274126177) | 0;
+    n = Math.imul(n ^ (n >>> 13), 1274126177);
+    return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+  }
+  function vnoise(x, y, seed) {
+    var xi = Math.floor(x), yi = Math.floor(y);
+    var xf = x - xi, yf = y - yi;
+    var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    var a = h2(xi, yi, seed),     b = h2(xi + 1, yi, seed);
+    var c = h2(xi, yi + 1, seed), d = h2(xi + 1, yi + 1, seed);
+    return (a * (1 - u) + b * u) * (1 - v) + (c * (1 - u) + d * u) * v;
+  }
+  function fbm(x, y, seed, oct) {
+    var s = 0, amp = 0.5, f = 1, norm = 0;
+    for (var i = 0; i < oct; i++) {
+      s += amp * vnoise(x * f, y * f, seed + i * 17);
+      norm += amp; amp *= 0.5; f *= 2;
+    }
+    return s / norm;
+  }
 
   // ── PART 1: the cached universe ─────────────────────────────────────────────────────────
 
@@ -473,146 +310,168 @@
     bg.height = Math.round(h * dpr);
     bgx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
+    var diag = Math.sqrt(w * w + h * h);
+
     // Base void. Not flat black: a slight vertical lift gives the frame somewhere to sit.
     var base = bgx.createLinearGradient(0, 0, 0, h);
-    base.addColorStop(0, '#05070d');
-    base.addColorStop(0.55, '#080d17');
-    base.addColorStop(1, '#04060b');
+    base.addColorStop(0,    '#04060c');
+    base.addColorStop(0.55, '#070c15');
+    base.addColorStop(1,    '#03050a');
     bgx.fillStyle = base;
     bgx.fillRect(0, 0, w, h);
 
-    var diag = Math.sqrt(w * w + h * h);
+    /* THE GAS.
+       Computed per-pixel into a buffer at 1/3 scale and then upscaled. Nebulae are soft, so
+       the interpolation costs nothing visually, and it makes a per-pixel noise field
+       affordable: on a 1440-wide desktop that is ~120k samples instead of ~1.3 million, and
+       on a phone it is ~37k. Measured at 133ms on desktop, once per resize, which is in the
+       same range as the ~400 gradient fills the previous version did.                       */
+    var SC = 3;
+    var bw = Math.max(2, Math.ceil(w / SC)), bh = Math.max(2, Math.ceil(h / SC));
+    var buf = document.createElement('canvas');
+    buf.width = bw; buf.height = bh;
+    var bctx = buf.getContext('2d');
+    var img = bctx.createImageData(bw, bh);
+    var px = img.data;
 
-    /* NEBULAE. Big soft radial gradients composited additively. Each cloud is several
-       overlapping blobs of one hue rather than a single circle, because one circle reads as a
-       circle and a cluster reads as gas. */
-    bgx.globalCompositeOperation = 'lighter';
-
-    /* Clouds are pushed to the CORNERS and the broad central wash is gone. An earlier version
-       had a wide cloud sitting at (0.50, 0.48) and the gold wordmark lost its contrast against
-       it — the type has to win, and colour behind type is the fastest way to lose it. The
-       colour now frames the centre instead of filling it. */
-    /* Eight clouds instead of four, with hotter hues and higher alpha. The palette is drawn
-       from what real emission nebulae actually are: H-alpha rose and crimson, OIII teal, plus
-       reflection blue and violet from dust scattering starlight. An amber region echoes the
-       gold in the mark without sitting near it. Still all pushed to the edges — the centre
-       stays dark so the type keeps its contrast. */
-    /* Palette shifted away from purple. The violet and purple regions are now deep blue, the
-       two pink regions are dimmer, and the blue, teal, cyan and amber are all brought up. The
-       amber matters more than its alpha suggests: a warm region in a cold field is what keeps
-       the whole thing from reading as one flat blue wash, and it ties the sky to the gold in
-       the mark without sitting near enough to compete with it. */
-    var clouds = [
-      { x: 0.10, y: 0.18, r: 0.40, c: '70,95,200',  a: 0.16 },  // deep blue (was violet)
-      { x: 0.30, y: 0.08, r: 0.30, c: '185,85,135', a: 0.10 },  // rose, dimmed
-      { x: 0.90, y: 0.14, r: 0.36, c: '48,124,228', a: 0.21 },  // blue
-      { x: 0.72, y: 0.06, r: 0.26, c: '30,180,190', a: 0.17 },  // teal, OIII
-      { x: 0.88, y: 0.80, r: 0.40, c: '170,72,118', a: 0.11 },  // magenta, dimmed
-      { x: 0.62, y: 0.95, r: 0.30, c: '55,115,185', a: 0.15 },  // blue (was purple)
-      { x: 0.12, y: 0.86, r: 0.36, c: '20,152,178', a: 0.20 },  // cyan
-      { x: 0.34, y: 0.96, r: 0.26, c: '228,152,72', a: 0.15 }   // amber
-    ];
-
-    clouds.forEach(function (cl) {
-      var cx = cl.x * w, cy = cl.y * h, rr = cl.r * diag;
-      // 7 offset lobes per cloud: irregular edges instead of a perfect disc.
-      for (var i = 0; i < 7; i++) {
-        var ox = cx + rand(-rr * 0.42, rr * 0.42);
-        var oy = cy + rand(-rr * 0.34, rr * 0.34);
-        var orr = rr * rand(0.35, 0.85);
-        var g = bgx.createRadialGradient(ox, oy, 0, ox, oy, orr);
-        g.addColorStop(0, 'rgba(' + cl.c + ',' + (cl.a * rand(0.6, 1)).toFixed(3) + ')');
-        g.addColorStop(0.45, 'rgba(' + cl.c + ',' + (cl.a * 0.35).toFixed(3) + ')');
-        g.addColorStop(1, 'rgba(' + cl.c + ',0)');
-        bgx.fillStyle = g;
-        bgx.fillRect(ox - orr, oy - orr, orr * 2, orr * 2);
-      }
-    });
-
-    /* THE MILKY WAY. A diagonal band, because a horizontal one looks like a horizon and the
-       galactic plane never does. Built from many overlapping soft ellipses along an axis. */
-    var ang = -0.42;                       // radians, up to the right
+    var ang = -0.42;                       // galactic plane, up to the right
     var ca = Math.cos(ang), sa = Math.sin(ang);
-    var steps = 46;
-    for (var s = 0; s <= steps; s++) {
-      var tpos = s / steps;
-      var px = (tpos - 0.5) * diag * 1.25;
-      var bx = w * 0.5 + px * ca;
-      var by = h * 0.5 + px * sa;
-      // Thicker and brighter toward the centre: the galactic bulge.
-      var bulge = 1 - Math.abs(tpos - 0.5) * 1.5;
-      if (bulge < 0) bulge = 0;
-      var br = diag * (0.055 + 0.075 * bulge);
-      var alpha = 0.030 + 0.055 * bulge;
-      var g2 = bgx.createRadialGradient(bx, by, 0, bx, by, br);
-      g2.addColorStop(0, 'rgba(190,200,235,' + alpha.toFixed(3) + ')');
-      g2.addColorStop(0.5, 'rgba(150,165,215,' + (alpha * 0.4).toFixed(3) + ')');
-      g2.addColorStop(1, 'rgba(120,140,200,0)');
-      bgx.fillStyle = g2;
-      bgx.fillRect(bx - br, by - br, br * 2, br * 2);
-    }
 
-    /* FAR STARS. Dense, tiny, static. At this size a twinkle would be invisible anyway, so
-       they live in the cached layer and cost nothing per frame. This is the layer that makes
-       the sky feel deep rather than sparse. */
-    var farCount = Math.min(2600, Math.round((w * h) / 620));
+    /* NOISE SCALE AND WARP STRENGTH ARE THE WHOLE CHARACTER OF THIS.
+       At 3.1 structures across the frame with a warp of 3.4, the result was unmistakably ink
+       dropped in water: a few huge smooth swirls. Gas in a real field is finer and less
+       curled, so the frequency goes up and the warp comes down. The warp is what bends
+       straight noise into wisps, but past about 2 it starts folding the field back over
+       itself, and folding is what reads as liquid rather than as gas. */
+    var NS = 5.2 / bw;
+
+    for (var y = 0; y < bh; y++) {
+      for (var x = 0; x < bw; x++) {
+        // Isotropic noise coordinates, so the gas keeps its shape instead of stretching on
+        // a very wide or very tall viewport.
+        var nx = x * NS, ny = y * NS;
+
+        // domain warp
+        var q1 = fbm(nx, ny, 1, 4);
+        var q2 = fbm(nx + 5.2, ny + 1.3, 2, 4);
+        var dens = fbm(nx + 1.9 * q1, ny + 1.9 * q2, 3, 6);
+
+        /* Lifting the floor from 0.30 to 0.40 is what buys back real black. fBm clusters
+           around 0.5, so a 0.30 floor left most of the frame carrying SOME gas, and a field
+           that is never empty reads as haze. Cutting at 0.40 empties roughly half the frame
+           outright, and the emptiness is what makes the remaining gas look bright. */
+        var core = clamp01((dens - 0.40) / 0.52);
+        dens = Math.pow(core, 2.2);
+
+        /* Dust lanes. Real emission regions are cut by dark dust in front of them, and it is
+           mostly the LANES the eye reads as structure, not the glow. Without these the gas
+           still looks airbrushed however fine the noise gets. */
+        var dust = fbm(nx * 1.7 + 31.4, ny * 1.7 + 17.8, 33, 4);
+        dens *= 0.30 + 0.70 * clamp01((dust - 0.34) / 0.30);
+
+        // confine to one diagonal band
+        var cx = (x + 0.5) * SC, cy = (y + 0.5) * SC;
+        var dAxis = Math.abs((cx - w * 0.5) * sa - (cy - h * 0.5) * ca);
+        var band = Math.exp(-Math.pow(dAxis / (diag * 0.32), 2));
+
+        /* Keep the type readable with an ELLIPSE, not a circle. The wordmark is a wide,
+           short block, so a circular clearing big enough to protect its width also scoops
+           out everything above and below it, which is what left the middle looking empty
+           and smoky. An ellipse shaped like the type lets gas come close top and bottom
+           while still guaranteeing contrast where the letters actually are. */
+        var ex = (cx - w * 0.5) / (w * 0.34);
+        var ey = (cy - h * 0.5) / (h * 0.26);
+        var clear = clamp01(Math.pow(Math.hypot(ex, ey), 1.5));
+
+        var amt = dens * band * clear;
+        if (amt <= 0.004) { px[(y * bw + x) * 4 + 3] = 0; continue; }
+
+        // hue: indigo -> teal along a slow independent field
+        var mix = clamp01((fbm(nx * 0.55 + 9.1, ny * 0.55 + 4.7, 9, 3) - 0.28) / 0.44);
+        var r = 48  + (16  - 48)  * mix;
+        var g = 78  + (178 - 78)  * mix;
+        var b = 190 + (186 - 190) * mix;
+
+        /* One warm region, low and left. This is the only warm colour in the sky and it is
+           what stops the whole field reading as one cold wash; it also ties the background
+           to the gold in the mark without sitting near enough to compete with it. */
+        var reg = Math.exp(-Math.pow(Math.hypot(cx - w * 0.22, cy - h * 0.82) / (diag * 0.34), 2));
+        var warm = clamp01((fbm(nx * 0.7 + 21.3, ny * 0.7 + 13.9, 21, 3) - 0.34) * 3.2) * reg;
+        r = r + (238 - r) * warm;
+        g = g + (150 - g) * warm;
+        b = b + (56  - b) * warm;
+
+        /* Dense cores run hotter and paler, the way real emission regions do, but this is
+           easy to overdo: pushed hard it desaturates the brightest gas toward white and the
+           result reads as a grey smudge rather than a lit core. Kept low and gated late. */
+        var hot = clamp01((core - 0.84) / 0.16);
+        r += (255 - r) * hot * 0.30;
+        g += (255 - g) * hot * 0.22;
+        b += (255 - b) * hot * 0.14;
+
+        var i4 = (y * bw + x) * 4;
+        px[i4]     = r | 0;
+        px[i4 + 1] = g | 0;
+        px[i4 + 2] = b | 0;
+        px[i4 + 3] = (clamp01(amt * 1.9) * 255) | 0;
+      }
+    }
+    bctx.putImageData(img, 0, 0);
+
+    bgx.save();
+    bgx.globalCompositeOperation = 'lighter';
+    bgx.imageSmoothingEnabled = true;
+    bgx.imageSmoothingQuality = 'high';
+    bgx.drawImage(buf, 0, 0, w, h);
+    bgx.restore();
+
+    /* STARS ARE WHAT SAY "SPACE". Gas alone, however good, reads as weather or as ink. An
+       earlier pass had half this many at half this brightness and the field looked like a
+       smoke plume; the fix was not better gas, it was more stars.
+
+       Two populations, because one uniform size reads as noise: a dense faint layer that
+       gives depth, and a sparser brighter layer that gives the eye something to land on.
+       Both are static, so both live in the cached bitmap and cost nothing per frame. */
+    var farCount = Math.min(5200, Math.round((w * h) / 330));
     for (var f = 0; f < farCount; f++) {
       var fx = Math.random() * w, fy = Math.random() * h;
-      // Cluster toward the band: multiply density along the galactic axis.
-      var dToAxis = Math.abs((fx - w * 0.5) * sa - (fy - h * 0.5) * ca);
-      var nearBand = Math.exp(-(dToAxis / (diag * 0.16)) * (dToAxis / (diag * 0.16)));
-      if (Math.random() > 0.32 + nearBand * 0.68) continue;
-      var fr = rand(0.22, 0.75);
-      var fa = rand(0.10, 0.55) * (0.55 + nearBand * 0.45);
+      var dA = Math.abs((fx - w * 0.5) * sa - (fy - h * 0.5) * ca);
+      var nb = Math.exp(-Math.pow(dA / (diag * 0.19), 2));
+      if (Math.random() > 0.34 + nb * 0.66) continue;
+      var fr = 0.24 + Math.random() * 0.58;
+      var fa = (0.16 + Math.random() * 0.54) * (0.58 + nb * 0.42);
       bgx.beginPath();
       bgx.arc(fx, fy, fr, 0, 6.2832);
       bgx.fillStyle = 'rgba(' + pick(PALETTE) + ',' + fa.toFixed(3) + ')';
       bgx.fill();
     }
 
-    /* DUST LANES. Dark, subtractive-looking streaks across the band. Real galaxies are cut by
-       these and without them the band reads as an airbrushed smear. */
-    bgx.globalCompositeOperation = 'source-over';
-    /* Dust is kept OUT of the middle. Placed freely, one lane landed directly behind HELIX and
-       read as a smudge on the screen rather than as dust in a galaxy. Anything that lands
-       within 22% of centre is rejected and re-rolled. */
-    for (var d = 0; d < 9; d++) {
-      var dx0, dy0, tries = 0;
-      do {
-        var dt = rand(0.10, 0.90);
-        var dpx = (dt - 0.5) * diag * 1.15;
-        dx0 = w * 0.5 + dpx * ca + rand(-diag * 0.06, diag * 0.06);
-        dy0 = h * 0.5 + dpx * sa + rand(-diag * 0.06, diag * 0.06);
-        tries++;
-      } while (tries < 8 && Math.hypot(dx0 - w * 0.5, dy0 - h * 0.5) < diag * 0.22);
-      var dr = diag * rand(0.04, 0.10);
-      var g3 = bgx.createRadialGradient(dx0, dy0, 0, dx0, dy0, dr);
-      g3.addColorStop(0, 'rgba(4,6,12,' + rand(0.22, 0.42).toFixed(3) + ')');
-      g3.addColorStop(1, 'rgba(4,6,12,0)');
-      bgx.fillStyle = g3;
-      bgx.fillRect(dx0 - dr, dy0 - dr, dr * 2, dr * 2);
+    var midCount = Math.min(260, Math.round((w * h) / 6200));
+    for (var m = 0; m < midCount; m++) {
+      var mx = Math.random() * w, my = Math.random() * h;
+      var mA = Math.abs((mx - w * 0.5) * sa - (my - h * 0.5) * ca);
+      var mb = Math.exp(-Math.pow(mA / (diag * 0.24), 2));
+      if (Math.random() > 0.42 + mb * 0.58) continue;
+      var col = pick(PALETTE);
+      var mr = 0.7 + Math.random() * 0.7;
+      var ma = 0.45 + Math.random() * 0.45;
+      var hg = bgx.createRadialGradient(mx, my, 0, mx, my, mr * 5.5);
+      hg.addColorStop(0, 'rgba(' + col + ',' + (ma * 0.5).toFixed(3) + ')');
+      hg.addColorStop(1, 'rgba(' + col + ',0)');
+      bgx.fillStyle = hg;
+      bgx.fillRect(mx - mr * 5.5, my - mr * 5.5, mr * 11, mr * 11);
+      bgx.beginPath();
+      bgx.arc(mx, my, mr, 0, 6.2832);
+      bgx.fillStyle = 'rgba(' + col + ',' + ma.toFixed(3) + ')';
+      bgx.fill();
     }
 
-    /* A CLEARING behind the wordmark. Deep space is not uniformly lit and dark nebulae are
-       real, so a soft pool of shadow at centre is physically unremarkable — but its actual job
-       is contrast: the gold has to read at a glance, and it cannot do that over lit gas.
-       Applied after the clouds and before the vignette so it darkens colour, not just edges. */
-    /* Deepened when the palette got richer. Brighter, more saturated gas around the edges
-       compresses the whole image toward mid-tone, and the type loses its separation along with
-       it. Pushing the clearing harder does two things at once: the gold regains contrast, and
-       the colour actually reads MORE saturated, because it now has something dark to sit
-       against instead of blending into a uniformly lit field. */
-    var clear = bgx.createRadialGradient(w / 2, h * 0.5, 0, w / 2, h * 0.5, diag * 0.34);
-    clear.addColorStop(0, 'rgba(2,4,9,0.78)');
-    clear.addColorStop(0.45, 'rgba(2,4,9,0.52)');
-    clear.addColorStop(1, 'rgba(2,4,9,0)');
-    bgx.fillStyle = clear;
-    bgx.fillRect(0, 0, w, h);
-
-    // A soft vignette pulls the eye to the centre, where the wordmark is.
-    var vg = bgx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.25, w / 2, h / 2, diag * 0.62);
+    /* Vignette only. The previous version also punched a hard dark pool into the middle to
+       rescue the type's contrast from bright gas sitting behind it; the elliptical clearing
+       above does that job now, in the gas itself, so there is no hole to see. */
+    var vg = bgx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.30, w / 2, h / 2, diag * 0.62);
     vg.addColorStop(0, 'rgba(0,0,0,0)');
-    vg.addColorStop(1, 'rgba(0,0,0,0.62)');
+    vg.addColorStop(1, 'rgba(0,0,0,0.55)');
     bgx.fillStyle = vg;
     bgx.fillRect(0, 0, w, h);
   }
@@ -644,13 +503,15 @@
       });
     }
 
-    // The handful of bright anchors that carry cross-flares.
-    var fcount = Math.min(22, Math.max(6, Math.round((w * h) / 90000)));
+    /* FEWER AND SMALLER CROSS-FLARES than before (was up to 22, with spikes up to 22px).
+       At that count and spike length they stop reading as bright stars and start reading as
+       decoration, and they were a real part of why the old sky looked like clip-art. */
+    var fcount = Math.min(9, Math.max(3, Math.round((w * h) / 150000)));
     for (var k = 0; k < fcount; k++) {
       flares.push({
         x: rand(w * 0.04, w * 0.96),
         y: rand(h * 0.04, h * 0.96),
-        r: rand(1.5, 2.8),
+        r: rand(1.1, 1.9),
         colour: pick(PALETTE),
         base: rand(0.7, 1.0),
         s1: rand(0.5, 1.6),
@@ -658,7 +519,7 @@
         p1: Math.random() * 6.2832,
         p2: Math.random() * 6.2832,
         amp: rand(0.35, 0.7),
-        spikes: rand(9, 22)
+        spikes: rand(5, 11)
       });
     }
   }
@@ -691,7 +552,7 @@
   function draw(now) {
     var t = (now - t0) / 1000;
 
-    // The cached universe, blitted whole. One drawImage instead of ~400 gradient fills.
+    // The cached universe, blitted whole. One drawImage instead of the entire noise field.
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.drawImage(bg, 0, 0);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
