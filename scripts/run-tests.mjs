@@ -48,9 +48,11 @@ const TIMEOUT_MS = 300000;
 const SLOW_MS = 30000;   // reported, so the margin above stays visible
 
 function tracked(...patterns) {
-  return execFileSync('git', ['ls-files', '-z', ...patterns], {
-    encoding: 'utf8', maxBuffer: 64 * 1024 * 1024
-  }).split('\0').filter(Boolean);
+  const out = execFileSync(
+    'git', ['ls-files', '-z', '--cached', '--others', '--exclude-standard', ...patterns],
+    { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }
+  ).split('\0').filter(Boolean);
+  return [...new Set(out)];   // a path can be listed by more than one selector
 }
 
 /* Named-for-what-they-are: scripts/test-foo.js, _test-foo.cjs, foo-test.js */

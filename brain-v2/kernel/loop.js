@@ -54,8 +54,10 @@ var CON   = require('./consolidate.js');
 var MOD   = require('./modulators.js');
 var VIT   = require('./vitals.js');
 var PROP  = require('./propose.js');
+var TOPO  = require('./topology.js');
 var BRAIN = require('../core/brain.js');
 var DIV   = require('../core/divergence.js');
+var C     = require('../core/channel.js');
 
 var VERSION = 'brain-v2/kernel/1.0.0';
 
@@ -69,6 +71,8 @@ function create(spec) {
     store: spec.storeDir ? ST.open(spec.storeDir) : null,
     brain: BRAIN.createBrain(spec.brainSpec),
     connectome: CX.create(spec.connectomeOpts),
+    /* SPEC row 25. Structural plasticity over the connectome's declared edges. */
+    topology: TOPO.createTopology(spec.topologyOpts),
     registry: PRED.createRegistry(),
     forwardModel: PRED.createForwardModel(spec.forwardModelOpts),
     gate: SEL.createGate(spec.gateOpts),
@@ -81,11 +85,27 @@ function create(spec) {
     // Attention state: the thing actions actually move. channelKey -> {rBase, multiplier}
     attention: Object.create(null),
     horizonMs: spec.horizonMs || 24 * 3600000,
+    /* SPEC row 25. null = structural credit withheld; see the resolution step for the
+       measurement that put it there. 'trace' re-enables the known-misattributed path. */
+    topologyCredit: spec.topologyCredit || null,
+    /**
+     * SPEC row 22. Derive each channel's q and r from its own innovations instead of
+     * holding the declared prior.
+     *
+     * ON BY DEFAULT, because a held-out comparison says it earns it, not because derived
+     * sounds better than set. `test/noise-control.js` adapts on the first 60% of the
+     * recorded corpus, freezes, and scores the remaining 40%: on the channels the system
+     * would actually fuse, derived parameters are better calibrated on 4 of 5, summed
+     * NIS miscalibration -6.74. Pass `deriveNoise: false` for the control arm.
+     */
+    deriveNoise: spec.deriveNoise === undefined ? true : !!spec.deriveNoise,
+    noiseEveryTicks: spec.noiseEveryTicks || 24,
     ticks: 0,
     lastTickAt: null,
     errors: []
   };
   wireConnectome(loop);
+  CX.attachTopology(loop.connectome, loop.topology);
   wireMotor(loop);
   return loop;
 }
@@ -96,24 +116,39 @@ function create(spec) {
  */
 function wireConnectome(loop) {
   var received = loop._received = [];
-  CX.connect(loop.connectome, 'integration:ascending', {
+  /**
+   * ADOPTION TIME. The three edges below are hand-declared kernel wiring that predates
+   * the topology, so they are adopted as ACTIVE rather than entering as unproven
+   * candidates — a topology whose first act is to stop all routing has deleted working
+   * structure on no evidence. `adopted:true` keeps them distinguishable in report()
+   * from anything the mechanism itself promoted.
+   *
+   * 0 is used deliberately as the adoption timestamp: `create()` has no `now`, and
+   * inventing one from a clock would make two runs of the same replay differ. Every
+   * later transition carries the caller's real `now`.
+   */
+  function wire(target, spec, why) {
+    CX.connect(loop.connectome, target, spec);
+    TOPO.adopt(loop.topology, target, { at: 0, reason: why });
+  }
+  wire('integration:ascending', {
     kinds: [PK.KIND.PREDICTION_ERROR, PK.KIND.DIAGNOSIS, PK.KIND.CONTRADICTION],
     direction: PK.DIRECTION.ASCENDING,
     role: PK.ROLE.DRIVER,
     handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
-  });
-  CX.connect(loop.connectome, 'integration:descending', {
+  }, 'pre-existing kernel wiring: the ascending residual path, declared before topology existed');
+  wire('integration:descending', {
     kinds: [PK.KIND.PREDICTION, PK.KIND.MODULATION],
     direction: PK.DIRECTION.DESCENDING,
     role: PK.ROLE.MODULATOR,
     handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
-  });
-  CX.connect(loop.connectome, 'selector:lateral', {
+  }, 'pre-existing kernel wiring: the descending prediction path required by INV-7');
+  wire('selector:lateral', {
     kinds: [PK.KIND.ACTION_CANDIDATE, PK.KIND.INHIBITION],
     direction: PK.DIRECTION.LATERAL,
     role: PK.ROLE.DRIVER,
     handler: function (p) { received.push({ at: p.processingTime, kind: p.signalKind, id: p.id }); return { accepted: true }; }
-  });
+  }, 'pre-existing kernel wiring: the lateral selector path');
 }
 
 /**
@@ -130,9 +165,14 @@ function wireMotor(loop) {
       var factor = cmd.action.parameters.factor;
       // Attention IS precision: lower observation noise -> higher Kalman gain -> higher
       // posterior precision -> more weight in fusion. Gain from adaptation scales the step.
+      //
+      // IT MOVES rGain, NOT r. Since row 22 the effective r is rBase * rGain, where rBase
+      // is derived from the channel's own innovations. Writing ch.r here would put both
+      // mechanisms on one field, and the next derivation would silently erase this action
+      // — leaving an efference copy predicting a change to a variable something else had
+      // already overwritten, which is a false outcome, not a missing one.
       var applied = 1 + (factor - 1) * cmd.gain;
-      ch.r = direction > 0 ? ch.r / applied : ch.r * applied;
-      ch.r = Math.min(4.0, Math.max(0.01, ch.r));
+      C.setAttentionGain(ch, direction > 0 ? ch.rGain / applied : ch.rGain * applied);
       if (!loop.attention[key]) loop.attention[key] = { rBase: before, history: [] };
       loop.attention[key].history.push({ at: cmd.now, from: before, to: ch.r, actionId: cmd.action.actionId });
       return {
@@ -241,6 +281,28 @@ function tick(loop, readings, now) {
     findings: (cycle.findings || []).length
   });
 
+  /**
+   * ── 3b. DERIVE q AND r FROM EACH CHANNEL'S OWN INNOVATIONS (SPEC row 22) ─────────────
+   *
+   * After the cycle, so this tick's observation is in the innovation history, and on a
+   * cadence rather than every tick: a variance re-estimated from a window that moved by
+   * one sample is the same variance, and re-deriving each time would only add churn to
+   * the audit log. Every derivation is recorded with its own basis.
+   */
+  var noiseDerivations = [];
+  if (loop.deriveNoise && loop.ticks > 0 && (loop.ticks % loop.noiseEveryTicks === 0)) {
+    loop.brain.channels.forEach(function (ch) {
+      var d = C.deriveNoise(ch, now);
+      if (!d.derived) return;
+      noiseDerivations.push({ channel: ch.key, q: ch.q, r: ch.r, rBase: ch.rBase, rGain: ch.rGain,
+                              qState: ch.noiseState.q, rState: ch.noiseState.r });
+      record('noise_derived', { channel: ch.key, before: d.before, after: d.after,
+                                r: { state: d.r.state, why: d.r.why, basis: d.r.basis || null },
+                                q: { state: d.q.state, why: d.q.why, basis: d.q.basis || null } });
+    });
+  }
+  if (noiseDerivations.length) step('derive_noise', { derived: noiseDerivations });
+
   // ── 4. RESOLVE DUE PREDICTIONS — BEFORE anything new is proposed ──────────────────────
   var resolutions = [];
   PRED.sweepExpired(loop.registry, now).forEach(function (p) {
@@ -328,6 +390,56 @@ function tick(loop, readings, now) {
        * system into degraded mode. An outstanding-work register that only ever grows is not
        * tracking outstanding work, it is leaking.
        */
+      /**
+       * ── STRUCTURAL CREDIT (SPEC row 25) — WITHHELD BY DEFAULT, AND HERE IS WHY ──
+       *
+       * The available signal is: grade the edges that carried this trace by whether the
+       * prediction they produced turned out right. It is a real resolved outcome, never a
+       * mock — the same resolution that feeds the critic and the forward model. Enabled
+       * over the full 362-row recorded corpus it produces a perfectly healthy-looking
+       * trajectory: both integration edges dip to dormant early, recover on fresh
+       * evidence, pass probation, and end active at utility 0.380 over 332 outcomes.
+       *
+       * IT IS STILL THE WRONG SIGNAL, and the healthy trajectory is what makes that worth
+       * writing down rather than assuming. Two defects, neither visible in the result:
+       *
+       *   MISATTRIBUTION  a prediction's accuracy is a property of the forward model and
+       *                   the channel. It does not measure whether delivering a residual
+       *                   packet to a target helped. The edges are being scored for
+       *                   someone else's work.
+       *   NO RESOLUTION   the signal is trace-level. Measured: integration:ascending and
+       *                   integration:descending finish with byte-identical counters at
+       *                   every transition, because they co-fire on every tick. Two edges
+       *                   this can never tell apart cannot be pruned against each other,
+       *                   which is the entire point of the mechanism.
+       *
+       * A valid signal needs a counterfactual — deliver on one edge, withhold the other,
+       * compare — against a target that does something observable. The integration targets
+       * here are stubs and one domain is bound, so no such target exists. That is the same
+       * missing peer row 24 is blocked on.
+       *
+       * So credit is REFUSED rather than approximated, and the refusal is recorded. A
+       * mechanism that has never decided anything is a state the scorecard can report
+       * honestly. One deciding confidently on a misattributed signal is the "wired means
+       * working" substitution, and it would look exactly like success.
+       * `topologyCredit: 'trace'` re-enables the measured path for that experiment only.
+       */
+      if (loop.topologyCredit === 'trace') {
+        creditEdges(loop, p.traceId, {
+          at: now, useful: !!r.resolution.hit,
+          error: Math.abs(r.resolution.predictionError || 0), ref: p.id
+        });
+      } else if (!loop._creditRefusalRecorded) {
+        loop._creditRefusalRecorded = true;
+        record('topology_credit_withheld', {
+          why: 'no edge-level outcome exists in this build. The available trace-level signal grades ' +
+               'co-firing edges identically and attributes forward-model accuracy to the edges that ' +
+               'carried the packet. Structural plasticity therefore observes and persists but does ' +
+               'not decide.',
+          blockedBy: 'stub integration targets and a single bound domain (see SPEC row 24)'
+        });
+      }
+
       var actionIds = effs.map(function (e) { return e.actionId; }).filter(Boolean);
       MEM.dueItems(loop.memory, now).forEach(function (i) {
         if (i.predictionId === p.id) {
@@ -339,6 +451,17 @@ function tick(loop, readings, now) {
     }
   });
   step('resolve', { resolved: resolutions.length, detail: resolutions });
+
+  // ── 4b. TOPOLOGY (SPEC row 25) — evaluated AFTER this tick's outcomes are recorded
+  // and BEFORE this tick's routing, so a structural decision acts on every outcome
+  // known at the moment it is taken.
+  var topoFired = TOPO.evaluate(loop.topology, now).transitions;
+  topoFired.forEach(function (t) { record('topology_transition', { transition: t }); });
+  step('topology', {
+    transitions: topoFired.length,
+    fired: topoFired.map(function (t) { return t.edgeId + ': ' + t.from + ' -> ' + t.to; }),
+    report: TOPO.report(loop.topology)
+  });
 
   // ── 5. MODULATORS (BLOCK_B12) ─────────────────────────────────────────────────────────
   var hits = resolutions.filter(function (r) { return r.observable; });
@@ -449,6 +572,7 @@ function tick(loop, readings, now) {
       expiresAt: now + loop.horizonMs
     });
     routing = CX.submit(loop.connectome, ascend, now);
+    noteRouted(loop, traceId, routing);
     // INV-7: a descending counterpart exists, carrying the prediction back down.
     if (prediction) {
       var descend = PK.create({
@@ -462,7 +586,7 @@ function tick(loop, readings, now) {
         confidence: prediction.confidence, salience: 0.4,
         expiresAt: prediction.expiresAt
       });
-      CX.submit(loop.connectome, descend, now);
+      noteRouted(loop, traceId, CX.submit(loop.connectome, descend, now));
     }
     CX.drain(loop.connectome, 32);
     record('routing', { report: routing, metrics: CX.snapshotMetrics(loop.connectome) });
@@ -686,6 +810,31 @@ function finish(loop, rep, records, now, cycle, modulation) {
 }
 
 /**
+ * Which edges carried a trace. Bounded ring: a trace older than the window can no longer
+ * be credited, which is stated as a miss rather than silently counting as zero edges.
+ */
+var ROUTED_WINDOW = 512;
+function noteRouted(loop, traceId, report) {
+  if (!report || !report.delivered || !report.delivered.length) return;
+  if (!loop._routed) loop._routed = [];
+  var hit = null;
+  for (var i = loop._routed.length - 1; i >= 0; i--) if (loop._routed[i].traceId === traceId) { hit = loop._routed[i]; break; }
+  if (!hit) { hit = { traceId: traceId, targets: [] }; loop._routed.push(hit); }
+  report.delivered.forEach(function (d) { if (hit.targets.indexOf(d.target) < 0) hit.targets.push(d.target); });
+  while (loop._routed.length > ROUTED_WINDOW) loop._routed.shift();
+}
+
+/** Grade every edge that carried `traceId`. Returns how many edges were credited. */
+function creditEdges(loop, traceId, outcome) {
+  var rec = null, list = loop._routed || [];
+  for (var i = list.length - 1; i >= 0; i--) if (list[i].traceId === traceId) { rec = list[i]; break; }
+  if (!rec) return 0;
+  var n = 0;
+  rec.targets.forEach(function (t) { if (TOPO.recordOutcome(loop.topology, t, outcome).recorded) n++; });
+  return n;
+}
+
+/**
  * Read a named variable out of the current cycle. Returns null when the variable is not
  * observable this cycle — null flows into resolve() as UNRESOLVABLE, not as a zero.
  */
@@ -824,6 +973,8 @@ function serialize(loop) {
     modulators: MOD.serialize(loop.modulators),
     vitals: VIT.serialize(loop.vitals),
     attention: loop.attention,
+    topology: TOPO.serialize(loop.topology),
+    routed: loop._routed || [],
     efferences: loop._efferences || [],
     varHistory: loop._varHistory || {},
     ablations: loop.ablations,
@@ -864,6 +1015,13 @@ function restore(spec, snap) {
   loop.modulators = MOD.deserialize(snap.modulators || {});
   loop.vitals = VIT.deserialize(snap.vitals);
   loop.attention = snap.attention || Object.create(null);
+  /* A snapshot written before row 25 has no topology; the freshly-wired one from
+     create() stands, which is correct for that data — there was nothing to restore. */
+  if (snap.topology) {
+    loop.topology = TOPO.deserialize(snap.topology);
+    CX.attachTopology(loop.connectome, loop.topology);
+  }
+  loop._routed = snap.routed || [];
   loop._efferences = snap.efferences || [];
   loop._varHistory = snap.varHistory || Object.create(null);
   loop.ablations = snap.ablations || Object.create(null);

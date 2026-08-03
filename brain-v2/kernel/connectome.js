@@ -25,6 +25,7 @@
 'use strict';
 
 var PK = require('./packet.js');
+var TOPO = require('./topology.js');
 
 var DEFAULTS = {
   queueLimit: 256,          // backpressure ceiling per tick
@@ -43,6 +44,9 @@ function create(opts) {
     recent: [],                  // dedup ring
     recentSet: Object.create(null),
     inhibited: Object.create(null), // target -> {until, by, reason}
+    /* Optional structural plasticity (SPEC row 25). Null = no topology governs this
+       connectome and routing behaves exactly as before. attachTopology() opts in. */
+    topology: null,
     metrics: { in: 0, out: 0, dropped: 0, deduped: 0, expired: 0, hopExceeded: 0, inhibitedDrops: 0, backpressure: 0 }
   };
 }
@@ -68,6 +72,13 @@ function connect(cx, target, spec) {
   };
   return cx;
 }
+
+/**
+ * Attach a topology (SPEC row 25). Separate from create() so an existing connectome is
+ * unaffected until a caller explicitly opts in, and so a topology restored from a
+ * snapshot can be reattached without rebuilding the connectome.
+ */
+function attachTopology(cx, topo) { cx.topology = topo || null; return cx; }
 
 /**
  * INV-7 CHECK — reciprocity. For every ascending edge A->B there must be a descending edge.
@@ -112,6 +123,22 @@ function route(cx, packet) {
     if (packet.intendedTargets.length && packet.intendedTargets.indexOf(t) < 0) return;
     targets.push(t);
   });
+
+  /**
+   * TOPOLOGY IS APPLIED LAST, AND ONLY SUBTRACTS. SPEC row 25.
+   *
+   * Every rule above — kind, domain, confidence, intendedTargets — has already run, and
+   * the fanout cap runs below. topology.filterTargets can only REMOVE from what
+   * survived, never add. That ordering is the structural guarantee that a topology edit
+   * cannot smuggle a packet past a type, direction, domain or provenance check: there is
+   * no code path by which a dormant-then-reactivated edge re-enters the list except
+   * through the same filters that admitted it originally.
+   *
+   * An undeclared edge is governed by the connectome alone, so attaching a topology to
+   * an existing connectome changes nothing until edges are declared to it.
+   */
+  if (cx.topology) targets = TOPO.filterTargets(cx.topology, targets);
+
   return targets.slice(0, cx.opts.maxFanout);
 }
 
@@ -227,13 +254,15 @@ function snapshotMetrics(cx) {
     queueDepth: cx.queue.length,
     edges: Object.keys(cx.edges).length,
     inhibited: Object.keys(cx.inhibited).length,
-    reciprocity: reciprocityReport(cx)
+    reciprocity: reciprocityReport(cx),
+    topology: cx.topology ? TOPO.report(cx.topology) : { attached: false }
   };
 }
 
 module.exports = {
   create: create,
   connect: connect,
+  attachTopology: attachTopology,
   route: route,
   submit: submit,
   drain: drain,

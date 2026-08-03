@@ -41,34 +41,69 @@ var DAY = 24 * HOUR;
  * Each entry has to name the latent variable, and that requirement is the point. If
  * you cannot say what two channels both observe, they are not comparable, and the
  * declaration is a commitment you can be caught being wrong about.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * SIX OF THESE SEVEN ARE DEAD LETTERS ON THE RECORDED CORPUS (measured 2026-08-03).
+ *
+ * Over 347 cycles of the 362-row energy fixture, exactly ONE pair was ever comparable:
+ * gridRel/electricity, on 140 of them. The other six were never comparable once, for two
+ * distinct reasons that are marked per entry below:
+ *
+ *   ABSENT   the channel produced no reading at all in this corpus (eiaPetro,
+ *            massiveOil). No key, no feed, nothing to compare.
+ *   DEAD     the channel produced readings that never changed across its liveness
+ *            window, so it has no departure and cannot make a claim (natGas, lng, solar,
+ *            wind, nuclear, fedRegNrc, coal).
+ *
+ * THEY ARE MARKED, NOT DELETED, AND THE DISTINCTION IS THE WHOLE POINT. Deleting them
+ * would destroy six real hypotheses about the world to make a report look clean; leaving
+ * them unmarked would let six declarations that CANNOT fire contribute silence that reads
+ * as agreement. So the ledger now counts testability per declaration and names them as
+ * dead letters with the failing side (`divergence.js` -> report().deadLetters), and each
+ * entry here carries `[DEAD LETTER ...]` saying which side failed and how.
+ *
+ * NONE OF THE SIX IS REPAIRABLE IN CODE. Every one is blocked on data this corpus does
+ * not contain: an absent feed needs a feed, and a constant channel needs a period in
+ * which its value moves. Re-pointing them at channels that happen to be live would be
+ * inventing a latent to fit the data that exists, which is the opposite of what the
+ * latent requirement above is for. They stay declared, marked, and untestable until a
+ * fixture exists that can test them.
+ * ═══════════════════════════════════════════════════════════════════════════════════
  */
 var REL = [
   // Three independent reads of one price. These should track closely; a gap means
   // one feed is stale or a key expired, which is worth knowing on its own.
   DIV.relate('fredCrude', 'eiaPetro', 'crude oil price level', 'agree',
+    '[DEAD LETTER: eiaPetro is ABSENT — 0 readings in 347 cycles] '  +
     'FRED WTI and EIA Brent are different benchmarks but move with one oil market; a sustained gap usually means one feed stopped updating rather than that the spread moved'),
   DIV.relate('fredCrude', 'massiveOil', 'crude oil price level', 'agree',
+    '[DEAD LETTER: massiveOil is ABSENT — 0 readings in 347 cycles] ' +
     'Polygon CL is the same underlying as FRED WTI; disagreement here is a data problem, not a market one'),
 
   // Grid stress read two ways: reliability coverage and electricity-market coverage.
+  // THE ONLY TESTABLE DECLARATION on the recorded corpus: comparable on 140 of 347 cycles.
   DIV.relate('gridRel', 'electricity', 'electric grid stress', 'agree',
     'FERC/NERC reliability coverage and EIA electricity coverage both rise when the grid is under strain'),
 
   // Gas supply read through pipeline gas and seaborne LNG.
   DIV.relate('natGas', 'lng', 'natural gas supply pressure', 'agree',
+    '[DEAD LETTER: natGas and lng are both DEAD — constant across their liveness window] ' +
     'domestic gas and LNG coverage both respond to the same supply squeeze; divergence separates a US-local event from a global one'),
 
   // Renewables output pressure.
   DIV.relate('solar', 'wind', 'renewable generation attention', 'agree',
+    '[DEAD LETTER: solar and wind are both DEAD — constant across their liveness window] ' +
     'solar and wind coverage co-move with intermittency events; one moving alone points at a technology-specific story'),
 
   // Nuclear: news attention against regulatory filing activity.
   DIV.relate('nuclear', 'fedRegNrc', 'nuclear sector activity', 'agree',
+    '[DEAD LETTER: nuclear and fedRegNrc are both DEAD — constant across their liveness window] ' +
     'coverage and NRC filing volume both track nuclear activity, on different lags; news leading filings by a wide margin is the informative case'),
 
   // The one declared INVERTING pair. Coal transition coverage rises as coal is
   // displaced; renewable coverage rises for the same reason, from the other side.
   DIV.relate('coal', 'solar', 'coal-to-renewable displacement', 'invert',
+    '[DEAD LETTER: coal and solar are both DEAD — constant across their liveness window] ' +
     'coverage of coal retirement and of solar buildout are two faces of one transition; them rising TOGETHER is the anomaly, not them diverging')
 ];
 

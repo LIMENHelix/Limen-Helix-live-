@@ -372,6 +372,11 @@ function gapStatistic(a, b, expect) {
  * Deterministic: `now` is passed in, ids derive from (pair, latent, openedAt), and
  * nothing here reads a clock or a random source. A replay produces identical ledgers.
  */
+/* Cycles a declaration must be observed for before "never comparable" is a finding
+   rather than a cold start. One cadence period of the slowest declared channel would be
+   the principled floor; 24 is that for an hourly corpus and is stated, not tuned. */
+var MIN_TESTABILITY_CYCLES = 24;
+
 function createLedger(opts) {
   return {
     opts: opts || {},
@@ -384,8 +389,51 @@ function createLedger(opts) {
        reported a shorter, cleaner history than actually occurred — the counter said
        records were dropped while the rollups quietly forgot them. */
     totals: { byOutcome: Object.create(null), byRelationship: Object.create(null) },
+    /**
+     * TESTABILITY PER DECLARATION — the DEAD-LETTER ledger.
+     *
+     * A relationship whose two sides never both report is not "quiet", it is UNTESTABLE,
+     * and until this existed the two were indistinguishable in every report the system
+     * produced. `detect()` names a skip on the cycle it happens, which is the right
+     * granularity for one cycle and the wrong one for a standing fact: skipped once is
+     * an outage, skipped 362 times out of 362 is a declaration that can never be graded,
+     * and only the running total can tell them apart.
+     *
+     * Why that silence is dangerous rather than merely untidy: a relationship that never
+     * fires contributes no divergences, and no divergences reads as agreement. Six of the
+     * seven declared energy relationships were in exactly that state — the ledger looked
+     * calm because nothing could ever be compared.
+     *
+     * relKey -> { cycles, comparable, lastComparableAt, reasons: {reason: count} }
+     */
+    testability: Object.create(null),
     version: 0
   };
+}
+
+/** The dead-letter record for one declaration, created on first sight. */
+function testabilityOf(ledger, k) {
+  if (!ledger.testability[k]) {
+    ledger.testability[k] = { cycles: 0, comparable: 0, lastComparableAt: null, reasons: Object.create(null) };
+  }
+  return ledger.testability[k];
+}
+
+/**
+ * WHY a pair could not be compared this cycle, in the vocabulary the sensors already
+ * use. Deliberately not "unavailable": which of the two sides failed, and whether it was
+ * absent, dead or simply had no departure yet, are different problems with different
+ * fixes, and collapsing them loses the only information that would tell an operator
+ * which one to go and repair.
+ */
+function whyNotComparable(rel, a, b) {
+  function state(s, key) {
+    if (!s) return key + ': not among the declared channels';
+    if (!s.fusable) return key + ': ' + (s.state || 'not fusable') + (s.liveness ? ' (' + s.liveness + ')' : '');
+    if (!s.departure) return key + ': fusable but has no departure yet (baseline still forming)';
+    return null;
+  }
+  return [state(a, rel.a), state(b, rel.b)].filter(Boolean).join('; ');
 }
 
 /**
@@ -514,6 +562,16 @@ function observe(ledger, sensors, relationships, now, opts) {
     var claim = ledger.open[k] || null;
     var a = byKey[rel.a], b = byKey[rel.b];
     var comparable = a && b && a.fusable && b.fusable && a.departure && b.departure;
+
+    /* Every cycle counts toward this declaration's testability, comparable or not. This
+       is the only place that fact is recorded, so it must run before any early return. */
+    var t = testabilityOf(ledger, k);
+    t.cycles++;
+    if (comparable) { t.comparable++; t.lastComparableAt = now; }
+    else {
+      var why = whyNotComparable(rel, a, b);
+      t.reasons[why] = (t.reasons[why] || 0) + 1;
+    }
 
     // ── a side went quiet ────────────────────────────────────────────────────────
     if (!comparable) {
@@ -789,10 +847,38 @@ function report(ledger) {
       return informative >= 3 && bad === informative;
     });
 
+  /**
+   * DEAD LETTERS. A declaration observed for at least MIN_TESTABILITY_CYCLES that has
+   * NEVER been comparable. Reported separately from `suspectDeclarations`, because the
+   * two are opposite problems: a suspect declaration has been graded and keeps failing,
+   * a dead letter has never been graded at all. Merging them would hide the second
+   * behind the first — and the second is the more dangerous, because it produces no
+   * divergences, and no divergences reads as agreement.
+   *
+   * `dominantReason` is the most frequent stated cause, so the report says WHICH side is
+   * missing and in what way rather than only that something is.
+   */
+  var testability = ledger.testability || Object.create(null);
+  var deadLetters = [], testable = [];
+  Object.keys(testability).forEach(function (k) {
+    var t = testability[k];
+    var entry = {
+      relationship: k, cycles: t.cycles, comparable: t.comparable,
+      comparableFraction: t.cycles ? t.comparable / t.cycles : null,
+      lastComparableAt: t.lastComparableAt,
+      dominantReason: Object.keys(t.reasons).sort(function (x, y) { return t.reasons[y] - t.reasons[x]; })[0] || null
+    };
+    if (t.comparable === 0 && t.cycles >= MIN_TESTABILITY_CYCLES) deadLetters.push(entry);
+    else if (t.comparable > 0) testable.push(entry);
+  });
+
   return {
     open: openClaims(ledger).length,
     resolved: Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0),
     retainedRecords: ledger.closed.length,
+    deadLetters: deadLetters,
+    testableDeclarations: testable.length,
+    declarationsSeen: Object.keys(testability).length,
     droppedClosed: ledger.droppedClosed || 0,
     totalsReconstructed: !!ledger.totalsReconstructed,
     totalsIncomplete: !!ledger.totalsIncomplete,
@@ -800,7 +886,12 @@ function report(ledger) {
     outcomes: counts,
     byRelationship: byRelationship,
     suspectDeclarations: suspect,
-    why: Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) === 0
+    why: deadLetters.length
+      ? deadLetters.length + ' of ' + Object.keys(testability).length + ' declarations are DEAD LETTERS: ' +
+        'never once comparable, so they can produce no divergence and their silence must not be read as ' +
+        'agreement. ' + (Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) || 'no') +
+        ' resolved from the ' + testable.length + ' that can be tested.'
+      : Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) === 0
       ? 'no divergence has resolved yet — outcome distribution is UNMEASURED, not empty'
       : Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) + ' resolved' +
         (ledger.droppedClosed ? ' (+' + ledger.droppedClosed + ' older ones trimmed past the ' + CLOSED_CAP + ' cap)' : '') +
@@ -835,6 +926,11 @@ function serializeLedger(ledger) {
     opts: ledger.opts, open: ledger.open, closed: ledger.closed,
     droppedClosed: ledger.droppedClosed || 0,
     totals: ledger.totals || { byOutcome: {}, byRelationship: {} },
+    /* Testability is cumulative evidence, not runtime scratch. Dropping it would reset
+       every dead letter to "cold start" on each restart, so a declaration untestable for
+       a year would never accumulate the cycles that make it a finding — the same defect
+       droppedClosed had, in a different field. */
+    testability: ledger.testability || Object.create(null),
     version: ledger.version
   };
 }
@@ -844,6 +940,10 @@ function restoreLedger(o) {
     l.open = o.open || Object.create(null);
     l.closed = o.closed || [];
     l.droppedClosed = o.droppedClosed || 0;
+    /* A snapshot written before testability existed restores an empty map, which is
+       correct for that data: those cycles were never counted and claiming them would be
+       inventing history. Such a ledger simply re-earns its dead letters. */
+    l.testability = o.testability || Object.create(null);
     l.version = o.version || 0;
 
     if (o.totals) {
