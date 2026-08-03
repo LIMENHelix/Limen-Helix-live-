@@ -424,31 +424,47 @@ function deriveHorizon(a, b, periods) {
 }
 
 /**
- * THE OBSERVATION IDENTITY, and getting this wrong twice is instructive.
+ * THE OBSERVATION IDENTITY. Three wrong answers preceded this one, each subtler.
  *
- * v1 counted every call, so the scheduler manufactured evidence outright.
- * v2 keyed on channel.js's `updates` counter, on my own comment that it "only advances
- *    on a real Kalman update". It does not. observe() increments `updates` on EVERY
- *    valid reading, including a re-read of an unchanged value — verified: observing 5
- *    five times takes updates 0 -> 5 with the value never moving. So v2 counted polls
- *    too, just with an extra step. The unit test passed only because it held `updates`
- *    fixed BY HAND, which tested the comment rather than the runtime.
+ *   v1  counted every call — the scheduler manufactured evidence outright.
+ *   v2  keyed on channel.js `updates`, on my own comment that it advances only for real
+ *       readings. It does not; it counts polls. The test passed only because it held
+ *       `updates` fixed by hand, testing the comment rather than the runtime.
+ *   v3  keyed on `sampleAt`. That is a LOCAL CADENCE CLOCK. Demonstrated: the same
+ *       source value submitted twice, two hours apart, advances it — so a cached value
+ *       became "new evidence" simply by crossing a cadence boundary.
  *
- * The honest identity is `sampleAt`: channel.js advances it at most once per that
- * channel's own MEASURED cadence period, so polling faster than the source cannot move
- * it. That is precisely "the upstream source supplied new data".
+ * The lesson is that NOTHING COMPUTED LOCALLY can distinguish a fresh upstream record
+ * from a re-read of a cached one. Only the adapter knows. So the identity is taken from
+ * the reading (`channel.js sourceIdentity()`), and where the adapter does not supply
+ * one, this degrades explicitly rather than substituting a clock:
  *
- * Returns per-side identities so the caller can require the SLOWER side to speak — the
- * question cannot be settled faster than the slow instrument can answer it, which is
- * the same reasoning the horizon already uses.
+ *   tier 1  SOURCE      adapter gave observationId / sourceRecordId+Version /
+ *                       sourceObservedAt. Authoritative.
+ *   tier 2  CHANGE      no identity, but the VALUE moved. A value cannot change without
+ *                       the source producing something different, so this is sufficient
+ *                       evidence of new data — just not necessary, since a new record
+ *                       may legitimately repeat a value.
+ *   tier 3  UNKNOWN     no identity and no change. Genuinely ambiguous. Counts as
+ *                       NOTHING, and the claim records that its evidence is degraded.
+ *
+ * Tier 2 is conservative in the right direction: it can only UNDERCOUNT real evidence
+ * (a repeated-value record is missed), never overcount a cached re-read as new.
  */
 function observationIdentity(s) {
-  if (!s) return null;
-  if (typeof s.sampleAt === 'number') return 'sa:' + s.sampleAt;
-  /* No sample clock (a hand-built fixture, or a sensor shape predating this field).
-     Fall back to the departure, which is what the statistic is computed from: if it did
-     not move, this cycle contributed nothing. Never fall back to `updates`. */
-  return s.departure ? 'z:' + s.departure.z : null;
+  if (!s) return { id: null, tier: 'unknown' };
+  if (s.sourceIdentity !== undefined && s.sourceIdentity !== null) {
+    return { id: 'src:' + s.sourceIdentity, tier: 'source' };
+  }
+  /* No adapter identity. A CHANGED RAW VALUE is still unambiguous proof of new upstream
+     data. Use `changes` — channel.js's count of genuine raw-value changes — and NOT
+     departure.z: z is the Kalman POSTERIOR, which keeps drifting toward a constant input
+     for many cycles after it stops moving, so keying on it would count filter settling as
+     fresh evidence. Measured: 20 identical readings advanced z every cycle. */
+  if (typeof s.changes === 'number') {
+    return { id: 'chg:' + s.changes, tier: 'change' };
+  }
+  return { id: null, tier: 'unknown' };
 }
 
 function sensorCadence(s) {
@@ -541,8 +557,16 @@ function observe(ledger, sensors, relationships, now, opts) {
           /* Which side reports least often. Its cadence sets the horizon, and it also
              gates the evidence count, for the same reason. */
           slowSide: (sensorCadence(a) || 0) >= (sensorCadence(b) || 0) ? 'a' : 'b',
-          identityA: observationIdentity(a),
-          identityB: observationIdentity(b),
+          identityA: observationIdentity(a).id,
+          identityB: observationIdentity(b).id,
+          /* source | change | unknown — see observationIdentity(). Carried into the
+             resolution so a persistent verdict states the quality of its own evidence. */
+          evidenceTier: (function () {
+            var x = observationIdentity(a).tier, y = observationIdentity(b).tier;
+            return (x === 'unknown' || y === 'unknown') ? 'unknown'
+                 : (x === 'change' || y === 'change') ? 'change' : 'source';
+          })(),
+          evidenceTierUnknown: 0,
           repeatPolls: 0,
           lastSeenAt: now,
           resolution: null
@@ -576,11 +600,17 @@ function observe(ledger, sensors, relationships, now, opts) {
        * genuinely new readings that happen to land on identical z values, which is the
        * conservative direction.
        */
-      var ida = observationIdentity(a), idb = observationIdentity(b);
-      var movedA = ida !== null && ida !== claim.identityA;
-      var movedB = idb !== null && idb !== claim.identityB;
-      if (movedA) claim.identityA = ida;
-      if (movedB) claim.identityB = idb;
+      var ia = observationIdentity(a), ib = observationIdentity(b);
+      var movedA = ia.id !== null && ia.id !== claim.identityA;
+      var movedB = ib.id !== null && ib.id !== claim.identityB;
+      if (movedA) claim.identityA = ia.id;
+      if (movedB) claim.identityB = ib.id;
+      /* The WEAKEST tier either side is running on. A persistent verdict has to say
+         whether it rests on adapter-supplied identity or on inferred value change. */
+      var tier = (ia.tier === 'unknown' || ib.tier === 'unknown') ? 'unknown'
+               : (ia.tier === 'change' || ib.tier === 'change') ? 'change' : 'source';
+      if (tier === 'unknown') claim.evidenceTierUnknown = (claim.evidenceTierUnknown || 0) + 1;
+      claim.evidenceTier = tier === 'source' && claim.evidenceTier === 'change' ? 'change' : (claim.evidenceTier || tier);
 
       if (movedA || movedB) {
         claim.observations++;
@@ -655,6 +685,12 @@ function close(ledger, k, claim, outcome, now, finalGap, why) {
     observations: claim.observations,
     openingGap: claim.opening.standardizedGap,
     peakGap: claim.peak.standardizedGap,
+    /* THE QUALITY OF THE EVIDENCE THIS VERDICT RESTS ON.
+         source  — the adapter supplied an observation identity; authoritative
+         change  — inferred from value movement; sufficient but undercounts
+         unknown — neither; the count is not trustworthy and the verdict is weaker */
+    evidenceTier: claim.evidenceTier || 'unknown',
+    ambiguousCycles: claim.evidenceTierUnknown || 0,
     finalGap: finalGap ? finalGap.standardizedGap : null,
     why: why,
     /* WHAT THIS OUTCOME CANNOT SETTLE, stated rather than left for a reader to assume.
@@ -758,6 +794,9 @@ function report(ledger) {
     resolved: Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0),
     retainedRecords: ledger.closed.length,
     droppedClosed: ledger.droppedClosed || 0,
+    totalsReconstructed: !!ledger.totalsReconstructed,
+    totalsIncomplete: !!ledger.totalsIncomplete,
+    totalsMissing: ledger.totalsMissing || 0,
     outcomes: counts,
     byRelationship: byRelationship,
     suspectDeclarations: suspect,
@@ -768,6 +807,23 @@ function report(ledger) {
         ': ' + Object.keys(counts).filter(function (o) { return counts[o]; })
           .map(function (o) { return counts[o] + ' ' + o; }).join(', ')
   };
+}
+
+/** Reconstruct cumulative tallies from retained detail records. Used only when migrating
+ *  a snapshot written before `totals` existed. */
+function rebuildTotals(closed) {
+  var t = { byOutcome: Object.create(null), byRelationship: Object.create(null) };
+  (closed || []).forEach(function (c) {
+    if (!c || !c.resolution || !c.resolution.outcome) return;
+    var o = c.resolution.outcome;
+    t.byOutcome[o] = (t.byOutcome[o] || 0) + 1;
+    var k = relKey({ a: c.channels[0], b: c.channels[1], latent: c.latent, expect: c.expect });
+    var r = t.byRelationship[k] ||
+      (t.byRelationship[k] = { pair: c.channels, latent: c.latent, expect: c.expect, total: 0, outcomes: Object.create(null) });
+    r.total++;
+    r.outcomes[o] = (r.outcomes[o] || 0) + 1;
+  });
+  return t;
 }
 
 /** Restore across restart — an open claim that forgets it was open cannot resolve. */
@@ -788,8 +844,25 @@ function restoreLedger(o) {
     l.open = o.open || Object.create(null);
     l.closed = o.closed || [];
     l.droppedClosed = o.droppedClosed || 0;
-    l.totals = o.totals || { byOutcome: Object.create(null), byRelationship: Object.create(null) };
     l.version = o.version || 0;
+
+    if (o.totals) {
+      l.totals = o.totals;
+    } else {
+      /* MIGRATION FROM A PRE-TOTALS SNAPSHOT. Initialising empty here silently erased
+         history: a restored ledger holding one converged record reported
+         retainedRecords 1, resolved 0, converged 0 — the detail was present and the
+         rollup said nothing had ever happened. Rebuild what the retained records can
+         support. */
+      l.totals = rebuildTotals(l.closed);
+      l.totalsReconstructed = true;
+      /* And say what CANNOT be recovered. If the old snapshot had already trimmed
+         records, those resolutions are gone and the rebuilt totals understate the true
+         history by exactly that many. Better to carry the shortfall than to present a
+         reconstructed number as complete. */
+      l.totalsIncomplete = (l.droppedClosed || 0) > 0;
+      l.totalsMissing = l.droppedClosed || 0;
+    }
   }
   return l;
 }

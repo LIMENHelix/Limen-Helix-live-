@@ -584,15 +584,14 @@ var ROWS = [
   [10, 'divergence between channels logged first-class', (function(){
         var D = require('../core/divergence.js');
         var HOUR = 3600000;
-        /* `sampleAt` is the SOURCE-CADENCE observation identity, the one divergence.js
-           counts evidence from. It must advance for a cycle to be new evidence: polling
-           the same reading repeatedly is one observation, not many. Deliberately NOT
-           `updates`, which channel.js increments on every poll (see divergence.js T30). */
-        var _sa = 0;
-        function s(k, z, sa){ return { key:k, fusable:true, precision:1, state:'measured',
-          sampleAt: sa === undefined ? 1 : sa,
+        /* `sourceIdentity` is ADAPTER-SUPPLIED and is the only field divergence.js counts
+           evidence from. Not `updates` (counts polls) and not `sampleAt` (a local cadence
+           clock that a cached value advances by crossing a period boundary). */
+        var _rec = 0;
+        function s(k, z, rec){ return { key:k, fusable:true, precision:1, state:'measured',
+          sourceIdentity: 'oid:' + k + '-' + (rec === undefined ? 1 : rec),
           cadenceMs:HOUR, cadence:{state:'measured',cadenceMs:HOUR}, departure:{z:z,mean:.5,sd:.1,n:24} }; }
-        function moving(za, zb){ var i = ++_sa; return [s('a', za, i), s('b', zb, i)]; }
+        function moving(za, zb){ var i = ++_rec; return [s('a', za, i), s('b', zb, i)]; }
         var rel = [D.relate('a','b','shared latent','agree','test')];
 
         // 1. DIRECTION + MAGNITUDE, against the gap's own standard error.

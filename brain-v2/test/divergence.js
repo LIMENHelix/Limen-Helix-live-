@@ -235,17 +235,20 @@ var REL = [DIV.relate('a', 'b', 'shared latent', 'agree', 'both track it')];
 function withCadence(s) { s.cadenceMs = HOUR; s.cadence = { state: 'measured', cadenceMs: HOUR }; return s; }
 function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b', zb))]; }
 /**
- * A pair whose SOURCE CLOCK advances — one new sample per cadence period, as a real
- * channel would produce. `sampleAt` is the identity divergence.js counts evidence from,
- * so this models a source that genuinely spoke rather than a scheduler that polled.
- * T30 proves the real-channel behaviour; these shaped sensors keep the lifecycle tests
- * readable without re-deriving a baseline in every one.
+ * A pair carrying ADAPTER-SUPPLIED observation identity — a distinct upstream record each
+ * cycle, which is what genuine new evidence looks like.
+ *
+ * Deliberately `sourceIdentity`, not `sampleAt`. sampleAt is a LOCAL CADENCE CLOCK and
+ * advances for a cached value that merely crosses a period boundary; keying evidence on
+ * it was the third wrong answer to this question. Only the adapter can say that the
+ * source produced a new record. T30 proves the real-channel behaviour; these shaped
+ * sensors keep the lifecycle tests readable without re-deriving a baseline in each one.
  */
-var _sample = 0;
+var _rec = 0;
 function moving(za, zb) {
-  var at = 1e12 + (++_sample) * HOUR;
+  var id = 'rec-' + (++_rec);
   var sa = withCadence(live('a', za)), sb = withCadence(live('b', zb));
-  sa.sampleAt = at; sb.sampleAt = at;
+  sa.sourceIdentity = 'oid:a-' + id; sb.sourceIdentity = 'oid:b-' + id;
   return [sa, sb];
 }
 /**
@@ -283,7 +286,7 @@ function baselined(P, n) {
   console.log('T11: a standing disagreement is ONE claim, not a new alert every cycle');
   var led = DIV.createLedger();
   var t = 1e12;
-  var c1 = DIV.observe(led, pair(-2.2, 2.2), REL, t);
+  var c1 = DIV.observe(led, moving(-2.2, 2.2), REL, t);
   assert('one claim opened', c1.opened.length === 1 && c1.resolved.length === 0, JSON.stringify(c1.why));
   var id = c1.opened[0].id;
   /* The id must be unique to the RELATIONSHIP, not just the channel pair — see T22. */
@@ -294,7 +297,7 @@ function baselined(P, n) {
   assert('the horizon states its derivation', /12 periods of the slower channel/.test(c1.opened[0].horizonWhy),
     c1.opened[0].horizonWhy);
 
-  var c2 = DIV.observe(led, pair(-2.3, 2.3), REL, t + HOUR);
+  var c2 = DIV.observe(led, moving(-2.3, 2.3), REL, t + HOUR);   // a genuinely new upstream record
   assert('the next cycle does NOT open a second claim', c2.opened.length === 0, JSON.stringify(c2.why));
   assert('it updates the same one', c2.updated.length === 1 && c2.updated[0].id === id);
   assert('observations accumulate', c2.updated[0].observations === 2, String(c2.updated[0].observations));
@@ -839,6 +842,70 @@ function baselined(P, n) {
     String(round.droppedClosed));
   assert('and the report still admits the history is incomplete',
     /older ones trimmed past the/.test(DIV.report(round).why), DIV.report(round).why);
+})();
+
+// ── T33: a cached value crossing a cadence boundary is NOT new evidence ──────
+(function () {
+  console.log('T33: sampleAt is a local clock; only adapter identity counts');
+  /* The third wrong answer. sampleAt advances when a cadence period elapses, regardless
+     of whether the source produced anything — demonstrated below on real channels. */
+  var P = baselined(makePair(HOUR));
+  var at = P.t + 40 * HOUR;
+  var s1 = [CH.step(P.a, { value: 0.90 }, at), CH.step(P.b, { value: 0.10 }, at)];
+  var s2 = [CH.step(P.a, { value: 0.90 }, at + 2 * HOUR),
+            CH.step(P.b, { value: 0.10 }, at + 2 * HOUR)];
+  assert('sampleAt DID advance on the identical value (the trap)',
+    s2[0].sampleAt !== s1[0].sampleAt, s1[0].sampleAt + ' -> ' + s2[0].sampleAt);
+  assert('but raw-value changes did NOT', s2[0].changes === s1[0].changes,
+    s1[0].changes + ' -> ' + s2[0].changes);
+
+  var led = DIV.createLedger();
+  DIV.observe(led, s1, REL, at);
+  var claim = led.open[Object.keys(led.open)[0]];
+  var before = claim.observations;
+  DIV.observe(led, s2, REL, at + 2 * HOUR);
+  assert('so the cached re-read added no observation', claim.observations === before,
+    before + ' -> ' + claim.observations);
+  assert('and the claim records its evidence is inferred, not adapter-supplied',
+    claim.evidenceTier === 'change', String(claim.evidenceTier));
+
+  var P2 = baselined(makePair(HOUR));
+  var b1 = [CH.step(P2.a, { value: 0.90, observationId: 'r1' }, at),
+            CH.step(P2.b, { value: 0.10, observationId: 'r1' }, at)];
+  var b2 = [CH.step(P2.a, { value: 0.90, observationId: 'r2' }, at + 2 * HOUR),
+            CH.step(P2.b, { value: 0.10, observationId: 'r2' }, at + 2 * HOUR)];
+  var led2 = DIV.createLedger();
+  DIV.observe(led2, b1, REL, at);
+  var c2 = led2.open[Object.keys(led2.open)[0]];
+  DIV.observe(led2, b2, REL, at + 2 * HOUR);
+  assert('a NEW upstream record with an unchanged value DOES count', c2.observations === 2,
+    String(c2.observations));
+  assert('and that claim reports source-grade evidence', c2.evidenceTier === 'source',
+    String(c2.evidenceTier));
+})();
+
+// ── T34: migrating a pre-totals snapshot must not erase history ──────────────
+(function () {
+  console.log('T34: restoring an old ledger rebuilds cumulative totals from its records');
+  var legacy = {
+    opts: {}, open: {}, droppedClosed: 0, version: 5,
+    closed: [{
+      channels: ['a', 'b'], latent: 'L', expect: 'agree', status: 'resolved',
+      resolution: { outcome: 'converged', at: 1, durationMs: 1, observations: 2,
+                    openingGap: 3, peakGap: 3, finalGap: 0, why: 'x', confounded: null }
+    }]
+  };
+  var rep = DIV.report(DIV.restoreLedger(legacy));
+  assert('the retained record is counted', rep.resolved === 1, String(rep.resolved));
+  assert('under its own outcome', rep.outcomes.converged === 1, JSON.stringify(rep.outcomes));
+  assert('and the rebuild is flagged, not passed off as original', rep.totalsReconstructed === true);
+  assert('with the relationship rollup restored too',
+    Object.keys(DIV.restoreLedger(legacy).totals.byRelationship).length === 1);
+
+  var trimmed = Object.assign({}, legacy, { droppedClosed: 7 });
+  var rep2 = DIV.report(DIV.restoreLedger(trimmed));
+  assert('a rebuild over a trimmed history is marked incomplete', rep2.totalsIncomplete === true);
+  assert('and says how many are unrecoverable', rep2.totalsMissing === 7, String(rep2.totalsMissing));
 })();
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');

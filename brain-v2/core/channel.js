@@ -58,8 +58,47 @@ function createChannel(spec) {
        hourly and every downstream horizon would be wrong by 24x. The interval between
        changes is the rate the source can actually answer at. */
     changeAt: [],
-    lastValue: null
+    lastValue: null,
+    /* SOURCE-SUPPLIED observation identity, from the adapter. See sourceIdentity(). */
+    lastSourceIdentity: null
   };
+}
+
+/**
+ * THE IDENTITY OF AN UPSTREAM OBSERVATION, and why it can only come from the adapter.
+ *
+ * Nothing computed locally can tell "the source published a new record" apart from "we
+ * re-read a cached value". Three attempts got this wrong in turn:
+ *
+ *   ch.updates    counts POLLS — incremented on every valid reading, unchanged or not.
+ *   ch.lastSampleAt  is a LOCAL CADENCE CLOCK. Demonstrated: the same value submitted
+ *                 twice, two hours apart, advances it. A cached value crossing a
+ *                 cadence boundary became "new evidence".
+ *   value change  is sufficient but not necessary — see the ladder below.
+ *
+ * Only the adapter knows. It may supply, in order of preference:
+ *
+ *   observationId                  an opaque unique id per upstream record
+ *   sourceRecordId + sourceVersion a record key plus its revision
+ *   sourceObservedAt               when the SOURCE observed it, not when we polled
+ *
+ * Returns null when none is supplied. Null is NOT an invitation to substitute a local
+ * clock — it means the caller cannot distinguish a fresh record from a cached one, and
+ * anything counting evidence must degrade or abstain rather than guess.
+ */
+function sourceIdentity(reading) {
+  if (!reading) return null;
+  if (reading.observationId !== undefined && reading.observationId !== null) {
+    return 'oid:' + reading.observationId;
+  }
+  if (reading.sourceRecordId !== undefined && reading.sourceRecordId !== null) {
+    return 'rec:' + reading.sourceRecordId + '@' +
+      (reading.sourceVersion !== undefined && reading.sourceVersion !== null ? reading.sourceVersion : '-');
+  }
+  if (typeof reading.sourceObservedAt === 'number' && isFinite(reading.sourceObservedAt)) {
+    return 'sat:' + reading.sourceObservedAt;
+  }
+  return null;
 }
 
 var LIVENESS_WINDOW = 12;      // observations considered for the dead-channel test
@@ -271,6 +310,10 @@ function step(ch, reading, now) {
     samples: ch.seen.length,
     changes: ch.changeAt.length,
     updates: ch.updates,
+    /* THE ONLY FIELD A CONSUMER MAY COUNT EVIDENCE FROM. Null when the adapter supplied
+       no identity, and null must be treated as "cannot tell", never as "no new data"
+       and never as grounds to substitute sampleAt (a local cadence clock). */
+    sourceIdentity: ch.lastSourceIdentity,
     state: 'absent', why: null, fusable: false
   };
 
@@ -301,12 +344,16 @@ function step(ch, reading, now) {
     return out;
   }
 
+  /* Recorded from the READING, before the Kalman update, because it is a property of
+     the upstream record and not of our filter. */
+  ch.lastSourceIdentity = sourceIdentity(reading);
   var upd = observe(ch, reading.value, now);
   out.value = ch.x; out.variance = ch.P; out.precision = 1 / Math.max(ch.P, 1e-9);
   /* Re-read AFTER observe(), or the sensor reports the pre-observation identity and a
      consumer counting evidence is always one cycle behind. */
   out.sampleAt = ch.lastSampleAt; out.samples = ch.seen.length;
   out.changes = ch.changeAt.length; out.updates = ch.updates;
+  out.sourceIdentity = ch.lastSourceIdentity;
   out.innovation = upd ? upd.innovation : null;
   out.departure = departure(ch);
   out.liveness = liveness(ch);
@@ -347,6 +394,7 @@ function departure(ch) {
 
 module.exports = {
   createChannel: createChannel,
+  sourceIdentity: sourceIdentity,
   inferCadence: inferCadence,
   effectiveCadence: effectiveCadence,
   CADENCE_MIN_CHANGES: CADENCE_MIN_CHANGES,
