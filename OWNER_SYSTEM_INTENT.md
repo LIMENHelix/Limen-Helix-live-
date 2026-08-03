@@ -130,15 +130,29 @@ An environment variable is not evidence a human approved a production deployment
 publish, production push, visibility change, legal commitment, or movement of funds without
 explicit current approval in the active conversation.
 
-## 6. What "done" requires
+## 6. Four levels of "working" — none of them cancels another
 
-Acceptance is measured end to end on the real corpus, not on the kernel in isolation:
+The earlier wording here said no claim that the brain "works" is admissible until the whole
+portal-to-opportunity chain resolves an outcome. **That was too absolute and contradicted §2.**
+It let an incomplete product mission retroactively strip earned status from code that runs. A
+component does not stop working because a larger goal is unmet.
 
-**portal evidence → opportunity generation → outcome grading → learning**
+Four separate claims, each with its own evidence bar. State which one you mean.
 
-Until that chain runs on real portal data and produces a graded outcome, no claim that the
-brain "works" is admissible, regardless of the SPEC checklist score. The checklist measures
-mechanism; this measures product.
+| level | claim | evidence required | current status |
+|---|---|---|---|
+| **L1 — working component** | this module does what it says | unit + adversarial tests, runtime probe against the real path | **many hold.** e.g. per-channel Kalman with liveness gating, the divergence lifecycle, metaplasticity |
+| **L2 — working brain kernel** | the closed loop runs, persists, learns, survives restart and rollback | executed acceptance run with traces | **holds.** 20/20 acceptance, restart across a real OS process boundary, deterministic replay |
+| **L3 — working domain brain** | one bound domain consumes real data and produces graded outcomes | live runtime on that domain's real history | **holds for energy**, on 362 recorded hours. 24/28 SPEC rows, 2 partial |
+| **L4 — the product mission** | the 465,939-file corpus becomes business and research opportunities, with bidirectional neurology mapping | portal evidence → opportunity generation → outcome grading → learning, end to end | **NOT COMPLETE.** Nothing currently reads the corpus |
+
+**L4 being incomplete is a statement about L4.** It does not retract L1, L2 or L3, and it must
+never be used to argue that working code should be deleted or downgraded. Equally, L1–L3
+holding is not evidence for L4: a kernel that regulates one domain beautifully has not
+addressed the corpus, and saying so plainly is the point of separating the levels.
+
+Any claim must name its level. "The brain works" without a level is not admissible, because it
+is the sentence that lets L2 evidence stand in for an L4 claim.
 
 ---
 

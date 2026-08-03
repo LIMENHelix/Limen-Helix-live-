@@ -1,6 +1,6 @@
 # LIMEN Helix — The Complete Working Brain
 
-<!-- AUTHORITY: REVIEWER_MODEL / ENGINEERING_HYPOTHESIS — see DOCUMENT_AUTHORITY.md -->
+<!-- AUTHORITY: ENGINEERING_HYPOTHESIS (reviewer-model subtype) — see DOCUMENT_AUTHORITY.md -->
 > **AUTHORITY NOTE, added 2026-08-02 by the Markdown Authority Audit. Not owner-ratified.**
 >
 > This file asserts below that it is "verbatim, as supplied by the neurologist reviewer" and

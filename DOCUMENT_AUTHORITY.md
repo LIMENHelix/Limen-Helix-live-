@@ -17,6 +17,13 @@ key commits in this repository carry Claude as co-author and describe AI-agent w
 **No document may call itself "master", "non-negotiable", "verbatim", "protected", "authorized",
 or "validated" without a row here supporting that status.**
 
+**The eight classes below are the complete taxonomy. Every row uses one of them.** An earlier
+draft of this register invented `UNCONFIRMED_ENGINEERING_STRATEGY`, `REVIEWER_MODEL` and
+`mixed` inline — a register that defines a taxonomy and then departs from it cannot be
+mechanically checked, which is most of its value. Where a document genuinely spans two classes
+(source material interleaved with synthesis) both are named and the row says they are
+unseparated; that is a defect to fix in the document, not a ninth class.
+
 ## Authority classes
 
 | class | meaning | may an agent act on it unprompted? |
@@ -36,28 +43,28 @@ or "validated" without a row here supporting that status.**
 
 | path | class | issue | permitted use |
 |---|---|---|---|
-| `CLAUDE.md` | `ENGINEERING_HYPOTHESIS` + safety rules | Permission model conflicts with three other active docs (see `OWNER_SYSTEM_INTENT.md` §5). Line 14 permits unprompted pushes to `main`. | Safety defaults only. Its BUSINESS rules are unapproved. |
-| `.claude/commands/build.md` | `UNCONFIRMED_ENGINEERING_STRATEGY` | L16 converts a retired-lane statement into a build prohibition | Do not enforce retired lanes until owner confirms |
-| `.claude/commands/audit.md` | `UNCONFIRMED_ENGINEERING_STRATEGY` | L10 declares investment + research the ONLY lanes | Same |
+| `CLAUDE.md` | `ENGINEERING_HYPOTHESIS` | Permission model conflicts with three other active docs (see `OWNER_SYSTEM_INTENT.md` §5). Line 14 permits unprompted pushes to `main`. | Safety defaults only. Its BUSINESS rules are unapproved. |
+| `.claude/commands/build.md` | `ENGINEERING_HYPOTHESIS` | L16 converts a retired-lane statement into a build prohibition | Do not enforce retired lanes until owner confirms |
+| `.claude/commands/audit.md` | `ENGINEERING_HYPOTHESIS` | L10 declares investment + research the ONLY lanes | Same |
 | `.claude/commands/ship.md` | `ENGINEERING_HYPOTHESIS` | Most conservative push rule in the repo; conflicts with `CLAUDE.md:14` | **Follow this one** — it is the strictest |
 | `.claude/commands/{decide,fleet,ledger,prompt,status,verify}.md` | `ENGINEERING_HYPOTHESIS` | unreviewed | Procedure only |
-| `docs/operator-agent-prompt.md` | `UNCONFIRMED_ENGINEERING_STRATEGY` | L32 approval rules are sound; L51-52 "one dollar before the next" is unapproved strategy | Approval rules yes; sequencing doctrine no |
+| `docs/operator-agent-prompt.md` | `ENGINEERING_HYPOTHESIS` | L32 approval rules are sound; L51-52 "one dollar before the next" is unapproved strategy | Approval rules yes; sequencing doctrine no |
 | `OPERATOR.md`, `AGENT_HANDOFF.md` | `MEASURED_SNAPSHOT` | undated handoff state | Orientation; re-verify |
 
 ### Business context — none owner-approved
 
 | path | class | issue |
 |---|---|---|
-| `docs/MASTER_CONTEXT.md` | `UNCONFIRMED_ENGINEERING_STRATEGY` | L53-54 retires patents/grants/loans/SBA/franchise "never reintroduce"; its legal entity line was WRONG and is corrected (owner-confirmed 2026-08-02); adopts "money, atoms, or audience" and a Dan Martell strategy as standing truth. **Stop loading automatically in prompt-generation commands.** |
-| `FINANCE_PORTAL_SIGNOFF.md` | `OWNER_CONFIRMED` (entity name only) | **RESOLVED 2026-08-02.** Its entity name was the CORRECT one: `LIMEN Helix Transformational Sciences LLC`. Exact registered spelling still to be checked against the filing. |
+| `docs/MASTER_CONTEXT.md` | `ENGINEERING_HYPOTHESIS` | L53-54 retires patents/grants/loans/SBA/franchise "never reintroduce"; its legal entity line was WRONG and is corrected (owner-confirmed 2026-08-02); adopts "money, atoms, or audience" and a Dan Martell strategy as standing truth. **Stop loading automatically in prompt-generation commands.** |
+| `FINANCE_PORTAL_SIGNOFF.md` | `OWNER_CONFIRMED` | **RESOLVED 2026-08-02.** Its entity name was the CORRECT one: `LIMEN Helix Transformational Sciences LLC`. Exact registered spelling still to be checked against the filing. |
 | `DAN_MARTELL_AI_PLAYBOOK.md`, `ACTIVATION_PLAYBOOK.md` | `ENGINEERING_HYPOTHESIS` | third-party method, adopted without recorded approval |
 
 ### brain-v2
 
 | path | class | issue |
 |---|---|---|
-| `brain-v2/MASTER_PROMPT.md` | `ENGINEERING_HYPOTHESIS` + **stale authorization** | §24 embeds a COMPLETED build cycle as live authority: AUTHORIZED FILES, PROTECTED FILES, EXECUTION AUTHORITY. Its "KNOWN CURRENT STATE" says 3 of 28, no motor path, no forward model, no persistence — all four now false. A future agent can read old one-session permission as standing permission. **Task authorization must move to per-task records.** |
-| `brain-v2/SPEC.md` | `REVIEWER_MODEL / ENGINEERING_HYPOTHESIS` | Claims to be "verbatim, as supplied by the neurologist reviewer" with no reviewer identity, credentials, immutable original, date, signature, or owner acceptance. Several invariants are project doctrine rather than biology — INV-6's four orthogonal neuromodulators (cf. Avery & Krichmar 2017 on extensive cross-interaction), INV-9's error-only ascent (cf. Shipp 2016: a theory against incompletely mapped microcircuitry), INV-12 self-labels "Project doctrine". **The implemented mechanisms and their measured results stand regardless.** |
+| `brain-v2/MASTER_PROMPT.md` | `STALE_OR_CONFLICTED` | §24 embeds a COMPLETED build cycle as live authority: AUTHORIZED FILES, PROTECTED FILES, EXECUTION AUTHORITY. Its "KNOWN CURRENT STATE" says 3 of 28, no motor path, no forward model, no persistence — all four now false. A future agent can read old one-session permission as standing permission. **Task authorization must move to per-task records.** |
+| `brain-v2/SPEC.md` | `ENGINEERING_HYPOTHESIS` | Claims to be "verbatim, as supplied by the neurologist reviewer" with no reviewer identity, credentials, immutable original, date, signature, or owner acceptance. Several invariants are project doctrine rather than biology — INV-6's four orthogonal neuromodulators (cf. Avery & Krichmar 2017 on extensive cross-interaction), INV-9's error-only ascent (cf. Shipp 2016: a theory against incompletely mapped microcircuitry), INV-12 self-labels "Project doctrine". **The implemented mechanisms and their measured results stand regardless.** |
 | `brain-v2/SCORECARD.md` | `MEASURED_RUNTIME_FACT` | reproducible: `node brain-v2/test/loop-acceptance.js`. Carries its own withdrawal history (26/28 and 25/28 both withdrawn). Good provenance. |
 | `brain-v2/CONTRACT.md` | `ENGINEERING_HYPOTHESIS` | unreviewed |
 | `brain-v2/CHART-01-SENSORS.md`, `CHART-02-SYNTHESIS.md` | `GENERATED_ARTIFACT` | |
@@ -82,9 +89,9 @@ or "validated" without a row here supporting that status.**
 
 | path | class | issue |
 |---|---|---|
-| `NEURO_LEARNING_REFERENCE.md` | mixed | says "source material, no LIMEN mapping" while its coverage table includes "THE ISOMORPHISM" and "the LIMEN thread" |
-| `BRAIN_STRESS_CIVILIZATION_SYNTHESIS.md` | mixed | claims substrate independence is sourced while conceding civilization-scale prediction is unvalidated |
-| `ENERGY_NEURO_AUDIT.md` | mixed | |
+| `NEURO_LEARNING_REFERENCE.md` | `EXTERNAL_PRIMARY_SOURCE` + `ENGINEERING_HYPOTHESIS`, unseparated | says "source material, no LIMEN mapping" while its coverage table includes "THE ISOMORPHISM" and "the LIMEN thread" |
+| `BRAIN_STRESS_CIVILIZATION_SYNTHESIS.md` | `EXTERNAL_PRIMARY_SOURCE` + `ENGINEERING_HYPOTHESIS`, unseparated | claims substrate independence is sourced while conceding civilization-scale prediction is unvalidated |
+| `ENERGY_NEURO_AUDIT.md` | `EXTERNAL_PRIMARY_SOURCE` + `ENGINEERING_HYPOTHESIS`, unseparated | |
 
 **Required:** per-claim labels `SOURCE_SAYS` / `ENGINEER_SYNTHESIS` / `LIMEN_HYPOTHESIS` /
 `OWNER_ACCEPTED_DESIGN`. Keep the library; separate the authority levels.
