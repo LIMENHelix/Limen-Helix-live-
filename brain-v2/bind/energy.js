@@ -216,13 +216,27 @@ function readLive(energyDomain) {
  * the liveness gate shows exactly which channels the old brain was thresholding on while they
  * never moved.
  */
+/**
+ * Read one recorded row into per-channel readings.
+ *
+ * `observationId` is carried through when the recorder captured the source's own key
+ * (`su`). It is the ONLY field core/channel.js will count evidence from: `updates` counts
+ * polls, `sampleAt` is a local cadence clock, and both answer "did we look again" rather
+ * than "did the source speak". Absent for rows recorded before the recorder kept `su`,
+ * and absent is correct there — those rows genuinely cannot say, and null must stay null
+ * rather than be back-filled from our own clock.
+ */
 function readRecorderRow(row) {
   var byName = {};
   (row && row.src || []).forEach(function (s) { byName[s.n] = s; });
   var out = {};
   CHANNELS.forEach(function (c) {
     var s = byName[c.name];
-    if (s && typeof s.v === 'number' && isFinite(s.v)) out[c.key] = { value: s.v };
+    if (s && typeof s.v === 'number' && isFinite(s.v)) {
+      var r = { value: s.v };
+      if (s.su !== undefined && s.su !== null && s.su !== '') r.observationId = s.su;
+      out[c.key] = r;
+    }
   });
   return out;
 }

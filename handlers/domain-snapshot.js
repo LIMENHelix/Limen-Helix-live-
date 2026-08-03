@@ -49,6 +49,44 @@ function trackHealth(name, domain, status, reason, value) {
   };
 }
 
+/* Exported at the bottom of this file as `_compositeIdentity` for test. */
+/**
+ * COMPOSITE SOURCE IDENTITY, for an observation DERIVED FROM MORE THAN ONE upstream record.
+ *
+ * A single record's own key identifies it completely. A derived value does not: the
+ * Treasury yield-curve spread is Bills MINUS Notes, so it changes when EITHER side
+ * publishes. Identifying it by the Bills date alone means a Notes publication moves the
+ * value while the identity stays put — the derived observation changes and the system
+ * reads it as a re-read of one it has already counted. That is the same
+ * poll-versus-observation confusion the source key exists to remove, reintroduced one
+ * level up where it is harder to see.
+ *
+ * LABELLED, ORDERED, AND COMPLETE:
+ *   labelled  each component names its role, so 'bills:A|notes:B' can never collide with
+ *             'bills:B|notes:A' — two genuinely different states of the world.
+ *   ordered   components are emitted in the caller's declared order, so the same inputs
+ *             always produce the same string and a replay is stable.
+ *   complete  if ANY component is missing the whole identity is NULL. A composite with a
+ *             hole cannot represent the derived observation: changes in the absent side
+ *             would be invisible, which is worse than admitting we cannot tell. Absent
+ *             identity is handled correctly everywhere downstream; a wrong one is not.
+ *
+ * @param parts [[label, value], ...] in declared order
+ * @returns string, or null when any component is missing
+ */
+function compositeIdentity(parts) {
+  if (!Array.isArray(parts) || !parts.length) return null;
+  var out = [];
+  for (var i = 0; i < parts.length; i++) {
+    var label = parts[i] && parts[i][0];
+    var value = parts[i] && parts[i][1];
+    if (!label) return null;
+    if (value === undefined || value === null || value === '') return null;
+    out.push(label + ':' + String(value));
+  }
+  return out.join('|');
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=25, stale-while-revalidate=10');
@@ -3654,12 +3692,26 @@ async function fetchTreasuryYieldCurve() {
       headers: { 'User-Agent': 'LIMEN-Helix/1.0' }
     });
     if (!data || !data.data || !data.data.length) { trackHealth('Treasury Yield Curve', 'finance', 'fallback', 'empty response'); return null; }
-    var billsRate = null, notesRate = null;
+    var billsRate = null, notesRate = null, billsDate = null, notesDate = null;
     for (var i = 0; i < data.data.length; i++) {
       var d = data.data[i];
-      if (d.security_desc === 'Treasury Bills' && billsRate === null) billsRate = parseFloat(d.avg_interest_rate_amt);
-      if (d.security_desc === 'Treasury Notes' && notesRate === null) notesRate = parseFloat(d.avg_interest_rate_amt);
+      /* THE SOURCE'S OWN OBSERVATION KEY, FROM BOTH RECORDS. `record_date` is the field
+         this request already sorts on (`?sort=-record_date`), so it is the API's own
+         record identity rather than a local clock — `updated`/`fetchedAt` below are both
+         Date.now() and cannot tell a fresh publication from a re-read.
+         BOTH sides are captured because the value below is Bills MINUS Notes: it moves
+         when either publishes, so identifying it by the Bills date alone would let a
+         Notes publication change the number while the identity stayed still. */
+      if (d.security_desc === 'Treasury Bills' && billsRate === null) {
+        billsRate = parseFloat(d.avg_interest_rate_amt);
+        billsDate = d.record_date || null;
+      }
+      if (d.security_desc === 'Treasury Notes' && notesRate === null) {
+        notesRate = parseFloat(d.avg_interest_rate_amt);
+        notesDate = d.record_date || null;
+      }
     }
+    var recDate = compositeIdentity([['bills', billsDate], ['notes', notesDate]]);
     if (billsRate === null || notesRate === null || isNaN(billsRate) || isNaN(notesRate)) {
       trackHealth('Treasury Yield Curve', 'finance', 'fallback', 'missing bills or notes rate');
       return null;
@@ -3668,7 +3720,7 @@ async function fetchTreasuryYieldCurve() {
     var inversion = billsRate - notesRate;
     var stress = inversion > 0 ? clamp(inversion / 1.5, 0, 1) : 0;
     trackHealth('Treasury Yield Curve', 'finance', 'live', null, inversion);
-    return { value: inversion, label: 'Bills-Notes ' + inversion.toFixed(2) + 'pp', stress: round(stress), signal: inversion > 0 ? 'yield curve inverted ' + inversion.toFixed(2) + 'pp (bills>notes)' : 'yield curve normal ' + inversion.toFixed(2) + 'pp', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: inversion, label: 'Bills-Notes ' + inversion.toFixed(2) + 'pp', stress: round(stress), signal: inversion > 0 ? 'yield curve inverted ' + inversion.toFixed(2) + 'pp (bills>notes)' : 'yield curve normal ' + inversion.toFixed(2) + 'pp', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: recDate };
   } catch (e) { trackHealth('Treasury Yield Curve', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4133,7 +4185,9 @@ async function fetchTreasuryDebtOutstanding() {
     var debtT = totalDebt / 1e12; // raw dollars → trillions
     var stress = clamp((debtT - 30) / 15, 0, 1);
     trackHealth('Treasury Debt Outstanding', 'economy', 'live', null, debtT);
-    return { value: debtT, label: 'US debt $' + debtT.toFixed(2) + 'T', stress: round(stress), signal: 'total US debt outstanding $' + debtT.toFixed(2) + 'T (FY' + (latest.record_fiscal_year || 'n/a') + ')', updated: Date.now(), fetchedAt: Date.now() };
+    /* `record_date` is this request's own sort key, so it is the API's record identity.
+       The fetcher already reads `record_fiscal_year` off the same row. */
+    return { value: debtT, label: 'US debt $' + debtT.toFixed(2) + 'T', stress: round(stress), signal: 'total US debt outstanding $' + debtT.toFixed(2) + 'T (FY' + (latest.record_fiscal_year || 'n/a') + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: latest.record_date || null };
   } catch (e) { trackHealth('Treasury Debt Outstanding', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -5574,3 +5628,7 @@ async function fetchMindfulnessIndustry() {
 
 function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
 function round(v) { return Math.round(v * 100) / 100; }
+
+/* Pure, network-free, and exported so the composite-identity rule can be verified
+   offline. The fetchers themselves cannot be tested without live calls. */
+module.exports._compositeIdentity = compositeIdentity;

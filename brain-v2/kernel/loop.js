@@ -244,7 +244,11 @@ function tick(loop, readings, now) {
         sourceDomain: loop.domain, sourceModule: 'bind/' + loop.domain,
         signalKind: PK.KIND.OBSERVATION,
         role: PK.ROLE.DRIVER, direction: PK.DIRECTION.ASCENDING,
-        payload: { channel: key, value: readings[key].value },
+        /* IDENTITY TRAVELS INSIDE THE PACKET, so it is covered by the provenance hash
+           and cannot be attached after admission. A value that arrives with a source key
+           and one that arrives without are different claims, and the barrier must see
+           the difference rather than have it added afterwards. */
+        payload: identityPayload(key, readings[key]),
         eventTime: readings[key].eventTime !== undefined ? readings[key].eventTime : now,
         observationTime: now, processingTime: now,
         simulationStatus: readings[key].status || PK.STATUS.OBSERVED,
@@ -254,7 +258,7 @@ function tick(loop, readings, now) {
       rejected.push({ channel: key, why: 'packet construction failed: ' + e.message });
       return;
     }
-    if (isAblated(loop, 'barrier')) { admitted[key] = { value: pkt.payload.value }; return; }
+    if (isAblated(loop, 'barrier')) { admitted[key] = admittedReading(pkt); return; }
     var a = BAR.admit(pkt, { now: now, sourceClass: readings[key].sourceClass || BAR.CLASS.SENSOR, manifest: manifest });
     if (!a.admitted) {
       rejected.push({ channel: key, reason: a.reason, why: a.why });
@@ -264,7 +268,7 @@ function tick(loop, readings, now) {
     // Only OBSERVED packets become evidence. This is the second gate, and it is structural.
     var ev = PK.admitAsEvidence(pkt);
     if (!ev.admitted) { rejected.push({ channel: key, reason: 'not_evidence', why: ev.why }); return; }
-    admitted[key] = { value: pkt.payload.value };
+    admitted[key] = admittedReading(pkt);
     record('observation', { packet: pkt });
   });
   step('barrier', { admitted: Object.keys(admitted).length, rejected: rejected.length, rejections: rejected, ablated: isAblated(loop, 'barrier') });
@@ -807,6 +811,39 @@ function finish(loop, rep, records, now, cycle, modulation) {
   rep.modulation = modulation || null;
   rep.errors = loop.errors.slice(-4);
   return rep;
+}
+
+/**
+ * SOURCE-SUPPLIED OBSERVATION IDENTITY, carried from the adapter to the channel.
+ *
+ * Only the three fields core/channel.js `sourceIdentity()` recognises are forwarded, and
+ * nothing is synthesised: a reading with no source key produces a payload with no
+ * identity, and the channel then reports `sourceIdentity: null`, which downstream must
+ * treat as "cannot tell" rather than "no new data".
+ *
+ * This mattered because the loop used to rebuild the reading as `{ value }` at the
+ * barrier. Every identity an adapter supplied was discarded one step before the only
+ * consumer that could use it, so the divergence ledger could count polls and nothing
+ * else — the defect SPEC row 10 has been blocked on, sitting two lines apart from the
+ * code that needed it.
+ */
+var IDENTITY_FIELDS = ['observationId', 'sourceRecordId', 'sourceVersion', 'sourceObservedAt'];
+
+function identityPayload(key, reading) {
+  var p = { channel: key, value: reading.value };
+  IDENTITY_FIELDS.forEach(function (f) {
+    if (reading[f] !== undefined && reading[f] !== null) p[f] = reading[f];
+  });
+  return p;
+}
+
+/** The reading handed to the domain cycle: the value plus whatever identity was admitted. */
+function admittedReading(pkt) {
+  var r = { value: pkt.payload.value };
+  IDENTITY_FIELDS.forEach(function (f) {
+    if (pkt.payload[f] !== undefined) r[f] = pkt.payload[f];
+  });
+  return r;
 }
 
 /**
