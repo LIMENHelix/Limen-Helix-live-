@@ -13,7 +13,9 @@
  * rule the same test exists to protect.
  *
  * CORPUS ROOT comes from LIMEN_CORPUS_ROOT or --root. There is no hardcoded default;
- * without one the suite reports CANNOT-RUN and exits non-zero rather than pretending.
+ * without one the suite reports SKIPPED and exits 77. The repository runner records
+ * that as a third state: neither pass nor failure. Supplying a root still runs every
+ * assertion and any broken assertion still exits non-zero.
  */
 
 'use strict';
@@ -40,9 +42,8 @@ var ROOT = argRoot || process.env.LIMEN_CORPUS_ROOT || null;
 var PATTERN = process.env.LIMEN_CORPUS_PATTERN || 'assets/data/domains/energy*.json';
 
 if (!ROOT || !fs.existsSync(ROOT)) {
-  console.error('CANNOT-RUN: corpus root not configured or missing.');
-  console.error('  set LIMEN_CORPUS_ROOT or pass --root <path>. Deliberately not defaulted.');
-  process.exit(2);
+  console.error('SKIPPED: external corpus root unavailable; set LIMEN_CORPUS_ROOT or pass --root <path>');
+  process.exit(77);
 }
 
 var TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'corpus-found-'));

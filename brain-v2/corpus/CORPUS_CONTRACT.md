@@ -180,7 +180,9 @@ every mtime while changing nothing about any artifact.
 
 ## Halted prototypes
 
-`corpus/adapter.js` and `corpus/opportunity.js` are failed experimental prototypes,
-retained untouched for an owner decision. **Nothing imports them**, and a test asserts
-that. `adapter.js` contains the `_enrichment` admission gate and a single cross-vocabulary
-evidence classifier — both of which this contract's measurements refute.
+`corpus/adapter.js` and `corpus/opportunity.js` are fail-closed tombstones. Importing
+either throws `HALTED_PROTOTYPE` before exposing an API. Their experimental implementations
+remain recoverable in Git history at `c7db1bf5`; they are not retained as executable code in
+the active tree. A standalone test proves both imports fail and that active corpus modules do
+not depend on them. The discarded adapter used `_enrichment` as an admission gate and merged
+distinct evidence vocabularies — both choices are refuted by the measurements above.

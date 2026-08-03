@@ -80,7 +80,11 @@ if (!files.length) {
 
 console.log('running ' + files.length + ' test file' + (files.length > 1 ? 's' : '') + '\n');
 
-const passed = [], failed = [];
+/* Exit 77 is the conventional "test skipped" status. It is deliberately distinct
+   from PASS: an unavailable external fixture proves nothing, but it also does not mean
+   the code failed. The child must opt into this status explicitly. */
+const SKIP_STATUS = 77;
+const passed = [], skipped = [], failed = [];
 const t0 = Date.now();
 
 for (const f of files) {
@@ -94,11 +98,17 @@ for (const f of files) {
 
   const timedOut = r.error && r.error.code === 'ETIMEDOUT';
   const ok = !timedOut && r.status === 0;
+  const skip = !timedOut && r.status === SKIP_STATUS;
 
   if (ok) {
     passed.push(f);
     console.log('  PASS  ' + f + '  (' + ms + 'ms)' +
       (ms > SLOW_MS ? '  SLOW — ' + (ms / 1000).toFixed(0) + 's of the ' + (TIMEOUT_MS / 1000) + 's cap' : ''));
+  } else if (skip) {
+    const reason = ((r.stdout || '') + (r.stderr || '')).trim().split('\n').filter(Boolean).slice(-1)[0] ||
+      'external prerequisite unavailable';
+    skipped.push({ f, reason });
+    console.log('  SKIP  ' + f + '  (' + ms + 'ms) — ' + reason);
   } else {
     failed.push({ f, status: r.status, timedOut, out: ((r.stdout || '') + (r.stderr || '')).trim() });
     console.log('  FAIL  ' + f + '  (' + ms + 'ms' + (timedOut ? ', timed out' : ', exit ' + r.status) + ')');
@@ -118,7 +128,7 @@ if (failed.length) {
 }
 
 console.log('\n' + '='.repeat(66));
-console.log(passed.length + ' passed, ' + failed.length + ' failed, ' +
+console.log(passed.length + ' passed, ' + skipped.length + ' skipped, ' + failed.length + ' failed, ' +
             ((Date.now() - t0) / 1000).toFixed(1) + 's');
 
 if (failed.length) {
