@@ -377,14 +377,32 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
   assert('channels that move but carry no source key make nothing testable',
     FX.testableRelationships(noKeys, manifest).filter(function (r) { return r.testable; }).length === 0);
 
-  /* NO BINDER: ABSTAIN. finance records today and nothing has bound it, so there are no
-     declared latents to test against and support must be false with a stated reason
-     rather than inferred from whatever channels happen to be present. */
-  var fin = FX.loadManifest('finance');
-  assert('a domain with no binder does not load a manifest', fin.ok === false);
-  assert('and says why, naming the missing binder', /no binder at/.test(fin.why), fin.why);
+  /**
+   * NO BINDER: ABSTAIN. Without declared latents there is nothing a relationship could be
+   * tested against, so support must be false with a stated reason rather than inferred
+   * from whatever channels happen to be present.
+   *
+   * Probed with a name that can never have a binder. This assertion previously used
+   * `finance`, which was true when written and stopped being true the moment
+   * `bind/finance.js` was added — the suite caught it immediately, which is the system
+   * working. Pinning the abstain path to a domain that cannot exist keeps it testing the
+   * behaviour rather than a passing fact about which domains happen to be bound today.
+   */
+  var none = FX.loadManifest('no-such-domain-xyz');
+  assert('a domain with no binder does not load a manifest', none.ok === false);
+  assert('and says why, naming the missing binder', /no binder at/.test(none.why), none.why);
   assert('so no relationship is testable, whatever the channels look like',
-    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], fin).length === 0);
+    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], none).length === 0);
+
+  /* And finance, which IS bound now, loads its three declared relationships. */
+  var fin = FX.loadManifest('finance');
+  assert('finance now loads a manifest, since it has a binder', fin.ok === true, fin.why || '');
+  assert('with its three declared SPY-price relationships',
+    fin.relationships.length === 3 &&
+    fin.relationships.every(function (r) { return r.latent === 'SPY price level'; }),
+    String(fin.relationships.length));
+  assert('but with no fixture, nothing about it is testable',
+    FX.testableRelationships([], fin).every(function (r) { return !r.testable; }));
 
   /* THE REAL CORPUS, as the ground truth for all of the above. */
   var doc = require('../fixtures/energy-recorder.json');
@@ -436,7 +454,9 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
     /* A domain with genuinely no binder must still abstain — the fix must not make
        everything load. */
     assert('a domain with no binder still abstains from outside the repository',
-      FX.loadManifest('finance').ok === false);
+      FX.loadManifest('no-such-domain-xyz').ok === false);
+    assert('while a bound one still loads from outside the repository',
+      FX.loadManifest('finance').ok === true);
   } finally {
     process.chdir(originalCwd);
   }

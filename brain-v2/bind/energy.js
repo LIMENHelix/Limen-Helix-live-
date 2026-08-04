@@ -26,6 +26,7 @@
 'use strict';
 
 var DIV = require('../core/divergence.js');
+var FACTORY = require('./factory.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -108,13 +109,7 @@ var REL = [
 ];
 
 /** Reads a value out of a live /api/domain-snapshot source object. */
-function pickLive(src, field) {
-  if (!src) return null;
-  if (field === 'recent7d') {
-    return (src.rss && typeof src.rss.recent7d === 'number') ? src.rss.recent7d : null;
-  }
-  return (typeof src.value === 'number' && isFinite(src.value)) ? src.value : null;
-}
+/* pickLive now lives in factory.js — one implementation, shared by every domain. */
 
 /**
  * THE MANIFEST.
@@ -193,71 +188,26 @@ var FINDINGS = [
     test: function (v, s, d) { return typeof s.departure === 'number' && Math.abs(s.departure) >= SIGMA; } }
 ];
 
-/** Build the readings object for one cycle from a live /api/domain-snapshot energy object. */
-function readLive(energyDomain) {
-  var byName = {};
-  (energyDomain && energyDomain.sources || []).forEach(function (s) { byName[s.name] = s; });
-  var out = {};
-  CHANNELS.forEach(function (c) {
-    var v = pickLive(byName[c.name], c.field);
-    if (v !== null) out[c.key] = { value: v };
-  });
-  return out;
-}
-
 /**
- * Build readings from a RECORDER row (handlers/feed-record.js).
+ * ENERGY IS THE COMPATIBILITY REFERENCE for the binder factory.
  *
- * IMPORTANT LIMITATION, stated rather than hidden: the recorder stores each source's `v`,
- * which is the SATURATED `value` field. It does not store recent7d. So a historical replay
- * can only ever see the saturated number.
+ * Everything above is a DECLARATION about energy. Everything that reads a snapshot,
+ * reads a recorded row, validates the manifest and assembles the spec now lives once in
+ * factory.js, so nineteen further domains cannot each drift a copy of it.
  *
- * That is not a defect of the replay — it is the demonstration. Feeding the stored `v` through
- * the liveness gate shows exactly which channels the old brain was thresholding on while they
- * never moved.
+ * `test/domains.js` asserts this spec() is byte-identical to the hand-written manifest it
+ * replaced, and that readRecorderRow returns identical readings over the recorded
+ * fixture. That assertion is not ceremony: this is the only domain with a real fixture
+ * behind it, and every measurement on the scorecard is quoted against these exact
+ * numbers. A factory that quietly changed them would invalidate all of them at once.
  */
-/**
- * Read one recorded row into per-channel readings.
- *
- * `observationId` is carried through when the recorder captured the source's own key
- * (`su`). It is the ONLY field core/channel.js will count evidence from: `updates` counts
- * polls, `sampleAt` is a local cadence clock, and both answer "did we look again" rather
- * than "did the source speak". Absent for rows recorded before the recorder kept `su`,
- * and absent is correct there — those rows genuinely cannot say, and null must stay null
- * rather than be back-filled from our own clock.
- */
-function readRecorderRow(row) {
-  var byName = {};
-  (row && row.src || []).forEach(function (s) { byName[s.n] = s; });
-  var out = {};
-  CHANNELS.forEach(function (c) {
-    var s = byName[c.name];
-    if (s && typeof s.v === 'number' && isFinite(s.v)) {
-      var r = { value: s.v };
-      if (s.su !== undefined && s.su !== null && s.su !== '') r.observationId = s.su;
-      out[c.key] = r;
-    }
-  });
-  return out;
-}
-
-module.exports = {
+module.exports = FACTORY.createBinder({
   domain: 'energy',
-  CHANNELS: CHANNELS,
-  RELATIONSHIPS: REL,
-  FINDINGS: FINDINGS,
-  SIGMA: SIGMA,
-  readLive: readLive,
-  readRecorderRow: readRecorderRow,
-  spec: function () {
-    return {
-      domain: 'energy',
-      version: 'brain-v2/0.1.0-energy',
-      levelsPerSensor: 3,
-      channels: CHANNELS,
-      findings: FINDINGS,
-      relationships: REL,
-      efferent: null   // R7: nothing consumes this yet, and it says so
-    };
-  }
-};
+  version: 'brain-v2/0.1.0-energy',
+  levelsPerSensor: 3,
+  sigma: SIGMA,
+  channels: CHANNELS,
+  findings: FINDINGS,
+  relationships: REL,
+  efferent: null   // R7: nothing consumes this yet, and it says so
+});
