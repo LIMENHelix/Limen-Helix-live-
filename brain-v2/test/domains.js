@@ -134,8 +134,16 @@ console.log('');
     JSON.stringify(s.manifestOnly));
   assert('and its reason names the missing fixture',
     /no fixture at/.test(REG.inspect('finance').why), REG.inspect('finance').why);
-  assert('the remaining eighteen are unbound, each saying so',
-    s.byState[REG.STATE.UNBOUND] === 18, String(s.byState[REG.STATE.UNBOUND]));
+  assert('four domains are declared but unobserved',
+    s.byState[REG.STATE.MANIFEST_ONLY] === 4, JSON.stringify(s.manifestOnly));
+  assert('and the remaining fifteen are unbound, each saying so',
+    s.byState[REG.STATE.UNBOUND] === 15, String(s.byState[REG.STATE.UNBOUND]));
+  /* The arithmetic, so a domain can never be counted twice or vanish between states as
+     batches land. The explicit numbers above move with each batch on purpose — a change
+     to them should be a deliberate line in a diff, not something that drifts. */
+  assert('every domain is in exactly one state, summing to twenty',
+    s.byState[REG.STATE.BOUND] + s.byState[REG.STATE.MANIFEST_ONLY] + s.byState[REG.STATE.UNBOUND] === 20,
+    JSON.stringify(s.byState));
 })();
 
 // ── D3: energy is the compatibility reference, pinned to a hash ──────────────
@@ -349,8 +357,14 @@ console.log('');
       assert('  and the feed key is the snapshot one',
         NAMES.toRuntime(given) === snapshot, NAMES.toRuntime(given));
     });
-    assert('  neither binder exists yet, which is the point of testing this now',
-      !fs.existsSync(REG.binderPath(REG.descriptorFor(product))));
+    /* RESOLUTION IS INDEPENDENT OF EXISTENCE, and that is now testable in both
+       directions: medicine has a binder and science and trade do not, yet all three
+       resolve identically. When this was written none of them existed; keeping the
+       assertion as "none exists" would have made it expire the moment a batch landed. */
+    var exists = fs.existsSync(REG.binderPath(REG.descriptorFor(product)));
+    assert('  resolves the same whether its binder exists (' + exists + ') or not',
+      REG.descriptorFor(product).snapshot === snapshot &&
+      REG.descriptorFor(snapshot).binder === product);
   });
 
   /* Unaliased domains must be unaffected — the mapping passes them through unchanged. */
@@ -510,6 +524,107 @@ console.log('');
     L.report(bus).satisfiesRow24 === false);
 })();
 
+// D8: the Economy / Environment / Medicine batch
+(function () {
+  console.log('D8: three new binders, declared against the sources that actually exist');
+  var ECONOMY = require('../bind/economy.js');
+  var ENVIRONMENT = require('../bind/environment.js');
+  var MEDICINE = require('../bind/medicine.js');
+  var batch = [
+    { b: ECONOMY,     product: 'economy',     snapshot: 'economy',     channels: 15 },
+    { b: ENVIRONMENT, product: 'environment', snapshot: 'environment', channels: 10 },
+    { b: MEDICINE,    product: 'medicine',    snapshot: 'health',      channels: 15 }
+  ];
+
+  /**
+   * EVERY DECLARED CHANNEL MUST NAME A SOURCE THE SNAPSHOT ACTUALLY EMITS. Read out of
+   * handlers/domain-snapshot.js rather than trusted: a channel naming a source that does
+   * not exist reads nothing forever, and "no data" is indistinguishable from a domain
+   * that is simply quiet.
+   */
+  var snapSrc = fs.readFileSync(path.join(__dirname, '..', '..', 'handlers', 'domain-snapshot.js'), 'utf8');
+  var declaredNames = {};
+  var re = /src\('([^']+)'/g, m;
+  while ((m = re.exec(snapSrc)) !== null) declaredNames[m[1]] = true;
+
+  batch.forEach(function (e) {
+    var spec = e.b.spec();
+    assert(e.product + ': declares ' + e.channels + ' channels', spec.channels.length === e.channels,
+      String(spec.channels.length));
+    assert(e.product + ': its domain key is the SNAPSHOT key "' + e.snapshot + '"',
+      spec.domain === e.snapshot, spec.domain);
+    assert(e.product + ': every channel names a source domain-snapshot.js emits',
+      spec.channels.every(function (c) { return declaredNames[c.name]; }),
+      spec.channels.filter(function (c) { return !declaredNames[c.name]; }).map(function (c) { return c.name; }).join(', '));
+    assert(e.product + ': every channel declares field, recordedField, units, cadence and source',
+      spec.channels.every(function (c) {
+        return c.field && c.recordedField && c.units && c.cadenceMs > 0 && c.source;
+      }));
+    assert(e.product + ': every channel declares its own q and r priors',
+      spec.channels.every(function (c) { return typeof c.q === 'number' && typeof c.r === 'number'; }));
+
+    /* A recent7d channel in a NEW domain reads r7 — the un-saturated count. Energy's stay
+       on v because its fixture predates that field; these have no such history. */
+    assert(e.product + ': recent7d channels read r7, not the saturating v',
+      spec.channels.filter(function (c) { return c.field === 'recent7d'; })
+        .every(function (c) { return c.recordedField === 'r7'; }),
+      spec.channels.filter(function (c) { return c.field === 'recent7d' && c.recordedField !== 'r7'; })
+        .map(function (c) { return c.key; }).join(', '));
+
+    /* ZERO RELATIONSHIPS IS A RESULT, NOT AN OVERSIGHT. None of these three has two
+       sources measuring the same statistic in the same units on the same horizon —
+       checked, and the closest candidates were rejected: monthly FRED CPI against annual
+       World Bank inflation, and openFDA drug enforcement against an FDA food-recall feed.
+       Declaring a plausible pair to avoid an empty list is the fabrication the latent
+       requirement exists to prevent. */
+    assert(e.product + ': declares zero relationships, which the factory accepts',
+      spec.relationships.length === 0, String(spec.relationships.length));
+
+    /* FINDINGS REST ON MEASURED QUANTITIES ONLY. A finding on a publication count fires
+       when somebody publishes, and would be reported as a condition of the world. */
+    var byKey = {};
+    spec.channels.forEach(function (c) { byKey[c.key] = c; });
+    var publicationUnits = /articles\/7d|documents in 30d|net term count|feed items|search result total/;
+    assert(e.product + ': no finding is built on a publication or keyword count',
+      spec.findings.every(function (f) {
+        return (f.requires || []).every(function (k) { return !publicationUnits.test(byKey[k].units); });
+      }),
+      spec.findings.filter(function (f) {
+        return (f.requires || []).some(function (k) { return publicationUnits.test(byKey[k].units); });
+      }).map(function (f) { return f.id; }).join(', '));
+    assert(e.product + ': every finding states a basis', spec.findings.every(function (f) { return !!f.basis; }));
+    assert(e.product + ': and every finding requires only declared channels',
+      spec.findings.every(function (f) { return (f.requires || []).every(function (k) { return !!byKey[k]; }); }));
+  });
+
+  /* MEDICINE IS THE ALIAS CASE, and both names must reach it. */
+  assert('medicine is reachable by product name', REG.inspect('medicine').channels === 15);
+  assert('and by snapshot key, returning the same binder',
+    REG.inspect('health').version === REG.inspect('medicine').version);
+  assert('its binder file is bind/medicine.js',
+    fs.existsSync(REG.binderPath(REG.descriptorFor('medicine'))));
+  assert('and its fixture would be filed as health-recorder.json',
+    path.basename(REG.fixturePath(REG.descriptorFor('medicine'))) === 'health-recorder.json');
+
+  /* ALL THREE ARE MANIFEST-ONLY. No fixture exists for any of them, so nothing declared
+     above has been exercised against a single real observation. */
+  ['economy', 'environment', 'medicine'].forEach(function (d) {
+    assert(d + ' is MANIFEST-ONLY, not bound', REG.inspect(d).state === REG.STATE.MANIFEST_ONLY,
+      REG.inspect(d).state);
+  });
+  assert('energy is still the only bound domain', REG.summary().bound.join() === 'energy',
+    REG.summary().bound.join());
+
+  /* NO CROSS-DOMAIN LINK WAS INVENTED. Every relationship in every binder stays inside
+     its own channel set — asserted across all five so a future batch cannot slip one in. */
+  var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE];
+  assert('no binder declares a relationship naming a channel outside itself',
+    all.every(function (b) {
+      var keys = b.CHANNELS.map(function (c) { return c.key; });
+      return b.RELATIONSHIPS.every(function (r) { return keys.indexOf(r.a) >= 0 && keys.indexOf(r.b) >= 0; });
+    }));
+})();
+
 // ── D7: no row is advanced by any of this ────────────────────────────────────
 (function () {
   console.log('D7: binding a second manifest advances no checklist row');
@@ -557,7 +672,8 @@ console.log('');
 console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
                      : tests + '/' + tests + ' passed');
 console.log('');
-console.log('BOUND WITH DATA: 1 of 20 (energy). Finance is declared and unobserved.');
+console.log('BOUND WITH DATA: 1 of 20 (energy). Four declared and unobserved:');
+console.log('economy, environment, medicine, finance — no fixture exists for any of them.');
 console.log('Row 24 needs THREE things, not one: finance observations, a DECLARED cross-domain');
 console.log('latent (none exists), and MEASURED beneficial transfer against a withheld-link');
 console.log('control. A fixture is necessary and not sufficient.');

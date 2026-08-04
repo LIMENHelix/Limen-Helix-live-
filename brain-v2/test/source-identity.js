@@ -396,14 +396,27 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
   assert('and says so, rather than blaming a missing binder',
     /not one of the 20 canonical domains/.test(none.why), none.why);
 
-  var unbound = FX.loadManifest('economy');
-  assert('a canonical domain with no binder also refuses', unbound.ok === false);
-  assert('but names the MISSING BINDER, which is a different problem',
-    /no binder at/.test(unbound.why), unbound.why);
+  /**
+   * A CANONICAL DOMAIN THAT HAS NO BINDER, chosen from the registry AT RUN TIME rather
+   * than named here. This assertion has now gone stale twice — first pinned to `finance`,
+   * then to `economy`, each true when written and false the moment that domain was bound.
+   * Naming a third would just schedule the same failure for the next batch, so it asks
+   * the registry which domains are currently unbound and probes one of those.
+   */
+  var REG = require('../bind/registry.js');
+  var stillUnbound = REG.survey().filter(function (r) { return r.state === REG.STATE.UNBOUND; })[0];
+  assert('at least one canonical domain is still unbound, to probe the path with',
+    !!stillUnbound, 'every domain is bound — this assertion needs rethinking, not deleting');
+  if (stillUnbound) {
+    var unbound = FX.loadManifest(stillUnbound.product);
+    assert('a canonical domain with no binder also refuses (' + stillUnbound.product + ')',
+      unbound.ok === false, JSON.stringify(unbound));
+    assert('but names the MISSING BINDER, which is a different problem',
+      /no binder at/.test(unbound.why), unbound.why);
+  }
 
-  assert('so no relationship is testable in either case, whatever the channels look like',
-    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], none).length === 0 &&
-    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], unbound).length === 0);
+  assert('so no relationship is testable for a name that is not a domain',
+    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], none).length === 0);
 
   /* And finance, which IS bound now, loads its three declared relationships. */
   var fin = FX.loadManifest('finance');
@@ -465,7 +478,8 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
     /* A domain with genuinely no binder must still abstain — the fix must not make
        everything load. */
     assert('a domain with no binder still abstains from outside the repository',
-      FX.loadManifest('no-such-domain-xyz').ok === false && FX.loadManifest('economy').ok === false);
+      FX.loadManifest('no-such-domain-xyz').ok === false &&
+      (!stillUnbound || FX.loadManifest(stillUnbound.product).ok === false));
     assert('while a bound one still loads from outside the repository',
       FX.loadManifest('finance').ok === true);
   } finally {
