@@ -134,10 +134,10 @@ console.log('');
     JSON.stringify(s.manifestOnly));
   assert('and its reason names the missing fixture',
     /no fixture at/.test(REG.inspect('finance').why), REG.inspect('finance').why);
-  assert('four domains are declared but unobserved',
-    s.byState[REG.STATE.MANIFEST_ONLY] === 4, JSON.stringify(s.manifestOnly));
-  assert('and the remaining fifteen are unbound, each saying so',
-    s.byState[REG.STATE.UNBOUND] === 15, String(s.byState[REG.STATE.UNBOUND]));
+  assert('seven domains are declared but unobserved',
+    s.byState[REG.STATE.MANIFEST_ONLY] === 7, JSON.stringify(s.manifestOnly));
+  assert('and the remaining twelve are unbound, each saying so',
+    s.byState[REG.STATE.UNBOUND] === 12, String(s.byState[REG.STATE.UNBOUND]));
   /* The arithmetic, so a domain can never be counted twice or vanish between states as
      batches land. The explicit numbers above move with each batch on purpose — a change
      to them should be a deliberate line in a diff, not something that drifts. */
@@ -526,14 +526,20 @@ console.log('');
 
 // D8: the Economy / Environment / Medicine batch
 (function () {
-  console.log('D8: three new binders, declared against the sources that actually exist');
+  console.log('D8: six declared binders, checked against the sources that actually exist');
   var ECONOMY = require('../bind/economy.js');
   var ENVIRONMENT = require('../bind/environment.js');
   var MEDICINE = require('../bind/medicine.js');
+  var TECHNOLOGY = require('../bind/technology.js');
+  var SCIENCE = require('../bind/science.js');
+  var TRADE = require('../bind/trade.js');
   var batch = [
-    { b: ECONOMY,     product: 'economy',     snapshot: 'economy',     channels: 15 },
-    { b: ENVIRONMENT, product: 'environment', snapshot: 'environment', channels: 10 },
-    { b: MEDICINE,    product: 'medicine',    snapshot: 'health',      channels: 15 }
+    { b: ECONOMY,     product: 'economy',     snapshot: 'economy',     channels: 15, batch: 1 },
+    { b: ENVIRONMENT, product: 'environment', snapshot: 'environment', channels: 10, batch: 1 },
+    { b: MEDICINE,    product: 'medicine',    snapshot: 'health',      channels: 15, batch: 1 },
+    { b: TECHNOLOGY,  product: 'technology',  snapshot: 'technology',  channels: 10, batch: 2 },
+    { b: SCIENCE,     product: 'science',     snapshot: 'research',    channels: 15, batch: 2 },
+    { b: TRADE,       product: 'trade',       snapshot: 'supplyChain', channels: 13, batch: 2 }
   ];
 
   /**
@@ -584,7 +590,7 @@ console.log('');
        when somebody publishes, and would be reported as a condition of the world. */
     var byKey = {};
     spec.channels.forEach(function (c) { byKey[c.key] = c; });
-    var publicationUnits = /articles\/7d|documents in 30d|net term count|feed items|search result total/;
+    var publicationUnits = /articles\/7d|documents in 30d|net term count|feed items|search result total|cumulative articles|cumulative papers|indexed works|applications matched|top stories|keyword mentions/;
     assert(e.product + ': no finding is built on a publication or keyword count',
       spec.findings.every(function (f) {
         return (f.requires || []).every(function (k) { return !publicationUnits.test(byKey[k].units); });
@@ -597,6 +603,42 @@ console.log('');
       spec.findings.every(function (f) { return (f.requires || []).every(function (k) { return !!byKey[k]; }); }));
   });
 
+  /**
+   * NO FUSED-STATE FINDING IN BATCH 2. A finding whose test reads `state.departure`
+   * restates a number the cycle has already emitted as its own dysregulation, so it adds
+   * a second voice saying the same thing rather than evidence. Batch 1 and the two
+   * earlier binders each carry one (`SYSTEMIC_*`); those are left alone rather than
+   * silently edited — energy's in particular is inside the byte-identical spec hash that
+   * pins every measurement on the scorecard. Reported here so the inconsistency is
+   * visible and deliberate rather than discovered later.
+   */
+  batch.filter(function (e) { return e.batch === 2; }).forEach(function (e) {
+    var systemic = e.b.spec().findings.filter(function (f) { return /^SYSTEMIC_/.test(f.id); });
+    assert(e.product + ': declares no SYSTEMIC_* fused-state finding',
+      systemic.length === 0, JSON.stringify(systemic.map(function (f) { return f.id; })));
+    assert(e.product + ': and no finding tests the fused departure directly',
+      e.b.spec().findings.every(function (f) { return !/s\.departure/.test(String(f.test)); }),
+      e.b.spec().findings.filter(function (f) { return /s\.departure/.test(String(f.test)); })
+        .map(function (f) { return f.id; }).join(', '));
+    /* Neutrally named: a finding says WHICH channel departed, not what it means. */
+    assert(e.product + ': finding ids are neutral, naming the measure rather than a cause',
+      e.b.spec().findings.every(function (f) { return /_DEPARTURE$|_CO_DEPARTING$/.test(f.id); }),
+      e.b.spec().findings.map(function (f) { return f.id; }).join(', '));
+  });
+
+  /* The earlier binders DO carry one each; counted rather than asserted away, so the
+     number is on the record and a later cleanup has a baseline. */
+  var legacySystemic = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE]
+    .reduce(function (n, b) { return n + b.FINDINGS.filter(function (f) { return /^SYSTEMIC_/.test(f.id); }).length; }, 0);
+  console.log('  note: ' + legacySystemic + ' SYSTEMIC_* fused-state findings remain in the five earlier binders');
+
+  /* SCIENCE HAS EXACTLY ONE FINDING, and that is the honest count. Fourteen of its
+     fifteen channels count publications; promoting one of those to a finding to make the
+     domain look better instrumented is precisely what the unit rule above prevents. */
+  assert('science declares exactly one finding, on its only measured quantity',
+    SCIENCE.FINDINGS.length === 1 && SCIENCE.FINDINGS[0].requires.join() === 'rndIntensity',
+    JSON.stringify(SCIENCE.FINDINGS.map(function (f) { return f.id; })));
+
   /* MEDICINE IS THE ALIAS CASE, and both names must reach it. */
   assert('medicine is reachable by product name', REG.inspect('medicine').channels === 15);
   assert('and by snapshot key, returning the same binder',
@@ -608,7 +650,7 @@ console.log('');
 
   /* ALL THREE ARE MANIFEST-ONLY. No fixture exists for any of them, so nothing declared
      above has been exercised against a single real observation. */
-  ['economy', 'environment', 'medicine'].forEach(function (d) {
+  ['economy', 'environment', 'medicine', 'technology', 'science', 'trade'].forEach(function (d) {
     assert(d + ' is MANIFEST-ONLY, not bound', REG.inspect(d).state === REG.STATE.MANIFEST_ONLY,
       REG.inspect(d).state);
   });
@@ -617,7 +659,7 @@ console.log('');
 
   /* NO CROSS-DOMAIN LINK WAS INVENTED. Every relationship in every binder stays inside
      its own channel set — asserted across all five so a future batch cannot slip one in. */
-  var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE];
+  var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE, TECHNOLOGY, SCIENCE, TRADE];
   assert('no binder declares a relationship naming a channel outside itself',
     all.every(function (b) {
       var keys = b.CHANNELS.map(function (c) { return c.key; });
@@ -672,8 +714,9 @@ console.log('');
 console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
                      : tests + '/' + tests + ' passed');
 console.log('');
-console.log('BOUND WITH DATA: 1 of 20 (energy). Four declared and unobserved:');
-console.log('economy, environment, medicine, finance — no fixture exists for any of them.');
+console.log('BOUND WITH DATA: 1 of 20 (energy). Seven declared and unobserved: economy,');
+console.log('environment, medicine, technology, science, trade, finance — no fixture exists');
+console.log('for any of them, so nothing they declare has met a real observation.');
 console.log('Row 24 needs THREE things, not one: finance observations, a DECLARED cross-domain');
 console.log('latent (none exists), and MEASURED beneficial transfer against a withheld-link');
 console.log('control. A fixture is necessary and not sufficient.');
