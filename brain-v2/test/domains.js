@@ -134,10 +134,10 @@ console.log('');
     JSON.stringify(s.manifestOnly));
   assert('and its reason names the missing fixture',
     /no fixture at/.test(REG.inspect('finance').why), REG.inspect('finance').why);
-  assert('seven domains are declared but unobserved',
-    s.byState[REG.STATE.MANIFEST_ONLY] === 7, JSON.stringify(s.manifestOnly));
-  assert('and the remaining twelve are unbound, each saying so',
-    s.byState[REG.STATE.UNBOUND] === 12, String(s.byState[REG.STATE.UNBOUND]));
+  assert('ten domains are declared but unobserved',
+    s.byState[REG.STATE.MANIFEST_ONLY] === 10, JSON.stringify(s.manifestOnly));
+  assert('and the remaining nine are unbound, each saying so',
+    s.byState[REG.STATE.UNBOUND] === 9, String(s.byState[REG.STATE.UNBOUND]));
   /* The arithmetic, so a domain can never be counted twice or vanish between states as
      batches land. The explicit numbers above move with each batch on purpose — a change
      to them should be a deliberate line in a diff, not something that drifts. */
@@ -526,20 +526,26 @@ console.log('');
 
 // D8: the Economy / Environment / Medicine batch
 (function () {
-  console.log('D8: six declared binders, checked against the sources that actually exist');
+  console.log('D8: nine declared binders, checked against the sources that actually exist');
   var ECONOMY = require('../bind/economy.js');
   var ENVIRONMENT = require('../bind/environment.js');
   var MEDICINE = require('../bind/medicine.js');
   var TECHNOLOGY = require('../bind/technology.js');
   var SCIENCE = require('../bind/science.js');
   var TRADE = require('../bind/trade.js');
+  var GOVERNANCE = require('../bind/governance.js');
+  var INFRA = require('../bind/infrastructure.js');
+  var AGRICULTURE = require('../bind/agriculture.js');
   var batch = [
     { b: ECONOMY,     product: 'economy',     snapshot: 'economy',     channels: 15, batch: 1 },
     { b: ENVIRONMENT, product: 'environment', snapshot: 'environment', channels: 10, batch: 1 },
     { b: MEDICINE,    product: 'medicine',    snapshot: 'health',      channels: 15, batch: 1 },
     { b: TECHNOLOGY,  product: 'technology',  snapshot: 'technology',  channels: 10, batch: 2 },
     { b: SCIENCE,     product: 'science',     snapshot: 'research',    channels: 15, batch: 2 },
-    { b: TRADE,       product: 'trade',       snapshot: 'supplyChain', channels: 13, batch: 2 }
+    { b: TRADE,       product: 'trade',       snapshot: 'supplyChain', channels: 13, batch: 2 },
+    { b: GOVERNANCE,  product: 'governance',  snapshot: 'governance',  channels: 12, batch: 3 },
+    { b: INFRA,       product: 'infrastructure', snapshot: 'infrastructure', channels: 18, batch: 3 },
+    { b: AGRICULTURE, product: 'agriculture', snapshot: 'agriculture', channels: 13, batch: 3 }
   ];
 
   /**
@@ -612,7 +618,7 @@ console.log('');
    * pins every measurement on the scorecard. Reported here so the inconsistency is
    * visible and deliberate rather than discovered later.
    */
-  batch.filter(function (e) { return e.batch === 2; }).forEach(function (e) {
+  batch.filter(function (e) { return e.batch >= 2; }).forEach(function (e) {
     var systemic = e.b.spec().findings.filter(function (f) { return /^SYSTEMIC_/.test(f.id); });
     assert(e.product + ': declares no SYSTEMIC_* fused-state finding',
       systemic.length === 0, JSON.stringify(systemic.map(function (f) { return f.id; })));
@@ -687,6 +693,71 @@ console.log('');
   assert('trade still declares zero relationships after the correction',
     require('../bind/trade.js').RELATIONSHIPS.length === 0);
 
+  /**
+   * BATCH 3's TWO HARDEST REJECTIONS, asserted so a later edit cannot quietly reverse them.
+   *
+   * GOVERNANCE: the three World Bank WGI channels share publisher, construction, units,
+   * geography and annual horizon — every surface property a relationship is checked on —
+   * and measure three DIFFERENT dimensions by design. A gap between control of corruption
+   * and government effectiveness is a real distinction, not an instrument fault, so
+   * relating them would report a state being effective and corrupt as a sensor error.
+   */
+  var wgi = GOVERNANCE.CHANNELS.filter(function (c) { return c.units === 'index score'; });
+  assert('governance declares three WGI index channels', wgi.length === 3,
+    JSON.stringify(wgi.map(function (c) { return c.key; })));
+  assert('they share units and cadence, which is exactly why the rejection matters',
+    wgi.every(function (c) { return c.units === wgi[0].units && c.cadenceMs === wgi[0].cadenceMs; }));
+  assert('and none of them is related to another',
+    GOVERNANCE.RELATIONSHIPS.length === 0, String(GOVERNANCE.RELATIONSHIPS.length));
+  assert('each has its OWN finding rather than a joint one, which would assert they co-move',
+    GOVERNANCE.FINDINGS.length === 3 &&
+    GOVERNANCE.FINDINGS.every(function (f) { return f.requires.length === 1; }),
+    JSON.stringify(GOVERNANCE.FINDINGS.map(function (f) { return f.requires; })));
+
+  /**
+   * AGRICULTURE: two channels are both called drought. One measures the percentage of
+   * CONUS in D2-D4; the other counts intensification terms in the CPC outlook TEXT. A
+   * measured area and a count of forecasters' vocabulary.
+   */
+  var byKeyAg = {};
+  AGRICULTURE.CHANNELS.forEach(function (c) { byKeyAg[c.key] = c; });
+  assert('agriculture measures drought area as a percentage of land',
+    /% of CONUS/.test(byKeyAg.droughtArea.units), byKeyAg.droughtArea.units);
+  assert('and declares the CPC outlook channel as a keyword count, not a drought measure',
+    byKeyAg.cpcOutlook.units === 'keyword mentions', byKeyAg.cpcOutlook.units);
+  assert('the two are NOT related — an area and a vocabulary are not one latent',
+    AGRICULTURE.RELATIONSHIPS.length === 0);
+  assert('and no finding is built on the CPC term count, which would fire on a rewording',
+    AGRICULTURE.FINDINGS.every(function (f) { return f.requires.indexOf('cpcOutlook') < 0; }),
+    JSON.stringify(AGRICULTURE.FINDINGS.map(function (f) { return f.requires; })));
+
+  /**
+   * INFRASTRUCTURE: three FRED channels all arrive as a percentage change, which is a
+   * transformation rather than a quantity. Sharing a unit is not sharing a latent.
+   */
+  var pct = INFRA.CHANNELS.filter(function (c) { return /^% change/.test(c.units); });
+  assert('infrastructure declares three percentage-change channels', pct.length === 3,
+    JSON.stringify(pct.map(function (c) { return c.key; })));
+  assert('each names the different series it is a change OF',
+    new Set(pct.map(function (c) { return c.units; })).size === 3,
+    JSON.stringify(pct.map(function (c) { return c.units; })));
+  assert('and none is related to another', INFRA.RELATIONSHIPS.length === 0);
+
+  /* SHARED CHANNELS ACROSS DOMAINS are fine; a relationship spanning them is not.
+     NOAA alerts and USGS earthquakes now appear in three domains each. */
+  var sharedCount = ['nwsAlerts', 'earthquakes'].map(function (k) {
+    return [ENVIRONMENT, TRADE, INFRA].filter(function (b) {
+      return b.CHANNELS.some(function (c) { return c.key === k; });
+    }).length;
+  });
+  assert('NOAA alerts and USGS earthquakes are each declared by three domains',
+    sharedCount.join() === '3,3', sharedCount.join());
+  assert('and no binder relates a channel it does not itself declare',
+    [ENVIRONMENT, TRADE, INFRA].every(function (b) {
+      var keys = b.CHANNELS.map(function (c) { return c.key; });
+      return b.RELATIONSHIPS.every(function (r) { return keys.indexOf(r.a) >= 0 && keys.indexOf(r.b) >= 0; });
+    }));
+
   /* MEDICINE IS THE ALIAS CASE, and both names must reach it. */
   assert('medicine is reachable by product name', REG.inspect('medicine').channels === 15);
   assert('and by snapshot key, returning the same binder',
@@ -698,7 +769,8 @@ console.log('');
 
   /* ALL THREE ARE MANIFEST-ONLY. No fixture exists for any of them, so nothing declared
      above has been exercised against a single real observation. */
-  ['economy', 'environment', 'medicine', 'technology', 'science', 'trade'].forEach(function (d) {
+  ['economy', 'environment', 'medicine', 'technology', 'science', 'trade',
+   'governance', 'infrastructure', 'agriculture'].forEach(function (d) {
     assert(d + ' is MANIFEST-ONLY, not bound', REG.inspect(d).state === REG.STATE.MANIFEST_ONLY,
       REG.inspect(d).state);
   });
@@ -707,7 +779,8 @@ console.log('');
 
   /* NO CROSS-DOMAIN LINK WAS INVENTED. Every relationship in every binder stays inside
      its own channel set — asserted across all five so a future batch cannot slip one in. */
-  var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE, TECHNOLOGY, SCIENCE, TRADE];
+  var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE, TECHNOLOGY, SCIENCE, TRADE,
+             GOVERNANCE, INFRA, AGRICULTURE];
   assert('no binder declares a relationship naming a channel outside itself',
     all.every(function (b) {
       var keys = b.CHANNELS.map(function (c) { return c.key; });
@@ -762,9 +835,8 @@ console.log('');
 console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
                      : tests + '/' + tests + ' passed');
 console.log('');
-console.log('BOUND WITH DATA: 1 of 20 (energy). Seven declared and unobserved: economy,');
-console.log('environment, medicine, technology, science, trade, finance — no fixture exists');
-console.log('for any of them, so nothing they declare has met a real observation.');
+console.log('BOUND WITH DATA: 1 of 20 (energy). Ten declared and unobserved. No fixture');
+console.log('exists for any of them, so nothing they declare has met a real observation.');
 console.log('Row 24 needs THREE things, not one: finance observations, a DECLARED cross-domain');
 console.log('latent (none exists), and MEASURED beneficial transfer against a withheld-link');
 console.log('control. A fixture is necessary and not sufficient.');
