@@ -98,27 +98,31 @@ function binderPath(d) { return path.join(BIND_DIR, d.binder + '.js'); }
 function fixturePath(d) { return path.join(FIXTURE_DIR, d.snapshot + '-recorder.json'); }
 
 /**
- * DOES THE FIXTURE ACTUALLY WORK? Opened and read, never trusted for existing.
+ * IS THIS DOCUMENT A FIXTURE THIS BINDER CAN READ? Pure — no filesystem, no clock.
  *
- * A filename is not evidence. Before this check an empty `{"rows":[]}` written to
- * `fixtures/finance-recorder.json` promoted finance to BOUND — measured, not
- * hypothesised. So does a fixture for the wrong domain, or one whose rows the binder
- * cannot read a single channel out of, and each of those would have reported a domain as
- * observable when nothing about it had been observed.
+ * Split out from fixtureUsable() because the tests for it were writing real files into
+ * `brain-v2/fixtures/` and deleting them afterwards. That works exactly until finance has
+ * a real fixture, at which point running the test suite DESTROYS the evidence it was
+ * written to protect — an unlinkSync in a `finally` cannot tell a temp file it created
+ * from a corpus somebody spent a week recording. A test that can delete real data is a
+ * worse defect than the one it covers, so the validation logic now takes a document and
+ * the tests hand it documents.
  *
- * FAILS CLOSED. Any doubt returns usable:false with the reason, and the caller reports
- * MANIFEST_ONLY. A registry that guesses in the optimistic direction is worse than one
- * that refuses, because the optimistic guess is the one nobody re-checks.
+ * Accepts a parsed object or raw text; raw text is parsed here so the parse guard is
+ * testable in memory too, rather than being the one branch only a real file could reach.
+ *
+ * FAILS CLOSED. Any doubt returns usable:false with a reason. A registry that guesses in
+ * the optimistic direction is worse than one that refuses, because the optimistic guess
+ * is the one nobody re-checks.
  */
-function fixtureUsable(d, binder) {
-  var fp = fixturePath(d);
-  if (!fs.existsSync(fp)) return { usable: false, why: 'no fixture at fixtures/' + d.snapshot + '-recorder.json' };
+function validateFixtureDocument(d, binder, docOrRaw) {
+  var doc = docOrRaw;
+  if (typeof docOrRaw === 'string') {
+    try { doc = JSON.parse(docOrRaw); }
+    catch (e) { return { usable: false, why: 'fixture present but unparseable: ' + e.message }; }
+  }
 
-  var doc;
-  try { doc = JSON.parse(fs.readFileSync(fp, 'utf8')); }
-  catch (e) { return { usable: false, why: 'fixture present but unparseable: ' + e.message }; }
-
-  if (!doc || !Array.isArray(doc.rows)) {
+  if (!doc || typeof doc !== 'object' || !Array.isArray(doc.rows)) {
     return { usable: false, why: 'fixture has no `rows` array — it is not a recorder dump' };
   }
   if (!doc.rows.length) {
@@ -126,30 +130,55 @@ function fixtureUsable(d, binder) {
   }
   /* Identity, when the fixture states one. Fixtures written by scripts/build-brain-fixture.mjs
      carry `domain`; the original energy fixture predates that field, and its absence is
-     accepted rather than treated as a mismatch — but a WRONG one is refused outright. */
+     accepted rather than treated as a mismatch — but a WRONG one is refused outright.
+     Compared through toRuntime so a fixture declaring `medicine` matches `health`. */
   if (doc.domain !== undefined && doc.domain !== null && NAMES.toRuntime(doc.domain) !== d.snapshot) {
     return { usable: false, why: 'fixture declares domain "' + doc.domain + '" but is filed as ' + d.snapshot };
   }
 
-  /* THE REAL TEST: can this binder read anything at all out of it? A fixture for another
-     domain parses fine and yields zero channels, because the source names do not match.
-     This is the identity check that does not depend on a field being present. */
-  var readable = 0, scanned = Math.min(doc.rows.length, 24);
-  for (var i = 0; i < scanned; i++) {
+  /**
+   * THE REAL TEST: can this binder read anything at all out of it? A fixture for another
+   * domain parses fine and yields zero channels, because the source names do not match.
+   * This is the identity check that does not depend on a field being present.
+   *
+   * EVERY ROW, not the first 24. A slow or sparse source — a weekly release, a feed that
+   * went quiet for a fortnight and came back — can legitimately produce its first reading
+   * hundreds of rows in, and capping the scan would classify that domain as unreadable
+   * for a reason that is a fact about our sampling rather than about the data. Fixtures
+   * are bounded at 500 rows by the builder, so the whole scan is cheap, and it stops at
+   * the first readable row anyway.
+   */
+  var readable = false, scanned = 0;
+  for (var i = 0; i < doc.rows.length; i++) {
+    scanned++;
     try {
-      if (Object.keys(binder.readRecorderRow(doc.rows[i]) || {}).length) { readable++; break; }
-    } catch (e) { return { usable: false, why: 'binder threw reading the fixture: ' + e.message }; }
+      if (Object.keys(binder.readRecorderRow(doc.rows[i]) || {}).length) { readable = true; break; }
+    } catch (e) { return { usable: false, why: 'binder threw reading row ' + i + ': ' + e.message }; }
   }
   if (!readable) {
-    return { usable: false, why: 'the binder produced no readings from the first ' + scanned +
+    return { usable: false, why: 'the binder produced no readings from any of the ' + doc.rows.length +
       ' rows — the fixture parses but this domain cannot read it, which usually means it belongs to another domain' };
   }
 
   return {
-    usable: true, rows: doc.rows.length,
+    usable: true, rows: doc.rows.length, scannedRows: scanned,
     declaredDomain: doc.domain === undefined ? null : doc.domain,
-    why: 'binder produced readings from a fixture of ' + doc.rows.length + ' rows'
+    why: 'binder produced readings from a fixture of ' + doc.rows.length + ' rows (first readable at row ' + scanned + ')'
   };
+}
+
+/**
+ * The file-reading half. Opens the fixture and hands the bytes to the pure validator.
+ * This function touches the filesystem and NOTHING else, so the only thing that needs a
+ * real file to test is "does the file exist".
+ */
+function fixtureUsable(d, binder) {
+  var fp = fixturePath(d);
+  if (!fs.existsSync(fp)) return { usable: false, why: 'no fixture at fixtures/' + d.snapshot + '-recorder.json' };
+  var raw;
+  try { raw = fs.readFileSync(fp, 'utf8'); }
+  catch (e) { return { usable: false, why: 'fixture present but unreadable: ' + e.message }; }
+  return validateFixtureDocument(d, binder, raw);
 }
 
 /**
@@ -237,5 +266,6 @@ module.exports = {
   summary: summary,
   binderPath: binderPath,
   fixturePath: fixturePath,
-  fixtureUsable: fixtureUsable
+  fixtureUsable: fixtureUsable,
+  validateFixtureDocument: validateFixtureDocument
 };

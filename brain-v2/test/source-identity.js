@@ -388,11 +388,22 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
    * working. Pinning the abstain path to a domain that cannot exist keeps it testing the
    * behaviour rather than a passing fact about which domains happen to be bound today.
    */
+  /* TWO DIFFERENT REFUSALS, and they must not report the same thing. A name that is not
+     a domain at all and a real domain nobody has bound yet send an operator to different
+     places, so each says which it is. */
   var none = FX.loadManifest('no-such-domain-xyz');
-  assert('a domain with no binder does not load a manifest', none.ok === false);
-  assert('and says why, naming the missing binder', /no binder at/.test(none.why), none.why);
-  assert('so no relationship is testable, whatever the channels look like',
-    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], none).length === 0);
+  assert('a name that is not a canonical domain does not load a manifest', none.ok === false);
+  assert('and says so, rather than blaming a missing binder',
+    /not one of the 20 canonical domains/.test(none.why), none.why);
+
+  var unbound = FX.loadManifest('economy');
+  assert('a canonical domain with no binder also refuses', unbound.ok === false);
+  assert('but names the MISSING BINDER, which is a different problem',
+    /no binder at/.test(unbound.why), unbound.why);
+
+  assert('so no relationship is testable in either case, whatever the channels look like',
+    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], none).length === 0 &&
+    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], unbound).length === 0);
 
   /* And finance, which IS bound now, loads its three declared relationships. */
   var fin = FX.loadManifest('finance');
@@ -454,7 +465,7 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
     /* A domain with genuinely no binder must still abstain — the fix must not make
        everything load. */
     assert('a domain with no binder still abstains from outside the repository',
-      FX.loadManifest('no-such-domain-xyz').ok === false);
+      FX.loadManifest('no-such-domain-xyz').ok === false && FX.loadManifest('economy').ok === false);
     assert('while a bound one still loads from outside the repository',
       FX.loadManifest('finance').ok === true);
   } finally {

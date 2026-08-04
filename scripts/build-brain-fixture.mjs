@@ -58,6 +58,29 @@ const require = createRequire(import.meta.url);
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(SCRIPT_DIR, '..');
 
+/**
+ * THE REGISTRY OWNS THE TWO-NAME MAPPING; this file does not restate it.
+ *
+ * LIMEN carries two names for three domains — medicine/health, science/research,
+ * trade/supplyChain — and the artefacts split across them: a binder is filed under the
+ * PRODUCT name, while the feed-record key, the fixture filename and the `domain` recorded
+ * inside a fixture all use the SNAPSHOT key.
+ *
+ * Ignoring that had both halves wrong at once. `--domain health` hunted for
+ * `bind/health.js`, which will never exist; `--domain medicine` would have queried
+ * `/api/feed-record?read=medicine`, which the recorder never writes, and then filed the
+ * result as `medicine-recorder.json`, which the registry never looks for. Neither fails
+ * loudly: an unaliased name resolves to a key that does not exist, which reads as a
+ * domain with no data.
+ */
+const REGISTRY = require(path.join(REPO_ROOT, 'brain-v2', 'bind', 'registry.js'));
+
+/** Resolve either naming system to the descriptor that says where each artefact lives. */
+function resolveDomain(name) {
+  if (!name) return null;
+  return REGISTRY.descriptorFor(name);
+}
+
 /* Only run the CLI when invoked directly. The evidence functions below are exported and
    regression-tested, and importing a module must not execute its command line — an
    importer would otherwise get this script's argv parsing and its process.exit. */
@@ -125,14 +148,23 @@ function analyze(rows) {
  *
  * ABSTAIN WHEN THERE IS NO BINDER. A domain with no binding has no declared latents, so
  * there is nothing a relationship could be tested against, and support is false with a
- * stated reason rather than inferred from whatever channels happen to be present.
- * `finance` is in exactly this state today: it records, and nothing has bound it.
+ * stated reason rather than inferred from whatever channels happen to be present. Most of
+ * the twenty are in that state; energy and finance are the two that are not.
+ *
+ * The binder is looked up by PRODUCT name via the registry descriptor, so `--domain
+ * health` and `--domain medicine` both find `bind/medicine.js`.
  */
 function loadManifest(domain) {
   if (!domain) return { ok: false, why: 'no domain given, so no declared relationships can be loaded' };
-  const p = path.join(REPO_ROOT, 'brain-v2', 'bind', domain + '.js');
+  const d = resolveDomain(domain);
+  if (!d) {
+    return { ok: false, why: '"' + domain + '" is not one of the 20 canonical domains under either naming system' };
+  }
+  const p = path.join(REPO_ROOT, 'brain-v2', 'bind', d.binder + '.js');
   if (!fs.existsSync(p)) {
-    return { ok: false, why: 'no binder at ' + p + ' -- this domain declares no relationships, so support cannot be established' };
+    return { ok: false, why: 'no binder at ' + p +
+      (d.aliased ? ' (product name for snapshot key "' + d.snapshot + '")' : '') +
+      ' -- this domain declares no relationships, so support cannot be established' };
   }
   try {
     const bind = require(path.resolve(p));
@@ -235,7 +267,18 @@ async function build() {
     console.error('need --domain <name>, or --analyze <fixture.json>');
     process.exit(2);
   }
-  const url = BASE + '/api/feed-record?read=' + encodeURIComponent(DOMAIN) + '&n=' + N;
+  const d = resolveDomain(DOMAIN);
+  if (!d) {
+    console.error('"' + DOMAIN + '" is not one of the 20 canonical domains under either naming system');
+    process.exit(2);
+  }
+  /* SNAPSHOT KEY for the feed. handlers/feed-record.js writes `feedhist:<snapshotKey>`,
+     so asking for `medicine` returns nothing while `health` returns the history. */
+  const url = BASE + '/api/feed-record?read=' + encodeURIComponent(d.snapshot) + '&n=' + N;
+  if (d.aliased) {
+    console.log('note: "' + DOMAIN + '" resolves to product ' + d.product +
+                ', snapshot key ' + d.snapshot + ' (binder bind/' + d.binder + '.js)');
+  }
   console.log('reading ' + url);
   const resp = await fetch(url);
   if (!resp.ok) { console.error('HTTP ' + resp.status); process.exit(1); }
@@ -252,7 +295,9 @@ async function build() {
 
   /* The DEFAULT output is a repository location and resolves against the root; an
      explicit --out is the caller's path and resolves against their cwd. */
-  const out = arg('out', null) || path.join(REPO_ROOT, 'brain-v2', 'fixtures', DOMAIN + '-recorder.json');
+  /* SNAPSHOT KEY for the filename too, because that is what registry.fixturePath looks
+     for. Writing `medicine-recorder.json` would produce a file nothing ever reads. */
+  const out = arg('out', null) || path.join(REPO_ROOT, 'brain-v2', 'fixtures', d.snapshot + '-recorder.json');
   if (fs.existsSync(out) && !has('force')) {
     console.error('refusing to overwrite ' + out + ' — pass --force if that is intended.');
     console.error('A fixture is the evidence other results are quoted against; replacing one');
@@ -261,13 +306,17 @@ async function build() {
   }
 
   const stats = analyze(rows);
-  const manifest = loadManifest(DOMAIN);
+  const manifest = loadManifest(d.product);
   const { usable, rels, testable } = verdict(stats, manifest);
 
   const doc = {
     fetchedAt: rows[rows.length - 1].t,
     url: url,
-    domain: DOMAIN,
+    /* The SNAPSHOT key, matching what the registry validates a fixture's identity
+       against. Both names are recorded so a reader never has to guess which layer this
+       file belongs to. */
+    domain: d.snapshot,
+    productDomain: d.product,
     /* The verdict travels WITH the fixture. Anyone replaying it can see what it can and
        cannot support without re-deriving it, and a fixture that cannot support row 10
        says so on its face. */
@@ -314,11 +363,14 @@ if (!IS_CLI) {
      binder, the verdict abstains rather than falling back to a channel count. */
   const dom = doc.domain || DOMAIN ||
     path.basename(ANALYZE).replace(/-recorder[.]json$/, '').replace(/[.]json$/, '');
-  verdict(analyze(rows), loadManifest(dom));
+  /* Through the registry, so a fixture filed under a snapshot key still finds the binder
+     filed under its product name. */
+  const rd = resolveDomain(dom);
+  verdict(analyze(rows), loadManifest(rd ? rd.product : dom));
 } else {
   build().catch((e) => { console.error(e.message); process.exit(1); });
 }
 
 /* Exported so the evidence rule itself can be regression-tested offline. `analyze` and
    `testableRelationships` are pure; only build() touches the network. */
-export { analyze, loadManifest, testableRelationships, MIN_OBSERVATIONS };
+export { analyze, loadManifest, testableRelationships, resolveDomain, MIN_OBSERVATIONS };

@@ -239,46 +239,126 @@ console.log('');
   /**
    * THE DEFECT. `inspect()` promoted a domain to BOUND on `fs.existsSync` alone. An
    * empty `{"rows":[]}` written to fixtures/finance-recorder.json reported BOUND —
-   * measured, not hypothesised. So would a fixture for the wrong domain, and each would
-   * have said a domain was observable when nothing about it had been observed.
+   * measured, not hypothesised.
+   *
+   * AND THE DEFECT IN THE FIRST TEST FOR IT, which was worse. It wrote that file into
+   * `brain-v2/fixtures/` and removed it in a `finally`. That works exactly until finance
+   * has a real fixture, at which point running the suite DELETES evidence somebody spent
+   * a week recording — an unlinkSync cannot tell a temp file it created from a corpus. A
+   * test that can destroy real data is a worse defect than the one it covers.
+   *
+   * So validation is a pure function over a DOCUMENT and every case below is in memory.
+   * Nothing in this file touches the fixtures directory.
    */
   var d = REG.descriptorFor('finance');
-  var fp = REG.fixturePath(d);
   var FIN = require('../bind/finance.js');
-  function withFixture(doc, fn) {
-    fs.writeFileSync(fp, typeof doc === 'string' ? doc : JSON.stringify(doc));
-    try { return fn(); } finally { fs.unlinkSync(fp); }
-  }
+  var V = function (doc) { return REG.validateFixtureDocument(d, FIN, doc); };
+  var goodRow = { t: 1, src: [{ n: 'Finnhub Market', v: 5 }] };
 
-  assert('an empty rows array is refused',
-    withFixture({ domain: 'finance', rows: [] }, function () {
-      return REG.fixtureUsable(d, FIN).usable === false;
-    }));
-  assert('a fixture declaring another domain is refused',
-    withFixture({ domain: 'energy', rows: [{ t: 1, src: [{ n: 'Finnhub Market', v: 5 }] }] }, function () {
-      var r = REG.fixtureUsable(d, FIN);
-      return r.usable === false && /declares domain/.test(r.why);
-    }));
-  assert('a fixture this binder cannot read a single channel from is refused',
-    withFixture({ rows: [{ t: 1, src: [{ n: 'Some Other Domain Source', v: 5 }] }] }, function () {
-      var r = REG.fixtureUsable(d, FIN);
-      return r.usable === false && /produced no readings/.test(r.why);
-    }));
-  assert('unparseable content is refused rather than throwing',
-    withFixture('{not json', function () { return REG.fixtureUsable(d, FIN).usable === false; }));
-  assert('and a fixture the binder CAN read is accepted',
-    withFixture({ domain: 'finance', rows: [{ t: 1, src: [{ n: 'Finnhub Market', v: 5 }] }] }, function () {
-      return REG.fixtureUsable(d, FIN).usable === true;
-    }));
+  assert('an empty rows array is refused', V({ domain: 'finance', rows: [] }).usable === false);
+  assert('and says an empty file is not data', /not data/.test(V({ domain: 'finance', rows: [] }).why));
+
+  var wrong = V({ domain: 'energy', rows: [goodRow] });
+  assert('a document declaring another domain is refused',
+    wrong.usable === false && /declares domain/.test(wrong.why), wrong.why);
+
+  var alien = V({ rows: [{ t: 1, src: [{ n: 'Some Other Domain Source', v: 5 }] }] });
+  assert('a document this binder cannot read a single channel from is refused',
+    alien.usable === false && /produced no readings/.test(alien.why), alien.why);
+
+  assert('unparseable text is refused rather than throwing',
+    V('{not json').usable === false && /unparseable/.test(V('{not json').why));
+  assert('a document with no rows array at all is refused',
+    V({ domain: 'finance' }).usable === false && /not a recorder dump/.test(V({ domain: 'finance' }).why));
+  assert('null is refused', V(null).usable === false);
+
+  assert('and a document the binder CAN read is accepted', V({ domain: 'finance', rows: [goodRow] }).usable === true);
+
+  /* An aliased fixture declaring its PRODUCT name must match its snapshot filing, or
+     every medicine fixture would be refused for declaring `medicine` while filed as
+     `health`. Compared through toRuntime for exactly that reason. */
+  var med = REG.descriptorFor('medicine');
+  assert('a fixture declaring the product name matches its snapshot filing',
+    REG.validateFixtureDocument(med, ENERGY, { domain: 'medicine', rows: [{ t: 1, src: [] }] }).why
+      .indexOf('declares domain') < 0);
 
   /* Every refusal states a reason. "Not bound" with no cause sends someone to look at
      the binder when the fault is in the file. */
   assert('every refusal carries a stated reason',
-    withFixture({ domain: 'finance', rows: [] }, function () {
-      var r = REG.fixtureUsable(d, FIN);
-      return typeof r.why === 'string' && r.why.length > 15;
-    }));
-  assert('the temporary fixture is gone, so the repo state is unchanged', !fs.existsSync(fp));
+    [V({ domain: 'finance', rows: [] }), V('{x'), V(null), alien, wrong]
+      .every(function (r) { return typeof r.why === 'string' && r.why.length > 15; }));
+
+  /* THE SAFETY PROPERTY ITSELF: this test wrote nothing. */
+  assert('no finance fixture was created by running this test',
+    !fs.existsSync(REG.fixturePath(d)), REG.fixturePath(d));
+  assert('and the energy fixture is untouched and still readable',
+    REG.inspect('energy').state === REG.STATE.BOUND);
+})();
+
+// D3d: every row is scanned, so a slow source is not mistaken for a broken one
+(function () {
+  console.log('D3d [regression]: readability is judged on ALL rows, not the first 24');
+  /**
+   * The scan was capped at 24 rows. A weekly release, or a feed that went quiet for a
+   * fortnight and came back, can legitimately produce its first reading hundreds of rows
+   * in — and the cap would classify that domain unreadable for a reason that is a fact
+   * about our sampling rather than about the data. Fixtures are bounded at 500 rows, so
+   * the whole scan is cheap and stops at the first readable row anyway.
+   */
+  var d = REG.descriptorFor('finance');
+  var FIN = require('../bind/finance.js');
+  function sparse(firstReadableAt, total) {
+    var rows = [];
+    for (var i = 0; i < total; i++) rows.push({ t: i, src: [{ n: 'Unrelated Source', v: 1 }] });
+    rows[firstReadableAt] = { t: firstReadableAt, src: [{ n: 'Finnhub Market', v: 5 }] };
+    return { domain: 'finance', rows: rows };
+  }
+  var late = REG.validateFixtureDocument(d, FIN, sparse(300, 400));
+  assert('a source first readable at row 300 of 400 is accepted', late.usable === true, late.why);
+  assert('and the report says where it first became readable', late.scannedRows === 301, String(late.scannedRows));
+
+  var justPastOldCap = REG.validateFixtureDocument(d, FIN, sparse(24, 60));
+  assert('a source first readable at row 24 — one past the old cap — is accepted',
+    justPastOldCap.usable === true, justPastOldCap.why);
+
+  var never = REG.validateFixtureDocument(d, FIN, sparse(-1, 500));
+  assert('a fixture readable on NO row is still refused, having scanned all 500',
+    never.usable === false && /any of the 500 rows/.test(never.why), never.why);
+})();
+
+// D3e: the two naming systems resolve to the right artefacts, before any binder exists
+(function () {
+  console.log('D3e: aliased domains resolve to the correct binder, feed key and fixture name');
+  /**
+   * These three have no binder yet and are not being written here. What is asserted is
+   * that when one IS written, every artefact will be looked for in the right place —
+   * because getting it wrong fails silently in both directions: `--domain health` hunts
+   * for a `bind/health.js` that will never exist, and `--domain medicine` queries a
+   * `feedhist:medicine` the recorder never writes. Both read as "this domain has no data".
+   */
+  [['medicine', 'health'], ['science', 'research'], ['trade', 'supplyChain']].forEach(function (pair) {
+    var product = pair[0], snapshot = pair[1];
+    [product, snapshot].forEach(function (given) {
+      var d = REG.descriptorFor(given);
+      assert('"' + given + '" resolves to product ' + product + ' and snapshot ' + snapshot,
+        d && d.product === product && d.snapshot === snapshot, JSON.stringify(d));
+      assert('  its binder is bind/' + product + '.js',
+        path.basename(REG.binderPath(d)) === product + '.js', REG.binderPath(d));
+      assert('  its fixture is ' + snapshot + '-recorder.json',
+        path.basename(REG.fixturePath(d)) === snapshot + '-recorder.json', REG.fixturePath(d));
+      assert('  and the feed key is the snapshot one',
+        NAMES.toRuntime(given) === snapshot, NAMES.toRuntime(given));
+    });
+    assert('  neither binder exists yet, which is the point of testing this now',
+      !fs.existsSync(REG.binderPath(REG.descriptorFor(product))));
+  });
+
+  /* Unaliased domains must be unaffected — the mapping passes them through unchanged. */
+  ['energy', 'finance', 'law'].forEach(function (k) {
+    var d = REG.descriptorFor(k);
+    assert('"' + k + '" is unaliased and both names agree',
+      d.product === k && d.snapshot === k && d.aliased === false);
+  });
 })();
 
 // ── D4: the factory refuses a fabricated relationship ────────────────────────
