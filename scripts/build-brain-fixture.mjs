@@ -34,8 +34,29 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 const require = createRequire(import.meta.url);
+
+/**
+ * REPOSITORY PATHS RESOLVE AGAINST THIS FILE, NEVER AGAINST process.cwd().
+ *
+ * `brain-v2/bind/<domain>.js` is a fixed location inside this repository, so joining it
+ * onto the caller's working directory made the answer depend on where the command was
+ * typed. Run from the repo root the energy manifest loaded and seven declared
+ * relationships were checked; run from anywhere else the same call reported "no binder"
+ * and the verdict ABSTAINED — while the manifest sat exactly where it always had.
+ *
+ * That direction is the dangerous one for an evidence tool. It does not crash and it does
+ * not overstate; it quietly reports less support than the data has, which looks like a
+ * finding about the corpus rather than a bug in the reader. An operator running this from
+ * their home directory would have concluded row 10 was further away than it is.
+ *
+ * This file lives at <root>/scripts/, so the root is one level up. Paths the CALLER
+ * supplies (--analyze, an explicit --out) stay relative to their cwd, because those are
+ * the caller's own paths and should follow the caller.
+ */
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(SCRIPT_DIR, '..');
 
 /* Only run the CLI when invoked directly. The evidence functions below are exported and
    regression-tested, and importing a module must not execute its command line — an
@@ -109,7 +130,7 @@ function analyze(rows) {
  */
 function loadManifest(domain) {
   if (!domain) return { ok: false, why: 'no domain given, so no declared relationships can be loaded' };
-  const p = path.join('brain-v2', 'bind', domain + '.js');
+  const p = path.join(REPO_ROOT, 'brain-v2', 'bind', domain + '.js');
   if (!fs.existsSync(p)) {
     return { ok: false, why: 'no binder at ' + p + ' -- this domain declares no relationships, so support cannot be established' };
   }
@@ -229,7 +250,9 @@ async function build() {
   const rows = json.rows.slice().sort((a, b) => a.t - b.t);
   if (!rows.length) { console.error('no rows recorded for "' + DOMAIN + '" yet'); process.exit(1); }
 
-  const out = arg('out', path.join('brain-v2', 'fixtures', DOMAIN + '-recorder.json'));
+  /* The DEFAULT output is a repository location and resolves against the root; an
+     explicit --out is the caller's path and resolves against their cwd. */
+  const out = arg('out', null) || path.join(REPO_ROOT, 'brain-v2', 'fixtures', DOMAIN + '-recorder.json');
   if (fs.existsSync(out) && !has('force')) {
     console.error('refusing to overwrite ' + out + ' — pass --force if that is intended.');
     console.error('A fixture is the evidence other results are quoted against; replacing one');

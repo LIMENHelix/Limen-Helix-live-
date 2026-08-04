@@ -30,6 +30,7 @@
 
 'use strict';
 
+var fs = require('fs');
 var FR = require('../../handlers/feed-record.js');
 var BIND = require('../bind/energy.js');
 var C = require('../core/channel.js');
@@ -391,6 +392,56 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
   assert('and on the recorded energy corpus, zero of seven declared pairs are testable',
     live.length === 7 && live.filter(function (r) { return r.testable; }).length === 0,
     live.filter(function (r) { return r.testable; }).length + ' of ' + live.length);
+
+  /**
+   * THE MANIFEST MUST LOAD FROM ANYWHERE, and this assertion is the one that was missing.
+   *
+   * `loadManifest` joined `brain-v2/bind/<domain>.js` onto process.cwd(), so the answer
+   * depended on where the command was typed: from the repo root the energy manifest
+   * loaded and seven relationships were checked; from any other directory the same call
+   * reported "no binder" and the verdict ABSTAINED. Every assertion above passed, because
+   * every one of them ran from the root.
+   *
+   * That is the dangerous direction for an evidence tool. It does not crash and it never
+   * overstates — it quietly reports LESS support than the data holds, which reads as a
+   * finding about the corpus rather than a bug in the reader.
+   *
+   * The cwd is restored in `finally`, or every test after this one would inherit a
+   * directory this test chose.
+   */
+  var originalCwd = process.cwd();
+  try {
+    process.chdir(require('os').tmpdir());
+    assert('the cwd really did change to somewhere outside the repository',
+      process.cwd() !== originalCwd && !fs.existsSync('brain-v2'),
+      process.cwd());
+
+    var elsewhere = FX.loadManifest('energy');
+    assert('the energy manifest STILL loads from outside the repository',
+      elsewhere.ok === true, elsewhere.why || '');
+    assert('with all seven declared relationships, not a truncated set',
+      elsewhere.relationships.length === 7, String(elsewhere.relationships.length));
+    assert('and the identical manifest content, not merely a loadable one',
+      JSON.stringify(elsewhere.relationships) === JSON.stringify(manifest.relationships));
+    assert('so the channel-name mapping survives too',
+      elsewhere.nameByKey.get('fredCrude') === 'FRED Crude Oil',
+      String(elsewhere.nameByKey.get('fredCrude')));
+
+    /* And the verdict it produces is the same one, rather than a false abstention. */
+    var awayRels = FX.testableRelationships(FX.analyze(doc.rows), elsewhere);
+    assert('the verdict from outside matches the verdict from the root',
+      JSON.stringify(awayRels) === JSON.stringify(live),
+      awayRels.length + ' vs ' + live.length + ' relationships');
+
+    /* A domain with genuinely no binder must still abstain — the fix must not make
+       everything load. */
+    assert('a domain with no binder still abstains from outside the repository',
+      FX.loadManifest('finance').ok === false);
+  } finally {
+    process.chdir(originalCwd);
+  }
+  assert('and the working directory is restored afterwards', process.cwd() === originalCwd,
+    process.cwd());
 
   finish();
 }).catch(function (e) {
