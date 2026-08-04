@@ -26,6 +26,7 @@ var fs = require('fs');
 var path = require('path');
 
 var REG = require('../bind/registry.js');
+var NAMES = require('../../lib/domain-names.js');
 var FACTORY = require('../bind/factory.js');
 var ENERGY = require('../bind/energy.js');
 var FINANCE = require('../bind/finance.js');
@@ -45,29 +46,59 @@ console.log('');
 console.log('=== ALL-DOMAIN CONTRACT ===');
 console.log('');
 
-// ── D1: the canonical list is the handler's list ─────────────────────────────
+// ── D1: both naming systems, and the handler's list ─────────────────────────
 (function () {
-  console.log('D1: the registry enumerates the same 20 domains the snapshot handler does');
-  assert('twenty canonical domains', REG.CANONICAL.length === 20, String(REG.CANONICAL.length));
+  console.log('D1: the registry carries BOTH names for all 20 domains');
+  assert('twenty snapshot keys', REG.SNAPSHOT_KEYS.length === 20, String(REG.SNAPSHOT_KEYS.length));
+  assert('twenty product keys', REG.PRODUCT_KEYS.length === 20, String(REG.PRODUCT_KEYS.length));
 
   /**
-   * READ OUT OF THE HANDLER, not trusted. The registry copies the list deliberately —
-   * requiring domain-snapshot.js pulls in the whole live-fetch surface — but a copy that
-   * nobody checks is a copy that drifts. A domain added to the handler and forgotten here
-   * would simply never appear in any survey, which is the silent-omission failure this
-   * whole file exists to prevent.
+   * READ OUT OF THE HANDLER, not trusted. The registry copies the snapshot list
+   * deliberately — requiring domain-snapshot.js pulls in the whole live-fetch surface —
+   * but a copy nobody checks is a copy that drifts. A domain added there and forgotten
+   * here would never appear in any survey, which is the silent omission this file exists
+   * to prevent.
    */
   var src = fs.readFileSync(path.join(__dirname, '..', '..', 'handlers', 'domain-snapshot.js'), 'utf8');
   var m = src.match(/var keys = \[([^\]]+)\]/);
   assert('the handler still declares its domain list in the expected form', !!m);
   if (m) {
-    var handlerKeys = m[1].split(',').map(function (s) { return s.trim().replace(/^['"]|['"]$/g, ''); }).filter(Boolean);
-    assert('and the registry matches it exactly, in the same order',
-      JSON.stringify(handlerKeys) === JSON.stringify(REG.CANONICAL),
-      'handler ' + handlerKeys.length + ' vs registry ' + REG.CANONICAL.length + '; diff: ' +
-      handlerKeys.filter(function (k) { return REG.CANONICAL.indexOf(k) < 0; }).join(',') + ' / ' +
-      REG.CANONICAL.filter(function (k) { return handlerKeys.indexOf(k) < 0; }).join(','));
+    var handlerKeys = m[1].split(',').map(function (x) { return x.trim().replace(/^['"]|['"]$/g, ''); }).filter(Boolean);
+    assert('and the SNAPSHOT keys match it exactly, in order',
+      JSON.stringify(handlerKeys) === JSON.stringify(REG.SNAPSHOT_KEYS),
+      'handler ' + handlerKeys.length + ' vs registry ' + REG.SNAPSHOT_KEYS.length);
   }
+
+  /**
+   * THE THREE ALIASES. LIMEN has always carried two names for these, and the first
+   * version of the registry listed only the runtime keys and called them canonical —
+   * so "20/20 domains" would have described the runtime layer while reading as a
+   * statement about the product, with the three aliased domains invisible under the
+   * names the portals actually use.
+   */
+  var aliased = REG.DOMAINS.filter(function (d) { return d.aliased; });
+  assert('exactly three domains carry two names', aliased.length === 3, String(aliased.length));
+  var pairs = aliased.map(function (d) { return d.product + '->' + d.snapshot; }).sort().join(',');
+  assert('and they are medicine/health, science/research, trade/supplyChain',
+    pairs === 'medicine->health,science->research,trade->supplyChain', pairs);
+
+  /* The mapping is NOT redeclared in the registry — lib/domain-names.js owns it, and its
+     own header records that hand-copying it into eight files WAS the bug. */
+  assert('the aliases come from lib/domain-names.js, not a ninth copy',
+    NAMES.toRuntime('medicine') === 'health' && NAMES.toCanonical('supplyChain') === 'trade');
+  assert('and the registry agrees with it for every domain',
+    REG.DOMAINS.every(function (d) {
+      return NAMES.toRuntime(d.product) === d.snapshot && NAMES.toCanonical(d.snapshot) === d.product;
+    }));
+
+  /* Lookup must work from either side, or a caller holding a portal name finds nothing. */
+  assert('a domain is findable by its product name', REG.inspect('medicine').snapshot === 'health');
+  assert('and by its snapshot key', REG.inspect('health').product === 'medicine');
+  assert('trade and supplyChain resolve to one descriptor',
+    REG.inspect('trade').snapshot === 'supplyChain' && REG.inspect('supplyChain').product === 'trade');
+  assert('an unknown name is refused rather than invented',
+    REG.inspect('not-a-domain').state === REG.STATE.UNBOUND &&
+    /not one of the 20/.test(REG.inspect('not-a-domain').why));
 })();
 
 // ── D2: THE SURVEY ───────────────────────────────────────────────────────────
@@ -75,10 +106,10 @@ console.log('');
   console.log('D2: every canonical domain reports a state and a reason');
   var rows = REG.survey();
   console.log('');
-  console.log('  ' + pad('domain', 16) + pad('state', 16) + pad('ch', 5) + pad('rel', 5) + pad('find', 6) + 'why');
-  console.log('  ' + '-'.repeat(104));
+  console.log('  ' + pad('product', 15) + pad('snapshot', 15) + pad('state', 16) + pad('ch', 5) + pad('rel', 5) + pad('find', 6) + 'why');
+  console.log('  ' + '-'.repeat(112));
   rows.forEach(function (r) {
-    console.log('  ' + pad(r.domain, 16) + pad(r.state, 16) + pad(r.channels || '-', 5) +
+    console.log('  ' + pad(r.product, 15) + pad(r.snapshot, 15) + pad(r.state, 16) + pad(r.channels || '-', 5) +
       pad(r.relationships === undefined ? '-' : r.relationships, 5) +
       pad(r.findings === undefined ? '-' : r.findings, 6) + String(r.why).slice(0, 60));
   });
@@ -123,7 +154,12 @@ console.log('');
    * entries carry `r7` — so the "fix" would have dropped all thirteen news-derived
    * channels to nothing.
    */
-  var SPEC_SHA = '56505177dbe1b504cb42267806862e38a97e7fcfc9c26e2070663d145cd1d4f6';
+  /* UPDATED 2026-08-04 when every channel gained an explicit `recordedField`. The spec
+     hash SHOULD move when the manifest gains a field; what must NOT move is READ_SHA,
+     which is the behavioural guarantee. It did not — the readings are byte-identical, so
+     energy declaring its legacy `v` explicitly changed the declaration and nothing else.
+     Previous: 56505177dbe1b504cb42267806862e38a97e7fcfc9c26e2070663d145cd1d4f6 */
+  var SPEC_SHA = 'f3caed39f9d0909b6dd4593192eebf189f7e3c8aac88a2327fb4d3a0a69c3a2b';
   var READ_SHA = '7d8c6c687ba1f7f659ef41bd9ee90ab5aa86f2a1fecfab74297376b583499201';
 
   assert('energy spec() is byte-identical to the pre-factory manifest',
@@ -145,10 +181,110 @@ console.log('');
       .every(function (k) { return ENERGY[k] !== undefined; }));
 })();
 
+// D3b: the recorded field is DECLARED, never guessed
+(function () {
+  console.log('D3b [regression]: a channel reads the recorded key it declares');
+  /**
+   * THE DEFECT. The factory read `s.v` for every channel, including ones declared
+   * `field: 'recent7d'`. Correct for the energy fixture, which predates the recorder
+   * storing `r7`, and silently wrong for every domain recorded after it. Probed with
+   * `{v:1, r7:9}` on a recent7d channel, it returned 1.
+   *
+   * `field` says which value the LIVE snapshot carries; `recordedField` says which key
+   * the RECORDER wrote. Two different questions, so neither is inferred from the other.
+   */
+  function ch(key, recordedField) {
+    return { key: key, name: key.toUpperCase(), recordedField: recordedField, field: 'recent7d',
+             source: 's', cadenceMs: 3600000, units: 'articles/7d', q: 0.06, r: 0.25 };
+  }
+  var b = FACTORY.createBinder({ domain: 't', version: 'v', levelsPerSensor: 3, sigma: 2,
+    channels: [ch('legacy', 'v'), ch('modern', 'r7')] });
+
+  var read = b.readRecorderRow({ src: [{ n: 'LEGACY', v: 1, r7: 9 }, { n: 'MODERN', v: 1, r7: 9 }] });
+  assert('a channel declaring v reads v, from a row carrying both',
+    read.legacy.value === 1, JSON.stringify(read.legacy));
+  assert('a channel declaring r7 reads r7, from the SAME row',
+    read.modern.value === 9, JSON.stringify(read.modern));
+
+  var threw = false;
+  try { FACTORY.createBinder({ domain: 't', version: 'v', levelsPerSensor: 3, sigma: 2,
+    channels: [{ key: 'x', name: 'X', field: 'value', source: 's', cadenceMs: 1000, units: 'u' }] }); }
+  catch (e) { threw = /must declare .recordedField./.test(e.message); }
+  assert('a channel that declares no recordedField is refused', threw);
+
+  threw = false;
+  try { FACTORY.createBinder({ domain: 't', version: 'v', levelsPerSensor: 3, sigma: 2,
+    channels: [{ key: 'x', name: 'X', recordedField: 'nope', field: 'value', source: 's', cadenceMs: 1000, units: 'u' }] }); }
+  catch (e) { threw = /the recorder never writes/.test(e.message); }
+  assert('a recordedField the recorder never writes is refused, not silently undefined', threw);
+
+  /* ENERGY DECLARES THE LEGACY CHOICE DELIBERATELY, on all eighteen channels including
+     its thirteen recent7d ones, because 0 of that fixture's 6516 source entries carry
+     `r7`. It is a written-down decision now, not a default that happened to be right. */
+  assert('energy declares recordedField on every channel',
+    ENERGY.CHANNELS.every(function (c) { return !!c.recordedField; }));
+  assert('and every one of them is the legacy v, on purpose',
+    ENERGY.CHANNELS.every(function (c) { return c.recordedField === 'v'; }));
+  assert('including the thirteen declared recent7d, which is the deliberate part',
+    ENERGY.CHANNELS.filter(function (c) { return c.field === 'recent7d'; })
+      .every(function (c) { return c.recordedField === 'v'; }),
+    String(ENERGY.CHANNELS.filter(function (c) { return c.field === 'recent7d'; }).length));
+  assert('finance declares it on every channel too',
+    FINANCE.CHANNELS.every(function (c) { return !!c.recordedField; }));
+})();
+
+// D3c: BOUND is earned by reading the fixture, not by its filename
+(function () {
+  console.log('D3c [regression]: a fixture must be readable before a domain counts as bound');
+  /**
+   * THE DEFECT. `inspect()` promoted a domain to BOUND on `fs.existsSync` alone. An
+   * empty `{"rows":[]}` written to fixtures/finance-recorder.json reported BOUND —
+   * measured, not hypothesised. So would a fixture for the wrong domain, and each would
+   * have said a domain was observable when nothing about it had been observed.
+   */
+  var d = REG.descriptorFor('finance');
+  var fp = REG.fixturePath(d);
+  var FIN = require('../bind/finance.js');
+  function withFixture(doc, fn) {
+    fs.writeFileSync(fp, typeof doc === 'string' ? doc : JSON.stringify(doc));
+    try { return fn(); } finally { fs.unlinkSync(fp); }
+  }
+
+  assert('an empty rows array is refused',
+    withFixture({ domain: 'finance', rows: [] }, function () {
+      return REG.fixtureUsable(d, FIN).usable === false;
+    }));
+  assert('a fixture declaring another domain is refused',
+    withFixture({ domain: 'energy', rows: [{ t: 1, src: [{ n: 'Finnhub Market', v: 5 }] }] }, function () {
+      var r = REG.fixtureUsable(d, FIN);
+      return r.usable === false && /declares domain/.test(r.why);
+    }));
+  assert('a fixture this binder cannot read a single channel from is refused',
+    withFixture({ rows: [{ t: 1, src: [{ n: 'Some Other Domain Source', v: 5 }] }] }, function () {
+      var r = REG.fixtureUsable(d, FIN);
+      return r.usable === false && /produced no readings/.test(r.why);
+    }));
+  assert('unparseable content is refused rather than throwing',
+    withFixture('{not json', function () { return REG.fixtureUsable(d, FIN).usable === false; }));
+  assert('and a fixture the binder CAN read is accepted',
+    withFixture({ domain: 'finance', rows: [{ t: 1, src: [{ n: 'Finnhub Market', v: 5 }] }] }, function () {
+      return REG.fixtureUsable(d, FIN).usable === true;
+    }));
+
+  /* Every refusal states a reason. "Not bound" with no cause sends someone to look at
+     the binder when the fault is in the file. */
+  assert('every refusal carries a stated reason',
+    withFixture({ domain: 'finance', rows: [] }, function () {
+      var r = REG.fixtureUsable(d, FIN);
+      return typeof r.why === 'string' && r.why.length > 15;
+    }));
+  assert('the temporary fixture is gone, so the repo state is unchanged', !fs.existsSync(fp));
+})();
+
 // ── D4: the factory refuses a fabricated relationship ────────────────────────
 (function () {
   console.log('D4 [adversarial]: a relationship to a channel that does not exist is refused');
-  var chans = [{ key: 'a', name: 'A', field: 'value', source: 's', cadenceMs: 3600000, units: 'u', q: 0.02, r: 0.05 }];
+  var chans = [{ key: 'a', name: 'A', recordedField: 'v', field: 'value', source: 's', cadenceMs: 3600000, units: 'u', q: 0.02, r: 0.05 }];
 
   function build(extra) {
     return FACTORY.createBinder(Object.assign({
@@ -174,14 +310,14 @@ console.log('');
   threw = false;
   try {
     FACTORY.createBinder({ domain: 't', version: 'v', levelsPerSensor: 3, sigma: 2,
-      channels: [{ key: 'x', name: 'X', field: 'value', source: 's', units: 'u' }] });
+      channels: [{ key: 'x', name: 'X', recordedField: 'v', field: 'value', source: 's', units: 'u' }] });
   } catch (e) { threw = /must declare its own cadence/.test(e.message); }
   assert('a channel with no declared cadence throws', threw);
 
   threw = false;
   try {
     FACTORY.createBinder({ domain: 't', version: 'v', levelsPerSensor: 3, sigma: 2,
-      channels: [{ key: 'x', name: 'X', field: 'value', source: 's', cadenceMs: 1000 }] });
+      channels: [{ key: 'x', name: 'X', recordedField: 'v', field: 'value', source: 's', cadenceMs: 1000 }] });
   } catch (e) { threw = /must declare units/.test(e.message); }
   assert('a channel with no declared units throws', threw);
 })();
@@ -299,11 +435,15 @@ console.log('');
   console.log('D7: binding a second manifest advances no checklist row');
   var s = REG.summary();
   /**
-   * Stated as an assertion so it cannot quietly stop being true. Row 24 asks whether peer
-   * domains inform each other usefully. Finance has a manifest and no observations, and
-   * there is no declared cross-domain latent, so nothing here is evidence about that
-   * question. The moment a finance fixture exists this assertion will need revisiting on
-   * evidence — not before.
+   * Stated as assertions so they cannot quietly stop being true.
+   *
+   * A FINANCE FIXTURE IS NECESSARY AND NOT SUFFICIENT for row 24, and the difference
+   * matters because "get the fixture and the row completes" is the obvious reading. Row
+   * 24 asks whether peer domains inform each other USEFULLY. That needs three things:
+   * finance observations, a DECLARED cross-domain latent (none exists — and inventing
+   * one because an oil price and an equity price are plausibly related is precisely the
+   * standard this refuses), and MEASURED beneficial transfer against a control with the
+   * link withheld. Traffic crossing a link is not the same as a link that helps.
    */
   assert('finance has no fixture, so no cross-domain observation has ever occurred',
     REG.inspect('finance').fixture === false);
@@ -311,6 +451,26 @@ console.log('');
     s.byState[REG.STATE.BOUND] === 1, String(s.byState[REG.STATE.BOUND]));
   assert('so row 24 remains blocked on real second-domain observations, not on a binder',
     L.report(L.createBus()).satisfiesRow24 === false);
+
+  /* AND NOT ONLY ON OBSERVATIONS. No cross-domain latent is declared by either binder,
+     so even a perfect finance fixture would leave nothing to route and nothing to
+     measure. Asserted here so the "fixture completes row 24" reading cannot take hold. */
+  var latents = {};
+  [require('../bind/energy.js'), require('../bind/finance.js')].forEach(function (b) {
+    b.RELATIONSHIPS.forEach(function (r) { latents[r.latent] = (latents[r.latent] || 0) + 1; });
+  });
+  var shared = Object.keys(latents).filter(function (k) {
+    var inE = require('../bind/energy.js').RELATIONSHIPS.some(function (r) { return r.latent === k; });
+    var inF = require('../bind/finance.js').RELATIONSHIPS.some(function (r) { return r.latent === k; });
+    return inE && inF;
+  });
+  assert('no latent is declared by BOTH domains, so there is no cross-domain link to test',
+    shared.length === 0, JSON.stringify(shared));
+  assert('and every declared relationship stays inside its own domain',
+    require('../bind/finance.js').RELATIONSHIPS.every(function (r) {
+      var keys = require('../bind/finance.js').CHANNELS.map(function (c) { return c.key; });
+      return keys.indexOf(r.a) >= 0 && keys.indexOf(r.b) >= 0;
+    }));
 })();
 
 console.log('');
@@ -318,6 +478,8 @@ console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures
                      : tests + '/' + tests + ' passed');
 console.log('');
 console.log('BOUND WITH DATA: 1 of 20 (energy). Finance is declared and unobserved.');
-console.log('Rows 10, 22, 24 and 25 are unchanged by this file and remain evidence-blocked.');
+console.log('Row 24 needs THREE things, not one: finance observations, a DECLARED cross-domain');
+console.log('latent (none exists), and MEASURED beneficial transfer against a withheld-link');
+console.log('control. A fixture is necessary and not sufficient.');
 console.log('');
 process.exit(failures ? 1 : 0);

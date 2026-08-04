@@ -123,28 +123,28 @@ var REL = [
  */
 var CHANNELS = [
   // ── price series: real quantities, no saturation ────────────────────────────────────
-  { key: 'fredCrude',  name: 'FRED Crude Oil',              field: 'value',     source: 'FRED DCOILWTICO',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
-  { key: 'eiaPetro',   name: 'EIA Petroleum',               field: 'value',     source: 'EIA v2 EPCBRENT',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
-  { key: 'massiveOil', name: 'Massive Crude Oil',           field: 'value',     source: 'Polygon CL (key-gated)',     cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.08 },
+  { key: 'fredCrude',  name: 'FRED Crude Oil',              recordedField: 'v', field: 'value',     source: 'FRED DCOILWTICO',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
+  { key: 'eiaPetro',   name: 'EIA Petroleum',               recordedField: 'v', field: 'value',     source: 'EIA v2 EPCBRENT',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
+  { key: 'massiveOil', name: 'Massive Crude Oil',           recordedField: 'v', field: 'value',     source: 'Polygon CL (key-gated)',     cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.08 },
 
   // ── event / filing counts: real quantities, bounded but not saturated ───────────────
-  { key: 'nwsAlerts',  name: 'NOAA NWS Alerts',             field: 'value',     source: 'api.weather.gov active',     cadenceMs: HOUR, units: 'alerts',  q: 0.05, r: 0.15 },
-  { key: 'cisaKev',    name: 'CISA KEV',                    field: 'value',     source: 'CISA KEV 30d',               cadenceMs: DAY,  units: 'CVEs',    q: 0.03, r: 0.10 },
-  { key: 'fedRegNrc',  name: 'Fed Reg NRC',                 field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
-  { key: 'fedRegDoe',  name: 'Fed Reg DOE',                 field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
+  { key: 'nwsAlerts',  name: 'NOAA NWS Alerts',             recordedField: 'v', field: 'value',     source: 'api.weather.gov active',     cadenceMs: HOUR, units: 'alerts',  q: 0.05, r: 0.15 },
+  { key: 'cisaKev',    name: 'CISA KEV',                    recordedField: 'v', field: 'value',     source: 'CISA KEV 30d',               cadenceMs: DAY,  units: 'CVEs',    q: 0.03, r: 0.10 },
+  { key: 'fedRegNrc',  name: 'Fed Reg NRC',                 recordedField: 'v', field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
+  { key: 'fedRegDoe',  name: 'Fed Reg DOE',                 recordedField: 'v', field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
 
   // ── news channels: read recent7d, NEVER value ───────────────────────────────────────
-  { key: 'gridRel',    name: 'Grid Reliability (FERC/NERC)', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'natGas',     name: 'EIA Natural Gas Weekly',       field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'petroStatus',name: 'EIA Weekly Petroleum Status',  field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'opec',       name: 'OPEC Reference Basket',        field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'nuclear',    name: 'Nuclear Energy News',          field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'electricity',name: 'EIA Electricity Monthly',      field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'lng',        name: 'LNG Market News',              field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'iea',        name: 'IEA Energy News',              field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'solar',      name: 'Solar Industry News',          field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'wind',       name: 'Wind Energy News',             field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'coal',       name: 'Coal Transition News',         field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 }
+  { key: 'gridRel',    name: 'Grid Reliability (FERC/NERC)', recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'natGas',     name: 'EIA Natural Gas Weekly',       recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'petroStatus',name: 'EIA Weekly Petroleum Status',  recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'opec',       name: 'OPEC Reference Basket',        recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'nuclear',    name: 'Nuclear Energy News',          recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'electricity',name: 'EIA Electricity Monthly',      recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'lng',        name: 'LNG Market News',              recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'iea',        name: 'IEA Energy News',              recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'solar',      name: 'Solar Industry News',          recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'wind',       name: 'Wind Energy News',             recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'coal',       name: 'Coal Transition News',         recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 }
 ];
 
 /**

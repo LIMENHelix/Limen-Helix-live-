@@ -1,33 +1,48 @@
 /**
- * brain-v2/bind/registry.js — the 20 canonical domains, and what is actually bound.
- *
- * THE LIST IS NOT INVENTED HERE. It is the same 20 keys `handlers/domain-snapshot.js`
- * enumerates and `handlers/feed-record.js` records, copied deliberately rather than
- * imported: requiring the snapshot handler pulls in the whole live-fetch surface, and a
- * manifest of domain names should not need a network stack to load. `test/domains.js`
- * asserts this list still matches the handler's, so a domain added there and forgotten
- * here fails a test instead of silently going unbound.
+ * brain-v2/bind/registry.js — the 20 canonical domains, in BOTH naming systems.
  *
  * ═══════════════════════════════════════════════════════════════════════════════════
- * THREE STATES, AND THE MIDDLE ONE IS THE HONEST NEW ANSWER
+ * TWO NAMES, AND CONFLATING THEM IS A REAL FAILURE MODE, NOT A TIDINESS ISSUE
  *
- *   BOUND          a binder exists AND a fixture exists to exercise it. The domain can
- *                  be replayed, measured, and argued about with numbers.
- *   MANIFEST_ONLY  a binder exists and validates, but no fixture does. Everything about
- *                  the domain is declared and nothing about it is observed.
+ * LIMEN carries two names for three of its domains and always has:
+ *
+ *   product / portal / console        snapshot / runtime / store key
+ *   --------------------------        ------------------------------
+ *   medicine                          health
+ *   science                           research
+ *   trade                             supplyChain
+ *
+ * The first version of this file listed only the runtime keys and called them canonical.
+ * "20/20 domains" would then have described the runtime layer while reading as a
+ * statement about the product, and the three aliased domains would have been invisible
+ * under the names the portals actually use.
+ *
+ * The mapping is NOT redeclared here. `lib/domain-names.js` is the one place it lives,
+ * and its own header records why: the map had been hand-copied into eight files, in both
+ * directions, and two of those copies were added the same day patching the same defect
+ * without noticing it was the same defect. A ninth copy in this file would be that bug
+ * again. What makes it dangerous is that a missing alias does not throw — it resolves to
+ * a key that does not exist, which reads as ABSENT DATA.
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ *
+ * THREE STATES, AND THE MIDDLE ONE IS THE HONEST ANSWER
+ *
+ *   BOUND          a binder loads AND a fixture exists that the binder can actually
+ *                  read. Verified by reading it, not by the filename.
+ *   MANIFEST_ONLY  a binder loads and validates, but no usable fixture does. Everything
+ *                  about the domain is declared and nothing about it is observed.
  *   UNBOUND        no binder. The domain records into feed history and nothing reads it.
  *
- * Collapsing MANIFEST_ONLY into BOUND is the failure this file exists to prevent. A
- * declared manifest is cheap; nineteen of them would let the system report "20 domains
- * bound" while exactly one had ever seen a real observation. The count that matters is
- * BOUND, and it is 1.
- * ═══════════════════════════════════════════════════════════════════════════════════
+ * Collapsing MANIFEST_ONLY into BOUND is the failure this file exists to prevent.
+ * Nineteen more manifests would let the system report "20 domains bound" while exactly
+ * one had ever seen a real observation.
  */
 
 'use strict';
 
 var fs = require('fs');
 var path = require('path');
+var NAMES = require('../../lib/domain-names.js');
 
 /* Paths resolve against THIS FILE, never process.cwd(). A registry whose answer depends
    on the directory the caller happened to be in is not a registry. */
@@ -35,15 +50,37 @@ var BIND_DIR = __dirname;
 var FIXTURE_DIR = path.join(__dirname, '..', 'fixtures');
 
 /**
- * The canonical 20, in the order handlers/domain-snapshot.js lists them.
+ * The canonical 20 SNAPSHOT keys, in the order handlers/domain-snapshot.js lists them.
  * @see handlers/domain-snapshot.js — `var keys = [...]`
  */
-var CANONICAL = [
+var SNAPSHOT_KEYS = [
   'economy', 'energy', 'environment', 'health', 'technology',
   'research', 'supplyChain', 'governance', 'infrastructure', 'agriculture',
   'industry', 'education', 'communication', 'culture', 'defense',
   'religion', 'population', 'law', 'finance', 'intelligence'
 ];
+
+/**
+ * DESCRIPTORS. Every domain carries both names and the key each artefact is filed under.
+ *
+ *   product   what the portal, console and registry call it (medicine, science, trade)
+ *   snapshot  what the snapshot, recorder and Redis stores use (health, research, supplyChain)
+ *   binder    bind/<binder>.js — filed under the PRODUCT name, because a binder is a
+ *             product artefact describing what a domain observes
+ *   fixture   fixtures/<snapshot>-recorder.json — filed under the SNAPSHOT key, because
+ *             handlers/feed-record.js writes `feedhist:<snapshotKey>` and the fixture is
+ *             a dump of that. Getting this backwards would have the registry hunting for
+ *             a file the recorder can never produce.
+ */
+var DOMAINS = SNAPSHOT_KEYS.map(function (snapshot) {
+  var product = NAMES.toCanonical(snapshot);
+  return {
+    product: product,
+    snapshot: snapshot,
+    binder: product,
+    aliased: NAMES.isAliased(snapshot)
+  };
+});
 
 var STATE = {
   BOUND: 'bound',
@@ -51,67 +88,126 @@ var STATE = {
   UNBOUND: 'unbound'
 };
 
-function binderPath(domain) { return path.join(BIND_DIR, domain + '.js'); }
-function fixturePath(domain) { return path.join(FIXTURE_DIR, domain + '-recorder.json'); }
+function descriptorFor(name) {
+  var snap = NAMES.toRuntime(name);
+  for (var i = 0; i < DOMAINS.length; i++) if (DOMAINS[i].snapshot === snap) return DOMAINS[i];
+  return null;
+}
+
+function binderPath(d) { return path.join(BIND_DIR, d.binder + '.js'); }
+function fixturePath(d) { return path.join(FIXTURE_DIR, d.snapshot + '-recorder.json'); }
 
 /**
- * Inspect one domain. Never throws: a binder that fails to load is a REPORTABLE state,
- * not a crash, or one broken manifest would hide the status of the other nineteen.
+ * DOES THE FIXTURE ACTUALLY WORK? Opened and read, never trusted for existing.
+ *
+ * A filename is not evidence. Before this check an empty `{"rows":[]}` written to
+ * `fixtures/finance-recorder.json` promoted finance to BOUND — measured, not
+ * hypothesised. So does a fixture for the wrong domain, or one whose rows the binder
+ * cannot read a single channel out of, and each of those would have reported a domain as
+ * observable when nothing about it had been observed.
+ *
+ * FAILS CLOSED. Any doubt returns usable:false with the reason, and the caller reports
+ * MANIFEST_ONLY. A registry that guesses in the optimistic direction is worse than one
+ * that refuses, because the optimistic guess is the one nobody re-checks.
  */
-function inspect(domain) {
-  var bp = binderPath(domain), fp = fixturePath(domain);
-  var hasBinder = fs.existsSync(bp);
-  var hasFixture = fs.existsSync(fp);
+function fixtureUsable(d, binder) {
+  var fp = fixturePath(d);
+  if (!fs.existsSync(fp)) return { usable: false, why: 'no fixture at fixtures/' + d.snapshot + '-recorder.json' };
 
-  if (!hasBinder) {
-    return {
-      domain: domain, state: STATE.UNBOUND, binder: false, fixture: hasFixture,
-      why: 'no binder at bind/' + domain + '.js. The domain is recorded into feed history by ' +
+  var doc;
+  try { doc = JSON.parse(fs.readFileSync(fp, 'utf8')); }
+  catch (e) { return { usable: false, why: 'fixture present but unparseable: ' + e.message }; }
+
+  if (!doc || !Array.isArray(doc.rows)) {
+    return { usable: false, why: 'fixture has no `rows` array — it is not a recorder dump' };
+  }
+  if (!doc.rows.length) {
+    return { usable: false, why: 'fixture contains 0 rows; an empty file is not data' };
+  }
+  /* Identity, when the fixture states one. Fixtures written by scripts/build-brain-fixture.mjs
+     carry `domain`; the original energy fixture predates that field, and its absence is
+     accepted rather than treated as a mismatch — but a WRONG one is refused outright. */
+  if (doc.domain !== undefined && doc.domain !== null && NAMES.toRuntime(doc.domain) !== d.snapshot) {
+    return { usable: false, why: 'fixture declares domain "' + doc.domain + '" but is filed as ' + d.snapshot };
+  }
+
+  /* THE REAL TEST: can this binder read anything at all out of it? A fixture for another
+     domain parses fine and yields zero channels, because the source names do not match.
+     This is the identity check that does not depend on a field being present. */
+  var readable = 0, scanned = Math.min(doc.rows.length, 24);
+  for (var i = 0; i < scanned; i++) {
+    try {
+      if (Object.keys(binder.readRecorderRow(doc.rows[i]) || {}).length) { readable++; break; }
+    } catch (e) { return { usable: false, why: 'binder threw reading the fixture: ' + e.message }; }
+  }
+  if (!readable) {
+    return { usable: false, why: 'the binder produced no readings from the first ' + scanned +
+      ' rows — the fixture parses but this domain cannot read it, which usually means it belongs to another domain' };
+  }
+
+  return {
+    usable: true, rows: doc.rows.length,
+    declaredDomain: doc.domain === undefined ? null : doc.domain,
+    why: 'binder produced readings from a fixture of ' + doc.rows.length + ' rows'
+  };
+}
+
+/**
+ * Inspect one domain, by either name. Never throws: a binder that fails to load is a
+ * REPORTABLE state, not a crash, or one broken manifest would hide the other nineteen.
+ */
+function inspect(name) {
+  var d = descriptorFor(name);
+  if (!d) {
+    return { product: String(name), snapshot: null, state: STATE.UNBOUND, binder: false, fixture: false,
+      why: 'not one of the 20 canonical domains, under either naming system' };
+  }
+
+  var base = { product: d.product, snapshot: d.snapshot, aliased: d.aliased };
+  var bp = binderPath(d);
+  if (!fs.existsSync(bp)) {
+    return Object.assign(base, {
+      state: STATE.UNBOUND, binder: false, fixture: fs.existsSync(fixturePath(d)),
+      why: 'no binder at bind/' + d.binder + '.js. The domain is recorded into feed history by ' +
            'handlers/feed-record.js and nothing reads it.'
-    };
+    });
   }
 
   var binder, spec;
-  try {
-    binder = require(bp);
-    spec = binder.spec();
-  } catch (e) {
-    return {
-      domain: domain, state: STATE.UNBOUND, binder: true, fixture: hasFixture, loadError: e.message,
+  try { binder = require(bp); spec = binder.spec(); }
+  catch (e) {
+    return Object.assign(base, {
+      state: STATE.UNBOUND, binder: true, fixture: fs.existsSync(fixturePath(d)), loadError: e.message,
       why: 'binder present but it did not load: ' + e.message
-    };
+    });
   }
 
-  var base = {
-    domain: domain,
+  Object.assign(base, {
     binder: true,
-    fixture: hasFixture,
     channels: (spec.channels || []).length,
     relationships: (spec.relationships || []).length,
     findings: (spec.findings || []).length,
     version: spec.version
-  };
+  });
 
-  if (!hasFixture) {
+  var fx = fixtureUsable(d, binder);
+  if (!fx.usable) {
     return Object.assign(base, {
-      state: STATE.MANIFEST_ONLY,
+      state: STATE.MANIFEST_ONLY, fixture: false, fixtureWhy: fx.why,
       why: 'binder validates (' + base.channels + ' channels, ' + base.relationships +
-           ' declared relationships) but no fixture at fixtures/' + domain + '-recorder.json, ' +
-           'so nothing here has been exercised against a real observation. Declaring a domain ' +
-           'is not observing one.'
+           ' declared relationships) but has no usable fixture: ' + fx.why +
+           '. Declaring a domain is not observing one.'
     });
   }
 
   return Object.assign(base, {
-    state: STATE.BOUND,
-    why: 'binder validates and fixtures/' + domain + '-recorder.json exists, so the domain can be replayed and measured'
+    state: STATE.BOUND, fixture: true, fixtureRows: fx.rows,
+    why: 'binder validates and ' + fx.why + ', so the domain can be replayed and measured'
   });
 }
 
 /** Every canonical domain, with its state and the reason for it. */
-function survey() {
-  return CANONICAL.map(inspect);
-}
+function survey() { return DOMAINS.map(function (d) { return inspect(d.snapshot); }); }
 
 function summary() {
   var rows = survey();
@@ -121,21 +217,25 @@ function summary() {
   return {
     total: rows.length,
     byState: by,
-    bound: rows.filter(function (r) { return r.state === STATE.BOUND; }).map(function (r) { return r.domain; }),
-    manifestOnly: rows.filter(function (r) { return r.state === STATE.MANIFEST_ONLY; }).map(function (r) { return r.domain; }),
-    /* The headline number is BOUND, never binder-count. A manifest is a claim about what
-       a domain would observe; only a fixture makes it a claim about what it did. */
-    why: by[STATE.BOUND] + ' of ' + rows.length + ' domains are bound with data behind them; ' +
+    bound: rows.filter(function (r) { return r.state === STATE.BOUND; }).map(function (r) { return r.product; }),
+    manifestOnly: rows.filter(function (r) { return r.state === STATE.MANIFEST_ONLY; }).map(function (r) { return r.product; }),
+    /* The headline is BOUND, never binder-count. A manifest is a claim about what a
+       domain WOULD observe; only a readable fixture makes it a claim about what it DID. */
+    why: by[STATE.BOUND] + ' of ' + rows.length + ' domains are bound with readable data behind them; ' +
          by[STATE.MANIFEST_ONLY] + ' declared but unobserved; ' + by[STATE.UNBOUND] + ' unbound'
   };
 }
 
 module.exports = {
-  CANONICAL: CANONICAL,
+  DOMAINS: DOMAINS,
+  SNAPSHOT_KEYS: SNAPSHOT_KEYS,
+  PRODUCT_KEYS: DOMAINS.map(function (d) { return d.product; }),
   STATE: STATE,
+  descriptorFor: descriptorFor,
   inspect: inspect,
   survey: survey,
   summary: summary,
   binderPath: binderPath,
-  fixturePath: fixturePath
+  fixturePath: fixturePath,
+  fixtureUsable: fixtureUsable
 };

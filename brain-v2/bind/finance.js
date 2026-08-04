@@ -9,11 +9,29 @@
  * all along — the same loop that records every domain — but no fixture has been pulled
  * from it, so nothing below has been exercised against a single real observation.
  *
- * SPEC row 24 therefore does NOT move. It asks whether peer domains inform each other
- * usefully; a second manifest cannot answer that, only a second stream of observations
- * can. `test/domains.js` reports finance as MANIFEST-ONLY for exactly this reason, and
- * will keep doing so until `brain-v2/fixtures/finance-recorder.json` exists and its
- * evidence check passes.
+ * SPEC row 24 therefore does NOT move, and a finance fixture alone will not move it
+ * either. That is worth stating plainly, because "get the fixture and row 24 completes"
+ * is the obvious reading and it is wrong. A fixture is NECESSARY AND NOT SUFFICIENT.
+ *
+ * Row 24 asks whether peer domains inform each other usefully. Three things are missing,
+ * and the fixture is only the first:
+ *
+ *   1. OBSERVATIONS      a finance fixture whose evidence check passes, so finance has
+ *                        something of its own to say.
+ *   2. A DECLARED LATENT shared by energy and finance. None exists. Nothing in either
+ *                        binder establishes a common observable, and an oil price and an
+ *                        equity price being "plausibly related" is exactly the standard
+ *                        this project refuses — a wrong declaration is worse than a
+ *                        missing one, because divergence would then grade a real
+ *                        relationship against a latent nobody can defend.
+ *   3. MEASURED TRANSFER evidence that routing across that link IMPROVES something —
+ *                        held-out prediction or calibration — against a control with the
+ *                        link withheld. A link that carries traffic is not a link that
+ *                        helps, and lateral.js already refuses structural credit for
+ *                        exactly this reason.
+ *
+ * `test/domains.js` reports finance as MANIFEST-ONLY until step 1, and row 24 stays
+ * partial until step 3.
  * ═══════════════════════════════════════════════════════════════════════════════════
  *
  * EVERY CHANNEL BELOW WAS READ OUT OF THE FETCHER THAT PRODUCES IT, not inferred from
@@ -58,31 +76,37 @@ var WEEK = 7 * DAY;
  * is lower for a settlement price than for a keyword count, because an article count is a
  * far noisier read of the world than a quoted price. core/channel.js derives both from
  * each channel's own innovations once enough have accumulated, and abstains until then.
+ *
+ * `recordedField: 'v'` throughout, and it is a claim rather than a default: every finance
+ * fetcher emits its number as `value`, which handlers/feed-record.js stores as `v`. None
+ * of these is an RSS recency count, so none reads `r7`. A future finance channel backed by
+ * a news query would declare `'r7'` and would be read differently — which is the point of
+ * declaring it per channel instead of inferring it.
  */
 var CHANNELS = [
   // ── One instrument, three independent vendors. SPY, in dollars, verified per URL. ──
-  { key: 'massiveSpy',   name: 'Massive SPY',                 field: 'value', source: 'Polygon SPY prev close (key-gated)', cadenceMs: DAY,  units: '$/share',   q: 0.02, r: 0.05 },
-  { key: 'finnhub',      name: 'Finnhub Market',              field: 'value', source: 'Finnhub quote SPY (key-gated)',      cadenceMs: HOUR, units: '$/share',   q: 0.02, r: 0.06 },
-  { key: 'alphaVantage', name: 'Alpha Vantage Market',        field: 'value', source: 'Alpha Vantage GLOBAL_QUOTE SPY (key-gated)', cadenceMs: HOUR, units: '$/share', q: 0.02, r: 0.06 },
+  { key: 'massiveSpy',   name: 'Massive SPY',                 recordedField: 'v', field: 'value', source: 'Polygon SPY prev close (key-gated)', cadenceMs: DAY,  units: '$/share',   q: 0.02, r: 0.05 },
+  { key: 'finnhub',      name: 'Finnhub Market',              recordedField: 'v', field: 'value', source: 'Finnhub quote SPY (key-gated)',      cadenceMs: HOUR, units: '$/share',   q: 0.02, r: 0.06 },
+  { key: 'alphaVantage', name: 'Alpha Vantage Market',        recordedField: 'v', field: 'value', source: 'Alpha Vantage GLOBAL_QUOTE SPY (key-gated)', cadenceMs: HOUR, units: '$/share', q: 0.02, r: 0.06 },
 
   // ── Rates and balances: real quantities with their own publication schedules. ──
-  { key: 'sofr',         name: 'NY Fed SOFR',                 field: 'value', source: 'NY Fed markets API, secured/sofr',   cadenceMs: DAY,  units: '% overnight', q: 0.01, r: 0.04 },
-  { key: 'yieldCurve',   name: 'Treasury Yield Curve',        field: 'value', source: 'Treasury fiscaldata avg_interest_rates (Bills minus Notes)', cadenceMs: DAY, units: 'percentage points', q: 0.01, r: 0.05 },
-  { key: 'treasuryDebt', name: 'Treasury Debt',               field: 'value', source: 'Treasury fiscaldata debt',           cadenceMs: DAY,  units: '$ trillions', q: 0.005, r: 0.03 },
+  { key: 'sofr',         name: 'NY Fed SOFR',                 recordedField: 'v', field: 'value', source: 'NY Fed markets API, secured/sofr',   cadenceMs: DAY,  units: '% overnight', q: 0.01, r: 0.04 },
+  { key: 'yieldCurve',   name: 'Treasury Yield Curve',        recordedField: 'v', field: 'value', source: 'Treasury fiscaldata avg_interest_rates (Bills minus Notes)', cadenceMs: DAY, units: 'percentage points', q: 0.01, r: 0.05 },
+  { key: 'treasuryDebt', name: 'Treasury Debt',               recordedField: 'v', field: 'value', source: 'Treasury fiscaldata debt',           cadenceMs: DAY,  units: '$ trillions', q: 0.005, r: 0.03 },
 
   // ── Publication-volume counts. Real numbers, but counts of documents, not of events. ──
-  { key: 'secEdgar',     name: 'SEC EDGAR Filings',           field: 'value', source: 'SEC EDGAR current filings Atom',     cadenceMs: HOUR, units: 'filings in window',   q: 0.05, r: 0.15 },
-  { key: 'fedH41',       name: 'Fed H.4.1 Balance Sheet',     field: 'value', source: 'Federal Reserve H.4.1 RSS',          cadenceMs: WEEK, units: 'releases',            q: 0.04, r: 0.15 },
-  { key: 'finra',        name: 'FINRA Disciplinary',          field: 'value', source: 'FINRA disciplinary feed',            cadenceMs: DAY,  units: 'disciplinary entries', q: 0.05, r: 0.18 },
+  { key: 'secEdgar',     name: 'SEC EDGAR Filings',           recordedField: 'v', field: 'value', source: 'SEC EDGAR current filings Atom',     cadenceMs: HOUR, units: 'filings in window',   q: 0.05, r: 0.15 },
+  { key: 'fedH41',       name: 'Fed H.4.1 Balance Sheet',     recordedField: 'v', field: 'value', source: 'Federal Reserve H.4.1 RSS',          cadenceMs: WEEK, units: 'releases',            q: 0.04, r: 0.15 },
+  { key: 'finra',        name: 'FINRA Disciplinary',          recordedField: 'v', field: 'value', source: 'FINRA disciplinary feed',            cadenceMs: DAY,  units: 'disciplinary entries', q: 0.05, r: 0.18 },
 
   /* KEYWORD-MATCH COUNTS. The units say so deliberately: these count MENTIONS in a feed,
      not confirmed actions, and a mention count is a measure of publication, not of the
      world. Naming them 'bank failures' or 'enforcement actions' would be the same
      naming-over-mechanism substitution this project keeps unwinding. */
-  { key: 'fdic',         name: 'FDIC Bank Failures',          field: 'value', source: 'FDIC feed keyword match',            cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 },
-  { key: 'occ',          name: 'OCC Enforcement',             field: 'value', source: 'OCC feed keyword match',             cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 },
-  { key: 'cftc',         name: 'CFTC Press',                  field: 'value', source: 'CFTC press feed keyword match',      cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 },
-  { key: 'ncua',         name: 'NCUA Credit Unions',          field: 'value', source: 'NCUA feed keyword match',            cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 }
+  { key: 'fdic',         name: 'FDIC Bank Failures',          recordedField: 'v', field: 'value', source: 'FDIC feed keyword match',            cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 },
+  { key: 'occ',          name: 'OCC Enforcement',             recordedField: 'v', field: 'value', source: 'OCC feed keyword match',             cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 },
+  { key: 'cftc',         name: 'CFTC Press',                  recordedField: 'v', field: 'value', source: 'CFTC press feed keyword match',      cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 },
+  { key: 'ncua',         name: 'NCUA Credit Unions',          recordedField: 'v', field: 'value', source: 'NCUA feed keyword match',            cadenceMs: DAY,  units: 'keyword mentions', q: 0.06, r: 0.25 }
 ];
 
 /**

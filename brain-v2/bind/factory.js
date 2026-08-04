@@ -48,6 +48,17 @@ function pickLive(src, field) {
   return (typeof src.value === 'number' && isFinite(src.value)) ? src.value : null;
 }
 
+/**
+ * The numeric carriers handlers/feed-record.js actually writes per source. A channel must
+ * name which one holds its value; validating against this list turns a typo into a throw
+ * instead of a channel that silently reads `undefined` forever.
+ *
+ *   v   the source's own `value`            r7  rss.recent7d      r1  rss.recent24h
+ *   s   stress          a  activity         q   quality
+ *   hc  headline count  ma  median age (days)
+ */
+var RECORDED_FIELDS = ['v', 'r7', 'r1', 's', 'a', 'q', 'hc', 'ma'];
+
 function validate(spec) {
   if (!spec || !spec.domain) throw new Error('binder: a domain needs a name');
   if (!Array.isArray(spec.channels) || !spec.channels.length) {
@@ -68,6 +79,27 @@ function validate(spec) {
     }
     if (!c.units) throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' must declare units — an unlabelled number cannot be compared to anything');
     if (!c.source) throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' must declare where the number comes from (R1)');
+    /**
+     * RECORDED FIELD IS MANDATORY AND EXPLICIT, and the reason is a defect this file
+     * shipped with. The first version read `s.v` for EVERY channel, including ones
+     * declared `field: 'recent7d'` — correct for the energy fixture, which predates the
+     * recorder storing `r7`, and silently wrong for every domain recorded after it. A
+     * probe of `{v:1, r7:9}` on a recent7d channel returned 1.
+     *
+     * The fix is not to infer it from `field`. `field` says which value the LIVE snapshot
+     * carries; `recordedField` says which key the RECORDER wrote. They coincide for new
+     * data and deliberately do not for energy, whose fixture only ever carried `v`. Two
+     * different questions, so two declarations, and neither is guessed from the other.
+     */
+    if (!c.recordedField) {
+      throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' must declare `recordedField` — ' +
+        'which key handlers/feed-record.js wrote its value under. Inferring it from `field` is what ' +
+        'made every recent7d channel silently read the saturated `v` instead of `r7`.');
+    }
+    if (RECORDED_FIELDS.indexOf(c.recordedField) < 0) {
+      throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' declares recordedField "' +
+        c.recordedField + '", which the recorder never writes. Legal: ' + RECORDED_FIELDS.join(', '));
+    }
   });
 
   (spec.relationships || []).forEach(function (r) {
@@ -146,23 +178,21 @@ function createBinder(spec) {
       var s = byName[c.name];
       if (!s) return;
       /**
-       * `v` FOR EVERY CHANNEL, INCLUDING recent7d ONES — matching the hand-written
-       * energy binder exactly, and NOT quietly "improved" while refactoring.
+       * THE DECLARED KEY, not a universal `v` and not a guess from `field`.
        *
-       * There is a real asymmetry here and it is being reported rather than fixed:
-       * readLive() honours `field: 'recent7d'`, while this path reads `v` for
-       * everything. Branching on the field here looks like the obvious correction and
-       * would have been a silent disaster — the recorder only began storing `r7` on
-       * 2026-08-01 and the energy fixture predates it, so of 6516 recorded source
-       * entries exactly 0 carry `r7` and 5682 carry `v`. The "fix" would have dropped
-       * all thirteen news-derived channels to nothing and changed every number the
-       * scorecard quotes against this fixture.
+       * Energy declares `recordedField: 'v'` on all eighteen channels, including its
+       * thirteen recent7d ones, and that is a DELIBERATE legacy declaration rather than a
+       * default: the recorder only began storing `r7` on 2026-08-01 and the energy
+       * fixture predates it, so 0 of its 6516 source entries carry `r7` and 5682 carry
+       * `v`. Reading `r7` there would drop those thirteen channels to nothing and change
+       * every number the scorecard quotes.
        *
-       * Whether replay should follow `field` is a real question with a real answer, and
-       * the answer needs a fixture recorded after `r7` existed. Until then this path
-       * stays byte-compatible with what produced the measurements on record.
+       * A domain recorded after that date declares `recordedField: 'r7'` and gets the
+       * un-saturated count. Because the choice is written down per channel, the two cases
+       * are distinguishable instead of one silently masquerading as the other.
        */
-      var v = (typeof s.v === 'number' && isFinite(s.v)) ? s.v : null;
+      var raw = s[c.recordedField];
+      var v = (typeof raw === 'number' && isFinite(raw)) ? raw : null;
       if (v === null) return;
       var r = { value: v };
       if (s.su !== undefined && s.su !== null && s.su !== '') r.observationId = s.su;
@@ -194,4 +224,5 @@ function createBinder(spec) {
   };
 }
 
-module.exports = { createBinder: createBinder, pickLive: pickLive, validate: validate };
+module.exports = { createBinder: createBinder, pickLive: pickLive, validate: validate,
+                   RECORDED_FIELDS: RECORDED_FIELDS };
