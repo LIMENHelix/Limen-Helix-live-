@@ -154,66 +154,248 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     if(!val){err.textContent='Enter code';return;} err.textContent='checking…';
     fetch('/api/admin-auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({passcode:val})})
       .then(function(r){return r.json();})
-      .then(function(j){ if(j&&j.ok){ try{sessionStorage.setItem('limen_access','granted');if(j.person)sessionStorage.setItem('limen_admin',JSON.stringify(j.person));sessionStorage.setItem('limen_pass',val);}catch(e){} window.location.replace('/admin'); }
+      .then(function(j){ if(j&&j.ok){ try{sessionStorage.setItem('limen_access','granted');if(j.person)sessionStorage.setItem('limen_admin',JSON.stringify(j.person));sessionStorage.setItem('limen_pass',val);}catch(e){} window.location.replace('/connectome'); }
         else { err.textContent='Incorrect'; pw.value=''; pw.focus(); } })
       .catch(function(){ err.textContent='Error. Try again'; });
   });
 })();
 </script>
 <script>
-/* Animated galaxy backdrop — opaque base + vivid additive nebula (purple/magenta/blue + warm core)
-   + dense twinkling stars. The connectome floats transparently above this. */
+/* ── GALAXY BACKDROP ───────────────────────────────────────────────────────────────────────
+   The same sky as the home page, so the front door and the atlas read as one product.
+
+   THE GAS IS A REAL PHOTOGRAPH. assets/img/sky-plate.webp is the James Webb Space Telescope's
+   NIRCam image of the Cosmic Cliffs in the Carina Nebula (NGC 3324), reduced to grey with a
+   hard curve. Its COLOUR is discarded and only its structure is kept, then re-tinted to our
+   indigo and teal. Borrowing the structure rather than the palette is the point: procedural
+   blobs cannot fake real filaments and dust lanes, and that softness is what made the old
+   backdrop read as airbrush.
+
+   The plate carries no alpha channel and does not need one. The colour field is MULTIPLIED by
+   the grey plate and the product added with 'lighter'. Black multiplies to black and black
+   adds nothing, so the dark sky masks itself. (Encoding the same structure in alpha cost
+   1.47 MB against 238 KB as grey, because Chrome compresses WebP alpha losslessly.)
+
+   This is a BACKDROP, so it deliberately leaves out the home page's foreground personality:
+   no helix, no parallax, no satellite, no visitors. The connectome is the subject here and
+   the sky must not compete with it. What it keeps is the palette, the real structure, the two
+   star populations and the twinkle.
+
+   Everything static bakes into one bitmap, blitted once per frame, with only the twinkling
+   stars drawn live. On the home page the three-layer version measured 10fps at 2880x1800;
+   this is the same fix. dpr is integer-only, because a fractional backing ratio puts every
+   draw on a resampling path and costs more than the pixels it saves.                        */
 (function(){
-  var cv=document.getElementById('stars'); if(!cv) return; var ctx=cv.getContext('2d');
-  var dpr=Math.min(window.devicePixelRatio||1,2), stars=[], neb=[], W=0, H=0, RAD=0;
-  var BAND=-0.5, cosB=Math.cos(BAND), sinB=Math.sin(BAND);
-  function rand(a,b){ return a+Math.random()*(b-a); }
-  function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
-  function build(){
-    W=cv.width=innerWidth*dpr; H=cv.height=innerHeight*dpr; RAD=Math.sqrt(W*W+H*H)/2;
-    var n=Math.floor(innerWidth*innerHeight/380); stars=[];
-    for(var i=0;i<n;i++){
-      var x,y;
-      if(Math.random()<0.5){ var u=rand(-RAD,RAD), v=gauss()*RAD*0.5; x=W/2+u*cosB-v*sinB; y=H/2+u*sinB+v*cosB; }
-      else { x=Math.random()*W; y=Math.random()*H; }
-      var t=Math.random(), bright=t>0.9, mid=t>0.68, roll=Math.random();
-      var col=roll<0.55?'255,255,255':roll<0.74?'190,210,255':roll<0.89?'225,205,235':'245,210,170';
-      stars.push({ x:x, y:y, r:(bright?rand(1.1,2.1):mid?rand(0.6,1.05):rand(0.3,0.7))*dpr,
-        base:bright?rand(0.85,1):mid?rand(0.5,0.85):rand(0.18,0.55), tw:rand(0.006,0.034), ph:Math.random()*6.2832, col:col, spark:bright, flare:(bright&&Math.random()<0.32) });
-    }
-    neb=[]; var pal=['150,80,215','125,70,200','205,85,165','215,100,160','75,105,225','60,150,200','175,110,225'];
-    for(var j=0;j<22;j++){
-      var spread=Math.random()<0.5, u=rand(-RAD*0.95,RAD*0.95), v=gauss()*(spread?RAD*0.62:RAD*0.28);
-      neb.push({ x:W/2+u*cosB-v*sinB, y:H/2+u*sinB+v*cosB, r:rand(RAD*0.18,RAD*0.5), c:pal[(Math.random()*pal.length)|0], a:rand(0.08,0.20) });
-    }
-    for(var m=0;m<30;m++){ var pu=rand(-RAD*0.9,RAD*0.9), pv=gauss()*RAD*0.17;
-      neb.push({ x:W/2+pu*cosB-pv*sinB, y:H/2+pu*sinB+pv*cosB, r:rand(RAD*0.05,RAD*0.15), c:pal[(Math.random()*pal.length)|0], a:rand(0.05,0.12) }); }
-    var cx=W*0.30, cy=H*0.70; // warm galactic core, lower-left
-    neb.push({ x:cx, y:cy, r:RAD*0.62, c:'232,165,110', a:0.24 });
-    neb.push({ x:cx, y:cy, r:RAD*0.34, c:'245,200,150', a:0.22 });
-    neb.push({ x:W*0.46, y:H*0.56, r:RAD*0.46, c:'212,120,150', a:0.15 });
-    neb.push({ x:W*0.62, y:H*0.30, r:RAD*0.5, c:'110,90,205', a:0.13 });
+  var cv = document.getElementById('stars'); if (!cv) return;
+  var ctx = cv.getContext('2d', { alpha: false });
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var scene = document.createElement('canvas'), sx = scene.getContext('2d');
+  var w = 0, h = 0, dpr = 1, twinklers = [], raf = null, t0 = 0;
+  var plate = new Image(), plateReady = false, fade = 0;
+
+  var ANG = -0.42, CA = Math.cos(ANG), SA = Math.sin(ANG);
+  var PALETTE = ['255,255,255','255,255,255','255,255,255',
+                 '214,228,255','182,208,255','255,246,224','255,228,180'];
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function pick(a){ return a[(Math.random()*a.length)|0]; }
+
+  function paintGas(target){
+    if (!plateReady) return;
+    var diag = Math.sqrt(w*w + h*h);
+    var tmp = document.createElement('canvas');
+    tmp.width = Math.round(w*dpr); tmp.height = Math.round(h*dpr);
+    var g = tmp.getContext('2d');
+    g.setTransform(dpr,0,0,dpr,0,0);
+
+    // Indigo to teal, running ACROSS the band so the two hues separate with distance.
+    var lg = g.createLinearGradient(w/2 + SA*diag*0.5, h/2 - CA*diag*0.5,
+                                    w/2 - SA*diag*0.5, h/2 + CA*diag*0.5);
+    lg.addColorStop(0.00,'#12318C'); lg.addColorStop(0.45,'#1D5FA8'); lg.addColorStop(1.00,'#12A6A8');
+    g.fillStyle = lg; g.fillRect(0,0,w,h);
+
+    // The one warm region, low and left. Only warm colour in the sky; without it the whole
+    // field reads as a single cold wash.
+    var ar = diag*0.34;
+    var amber = g.createRadialGradient(w*0.20, h*0.84, 0, w*0.20, h*0.84, ar);
+    amber.addColorStop(0,'rgba(226,146,54,0.95)');
+    amber.addColorStop(0.55,'rgba(196,116,58,0.45)');
+    amber.addColorStop(1,'rgba(196,116,58,0)');
+    g.fillStyle = amber; g.fillRect(0,0,w,h);
+
+    // Real structure, rotated onto the band and scaled to still cover after rotation.
+    g.save();
+    g.globalCompositeOperation = 'multiply';
+    g.translate(w/2, h/2); g.rotate(ANG);
+    var cover = Math.max(w/plate.width, h/plate.height) * 1.45;
+    g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
+    g.drawImage(plate, -plate.width*cover/2, -plate.height*cover/2,
+                plate.width*cover, plate.height*cover);
+    g.restore();
+
+    // Confine the gas to one diagonal band.
+    g.save();
+    g.globalCompositeOperation = 'multiply';
+    g.translate(w/2, h/2); g.rotate(ANG);
+    var bd = diag*0.62;
+    var band = g.createLinearGradient(0,-bd,0,bd);
+    band.addColorStop(0.00,'#000000'); band.addColorStop(0.26,'#3a3a3a');
+    band.addColorStop(0.50,'#ffffff');
+    band.addColorStop(0.74,'#3a3a3a'); band.addColorStop(1.00,'#000000');
+    g.fillStyle = band; g.fillRect(-diag,-diag,diag*2,diag*2);
+    g.restore();
+
+    /* Clear the middle. On the home page this protected the wordmark; here it protects the
+       connectome, which is densest at the centre and unreadable over lit gas. Elliptical
+       rather than circular because the graph is wider than it is tall. */
+    g.save();
+    g.globalCompositeOperation = 'multiply';
+    g.translate(w/2, h/2);
+    g.scale(1, (h*0.34)/(w*0.42));
+    var cr = w*0.42;
+    var clear = g.createRadialGradient(0,0,0,0,0,cr);
+    clear.addColorStop(0.00,'#000000'); clear.addColorStop(0.55,'#2b2b2b'); clear.addColorStop(1.00,'#ffffff');
+    g.fillStyle = clear; g.fillRect(-diag,-diag,diag*2,diag*2);
+    g.restore();
+
+    target.save();
+    target.globalCompositeOperation = 'lighter';
+    target.setTransform(1,0,0,1,0,0);
+    target.drawImage(tmp,0,0);
+    target.restore();
   }
-  build(); addEventListener('resize',build);
-  var run=true; document.addEventListener('visibilitychange',function(){ run=!document.hidden; if(run) draw(); });
-  function draw(){
-    if(!run) return;
-    var bg=ctx.createRadialGradient(W*0.34,H*0.62,0,W*0.34,H*0.62,RAD*1.15);
-    bg.addColorStop(0,'#0a0815'); bg.addColorStop(0.55,'#05040d'); bg.addColorStop(1,'#020207');
-    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-    ctx.globalCompositeOperation='lighter';
-    for(var k=0;k<neb.length;k++){ var b=neb[k]; var g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
-      g.addColorStop(0,'rgba('+b.c+','+b.a+')'); g.addColorStop(0.5,'rgba('+b.c+','+(b.a*0.4).toFixed(3)+')'); g.addColorStop(1,'rgba('+b.c+',0)');
-      ctx.fillStyle=g; ctx.fillRect(b.x-b.r,b.y-b.r,b.r*2,b.r*2); }
-    for(var i=0;i<stars.length;i++){ var s=stars[i]; s.ph+=s.tw; var al=s.base*(0.45+0.55*Math.sin(s.ph)); if(al<0) al=0;
-      if(s.spark){ ctx.beginPath(); ctx.arc(s.x,s.y,s.r*3,0,6.2832); ctx.fillStyle='rgba('+s.col+','+(al*0.12).toFixed(3)+')'; ctx.fill(); }
-      if(s.flare){ var fl=s.r*6; ctx.strokeStyle='rgba('+s.col+','+(al*0.22).toFixed(3)+')'; ctx.lineWidth=0.7*dpr; ctx.beginPath(); ctx.moveTo(s.x-fl,s.y); ctx.lineTo(s.x+fl,s.y); ctx.moveTo(s.x,s.y-fl); ctx.lineTo(s.x,s.y+fl); ctx.stroke(); }
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fillStyle='rgba('+s.col+','+al.toFixed(3)+')'; ctx.fill(); }
-    ctx.globalCompositeOperation='source-over';
-    requestAnimationFrame(draw);
+
+  // Deterministic placement, so the with-gas and without-gas bakes hold the same stars and
+  // the fade-in does not make the whole field jump.
+  var seed = 1;
+  function srand(){ seed = (seed*1103515245 + 12345) & 0x7fffffff; return seed/0x7fffffff; }
+
+  function bake(){
+    scene.width = Math.round(w*dpr); scene.height = Math.round(h*dpr);
+    sx.setTransform(dpr,0,0,dpr,0,0);
+    sx.globalCompositeOperation = 'source-over';
+
+    var base = sx.createLinearGradient(0,0,0,h);
+    base.addColorStop(0,'#04060c'); base.addColorStop(0.55,'#070c15'); base.addColorStop(1,'#03050a');
+    sx.fillStyle = base; sx.fillRect(0,0,w,h);
+
+    var diag = Math.sqrt(w*w + h*h);
+    seed = 20260803;
+
+    // Dense faint population: this is the layer that makes the field read as deep.
+    var n = Math.min(6000, Math.round((w*h)/300));
+    for (var i=0;i<n;i++){
+      var x = srand()*w, y = srand()*h;
+      var d = Math.abs((x-w/2)*SA - (y-h/2)*CA);
+      var nb = Math.exp(-Math.pow(d/(diag*0.19),2));
+      if (srand() > 0.34 + nb*0.66) continue;
+      sx.beginPath(); sx.arc(x,y,0.24+srand()*0.58,0,6.2832);
+      sx.fillStyle = 'rgba(' + PALETTE[(srand()*PALETTE.length)|0] + ',' +
+                     ((0.16+srand()*0.54)*(0.58+nb*0.42)).toFixed(3) + ')';
+      sx.fill();
+    }
+
+    paintGas(sx);
+
+    // Sparse bright population, drawn after the gas so they sit in front of it.
+    sx.setTransform(dpr,0,0,dpr,0,0);
+    sx.globalCompositeOperation = 'source-over';
+    var m = Math.min(300, Math.round((w*h)/6200));
+    for (var k=0;k<m;k++){
+      var mx = srand()*w, my = srand()*h;
+      var md = Math.abs((mx-w/2)*SA - (my-h/2)*CA);
+      var mb = Math.exp(-Math.pow(md/(diag*0.24),2));
+      if (srand() > 0.42 + mb*0.58) continue;
+      var col = PALETTE[(srand()*PALETTE.length)|0];
+      var r = 0.7+srand()*0.7, a = 0.45+srand()*0.45;
+      var hg = sx.createRadialGradient(mx,my,0,mx,my,r*5.5);
+      hg.addColorStop(0,'rgba('+col+','+(a*0.5).toFixed(3)+')');
+      hg.addColorStop(1,'rgba('+col+',0)');
+      sx.fillStyle = hg; sx.fillRect(mx-r*5.5,my-r*5.5,r*11,r*11);
+      sx.beginPath(); sx.arc(mx,my,r,0,6.2832);
+      sx.fillStyle = 'rgba('+col+','+a.toFixed(3)+')'; sx.fill();
+    }
+
+    // Vignette last, baked in rather than drawn per frame.
+    var vg = sx.createRadialGradient(w/2,h/2,Math.min(w,h)*0.30,w/2,h/2,diag*0.62);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.55)');
+    sx.fillStyle = vg; sx.fillRect(0,0,w,h);
   }
-  draw();
+
+  function buildTwinklers(){
+    twinklers = [];
+    var count = Math.min(420, Math.round((w*h)/3400));
+    for (var i=0;i<count;i++){
+      twinklers.push({ x:Math.random()*w, y:Math.random()*h, r:rand(0.5,1.5),
+        colour:pick(PALETTE), base:rand(0.35,1.0),
+        // Two rates that do not divide into each other, so the blink never repeats on a
+        // short cycle. One sine reads as a metronome; two read as a sky.
+        s1:rand(1.1,4.2), s2:rand(0.3,1.3),
+        p1:Math.random()*6.2832, p2:Math.random()*6.2832,
+        amp:Math.random()<0.34?rand(0.75,1.0):rand(0.25,0.6) });
+    }
+  }
+
+  function twinkle(s,t){
+    if (reduce) return s.base;
+    var a = 0.5 - 0.5*Math.cos(s.s1*t + s.p1);
+    var b = 0.5 - 0.5*Math.cos(s.s2*t + s.p2);
+    return Math.max(0, Math.min(1, s.base*(1 - s.amp*(1 - a*(0.45+0.55*b)))));
+  }
+
+  function draw(now){
+    var t = (now - t0)/1000;
+    if (plateReady && fade < 1) fade = Math.min(1, fade + 0.05);
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.drawImage(scene,0,0);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.globalCompositeOperation = 'lighter';
+    for (var i=0;i<twinklers.length;i++){
+      var s = twinklers[i], a = twinkle(s,t);
+      if (a < 0.012) continue;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832);
+      ctx.fillStyle = 'rgba('+s.colour+','+a.toFixed(3)+')'; ctx.fill();
+      if (a > 0.6){
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r*3.4,0,6.2832);
+        ctx.fillStyle = 'rgba('+s.colour+','+(a*0.09).toFixed(3)+')'; ctx.fill();
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    raf = requestAnimationFrame(draw);
+  }
+
+  function resize(){
+    w = window.innerWidth; h = window.innerHeight;
+    // Integer dpr only, with a pixel budget: 2x on phones and tablets where the canvas is
+    // small, 1x at desktop sizes where 2x costs half the frame rate for no visible gain.
+    var raw = window.devicePixelRatio || 1;
+    dpr = (raw >= 1.8 && w*h*4 <= 4500000) ? 2 : 1;
+    cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr);
+    cv.style.width = w+'px'; cv.style.height = h+'px';
+    bake();
+    buildTwinklers();
+  }
+
+  var rt;
+  addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(resize, 160); });
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden){ if (raf){ cancelAnimationFrame(raf); raf = null; } }
+    else if (!raf){ t0 = performance.now(); raf = requestAnimationFrame(draw); }
+  });
+
+  /* 238 KB, so the sky is painted and running before it arrives and the gas fades in when it
+     lands. Nothing waits on the network, and if it never arrives this is still a star field
+     rather than an empty rectangle. */
+  plate.onload = function(){ plateReady = true; bake(); };
+  plate.onerror = function(){ plateReady = false; };
+  plate.src = '/assets/img/sky-plate.webp';
+
+  resize();
+  t0 = performance.now();
+  raf = requestAnimationFrame(draw);
 })();
 </script>
+<p style="position:fixed;left:0;right:0;bottom:8px;z-index:300;text-align:center;font:400 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.11em;text-transform:uppercase;color:rgba(214,228,255,.36);pointer-events:none;margin:0">Nebula imagery: NASA, ESA, CSA, STScI</p>
 </body>
 </html>

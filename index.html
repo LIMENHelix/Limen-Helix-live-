@@ -98,8 +98,24 @@
      trace binary-thresholds first, which removes the mottling outright, then smooths and
      simplifies the contours, which removes the edge chatter. 6.6 KB, sharp at any size, and
      no script has to run before the mark can appear. */
+  /* The wordmark is the only way in from the front door, so it has to look like it can be
+     clicked without turning the page into a UI. The cue is restraint: the existing bloom
+     warms slightly on hover, nothing moves, nothing underlines. */
+  a.marklink{
+    display:block;
+    line-height:0;
+    text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  a.marklink:focus-visible{outline:none}
+  a.marklink:focus-visible svg.mark,
+  a.marklink:hover svg.mark{
+    filter:drop-shadow(0 0 34px rgba(224,184,104,.42));
+  }
+
   svg.mark{
     display:block;
+    transition:filter .35s ease;
     width:min(74vw, 62vh, 620px);
     height:auto;
     max-width:100%;
@@ -157,6 +173,71 @@
     box-shadow:0 0 22px rgba(150,180,220,.24);
   }
 
+  /* ── OPERATOR GATEWAY ─────────────────────────────────────────────────────────────────
+     Deliberately invisible. There is no button, because a public holding page should not
+     advertise a staff door. Ctrl/Cmd+Shift+A opens it. */
+  .ov{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(3,5,10,.82);
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+  }
+  .ov.show{display:flex}
+  .ovcard{
+    position:relative;
+    min-width:min(88vw,320px);
+    padding:26px 26px 22px;
+    background:#0a111b;
+    border:1px solid rgba(212,175,55,.28);
+    box-shadow:0 24px 70px rgba(0,0,0,.6);
+  }
+  .ovcard .lbl{
+    font:600 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:rgba(217,185,106,.85);
+    margin-bottom:14px;
+  }
+  .ovcard input{
+    width:100%;
+    padding:11px 12px;
+    background:rgba(226,236,250,.05);
+    border:1px solid rgba(226,236,250,.18);
+    color:#e8eef6;
+    font:400 15px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.14em;
+    outline:none;
+  }
+  .ovcard input:focus{border-color:rgba(212,175,55,.6)}
+  .ovcard button[type=submit]{
+    width:100%;
+    margin-top:12px;
+    padding:10px;
+    background:rgba(212,175,55,.14);
+    border:1px solid rgba(212,175,55,.42);
+    color:#F2DCA0;
+    font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .ovcard button[type=submit]:hover{background:rgba(212,175,55,.24)}
+  .ovcard .x{
+    position:absolute;top:6px;right:10px;
+    background:none;border:0;color:rgba(226,236,250,.45);
+    font-size:20px;line-height:1;cursor:pointer;
+  }
+  .ovcard .err{
+    min-height:15px;margin-top:8px;
+    font:400 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.08em;color:#e2887a;
+  }
+
   /* Motion is decorative only. Anyone who has asked their OS to reduce motion gets a still
      sky and a still row, and still sees the mark. The mark itself no longer animates at
      all, so there is nothing to switch off there. */
@@ -172,6 +253,7 @@
 <div class="vignette" aria-hidden="true"></div>
 
 <main>
+  <a class="marklink" href="/atlas" aria-label="Enter the LIMEN Helix atlas">
   <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2363 1348" role="img" aria-label="LIMEN Helix">
   <title>LIMEN Helix</title>
       <defs>
@@ -195,6 +277,7 @@
   <path d="M1145 876.4L1289 877L1293.8 878L1296.4 882L1292.9 888.9L1266 898.3L1259.2 903.1L1254.5 911L1250.1 929L1247 1008L1247 1264L1252.4 1308.9L1257 1312.3L1273 1316.6L1293 1318L1383 1318L1404 1312.9L1417 1305.6L1430.5 1291.9L1441.4 1275L1462.2 1233L1468.2 1225.5L1474 1223.8L1478.8 1226.2L1480.8 1230L1477.8 1255L1464.9 1328L1461 1340.7L1455 1343.9L1420 1341L1300 1339L1195 1340L1140 1345L1132.4 1341.9L1131.2 1336L1135 1331.2L1174 1316.3L1180.4 1311L1185 1257L1186 1009L1180.9 912L1179.3 907.1L1175 903.2L1136.4 884.4L1136.4 878.4L1144 876.6Z"/>
   </g>
   </svg>
+  </a>
 
   <!-- SOCIAL LINKS. Icon geometry is the standard Simple Icons glyph set, inlined so nothing
        is fetched from a third party. Each emblem carries its real brand colours.
@@ -252,6 +335,18 @@
 
   </nav>
 </main>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Authorized access">
+  <div class="ovcard">
+    <button class="x" id="ovX" type="button" aria-label="Close">&times;</button>
+    <div class="lbl">Authorized Access</div>
+    <form id="ovForm">
+      <input type="password" id="ovPw" placeholder="passcode" autocomplete="off" inputmode="numeric" aria-label="Passcode">
+      <div class="err" id="ovErr" role="alert"></div>
+      <button type="submit">Enter</button>
+    </form>
+  </div>
+</div>
 
 <p class="credit">Nebula imagery: NASA, ESA, CSA, STScI</p>
 
@@ -957,6 +1052,84 @@
 
   resize();
   start();
+})();
+</script>
+
+<script>
+/* ── OPERATOR GATEWAY ──────────────────────────────────────────────────────────────────────
+   Ctrl/Cmd+Shift+A opens it, Escape closes it. The passcode is never stored in this file: it
+   is posted to /api/admin-auth, which compares it to the ADMIN_MASTER env var server-side and
+   answers with a flat failure on a miss.
+
+   On success the session keys both gates read are set, and the visitor is returned to
+   whatever they were originally trying to reach. auth-gate.js and gate-master.js both bounce
+   to /?return=<path>, so honouring that closes the loop instead of always dumping them on
+   /admin the way the original did.
+
+   Worth stating plainly: the gates are client-side, so this is a convenience lock, not a
+   security boundary. Anything that truly must stay private has to be enforced server-side. */
+(function () {
+  var ov = document.getElementById('ov');
+  if (!ov) return;
+  var f = document.getElementById('ovForm'),
+      pw = document.getElementById('ovPw'),
+      err = document.getElementById('ovErr'),
+      x = document.getElementById('ovX');
+
+  function show(e) { if (e) e.preventDefault(); ov.classList.add('show'); setTimeout(function () { pw.focus(); }, 50); }
+  function hide() { ov.classList.remove('show'); err.textContent = ''; pw.value = ''; }
+
+  x.addEventListener('click', hide);
+  ov.addEventListener('click', function (e) { if (e.target === ov) hide(); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); show(); }
+    if (e.key === 'Escape') hide();
+  });
+
+  // Arriving already bounced by a gate? Open the prompt rather than making them find it.
+  try {
+    if (/[?&]return=/.test(location.search)) show();
+  } catch (e) {}
+
+  function destination() {
+    try {
+      var m = /[?&]return=([^&]+)/.exec(location.search);
+      if (m) {
+        var p = decodeURIComponent(m[1]);
+        // Only ever an in-site path, so a crafted ?return= cannot bounce anyone off-site.
+        if (p.charAt(0) === '/' && p.charAt(1) !== '/') return p;
+      }
+    } catch (e) {}
+    return '/admin';
+  }
+
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var val = (pw.value || '').trim();
+    if (!val) { err.textContent = 'Enter code'; return; }
+    err.textContent = 'checking…';
+    fetch('/api/admin-auth', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ passcode: val })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && j.ok) {
+          try {
+            sessionStorage.setItem('limen_access', 'granted');
+            if (j.person) sessionStorage.setItem('limen_admin', JSON.stringify(j.person));
+            sessionStorage.setItem('limen_pass', val);
+          } catch (e) {}
+          window.location.replace(destination());
+        } else {
+          err.textContent = 'Incorrect';
+          pw.value = '';
+          pw.focus();
+        }
+      })
+      .catch(function () { err.textContent = 'Error. Try again'; });
+  });
 })();
 </script>
 

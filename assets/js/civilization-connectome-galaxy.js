@@ -1685,12 +1685,29 @@ function drawNode(n, idx, nodeAlpha) {
     ctx.fillText('\u25be',p.x,p.y+r+(3*camZ));
   }
   {
-    var lSz=isH?8:7, lA=isH?0.95:0.55;
-    ctx.font=(lSz*camZ)+'px monospace'; ctx.textAlign='center';
-    ctx.fillStyle='rgba(180,200,220,'+(lA*a)+')';
+    /* LABELS. Were a flat 7px at 55% alpha in mid grey-blue, sitting on lit gas.
+       Two problems. A FIXED pixel size means the larger the display the smaller the type
+       reads, which is why this page was more legible on a phone than on a desktop. And a
+       flat alpha cannot hold contrast against a background whose brightness varies
+       underneath it as the node orbits.
+
+       Size now scales with viewport width, clamped at both ends, and a dark shadow sits
+       under the glyphs so contrast survives wherever the node happens to be. The shadow is
+       saved and restored: canvas shadow state is sticky and would otherwise bleed onto
+       everything drawn after this. */
+    var vw = (typeof W === 'number' && W > 0) ? W : 1200;
+    var lBase = Math.max(9.5, Math.min(15, vw * 0.0094));
+    var lSz = isH ? lBase * 1.15 : lBase, lA = isH ? 1 : 0.88;
+    ctx.font='600 '+(lSz*camZ)+'px ui-monospace, SFMono-Regular, Menlo, monospace';
+    ctx.textAlign='center';
     var sn=SHORT_NAMES[n.id]||n.id;
-    var lY=n.childUniverse?(p.y+r+(12*camZ)):(p.y+r+(9*camZ));
+    var lY=n.childUniverse?(p.y+r+(13*camZ)):(p.y+r+(10*camZ));
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.92)';
+    ctx.shadowBlur=4*camZ;
+    ctx.fillStyle='rgba(228,240,252,'+(lA*a)+')';
     ctx.fillText(sn, p.x, lY);
+    ctx.restore();
   }
 }
 
@@ -1771,7 +1788,7 @@ function hideSubMenu() { if (_miniMode || !_subMenu) return; _subMenu.style.disp
 function navigateToUniverse(idx) {
   var n=NODES[idx]; if(!n||!n.childUniverse) return;
   if (_onNodeClick) { _onNodeClick(n); return; }
-  if (_miniMode) { window.location.href = '/connectome.html'; return; }
+  if (_miniMode) { window.location.href = '/atlas'; return; }
   if (DOMAIN_PORTALS[n.id] || satellitesFor(n)) { hideTooltip(); showSubMenu(idx); return; }
   var targetUrl = PORTAL_ROUTES[n.childUniverse];
   if (!targetUrl) return;
@@ -1913,7 +1930,7 @@ function bindMiniEvents() {
       if (_onNodeClick) {
         _onNodeClick(null);
       } else {
-        window.location.href = '/connectome.html';
+        window.location.href = '/atlas';
       }
     }
   });

@@ -40,6 +40,9 @@
     { label: 'OBSERVATORY',        href: '/civilization-opportunities' },
     { label: 'OPPORTUNITIES',      href: '/opportunities' },
     { label: 'COMMAND BOARD',      href: '/kernel-comparison' },
+    // Reachable only from the operator menu below, which the public never sees, so this
+    // points at the gated internal connectome. The PUBLIC route to the same view is
+    // /atlas, linked directly from the public pages.
     { label: 'CONNECTOME',         href: '/connectome' },
     { label: '⊞ SITE MAP',         href: '/pages' }
   ];
@@ -151,7 +154,19 @@
     bar.id = 'limen-topbar';
     bar.setAttribute('role', 'banner');
 
-    // Dropdown
+    /* OPERATOR MENU ONLY. Nine of these destinations are gated, so showing this to a
+       public visitor advertises doors that bounce them to the front door. The test matches
+       both gates: auth-gate.js checks limen_access, gate-master.js also accepts a master
+       admin session. */
+    var isOperator = (function () {
+      try {
+        if (sessionStorage.getItem('limen_access') === 'granted') return true;
+        var adm = JSON.parse(sessionStorage.getItem('limen_admin') || 'null');
+        return !!(adm && adm.master === true);
+      } catch (e) { return false; }
+    })();
+
+    if (isOperator) {
     var dd = document.createElement('div');
     dd.className = 'ltb-dropdown';
     var btn = document.createElement('button');
@@ -178,6 +193,7 @@
     dd.appendChild(btn);
     dd.appendChild(menu);
     bar.appendChild(dd);
+    }
 
     // Action slot (filled by console-clarity.js when present)
     var actions = document.createElement('div');
