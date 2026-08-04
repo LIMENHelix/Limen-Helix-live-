@@ -639,6 +639,54 @@ console.log('');
     SCIENCE.FINDINGS.length === 1 && SCIENCE.FINDINGS[0].requires.join() === 'rndIntensity',
     JSON.stringify(SCIENCE.FINDINGS.map(function (f) { return f.id; })));
 
+  /**
+   * CISA KEV IS A 30-DAY FLOW, AND BOTH BINDERS MUST SAY SO.
+   *
+   * Batch 2 shipped describing this channel as the cumulative catalogue size, in the
+   * units, the finding name and the header prose. `fetchCISAKEV()` walks the feed
+   * counting entries whose `dateAdded` falls inside a 30-day cutoff and returns THAT; the
+   * catalogue total is computed in the same function and interpolated into the label
+   * string only, so it never reaches the channel.
+   *
+   * The stale description survived because it was self-consistent — units, finding name
+   * and header all agreed with each other and all disagreed with the fetcher. So this
+   * asserts against the SOURCE TEXT as well as the manifest: a wrong claim in a comment
+   * is what the next reader will believe.
+   */
+  ['technology', 'trade'].forEach(function (dom) {
+    var b = require('../bind/' + dom + '.js');
+    var kev = b.CHANNELS.filter(function (c) { return c.key === 'cisaKev'; })[0];
+    assert(dom + ': declares CISA KEV as a 30-day flow',
+      kev && /30d/.test(kev.units) && /new KEV entries/.test(kev.units), kev && kev.units);
+    assert(dom + ': and its source names the 30-day window',
+      /entries added in 30d/.test(kev.source), kev && kev.source);
+
+    var src = fs.readFileSync(path.join(__dirname, '..', 'bind', dom + '.js'), 'utf8');
+    assert(dom + ': the file nowhere says "catalogued CVEs"', src.indexOf('catalogued CVEs') < 0);
+    assert(dom + ': nor "cumulative catalogue"', src.toLowerCase().indexOf('cumulative catalogue') < 0);
+    assert(dom + ': nor describes CISA against NVD as stock versus inflow',
+      !/stock and its inflow|stock versus inflow/i.test(src));
+  });
+
+  /* The finding is renamed, and the old name must be gone rather than aliased. */
+  var techFindings = require('../bind/technology.js').FINDINGS.map(function (f) { return f.id; });
+  assert('technology renames the KEV finding to NEW_KEV_30D_DEPARTURE',
+    techFindings.indexOf('NEW_KEV_30D_DEPARTURE') >= 0, techFindings.join(', '));
+  assert('and KEV_CATALOGUE_DEPARTURE no longer exists',
+    techFindings.indexOf('KEV_CATALOGUE_DEPARTURE') < 0, techFindings.join(', '));
+  assert('the joint finding describes two populations over two windows, not a stock and a flow',
+    /two different populations over two different windows/.test(
+      require('../bind/technology.js').FINDINGS
+        .filter(function (f) { return f.id === 'VULNERABILITY_COUNTS_CO_DEPARTING'; })[0].basis));
+
+  /* AND THE CONCLUSION IS UNCHANGED. Both are flows, over different populations and
+     different windows, so they still must not be related. The correction was to the
+     description, not to the decision. */
+  assert('technology still declares zero relationships after the correction',
+    require('../bind/technology.js').RELATIONSHIPS.length === 0);
+  assert('trade still declares zero relationships after the correction',
+    require('../bind/trade.js').RELATIONSHIPS.length === 0);
+
   /* MEDICINE IS THE ALIAS CASE, and both names must reach it. */
   assert('medicine is reachable by product name', REG.inspect('medicine').channels === 15);
   assert('and by snapshot key, returning the same binder',

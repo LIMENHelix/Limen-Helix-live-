@@ -6,14 +6,32 @@
  *
  * ZERO DECLARED RELATIONSHIPS. The one pair that looks relatable is not:
  *
- *   CISA KEV          the size of the Known Exploited Vulnerabilities catalogue — a
- *                     cumulative list of vulnerabilities observed being exploited
- *   NVD Recent CVEs   NEW CVEs published in the last 7 days
+ *   CISA KEV          KEV entries ADDED in the last 30 days — vulnerabilities newly
+ *                     observed being exploited in the wild
+ *   NVD Recent CVEs   ALL CVEs PUBLISHED in the last 7 days
  *
- * A running total and a seven-day flow. They move together only in the sense that a
- * stock and its inflow do, which is not two instruments observing one latent — it is one
- * quantity and its derivative, and they would diverge by construction whenever disclosure
- * outpaced exploitation. Nothing else here pairs at all.
+ * BOTH ARE FLOWS. An earlier version of this header described the first as a running
+ * total, on the assumption that the KEV channel carried the catalogue size. It does not:
+ * `fetchCISAKEV()` walks the feed counting entries whose `dateAdded` falls inside a
+ * 30-day cutoff and returns that count. The catalogue total is computed in the same
+ * function and used only to build the human-readable label string, so it never reaches
+ * this channel.
+ *
+ * The stale description survived review because it was internally consistent — the units,
+ * the finding name and this paragraph all agreed with each other and all disagreed with
+ * the fetcher. That is why `test/domains.js` now asserts against this file's TEXT as well
+ * as its manifest: a wrong claim in a comment is what the next reader will believe.
+ *
+ * They still must not be related, for two reasons that survive the correction:
+ *
+ *   POPULATION  KEV counts only vulnerabilities observed being exploited — a small,
+ *               deliberately curated subset. NVD counts every CVE published, exploited
+ *               or not. One is a filtered view of a different question.
+ *   HORIZON     30 days against 7. A monthly flow and a weekly flow do not share a
+ *               baseline, and a declared pair would report the difference between two
+ *               window lengths as a disagreement between instruments.
+ *
+ * Nothing else here pairs at all.
  */
 
 'use strict';
@@ -24,13 +42,12 @@ var HOUR = 3600000;
 var DAY = 24 * HOUR;
 
 /**
- * q/r are SET, not fitted [mark: prior]. A catalogued vulnerability count gets a lower r
- * than a news recency count, because a filed CVE is a less noisy read than an article
- * about one.
+ * q/r are SET, not fitted [mark: prior]. A vulnerability-record count gets a lower r than
+ * a news recency count, because a filed CVE is a less noisy read than an article about one.
  */
 var CHANNELS = [
-  // ── Catalogued vulnerability counts. Records of findings, not articles about them. ──
-  { key: 'cisaKev',      name: 'CISA KEV',                   recordedField: 'v',  field: 'value',    source: 'CISA Known Exploited Vulnerabilities catalogue', cadenceMs: DAY,  units: 'catalogued CVEs',        q: 0.03, r: 0.10 },
+  // ── Vulnerability flows. Records of findings, not articles about them. ──
+  { key: 'cisaKev',      name: 'CISA KEV',                   recordedField: 'v',  field: 'value',    source: 'CISA Known Exploited Vulnerabilities feed, entries added in 30d', cadenceMs: DAY, units: 'new KEV entries in 30d', q: 0.03, r: 0.10 },
   { key: 'nvdCves',      name: 'NVD Recent CVEs',            recordedField: 'v',  field: 'value',    source: 'NIST NVD, CVEs published in 7d',                 cadenceMs: DAY,  units: 'new CVEs in 7d',         q: 0.04, r: 0.12 },
 
   /* PUBLICATION AND DISCOURSE COUNTS. Real numbers, counts of documents and posts. */
@@ -54,7 +71,7 @@ var SIGMA = 2.0;   // [mark: prior]
  * disclosure wave, a scanning campaign or a quiet week ending; naming the finding
  * `SECURITY_CRISIS` would assert a cause the number cannot support.
  *
- * Only the two vulnerability counts qualify. Patents, arXiv, Hacker News, the two RSS
+ * Only the two vulnerability flows qualify. Patents, arXiv, Hacker News, the two RSS
  * feeds and the three Federal Register counts all measure publishing, and a finding on
  * publishing fires when somebody publishes.
  *
@@ -63,8 +80,8 @@ var SIGMA = 2.0;   // [mark: prior]
  * already emitted, so it adds a second voice saying the same thing rather than evidence.
  */
 var FINDINGS = [
-  { id: 'KEV_CATALOGUE_DEPARTURE', requires: ['cisaKev'],
-    basis: 'size of the CISA known-exploited catalogue departing its own baseline by >=2sd; direction not interpreted',
+  { id: 'NEW_KEV_30D_DEPARTURE', requires: ['cisaKev'],
+    basis: 'count of KEV entries added in the last 30 days departing its own baseline by >=2sd; direction not interpreted',
     test: function (v, s, d) { return d.cisaKev && Math.abs(d.cisaKev.z) >= SIGMA; } },
 
   { id: 'NEW_CVE_RATE_DEPARTURE', requires: ['nvdCves'],
@@ -72,7 +89,7 @@ var FINDINGS = [
     test: function (v, s, d) { return d.nvdCves && Math.abs(d.nvdCves.z) >= SIGMA; } },
 
   { id: 'VULNERABILITY_COUNTS_CO_DEPARTING', requires: ['cisaKev', 'nvdCves'],
-    basis: 'the catalogue total and the 7-day publication rate both departing their own baselines — a stock and its inflow moving together, which either alone cannot distinguish from its own noise',
+    basis: 'the 30-day exploited-vulnerability flow and the 7-day publication flow both departing their own baselines — two different populations over two different windows moving together, which either alone cannot distinguish from its own noise',
     test: function (v, s, d) {
       return d.cisaKev && d.nvdCves && Math.abs(d.cisaKev.z) >= 1.0 && Math.abs(d.nvdCves.z) >= 1.0 &&
              (Math.abs(d.cisaKev.z) + Math.abs(d.nvdCves.z)) >= 2.5;
@@ -86,8 +103,9 @@ module.exports = FACTORY.createBinder({
   sigma: SIGMA,
   channels: CHANNELS,
   findings: FINDINGS,
-  /* ZERO. A cumulative catalogue and a 7-day flow are one quantity and its derivative,
-     not two instruments observing one latent. */
+  /* ZERO. Two flows over different populations and different windows — 30-day
+     exploited-in-the-wild against 7-day all-published — not two instruments observing
+     one latent. */
   relationships: [],
   efferent: null   // R7
 });

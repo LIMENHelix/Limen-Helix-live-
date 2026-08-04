@@ -43,7 +43,10 @@ var CHANNELS = [
   // ── Event counts. Real occurrences, shared with environment by the snapshot. ──
   { key: 'nwsAlerts',     name: 'NOAA NWS Alerts',            recordedField: 'v',  field: 'value',    source: 'api.weather.gov active alerts',            cadenceMs: HOUR,  units: 'active alerts',       q: 0.05, r: 0.15 },
   { key: 'earthquakes',   name: 'USGS Earthquakes',           recordedField: 'v',  field: 'value',    source: 'USGS feed, M4.5+ in 24h',                  cadenceMs: HOUR,  units: 'quakes M4.5+ in 24h', q: 0.05, r: 0.15 },
-  { key: 'cisaKev',       name: 'CISA KEV',                   recordedField: 'v',  field: 'value',    source: 'CISA Known Exploited Vulnerabilities catalogue', cadenceMs: DAY, units: 'catalogued CVEs', q: 0.03, r: 0.10 },
+  /* A 30-DAY FLOW, not the catalogue size. `fetchCISAKEV()` counts entries whose
+     `dateAdded` falls inside a 30-day cutoff; the catalogue total is computed in the same
+     function and used only for the label string. */
+  { key: 'cisaKev',       name: 'CISA KEV',                   recordedField: 'v',  field: 'value',    source: 'CISA Known Exploited Vulnerabilities feed, entries added in 30d', cadenceMs: DAY, units: 'new KEV entries in 30d', q: 0.03, r: 0.10 },
 
   /* NEWS RECENCY COUNT. */
   { key: 'supplyNews',    name: 'RSS Supply Chain',           recordedField: 'r7', field: 'recent7d', source: 'RSS keyword query, supply chain',          cadenceMs: DAY,   units: 'articles/7d',         q: 0.06, r: 0.25 },
