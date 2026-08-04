@@ -30,6 +30,10 @@
   // ─── Routes (use clean URLs — vercel.json cleanUrls:true) ───────────────
   var ROUTES = [
     { label: 'LIMEN HELIX',        href: '/' },
+    // Mission Control is the operator hub: it fans out to the Operator Console, the whole
+    // sales funnel, the deal desks, every domain console and the site map. It sits second
+    // because everything else in this menu is reachable from it.
+    { label: '◈ MISSION CONTROL',  href: '/admin' },
     { label: '$ CAPITAL ENGINE',   href: '/capital-engine' },
     { label: '◆ RELAY MARGIN',     href: '/relay-margin' },
     { label: '⬇ MY DOCUMENTS',     href: '/my-documents' },
