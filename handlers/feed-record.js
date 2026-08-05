@@ -97,11 +97,62 @@ function compactSource(s, rowT) {
     if (isNum(s.rss.medianAgeDays)) o.ma = r4(s.rss.medianAgeDays);
   }
   // Staleness, as a number rather than a timestamp: how old was this reading when recorded.
+  //
+  // `updated` and `fetchedAt` are BOTH Date.now() at the point the snapshot is built
+  // (handlers/domain-snapshot.js). They are OUR clock, not the source's, so `ua` measures
+  // how stale our own fetch was and says nothing about whether the source published
+  // anything new. It is kept because staleness is worth having, but nothing downstream
+  // may count evidence from it.
   var stamp = isNum(s.updated) ? s.updated : (isNum(s.fetchedAt) ? s.fetchedAt : null);
   if (stamp !== null && isNum(rowT)) o.ua = Math.max(0, rowT - stamp);
 
+  /**
+   * ── su: THE SOURCE'S OWN OBSERVATION IDENTITY ──────────────────────────────────────
+   *
+   * THE ONE FIELD THAT MAKES A RECORDED ROW COUNTABLE AS EVIDENCE, and it was being
+   * thrown away.
+   *
+   * `sourceUpdatedAt` is set by 26 fetchers in domain-snapshot.js from the UPSTREAM
+   * record's own key — the FRED observation date, the EIA period, openFDA's
+   * `meta.last_updated`. Unlike `updated`/`fetchedAt` it is not our clock: it changes
+   * when, and only when, the source publishes a new observation. That is precisely the
+   * question `core/channel.js sourceIdentity()` needs answered, and until now the
+   * recorder computed `ua` from a DIFFERENT field and dropped this one entirely.
+   *
+   * The consequence was structural, not cosmetic. Every recorded fixture carried polls
+   * with no way to tell a fresh observation from a re-read of a cached one, so the
+   * divergence ledger could never accumulate independent observations — it could only
+   * count polls, which is counting our own scheduler. SPEC row 10 has been blocked on
+   * exactly this, and the information existed at record time the whole while.
+   *
+   * STORED RAW, AS A STRING. These are the source's own tokens ("2026-07-30", an EIA
+   * period, an ISO stamp) and the token IS the identity: same token means same
+   * observation, a new token means the source spoke. Parsing it to epoch ms would be
+   * lossy for period-style keys and would invent precision the source never gave.
+   * Truncated only to bound the row.
+   */
+  if (s.sourceUpdatedAt !== undefined && s.sourceUpdatedAt !== null && s.sourceUpdatedAt !== '') {
+    o.su = String(s.sourceUpdatedAt).slice(0, 64);
+  }
+
   // keep a source only if it carries at least a name or a number
   return (o.n || o.s !== undefined || o.a !== undefined || o.v !== undefined || o.hh !== undefined) ? o : null;
+}
+
+/**
+ * IDENTITY COVERAGE, measured rather than assumed.
+ *
+ * Which sources actually supply their own observation key is a fact about 240 live
+ * feeds that nobody can answer from the code: a fetcher may set `sourceUpdatedAt` from a
+ * field the API only sometimes returns. So every write reports the per-domain count, and
+ * after one run the answer is measured instead of guessed. Do not use this to decide a
+ * channel is usable — it says a token was present, not that it changes.
+ */
+function identityCoverage(row) {
+  var srcs = (row && row.src) || [];
+  var withId = 0;
+  for (var i = 0; i < srcs.length; i++) if (srcs[i].su !== undefined) withId++;
+  return { sources: srcs.length, withSourceIdentity: withId };
 }
 
 /**
@@ -189,6 +240,7 @@ module.exports = async function handler(req, res) {
   var hourBucket = Math.floor(t / HOUR_MS);
 
   var written = 0, skipped = 0, domainKeys = [];
+  var coverage = {}, covTotal = 0, covWithId = 0;
   for (var dk in domains) {
     if (!domains.hasOwnProperty(dk)) continue;
     domainKeys.push(dk);
@@ -204,6 +256,9 @@ module.exports = async function handler(req, res) {
     } catch (e) { /* if the peek fails, fall through and write */ }
 
     var row = compactRow(t, domains[dk]);
+    var cov = identityCoverage(row);
+    coverage[dk] = cov;
+    covTotal += cov.sources; covWithId += cov.withSourceIdentity;
     try {
       await db.lpush(key, row);       // newest at head
       await db.ltrim(key, 0, CAP - 1); // keep last ~90 days
@@ -223,6 +278,12 @@ module.exports = async function handler(req, res) {
     skipped: skipped,
     domains: domainKeys.length,
     cap: CAP,
+    /* Per-domain: how many sources carried their own observation key this run. The
+       number that matters for SPEC row 10 — a domain at 0 cannot accumulate independent
+       observations no matter how long it records. */
+    identityCoverage: coverage,
+    identityCoverageTotal: covTotal ? covWithId + '/' + covTotal +
+      ' sources carried a source-supplied observation key' : 'no sources recorded',
     processedIn: (Date.now() - start) + 'ms',
     note: written ? 'recorded' : (skipped ? 'idempotent-skip (already recorded this hour)' : 'no domains in snapshot')
   });
@@ -231,3 +292,11 @@ module.exports = async function handler(req, res) {
 // Every run records itself. lib/heartbeat is the spike log the /main-brain view
 // animates: one beat is one spike, and silence is what starves an edge to nothing.
 module.exports = require('../lib/heartbeat').wrap('feed-record', module.exports);
+
+/* The pure row-shaping helpers, exported for test. They touch no network and no db, so
+   the recorder's contract can be verified offline against a synthetic snapshot — which
+   is the only way to test it at all: the live path needs a deploy, a cron trigger and an
+   hour to elapse before it writes anything. */
+module.exports._compactSource = compactSource;
+module.exports._compactRow = compactRow;
+module.exports._identityCoverage = identityCoverage;

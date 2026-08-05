@@ -26,6 +26,7 @@
 'use strict';
 
 var DIV = require('../core/divergence.js');
+var FACTORY = require('./factory.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -41,45 +42,74 @@ var DAY = 24 * HOUR;
  * Each entry has to name the latent variable, and that requirement is the point. If
  * you cannot say what two channels both observe, they are not comparable, and the
  * declaration is a commitment you can be caught being wrong about.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * SIX OF THESE SEVEN ARE DEAD LETTERS ON THE RECORDED CORPUS (measured 2026-08-03).
+ *
+ * Over 347 cycles of the 362-row energy fixture, exactly ONE pair was ever comparable:
+ * gridRel/electricity, on 140 of them. The other six were never comparable once, for two
+ * distinct reasons that are marked per entry below:
+ *
+ *   ABSENT   the channel produced no reading at all in this corpus (eiaPetro,
+ *            massiveOil). No key, no feed, nothing to compare.
+ *   DEAD     the channel produced readings that never changed across its liveness
+ *            window, so it has no departure and cannot make a claim (natGas, lng, solar,
+ *            wind, nuclear, fedRegNrc, coal).
+ *
+ * THEY ARE MARKED, NOT DELETED, AND THE DISTINCTION IS THE WHOLE POINT. Deleting them
+ * would destroy six real hypotheses about the world to make a report look clean; leaving
+ * them unmarked would let six declarations that CANNOT fire contribute silence that reads
+ * as agreement. So the ledger now counts testability per declaration and names them as
+ * dead letters with the failing side (`divergence.js` -> report().deadLetters), and each
+ * entry here carries `[DEAD LETTER ...]` saying which side failed and how.
+ *
+ * NONE OF THE SIX IS REPAIRABLE IN CODE. Every one is blocked on data this corpus does
+ * not contain: an absent feed needs a feed, and a constant channel needs a period in
+ * which its value moves. Re-pointing them at channels that happen to be live would be
+ * inventing a latent to fit the data that exists, which is the opposite of what the
+ * latent requirement above is for. They stay declared, marked, and untestable until a
+ * fixture exists that can test them.
+ * ═══════════════════════════════════════════════════════════════════════════════════
  */
 var REL = [
   // Three independent reads of one price. These should track closely; a gap means
   // one feed is stale or a key expired, which is worth knowing on its own.
   DIV.relate('fredCrude', 'eiaPetro', 'crude oil price level', 'agree',
+    '[DEAD LETTER: eiaPetro is ABSENT — 0 readings in 347 cycles] '  +
     'FRED WTI and EIA Brent are different benchmarks but move with one oil market; a sustained gap usually means one feed stopped updating rather than that the spread moved'),
   DIV.relate('fredCrude', 'massiveOil', 'crude oil price level', 'agree',
+    '[DEAD LETTER: massiveOil is ABSENT — 0 readings in 347 cycles] ' +
     'Polygon CL is the same underlying as FRED WTI; disagreement here is a data problem, not a market one'),
 
   // Grid stress read two ways: reliability coverage and electricity-market coverage.
+  // THE ONLY TESTABLE DECLARATION on the recorded corpus: comparable on 140 of 347 cycles.
   DIV.relate('gridRel', 'electricity', 'electric grid stress', 'agree',
     'FERC/NERC reliability coverage and EIA electricity coverage both rise when the grid is under strain'),
 
   // Gas supply read through pipeline gas and seaborne LNG.
   DIV.relate('natGas', 'lng', 'natural gas supply pressure', 'agree',
+    '[DEAD LETTER: natGas and lng are both DEAD — constant across their liveness window] ' +
     'domestic gas and LNG coverage both respond to the same supply squeeze; divergence separates a US-local event from a global one'),
 
   // Renewables output pressure.
   DIV.relate('solar', 'wind', 'renewable generation attention', 'agree',
+    '[DEAD LETTER: solar and wind are both DEAD — constant across their liveness window] ' +
     'solar and wind coverage co-move with intermittency events; one moving alone points at a technology-specific story'),
 
   // Nuclear: news attention against regulatory filing activity.
   DIV.relate('nuclear', 'fedRegNrc', 'nuclear sector activity', 'agree',
+    '[DEAD LETTER: nuclear and fedRegNrc are both DEAD — constant across their liveness window] ' +
     'coverage and NRC filing volume both track nuclear activity, on different lags; news leading filings by a wide margin is the informative case'),
 
   // The one declared INVERTING pair. Coal transition coverage rises as coal is
   // displaced; renewable coverage rises for the same reason, from the other side.
   DIV.relate('coal', 'solar', 'coal-to-renewable displacement', 'invert',
+    '[DEAD LETTER: coal and solar are both DEAD — constant across their liveness window] ' +
     'coverage of coal retirement and of solar buildout are two faces of one transition; them rising TOGETHER is the anomaly, not them diverging')
 ];
 
 /** Reads a value out of a live /api/domain-snapshot source object. */
-function pickLive(src, field) {
-  if (!src) return null;
-  if (field === 'recent7d') {
-    return (src.rss && typeof src.rss.recent7d === 'number') ? src.rss.recent7d : null;
-  }
-  return (typeof src.value === 'number' && isFinite(src.value)) ? src.value : null;
-}
+/* pickLive now lives in factory.js — one implementation, shared by every domain. */
 
 /**
  * THE MANIFEST.
@@ -93,28 +123,28 @@ function pickLive(src, field) {
  */
 var CHANNELS = [
   // ── price series: real quantities, no saturation ────────────────────────────────────
-  { key: 'fredCrude',  name: 'FRED Crude Oil',              field: 'value',     source: 'FRED DCOILWTICO',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
-  { key: 'eiaPetro',   name: 'EIA Petroleum',               field: 'value',     source: 'EIA v2 EPCBRENT',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
-  { key: 'massiveOil', name: 'Massive Crude Oil',           field: 'value',     source: 'Polygon CL (key-gated)',     cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.08 },
+  { key: 'fredCrude',  name: 'FRED Crude Oil',              recordedField: 'v', field: 'value',     source: 'FRED DCOILWTICO',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
+  { key: 'eiaPetro',   name: 'EIA Petroleum',               recordedField: 'v', field: 'value',     source: 'EIA v2 EPCBRENT',            cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.05 },
+  { key: 'massiveOil', name: 'Massive Crude Oil',           recordedField: 'v', field: 'value',     source: 'Polygon CL (key-gated)',     cadenceMs: DAY, units: '$/bbl', q: 0.02, r: 0.08 },
 
   // ── event / filing counts: real quantities, bounded but not saturated ───────────────
-  { key: 'nwsAlerts',  name: 'NOAA NWS Alerts',             field: 'value',     source: 'api.weather.gov active',     cadenceMs: HOUR, units: 'alerts',  q: 0.05, r: 0.15 },
-  { key: 'cisaKev',    name: 'CISA KEV',                    field: 'value',     source: 'CISA KEV 30d',               cadenceMs: DAY,  units: 'CVEs',    q: 0.03, r: 0.10 },
-  { key: 'fedRegNrc',  name: 'Fed Reg NRC',                 field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
-  { key: 'fedRegDoe',  name: 'Fed Reg DOE',                 field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
+  { key: 'nwsAlerts',  name: 'NOAA NWS Alerts',             recordedField: 'v', field: 'value',     source: 'api.weather.gov active',     cadenceMs: HOUR, units: 'alerts',  q: 0.05, r: 0.15 },
+  { key: 'cisaKev',    name: 'CISA KEV',                    recordedField: 'v', field: 'value',     source: 'CISA KEV 30d',               cadenceMs: DAY,  units: 'CVEs',    q: 0.03, r: 0.10 },
+  { key: 'fedRegNrc',  name: 'Fed Reg NRC',                 recordedField: 'v', field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
+  { key: 'fedRegDoe',  name: 'Fed Reg DOE',                 recordedField: 'v', field: 'value',     source: 'federalregister.gov 30d',    cadenceMs: DAY,  units: 'docs',    q: 0.03, r: 0.10 },
 
   // ── news channels: read recent7d, NEVER value ───────────────────────────────────────
-  { key: 'gridRel',    name: 'Grid Reliability (FERC/NERC)', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'natGas',     name: 'EIA Natural Gas Weekly',       field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'petroStatus',name: 'EIA Weekly Petroleum Status',  field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'opec',       name: 'OPEC Reference Basket',        field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'nuclear',    name: 'Nuclear Energy News',          field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'electricity',name: 'EIA Electricity Monthly',      field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'lng',        name: 'LNG Market News',              field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'iea',        name: 'IEA Energy News',              field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'solar',      name: 'Solar Industry News',          field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'wind',       name: 'Wind Energy News',             field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
-  { key: 'coal',       name: 'Coal Transition News',         field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 }
+  { key: 'gridRel',    name: 'Grid Reliability (FERC/NERC)', recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'natGas',     name: 'EIA Natural Gas Weekly',       recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'petroStatus',name: 'EIA Weekly Petroleum Status',  recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'opec',       name: 'OPEC Reference Basket',        recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'nuclear',    name: 'Nuclear Energy News',          recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'electricity',name: 'EIA Electricity Monthly',      recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'lng',        name: 'LNG Market News',              recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'iea',        name: 'IEA Energy News',              recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'solar',      name: 'Solar Industry News',          recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'wind',       name: 'Wind Energy News',             recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 },
+  { key: 'coal',       name: 'Coal Transition News',         recordedField: 'v', field: 'recent7d', source: 'Google News RSS',            cadenceMs: DAY, units: 'articles/7d', q: 0.06, r: 0.25 }
 ];
 
 /**
@@ -158,57 +188,26 @@ var FINDINGS = [
     test: function (v, s, d) { return typeof s.departure === 'number' && Math.abs(s.departure) >= SIGMA; } }
 ];
 
-/** Build the readings object for one cycle from a live /api/domain-snapshot energy object. */
-function readLive(energyDomain) {
-  var byName = {};
-  (energyDomain && energyDomain.sources || []).forEach(function (s) { byName[s.name] = s; });
-  var out = {};
-  CHANNELS.forEach(function (c) {
-    var v = pickLive(byName[c.name], c.field);
-    if (v !== null) out[c.key] = { value: v };
-  });
-  return out;
-}
-
 /**
- * Build readings from a RECORDER row (handlers/feed-record.js).
+ * ENERGY IS THE COMPATIBILITY REFERENCE for the binder factory.
  *
- * IMPORTANT LIMITATION, stated rather than hidden: the recorder stores each source's `v`,
- * which is the SATURATED `value` field. It does not store recent7d. So a historical replay
- * can only ever see the saturated number.
+ * Everything above is a DECLARATION about energy. Everything that reads a snapshot,
+ * reads a recorded row, validates the manifest and assembles the spec now lives once in
+ * factory.js, so nineteen further domains cannot each drift a copy of it.
  *
- * That is not a defect of the replay — it is the demonstration. Feeding the stored `v` through
- * the liveness gate shows exactly which channels the old brain was thresholding on while they
- * never moved.
+ * `test/domains.js` asserts this spec() is byte-identical to the hand-written manifest it
+ * replaced, and that readRecorderRow returns identical readings over the recorded
+ * fixture. That assertion is not ceremony: this is the only domain with a real fixture
+ * behind it, and every measurement on the scorecard is quoted against these exact
+ * numbers. A factory that quietly changed them would invalidate all of them at once.
  */
-function readRecorderRow(row) {
-  var byName = {};
-  (row && row.src || []).forEach(function (s) { byName[s.n] = s; });
-  var out = {};
-  CHANNELS.forEach(function (c) {
-    var s = byName[c.name];
-    if (s && typeof s.v === 'number' && isFinite(s.v)) out[c.key] = { value: s.v };
-  });
-  return out;
-}
-
-module.exports = {
+module.exports = FACTORY.createBinder({
   domain: 'energy',
-  CHANNELS: CHANNELS,
-  RELATIONSHIPS: REL,
-  FINDINGS: FINDINGS,
-  SIGMA: SIGMA,
-  readLive: readLive,
-  readRecorderRow: readRecorderRow,
-  spec: function () {
-    return {
-      domain: 'energy',
-      version: 'brain-v2/0.1.0-energy',
-      levelsPerSensor: 3,
-      channels: CHANNELS,
-      findings: FINDINGS,
-      relationships: REL,
-      efferent: null   // R7: nothing consumes this yet, and it says so
-    };
-  }
-};
+  version: 'brain-v2/0.1.0-energy',
+  levelsPerSensor: 3,
+  sigma: SIGMA,
+  channels: CHANNELS,
+  findings: FINDINGS,
+  relationships: REL,
+  efferent: null   // R7: nothing consumes this yet, and it says so
+});

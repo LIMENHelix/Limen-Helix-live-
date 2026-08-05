@@ -43,9 +43,46 @@ function createChannel(spec) {
     // belief
     x: (typeof spec.x0 === 'number') ? spec.x0 : 0.5,
     P: (typeof spec.P0 === 'number') ? spec.P0 : 1.0,
-    // SET parameters [mark: prior] — see header on why these are not fitted
+    /**
+     * NOISE PARAMETERS (SPEC row 22). `q` and `r` are the EFFECTIVE values the filter
+     * uses. They start at the declared prior and, once enough innovations exist, are
+     * derived from this channel's own innovation sequence rather than staying set.
+     *
+     * r IS TWO FACTORS, AND THEY MUST NOT BE ONE NUMBER.
+     *
+     *   rBase   what the world's noise is measured to be. Owned by the estimator.
+     *   rGain   how much attention is being paid. Owned by the raise/lower_attention
+     *           actions, which is the loop's only real effector.
+     *
+     * They were the same field until row 22, which made the two mechanisms overwrite
+     * each other: a derivation silently erased every attention change since the last
+     * one, and the efference copy predicting that change would then be scored against a
+     * variable somebody else had already reset. Splitting them lets attention and
+     * measurement compose — r = rBase * rGain — so each mechanism owns exactly what it
+     * is entitled to move.
+     */
     q: (typeof spec.q === 'number') ? spec.q : 0.02,   // process noise per cadence-period
-    r: (typeof spec.r === 'number') ? spec.r : 0.10,   // observation noise
+    r: (typeof spec.r === 'number') ? spec.r : 0.10,   // EFFECTIVE observation noise = rBase * rGain
+    rBase: (typeof spec.r === 'number') ? spec.r : 0.10,
+    rGain: 1.0,
+    /* The declared values, kept so drift away from them stays visible and so a
+       derivation can always be compared against what a human originally chose. */
+    qDeclared: (typeof spec.q === 'number') ? spec.q : 0.02,
+    rDeclared: (typeof spec.r === 'number') ? spec.r : 0.10,
+    /* INNOVATION HISTORY — the estimator's only input. Each entry pairs the innovation
+       with the P_prior that accompanied it, because r = var(v) - mean(P_prior) needs
+       both and pairing them after the fact would mis-align them. */
+    innov: [],
+    innovP: [],
+    /* The ATTENTION GAIN and the EFFECTIVE r actually in force when each innovation was
+       produced. Recorded per sample rather than read at derivation time, because
+       attention moves during a window and the current value says nothing about the
+       conditions the older innovations were collected under. Without these the estimator
+       measures effective r, stores it as base, and applyR() multiplies the gain in a
+       second time. */
+    innovG: [],
+    innovR: [],
+    noiseState: { q: 'prior', r: 'prior', derivations: 0, lastAt: null, why: 'no derivation yet' },
     // history: liveness test AND the per-channel baseline that makes fusion unit-free
     seen: [],
     lastObsAt: null,
@@ -58,8 +95,47 @@ function createChannel(spec) {
        hourly and every downstream horizon would be wrong by 24x. The interval between
        changes is the rate the source can actually answer at. */
     changeAt: [],
-    lastValue: null
+    lastValue: null,
+    /* SOURCE-SUPPLIED observation identity, from the adapter. See sourceIdentity(). */
+    lastSourceIdentity: null
   };
+}
+
+/**
+ * THE IDENTITY OF AN UPSTREAM OBSERVATION, and why it can only come from the adapter.
+ *
+ * Nothing computed locally can tell "the source published a new record" apart from "we
+ * re-read a cached value". Three attempts got this wrong in turn:
+ *
+ *   ch.updates    counts POLLS — incremented on every valid reading, unchanged or not.
+ *   ch.lastSampleAt  is a LOCAL CADENCE CLOCK. Demonstrated: the same value submitted
+ *                 twice, two hours apart, advances it. A cached value crossing a
+ *                 cadence boundary became "new evidence".
+ *   value change  is sufficient but not necessary — see the ladder below.
+ *
+ * Only the adapter knows. It may supply, in order of preference:
+ *
+ *   observationId                  an opaque unique id per upstream record
+ *   sourceRecordId + sourceVersion a record key plus its revision
+ *   sourceObservedAt               when the SOURCE observed it, not when we polled
+ *
+ * Returns null when none is supplied. Null is NOT an invitation to substitute a local
+ * clock — it means the caller cannot distinguish a fresh record from a cached one, and
+ * anything counting evidence must degrade or abstain rather than guess.
+ */
+function sourceIdentity(reading) {
+  if (!reading) return null;
+  if (reading.observationId !== undefined && reading.observationId !== null) {
+    return 'oid:' + reading.observationId;
+  }
+  if (reading.sourceRecordId !== undefined && reading.sourceRecordId !== null) {
+    return 'rec:' + reading.sourceRecordId + '@' +
+      (reading.sourceVersion !== undefined && reading.sourceVersion !== null ? reading.sourceVersion : '-');
+  }
+  if (typeof reading.sourceObservedAt === 'number' && isFinite(reading.sourceObservedAt)) {
+    return 'sat:' + reading.sourceObservedAt;
+  }
+  return null;
 }
 
 var LIVENESS_WINDOW = 12;      // observations considered for the dead-channel test
@@ -177,11 +253,22 @@ function predict(ch, now) {
 function observe(ch, z, now) {
   if (typeof z !== 'number' || !isFinite(z)) return null;
   var pre = ch.x;
+  var Pprior = ch.P;
   var K = ch.P / (ch.P + ch.r);
   var innovation = z - ch.x;
   ch.x = ch.x + K * innovation;
   ch.P = (1 - K) * ch.P;
   ch.updates++;
+
+  /* The estimator's input, recorded at the only point where both halves are true
+     simultaneously. P_prior is captured BEFORE the update overwrites it. */
+  ch.innov.push(innovation);
+  ch.innovP.push(Pprior);
+  /* The realised gain, r/rBase, not the nominal rGain: applyR clamps, so after a clamp
+     the two differ and only the realised one describes the filter that ran. */
+  ch.innovG.push(ch.rBase > 1e-12 ? ch.r / ch.rBase : 1);
+  ch.innovR.push(ch.r);
+  if (ch.innov.length > INNOV_CAP) { ch.innov.shift(); ch.innovP.shift(); ch.innovG.shift(); ch.innovR.shift(); }
 
   /**
    * LIVENESS SAMPLES ARE TAKEN AT THE CHANNEL'S OWN CADENCE, NOT PER OBSERVATION.
@@ -234,6 +321,80 @@ function observe(ch, z, now) {
   return { innovation: innovation, gain: K, prior: pre, posterior: ch.x, sampled: newPeriod };
 }
 
+var INNOV_CAP = 64;
+
+/**
+ * DERIVE q AND r FROM THIS CHANNEL'S OWN INNOVATIONS. SPEC row 22.
+ *
+ * Called explicitly rather than inside observe(), for the same reason topology.evaluate
+ * is: a caller must be able to replay a whole observation sequence and then derive once,
+ * deterministically, and a control run must be able to not call it at all.
+ *
+ * THE PRIOR IS THE CURRENT VALUE, NOT THE DECLARED ONE. Damping toward the declared
+ * constant would make it a spring: the estimate could never travel further than one
+ * damped step from whatever a human first typed, and "derived" would describe a number
+ * still anchored to a guess. Recursive updating converges instead, and the absolute
+ * bounds plus the per-derivation factor limit are what keep it from running away.
+ *
+ * THE FEEDBACK IS REAL AND IS BOUNDED RATHER THAN DENIED. The innovations this reads
+ * were produced by a filter using the r it is about to change, so the estimator consumes
+ * its own output. That is inherent to adaptive filtering, not a defect introduced here,
+ * and the controls on it are explicit: at most a 3x factor per derivation, 30% damping,
+ * a floor and a ceiling, and a minimum sample count. What it is NOT allowed to do is
+ * quietly absorb attention: attention moves rGain, this moves rBase.
+ */
+function deriveNoise(ch, now, opts) {
+  var MP = require('./metaplasticity.js');
+  opts = opts || {};
+  if (ch.innov.length < MP.NOISE_MIN_N) {
+    ch.noiseState = { q: ch.noiseState.q, r: ch.noiseState.r, derivations: ch.noiseState.derivations,
+      lastAt: ch.noiseState.lastAt,
+      why: 'only ' + ch.innov.length + ' innovations; ' + MP.NOISE_MIN_N + ' needed. Holding the declared prior.' };
+    return { derived: false, why: ch.noiseState.why };
+  }
+
+  var rEst = MP.deriveObservationNoise(ch.innov, ch.innovP, Object.assign({
+    prior: ch.rBase, min: 0.01, max: 4.0, gains: ch.innovG
+  }, opts.r || {}));
+  /* `r` is passed so the consistency ratio can be computed against the real S = P + r.
+     Without it the whiteness test would adjust q on autocorrelation alone and walk a
+     slow channel's q to the ceiling. */
+  var qEst = MP.deriveProcessNoise(ch.innov, ch.innovP, Object.assign({
+    prior: ch.q, min: 1e-6, max: 1.0, r: ch.r, rSeries: ch.innovR
+  }, opts.q || {}));
+
+  var before = { q: ch.q, r: ch.r, rBase: ch.rBase };
+  if (rEst.state === 'measured') { ch.rBase = rEst.value; applyR(ch); }
+  if (qEst.state === 'measured') ch.q = qEst.value;
+
+  ch.noiseState = {
+    q: qEst.state === 'measured' ? 'derived' : 'prior',
+    r: rEst.state === 'measured' ? 'derived' : 'prior',
+    derivations: ch.noiseState.derivations + 1,
+    lastAt: now,
+    n: ch.innov.length,
+    why: 'r: ' + rEst.why + ' | q: ' + qEst.why
+  };
+  return { derived: true, before: before, after: { q: ch.q, r: ch.r, rBase: ch.rBase }, r: rEst, q: qEst };
+}
+
+/** Recompute the effective r from its two owners. The only place r is assigned. */
+function applyR(ch) {
+  var v = ch.rBase * ch.rGain;
+  ch.r = v < 0.01 ? 0.01 : (v > 4.0 ? 4.0 : v);
+  return ch.r;
+}
+
+/**
+ * ATTENTION. Multiplies rGain, never rBase — attention is a statement about how closely
+ * we are looking, not a claim about how noisy the world is.
+ */
+function setAttentionGain(ch, gain) {
+  if (typeof gain !== 'number' || !isFinite(gain) || gain <= 0) return ch.r;
+  ch.rGain = gain < 0.05 ? 0.05 : (gain > 20 ? 20 : gain);
+  return applyR(ch);
+}
+
 /**
  * One channel step. This is the whole per-sensor contract:
  *   reading present  -> predict, then observe
@@ -252,6 +413,29 @@ function step(ch, reading, now) {
     departure: null,                       // set below; the unit-free quantity fusion uses
     liveness: live, updates: ch.updates, innovation: null,
     cadence: inferCadence(ch),
+    /**
+     * THE SOURCE-CADENCE OBSERVATION IDENTITY. Consumers that need to know "did this
+     * channel actually say something new" must use these, NOT `updates`.
+     *
+     * `updates` counts POLLS: observe() increments it on every valid reading, including
+     * a re-read of an unchanged value. Verified — observing 5 five times takes updates
+     * from 0 to 5 while the value never moved. Anything counting evidence from it is
+     * counting the scheduler.
+     *
+     *   sampleAt  advances at most once per the channel's own (measured) cadence
+     *             period. Polling faster than the source cannot advance it, which is
+     *             exactly the property "new data arrived" needs.
+     *   changes   genuine value changes recorded, from the same clock cadence
+     *             inference uses.
+     */
+    sampleAt: ch.lastSampleAt,
+    samples: ch.seen.length,
+    changes: ch.changeAt.length,
+    updates: ch.updates,
+    /* THE ONLY FIELD A CONSUMER MAY COUNT EVIDENCE FROM. Null when the adapter supplied
+       no identity, and null must be treated as "cannot tell", never as "no new data"
+       and never as grounds to substitute sampleAt (a local cadence clock). */
+    sourceIdentity: ch.lastSourceIdentity,
     state: 'absent', why: null, fusable: false
   };
 
@@ -282,8 +466,16 @@ function step(ch, reading, now) {
     return out;
   }
 
+  /* Recorded from the READING, before the Kalman update, because it is a property of
+     the upstream record and not of our filter. */
+  ch.lastSourceIdentity = sourceIdentity(reading);
   var upd = observe(ch, reading.value, now);
   out.value = ch.x; out.variance = ch.P; out.precision = 1 / Math.max(ch.P, 1e-9);
+  /* Re-read AFTER observe(), or the sensor reports the pre-observation identity and a
+     consumer counting evidence is always one cycle behind. */
+  out.sampleAt = ch.lastSampleAt; out.samples = ch.seen.length;
+  out.changes = ch.changeAt.length; out.updates = ch.updates;
+  out.sourceIdentity = ch.lastSourceIdentity;
   out.innovation = upd ? upd.innovation : null;
   out.departure = departure(ch);
   out.liveness = liveness(ch);
@@ -323,7 +515,12 @@ function departure(ch) {
 }
 
 module.exports = {
+  deriveNoise: deriveNoise,
+  setAttentionGain: setAttentionGain,
+  applyR: applyR,
+  INNOV_CAP: INNOV_CAP,
   createChannel: createChannel,
+  sourceIdentity: sourceIdentity,
   inferCadence: inferCadence,
   effectiveCadence: effectiveCadence,
   CADENCE_MIN_CHANGES: CADENCE_MIN_CHANGES,

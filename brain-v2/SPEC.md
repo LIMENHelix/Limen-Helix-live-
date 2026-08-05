@@ -1,5 +1,32 @@
 # LIMEN Helix — The Complete Working Brain
 
+<!-- AUTHORITY: ENGINEERING_HYPOTHESIS (reviewer-model subtype) — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02 by the Markdown Authority Audit. Not owner-ratified.**
+>
+> This file asserts below that it is "verbatim, as supplied by the neurologist reviewer" and
+> that a build violating its invariants "is wrong". The repository holds **no reviewer
+> identity, credentials, immutable original, review date, signature, or owner acceptance
+> record** establishing that authority. Treat it as a REVIEWER MODEL and an engineering
+> hypothesis, not as biological law.
+>
+> Several invariants are project doctrine rather than settled neuroscience. INV-6's four
+> "orthogonal" neuromodulators sits against reviews emphasising extensive direct and indirect
+> interaction between these systems (Avery & Krichmar 2017). INV-9's error-only ascent is a
+> theory confronting incompletely documented cortical microcircuitry (Shipp 2016). Mandatory
+> offline consolidation is an engineering choice, not an uncontested requirement (Born &
+> Wilhelm 2012; Siegel 2021). INV-12 self-labels "Project doctrine".
+>
+> **This does not retract the implemented mechanisms or their measured results.** Operational
+> effectiveness and neurological fidelity are scored on separate axes
+> (`OWNER_SYSTEM_INTENT.md` §3). A mechanism that runs on real data keeps its operational
+> credit even where its biological label needs correcting. Relabel by default; delete only on
+> runtime evidence of harm.
+>
+> Each invariant still needs splitting into: biological evidence / software design choice /
+> LIMEN hypothesis.
+
+
+
 **Full domain model. Specification level, from scratch.**
 Version 1.0 · 2026-07-31 · Neurologist track
 

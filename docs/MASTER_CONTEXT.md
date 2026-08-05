@@ -1,5 +1,24 @@
 # LIMEN Helix - Master Context
 
+<!-- AUTHORITY: UNCONFIRMED_ENGINEERING_STRATEGY — see DOCUMENT_AUTHORITY.md -->
+> **AUTHORITY NOTE, added 2026-08-02. Not owner-ratified.**
+>
+> This file carries business doctrine with no recorded owner approval, and it is loaded by
+> prompt-generation commands, so it steers what agents build and refuse. Two items are on hold
+> until the owner confirms them:
+>
+> - **Retired lanes** (patents/grants/loans/SBA/franchise, "never reintroduce"). Enforced by
+>   `.claude/commands/build.md:16` and `.claude/commands/audit.md:10`. **Do not enforce** until
+>   confirmed — it can suppress the broader portal-to-business-and-research mission.
+> - **The legal entity name** was WRONG here and is corrected: the entity is
+>   `LIMEN Helix Transformational Sciences LLC` (owner-confirmed 2026-08-02). Verify the exact
+>   registered spelling against the filing before external use.
+>
+> Its human-holds-the-core rule (spend, funds, buyer contact, outward publishing, signing) is
+> the CONSERVATIVE reading and stands. See `OWNER_SYSTEM_INTENT.md` §5.
+
+
+
 The standing business snapshot every operator/builder session should load before acting.
 This is Dan Martell's "Master Prompt" idea (see `DAN_MARTELL_AI_PLAYBOOK.md` sec 3): give the
 AI persistent business context so its output is grounded, not generic. Internal, firewalled.
@@ -8,7 +27,7 @@ Rule: nothing here is fabricated. Known facts are stated. Numbers only the opera
 are marked `<<FILL>>` - fill them in, do not let the AI invent them.
 
 ## Entity
-- Legal entity: LIMEN Helix LLC
+- Legal entity: LIMEN Helix Transformational Sciences LLC  <!-- CORRECTED 2026-08-02 on owner confirmation; previously read "LIMEN Helix LLC", which was wrong. Verify exact registered spelling against the filing before external use. -->
 - Operator: one person, non-technical on code, technical on strategy. Solo.
 - Funding: unfunded / bootstrapped. Capital-light by necessity (capital ladder L1 first).
 

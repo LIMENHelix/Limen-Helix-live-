@@ -49,6 +49,44 @@ function trackHealth(name, domain, status, reason, value) {
   };
 }
 
+/* Exported at the bottom of this file as `_compositeIdentity` for test. */
+/**
+ * COMPOSITE SOURCE IDENTITY, for an observation DERIVED FROM MORE THAN ONE upstream record.
+ *
+ * A single record's own key identifies it completely. A derived value does not: the
+ * Treasury yield-curve spread is Bills MINUS Notes, so it changes when EITHER side
+ * publishes. Identifying it by the Bills date alone means a Notes publication moves the
+ * value while the identity stays put — the derived observation changes and the system
+ * reads it as a re-read of one it has already counted. That is the same
+ * poll-versus-observation confusion the source key exists to remove, reintroduced one
+ * level up where it is harder to see.
+ *
+ * LABELLED, ORDERED, AND COMPLETE:
+ *   labelled  each component names its role, so 'bills:A|notes:B' can never collide with
+ *             'bills:B|notes:A' — two genuinely different states of the world.
+ *   ordered   components are emitted in the caller's declared order, so the same inputs
+ *             always produce the same string and a replay is stable.
+ *   complete  if ANY component is missing the whole identity is NULL. A composite with a
+ *             hole cannot represent the derived observation: changes in the absent side
+ *             would be invisible, which is worse than admitting we cannot tell. Absent
+ *             identity is handled correctly everywhere downstream; a wrong one is not.
+ *
+ * @param parts [[label, value], ...] in declared order
+ * @returns string, or null when any component is missing
+ */
+function compositeIdentity(parts) {
+  if (!Array.isArray(parts) || !parts.length) return null;
+  var out = [];
+  for (var i = 0; i < parts.length; i++) {
+    var label = parts[i] && parts[i][0];
+    var value = parts[i] && parts[i][1];
+    if (!label) return null;
+    if (value === undefined || value === null || value === '') return null;
+    out.push(label + ':' + String(value));
+  }
+  return out.join('|');
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=25, stale-while-revalidate=10');
@@ -2910,17 +2948,255 @@ async function fetchWorldBankPopulation() {
   } catch (e) { trackHealth('World Bank Population', 'population', 'fallback', e.message); return null; }
 }
 
+/**
+ * UN DATA PORTAL INDICATOR 49 — "Total population by sex", location 840 (USA), PERSONS.
+ *
+ * `pageSize=1` MEANT NO SELECTION WAS POSSIBLE. Indicator 49 is reported BY SEX and across
+ * years and variants, so the endpoint returns male, female and both-sexes rows for every
+ * year in range. Asking for one row and taking `data.data[0]` handed the choice to
+ * whatever the server ordered first: the value could have been male-only population for
+ * the wrong year under a projection variant, and nothing downstream would have known.
+ *
+ * THE RESPONSE SCHEMA IS PUBLISHED, SO NOTHING HERE GUESSES AT IT. An earlier pass scanned
+ * every string field of every row for tokens like "total" and "both", on the belief that
+ * the schema could not be verified from inside this repository. That was wrong, and it was
+ * unsafe: "total" also appears in `category`, in `indicator` ("Total population by sex")
+ * and in location text, so a male row could have been accepted as the combined total.
+ *
+ * All three facts below were read from the portal's own metadata endpoints, which answer
+ * WITHOUT a key (only the data endpoint itself is 401):
+ *
+ *   swagger/DataPortalOpenAPISpecificationv1.0/swagger.json -> MainDataSetFullDto declares
+ *     indicatorId, locationId, sourceId, revision, variantId, variant, variantShortName,
+ *     variantLabel, timeId, timeLabel, timeMid, categoryId, category, estimateType,
+ *     sexId, sex, ageLabel, value.
+ *   api/v1/Indicators/49 -> unitShortLabel "persons", unitScaling 1, dimSex true,
+ *     dimVariant true, defaultSexId 3, defaultVariantId 4, source World Population
+ *     Prospects 2024.
+ *   api/v1/metadata/sexes/49    -> sexId 3 = "Both sexes" (1 Male, 2 Female).
+ *   api/v1/metadata/variants/49 -> variantId 4 = "Median" (the medium-variant series;
+ *     the others are prediction-interval bounds and fertility scenarios).
+ *
+ * So the selector matches DOCUMENTED FIELDS BY EXACT VALUE and reads nothing else. A row
+ * that does not carry those fields is refused, and the fetcher abstains: an unidentified
+ * number is worse than a missing one.
+ *
+ * UNITS ARE PERSONS, NOT THOUSANDS. `unitScaling: 1` and `unitShortLabel: "persons"`, and
+ * the indicator description is "Total number of persons by sex (mid-year)". A US reading
+ * is therefore ~342000000, and a million label divides by 1e6.
+ *
+ * THE MEDIAN VARIANT IS NOT THE SAME STATISTIC IN EVERY YEAR, AND THIS CHANNEL DOES NOT
+ * SEPARATE THEM. The WPP 2024 release note states: "For the estimation period between 1950
+ * and 2023, data from 1,910 censuses were considered in the present evaluation." Years
+ * after 2023 under the Median variant are the medium-variant PROJECTION of the 2024
+ * revision, not a historical estimate — so the last completed calendar year is currently a
+ * projection, and will be for as long as the clock runs ahead of the latest revision.
+ *
+ * `estimateType` is documented and would name which of the two a row is, but its permitted
+ * values need the key, so nothing filters on a value that has not been seen. It is carried
+ * into the source identity instead, where it is recorded and not interpreted: a year
+ * flipping from projection to estimate reads as a new observation rather than a re-poll.
+ *
+ * THE CONSEQUENCE IS DECLARED IN bind/population.js, NOT HIDDEN HERE. The channel is
+ * honest on its own terms — it reports the WPP Median series and says which row it read —
+ * but it cannot be declared to observe the same latent as World Bank SP.POP.TOTL until the
+ * two reference years can be aligned and the kind of statistic is known. That relationship
+ * was declared and has been withdrawn.
+ */
+
+var UN_POP_INDICATOR  = 49;          // Total population by sex
+var UN_POP_LOCATION   = 840;         // USA
+var UN_POP_SEX        = 'both sexes';
+var UN_POP_SEX_ID     = 3;
+var UN_POP_VARIANT    = 'median';
+var UN_POP_VARIANT_ID = 4;
+/* Completed years requested BEFORE the window end, so a late revision or a missing latest
+   year still leaves rows to choose from. */
+var UN_POP_WINDOW_YEARS = 3;
+
+function _unText(v) {
+  if (typeof v !== 'string') return null;
+  var t = v.trim().toLowerCase();
+  return t.length ? t : null;
+}
+function _unInt(v) {
+  return (typeof v === 'number' && isFinite(v) && Math.floor(v) === v) ? v : null;
+}
+/* The variant name, from the DTO's variant fields in the order the DTO declares them.
+   Returns the field it came from so the caller can say which one it read. */
+function _unRowVariant(row) {
+  var fields = ['variant', 'variantShortName', 'variantLabel'];
+  for (var i = 0; i < fields.length; i++) {
+    var t = _unText(row[fields[i]]);
+    if (t) return { name: t, field: fields[i] };
+  }
+  return null;
+}
+/* `timeLabel` only, and only as a bare four-digit year. No other field is consulted: a
+   scan for "something that looks like a year" is how `category` or an id becomes a date. */
+function _unRowYear(row) {
+  var t = _unText(row.timeLabel);
+  return (t && /^\d{4}$/.test(t)) ? parseInt(t, 10) : null;
+}
+
+function _unWhyNone(n, maxYear) {
+  var parts = [];
+  if (n.sex) parts.push(n.sex + ' rejected on `sex`: indicator 49 is reported BY SEX and only a row ' +
+    'whose sex is exactly "Both sexes" (sexId 3) is the combined total');
+  if (n.variant) parts.push(n.variant + ' rejected on variant: only the documented "Median" variant ' +
+    '(variantId 4) is read, and a prediction-interval bound or fertility scenario is a different statistic');
+  if (n.year) parts.push(n.year + ' rejected on `timeLabel`: no four-digit year at or before ' + maxYear);
+  if (n.value) parts.push(n.value + ' rejected on `value`: not a finite number');
+  if (n.identity) parts.push(n.identity + ' rejected on indicatorId/locationId: not indicator ' +
+    UN_POP_INDICATOR + ' at location ' + UN_POP_LOCATION);
+  return 'no row satisfies the documented schema for indicator ' + UN_POP_INDICATOR + ' at location ' +
+    UN_POP_LOCATION + (parts.length ? ' — ' + parts.join('; ') : '');
+}
+
+/**
+ * Choose the one indicator-49 row that is indicator 49, location 840, both sexes, the
+ * Median variant, and the latest year at or before `opts.maxYear`. Returns
+ * { row, year, sex, variant, variantField, why } with row null when the observation is
+ * absent or ambiguous.
+ *
+ * NEVER falls back to the first row. Ambiguity is refused: if two rows survive every
+ * filter there is no basis for preferring one, and picking either would reintroduce the
+ * array-order bug with extra steps.
+ */
+function _selectUNPopulationRow(rows, opts) {
+  opts = opts || {};
+  if (!Array.isArray(rows) || !rows.length) return { row: null, why: 'no rows returned' };
+  var maxYear = _unInt(opts.maxYear);
+  if (maxYear === null) {
+    return { row: null, why: 'no integer `maxYear` ceiling supplied; without one a projection year is ' +
+      'indistinguishable from a completed one and the choice drifts with whatever the response contains' };
+  }
+
+  var n = { identity: 0, sex: 0, variant: 0, year: 0, value: 0 };
+  var qualified = [];
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    if (!r || typeof r !== 'object') { n.identity++; continue; }
+    if (_unInt(r.indicatorId) !== UN_POP_INDICATOR || _unInt(r.locationId) !== UN_POP_LOCATION) { n.identity++; continue; }
+
+    /* BOTH SEXES, from `sex` alone. Not from `category`, not from `indicator`, not from
+       location text — an unrelated string reading "Total" is not evidence about sex. */
+    var sex = _unText(r.sex);
+    if (sex !== UN_POP_SEX) { n.sex++; continue; }
+    if (_unInt(r.sexId) !== null && _unInt(r.sexId) !== UN_POP_SEX_ID) { n.sex++; continue; }
+
+    var variant = _unRowVariant(r);
+    if (!variant || variant.name !== UN_POP_VARIANT) { n.variant++; continue; }
+    if (_unInt(r.variantId) !== null && _unInt(r.variantId) !== UN_POP_VARIANT_ID) { n.variant++; continue; }
+
+    var year = _unRowYear(r);
+    if (year === null || year > maxYear) { n.year++; continue; }
+    if (typeof r.value !== 'number' || !isFinite(r.value)) { n.value++; continue; }
+
+    qualified.push({ row: r, year: year, sex: sex, variant: variant.name, variantField: variant.field });
+  }
+  if (!qualified.length) return { row: null, why: _unWhyNone(n, maxYear) };
+
+  qualified.sort(function (a, b) { return b.year - a.year; });
+  var best = qualified[0];
+  var tied = qualified.filter(function (e) { return e.year === best.year; });
+  if (tied.length > 1) {
+    return { row: null, why: tied.length + ' rows are both sexes, Median and share year ' + best.year +
+      '; the observation is ambiguous and is refused rather than chosen by position' };
+  }
+  return { row: best.row, year: best.year, sex: best.sex, variant: best.variant, variantField: best.variantField,
+    why: 'indicator ' + UN_POP_INDICATOR + ', location ' + UN_POP_LOCATION + ', ' + best.sex + ', ' +
+      best.variant + ' variant (from `' + best.variantField + '`), ' + best.year + ', uniquely matched' };
+}
+
+/**
+ * THE REQUEST WINDOW IS ROLLING, NOT FROZEN. It was pinned at start/2023/end/2025, which
+ * stops being current the moment 2025 is not the latest completed year — the channel would
+ * have gone quietly stale rather than failing, which is the worse of the two.
+ *
+ * The end is the last COMPLETED calendar year, and the selector is given the same year as
+ * its ceiling so the request and the choice cannot disagree.
+ *
+ * THE FILTERS ARE ASKED FOR, NOT HOPED FOR. An earlier version requested the path form
+ * (`/start/{y}/end/{y}`) with `pageSize=100` and relied on one page containing the row it
+ * wanted. `pageSize` is documented as "defaults to 100, MAXIMUM 100", so a full page is
+ * evidence of nothing: it is exactly what a truncated response looks like. The query form
+ * of the same endpoint accepts `variants` and `sexes`, so the server is asked for
+ * variantId 4 and sexId 3 directly and the candidate set is small by construction.
+ *
+ * The per-row validation is unchanged and still exact. A filter narrows what arrives; it
+ * does not prove what arrived, and a server that ignores an unknown query parameter would
+ * return everything. Both halves are needed.
+ */
+function _unPopulationWindow(now) {
+  var d = (now instanceof Date) ? now : new Date(typeof now === 'number' ? now : Date.now());
+  if (!isFinite(d.getTime())) d = new Date();
+  var endYear = d.getUTCFullYear() - 1;
+  var startYear = endYear - UN_POP_WINDOW_YEARS;
+  return {
+    startYear: startYear,
+    endYear: endYear,
+    url: 'https://population.un.org/dataportalapi/api/v1/data/indicators/' + UN_POP_INDICATOR +
+         '/locations/' + UN_POP_LOCATION +
+         '?startYear=' + startYear + '&endYear=' + endYear +
+         '&variants=' + UN_POP_VARIANT_ID + '&sexes=' + UN_POP_SEX_ID + '&pageSize=100'
+  };
+}
+
+/**
+ * SOURCE IDENTITY BUILT FROM THE ROW THAT WAS ACTUALLY ACCEPTED, never from what the
+ * selector was asked for. `variant` carries the row's own normalised variant, so a Median
+ * row can never be recorded as "estimate". `sourceId`, `revision` and `estimateType` are
+ * appended when the row carries them, so a new WPP revision of the same year reads as a
+ * new observation rather than a re-poll of the old one.
+ */
+function _unPopulationIdentity(picked) {
+  if (!picked || !picked.row) return null;
+  var r = picked.row;
+  var parts = [
+    ['un-indicator', _unInt(r.indicatorId)],
+    ['location', _unInt(r.locationId)],
+    ['year', picked.year],
+    ['sex', picked.sex],
+    ['variant', picked.variant]
+  ];
+  if (_unInt(r.sourceId)) parts.push(['source', _unInt(r.sourceId)]);
+  if (_unInt(r.revision)) parts.push(['revision', _unInt(r.revision)]);
+  var et = _unText(r.estimateType);
+  if (et) parts.push(['estimate-type', et]);
+  return compositeIdentity(parts);
+}
+
 async function fetchUNPopulation() {
   var key = process.env.UN_POPULATION_API_KEY;
   if (!key) { trackHealth('UN Population', 'population', 'fallback', 'UN_POPULATION_API_KEY not set'); return null; }
   try {
     var headers = { 'Authorization': 'Bearer ' + key };
-    var resp = await timedFetch('https://population.un.org/dataportalapi/api/v1/data/indicators/49/locations/840/start/2023/end/2025?pageSize=1', { headers: headers });
+    /* FULL PAGE over a ROLLING completed-year window. The endpoint reports by sex across
+       years and variants; one row is not a choice, and a frozen window goes stale. */
+    var win = _unPopulationWindow(new Date());
+    var resp = await timedFetch(win.url, { headers: headers });
     var data = await resp.json();
-    if (!data || !data.data || !data.data[0]) { trackHealth('UN Population', 'population', 'fallback', 'empty response'); return null; }
-    var val = data.data[0].value || 0;
+    if (!data || !Array.isArray(data.data) || !data.data.length) {
+      trackHealth('UN Population', 'population', 'fallback', 'empty response'); return null;
+    }
+    /* Same year as the request end, so the request and the choice cannot disagree. */
+    var picked = _selectUNPopulationRow(data.data, { maxYear: win.endYear });
+    if (!picked.row) {
+      trackHealth('UN Population', 'population', 'fallback', 'indicator 49 selection refused: ' + picked.why);
+      return null;
+    }
+    var val = picked.row.value;
     trackHealth('UN Population', 'population', 'live', null, val);
-    return { value: round(val), label: 'UN pop ' + (val/1000).toFixed(0) + 'M', activity: 0.2, channel: 'context', signal: 'UN population estimate', updated: Date.now(), fetchedAt: Date.now() };
+    return {
+      value: round(val),
+      /* PERSONS. unitScaling 1, so a million label divides by 1e6. */
+      label: 'UN pop ' + (val / 1e6).toFixed(0) + 'M (both sexes, ' + picked.year + ')',
+      activity: 0.2, channel: 'context',
+      signal: 'UN total population by sex, both sexes combined, ' + picked.year + ': ' + (val / 1e6).toFixed(1) + 'M persons',
+      updated: Date.now(), fetchedAt: Date.now(),
+      sourceUpdatedAt: _unPopulationIdentity(picked)
+    };
   } catch (e) { trackHealth('UN Population', 'population', 'fallback', e.message); return null; }
 }
 
@@ -3596,6 +3872,64 @@ async function fetchSCMP() {
 
 // ─── FINANCE ────────────────────────────────────────────────────────────
 
+/**
+ * SPY QUOTE IDENTITIES — the three channels that observe one latent, and the only reason
+ * any of them can be recorded as an OBSERVATION rather than a poll.
+ *
+ * `updated` and `fetchedAt` on every fetcher in this file are `Date.now()`. They are OUR
+ * clock. A row carrying only those says when we asked, never when the publisher published,
+ * so two hundred polls of one unchanged quote look like two hundred observations. The
+ * recorder stores `sourceUpdatedAt` as `su` precisely to tell those apart, and measured
+ * against the live feed only 1 of 13 finance channels supplied one.
+ *
+ * These three are patched and the other ten are deliberately left alone. Finance needs ONE
+ * declared relationship with keys on both sides, and the live pair is Finnhub against Alpha
+ * Vantage. Massive is patched alongside them because it is the third leg of the same
+ * declared latent, not because it is required — that adapter is currently returning nothing.
+ *
+ * THE UNIT OF EACH UPSTREAM STAMP IS NOT ASSERTED. Finnhub's `t` and Polygon's `r.t` are
+ * recorded verbatim under labels that claim nothing about seconds or milliseconds, because
+ * an identity does not need to interpret a stamp to be a stable key, and the one thing
+ * worse than an uninterpreted key is a confidently mislabelled one. Alpha Vantage's field
+ * IS verified: `Global Quote["07. latest trading day"]` returns "YYYY-MM-DD" (checked
+ * against their documented demo key), so it is validated as a date and nothing more.
+ *
+ * ALPHA VANTAGE'S KEY IS DAILY BY CONSTRUCTION. Every poll within one trading day yields
+ * the same identity, which is correct and is the point: it is one observation. Accumulating
+ * six distinct keys on that side therefore takes about six trading days, not six hours.
+ *
+ * Each helper returns null rather than a substitute when the upstream field is absent. The
+ * caller then omits `sourceUpdatedAt` and keeps the reading: a value with no provenance is
+ * still a value, and inventing provenance for it is the failure this whole branch exists
+ * to remove.
+ */
+var SPY_SYMBOL = 'SPY';
+
+/* Finnhub /quote. `t` is the quote's own stamp; recorded verbatim, unit not claimed. */
+function _finnhubQuoteIdentity(data, symbol) {
+  var t = data && data.t;
+  if (typeof t !== 'number' || !isFinite(t) || t <= 0) return null;
+  return compositeIdentity([['finnhub', 'quote'], ['symbol', symbol], ['quote-t', Math.floor(t)]]);
+}
+
+/* Alpha Vantage GLOBAL_QUOTE. The trading day is a real publisher-side date, validated as
+   YYYY-MM-DD so a changed format fails closed instead of keying on a stray string. */
+function _alphaVantageQuoteIdentity(data, symbol) {
+  var q = data && data['Global Quote'];
+  var day = q && q['07. latest trading day'];
+  if (typeof day !== 'string') return null;
+  day = day.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  return compositeIdentity([['alphavantage', 'global-quote'], ['symbol', symbol], ['trading-day', day]]);
+}
+
+/* Polygon previous-aggregate. `r.t` stamps the aggregate window; verbatim, unit not claimed. */
+function _polygonAggregateIdentity(result, symbol) {
+  var t = result && result.t;
+  if (typeof t !== 'number' || !isFinite(t) || t <= 0) return null;
+  return compositeIdentity([['polygon', 'prev-agg'], ['symbol', symbol], ['agg-t', Math.floor(t)]]);
+}
+
 async function fetchAlphaVantage() {
   var key = process.env.ALPHA_VANTAGE_API_KEY;
   if (!key) { trackHealth('Alpha Vantage Market', 'finance', 'fallback', 'ALPHA_VANTAGE_API_KEY not set'); return null; }
@@ -3607,7 +3941,11 @@ async function fetchAlphaVantage() {
     if (isNaN(price)) { trackHealth('Alpha Vantage Market', 'finance', 'fallback', 'non-numeric'); return null; }
     var stress = clamp(Math.abs(change) / 3, 0, 1);
     trackHealth('Alpha Vantage Market', 'finance', 'live', null, price);
-    return { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'S&P 500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    var out = { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'S&P 500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    /* OMITTED, NOT FABRICATED, when the publisher supplies no trading day. */
+    var id = _alphaVantageQuoteIdentity(data, SPY_SYMBOL);
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Alpha Vantage Market', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -3621,7 +3959,11 @@ async function fetchFinnhub() {
     var pctChange = data.o > 0 ? ((data.c - data.o) / data.o) * 100 : 0;
     var stress = clamp(Math.abs(pctChange) / 3, 0, 1);
     trackHealth('Finnhub Market', 'finance', 'live', null, price);
-    return { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'market move ' + (pctChange >= 0 ? '+' : '') + pctChange.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    var out = { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'market move ' + (pctChange >= 0 ? '+' : '') + pctChange.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    /* OMITTED, NOT FABRICATED, when `t` is absent or not a positive finite number. */
+    var id = _finnhubQuoteIdentity(data, SPY_SYMBOL);
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Finnhub Market', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -3654,12 +3996,26 @@ async function fetchTreasuryYieldCurve() {
       headers: { 'User-Agent': 'LIMEN-Helix/1.0' }
     });
     if (!data || !data.data || !data.data.length) { trackHealth('Treasury Yield Curve', 'finance', 'fallback', 'empty response'); return null; }
-    var billsRate = null, notesRate = null;
+    var billsRate = null, notesRate = null, billsDate = null, notesDate = null;
     for (var i = 0; i < data.data.length; i++) {
       var d = data.data[i];
-      if (d.security_desc === 'Treasury Bills' && billsRate === null) billsRate = parseFloat(d.avg_interest_rate_amt);
-      if (d.security_desc === 'Treasury Notes' && notesRate === null) notesRate = parseFloat(d.avg_interest_rate_amt);
+      /* THE SOURCE'S OWN OBSERVATION KEY, FROM BOTH RECORDS. `record_date` is the field
+         this request already sorts on (`?sort=-record_date`), so it is the API's own
+         record identity rather than a local clock — `updated`/`fetchedAt` below are both
+         Date.now() and cannot tell a fresh publication from a re-read.
+         BOTH sides are captured because the value below is Bills MINUS Notes: it moves
+         when either publishes, so identifying it by the Bills date alone would let a
+         Notes publication change the number while the identity stayed still. */
+      if (d.security_desc === 'Treasury Bills' && billsRate === null) {
+        billsRate = parseFloat(d.avg_interest_rate_amt);
+        billsDate = d.record_date || null;
+      }
+      if (d.security_desc === 'Treasury Notes' && notesRate === null) {
+        notesRate = parseFloat(d.avg_interest_rate_amt);
+        notesDate = d.record_date || null;
+      }
     }
+    var recDate = compositeIdentity([['bills', billsDate], ['notes', notesDate]]);
     if (billsRate === null || notesRate === null || isNaN(billsRate) || isNaN(notesRate)) {
       trackHealth('Treasury Yield Curve', 'finance', 'fallback', 'missing bills or notes rate');
       return null;
@@ -3668,7 +4024,7 @@ async function fetchTreasuryYieldCurve() {
     var inversion = billsRate - notesRate;
     var stress = inversion > 0 ? clamp(inversion / 1.5, 0, 1) : 0;
     trackHealth('Treasury Yield Curve', 'finance', 'live', null, inversion);
-    return { value: inversion, label: 'Bills-Notes ' + inversion.toFixed(2) + 'pp', stress: round(stress), signal: inversion > 0 ? 'yield curve inverted ' + inversion.toFixed(2) + 'pp (bills>notes)' : 'yield curve normal ' + inversion.toFixed(2) + 'pp', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: inversion, label: 'Bills-Notes ' + inversion.toFixed(2) + 'pp', stress: round(stress), signal: inversion > 0 ? 'yield curve inverted ' + inversion.toFixed(2) + 'pp (bills>notes)' : 'yield curve normal ' + inversion.toFixed(2) + 'pp', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: recDate };
   } catch (e) { trackHealth('Treasury Yield Curve', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4133,7 +4489,9 @@ async function fetchTreasuryDebtOutstanding() {
     var debtT = totalDebt / 1e12; // raw dollars → trillions
     var stress = clamp((debtT - 30) / 15, 0, 1);
     trackHealth('Treasury Debt Outstanding', 'economy', 'live', null, debtT);
-    return { value: debtT, label: 'US debt $' + debtT.toFixed(2) + 'T', stress: round(stress), signal: 'total US debt outstanding $' + debtT.toFixed(2) + 'T (FY' + (latest.record_fiscal_year || 'n/a') + ')', updated: Date.now(), fetchedAt: Date.now() };
+    /* `record_date` is this request's own sort key, so it is the API's record identity.
+       The fetcher already reads `record_fiscal_year` off the same row. */
+    return { value: debtT, label: 'US debt $' + debtT.toFixed(2) + 'T', stress: round(stress), signal: 'total US debt outstanding $' + debtT.toFixed(2) + 'T (FY' + (latest.record_fiscal_year || 'n/a') + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: latest.record_date || null };
   } catch (e) { trackHealth('Treasury Debt Outstanding', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -5095,7 +5453,11 @@ async function fetchMassiveSPY() {
     // Stress: bigger daily drop = higher stress. >2% drop = high stress
     var stress = clamp(Math.abs(Math.min(change, 0)) / 3, 0, 1);
     trackHealth('Massive SPY', 'finance', 'live', null, r.c);
-    return { value: r.c, label: 'SPY $' + r.c.toFixed(2) + ' (' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%)', stress: round(stress), signal: 'S&P500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    var out = { value: r.c, label: 'SPY $' + r.c.toFixed(2) + ' (' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%)', stress: round(stress), signal: 'S&P500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    /* OMITTED, NOT FABRICATED, when the aggregate carries no window stamp. */
+    var id = _polygonAggregateIdentity(r, SPY_SYMBOL);
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Massive SPY', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -5574,3 +5936,19 @@ async function fetchMindfulnessIndustry() {
 
 function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
 function round(v) { return Math.round(v * 100) / 100; }
+
+/* Pure, network-free, and exported so the composite-identity rule can be verified
+   offline. The fetchers themselves cannot be tested without live calls. */
+module.exports._compositeIdentity = compositeIdentity;
+module.exports._selectUNPopulationRow = _selectUNPopulationRow;
+module.exports._unPopulationWindow = _unPopulationWindow;
+module.exports._unPopulationIdentity = _unPopulationIdentity;
+module.exports._finnhubQuoteIdentity = _finnhubQuoteIdentity;
+module.exports._alphaVantageQuoteIdentity = _alphaVantageQuoteIdentity;
+module.exports._polygonAggregateIdentity = _polygonAggregateIdentity;
+/* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
+   wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
+   that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
+module.exports._fetchFinnhub = fetchFinnhub;
+module.exports._fetchAlphaVantage = fetchAlphaVantage;
+module.exports._fetchMassiveSPY = fetchMassiveSPY;

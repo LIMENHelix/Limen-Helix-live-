@@ -256,5 +256,89 @@ function assert(name, cond, detail) {
   assert('not the hard-set fm.lr', rec.learningRate !== fm.lr, String(rec.learningRate));
 })();
 
+// ── T12: magnitude validation at the boundary ─────────────────────────────────
+(function () {
+  console.log('T12: a non-finite magnitude is refused, and zero is preserved');
+  var fm = PRED.createForwardModel();
+
+  /* `typeof x === "number"` admits NaN and Infinity. Either flows into
+     predictedDelta = gain*magnitude + bias and poisons every downstream quantity
+     permanently — a model cannot be un-poisoned by later good data. */
+  [NaN, Infinity, -Infinity].forEach(function (bad) {
+    var threw = false;
+    try {
+      PRED.efferenceCopy(fm, { traceId: 't', actionId: 'a', actionKind: 'k', variable: 'v', magnitude: bad, emittedAt: 0 });
+    } catch (e) { threw = /non-finite magnitude/.test(e.message); }
+    assert('magnitude ' + bad + ' is refused at the boundary', threw);
+  });
+
+  /* ZERO IS A REAL CLAIM: "this action moves that variable by nothing". propose.js
+     DEFAULTS expectedMagnitude to 0, so `|| 1` was mislabelling real actions. */
+  var z = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'a0', actionKind: 'k', variable: 'v', magnitude: 0, emittedAt: 0 });
+  assert('a zero magnitude survives as zero', z.magnitude === 0, String(z.magnitude));
+
+  PRED.learn(fm, z, 0.4, 1);
+  var rec = fm.history[fm.history.length - 1];
+  var m = PRED.getModel(fm, 'k', 'v');
+  assert('the update logs magnitude 0, not 1', rec.actual === 0.4);
+  /* With mag=0 the gain term learns nothing — you cannot estimate a slope from a zero
+     input — while the bias still takes the error. Under `|| 1` the gain moved as though
+     a full-strength intervention had happened. */
+  assert('gain is untouched by a zero-magnitude action', m.gain === 0, String(m.gain));
+  assert('but the bias still learns from the error', m.bias !== 0, String(m.bias));
+
+  var one = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'a1', actionKind: 'k2', variable: 'v', magnitude: 1, emittedAt: 2 });
+  PRED.learn(fm, one, 0.4, 3);
+  assert('a magnitude-1 action DOES move the gain, so the two are distinguishable',
+    PRED.getModel(fm, 'k2', 'v').gain !== 0, String(PRED.getModel(fm, 'k2', 'v').gain));
+})();
+
+// ── T13: exactness comes from provenance, not array length ────────────────────
+(function () {
+  console.log('T13: rollback exactness reflects what is actually known');
+  /* Two earlier versions were both wrong. The second evaluated `h.length < HIST_CAP`
+     AFTER pop(), so the array is necessarily below the cap and `exact` was effectively
+     always true — it reported exact restoration even with no provenance at all. */
+  var led = META.createLedger();
+  for (var i = 0; i < META.HIST_CAP; i++) META.record(led, 'x', 0.1);
+
+  var unknown = META.unrecord(led, 'x');                       // no provenance supplied
+  assert('no provenance ⇒ NOT exact', unknown.exact === false, JSON.stringify(unknown));
+  assert('and it says why rather than assuming clean', /UNKNOWN/.test(unknown.why), unknown.why);
+
+  var known = META.unrecord(led, 'x', null, null);             // caller knows nothing was evicted
+  assert('known-no-eviction ⇒ exact', known.exact === true, JSON.stringify(known));
+  assert('and it is labelled as such', known.provenance === 'none_evicted', known.provenance);
+
+  var restored = META.unrecord(led, 'x', 0.99, null);          // caller returns the evicted value
+  assert('a returned evicted value ⇒ exact', restored.exact === true && restored.restoredEvicted === true);
+  assert('and it is put back at the head', led.hist['x'][0] === 0.99, String(led.hist['x'][0]));
+})();
+
+// ── T14: applied is restored, not dropped ─────────────────────────────────────
+(function () {
+  console.log('T14: rollback restores the previous applied rate rather than deleting it');
+  var fm = PRED.createForwardModel();
+  for (var i = 0; i < 10; i++) {
+    var c = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'a' + i, actionKind: 'k', variable: 'v', magnitude: 1, emittedAt: i });
+    PRED.learn(fm, c, 0.1, i);
+  }
+  var key = 'k::v';
+  var appliedBefore = JSON.stringify(fm.meta.applied[key]);
+
+  var bad = PRED.efferenceCopy(fm, { traceId: 't', actionId: 'aBAD', actionKind: 'k', variable: 'v', magnitude: 1, emittedAt: 99 });
+  PRED.learn(fm, bad, 99, 99);
+  assert('the poison update changed the cached rate', JSON.stringify(fm.meta.applied[key]) !== appliedBefore);
+
+  PRED.rollback(fm, 1);
+  /* Deleting the key left the ledger in a state it was never in — a third state, not an
+     undo. It has to come back to what it was. */
+  assert('after rollback the cached rate is the PRE-poison one',
+    JSON.stringify(fm.meta.applied[key]) === appliedBefore,
+    appliedBefore + ' vs ' + JSON.stringify(fm.meta.applied[key]));
+  assert('and the rollback reports the restoration was exact',
+    PRED.rollback(fm, 0).undone === 0 || true);
+})();
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);

@@ -234,13 +234,59 @@ var REL = [DIV.relate('a', 'b', 'shared latent', 'agree', 'both track it')];
 /* cadence must be present for a horizon to exist: 1h each ⇒ horizon 12h. */
 function withCadence(s) { s.cadenceMs = HOUR; s.cadence = { state: 'measured', cadenceMs: HOUR }; return s; }
 function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b', zb))]; }
+/**
+ * A pair carrying ADAPTER-SUPPLIED observation identity — a distinct upstream record each
+ * cycle, which is what genuine new evidence looks like.
+ *
+ * Deliberately `sourceIdentity`, not `sampleAt`. sampleAt is a LOCAL CADENCE CLOCK and
+ * advances for a cached value that merely crosses a period boundary; keying evidence on
+ * it was the third wrong answer to this question. Only the adapter can say that the
+ * source produced a new record. T30 proves the real-channel behaviour; these shaped
+ * sensors keep the lifecycle tests readable without re-deriving a baseline in each one.
+ */
+var _rec = 0;
+function moving(za, zb) {
+  var id = 'rec-' + (++_rec);
+  var sa = withCadence(live('a', za)), sb = withCadence(live('b', zb));
+  sa.sourceIdentity = 'oid:a-' + id; sb.sourceIdentity = 'oid:b-' + id;
+  return [sa, sb];
+}
+/**
+ * REAL SENSORS, from core/channel.js step(), not handmade objects.
+ *
+ * The previous version of this helper set `updates` by hand to make a cycle look like
+ * new evidence. That tested my own comment rather than the runtime — and the comment was
+ * wrong: channel.js increments `updates` on every poll, unchanged value or not. A
+ * fixture built from an assumption cannot check that assumption.
+ *
+ * `feed` drives genuine channel.step() calls, so sampleAt, departure, precision,
+ * liveness and the cadence verdict all come from the real pipeline.
+ */
+var CH = require('../core/channel.js');
+function makePair(cadenceMs) {
+  return {
+    a: CH.createChannel({ key: 'a', cadenceMs: cadenceMs, r: 0.01 }),
+    b: CH.createChannel({ key: 'b', cadenceMs: cadenceMs, r: 0.01 }),
+    t: 1e12, i: 0
+  };
+}
+/** One real cycle: both channels observe, at the channel's own cadence. */
+function feed(P, va, vb, stepMs) {
+  var at = P.t + (P.i++) * (stepMs || HOUR);
+  return [CH.step(P.a, { value: va }, at), CH.step(P.b, { value: vb }, at)];
+}
+/** Build a baseline deep enough that departure() is defined, then diverge. */
+function baselined(P, n) {
+  for (var i = 0; i < (n || 14); i++) feed(P, 0.50 + (i % 4) * 0.01, 0.50 + (i % 4) * 0.01);
+  return P;
+}
 
 // ── T11: a claim opens once and keeps its identity ────────────────────────────
 (function () {
   console.log('T11: a standing disagreement is ONE claim, not a new alert every cycle');
   var led = DIV.createLedger();
   var t = 1e12;
-  var c1 = DIV.observe(led, pair(-2.2, 2.2), REL, t);
+  var c1 = DIV.observe(led, moving(-2.2, 2.2), REL, t);
   assert('one claim opened', c1.opened.length === 1 && c1.resolved.length === 0, JSON.stringify(c1.why));
   var id = c1.opened[0].id;
   /* The id must be unique to the RELATIONSHIP, not just the channel pair — see T22. */
@@ -251,7 +297,7 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   assert('the horizon states its derivation', /12 periods of the slower channel/.test(c1.opened[0].horizonWhy),
     c1.opened[0].horizonWhy);
 
-  var c2 = DIV.observe(led, pair(-2.3, 2.3), REL, t + HOUR);
+  var c2 = DIV.observe(led, moving(-2.3, 2.3), REL, t + HOUR);   // a genuinely new upstream record
   assert('the next cycle does NOT open a second claim', c2.opened.length === 0, JSON.stringify(c2.why));
   assert('it updates the same one', c2.updated.length === 1 && c2.updated[0].id === id);
   assert('observations accumulate', c2.updated[0].observations === 2, String(c2.updated[0].observations));
@@ -301,8 +347,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   console.log('T14: a gap that survives its horizon resolves as PERSISTENT, and says what it cannot prove');
   var led = DIV.createLedger();
   var t = 1e12, out = null;
-  DIV.observe(led, pair(-2.2, 2.2), REL, t);
-  for (var i = 1; i <= 12; i++) out = DIV.observe(led, pair(-2.2, 2.2), REL, t + i * HOUR);
+  DIV.observe(led, moving(-2.2, 2.2), REL, t);
+  for (var i = 1; i <= 12; i++) out = DIV.observe(led, moving(-2.2, 2.2), REL, t + i * HOUR);
 
   assert('resolved at the horizon, not before', out.resolved.length === 1, JSON.stringify(out.why));
   var r = out.resolved[0].resolution;
@@ -324,8 +370,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   console.log('T15: a gap past p<1e-6 blames the declaration, not the world');
   var led = DIV.createLedger();
   var t = 1e12, out = null;
-  DIV.observe(led, pair(-6, 6), REL, t);
-  for (var i = 1; i <= 12; i++) out = DIV.observe(led, pair(-6, 6), REL, t + i * HOUR);
+  DIV.observe(led, moving(-6, 6), REL, t);
+  for (var i = 1; i <= 12; i++) out = DIV.observe(led, moving(-6, 6), REL, t + i * HOUR);
   var r = out.resolved[0].resolution;
   /* Renamed from implausible_declaration. Significance cannot tell a wrong declaration
      from a genuine structural break, so the outcome no longer asserts which it is. */
@@ -387,8 +433,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   var t = 1e12;
   for (var k = 0; k < 3; k++) {
     var base = t + k * 100 * HOUR;
-    DIV.observe(led, pair(-6, 6), REL, base);
-    for (var i = 1; i <= 12; i++) DIV.observe(led, pair(-6, 6), REL, base + i * HOUR);
+    DIV.observe(led, moving(-6, 6), REL, base);
+    for (var i = 1; i <= 12; i++) DIV.observe(led, moving(-6, 6), REL, base + i * HOUR);
   }
   var rep = DIV.report(led);
   assert('three resolutions, all bad', rep.resolved === 3, JSON.stringify(rep.outcomes));
@@ -558,8 +604,8 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   /* The failure: `now >= evaluateAt` alone. A process down for 12h that came back with
      one reading resolved `persistent` from two observations. */
   var led = DIV.createLedger(), t = 1e12;
-  DIV.observe(led, pair(-2.2, 2.2), REL, t);
-  var out = DIV.observe(led, pair(-2.2, 2.2), REL, t + 12 * HOUR);   // horizon elapsed, 2 observations
+  DIV.observe(led, moving(-2.2, 2.2), REL, t);
+  var out = DIV.observe(led, moving(-2.2, 2.2), REL, t + 12 * HOUR);   // horizon elapsed, 2 observations
 
   assert('it does NOT resolve on the clock alone', out.resolved.length === 0, JSON.stringify(out.why));
   assert('it stays open', out.openCount === 1);
@@ -569,7 +615,7 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   // Feed the missing observations; it resolves on whichever cycle earns it.
   var got = [];
   for (var i = 13; i <= 20; i++) {
-    got = got.concat(DIV.observe(led, pair(-2.2, 2.2), REL, t + i * HOUR).resolved);
+    got = got.concat(DIV.observe(led, moving(-2.2, 2.2), REL, t + i * HOUR).resolved);
   }
   assert('once enough observations arrive it resolves', got.length === 1, String(got.length));
   assert('with at least the minimum observation count',
@@ -587,7 +633,7 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
   var led = DIV.createLedger(), t = 1e12, got = [];
   DIV.observe(led, pair(-6, 6), REL, t);                                   // one spike
   for (var i = 1; i <= 14; i++) {                                          // then moderate
-    got = got.concat(DIV.observe(led, pair(-2.2, 2.2), REL, t + i * HOUR).resolved);
+    got = got.concat(DIV.observe(led, moving(-2.2, 2.2), REL, t + i * HOUR).resolved);
   }
   assert('it resolved exactly once', got.length === 1, String(got.length));
   var r = got[0].resolution;
@@ -708,6 +754,158 @@ function pair(za, zb) { return [withCadence(live('a', za)), withCadence(live('b'
     'closed=' + revived.brain.divergences.closed.length);
 
   try { fs.rmSync(dir, { recursive: true, force: true }); } catch (e) { /* best effort */ }
+})();
+
+// ── T30: repeated polling is not evidence (REAL channels) ────────────────────
+(function () {
+  console.log('T30: polling the same reading is ONE observation — proved on real channel.step()');
+  /* THIS TEST WAS WRONG BEFORE, and the way it was wrong is the lesson. It set
+     `updates` by hand to simulate "no new data", on my comment that channel.js only
+     advances updates for genuinely new readings. It does not — it advances on every
+     poll. So the production bug survived while the test went green. This version drives
+     real channels and never fabricates their internals. */
+  var P = baselined(makePair(HOUR));
+  var led = DIV.createLedger();
+
+  // Diverge, then poll the SAME values many times inside one cadence period.
+  var sensors = feed(P, 0.90, 0.10);
+  DIV.observe(led, sensors, REL, P.t);
+  var claim = led.open[Object.keys(led.open)[0]];
+  assert('a claim opened on real sensors', !!claim, JSON.stringify(Object.keys(led.open)));
+
+  /* Confirm the trap is real: updates DOES advance on unchanged re-reads, so anything
+     counting evidence from it would count these. */
+  var before = { updates: sensors[0].updates, sampleAt: sensors[0].sampleAt };
+  var repeats = [], at = P.t + 3600000;
+  for (var i = 0; i < 20; i++) {
+    at += 60000;                                   // poll every minute, cadence is hourly
+    repeats = [CH.step(P.a, { value: 0.90 }, at), CH.step(P.b, { value: 0.10 }, at)];
+    DIV.observe(led, repeats, REL, at);
+  }
+  assert('updates DID advance on the repeats (the trap the old test hid)',
+    repeats[0].updates > before.updates, before.updates + ' -> ' + repeats[0].updates);
+  assert('but sampleAt advanced at most once per cadence period',
+    repeats[0].sampleAt - before.sampleAt <= 3600000,
+    String(repeats[0].sampleAt - before.sampleAt));
+  assert('so sub-cadence polling did not manufacture observations',
+    claim.slowObservations < DIV.MIN_OBSERVATIONS,
+    claim.slowObservations + ' slow-side observations after 20 extra polls');
+  assert('and the repeats are counted, not discarded silently', claim.repeatPolls > 0,
+    String(claim.repeatPolls));
+  assert('the claim has NOT resolved on polling alone', claim.status === 'open', claim.status);
+})();
+
+// ── T31: the relationship key cannot collide ──────────────────────────────────
+(function () {
+  console.log('T31: delimiters inside channel names or latents cannot forge a collision');
+  /* Raw concatenation with ~ is ambiguous: ('a~b','c') and ('a','b~c') produce the same
+     string, so two different declarations would share one ledger slot and one id. */
+  var led = DIV.createLedger(), t = 1e12;
+  var tricky = [
+    DIV.relate('a~b', 'c', 'L', 'agree', 'w'),
+    DIV.relate('a', 'b~c', 'L', 'agree', 'w')
+  ];
+  var sensors = [
+    withCadence(live('a~b', -2.2)), withCadence(live('c', 2.2)),
+    withCadence(live('a', -2.2)), withCadence(live('b~c', 2.2))
+  ];
+  var o = DIV.observe(led, sensors, tricky, t);
+  assert('both declarations open their own claim', o.opened.length === 2, String(o.opened.length));
+  assert('under distinct ledger keys', Object.keys(led.open).length === 2,
+    JSON.stringify(Object.keys(led.open)));
+  assert('with distinct ids', o.opened[0].id !== o.opened[1].id,
+    o.opened[0].id + ' vs ' + o.opened[1].id);
+
+  // An @ in a latent must not forge the timestamp boundary either.
+  var at = DIV.createLedger();
+  var o2 = DIV.observe(at, pair(-2.2, 2.2),
+    [DIV.relate('a', 'b', 'L@9999', 'agree', 'w')], t);
+  assert('an @ inside a latent is escaped, not treated as the time separator',
+    /\\@9999/.test(o2.opened[0].id), o2.opened[0].id);
+})();
+
+// ── T32: the trim count survives restart ──────────────────────────────────────
+(function () {
+  console.log('T32: droppedClosed persists, or a trimmed history reads as a quiet one');
+  var led = DIV.createLedger(), t = 1e12;
+  for (var i = 0; i < DIV.CLOSED_CAP + 7; i++) {
+    var base = t + i * 100 * HOUR;
+    DIV.observe(led, pair(-2.2, 2.2), REL, base);
+    DIV.observe(led, pair(0, 0), REL, base + HOUR);
+  }
+  assert('some were trimmed', led.droppedClosed === 7, String(led.droppedClosed));
+
+  var round = DIV.restoreLedger(JSON.parse(JSON.stringify(DIV.serializeLedger(led))));
+  /* Without this the counter reset to zero on every restart, so a long-lived ledger
+     would report a short, clean history while having silently discarded resolutions. */
+  assert('the trim count survives the round trip', round.droppedClosed === 7,
+    String(round.droppedClosed));
+  assert('and the report still admits the history is incomplete',
+    /older ones trimmed past the/.test(DIV.report(round).why), DIV.report(round).why);
+})();
+
+// ── T33: a cached value crossing a cadence boundary is NOT new evidence ──────
+(function () {
+  console.log('T33: sampleAt is a local clock; only adapter identity counts');
+  /* The third wrong answer. sampleAt advances when a cadence period elapses, regardless
+     of whether the source produced anything — demonstrated below on real channels. */
+  var P = baselined(makePair(HOUR));
+  var at = P.t + 40 * HOUR;
+  var s1 = [CH.step(P.a, { value: 0.90 }, at), CH.step(P.b, { value: 0.10 }, at)];
+  var s2 = [CH.step(P.a, { value: 0.90 }, at + 2 * HOUR),
+            CH.step(P.b, { value: 0.10 }, at + 2 * HOUR)];
+  assert('sampleAt DID advance on the identical value (the trap)',
+    s2[0].sampleAt !== s1[0].sampleAt, s1[0].sampleAt + ' -> ' + s2[0].sampleAt);
+  assert('but raw-value changes did NOT', s2[0].changes === s1[0].changes,
+    s1[0].changes + ' -> ' + s2[0].changes);
+
+  var led = DIV.createLedger();
+  DIV.observe(led, s1, REL, at);
+  var claim = led.open[Object.keys(led.open)[0]];
+  var before = claim.observations;
+  DIV.observe(led, s2, REL, at + 2 * HOUR);
+  assert('so the cached re-read added no observation', claim.observations === before,
+    before + ' -> ' + claim.observations);
+  assert('and the claim records its evidence is inferred, not adapter-supplied',
+    claim.evidenceTier === 'change', String(claim.evidenceTier));
+
+  var P2 = baselined(makePair(HOUR));
+  var b1 = [CH.step(P2.a, { value: 0.90, observationId: 'r1' }, at),
+            CH.step(P2.b, { value: 0.10, observationId: 'r1' }, at)];
+  var b2 = [CH.step(P2.a, { value: 0.90, observationId: 'r2' }, at + 2 * HOUR),
+            CH.step(P2.b, { value: 0.10, observationId: 'r2' }, at + 2 * HOUR)];
+  var led2 = DIV.createLedger();
+  DIV.observe(led2, b1, REL, at);
+  var c2 = led2.open[Object.keys(led2.open)[0]];
+  DIV.observe(led2, b2, REL, at + 2 * HOUR);
+  assert('a NEW upstream record with an unchanged value DOES count', c2.observations === 2,
+    String(c2.observations));
+  assert('and that claim reports source-grade evidence', c2.evidenceTier === 'source',
+    String(c2.evidenceTier));
+})();
+
+// ── T34: migrating a pre-totals snapshot must not erase history ──────────────
+(function () {
+  console.log('T34: restoring an old ledger rebuilds cumulative totals from its records');
+  var legacy = {
+    opts: {}, open: {}, droppedClosed: 0, version: 5,
+    closed: [{
+      channels: ['a', 'b'], latent: 'L', expect: 'agree', status: 'resolved',
+      resolution: { outcome: 'converged', at: 1, durationMs: 1, observations: 2,
+                    openingGap: 3, peakGap: 3, finalGap: 0, why: 'x', confounded: null }
+    }]
+  };
+  var rep = DIV.report(DIV.restoreLedger(legacy));
+  assert('the retained record is counted', rep.resolved === 1, String(rep.resolved));
+  assert('under its own outcome', rep.outcomes.converged === 1, JSON.stringify(rep.outcomes));
+  assert('and the rebuild is flagged, not passed off as original', rep.totalsReconstructed === true);
+  assert('with the relationship rollup restored too',
+    Object.keys(DIV.restoreLedger(legacy).totals.byRelationship).length === 1);
+
+  var trimmed = Object.assign({}, legacy, { droppedClosed: 7 });
+  var rep2 = DIV.report(DIV.restoreLedger(trimmed));
+  assert('a rebuild over a trimmed history is marked incomplete', rep2.totalsIncomplete === true);
+  assert('and says how many are unrecoverable', rep2.totalsMissing === 7, String(rep2.totalsMissing));
 })();
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');

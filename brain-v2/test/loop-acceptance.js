@@ -552,6 +552,110 @@ T(20, 'ROLLBACK', function () {
   };
 });
 
+/**
+ * TEST 21 — STRUCTURAL PLASTICITY ON THE REAL CORPUS (SPEC row 25).
+ *
+ * Two questions, and the second is the one that matters. (a) Does attaching a topology to
+ * the live loop leave the running system intact across the full recorded corpus. (b) What
+ * happens when the obvious credit signal is actually fed to it.
+ */
+T(21, 'TOPOLOGY ON REAL DATA', function () {
+  var TOPO = require('../kernel/topology.js');
+  var rep = TOPO.report(MAIN.topology);
+
+  /* (a) DEFAULT: attached, adopted, persisted, and INERT. Credit is withheld, so no rule
+     may fire, and the routing the loop depends on is untouched after all 362 rows. */
+  var cxm = CX.snapshotMetrics(MAIN.connectome);
+  var ruleTransitions = MAIN.topology.transitions.filter(function (t) { return !(t.evidence && t.evidence.adopted); });
+  var intact = rep.routableEdges === 3 && ruleTransitions.length === 0 && cxm.metrics.out > 0;
+
+  /* Restart on the REAL path — LOOP.serialize/restore, not the module helper. The
+     divergence ledger was lost exactly this way: round-tripping the helper while the
+     application path dropped it. */
+  var back = LOOP.restore({ domain: 'energy', brainSpec: BIND.spec(), horizonMs: 6 * HOUR }, LOOP.serialize(MAIN));
+  var restarts = JSON.stringify(back.topology.edges) === JSON.stringify(MAIN.topology.edges) &&
+                 back.topology.version === MAIN.topology.version &&
+                 back.connectome.topology === back.topology;
+
+  /* (b) WHAT THE AVAILABLE CREDIT SIGNAL ACTUALLY DOES. Re-run the whole corpus with
+     trace-level credit enabled. The trajectory looks healthy — a dip to dormant, recovery
+     on fresh evidence, probation passed, back to active — which is exactly why the defect
+     has to be asserted rather than eyeballed. */
+  var probe = freshLoop(null, { topologyCredit: 'trace' });
+  runTicks(probe, 0, rows.length);
+  var asc = probe.topology.edges['integration:ascending'];
+  var dsc = probe.topology.edges['integration:descending'];
+  var states = probe.topology.transitions.filter(function (t) { return t.edgeId === 'integration:ascending' && !(t.evidence && t.evidence.adopted); })
+                 .map(function (t) { return t.to; });
+  var roundTrip = states.indexOf(TOPO.STATE.DORMANT) >= 0 && states[states.length - 1] === TOPO.STATE.ACTIVE;
+
+  /* THE DEFECT: the two edges are byte-identical at every counter, because they co-fire on
+     every tick. A signal that cannot separate two edges cannot prune one against the
+     other, which is the whole purpose of the mechanism. */
+  var indistinguishable = asc.totalN === dsc.totalN && asc.usefulN === dsc.usefulN &&
+                          asc.harmfulN === dsc.harmfulN && asc.state === dsc.state;
+
+  return {
+    pass: intact && restarts && roundTrip && indistinguishable,
+    detail: 'attached to the live loop over all ' + rows.length + ' rows: ' + rep.edges + ' edges, ' +
+            rep.routableEdges + ' routable, ' + rep.adoptedEdges.length + ' adopted / ' +
+            rep.earnedEdges.length + ' earned, ' + ruleTransitions.length + ' rule transitions, ' +
+            cxm.metrics.out + ' packets still delivered; survives LOOP.serialize/restore exactly: ' + restarts +
+            '. WITH trace-level credit enabled the same corpus took integration:ascending ' +
+            states.join(' -> ') + ', ending ' + asc.usefulN + ' useful / ' + asc.harmfulN + ' harmful of ' +
+            asc.totalN + ' at utility ' + TOPO.utilityOf(asc).toFixed(3) + ' — a healthy-looking trajectory ' +
+            'in which integration:descending is byte-identical on every counter, because the two co-fire ' +
+            'every tick. A signal that cannot separate two edges cannot prune one against the other, so ' +
+            'credit stays refused'
+  };
+});
+
+/**
+ * TEST 22 — DEAD-LETTER DECLARATIONS (SPEC row 10).
+ *
+ * The dangerous failure here is silence that looks like agreement. A relationship whose
+ * two sides never both report produces no divergences, and an outcome distribution with
+ * no entries is indistinguishable from one where everything agreed. Six of the seven
+ * declared energy relationships are in exactly that state on the recorded corpus, and
+ * until this was measured nothing in the system said so.
+ */
+T(22, 'DEAD-LETTER DECLARATIONS', function () {
+  var D = require('../core/divergence.js');
+  var rep = D.report(MAIN.brain.divergences);
+  var declared = BIND.spec().relationships.length;
+
+  /* Every declaration must be accounted for: testable or dead, never unmentioned. */
+  var accounted = rep.declarationsSeen === declared &&
+                  rep.deadLetters.length + rep.testableDeclarations === declared;
+
+  /* Each dead letter must name WHICH side failed and HOW. "Unavailable" would be
+     useless: an absent feed and a constant channel need different repairs. */
+  var explained = rep.deadLetters.every(function (d) {
+    return d.comparable === 0 && d.cycles >= 24 && typeof d.dominantReason === 'string' &&
+           /absent|dead|not fusable|no departure|not among/.test(d.dominantReason);
+  });
+
+  /* And the summary line must SAY it, so a reader of the report cannot mistake the
+     quiet ledger for a calm one. */
+  var stated = /DEAD LETTERS/.test(rep.why);
+
+  /* Survives the real restart path, like the open claims do. Testability is cumulative
+     evidence; resetting it each restart would mean a declaration untestable for a year
+     never accumulates the cycles that make it a finding. */
+  var back = LOOP.restore({ domain: 'energy', brainSpec: BIND.spec(), horizonMs: 6 * HOUR }, LOOP.serialize(MAIN));
+  var survives = JSON.stringify(D.report(back.brain.divergences).deadLetters) === JSON.stringify(rep.deadLetters);
+
+  return {
+    pass: accounted && explained && stated && survives && rep.deadLetters.length > 0,
+    detail: rep.deadLetters.length + ' of ' + declared + ' declarations are dead letters, each naming its ' +
+            'failing side: ' + rep.deadLetters.map(function (d) {
+              return d.relationship.split('~').slice(0, 2).join('/') + ' (' + d.dominantReason + ')';
+            }).join('; ') + '. ' + rep.testableDeclarations + ' testable. Survives restore: ' + survives +
+            '. None is repairable in code — an absent feed needs a feed and a constant channel needs a ' +
+            'period in which it moves, so they stay declared and marked rather than deleted'
+  };
+});
+
 // ─────────────────────────────────────────────────────────────────────────────────────────
 // SPEC PART 8 — the 28-row checklist, scored against this build
 // ─────────────────────────────────────────────────────────────────────────────────────────
@@ -584,8 +688,14 @@ var ROWS = [
   [10, 'divergence between channels logged first-class', (function(){
         var D = require('../core/divergence.js');
         var HOUR = 3600000;
-        function s(k, z){ return { key:k, fusable:true, precision:1, state:'measured',
+        /* `sourceIdentity` is ADAPTER-SUPPLIED and is the only field divergence.js counts
+           evidence from. Not `updates` (counts polls) and not `sampleAt` (a local cadence
+           clock that a cached value advances by crossing a period boundary). */
+        var _rec = 0;
+        function s(k, z, rec){ return { key:k, fusable:true, precision:1, state:'measured',
+          sourceIdentity: 'oid:' + k + '-' + (rec === undefined ? 1 : rec),
           cadenceMs:HOUR, cadence:{state:'measured',cadenceMs:HOUR}, departure:{z:z,mean:.5,sd:.1,n:24} }; }
+        function moving(za, zb){ var i = ++_rec; return [s('a', za, i), s('b', zb, i)]; }
         var rel = [D.relate('a','b','shared latent','agree','test')];
 
         // 1. DIRECTION + MAGNITUDE, against the gap's own standard error.
@@ -597,17 +707,19 @@ var ROWS = [
 
         // 2. RESOLUTION OUTCOME — a claim opens once, keeps an id, closes graded.
         var t = 1e12;
+        /* Collects resolutions across EVERY cycle. Reading only the last one missed
+           claims that closed earlier, which is how this check briefly reported row 10
+           as not-built after the evidence rule landed. */
         function runTo(seq){
-          var led = D.createLedger();
-          var out = null;
-          seq.forEach(function(step, i){ out = D.observe(led, step, rel, t + i*HOUR); });
-          return { led: led, out: out };
+          var led = D.createLedger(), resolved = [];
+          seq.forEach(function(step, i){ resolved = resolved.concat(D.observe(led, step, rel, t + i*HOUR).resolved); });
+          return { led: led, out: { resolved: resolved } };
         }
         var diverged = [s('a',-2.2), s('b',2.2)];
-        var conv = runTo([diverged, [s('a',0), s('b',0.1)]]);
-        var sens = runTo([diverged, [s('a',-2.2), {key:'b',fusable:false,state:'dead',precision:1,departure:null}]]);
-        var pers = runTo([diverged,diverged,diverged,diverged,diverged,diverged,
-                          diverged,diverged,diverged,diverged,diverged,diverged,diverged]);
+        var conv = runTo([diverged, [s('a',0,900), s('b',0.1,900)]]);
+        var sens = runTo([diverged, [s('a',-2.2,900), {key:'b',fusable:false,state:'dead',precision:1,departure:null}]]);
+        var persSeq = []; for (var pi = 0; pi < 14; pi++) persSeq.push(moving(-2.2, 2.2));
+        var pers = runTo(persSeq);
 
         var grades =
           conv.out.resolved[0] && conv.out.resolved[0].resolution.outcome === D.OUTCOME.CONVERGED &&
@@ -618,9 +730,9 @@ var ROWS = [
 
         // 3. The claim must be stable across cycles and survive restart.
         var one = D.createLedger();
-        D.observe(one, diverged, rel, t);
+        D.observe(one, moving(-2.2, 2.2), rel, t);
         var id = Object.keys(one.open).map(function(k){ return one.open[k].id; })[0];
-        D.observe(one, diverged, rel, t + HOUR);
+        D.observe(one, moving(-2.2, 2.2), rel, t + HOUR);
         var stable = Object.keys(one.open).length === 1 &&
                      one.open[Object.keys(one.open)[0]].id === id &&
                      one.open[Object.keys(one.open)[0]].observations === 2;
@@ -645,8 +757,14 @@ var ROWS = [
            'not just the ledger helper). PARTIAL for two reasons. (1) NOT CALIBRATED: the measured ' +
            'false-positive rate under a simulated shared latent is 0.76-1.34%, not the 5% the threshold was ' +
            'first justified as; conservative in the documented direction but the p-value labels were withdrawn. ' +
-           '(2) UNEXERCISED ON REAL DATA: replaying 362h, 6 of 7 declared energy relationships were skipped ' +
-           'every cycle because one side is permanently dead, and the 7th cleared nothing in 140 comparable cycles'],
+           '(2) UNEXERCISED ON REAL DATA, and that is now MEASURED AND REPORTED rather than silent: the ' +
+           'ledger tracks testability per declaration, and report().deadLetters names 6 of 7 energy ' +
+           'relationships as never once comparable in 347 cycles, each with its failing side (eiaPetro and ' +
+           'massiveOil ABSENT; natGas/lng, solar/wind, nuclear/fedRegNrc, coal/solar DEAD). That mattered ' +
+           'because no divergences reads as agreement, so six declarations that CANNOT fire were contributing ' +
+           'reassuring silence. None is repairable in code — an absent feed needs a feed and a constant ' +
+           'channel needs a period in which it moves — so they are marked at the declaration site, not ' +
+           'deleted. The 7th, gridRel/electricity, was comparable on 140 cycles and cleared nothing. TEST 22'],
   [11, '>=3 modulators computing different quantities', orth.satisfiesRow11, orth.why],
   [12, 'offline state that excludes encoding', MAIN.consolidator.passes > 0, CON.run(CON.create(), MAIN.memory, { now: 0, arousalState: 'wake' }).refused === 'state_exclusivity' ? 'consolidation REFUSED in wake state; ' + MAIN.consolidator.passes + ' passes ran offline' : 'no refusal'],
   [13, 'offline pass holds write authority', !!(consPass && consPass.writeAuthority && consPass.writes.length), consPass ? consPass.writes.length + ' writes performed, not proposed' : 'no pass ran'],
@@ -669,20 +787,134 @@ var ROWS = [
             && M.deriveRate([0.1,0.2]).state === 'abstained'
             // sign reversal must read as unreliable, not as tidy consistency
             && M.deriveRate([0.2,-0.2,0.2,-0.2,0.2,-0.2,0.2,-0.2]).rate < M.deriveRate([0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2]).rate * 0.1;
-        /* The row text has said PARTIAL since it was written. It scored `true`
-           anyway, which is the row contradicting itself. ONE forward-model rate is
-           derived; channel q/r and the six critic weights are still hand-set, so
-           "learning rates derived per-node" is not yet true of the node population. */
-        return derives ? 'partial' : false;
-      })(), 'core/metaplasticity.js derives the forward-model rate per model key from its own prior errors. ' +
-           'Reliably wrong learns at 0.25, wrong-at-random with the SAME mean error at ~0.14, already-accurate ' +
-           'at ~0.05, sign-alternating at the 0.005 floor, under 8 outcomes abstains to the floor. The rate is ' +
-           'taken before the current error is recorded, so an outcome cannot set the rate that grades it, and it ' +
-           'survives both rollback and restart. PARTIAL: this is ONE node. Channel q/r and the six critic ' +
-           'weights are still SET.'],
+        /* PER-CHANNEL KALMAN NOISE, derived from each channel's own innovations. Not
+           deriveRate: q and r are variances, not step sizes, and pointing the rate
+           estimator at them because both are "numbers that should be measured" would be
+           the naming-over-mechanism substitution. r comes from var(innovation) minus the
+           filter's own mean prior variance; q from the whiteness of the same sequence,
+           gated on whether the filter is actually inconsistent. */
+        var derivesNoise = (function () {
+          var over = [], P = [];
+          /* An over-confident filter: innovations far larger than the P it declared. */
+          for (var i=0;i<40;i++){ over.push((i%2?1:-1) * 0.5 + (i%3)*0.1); P.push(0.01); }
+          var rEst = M.deriveObservationNoise(over, P, { prior: 0.02 });
+          var raised = rEst.state === 'measured' && rEst.value > 0.02;
+          var abstains = M.deriveObservationNoise([0.1,0.2,0.3], [0.01,0.01,0.01], { prior: 0.05 }).state === 'abstained';
+          /* A CONSISTENT filter must be left alone however correlated its innovations
+             are: autocorrelation says which way q is wrong, not whether it is wrong. */
+          var slow = [], sP = [];
+          for (var j=0;j<40;j++){ slow.push(0.001 * j); sP.push(1.0); }
+          var qFlat = M.deriveProcessNoise(slow, sP, { prior: 0.02, r: 0.1 });
+          var leavesConsistentAlone = Math.abs(qFlat.value - 0.02) < 0.02 * 0.5;
+          return raised && abstains && leavesConsistentAlone;
+        })();
+        /* The row text has said PARTIAL since it was written, and it still does — but
+           for a narrower reason than before. Two node CLASSES now derive from their own
+           statistics; the critic and the gate do not. */
+        return (derives && derivesNoise) ? 'partial' : false;
+      })(), 'TWO node classes now derive. (1) core/metaplasticity.js derives the forward-model rate per model ' +
+           'key from its own prior errors: reliably wrong learns at 0.25, wrong-at-random with the SAME mean ' +
+           'error at ~0.14, already-accurate at ~0.05, sign-alternating at the 0.005 floor, under 8 outcomes ' +
+           'abstains. The rate is taken before the current error is recorded, so an outcome cannot set the rate ' +
+           'that grades it. (2) Every channel derives its own Kalman q and r from its own innovation sequence ' +
+           '(r = var(v) - mean(P_prior); q from lag-1 whiteness, gated on the variance ratio so a consistent ' +
+           'filter is left alone). r is split into rBase x rGain so measurement and attention stop overwriting ' +
+           'each other. VALIDATED ON HELD-OUT DATA, not asserted: test/noise-control.js adapts on the first 60% ' +
+           'of the recorded corpus, freezes, and scores the remaining 40% on NIS — derived parameters are better ' +
+           'calibrated on 4 of 5 live channels, summed miscalibration -6.74. PARTIAL: the six critic weights, ' +
+           'the trust gate and the accumulator bound are still SET, and none has a control comparison yet.'],
   [23, 'homeostatic timescale strictly slower than Hebbian', ts.passes, ts.why],
-  [24, 'lateral connectivity between peer domains', false, 'NOT BUILT: one domain is bound. A lateral EDGE TYPE exists and is exercised, but there is no peer to connect to.'],
-  [25, 'topology-editing mechanism (pruning)', false, 'NOT BUILT: weights and retention change; no mechanism edits the graph structure'],
+  [24, 'lateral connectivity between peer domains', (function(){
+        var L = require('../kernel/lateral.js');
+        /* The MECHANISM, against synthetic peers. Echo suppression is the load-bearing
+           property: without it two domains converge on whatever one of them believed
+           first and report high agreement, which is the most convincing way to be wrong. */
+        var b = L.createBus();
+        L.register(b, 'x', 0); L.register(b, 'y', 0);
+        L.link(b, 'x', 'y', { at: 0, latent: 'synthetic shared latent' });
+        var m = L.publish(b, 'x', { latent: 'synthetic shared latent', value: 1, precision: 4 }, 1).delivered[0];
+        var echo = L.publish(b, 'y', { latent: 'synthetic shared latent', value: 1, precision: 4 }, 2, { inheritedFrom: m });
+        var suppressesEcho = echo.delivered.length === 0 && /ECHO/.test(echo.refused[0].why);
+        /* A domain with no measurements of its own admits nothing: corroboration cannot
+           substitute for an instrument. */
+        var blind = L.receive(b, 'y', 0).admitted.length === 0;
+        /* And the total foreign precision is capped against the receiver's own. */
+        var capped = (function(){
+          var c = L.createBus({ maxFanout: 8 });
+          ['s','p1','p2','p3','p4'].forEach(function(d){ L.register(c, d, 0); });
+          ['p1','p2','p3','p4'].forEach(function(p){ L.link(c, p, 's', { at:0, latent:'l' }); });
+          ['p1','p2','p3','p4'].forEach(function(p,i){ L.publish(c, p, { latent:'l', value:1, precision:3 }, i+1); });
+          var r = L.receive(c, 's', 2.0);
+          return r.usedPrecision <= r.budget + 1e-12 && r.capped.length > 0;
+        })();
+        var declares = (function(){ try { L.link(b, 'x', 'y', { at: 0 }); return false; }
+                                    catch (e) { return /must name the latent/.test(e.message); } })();
+        var built = suppressesEcho && blind && capped && declares;
+        /* NOT COMPLETE, and the gap is not a missing feature. ZERO peer domains exist.
+           Every peer above is synthetic, and a synthetic peer can show the mechanism is
+           well-formed but never that peer domains inform each other usefully. The module
+           is also deliberately NOT wired into the loop: with one domain that would be a
+           no-op presented as integration. L.report() carries satisfiesRow24:false. */
+        return built ? 'partial' : false;
+      })(), 'ZERO PEER DOMAINS EXIST — one domain is bound, so lateral connectivity between peers has never ' +
+           'once occurred, and no amount of the following changes that. What IS built: kernel/lateral.js, a ' +
+           'bounded peer bus with four separate bounds. (1) ECHO SUPPRESSION — every message carries the set ' +
+           'of domains that contributed to it and a domain refuses any message its own id appears in, which is ' +
+           'reafference cancellation at the domain level; without it A informs B, B publishes, and A counts its ' +
+           'own signal as independent corroboration. A relayer cannot erase itself from the chain. (2) ' +
+           'INFLUENCE CAP — total admitted foreign precision is capped at 50% of the receiver own, so a chorus ' +
+           'of weak peers cannot outvote an instrument, and a domain that has measured nothing admits NOTHING. ' +
+           '(3) HOP BOUND with per-hop precision decay, so a closed cycle in the peer graph terminates rather ' +
+           'than being forbidden. (4) DECLARED LINKS ONLY, each naming the latent both domains observe. Peers ' +
+           'carry evidence, never commands: there is no set/write/force/actuate verb in the API and a received ' +
+           'message stays labelled foreign. 35 assertions, all against SYNTHETIC peers. It is deliberately not ' +
+           'wired into the loop — with one domain that would be a no-op dressed as integration. Row 24 needs a ' +
+           'real second domain with its own observations; copying energy into a fake finance domain would make ' +
+           'every cross-domain agreement an artefact of the copy.'],
+  [25, 'topology-editing mechanism (pruning)', (function(){
+        var TOPO = require('../kernel/topology.js');
+        /* The MECHANISM, exercised against its own suite: the graph is edited on resolved
+           utility, reversibly, and a suppressed edge is retained rather than deleted. */
+        var t = TOPO.createTopology();
+        TOPO.declare(t, 'x', { at: 0, reason: 'row 25 check' });
+        for (var i=0;i<8;i++) TOPO.recordOutcome(t, 'x', { at: i*HOUR, useful: true, error: 0.1 });
+        TOPO.evaluate(t, 9*HOUR);
+        var promotes = t.edges.x.state === TOPO.STATE.ACTIVE;
+        for (var j=0;j<24;j++) TOPO.recordOutcome(t, 'x', { at: (10+j)*HOUR, useful: false, error: 0.9 });
+        TOPO.evaluate(t, 40*HOUR); TOPO.evaluate(t, 50*HOUR);
+        var demotes = t.edges.x.state === TOPO.STATE.DORMANT && TOPO.routable(t,'x') === false && t.edges.x.totalN === 32;
+        /* Reversible BY RULE on fresh evidence, which is the property that stops the
+           mechanism from being a one-way shrink. */
+        for (var k=0;k<8;k++) TOPO.recordOutcome(t, 'x', { at: (60+k)*HOUR, useful: true, error: 0.1 });
+        TOPO.evaluate(t, 70*HOUR);
+        var reverses = t.edges.x.state === TOPO.STATE.REACTIVATED && TOPO.routable(t, 'x') === true &&
+                       TOPO.utilityOf(t.edges.x) < TOPO.DEFAULTS.promoteUtility;   // lifetime still negative
+        var rollsBack = TOPO.rollback(t, 1).exact && t.edges.x.state === TOPO.STATE.DORMANT;
+        /* And it is wired: the live loop owns a topology, the connectome consults it, and
+           it round-trips through LOOP.serialize/restore. */
+        var wired = !!MAIN.topology && MAIN.connectome.topology === MAIN.topology &&
+                    TOPO.report(MAIN.topology).edges === 3;
+        var built = promotes && demotes && reverses && rollsBack && wired;
+        /* PARTIAL, AND NOT BECAUSE THE MECHANISM IS UNFINISHED. It has never taken a
+           decision from real observations, because no valid edge-level outcome exists in
+           this build. TEST 21 feeds in the one signal that IS available and the result
+           looks healthy — which is the trap, not the proof: the two edges it moves are
+           identical at every counter, so nothing was actually discriminated. A mechanism
+           that has only ever decided on synthetic outcomes is not a completed row. */
+        return built ? 'partial' : false;
+      })(), 'kernel/topology.js edits the GRAPH, not weights: candidate -> active -> weakened -> dormant -> ' +
+           'reactivated, driven by resolved utility (useful-harmful)/total and never by traffic, so a ' +
+           'rare-but-useful edge is not pruned for being rare. Separate promote/demote thresholds plus a ' +
+           'dwell time stop boundary oscillation; a suppressed edge is RETAINED with its history and is ' +
+           'reactivatable; retirement is reviewer-only. Wired into the live loop, consulted by route() ' +
+           'LAST and only SUBTRACTIVELY so no edit can smuggle a packet past a type or provenance rule, ' +
+           'and it round-trips through LOOP.serialize/restore. Dormancy is reversible BY RULE, on ' +
+           'evidence recorded after the suppression, not on the lifetime record that caused it. ' +
+           '97 assertions. PARTIAL: no edge-level credit signal exists in this build. The trace-level ' +
+           'one attributes forward-model accuracy to whichever edges carried the packet, and grades ' +
+           'co-firing edges identically (TEST 21: the two integration edges finish byte-identical over ' +
+           '332 real outcomes). Credit is therefore REFUSED and the mechanism has never taken a decision ' +
+           'from real observations. Blocked on the same missing peer as row 24.'],
   [26, 'precision per-channel from own noise, not consensus', true, 'core/channel.js: precision = 1/P from each channel own Kalman posterior; no agreement term anywhere'],
   [27, 'cadence derived from own event spacing', (function(){
         var C = require('../core/channel.js');

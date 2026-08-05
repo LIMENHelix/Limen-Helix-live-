@@ -372,14 +372,68 @@ function gapStatistic(a, b, expect) {
  * Deterministic: `now` is passed in, ids derive from (pair, latent, openedAt), and
  * nothing here reads a clock or a random source. A replay produces identical ledgers.
  */
+/* Cycles a declaration must be observed for before "never comparable" is a finding
+   rather than a cold start. One cadence period of the slowest declared channel would be
+   the principled floor; 24 is that for an hourly corpus and is stated, not tuned. */
+var MIN_TESTABILITY_CYCLES = 24;
+
 function createLedger(opts) {
   return {
     opts: opts || {},
     open: Object.create(null),   // relKey -> claim. At most one open claim per relationship.
     closed: [],                  // resolved claims, oldest first
     droppedClosed: 0,            // trimmed past CLOSED_CAP, counted rather than forgotten
+    /* CUMULATIVE, and deliberately separate from `closed`. `closed` is a bounded buffer
+       of DETAILED records; these are the running totals over everything that ever
+       resolved. Deriving the report from the buffer alone meant a trimmed ledger
+       reported a shorter, cleaner history than actually occurred — the counter said
+       records were dropped while the rollups quietly forgot them. */
+    totals: { byOutcome: Object.create(null), byRelationship: Object.create(null) },
+    /**
+     * TESTABILITY PER DECLARATION — the DEAD-LETTER ledger.
+     *
+     * A relationship whose two sides never both report is not "quiet", it is UNTESTABLE,
+     * and until this existed the two were indistinguishable in every report the system
+     * produced. `detect()` names a skip on the cycle it happens, which is the right
+     * granularity for one cycle and the wrong one for a standing fact: skipped once is
+     * an outage, skipped 362 times out of 362 is a declaration that can never be graded,
+     * and only the running total can tell them apart.
+     *
+     * Why that silence is dangerous rather than merely untidy: a relationship that never
+     * fires contributes no divergences, and no divergences reads as agreement. Six of the
+     * seven declared energy relationships were in exactly that state — the ledger looked
+     * calm because nothing could ever be compared.
+     *
+     * relKey -> { cycles, comparable, lastComparableAt, reasons: {reason: count} }
+     */
+    testability: Object.create(null),
     version: 0
   };
+}
+
+/** The dead-letter record for one declaration, created on first sight. */
+function testabilityOf(ledger, k) {
+  if (!ledger.testability[k]) {
+    ledger.testability[k] = { cycles: 0, comparable: 0, lastComparableAt: null, reasons: Object.create(null) };
+  }
+  return ledger.testability[k];
+}
+
+/**
+ * WHY a pair could not be compared this cycle, in the vocabulary the sensors already
+ * use. Deliberately not "unavailable": which of the two sides failed, and whether it was
+ * absent, dead or simply had no departure yet, are different problems with different
+ * fixes, and collapsing them loses the only information that would tell an operator
+ * which one to go and repair.
+ */
+function whyNotComparable(rel, a, b) {
+  function state(s, key) {
+    if (!s) return key + ': not among the declared channels';
+    if (!s.fusable) return key + ': ' + (s.state || 'not fusable') + (s.liveness ? ' (' + s.liveness + ')' : '');
+    if (!s.departure) return key + ': fusable but has no departure yet (baseline still forming)';
+    return null;
+  }
+  return [state(a, rel.a), state(b, rel.b)].filter(Boolean).join('; ');
 }
 
 /**
@@ -391,7 +445,14 @@ function createLedger(opts) {
  * same tick received byte-identical ids and `report()` merged their outcomes into one
  * row. An id that collides is not an id.
  */
-function relKey(rel) { return rel.a + '~' + rel.b + '~' + rel.latent + '~' + rel.expect; }
+/* The fields are channel keys and free-text latents, so they can legitimately contain
+   the delimiters. Raw concatenation is ambiguous: ('a~b','c') and ('a','b~c') collapse
+   to the same string. Escaping the separators (and the escape character itself) makes
+   the encoding injective, so distinct tuples cannot produce the same key. */
+function esc(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/~/g, '\\~').replace(/@/g, '\\@');
+}
+function relKey(rel) { return esc(rel.a) + '~' + esc(rel.b) + '~' + esc(rel.latent) + '~' + esc(rel.expect); }
 function claimId(rel, now) { return 'dv_' + relKey(rel) + '@' + now; }
 
 /**
@@ -408,6 +469,50 @@ function deriveHorizon(a, b, periods) {
   if (!ca && !cb) return null;
   var slower = Math.max(ca || 0, cb || 0);
   return slower > 0 ? slower * periods : null;
+}
+
+/**
+ * THE OBSERVATION IDENTITY. Three wrong answers preceded this one, each subtler.
+ *
+ *   v1  counted every call — the scheduler manufactured evidence outright.
+ *   v2  keyed on channel.js `updates`, on my own comment that it advances only for real
+ *       readings. It does not; it counts polls. The test passed only because it held
+ *       `updates` fixed by hand, testing the comment rather than the runtime.
+ *   v3  keyed on `sampleAt`. That is a LOCAL CADENCE CLOCK. Demonstrated: the same
+ *       source value submitted twice, two hours apart, advances it — so a cached value
+ *       became "new evidence" simply by crossing a cadence boundary.
+ *
+ * The lesson is that NOTHING COMPUTED LOCALLY can distinguish a fresh upstream record
+ * from a re-read of a cached one. Only the adapter knows. So the identity is taken from
+ * the reading (`channel.js sourceIdentity()`), and where the adapter does not supply
+ * one, this degrades explicitly rather than substituting a clock:
+ *
+ *   tier 1  SOURCE      adapter gave observationId / sourceRecordId+Version /
+ *                       sourceObservedAt. Authoritative.
+ *   tier 2  CHANGE      no identity, but the VALUE moved. A value cannot change without
+ *                       the source producing something different, so this is sufficient
+ *                       evidence of new data — just not necessary, since a new record
+ *                       may legitimately repeat a value.
+ *   tier 3  UNKNOWN     no identity and no change. Genuinely ambiguous. Counts as
+ *                       NOTHING, and the claim records that its evidence is degraded.
+ *
+ * Tier 2 is conservative in the right direction: it can only UNDERCOUNT real evidence
+ * (a repeated-value record is missed), never overcount a cached re-read as new.
+ */
+function observationIdentity(s) {
+  if (!s) return { id: null, tier: 'unknown' };
+  if (s.sourceIdentity !== undefined && s.sourceIdentity !== null) {
+    return { id: 'src:' + s.sourceIdentity, tier: 'source' };
+  }
+  /* No adapter identity. A CHANGED RAW VALUE is still unambiguous proof of new upstream
+     data. Use `changes` — channel.js's count of genuine raw-value changes — and NOT
+     departure.z: z is the Kalman POSTERIOR, which keeps drifting toward a constant input
+     for many cycles after it stops moving, so keying on it would count filter settling as
+     fresh evidence. Measured: 20 identical readings advanced z every cycle. */
+  if (typeof s.changes === 'number') {
+    return { id: 'chg:' + s.changes, tier: 'change' };
+  }
+  return { id: null, tier: 'unknown' };
 }
 
 function sensorCadence(s) {
@@ -458,6 +563,16 @@ function observe(ledger, sensors, relationships, now, opts) {
     var a = byKey[rel.a], b = byKey[rel.b];
     var comparable = a && b && a.fusable && b.fusable && a.departure && b.departure;
 
+    /* Every cycle counts toward this declaration's testability, comparable or not. This
+       is the only place that fact is recorded, so it must run before any early return. */
+    var t = testabilityOf(ledger, k);
+    t.cycles++;
+    if (comparable) { t.comparable++; t.lastComparableAt = now; }
+    else {
+      var why = whyNotComparable(rel, a, b);
+      t.reasons[why] = (t.reasons[why] || 0) + 1;
+    }
+
     // ── a side went quiet ────────────────────────────────────────────────────────
     if (!comparable) {
       if (claim) {
@@ -496,6 +611,21 @@ function observe(ledger, sensors, relationships, now, opts) {
           latest: g,
           leading: g.differenceZ > 0 ? rel.a : rel.b,
           observations: 1,
+          slowObservations: 1,
+          /* Which side reports least often. Its cadence sets the horizon, and it also
+             gates the evidence count, for the same reason. */
+          slowSide: (sensorCadence(a) || 0) >= (sensorCadence(b) || 0) ? 'a' : 'b',
+          identityA: observationIdentity(a).id,
+          identityB: observationIdentity(b).id,
+          /* source | change | unknown — see observationIdentity(). Carried into the
+             resolution so a persistent verdict states the quality of its own evidence. */
+          evidenceTier: (function () {
+            var x = observationIdentity(a).tier, y = observationIdentity(b).tier;
+            return (x === 'unknown' || y === 'unknown') ? 'unknown'
+                 : (x === 'change' || y === 'change') ? 'change' : 'source';
+          })(),
+          evidenceTierUnknown: 0,
+          repeatPolls: 0,
           lastSeenAt: now,
           resolution: null
         };
@@ -512,7 +642,43 @@ function observe(ledger, sensors, relationships, now, opts) {
         return;
       }
 
-      claim.observations++;
+      /**
+       * AN OBSERVATION IS NEW EVIDENCE, NOT A POLL.
+       *
+       * This counter used to increment on every call, so a scheduler running faster
+       * than the sensors could manufacture the six observations that MIN_OBSERVATIONS
+       * requires without either channel producing a single new reading — turning
+       * "graded on evidence, not the clock" back into "graded on the clock", one layer
+       * down. Polling the same two values twelve times is one observation, not twelve.
+       *
+       * `updates` is channel.js's count of actual Kalman updates and is the truthful
+       * signal when present. Fixtures that do not carry it fall back to the departure
+       * pair, which is what the statistic is computed from: if neither departure moved,
+       * this cycle contributed nothing to the question. The fallback can undercount two
+       * genuinely new readings that happen to land on identical z values, which is the
+       * conservative direction.
+       */
+      var ia = observationIdentity(a), ib = observationIdentity(b);
+      var movedA = ia.id !== null && ia.id !== claim.identityA;
+      var movedB = ib.id !== null && ib.id !== claim.identityB;
+      if (movedA) claim.identityA = ia.id;
+      if (movedB) claim.identityB = ib.id;
+      /* The WEAKEST tier either side is running on. A persistent verdict has to say
+         whether it rests on adapter-supplied identity or on inferred value change. */
+      var tier = (ia.tier === 'unknown' || ib.tier === 'unknown') ? 'unknown'
+               : (ia.tier === 'change' || ib.tier === 'change') ? 'change' : 'source';
+      if (tier === 'unknown') claim.evidenceTierUnknown = (claim.evidenceTierUnknown || 0) + 1;
+      claim.evidenceTier = tier === 'source' && claim.evidenceTier === 'change' ? 'change' : (claim.evidenceTier || tier);
+
+      if (movedA || movedB) {
+        claim.observations++;
+        /* The SLOWER side is the one that gates a persistence verdict. A fast channel
+           reporting twelve times while the slow one has said nothing since the claim
+           opened is not twelve pieces of evidence about whether they disagree. */
+        if (claim.slowSide === 'a' ? movedA : movedB) claim.slowObservations++;
+      } else {
+        claim.repeatPolls = (claim.repeatPolls || 0) + 1;
+      }
       claim.lastSeenAt = now;
       claim.latest = g;
       claim.leading = g.differenceZ > 0 ? rel.a : rel.b;
@@ -526,7 +692,8 @@ function observe(ledger, sensors, relationships, now, opts) {
          the clock alone let a 12-hour outage plus one reading resolve `persistent` from
          two observations. */
       var timeUp = claim.evaluateAt !== null && now >= claim.evaluateAt;
-      var enoughEvidence = claim.observations >= minObs;
+      /* Counted on the SLOW side, not on total cycles. */
+      var enoughEvidence = claim.slowObservations >= minObs;
 
       if (timeUp && enoughEvidence) {
         /* JUDGED ON THE STANDING GAP, NOT A SINGLE SPIKE. The first version classified
@@ -576,6 +743,12 @@ function close(ledger, k, claim, outcome, now, finalGap, why) {
     observations: claim.observations,
     openingGap: claim.opening.standardizedGap,
     peakGap: claim.peak.standardizedGap,
+    /* THE QUALITY OF THE EVIDENCE THIS VERDICT RESTS ON.
+         source  — the adapter supplied an observation identity; authoritative
+         change  — inferred from value movement; sufficient but undercounts
+         unknown — neither; the count is not trustworthy and the verdict is weaker */
+    evidenceTier: claim.evidenceTier || 'unknown',
+    ambiguousCycles: claim.evidenceTierUnknown || 0,
     finalGap: finalGap ? finalGap.standardizedGap : null,
     why: why,
     /* WHAT THIS OUTCOME CANNOT SETTLE, stated rather than left for a reader to assume.
@@ -604,6 +777,17 @@ function close(ledger, k, claim, outcome, now, finalGap, why) {
       : null
   };
   delete ledger.open[k];
+
+  /* Tallied HERE, when it resolves, so the totals are independent of whether the
+     detailed record later falls out of the bounded buffer. */
+  if (!ledger.totals) ledger.totals = { byOutcome: Object.create(null), byRelationship: Object.create(null) };
+  ledger.totals.byOutcome[outcome] = (ledger.totals.byOutcome[outcome] || 0) + 1;
+  var rk = relKey({ a: claim.channels[0], b: claim.channels[1], latent: claim.latent, expect: claim.expect });
+  var t = ledger.totals.byRelationship[rk] ||
+    (ledger.totals.byRelationship[rk] = { pair: claim.channels, latent: claim.latent, expect: claim.expect, total: 0, outcomes: Object.create(null) });
+  t.total++;
+  t.outcomes[outcome] = (t.outcomes[outcome] || 0) + 1;
+
   ledger.closed.push(claim);
   /* Bounded. An unbounded array lives inside every snapshot, so "keep everything" means
      the snapshot grows without limit for as long as the process runs. What was dropped
@@ -637,22 +821,20 @@ function describe(opened, updated, resolved, ledger) {
  * declarations keep failing.
  */
 function report(ledger) {
+  var totals = ledger.totals || { byOutcome: {}, byRelationship: {} };
   var counts = {};
-  Object.keys(OUTCOME).forEach(function (k) { counts[OUTCOME[k]] = 0; });
-  ledger.closed.forEach(function (c) { counts[c.resolution.outcome]++; });
+  /* FROM THE CUMULATIVE TALLY, not from the bounded buffer. Counting the buffer meant
+     everything trimmed past CLOSED_CAP silently vanished from the outcome distribution
+     and from the suspect-declaration check. */
+  Object.keys(OUTCOME).forEach(function (k) { counts[OUTCOME[k]] = totals.byOutcome[OUTCOME[k]] || 0; });
 
   /* KEYED BY THE RELATIONSHIP, NOT THE CHANNEL PAIR. Grouping on channels alone merged
      two declarations that relate the same pair through different latents, so their
      outcomes were pooled and neither could be judged on its own record. */
-  var byRelationship = {};
-  ledger.closed.forEach(function (c) {
-    var k = c.channels[0] + '~' + c.channels[1] + '~' + c.latent + '~' + c.expect;
-    if (!byRelationship[k]) {
-      byRelationship[k] = { pair: c.channels, latent: c.latent, expect: c.expect, total: 0, outcomes: {} };
-    }
-    byRelationship[k].total++;
-    byRelationship[k].outcomes[c.resolution.outcome] = (byRelationship[k].outcomes[c.resolution.outcome] || 0) + 1;
-  });
+  /* Also cumulative, and keyed by the SAME canonical relKey the ledger uses. This block
+     used to rebuild the key by raw concatenation, so escaping the ledger key alone left
+     report() still collapsing ('a~b','c') and ('a','b~c') into one row. */
+  var byRelationship = totals.byRelationship;
 
   /* A declaration that only ever resolves into a standing gap is worth re-examining,
      and this is the surface that says so. Sensor failures and withdrawals are excluded
@@ -665,32 +847,122 @@ function report(ledger) {
       return informative >= 3 && bad === informative;
     });
 
+  /**
+   * DEAD LETTERS. A declaration observed for at least MIN_TESTABILITY_CYCLES that has
+   * NEVER been comparable. Reported separately from `suspectDeclarations`, because the
+   * two are opposite problems: a suspect declaration has been graded and keeps failing,
+   * a dead letter has never been graded at all. Merging them would hide the second
+   * behind the first — and the second is the more dangerous, because it produces no
+   * divergences, and no divergences reads as agreement.
+   *
+   * `dominantReason` is the most frequent stated cause, so the report says WHICH side is
+   * missing and in what way rather than only that something is.
+   */
+  var testability = ledger.testability || Object.create(null);
+  var deadLetters = [], testable = [];
+  Object.keys(testability).forEach(function (k) {
+    var t = testability[k];
+    var entry = {
+      relationship: k, cycles: t.cycles, comparable: t.comparable,
+      comparableFraction: t.cycles ? t.comparable / t.cycles : null,
+      lastComparableAt: t.lastComparableAt,
+      dominantReason: Object.keys(t.reasons).sort(function (x, y) { return t.reasons[y] - t.reasons[x]; })[0] || null
+    };
+    if (t.comparable === 0 && t.cycles >= MIN_TESTABILITY_CYCLES) deadLetters.push(entry);
+    else if (t.comparable > 0) testable.push(entry);
+  });
+
   return {
     open: openClaims(ledger).length,
-    resolved: ledger.closed.length,
+    resolved: Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0),
+    retainedRecords: ledger.closed.length,
+    deadLetters: deadLetters,
+    testableDeclarations: testable.length,
+    declarationsSeen: Object.keys(testability).length,
     droppedClosed: ledger.droppedClosed || 0,
+    totalsReconstructed: !!ledger.totalsReconstructed,
+    totalsIncomplete: !!ledger.totalsIncomplete,
+    totalsMissing: ledger.totalsMissing || 0,
     outcomes: counts,
     byRelationship: byRelationship,
     suspectDeclarations: suspect,
-    why: ledger.closed.length === 0
+    why: deadLetters.length
+      ? deadLetters.length + ' of ' + Object.keys(testability).length + ' declarations are DEAD LETTERS: ' +
+        'never once comparable, so they can produce no divergence and their silence must not be read as ' +
+        'agreement. ' + (Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) || 'no') +
+        ' resolved from the ' + testable.length + ' that can be tested.'
+      : Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) === 0
       ? 'no divergence has resolved yet — outcome distribution is UNMEASURED, not empty'
-      : ledger.closed.length + ' resolved' +
+      : Object.keys(counts).reduce(function (n, o) { return n + counts[o]; }, 0) + ' resolved' +
         (ledger.droppedClosed ? ' (+' + ledger.droppedClosed + ' older ones trimmed past the ' + CLOSED_CAP + ' cap)' : '') +
         ': ' + Object.keys(counts).filter(function (o) { return counts[o]; })
           .map(function (o) { return counts[o] + ' ' + o; }).join(', ')
   };
 }
 
+/** Reconstruct cumulative tallies from retained detail records. Used only when migrating
+ *  a snapshot written before `totals` existed. */
+function rebuildTotals(closed) {
+  var t = { byOutcome: Object.create(null), byRelationship: Object.create(null) };
+  (closed || []).forEach(function (c) {
+    if (!c || !c.resolution || !c.resolution.outcome) return;
+    var o = c.resolution.outcome;
+    t.byOutcome[o] = (t.byOutcome[o] || 0) + 1;
+    var k = relKey({ a: c.channels[0], b: c.channels[1], latent: c.latent, expect: c.expect });
+    var r = t.byRelationship[k] ||
+      (t.byRelationship[k] = { pair: c.channels, latent: c.latent, expect: c.expect, total: 0, outcomes: Object.create(null) });
+    r.total++;
+    r.outcomes[o] = (r.outcomes[o] || 0) + 1;
+  });
+  return t;
+}
+
 /** Restore across restart — an open claim that forgets it was open cannot resolve. */
 function serializeLedger(ledger) {
-  return { opts: ledger.opts, open: ledger.open, closed: ledger.closed, version: ledger.version };
+  /* droppedClosed is part of the history, not a runtime counter. Omitting it reset the
+     trim count to zero on every restart, so a long-lived ledger would report a short,
+     quiet history while silently having discarded hundreds of resolutions. */
+  return {
+    opts: ledger.opts, open: ledger.open, closed: ledger.closed,
+    droppedClosed: ledger.droppedClosed || 0,
+    totals: ledger.totals || { byOutcome: {}, byRelationship: {} },
+    /* Testability is cumulative evidence, not runtime scratch. Dropping it would reset
+       every dead letter to "cold start" on each restart, so a declaration untestable for
+       a year would never accumulate the cycles that make it a finding — the same defect
+       droppedClosed had, in a different field. */
+    testability: ledger.testability || Object.create(null),
+    version: ledger.version
+  };
 }
 function restoreLedger(o) {
   var l = createLedger((o && o.opts) || {});
   if (o) {
     l.open = o.open || Object.create(null);
     l.closed = o.closed || [];
+    l.droppedClosed = o.droppedClosed || 0;
+    /* A snapshot written before testability existed restores an empty map, which is
+       correct for that data: those cycles were never counted and claiming them would be
+       inventing history. Such a ledger simply re-earns its dead letters. */
+    l.testability = o.testability || Object.create(null);
     l.version = o.version || 0;
+
+    if (o.totals) {
+      l.totals = o.totals;
+    } else {
+      /* MIGRATION FROM A PRE-TOTALS SNAPSHOT. Initialising empty here silently erased
+         history: a restored ledger holding one converged record reported
+         retainedRecords 1, resolved 0, converged 0 — the detail was present and the
+         rollup said nothing had ever happened. Rebuild what the retained records can
+         support. */
+      l.totals = rebuildTotals(l.closed);
+      l.totalsReconstructed = true;
+      /* And say what CANNOT be recovered. If the old snapshot had already trimmed
+         records, those resolutions are gone and the rebuilt totals understate the true
+         history by exactly that many. Better to carry the shortfall than to present a
+         reconstructed number as complete. */
+      l.totalsIncomplete = (l.droppedClosed || 0) > 0;
+      l.totalsMissing = l.droppedClosed || 0;
+    }
   }
   return l;
 }

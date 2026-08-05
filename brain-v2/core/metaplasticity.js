@@ -196,22 +196,51 @@ function record(ledger, key, error) {
  * pointing at the undone update meant the self-model reported a rate that no longer
  * governed anything.
  */
-function unrecord(ledger, key, evicted) {
+function unrecord(ledger, key, evicted, previousApplied) {
   var h = ledger.hist[key];
   if (!h || !h.length) return { removed: false, why: 'nothing recorded for ' + key };
   var v = h.pop();
-  var restored = false;
-  if (typeof evicted === 'number' && isFinite(evicted)) { h.unshift(evicted); restored = true; }
-  /* The cached rate described the state we just undid. Stale is worse than absent:
-     absent abstains, stale asserts. */
-  delete ledger.applied[key];
+
+  /**
+   * EXACTNESS COMES FROM PROVENANCE, NOT FROM LENGTH. Two wrong versions preceded this:
+   *
+   *   v1  `h.length < HIST_CAP - 1`  — wrong in both directions: false at the cap with
+   *       no eviction, true again after evictions had already lost data.
+   *   v2  `restored || h.length < HIST_CAP` — evaluated AFTER pop(), so the array is
+   *       necessarily below the cap and the flag was effectively ALWAYS true. It
+   *       reported exact restoration even when no provenance existed at all.
+   *
+   * The caller is the only one who knows. record() returns `evicted`: a number when it
+   * pushed something off the front, null when it did not. So there are three states and
+   * they must not collapse into two:
+   *
+   *   a finite number  -> restored to the head; exact
+   *   null             -> caller KNOWS nothing was evicted; exact
+   *   undefined        -> no provenance (legacy record); UNKNOWN, and unknown is not exact
+   */
+  var restored = false, provenance;
+  if (typeof evicted === 'number' && isFinite(evicted)) { h.unshift(evicted); restored = true; provenance = 'restored'; }
+  else if (evicted === null) provenance = 'none_evicted';
+  else provenance = 'unknown';
+
+  /* RESTORE the cached rate, do not just drop it. Deleting left the ledger in a state
+     it was never actually in, which is not an undo — it is a third state. When the
+     caller supplies what was there before, put it back; only when it cannot is the key
+     cleared, and then `appliedRestored` says so. */
+  if (previousApplied === null) delete ledger.applied[key];
+  else if (previousApplied !== undefined) ledger.applied[key] = previousApplied;
+  else delete ledger.applied[key];
+
   ledger.version++;
   return {
     removed: true, value: v, n: h.length,
     restoredEvicted: restored,
-    /* Inexact ONLY when the array was full at record time and no evicted value came
-       back to fill the hole. */
-    exact: restored || h.length < HIST_CAP
+    appliedRestored: previousApplied !== undefined,
+    provenance: provenance,
+    exact: provenance !== 'unknown' && previousApplied !== undefined,
+    why: provenance === 'unknown'
+      ? 'no eviction provenance was supplied, so whether the oldest error was lost is UNKNOWN — reported inexact rather than assumed clean'
+      : null
   };
 }
 
@@ -244,11 +273,308 @@ function report(ledger) {
   }).sort(function (a, b) { return b.rate - a.rate; });
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════════════
+ * KALMAN NOISE, DERIVED FROM A CHANNEL'S OWN INNOVATIONS
+ *
+ * `q` and `r` are NOT learning rates and deriveRate() must not be pointed at them. A
+ * rate is a step size in [0,1]; these are variances in the units of the signal squared.
+ * Reusing the rate estimator because both are "a number that should be measured" is the
+ * naming-over-mechanism substitution this project keeps having to unwind, so they get
+ * their own estimator, which is the standard one.
+ *
+ * THE IDENTITY EVERYTHING RESTS ON. For a scalar filter the innovation v = z - x_prior
+ * has theoretical variance
+ *
+ *     S = P_prior + r
+ *
+ * so if the filter is correctly tuned, the EMPIRICAL variance of the innovations must
+ * match the average S it predicted. It usually does not, and the direction of the
+ * mismatch says which parameter is wrong:
+ *
+ *   var(v) > mean(S)   the filter is over-confident. Either the world is noisier than r
+ *                      says, or the state moves faster than q says.
+ *   var(v) < mean(S)   over-cautious; it is discarding information it could have used.
+ *
+ * SEPARATING r FROM q NEEDS A SECOND OBSERVABLE, because that is one equation in two
+ * unknowns. The second observable is WHITENESS. A correctly tuned filter produces
+ * innovations with no serial correlation: each is the genuinely new part of the
+ * observation. Positive lag-1 autocorrelation means the innovations carry a persistent
+ * component the filter keeps failing to track, which is under-modelled STATE MOTION —
+ * too small a q. Negative autocorrelation is over-correction. Observation noise is white
+ * by assumption and moves the variance without touching the autocorrelation, which is
+ * exactly what makes the two identifiable together.
+ *
+ * BOTH ABSTAIN. Below the sample floor they return the declared prior unchanged and say
+ * so. A variance estimated from four numbers is not a measurement, and substituting one
+ * for a declared prior would be a downgrade dressed as adaptation.
+ *
+ * Deterministic and pure: same history, same answer, no clock.
+ * ═══════════════════════════════════════════════════════════════════════════════════ */
+
+var NOISE_MIN_N = 12;        // innovations before a variance means anything
+/* How far the mean attention gain may sit from 1 before the innovations stop being usable
+   as a measurement of the world. Deliberately narrow: the bias grows quickly, and holding
+   a prior costs nothing while writing a biased base compounds. */
+var GAIN_TRUST_LO = 0.8, GAIN_TRUST_HI = 1.25;
+var NOISE_DAMPING = 0.3;     // fraction of the way to the measurement, per derivation
+
+/**
+ * Observation noise from the innovation sequence.
+ *
+ *   innovations     signed v = z - x_prior, most recent last
+ *   priorVariances  the P_prior that accompanied each one, same order and length
+ *   opts.gains      the ATTENTION MULTIPLIER in force at each innovation, same order.
+ *
+ * WHAT THIS MEASURES: the WORLD's observation noise, and only when it is measurable.
+ *
+ * `var(v) - mean(P_prior)` estimates the true observation noise directly. It is NOT the
+ * effective r the filter was configured with, and it must not be rescaled by the gain —
+ * an early attempt to "divide the attention back out" was simply wrong, and measurably
+ * so: at gain 4 it biased the estimate as far low as gain 0.25 biased it high.
+ *
+ * THE REAL PROBLEM IS SUBTLER AND IS NOT FIXABLE BY ARITHMETIC. The identity holds only
+ * while the filter is close to correctly tuned. Attention deliberately runs the filter at
+ * a noise level it does not believe, so `P_prior` stops being the true prior variance,
+ * and what the subtraction returns is `r_true + (P_true - P_filter)` — a biased number
+ * with no way to recover the bias from inside the window. Measured on a signal with a
+ * known true r of 0.25: at gain 1.0 the estimate converges to 0.28, at gain 0.25 to 0.69,
+ * at gain 4.0 to 0.089, and the three keep separating.
+ *
+ * SO IT ABSTAINS. Innovations collected through a filter that attention was actively
+ * distorting cannot measure the world, and the honest answer is to say so and hold the
+ * prior — the same measure-or-abstain discipline used for cadence, baselines and rates.
+ * The two mechanisms simply cannot share a window: attention is a deliberate distortion
+ * of the filter, and a distorted filter is not an instrument for calibrating itself.
+ *
+ * With no gains supplied the mean is 1 and this reduces to the plain estimate, which is
+ * correct for a caller that has no attention mechanism.
+ */
+function deriveObservationNoise(innovations, priorVariances, opts) {
+  opts = opts || {};
+  var prior = num(opts.prior, 0.10);
+  var min = num(opts.min, 1e-6);
+  var max = num(opts.max, 1e6);
+  var minN = num(opts.minN, NOISE_MIN_N);
+  var damp = num(opts.damping, NOISE_DAMPING);
+
+  var v = [], P = [], G = [];
+  for (var i = 0; i < (innovations || []).length; i++) {
+    var a = innovations[i], b = (priorVariances || [])[i];
+    if (typeof a === 'number' && isFinite(a) && typeof b === 'number' && isFinite(b) && b >= 0) {
+      v.push(a); P.push(b);
+      var g = (opts.gains || [])[i];
+      G.push((typeof g === 'number' && isFinite(g) && g > 0) ? g : 1);
+    }
+  }
+  if (v.length < minN) {
+    return { state: 'abstained', value: prior, n: v.length,
+      why: 'only ' + v.length + ' usable innovation(s); ' + minN + ' needed before a variance is a measurement. Holding the declared prior ' + prior + '.' };
+  }
+
+  var mv = meanOf(v), sv = varianceOf(v, mv), mP = meanOf(P), mG = meanOf(G);
+
+  /* THE ATTENTION GUARD. Outside this band the filter was deliberately mistuned while
+     these innovations were produced, so the subtraction below returns a biased number
+     rather than the world's noise. Holding the prior is the correct answer; writing the
+     biased one into rBase would fold attention into the measurement and compound on the
+     next derivation. */
+  if (mG < GAIN_TRUST_LO || mG > GAIN_TRUST_HI) {
+    return {
+      state: 'abstained', value: prior, n: v.length,
+      basis: { meanGain: mG, trustBand: [GAIN_TRUST_LO, GAIN_TRUST_HI] },
+      why: 'mean attention gain ' + mG.toFixed(4) + ' over this window is outside the trusted band [' +
+           GAIN_TRUST_LO + ', ' + GAIN_TRUST_HI + ']. The filter was running at a noise level it does not ' +
+           'believe, so P_prior is not the true prior variance and var(v) - mean(P_prior) is biased by an ' +
+           'amount this window cannot recover. Holding ' + prior + ' rather than folding attention into a ' +
+           'measurement of the world.'
+    };
+  }
+
+  /* EFFECTIVE r = var(v) - mean(P_prior). A NEGATIVE result is informative, not an error:
+     it says the filter's own uncertainty already exceeds everything it observed, so the
+     true observation noise is somewhere below the floor rather than unmeasurable.
+     Clamping silently would present a floor value as a measurement. */
+  var rawEffective = sv - mP;
+  var underDispersed = rawEffective <= min;
+
+  /* No rescaling. Past the guard above the filter was close enough to correctly tuned
+     that this IS the world's noise, which is exactly the quantity rBase should hold. */
+  var rawBase = rawEffective;
+  var measured = clamp(rawBase, min, max);
+  var value = clamp(prior + damp * (measured - prior), min, max);
+
+  return {
+    state: 'measured', value: value, n: v.length,
+    basis: { innovationVariance: sv, innovationMean: mv, meanPriorVariance: mP,
+             meanGain: mG, impliedEffectiveR: rawEffective, impliedBaseR: rawBase,
+             dampedFrom: prior, damping: damp, underDispersed: underDispersed },
+    why: 'var(innovation) ' + sv.toFixed(6) + ' - mean(P_prior) ' + mP.toFixed(6) + ' = ' +
+         rawEffective.toFixed(6) + ' EFFECTIVE' +
+         (underDispersed ? ' (at or below the floor: the filter is already more uncertain than anything it observed)' : '') +
+         ' (mean attention gain ' + mG.toFixed(4) + ', inside the trusted band, so the filter was close ' +
+         'enough to correctly tuned for this to measure the world)' +
+         '; moved ' + (damp * 100).toFixed(0) + '% of the way from ' + prior + ' to ' + measured.toFixed(6) +
+         ' = ' + value.toFixed(6) + '. Damped because a variance from ' + v.length + ' samples is itself noisy.'
+  };
+}
+
+/**
+ * Process noise q from the WHITENESS of the innovation sequence.
+ *
+ * Lag-1 autocorrelation is the signal, and it is the one thing observation noise cannot
+ * fake: r shifts the variance of the innovations without introducing serial correlation.
+ */
+function deriveProcessNoise(innovations, priorVariances, opts) {
+  opts = opts || {};
+  var prior = num(opts.prior, 0.02);
+  var min = num(opts.min, 1e-9);
+  var max = num(opts.max, 1e3);
+  var minN = num(opts.minN, NOISE_MIN_N);
+  var damp = num(opts.damping, NOISE_DAMPING);
+
+  var v = [];
+  for (var i = 0; i < (innovations || []).length; i++) {
+    var a = innovations[i];
+    if (typeof a === 'number' && isFinite(a)) v.push(a);
+  }
+  if (v.length < minN + 1) {
+    return { state: 'abstained', value: prior, n: v.length,
+      why: 'only ' + v.length + ' innovation(s); ' + (minN + 1) + ' needed for a lag-1 autocorrelation. Holding the declared prior ' + prior + '.' };
+  }
+
+  var m = meanOf(v), s = varianceOf(v, m);
+  if (!(s > 1e-15)) {
+    return { state: 'abstained', value: prior, n: v.length,
+      why: 'the innovations are constant, so autocorrelation is undefined — a channel that never surprises the filter cannot say whether q is wrong. Holding ' + prior + '.' };
+  }
+  var cov = 0;
+  for (var j = 1; j < v.length; j++) cov += (v[j] - m) * (v[j - 1] - m);
+  cov /= (v.length - 1);
+  var rho = clamp(cov / s, -1, 1);
+
+  /**
+   * CONSISTENCY GATES THE ADJUSTMENT, and leaving it out was a real defect rather than
+   * a refinement. The first version used the autocorrelation alone.
+   *
+   * Autocorrelation says WHICH WAY q is wrong. It does not say whether q is wrong at
+   * all. A slowly drifting channel has positively correlated innovations no matter what
+   * q is, because a first-order filter cannot track a trend — so "rho > 0, raise q"
+   * fires on every derivation and, applied recursively, walks q to its ceiling. Measured
+   * on the recorded corpus: seven near-constant channels all reached q = 0.811 from a
+   * declared 0.02, which claims enormous process noise for series that barely move.
+   *
+   * The variance ratio is what says whether anything is wrong. If var(innovation)
+   * already matches the S the filter predicted, the filter is consistent and there is
+   * nothing to fix, however correlated the innovations are. So the adjustment is scaled
+   * by the distance from consistency, and a consistent filter is left alone.
+   */
+  var consistency = null;
+  if (priorVariances && priorVariances.length >= v.length) {
+    /* S = P_prior + EFFECTIVE r, per sample. `rSeries` carries the effective r actually
+       in force at each innovation; a single scalar would misjudge every window in which
+       attention moved, which is exactly the windows worth judging. */
+    var S = 0, nS = 0;
+    for (var k = 0; k < v.length; k++) {
+      var P = priorVariances[k];
+      var rk = (opts.rSeries || [])[k];
+      if (typeof rk !== 'number' || !isFinite(rk)) rk = num(opts.r, 0);
+      if (typeof P === 'number' && isFinite(P) && P >= 0) { S += P + rk; nS++; }
+    }
+    if (nS) {
+      var meanS = S / nS;
+      consistency = meanS > 1e-15 ? s / meanS : null;      // 1.0 = perfectly consistent
+    }
+  }
+
+  /**
+   * THE VARIANCE RATIO SETS THE DIRECTION; THE AUTOCORRELATION SETS THE SHARE.
+   *
+   * Getting this the other way round was a real error, not a nuance. Using
+   * `1 + 2*rho*|consistency-1|` made the magnitude depend on the mismatch but the SIGN
+   * depend on rho alone — so a near-constant channel, whose innovations are far SMALLER
+   * than the filter's stated uncertainty, read as maximally mismatched and had its q
+   * raised because those tiny innovations happened to be correlated. Measured: seven
+   * near-constant channels walked from a declared q of 0.02 to 0.806, claiming enormous
+   * process noise for series that barely move. An over-cautious filter needs LESS
+   * process noise; no amount of autocorrelation makes more of it the right answer.
+   *
+   *   excess < 0   the filter is already more uncertain than its errors justify. q comes
+   *                down, whatever the autocorrelation says.
+   *   excess > 0   the filter is over-confident, and something has to account for the
+   *                gap. rho is the evidence for how much of it is state motion rather
+   *                than observation noise: correlated residue is motion the filter keeps
+   *                missing, white residue is noise and belongs to r.
+   *   excess ~ 0   consistent. Nothing to fix, and q is left alone.
+   */
+  var excess = consistency === null ? 0 : clamp(consistency - 1, -1, 2);
+  var share = Math.max(0, rho);
+  var adj = excess >= 0 ? excess * share : excess;
+  var factor = clamp(1 + adj, 1 / 3, 3);
+  var measured = clamp(prior * factor, min, max);
+  var value = clamp(prior + damp * (measured - prior), min, max);
+
+  return {
+    state: 'measured', value: value, n: v.length,
+    basis: { lag1Autocorrelation: rho, innovationVariance: s, consistencyRatio: consistency,
+             excess: excess, motionShare: share, factor: factor, dampedFrom: prior, damping: damp },
+    why: (consistency !== null
+            ? 'var(v)/mean(S) = ' + consistency.toFixed(3) +
+              (Math.abs(excess) < 0.05 ? ' (consistent, so q is left alone regardless of autocorrelation). '
+               : excess < 0 ? ' (over-cautious: q comes down whatever the autocorrelation says). '
+               : ' (over-confident; ' + (share * 100).toFixed(0) + '% of the gap reads as state motion). ')
+            : '') +
+         'lag-1 autocorrelation ' + rho.toFixed(4) + ' over ' + v.length + ' innovations ' +
+         (rho > 0.05 ? '(a persistent component the filter keeps missing: state motion is under-modelled)'
+          : rho < -0.05 ? '(the filter is over-correcting)'
+          : '(white, which is what a correctly tuned filter produces)') +
+         ' => q x' + factor.toFixed(3) + ', damped to ' + value.toFixed(8) + ' from ' + prior + '.'
+  };
+}
+
+/**
+ * NORMALISED INNOVATION SQUARED — the standard filter-consistency check, and the metric
+ * the control comparison is scored on.
+ *
+ * E[v^2 / S] = 1 for a correctly tuned filter, where S = P_prior + r. Above 1 the filter
+ * is over-confident: it claims more certainty than its own errors justify. Below 1 it is
+ * over-cautious. Scale-free, so channels in dollars and channels in article counts are
+ * judged on one footing — and unlike raw error it cannot be improved by simply declaring
+ * more uncertainty, which is what makes it usable as a scorecard number.
+ */
+function nis(innovations, priorVariances, r) {
+  var acc = 0, n = 0;
+  for (var i = 0; i < (innovations || []).length; i++) {
+    var v = innovations[i], P = (priorVariances || [])[i];
+    if (typeof v !== 'number' || !isFinite(v) || typeof P !== 'number' || !isFinite(P)) continue;
+    var S = P + r;
+    if (!(S > 0)) continue;
+    acc += (v * v) / S; n++;
+  }
+  if (!n) return { state: 'abstained', value: null, n: 0, why: 'no usable innovations' };
+  var m = acc / n;
+  return {
+    state: 'measured', value: m, n: n,
+    /* Distance from 1 in either direction, on a log scale so a factor of 2 too confident
+       and a factor of 2 too cautious score equally. A metric that punished only
+       over-confidence would be trivially gamed by inflating uncertainty. */
+    miscalibration: Math.abs(Math.log(m)),
+    why: 'NIS ' + m.toFixed(4) + ' over ' + n + ' innovations (1.0 is correct; ' +
+         (m > 1 ? 'above 1 = over-confident' : 'below 1 = over-cautious') + ')'
+  };
+}
+
+function meanOf(a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; }
+function varianceOf(a, m) { return a.reduce(function (x, y) { return x + (y - m) * (y - m); }, 0) / a.length; }
+
 function clamp(v, lo, hi) { return (typeof v !== 'number' || !isFinite(v)) ? lo : (v < lo ? lo : (v > hi ? hi : v)); }
 function num(v, d) { return (typeof v === 'number' && isFinite(v)) ? v : d; }
 
 module.exports = {
   deriveRate: deriveRate,
+  deriveObservationNoise: deriveObservationNoise,
+  deriveProcessNoise: deriveProcessNoise,
+  nis: nis,
   createLedger: createLedger,
   rateFor: rateFor,
   record: record,
@@ -256,5 +582,7 @@ module.exports = {
   serializeLedger: serializeLedger,
   restoreLedger: restoreLedger,
   report: report,
-  MIN_N: MIN_N, RATE_MIN: RATE_MIN, RATE_MAX: RATE_MAX, HIST_CAP: HIST_CAP
+  MIN_N: MIN_N, RATE_MIN: RATE_MIN, RATE_MAX: RATE_MAX, HIST_CAP: HIST_CAP,
+  NOISE_MIN_N: NOISE_MIN_N, NOISE_DAMPING: NOISE_DAMPING,
+  GAIN_TRUST_LO: GAIN_TRUST_LO, GAIN_TRUST_HI: GAIN_TRUST_HI
 };
