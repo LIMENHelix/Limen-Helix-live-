@@ -125,24 +125,55 @@ console.log('');
   console.log('  ' + s.why);
   console.log('');
 
-  /* THE HEADLINE, and it is not the binder count. */
-  assert('exactly ONE domain is bound with data behind it', s.byState[REG.STATE.BOUND] === 1,
-    JSON.stringify(s.bound));
-  assert('and it is energy, the only domain with a fixture', s.bound[0] === 'energy', String(s.bound[0]));
-  assert('finance is MANIFEST-ONLY, not bound — a second manifest is not a second domain',
-    s.manifestOnly.indexOf('finance') >= 0 && s.bound.indexOf('finance') < 0,
+  /**
+   * THE HEADLINE, and it is not the binder count.
+   *
+   * ALL TWENTY ARE NOW BOUND: every domain has a binder AND a recorder fixture its binder
+   * produces readings from. Nineteen were installed at once from ~19.5 days of production
+   * feed history, which is what the recorder was built to accumulate.
+   *
+   * WHAT BOUND DOES AND DOES NOT MEAN, because the previous version of this file used
+   * "one bound domain" as shorthand for "one domain with real evidence" and those have
+   * now come apart. `registry.js` defines BOUND as: a binder that validates, plus a
+   * non-empty fixture the binder can read. That is INSTALLATION. It says nothing about
+   * whether the fixture contains independent observations — that is SPEC row 10, it is a
+   * property of a declared PAIR rather than of the corpus, and every one of the nineteen
+   * fixtures reports `supportsIndependentObservations: false` today. The two counts are
+   * asserted separately below so neither can be read as the other.
+   */
+  assert('all twenty domains are bound: binder plus a readable fixture',
+    s.byState[REG.STATE.BOUND] === 20, JSON.stringify(s.bound));
+  assert('and energy is still among them, unchanged',
+    s.bound.indexOf('energy') >= 0, JSON.stringify(s.bound));
+  assert('finance is bound too, from its own recorded history',
+    s.bound.indexOf('finance') >= 0 && s.manifestOnly.indexOf('finance') < 0,
     JSON.stringify(s.manifestOnly));
-  assert('and its reason names the missing fixture',
-    /no fixture at/.test(REG.inspect('finance').why), REG.inspect('finance').why);
-  assert('nineteen domains are declared but unobserved',
-    s.byState[REG.STATE.MANIFEST_ONLY] === 19, JSON.stringify(s.manifestOnly));
-  /* ZERO UNBOUND. Manifest coverage is complete — and that is exactly when the
-     BOUND/MANIFEST_ONLY distinction earns its keep, because "20 domains declared" now
-     reads as done while one domain has evidence behind it. */
+  assert('and its reason names the fixture it can read, not a missing one',
+    /produced readings from a fixture/.test(REG.inspect('finance').why), REG.inspect('finance').why);
+  assert('no domain is left manifest-only',
+    s.byState[REG.STATE.MANIFEST_ONLY] === 0, JSON.stringify(s.manifestOnly));
   assert('no domain is unbound: every one of the twenty has a binder',
     s.byState[REG.STATE.UNBOUND] === 0, String(s.byState[REG.STATE.UNBOUND]));
-  assert('and yet exactly ONE is bound with data, which is the number that matters',
-    s.byState[REG.STATE.BOUND] === 1 && s.bound.join() === 'energy', JSON.stringify(s.bound));
+  /**
+   * INSTALLED IS NOT EVIDENCED. Asserted here so a reader of the bound count cannot take
+   * it for the evidence count; the fixtures say so themselves.
+   *
+   * ITERATES ALL TWENTY FROM THE REGISTRY, not a sample. An earlier version listed four
+   * domains by hand, which stated a universal invariant while testing a fifth of it — and
+   * the sixteen it skipped are exactly where an unearned `true` would go unnoticed. The
+   * offending fixture is named, because "some fixture claims row 10" sends the reader
+   * looking through twenty files.
+   */
+  var claiming = REG.PRODUCT_KEYS.filter(function (p) {
+    var fp = REG.fixturePath(REG.descriptorFor(p));
+    if (!fs.existsSync(fp)) return false;
+    var doc = JSON.parse(fs.readFileSync(fp, 'utf8'));
+    return !!(doc.evidence && doc.evidence.supportsIndependentObservations === true);
+  });
+  assert('across ALL TWENTY fixtures, not one claims independent observations',
+    REG.PRODUCT_KEYS.length === 20 && claiming.length === 0,
+    claiming.length ? 'claimed by: ' + claiming.join(', ') + ' — row 10 support is earned, not installed'
+                    : 'checked ' + REG.PRODUCT_KEYS.length + ' domains');
   /* The arithmetic, so a domain can never be counted twice or vanish between states as
      batches land. The explicit numbers above move with each batch on purpose — a change
      to them should be a deliberate line in a diff, not something that drifts. */
@@ -268,6 +299,18 @@ console.log('');
   var V = function (doc) { return REG.validateFixtureDocument(d, FIN, doc); };
   var goodRow = { t: 1, src: [{ n: 'Finnhub Market', v: 5 }] };
 
+  /* FINGERPRINT OF THE FIXTURES DIRECTORY, taken before any validation runs and compared
+     after. The previous version of this guard asserted that finance had NO fixture, which
+     was a proxy for "this test wrote nothing" that worked only while finance was empty.
+     Now that all twenty domains are installed the proxy is meaningless, and the property
+     it stood for matters MORE: a test that can overwrite real recorded evidence is worse
+     than the defect it covers. So the real property is measured instead. */
+  var FIXDIR = path.dirname(REG.fixturePath(d));
+  var fixturesBefore = fs.readdirSync(FIXDIR).sort().map(function (f) {
+    var st = fs.statSync(path.join(FIXDIR, f));
+    return f + ':' + st.size + ':' + st.mtimeMs;
+  }).join('|');
+
   assert('an empty rows array is refused', V({ domain: 'finance', rows: [] }).usable === false);
   assert('and says an empty file is not data', /not data/.test(V({ domain: 'finance', rows: [] }).why));
 
@@ -301,9 +344,15 @@ console.log('');
     [V({ domain: 'finance', rows: [] }), V('{x'), V(null), alien, wrong]
       .every(function (r) { return typeof r.why === 'string' && r.why.length > 15; }));
 
-  /* THE SAFETY PROPERTY ITSELF: this test wrote nothing. */
-  assert('no finance fixture was created by running this test',
-    !fs.existsSync(REG.fixturePath(d)), REG.fixturePath(d));
+  /* THE SAFETY PROPERTY ITSELF: this test wrote nothing. Measured, not proxied — every
+     fixture file, its size and its mtime, unchanged across the whole validation block. */
+  var fixturesAfter = fs.readdirSync(FIXDIR).sort().map(function (f) {
+    var st = fs.statSync(path.join(FIXDIR, f));
+    return f + ':' + st.size + ':' + st.mtimeMs;
+  }).join('|');
+  assert('running this test created, deleted or modified NO fixture file',
+    fixturesAfter === fixturesBefore,
+    'fixtures directory changed during a pure-validation test');
   assert('and the energy fixture is untouched and still readable',
     REG.inspect('energy').state === REG.STATE.BOUND);
 })();
@@ -969,18 +1018,65 @@ console.log('');
   assert('and its fixture would be filed as health-recorder.json',
     path.basename(REG.fixturePath(REG.descriptorFor('medicine'))) === 'health-recorder.json');
 
-  /* ALL THREE ARE MANIFEST-ONLY. No fixture exists for any of them, so nothing declared
-     above has been exercised against a single real observation. */
+  /* ALL OF THEM ARE NOW BOUND, each against its own recorded history. What each binder
+     DECLARES was asserted above; this asserts only that the declaration now meets data. */
   ['economy', 'environment', 'medicine', 'technology', 'science', 'trade',
    'governance', 'infrastructure', 'agriculture',
    'industry', 'education', 'communication',
    'culture', 'defense', 'religion',
    'population', 'law', 'intelligence'].forEach(function (d) {
-    assert(d + ' is MANIFEST-ONLY, not bound', REG.inspect(d).state === REG.STATE.MANIFEST_ONLY,
-      REG.inspect(d).state);
+    assert(d + ' is BOUND: its binder reads its fixture', REG.inspect(d).state === REG.STATE.BOUND,
+      REG.inspect(d).why);
   });
-  assert('energy is still the only bound domain', REG.summary().bound.join() === 'energy',
+  assert('every one of the twenty is bound', REG.summary().bound.length === 20,
     REG.summary().bound.join());
+
+  /**
+   * CULTURE AND RELIGION ARE BOUND ON A SHORTER WINDOW THAN THE REST, and the CAUSE is
+   * pinned rather than asserted in prose. Culture reads `r7` on fifteen of its sixteen
+   * channels and religion on all fifteen of its own; `r7` did not exist in recorded rows
+   * until the recorder was fixed on 2026-08-01. Their fixtures span the same ~19.5 days
+   * as the others, but only the rows from that fix onward are readable.
+   *
+   * "FEWER THAN HALF THE ROWS" WOULD NOT HAVE TESTED THAT. It is satisfied by any sparse
+   * domain for any reason, so it would have gone on passing if the real cause were
+   * something else entirely — a dead feed, a renamed source, a binder bug. What makes the
+   * claim falsifiable is the COINCIDENCE: the first row the binder can read must be the
+   * first row carrying `r7` at all, and the row before it must carry none. The boundary
+   * index is not hardcoded, so a refreshed fixture moves it without breaking the test,
+   * but the causal link has to survive.
+   */
+  ['culture', 'religion'].forEach(function (d) {
+    var doc = JSON.parse(fs.readFileSync(REG.fixturePath(REG.descriptorFor(d)), 'utf8'));
+    var binder = require('../bind/' + REG.descriptorFor(d).binder + '.js');
+    var hasR7 = function (r) { return (r.src || []).some(function (s) { return s.r7 !== undefined; }); };
+    var canRead = function (r) {
+      try { return Object.keys(binder.readRecorderRow(r) || {}).length > 0; } catch (e) { return false; }
+    };
+    var firstReadable = -1, firstR7 = -1;
+    doc.rows.forEach(function (r, i) {
+      if (firstReadable < 0 && canRead(r)) firstReadable = i;
+      if (firstR7 < 0 && hasR7(r)) firstR7 = i;
+    });
+    var readable = doc.rows.filter(canRead).length;
+
+    assert(d + ': every channel it reads is declared r7, which is why the boundary exists',
+      binder.CHANNELS.filter(function (c) { return c.recordedField === 'r7'; }).length >= 15,
+      JSON.stringify(binder.CHANNELS.reduce(function (a, c) {
+        a[c.recordedField] = (a[c.recordedField] || 0) + 1; return a; }, {})));
+    assert(d + ': the first readable row IS the first row carrying r7',
+      firstReadable >= 0 && firstReadable === firstR7,
+      'firstReadable=' + firstReadable + ' firstR7=' + firstR7);
+    assert(d + ': and the row immediately before the boundary carries no r7 at all',
+      firstReadable > 0 && !hasR7(doc.rows[firstReadable - 1]),
+      'row ' + (firstReadable - 1) + ' at ' + new Date(doc.rows[firstReadable - 1].t).toISOString());
+    assert(d + ': the boundary falls on or after the 2026-08-01 recorder fix',
+      doc.rows[firstReadable].t >= Date.UTC(2026, 7, 1),
+      new Date(doc.rows[firstReadable].t).toISOString());
+    assert(d + ': so every row from the boundary on is readable, and none before it',
+      readable === doc.rows.length - firstReadable,
+      readable + ' readable, ' + (doc.rows.length - firstReadable) + ' from boundary ' + firstReadable);
+  });
 
   /* NO CROSS-DOMAIN LINK WAS INVENTED. Every relationship in every binder stays inside
      its own channel set — asserted across all five so a future batch cannot slip one in. */
@@ -1057,11 +1153,25 @@ console.log('');
    * standard this refuses), and MEASURED beneficial transfer against a control with the
    * link withheld. Traffic crossing a link is not the same as a link that helps.
    */
-  assert('finance has no fixture, so no cross-domain observation has ever occurred',
-    REG.inspect('finance').fixture === false);
-  assert('and the bound count is still one',
-    s.byState[REG.STATE.BOUND] === 1, String(s.byState[REG.STATE.BOUND]));
-  assert('so row 24 remains blocked on real second-domain observations, not on a binder',
+  /* FINANCE NOW HAS THE FIRST OF THE THREE and row 24 has not moved, which is the whole
+     point of stating them separately. Installing twenty fixtures changed the bound count
+     and nothing else: no cross-domain latent has been declared, and no transfer has been
+     measured against a withheld-link control. */
+  assert('finance now has a fixture, so the first of row 24 three requirements is met',
+    REG.inspect('finance').fixture === true);
+  assert('and every domain is bound, which moves row 24 not at all',
+    s.byState[REG.STATE.BOUND] === 20, String(s.byState[REG.STATE.BOUND]));
+  /* Loaded here rather than reusing an outer list, so this assertion covers all twenty by
+     construction and cannot silently check fewer if the outer list changes. */
+  var everyBinder = REG.PRODUCT_KEYS.map(function (p) {
+    return require('../bind/' + REG.descriptorFor(p).binder + '.js');
+  });
+  assert('because NO cross-domain latent is declared anywhere, in any of the twenty binders',
+    everyBinder.length === 20 && everyBinder.every(function (b) {
+      var keys = b.CHANNELS.map(function (c) { return c.key; });
+      return b.RELATIONSHIPS.every(function (r) { return keys.indexOf(r.a) >= 0 && keys.indexOf(r.b) >= 0; });
+    }), 'every declared relationship still lives inside one domain');
+  assert('so row 24 remains blocked on a declared cross-domain latent and measured transfer',
     L.report(L.createBus()).satisfiesRow24 === false);
 
   /* AND NOT ONLY ON OBSERVATIONS. No cross-domain latent is declared by either binder,
