@@ -2949,69 +2949,104 @@ async function fetchWorldBankPopulation() {
 }
 
 /**
- * UN DATA PORTAL INDICATOR 49 — "Total population by sex", in thousands, location 840
- * (USA). Two defects were fixed here together, because either alone makes the channel
- * unusable as evidence.
+ * UN DATA PORTAL INDICATOR 49 — "Total population by sex", location 840 (USA), PERSONS.
  *
- * 1. `pageSize=1` MEANT NO SELECTION WAS POSSIBLE. Indicator 49 is reported BY SEX and
- *    across years and variants, so the endpoint returns male, female and both-sexes rows
- *    for every year in range. Asking for one row and taking it hands the choice to
- *    whatever the server happened to order first — the value could have been male-only
- *    population for 2023 under any projection variant, and nothing downstream would have
- *    known. The request now takes the full page.
+ * `pageSize=1` MEANT NO SELECTION WAS POSSIBLE. Indicator 49 is reported BY SEX and across
+ * years and variants, so the endpoint returns male, female and both-sexes rows for every
+ * year in range. Asking for one row and taking `data.data[0]` handed the choice to
+ * whatever the server ordered first: the value could have been male-only population for
+ * the wrong year under a projection variant, and nothing downstream would have known.
  *
- * 2. `data.data[0]` WAS ARRAY ORDER, NOT SELECTION. The row is now chosen by matching on
- *    content, and the selector REFUSES rather than guessing.
+ * THE RESPONSE SCHEMA IS PUBLISHED, SO NOTHING HERE GUESSES AT IT. An earlier pass scanned
+ * every string field of every row for tokens like "total" and "both", on the belief that
+ * the schema could not be verified from inside this repository. That was wrong, and it was
+ * unsafe: "total" also appears in `category`, in `indicator` ("Total population by sex")
+ * and in location text, so a male row could have been accepted as the combined total.
  *
- * WHY THE MATCHING IS BY VALUE AND NOT BY FIELD NAME. The portal's exact response schema
- * is not verifiable from inside this repository, and inventing field names is the failure
- * this project keeps unwinding. So `_selectUNPopulationRow` scans each row's own string
- * fields for the tokens that identify a both-sexes row and the intended variant, and
- * requires the match to be UNIQUE. If the schema differs from expectation no row matches
- * and the fetcher abstains, which is the correct outcome: an unidentified number is worse
- * than a missing one.
+ * All three facts below were read from the portal's own metadata endpoints, which answer
+ * WITHOUT a key (only the data endpoint itself is 401):
+ *
+ *   swagger/DataPortalOpenAPISpecificationv1.0/swagger.json -> MainDataSetFullDto declares
+ *     indicatorId, locationId, sourceId, revision, variantId, variant, variantShortName,
+ *     variantLabel, timeId, timeLabel, timeMid, categoryId, category, estimateType,
+ *     sexId, sex, ageLabel, value.
+ *   api/v1/Indicators/49 -> unitShortLabel "persons", unitScaling 1, dimSex true,
+ *     dimVariant true, defaultSexId 3, defaultVariantId 4, source World Population
+ *     Prospects 2024.
+ *   api/v1/metadata/sexes/49    -> sexId 3 = "Both sexes" (1 Male, 2 Female).
+ *   api/v1/metadata/variants/49 -> variantId 4 = "Median" (the medium-variant series;
+ *     the others are prediction-interval bounds and fertility scenarios).
+ *
+ * So the selector matches DOCUMENTED FIELDS BY EXACT VALUE and reads nothing else. A row
+ * that does not carry those fields is refused, and the fetcher abstains: an unidentified
+ * number is worse than a missing one.
+ *
+ * UNITS ARE PERSONS, NOT THOUSANDS. `unitScaling: 1` and `unitShortLabel: "persons"`, and
+ * the indicator description is "Total number of persons by sex (mid-year)". A US reading
+ * is therefore ~342000000, and a million label divides by 1e6.
+ *
+ * WHAT THIS STILL DOES NOT SEPARATE. The Median variant covers WPP estimates for years up
+ * to the revision's base year and the medium-variant PROJECTION after it. `estimateType`
+ * is documented and would name which, but its permitted values could not be read without
+ * a key, so nothing filters on a value that has not been seen. It is instead carried into
+ * the source identity when present, so a year flipping from projection to estimate reads
+ * as a new observation rather than a re-poll.
  */
 
-/* Tokens that identify a both-sexes row. Matched against field VALUES, case-insensitively.
-   Male/female tokens are listed so a row carrying them can be positively excluded rather
-   than merely failing to match. */
-var UN_BOTH_SEXES = ['both sexes', 'bothsexes', 'both', 'total'];
-var UN_SINGLE_SEX = ['male', 'female', 'men', 'women'];
-/* The estimate/median series. A projection variant is a different statistic from an
-   estimate and must not be silently substituted. */
-var UN_VARIANT = ['median', 'estimate', 'estimates'];
+var UN_POP_INDICATOR  = 49;          // Total population by sex
+var UN_POP_LOCATION   = 840;         // USA
+var UN_POP_SEX        = 'both sexes';
+var UN_POP_SEX_ID     = 3;
+var UN_POP_VARIANT    = 'median';
+var UN_POP_VARIANT_ID = 4;
+/* Completed years requested BEFORE the window end, so a late revision or a missing latest
+   year still leaves rows to choose from. */
+var UN_POP_WINDOW_YEARS = 3;
 
-function _unRowStrings(row) {
-  var out = [];
-  if (!row || typeof row !== 'object') return out;
-  Object.keys(row).forEach(function (k) {
-    var v = row[k];
-    if (typeof v === 'string') out.push(v.toLowerCase());
-  });
-  return out;
+function _unText(v) {
+  if (typeof v !== 'string') return null;
+  var t = v.trim().toLowerCase();
+  return t.length ? t : null;
 }
-function _unHasToken(row, tokens) {
-  var strs = _unRowStrings(row);
-  for (var i = 0; i < strs.length; i++) {
-    for (var j = 0; j < tokens.length; j++) if (strs[i] === tokens[j]) return true;
-  }
-  return false;
+function _unInt(v) {
+  return (typeof v === 'number' && isFinite(v) && Math.floor(v) === v) ? v : null;
 }
-function _unRowYear(row) {
-  if (!row || typeof row !== 'object') return null;
-  var keys = Object.keys(row);
-  for (var i = 0; i < keys.length; i++) {
-    var v = row[keys[i]];
-    if (typeof v === 'number' && v >= 1900 && v <= 2200 && Math.floor(v) === v) return v;
-    if (typeof v === 'string' && /^(19|20|21)\d{2}$/.test(v)) return parseInt(v, 10);
+/* The variant name, from the DTO's variant fields in the order the DTO declares them.
+   Returns the field it came from so the caller can say which one it read. */
+function _unRowVariant(row) {
+  var fields = ['variant', 'variantShortName', 'variantLabel'];
+  for (var i = 0; i < fields.length; i++) {
+    var t = _unText(row[fields[i]]);
+    if (t) return { name: t, field: fields[i] };
   }
   return null;
 }
+/* `timeLabel` only, and only as a bare four-digit year. No other field is consulted: a
+   scan for "something that looks like a year" is how `category` or an id becomes a date. */
+function _unRowYear(row) {
+  var t = _unText(row.timeLabel);
+  return (t && /^\d{4}$/.test(t)) ? parseInt(t, 10) : null;
+}
+
+function _unWhyNone(n, maxYear) {
+  var parts = [];
+  if (n.sex) parts.push(n.sex + ' rejected on `sex`: indicator 49 is reported BY SEX and only a row ' +
+    'whose sex is exactly "Both sexes" (sexId 3) is the combined total');
+  if (n.variant) parts.push(n.variant + ' rejected on variant: only the documented "Median" variant ' +
+    '(variantId 4) is read, and a prediction-interval bound or fertility scenario is a different statistic');
+  if (n.year) parts.push(n.year + ' rejected on `timeLabel`: no four-digit year at or before ' + maxYear);
+  if (n.value) parts.push(n.value + ' rejected on `value`: not a finite number');
+  if (n.identity) parts.push(n.identity + ' rejected on indicatorId/locationId: not indicator ' +
+    UN_POP_INDICATOR + ' at location ' + UN_POP_LOCATION);
+  return 'no row satisfies the documented schema for indicator ' + UN_POP_INDICATOR + ' at location ' +
+    UN_POP_LOCATION + (parts.length ? ' — ' + parts.join('; ') : '');
+}
 
 /**
- * Choose the one indicator-49 row that is both sexes, the intended variant, and the
- * latest year at or before `opts.maxYear`. Returns { row, year, why } with row null when
- * the observation is absent or ambiguous.
+ * Choose the one indicator-49 row that is indicator 49, location 840, both sexes, the
+ * Median variant, and the latest year at or before `opts.maxYear`. Returns
+ * { row, year, sex, variant, variantField, why } with row null when the observation is
+ * absent or ambiguous.
  *
  * NEVER falls back to the first row. Ambiguity is refused: if two rows survive every
  * filter there is no basis for preferring one, and picking either would reintroduce the
@@ -3019,42 +3054,93 @@ function _unRowYear(row) {
  */
 function _selectUNPopulationRow(rows, opts) {
   opts = opts || {};
-  var maxYear = typeof opts.maxYear === 'number' ? opts.maxYear : 9999;
   if (!Array.isArray(rows) || !rows.length) return { row: null, why: 'no rows returned' };
-
-  var withValue = rows.filter(function (r) {
-    return r && typeof r === 'object' && typeof r.value === 'number' && isFinite(r.value);
-  });
-  if (!withValue.length) return { row: null, why: 'no row carries a numeric `value`' };
-
-  /* BOTH SEXES. Positive match required, and any row carrying a single-sex token is
-     excluded even if it also matches a both-sexes token somewhere. */
-  var bothSexes = withValue.filter(function (r) {
-    return _unHasToken(r, UN_BOTH_SEXES) && !_unHasToken(r, UN_SINGLE_SEX);
-  });
-  if (!bothSexes.length) {
-    return { row: null, why: 'no row identifies itself as both sexes; indicator 49 is reported BY SEX, so a ' +
-      'row without that marker cannot be assumed to be the combined total' };
+  var maxYear = _unInt(opts.maxYear);
+  if (maxYear === null) {
+    return { row: null, why: 'no integer `maxYear` ceiling supplied; without one a projection year is ' +
+      'indistinguishable from a completed one and the choice drifts with whatever the response contains' };
   }
 
-  var variant = bothSexes.filter(function (r) { return _unHasToken(r, UN_VARIANT); });
-  if (!variant.length) {
-    return { row: null, why: 'no both-sexes row identifies the estimate/median variant; a projection variant ' +
-      'is a different statistic and must not be substituted' };
+  var n = { identity: 0, sex: 0, variant: 0, year: 0, value: 0 };
+  var qualified = [];
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    if (!r || typeof r !== 'object') { n.identity++; continue; }
+    if (_unInt(r.indicatorId) !== UN_POP_INDICATOR || _unInt(r.locationId) !== UN_POP_LOCATION) { n.identity++; continue; }
+
+    /* BOTH SEXES, from `sex` alone. Not from `category`, not from `indicator`, not from
+       location text — an unrelated string reading "Total" is not evidence about sex. */
+    var sex = _unText(r.sex);
+    if (sex !== UN_POP_SEX) { n.sex++; continue; }
+    if (_unInt(r.sexId) !== null && _unInt(r.sexId) !== UN_POP_SEX_ID) { n.sex++; continue; }
+
+    var variant = _unRowVariant(r);
+    if (!variant || variant.name !== UN_POP_VARIANT) { n.variant++; continue; }
+    if (_unInt(r.variantId) !== null && _unInt(r.variantId) !== UN_POP_VARIANT_ID) { n.variant++; continue; }
+
+    var year = _unRowYear(r);
+    if (year === null || year > maxYear) { n.year++; continue; }
+    if (typeof r.value !== 'number' || !isFinite(r.value)) { n.value++; continue; }
+
+    qualified.push({ row: r, year: year, sex: sex, variant: variant.name, variantField: variant.field });
   }
+  if (!qualified.length) return { row: null, why: _unWhyNone(n, maxYear) };
 
-  var dated = variant.map(function (r) { return { row: r, year: _unRowYear(r) }; })
-                     .filter(function (e) { return e.year !== null && e.year <= maxYear; });
-  if (!dated.length) return { row: null, why: 'no both-sexes row carries a usable year at or before ' + maxYear };
-
-  dated.sort(function (a, b) { return b.year - a.year; });
-  var best = dated[0];
-  var tied = dated.filter(function (e) { return e.year === best.year; });
+  qualified.sort(function (a, b) { return b.year - a.year; });
+  var best = qualified[0];
+  var tied = qualified.filter(function (e) { return e.year === best.year; });
   if (tied.length > 1) {
-    return { row: null, why: tied.length + ' both-sexes rows share year ' + best.year +
+    return { row: null, why: tied.length + ' rows are both sexes, Median and share year ' + best.year +
       '; the observation is ambiguous and is refused rather than chosen by position' };
   }
-  return { row: best.row, year: best.year, why: 'both sexes, ' + best.year + ', estimate variant, uniquely matched' };
+  return { row: best.row, year: best.year, sex: best.sex, variant: best.variant, variantField: best.variantField,
+    why: 'indicator ' + UN_POP_INDICATOR + ', location ' + UN_POP_LOCATION + ', ' + best.sex + ', ' +
+      best.variant + ' variant (from `' + best.variantField + '`), ' + best.year + ', uniquely matched' };
+}
+
+/**
+ * THE REQUEST WINDOW IS ROLLING, NOT FROZEN. It was pinned at start/2023/end/2025, which
+ * stops being current the moment 2025 is not the latest completed year — the channel would
+ * have gone quietly stale rather than failing, which is the worse of the two.
+ *
+ * The end is the last COMPLETED calendar year, and the selector is given the same year as
+ * its ceiling so the request and the choice cannot disagree.
+ */
+function _unPopulationWindow(now) {
+  var d = (now instanceof Date) ? now : new Date(typeof now === 'number' ? now : Date.now());
+  if (!isFinite(d.getTime())) d = new Date();
+  var endYear = d.getUTCFullYear() - 1;
+  var startYear = endYear - UN_POP_WINDOW_YEARS;
+  return {
+    startYear: startYear,
+    endYear: endYear,
+    url: 'https://population.un.org/dataportalapi/api/v1/data/indicators/' + UN_POP_INDICATOR +
+         '/locations/' + UN_POP_LOCATION + '/start/' + startYear + '/end/' + endYear + '?pageSize=100'
+  };
+}
+
+/**
+ * SOURCE IDENTITY BUILT FROM THE ROW THAT WAS ACTUALLY ACCEPTED, never from what the
+ * selector was asked for. `variant` carries the row's own normalised variant, so a Median
+ * row can never be recorded as "estimate". `sourceId`, `revision` and `estimateType` are
+ * appended when the row carries them, so a new WPP revision of the same year reads as a
+ * new observation rather than a re-poll of the old one.
+ */
+function _unPopulationIdentity(picked) {
+  if (!picked || !picked.row) return null;
+  var r = picked.row;
+  var parts = [
+    ['un-indicator', _unInt(r.indicatorId)],
+    ['location', _unInt(r.locationId)],
+    ['year', picked.year],
+    ['sex', picked.sex],
+    ['variant', picked.variant]
+  ];
+  if (_unInt(r.sourceId)) parts.push(['source', _unInt(r.sourceId)]);
+  if (_unInt(r.revision)) parts.push(['revision', _unInt(r.revision)]);
+  var et = _unText(r.estimateType);
+  if (et) parts.push(['estimate-type', et]);
+  return compositeIdentity(parts);
 }
 
 async function fetchUNPopulation() {
@@ -3062,14 +3148,16 @@ async function fetchUNPopulation() {
   if (!key) { trackHealth('UN Population', 'population', 'fallback', 'UN_POPULATION_API_KEY not set'); return null; }
   try {
     var headers = { 'Authorization': 'Bearer ' + key };
-    /* FULL PAGE, not pageSize=1. The endpoint reports by sex across years and variants;
-       one row is not a choice. */
-    var resp = await timedFetch('https://population.un.org/dataportalapi/api/v1/data/indicators/49/locations/840/start/2023/end/2025?pageSize=100', { headers: headers });
+    /* FULL PAGE over a ROLLING completed-year window. The endpoint reports by sex across
+       years and variants; one row is not a choice, and a frozen window goes stale. */
+    var win = _unPopulationWindow(new Date());
+    var resp = await timedFetch(win.url, { headers: headers });
     var data = await resp.json();
     if (!data || !Array.isArray(data.data) || !data.data.length) {
       trackHealth('UN Population', 'population', 'fallback', 'empty response'); return null;
     }
-    var picked = _selectUNPopulationRow(data.data, { maxYear: new Date().getUTCFullYear() });
+    /* Same year as the request end, so the request and the choice cannot disagree. */
+    var picked = _selectUNPopulationRow(data.data, { maxYear: win.endYear });
     if (!picked.row) {
       trackHealth('UN Population', 'population', 'fallback', 'indicator 49 selection refused: ' + picked.why);
       return null;
@@ -3078,17 +3166,12 @@ async function fetchUNPopulation() {
     trackHealth('UN Population', 'population', 'live', null, val);
     return {
       value: round(val),
-      label: 'UN pop ' + (val / 1000).toFixed(0) + 'M (both sexes, ' + picked.year + ')',
+      /* PERSONS. unitScaling 1, so a million label divides by 1e6. */
+      label: 'UN pop ' + (val / 1e6).toFixed(0) + 'M (both sexes, ' + picked.year + ')',
       activity: 0.2, channel: 'context',
-      signal: 'UN total population by sex, both sexes combined, ' + picked.year + ': ' + (val / 1000).toFixed(1) + 'M',
+      signal: 'UN total population by sex, both sexes combined, ' + picked.year + ': ' + (val / 1e6).toFixed(1) + 'M persons',
       updated: Date.now(), fetchedAt: Date.now(),
-      /* SOURCE IDENTITY carrying everything needed to tell one observation from another:
-         indicator, location, year, sex and variant. A new year changes it; a re-poll of
-         the same year does not. */
-      sourceUpdatedAt: compositeIdentity([
-        ['un-indicator', '49'], ['location', '840'],
-        ['year', picked.year], ['sex', 'both'], ['variant', 'estimate']
-      ])
+      sourceUpdatedAt: _unPopulationIdentity(picked)
     };
   } catch (e) { trackHealth('UN Population', 'population', 'fallback', e.message); return null; }
 }
@@ -5764,3 +5847,5 @@ function round(v) { return Math.round(v * 100) / 100; }
    offline. The fetchers themselves cannot be tested without live calls. */
 module.exports._compositeIdentity = compositeIdentity;
 module.exports._selectUNPopulationRow = _selectUNPopulationRow;
+module.exports._unPopulationWindow = _unPopulationWindow;
+module.exports._unPopulationIdentity = _unPopulationIdentity;

@@ -906,18 +906,23 @@ console.log('');
    *
    * World Bank SP.POP.TOTL and UN indicator 49 at location 840 are two different
    * publishers, same country, same annual horizon — none of the usual disqualifiers
-   * (population, denominator, horizon) applies, and the scale difference would not matter
-   * because divergence standardises each channel first. What is missing is that
-   * `indicators/49` is an opaque id: nothing in the code says what it measures except the
-   * fetcher name and label, which the discipline excludes.
+   * (population, denominator, horizon) applies. What was missing is that `indicators/49`
+   * is an opaque id: nothing in the code said what it measures except the fetcher name and
+   * label, which the discipline excludes. It was read from the portal's own metadata
+   * before the relationship was allowed to stand, which is also what corrected the unit
+   * from thousands to PERSONS — both sides are in persons, so no scale claim is involved.
    */
   var popByKey = {};
   POPULATION.CHANNELS.forEach(function (c) { popByKey[c.key] = c; });
   assert('population declares the World Bank total from a self-describing indicator',
     /SP\.POP\.TOTL/.test(popByKey.populationTotal.source), popByKey.populationTotal.source);
-  assert('and the UN channel is now verified down to sex and variant',
-    /both sexes/.test(popByKey.unPopulation.source) && popByKey.unPopulation.units === 'thousands of people',
-    popByKey.unPopulation.source);
+  assert('and the UN channel is now verified down to sex, variant and unit',
+    /both sexes/.test(popByKey.unPopulation.source) && popByKey.unPopulation.units === 'people',
+    popByKey.unPopulation.source + ' | ' + popByKey.unPopulation.units);
+  assert('in the same unit as the World Bank total it is related to, not thousands',
+    popByKey.unPopulation.units === popByKey.populationTotal.units &&
+    !/thousand/i.test(popByKey.unPopulation.units + popByKey.unPopulation.source),
+    popByKey.unPopulation.units + ' vs ' + popByKey.populationTotal.units);
   assert('so the two ARE related now, which batch 6 correctly refused before the selector was fixed',
     POPULATION.RELATIONSHIPS.length === 1);
   assert('and the UN channel still carries no finding of its own',
@@ -1009,8 +1014,8 @@ console.log('');
   var unCh = POPULATION.CHANNELS.filter(function (c) { return c.key === 'unPopulation'; })[0];
   assert('and the UN channel no longer calls its statistic unverified',
     !/unverified/.test(unCh.units) && !/unverified/.test(unCh.source), unCh.units + ' | ' + unCh.source);
-  assert('its source names both sexes and the estimate variant',
-    /both sexes/.test(unCh.source) && /estimate variant/.test(unCh.source), unCh.source);
+  assert('its source names both sexes and the documented Median variant',
+    /both sexes/.test(unCh.source) && /Median variant/.test(unCh.source), unCh.source);
   assert('the second population source gets NO duplicate finding — it earns its place through the relationship',
     POPULATION.FINDINGS.every(function (f) { return f.requires.indexOf('unPopulation') < 0; }),
     JSON.stringify(POPULATION.FINDINGS.map(function (f) { return f.requires; })));
