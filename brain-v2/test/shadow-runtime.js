@@ -48,7 +48,13 @@ var fakeDb = {
   async lrange(k, a, b) { READS.push(k); return (LISTS[k] || []).slice(a, b === -1 ? undefined : b + 1); },
   async ltrim(k, a, b) { WRITES.push(k); if (LISTS[k]) LISTS[k] = LISTS[k].slice(a, b + 1); return true; },
   async ping() { return true; },
-  getBackend() { return 'memory(test)'; }
+  /**
+   * REPORTS 'redis' BECAUSE IT BEHAVES LIKE IT: this object persists across the calls in a
+   * test run, which is the property the durability gate is protecting. Reporting
+   * 'memory' here would trip the gate on every test and make the whole suite a test of
+   * one guard. S7a flips it deliberately to prove the guard fires.
+   */
+  getBackend() { return 'redis'; }
 };
 /* Inject before the store is first required, so it never touches the real client. */
 var dbPath = require.resolve(path.join(ROOT, 'lib', 'limen-db.js'));
@@ -308,6 +314,191 @@ var firstReport, secondReport, firstState;
       res.reports[1].ok === false && typeof res.reports[1].error === 'string' && res.reports[1].error.length > 5,
       res.reports[1].error);
     assert('and the batch reports itself as not ok', res.ok === false);
+  })();
+
+}).then(function () {
+
+  // ── S7: durability is checked, not assumed ─────────────────────────────────
+  console.log('');
+  console.log('S7 [adversarial]: a cycle that cannot persist must NOT report success');
+  /**
+   * THE FAILURE THIS GUARDS IS THE WORST ONE AVAILABLE: `lib/limen-db` degrades to a
+   * per-instance memory object when Redis is missing or a call fails, and `lpush` returns
+   * TRUE even when its Redis write failed. A serverless instance is then discarded, so the
+   * cycle reports ok, computes correctly, and persists nothing. Each mode is forced here.
+   */
+  return (async function () {
+    var rows = fixtureRows('energy', 4);
+
+    console.log('S7a: backend is memory rather than redis');
+    fakeDb.getBackend = function () { return 'memory'; };
+    var memRes = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000100000 });
+    fakeDb.getBackend = function () { return 'redis'; };
+    assert('the cycle refuses rather than reporting a durable success',
+      memRes.ok === false, JSON.stringify(memRes.ok));
+    assert('and the reason names the backend, so it is actionable',
+      /backend is "memory"|not redis/.test(memRes.error || ''), memRes.error);
+
+    console.log('S7b: the state write fails at the database');
+    delete MEM[STORE.shadowKey('energy', 'state')];
+    var realSet = fakeDb.set;
+    fakeDb.set = async function (k) { if (/:state$/.test(k)) return false; return realSet.apply(fakeDb, arguments); };
+    var setRes = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000110000 });
+    fakeDb.set = realSet;
+    assert('a false from set() fails the cycle', setRes.ok === false, JSON.stringify(setRes.ok));
+    assert('and the error says the write failed', /write .*failed/.test(setRes.error || ''), setRes.error);
+
+    console.log('S7c: the history append silently goes to memory (lpush lies)');
+    delete MEM[STORE.shadowKey('energy', 'state')];
+    var realLpush = fakeDb.lpush;
+    fakeDb.lpush = async function () { return true; };   // exactly what limen-db does on failure
+    var lpRes = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000120000 });
+    fakeDb.lpush = realLpush;
+    assert('the read-back catches an append that never landed', lpRes.ok === false, JSON.stringify(lpRes.ok));
+    assert('and says the list write did not reach redis',
+      /did not read back|did not reach redis/.test(lpRes.error || ''), lpRes.error);
+
+    console.log('S7d: stored state is corrupt');
+    MEM[STORE.shadowKey('energy', 'state')] = '{this is not json';
+    var corruptRes = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000130000 });
+    assert('corruption is an ERROR, never a silent cold start',
+      corruptRes.ok === false, JSON.stringify(corruptRes.ok));
+    assert('and the reason says so rather than reporting a healthy first cycle',
+      /unparseable|corrupt/.test(corruptRes.error || ''), corruptRes.error);
+    assert('the cycle did NOT quietly restart learning from zero',
+      corruptRes.restored === false && corruptRes.ticks === 0,
+      'restored=' + corruptRes.restored + ' ticks=' + corruptRes.ticks);
+    delete MEM[STORE.shadowKey('energy', 'state')];
+
+    console.log('S7e: a failed cycle still leaves a trace');
+    var traced = await STORE.readHistory('energy', 5);
+    assert('failed cycles are recorded in history, so a silent failure is visible',
+      traced.some(function (r) { return r && r.ok === false; }),
+      'no failed cycle report was persisted');
+  })();
+
+}).then(function () {
+
+  // ── S8: the per-cycle actuation number means this cycle ────────────────────
+  console.log('');
+  console.log('S8: actuation is reported PER CYCLE, not as a restored cumulative total');
+  return (async function () {
+    delete MEM[STORE.shadowKey('energy', 'state')];
+    var rows = fixtureRows('energy', 24);
+    var a = await RUNTIME.runDomain('energy', { rows: rows.slice(0, 12), now: 1786000200000 });
+    var b = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000210000 });
+
+    assert('the first cycle executed something', a.actuation.executed > 0, String(a.actuation.executed));
+    assert('the second cycle also executed, on its own rows', b.actuation.executed > 0,
+      String(b.actuation.executed));
+    /**
+     * MEASURED, AND IT CORRECTED THE FIELD IT WAS WRITTEN TO CHECK. This first asserted a
+     * cumulative `executedTotal` equal to the sum of both cycles. It failed, because
+     * `ACT.serialize` persists opts, effectors, backlog and version and NOT `executed`:
+     * the motor's log starts empty on every restore, so no lifetime count exists in stored
+     * state. A field named `executedTotal` would have been read as "since this domain
+     * began" while meaning "since the last cold start".
+     */
+    assert('the motor execution log does NOT survive restore, and the report says so',
+      b.actuation.executedLogPersisted === false,
+      'if this ever becomes true, the per-cycle subtraction is what keeps `executed` honest');
+    assert('so the second cycle counts only its own rows, not the first cycle as well',
+      b.actuation.executed < a.actuation.executed + b.actuation.executed,
+      a.actuation.executed + ' then ' + b.actuation.executed);
+
+    console.log('S8b: and only the allowed internal action kinds are wired');
+    /* Taken from kernel/propose.js KIND rather than retyped: the literal list was written
+       in upper case and passed nothing, which is a test asserting its own typo. */
+    var PROP = require(path.join(ROOT, 'brain-v2', 'kernel', 'propose.js'));
+    var ALLOWED = Object.keys(PROP.KIND).map(function (k) { return PROP.KIND[k]; }).sort();
+    assert('exactly the five in-process kinds the kernel declares, and nothing else',
+      JSON.stringify((b.actuation.kinds || []).slice().sort()) === JSON.stringify(ALLOWED),
+      JSON.stringify(b.actuation.kinds) + ' vs ' + JSON.stringify(ALLOWED));
+    assert('and the declared set is exactly five', ALLOWED.length === 5, JSON.stringify(ALLOWED));
+    assert('none of them names an outward transport',
+      (b.actuation.kinds || []).every(function (k) { return !/http|post|email|publish|send|deploy/i.test(k); }),
+      JSON.stringify(b.actuation.kinds));
+  })();
+
+}).then(function () {
+
+  // ── S9: the HTTP surface, where the deployment blockers were ───────────────
+  console.log('');
+  console.log('S9 [adversarial]: execution needs cron auth; an operator token cannot write');
+  /**
+   * THREE DEFECTS LIVED HERE and none was catchable by reading the runtime:
+   *   - cron auth fell back to trusting `x-vercel-cron` / `x-vercel-signature`, which are
+   *     request headers any caller can set, so the write path was authenticated by a
+   *     string the attacker chooses
+   *   - a "read-only" GET wrote whenever `?run=1` was present
+   *   - the token was accepted from the query string, where proxies and analytics log it
+   * Each is now asserted against the real handler, by calling it.
+   */
+  return (async function () {
+    var handlerPath = require.resolve(path.join(ROOT, 'handlers', 'brain-shadow.js'));
+    var ran = 0;
+    function call(url, headers, env) {
+      delete require.cache[handlerPath];
+      var saved = { t: process.env.BRAIN_SHADOW_TOKEN, c: process.env.CRON_SECRET };
+      if (env && 'token' in env) { if (env.token === null) delete process.env.BRAIN_SHADOW_TOKEN; else process.env.BRAIN_SHADOW_TOKEN = env.token; }
+      if (env && 'cron' in env) { if (env.cron === null) delete process.env.CRON_SECRET; else process.env.CRON_SECRET = env.cron; }
+      var h = require(handlerPath);
+      /* Replace the runtime's exported runDomains so a "did it write?" question is
+         answered by observation rather than by inspecting Redis. */
+      var RT = require(path.join(ROOT, 'lib', 'brain-shadow-runtime.js'));
+      var realRun = RT.runDomains;
+      RT.runDomains = async function () { ran++; return { ok: true, reports: [] }; };
+      var out = { code: 0, body: null };
+      var res = {
+        statusCode: 200, setHeader: function () {},
+        end: function (b) { out.code = res.statusCode; try { out.body = JSON.parse(b); } catch (e) { out.body = b; } }
+      };
+      return Promise.resolve(h({ url: url, method: 'GET', headers: headers || {} }, res)).then(function () {
+        RT.runDomains = realRun;
+        if (saved.t === undefined) delete process.env.BRAIN_SHADOW_TOKEN; else process.env.BRAIN_SHADOW_TOKEN = saved.t;
+        if (saved.c === undefined) delete process.env.CRON_SECRET; else process.env.CRON_SECRET = saved.c;
+        return out;
+      });
+    }
+
+    var r;
+    r = await call('/api/brain-shadow?run=1', {}, { token: null, cron: null });
+    assert('with no BRAIN_SHADOW_TOKEN set the endpoint fails closed (503)', r.code === 503, String(r.code));
+    assert('and it did not run', ran === 0, String(ran));
+
+    r = await call('/api/brain-shadow?run=1', { 'x-vercel-cron': '1' }, { token: 'op', cron: null });
+    assert('a forged x-vercel-cron header no longer authenticates execution',
+      r.code === 401 || r.code === 403, String(r.code));
+    assert('and still did not run', ran === 0, String(ran));
+
+    r = await call('/api/brain-shadow?run=1', { 'x-vercel-signature': 'abc' }, { token: 'op', cron: 'sekrit' });
+    assert('nor does x-vercel-signature when CRON_SECRET IS set',
+      r.code === 401 || r.code === 403, String(r.code));
+    assert('and still did not run', ran === 0, String(ran));
+
+    r = await call('/api/brain-shadow?token=op&run=1', {}, { token: 'op', cron: 'sekrit' });
+    assert('a token in the QUERY STRING is not accepted at all', r.code === 401, String(r.code));
+
+    r = await call('/api/brain-shadow?run=1', { 'x-brain-token': 'op' }, { token: 'op', cron: 'sekrit' });
+    assert('an operator token is REFUSED for execution, with 403', r.code === 403, String(r.code));
+    assert('the refusal explains which credential executes',
+      /cron authentication/.test((r.body && r.body.error) || ''), JSON.stringify(r.body));
+    assert('and no cycle ran', ran === 0, String(ran));
+
+    r = await call('/api/brain-shadow', { 'x-brain-token': 'op' }, { token: 'op', cron: 'sekrit' });
+    assert('an operator token DOES grant the read', r.code === 200, String(r.code));
+    assert('and reading ran no cycle', ran === 0, String(ran));
+
+    r = await call('/api/brain-shadow?run=1', { authorization: 'Bearer sekrit' }, { token: 'op', cron: 'sekrit' });
+    assert('an exact Bearer CRON_SECRET match DOES execute', r.code === 200 || r.code === 207, String(r.code));
+    assert('and exactly one cycle ran', ran === 1, String(ran));
+
+    ran = 0;
+    r = await call('/api/brain-shadow', { authorization: 'Bearer sekrit' }, { token: 'op', cron: 'sekrit' });
+    assert('a cron hit WITHOUT run=1 does not execute either', ran === 0, String(ran));
+
+    r = await call('/api/brain-shadow?run=1', { authorization: 'Bearer wrong' }, { token: 'op', cron: 'sekrit' });
+    assert('a wrong bearer does not execute', ran === 0 && (r.code === 401 || r.code === 403), String(r.code));
   })();
 
 }).then(function () {

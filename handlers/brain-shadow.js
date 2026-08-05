@@ -1,19 +1,23 @@
 /**
  * handlers/brain-shadow.js — the shadow runtime's only HTTP surface.
  *
- *   GET /api/brain-shadow                 protected health read: cycle state per domain
- *   GET /api/brain-shadow?history=energy  protected: recent cycle reports for one domain
- *   GET /api/brain-shadow?run=1           the cron trigger; runs the canaries
+ *   GET /api/brain-shadow                 operator health read: cycle state per domain
+ *   GET /api/brain-shadow?history=energy  operator read: recent cycle reports for a domain
+ *   GET /api/brain-shadow?run=1           CRON ONLY: executes a cycle
  *
- * READ-ONLY AND PROTECTED. The health views never write, and every route requires
- * BRAIN_SHADOW_TOKEN via `x-brain-token` (or `?token=`). There is NO committed fallback:
- * with the variable unset the endpoint fails closed with 503 rather than serving shadow
- * internals to anyone who guesses the path. Cron requests carry the same token.
+ * OPERATOR READS AND EXECUTION ARE SEPARATE POWERS. `BRAIN_SHADOW_TOKEN` grants reads and
+ * nothing else. Execution requires `Authorization: Bearer $CRON_SECRET`. An operator token
+ * cannot make this endpoint write, and neither credential has a query-string form.
  *
- * WHY GATE A READ AT ALL. The shadow output is unvalidated brain state by definition — it
- * exists precisely because nobody has decided it is trustworthy. Publishing it unauthed
- * would create the consumer this runtime is supposed not to have, and a page reading it
- * would become the authority the design says it must not be.
+ * THIS ENDPOINT IS ITSELF A READER OF SHADOW STATE — the only one, and a new one added by
+ * this PR. The guarantee is NOT "nothing reads shadow results", which this file would
+ * falsify on its own; it is that no PRE-EXISTING site surface, UI page or decision path
+ * reads them, and that the one reader that exists is token-gated and operator-facing.
+ *
+ * WHY GATE A READ AT ALL. Shadow output is unvalidated brain state by definition — it
+ * exists precisely because nobody has decided it is trustworthy. Serving it unauthed would
+ * invite exactly the consumer this runtime must not have, and a page reading it would
+ * become the authority the design says it must not be.
  */
 
 'use strict';
@@ -36,38 +40,57 @@ module.exports = async function handler(req, res) {
   var q = Object.fromEntries(url.searchParams);
 
   /**
-   * TWO CALLERS, TWO CREDENTIALS, and the cron one follows the convention already used by
-   * autopilot and cron-repair-held rather than inventing a second scheme: prefer
-   * CRON_SECRET when it is set (spoof-proof, Vercel attaches it), and fall back to the
-   * Vercel cron headers only when it is not. An operator reading the health view uses
-   * BRAIN_SHADOW_TOKEN, which a cron cannot send because a cron cannot set headers.
+   * TWO CREDENTIALS FOR TWO DIFFERENT POWERS, and they are not interchangeable:
    *
-   * The token is NOT put in the cron path. A secret in vercel.json is a committed secret.
+   *   CRON_SECRET         authorises EXECUTION (the only writing path)
+   *   BRAIN_SHADOW_TOKEN  authorises OPERATOR READS of shadow state
+   *
+   * CRON AUTH FAILS CLOSED. An earlier version fell back to trusting `x-vercel-cron` or
+   * `x-vercel-signature` when CRON_SECRET was unset. Those are request headers: anything
+   * that can reach this URL can set them, so the fallback made the write path
+   * authenticated by a string the caller chooses. Vercel's documented pattern is a
+   * non-empty CRON_SECRET and an exact `Authorization: Bearer <secret>` match, and that is
+   * now the only accepted form. With CRON_SECRET unset, execution is refused outright.
+   *
+   * NO TOKEN IN A QUERY STRING, either. Query strings are logged by proxies, CDNs and
+   * analytics, so `?token=` leaks the credential into places nobody audits. Headers only.
+   * The cron path in vercel.json carries no secret for the same reason.
    */
-  var isCron = !!(req.headers && (process.env.CRON_SECRET
-    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
-    : (req.headers['x-vercel-cron'] || req.headers['x-vercel-signature'])));
+  var cronSecret = process.env.CRON_SECRET || '';
+  var isCron = !!(cronSecret && req.headers &&
+    req.headers['authorization'] === 'Bearer ' + cronSecret);
 
   if (!isCron) {
     if (!TOKEN) {
       return send(res, 503, { ok: false, error: 'BRAIN_SHADOW_TOKEN not set; endpoint fails closed' });
     }
-    var tok = req.headers['x-brain-token'] || q.token ||
+    var tok = req.headers['x-brain-token'] ||
       (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
-    if (tok !== TOKEN) return send(res, 401, { ok: false, error: 'unauthorized' });
+    if (!tok || tok !== TOKEN) return send(res, 401, { ok: false, error: 'unauthorized' });
   }
 
   try {
     /**
-     * THE ONLY WRITING ROUTE, and it writes only through the confined store. It is
-     * idempotent by cursor: a second call in the same hour finds no rows after `lastRowT`
-     * and applies nothing, so a duplicate or replayed trigger cannot double-count an
-     * observation.
+     * THE ONLY WRITING PATH, and it requires cron authentication. An operator holding
+     * BRAIN_SHADOW_TOKEN can READ shadow state and cannot make the runtime write: a GET
+     * that mutates because of a query parameter is a read endpoint in name only, and
+     * `?run=1` on an operator credential was exactly that.
+     *
+     * Idempotent for SEQUENTIAL duplicates: a later call finds no rows past the stored
+     * cursor. Concurrent calls are not serialised — there is no lock — which is why the
+     * trigger is one hourly cron.
      */
-    if (q.run || (isCron && !q.history)) {
+    if (isCron && q.run === '1') {
       var only = q.domain ? [q.domain] : null;
       var result = await RUNTIME.runDomains(only, {});
       return send(res, result.ok ? 200 : 207, result);
+    }
+    if (q.run !== undefined && !isCron) {
+      return send(res, 403, {
+        ok: false,
+        error: 'execution requires cron authentication (Authorization: Bearer $CRON_SECRET); ' +
+               'BRAIN_SHADOW_TOKEN grants read access only'
+      });
     }
 
     if (q.history) {
