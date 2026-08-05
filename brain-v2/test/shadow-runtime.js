@@ -263,6 +263,7 @@ var firstReport, secondReport, firstState;
   var ALLOWED = [
     path.join('lib', 'brain-shadow-store.js'),
     path.join('lib', 'brain-shadow-runtime.js'),
+    path.join('lib', 'brain-shadow-redis.js'),
     path.join('handlers', 'brain-shadow.js'),
     path.join('brain-v2', 'test', 'shadow-runtime.js'),
     '.vercelignore'
@@ -520,6 +521,26 @@ var firstReport, secondReport, firstState;
       if (savedTok === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN; else process.env.UPSTASH_REDIS_REST_TOKEN = savedTok;
       require.cache[realRedisPath] = savedFake;
     }
+
+    console.log('S10c: the raw command function is NOT reachable from outside');
+    /**
+     * A HOLDER OF `command` COULD ISSUE ANYTHING against any key — DEL on a production
+     * key, KEYS across the database, a write outside brain:v2:shadow: — which would turn
+     * both the namespace confinement and the per-command result validation into
+     * conventions rather than boundaries. The five typed operations are the whole surface.
+     */
+    delete require.cache[realRedisPath];
+    var EXPORTED = require(realRedisPath);
+    require.cache[realRedisPath] = savedFake;
+    assert('`command` is not exported', EXPORTED.command === undefined,
+      'exporting it would let a caller bypass the typed operations and the key boundary');
+    assert('and the export surface is exactly the five typed ops plus two helpers',
+      JSON.stringify(Object.keys(EXPORTED).sort()) ===
+        JSON.stringify(['NAMESPACE_PREFIX', 'assertConfigured', 'get', 'lpush', 'lrange', 'ltrim', 'set']),
+      JSON.stringify(Object.keys(EXPORTED).sort()));
+    assert('no export accepts a raw redis method name',
+      ['get', 'set', 'lpush', 'ltrim', 'lrange'].every(function (fn) { return typeof EXPORTED[fn] === 'function'; }),
+      'each op names its own command internally');
 
     console.log('S10b: and the transport contains no memory store to fall back to');
     /**
