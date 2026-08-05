@@ -37,28 +37,28 @@ function assert(name, cond, detail) {
   else { failures++; console.error('  FAIL ' + name + (detail ? ' :: ' + detail : '')); }
 }
 
-/* ── an observable in-memory database, injected in place of lib/limen-db ────── */
+/**
+ * A STAND-IN FOR THE STRICT REDIS CLIENT, not for limen-db. The store no longer speaks to
+ * limen-db at all: it uses lib/brain-shadow-redis, which has no fallback, so every failure
+ * mode below is produced by making this object behave the way a broken redis would.
+ *
+ * It stores values so keys are observable — that is the only way S1 can be tested — but it
+ * has the STRICT contract: throwing is how failure is expressed, never a return value.
+ */
 var WRITES = [], READS = [];
 var MEM = Object.create(null), LISTS = Object.create(null);
-var fakeDb = {
+var fakeRedis = {
+  NAMESPACE_PREFIX: 'limen:',
+  assertConfigured() { return true; },
   async get(k) { READS.push(k); return MEM[k] === undefined ? null : MEM[k]; },
   async set(k, v) { WRITES.push(k); MEM[k] = v; return true; },
-  async del(k) { WRITES.push(k); delete MEM[k]; return true; },
-  async lpush(k, v) { WRITES.push(k); (LISTS[k] = LISTS[k] || []).unshift(v); return true; },
+  async lpush(k, v) { WRITES.push(k); (LISTS[k] = LISTS[k] || []).unshift(v); return (LISTS[k]).length; },
   async lrange(k, a, b) { READS.push(k); return (LISTS[k] || []).slice(a, b === -1 ? undefined : b + 1); },
-  async ltrim(k, a, b) { WRITES.push(k); if (LISTS[k]) LISTS[k] = LISTS[k].slice(a, b + 1); return true; },
-  async ping() { return true; },
-  /**
-   * REPORTS 'redis' BECAUSE IT BEHAVES LIKE IT: this object persists across the calls in a
-   * test run, which is the property the durability gate is protecting. Reporting
-   * 'memory' here would trip the gate on every test and make the whole suite a test of
-   * one guard. S7a flips it deliberately to prove the guard fires.
-   */
-  getBackend() { return 'redis'; }
+  async ltrim(k, a, b) { WRITES.push(k); if (LISTS[k]) LISTS[k] = LISTS[k].slice(a, b + 1); return true; }
 };
-/* Inject before the store is first required, so it never touches the real client. */
-var dbPath = require.resolve(path.join(ROOT, 'lib', 'limen-db.js'));
-require.cache[dbPath] = { id: dbPath, filename: dbPath, loaded: true, exports: fakeDb };
+/* Inject before the store is first required, so it never touches the real transport. */
+var redisPath = require.resolve(path.join(ROOT, 'lib', 'brain-shadow-redis.js'));
+require.cache[redisPath] = { id: redisPath, filename: redisPath, loaded: true, exports: fakeRedis };
 
 var STORE = require(path.join(ROOT, 'lib', 'brain-shadow-store.js'));
 var RUNTIME = require(path.join(ROOT, 'lib', 'brain-shadow-runtime.js'));
@@ -330,33 +330,40 @@ var firstReport, secondReport, firstState;
   return (async function () {
     var rows = fixtureRows('energy', 4);
 
-    console.log('S7a: backend is memory rather than redis');
-    fakeDb.getBackend = function () { return 'memory'; };
+    console.log('S7a: redis is not configured at all');
+    var realAssert = fakeRedis.assertConfigured;
+    fakeRedis.assertConfigured = function () { throw new Error('shadow redis: UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN are not both set.'); };
     var memRes = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000100000 });
-    fakeDb.getBackend = function () { return 'redis'; };
+    fakeRedis.assertConfigured = realAssert;
     assert('the cycle refuses rather than reporting a durable success',
       memRes.ok === false, JSON.stringify(memRes.ok));
-    assert('and the reason names the backend, so it is actionable',
-      /backend is "memory"|not redis/.test(memRes.error || ''), memRes.error);
+    assert('and the reason names the missing credentials',
+      /UPSTASH_REDIS_REST/.test(memRes.error || ''), memRes.error);
 
-    console.log('S7b: the state write fails at the database');
+    console.log('S7b: the state write is rejected by redis');
     delete MEM[STORE.shadowKey('energy', 'state')];
-    var realSet = fakeDb.set;
-    fakeDb.set = async function (k) { if (/:state$/.test(k)) return false; return realSet.apply(fakeDb, arguments); };
+    var realSet = fakeRedis.set;
+    fakeRedis.set = async function (k) {
+      if (/:state$/.test(k)) throw new Error('shadow redis: SET rejected by redis: WRONGTYPE');
+      return realSet.apply(fakeRedis, arguments);
+    };
     var setRes = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000110000 });
-    fakeDb.set = realSet;
-    assert('a false from set() fails the cycle', setRes.ok === false, JSON.stringify(setRes.ok));
-    assert('and the error says the write failed', /write .*failed/.test(setRes.error || ''), setRes.error);
+    fakeRedis.set = realSet;
+    assert('a rejected SET fails the cycle', setRes.ok === false, JSON.stringify(setRes.ok));
+    assert('and the error names redis', /shadow redis/.test(setRes.error || ''), setRes.error);
 
-    console.log('S7c: the history append silently goes to memory (lpush lies)');
+    console.log('S7c: the history append does not land in redis');
     delete MEM[STORE.shadowKey('energy', 'state')];
-    var realLpush = fakeDb.lpush;
-    fakeDb.lpush = async function () { return true; };   // exactly what limen-db does on failure
+    var realLpush = fakeRedis.lpush;
+    /* The strict client throws on a non-numeric LPUSH result, so a "successful" append that
+       never happened is impossible. This proves the read-back ALSO catches an append that
+       silently went nowhere, which is the shape the old limen-db path produced. */
+    fakeRedis.lpush = async function () { return 1; };   // claims success, stores nothing
     var lpRes = await RUNTIME.runDomain('energy', { rows: rows, now: 1786000120000 });
-    fakeDb.lpush = realLpush;
+    fakeRedis.lpush = realLpush;
     assert('the read-back catches an append that never landed', lpRes.ok === false, JSON.stringify(lpRes.ok));
-    assert('and says the list write did not reach redis',
-      /did not read back|did not reach redis/.test(lpRes.error || ''), lpRes.error);
+    assert('and says the report is not retrievable from redis',
+      /did not read back|not retrievable/.test(lpRes.error || ''), lpRes.error);
 
     console.log('S7d: stored state is corrupt');
     MEM[STORE.shadowKey('energy', 'state')] = '{this is not json';
@@ -418,6 +425,139 @@ var firstReport, secondReport, firstState;
     assert('none of them names an outward transport',
       (b.actuation.kinds || []).every(function (k) { return !/http|post|email|publish|send|deploy/i.test(k); }),
       JSON.stringify(b.actuation.kinds));
+  })();
+
+}).then(function () {
+
+  // ── S10: the strict transport has no fallback at all ───────────────────────
+  console.log('');
+  console.log('S10 [adversarial]: the shadow transport cannot satisfy a write from memory');
+  /**
+   * THE DEFECT THIS REPLACES. The store used to run on `lib/limen-db` with a read-back
+   * guard, and the guard was worthless: limen-db serves a failed write AND the following
+   * read from the same per-instance `_memStore`, so the read-back passed in exactly the
+   * case it existed to catch. It also returns null WITHOUT THROWING when redis replies
+   * `{error: ...}`, so `set()` returned true for a protocol error.
+   *
+   * The real module is loaded here — NOT the fake used elsewhere in this file — with
+   * `fetch` stubbed, so each failure mode is produced at the transport itself.
+   */
+  return (async function () {
+    var realRedisPath = require.resolve(path.join(ROOT, 'lib', 'brain-shadow-redis.js'));
+    var savedFake = require.cache[realRedisPath];
+    delete require.cache[realRedisPath];
+    var STRICT = require(realRedisPath);
+
+    var realFetch = global.fetch;
+    var savedUrl = process.env.UPSTASH_REDIS_REST_URL, savedTok = process.env.UPSTASH_REDIS_REST_TOKEN;
+    function threwAsync(fn) {
+      return fn().then(function () { return null; }, function (e) { return e.message || String(e); });
+    }
+    function stubFetch(status, body) {
+      global.fetch = async function () {
+        return { status: status, ok: status >= 200 && status < 300, async text() { return body; } };
+      };
+    }
+
+    try {
+      process.env.UPSTASH_REDIS_REST_URL = '';
+      process.env.UPSTASH_REDIS_REST_TOKEN = '';
+      var noCreds = await threwAsync(function () { return STRICT.get('brain:v2:shadow:energy:state'); });
+      assert('missing credentials THROW rather than falling back to memory',
+        !!noCreds && /UPSTASH_REDIS_REST/.test(noCreds), String(noCreds));
+      assert('and the message says there is no fallback by design',
+        /no memory fallback/.test(noCreds || ''), String(noCreds));
+
+      process.env.UPSTASH_REDIS_REST_URL = 'https://example.invalid';
+      process.env.UPSTASH_REDIS_REST_TOKEN = 'x';
+
+      stubFetch(500, '{"result":"OK"}');
+      var non2xx = await threwAsync(function () { return STRICT.set('brain:v2:shadow:energy:state', '{}'); });
+      assert('a non-2xx response throws even with a plausible body',
+        !!non2xx && /HTTP 500/.test(non2xx), String(non2xx));
+
+      stubFetch(200, 'not json at all');
+      var badJson = await threwAsync(function () { return STRICT.get('brain:v2:shadow:energy:state'); });
+      assert('an unparseable body throws', !!badJson && /not JSON/.test(badJson), String(badJson));
+
+      stubFetch(200, '{"error":"WRONGTYPE Operation against a key"}');
+      var redisErr = await threwAsync(function () { return STRICT.set('brain:v2:shadow:energy:state', '{}'); });
+      assert('a redis `error` payload THROWS — limen-db returned null and reported success',
+        !!redisErr && /rejected by redis/.test(redisErr), String(redisErr));
+
+      stubFetch(200, '{"nothing":"here"}');
+      var noResult = await threwAsync(function () { return STRICT.get('brain:v2:shadow:energy:state'); });
+      assert('a response with no `result` field throws',
+        !!noResult && /no .result. field/.test(noResult), String(noResult));
+
+      stubFetch(200, '{"result":"NOTOK"}');
+      var badSet = await threwAsync(function () { return STRICT.set('brain:v2:shadow:energy:state', '{}'); });
+      assert('a SET that does not answer OK throws', !!badSet && /expected "OK"/.test(badSet), String(badSet));
+
+      stubFetch(200, '{"result":"OK"}');
+      var badPush = await threwAsync(function () { return STRICT.lpush('brain:v2:shadow:energy:history', '{}'); });
+      assert('an LPUSH that does not answer a list length throws',
+        !!badPush && /expected a list length/.test(badPush), String(badPush));
+
+      stubFetch(200, '{"result":"OK"}');
+      var badRange = await threwAsync(function () { return STRICT.lrange('brain:v2:shadow:energy:history', 0, 0); });
+      assert('an LRANGE that does not answer an array throws',
+        !!badRange && /expected an array/.test(badRange), String(badRange));
+
+      /* AND THE KEY PREFIX MUST MATCH limen-db, or the recorder list is invisible and the
+         runtime reports a healthy cycle over zero rows. */
+      var sentKey = null;
+      global.fetch = async function (u, o) {
+        sentKey = JSON.parse(o.body)[1];
+        return { status: 200, ok: true, async text() { return '{"result":[]}'; } };
+      };
+      await STRICT.lrange('feedhist:energy', 0, 1);
+      assert('reads are prefixed exactly as limen-db writes them',
+        sentKey === 'limen:feedhist:energy', String(sentKey));
+    } finally {
+      global.fetch = realFetch;
+      if (savedUrl === undefined) delete process.env.UPSTASH_REDIS_REST_URL; else process.env.UPSTASH_REDIS_REST_URL = savedUrl;
+      if (savedTok === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN; else process.env.UPSTASH_REDIS_REST_TOKEN = savedTok;
+      require.cache[realRedisPath] = savedFake;
+    }
+
+    console.log('S10b: and the transport contains no memory store to fall back to');
+    /**
+     * TESTED AS A MECHANISM, NOT AS A VOCABULARY. Two earlier versions of this assertion
+     * failed on the module's own prose: first the comment explaining why it has no
+     * `_memStore`, then the ERROR MESSAGE STRING saying "no memory fallback by design".
+     * Grepping for the word was always going to match the sentence denying the thing.
+     *
+     * What actually makes a fallback possible is state that survives between calls, so
+     * that is what is checked: with comments and string literals removed, the module must
+     * declare no mutable module-level container.
+     */
+    function codeOnly(p) {
+      return fs.readFileSync(path.join(ROOT, p), 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, ' ')
+        .replace(/(^|[^:])\/\/.*$/gm, '$1')
+        .replace(/'(?:\\.|[^'\\])*'/g, "''")
+        .replace(/"(?:\\.|[^"\\])*"/g, '""');
+    }
+    var src = codeOnly(path.join('lib', 'brain-shadow-redis.js'));
+    assert('the transport declares NO mutable module-level container to cache into',
+      !/^\s*(var|let|const)\s+\w+\s*=\s*(\{\s*\}|\[\s*\]|Object\.create\()/m.test(src),
+      'state surviving between calls is what makes a silent fallback possible');
+    assert('and no cache-shaped identifier exists in its code',
+      !/_memStore|memStore|\bcache\b/i.test(src), 'a store by any name is still a store');
+    assert('the scan is not vacuous: the stripped code still contains the client itself',
+      /function\s+command\s*\(/.test(src) && /UPSTASH_REDIS_REST_URL/.test(src),
+      'stripping must not have emptied the file');
+    assert('and the same scan DOES find limen-db\'s fallback, so it can detect one',
+      /_memStore/.test(codeOnly(path.join('lib', 'limen-db.js'))),
+      'a detector that finds nothing anywhere proves nothing');
+    assert('and the store speaks ONLY to the strict transport, never to limen-db',
+      !/require\(['"]\.\/limen-db['"]\)/.test(
+        fs.readFileSync(path.join(ROOT, 'lib', 'brain-shadow-store.js'), 'utf8')),
+      'brain-shadow-store must not reach the forgiving client');
+    assert('while limen-db itself is untouched, so existing consumers keep their behaviour',
+      /_memStore/.test(fs.readFileSync(path.join(ROOT, 'lib', 'limen-db.js'), 'utf8')),
+      'this change is additive, not a rewrite of the shared client');
   })();
 
 }).then(function () {
