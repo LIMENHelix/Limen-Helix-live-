@@ -154,13 +154,26 @@ console.log('');
     s.byState[REG.STATE.MANIFEST_ONLY] === 0, JSON.stringify(s.manifestOnly));
   assert('no domain is unbound: every one of the twenty has a binder',
     s.byState[REG.STATE.UNBOUND] === 0, String(s.byState[REG.STATE.UNBOUND]));
-  /* INSTALLED IS NOT EVIDENCED. Asserted here so a reader of the bound count cannot take
-     it for the evidence count; the fixtures say so themselves. */
-  assert('but NO fixture yet claims independent observations',
-    ['energy', 'finance', 'economy', 'culture'].every(function (p) {
-      var doc = JSON.parse(fs.readFileSync(REG.fixturePath(REG.descriptorFor(p)), 'utf8'));
-      return !(doc.evidence && doc.evidence.supportsIndependentObservations === true);
-    }), 'a fixture claiming row 10 support would have to be earned, not installed');
+  /**
+   * INSTALLED IS NOT EVIDENCED. Asserted here so a reader of the bound count cannot take
+   * it for the evidence count; the fixtures say so themselves.
+   *
+   * ITERATES ALL TWENTY FROM THE REGISTRY, not a sample. An earlier version listed four
+   * domains by hand, which stated a universal invariant while testing a fifth of it — and
+   * the sixteen it skipped are exactly where an unearned `true` would go unnoticed. The
+   * offending fixture is named, because "some fixture claims row 10" sends the reader
+   * looking through twenty files.
+   */
+  var claiming = REG.PRODUCT_KEYS.filter(function (p) {
+    var fp = REG.fixturePath(REG.descriptorFor(p));
+    if (!fs.existsSync(fp)) return false;
+    var doc = JSON.parse(fs.readFileSync(fp, 'utf8'));
+    return !!(doc.evidence && doc.evidence.supportsIndependentObservations === true);
+  });
+  assert('across ALL TWENTY fixtures, not one claims independent observations',
+    REG.PRODUCT_KEYS.length === 20 && claiming.length === 0,
+    claiming.length ? 'claimed by: ' + claiming.join(', ') + ' — row 10 support is earned, not installed'
+                    : 'checked ' + REG.PRODUCT_KEYS.length + ' domains');
   /* The arithmetic, so a domain can never be counted twice or vanish between states as
      batches land. The explicit numbers above move with each batch on purpose — a change
      to them should be a deliberate line in a diff, not something that drifts. */
@@ -1019,21 +1032,50 @@ console.log('');
     REG.summary().bound.join());
 
   /**
-   * CULTURE AND RELIGION ARE BOUND ON A SHORTER WINDOW THAN THE REST, and it is recorded
-   * here rather than left for someone to rediscover as a mystery. Both read `r7` on
-   * fifteen of sixteen channels, and `r7` did not exist in recorded rows until the
-   * recorder was fixed on 2026-08-01. Their fixtures span the same ~19.5 days as the
-   * others, but only the rows from that fix onward are readable.
+   * CULTURE AND RELIGION ARE BOUND ON A SHORTER WINDOW THAN THE REST, and the CAUSE is
+   * pinned rather than asserted in prose. Culture reads `r7` on fifteen of its sixteen
+   * channels and religion on all fifteen of its own; `r7` did not exist in recorded rows
+   * until the recorder was fixed on 2026-08-01. Their fixtures span the same ~19.5 days
+   * as the others, but only the rows from that fix onward are readable.
+   *
+   * "FEWER THAN HALF THE ROWS" WOULD NOT HAVE TESTED THAT. It is satisfied by any sparse
+   * domain for any reason, so it would have gone on passing if the real cause were
+   * something else entirely — a dead feed, a renamed source, a binder bug. What makes the
+   * claim falsifiable is the COINCIDENCE: the first row the binder can read must be the
+   * first row carrying `r7` at all, and the row before it must carry none. The boundary
+   * index is not hardcoded, so a refreshed fixture moves it without breaking the test,
+   * but the causal link has to survive.
    */
   ['culture', 'religion'].forEach(function (d) {
     var doc = JSON.parse(fs.readFileSync(REG.fixturePath(REG.descriptorFor(d)), 'utf8'));
     var binder = require('../bind/' + REG.descriptorFor(d).binder + '.js');
-    var readable = doc.rows.filter(function (r) {
+    var hasR7 = function (r) { return (r.src || []).some(function (s) { return s.r7 !== undefined; }); };
+    var canRead = function (r) {
       try { return Object.keys(binder.readRecorderRow(r) || {}).length > 0; } catch (e) { return false; }
-    }).length;
-    assert(d + ': readable on far fewer rows than it stores, because r7 postdates 2026-08-01',
-      readable > 0 && readable < doc.rows.length / 2,
-      readable + ' readable of ' + doc.rows.length + ' stored');
+    };
+    var firstReadable = -1, firstR7 = -1;
+    doc.rows.forEach(function (r, i) {
+      if (firstReadable < 0 && canRead(r)) firstReadable = i;
+      if (firstR7 < 0 && hasR7(r)) firstR7 = i;
+    });
+    var readable = doc.rows.filter(canRead).length;
+
+    assert(d + ': every channel it reads is declared r7, which is why the boundary exists',
+      binder.CHANNELS.filter(function (c) { return c.recordedField === 'r7'; }).length >= 15,
+      JSON.stringify(binder.CHANNELS.reduce(function (a, c) {
+        a[c.recordedField] = (a[c.recordedField] || 0) + 1; return a; }, {})));
+    assert(d + ': the first readable row IS the first row carrying r7',
+      firstReadable >= 0 && firstReadable === firstR7,
+      'firstReadable=' + firstReadable + ' firstR7=' + firstR7);
+    assert(d + ': and the row immediately before the boundary carries no r7 at all',
+      firstReadable > 0 && !hasR7(doc.rows[firstReadable - 1]),
+      'row ' + (firstReadable - 1) + ' at ' + new Date(doc.rows[firstReadable - 1].t).toISOString());
+    assert(d + ': the boundary falls on or after the 2026-08-01 recorder fix',
+      doc.rows[firstReadable].t >= Date.UTC(2026, 7, 1),
+      new Date(doc.rows[firstReadable].t).toISOString());
+    assert(d + ': so every row from the boundary on is readable, and none before it',
+      readable === doc.rows.length - firstReadable,
+      readable + ' readable, ' + (doc.rows.length - firstReadable) + ' from boundary ' + firstReadable);
   });
 
   /* NO CROSS-DOMAIN LINK WAS INVENTED. Every relationship in every binder stays inside
