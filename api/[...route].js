@@ -52,6 +52,7 @@ const HANDLERS = {
   'asset-quote': require('../handlers/asset-quote'),
   'biosensor-state': require('../handlers/biosensor-state'),
   'brain-cognition': require('../handlers/brain-cognition'),
+  'brain-shadow': require('../handlers/brain-shadow'),
   'brain-cognition-refresh': require('../handlers/brain-cognition-refresh'),
   'capital-engine': require('../handlers/capital-engine'),
   'critique-artifact': require('../handlers/critique-artifact'),
