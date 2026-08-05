@@ -134,10 +134,10 @@ console.log('');
     JSON.stringify(s.manifestOnly));
   assert('and its reason names the missing fixture',
     /no fixture at/.test(REG.inspect('finance').why), REG.inspect('finance').why);
-  assert('ten domains are declared but unobserved',
-    s.byState[REG.STATE.MANIFEST_ONLY] === 10, JSON.stringify(s.manifestOnly));
-  assert('and the remaining nine are unbound, each saying so',
-    s.byState[REG.STATE.UNBOUND] === 9, String(s.byState[REG.STATE.UNBOUND]));
+  assert('thirteen domains are declared but unobserved',
+    s.byState[REG.STATE.MANIFEST_ONLY] === 13, JSON.stringify(s.manifestOnly));
+  assert('and the remaining six are unbound, each saying so',
+    s.byState[REG.STATE.UNBOUND] === 6, String(s.byState[REG.STATE.UNBOUND]));
   /* The arithmetic, so a domain can never be counted twice or vanish between states as
      batches land. The explicit numbers above move with each batch on purpose — a change
      to them should be a deliberate line in a diff, not something that drifts. */
@@ -526,7 +526,7 @@ console.log('');
 
 // D8: the Economy / Environment / Medicine batch
 (function () {
-  console.log('D8: nine declared binders, checked against the sources that actually exist');
+  console.log('D8: twelve declared binders, checked against the sources that actually exist');
   var ECONOMY = require('../bind/economy.js');
   var ENVIRONMENT = require('../bind/environment.js');
   var MEDICINE = require('../bind/medicine.js');
@@ -536,6 +536,9 @@ console.log('');
   var GOVERNANCE = require('../bind/governance.js');
   var INFRA = require('../bind/infrastructure.js');
   var AGRICULTURE = require('../bind/agriculture.js');
+  var INDUSTRY = require('../bind/industry.js');
+  var EDUCATION = require('../bind/education.js');
+  var COMMUNICATION = require('../bind/communication.js');
   var batch = [
     { b: ECONOMY,     product: 'economy',     snapshot: 'economy',     channels: 15, batch: 1 },
     { b: ENVIRONMENT, product: 'environment', snapshot: 'environment', channels: 10, batch: 1 },
@@ -545,7 +548,10 @@ console.log('');
     { b: TRADE,       product: 'trade',       snapshot: 'supplyChain', channels: 13, batch: 2 },
     { b: GOVERNANCE,  product: 'governance',  snapshot: 'governance',  channels: 12, batch: 3 },
     { b: INFRA,       product: 'infrastructure', snapshot: 'infrastructure', channels: 18, batch: 3 },
-    { b: AGRICULTURE, product: 'agriculture', snapshot: 'agriculture', channels: 13, batch: 3 }
+    { b: AGRICULTURE, product: 'agriculture', snapshot: 'agriculture', channels: 13, batch: 3 },
+    { b: INDUSTRY,      product: 'industry',      snapshot: 'industry',      channels: 11, batch: 4 },
+    { b: EDUCATION,     product: 'education',     snapshot: 'education',     channels: 10, batch: 4 },
+    { b: COMMUNICATION, product: 'communication', snapshot: 'communication', channels: 11, batch: 4 }
   ];
 
   /**
@@ -758,6 +764,61 @@ console.log('');
       return b.RELATIONSHIPS.every(function (r) { return keys.indexOf(r.a) >= 0 && keys.indexOf(r.b) >= 0; });
     }));
 
+  /**
+   * BATCH 4's REJECTIONS.
+   *
+   * EDUCATION: both World Bank channels are written as a percentage, and they are
+   * percentages of DIFFERENT DENOMINATORS — expenditure as a share of GDP, enrolment as a
+   * share of a cohort. `%` is not a unit in the sense a relationship needs. They are also
+   * an input and an outcome, so a gap between them is the interesting thing about an
+   * education system rather than a fault in an instrument.
+   */
+  var eduByKey = {};
+  EDUCATION.CHANNELS.forEach(function (c) { eduByKey[c.key] = c; });
+  assert('education declares spend as a share of GDP', eduByKey.eduSpend.units === '% of GDP',
+    eduByKey.eduSpend.units);
+  assert('and enrolment as a share of a cohort — a different denominator',
+    eduByKey.tertiaryEnrol.units === '% gross enrolment ratio', eduByKey.tertiaryEnrol.units);
+  assert('the two units are distinct, so "%" alone never made them comparable',
+    eduByKey.eduSpend.units !== eduByKey.tertiaryEnrol.units);
+  assert('and they are not related', EDUCATION.RELATIONSHIPS.length === 0);
+  assert('each has its own finding rather than a joint one, which would assert they co-move',
+    EDUCATION.FINDINGS.length === 2 && EDUCATION.FINDINGS.every(function (f) { return f.requires.length === 1; }));
+
+  /**
+   * INDUSTRY: two recall feeds are the tempting pair. Both are RSS article counts over
+   * different product classes, so a relationship would compare two rates of publication.
+   */
+  var indByKey = {};
+  INDUSTRY.CHANNELS.forEach(function (c) { indByKey[c.key] = c; });
+  assert('industry declares both recall channels as article counts',
+    indByKey.nhtsaRecalls.units === 'articles/7d' && indByKey.cpscRecalls.units === 'articles/7d');
+  assert('over different populations, named in their sources',
+    /vehicle/.test(indByKey.nhtsaRecalls.source) && /consumer product/.test(indByKey.cpscRecalls.source),
+    indByKey.nhtsaRecalls.source + ' | ' + indByKey.cpscRecalls.source);
+  assert('and they are not related', INDUSTRY.RELATIONSHIPS.length === 0);
+  assert('nor does either carry a finding',
+    INDUSTRY.FINDINGS.every(function (f) {
+      return f.requires.indexOf('nhtsaRecalls') < 0 && f.requires.indexOf('cpscRecalls') < 0;
+    }));
+
+  /**
+   * COMMUNICATION is a domain whose subject is communication, instrumented almost
+   * entirely by counting communications. Ten of eleven channels count what was published;
+   * one finding is therefore the honest count, not a shortfall.
+   */
+  var commPub = COMMUNICATION.CHANNELS.filter(function (c) {
+    return /articles\/7d|feed items|documents in 30d/.test(c.units);
+  });
+  assert('communication declares ten of eleven channels as publication counts',
+    commPub.length === 10, String(commPub.length));
+  assert('and carries exactly one finding, on its only measured quantity',
+    COMMUNICATION.FINDINGS.length === 1 &&
+    COMMUNICATION.FINDINGS[0].requires.join() === 'internetUsers',
+    JSON.stringify(COMMUNICATION.FINDINGS.map(function (f) { return f.requires; })));
+  assert('the press-freedom feeds are not related to each other',
+    COMMUNICATION.RELATIONSHIPS.length === 0);
+
   /* MEDICINE IS THE ALIAS CASE, and both names must reach it. */
   assert('medicine is reachable by product name', REG.inspect('medicine').channels === 15);
   assert('and by snapshot key, returning the same binder',
@@ -770,7 +831,8 @@ console.log('');
   /* ALL THREE ARE MANIFEST-ONLY. No fixture exists for any of them, so nothing declared
      above has been exercised against a single real observation. */
   ['economy', 'environment', 'medicine', 'technology', 'science', 'trade',
-   'governance', 'infrastructure', 'agriculture'].forEach(function (d) {
+   'governance', 'infrastructure', 'agriculture',
+   'industry', 'education', 'communication'].forEach(function (d) {
     assert(d + ' is MANIFEST-ONLY, not bound', REG.inspect(d).state === REG.STATE.MANIFEST_ONLY,
       REG.inspect(d).state);
   });
@@ -780,7 +842,7 @@ console.log('');
   /* NO CROSS-DOMAIN LINK WAS INVENTED. Every relationship in every binder stays inside
      its own channel set — asserted across all five so a future batch cannot slip one in. */
   var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE, TECHNOLOGY, SCIENCE, TRADE,
-             GOVERNANCE, INFRA, AGRICULTURE];
+             GOVERNANCE, INFRA, AGRICULTURE, INDUSTRY, EDUCATION, COMMUNICATION];
   assert('no binder declares a relationship naming a channel outside itself',
     all.every(function (b) {
       var keys = b.CHANNELS.map(function (c) { return c.key; });
@@ -835,7 +897,7 @@ console.log('');
 console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
                      : tests + '/' + tests + ' passed');
 console.log('');
-console.log('BOUND WITH DATA: 1 of 20 (energy). Ten declared and unobserved. No fixture');
+console.log('BOUND WITH DATA: 1 of 20 (energy). Thirteen declared and unobserved. No fixture');
 console.log('exists for any of them, so nothing they declare has met a real observation.');
 console.log('Row 24 needs THREE things, not one: finance observations, a DECLARED cross-domain');
 console.log('latent (none exists), and MEASURED beneficial transfer against a withheld-link');
