@@ -3872,6 +3872,64 @@ async function fetchSCMP() {
 
 // ─── FINANCE ────────────────────────────────────────────────────────────
 
+/**
+ * SPY QUOTE IDENTITIES — the three channels that observe one latent, and the only reason
+ * any of them can be recorded as an OBSERVATION rather than a poll.
+ *
+ * `updated` and `fetchedAt` on every fetcher in this file are `Date.now()`. They are OUR
+ * clock. A row carrying only those says when we asked, never when the publisher published,
+ * so two hundred polls of one unchanged quote look like two hundred observations. The
+ * recorder stores `sourceUpdatedAt` as `su` precisely to tell those apart, and measured
+ * against the live feed only 1 of 13 finance channels supplied one.
+ *
+ * These three are patched and the other ten are deliberately left alone. Finance needs ONE
+ * declared relationship with keys on both sides, and the live pair is Finnhub against Alpha
+ * Vantage. Massive is patched alongside them because it is the third leg of the same
+ * declared latent, not because it is required — that adapter is currently returning nothing.
+ *
+ * THE UNIT OF EACH UPSTREAM STAMP IS NOT ASSERTED. Finnhub's `t` and Polygon's `r.t` are
+ * recorded verbatim under labels that claim nothing about seconds or milliseconds, because
+ * an identity does not need to interpret a stamp to be a stable key, and the one thing
+ * worse than an uninterpreted key is a confidently mislabelled one. Alpha Vantage's field
+ * IS verified: `Global Quote["07. latest trading day"]` returns "YYYY-MM-DD" (checked
+ * against their documented demo key), so it is validated as a date and nothing more.
+ *
+ * ALPHA VANTAGE'S KEY IS DAILY BY CONSTRUCTION. Every poll within one trading day yields
+ * the same identity, which is correct and is the point: it is one observation. Accumulating
+ * six distinct keys on that side therefore takes about six trading days, not six hours.
+ *
+ * Each helper returns null rather than a substitute when the upstream field is absent. The
+ * caller then omits `sourceUpdatedAt` and keeps the reading: a value with no provenance is
+ * still a value, and inventing provenance for it is the failure this whole branch exists
+ * to remove.
+ */
+var SPY_SYMBOL = 'SPY';
+
+/* Finnhub /quote. `t` is the quote's own stamp; recorded verbatim, unit not claimed. */
+function _finnhubQuoteIdentity(data, symbol) {
+  var t = data && data.t;
+  if (typeof t !== 'number' || !isFinite(t) || t <= 0) return null;
+  return compositeIdentity([['finnhub', 'quote'], ['symbol', symbol], ['quote-t', Math.floor(t)]]);
+}
+
+/* Alpha Vantage GLOBAL_QUOTE. The trading day is a real publisher-side date, validated as
+   YYYY-MM-DD so a changed format fails closed instead of keying on a stray string. */
+function _alphaVantageQuoteIdentity(data, symbol) {
+  var q = data && data['Global Quote'];
+  var day = q && q['07. latest trading day'];
+  if (typeof day !== 'string') return null;
+  day = day.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  return compositeIdentity([['alphavantage', 'global-quote'], ['symbol', symbol], ['trading-day', day]]);
+}
+
+/* Polygon previous-aggregate. `r.t` stamps the aggregate window; verbatim, unit not claimed. */
+function _polygonAggregateIdentity(result, symbol) {
+  var t = result && result.t;
+  if (typeof t !== 'number' || !isFinite(t) || t <= 0) return null;
+  return compositeIdentity([['polygon', 'prev-agg'], ['symbol', symbol], ['agg-t', Math.floor(t)]]);
+}
+
 async function fetchAlphaVantage() {
   var key = process.env.ALPHA_VANTAGE_API_KEY;
   if (!key) { trackHealth('Alpha Vantage Market', 'finance', 'fallback', 'ALPHA_VANTAGE_API_KEY not set'); return null; }
@@ -3883,7 +3941,11 @@ async function fetchAlphaVantage() {
     if (isNaN(price)) { trackHealth('Alpha Vantage Market', 'finance', 'fallback', 'non-numeric'); return null; }
     var stress = clamp(Math.abs(change) / 3, 0, 1);
     trackHealth('Alpha Vantage Market', 'finance', 'live', null, price);
-    return { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'S&P 500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    var out = { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'S&P 500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    /* OMITTED, NOT FABRICATED, when the publisher supplies no trading day. */
+    var id = _alphaVantageQuoteIdentity(data, SPY_SYMBOL);
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Alpha Vantage Market', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -3897,7 +3959,11 @@ async function fetchFinnhub() {
     var pctChange = data.o > 0 ? ((data.c - data.o) / data.o) * 100 : 0;
     var stress = clamp(Math.abs(pctChange) / 3, 0, 1);
     trackHealth('Finnhub Market', 'finance', 'live', null, price);
-    return { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'market move ' + (pctChange >= 0 ? '+' : '') + pctChange.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    var out = { value: price, label: 'SPY $' + price.toFixed(2), stress: round(stress), signal: 'market move ' + (pctChange >= 0 ? '+' : '') + pctChange.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    /* OMITTED, NOT FABRICATED, when `t` is absent or not a positive finite number. */
+    var id = _finnhubQuoteIdentity(data, SPY_SYMBOL);
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Finnhub Market', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -5387,7 +5453,11 @@ async function fetchMassiveSPY() {
     // Stress: bigger daily drop = higher stress. >2% drop = high stress
     var stress = clamp(Math.abs(Math.min(change, 0)) / 3, 0, 1);
     trackHealth('Massive SPY', 'finance', 'live', null, r.c);
-    return { value: r.c, label: 'SPY $' + r.c.toFixed(2) + ' (' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%)', stress: round(stress), signal: 'S&P500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    var out = { value: r.c, label: 'SPY $' + r.c.toFixed(2) + ' (' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%)', stress: round(stress), signal: 'S&P500 ' + (change >= 0 ? '+' : '') + change.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    /* OMITTED, NOT FABRICATED, when the aggregate carries no window stamp. */
+    var id = _polygonAggregateIdentity(r, SPY_SYMBOL);
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Massive SPY', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -5873,3 +5943,12 @@ module.exports._compositeIdentity = compositeIdentity;
 module.exports._selectUNPopulationRow = _selectUNPopulationRow;
 module.exports._unPopulationWindow = _unPopulationWindow;
 module.exports._unPopulationIdentity = _unPopulationIdentity;
+module.exports._finnhubQuoteIdentity = _finnhubQuoteIdentity;
+module.exports._alphaVantageQuoteIdentity = _alphaVantageQuoteIdentity;
+module.exports._polygonAggregateIdentity = _polygonAggregateIdentity;
+/* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
+   wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
+   that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
+module.exports._fetchFinnhub = fetchFinnhub;
+module.exports._fetchAlphaVantage = fetchAlphaVantage;
+module.exports._fetchMassiveSPY = fetchMassiveSPY;
