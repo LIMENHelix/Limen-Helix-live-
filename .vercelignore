@@ -219,5 +219,22 @@ DEFECT_LEDGER.md
 assets/data/_master-inbox.json
 assets/data/_bridge-build-log.json
 
-# Clean-room brain rebuild — repo/history only, never served until it earns it
-brain-v2/
+# Clean-room brain rebuild. The RUNTIME now ships, because /api/brain-shadow runs it
+# server-side; everything else here stays repo-only.
+#
+# NARROWED, NOT OPENED. `brain-v2/` used to be excluded wholesale. A negation (`!brain-v2/
+# kernel/`) would NOT have worked: gitignore semantics cannot re-include a path whose
+# parent directory is excluded, so the rule would have looked correct and shipped nothing.
+# The directory rule is therefore replaced by exclusions of the parts that must not ship.
+#
+# What ships: bind/ core/ kernel/ — the binders and the loop. They require only `crypto`,
+# `fs` and `path`, so they add no dependency to the bundle.
+# What does not: fixtures (7.4 MB of replay corpora), tests, the corpus tooling, local run
+# state, the CLI drivers, and every internal design document.
+brain-v2/fixtures/
+brain-v2/test/
+brain-v2/corpus/
+brain-v2/state/
+brain-v2/*.md
+brain-v2/run.js
+brain-v2/replay-energy.js
