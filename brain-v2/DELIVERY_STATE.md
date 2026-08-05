@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-05T19:16Z
+measured_at: 2026-08-05T19:35Z
 measured_at_commit: 8f69c7ac1091463286ecb1de55c51919e9b78a3c
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -52,14 +52,27 @@ only this file.
 - **PROVEN — strict Redis persistence for initial creation.** `writeState`, `writeCycle`
   and the read-back confirmation all succeeded against production Upstash. A memory
   fallback or a wrong key prefix would have failed the cycle, not passed quietly.
-- **GATED — production restoration.** Cycle 1 reports `restored:false` by definition.
-  Continuation is proven only by cycle 2 showing `restored:true` AND
-  `cursorBefore === 2026-07-21T23:13:02.267Z` (the previous `cursorAfter`). A recreated
-  brain would show `cursorBefore:null` and replay the first 120 rows.
-- **GATED — backfill provenance.** `withObservationId` is 0 across 1887 (energy) and 1434
-  (finance) readings. Expected: the cursor sits at 2026-07-21 and `su` did not exist in
-  recorded rows before 2026-08-05. **If it is still 0 once `cursorAfter` passes
-  2026-08-05, that is a DEFECT**, not a pass.
+- **PROVEN — production restoration across invocations.** Cycle 2 (2026-08-05T19:27Z), both
+  domains: `ok=true`, `restored=true`, `cursorBefore === 2026-07-21T23:13:02.267Z` exactly
+  matching cycle 1's `cursorAfter`, cursor advanced to `2026-07-26T23:12:21.773Z`, 120 rows
+  applied with no replay of the first segment.
+
+  The stronger evidence is the **prediction registry carrying forward**, which a recreated
+  brain could not do — it would restart near zero each cycle:
+
+  | domain | open predictions | resolved |
+  |---|---|---|
+  | energy | 102 → 229 (+127) | 95 → 221 (+126) |
+  | finance | 45 → 267 (+222) | 28 → 233 (+205) |
+
+  So the loop's learning state was restored from Redis, not recreated. This is the gate
+  PR #5 could not close on its own.
+- **GATED — backfill provenance.** `withObservationId` is 0 across 1888 (energy) and 1439
+  (finance) readings at cycle 2. Expected: the cursor is at 2026-07-26 and `su` did not
+  exist in recorded rows before 2026-08-05. The backfill advances ~5 days (120 hourly rows)
+  per cycle, so the boundary is projected to fall at **cycle 4, 21:27Z**.
+  **If `withObservationId` is still 0 once `cursorAfter` passes 2026-08-05, that is a
+  DEFECT**, not a pass.
 - **UNPROVEN — absence of unexpected Redis keys.** Requires a looped `SCAN` (repeat with
   the returned cursor until it returns `0`), and even then only covers the pattern queried.
   `vercel env pull` returns sensitive values EMPTY, so this session has no Redis
@@ -148,9 +161,9 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 
 ## NEXT PROGRAM STEP
 
-1. **Finish restoration and backfill verification** (the two GATED items above). Nothing
-   else starts until `restored:true` with an exact cursor chain, and `withObservationId`
-   resolves either way.
+1. **Finish backfill verification** — the one remaining GATED item. Restoration is closed
+   (cycle 2, above). Nothing else starts until `withObservationId` resolves either way once
+   the cursor passes 2026-08-05.
 2. **Then onboard remaining domains in registry-driven BATCHES.**
    - Do **not** create 18 bespoke runtimes.
    - Do **not** process one domain per session.
