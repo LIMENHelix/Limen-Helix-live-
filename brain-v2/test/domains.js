@@ -606,14 +606,23 @@ console.log('');
       spec.channels.filter(function (c) { return c.field === 'recent7d' && c.recordedField !== 'r7'; })
         .map(function (c) { return c.key; }).join(', '));
 
-    /* ZERO RELATIONSHIPS IS A RESULT, NOT AN OVERSIGHT. None of these three has two
-       sources measuring the same statistic in the same units on the same horizon —
-       checked, and the closest candidates were rejected: monthly FRED CPI against annual
-       World Bank inflation, and openFDA drug enforcement against an FDA food-recall feed.
-       Declaring a plausible pair to avoid an empty list is the fabrication the latent
-       requirement exists to prevent. */
-    assert(e.product + ': declares zero relationships, which the factory accepts',
-      spec.relationships.length === 0, String(spec.relationships.length));
+    /**
+     * ZERO RELATIONSHIPS IS A RESULT, NOT AN OVERSIGHT — with exactly one earned
+     * exception. Across the rollout the close candidates were rejected on population,
+     * denominator, horizon or provenance: monthly FRED CPI against annual World Bank
+     * inflation, openFDA drug enforcement against an FDA food-recall feed, arXiv CS as a
+     * subset of arXiv All, three WGI dimensions, a measured drought area against a count
+     * of forecasters' vocabulary.
+     *
+     * POPULATION is the one that was rejected and later EARNED. Batch 6 refused it
+     * because the UN side was an opaque indicator id; the selector correction verified
+     * which row is read, and only then was `usa_total_population` declared. That is the
+     * shape a relationship is supposed to take — refused until provable, not declared
+     * because it was plausible.
+     */
+    var expectedRels = e.product === 'population' ? 1 : 0;
+    assert(e.product + ': declares ' + expectedRels + ' relationship(s)',
+      spec.relationships.length === expectedRels, String(spec.relationships.length));
 
     /* FINDINGS REST ON MEASURED QUANTITIES ONLY. A finding on a publication count fires
        when somebody publishes, and would be reported as a condition of the world. */
@@ -906,13 +915,13 @@ console.log('');
   POPULATION.CHANNELS.forEach(function (c) { popByKey[c.key] = c; });
   assert('population declares the World Bank total from a self-describing indicator',
     /SP\.POP\.TOTL/.test(popByKey.populationTotal.source), popByKey.populationTotal.source);
-  assert('and the UN channel states its indicator id is unverified',
-    /unverified/.test(popByKey.unIndicator49.units) && /unverified/.test(popByKey.unIndicator49.source),
-    popByKey.unIndicator49.units);
-  assert('the two are NOT related, because one side rests on a label',
-    POPULATION.RELATIONSHIPS.length === 0);
-  assert('and the unverified channel carries no finding',
-    POPULATION.FINDINGS.every(function (f) { return f.requires.indexOf('unIndicator49') < 0; }),
+  assert('and the UN channel is now verified down to sex and variant',
+    /both sexes/.test(popByKey.unPopulation.source) && popByKey.unPopulation.units === 'thousands of people',
+    popByKey.unPopulation.source);
+  assert('so the two ARE related now, which batch 6 correctly refused before the selector was fixed',
+    POPULATION.RELATIONSHIPS.length === 1);
+  assert('and the UN channel still carries no finding of its own',
+    POPULATION.FINDINGS.every(function (f) { return f.requires.indexOf('unPopulation') < 0; }),
     JSON.stringify(POPULATION.FINDINGS.map(function (f) { return f.requires; })));
   assert('while both self-describing World Bank indicators do carry one',
     POPULATION.FINDINGS.length === 2 &&
@@ -975,12 +984,36 @@ console.log('');
    * article counts, different populations, different denominators or different horizons.
    */
   var totalRels = all.reduce(function (n, b) { return n + b.RELATIONSHIPS.length; }, 0);
-  assert('exactly ten relationships exist across all nineteen binders, all in energy and finance',
-    totalRels === ENERGY.RELATIONSHIPS.length + FINANCE.RELATIONSHIPS.length,
-    String(totalRels) + ' vs ' + (ENERGY.RELATIONSHIPS.length + FINANCE.RELATIONSHIPS.length));
-  assert('and every other binder declares zero',
-    all.filter(function (b) { return b !== ENERGY && b !== FINANCE; })
+  assert('exactly eleven relationships exist across all twenty binders',
+    totalRels === 11, String(totalRels));
+  assert('and they live in exactly three domains: energy, finance and population',
+    all.filter(function (b) { return b.RELATIONSHIPS.length > 0; }).length === 3 &&
+    ENERGY.RELATIONSHIPS.length + FINANCE.RELATIONSHIPS.length + POPULATION.RELATIONSHIPS.length === 11,
+    String(all.filter(function (b) { return b.RELATIONSHIPS.length > 0; }).length));
+  assert('every other binder declares zero',
+    all.filter(function (b) { return b !== ENERGY && b !== FINANCE && b !== POPULATION; })
        .every(function (b) { return b.RELATIONSHIPS.length === 0; }));
+
+  /**
+   * THE POPULATION RELATIONSHIP, pinned. It is the only one added after a rejection, and
+   * the conditions that earned it must not quietly erode: a precise latent, both sides
+   * verified, and the UN channel no longer describing itself as unverified.
+   */
+  assert('population declares exactly one relationship on a precise latent',
+    POPULATION.RELATIONSHIPS.length === 1 &&
+    POPULATION.RELATIONSHIPS[0].latent === 'usa_total_population',
+    JSON.stringify(POPULATION.RELATIONSHIPS.map(function (r) { return r.latent; })));
+  assert('between the World Bank and UN totals, not any other pair',
+    POPULATION.RELATIONSHIPS[0].a === 'populationTotal' &&
+    POPULATION.RELATIONSHIPS[0].b === 'unPopulation');
+  var unCh = POPULATION.CHANNELS.filter(function (c) { return c.key === 'unPopulation'; })[0];
+  assert('and the UN channel no longer calls its statistic unverified',
+    !/unverified/.test(unCh.units) && !/unverified/.test(unCh.source), unCh.units + ' | ' + unCh.source);
+  assert('its source names both sexes and the estimate variant',
+    /both sexes/.test(unCh.source) && /estimate variant/.test(unCh.source), unCh.source);
+  assert('the second population source gets NO duplicate finding — it earns its place through the relationship',
+    POPULATION.FINDINGS.every(function (f) { return f.requires.indexOf('unPopulation') < 0; }),
+    JSON.stringify(POPULATION.FINDINGS.map(function (f) { return f.requires; })));
 
   assert('no binder declares a relationship naming a channel outside itself',
     all.every(function (b) {

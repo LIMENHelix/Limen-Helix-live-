@@ -5,37 +5,39 @@
  * handlers/domain-snapshot.js. Every numeric meaning was read out of its fetcher.
  *
  * ═══════════════════════════════════════════════════════════════════════════════════
- * THE CLOSEST RELATIONSHIP CANDIDATE IN THE ENTIRE ROLLOUT, AND IT IS STILL REFUSED.
+ * THE FIRST CROSS-PUBLISHER RELATIONSHIP IN THE SYSTEM, AND WHAT IT COST TO EARN IT.
  *
- * Two channels look like two independent publishers estimating one quantity:
+ * Two channels estimate one quantity from two organisations:
  *
  *   World Bank Population   api.worldbank.org/v2/country/USA/indicator/SP.POP.TOTL
- *   UN Population           population.un.org/dataportalapi/.../indicators/49/locations/840
+ *   UN Population           population.un.org/.../indicators/49/locations/840
  *
- * Different organisations, different APIs, same country (UN location 840 is the United
- * States), both annual. Unlike every earlier candidate this one is not disqualified by
- * population, denominator or horizon, and the difference in scale — people against
- * thousands — would not disqualify it either, because divergence standardises each
- * channel against its own baseline before comparing.
+ * Batch 6 declared no relationship between them, and was right to. The World Bank side is
+ * self-describing — SP.POP.TOTL is in the URL — while the UN side was `indicators/49`, an
+ * opaque id whose meaning rested on the fetcher's name and label. Declaring a latent on
+ * that basis would have meant trusting a string somebody typed.
  *
- * IT IS REFUSED ON PROVENANCE, NOT ON PLAUSIBILITY. The World Bank side is
- * self-describing: `SP.POP.TOTL` is in the URL. The UN side is `indicators/49`, an opaque
- * numeric id. Nothing in the code establishes what indicator 49 measures — only the
- * fetcher's NAME and its LABEL say population, and both are exactly the evidence the
- * discipline excludes. A relationship declared on that basis would rest on a string
- * somebody typed, and the whole point of naming a latent is that the claim can be checked.
+ * THE TITLE ALONE WAS NOT ENOUGH EITHER. Indicator 49 is "Total population by sex", and
+ * that is exactly why the old fetcher could not be trusted: it requested `pageSize=1` and
+ * took `data.data[0]`, so the row it read could have been male-only, the wrong year, or a
+ * projection variant, chosen by whatever the server ordered first. A relationship asserts
+ * the two channels observe ONE latent — had the selection been male-only, divergence
+ * would have reported a permanent ~50% gap as a disagreement between publishers.
  *
- * WHAT WOULD SETTLE IT is one external lookup: confirm indicator 49 in the UN data
- * portal's indicator list. If it is total population, this becomes the first genuine
- * cross-publisher relationship in the system and belongs in the manifest. That check is
- * cheap and is not a code read, so it is left for the operator rather than guessed at
- * here. Until then the channel is declared with units that say exactly what is known and
- * no more, and it carries no finding.
+ * `fetchUNPopulation` now requests the full page and selects the row that is both sexes,
+ * the estimate variant, and the latest year at or before now, refusing outright when the
+ * observation is absent or ambiguous rather than falling back to position. It emits a
+ * source identity naming indicator, location, year, sex and variant, so one observation
+ * is distinguishable from another. `test/un-population-selector.js` proves the selector
+ * ignores array order, with decoy rows placed first.
+ *
+ * Only then is the relationship declared, on the latent `usa_total_population`.
  * ═══════════════════════════════════════════════════════════════════════════════════
  */
 
 'use strict';
 
+var DIV = require('../core/divergence.js');
 var FACTORY = require('./factory.js');
 
 var HOUR = 3600000;
@@ -47,10 +49,10 @@ var CHANNELS = [
   { key: 'populationTotal', name: 'World Bank Population',   recordedField: 'v',  field: 'value',    source: 'World Bank SP.POP.TOTL, USA',            cadenceMs: YEAR, units: 'people',              q: 0.005, r: 0.04 },
   { key: 'fertilityRate',   name: 'World Bank Fertility',    recordedField: 'v',  field: 'value',    source: 'World Bank SP.DYN.TFRT.IN, USA',         cadenceMs: YEAR, units: 'births per woman',    q: 0.01,  r: 0.06 },
 
-  /* AN UNIDENTIFIED UN INDICATOR. Location 840 is the USA and the value is on a
-     thousands scale, but which statistic `indicators/49` is cannot be established from
-     the code. Units say what is known; no finding rests on it. Key-gated. */
-  { key: 'unIndicator49',   name: 'UN Population',           recordedField: 'v',  field: 'value',    source: 'UN data portal, indicator 49, location 840 (key-gated; indicator identity unverified)', cadenceMs: YEAR, units: 'thousands, statistic unverified', q: 0.01, r: 0.15 },
+  /* THE UN TOTAL, now verified end to end: indicator 49 is total population by sex, and
+     the fetcher selects the BOTH-SEXES estimate row for the latest year, refusing when
+     the observation is ambiguous. Reported in thousands. Key-gated. */
+  { key: 'unPopulation',    name: 'UN Population',           recordedField: 'v',  field: 'value',    source: 'UN data portal indicator 49, location 840, both sexes, estimate variant (key-gated)', cadenceMs: YEAR, units: 'thousands of people', q: 0.005, r: 0.06 },
 
   /* NEWS RECENCY COUNTS across ten demographic, health and migration feeds. */
   { key: 'unfpa',           name: 'UNFPA',                   recordedField: 'r7', field: 'recent7d', source: 'RSS keyword query, UNFPA',               cadenceMs: DAY,  units: 'articles/7d',         q: 0.06, r: 0.25 },
@@ -69,15 +71,36 @@ var CHANNELS = [
   { key: 'fedRegSsa',       name: 'Fed Reg SSA',             recordedField: 'v',  field: 'value',    source: 'federalregister.gov, SSA, 30d',          cadenceMs: DAY,  units: 'documents in 30d',    q: 0.04, r: 0.18 }
 ];
 
+/**
+ * ONE DECLARED RELATIONSHIP. Two organisations, one quantity: the total number of people
+ * in the United States. Same statistic, same geography, same annual horizon, and both
+ * sides now verified — the World Bank by its self-describing indicator code, the UN by a
+ * selector that proves which row it read.
+ *
+ * The scale difference is not an obstacle and is worth saying why: World Bank reports
+ * people, the UN reports thousands. `divergence.js` standardises each channel against its
+ * OWN baseline before comparing, so the gap statistic is unit-free. What a relationship
+ * requires is that the two describe the same quantity, not that they use the same scale.
+ *
+ * A sustained gap here means one publisher revised or one feed went stale — a data
+ * problem worth knowing about, which is exactly what a declared relationship is for.
+ */
+var REL = [
+  DIV.relate('populationTotal', 'unPopulation', 'usa_total_population', 'agree',
+    'World Bank SP.POP.TOTL and UN Data Portal indicator 49 (both sexes, estimate variant) both estimate the total resident population of the United States, annually. They differ in scale — people against thousands — which the standardised gap statistic removes. A sustained divergence indicates a revision or a stale feed rather than a change in population.')
+];
+
 var SIGMA = 2.0;   // [mark: prior]
 
 /**
  * TWO FINDINGS, on the two self-describing World Bank indicators. Both are annual and
  * will usually abstain.
  *
- * The UN channel carries none: a finding requires knowing what a number measures, and
- * indicator 49's identity is unverified. Omitted rather than declared with an uncertain
- * meaning — the same rule that omits a finding when direction is uncertain.
+ * The UN channel carries NO FINDING OF ITS OWN, and that is deliberate now rather than
+ * forced. It measures the same quantity as the World Bank channel, so a second
+ * `POPULATION_TOTAL_DEPARTURE` would fire twice on one event and be reported as two
+ * findings. The relationship is where the second source earns its place: it lets the two
+ * be compared, which is more than either could say alone.
  *
  * Population total and fertility rate are kept separate. They are related in demography
  * and that is not the question: a joint finding would assert they move together on this
@@ -100,9 +123,6 @@ module.exports = FACTORY.createBinder({
   sigma: SIGMA,
   channels: CHANNELS,
   findings: FINDINGS,
-  /* ZERO — but refused on PROVENANCE, not plausibility. See the header: the UN side is an
-     opaque numeric indicator id whose meaning rests on a label. One external lookup would
-     settle it. */
-  relationships: [],
+  relationships: REL,
   efferent: null   // R7
 });

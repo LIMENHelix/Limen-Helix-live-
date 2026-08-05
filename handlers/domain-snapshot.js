@@ -2948,17 +2948,148 @@ async function fetchWorldBankPopulation() {
   } catch (e) { trackHealth('World Bank Population', 'population', 'fallback', e.message); return null; }
 }
 
+/**
+ * UN DATA PORTAL INDICATOR 49 — "Total population by sex", in thousands, location 840
+ * (USA). Two defects were fixed here together, because either alone makes the channel
+ * unusable as evidence.
+ *
+ * 1. `pageSize=1` MEANT NO SELECTION WAS POSSIBLE. Indicator 49 is reported BY SEX and
+ *    across years and variants, so the endpoint returns male, female and both-sexes rows
+ *    for every year in range. Asking for one row and taking it hands the choice to
+ *    whatever the server happened to order first — the value could have been male-only
+ *    population for 2023 under any projection variant, and nothing downstream would have
+ *    known. The request now takes the full page.
+ *
+ * 2. `data.data[0]` WAS ARRAY ORDER, NOT SELECTION. The row is now chosen by matching on
+ *    content, and the selector REFUSES rather than guessing.
+ *
+ * WHY THE MATCHING IS BY VALUE AND NOT BY FIELD NAME. The portal's exact response schema
+ * is not verifiable from inside this repository, and inventing field names is the failure
+ * this project keeps unwinding. So `_selectUNPopulationRow` scans each row's own string
+ * fields for the tokens that identify a both-sexes row and the intended variant, and
+ * requires the match to be UNIQUE. If the schema differs from expectation no row matches
+ * and the fetcher abstains, which is the correct outcome: an unidentified number is worse
+ * than a missing one.
+ */
+
+/* Tokens that identify a both-sexes row. Matched against field VALUES, case-insensitively.
+   Male/female tokens are listed so a row carrying them can be positively excluded rather
+   than merely failing to match. */
+var UN_BOTH_SEXES = ['both sexes', 'bothsexes', 'both', 'total'];
+var UN_SINGLE_SEX = ['male', 'female', 'men', 'women'];
+/* The estimate/median series. A projection variant is a different statistic from an
+   estimate and must not be silently substituted. */
+var UN_VARIANT = ['median', 'estimate', 'estimates'];
+
+function _unRowStrings(row) {
+  var out = [];
+  if (!row || typeof row !== 'object') return out;
+  Object.keys(row).forEach(function (k) {
+    var v = row[k];
+    if (typeof v === 'string') out.push(v.toLowerCase());
+  });
+  return out;
+}
+function _unHasToken(row, tokens) {
+  var strs = _unRowStrings(row);
+  for (var i = 0; i < strs.length; i++) {
+    for (var j = 0; j < tokens.length; j++) if (strs[i] === tokens[j]) return true;
+  }
+  return false;
+}
+function _unRowYear(row) {
+  if (!row || typeof row !== 'object') return null;
+  var keys = Object.keys(row);
+  for (var i = 0; i < keys.length; i++) {
+    var v = row[keys[i]];
+    if (typeof v === 'number' && v >= 1900 && v <= 2200 && Math.floor(v) === v) return v;
+    if (typeof v === 'string' && /^(19|20|21)\d{2}$/.test(v)) return parseInt(v, 10);
+  }
+  return null;
+}
+
+/**
+ * Choose the one indicator-49 row that is both sexes, the intended variant, and the
+ * latest year at or before `opts.maxYear`. Returns { row, year, why } with row null when
+ * the observation is absent or ambiguous.
+ *
+ * NEVER falls back to the first row. Ambiguity is refused: if two rows survive every
+ * filter there is no basis for preferring one, and picking either would reintroduce the
+ * array-order bug with extra steps.
+ */
+function _selectUNPopulationRow(rows, opts) {
+  opts = opts || {};
+  var maxYear = typeof opts.maxYear === 'number' ? opts.maxYear : 9999;
+  if (!Array.isArray(rows) || !rows.length) return { row: null, why: 'no rows returned' };
+
+  var withValue = rows.filter(function (r) {
+    return r && typeof r === 'object' && typeof r.value === 'number' && isFinite(r.value);
+  });
+  if (!withValue.length) return { row: null, why: 'no row carries a numeric `value`' };
+
+  /* BOTH SEXES. Positive match required, and any row carrying a single-sex token is
+     excluded even if it also matches a both-sexes token somewhere. */
+  var bothSexes = withValue.filter(function (r) {
+    return _unHasToken(r, UN_BOTH_SEXES) && !_unHasToken(r, UN_SINGLE_SEX);
+  });
+  if (!bothSexes.length) {
+    return { row: null, why: 'no row identifies itself as both sexes; indicator 49 is reported BY SEX, so a ' +
+      'row without that marker cannot be assumed to be the combined total' };
+  }
+
+  var variant = bothSexes.filter(function (r) { return _unHasToken(r, UN_VARIANT); });
+  if (!variant.length) {
+    return { row: null, why: 'no both-sexes row identifies the estimate/median variant; a projection variant ' +
+      'is a different statistic and must not be substituted' };
+  }
+
+  var dated = variant.map(function (r) { return { row: r, year: _unRowYear(r) }; })
+                     .filter(function (e) { return e.year !== null && e.year <= maxYear; });
+  if (!dated.length) return { row: null, why: 'no both-sexes row carries a usable year at or before ' + maxYear };
+
+  dated.sort(function (a, b) { return b.year - a.year; });
+  var best = dated[0];
+  var tied = dated.filter(function (e) { return e.year === best.year; });
+  if (tied.length > 1) {
+    return { row: null, why: tied.length + ' both-sexes rows share year ' + best.year +
+      '; the observation is ambiguous and is refused rather than chosen by position' };
+  }
+  return { row: best.row, year: best.year, why: 'both sexes, ' + best.year + ', estimate variant, uniquely matched' };
+}
+
 async function fetchUNPopulation() {
   var key = process.env.UN_POPULATION_API_KEY;
   if (!key) { trackHealth('UN Population', 'population', 'fallback', 'UN_POPULATION_API_KEY not set'); return null; }
   try {
     var headers = { 'Authorization': 'Bearer ' + key };
-    var resp = await timedFetch('https://population.un.org/dataportalapi/api/v1/data/indicators/49/locations/840/start/2023/end/2025?pageSize=1', { headers: headers });
+    /* FULL PAGE, not pageSize=1. The endpoint reports by sex across years and variants;
+       one row is not a choice. */
+    var resp = await timedFetch('https://population.un.org/dataportalapi/api/v1/data/indicators/49/locations/840/start/2023/end/2025?pageSize=100', { headers: headers });
     var data = await resp.json();
-    if (!data || !data.data || !data.data[0]) { trackHealth('UN Population', 'population', 'fallback', 'empty response'); return null; }
-    var val = data.data[0].value || 0;
+    if (!data || !Array.isArray(data.data) || !data.data.length) {
+      trackHealth('UN Population', 'population', 'fallback', 'empty response'); return null;
+    }
+    var picked = _selectUNPopulationRow(data.data, { maxYear: new Date().getUTCFullYear() });
+    if (!picked.row) {
+      trackHealth('UN Population', 'population', 'fallback', 'indicator 49 selection refused: ' + picked.why);
+      return null;
+    }
+    var val = picked.row.value;
     trackHealth('UN Population', 'population', 'live', null, val);
-    return { value: round(val), label: 'UN pop ' + (val/1000).toFixed(0) + 'M', activity: 0.2, channel: 'context', signal: 'UN population estimate', updated: Date.now(), fetchedAt: Date.now() };
+    return {
+      value: round(val),
+      label: 'UN pop ' + (val / 1000).toFixed(0) + 'M (both sexes, ' + picked.year + ')',
+      activity: 0.2, channel: 'context',
+      signal: 'UN total population by sex, both sexes combined, ' + picked.year + ': ' + (val / 1000).toFixed(1) + 'M',
+      updated: Date.now(), fetchedAt: Date.now(),
+      /* SOURCE IDENTITY carrying everything needed to tell one observation from another:
+         indicator, location, year, sex and variant. A new year changes it; a re-poll of
+         the same year does not. */
+      sourceUpdatedAt: compositeIdentity([
+        ['un-indicator', '49'], ['location', '840'],
+        ['year', picked.year], ['sex', 'both'], ['variant', 'estimate']
+      ])
+    };
   } catch (e) { trackHealth('UN Population', 'population', 'fallback', e.message); return null; }
 }
 
@@ -5632,3 +5763,4 @@ function round(v) { return Math.round(v * 100) / 100; }
 /* Pure, network-free, and exported so the composite-identity rule can be verified
    offline. The fetchers themselves cannot be tested without live calls. */
 module.exports._compositeIdentity = compositeIdentity;
+module.exports._selectUNPopulationRow = _selectUNPopulationRow;
