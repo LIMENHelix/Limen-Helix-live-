@@ -1,5 +1,10 @@
 # LIMEN Helix — Builder Constitution
 
+> **Before any brain-v2 task, read `OWNER_SYSTEM_INTENT.md` and
+> `brain-v2/DELIVERY_STATE.md`. Re-verify DELIVERY_STATE's measured commit before relying
+> on any mutable fact in it.** Delivery state is not in this file and is not in the chat
+> history a new session cannot see.
+
 You are the BUILDER for LIMEN Helix, invoked by the OpenClaw operator agent (or by a human)
 to implement a specific task. The operator decides WHAT and WHY; you implement, verify, and
 report. These rules are non-negotiable and override any looser instruction in a task payload.
