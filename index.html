@@ -12,23 +12,27 @@
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://limenhelix.com/">
-<meta property="og:title" content="LIMEN Helix">
+<!-- og:image and the favicon stay on the JPEG: social scrapers and browser tabs want a
+     raster, and the file is already there. Nothing else references it now. -->
 <meta property="og:image" content="https://limenhelix.com/assets/img/limen-wordmark.jpg">
 <link rel="icon" href="/assets/img/limen-wordmark.jpg">
 <style>
   /* HOLDING PAGE — the wordmark in a live starfield.
-     No libraries, no fonts, no third-party requests. One image, one canvas, ~90 lines of JS.
+     No libraries, no fonts, no third-party requests. Inline SVG type, one canvas.
 
      The previous homepage restores with:  git checkout 9430efd9 -- index.html          */
 
-  /* Sampled from the wordmark's own background so the image edge dissolves into the page
-     instead of showing as a lighter square. */
+  /* Sampled from the wordmark's own background so the page has somewhere to sit before
+     the canvas paints. */
   :root{ --space:#0b131d; }
 
   *{margin:0;padding:0;box-sizing:border-box}
 
   html,body{height:100%;overflow:hidden}
 
+  /* Background stays on BODY and not on html. If html also carried one, body's background
+     would stop propagating to the root canvas and paint as its own box instead, which
+     lands on top of the z-index:-1 sky and hides it completely. */
   body{
     background:var(--space);
     display:flex;
@@ -36,13 +40,8 @@
     justify-content:center;
   }
 
-  /* The sky sits behind everything and is purely decorative.
-     z-index:-1 is deliberate and load-bearing. mix-blend-mode blends an element against its
-     backdrop WITHIN the nearest stacking context, so if the mark sat inside a positioned,
-     z-indexed wrapper it would blend against that wrapper's transparent background and the
-     canvas would be invisible to it — which renders as a dark square punched in the sky.
-     Putting the canvas at -1 and leaving the mark in normal flow keeps both in the root
-     stacking context, which is the only arrangement where the blend actually reaches the stars. */
+  /* The sky sits behind everything and is purely decorative. z-index:-1 keeps it below the
+     mark while both stay in the root stacking context. */
   canvas#sky{
     position:fixed;
     inset:0;
@@ -52,7 +51,21 @@
     z-index:-1;
   }
 
+  /* The vignette is CSS, not canvas. Painting it per frame meant a full-viewport radial
+     gradient fill on every tick; as an element the compositor holds it on the GPU and it
+     costs nothing. It also has to sit ABOVE the canvas, which a -1 canvas makes free. */
+  .vignette{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    background:radial-gradient(ellipse 76% 74% at 50% 50%,
+      rgba(0,0,0,0) 38%, rgba(0,0,0,.34) 74%, rgba(0,0,0,.62) 100%);
+  }
+
   main{
+    position:relative;
+    z-index:1;
     padding:6vh 5vw;
     display:flex;
     flex-direction:column;
@@ -60,139 +73,72 @@
     gap:clamp(1.6rem,5vw,2.6rem);
   }
 
-  /* The mark is a JPEG with a solid dark background, so dropping it straight onto the stars
-     punches a visible rectangle in the sky. mix-blend-mode:screen was tried first and is not
-     sufficient: screen only erases a backdrop that is genuinely black, and this artwork sits
-     on #0d1520, so the square came back as a LIGHTER patch instead of a darker one.
-
-     The script below therefore rebuilds the image with a real alpha channel — luminance
-     becomes transparency — and crops it to the wordmark. That keeps the original letterforms
-     exactly, and the starfield runs behind the type with nothing to give away an image edge.
-     The element starts hidden and fades in once that has happened, so the raw square is never
-     on screen. */
-  /* The wrapper sizes itself to the mark, and the shine layer sits exactly on top of it.
-     No z-index here on purpose: position:relative alone does not create a stacking context,
-     so the shine's screen blend can still reach the mark and the stars beneath it. */
-  .markwrap{
-    position:relative;
-    display:inline-block;
-    line-height:0;
+  /* NASA's terms permit commercial use and require that NASA be credited as the source.
+     Small and quiet, but genuinely legible: a credit nobody can read is not a credit. */
+  .credit{
+    position:fixed;
+    left:0; right:0; bottom:14px;
+    z-index:1;
+    text-align:center;
+    font:400 10px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    color:rgba(214,228,255,.42);
+    pointer-events:none;
+    padding:0 5vw;
   }
 
-  img.mark{
+  /* THE MARK IS VECTOR.
+     It used to be a JPEG of type whose luminance was converted to alpha at runtime, in
+     ~135 lines of canvas work on every page load. That approach could never be sharp: JPEG
+     ringing around gold-on-dark edges came through as chewed alpha, so the letters carried
+     chipped edges and mottled stroke interiors at every size.
+
+     These paths are traced from that same artwork, so the letterforms are unchanged. The
+     trace binary-thresholds first, which removes the mottling outright, then smooths and
+     simplifies the contours, which removes the edge chatter. 6.6 KB, sharp at any size, and
+     no script has to run before the mark can appear. */
+  /* The wordmark is the only way in from the front door, so it has to look like it can be
+     clicked without turning the page into a UI. The cue is restraint: the existing bloom
+     warms slightly on hover, nothing moves, nothing underlines. */
+  a.marklink{
     display:block;
+    line-height:0;
+    text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  a.marklink:focus-visible{outline:none}
+  a.marklink:focus-visible svg.mark,
+  a.marklink:hover svg.mark{
+    filter:drop-shadow(0 0 34px rgba(224,184,104,.42));
+  }
+
+  svg.mark{
+    display:block;
+    transition:filter .35s ease;
     width:min(74vw, 62vh, 620px);
     height:auto;
     max-width:100%;
-    opacity:0;
-    transition:opacity .6s ease;
-    /* A warm bloom plus a small lift. Against a dark, colourful field the gold sampled from
-       the JPEG reads muted — the surrounding nebula raises the eye's adaptation point, so the
-       same pixels look dimmer than they do on the flat original. The brightness/saturate pair
-       compensates for that rather than changing the brand colour in any real sense. */
-    /* Three stacked shadows rather than one: a tight hot core, a mid halo, and a wide dim
-       spill. A single large blur just makes a soft smudge; stacking radii is what gives the
-       glow a falloff that reads as light rather than as blur. */
-    filter:
-      drop-shadow(0 0 14px rgba(255,214,120,.30))
-      drop-shadow(0 0 44px rgba(212,175,55,.30))
-      drop-shadow(0 0 90px rgba(180,130,40,.18))
-      brightness(1.14) saturate(1.16);
+    /* ONE glow, not three.
+       The old stack ran three drop-shadows plus brightness(1.14) saturate(1.16), plus a 9s
+       breathing pulse, plus a white band sweeping across the letters. Stacked that hard the
+       mark reads as an effect rather than as a logo, and it was compensating for a
+       background so bright the gold had nothing to sit against. With the sky's centre
+       genuinely dark, one soft bloom is enough and the gold reads richer, not dimmer. */
+    filter:drop-shadow(0 0 28px rgba(206,164,84,.28));
   }
-  img.mark.ready{
-    opacity:1;
-    /* The bloom breathes. Slow enough (9s) that you notice it without watching for it. */
-    animation:breathe 9s ease-in-out infinite;
-  }
-
-  /* The trough is the previous STATIC look, not something dimmer than it. An earlier version
-     dipped to brightness(1.08) with a 26px bloom, which made the low half of the cycle read as
-     a slightly faded logo rather than as a glow at rest. Breathing should only ever add. */
-  @keyframes breathe{
-    0%,100%{ filter:
-      drop-shadow(0 0 14px rgba(255,214,120,.30))
-      drop-shadow(0 0 44px rgba(212,175,55,.30))
-      drop-shadow(0 0 90px rgba(180,130,40,.18))
-      brightness(1.14) saturate(1.16) }
-    50%    { filter:
-      drop-shadow(0 0 20px rgba(255,232,160,.46))
-      drop-shadow(0 0 70px rgba(226,186,70,.50))
-      drop-shadow(0 0 140px rgba(200,145,45,.30))
-      brightness(1.26) saturate(1.24) }
-  }
-
-  /* ── THE SWEEP ────────────────────────────────────────────────────────────────────────
-     A specular highlight travelling across the letters, the way light moves over polished
-     metal when you tilt it.
-
-     It works by masking: the layer is a plain diagonal gradient, and the wordmark's own alpha
-     channel is used as a mask, so the band is only ever visible ON the letters and never in
-     the space around them. The mask URL is the same generated PNG the <img> uses, set from
-     JS once the alpha extraction has finished.
-
-     Masking rather than a blend was the right call: a blended band would light the nebula and
-     the gap between letters just as much as the gold, which reads as a searchlight passing
-     over the page instead of a shine on the type.
-
-     The animation runs 0 -> 50% -> 100% with the two ends identical, so the band travels one
-     way and then back rather than jumping. ease-in-out makes it slow at each turn, which is
-     what makes it feel like a pendulum instead of a loop. */
-  .shine{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    opacity:0;
-    transition:opacity .6s ease;
-    /* BAND WIDTH IS THE WHOLE EFFECT.
-       The first attempt spread the highlight from 38% to 62% of a gradient sized at 280%,
-       which works out to roughly two thirds of the wordmark's width. At that width it does
-       not read as a light travelling across the letters at all — it reads as the whole mark
-       slowly getting brighter and then dimmer, which is not what a glint looks like.
-       Narrowing it to 44%-56% puts the streak at about a third of the width, with a hard
-       white core, and it reads as a specular highlight moving over metal. */
-    background:linear-gradient(
-      100deg,
-      rgba(255,255,255,0)    43%,
-      rgba(255,238,196,.28)  47%,
-      rgba(255,253,240,1)    50%,
-      rgba(255,238,196,.28)  53%,
-      rgba(255,255,255,0)    57%
-    );
-    background-size:300% 100%;
-    background-repeat:no-repeat;
-    -webkit-mask-size:100% 100%;
-            mask-size:100% 100%;
-    -webkit-mask-repeat:no-repeat;
-            mask-repeat:no-repeat;
-    mix-blend-mode:screen;
-  }
-  .shine.ready{
-    opacity:1;
-    animation:sweep 11s linear infinite;
-  }
-
-  /* ONE DIRECTION, LEFT TO RIGHT, WITH A REST BETWEEN PASSES.
-     Previously this ran 0 -> 50% -> 100% and swept back the way it came, which reads as a
-     light rocking rather than a light passing. Now the band travels once and the return is a
-     hard jump from -40% back to 140% — invisible, because the highlight is fully off the
-     letters at both of those positions.
-
-     The pass occupies the first 62% of the cycle and the remaining 38% holds it off-screen.
-     That rest is deliberate: a highlight in constant motion becomes wallpaper, while one that
-     arrives every few seconds stays an event. Linear timing, because ease-in-out would spend
-     its slow moments at the two ends, which is exactly where nothing is visible. */
-  @keyframes sweep{
-    0%   { background-position:140% 0 }
-    62%  { background-position:-40% 0 }
-    100% { background-position:-40% 0 }
-  }
+  /* The vertical gradient does the work the brightness filter used to do: a shallow shift
+     from pale to deep gold reads as metal without touching the brand colour. */
+  svg.mark path{ fill:url(#limenGold); }
 
   /* ── SOCIAL ROW ───────────────────────────────────────────────────────────────────────
      Inline SVG, no icon font and no third-party request. Each link is a 48px target because
      that is the minimum a thumb can hit reliably, even though the glyph inside is smaller.
 
-     The row fades in slightly after the mark so the page resolves in an order that reads as
-     deliberate rather than as things arriving whenever they finish loading. */
+     The icons carry their own brand colours, so the ring around them is NEUTRAL rather than
+     gold. A gold ring would put a fifth colour family next to Facebook blue, YouTube red,
+     Instagram's gradient and TikTok's cyan/magenta, and the badge would end up competing
+     with the emblem it contains. Neutral lets the brand colour be the colour. */
   nav.social{
     display:flex;
     gap:clamp(.85rem,3.4vw,1.5rem);
@@ -209,236 +155,229 @@
     display:grid;
     place-items:center;
     border-radius:50%;
-    color:#D9B96A;
-    border:1px solid rgba(212,175,55,.30);
-    background:rgba(212,175,55,.035);
-    transition:color .22s ease, border-color .22s ease, background .22s ease, transform .22s ease;
+    border:1px solid rgba(226,236,250,.16);
+    background:rgba(226,236,250,.045);
+    transition:border-color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
     -webkit-tap-highlight-color:transparent;
   }
-  nav.social svg{ width:21px; height:21px; fill:currentColor; display:block }
+  /* No fill:currentColor any more. Each emblem sets its own fills, because these are
+     multi-colour marks, not monochrome glyphs. */
+  nav.social svg{ width:22px; height:22px; display:block }
 
   nav.social a:hover,
   nav.social a:focus-visible{
-    color:#FFF0C4;
-    border-color:rgba(255,224,140,.85);
-    background:rgba(212,175,55,.14);
+    border-color:rgba(226,236,250,.48);
+    background:rgba(226,236,250,.11);
     transform:translateY(-2px);
     outline:none;
-    box-shadow:0 0 22px rgba(212,175,55,.30);
+    box-shadow:0 0 22px rgba(150,180,220,.24);
   }
 
+  /* ── OPERATOR GATEWAY ─────────────────────────────────────────────────────────────────
+     Deliberately invisible. There is no button, because a public holding page should not
+     advertise a staff door. Ctrl/Cmd+Shift+A opens it. */
+  .ov{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(3,5,10,.82);
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+  }
+  .ov.show{display:flex}
+  .ovcard{
+    position:relative;
+    min-width:min(88vw,320px);
+    padding:26px 26px 22px;
+    background:#0a111b;
+    border:1px solid rgba(212,175,55,.28);
+    box-shadow:0 24px 70px rgba(0,0,0,.6);
+  }
+  .ovcard .lbl{
+    font:600 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:rgba(217,185,106,.85);
+    margin-bottom:14px;
+  }
+  .ovcard input{
+    width:100%;
+    padding:11px 12px;
+    background:rgba(226,236,250,.05);
+    border:1px solid rgba(226,236,250,.18);
+    color:#e8eef6;
+    font:400 15px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.14em;
+    outline:none;
+  }
+  .ovcard input:focus{border-color:rgba(212,175,55,.6)}
+  .ovcard button[type=submit]{
+    width:100%;
+    margin-top:12px;
+    padding:10px;
+    background:rgba(212,175,55,.14);
+    border:1px solid rgba(212,175,55,.42);
+    color:#F2DCA0;
+    font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .ovcard button[type=submit]:hover{background:rgba(212,175,55,.24)}
+  .ovcard .x{
+    position:absolute;top:6px;right:10px;
+    background:none;border:0;color:rgba(226,236,250,.45);
+    font-size:20px;line-height:1;cursor:pointer;
+  }
+  .ovcard .err{
+    min-height:15px;margin-top:8px;
+    font:400 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.08em;color:#e2887a;
+  }
+
+  /* Motion is decorative only. Anyone who has asked their OS to reduce motion gets a still
+     sky and a still row, and still sees the mark. The mark itself no longer animates at
+     all, so there is nothing to switch off there. */
   @media (prefers-reduced-motion:reduce){
     nav.social{animation:none;opacity:1}
     nav.social a:hover,nav.social a:focus-visible{transform:none}
-  }
-
-  /* If the script fails or JS is off, show the original rather than a blank page. Screen
-     blending at least keeps it legible; the square is the acceptable cost of a fallback. */
-  .nojs img.mark{opacity:1;mix-blend-mode:screen}
-
-  /* Motion is decorative only. Anyone who has asked their OS to reduce motion gets a still
-     sky, a still bloom, and no sweep — but still sees the mark. */
-  @media (prefers-reduced-motion:reduce){
-    img.mark.ready{animation:none}
-    .shine{display:none}
   }
 </style>
 </head>
 <body>
 
 <canvas id="sky" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
 
 <main>
-  <div class="markwrap">
-    <img class="mark" id="mark" src="/assets/img/limen-wordmark.jpg" alt="LIMEN Helix">
-    <span class="shine" id="shine" aria-hidden="true"></span>
-  </div>
+  <a class="marklink" href="/atlas" aria-label="Enter the LIMEN Helix atlas">
+  <svg class="mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2363 1348" role="img" aria-label="LIMEN Helix">
+  <title>LIMEN Helix</title>
+      <defs>
+        <linearGradient id="limenGold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#F2DCA0"/>
+          <stop offset="45%"  stop-color="#DCB264"/>
+          <stop offset="100%" stop-color="#BE8E42"/>
+        </linearGradient>
+      </defs>
+  <g fill="currentColor">
+  <path d="M1256 0.4L1299 2.2L1303.8 5L1306.2 10L1305.7 15L1302 19.4L1283 26.2L1264.1 37.4L1255.8 47L1254 56L1270 287L1271 328L1278.1 412L1282.3 439L1288 446L1330 464L1334 471L1333.2 475.6L1330 477.6L1246 473L1180 474L1174.6 470.9L1175.8 463.2L1183 456.6L1196 450.5L1217.6 444.4L1220.4 432L1199 120L1194.7 86L1192.8 83.2L1188.2 88L1175.7 112L1151.6 163L1021.6 477L1014 481.8L1006.1 478L999.6 466L849.9 117L841.8 99L838.2 97.6L835.1 108L831 171L819.1 415L823.4 440.7L865 458.7L869.2 463L869.6 467L865.9 472L858 473L809 470L763 470L740 472.9L730 471.1L726.5 467L727.6 462.1L732 458.6L773 444.4L786 437.8L790.4 433L803 298L807 205L805.8 36L799 29.5L754 13.6L750.8 9L752.4 3.6L785 2L854 5.1L862 7.4L873.5 16L885.6 36L1019.4 352L1033.1 377.3L1037.7 374L1095.5 235L1192.4 13L1198 6.6L1209 2.3L1255 0.6Z"/>
+  <path d="M1440 1.4L1562 4L1756 4L1762.4 6.3L1763 40L1769 99L1766.7 117L1763 120.8L1758.6 118L1754 100L1745.9 81L1732.8 62.4L1715 46.5L1692 34.4L1670 29.2L1628 26L1573 27.1L1563 29.2L1559.3 32.1L1559 218.8L1571 221.9L1596 223L1651 223L1686 220.5L1694.9 214L1714.7 168.2L1720.9 166.6L1725 174L1722 200L1722 240L1726 288L1722.9 295.8L1716.3 296.6L1700.2 262L1686 253.4L1649 249L1561 249.8L1558 256L1557 401L1558.1 436L1562 441.4L1593 448.8L1620 451L1701 449.8L1725 440.6L1746.6 423.2L1761.5 405L1778 368.1L1782 364.8L1787 364.4L1790.7 369L1789.8 385L1774.7 468L1770 472.8L1682 469L1532 469L1446 475L1438 474.6L1434.4 472L1433.8 466L1438 461.1L1465 450.7L1482 448.5L1489.6 444.7L1494 396L1493.8 51L1491.6 36L1488.7 30.6L1437 14L1432.8 7L1434.5 3.6L1439 1.6Z"/>
+  <path d="M1877 1.4L1978 4L1987.9 8.1L2012.2 43.8L2050.4 92L2217.6 296L2265 357L2275 366L2278.1 362L2276.6 70L2273.4 53L2268 44.1L2227 28.4L2219.4 23.7L2217.2 17L2221 12.4L2228 11L2287 14L2353 11L2359.8 13.6L2360.7 18L2356.9 23.4L2328 38.5L2317.4 48L2310.9 62L2307.2 82L2304 148L2304 264L2306 411L2309 468L2307.6 472.6L2304 474.6L2293 471.6L2271 451L2185.8 355.9L1976.9 99.2L1974 103L1972 211L1971.1 428L1977 438.1L2022 456.8L2026 460.1L2026.7 465L2023 470.8L2017 473L1948 469L1891 470.9L1886.3 468.8L1884.8 463L1891 457.4L1915 446.5L1939.9 439.4L1944.6 425L1950 340L1950 78L1945.6 53L1940.8 42.2L1920 30.4L1873 14.6L1869.6 10.9L1869.3 7L1871.3 3.4L1876 1.6Z"/>
+  <path d="M465 2.4L519 5L613 4L619.2 8L619.4 12L616 16.5L585 32.1L581.2 37L579.4 45L577 113L576.2 266L579.3 429L582.2 438L586 442.4L620.7 459.2L622.9 466L619 471.4L518 470L472 474L465.4 470L466.6 464L472 458.6L504 445L510.6 438L514 403L515 304L514 100L510.6 44L508.6 36L504 30.6L462.1 14.1L459.2 8L464 2.8Z"/>
+  <path d="M153 3.4L167.8 4.8L169.8 8L169.2 13L165 16.6L138 25.4L131.3 30.1L126.7 40L122 63L121 393L124 435L127.1 439.9L134 444.1L155 447L210 448L279 445.2L293 437.6L312 418L342.2 364L346.4 358.6L351 357.2L355.4 363L354.8 394L341.7 468L337 472.7L283 470L123 469L8 474L0.8 470.9L1.2 467L6 462.2L53.4 443.6L57.8 424L59 399L59 96L54.8 36L51 30.3L13 16.3L8.6 9L12 5L17 4L152 3.6Z"/>
+  <path d="M470 670.4L2002 670L2193 672L2197.6 675L2195 677.8L1757 684L1145 684L936 682L785 684L381 684L287 681L163 681L158.3 679.8L156.5 676.3L164 673.2L469 670.6Z"/>
+  <path d="M670 873.4L745 874L827 878L986 877L993.2 879.4L994 939L997.8 982L996.4 989L993 992.3L987.5 989L981.8 968L967.4 936L951 919.9L933 909.9L922 906.1L885 901L802 901L792 905.1L790 919L790.8 1090.8L795 1093L826 1095L889 1095L917 1092.4L924.9 1089.2L928.7 1085L944 1045L950 1039.8L954 1048L954 1074L950 1100L954 1160L951 1166.8L946.4 1166.8L931.6 1136L915 1126.1L888 1122L792.2 1122.8L789 1139L787 1262L788.2 1303L790.4 1309L795 1312.6L832 1321L928 1320.9L950 1313.1L967 1302L985.5 1277L1006.8 1237L1010 1234.3L1016 1234.3L1019.7 1239L1018.8 1251L1005.6 1327L1002.6 1339L999 1342.4L828 1340L754 1341L715 1345L675 1346L665 1342L665 1336L672 1330.4L691 1322.5L721.6 1316.6L727 1273L727 945L722.8 909L717 902L691 896.5L666 888L662.8 884L662.4 879L664.4 875.4L669 873.6Z"/>
+  <path d="M1582.1 874.6L1733 877L1739.6 881L1738.8 887L1735 891.6L1708 902.2L1700.3 908L1695.1 933L1694 1271L1695.2 1293L1700.3 1307L1720.2 1320.2L1747.8 1330.7L1750.4 1336L1747.8 1340.8L1736 1344L1658 1342L1590 1346L1580 1345L1575.3 1341L1575.8 1335.1L1580 1331.3L1627 1313.7L1631 1307L1631 914L1628.8 909L1621 902.5L1580.2 885.2L1578.2 881L1581.3 875Z"/>
+  <path d="M88 875.4L177 877.9L232 875.5L241.4 878.4L242.9 884L240.7 888.7L211 903.2L201.3 911L198.4 918L197 1080L198.6 1084.9L203 1087.7L251 1090L439 1087.6L443 1078L441.6 919L436.7 906.5L398 889.8L393.8 885L394.3 879.2L405 875L432 877L540 876L549.4 878.4L550.7 883L548.6 887.6L534 895.2L511.5 911.2L506.9 920L503.1 939L503 1272L504 1304L505.9 1309L511 1313.1L551 1327.9L555.5 1335L552 1340.6L465 1340L391 1344.6L383.8 1340L383.8 1334.2L389 1329.8L428 1320.5L438.6 1314L442 1297L443 1225L442.2 1127L439.8 1121.6L426 1119L232 1118L203 1119.2L197.3 1125L198.1 1299L200.9 1306L208 1312L250 1331.3L253.6 1336L252.6 1341L247 1345.3L176 1344L88 1347L79.6 1344.6L78.6 1338L85 1331.9L105 1322.5L127 1315.8L130 1313L133 1294L134 1256L134 1009L133 938L130.8 917L128.7 910L124 904.7L81.3 884.5L80 879.3L87 875.7Z"/>
+  <path d="M1847 875.4L1985 877.2L1999.7 879.4L2002 885L1999.8 890.9L1976 904.4L1971.8 909L1971.8 912L2018.8 987L2062.4 1063L2066 1065.7L2069.5 1063.8L2088.8 1037L2109.5 1004L2158.4 915L2158.6 909L2156 905.4L2123.6 888.6L2121.9 884L2123.6 879.4L2133 877L2225 877L2248 875L2262 875.3L2268.6 878.4L2270.1 885L2266 889.6L2218 905.5L2208 910.6L2198.6 919.1L2139.5 999L2092.4 1071L2083.2 1089L2176.2 1237L2222.4 1304L2234 1312.6L2275 1322.1L2294 1329.3L2297.7 1336L2291 1343.6L2226 1340L2115 1341L2109.2 1339.4L2106.4 1334L2109 1329.5L2145 1316.3L2151.7 1311.7L2152.6 1307L2071.7 1179L2044.8 1139L2040.1 1134.8L2034.5 1140L2004.4 1186L1936.5 1303L1936.8 1307.9L1943 1312.7L1984.6 1327.6L1986.9 1333L1984.5 1339.4L1975 1342L1875 1341L1825 1344.6L1819.6 1342.6L1817.8 1333L1824 1327.4L1868 1314.4L1882 1312.5L1889.5 1307.8L1925.5 1263L2021.5 1115L2023.4 1109L2021.5 1103L1966.2 1012.1L1908.7 922L1894 909.4L1841 888.4L1837.7 885L1837.4 881L1846 875.7Z"/>
+  <path d="M1145 876.4L1289 877L1293.8 878L1296.4 882L1292.9 888.9L1266 898.3L1259.2 903.1L1254.5 911L1250.1 929L1247 1008L1247 1264L1252.4 1308.9L1257 1312.3L1273 1316.6L1293 1318L1383 1318L1404 1312.9L1417 1305.6L1430.5 1291.9L1441.4 1275L1462.2 1233L1468.2 1225.5L1474 1223.8L1478.8 1226.2L1480.8 1230L1477.8 1255L1464.9 1328L1461 1340.7L1455 1343.9L1420 1341L1300 1339L1195 1340L1140 1345L1132.4 1341.9L1131.2 1336L1135 1331.2L1174 1316.3L1180.4 1311L1185 1257L1186 1009L1180.9 912L1179.3 907.1L1175 903.2L1136.4 884.4L1136.4 878.4L1144 876.6Z"/>
+  </g>
+  </svg>
+  </a>
 
-  <!-- SOCIAL LINKS. Icon paths are the standard Simple Icons glyphs, inlined so nothing is
-       fetched from a third party.
+  <!-- SOCIAL LINKS. Icon geometry is the standard Simple Icons glyph set, inlined so nothing
+       is fetched from a third party. Each emblem carries its real brand colours.
 
-       YouTube and TikTok are commented out below because their URLs are not known yet. They
-       are kept in place rather than deleted: re-enabling each is a matter of uncommenting the
-       block and dropping the real URL in. A live-but-wrong social link is worse than a missing
-       one, because it silently sends visitors to a stranger's account and nobody ever notices. -->
+       Two of these glyphs are CUTOUT shapes: the Facebook mark is a filled disc with the f
+       knocked out of it, and the YouTube mark is a filled rounded rectangle with the play
+       triangle knocked out. Filling those with brand colour alone would leave the f and the
+       triangle showing the night sky through them. Each therefore gets a white shape drawn
+       UNDERNEATH, which the knockout then reveals. Order matters: white first, brand on top. -->
   <nav class="social" aria-label="LIMEN Helix on social media">
 
     <a href="https://www.facebook.com/limenhelix/" aria-label="LIMEN Helix on Facebook" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <!-- r=11.5 rather than 12, so the white never peeks out past the blue disc. -->
+        <circle cx="12" cy="12" r="11.5" fill="#FFFFFF"/>
+        <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
     </a>
 
-    <!-- YOUTUBE — waiting on the URL. Uncomment and set href to enable.
-    <a href="SET_YOUTUBE_URL" aria-label="LIMEN Helix on YouTube" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    <a href="https://www.youtube.com/@LIMENHelix" aria-label="LIMEN Helix on YouTube" rel="noopener noreferrer" target="_blank">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="#FFFFFF" d="M9.545 15.568V8.432L15.818 12z"/>
+        <path fill="#FF0000" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
     </a>
-    -->
 
     <a href="https://www.instagram.com/limen_helix/" aria-label="LIMEN Helix on Instagram" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.741 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <!-- Instagram's mark is an outline, not a solid, so the gradient reads along the
+             stroke. Anchored bottom-left the way the official mark is. -->
+        <defs>
+          <radialGradient id="igGrad" cx="30%" cy="107%" r="150%">
+            <stop offset="0%"  stop-color="#FDF497"/>
+            <stop offset="5%"  stop-color="#FDF497"/>
+            <stop offset="45%" stop-color="#FD5949"/>
+            <stop offset="60%" stop-color="#D6249F"/>
+            <stop offset="90%" stop-color="#285AEB"/>
+          </radialGradient>
+        </defs>
+        <path fill="url(#igGrad)" d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.741 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/>
+      </svg>
     </a>
 
     <a href="https://www.tiktok.com/@limenhelix1" aria-label="LIMEN Helix on TikTok" rel="noopener noreferrer" target="_blank">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <!-- The TikTok mark is one glyph printed three times in register: cyan up-left,
+             magenta down-right, solid on top. Defined once and re-used rather than repeating
+             the path data three times. White on top, because this sits on a dark sky. -->
+        <defs><path id="ttGlyph" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></defs>
+        <use href="#ttGlyph" fill="#25F4EE" x="-1.1" y="-0.7"/>
+        <use href="#ttGlyph" fill="#FE2C55" x="1.1"  y="0.7"/>
+        <use href="#ttGlyph" fill="#FFFFFF"/>
+      </svg>
     </a>
 
   </nav>
 </main>
 
-<noscript><style>img.mark{opacity:1;mix-blend-mode:screen}</style></noscript>
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Authorized access">
+  <div class="ovcard">
+    <button class="x" id="ovX" type="button" aria-label="Close">&times;</button>
+    <div class="lbl">Authorized Access</div>
+    <form id="ovForm">
+      <input type="password" id="ovPw" placeholder="passcode" autocomplete="off" inputmode="numeric" aria-label="Passcode">
+      <div class="err" id="ovErr" role="alert"></div>
+      <button type="submit">Enter</button>
+    </form>
+  </div>
+</div>
 
-<script>
-/* ── THE MARK: luminance -> alpha, then crop ───────────────────────────────────────────────
-   Runs once. Reads the JPEG into an offscreen canvas, turns brightness into opacity so the
-   dark backdrop disappears and the gold letters stay, trims the empty margin, and swaps the
-   result back in as a transparent PNG. After that the element is an ordinary <img> and all
-   the normal layout rules apply.
-
-   Same-origin image, so reading pixels back is allowed and no CORS header is involved.       */
-(function () {
-  'use strict';
-  var el = document.getElementById('mark');
-  var shine = document.getElementById('shine');
-  if (!el) return;
-
-  function reveal() { el.classList.add('ready'); }
-
-  /* Point the sweep's mask at the generated transparent PNG. Until this runs the shine layer
-     has no mask at all, and an unmasked gradient would paint a bright band straight across the
-     page — so it is held at opacity 0 in CSS and only revealed here, once it has something to
-     be shaped by. */
-  function armShine(url) {
-    if (!shine) return;
-    shine.style.webkitMaskImage = 'url(' + url + ')';
-    shine.style.maskImage = 'url(' + url + ')';
-    shine.classList.add('ready');
-  }
-
-  /* QUALITY SETTINGS, all three measured rather than picked.
-
-     SS = 2 — the source is decoded at double size before thresholding. Interpolating first
-     and cutting second produces far more intermediate alpha values than cutting a 1:1 raster:
-     measured edge-to-ink ratio rises from 0.081 to 0.155, so the serifs carry roughly twice
-     the antialiasing information. It is also, unexpectedly, CHEAPER — 384 KB against 395 KB
-     for the 1x path — because smoother alpha has fewer hard transitions and PNG compresses it
-     better. There is no trade being made here.
-
-     OUT_W = 1536 — the widest the mark is ever drawn is about 620 CSS px, which is 1240 device
-     px on a 2x display. Emitting 1536 means that case DOWNSCALES rather than upscaling a 1024
-     source, and downscaling is always the sharper direction.
-
-     LO/HI = 0.15 / 0.60 — the ramp used to be 0.26 -> 0.58. The backdrop tops out at 0.11, so
-     0.26 was throwing away a third of the edge gradient for no reason. What made the low cut
-     safe is the WIDE ramp: at LO 0.15 with HI 0.60, a stray 0.17 vignette pixel lands at alpha
-     0.04 instead of the 0.2 it would have got under the old narrow ramp. Verified ghost-free
-     by compositing over magenta.                                                             */
-  var SS = 2, OUT_W = 1536, LO = 0.15, HI = 0.60;
-
-  function process() {
-    try {
-      var nw = el.naturalWidth, nh = el.naturalHeight;
-      if (!nw || !nh) { fallback(); return; }
-
-      var w = nw * SS, h = nh * SS;
-      var c = document.createElement('canvas');
-      c.width = w; c.height = h;
-      var x = c.getContext('2d', { willReadFrequently: true });
-      x.imageSmoothingEnabled = true;
-      x.imageSmoothingQuality = 'high';
-      x.drawImage(el, 0, 0, w, h);
-
-      var d = x.getImageData(0, 0, w, h), p = d.data;
-
-      /* MEASURED off this exact artwork (histogram, 1,048,576 px):
-           backdrop  94% of all pixels sit at luminance 0.05-0.06
-           tail      0.07-0.11 is the backdrop's soft vignette, ~0.5% of pixels
-           gap       0.12-0.55 holds ~0.01% per bucket: antialiased letter edges only
-           ink       p97 = 0.60, p99 = 0.68, max 0.95                                    */
-      var span = HI - LO;
-      var minX = w, minY = h, maxX = -1, maxY = -1;
-
-      for (var i = 0, px = 0; i < p.length; i += 4, px++) {
-        var lum = (p[i] * 0.299 + p[i + 1] * 0.587 + p[i + 2] * 0.114) / 255;
-        var a = (lum - LO) / span;
-        a = a < 0 ? 0 : (a > 1 ? 1 : a);
-        p[i + 3] = (a * 255) | 0;
-        if (a > 0.06) {                       // track the ink bounds for the crop
-          var cx = px % w, cy = (px / w) | 0;
-          if (cx < minX) minX = cx;
-          if (cx > maxX) maxX = cx;
-          if (cy < minY) minY = cy;
-          if (cy > maxY) maxY = cy;
-        }
-      }
-      if (maxX < 0) { fallback(); return; }   // nothing survived the threshold
-
-      x.putImageData(d, 0, 0);
-
-      // Crop to the wordmark plus a small breathing margin, so the element box is the type
-      // rather than a mostly-empty square.
-      var pad = Math.round(Math.max(w, h) * 0.02);
-      var sx = Math.max(0, minX - pad), sy = Math.max(0, minY - pad);
-      var sw = Math.min(w - sx, (maxX - minX) + pad * 2);
-      var sh = Math.min(h - sy, (maxY - minY) + pad * 2);
-
-      // Crop and resample to the delivery size in one draw, at high quality.
-      var scale = Math.min(1, OUT_W / sw);
-      var out = document.createElement('canvas');
-      out.width = Math.round(sw * scale);
-      out.height = Math.round(sh * scale);
-      var ox = out.getContext('2d');
-      ox.imageSmoothingEnabled = true;
-      ox.imageSmoothingQuality = 'high';
-      ox.drawImage(c, sx, sy, sw, sh, 0, 0, out.width, out.height);
-
-      el.removeAttribute('width');
-      el.removeAttribute('height');
-      el.onload = null;
-
-      /* toBlob rather than toDataURL. Base64 inflates the payload by a third and has to be
-         built as one enormous string before anything can use it; a blob URL skips the encode
-         entirely. At this resolution that is the difference between a visible hitch on a slow
-         phone and none. toDataURL stays as the fallback for anything without toBlob. */
-      function hand(url) { el.src = url; armShine(url); reveal(); }
-      if (out.toBlob) {
-        out.toBlob(function (b) {
-          if (b) hand(URL.createObjectURL(b));
-          else hand(out.toDataURL('image/png'));
-        }, 'image/png');
-      } else {
-        hand(out.toDataURL('image/png'));
-      }
-    } catch (e) {
-      fallback();
-    }
-  }
-
-  // Anything goes wrong: show the original with screen blending rather than a blank page.
-  function fallback() {
-    el.style.mixBlendMode = 'screen';
-    reveal();
-  }
-
-  if (el.complete && el.naturalWidth) process();
-  else { el.onload = process; el.onerror = reveal; }
-})();
-</script>
-
+<p class="credit">Nebula imagery: NASA, ESA, CSA, STScI</p>
 
 <script>
 /* ── THE SKY ───────────────────────────────────────────────────────────────────────────────
-   Deep space, drawn in two parts.
+   Deep space, in layers, at three depths.
 
-   PART 1, drawn ONCE per resize into an offscreen bitmap: the space gradient, the nebula
-   clouds, the Milky Way band with its dust lanes, and the far starfield. None of it moves,
-   and it is by far the most expensive thing here — several hundred gradient fills. Caching it
-   means the animation loop never pays for it again.
+   THE GAS IS A REAL PHOTOGRAPH. assets/img/sky-plate.webp is the James Webb Space Telescope's
+   NIRCam image of the Cosmic Cliffs in the Carina Nebula (NGC 3324), reduced from 14575px and
+   reduced to grey with a hard curve. Its COLOUR is thrown away and only its structure is kept;
+   the palette here is ours, not the photograph's. That is the whole reason it does not look
+   like a stock space wallpaper: what is borrowed is the one thing procedural noise cannot
+   fake, which is real filaments, real dust lanes and real edges at real resolution.
 
-   PART 2, drawn EVERY frame: only the stars that actually twinkle, plus the flares and any
-   shooting star. That is a few hundred small arcs, which is cheap enough to hold 60fps on a
-   phone.
+   Compositing, and why the plate needs no alpha channel:
+     colour field  ->  MULTIPLY by the grey plate  ->  ADD to the sky with 'lighter'
+   Black multiplies to black, and black adds nothing, so the dark sky masks itself. Encoding
+   the structure in alpha instead cost 1.47 MB, because Chrome compresses WebP alpha
+   losslessly. As grey it is 238 KB.
 
-   Splitting it this way is the whole performance story. Redrawing the nebula per frame would
-   cost ~50x more for something that never changes.                                          */
+   LAYERS, slowest to fastest under parallax:
+     farBase   void gradient + the dense faint star population        x0.25
+     gasLayer  the photograph, tinted and masked                      x0.25
+     midLayer  the sparse bright stars, each with a halo              x0.60
+     per-frame twinkling stars, cross-flares, shooting star           x1.00
+     per-frame the helix
+   Each cached layer is drawn PAD px larger than the viewport in every direction, so sliding
+   it never exposes an edge.
+
+   Cost: the cached layers are painted once per resize. Per frame it is three drawImage calls
+   plus a few hundred small arcs.                                                            */
 (function () {
   'use strict';
 
@@ -446,319 +385,526 @@
   var ctx = canvas.getContext('2d', { alpha: false });
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var bg = document.createElement('canvas');      // the cached, unmoving universe
-  var bgx = bg.getContext('2d');
+  // Two bakes of the same static scene: without the photograph, and with it. The fade
+  // between them is the only moment more than one bitmap is blitted in a frame.
+  var sceneDry = document.createElement('canvas'), dryx = sceneDry.getContext('2d');
+  var sceneWet = document.createElement('canvas'), wetx = sceneWet.getContext('2d');
 
   var twinklers = [], flares = [], shooting = null;
-  var w = 0, h = 0, dpr = 1, raf = null, t0 = 0, nextShot = 0;
+  var sat = null, nextSat = 0;
+  var alien = null, alienClock = 0, nextAlien = 3, lastFrame = 0;
+  var w = 0, h = 0, W = 0, H = 0, dpr = 1, raf = null, t0 = 0, nextShot = 0;
 
-  /* Real stars are not white. Colour comes from temperature: blue-white giants through to
-     cool red dwarfs. A field of identical white dots reads as noise; this reads as a sky. */
+  var PAD = 46;                       // overscan, in CSS px, on every side
+  var ANG = -0.42;                    // the galactic plane: up to the right
+  var CA = Math.cos(ANG), SA = Math.sin(ANG);
+
+  // Parallax: pointer target, and the smoothed value that actually gets drawn.
+  var tgX = 0, tgY = 0, parX = 0, parY = 0;
+
+  var plate = new Image();
+  var plateReady = false, gasFade = 0;
+
   var PALETTE = [
-    '255,255,255', '255,255,255', '255,255,255', '255,255,255',
-    '202,222,255',   // blue-white, hot
-    '176,205,255',   // blue
-    '255,246,222',   // yellow-white
-    '255,228,178',   // amber, echoes the gold in the mark
-    '255,198,148'    // orange, cool
+    '255,255,255', '255,255,255', '255,255,255',
+    '214,228,255', '182,208,255', '255,246,224', '255,228,180'
   ];
-
   function rand(a, b) { return a + Math.random() * (b - a); }
   function pick(a) { return a[(Math.random() * a.length) | 0]; }
 
-  // ── PART 1: the cached universe ─────────────────────────────────────────────────────────
+  /* ── cached layers ─────────────────────────────────────────────────────────────────────
+     ONE BITMAP PER FRAME, NOT THREE.
 
-  function paintUniverse() {
-    bg.width = Math.round(w * dpr);
-    bg.height = Math.round(h * dpr);
-    bgx.setTransform(dpr, 0, 0, dpr, 0, 0);
+     The first version kept the void, the gas and the bright stars as three separate layers
+     and blitted all three every frame so each could parallax at its own rate. Measured, that
+     ran at 10 fps on a 1440x900 display: at 2x that is 2880x1800, and three full-canvas
+     composites is 15.5 million pixels of blitting per frame, one of them under 'lighter',
+     which is the slow path.
 
-    // Base void. Not flat black: a slight vertical lift gives the frame somewhere to sit.
-    var base = bgx.createLinearGradient(0, 0, 0, h);
-    base.addColorStop(0, '#05070d');
-    base.addColorStop(0.55, '#080d17');
-    base.addColorStop(1, '#04060b');
-    bgx.fillStyle = base;
-    bgx.fillRect(0, 0, w, h);
+     Everything static is now baked into a single bitmap. Depth still reads, because the
+     parallax that matters is between the BACKGROUND and the FOREGROUND: the baked scene
+     slides at a quarter rate while the twinkling stars, the flares and the helix track the
+     pointer fully. Three depths cost 6x the frame time and bought almost nothing over two.
 
-    var diag = Math.sqrt(w * w + h * h);
+     Two versions are baked, with and without the gas, purely so the photograph can fade in
+     when it finishes loading. Once the fade is done only the gas version is ever drawn.    */
 
-    /* NEBULAE. Big soft radial gradients composited additively. Each cloud is several
-       overlapping blobs of one hue rather than a single circle, because one circle reads as a
-       circle and a cluster reads as gas. */
-    bgx.globalCompositeOperation = 'lighter';
+  function paintGasInto(target, tw, th) {
+    if (!plateReady) return;
+    var diag = Math.sqrt(tw * tw + th * th);
+    var tmp = document.createElement('canvas');
+    tmp.width = Math.round(tw * dpr); tmp.height = Math.round(th * dpr);
+    var g2 = tmp.getContext('2d');
+    g2.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    /* Clouds are pushed to the CORNERS and the broad central wash is gone. An earlier version
-       had a wide cloud sitting at (0.50, 0.48) and the gold wordmark lost its contrast against
-       it — the type has to win, and colour behind type is the fastest way to lose it. The
-       colour now frames the centre instead of filling it. */
-    /* Eight clouds instead of four, with hotter hues and higher alpha. The palette is drawn
-       from what real emission nebulae actually are: H-alpha rose and crimson, OIII teal, plus
-       reflection blue and violet from dust scattering starlight. An amber region echoes the
-       gold in the mark without sitting near it. Still all pushed to the edges — the centre
-       stays dark so the type keeps its contrast. */
-    /* Palette shifted away from purple. The violet and purple regions are now deep blue, the
-       two pink regions are dimmer, and the blue, teal, cyan and amber are all brought up. The
-       amber matters more than its alpha suggests: a warm region in a cold field is what keeps
-       the whole thing from reading as one flat blue wash, and it ties the sky to the gold in
-       the mark without sitting near enough to compete with it. */
-    var clouds = [
-      { x: 0.10, y: 0.18, r: 0.40, c: '70,95,200',  a: 0.16 },  // deep blue (was violet)
-      { x: 0.30, y: 0.08, r: 0.30, c: '185,85,135', a: 0.10 },  // rose, dimmed
-      { x: 0.90, y: 0.14, r: 0.36, c: '48,124,228', a: 0.21 },  // blue
-      { x: 0.72, y: 0.06, r: 0.26, c: '30,180,190', a: 0.17 },  // teal, OIII
-      { x: 0.88, y: 0.80, r: 0.40, c: '170,72,118', a: 0.11 },  // magenta, dimmed
-      { x: 0.62, y: 0.95, r: 0.30, c: '55,115,185', a: 0.15 },  // blue (was purple)
-      { x: 0.12, y: 0.86, r: 0.36, c: '20,152,178', a: 0.20 },  // cyan
-      { x: 0.34, y: 0.96, r: 0.26, c: '228,152,72', a: 0.15 }   // amber
-    ];
+    // 1. THE PALETTE. Indigo to teal, running ACROSS the band rather than along it, so the
+    //    two hues separate the way distance separates them in a real field.
+    var lg = g2.createLinearGradient(
+      tw / 2 + SA * diag * 0.5, th / 2 - CA * diag * 0.5,
+      tw / 2 - SA * diag * 0.5, th / 2 + CA * diag * 0.5);
+    lg.addColorStop(0.00, '#12318C');
+    lg.addColorStop(0.45, '#1D5FA8');
+    lg.addColorStop(1.00, '#12A6A8');
+    g2.fillStyle = lg;
+    g2.fillRect(0, 0, tw, th);
 
-    clouds.forEach(function (cl) {
-      var cx = cl.x * w, cy = cl.y * h, rr = cl.r * diag;
-      // 7 offset lobes per cloud: irregular edges instead of a perfect disc.
-      for (var i = 0; i < 7; i++) {
-        var ox = cx + rand(-rr * 0.42, rr * 0.42);
-        var oy = cy + rand(-rr * 0.34, rr * 0.34);
-        var orr = rr * rand(0.35, 0.85);
-        var g = bgx.createRadialGradient(ox, oy, 0, ox, oy, orr);
-        g.addColorStop(0, 'rgba(' + cl.c + ',' + (cl.a * rand(0.6, 1)).toFixed(3) + ')');
-        g.addColorStop(0.45, 'rgba(' + cl.c + ',' + (cl.a * 0.35).toFixed(3) + ')');
-        g.addColorStop(1, 'rgba(' + cl.c + ',0)');
-        bgx.fillStyle = g;
-        bgx.fillRect(ox - orr, oy - orr, orr * 2, orr * 2);
-      }
-    });
+    // 2. THE ONE WARM REGION, low and left. The only warm colour in the sky; it ties the
+    //    background to the gold in the mark without sitting close enough to compete.
+    var ar = diag * 0.34;
+    var amber = g2.createRadialGradient(tw * 0.20, th * 0.84, 0, tw * 0.20, th * 0.84, ar);
+    amber.addColorStop(0,    'rgba(226,146,54,0.95)');
+    amber.addColorStop(0.55, 'rgba(196,116,58,0.45)');
+    amber.addColorStop(1,    'rgba(196,116,58,0)');
+    g2.fillStyle = amber;
+    g2.fillRect(0, 0, tw, th);
 
-    /* THE MILKY WAY. A diagonal band, because a horizontal one looks like a horizon and the
-       galactic plane never does. Built from many overlapping soft ellipses along an axis. */
-    var ang = -0.42;                       // radians, up to the right
-    var ca = Math.cos(ang), sa = Math.sin(ang);
-    var steps = 46;
-    for (var s = 0; s <= steps; s++) {
-      var tpos = s / steps;
-      var px = (tpos - 0.5) * diag * 1.25;
-      var bx = w * 0.5 + px * ca;
-      var by = h * 0.5 + px * sa;
-      // Thicker and brighter toward the centre: the galactic bulge.
-      var bulge = 1 - Math.abs(tpos - 0.5) * 1.5;
-      if (bulge < 0) bulge = 0;
-      var br = diag * (0.055 + 0.075 * bulge);
-      var alpha = 0.030 + 0.055 * bulge;
-      var g2 = bgx.createRadialGradient(bx, by, 0, bx, by, br);
-      g2.addColorStop(0, 'rgba(190,200,235,' + alpha.toFixed(3) + ')');
-      g2.addColorStop(0.5, 'rgba(150,165,215,' + (alpha * 0.4).toFixed(3) + ')');
-      g2.addColorStop(1, 'rgba(120,140,200,0)');
-      bgx.fillStyle = g2;
-      bgx.fillRect(bx - br, by - br, br * 2, br * 2);
-    }
+    /* 3. THE STRUCTURE. Multiply by the photograph, rotated to run along the band and scaled
+          to still cover after rotation. This is the step that removes the fuzziness: every
+          filament and dust lane from here on is measured, not generated. */
+    g2.save();
+    g2.globalCompositeOperation = 'multiply';
+    g2.translate(tw / 2, th / 2);
+    g2.rotate(ANG);
+    var cover = Math.max(tw / plate.width, th / plate.height) * 1.45;
+    g2.imageSmoothingEnabled = true;
+    g2.imageSmoothingQuality = 'high';
+    g2.drawImage(plate, -plate.width * cover / 2, -plate.height * cover / 2,
+                 plate.width * cover, plate.height * cover);
+    g2.restore();
 
-    /* FAR STARS. Dense, tiny, static. At this size a twinkle would be invisible anyway, so
-       they live in the cached layer and cost nothing per frame. This is the layer that makes
-       the sky feel deep rather than sparse. */
-    var farCount = Math.min(2600, Math.round((w * h) / 620));
-    for (var f = 0; f < farCount; f++) {
-      var fx = Math.random() * w, fy = Math.random() * h;
-      // Cluster toward the band: multiply density along the galactic axis.
-      var dToAxis = Math.abs((fx - w * 0.5) * sa - (fy - h * 0.5) * ca);
-      var nearBand = Math.exp(-(dToAxis / (diag * 0.16)) * (dToAxis / (diag * 0.16)));
-      if (Math.random() > 0.32 + nearBand * 0.68) continue;
-      var fr = rand(0.22, 0.75);
-      var fa = rand(0.10, 0.55) * (0.55 + nearBand * 0.45);
-      bgx.beginPath();
-      bgx.arc(fx, fy, fr, 0, 6.2832);
-      bgx.fillStyle = 'rgba(' + pick(PALETTE) + ',' + fa.toFixed(3) + ')';
-      bgx.fill();
-    }
+    /* 4. CONFINE IT TO ONE BAND. White along the axis, black away from it, multiplied in. */
+    g2.save();
+    g2.globalCompositeOperation = 'multiply';
+    g2.translate(tw / 2, th / 2);
+    g2.rotate(ANG);
+    var bd = diag * 0.62;
+    var band = g2.createLinearGradient(0, -bd, 0, bd);
+    band.addColorStop(0.00, '#000000');
+    band.addColorStop(0.26, '#3a3a3a');
+    band.addColorStop(0.50, '#ffffff');
+    band.addColorStop(0.74, '#3a3a3a');
+    band.addColorStop(1.00, '#000000');
+    g2.fillStyle = band;
+    g2.fillRect(-diag, -diag, diag * 2, diag * 2);
+    g2.restore();
 
-    /* DUST LANES. Dark, subtractive-looking streaks across the band. Real galaxies are cut by
-       these and without them the band reads as an airbrushed smear. */
-    bgx.globalCompositeOperation = 'source-over';
-    /* Dust is kept OUT of the middle. Placed freely, one lane landed directly behind HELIX and
-       read as a smudge on the screen rather than as dust in a galaxy. Anything that lands
-       within 22% of centre is rejected and re-rolled. */
-    for (var d = 0; d < 9; d++) {
-      var dx0, dy0, tries = 0;
-      do {
-        var dt = rand(0.10, 0.90);
-        var dpx = (dt - 0.5) * diag * 1.15;
-        dx0 = w * 0.5 + dpx * ca + rand(-diag * 0.06, diag * 0.06);
-        dy0 = h * 0.5 + dpx * sa + rand(-diag * 0.06, diag * 0.06);
-        tries++;
-      } while (tries < 8 && Math.hypot(dx0 - w * 0.5, dy0 - h * 0.5) < diag * 0.22);
-      var dr = diag * rand(0.04, 0.10);
-      var g3 = bgx.createRadialGradient(dx0, dy0, 0, dx0, dy0, dr);
-      g3.addColorStop(0, 'rgba(4,6,12,' + rand(0.22, 0.42).toFixed(3) + ')');
-      g3.addColorStop(1, 'rgba(4,6,12,0)');
-      bgx.fillStyle = g3;
-      bgx.fillRect(dx0 - dr, dy0 - dr, dr * 2, dr * 2);
-    }
+    /* 5. CLEAR THE MIDDLE, as an ELLIPSE not a circle. The wordmark is a wide, short block;
+          a circle big enough to protect its width also scoops out everything above and below
+          it and leaves the centre looking empty. */
+    g2.save();
+    g2.globalCompositeOperation = 'multiply';
+    g2.translate(tw / 2, th / 2);
+    g2.scale(1, (th * 0.30) / (tw * 0.40));
+    var cr = tw * 0.40;
+    var clear = g2.createRadialGradient(0, 0, 0, 0, 0, cr);
+    clear.addColorStop(0.00, '#000000');
+    clear.addColorStop(0.55, '#2b2b2b');
+    clear.addColorStop(1.00, '#ffffff');
+    g2.fillStyle = clear;
+    g2.fillRect(-diag, -diag, diag * 2, diag * 2);
+    g2.restore();
 
-    /* A CLEARING behind the wordmark. Deep space is not uniformly lit and dark nebulae are
-       real, so a soft pool of shadow at centre is physically unremarkable — but its actual job
-       is contrast: the gold has to read at a glance, and it cannot do that over lit gas.
-       Applied after the clouds and before the vignette so it darkens colour, not just edges. */
-    /* Deepened when the palette got richer. Brighter, more saturated gas around the edges
-       compresses the whole image toward mid-tone, and the type loses its separation along with
-       it. Pushing the clearing harder does two things at once: the gold regains contrast, and
-       the colour actually reads MORE saturated, because it now has something dark to sit
-       against instead of blending into a uniformly lit field. */
-    var clear = bgx.createRadialGradient(w / 2, h * 0.5, 0, w / 2, h * 0.5, diag * 0.34);
-    clear.addColorStop(0, 'rgba(2,4,9,0.78)');
-    clear.addColorStop(0.45, 'rgba(2,4,9,0.52)');
-    clear.addColorStop(1, 'rgba(2,4,9,0)');
-    bgx.fillStyle = clear;
-    bgx.fillRect(0, 0, w, h);
-
-    // A soft vignette pulls the eye to the centre, where the wordmark is.
-    var vg = bgx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.25, w / 2, h / 2, diag * 0.62);
-    vg.addColorStop(0, 'rgba(0,0,0,0)');
-    vg.addColorStop(1, 'rgba(0,0,0,0.62)');
-    bgx.fillStyle = vg;
-    bgx.fillRect(0, 0, w, h);
+    // Black adds nothing under 'lighter', so the dark sky masks itself and the plate never
+    // needed an alpha channel.
+    target.save();
+    target.globalCompositeOperation = 'lighter';
+    target.setTransform(1, 0, 0, 1, 0, 0);
+    target.drawImage(tmp, 0, 0);
+    target.restore();
   }
 
-  // ── PART 2: the things that move ────────────────────────────────────────────────────────
+  // Deterministic star placement, so the with-gas and without-gas bakes hold the SAME stars
+  // and the fade does not make the whole field jump.
+  var starSeed = 1;
+  function srand() {
+    starSeed = (starSeed * 1103515245 + 12345) & 0x7fffffff;
+    return starSeed / 0x7fffffff;
+  }
+
+  function bake(target, withGas) {
+    target.setTransform(dpr, 0, 0, dpr, 0, 0);
+    target.globalCompositeOperation = 'source-over';
+
+    var base = target.createLinearGradient(0, 0, 0, H);
+    base.addColorStop(0,    '#04060c');
+    base.addColorStop(0.55, '#070c15');
+    base.addColorStop(1,    '#03050a');
+    target.fillStyle = base;
+    target.fillRect(0, 0, W, H);
+
+    var diag = Math.sqrt(W * W + H * H);
+    starSeed = 20260803;
+
+    // The dense faint population. This is the layer that makes the field read as deep.
+    var n = Math.min(6000, Math.round((W * H) / 300));
+    for (var i = 0; i < n; i++) {
+      var x = srand() * W, y = srand() * H;
+      var d = Math.abs((x - W / 2) * SA - (y - H / 2) * CA);
+      var nb = Math.exp(-Math.pow(d / (diag * 0.19), 2));
+      if (srand() > 0.34 + nb * 0.66) continue;
+      target.beginPath();
+      target.arc(x, y, 0.24 + srand() * 0.58, 0, 6.2832);
+      target.fillStyle = 'rgba(' + PALETTE[(srand() * PALETTE.length) | 0] + ',' +
+        ((0.16 + srand() * 0.54) * (0.58 + nb * 0.42)).toFixed(3) + ')';
+      target.fill();
+    }
+
+    if (withGas) paintGasInto(target, W, H);
+
+    // The sparse bright population, each with a halo so it reads as a point source rather
+    // than a dot. Drawn after the gas so bright stars sit in front of it.
+    target.setTransform(dpr, 0, 0, dpr, 0, 0);
+    target.globalCompositeOperation = 'source-over';
+    var m = Math.min(300, Math.round((W * H) / 6200));
+    for (var k = 0; k < m; k++) {
+      var mx = srand() * W, my = srand() * H;
+      var md = Math.abs((mx - W / 2) * SA - (my - H / 2) * CA);
+      var mb = Math.exp(-Math.pow(md / (diag * 0.24), 2));
+      if (srand() > 0.42 + mb * 0.58) continue;
+      var col = PALETTE[(srand() * PALETTE.length) | 0];
+      var r = 0.7 + srand() * 0.7, a = 0.45 + srand() * 0.45;
+      var hg = target.createRadialGradient(mx, my, 0, mx, my, r * 5.5);
+      hg.addColorStop(0, 'rgba(' + col + ',' + (a * 0.5).toFixed(3) + ')');
+      hg.addColorStop(1, 'rgba(' + col + ',0)');
+      target.fillStyle = hg;
+      target.fillRect(mx - r * 5.5, my - r * 5.5, r * 11, r * 11);
+      target.beginPath();
+      target.arc(mx, my, r, 0, 6.2832);
+      target.fillStyle = 'rgba(' + col + ',' + a.toFixed(3) + ')';
+      target.fill();
+    }
+  }
+
+  function bakeAll() {
+    sceneDry.width = Math.round(W * dpr); sceneDry.height = Math.round(H * dpr);
+    bake(dryx, false);
+    if (plateReady) {
+      sceneWet.width = Math.round(W * dpr); sceneWet.height = Math.round(H * dpr);
+      bake(wetx, true);
+    }
+  }
+
+  // ── the helix ───────────────────────────────────────────────────────────────────────────
+
+  /* The company is called LIMEN Helix and until now there was no helix anywhere on the page.
+
+     FIRST ATTEMPT WAS DOTS, AND DOTS DO NOT WORK. Sampling each strand into discrete points
+     reads as a beaded necklace no matter how the points are tuned, because the eye joins
+     evenly spaced dots into one dotted line instead of separating them into two strands. It
+     also flattened the structure: a single wavy row of beads, not something with a front and
+     a back.
+
+     What fixes it is CONTINUITY plus DEPTH CONTRAST. Each strand is stroked as an unbroken
+     line, and the near half is drawn several times brighter and thicker than the far half,
+     so where the strands cross, one clearly passes in front of the other. That crossing is
+     the entire readable content of a helix; without it there is just a wave.
+
+     Segments are batched into short runs sharing one alpha, so a 400-sample strand costs
+     about 50 strokes rather than 400.                                                      */
+  function drawHelix(t, ox, oy) {
+    /* PITCH IS EVERYTHING. At radius 205 with 4.4 turns the loops were wider than they were
+       tall, which the eye reads as a row of big overlapping ellipses, a decorative swoosh
+       competing with the logo. A real double helix has turns much taller than they are wide.
+       Halving the radius and doubling the turn count is what changes it from a swoosh into
+       a strand, and it stops fighting the wordmark at the same time. */
+    var cy = h * 0.52 + oy;
+    var R = Math.min(h * 0.105, 108);
+    var span = w * 1.34;
+    var x0 = w * 0.5 - span / 2 + ox;
+    /* PITCH IS FIXED IN PIXELS, so the turn count has to follow the viewport width. A fixed
+       9.2 turns is right on a desktop and collapses on a phone: across 390px it puts a whole
+       turn every 57px, which stops reading as a helix and becomes vertical hatching over the
+       type. Holding the turn at ~210px wide keeps the same strand at every size, about ten
+       turns on a desktop and two and a half on a phone. */
+    var TURNS = Math.max(2.2, span / 210);
+    var N = Math.round(Math.min(560, Math.max(150, TURNS * 48))), CHUNK = 10;
+    var phase = reduce ? 0.9 : t * 0.13;
+
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    function pt(u, off) {
+      var an = u * TURNS * 6.2832 + phase + off;
+      return {
+        x: x0 + u * span,
+        y: cy + R * Math.sin(an),
+        d: (Math.cos(an) + 1) / 2          // 0 far, 1 near
+      };
+    }
+    // Ends dissolve into the field rather than stopping at the screen edge.
+    function edge(u) { return Math.min(1, Math.min(u, 1 - u) * 5.0); }
+
+    // Rungs, drawn first and only on the near face, where a real double helix shows them.
+    for (var k = 0; k <= N; k += 8) {
+      var u0 = k / N;
+      var A = pt(u0, 0), B = pt(u0, Math.PI);
+      var md = (A.d + B.d) / 2;
+      var ra = 0.038 * edge(u0) * Math.pow(md, 1.8);
+      if (ra < 0.004) continue;
+      ctx.strokeStyle = 'rgba(150,200,255,' + ra.toFixed(3) + ')';
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.moveTo(A.x, A.y);
+      ctx.lineTo(B.x, B.y);
+      ctx.stroke();
+    }
+
+    // Two passes per strand: a wide soft bloom, then the core line on top.
+    for (var pass = 1; pass < 2; pass++) {
+      var bloom = pass === 0;
+      for (var s = 0; s < 2; s++) {
+        var off = s * Math.PI;
+        for (var i = 0; i < N; i += CHUNK) {
+          var uMid = (i + CHUNK / 2) / N;
+          var m = pt(uMid, off);
+          var e = edge(uMid);
+          // depth^2.2 is what separates the strands. A linear ramp leaves the far strand
+          // bright enough to compete, and the crossing stops reading.
+          var a = (0.024 + 0.30 * Math.pow(m.d, 2.4)) * e;
+          if (bloom) a *= 0.10; else a *= 0.9;
+          if (a < 0.004) continue;
+          var lw = 0.45 + 1.05 * m.d;
+          ctx.lineWidth = bloom ? lw * 4.2 : lw;
+          ctx.strokeStyle = 'rgba(' + (m.d > 0.7 ? '245,250,255' : '150,190,240') + ',' + a.toFixed(3) + ')';
+          ctx.beginPath();
+          for (var j = 0; j <= CHUNK; j++) {
+            var p = pt(Math.min(1, (i + j) / N), off);
+            if (j === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          }
+          ctx.stroke();
+        }
+      }
+    }
+
+    /* A few real stars sitting ON the strand, only at the near crest. These are what stop it
+       looking like a drawn line: the helix picks up the same points of light as the rest of
+       the field, so it belongs to the sky instead of floating over it. */
+    for (var q = 0; q < 2; q++) {
+      for (var n = 0; n <= N; n += 18) {
+        var uu = n / N;
+        var g = pt(uu, q * Math.PI);
+        if (g.d < 0.955) continue;
+        var ga = 0.42 * edge(uu);
+        ctx.beginPath();
+        ctx.arc(g.x, g.y, 1.25, 0, 6.2832);
+        ctx.fillStyle = 'rgba(255,250,235,' + ga.toFixed(3) + ')';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(g.x, g.y, 5.5, 0, 6.2832);
+        ctx.fillStyle = 'rgba(255,244,215,' + (ga * 0.10).toFixed(3) + ')';
+        ctx.fill();
+      }
+    }
+  }
+
+  // ── the moving stars ────────────────────────────────────────────────────────────────────
 
   function buildTwinklers() {
-    twinklers = [];
-    flares = [];
-
+    twinklers = []; flares = [];
     var count = Math.min(420, Math.round((w * h) / 3400));
     for (var i = 0; i < count; i++) {
       twinklers.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: rand(0.5, 1.5),
-        colour: pick(PALETTE),
-        base: rand(0.35, 1.0),
+        x: rand(-PAD, w + PAD), y: rand(-PAD, h + PAD),
+        r: rand(0.5, 1.5), colour: pick(PALETTE), base: rand(0.35, 1.0),
         /* Two rates that do not divide into each other, so the product never repeats on a
-           short cycle. One sine gives every star an obvious metronome; two give irregular,
-           unpredictable blinking, which is what the eye reads as a real sky. */
-        s1: rand(1.1, 4.2),
-        s2: rand(0.3, 1.3),
-        p1: Math.random() * 6.2832,
-        p2: Math.random() * 6.2832,
-        /* Depth of blink. A third of them blink HARD (down to near zero and back), the rest
-           shimmer. Mixed depth is what stops it looking like a string of fairy lights. */
+           short cycle. One sine gives every star an obvious metronome; two give irregular
+           blinking, which is what the eye reads as a real sky. */
+        s1: rand(1.1, 4.2), s2: rand(0.3, 1.3),
+        p1: Math.random() * 6.2832, p2: Math.random() * 6.2832,
         amp: Math.random() < 0.34 ? rand(0.75, 1.0) : rand(0.25, 0.6)
       });
     }
-
-    // The handful of bright anchors that carry cross-flares.
-    var fcount = Math.min(22, Math.max(6, Math.round((w * h) / 90000)));
+    var fcount = Math.min(9, Math.max(3, Math.round((w * h) / 150000)));
     for (var k = 0; k < fcount; k++) {
       flares.push({
-        x: rand(w * 0.04, w * 0.96),
-        y: rand(h * 0.04, h * 0.96),
-        r: rand(1.5, 2.8),
-        colour: pick(PALETTE),
-        base: rand(0.7, 1.0),
-        s1: rand(0.5, 1.6),
-        s2: rand(0.2, 0.6),
-        p1: Math.random() * 6.2832,
-        p2: Math.random() * 6.2832,
-        amp: rand(0.35, 0.7),
-        spikes: rand(9, 22)
+        x: rand(w * 0.04, w * 0.96), y: rand(h * 0.04, h * 0.96),
+        r: rand(1.1, 1.9), colour: pick(PALETTE), base: rand(0.7, 1.0),
+        s1: rand(0.5, 1.6), s2: rand(0.2, 0.6),
+        p1: Math.random() * 6.2832, p2: Math.random() * 6.2832,
+        amp: rand(0.35, 0.7), spikes: rand(5, 11)
       });
     }
   }
 
   function twinkle(s, t) {
     if (reduce) return s.base;
-    /* Product of two sines, each mapped to 0..1. The result spends more time dim than bright,
-       which matches how twinkling actually looks: brief flashes out of a low baseline. */
     var a = 0.5 - 0.5 * Math.cos(s.s1 * t + s.p1);
     var b = 0.5 - 0.5 * Math.cos(s.s2 * t + s.p2);
-    var m = 1 - s.amp * (1 - a * (0.45 + 0.55 * b));
-    return Math.max(0, Math.min(1, s.base * m));
+    return Math.max(0, Math.min(1, s.base * (1 - s.amp * (1 - a * (0.45 + 0.55 * b)))));
+  }
+
+  /* A SATELLITE PASS. Not a shooting star, and the difference is the whole point: this
+     crosses in a dead straight line at constant speed over about twenty seconds, where a
+     meteor is gone in under one. Anyone who has actually stood outside at night reads it
+     immediately, and anyone who does not notice loses nothing.
+
+     Roughly half of them flare. Real satellites do this when a flat surface catches the sun
+     square on, and it is a brief smooth swell rather than a twinkle. */
+  function spawnSat(t) {
+    var dir = Math.random() < 0.5 ? 1 : -1;
+    var dur = rand(16, 23);
+    sat = {
+      x: dir > 0 ? -60 : w + 60,
+      y: rand(h * 0.08, h * 0.92),
+      vx: dir * (w + 120) / dur,
+      vy: rand(-h * 0.16, h * 0.16) / dur,
+      born: t,
+      ttl: dur,
+      flareAt: Math.random() < 0.5 ? rand(0.25, 0.75) : -1,
+      flareAmp: rand(0.45, 0.8)
+    };
+  }
+
+  /* THE ALIEN. Deliberately understated: about eighty pixels, no wobble, no beam, no glow.
+
+     It is drawn in near-black so it OCCLUDES the stars behind it rather than being lit. That
+     is what makes it read as a solid object passing in front of the sky instead of a sprite
+     pasted on top, and it is why the only bright mark on it is a thin rim highlight along the
+     top edge, as if catching light from something far away.
+
+     The intent is that you are not quite sure you saw it. */
+  function spawnAlien() {
+    var dir = 1;
+    var dur = 30;
+    alien = {
+      x: dir > 0 ? -120 : w + 120,
+      y: h * 0.30,
+      vx: dir * (w + 240) / dur,
+      vy: rand(-10, 10) / dur,
+      born: alienClock,
+      ttl: dur
+    };
+  }
+
+  function drawAlien(ax, ay, fade) {
+    var hull = 'rgba(5,8,14,' + (0.93 * fade).toFixed(3) + ')';
+    ctx.save();
+    ctx.translate(ax, ay);
+    ctx.beginPath();                                  // hull
+    ctx.ellipse(0, 0, 40, 8.5, 0, 0, 6.2832);
+    ctx.fillStyle = hull;
+    ctx.fill();
+    ctx.beginPath();                                  // dome
+    ctx.ellipse(0, -5.5, 16, 11, 0, Math.PI, 6.2832);
+    ctx.fillStyle = hull;
+    ctx.fill();
+    ctx.beginPath();                                  // rim light along the top edge only
+    ctx.ellipse(0, 0, 40, 8.5, 0, Math.PI * 1.06, Math.PI * 1.94);
+    ctx.strokeStyle = 'rgba(158,186,228,' + (0.26 * fade).toFixed(3) + ')';
+    ctx.lineWidth = 0.9;
+    ctx.stroke();
+    ctx.restore();
   }
 
   function spawnShot(t) {
-    // Enters from the top half, travels down-right or down-left.
     var dir = Math.random() < 0.5 ? 1 : -1;
     shooting = {
       x: dir > 0 ? rand(-w * 0.1, w * 0.6) : rand(w * 0.4, w * 1.1),
       y: rand(-h * 0.05, h * 0.45),
-      vx: dir * rand(420, 760),
-      vy: rand(200, 380),
-      life: 0,
-      ttl: rand(0.55, 1.0),
-      len: rand(70, 190),
-      born: t
+      vx: dir * rand(420, 760), vy: rand(200, 380),
+      ttl: rand(0.55, 1.0), len: rand(70, 190), born: t
     };
   }
+
+  // ── the frame ───────────────────────────────────────────────────────────────────────────
 
   function draw(now) {
     var t = (now - t0) / 1000;
 
-    // The cached universe, blitted whole. One drawImage instead of ~400 gradient fills.
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.drawImage(bg, 0, 0);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    /* The alien runs off its own accumulator rather than off t. t restarts whenever the tab
+       is hidden and shown again, so a three minute wait would reset every time you glanced
+       at another window. This only advances while the page is actually being drawn, which is
+       the behaviour the timer is meant to reward. */
+    var dt = lastFrame ? Math.min(0.1, (now - lastFrame) / 1000) : 0;
+    lastFrame = now;
+    if (!reduce) alienClock += dt;
 
+    // Ease toward the pointer rather than tracking it. Instant tracking reads as a jitter
+    // attached to the mouse; a lag of about a fifth reads as mass.
+    parX += (tgX - parX) * 0.055;
+    parY += (tgY - parY) * 0.055;
+
+    if (plateReady && gasFade < 1) gasFade = Math.min(1, gasFade + 0.045);
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
+
+    var fx = (-PAD + parX * 0.25) * dpr, fy = (-PAD + parY * 0.25) * dpr;
+    if (!plateReady || gasFade <= 0) {
+      ctx.drawImage(sceneDry, fx, fy);
+    } else if (gasFade < 1) {
+      ctx.drawImage(sceneDry, fx, fy);
+      ctx.globalAlpha = gasFade;
+      ctx.drawImage(sceneWet, fx, fy);
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.drawImage(sceneWet, fx, fy);
+    }
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.globalCompositeOperation = 'lighter';
 
-    var i, s, a;
+    var ox = parX, oy = parY, i, s, a;
 
     for (i = 0; i < twinklers.length; i++) {
       s = twinklers[i];
       a = twinkle(s, t);
-      if (a < 0.012) continue;                       // fully dark: skip the draw entirely
+      if (a < 0.012) continue;
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, 6.2832);
+      ctx.arc(s.x + ox, s.y + oy, s.r, 0, 6.2832);
       ctx.fillStyle = 'rgba(' + s.colour + ',' + a.toFixed(3) + ')';
       ctx.fill();
-      if (a > 0.6) {                                 // halo only when actually bright
+      if (a > 0.6) {
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r * 3.4, 0, 6.2832);
+        ctx.arc(s.x + ox, s.y + oy, s.r * 3.4, 0, 6.2832);
         ctx.fillStyle = 'rgba(' + s.colour + ',' + (a * 0.09).toFixed(3) + ')';
         ctx.fill();
       }
     }
 
-    // Bright anchors with cross-flares. The spike length breathes with the twinkle, which is
-    // what makes them read as brilliant rather than merely large.
     for (i = 0; i < flares.length; i++) {
       s = flares[i];
       a = twinkle(s, t);
       var L = s.spikes * (0.55 + 0.45 * a);
-
-      var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 7);
+      var sx = s.x + ox, sy = s.y + oy;
+      var g = ctx.createRadialGradient(sx, sy, 0, sx, sy, s.r * 7);
       g.addColorStop(0, 'rgba(' + s.colour + ',' + (a * 0.95).toFixed(3) + ')');
       g.addColorStop(0.28, 'rgba(' + s.colour + ',' + (a * 0.22).toFixed(3) + ')');
       g.addColorStop(1, 'rgba(' + s.colour + ',0)');
       ctx.fillStyle = g;
-      ctx.fillRect(s.x - s.r * 7, s.y - s.r * 7, s.r * 14, s.r * 14);
-
+      ctx.fillRect(sx - s.r * 7, sy - s.r * 7, s.r * 14, s.r * 14);
       ctx.strokeStyle = 'rgba(' + s.colour + ',' + (a * 0.34).toFixed(3) + ')';
       ctx.lineWidth = 0.7;
       ctx.beginPath();
-      ctx.moveTo(s.x - L, s.y); ctx.lineTo(s.x + L, s.y);
-      ctx.moveTo(s.x, s.y - L); ctx.lineTo(s.x, s.y + L);
+      ctx.moveTo(sx - L, sy); ctx.lineTo(sx + L, sy);
+      ctx.moveTo(sx, sy - L); ctx.lineTo(sx, sy + L);
       ctx.stroke();
-
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r * 0.85, 0, 6.2832);
+      ctx.arc(sx, sy, s.r * 0.85, 0, 6.2832);
       ctx.fillStyle = 'rgba(255,255,255,' + (a * 0.9).toFixed(3) + ')';
       ctx.fill();
     }
 
+    drawHelix(t, ox, oy);
+
     // Shooting star. Rare on purpose: constant meteors look like a screensaver.
     if (!reduce) {
-      if (!shooting && t > nextShot) { spawnShot(t); }
+      if (!shooting && t > nextShot) spawnShot(t);
       if (shooting) {
         var age = t - shooting.born;
         if (age > shooting.ttl) {
           shooting = null;
-          nextShot = t + rand(4, 13);
+          nextShot = t + rand(5, 14);
         } else {
           var k = age / shooting.ttl;
-          var cx = shooting.x + shooting.vx * age;
-          var cy = shooting.y + shooting.vy * age;
+          var cx = shooting.x + shooting.vx * age + ox;
+          var cy = shooting.y + shooting.vy * age + oy;
           var nx = shooting.vx, ny = shooting.vy;
           var nl = Math.sqrt(nx * nx + ny * ny);
           nx /= nl; ny /= nl;
-          var fade = Math.sin(Math.PI * k);          // fade in and out, never pop
+          var fade = Math.sin(Math.PI * k);
           var tg = ctx.createLinearGradient(cx, cy, cx - nx * shooting.len, cy - ny * shooting.len);
           tg.addColorStop(0, 'rgba(255,255,255,' + (0.9 * fade).toFixed(3) + ')');
           tg.addColorStop(0.35, 'rgba(200,220,255,' + (0.35 * fade).toFixed(3) + ')');
@@ -774,43 +920,216 @@
       }
     }
 
+    // Satellite. Additive, because it is a point of reflected sunlight.
+    if (!reduce) {
+      if (!sat && t > nextSat) spawnSat(t);
+      if (sat) {
+        var sAge = t - sat.born;
+        if (sAge > sat.ttl) {
+          sat = null;
+          nextSat = t + rand(35, 80);
+        } else {
+          var sk = sAge / sat.ttl;
+          var sa = 0.30 * Math.min(1, Math.min(sk, 1 - sk) * 14);
+          if (sat.flareAt > 0) {
+            var fd = (sk - sat.flareAt) / 0.055;
+            sa += sat.flareAmp * Math.exp(-fd * fd) * Math.min(1, Math.min(sk, 1 - sk) * 14);
+          }
+          if (sa > 0.006) {
+            var sxp = sat.x + sat.vx * sAge + ox, syp = sat.y + sat.vy * sAge + oy;
+            ctx.beginPath();
+            ctx.arc(sxp, syp, 1.1, 0, 6.2832);
+            ctx.fillStyle = 'rgba(255,250,238,' + sa.toFixed(3) + ')';
+            ctx.fill();
+            if (sa > 0.45) {
+              ctx.beginPath();
+              ctx.arc(sxp, syp, 5.5, 0, 6.2832);
+              ctx.fillStyle = 'rgba(255,246,220,' + (sa * 0.16).toFixed(3) + ')';
+              ctx.fill();
+            }
+          }
+        }
+      }
+    }
+
     ctx.globalCompositeOperation = 'source-over';
-    if (!reduce) raf = requestAnimationFrame(draw);
+
+    // The alien occludes, so it has to be drawn last and NOT additively.
+    if (!reduce) {
+      if (!alien && alienClock > nextAlien) spawnAlien();
+      if (alien) {
+        var aAge = alienClock - alien.born;
+        if (aAge > alien.ttl) {
+          alien = null;
+          nextAlien = alienClock + rand(300, 540);
+        } else {
+          var ak = aAge / alien.ttl;
+          drawAlien(alien.x + alien.vx * aAge + ox, alien.y + alien.vy * aAge + oy,
+                    Math.min(1, Math.min(ak, 1 - ak) * 9));
+        }
+      }
+    }
+
+    raf = requestAnimationFrame(draw);
   }
 
+  // ── wiring ──────────────────────────────────────────────────────────────────────────────
+
   function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);   // cap: 3x is wasted fill rate
-    w = window.innerWidth;
-    h = window.innerHeight;
+    w = window.innerWidth; h = window.innerHeight;
+
+    /* dpr MUST BE A WHOLE NUMBER, and then the canvas gets a pixel budget on top.
+
+       Both halves of this were measured, and the first one is counter-intuitive. Scaling the
+       backing store by a fraction to save pixels made things WORSE: at 2560x1440, dpr 1.22
+       (5.5M pixels) ran at 20fps while dpr 1 (3.7M pixels) ran at 60. A fractional ratio puts
+       every drawImage and every arc onto a resampling path, and that costs far more than the
+       pixels it saves. So the only choices are 1 and 2.
+
+       Given whole numbers, the budget picks between them. Measured at 2x: 1440x900 (5.2M
+       pixels) holds 60fps, 2560x1440 (14.7M) manages 30. The ceiling below sits above the
+       common retina laptop sizes and below the big desktop panels, which is exactly where the
+       trade should fall. Only the sky canvas steps down; the wordmark is DOM SVG and keeps
+       full device resolution either way, so the type never softens. */
+    var raw = window.devicePixelRatio || 1;
+    var MAXPX = 4500000;
+    dpr = (raw >= 1.8 && w * h * 4 <= MAXPX) ? 2 : 1;
+    W = w + PAD * 2; H = h + PAD * 2;
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    paintUniverse();
+    bakeAll();
     buildTwinklers();
   }
 
   function start() {
     if (raf) cancelAnimationFrame(raf);
     t0 = performance.now();
-    nextShot = 2.5;
-    if (reduce) draw(t0); else raf = requestAnimationFrame(draw);
+    nextShot = 3;
+    nextSat = rand(1, 2);
+    lastFrame = 0;
+    raf = requestAnimationFrame(draw);
   }
 
-  /* Stop drawing when the tab is hidden. A holding page has no business burning a CPU core in
-     a background tab for weeks. */
+  /* Parallax from the pointer only. Device orientation was the obvious way to do this on a
+     phone, and it is deliberately not used: iOS requires an explicit permission prompt for
+     motion, and a holding page asking for sensor access before it has said anything is a
+     worse first impression than a still background. Touch devices get the drift below. */
+  window.addEventListener('pointermove', function (e) {
+    if (reduce) return;
+    var nx = (e.clientX / w) * 2 - 1, ny = (e.clientY / h) * 2 - 1;
+    tgX = -nx * PAD * 0.62;
+    tgY = -ny * PAD * 0.62;
+  }, { passive: true });
+
+  // A slow autonomous drift, so the page is alive on a phone and never completely static.
+  if (!reduce) {
+    setInterval(function () {
+      if (Math.abs(tgX) < 0.5 && Math.abs(tgY) < 0.5) {
+        tgX = rand(-PAD * 0.3, PAD * 0.3);
+        tgY = rand(-PAD * 0.2, PAD * 0.2);
+      }
+    }, 7000);
+  }
+
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) { if (raf) { cancelAnimationFrame(raf); raf = null; } }
-    else if (!reduce) start();
+    else if (!raf) start();
   });
 
   var rt;
   window.addEventListener('resize', function () {
     clearTimeout(rt);
-    rt = setTimeout(function () { resize(); if (!reduce) start(); }, 160);
+    rt = setTimeout(resize, 160);
   });
+
+  /* The plate is 238 KB, so the sky is painted and running before it arrives and the gas
+     fades in when it lands. Nothing waits on the network. If it never arrives, the page is
+     still a star field rather than a blank rectangle. */
+  plate.onload = function () { plateReady = true; bakeAll(); };
+  plate.onerror = function () { plateReady = false; };
+  plate.src = '/assets/img/sky-plate.webp';
 
   resize();
   start();
+})();
+</script>
+
+<script>
+/* ── OPERATOR GATEWAY ──────────────────────────────────────────────────────────────────────
+   Ctrl/Cmd+Shift+A opens it, Escape closes it. The passcode is never stored in this file: it
+   is posted to /api/admin-auth, which compares it to the ADMIN_MASTER env var server-side and
+   answers with a flat failure on a miss.
+
+   On success the session keys both gates read are set, and the visitor is returned to
+   whatever they were originally trying to reach. auth-gate.js and gate-master.js both bounce
+   to /?return=<path>, so honouring that closes the loop instead of always dumping them on
+   /admin the way the original did.
+
+   Worth stating plainly: the gates are client-side, so this is a convenience lock, not a
+   security boundary. Anything that truly must stay private has to be enforced server-side. */
+(function () {
+  var ov = document.getElementById('ov');
+  if (!ov) return;
+  var f = document.getElementById('ovForm'),
+      pw = document.getElementById('ovPw'),
+      err = document.getElementById('ovErr'),
+      x = document.getElementById('ovX');
+
+  function show(e) { if (e) e.preventDefault(); ov.classList.add('show'); setTimeout(function () { pw.focus(); }, 50); }
+  function hide() { ov.classList.remove('show'); err.textContent = ''; pw.value = ''; }
+
+  x.addEventListener('click', hide);
+  ov.addEventListener('click', function (e) { if (e.target === ov) hide(); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); show(); }
+    if (e.key === 'Escape') hide();
+  });
+
+  // Arriving already bounced by a gate? Open the prompt rather than making them find it.
+  try {
+    if (/[?&]return=/.test(location.search)) show();
+  } catch (e) {}
+
+  function destination() {
+    try {
+      var m = /[?&]return=([^&]+)/.exec(location.search);
+      if (m) {
+        var p = decodeURIComponent(m[1]);
+        // Only ever an in-site path, so a crafted ?return= cannot bounce anyone off-site.
+        if (p.charAt(0) === '/' && p.charAt(1) !== '/') return p;
+      }
+    } catch (e) {}
+    return '/admin';
+  }
+
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var val = (pw.value || '').trim();
+    if (!val) { err.textContent = 'Enter code'; return; }
+    err.textContent = 'checking…';
+    fetch('/api/admin-auth', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ passcode: val })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && j.ok) {
+          try {
+            sessionStorage.setItem('limen_access', 'granted');
+            if (j.person) sessionStorage.setItem('limen_admin', JSON.stringify(j.person));
+            sessionStorage.setItem('limen_pass', val);
+          } catch (e) {}
+          window.location.replace(destination());
+        } else {
+          err.textContent = 'Incorrect';
+          pw.value = '';
+          pw.focus();
+        }
+      })
+      .catch(function () { err.textContent = 'Error. Try again'; });
+  });
 })();
 </script>
 
