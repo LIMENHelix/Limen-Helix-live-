@@ -5,7 +5,10 @@
  * handlers/domain-snapshot.js. Every numeric meaning was read out of its fetcher.
  *
  * ═══════════════════════════════════════════════════════════════════════════════════
- * THE FIRST CROSS-PUBLISHER RELATIONSHIP IN THE SYSTEM, AND WHAT IT COST TO EARN IT.
+ * A CROSS-PUBLISHER RELATIONSHIP WAS DECLARED HERE AND HAS BEEN WITHDRAWN. Population
+ * declares ZERO relationships. The channel work below stands; the conclusion drawn from
+ * it did not, and the sequence is recorded because each refusal was for a different
+ * reason and only the last one is still live.
  *
  * Two channels estimate one quantity from two organisations:
  *
@@ -24,10 +27,13 @@
  * the two channels observe ONE latent — had the selection been male-only, divergence
  * would have reported a permanent ~50% gap as a disagreement between publishers.
  *
- * `fetchUNPopulation` now requests a full page over a ROLLING completed-year window and
- * selects on the portal's DOCUMENTED FIELDS: indicatorId 49, locationId 840, sex "Both
- * sexes" (sexId 3), the "Median" variant (variantId 4), and the latest year in `timeLabel`
- * at or before the window end. It refuses outright when the observation is absent or
+ * `fetchUNPopulation` now asks the server for `variants=4` and `sexes=3` over a ROLLING
+ * completed-year window, and still validates every returned row on the portal's DOCUMENTED
+ * FIELDS: indicatorId 49, locationId 840, sex "Both sexes" (sexId 3), the "Median" variant
+ * (variantId 4), and the latest year in `timeLabel` at or before the window end. A filter
+ * narrows what arrives and does not prove what arrived, so both halves are kept —
+ * `pageSize` maxes out at 100, which means a full page is what truncation also looks
+ * like. It refuses outright when the observation is absent or
  * ambiguous rather than falling back to position, and it emits a source identity built
  * from the accepted row's own fields — indicator, location, year, sex, its actual variant,
  * plus sourceId, revision and estimateType when present — so a new year or a new WPP
@@ -42,7 +48,11 @@
  * rows placed first, and refuses a row whose `category` says "Total" but whose `sex` does
  * not — the exact row an earlier all-string token scan would have accepted.
  *
- * Only then is the relationship declared, on the latent `usa_total_population`.
+ * AND STILL NO RELATIONSHIP, on a defect none of that work touched: WPP 2024's estimation
+ * period ends in 2023, so the latest completed year is a PROJECTION, and the World Bank
+ * side may sit on a different year entirely. Verifying which row you read does not
+ * establish that two publishers are describing the same year, or the same kind of number.
+ * The full reasoning is on `REL` below.
  * ═══════════════════════════════════════════════════════════════════════════════════
  */
 
@@ -60,13 +70,18 @@ var CHANNELS = [
   { key: 'populationTotal', name: 'World Bank Population',   recordedField: 'v',  field: 'value',    source: 'World Bank SP.POP.TOTL, USA',            cadenceMs: YEAR, units: 'people',              q: 0.005, r: 0.04 },
   { key: 'fertilityRate',   name: 'World Bank Fertility',    recordedField: 'v',  field: 'value',    source: 'World Bank SP.DYN.TFRT.IN, USA',         cadenceMs: YEAR, units: 'births per woman',    q: 0.01,  r: 0.06 },
 
-  /* THE UN TOTAL, verified against the portal's own published metadata: indicator 49 is
-     "Total population by sex", and the fetcher selects the row whose documented fields say
-     indicator 49, location 840, sex "Both sexes" (sexId 3) and the "Median" variant
-     (variantId 4), for the latest completed year, refusing when the observation is
-     ambiguous. UNITS ARE PERSONS: api/v1/Indicators/49 gives unitShortLabel "persons" and
-     unitScaling 1, so a US reading is ~342000000. Key-gated. */
-  { key: 'unPopulation',    name: 'UN Population',           recordedField: 'v',  field: 'value',    source: 'UN data portal indicator 49, location 840, both sexes, Median variant, persons (key-gated)', cadenceMs: YEAR, units: 'people', q: 0.005, r: 0.06 },
+  /* THE UN WPP MEDIAN SERIES, verified against the portal's own published metadata:
+     indicator 49 is "Total population by sex", and the fetcher selects the row whose
+     documented fields say indicator 49, location 840, sex "Both sexes" (sexId 3) and the
+     "Median" variant (variantId 4), for the latest completed year, refusing when the
+     observation is ambiguous. UNITS ARE PERSONS: api/v1/Indicators/49 gives unitShortLabel
+     "persons" and unitScaling 1, so a US reading is ~342000000.
+
+     WHAT THE SERIES IS DEPENDS ON THE YEAR, and the channel says so rather than implying
+     otherwise. WPP 2024's estimation period runs to 2023; a Median row for a later year is
+     the revision's medium-variant projection. This channel does not separate the two — see
+     the withdrawn relationship below. Key-gated. */
+  { key: 'unPopulation',    name: 'UN Population',           recordedField: 'v',  field: 'value',    source: 'UN data portal indicator 49, location 840, both sexes, Median variant, persons; WPP 2024 Median series, an ESTIMATE up to 2023 and a PROJECTION after it (key-gated)', cadenceMs: YEAR, units: 'people', q: 0.005, r: 0.06 },
 
   /* NEWS RECENCY COUNTS across ten demographic, health and migration feeds. */
   { key: 'unfpa',           name: 'UNFPA',                   recordedField: 'r7', field: 'recent7d', source: 'RSS keyword query, UNFPA',               cadenceMs: DAY,  units: 'articles/7d',         q: 0.06, r: 0.25 },
@@ -86,25 +101,34 @@ var CHANNELS = [
 ];
 
 /**
- * ONE DECLARED RELATIONSHIP. Two organisations, one quantity: the total number of people
- * in the United States. Same statistic, same geography, same annual horizon, and both
- * sides now verified — the World Bank by its self-describing indicator code, the UN by a
- * selector that proves which row it read.
+ * NO RELATIONSHIP. `usa_total_population` was declared here and has been WITHDRAWN, and
+ * the reason is worth keeping because it is not the reason it was refused the first time.
  *
- * BOTH SIDES ARE IN PERSONS. An earlier version of this file said the UN reported
- * thousands and leaned on divergence standardising the scale away. The unit was wrong:
- * indicator 49 carries unitScaling 1 and unitShortLabel "persons". The standardisation
- * point still holds — `divergence.js` compares each channel against its OWN baseline, so
- * the gap statistic is unit-free — but it is no longer doing any work here, and a
- * relationship should not rest on a claim about units that was never checked.
+ * Batch 6 refused it on PROVENANCE: `indicators/49` was an opaque id. That objection is
+ * gone — the schema, the unit, the sex vocabulary and the variant vocabulary were all read
+ * from the portal's own metadata, and the selector proves which row it took. Both sides are
+ * in persons; there is no scale question either.
  *
- * A sustained gap here means one publisher revised or one feed went stale — a data
- * problem worth knowing about, which is exactly what a declared relationship is for.
+ * IT IS REFUSED NOW ON REFERENCE YEAR AND KIND OF STATISTIC. The WPP 2024 release note
+ * states: "For the estimation period between 1950 and 2023, data from 1,910 censuses were
+ * considered in the present evaluation." Years after 2023 under the Median variant are the
+ * 2024 revision's medium-variant PROJECTION, not a historical estimate. The selector takes
+ * the last completed calendar year, which is currently 2025 — a projection. Meanwhile
+ * `fetchWorldBankPopulation` reads its own latest available year, which need not be the
+ * same one.
+ *
+ * So the pair would have been a UN PROJECTION for one year compared against a World Bank
+ * ESTIMATE for a possibly different year, declared as two observations of one annual
+ * latent. Divergence would then report the projection error and the year offset as a
+ * disagreement between publishers — the same class of false signal the male-only row would
+ * have produced, arrived at more respectably.
+ *
+ * WHAT WOULD EARN IT: a live response that fixes `estimateType`'s vocabulary, so estimate
+ * and projection rows can be told apart, and a reference year that can be pinned to the
+ * same year on both sides. Neither is available without the key, and neither is guessed at
+ * here. Population stays MANIFEST-ONLY with zero relationships until then.
  */
-var REL = [
-  DIV.relate('populationTotal', 'unPopulation', 'usa_total_population', 'agree',
-    'World Bank SP.POP.TOTL and UN Data Portal indicator 49 (both sexes, Median variant) both estimate the total resident population of the United States, annually, in persons. A sustained divergence indicates a revision or a stale feed rather than a change in population.')
-];
+var REL = [];
 
 var SIGMA = 2.0;   // [mark: prior]
 

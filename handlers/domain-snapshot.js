@@ -2985,12 +2985,23 @@ async function fetchWorldBankPopulation() {
  * the indicator description is "Total number of persons by sex (mid-year)". A US reading
  * is therefore ~342000000, and a million label divides by 1e6.
  *
- * WHAT THIS STILL DOES NOT SEPARATE. The Median variant covers WPP estimates for years up
- * to the revision's base year and the medium-variant PROJECTION after it. `estimateType`
- * is documented and would name which, but its permitted values could not be read without
- * a key, so nothing filters on a value that has not been seen. It is instead carried into
- * the source identity when present, so a year flipping from projection to estimate reads
- * as a new observation rather than a re-poll.
+ * THE MEDIAN VARIANT IS NOT THE SAME STATISTIC IN EVERY YEAR, AND THIS CHANNEL DOES NOT
+ * SEPARATE THEM. The WPP 2024 release note states: "For the estimation period between 1950
+ * and 2023, data from 1,910 censuses were considered in the present evaluation." Years
+ * after 2023 under the Median variant are the medium-variant PROJECTION of the 2024
+ * revision, not a historical estimate — so the last completed calendar year is currently a
+ * projection, and will be for as long as the clock runs ahead of the latest revision.
+ *
+ * `estimateType` is documented and would name which of the two a row is, but its permitted
+ * values need the key, so nothing filters on a value that has not been seen. It is carried
+ * into the source identity instead, where it is recorded and not interpreted: a year
+ * flipping from projection to estimate reads as a new observation rather than a re-poll.
+ *
+ * THE CONSEQUENCE IS DECLARED IN bind/population.js, NOT HIDDEN HERE. The channel is
+ * honest on its own terms — it reports the WPP Median series and says which row it read —
+ * but it cannot be declared to observe the same latent as World Bank SP.POP.TOTL until the
+ * two reference years can be aligned and the kind of statistic is known. That relationship
+ * was declared and has been withdrawn.
  */
 
 var UN_POP_INDICATOR  = 49;          // Total population by sex
@@ -3105,6 +3116,17 @@ function _selectUNPopulationRow(rows, opts) {
  *
  * The end is the last COMPLETED calendar year, and the selector is given the same year as
  * its ceiling so the request and the choice cannot disagree.
+ *
+ * THE FILTERS ARE ASKED FOR, NOT HOPED FOR. An earlier version requested the path form
+ * (`/start/{y}/end/{y}`) with `pageSize=100` and relied on one page containing the row it
+ * wanted. `pageSize` is documented as "defaults to 100, MAXIMUM 100", so a full page is
+ * evidence of nothing: it is exactly what a truncated response looks like. The query form
+ * of the same endpoint accepts `variants` and `sexes`, so the server is asked for
+ * variantId 4 and sexId 3 directly and the candidate set is small by construction.
+ *
+ * The per-row validation is unchanged and still exact. A filter narrows what arrives; it
+ * does not prove what arrived, and a server that ignores an unknown query parameter would
+ * return everything. Both halves are needed.
  */
 function _unPopulationWindow(now) {
   var d = (now instanceof Date) ? now : new Date(typeof now === 'number' ? now : Date.now());
@@ -3115,7 +3137,9 @@ function _unPopulationWindow(now) {
     startYear: startYear,
     endYear: endYear,
     url: 'https://population.un.org/dataportalapi/api/v1/data/indicators/' + UN_POP_INDICATOR +
-         '/locations/' + UN_POP_LOCATION + '/start/' + startYear + '/end/' + endYear + '?pageSize=100'
+         '/locations/' + UN_POP_LOCATION +
+         '?startYear=' + startYear + '&endYear=' + endYear +
+         '&variants=' + UN_POP_VARIANT_ID + '&sexes=' + UN_POP_SEX_ID + '&pageSize=100'
   };
 }
 

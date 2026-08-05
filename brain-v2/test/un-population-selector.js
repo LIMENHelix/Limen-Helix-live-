@@ -10,10 +10,16 @@
  * male-only population for the wrong year under a projection variant, and every consumer
  * downstream would have treated it as the US total.
  *
- * That is not a hypothetical severity. The population binder declares a relationship
- * between this channel and World Bank SP.POP.TOTL, and a relationship asserts the two
- * observe ONE latent. Had the selection been male-only, divergence would have reported a
- * permanent ~50% gap as a disagreement between publishers.
+ * That is not a hypothetical severity. The population binder briefly declared a
+ * relationship between this channel and World Bank SP.POP.TOTL, and a relationship asserts
+ * the two observe ONE latent. Had the selection been male-only, divergence would have
+ * reported a permanent ~50% gap as a disagreement between publishers.
+ *
+ * THAT RELATIONSHIP HAS SINCE BEEN WITHDRAWN, on a defect none of this file's work
+ * touches: WPP 2024's estimation period ends in 2023, so the latest completed calendar
+ * year is a projection, and the World Bank side may sit on a different year. Selecting the
+ * right row correctly is necessary and was never sufficient. These tests still matter —
+ * the channel is still read, still recorded, and still carries a source identity.
  *
  * THE FIXTURES BELOW ARE BUILT FROM THE PUBLISHED SCHEMA, NOT FROM GUESSWORK. A previous
  * pass asserted the schema was unverifiable and matched by scanning every string field for
@@ -91,14 +97,45 @@ console.log('');
   assert('the window advances with the clock rather than staying at 2025',
     w2027.endYear === 2026 && w2027.startYear === 2023, w2027.startYear + '-' + w2027.endYear);
   assert('the URL carries the computed years, not literals',
-    /\/start\/2022\/end\/2025\?/.test(w2026.url) && /\/start\/2023\/end\/2026\?/.test(w2027.url), w2026.url);
+    /[?&]startYear=2022(&|$)/.test(w2026.url) && /[?&]endYear=2025(&|$)/.test(w2026.url) &&
+    /[?&]startYear=2023(&|$)/.test(w2027.url) && /[?&]endYear=2026(&|$)/.test(w2027.url), w2026.url);
   assert('and still asks for a full page, not one row',
     /pageSize=100/.test(w2026.url) && !/pageSize=1(&|$)/.test(w2026.url), w2026.url);
   assert('the URL names indicator 49 at location 840',
-    /\/indicators\/49\/locations\/840\//.test(w2026.url), w2026.url);
+    /\/indicators\/49\/locations\/840(\?|$)/.test(w2026.url), w2026.url);
+
+  /**
+   * THE SERVER IS ASKED TO NARROW, RATHER THAN ONE PAGE BEING HOPED SUFFICIENT.
+   * `pageSize` is documented as "defaults to 100, maximum 100", so a full page is exactly
+   * what a truncated response looks like and proves nothing about completeness. The query
+   * form of the endpoint takes `variants` and `sexes`, so both are sent.
+   */
+  assert('the request filters server-side to variantId 4 (Median)',
+    /[?&]variants=4(&|$)/.test(w2026.url), w2026.url);
+  assert('and to sexId 3 (Both sexes)',
+    /[?&]sexes=3(&|$)/.test(w2026.url), w2026.url);
+  assert('using the query form of the endpoint, which is the one that accepts those filters',
+    !/\/start\/\d{4}\/end\/\d{4}/.test(w2026.url) && /\/locations\/840\?/.test(w2026.url), w2026.url);
+  assert('but the filters do NOT replace per-row validation — an unfiltered response is still refused',
+    select([male(), row({ variantId: 9, variant: 'High-fertility', variantShortName: 'High-fertility',
+                          variantLabel: 'High-fertility' })], { maxYear: 2025 }).row === null,
+    'a server ignoring an unknown query parameter returns everything');
+
   var live = windowFor(new Date());
   assert('a live call ends one year before the current UTC year',
     live.endYear === new Date().getUTCFullYear() - 1, String(live.endYear));
+
+  /**
+   * AND THE CEILING IS NOT THE SAME THING AS AN ESTIMATE. WPP 2024's estimation period
+   * ends in 2023 ("For the estimation period between 1950 and 2023..." — WPP 2024 release
+   * note), so a Median row for a later year is the revision's medium-variant PROJECTION.
+   * The window is honest about being a completed-CALENDAR-year window and nothing here
+   * claims it selects an estimate. That is why bind/population.js declares no relationship
+   * against World Bank SP.POP.TOTL.
+   */
+  assert('the completed-year ceiling currently sits past the WPP 2024 estimation period',
+    live.endYear > 2023,
+    'so the selected row is a projection, which is why no relationship is declared');
 })();
 
 // ── U1: order must not decide ────────────────────────────────────────────────

@@ -607,20 +607,20 @@ console.log('');
         .map(function (c) { return c.key; }).join(', '));
 
     /**
-     * ZERO RELATIONSHIPS IS A RESULT, NOT AN OVERSIGHT — with exactly one earned
-     * exception. Across the rollout the close candidates were rejected on population,
-     * denominator, horizon or provenance: monthly FRED CPI against annual World Bank
-     * inflation, openFDA drug enforcement against an FDA food-recall feed, arXiv CS as a
-     * subset of arXiv All, three WGI dimensions, a measured drought area against a count
-     * of forecasters' vocabulary.
+     * ZERO RELATIONSHIPS IS A RESULT, NOT AN OVERSIGHT. Across the rollout the close
+     * candidates were rejected on population, denominator, horizon or provenance: monthly
+     * FRED CPI against annual World Bank inflation, openFDA drug enforcement against an
+     * FDA food-recall feed, arXiv CS as a subset of arXiv All, three WGI dimensions, a
+     * measured drought area against a count of forecasters' vocabulary.
      *
-     * POPULATION is the one that was rejected and later EARNED. Batch 6 refused it
-     * because the UN side was an opaque indicator id; the selector correction verified
-     * which row is read, and only then was `usa_total_population` declared. That is the
-     * shape a relationship is supposed to take — refused until provable, not declared
-     * because it was plausible.
+     * POPULATION was briefly the exception and is not. It was declared once the UN row
+     * selection was verified, then WITHDRAWN on a defect the verification never touched:
+     * WPP 2024's estimation period ends in 2023, so the latest completed year is a
+     * projection, and the World Bank side may sit on a different year. Knowing which row
+     * you read is not the same as knowing two publishers describe the same year, or the
+     * same kind of number. Every batch-2-onward binder is back to zero.
      */
-    var expectedRels = e.product === 'population' ? 1 : 0;
+    var expectedRels = 0;
     assert(e.product + ': declares ' + expectedRels + ' relationship(s)',
       spec.relationships.length === expectedRels, String(spec.relationships.length));
 
@@ -908,9 +908,15 @@ console.log('');
    * publishers, same country, same annual horizon — none of the usual disqualifiers
    * (population, denominator, horizon) applies. What was missing is that `indicators/49`
    * is an opaque id: nothing in the code said what it measures except the fetcher name and
-   * label, which the discipline excludes. It was read from the portal's own metadata
-   * before the relationship was allowed to stand, which is also what corrected the unit
-   * from thousands to PERSONS — both sides are in persons, so no scale claim is involved.
+   * label, which the discipline excludes. It was read from the portal's own metadata,
+   * which is also what corrected the unit from thousands to PERSONS — both sides are in
+   * persons, so no scale claim is involved.
+   *
+   * THAT STILL WAS NOT ENOUGH, and the channel assertions below are all that survives. The
+   * relationship declared on the strength of this work was withdrawn: WPP 2024's estimation
+   * period ends in 2023, so the latest completed year is a projection rather than an
+   * estimate, and the two publishers need not be on the same year. See the withdrawal
+   * block at the end of this file.
    */
   var popByKey = {};
   POPULATION.CHANNELS.forEach(function (c) { popByKey[c.key] = c; });
@@ -919,12 +925,12 @@ console.log('');
   assert('and the UN channel is now verified down to sex, variant and unit',
     /both sexes/.test(popByKey.unPopulation.source) && popByKey.unPopulation.units === 'people',
     popByKey.unPopulation.source + ' | ' + popByKey.unPopulation.units);
-  assert('in the same unit as the World Bank total it is related to, not thousands',
+  assert('in the same unit as the World Bank total, not thousands',
     popByKey.unPopulation.units === popByKey.populationTotal.units &&
     !/thousand/i.test(popByKey.unPopulation.units + popByKey.unPopulation.source),
     popByKey.unPopulation.units + ' vs ' + popByKey.populationTotal.units);
-  assert('so the two ARE related now, which batch 6 correctly refused before the selector was fixed',
-    POPULATION.RELATIONSHIPS.length === 1);
+  assert('and the two are STILL NOT RELATED, because matching units is not a matching year',
+    POPULATION.RELATIONSHIPS.length === 0, String(POPULATION.RELATIONSHIPS.length));
   assert('and the UN channel still carries no finding of its own',
     POPULATION.FINDINGS.every(function (f) { return f.requires.indexOf('unPopulation') < 0; }),
     JSON.stringify(POPULATION.FINDINGS.map(function (f) { return f.requires; })));
@@ -984,39 +990,48 @@ console.log('');
   /**
    * THE WHOLE-ROLLOUT INVARIANT, now that all twenty binders exist. Across every domain,
    * not one relationship was declared. That is a result about what public feeds can
-   * support, not a policy: three domains DID find same-latent pairs — energy's crude
-   * trio and finance's SPY trio — and those were declared. Everything since has been
-   * article counts, different populations, different denominators or different horizons.
+   * support, not a policy: two domains DID find same-latent pairs — energy's crude trio
+   * and finance's SPY trio — and those were declared. Everything since has been article
+   * counts, different populations, different denominators or different horizons.
    */
   var totalRels = all.reduce(function (n, b) { return n + b.RELATIONSHIPS.length; }, 0);
-  assert('exactly eleven relationships exist across all twenty binders',
-    totalRels === 11, String(totalRels));
-  assert('and they live in exactly three domains: energy, finance and population',
-    all.filter(function (b) { return b.RELATIONSHIPS.length > 0; }).length === 3 &&
-    ENERGY.RELATIONSHIPS.length + FINANCE.RELATIONSHIPS.length + POPULATION.RELATIONSHIPS.length === 11,
+  assert('exactly ten relationships exist across all twenty binders',
+    totalRels === 10, String(totalRels));
+  assert('and they live in exactly two domains: energy and finance',
+    all.filter(function (b) { return b.RELATIONSHIPS.length > 0; }).length === 2 &&
+    ENERGY.RELATIONSHIPS.length + FINANCE.RELATIONSHIPS.length === 10,
     String(all.filter(function (b) { return b.RELATIONSHIPS.length > 0; }).length));
   assert('every other binder declares zero',
-    all.filter(function (b) { return b !== ENERGY && b !== FINANCE && b !== POPULATION; })
+    all.filter(function (b) { return b !== ENERGY && b !== FINANCE; })
        .every(function (b) { return b.RELATIONSHIPS.length === 0; }));
 
   /**
-   * THE POPULATION RELATIONSHIP, pinned. It is the only one added after a rejection, and
-   * the conditions that earned it must not quietly erode: a precise latent, both sides
-   * verified, and the UN channel no longer describing itself as unverified.
+   * THE POPULATION WITHDRAWAL, pinned — the one relationship that was declared and then
+   * taken back. What is asserted here is that the channel work SURVIVED the withdrawal and
+   * the conclusion did not, because those are separable and a later reader will be tempted
+   * to undo both or neither.
+   *
+   * It is not enough to check the count is zero. The count was zero in batch 6 too, for a
+   * reason that no longer applies. The live objection is the REFERENCE YEAR and the KIND of
+   * statistic: WPP 2024 estimates run to 2023, so the latest completed year is a
+   * projection, and `fetchWorldBankPopulation` reads whatever its own latest year is.
    */
-  assert('population declares exactly one relationship on a precise latent',
-    POPULATION.RELATIONSHIPS.length === 1 &&
-    POPULATION.RELATIONSHIPS[0].latent === 'usa_total_population',
+  assert('population declares NO relationship',
+    POPULATION.RELATIONSHIPS.length === 0,
     JSON.stringify(POPULATION.RELATIONSHIPS.map(function (r) { return r.latent; })));
-  assert('between the World Bank and UN totals, not any other pair',
-    POPULATION.RELATIONSHIPS[0].a === 'populationTotal' &&
-    POPULATION.RELATIONSHIPS[0].b === 'unPopulation');
+  assert('and no binder anywhere still declares usa_total_population',
+    all.every(function (b) {
+      return b.RELATIONSHIPS.every(function (r) { return r.latent !== 'usa_total_population'; });
+    }));
   var unCh = POPULATION.CHANNELS.filter(function (c) { return c.key === 'unPopulation'; })[0];
-  assert('and the UN channel no longer calls its statistic unverified',
+  assert('the UN channel work survives: it does not call its statistic unverified',
     !/unverified/.test(unCh.units) && !/unverified/.test(unCh.source), unCh.units + ' | ' + unCh.source);
   assert('its source names both sexes and the documented Median variant',
     /both sexes/.test(unCh.source) && /Median variant/.test(unCh.source), unCh.source);
-  assert('the second population source gets NO duplicate finding — it earns its place through the relationship',
+  assert('and it now states that the series is an ESTIMATE or a PROJECTION depending on year',
+    /ESTIMATE/.test(unCh.source) && /PROJECTION/.test(unCh.source) && /2023/.test(unCh.source),
+    unCh.source);
+  assert('the UN channel still carries no finding of its own',
     POPULATION.FINDINGS.every(function (f) { return f.requires.indexOf('unPopulation') < 0; }),
     JSON.stringify(POPULATION.FINDINGS.map(function (f) { return f.requires; })));
 
