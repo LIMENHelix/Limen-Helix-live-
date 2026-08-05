@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-05T19:35Z
+measured_at: 2026-08-05T21:35Z
 measured_at_commit: 8f69c7ac1091463286ecb1de55c51919e9b78a3c
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -67,12 +67,26 @@ only this file.
 
   So the loop's learning state was restored from Redis, not recreated. This is the gate
   PR #5 could not close on its own.
-- **GATED — backfill provenance.** `withObservationId` is 0 across 1888 (energy) and 1439
-  (finance) readings at cycle 2. Expected: the cursor is at 2026-07-26 and `su` did not
-  exist in recorded rows before 2026-08-05. The backfill advances ~5 days (120 hourly rows)
-  per cycle, so the boundary is projected to fall at **cycle 4, 21:27Z**.
-  **If `withObservationId` is still 0 once `cursorAfter` passes 2026-08-05, that is a
-  DEFECT**, not a pass.
+- **PROVEN — backfill provenance reaches the runtime.** Cycle 4 (2026-08-05T21:27Z) crossed
+  the `su` boundary and `withObservationId` matched the recorder EXACTLY, not merely
+  non-zero:
+
+  | domain | keyed readings in the recorder | reported by the runtime |
+  |---|---|---|
+  | energy | 19 | **19** |
+  | finance | 56 | **56** |
+
+  finance's 56 decomposes as 18 rows x 3 keyed channels + 1 row x 2 — that single 2 is a
+  transient Alpha Vantage miss at 03:12, so the number carries its own explanation. `su`
+  first appears in recorded rows at 2026-08-05T03:12:09.704Z, the first recorder run after
+  PR #3 deployed the field.
+
+  The chain is therefore closed end to end: adapter -> recorder `su` -> binder
+  `observationId` -> runtime report.
+
+  BACKFILL IS COMPLETE. The cursor reached 2026-08-05T21:12:46.814Z, the newest recorded
+  row. From cycle 5 the runtime is in steady state and `rowsApplied` drops from ~120 to
+  roughly 1 per hour. That is normal, not a stall.
 - **UNPROVEN — absence of unexpected Redis keys.** Requires a looped `SCAN` (repeat with
   the returned cursor until it returns `0`), and even then only covers the pattern queried.
   `vercel env pull` returns sensitive values EMPTY, so this session has no Redis
@@ -161,9 +175,9 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 
 ## NEXT PROGRAM STEP
 
-1. **Finish backfill verification** — the one remaining GATED item. Restoration is closed
-   (cycle 2, above). Nothing else starts until `withObservationId` resolves either way once
-   the cursor passes 2026-08-05.
+1. **BOTH GATES ARE CLOSED.** Restoration (cycle 2) and backfill provenance (cycle 4) are
+   proven against production. The persistence gate that held the remaining 18 domains is
+   satisfied, and onboarding is what comes next.
 2. **Then onboard remaining domains in registry-driven BATCHES.**
    - Do **not** create 18 bespoke runtimes.
    - Do **not** process one domain per session.
