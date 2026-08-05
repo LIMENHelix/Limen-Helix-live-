@@ -134,10 +134,15 @@ console.log('');
     JSON.stringify(s.manifestOnly));
   assert('and its reason names the missing fixture',
     /no fixture at/.test(REG.inspect('finance').why), REG.inspect('finance').why);
-  assert('sixteen domains are declared but unobserved',
-    s.byState[REG.STATE.MANIFEST_ONLY] === 16, JSON.stringify(s.manifestOnly));
-  assert('and the remaining three are unbound, each saying so',
-    s.byState[REG.STATE.UNBOUND] === 3, String(s.byState[REG.STATE.UNBOUND]));
+  assert('nineteen domains are declared but unobserved',
+    s.byState[REG.STATE.MANIFEST_ONLY] === 19, JSON.stringify(s.manifestOnly));
+  /* ZERO UNBOUND. Manifest coverage is complete — and that is exactly when the
+     BOUND/MANIFEST_ONLY distinction earns its keep, because "20 domains declared" now
+     reads as done while one domain has evidence behind it. */
+  assert('no domain is unbound: every one of the twenty has a binder',
+    s.byState[REG.STATE.UNBOUND] === 0, String(s.byState[REG.STATE.UNBOUND]));
+  assert('and yet exactly ONE is bound with data, which is the number that matters',
+    s.byState[REG.STATE.BOUND] === 1 && s.bound.join() === 'energy', JSON.stringify(s.bound));
   /* The arithmetic, so a domain can never be counted twice or vanish between states as
      batches land. The explicit numbers above move with each batch on purpose — a change
      to them should be a deliberate line in a diff, not something that drifts. */
@@ -526,7 +531,7 @@ console.log('');
 
 // D8: the Economy / Environment / Medicine batch
 (function () {
-  console.log('D8: fifteen declared binders, checked against the sources that actually exist');
+  console.log('D8: all nineteen declared binders, checked against the sources that actually exist');
   var ECONOMY = require('../bind/economy.js');
   var ENVIRONMENT = require('../bind/environment.js');
   var MEDICINE = require('../bind/medicine.js');
@@ -542,6 +547,9 @@ console.log('');
   var CULTURE = require('../bind/culture.js');
   var DEFENSE = require('../bind/defense.js');
   var RELIGION = require('../bind/religion.js');
+  var POPULATION = require('../bind/population.js');
+  var LAW = require('../bind/law.js');
+  var INTELLIGENCE = require('../bind/intelligence.js');
   var batch = [
     { b: ECONOMY,     product: 'economy',     snapshot: 'economy',     channels: 15, batch: 1 },
     { b: ENVIRONMENT, product: 'environment', snapshot: 'environment', channels: 10, batch: 1 },
@@ -557,7 +565,10 @@ console.log('');
     { b: COMMUNICATION, product: 'communication', snapshot: 'communication', channels: 11, batch: 4 },
     { b: CULTURE,   product: 'culture',   snapshot: 'culture',   channels: 16, batch: 5 },
     { b: DEFENSE,   product: 'defense',   snapshot: 'defense',   channels: 15, batch: 5 },
-    { b: RELIGION,  product: 'religion',  snapshot: 'religion',  channels: 15, batch: 5 }
+    { b: RELIGION,  product: 'religion',  snapshot: 'religion',  channels: 15, batch: 5 },
+    { b: POPULATION,   product: 'population',   snapshot: 'population',   channels: 15, batch: 6 },
+    { b: LAW,          product: 'law',          snapshot: 'law',          channels: 15, batch: 6 },
+    { b: INTELLIGENCE, product: 'intelligence', snapshot: 'intelligence', channels: 15, batch: 6 }
   ];
 
   /**
@@ -879,6 +890,56 @@ console.log('');
     defByKey.tass.units === 'articles/7d' && defByKey.xinhua.units === 'articles/7d' &&
     DEFENSE.RELATIONSHIPS.length === 0);
 
+  /**
+   * BATCH 6. The closest relationship candidate of the whole rollout, refused on
+   * PROVENANCE rather than plausibility, and it is worth pinning so a later reader does
+   * not re-litigate it from the plausibility side.
+   *
+   * World Bank SP.POP.TOTL and UN indicator 49 at location 840 are two different
+   * publishers, same country, same annual horizon — none of the usual disqualifiers
+   * (population, denominator, horizon) applies, and the scale difference would not matter
+   * because divergence standardises each channel first. What is missing is that
+   * `indicators/49` is an opaque id: nothing in the code says what it measures except the
+   * fetcher name and label, which the discipline excludes.
+   */
+  var popByKey = {};
+  POPULATION.CHANNELS.forEach(function (c) { popByKey[c.key] = c; });
+  assert('population declares the World Bank total from a self-describing indicator',
+    /SP\.POP\.TOTL/.test(popByKey.populationTotal.source), popByKey.populationTotal.source);
+  assert('and the UN channel states its indicator id is unverified',
+    /unverified/.test(popByKey.unIndicator49.units) && /unverified/.test(popByKey.unIndicator49.source),
+    popByKey.unIndicator49.units);
+  assert('the two are NOT related, because one side rests on a label',
+    POPULATION.RELATIONSHIPS.length === 0);
+  assert('and the unverified channel carries no finding',
+    POPULATION.FINDINGS.every(function (f) { return f.requires.indexOf('unIndicator49') < 0; }),
+    JSON.stringify(POPULATION.FINDINGS.map(function (f) { return f.requires; })));
+  assert('while both self-describing World Bank indicators do carry one',
+    POPULATION.FINDINGS.length === 2 &&
+    POPULATION.FINDINGS.every(function (f) {
+      return ['populationTotal', 'fertilityRate'].indexOf(f.requires[0]) >= 0;
+    }));
+
+  /**
+   * LAW AND INTELLIGENCE EACH CARRY ONE FINDING, AND NEITHER IS ABOUT ITS OWN SUBJECT.
+   * Fourteen of fifteen channels in each count published artefacts; the only measured
+   * quantity either can reach is the CISA vulnerability flow. Asserted rather than left
+   * implicit, because it is the clearest statement of what these domains can and cannot
+   * currently see.
+   */
+  [{ b: LAW, name: 'law' }, { b: INTELLIGENCE, name: 'intelligence' }].forEach(function (e) {
+    assert(e.name + ': carries exactly one finding', e.b.FINDINGS.length === 1,
+      JSON.stringify(e.b.FINDINGS.map(function (f) { return f.id; })));
+    assert(e.name + ': and it is on the vulnerability flow, not on its own subject matter',
+      e.b.FINDINGS[0].requires.join() === 'cisaKev', e.b.FINDINGS[0].requires.join());
+    var counted = e.b.CHANNELS.filter(function (c) {
+      return /articles\/7d|documents in 30d|keyword mentions|rule documents|filings today/.test(c.units);
+    });
+    assert(e.name + ': because fourteen of its fifteen channels count published artefacts',
+      counted.length === 14, String(counted.length));
+    assert(e.name + ': declares zero relationships', e.b.RELATIONSHIPS.length === 0);
+  });
+
   /* MEDICINE IS THE ALIAS CASE, and both names must reach it. */
   assert('medicine is reachable by product name', REG.inspect('medicine').channels === 15);
   assert('and by snapshot key, returning the same binder',
@@ -893,7 +954,8 @@ console.log('');
   ['economy', 'environment', 'medicine', 'technology', 'science', 'trade',
    'governance', 'infrastructure', 'agriculture',
    'industry', 'education', 'communication',
-   'culture', 'defense', 'religion'].forEach(function (d) {
+   'culture', 'defense', 'religion',
+   'population', 'law', 'intelligence'].forEach(function (d) {
     assert(d + ' is MANIFEST-ONLY, not bound', REG.inspect(d).state === REG.STATE.MANIFEST_ONLY,
       REG.inspect(d).state);
   });
@@ -904,7 +966,22 @@ console.log('');
      its own channel set — asserted across all five so a future batch cannot slip one in. */
   var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE, TECHNOLOGY, SCIENCE, TRADE,
              GOVERNANCE, INFRA, AGRICULTURE, INDUSTRY, EDUCATION, COMMUNICATION,
-             CULTURE, DEFENSE, RELIGION];
+             CULTURE, DEFENSE, RELIGION, POPULATION, LAW, INTELLIGENCE];
+  /**
+   * THE WHOLE-ROLLOUT INVARIANT, now that all twenty binders exist. Across every domain,
+   * not one relationship was declared. That is a result about what public feeds can
+   * support, not a policy: three domains DID find same-latent pairs — energy's crude
+   * trio and finance's SPY trio — and those were declared. Everything since has been
+   * article counts, different populations, different denominators or different horizons.
+   */
+  var totalRels = all.reduce(function (n, b) { return n + b.RELATIONSHIPS.length; }, 0);
+  assert('exactly ten relationships exist across all nineteen binders, all in energy and finance',
+    totalRels === ENERGY.RELATIONSHIPS.length + FINANCE.RELATIONSHIPS.length,
+    String(totalRels) + ' vs ' + (ENERGY.RELATIONSHIPS.length + FINANCE.RELATIONSHIPS.length));
+  assert('and every other binder declares zero',
+    all.filter(function (b) { return b !== ENERGY && b !== FINANCE; })
+       .every(function (b) { return b.RELATIONSHIPS.length === 0; }));
+
   assert('no binder declares a relationship naming a channel outside itself',
     all.every(function (b) {
       var keys = b.CHANNELS.map(function (c) { return c.key; });
@@ -959,8 +1036,10 @@ console.log('');
 console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
                      : tests + '/' + tests + ' passed');
 console.log('');
-console.log('BOUND WITH DATA: 1 of 20 (energy). Sixteen declared and unobserved. No fixture');
-console.log('exists for any of them, so nothing they declare has met a real observation.');
+console.log('MANIFEST COVERAGE IS COMPLETE: 20 of 20 domains have a binder.');
+console.log('BOUND WITH DATA: 1 of 20 (energy). The other nineteen are declared and');
+console.log('unobserved — no fixture exists for any of them, so nothing they declare has');
+console.log('met a real observation. The next milestone is a SECOND FIXTURE, not a binder.');
 console.log('Row 24 needs THREE things, not one: finance observations, a DECLARED cross-domain');
 console.log('latent (none exists), and MEASURED beneficial transfer against a withheld-link');
 console.log('control. A fixture is necessary and not sufficient.');

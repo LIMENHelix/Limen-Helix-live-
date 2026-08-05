@@ -397,26 +397,30 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
     /not one of the 20 canonical domains/.test(none.why), none.why);
 
   /**
-   * A CANONICAL DOMAIN THAT HAS NO BINDER, chosen from the registry AT RUN TIME rather
-   * than named here. This assertion has now gone stale twice — first pinned to `finance`,
-   * then to `economy`, each true when written and false the moment that domain was bound.
-   * Naming a third would just schedule the same failure for the next batch, so it asks
-   * the registry which domains are currently unbound and probes one of those.
+   * THE NO-BINDER PATH IS NOW UNREACHABLE FROM A CANONICAL NAME, and that is the finding
+   * rather than a problem to route around.
+   *
+   * This assertion has been rewritten three times, and the history is the point. It was
+   * pinned to `finance`, then to `economy` — each true when written and false the moment
+   * that domain was bound — then to whichever domain the registry still reported as
+   * unbound at run time. That last version was self-maintaining right up until manifest
+   * coverage completed, at which point it correctly announced that it needed rethinking.
+   *
+   * With all twenty bound, the only refusal `loadManifest` can now produce from a
+   * canonical name is none at all. So the coverage itself is what gets asserted: if a
+   * binder is ever deleted this fails loudly, which is the behaviour the old probe was
+   * really protecting. The absent-binder branch still exists and is still correct; it is
+   * simply not reachable by valid input while every domain has a manifest.
    */
   var REG = require('../bind/registry.js');
-  var stillUnbound = REG.survey().filter(function (r) { return r.state === REG.STATE.UNBOUND; })[0];
-  assert('at least one canonical domain is still unbound, to probe the path with',
-    !!stillUnbound, 'every domain is bound — this assertion needs rethinking, not deleting');
-  if (stillUnbound) {
-    var unbound = FX.loadManifest(stillUnbound.product);
-    assert('a canonical domain with no binder also refuses (' + stillUnbound.product + ')',
-      unbound.ok === false, JSON.stringify(unbound));
-    assert('but names the MISSING BINDER, which is a different problem',
-      /no binder at/.test(unbound.why), unbound.why);
-  }
-
-  assert('so no relationship is testable for a name that is not a domain',
-    FX.testableRelationships([stat('A', 99, 99), stat('B', 99, 99)], none).length === 0);
+  var stillUnbound = REG.survey().filter(function (r) { return r.state === REG.STATE.UNBOUND; });
+  assert('manifest coverage is complete — no canonical domain lacks a binder',
+    stillUnbound.length === 0, JSON.stringify(stillUnbound.map(function (r) { return r.product; })));
+  assert('so every canonical domain loads a manifest',
+    REG.PRODUCT_KEYS.every(function (k) { return FX.loadManifest(k).ok === true; }),
+    REG.PRODUCT_KEYS.filter(function (k) { return !FX.loadManifest(k).ok; }).join(', '));
+  assert('and the only refusal left is for a name that is not a domain at all',
+    none.ok === false && /not one of the 20 canonical domains/.test(none.why), none.why);
 
   /* And finance, which IS bound now, loads its three declared relationships. */
   var fin = FX.loadManifest('finance');
@@ -477,9 +481,8 @@ import('../../scripts/build-brain-fixture.mjs').then(function (FX) {
 
     /* A domain with genuinely no binder must still abstain — the fix must not make
        everything load. */
-    assert('a domain with no binder still abstains from outside the repository',
-      FX.loadManifest('no-such-domain-xyz').ok === false &&
-      (!stillUnbound || FX.loadManifest(stillUnbound.product).ok === false));
+    assert('a name that is not a domain still abstains from outside the repository',
+      FX.loadManifest('no-such-domain-xyz').ok === false);
     assert('while a bound one still loads from outside the repository',
       FX.loadManifest('finance').ok === true);
   } finally {
