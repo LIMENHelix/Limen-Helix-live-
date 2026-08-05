@@ -8,9 +8,11 @@
  * ZERO RELATIONSHIPS, AND THIS DOMAIN IS ALMOST ENTIRELY MADE OF THE THING ITS OWN
  * SUBJECT IS ABOUT.
  *
- * Nine of eleven channels count articles: a BBC feed's items, and eight RSS keyword
- * queries across media-industry, press-freedom and fact-checking sources. A domain whose
- * subject is communication, instrumented by counting communications.
+ * TEN OF ELEVEN CHANNELS COUNT PUBLISHED ARTEFACTS. A BBC feed's item count and seven
+ * RSS keyword queries make eight article and feed counts, across media-industry,
+ * press-freedom and fact-checking sources; two Federal Register document counts bring the
+ * total to ten. A domain whose subject is communication, instrumented by counting
+ * communications.
  *
  * That makes two pairs look relatable and neither is. Reporters Without Borders and CPJ
  * Press Freedom both cover press freedom, and a relationship would read as two watchdogs
@@ -18,9 +20,9 @@
  * different editorial agendas, so a gap between them measures which organisation was
  * publishing that week. The same applies to Snopes, Poynter and Nieman Lab.
  *
- * The single measured quantity here is the share of individuals using the internet, and
- * it is annual. So this domain carries one finding, and that is the honest count rather
- * than a shortfall to be padded.
+ * The one non-publication measurement here is the share of individuals using the
+ * internet, and it is annual. So this domain carries one finding, and that is the honest
+ * count rather than a shortfall to be padded.
  * ═══════════════════════════════════════════════════════════════════════════════════
  */
 
@@ -39,7 +41,8 @@ var CHANNELS = [
   /* A FEED ITEM COUNT. Items in the BBC World feed — a count of what was published. */
   { key: 'bbcItems',      name: 'BBC World News',              recordedField: 'v',  field: 'value',    source: 'BBC World feed, item count',                cadenceMs: HOUR, units: 'feed items',       q: 0.05, r: 0.20 },
 
-  /* NEWS RECENCY COUNTS across seven media and press-freedom feeds. */
+  /* NEWS RECENCY COUNTS. Seven RSS keyword queries across media, press-freedom and
+     fact-checking sources. */
   { key: 'rssMedia',      name: 'RSS Media',                   recordedField: 'r7', field: 'recent7d', source: 'RSS keyword query, media industry',         cadenceMs: DAY,  units: 'articles/7d',      q: 0.06, r: 0.25 },
   { key: 'rsf',           name: 'Reporters Without Borders',   recordedField: 'r7', field: 'recent7d', source: 'RSS keyword query, RSF',                    cadenceMs: DAY,  units: 'articles/7d',      q: 0.06, r: 0.25 },
   { key: 'cpj',           name: 'CPJ Press Freedom',           recordedField: 'r7', field: 'recent7d', source: 'RSS keyword query, CPJ',                    cadenceMs: DAY,  units: 'articles/7d',      q: 0.06, r: 0.25 },
@@ -56,8 +59,9 @@ var CHANNELS = [
 var SIGMA = 2.0;   // [mark: prior]
 
 /**
- * ONE FINDING. Ten of the eleven channels count what was published; the eleventh measures
- * what share of people are online.
+ * ONE FINDING. Ten of the eleven channels count published artefacts — eight article and
+ * feed counts plus two Federal Register document counts; the eleventh measures what share
+ * of people are online.
  *
  * A finding on any of the ten would fire when a newsroom had a busy week and be reported
  * as a fact about communication — which in this domain is especially misleading, because
@@ -78,8 +82,8 @@ module.exports = FACTORY.createBinder({
   sigma: SIGMA,
   channels: CHANNELS,
   findings: FINDINGS,
-  /* ZERO. Nine of eleven channels count articles; relating two of them would compare two
-     rates of publication over different editorial agendas. */
+  /* ZERO. Eight of eleven channels count articles or feed items; relating two of them
+     would compare two rates of publication over different editorial agendas. */
   relationships: [],
   efferent: null   // R7
 });

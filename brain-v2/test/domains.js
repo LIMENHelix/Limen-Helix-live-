@@ -134,10 +134,10 @@ console.log('');
     JSON.stringify(s.manifestOnly));
   assert('and its reason names the missing fixture',
     /no fixture at/.test(REG.inspect('finance').why), REG.inspect('finance').why);
-  assert('thirteen domains are declared but unobserved',
-    s.byState[REG.STATE.MANIFEST_ONLY] === 13, JSON.stringify(s.manifestOnly));
-  assert('and the remaining six are unbound, each saying so',
-    s.byState[REG.STATE.UNBOUND] === 6, String(s.byState[REG.STATE.UNBOUND]));
+  assert('sixteen domains are declared but unobserved',
+    s.byState[REG.STATE.MANIFEST_ONLY] === 16, JSON.stringify(s.manifestOnly));
+  assert('and the remaining three are unbound, each saying so',
+    s.byState[REG.STATE.UNBOUND] === 3, String(s.byState[REG.STATE.UNBOUND]));
   /* The arithmetic, so a domain can never be counted twice or vanish between states as
      batches land. The explicit numbers above move with each batch on purpose — a change
      to them should be a deliberate line in a diff, not something that drifts. */
@@ -526,7 +526,7 @@ console.log('');
 
 // D8: the Economy / Environment / Medicine batch
 (function () {
-  console.log('D8: twelve declared binders, checked against the sources that actually exist');
+  console.log('D8: fifteen declared binders, checked against the sources that actually exist');
   var ECONOMY = require('../bind/economy.js');
   var ENVIRONMENT = require('../bind/environment.js');
   var MEDICINE = require('../bind/medicine.js');
@@ -539,6 +539,9 @@ console.log('');
   var INDUSTRY = require('../bind/industry.js');
   var EDUCATION = require('../bind/education.js');
   var COMMUNICATION = require('../bind/communication.js');
+  var CULTURE = require('../bind/culture.js');
+  var DEFENSE = require('../bind/defense.js');
+  var RELIGION = require('../bind/religion.js');
   var batch = [
     { b: ECONOMY,     product: 'economy',     snapshot: 'economy',     channels: 15, batch: 1 },
     { b: ENVIRONMENT, product: 'environment', snapshot: 'environment', channels: 10, batch: 1 },
@@ -551,7 +554,10 @@ console.log('');
     { b: AGRICULTURE, product: 'agriculture', snapshot: 'agriculture', channels: 13, batch: 3 },
     { b: INDUSTRY,      product: 'industry',      snapshot: 'industry',      channels: 11, batch: 4 },
     { b: EDUCATION,     product: 'education',     snapshot: 'education',     channels: 10, batch: 4 },
-    { b: COMMUNICATION, product: 'communication', snapshot: 'communication', channels: 11, batch: 4 }
+    { b: COMMUNICATION, product: 'communication', snapshot: 'communication', channels: 11, batch: 4 },
+    { b: CULTURE,   product: 'culture',   snapshot: 'culture',   channels: 16, batch: 5 },
+    { b: DEFENSE,   product: 'defense',   snapshot: 'defense',   channels: 15, batch: 5 },
+    { b: RELIGION,  product: 'religion',  snapshot: 'religion',  channels: 15, batch: 5 }
   ];
 
   /**
@@ -633,6 +639,9 @@ console.log('');
       e.b.spec().findings.filter(function (f) { return /s\.departure/.test(String(f.test)); })
         .map(function (f) { return f.id; }).join(', '));
     /* Neutrally named: a finding says WHICH channel departed, not what it means. */
+    /* `every` on an empty list is vacuously true, which is correct: a domain with no
+       findings cannot have a badly named one. The zero-findings case is asserted
+       explicitly below rather than left to pass silently here. */
     assert(e.product + ': finding ids are neutral, naming the measure rather than a cause',
       e.b.spec().findings.every(function (f) { return /_DEPARTURE$|_CO_DEPARTING$/.test(f.id); }),
       e.b.spec().findings.map(function (f) { return f.id; }).join(', '));
@@ -819,6 +828,57 @@ console.log('');
   assert('the press-freedom feeds are not related to each other',
     COMMUNICATION.RELATIONSHIPS.length === 0);
 
+  /**
+   * BATCH 5: TWO DOMAINS DECLARE NO FINDINGS AT ALL, and that must be asserted rather
+   * than allowed to pass vacuously.
+   *
+   * Every channel in culture and religion counts published artefacts — fifteen RSS
+   * keyword queries plus an article count in culture, fifteen RSS queries in religion.
+   * The established rule excludes all of them, so an empty findings list is the honest
+   * output: it reports that these domains are instrumented entirely by coverage.
+   *
+   * The risk an empty list carries is that it looks like an oversight, so this asserts
+   * the REASON as well as the count — no channel in either domain measures anything but
+   * publication, which is what makes zero correct rather than lazy.
+   */
+  var coverageUnits = /articles\/7d|articles matched|feed items|documents in 30d|keyword mentions/;
+  [{ b: CULTURE, name: 'culture', channels: 16 },
+   { b: RELIGION, name: 'religion', channels: 15 }].forEach(function (e) {
+    assert(e.name + ': declares zero findings', e.b.FINDINGS.length === 0,
+      JSON.stringify(e.b.FINDINGS.map(function (f) { return f.id; })));
+    assert(e.name + ': because EVERY channel counts published artefacts, which is why zero is correct',
+      e.b.CHANNELS.every(function (c) { return coverageUnits.test(c.units); }),
+      e.b.CHANNELS.filter(function (c) { return !coverageUnits.test(c.units); })
+        .map(function (c) { return c.key + '=' + c.units; }).join(', '));
+    assert(e.name + ': and declares zero relationships', e.b.RELATIONSHIPS.length === 0);
+    assert(e.name + ': with all ' + e.channels + ' channels present',
+      e.b.CHANNELS.length === e.channels, String(e.b.CHANNELS.length));
+  });
+
+  /**
+   * DEFENSE is the opposite shape and worth naming: it HAS findings, and not one of them
+   * is about defence. Seven of its fifteen channels are coverage counts of defence, and
+   * the only measured quantities it can reach are weather, seismic and vulnerability data
+   * shared in from other domains.
+   */
+  var defByKey = {};
+  DEFENSE.CHANNELS.forEach(function (c) { defByKey[c.key] = c; });
+  assert('defense carries findings only on channels shared in from outside its subject',
+    DEFENSE.FINDINGS.every(function (f) {
+      return f.requires.every(function (k) {
+        return ['nwsAlerts', 'earthquakes', 'cisaKev'].indexOf(k) >= 0;
+      });
+    }), JSON.stringify(DEFENSE.FINDINGS.map(function (f) { return f.requires; })));
+  assert('and none on the seven defence coverage counts',
+    DEFENSE.FINDINGS.every(function (f) {
+      return f.requires.every(function (k) { return defByKey[k].units !== 'articles/7d'; });
+    }));
+  assert('nor on the OFAC keyword count',
+    DEFENSE.FINDINGS.every(function (f) { return f.requires.indexOf('ofac') < 0; }));
+  assert('the two state-media channels are declared as article counts and unrelated',
+    defByKey.tass.units === 'articles/7d' && defByKey.xinhua.units === 'articles/7d' &&
+    DEFENSE.RELATIONSHIPS.length === 0);
+
   /* MEDICINE IS THE ALIAS CASE, and both names must reach it. */
   assert('medicine is reachable by product name', REG.inspect('medicine').channels === 15);
   assert('and by snapshot key, returning the same binder',
@@ -832,7 +892,8 @@ console.log('');
      above has been exercised against a single real observation. */
   ['economy', 'environment', 'medicine', 'technology', 'science', 'trade',
    'governance', 'infrastructure', 'agriculture',
-   'industry', 'education', 'communication'].forEach(function (d) {
+   'industry', 'education', 'communication',
+   'culture', 'defense', 'religion'].forEach(function (d) {
     assert(d + ' is MANIFEST-ONLY, not bound', REG.inspect(d).state === REG.STATE.MANIFEST_ONLY,
       REG.inspect(d).state);
   });
@@ -842,7 +903,8 @@ console.log('');
   /* NO CROSS-DOMAIN LINK WAS INVENTED. Every relationship in every binder stays inside
      its own channel set — asserted across all five so a future batch cannot slip one in. */
   var all = [ENERGY, FINANCE, ECONOMY, ENVIRONMENT, MEDICINE, TECHNOLOGY, SCIENCE, TRADE,
-             GOVERNANCE, INFRA, AGRICULTURE, INDUSTRY, EDUCATION, COMMUNICATION];
+             GOVERNANCE, INFRA, AGRICULTURE, INDUSTRY, EDUCATION, COMMUNICATION,
+             CULTURE, DEFENSE, RELIGION];
   assert('no binder declares a relationship naming a channel outside itself',
     all.every(function (b) {
       var keys = b.CHANNELS.map(function (c) { return c.key; });
@@ -897,7 +959,7 @@ console.log('');
 console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
                      : tests + '/' + tests + ' passed');
 console.log('');
-console.log('BOUND WITH DATA: 1 of 20 (energy). Thirteen declared and unobserved. No fixture');
+console.log('BOUND WITH DATA: 1 of 20 (energy). Sixteen declared and unobserved. No fixture');
 console.log('exists for any of them, so nothing they declare has met a real observation.');
 console.log('Row 24 needs THREE things, not one: finance observations, a DECLARED cross-domain');
 console.log('latent (none exists), and MEASURED beneficial transfer against a withheld-link');
