@@ -16,6 +16,10 @@
  *   S4 RESTART RESTORATION     serialize, discard, restore, continue == never interrupted
  *   S5 NO EXISTING CONSUMER    nothing outside the shadow modules reads the namespace,
  *                              proved by scanning the repository
+ *   S5c ONE MEMBERSHIP LIST    the installed set is registry data; neither the runtime nor
+ *                              the handler declares one of its own
+ *   S6b BATCH ISOLATION        in a five-domain batch, a real domain forced to fail
+ *                              mid-list does not stop the four around it
  *
  * NO NETWORK AND NO REDIS. The store is driven through an injected in-memory database so
  * every key written is observable, which is the only way S1 can be tested at all: a test
@@ -151,10 +155,22 @@ var firstReport, secondReport, firstState;
      completed and still executed. Nothing it did reached the network. */
   assert('and NOT ONE of them attempted a network call, with fetch rigged to throw',
     netAttempts.length === 0, JSON.stringify(netAttempts));
-  assert('the canaries declare no efferent, so no domain wires an outward consumer',
-    RUNTIME.CANARY_DOMAINS.every(function (p) {
+  /* EVERY INSTALLED DOMAIN, not just the two canaries. This assertion is the reason a batch
+     cannot quietly install a domain that wires an outward consumer: it fails at install
+     time rather than at the first cycle that would have reached outward. */
+  assert('every INSTALLED domain declares no efferent, so no domain wires an outward consumer',
+    RUNTIME.INSTALLED_DOMAINS.every(function (p) {
       return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js')).spec().efferent === null;
-    }));
+    }), JSON.stringify(RUNTIME.INSTALLED_DOMAINS.filter(function (p) {
+      return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js')).spec().efferent !== null;
+    })));
+  /* MEASURED BYTES, from the store, on the string it actually sent. */
+  assert('the cycle reports the byte length of the state it persisted',
+    typeof firstReport.stateBytes === 'number' && firstReport.stateBytes > 0,
+    JSON.stringify(firstReport.stateBytes));
+  assert('and that byte count matches the payload actually stored under the state key',
+    firstReport.stateBytes === Buffer.byteLength(MEM[STORE.shadowKey('energy', 'state')], 'utf8'),
+    firstReport.stateBytes + ' vs ' + Buffer.byteLength(MEM[STORE.shadowKey('energy', 'state')] || '', 'utf8'));
   assert('and the kernel actuator has no transport of its own to reach outward with',
     !/require\('(https?|node-fetch|axios)'\)|fetch\s*\(/.test(
       fs.readFileSync(path.join(ROOT, 'brain-v2', 'kernel', 'actuate.js'), 'utf8')),
@@ -301,9 +317,70 @@ var firstReport, secondReport, firstState;
   var perDomainBranch = /if\s*\(\s*(product|domain)\s*===\s*['"]/.test(runtimeSrc);
   assert('the runtime contains no per-domain branch', !perDomainBranch,
     'domain-specific behaviour belongs in the binder, not in a runtime fork');
-  assert('and every canary is executed by the same exported function',
-    typeof RUNTIME.runDomain === 'function' && RUNTIME.CANARY_DOMAINS.length === 2,
-    JSON.stringify(RUNTIME.CANARY_DOMAINS));
+  assert('and every installed domain is executed by that same exported function',
+    typeof RUNTIME.runDomain === 'function' && RUNTIME.INSTALLED_DOMAINS.length > 0,
+    JSON.stringify(RUNTIME.INSTALLED_DOMAINS));
+
+  console.log('');
+  console.log('S5c: the installed set is registry data, and there is only one of it');
+  /**
+   * THE FAILURE THIS PREVENTS is two independently authored deployment lists. When the
+   * runtime held its own literal and the handler iterated the runtime's copy, adding a
+   * domain in one place and not the other produced a cron that executes a domain the health
+   * read never mentions. Identity is asserted, not equality: the runtime must re-export the
+   * registry's array, not a copy that happens to match today.
+   */
+  var EXPECTED_INSTALLED = ['energy', 'finance', 'education', 'economy', 'trade', 'industry', 'population'];
+  assert('the installed set is exactly the seven this batch declares, in order',
+    JSON.stringify(REG.INSTALLED_DOMAINS) === JSON.stringify(EXPECTED_INSTALLED),
+    JSON.stringify(REG.INSTALLED_DOMAINS));
+  assert('the runtime re-exports the registry array itself, rather than keeping a copy',
+    RUNTIME.INSTALLED_DOMAINS === REG.INSTALLED_DOMAINS,
+    'a copy would drift the moment one of the two is edited');
+  assert('the runtime file declares no membership list of its own',
+    !/(CANARY|INSTALLED)_DOMAINS\s*=\s*\[/.test(runtimeSrc),
+    'membership belongs to the registry; a literal here is the second list');
+  assert('and the handler declares none either, deriving its set from the runtime',
+    !/(CANARY|INSTALLED)_DOMAINS\s*=\s*\[/.test(
+      fs.readFileSync(path.join(ROOT, 'handlers', 'brain-shadow.js'), 'utf8')),
+    'the health read must report the domains that ran, not the ones it remembers');
+  assert('every installed domain resolves through the registry',
+    REG.INSTALLED_DOMAINS.every(function (p) { return !!REG.descriptorFor(p); }),
+    JSON.stringify(REG.INSTALLED_DOMAINS.filter(function (p) { return !REG.descriptorFor(p); })));
+  assert('and every installed domain is BOUND, not merely declared',
+    REG.INSTALLED_DOMAINS.every(function (p) { return REG.inspect(p).state === REG.STATE.BOUND; }),
+    JSON.stringify(REG.INSTALLED_DOMAINS.map(function (p) { return p + '=' + REG.inspect(p).state; })));
+  assert('no domain is installed twice under its two names',
+    (function () {
+      var s = {}; return REG.INSTALLED_DOMAINS.every(function (p) {
+        var k = REG.descriptorFor(p).snapshot; if (s[k]) return false; s[k] = 1; return true;
+      });
+    })(), 'a duplicate runs two cycles against one cursor and the second reports a healthy no-op');
+  /* One survey, reused: summary() inspects all twenty fixtures and calling it twice to build
+     an assertion and its own failure message doubles that for nothing. */
+  var boundCount = REG.summary().byState[REG.STATE.BOUND];
+  assert('installing 7 does not claim 7 are evidenced: all 20 remain BOUND, which is a different count',
+    boundCount === 20 && REG.INSTALLED_DOMAINS.length === 7,
+    'bound=' + boundCount + ' installed=' + REG.INSTALLED_DOMAINS.length);
+
+  console.log('');
+  console.log('S5d: energy and finance declarations are unchanged by this batch');
+  /* The two canaries carry every measurement quoted in DELIVERY_STATE.md. If this batch
+     moved their channel or relationship counts, every number in that file would silently
+     describe a different brain. Pinned to the documented values. */
+  var energySpec = require(path.join(ROOT, 'brain-v2', 'bind', 'energy.js')).spec();
+  var financeSpec = require(path.join(ROOT, 'brain-v2', 'bind', 'finance.js')).spec();
+  assert('energy still declares 18 channels and 7 relationships',
+    energySpec.channels.length === 18 && energySpec.relationships.length === 7,
+    energySpec.channels.length + ' channels, ' + energySpec.relationships.length + ' relationships');
+  assert('finance still declares 13 channels and 3 relationships',
+    financeSpec.channels.length === 13 && financeSpec.relationships.length === 3,
+    financeSpec.channels.length + ' channels, ' + financeSpec.relationships.length + ' relationships');
+  assert('and the five new domains add no relationships at all, so nothing can activate early',
+    ['education', 'economy', 'trade', 'industry', 'population'].every(function (p) {
+      return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js'))
+        .spec().relationships.length === 0;
+    }), 'a batch domain declaring a relationship would need the evidence gate, not just installation');
 
   console.log('');
   console.log('S6: per-domain failure isolation');
@@ -315,6 +392,70 @@ var firstReport, secondReport, firstState;
       res.reports[1].ok === false && typeof res.reports[1].error === 'string' && res.reports[1].error.length > 5,
       res.reports[1].error);
     assert('and the batch reports itself as not ok', res.ok === false);
+
+    console.log('');
+    console.log('S6b: a FIVE-domain batch, one domain forced to fail, the other four unaffected');
+    /**
+     * THE PROPERTY A BATCH NEEDS, AND THE PAIR ABOVE CANNOT PROVE IT. Two domains where the
+     * second is a name that does not resolve tests the guard on a domain that never starts.
+     * A batch fails differently: a real, installed, resolving domain gets part-way in and
+     * throws, and the question is whether the domains AFTER it in the list still run. Since
+     * `runDomains` is a sequential await loop, a failure that escaped the guard would take
+     * out every domain queued behind it and none of them would leave a trace.
+     *
+     * So the failure is injected mid-list, on a real domain, through a real failure mode:
+     * `trade` gets corrupt stored state, which `readState` refuses rather than treating as a
+     * cold start. Each domain reads its OWN recorded rows here, seeded per feedhist key,
+     * because one shared `rows` array would have four domains abstaining on another domain's
+     * sources and "ok with zero ticks" would pass a test about isolation without exercising
+     * it.
+     */
+    var BATCH = ['education', 'economy', 'trade', 'industry', 'population'];
+    BATCH.forEach(function (p) {
+      var snap = REG.descriptorFor(p).snapshot;
+      delete MEM[STORE.shadowKey(snap, 'state')];
+      LISTS['feedhist:' + snap] = fixtureRows(p, 24);
+    });
+    /* The injected failure, on the domain in the MIDDLE of the list. */
+    MEM[STORE.shadowKey(REG.descriptorFor('trade').snapshot, 'state')] = '{this is not json';
+
+    var batch = await RUNTIME.runDomains(BATCH, { now: 1786000300000 });
+    var byProduct = {};
+    batch.reports.forEach(function (r) { byProduct[r.product] = r; });
+
+    assert('all five domains produced a report', batch.reports.length === 5, String(batch.reports.length));
+    assert('the forced domain failed', byProduct.trade.ok === false, JSON.stringify(byProduct.trade.ok));
+    assert('and it failed for the reason injected, not some other reason',
+      /unparseable|corrupt/.test(byProduct.trade.error || ''), byProduct.trade.error);
+    var others = BATCH.filter(function (p) { return p !== 'trade'; });
+    assert('the other four ALL report ok:true',
+      others.every(function (p) { return byProduct[p] && byProduct[p].ok === true; }),
+      JSON.stringify(others.map(function (p) { return p + '=' + (byProduct[p] && byProduct[p].ok) + ':' + (byProduct[p] && byProduct[p].error); })));
+    /* NOT VACUOUSLY OK. Four cycles that applied nothing would also be ok:true, and that is
+       the shape a broken seed produces, so the work is asserted rather than the status. */
+    assert('and the four did real work rather than passing as empty no-ops',
+      others.every(function (p) { return byProduct[p].ticks > 0 && byProduct[p].rowsApplied > 0; }),
+      JSON.stringify(others.map(function (p) { return p + ' ticks=' + byProduct[p].ticks; })));
+    assert('including the two queued AFTER the failure, which a leaked throw would have killed',
+      byProduct.industry.ok === true && byProduct.population.ok === true,
+      'industry=' + byProduct.industry.ok + ' population=' + byProduct.population.ok);
+    assert('each of the four persisted state and reported its byte length',
+      others.every(function (p) { return typeof byProduct[p].stateBytes === 'number' && byProduct[p].stateBytes > 0; }),
+      JSON.stringify(others.map(function (p) { return p + '=' + byProduct[p].stateBytes; })));
+    assert('the failed domain reports NO byte count, rather than a number for a payload that never landed',
+      byProduct.trade.stateBytes === null, JSON.stringify(byProduct.trade.stateBytes));
+    assert('the batch as a whole reports not ok, so one silent failure cannot read as success',
+      batch.ok === false, JSON.stringify(batch.ok));
+    assert('and every write the batch made stayed inside the shadow namespace',
+      WRITES.every(function (k) { return k.indexOf(STORE.PREFIX) === 0; }),
+      JSON.stringify(WRITES.filter(function (k) { return k.indexOf(STORE.PREFIX) !== 0; }).slice(0, 5)));
+
+    /* Leave no seeded state behind for the adversarial sections that follow. */
+    BATCH.forEach(function (p) {
+      var snap = REG.descriptorFor(p).snapshot;
+      delete MEM[STORE.shadowKey(snap, 'state')];
+      delete LISTS['feedhist:' + snap];
+    });
   })();
 
 }).then(function () {

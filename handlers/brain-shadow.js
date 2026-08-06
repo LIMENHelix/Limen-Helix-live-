@@ -102,14 +102,26 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    /* DEFAULT: health across the canaries, read-only. Reports what the last cycle did,
-       including its abstentions and its actuation counters, so "is it acting?" is
-       answerable without reading the code. */
+    /* DEFAULT: health across every INSTALLED domain, read-only. Reports what the last cycle
+       did, including its abstentions and its actuation counters, so "is it acting?" is
+       answerable without reading the code.
+
+       THE SET COMES FROM THE REGISTRY, through the runtime that executes it. This loop must
+       never iterate a list of its own: a handler with its own copy reports on the domains it
+       remembers rather than the domains that ran, and the first symptom is a newly installed
+       domain that is silently absent from the only surface anyone reads. */
     var out = {};
-    for (var i = 0; i < RUNTIME.CANARY_DOMAINS.length; i++) {
-      var p = RUNTIME.CANARY_DOMAINS[i];
+    var installed = RUNTIME.INSTALLED_DOMAINS;
+    /* Bytes persisted per domain, and their total. This is the number that decides whether
+       the next batch is affordable: every cycle reads the whole state and writes it back,
+       and Upstash bills bandwidth. Reported as measured bytes from the last cycle, null
+       where that cycle failed or has not run, so an absent domain cannot read as zero. */
+    var totalStateBytes = 0, measured = 0;
+    for (var i = 0; i < installed.length; i++) {
+      var p = installed[i];
       var desc = REG.descriptorFor(p);
       var cyc = await STORE.readCycle(desc.snapshot);
+      if (cyc && typeof cyc.stateBytes === 'number') { totalStateBytes += cyc.stateBytes; measured++; }
       out[p] = cyc ? {
         domain: cyc.domain, ok: cyc.ok, error: cyc.error,
         startedAt: cyc.startedAt, finishedAt: cyc.finishedAt,
@@ -117,15 +129,23 @@ module.exports = async function handler(req, res) {
         cursorAfter: cyc.cursorAfter, restored: cyc.restored,
         provenance: cyc.provenance, predictions: cyc.predictions,
         abstentions: (cyc.abstentions || []).length,
-        actuation: cyc.actuation
+        actuation: cyc.actuation,
+        stateBytes: typeof cyc.stateBytes === 'number' ? cyc.stateBytes : null
       } : null;
     }
     return send(res, 200, {
       ok: true,
       runtime: RUNTIME.RUNTIME_VERSION,
       namespace: STORE.PREFIX,
-      note: 'shadow only: no actuation, no production brain state, no site consumer',
-      canaries: RUNTIME.CANARY_DOMAINS,
+      note: 'shadow only: no outward actuation, no production brain state, no site consumer. ' +
+            'Installed means executing in shadow; it activates no relationship and evidences nothing.',
+      installed: installed,
+      installedCount: installed.length,
+      boundCount: REG.DOMAINS.length,
+      /* Named `measuredDomains` rather than left implicit: a total over 3 of 7 domains and a
+         total over 7 of 7 are different numbers and must not look alike. */
+      stateBytesTotal: totalStateBytes,
+      stateBytesMeasuredDomains: measured,
       cycles: out
     });
   } catch (e) {
