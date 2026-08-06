@@ -379,6 +379,25 @@
   }
 
 
+  /* THE ROOM A MANAGER CONVENES: everyone they are actually wired to, capped at `seats`.
+
+     This lives in the shared module rather than in the page for one specific reason. The
+     generator has to pre-render exactly the rooms the page will ask for, and two copies of
+     this rule would drift into silently missing audio: the page would convene a room the
+     generator never voiced, and the only symptom would be a meeting in a robot voice.
+
+     Four seats because the full table runs to twenty-one turns, which is a document rather
+     than a showcase. */
+  var MEET_SEATS = 4;
+  function roomFor(id, seats){
+    var cap = seats || MEET_SEATS, out = [id];
+    for (var i = 0; i < DOMAINS.length && out.length < cap; i++){
+      var o = DOMAINS[i][0];
+      if (o !== id && edgeBetween(id, o)) out.push(o);
+    }
+    return out;
+  }
+
   /* Which way influence actually travels between two domains.
        SUPPLIES / CONTROLS   run with the arrow: [a,b] means a's state reaches b
        DEPENDS_ON / TRANSFORMS run against it:   [a,b] means b's state reaches a
@@ -795,6 +814,7 @@
   return { DOMAINS: DOMAINS, FEEDKEY: FEEDKEY, NEWS: NEWS, PATHWAYS: PATHWAYS,
            meeting: meeting, edgeBetween: edgeBetween, flowBetween: flowBetween, ADDRESS: ADDRESS,
            roleOf: roleOf, standing: standing, DESK: DESK, deskOf: deskOf,
+           roomFor: roomFor, MEET_SEATS: MEET_SEATS,
            RELATION: RELATION, SPEAKERS: SPEAKERS, NEURO: NEURO, VOICE: VOICE,
            build: build };
 }));

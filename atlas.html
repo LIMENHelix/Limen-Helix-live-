@@ -662,19 +662,12 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
      order is live strain, who may address whom is the typed pathway graph, and no model
      writes a sentence. That is what lets it be public at all.
 
-     The room is whoever this manager is actually wired to, capped at four seats. The cap is
-     for watchability, not correctness — the full table runs to twenty-one turns, which is a
-     document rather than a showcase. A manager wired to nobody gets no button, because an
+     The room is whoever this manager is actually wired to, capped at four seats. roomFor()
+     lives in the shared module, not here, so the page and anything that pre-renders or voices
+     a meeting agree on who is in it. A manager wired to nobody gets no button, because an
      empty room would have to be faked to be worth showing. */
-  var MEET_SEATS = 4, meetOn = false;
-  function roomFor(id){
-    var out = [id];
-    for (var i = 0; i < DOMAINS.length && out.length < MEET_SEATS; i++){
-      var o = DOMAINS[i][0];
-      if (o !== id && _B.edgeBetween(id, o)) out.push(o);
-    }
-    return out;
-  }
+  var meetOn = false;
+  function roomFor(id){ return _B.roomFor(id); }
 
   /* Everything build() needs for a set of domains, fetched once and shared, so every turn in
      a meeting is quoting the same instant rather than drifting between speakers. */
@@ -692,26 +685,58 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     return Promise.all(jobs);
   }
 
-  /* Speak one turn, then continue. There is no recording for meeting text — the mp3s are the
-     solo briefings, which are different words — so this is the browser voice by design.
+  /* MEETINGS SPEAK IN THE CAST VOICES, same as the solo briefings.
 
-     THE GUARD IS NOT OPTIONAL. speechSynthesis can drop an utterance and never fire onend,
-     which would strand the meeting mid-room with no way forward. A timer sized to the text
-     always advances it, and whichever fires first wins. */
-  function sayLine(text, done){
+     They cannot be pre-rendered the way the briefings are: a meeting's words depend on who is
+     in the room and what the instruments read at that second, so there is no fixed set of
+     sentences to render ahead of time. /api/orb-voice synthesises the turn instead. The URL
+     carries the exact text, so the edge caches it and the same sentence in the same voice is
+     paid for once.
+
+     The browser voice remains ONLY as a failure path. It is what you get if the endpoint is
+     down, out of budget, or blocked, and it exists so a meeting degrades instead of going
+     silent. It is not the design. */
+  function voiceUrl(voice, text){
+    return '/api/orb-voice?voice=' + encodeURIComponent(voice) + '&text=' + encodeURIComponent(text);
+  }
+  // Warm the next turn while the current one talks, or every turn opens with dead air.
+  function prefetchTurn(t){
+    if (!t || !t.voice || reduce) return;
+    try{ var a = new Audio(voiceUrl(t.voice, t.spoken)); a.preload = 'auto'; a.load(); }catch(e){}
+  }
+  function sayTurn(t, done){
     var moved = false;
     function go(){ if (moved) return; moved = true; if (orb) orb.speaking = false; done(); }
-    var est = 1400 + (text.length / 14) * 1000;
-    if (reduce || !window.speechSynthesis){ setTimeout(go, Math.min(9000, est)); return; }
+    var est = 1400 + (t.spoken.length / 14) * 1000;
+
+    /* THE GUARD IS NOT OPTIONAL, and it covers both paths. A stalled fetch and a dropped
+       speechSynthesis utterance both end the same way: onend never fires and the meeting is
+       stranded mid-room with no error and no way forward. Whichever fires first wins. */
+    function browser(){
+      if (moved) return;
+      if (!window.speechSynthesis){ setTimeout(go, Math.min(9000, est)); return; }
+      try{
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(t.spoken);
+        u.rate = 0.98; u.pitch = 0.92;
+        u.onstart = function(){ if (orb){ orb.speaking = true; orb.energy = 1; } };
+        u.onend = go; u.onerror = go;
+        window.speechSynthesis.speak(u);
+      }catch(e){ setTimeout(go, 1600); }
+    }
+
+    if (reduce){ setTimeout(go, Math.min(9000, est)); return; }
+    if (!t.voice){ browser(); setTimeout(go, est * 2.2 + 8000); return; }
+
     try{
-      window.speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(text);
-      u.rate = 0.98; u.pitch = 0.92;
-      u.onstart = function(){ if (orb){ orb.speaking = true; orb.energy = 1; } };
-      u.onend = go; u.onerror = go;
-      window.speechSynthesis.speak(u);
-      setTimeout(go, est * 1.8 + 4000);
-    }catch(e){ setTimeout(go, 1600); }
+      var a = new Audio(voiceUrl(t.voice, t.spoken));
+      _audio = a;
+      a.onplay  = function(){ if (orb){ orb.speaking = true; orb.energy = 1; } };
+      a.onended = go;
+      a.onerror = function(){ browser(); };
+      a.play().catch(function(){ browser(); });      // autoplay blocked, or synthesis refused
+    }catch(e){ browser(); }
+    setTimeout(go, est * 2.2 + 8000);
   }
 
   function convene(b){
@@ -759,7 +784,8 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         d.innerHTML = h;
         box.appendChild(d);
         d.scrollIntoView({ behavior:'smooth', block:'nearest' });
-        sayLine(t.spoken, function(){ setTimeout(next, 280); });
+        prefetchTurn(turns[i]);                        // the next one, while this one talks
+        sayTurn(t, function(){ setTimeout(next, 280); });
       })();
     });
   }
@@ -816,20 +842,40 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     hush();
     var mine = b.id;
     var current = function(){ return orb && orb.id === mine; };
+    var rec = '/assets/audio/orb/' + b.id + '.mp3';
+
+    function play(url, onFail){
+      var a = new Audio(url);
+      a.onplay  = function(){ if (current()){ orb.speaking=true; orb.energy=1; } };
+      a.onended = function(){ if (current()) orb.speaking=false; };
+      a.onerror = function(){ if (current()){ orb.speaking=false; onFail(); } };
+      _audio = a;
+      a.play().catch(function(){ if (current()) onFail(); });   // autoplay blocked
+    }
+
     manifest().then(function(m){
       var e = m.voices[b.id];
       if (!e) { if (current()) robot(b); return; }
-      /* The recording always plays. When the live briefing has moved on from what was
-         recorded, the card is dated rather than the audio suppressed — see the note above
-         render(). Equality is tested on the stored text itself, and it dates rather than
-         vetoes. */
-      if (e.text && e.text !== b.spoken) stamp(e.spoken_at);
-      var a = new Audio('/assets/audio/orb/' + b.id + '.mp3');
-      a.onplay  = function(){ if (current()){ orb.speaking=true; orb.energy=1; } };
-      a.onended = function(){ if (current()) orb.speaking=false; };
-      a.onerror = function(){ if (current()){ orb.speaking=false; robot(b); } };
-      _audio = a;
-      a.play().catch(function(){ if (current()) robot(b); });   // autoplay blocked
+
+      /* The recording is right until the readings move under it. When they do we can now be
+         right about BOTH: synthesise the words actually on the card, in the same cast voice,
+         rather than playing a dated clip. Measured at 1 to 2 of 20 at any moment, so the
+         static file still serves almost every listen and the bill barely moves.
+
+         Three steps down, each strictly worse than the last and each still the right voice or
+         the right words: live synthesis, then the recording with a dateline, then the browser
+         voice reading what is on screen. */
+      var moved = !!(e.text && e.text !== b.spoken);
+      if (moved && VOICE[b.id] && b.spoken.length <= 1400){
+        play(voiceUrl(VOICE[b.id], b.spoken), function(){
+          if (!current()) return;
+          stamp(e.spoken_at);
+          play(rec, function(){ robot(b); });
+        });
+        return;
+      }
+      if (moved) stamp(e.spoken_at);
+      play(rec, function(){ robot(b); });
     }).catch(function(){ if (current()) robot(b); });
   }
 
