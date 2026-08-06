@@ -374,7 +374,8 @@ module.exports = async function handler(req, res) {
         "GeniusCommentary",
         "SongkickTours",
         "SoundcloudEmerging",
-        "MusicSceneDiscourse"
+        "MusicSceneDiscourse",
+        "EurostatAsylum"
       ];
     var nonGdeltResults = await Promise.allSettled([
       fetchFRED(),                // 0: economy A
@@ -648,7 +649,8 @@ module.exports = async function handler(req, res) {
       fetchGeniusCommentary(),         // 268: culture M — Genius lyrics/commentary taste-making signal (activity)
       fetchSongkickTours(),            // 269: culture N — Songkick live performance / touring signal (activity)
       fetchSoundcloudEmerging(),       // 270: culture O — SoundCloud emerging-artist signal (activity)
-      fetchMusicSceneDiscourse()       // 271: culture P — music scene / genre discourse + movements (stress)
+      fetchMusicSceneDiscourse(),      // 271: culture P — music scene / genre discourse + movements (stress)
+      fetchEurostatAsylum()            // 272: religion — Eurostat EU27 asylum origin composition
     ]);
 
     // Fetch GDELT sources in parallel with fast timeout (2s)
@@ -1080,7 +1082,10 @@ module.exports = async function handler(req, res) {
         src('SikhNet News', byKey('SikhNetNews')),  // 12: Sikhism
         src('Orthodox Christianity', byKey('OrthodoxChristianity')),  // 13: Eastern Orthodox
         src('JTA Jewish News', byKey('JewishTelegraphicAgency')),  // 14: American Judaism
-        src('Esoteric Spirituality', byKey('EsotericSpirituality'))   // 15: Non-traditional / New Age
+        src('Esoteric Spirituality', byKey('EsotericSpirituality')),   // 15: Non-traditional / New Age
+        // 16: the only non-RSS source on this domain. Belief-origin composition of
+        // arrivals into the EU — the upstream of the culture/population pathway.
+        src('Eurostat Asylum Mix', byKey('EurostatAsylum'))
       ]),
       population:     buildDomain('population',     [
         // 15 feeds, diversified across 4 collection methodologies. All keyless.
@@ -1292,6 +1297,7 @@ var _SOURCE_QUALITY = {
   'FRED': 1.0, 'BLS': 1.0, 'EIA': 1.0, 'NOAA': 1.0, 'openFDA': 1.0,
   'USDA': 1.0, 'World Bank': 0.9, 'OECD': 0.9, 'Massive': 0.95,
   'Finnhub': 0.9, 'Alpha': 0.9, 'Alpaca': 0.9, 'USPTO': 0.85,
+  'Eurostat': 1.0,
   // Keyword RSS (event-family detection)
   'RSS Defense': 0.7, 'RSS Supply': 0.7, 'RSS Agriculture': 0.65,
   // Generic RSS / search
@@ -4952,6 +4958,93 @@ async function fetchBBCWorldNews() {
   } catch (e) { trackHealth('BBC World News', 'communication', 'fallback', e.message); return null; }
 }
 
+async function fetchEurostatAsylum() {
+  // Eurostat migr_asyappctza — EU27 first-time asylum applicants by country of citizenship.
+  //
+  // Measures how much the ORIGIN MIX MOVED year over year, as total variation distance
+  // between the two most recent annual distributions: 0 = identical mix, 1 = no overlap.
+  // Volume is deliberately not the signal; it is reported in the text but does not drive
+  // stress, because a smaller flow from somewhere new is the thing that propagates.
+  //
+  // CALIBRATION IS DERIVED, NOT GUESSED. Over the 11 year-pairs Eurostat publishes
+  // (2014/15 through 2024/25) the observed shift ran min 11.1%, median 14.0%, max 25.8%
+  // (2016->2017, the Syrian collapse). The mix never holds still, so a "quiet" year is
+  // still ~11% and a naive 0-to-1 scale would read every year as a crisis. Stress maps
+  // the observed range instead: 0 at 0.11, 1 at 0.26. Re-derive if the series extends.
+  try {
+    var url = 'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/' +
+      'migr_asyappctza?format=JSON&lang=EN&geo=EU27_2020&applicant=FRST' +
+      '&sex=T&age=TOTAL&unit=PER&lastTimePeriod=2';
+    var j = await timedJSON(url, { headers: { 'User-Agent': 'LIMEN-Helix/1.0' } });
+    if (!j || !j.dimension || !j.id || !j.size || !j.value || !j.dimension.citizen || !j.dimension.time) {
+      trackHealth('Eurostat Asylum', 'religion', 'fallback', 'empty response'); return null;
+    }
+
+    // JSON-stat is one flat array addressed mixed-radix over j.id order. Strides are
+    // computed rather than assumed: if Eurostat ever reorders its dimensions, assuming
+    // citizen/time are last would silently return the wrong countries rather than fail.
+    var dims = j.id, sizes = j.size, stride = {}, acc = 1;
+    for (var di = dims.length - 1; di >= 0; di--) { stride[dims[di]] = acc; acc *= sizes[di]; }
+    for (var dj = 0; dj < dims.length; dj++) {
+      // Every other dimension is pinned to one category by the query. If one is not,
+      // the flat index below is wrong, so fail closed instead of reporting a bad number.
+      if (dims[dj] !== 'citizen' && dims[dj] !== 'time' && sizes[dj] !== 1) {
+        trackHealth('Eurostat Asylum', 'religion', 'fallback', 'unpinned dimension ' + dims[dj]);
+        return null;
+      }
+    }
+
+    var cIdx = j.dimension.citizen.category.index;
+    var cLab = j.dimension.citizen.category.label || {};
+    var tIdx = j.dimension.time.category.index;
+    var years = Object.keys(tIdx).sort();
+    if (years.length < 2) { trackHealth('Eurostat Asylum', 'religion', 'fallback', 'need 2 years'); return null; }
+    var prev = years[years.length - 2], cur = years[years.length - 1];
+    var at = function (c, y) {
+      if (!(c in cIdx)) return 0;
+      var v = j.value[cIdx[c] * stride.citizen + tIdx[y] * stride.time];
+      return (v === null || v === undefined || isNaN(v)) ? 0 : v;
+    };
+
+    var totCur = at('TOTAL', cur), totPrev = at('TOTAL', prev);
+    if (!totCur || !totPrev) { trackHealth('Eurostat Asylum', 'religion', 'fallback', 'no totals'); return null; }
+
+    // Aggregates and the multi-country roll-ups would double-count against the members.
+    var AGG = /^(TOTAL|EU27_2020|EU28|EXT_EU27_2020|STLS|RNC|UNK|NEU27_2020)$/;
+    var tvd = 0, movers = [];
+    Object.keys(cIdx).forEach(function (c) {
+      if (AGG.test(c) || c.indexOf('_') !== -1) return;
+      var d = at(c, cur) / totCur - at(c, prev) / totPrev;
+      tvd += Math.abs(d);
+      if (Math.abs(d) >= 0.01) movers.push({ label: cLab[c] || c, pp: d * 100 });
+    });
+    tvd = tvd / 2;
+    if (!(tvd > 0)) { trackHealth('Eurostat Asylum', 'religion', 'fallback', 'degenerate mix'); return null; }
+    movers.sort(function (a, b) { return Math.abs(b.pp) - Math.abs(a.pp); });
+
+    var stress = clamp((tvd - 0.11) / 0.15, 0, 1);
+    var volPct = ((totCur - totPrev) / totPrev) * 100;
+    var top = movers[0];
+    var pct = (tvd * 100).toFixed(1);
+    trackHealth('Eurostat Asylum', 'religion', 'live', null, totCur);
+    return {
+      value: totCur,
+      label: 'asylum mix ' + pct + '% shift (' + cur + ')',
+      stress: round(stress),
+      channel: 'stress',
+      signal: 'EU27 first-time asylum origin mix shifted ' + pct + '% in ' + cur + ' vs ' + prev +
+        (top ? '; largest move ' + top.label + ' ' + (top.pp > 0 ? '+' : '') + top.pp.toFixed(1) + 'pp' : '') +
+        '; ' + totCur.toLocaleString('en-US') + ' applicants (' + (volPct >= 0 ? '+' : '') + volPct.toFixed(1) + '% YoY)',
+      headlines: movers.slice(0, 6).map(function (m) {
+        return m.label + ' ' + (m.pp > 0 ? '+' : '') + m.pp.toFixed(1) + 'pp';
+      }),
+      updated: Date.now(),
+      fetchedAt: Date.now(),
+      // The only timestamp here that is not our own clock: when Eurostat last revised.
+      sourceUpdatedAt: j.updated ? Date.parse(j.updated) : null
+    };
+  } catch (e) { trackHealth('Eurostat Asylum', 'religion', 'fallback', e.message); return null; }
+}
 async function fetchWorldBankFertility() {
   // World Bank Fertility Rate, total (births per woman). Annual indicator.
   // Below 2.1 = below replacement; below 1.8 = significant fertility decline;
