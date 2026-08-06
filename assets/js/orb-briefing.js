@@ -317,10 +317,9 @@
      who oversells the page they run is worse than one who says nothing, because the visitor
      finds out in one click.
 
-     medicine has `offer: null` deliberately. Its node routes to /fitness, not /medicine, and
-     /fitness carries no description to derive from — so that manager names the door without
-     describing what is behind it. Fix the routing or the page and this gets a line like the
-     others; do not write one from imagination. */
+     medicine is the only desk with TWO doors, because Remy actually runs both: /medicine is
+     the clinical read and /fitness is where you compute your own numbers. `also` carries the
+     second door. Nothing else needs it, and nothing else should get one invented for it. */
   var DESK = {
     energy:         { path:'/energy',         free:true,  cta:'Free Energy Bill X-Ray',
                       offer:'a free tool that tells you why your electric bill changed, and builds the complaint packet if the answer is your utility' },
@@ -360,7 +359,12 @@
                       offer:'signals, threats, and the analysis behind the headlines' },
     technology:     { path:'/technology',     cta:'Open Tech Watch',
                       offer:'cyber threats, breakthroughs, and the tools reshaping how you work' },
-    medicine:       { path:'/fitness',        cta:'Enter Health',            offer:null }
+    /* Clinical, but fitness minded. The offer names both sides because Remy is asked about
+       both, and the calculators behind the second door are real: critical power and W prime,
+       max heart-rate zones, natural muscle ceiling, injury-risk load. */
+    medicine:       { path:'/medicine',       cta:'Open Health Watch',
+                      offer:'disease spread, drug shortages and care-system stress, decoded for humans, and on the training side the free calculators for reading your own numbers',
+                      also:{ path:'/fitness', free:true, cta:'Read your own numbers' } }
   };
   function deskOf(id){ return DESK[id] || null; }
 
