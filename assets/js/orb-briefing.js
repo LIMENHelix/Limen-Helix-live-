@@ -308,6 +308,62 @@
                   in:  'you turn what I produce into something else' }
   };
 
+  /* THE DESK EACH MANAGER RUNS. Every domain has a free public front, and this is the one
+     place that says what it is, so the orb card, the picker and the meeting room all pitch
+     the same thing.
+
+     `offer` IS NOT MARKETING COPY I INVENTED. Each line is taken from the page's own
+     <meta name="description">, condensed to something a person can say out loud. A manager
+     who oversells the page they run is worse than one who says nothing, because the visitor
+     finds out in one click.
+
+     medicine has `offer: null` deliberately. Its node routes to /fitness, not /medicine, and
+     /fitness carries no description to derive from — so that manager names the door without
+     describing what is behind it. Fix the routing or the page and this gets a line like the
+     others; do not write one from imagination. */
+  var DESK = {
+    energy:         { path:'/energy',         free:true,  cta:'Free Energy Bill X-Ray',
+                      offer:'a free tool that tells you why your electric bill changed, and builds the complaint packet if the answer is your utility' },
+    culture:        { path:'/culture',        free:true,  cta:'What does your music earn?',
+                      offer:'a free tool showing what your streams actually pay, and where your subscription goes' },
+    finance:        { path:'/finance',        cta:'Open Finance Watch',
+                      offer:'banks, markets, and where the money system is under stress' },
+    agriculture:    { path:'/agriculture',    cta:'Open Agriculture Watch',
+                      offer:'drought, inputs and crops, from field to table' },
+    defense:        { path:'/defense',        cta:'Open Defense Watch',
+                      offer:'security, conflict, and the systems that keep watch' },
+    law:            { path:'/law',            cta:'Open Law Watch',
+                      offer:'courts, enforcement, and the rules that bind, decoded' },
+    governance:     { path:'/governance',     cta:'Open Governance Watch',
+                      offer:'the bills, rules and oversight that actually change your day' },
+    economy:        { path:'/economy',        cta:'Open Economy Watch',
+                      offer:'the forces moving jobs, prices and growth where you live' },
+    industry:       { path:'/industry',       cta:'Open Industry Watch',
+                      offer:'manufacturing, recalls, and the machines behind everything you buy' },
+    infrastructure: { path:'/infrastructure', cta:'Open Infrastructure Watch',
+                      offer:'airports, grids, roads and water, and where they are failing right now' },
+    education:      { path:'/education',      cta:'Open Education Watch',
+                      offer:'funding, policy, and what is actually working in learning' },
+    communication:  { path:'/communication',  cta:'Open Communication Watch',
+                      offer:'media, misinformation, and the fight over what is true' },
+    environment:    { path:'/environment',    cta:'Open Environment Watch',
+                      offer:'every heat warning, drought reading, wildfire, flood and air-quality alert in the country, read as one system, with what to do where you live' },
+    religion:       { path:'/religion',       cta:'Open Faith and Community Watch',
+                      offer:'belief, community care, and the institutions that hold people together' },
+    population:     { path:'/population',     cta:'Open Population Watch',
+                      offer:'where America is actually moving, who is gaining people and who is losing them' },
+    science:        { path:'/science',        cta:'Open Science Watch',
+                      offer:'what is being discovered, funded, and retracted, as it happens' },
+    trade:          { path:'/trade',          cta:'Open Trade Watch',
+                      offer:'ports, tariffs, and supply-chain pressure that hits your shelf' },
+    intelligence:   { path:'/intelligence',   cta:'Open Intelligence Watch',
+                      offer:'signals, threats, and the analysis behind the headlines' },
+    technology:     { path:'/technology',     cta:'Open Tech Watch',
+                      offer:'cyber threats, breakthroughs, and the tools reshaping how you work' },
+    medicine:       { path:'/fitness',        cta:'Enter Health',            offer:null }
+  };
+  function deskOf(id){ return DESK[id] || null; }
+
   // The typed edge between two domains, from a's point of view, or null if they are unrelated.
   function edgeBetween(a, b){
     for (var i = 0; i < PATHWAYS.length; i++){
@@ -410,6 +466,34 @@
     return arr[h % arr.length];
   }
 
+  /* THE GAMEPLAN LAYER. A briefing states what is. A manager meeting states what each of us
+     is going to do about it and who we need in order to do it.
+
+     Direction is READ OFF THE GRAPH, never assigned. If their state reaches mine I ask them
+     for warning; if mine reaches theirs I offer them lead time. That is the whole reason
+     nobody has to be told who defers to whom, and it is why adding a pathway changes who
+     asks whom without anyone rewriting a line. Unwired pairs say so rather than inventing a
+     relationship, because a manager claiming leverage they do not have is the failure mode
+     this whole structure exists to avoid. */
+  var PLAN = {
+    upstream:   ['What I need from you, {who}, is warning. You move before I do, and my desk is what people read once it reaches them.',
+                 '{who}, the useful thing you could do for me is flag it early. By the time it shows on my desk it is already somebody’s week.'],
+    downstream: ['What I can give you, {who}, is lead time. When my desk moves, yours moves next, and you should hear it from me rather than from the news.',
+                 '{who}, I will send it your way before it lands. You inherit this either way; you may as well inherit it early.'],
+    lateral:    ['You and I are not wired together, {who}, so I will not pretend we are. If that changes, it shows up on this map before it shows up in either of our numbers.']
+  };
+  function planWith(me, them, n){
+    var f = flowBetween(me.id, them.id);
+    var pool = f === 'upstream' ? PLAN.upstream : f === 'downstream' ? PLAN.downstream : PLAN.lateral;
+    return rotate(pool, n).replace('{who}', them.name);
+  }
+  /* What this manager is here to sell, in their own mouth. Null when the desk has no honest
+     line to give — see the medicine note on DESK. Silence beats invention. */
+  function pitchOf(id){
+    var d = deskOf(id);
+    return (d && d.offer) ? 'My desk is ' + d.offer + '.' : null;
+  }
+
   /* Convene. Returns ordered turns; the caller plays them one at a time.
      ids: array of domain ids. cache: the same shape build() takes. */
   function meeting(ids, cache){
@@ -447,6 +531,12 @@
         lines.push(linked.length
           ? 'In this room I am connected to ' + joinNames(linked) + '.'
           : 'Nothing in this room connects to me directly, which is worth knowing before we start.');
+        /* The opener sets the pattern the rest follow: say what your desk is, then name the
+           first person in the room who actually affects it. */
+        var p0 = pitchOf(me.id); if (p0) lines.push(p0);
+        for (var lm = 1; lm < list.length; lm++){
+          if (edgeBetween(me.id, list[lm].id)){ lines.push(planWith(me, list[lm], list.length)); break; }
+        }
       } else {
         /* Address the most recent prior speaker there is actually an edge to. If the previous
            speaker is a chair, this turn is answering a question rather than volunteering. */
@@ -472,6 +562,11 @@
            strain is genuinely his, which is the entire justification for being short. */
         if (role === 'blunt' && me.strain >= 0.4 && mn.strained) lines.push(rotate(mn.strained, k));
         if (role === 'absorber' && mn.lands) lines.push(rotate(mn.lands, k));
+        /* Every manager sells their own desk and then says what they want from the person
+           they are already talking to. Pitch before ask: nobody grants a favour to someone
+           whose job they cannot name. */
+        var pk = pitchOf(me.id); if (pk) lines.push(pk);
+        if (target) lines.push(planWith(me, target, k));
       }
 
       /* A chair calls the next speaker by name, but only along a real edge — the right to
@@ -482,7 +577,7 @@
           lines.push(rotate(mn.callOn, k).replace('{who}', nxt.name));
       }
       turns.push({ id: me.id, label: me.label, name: me.name, fn: me.fn, voice: me.voice,
-                   role: me.role, lines: lines, spoken: speakable(lines) });
+                   role: me.role, desk: deskOf(me.id), lines: lines, spoken: speakable(lines) });
       spokenAlready.push(me);
     }
 
@@ -499,13 +594,40 @@
     /* Downstream is who inherits this. Failing that, upstream is who this room is waiting on,
        which is the more useful thing to say when the chair is the one absorbing it. */
     tail.push(downstream.length
-      ? 'If this holds, ' + joinNames(downstream) + ' feels it before anyone else in this room does.'
+      ? 'If this holds, ' + joinNames(downstream) + (downstream.length > 1 ? ' feel' : ' feels') + ' it before anyone else in this room does.'
       : upstream.length
         ? 'Nothing here runs downstream of me. What I am carrying arrives from ' + joinNames(upstream) + ', so that is where it would have to change.'
         : 'Nothing in this room runs downstream of me, so this stays where it is for now.');
-    tail.push('That is the reading. What to do about it is not ours to decide.');
+    /* THE GAMEPLAN. A reading ends with what is. A manager meeting ends with who is doing
+       what for whom. Every pairing below is a REAL typed edge between two domains that are
+       both actually in the room. Nothing is arranged between a pair that is not wired,
+       because a plan that assumes a handoff which does not exist is worse than no plan. */
+    /* Grouped by whoever does the warning, not listed pair by pair. "Watts warns Remy, Watts
+       warns Harvey, Watts warns Forge" is the same fact said three times; one manager naming
+       their whole downstream is how a person would actually say it. */
+    var byWarner = {}, warners = [], handoffs = 0;
+    for (var y = 0; y < list.length; y++){
+      for (var x = 0; x < list.length; x++){
+        if (x === y) continue;
+        if (flowBetween(list[y].id, list[x].id) !== 'downstream') continue;
+        if (!byWarner[list[y].name]){ byWarner[list[y].name] = []; warners.push(list[y].name); }
+        byWarner[list[y].name].push(list[x].name);
+        handoffs++;
+      }
+    }
+    // Three named in full, the rest counted. A close nobody finishes reading is not a close.
+    var named = warners.slice(0, 3).map(function(n){ return n + ' warns ' + joinNames(byWarner[n]); });
+    var restW = warners.length - named.length;
+    tail.push(handoffs
+      ? 'So the plan leaving this room is simple. ' + joinNames(named) +
+        (restW > 0 ? ', and the same arrangement for ' + restW + ' other desk' + (restW === 1 ? '' : 's') : '') +
+        '. Everyone works their own desk and tells the next one down before it arrives.'
+      : 'Nobody in this room feeds anybody else, so there is no handoff to arrange. Everyone works their own desk.');
+    tail.push('Every desk at this table is public and free to read. That is what we are for.');
+    tail.push('We tell you what our instruments read. What you do about it stays yours.');
     turns.push({ id: chair.id, label: chair.label, name: chair.name, fn: chair.fn,
-                 voice: chair.voice, role: chair.role, lines: tail, spoken: speakable(tail), closing: true });
+                 voice: chair.voice, role: chair.role, desk: deskOf(chair.id),
+                 lines: tail, spoken: speakable(tail), closing: true });
     return turns;
   }
 
@@ -668,7 +790,7 @@
 
   return { DOMAINS: DOMAINS, FEEDKEY: FEEDKEY, NEWS: NEWS, PATHWAYS: PATHWAYS,
            meeting: meeting, edgeBetween: edgeBetween, flowBetween: flowBetween, ADDRESS: ADDRESS,
-           roleOf: roleOf, standing: standing,
+           roleOf: roleOf, standing: standing, DESK: DESK, deskOf: deskOf,
            RELATION: RELATION, SPEAKERS: SPEAKERS, NEURO: NEURO, VOICE: VOICE,
            build: build };
 }));

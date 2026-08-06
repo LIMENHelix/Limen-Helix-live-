@@ -445,6 +445,17 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     font:600 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase}
   #orbCard a.act:hover,#orbCard button.act:hover{background:rgba(226,236,250,.13);border-color:rgba(226,236,250,.45)}
 
+  /* The desk line. Set apart from the briefing paragraphs so a reader can tell the reading
+     from the offer at a glance, which is the honest way to put a pitch under a measurement. */
+  #orbCard p.desk{margin:14px 0 12px;padding:11px 13px;border-left:2px solid rgba(120,220,255,.4);
+    background:rgba(120,200,255,.05);color:rgba(226,236,248,.9);font-size:13px}
+  #orbCard p.desk .who{color:rgba(150,200,255,.8);font-weight:600}
+  /* The way out is the brightest thing on the card. Everything above is why you would click it. */
+  #orbCard a.act.go{background:rgba(120,220,255,.14);border-color:rgba(120,220,255,.5);color:#eaf6ff}
+  #orbCard a.act.go:hover{background:rgba(120,220,255,.24);border-color:rgba(150,235,255,.85)}
+  #orbCard a.act.go.free{background:rgba(126,240,190,.15);border-color:rgba(126,240,190,.55);color:#e9fff5}
+  #orbCard a.act.go.free:hover{background:rgba(126,240,190,.26);border-color:rgba(150,255,210,.9)}
+
   #orbClose{position:absolute;top:18px;right:20px;background:none;border:0;color:rgba(226,236,250,.5);
     font-size:26px;line-height:1;cursor:pointer}
   #orbClose:hover{color:#fff}
@@ -455,6 +466,9 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     color:rgba(214,228,244,.75);padding:5px 9px;cursor:pointer;
     font:600 8.6px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase}
   #orbPick button:hover{background:rgba(226,236,250,.13);color:#fff;border-color:rgba(226,236,250,.4)}
+  /* The manager's name carries the row; the domain is the subtitle. Reads as a staff list. */
+  #orbPick button .who{display:block;color:rgba(150,205,255,.92);letter-spacing:.1em;margin-bottom:2px}
+  #orbPick button:hover .who{color:#bfe6ff}
   @media (max-width:640px){ #orbCard{max-height:52vh} #orbPick button{padding:4px 7px;font-size:8px} }    #orbLayer .rec{font-size:12px;line-height:1.5;color:#7f8fa3;margin:14px 0 0;
       padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
 
@@ -466,7 +480,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   <button id="orbClose" type="button" aria-label="Close">&times;</button>
   <div id="orbCard" role="dialog" aria-live="polite"></div>
 </div>
-<div id="orbPick" aria-label="Choose a domain"></div>
+<div id="orbPick" aria-label="The twenty domain managers"></div>
 
 <script>
 (function () {
@@ -482,7 +496,8 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   // atlas topics, with the civilisational function the connectome tooltip already uses
   var _B = (typeof LIMEN_ORB !== 'undefined') ? LIMEN_ORB : (window.LIMEN_ORB || {});
   var DOMAINS = _B.DOMAINS, FEEDKEY = _B.FEEDKEY, NEWS = _B.NEWS, PATHWAYS = _B.PATHWAYS,
-      RELATION = _B.RELATION, SPEAKERS = _B.SPEAKERS, NEURO = _B.NEURO, VOICE = _B.VOICE;
+      RELATION = _B.RELATION, SPEAKERS = _B.SPEAKERS, NEURO = _B.NEURO, VOICE = _B.VOICE,
+      DESK = _B.DESK || {};
 
   var cache = { snap:null, opps:null, cons:null, subs:{}, news:{} };
   function getJSON(u){ return fetch(u).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); }
@@ -594,8 +609,18 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       b.rows.forEach(function(r){ html += '<div class="row"><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>'; });
       html += '</div>';
     }
+    /* THE DESK. The briefing above tells you the state of a domain; this tells you there is a
+       free page behind it and who runs it. It sits after the evidence rows on purpose — the
+       reading earns the click, the pitch does not. Text comes from LIMEN_ORB.DESK, which is
+       derived from each page's own description, so the card cannot promise what the page
+       does not do. A desk with no honest line (medicine) shows the door without a pitch. */
+    var desk = DESK[b.id] || null;
+    if (desk && desk.offer)
+      html += '<p class="desk"><span class="who">What '+b.name+' runs:</span> '+desk.offer+'.</p>';
     html += '<div class="acts">'+
-      '<a class="act" href="/'+(b.id==='medicine'?'fitness':b.id)+'">Enter '+b.label+'</a>'+
+      '<a class="act go'+(desk && desk.free ? ' free' : '')+'" href="'+
+        (desk ? desk.path : '/'+(b.id==='medicine'?'fitness':b.id))+'">'+
+        (desk ? desk.cta : 'Enter '+b.label)+' &rarr;</a>'+
       '<button class="act" type="button" id="orbAgain">Say it again</button></div>';
     card.innerHTML = html;
     var again = document.getElementById('orbAgain');
@@ -720,8 +745,16 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
      drawn in, so mutating it here would rearrange the map. This is a lookup list, and a
      lookup list is scanned by name. */
   DOMAINS.slice().sort(function(a,b){ return a[1].localeCompare(b[1]); }).forEach(function(dd){
-    var b = document.createElement('button');
-    b.type='button'; b.textContent=dd[1];
+    var b = document.createElement('button'), sp = SPEAKERS[dd[0]] || {}, dk = DESK[dd[0]] || {};
+    /* NAME FIRST. Twenty domain labels is a taxonomy; twenty people is a staff. The manager
+       is the door — clicking opens the orb, which gives the reading and only then offers the
+       page. Linking the bar straight to the page would skip the reason to go. */
+    b.type='button';
+    b.innerHTML = sp.name ? '<span class="who">'+sp.name+'</span>'+dd[1] : dd[1];
+    b.title = sp.name
+      ? sp.name + ' runs ' + dd[1] + (dk.cta ? ' — ' + dk.cta : '')
+      : dd[1];
+    b.setAttribute('aria-label', b.title);
     b.addEventListener('click', function(){
       var r=b.getBoundingClientRect();
       open(dd[0],dd[1],dd[2], r.x+r.width/2, r.y);

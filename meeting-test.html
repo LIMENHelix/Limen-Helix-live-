@@ -112,6 +112,9 @@
   .turn p{margin:0 0 7px}
   .turn p:last-child{margin-bottom:0}
   .turn.closing .hd em:after{content:" · closing"}
+  .turn a.desk{display:inline-block;margin-top:8px;padding:5px 10px;font-size:11.5px;
+    text-decoration:none;color:var(--ac);border:1px solid rgba(94,234,212,.35);border-radius:3px}
+  .turn a.desk:hover{background:rgba(94,234,212,.1);border-color:rgba(94,234,212,.7)}
   .idle{color:var(--dim);font-size:13.5px;padding:22px 0;text-align:center}
   .cost{color:var(--dim);font-size:11.5px;margin-top:12px;text-align:right;
     font-variant-numeric:tabular-nums}
@@ -275,6 +278,11 @@ because Religion sits at degree two. One speaks at a time and nobody interrupts.
     var html='<div class="hd" style="color:hsl('+h+',75%,68%)">'+turn.name+
              ' <em>'+turn.label+'</em> <u>'+(ROLE_LABEL[turn.role]||'')+'</u></div>';
     turn.lines.forEach(function(l){ html+='<p>'+l+'</p>'; });
+    /* Each manager's desk, linked from their own turn. A meeting where people pitch their
+       business and you cannot reach it is a meeting that wasted the pitch. Closing turns are
+       skipped — the chair already linked their desk when they spoke first. */
+    if (turn.desk && !turn.closing)
+      html+='<a class="desk" href="'+turn.desk.path+'">'+turn.desk.cta+' &rarr;</a>';
     d.innerHTML=html;
     script.appendChild(d);
     d.scrollIntoView({behavior:'smooth',block:'nearest'});
