@@ -112,16 +112,19 @@ module.exports = async function handler(req, res) {
        domain that is silently absent from the only surface anyone reads. */
     var out = {};
     var installed = RUNTIME.INSTALLED_DOMAINS;
-    /* Bytes persisted per domain, and their total. This is the number that decides whether
-       the next batch is affordable: every cycle reads the whole state and writes it back,
-       and Upstash bills bandwidth. Reported as measured bytes from the last cycle, null
-       where that cycle failed or has not run, so an absent domain cannot read as zero. */
-    var totalStateBytes = 0, measured = 0;
+    /* Serialized state VALUE size per domain, and its total, from each domain's last cycle.
+       Null where that cycle failed or has not run, so an absent domain cannot read as zero.
+
+       NOT BANDWIDTH. This is the UTF-8 length of the value handed to SET. The REST transport
+       re-encodes it and adds an envelope, so the wire figure is larger and is not measured
+       anywhere yet. It tracks RELATIVE hot-state growth, which is what the batch-2 gate
+       turns on; it is not a billing number and must not be doubled into one. */
+    var totalStateValueBytes = 0, measured = 0;
     for (var i = 0; i < installed.length; i++) {
       var p = installed[i];
       var desc = REG.descriptorFor(p);
       var cyc = await STORE.readCycle(desc.snapshot);
-      if (cyc && typeof cyc.stateBytes === 'number') { totalStateBytes += cyc.stateBytes; measured++; }
+      if (cyc && typeof cyc.stateValueBytes === 'number') { totalStateValueBytes += cyc.stateValueBytes; measured++; }
       out[p] = cyc ? {
         domain: cyc.domain, ok: cyc.ok, error: cyc.error,
         startedAt: cyc.startedAt, finishedAt: cyc.finishedAt,
@@ -130,7 +133,7 @@ module.exports = async function handler(req, res) {
         provenance: cyc.provenance, predictions: cyc.predictions,
         abstentions: (cyc.abstentions || []).length,
         actuation: cyc.actuation,
-        stateBytes: typeof cyc.stateBytes === 'number' ? cyc.stateBytes : null
+        stateValueBytes: typeof cyc.stateValueBytes === 'number' ? cyc.stateValueBytes : null
       } : null;
     }
     return send(res, 200, {
@@ -141,11 +144,17 @@ module.exports = async function handler(req, res) {
             'Installed means executing in shadow; it activates no relationship and evidences nothing.',
       installed: installed,
       installedCount: installed.length,
-      boundCount: REG.DOMAINS.length,
+      /* TOTAL, NOT BOUND. This field was called `boundCount` and was `DOMAINS.length`, which
+         is the size of the canonical roster and would keep reading 20 after a binder stopped
+         loading or a fixture became unreadable. Binding is a per-domain classification the
+         registry computes by opening every fixture, and this endpoint does not do that: it
+         reads cycle reports. So it reports the roster size, under the name of the thing it
+         actually knows. */
+      totalDomains: REG.DOMAINS.length,
       /* Named `measuredDomains` rather than left implicit: a total over 3 of 7 domains and a
          total over 7 of 7 are different numbers and must not look alike. */
-      stateBytesTotal: totalStateBytes,
-      stateBytesMeasuredDomains: measured,
+      stateValueBytesTotal: totalStateValueBytes,
+      stateValueBytesMeasuredDomains: measured,
       cycles: out
     });
   } catch (e) {

@@ -164,13 +164,21 @@ var firstReport, secondReport, firstState;
     }), JSON.stringify(RUNTIME.INSTALLED_DOMAINS.filter(function (p) {
       return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js')).spec().efferent !== null;
     })));
-  /* MEASURED BYTES, from the store, on the string it actually sent. */
-  assert('the cycle reports the byte length of the state it persisted',
-    typeof firstReport.stateBytes === 'number' && firstReport.stateBytes > 0,
-    JSON.stringify(firstReport.stateBytes));
-  assert('and that byte count matches the payload actually stored under the state key',
-    firstReport.stateBytes === Buffer.byteLength(MEM[STORE.shadowKey('energy', 'state')], 'utf8'),
-    firstReport.stateBytes + ' vs ' + Buffer.byteLength(MEM[STORE.shadowKey('energy', 'state')] || '', 'utf8'));
+  /* THE SERIALIZED STATE VALUE, measured by the store on the string it passed to SET. Named
+     for what it is: not transport bytes, which are larger and are not measured anywhere. */
+  assert('the cycle reports the UTF-8 length of the serialized state value',
+    typeof firstReport.stateValueBytes === 'number' && firstReport.stateValueBytes > 0,
+    JSON.stringify(firstReport.stateValueBytes));
+  assert('and it equals the value stored under the state key, not an estimate of it',
+    firstReport.stateValueBytes === Buffer.byteLength(MEM[STORE.shadowKey('energy', 'state')], 'utf8'),
+    firstReport.stateValueBytes + ' vs ' + Buffer.byteLength(MEM[STORE.shadowKey('energy', 'state')] || '', 'utf8'));
+  /* NO FIELD MAY CLAIM TRANSPORT BYTES. The first version of this measurement was documented
+     as "bytes actually written to redis" and then doubled into a bandwidth projection. The
+     value is real; the transport claim was not, because the REST client re-encodes it. This
+     asserts the mistake cannot come back under the old name. */
+  assert('and no report field claims a raw byte count that would be read as transport size',
+    firstReport.stateBytes === undefined,
+    'stateBytes was renamed to stateValueBytes precisely because it is a value length');
   assert('and the kernel actuator has no transport of its own to reach outward with',
     !/require\('(https?|node-fetch|axios)'\)|fetch\s*\(/.test(
       fs.readFileSync(path.join(ROOT, 'brain-v2', 'kernel', 'actuate.js'), 'utf8')),
@@ -439,11 +447,11 @@ var firstReport, secondReport, firstState;
     assert('including the two queued AFTER the failure, which a leaked throw would have killed',
       byProduct.industry.ok === true && byProduct.population.ok === true,
       'industry=' + byProduct.industry.ok + ' population=' + byProduct.population.ok);
-    assert('each of the four persisted state and reported its byte length',
-      others.every(function (p) { return typeof byProduct[p].stateBytes === 'number' && byProduct[p].stateBytes > 0; }),
-      JSON.stringify(others.map(function (p) { return p + '=' + byProduct[p].stateBytes; })));
-    assert('the failed domain reports NO byte count, rather than a number for a payload that never landed',
-      byProduct.trade.stateBytes === null, JSON.stringify(byProduct.trade.stateBytes));
+    assert('each of the four persisted state and reported its serialized value length',
+      others.every(function (p) { return typeof byProduct[p].stateValueBytes === 'number' && byProduct[p].stateValueBytes > 0; }),
+      JSON.stringify(others.map(function (p) { return p + '=' + byProduct[p].stateValueBytes; })));
+    assert('the failed domain reports NO length, rather than a number for a payload that never landed',
+      byProduct.trade.stateValueBytes === null, JSON.stringify(byProduct.trade.stateValueBytes));
     assert('the batch as a whole reports not ok, so one silent failure cannot read as success',
       batch.ok === false, JSON.stringify(batch.ok));
     assert('and every write the batch made stayed inside the shadow namespace',
@@ -790,6 +798,40 @@ var firstReport, secondReport, firstState;
     r = await call('/api/brain-shadow', { 'x-brain-token': 'op' }, { token: 'op', cron: 'sekrit' });
     assert('an operator token DOES grant the read', r.code === 200, String(r.code));
     assert('and reading ran no cycle', ran === 0, String(ran));
+
+    console.log('S9b: the health response names what it actually knows');
+    /**
+     * TWO CONFLATIONS THIS ENDPOINT SHIPPED WITH, both caught in review, both the same
+     * class of error: a field named for a quantity stronger than the one it holds.
+     *
+     *   `boundCount` was `DOMAINS.length`. That is the roster size. It would have kept
+     *   reading 20 after a binder stopped loading, which is precisely the case someone
+     *   would consult it for. Binding is a per-domain classification the registry computes
+     *   by opening every fixture; this endpoint reads cycle reports and does not do that.
+     *
+     *   `stateBytesTotal` was a sum of serialized VALUE lengths presented as bytes. The
+     *   REST transport re-encodes the value and adds an envelope, so it is not the wire
+     *   figure and must not be doubled into bandwidth.
+     *
+     * Both are asserted by ABSENCE of the old name as well as presence of the new one, so a
+     * revert that restores the old field fails here rather than passing quietly.
+     */
+    assert('the roster size is reported as totalDomains',
+      r.body.totalDomains === REG.DOMAINS.length, JSON.stringify(r.body.totalDomains));
+    assert('and NOT as boundCount, which it never measured',
+      r.body.boundCount === undefined,
+      'DOMAINS.length is the roster, not the count of domains currently BOUND');
+    assert('the installed count is reported and is the registry set',
+      r.body.installedCount === REG.INSTALLED_DOMAINS.length &&
+      JSON.stringify(r.body.installed) === JSON.stringify(REG.INSTALLED_DOMAINS),
+      JSON.stringify(r.body.installed));
+    assert('state size is reported under a name that says it is a serialized VALUE length',
+      typeof r.body.stateValueBytesTotal === 'number' &&
+      typeof r.body.stateValueBytesMeasuredDomains === 'number',
+      JSON.stringify([r.body.stateValueBytesTotal, r.body.stateValueBytesMeasuredDomains]));
+    assert('and no field is named as though it were transport bytes',
+      r.body.stateBytesTotal === undefined && r.body.stateBytesMeasuredDomains === undefined,
+      'a value length doubled into bandwidth is the error the rename prevents');
 
     r = await call('/api/brain-shadow?run=1', { authorization: 'Bearer sekrit' }, { token: 'op', cron: 'sekrit' });
     assert('an exact Bearer CRON_SECRET match DOES execute', r.code === 200 || r.code === 207, String(r.code));

@@ -185,20 +185,31 @@ derives from the runtime. The runtime used to hold its own literal, which is one
 by the wrong module: a domain added there but not to the health handler is executed hourly
 and reported as absent, and the operator read is the only surface anyone looks at.
 
-**PERSISTED STATE SIZE IS NOW MEASURED, in bytes, per domain.** `writeState` returns
-`Buffer.byteLength` of the exact string it sent, the cycle report carries it as
-`stateBytes`, and `/api/brain-shadow` reports it per domain plus a total. This was
-unmeasurable before, so the projections below could not have been checked against
-production at all.
+**SERIALIZED STATE SIZE IS NOW MEASURED per domain.** `writeState` returns
+`Buffer.byteLength(json, 'utf8')` of the exact string it passed to SET, the cycle report
+carries it as `stateValueBytes`, and `/api/brain-shadow` reports it per domain plus a total
+and how many domains that total covers. Nothing was measuring hot-state size before, so no
+growth projection could be checked against production at all.
+
+**WHAT THIS NUMBER IS, STATED EXACTLY.** The UTF-8 byte length of the serialized state value
+accepted by SET. It is useful for measuring **relative hot-state growth**, and it is **not a
+measurement of HTTP transport bandwidth or billing.** `brain-shadow-redis` speaks the Upstash
+REST API, which nests this value inside a JSON command array and escapes it a second time,
+and a GET adds its own response envelope, so the figure on the wire is strictly larger by an
+amount nothing here observes. An earlier version of this section called it "bytes actually
+written", doubled it for read-plus-write, projected a monthly bandwidth total from it, and
+compared it against an HTTP request ceiling. **All four of those are withdrawn.** They
+substituted a value length for a transport length, which is the same class of error as
+counting occurrences and calling them observations.
 
 Offline, first cold cycle of 120 rows, through the real write path:
 
-| domain | stateBytes | | domain | stateBytes |
+| domain | stateValueBytes | | domain | stateValueBytes |
 |---|---:|---|---|---:|
 | energy | 926,617 | | trade | 781,990 |
 | finance | 674,805 | | industry | 468,016 |
 | economy | 649,007 | | education | 436,741 |
-| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MB)** |
+| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MB of value)** |
 
 **NOT VERIFIED IN PRODUCTION.** Nothing here has run against real Redis. The numbers above
 come from offline replay of the PR #4 fixtures through an in-memory transport. Production
@@ -214,12 +225,14 @@ describes what the code does, not what the system did.
 - **current gate**: hot state growth (NEXT PROGRAM STEP 3). Hard gate before batch 2.
 - **known unknowns**: (a) no production cycle has run with 7 domains, so the sequential
   batch wall-clock and the real Redis round-trip cost are both unmeasured; (b) production
-  `stateBytes` for the 5 new domains is unknown until the first cycle, and the offline
+  `stateValueBytes` for the 5 new domains is unknown until the first cycle, and the offline
   figures are a floor because the fixtures stop at 470 rows while production keeps
-  recording; (c) the Upstash request-size ceiling for this plan has not been retrieved, so
-  the headroom above the current 3.66 MB largest domain is not known.
+  recording; (c) **actual transport bytes are not measured anywhere**, so no bandwidth or
+  billing figure exists for this system, only value lengths; (d) the Upstash request-size
+  ceiling for this plan has not been retrieved, and since the value length is not the wire
+  length, headroom above the 3.66 MB largest value is doubly unestablished.
 - **exact next action**: merge, then read `/api/brain-shadow` after the first two `:27`
-  cycles and record the production `stateBytes` per domain in this file. Not the next
+  cycles and record the production `stateValueBytes` per domain in this file. Not the next
   batch: the gate above comes first.
 
 ---
@@ -318,8 +331,9 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 3. **MANDATORY GATE BEFORE BATCH 2, bound hot state growth.** Batch 2 must not be
    installed until this is closed, and it is a hard gate, not a preference.
 
-   **What was measured.** Persisted state grows roughly linearly with ticks and shows no
-   plateau within 470 ticks. Offline replay of the PR #4 fixtures:
+   **What was measured, and in which unit.** Serialized state VALUE length grows roughly
+   linearly with ticks and shows no plateau within 470 ticks. Offline replay of the PR #4
+   fixtures. These are value lengths, not wire bytes; see the unit note in BATCH 1.
 
    | replay depth | economy | finance | infrastructure |
    |---|---|---|---|
@@ -332,12 +346,19 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    `registry.predictions` 763 KB (656 open, 611 resolved). Both accumulate per tick.
    `lib/brain-shadow-store.js` enforces no size ceiling.
 
-   **Why it gates the batch and not this one.** Every cycle reads the whole state and
-   writes it back, and Upstash bills bandwidth. At 7 installed domains this is affordable.
-   At 20, offline replay projects 49.9 MB resident and ~99.8 MB per hourly cycle, and the
-   largest single domain is already 3.66 MB with no bound. Installing 13 more before
-   bounding growth commits the system to a cost curve nobody has priced and a payload that
-   will eventually exceed a request limit mid-cycle.
+   **Why it gates the batch and not this one.** Every cycle reads the whole state and writes
+   it back, so a value that grows without bound grows the work of every future cycle. At 7
+   installed domains the total is 4.30 MB of value and is manageable. At 20, offline replay
+   projects **49.9 MB of resident value**, with the largest single domain already 3.66 MB and
+   no ceiling in the store. Installing 13 more before bounding growth commits every
+   subsequent cycle to carrying it.
+
+   **STATED IN THE UNIT ACTUALLY MEASURED.** The figures above are serialized value lengths.
+   Earlier wording here turned them into a bandwidth-per-cycle number, a monthly billing
+   projection, and a comparison against a request-size ceiling. Those needed transport bytes,
+   which nothing measures, so they are withdrawn rather than restated more carefully. The
+   growth curve is real and is enough on its own to gate the batch; the cost curve is
+   currently unknown, and saying so is the honest form of the same warning.
 
    **What closing it requires**, and each of these is a constraint the fix must not break:
    - bound `memory` and the prediction registry, by retention policy, compaction, or both
@@ -348,6 +369,11 @@ Net: the shared production template. This is the thing the remaining 18 domains 
      asserts byte-identical state across two independent runs, and S4 asserts a restored
      brain carries the same channel state. A compaction that depends on wall-clock time or
      on how many cycles happened to run breaks both, and would break them silently
+   - **measure ACTUAL TRANSPORT BYTES**, by instrumenting `lib/brain-shadow-redis` at the
+     point it builds a request and reads a response. Until that exists there is no bandwidth
+     figure and no billing figure for this system, and the request-size headroom above the
+     current 3.66 MB largest value cannot be established either. This belongs to THIS
+     milestone and was deliberately kept out of the batch-1 installation PR.
    - re-measure against production and record the new curve here
 
    **Not attempted in this PR, deliberately.** Compaction touches the kernel's memory and
