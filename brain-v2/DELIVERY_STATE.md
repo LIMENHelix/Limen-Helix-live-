@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-05T21:35Z
+measured_at: 2026-08-06T00:20Z
 measured_at_commit: 8f69c7ac1091463286ecb1de55c51919e9b78a3c
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -67,24 +67,69 @@ only this file.
 
   So the loop's learning state was restored from Redis, not recreated. This is the gate
   PR #5 could not close on its own.
-- **PROVEN — backfill provenance reaches the runtime.** Cycle 4 (2026-08-05T21:27Z) crossed
-  the `su` boundary and `withObservationId` matched the recorder EXACTLY, not merely
-  non-zero:
+- **PROVEN — source-identity TRANSPORT, for the subset of channels that currently emit
+  source IDs.** Cycle 4 (2026-08-05T21:27Z) crossed the `su` boundary and
+  `withObservationId` matched the recorder exactly: energy 19 of 19, finance 56 of 56.
+  Nothing was dropped between adapter, recorder, binder and runtime.
 
-  | domain | keyed readings in the recorder | reported by the runtime |
-  |---|---|---|
-  | energy | 19 | **19** |
-  | finance | 56 | **56** |
+  **THIS IS TRANSPORT INTEGRITY, NOT PROVENANCE COVERAGE.** An earlier version of this file
+  said "the provenance chain is closed end to end". That sentence described a subset as
+  though it were the whole and is withdrawn.
 
-  finance's 56 decomposes as 18 rows x 3 keyed channels + 1 row x 2 — that single 2 is a
-  transient Alpha Vantage miss at 03:12, so the number carries its own explanation. `su`
-  first appears in recorded rows at 2026-08-05T03:12:09.704Z, the first recorder run after
-  PR #3 deployed the field.
+  - energy declares **18 channels; 1 currently emits `su`** (FRED Crude Oil)
+  - finance declares **13 channels; 3 currently emit `su`** (Finnhub, Alpha Vantage,
+    Treasury Yield Curve)
+  - **19 and 56 are OCCURRENCES, not distinct observation identities.** Repeated hourly
+    polls of one unchanged publisher record count repeatedly.
+  - repeated polling of the same upstream identity **must not** count as independent
+    evidence
+  - rows recorded before 2026-08-05T03:12Z retain their VALUES but have **unknown** source
+    identity, permanently — the field did not exist when they were written
 
-  The chain is therefore closed end to end: adapter -> recorder `su` -> binder
-  `observationId` -> runtime report.
+  ### Measured per-channel identity, 35 eligible rows since `su` deployment
 
-  BACKFILL IS COMPLETE. The cursor reached 2026-08-05T21:12:46.814Z, the newest recorded
+  | domain | channel | withSu | **DISTINCT** | repeats | tier |
+  |---|---|---|---|---|---|
+  | energy | FRED Crude Oil | 35 | **2** | 33 | source |
+  | energy | other 17: 11 value-change (news/RSS), 6 unknown (Massive, EIA Petroleum, Fed Reg x2, +2) | 0 | 0 | — | mixed |
+  | finance | Finnhub Market | 35 | **8** | 27 | source |
+  | finance | Alpha Vantage Market | 34 | **2** | 32 | source |
+  | finance | Treasury Yield Curve | 35 | **1** | 34 | source |
+  | finance | other 10: 3 value-change (Treasury Debt, FDIC, SOFR), 7 unknown | 0 | 0 | — | mixed |
+
+  35 occurrences of 2 identities is two observations polled 35 times, not 35 observations.
+
+  ### Relationship eligibility — measured, not inferred from occurrence counts
+
+  **0 of 10 declared relationships meet the analyzer's minimum (>=6 distinct identities on
+  BOTH sides).**
+
+  | domain | latent | side A distinct | side B distinct | eligible |
+  |---|---|---|---|---|
+  | energy | crude oil price level | FRED 2 | EIA Petroleum 0 | no |
+  | energy | crude oil price level | FRED 2 | Massive Crude 0 | no |
+  | energy | electric grid stress | 0 | 0 | no |
+  | energy | natural gas supply pressure | 0 | 0 | no |
+  | energy | renewable generation attention | 0 | 0 | no |
+  | energy | nuclear sector activity | 0 | 0 | no |
+  | energy | coal-to-renewable displacement | 0 | 0 | no |
+  | finance | SPY price level | Massive 0 | Finnhub 8 | no |
+  | finance | SPY price level | Massive 0 | Alpha Vantage 2 | no |
+  | finance | SPY price level | **Finnhub 8** | Alpha Vantage 2 | no |
+
+  The last row is closest: Finnhub clears the bar, Alpha Vantage does not and will not
+  quickly — its key is `07. latest trading day`, so it yields one identity per trading day
+  by construction, making six roughly six trading days away.
+
+  ### What this permits and forbids
+
+  - Missing identity **does NOT block installation** in shadow mode; shadow sensing over
+    value-change channels is legitimate if the gap is reported honestly.
+  - It **DOES block** claiming independent evidence or activating any relationship that
+    requires it. No neural pathway may be switched on from these numbers.
+  - Unavailable identity must stay **visible in domain health**, never defaulted or hidden.
+
+  BACKFILL IS COMPLETE: the cursor reached 2026-08-05T21:12:46.814Z, the newest recorded
   row. From cycle 5 the runtime is in steady state and `rowsApplied` drops from ~120 to
   roughly 1 per hour. That is normal, not a stall.
 - **UNPROVEN — absence of unexpected Redis keys.** Requires a looped `SCAN` (repeat with
@@ -175,9 +220,11 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 
 ## NEXT PROGRAM STEP
 
-1. **BOTH GATES ARE CLOSED.** Restoration (cycle 2) and backfill provenance (cycle 4) are
-   proven against production. The persistence gate that held the remaining 18 domains is
-   satisfied, and onboarding is what comes next.
+1. **THE PERSISTENCE GATE IS CLOSED.** Restoration (cycle 2) and source-identity transport
+   (cycle 4) are proven against production, so batched onboarding is unblocked.
+   **The EVIDENCE gate is a separate, still-open milestone** and does not block
+   installation: 0 of 10 relationships have enough distinct identities on both sides.
+   Install domains in shadow; activate relationships only when measured.
 2. **Then onboard remaining domains in registry-driven BATCHES.**
    - Do **not** create 18 bespoke runtimes.
    - Do **not** process one domain per session.
