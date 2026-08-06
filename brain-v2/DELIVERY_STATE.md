@@ -117,9 +117,9 @@ only this file.
   | finance | SPY price level | Massive 0 | Alpha Vantage 2 | no |
   | finance | SPY price level | **Finnhub 8** | Alpha Vantage 2 | no |
 
-  The last row is closest: Finnhub clears the bar, Alpha Vantage does not and will not
-  quickly — its key is `07. latest trading day`, so it yields one identity per trading day
-  by construction, making six roughly six trading days away.
+  The last row is closest: Finnhub clears the bar, Alpha Vantage does not — its key is
+  `07. latest trading day`, one identity per trading day. Holding 2 of the 6 required, it
+  needs **4 more**, subject to a successful fetch on each of those market days.
 
   ### What this permits and forbids
 
