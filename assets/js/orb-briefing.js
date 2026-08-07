@@ -540,11 +540,15 @@
     for (var k = 0; k < list.length; k++){
       var me = list[k], lines = [];
       var role = me.role, mn = MANNER[role] || MANNER.steady, seed = me.id + ids.length + ':' + k;
+      /* A FULL TABLE IS A DIFFERENT MEETING FROM A HUDDLE. Four people can each take a
+         paragraph; twenty cannot, or the room runs past the point anyone is still listening.
+         Above six seats every turn tightens to one reading and one move. */
+      var big = list.length > 6;
       /* NOBODY INTRODUCES THEMSELVES. Every surface that plays a meeting shows who is
          speaking, on a nameplate under their orb, so "I am Harvey" spends the first line of
          every turn on something the viewer can already see. What goes there instead is what
          the domain is reading. */
-      var said = readings(me.brief, DEPTH[role] || 2);
+      var said = readings(me.brief, big ? (role === 'chair' ? 2 : 1) : (DEPTH[role] || 2));
 
       if (k === 0){
         // Whoever carries the most opens, in their own manner.
@@ -584,16 +588,27 @@
         }
         said.forEach(function(p){ lines.push(p); });
         // The quiet ones stop here. Everyone else places themselves against the room.
-        if (role !== 'quiet') lines.push(me.brief.strainLine || positionOf(me, list));
+        if (role !== 'quiet' && !big) lines.push(me.brief.strainLine || positionOf(me, list));
         /* Temperament colours every turn, not just the chair's. Blunt sharpens only when the
            strain is genuinely his, which is the entire justification for being short. */
-        if (role === 'blunt' && me.strain >= 0.4 && mn.strained) lines.push(rotate(mn.strained, k));
-        if (role === 'absorber' && mn.lands) lines.push(rotate(mn.lands, k));
+        if (!big && role === 'blunt' && me.strain >= 0.4 && mn.strained) lines.push(rotate(mn.strained, k));
+        if (!big && role === 'absorber' && mn.lands) lines.push(rotate(mn.lands, k));
         /* Every manager sells their own desk and then says what they want from the person
            they are already talking to. Pitch before ask: nobody grants a favour to someone
-           whose job they cannot name. */
-        var pk = pitchOf(me.id); if (pk) lines.push(pk);
-        if (target) lines.push(planWith(me, target, k));
+           whose job they cannot name.
+
+           IN A FULL ROOM THEY ALTERNATE. Twenty managers each doing both is a forty-minute
+           meeting, and the second half of a meeting nobody is still watching may as well not
+           have happened. Every manager still either sells or asks; none does both. */
+        var pk = pitchOf(me.id);
+        if (big){
+          if (k % 2 === 1 && pk) lines.push(pk);
+          else if (target) lines.push(planWith(me, target, k));
+          else if (pk) lines.push(pk);
+        } else {
+          if (pk) lines.push(pk);
+          if (target) lines.push(planWith(me, target, k));
+        }
       }
 
       /* A chair calls the next speaker by name, but only along a real edge — the right to

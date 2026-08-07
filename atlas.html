@@ -500,6 +500,10 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   /* The manager's name carries the row; the domain is the subtitle. Reads as a staff list. */
   #orbPick button .who{display:block;color:rgba(150,205,255,.92);letter-spacing:.1em;margin-bottom:2px}
   #orbPick button:hover .who{color:#bfe6ff}
+  #orbPick button.table{border-left-color:rgba(126,240,190,.75);background:rgba(126,240,190,.07);
+    color:rgba(226,246,238,.8);margin-bottom:7px}
+  #orbPick button.table .who{color:rgba(150,255,210,.95)}
+  #orbPick button.table:hover{background:rgba(126,240,190,.16);border-color:rgba(126,240,190,.5)}
   @media (max-width:760px){
     #orbPick{width:104px;padding:10px 6px 14px}
     #orbPick button{font-size:7.6px;padding:4px 6px}
@@ -631,39 +635,79 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     ctx.restore();
   }
 
-  /* Seats laid out across the top band. The transcript owns the bottom of the screen, so the
-     call sits above it and both stay on screen at once — a demo where you have to scroll to
-     see who is speaking is a demo nobody follows. */
+  /* THE WALL. Everyone in the meeting has a tile, and so do you — a call where you cannot see
+     yourself in it is a broadcast. Two managers means three tiles; all twenty means
+     twenty-one. The grid reflows for any of that.
+
+     The transcript owns the bottom of the screen, so the wall sits above it and both stay
+     visible at once. A demo where you scroll to see who is talking is a demo nobody follows. */
   function seatLayout(n, w, h){
-    var top = h*0.055, band = h*0.40;
-    var cols = (w >= 900) ? n : Math.min(2, n);
+    var top = h*0.045, band = h*0.42;
+    // Roughly square-ish tiles, biased wider because the band is short and the screen is not.
+    var cols = Math.min(n, Math.max(1, Math.ceil(Math.sqrt(n * 1.9))));
+    if (w < 760) cols = Math.min(cols, 4);
     var rows = Math.ceil(n/cols);
     var cw = w/cols, ch = band/rows;
-    var r = Math.max(24, Math.min(cw, ch)*0.29);
+    var r = Math.max(13, Math.min(cw*0.30, ch*0.27));
     var out = [];
     for (var i=0;i<n;i++){
       var c = i%cols, rw = Math.floor(i/cols);
-      out.push({ x: cw*(c+0.5), y: top + ch*(rw+0.5), r: r });
+      // Last row centres its remainder rather than hanging left, which reads as a bug.
+      var inRow = Math.min(cols, n - rw*cols);
+      var pad = (cols - inRow) * cw / 2;
+      out.push({ x: pad + cw*(c+0.5), y: top + ch*(rw+0.5), r: r });
     }
     return out;
   }
 
+  /* A seat that is not speaking: listening, not switched off. Barely-there glass with a slow
+     breath, and the viewer's own seat marked rather than coloured, because you are in the
+     room but you are not one of the twenty. */
+  function quietSeat(t, p, s, seed){
+    var br = 1 + 0.03*Math.sin(t*0.9 + seed*1.3);
+    var r = p.r*br;
+    ctx.save();
+    var g = ctx.createRadialGradient(p.x-r*0.3, p.y-r*0.34, r*0.05, p.x, p.y, r);
+    if (s.you){
+      g.addColorStop(0,'rgba(255,255,255,.30)');
+      g.addColorStop(0.6,'rgba(214,228,244,.10)');
+      g.addColorStop(1,'rgba(214,228,244,.02)');
+    } else {
+      g.addColorStop(0,'hsla('+s.hue+',80%,84%,.20)');
+      g.addColorStop(0.6,'hsla('+s.hue+',70%,60%,.09)');
+      g.addColorStop(1,'hsla('+s.hue+',60%,45%,.02)');
+    }
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,6.2832); ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x,p.y,r,0,6.2832);
+    ctx.strokeStyle = s.you ? 'rgba(226,236,250,.26)' : 'hsla('+s.hue+',80%,72%,.20)';
+    ctx.setLineDash(s.you ? [3,4] : []);          // your seat reads as a placeholder, not a domain
+    ctx.lineWidth=1; ctx.stroke();
+    ctx.restore();
+  }
+
   // The nameplate under each seat, and the mic dot on whoever currently holds the floor.
   function plate(s, p){
-    var y = p.y + p.r*1.6;
+    // Type scales with the tile, or a twenty-one seat wall overlaps its own labels.
+    var fs = Math.max(8, Math.min(12, p.r*0.42));
+    var y = p.y + p.r*(s.live ? 2.05 : 1.55) + fs*0.4;
     ctx.save();
     ctx.textAlign = 'center';
-    ctx.font = '600 12px ui-monospace,SFMono-Regular,Menlo,monospace';
-    ctx.fillStyle = s.live ? 'hsla('+s.hue+',88%,78%,.98)' : 'rgba(214,228,244,.5)';
+    ctx.font = '600 '+fs.toFixed(1)+'px ui-monospace,SFMono-Regular,Menlo,monospace';
+    ctx.fillStyle = s.you ? 'rgba(226,236,250,'+(s.live?0.95:0.55)+')'
+                          : (s.live ? 'hsla('+s.hue+',88%,78%,.98)' : 'rgba(214,228,244,.46)');
     ctx.fillText(s.name.toUpperCase(), p.x, y);
-    ctx.font = '400 10.5px ui-sans-serif,system-ui,-apple-system,sans-serif';
-    ctx.fillStyle = s.live ? 'rgba(226,236,250,.72)' : 'rgba(200,216,232,.3)';
-    ctx.fillText(s.label, p.x, y + 15);
-    if (s.live){
-      var wdt = ctx.measureText(s.label).width;
-      ctx.beginPath(); ctx.arc(p.x - wdt/2 - 11, y + 11, 3.2, 0, 6.2832);
-      ctx.fillStyle = 'hsla('+s.hue+',90%,66%,'+(s.speaking?0.95:0.4)+')';
-      ctx.fill();
+    // The domain line is dropped on a crowded wall; the name is what identifies a seat.
+    if (fs >= 9.5){
+      var fs2 = fs*0.88;
+      ctx.font = '400 '+fs2.toFixed(1)+'px ui-sans-serif,system-ui,-apple-system,sans-serif';
+      ctx.fillStyle = s.live ? 'rgba(226,236,250,.7)' : 'rgba(200,216,232,.28)';
+      ctx.fillText(s.label, p.x, y + fs2*1.35);
+      if (s.live && !s.you){
+        var wdt = ctx.measureText(s.label).width;
+        ctx.beginPath(); ctx.arc(p.x - wdt/2 - fs2*0.9, y + fs2*1.0, fs2*0.28, 0, 6.2832);
+        ctx.fillStyle = 'hsla('+s.hue+',90%,66%,'+(s.speaking?0.95:0.4)+')';
+        ctx.fill();
+      }
     }
     ctx.restore();
   }
@@ -676,8 +720,11 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       var lay = seatLayout(seats.length, w, h);
       for (var i=0;i<seats.length;i++){
         var s = seats[i], p = lay[i];
-        var sp = s.speaking ? (0.5+0.5*Math.sin(t*7.5)) : 0;
-        paintOrb(t, p.x, p.y, p.r * (s.live ? 1.1 : 0.88), s.hue, sp, i);
+        /* ONLY THE ONE HOLDING THE FLOOR IS AN ORB. Twenty lit orbs is a screensaver: nothing
+           draws the eye, so nobody can tell who is speaking, which is the single thing this
+           view exists to show. Everyone else is a quiet glass disc, present and waiting. */
+        if (s.live) paintOrb(t, p.x, p.y, p.r*1.5, s.hue, s.speaking ? (0.5+0.5*Math.sin(t*7.5)) : 0, i);
+        else quietSeat(t, p, s, i);
         plate(s, p);
       }
       raf = requestAnimationFrame(drawOrb); return;
@@ -821,14 +868,18 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     setTimeout(go, est * 2.2 + 8000);
   }
 
-  function convene(b){
-    var ids = roomFor(b.id);
+  /* b is the manager who called it, or null for the full table, where the room is the subject
+     and there is nobody to go back to. */
+  function convene(b, idsIn){
+    var ids = idsIn || roomFor(b.id);
     if (ids.length < 2) return;
     hush();
     meetOn = true;
     card.classList.add('meet');
-    card.innerHTML = '<div class="fn">'+b.name+' is convening</div><h2>The room</h2>'+
-                     '<p>Bringing in everyone '+b.name+' is wired to…</p>';
+    card.innerHTML = '<div class="fn">'+(b ? b.name+' is convening' : 'Convening the table')+'</div>'+
+                     '<h2>The room</h2><p>'+
+                     (b ? 'Bringing in everyone '+b.name+' is wired to…'
+                        : 'Bringing in all twenty…')+'</p>';
     ensure(ids).then(function(){
       if (!meetOn) return;
       var turns = _B.meeting(ids, cache);
@@ -843,6 +894,11 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         seen[t.id] = 1;
         seats.push({ id:t.id, name:t.name, label:t.label, hue:hueFor(t.id), live:false, speaking:false });
       });
+      /* YOU ARE IN THE ROOM. Two managers is three seats, all twenty is twenty-one. Your seat
+         never takes a turn — it lights when a manager is talking to you rather than to each
+         other, which is what the desk pitch and the practical advice actually are. */
+      seats.push({ id:'__you', name:'You', label:'in the room', you:true,
+                   hue:210, live:false, speaking:false });
       var names = seats.map(function(s){ return s.name; });
       card.innerHTML = '<div class="fn">In the room</div><h2>'+names.join(' &middot; ')+'</h2>'+
         '<p class="meetnote">Turn order is live strain. Who may address whom is the pathway '+
@@ -852,7 +908,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         '<button class="act" type="button" id="orbMeetStop">Stop the meeting</button></div>';
 
       document.getElementById('orbMeetStop')
-        .addEventListener('click', function(){ meetOn = false; hush(); render(b); });
+        .addEventListener('click', function(){ meetOn = false; hush(); if (b) render(b); else close(); });
 
       var box = document.getElementById('orbMeet'), i = 0;
       (function next(){
@@ -898,9 +954,22 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     f.scrollIntoView({ behavior:'smooth', block:'nearest' });
     var acts = document.getElementById('orbMeetActs');
     if (acts){
-      acts.innerHTML = '<button class="act" type="button" id="orbBack">Back to '+b.name+'</button>';
-      document.getElementById('orbBack').addEventListener('click', function(){ render(b); });
+      acts.innerHTML = '<button class="act" type="button" id="orbBack">'+
+                       (b ? 'Back to '+b.name : 'Close the room')+'</button>';
+      document.getElementById('orbBack')
+        .addEventListener('click', function(){ if (b) render(b); else close(); });
     }
+  }
+
+  /* The whole table. Opens the layer with no single manager behind it, because here the room
+     is the subject rather than one domain's briefing. */
+  function conveneTable(){
+    sizeCanvas(); makeSparks();
+    t0 = performance.now();
+    layer.classList.add('on'); layer.setAttribute('aria-hidden','false');
+    if (!raf) raf = requestAnimationFrame(drawOrb);
+    orb = null;
+    convene(null, DOMAINS.map(function(d){ return d[0]; }));
   }
 
   /* VOICE. Each domain is cast to one of 26 xAI voices, synthesised ahead of time by
@@ -1038,6 +1107,18 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   /* Alphabetical, and sorted on a copy: DOMAINS order is the lifecycle order the ring is
      drawn in, so mutating it here would rearrange the map. This is a lookup list, and a
      lookup list is scanned by name. */
+  /* The whole table sits at the head of the staff list, because "see all twenty argue" is the
+     thing worth clicking first and burying it inside one manager's card hides it. */
+  (function(){
+    var all = document.createElement('button');
+    all.type = 'button'; all.className = 'table';
+    all.innerHTML = '<span class="who">Convene</span>All twenty';
+    all.title = 'Put all twenty managers in one room';
+    all.setAttribute('aria-label', all.title);
+    all.addEventListener('click', conveneTable);
+    pick.appendChild(all);
+  })();
+
   DOMAINS.slice().sort(function(a,b){ return a[1].localeCompare(b[1]); }).forEach(function(dd){
     var b = document.createElement('button'), sp = SPEAKERS[dd[0]] || {}, dk = DESK[dd[0]] || {};
     /* NAME FIRST. Twenty domain labels is a taxonomy; twenty people is a staff. The manager
