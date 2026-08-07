@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-07T22:05Z
+measured_at: 2026-08-07T23:40Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -272,14 +272,32 @@ position, so a delayed or manually dispatched cycle cannot shift the pairing sil
 it never ran more than one cycle per domain. Batch 2 must not be installed against a curve
 this steep.
 
-**Backfill position, counted rather than estimated.** Each of the five has applied 120 rows
-in each of three cycles, so **360 of the 470 recorded rows are consumed** and **110
-remain**. That is **one** further backfill cycle of 110 rows, and then a **zero-row cycle**
-which is the steady-state demonstration, not a fourth backfill. Calling both of them
-backfill cycles, as an earlier draft did, describes the tail as longer than it is and
-misreads the zero-row cycle as an anomaly when it is the expected end state.
-(`rowsAvailable` reads 500 because `readRecorderRows` caps its read at 500; the fixture
-corpus these domains replay is 470 rows.)
+**Backfill completed at 23:27:16Z, and the earlier prediction about it was wrong twice.**
+An earlier draft said "360 of 470 rows consumed, one 110-row cycle remains, then a zero-row
+cycle". Production says otherwise on both halves:
+
+| education cycle (`startedAt`) | rowsApplied | cursorAfter |
+|---|---:|---|
+| 2026-08-07T16:27:32.964Z | 120 | 2026-07-22T20:12:33.982Z |
+| 2026-08-07T20:27:16.175Z | 120 | 2026-07-27T20:12:29.928Z |
+| 2026-08-07T21:27:15.932Z | 120 | 2026-08-01T20:12:56.266Z |
+| 2026-08-07T22:27:16.177Z | 120 | 2026-08-06T20:12:16.515Z |
+| 2026-08-07T23:27:16.134Z | **27** | 2026-08-07T23:12:06.626Z |
+
+It took **four** 120-row cycles and then 27, not three and then 110. And the catch-up cycle
+was not zero and never could be.
+
+**THE ERROR WAS TREATING A FIXTURE SIZE AS A PRODUCTION TAIL.** The 470-row figure is the
+offline replay corpus. Production is different in two ways that both matter:
+`readRecorderRows` reads the newest **500** rows, and `feed-record` runs at `:12`, sixteen
+minutes before `brain-shadow` at `:27`, so fresh rows arrive between every pair of cycles.
+The tail was never a fixed number to divide.
+
+A caught-up domain therefore applies **newly recorded rows, not zero**. All five now sit at
+`cursorAfter` 2026-08-07T23:12:06.626Z, identical to energy and finance, which is what
+caught-up looks like: energy applies 1 row per cycle in steady state, and the five will do
+the same. No further backfill count is predicted here, because nothing measured supports
+one.
 
 **PRODUCTION CONTRADICTS THE OFFLINE PROJECTION.** The five new domains matched offline
 replay within 0.1% on their first cold cycle, validating the method for a cold start. The
@@ -294,7 +312,7 @@ a ratio without them and divided the 16:27 figures against the table above, whic
 | finance | 4,383,808 | 674,805 | **6.50x** |
 
 At 20:27 the same pairing gives 4.22x and 6.49x. Finance at 4,383,808 already exceeds the
-3.66 MB largest value ever measured offline. **The offline 20-domain projection is
+3.67 MB largest value ever measured offline. **The offline 20-domain projection is
 therefore a floor, not a worst case.**
 
 ### The six fields this file requires of every brain PR
@@ -316,7 +334,8 @@ therefore a floor, not a worst case.**
 
   **Withdrawn from this list, now measured:** "no production cycle has run with 7 domains"
   and "production `stateValueBytes` is unknown". Three seven-domain cycles have run
-  (16:27:15Z, 20:27:15Z, 21:27:15Z) and every domain has reported a measured
+  (`startedAt` 16:27:32Z, 20:27:15Z, 21:27:15Z; per-domain values differ by under two
+  seconds within a cycle) and every domain has reported a measured
   `stateValueBytes` in each. Leaving them listed as unknown after measuring them would make
   this file understate what the system has proven, which is the same defect as overstating
   it.
@@ -428,10 +447,12 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 
    | replay depth | economy | finance | infrastructure |
    |---|---|---|---|
-   | 120 rows | 630 KB | 656 KB | 925 KB |
+   | 120 rows | 633.7 KB | 658.9 KB | 928.8 KB |
    | 240 rows | 1,261 KB | 1,782 KB | 1,826 KB |
    | 360 rows | 2,108 KB | 2,791 KB | 2,676 KB |
-   | 470 rows | 2,822 KB | **3,752 KB** | 3,459 KB |
+   | 240 rows | 1,268.2 KB | 1,787.7 KB | 1,833.4 KB |
+   | 360 rows | 2,118.6 KB | 2,798.6 KB | 2,686.5 KB |
+   | full replay | 2,834.7 KB | **3,761.8 KB** | 3,472.4 KB |
 
    Composition of finance at 470 ticks: `memory` 2,398 KB (64%) and
    `registry.predictions` 763 KB (656 open, 611 resolved). Both accumulate per tick.
@@ -440,7 +461,7 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    **Why it gates the batch and not this one.** Every cycle reads the whole state and writes
    it back, so a value that grows without bound grows the work of every future cycle. At 7
    installed domains the total is 4.30 MB of value and is manageable. At 20, offline replay
-   projects **49.9 MB of resident value**, with the largest single domain already 3.66 MB and
+   projects **50.09 MB of resident value**, with the largest single domain already 3.67 MB and
    no ceiling in the store. Installing 13 more before bounding growth commits every
    subsequent cycle to carrying it.
 
@@ -463,7 +484,7 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    - **measure ACTUAL TRANSPORT BYTES**, by instrumenting `lib/brain-shadow-redis` at the
      point it builds a request and reads a response. Until that exists there is no bandwidth
      figure and no billing figure for this system, and the request-size headroom above the
-     current 3.66 MB largest value cannot be established either. This belongs to THIS
+     current 3.67 MB largest value cannot be established either. This belongs to THIS
      milestone and was deliberately kept out of the batch-1 installation PR.
    - re-measure against production and record the new curve here
 
@@ -494,7 +515,7 @@ Net: the shared production template. This is the thing the remaining 18 domains 
      about 0.4% larger totals. Real, and no conclusion moved.
    - the installed set was hardcoded to two domains. Now `REG.INSTALLED_DOMAINS`.
    - kernel-loop timing was called cycle cost. Now `tickLoopMs`, which excludes the state
-     read, `LOOP.serialize`, the stringify, and all six Redis round trips.
+     read, `LOOP.serialize`, the stringify, and all seven Redis round trips.
 
    Re-measured after correction: **10 declared relationships, 0 analyzer-testable, 0 of 20
    domains supporting independent observations.** Unchanged conclusion, now on the real

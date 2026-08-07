@@ -153,7 +153,10 @@ for (const d of REG.DOMAINS) {
      capped batch. A real cycle also does: STORE.readState, STORE.readRecorderRows,
      LOOP.serialize of a multi-megabyte object, JSON.stringify of it, STORE.writeState,
      STORE.writeCycle (a SET, an LPUSH, an LTRIM and a read-back LRANGE), plus the
-     network latency of all six round trips. Serialization alone grows with state and is
+     network latency of all SEVEN Redis round trips: state GET, recorder LRANGE, state SET,
+     cycle SET, history LPUSH, history LTRIM, history LRANGE (the read-back). Counted from
+     lib/brain-shadow-store.js rather than recalled; an earlier draft said six and dropped
+     the read-back. Serialization alone grows with state and is
      not bounded. Calling this "cycle cost" understated the real figure by an unmeasured
      margin, so the field is named for what it measures. */
   try {
@@ -211,4 +214,4 @@ console.log('\ndeclared relationships: ' + totalRels + '   analyzer-testable: ' 
 console.log('domains reporting supportsIndependentObservations: ' +
   out.filter(r => r.supportsIndependentObservations).length + ' of ' + out.length);
 console.log('\ntickLoopMs is readRecorderRow + LOOP.tick ONLY. It excludes state read, serialize,');
-console.log('stringify, and all six Redis round trips. It is not the cycle cost.');
+console.log('stringify, and all seven Redis round trips. It is not the cycle cost.');

@@ -35,6 +35,8 @@
 
 var fs = require('fs');
 var path = require('path');
+/* Already a dependency: scripts/check-repository.mjs parses every tracked JS with it. */
+var acorn = require('acorn');
 
 var ROOT = path.join(__dirname, '..', '..');
 var ROUTE_FILE = path.join(ROOT, 'api', '[...route].js');
@@ -63,41 +65,100 @@ console.log('D1: /api/brain-shadow is registered in the Hono catch-all');
 var routeRaw = fs.readFileSync(ROUTE_FILE, 'utf8');
 
 /**
- * COMMENTS ARE STRIPPED BEFORE MATCHING, and this is not a refinement. The first version
- * of this test matched the raw file, so `// 'brain-shadow': require(...)` satisfied it:
- * commenting the route out passed 9 of 9 while the endpoint would answer 404. A guard that
- * accepts the disabled form of the thing it guards is worse than no guard, because it
- * reports safety.
+ * THIS CHECK TOOK THREE ATTEMPTS, and the first two each looked sufficient while accepting
+ * a form of the thing they guard:
  *
- * Verified by doing it: with the line commented, the raw-text version passed and this one
- * fails.
+ *   v1  matched the raw file text      -> a COMMENTED-OUT registration satisfied it, 9/9,
+ *                                         while the endpoint would answer 404
+ *   v2  stripped comments and template literals but searched the WHOLE FILE and left
+ *       ordinary quoted strings intact -> the exact snippet inside a single- or
+ *                                         double-quoted string, or in an unrelated
+ *                                         object, would satisfy it
+ *   v3  parses the file and reads the actual HANDLERS ObjectExpression
  *
- * String literals are blanked too, so a route name mentioned inside an error message or a
- * doc string cannot stand in for a registration.
+ * The failures share one shape: each version asserted something ADJACENT to the property
+ * instead of the property. Every one of those evasions is now a named negative control, so
+ * the next weakening has to break a test rather than slip through.
+ *
+ * PARSED, NOT PATTERN-MATCHED. `acorn` is already a dependency (scripts/check-repository.mjs
+ * parses every tracked JS with it), so the registration is read out of the actual
+ * `HANDLERS` ObjectExpression instead of being inferred from text. A comment is not a
+ * Property node, a quoted string is a Literal value rather than a `require` call, and an
+ * object that is not HANDLERS is a different node entirely, so all four evasions below stop
+ * being special cases and become structurally impossible.
+ *
+ * Returns null when HANDLERS cannot be found, which fails closed.
  */
-function codeOnly(src) {
-  return src
-    .replace(/\/\*[\s\S]*?\*\//g, ' ')          // block comments
-    .replace(/(^|[^:])\/\/.*$/gm, '$1')          // line comments, not URLs
-    .replace(/`(?:\\.|[^`\\])*`/g, '``');        // template literals
+function handlerEntries(src) {
+  var ast;
+  try { ast = acorn.parse(src, { ecmaVersion: 2022, sourceType: 'script' }); }
+  catch (e) { return null; }
+  var found = null;
+  (function walk(n) {
+    if (!n || typeof n !== 'object' || found) return;
+    if (n.type === 'VariableDeclarator' && n.id && n.id.name === 'HANDLERS' &&
+        n.init && n.init.type === 'ObjectExpression') {
+      found = n.init.properties.filter(function (p) { return p.type === 'Property'; })
+        .map(function (p) {
+          var key = p.key.type === 'Literal' ? p.key.value : p.key.name;
+          var v = p.value;
+          var isRequire = v && v.type === 'CallExpression' && v.callee &&
+            v.callee.name === 'require' && v.arguments.length === 1 &&
+            v.arguments[0].type === 'Literal';
+          return { key: key, module: isRequire ? v.arguments[0].value : null };
+        });
+      return;
+    }
+    for (var k in n) {
+      var v = n[k];
+      if (Array.isArray(v)) v.forEach(walk);
+      else if (v && typeof v === 'object') walk(v);
+    }
+  })(ast);
+  return found;
 }
-var routeSrc = codeOnly(routeRaw);
+function registers(entries, key, handlerPath) {
+  if (!entries) return false;
+  return entries.some(function (e) { return e.key === key && e.module === handlerPath; });
+}
 
-/* Matched as a HANDLERS map entry, not a bare substring: "brain-shadow" also appears in
-   comments and beside neighbouring keys like "brain-cognition", so a loose grep would pass
-   on a file that registers nothing. */
-function registers(src, key, handlerPath) {
-  return new RegExp("['\"]" + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "['\"]\\s*:\\s*require\\(\\s*['\"]" +
-    handlerPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "['\"]\\s*\\)").test(src);
-}
+var ENTRIES = handlerEntries(routeRaw);
+assert('the HANDLERS object parses and yields registrations',
+  !!ENTRIES && ENTRIES.length > 0,
+  'if this fails the extractor is broken and every assertion below is meaningless');
+
 assert('the HANDLERS map registers ' + ROUTE_KEY + ' -> ' + HANDLER_PATH,
-  registers(routeSrc, ROUTE_KEY, HANDLER_PATH),
+  registers(ENTRIES, ROUTE_KEY, HANDLER_PATH),
   'without this line the endpoint answers 404 "route not handled by Hono entry" and the ' +
   'cron cannot execute a cycle, while every brain file stays correct and every test passes');
 
-assert('and commenting the registration out does NOT satisfy the check',
-  !registers(codeOnly("  // '" + ROUTE_KEY + "': require('" + HANDLER_PATH + "'),\n"), ROUTE_KEY, HANDLER_PATH),
-  'the raw-text version of this assertion passed on a commented-out route');
+/* ── the four ways a text-matching check WOULD have passed ───────────────────
+   Each builds a source that LACKS the registration but CONTAINS the exact snippet, and
+   asserts the parser still says no. Without these, "structural" is a word rather than a
+   property; v1 and v2 of this test each passed one of them. */
+var SNIPPET = "'" + ROUTE_KEY + "': require('" + HANDLER_PATH + "')";
+var REAL_LINE = "  '" + ROUTE_KEY + "': require('" + HANDLER_PATH + "'),\n";
+function withoutRealEntry(extra) {
+  var stripped = routeRaw.replace(REAL_LINE, '');
+  return extra ? stripped.replace('const HANDLERS = {', 'const HANDLERS = {\n' + extra) : stripped;
+}
+assert('control: removing the entry outright is detected',
+  !registers(handlerEntries(withoutRealEntry('')), ROUTE_KEY, HANDLER_PATH));
+assert('control: a COMMENTED-OUT registration does not satisfy it',
+  !registers(handlerEntries(withoutRealEntry('  // ' + SNIPPET + ',\n')), ROUTE_KEY, HANDLER_PATH));
+assert('control: the snippet in a SINGLE-quoted string does not satisfy it',
+  !registers(handlerEntries(withoutRealEntry(
+    "  'note': 'missing " + SNIPPET.replace(/'/g, "\\'") + "',\n")), ROUTE_KEY, HANDLER_PATH));
+assert('control: the snippet in a DOUBLE-quoted string does not satisfy it',
+  !registers(handlerEntries(withoutRealEntry(
+    '  "note": "missing ' + SNIPPET.replace(/"/g, '\\"') + '",\n')), ROUTE_KEY, HANDLER_PATH));
+assert('control: the snippet in an UNRELATED object does not satisfy it',
+  !registers(handlerEntries(withoutRealEntry('') + '\nconst DOCS = { ' + SNIPPET + ' };\n'),
+    ROUTE_KEY, HANDLER_PATH),
+  'scoping to the HANDLERS node is what makes this fail; a whole-file search would pass');
+assert('control: the controls are not vacuous, the unmodified file still registers it',
+  registers(handlerEntries(routeRaw), ROUTE_KEY, HANDLER_PATH),
+  'if this fails, withoutRealEntry() is mangling the file and every control above is empty');
 
 assert('and the handler file it names actually exists',
   fs.existsSync(path.join(ROOT, 'handlers', 'brain-shadow.js')),
@@ -106,8 +167,6 @@ assert('and the handler file it names actually exists',
 
 /* Proves the matcher is not vacuous. If the regex were wrong it would report a missing
    route on a healthy file, or worse, pass on anything. */
-assert('the check is not vacuous: the same matcher finds no route for a name that is absent',
-  !new RegExp("['\"]brain-shadow-does-not-exist['\"]\\s*:\\s*require").test(routeSrc));
 
 // ── D2: the execution cron exists, with its schedule ─────────────────────────
 console.log('');
@@ -154,13 +213,16 @@ assert('nothing else is scheduled at "' + CRON_SCHEDULE + '", which would collid
 
 /* Every cron path must resolve to a registered route, or it is scheduled to hit a 404
    forever and nothing will say so. This generalises the outage beyond the brain, and it
-   uses the SAME comment-stripped source, so a commented-out registration cannot satisfy it
-   here either. */
+   reads the SAME parsed HANDLERS entries, so a cron target that appears only inside a
+   comment or a string cannot satisfy it here either. */
+function isRegistered(entries, key) {
+  return !!entries && entries.some(function (e) { return e.key === key; });
+}
 var unregistered = crons.map(function (c) { return String(c.path || ''); })
   .filter(function (p) { return p.indexOf('/api/') === 0; })
   .map(function (p) { return p.replace(/^\/api\//, '').split('?')[0]; })
   .filter(function (name) {
-    return !new RegExp("['\"]" + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "['\"]\\s*:\\s*require").test(routeSrc)
+    return !isRegistered(ENTRIES, name)
       && !fs.existsSync(path.join(ROOT, 'api', name + '.js'))
       && !fs.existsSync(path.join(ROOT, 'api', name + '.py'));
   });

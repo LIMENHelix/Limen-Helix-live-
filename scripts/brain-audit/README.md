@@ -38,8 +38,9 @@ reporting two after batch 1 made it seven. Now derived from `REG.INSTALLED_DOMAI
 **4. Kernel-loop timing was called cycle cost.** The field is now `tickLoopMs` and it times
 `readRecorderRow` plus `LOOP.tick` and nothing else. A real cycle also performs a state
 read, `LOOP.serialize` of a multi-megabyte object, a stringify, a state write, a cycle
-write, an LPUSH, an LTRIM and a read-back LRANGE, plus the latency of six network round
-trips. Serialization alone grows with state and is unbounded. The excluded work is
+write, an LPUSH, an LTRIM and a read-back LRANGE: seven Redis round trips in total
+(state GET, recorder LRANGE, state SET, cycle SET, history LPUSH, history LTRIM, history
+LRANGE), plus their latency. Serialization alone grows with state and is unbounded. The excluded work is
 substantial and is not measured here.
 
 ## Unit warning
