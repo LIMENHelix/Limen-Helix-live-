@@ -510,6 +510,18 @@
     var pool = f === 'upstream' ? PLAN.upstream : f === 'downstream' ? PLAN.downstream : PLAN.lateral;
     return rotate(pool, n).replace('{who}', them.name);
   }
+  /* THE SAME MOVE, AS DATA. A ledger that has to parse the sentence back out of the transcript
+     is a ledger that breaks the first time somebody rewords a line. `kind` is what this
+     manager is doing, not what the pair's relationship is: upstream of me means I am ASKING,
+     downstream means I am OFFERING. `watch` is whose readings settle it later — always the
+     upstream domain, because that is the one whose movement the other is waiting on. */
+  function commitWith(me, them){
+    var f = flowBetween(me.id, them.id);
+    if (!f) return null;
+    return { from: me.id, to: them.id, fromName: me.name, toName: them.name,
+             kind: f === 'upstream' ? 'ask' : 'offer',
+             watch: f === 'upstream' ? them.id : me.id };
+  }
   /* What this manager is here to sell, in their own mouth. Null when the desk has no honest
      line to give — see the medicine note on DESK. Silence beats invention. */
   function pitchOf(id){
@@ -544,6 +556,7 @@
          paragraph; twenty cannot, or the room runs past the point anyone is still listening.
          Above six seats every turn tightens to one reading and one move. */
       var big = list.length > 6;
+      var commit = null;                 // the one move this turn actually commits to, as data
       /* NOBODY INTRODUCES THEMSELVES. Every surface that plays a meeting shows who is
          speaking, on a nameplate under their orb, so "I am Harvey" spends the first line of
          every turn on something the viewer can already see. What goes there instead is what
@@ -565,7 +578,11 @@
            first person in the room who actually affects it. */
         var p0 = pitchOf(me.id); if (p0) lines.push(p0);
         for (var lm = 1; lm < list.length; lm++){
-          if (edgeBetween(me.id, list[lm].id)){ lines.push(planWith(me, list[lm], list.length)); break; }
+          if (edgeBetween(me.id, list[lm].id)){
+            lines.push(planWith(me, list[lm], list.length));
+            commit = commitWith(me, list[lm]);
+            break;
+          }
         }
       } else {
         /* Address the most recent prior speaker there is actually an edge to. If the previous
@@ -603,11 +620,11 @@
         var pk = pitchOf(me.id);
         if (big){
           if (k % 2 === 1 && pk) lines.push(pk);
-          else if (target) lines.push(planWith(me, target, k));
+          else if (target){ lines.push(planWith(me, target, k)); commit = commitWith(me, target); }
           else if (pk) lines.push(pk);
         } else {
           if (pk) lines.push(pk);
-          if (target) lines.push(planWith(me, target, k));
+          if (target){ lines.push(planWith(me, target, k)); commit = commitWith(me, target); }
         }
       }
 
@@ -619,7 +636,8 @@
           lines.push(rotate(mn.callOn, k).replace('{who}', nxt.name));
       }
       turns.push({ id: me.id, label: me.label, name: me.name, fn: me.fn, voice: me.voice,
-                   role: me.role, desk: deskOf(me.id), lines: lines, spoken: speakable(lines) });
+                   role: me.role, desk: deskOf(me.id), commit: commit,
+                   lines: lines, spoken: speakable(lines) });
       spokenAlready.push(me);
     }
 
