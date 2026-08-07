@@ -60,17 +60,44 @@ console.log('');
 
 // ── D1: the route is registered, and points at the real handler ──────────────
 console.log('D1: /api/brain-shadow is registered in the Hono catch-all');
-var routeSrc = fs.readFileSync(ROUTE_FILE, 'utf8');
+var routeRaw = fs.readFileSync(ROUTE_FILE, 'utf8');
 
-/* Matched against the HANDLERS map entry, not a bare substring: the string
-   "brain-shadow" also appears in comments and in neighbouring keys like
-   "brain-cognition", so a loose grep would pass on a file that registers nothing. */
-var entry = new RegExp("['\"]" + ROUTE_KEY + "['\"]\\s*:\\s*require\\(\\s*['\"]" +
-  HANDLER_PATH.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "['\"]\\s*\\)");
+/**
+ * COMMENTS ARE STRIPPED BEFORE MATCHING, and this is not a refinement. The first version
+ * of this test matched the raw file, so `// 'brain-shadow': require(...)` satisfied it:
+ * commenting the route out passed 9 of 9 while the endpoint would answer 404. A guard that
+ * accepts the disabled form of the thing it guards is worse than no guard, because it
+ * reports safety.
+ *
+ * Verified by doing it: with the line commented, the raw-text version passed and this one
+ * fails.
+ *
+ * String literals are blanked too, so a route name mentioned inside an error message or a
+ * doc string cannot stand in for a registration.
+ */
+function codeOnly(src) {
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')          // block comments
+    .replace(/(^|[^:])\/\/.*$/gm, '$1')          // line comments, not URLs
+    .replace(/`(?:\\.|[^`\\])*`/g, '``');        // template literals
+}
+var routeSrc = codeOnly(routeRaw);
+
+/* Matched as a HANDLERS map entry, not a bare substring: "brain-shadow" also appears in
+   comments and beside neighbouring keys like "brain-cognition", so a loose grep would pass
+   on a file that registers nothing. */
+function registers(src, key, handlerPath) {
+  return new RegExp("['\"]" + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "['\"]\\s*:\\s*require\\(\\s*['\"]" +
+    handlerPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "['\"]\\s*\\)").test(src);
+}
 assert('the HANDLERS map registers ' + ROUTE_KEY + ' -> ' + HANDLER_PATH,
-  entry.test(routeSrc),
+  registers(routeSrc, ROUTE_KEY, HANDLER_PATH),
   'without this line the endpoint answers 404 "route not handled by Hono entry" and the ' +
   'cron cannot execute a cycle, while every brain file stays correct and every test passes');
+
+assert('and commenting the registration out does NOT satisfy the check',
+  !registers(codeOnly("  // '" + ROUTE_KEY + "': require('" + HANDLER_PATH + "'),\n"), ROUTE_KEY, HANDLER_PATH),
+  'the raw-text version of this assertion passed on a commented-out route');
 
 assert('and the handler file it names actually exists',
   fs.existsSync(path.join(ROOT, 'handlers', 'brain-shadow.js')),
@@ -110,12 +137,25 @@ assert('nothing else is scheduled at "' + CRON_SCHEDULE + '", which would collid
   atBrainSchedule.length === 1 && atBrainSchedule[0].path === CRON_PATH,
   JSON.stringify(atBrainSchedule));
 
-assert('the brain cron coexists with the other crons rather than replacing one',
-  crons.length > brainCrons.length,
-  'a crons array containing only the brain cron would mean something else was dropped');
+/**
+ * DELIBERATELY NOT ASSERTED: that some OTHER cron exists alongside this one.
+ *
+ * An earlier version required `crons.length > brainCrons.length`, which reads as "the brain
+ * cron coexists" and actually means "at least one non-brain cron must exist". That pins
+ * infrastructure this test has no business protecting: removing the orb meeting cron, a
+ * legitimate and authorised change, would have failed a BRAIN invariant, and whoever hit it
+ * would either be confused or delete this assertion along with the cron.
+ *
+ * Substitution is already caught without it. Pinning the exact path AND the exact schedule
+ * means a cron that takes this one's place either removes the path (D2 fails) or claims the
+ * schedule (the assertion above fails). The coexistence check added no coverage and added a
+ * dependency on someone else's feature.
+ */
 
 /* Every cron path must resolve to a registered route, or it is scheduled to hit a 404
-   forever and nothing will say so. This generalises the outage beyond the brain. */
+   forever and nothing will say so. This generalises the outage beyond the brain, and it
+   uses the SAME comment-stripped source, so a commented-out registration cannot satisfy it
+   here either. */
 var unregistered = crons.map(function (c) { return String(c.path || ''); })
   .filter(function (p) { return p.indexOf('/api/') === 0; })
   .map(function (p) { return p.replace(/^\/api\//, '').split('?')[0]; })

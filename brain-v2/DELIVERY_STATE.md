@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-07T21:30Z
+measured_at: 2026-08-07T22:05Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -268,16 +268,34 @@ position, so a delayed or manually dispatched cycle cannot shift the pairing sil
 
 **THE GATE JUST GOT TIGHTER, MEASURED IN PRODUCTION.** The five backfilling domains grew
 **44% to 71% in a single cycle**, and the seven-domain total went from 14,271,904 to
-17,906,169, **+25% in one hour**. They have two more backfill cycles before steady state.
-Offline replay of a cold start did not show this because it never ran more than one cycle
-per domain. Batch 2 must not be installed against a curve this steep.
+17,906,169, **+25% in one hour**. Offline replay of a cold start did not show this because
+it never ran more than one cycle per domain. Batch 2 must not be installed against a curve
+this steep.
+
+**Backfill position, counted rather than estimated.** Each of the five has applied 120 rows
+in each of three cycles, so **360 of the 470 recorded rows are consumed** and **110
+remain**. That is **one** further backfill cycle of 110 rows, and then a **zero-row cycle**
+which is the steady-state demonstration, not a fourth backfill. Calling both of them
+backfill cycles, as an earlier draft did, describes the tail as longer than it is and
+misreads the zero-row cycle as an anomaly when it is the expected end state.
+(`rowsAvailable` reads 500 because `readRecorderRows` caps its read at 500; the fixture
+corpus these domains replay is 470 rows.)
 
 **PRODUCTION CONTRADICTS THE OFFLINE PROJECTION.** The five new domains matched offline
-replay within 0.1%, validating the method for a cold start. The two canaries did not:
-energy 4.19x and finance 6.43x the offline figure, because production has run for days and
-is past the end of the measured curve. Finance at 4,376,143 already exceeds the 3.66 MB
-largest value ever measured offline. **The offline 20-domain projection is therefore a
-floor, not a worst case.**
+replay within 0.1% on their first cold cycle, validating the method for a cold start. The
+two canaries did not, because production has run for days and is past the end of the
+measured curve. Both numerator and denominator are named, because an earlier draft quoted
+a ratio without them and divided the 16:27 figures against the table above, which shows
+20:27:
+
+| domain | 21:27 production | offline cold cycle | ratio |
+|---|---:|---:|---:|
+| energy | 3,918,000 | 926,617 | **4.23x** |
+| finance | 4,383,808 | 674,805 | **6.50x** |
+
+At 20:27 the same pairing gives 4.22x and 6.49x. Finance at 4,383,808 already exceeds the
+3.66 MB largest value ever measured offline. **The offline 20-domain projection is
+therefore a floor, not a worst case.**
 
 ### The six fields this file requires of every brain PR
 
@@ -287,18 +305,25 @@ floor, not a worst case.**
 - **remaining domains**: 13 outside the runtime.
 - **current gate**: hot state growth (NEXT PROGRAM STEP 3). Hard gate before batch 2.
   Production measurement makes it tighter than the offline projection said, not looser.
-- **known unknowns**: (a) no production cycle has run with 7 domains, so the sequential
-  batch wall-clock and the real Redis round-trip cost are both unmeasured; (b) production
-  `stateValueBytes` for the 5 new domains is unknown until the first cycle, and the offline
-  figures are a floor because the fixtures stop at 470 rows while production keeps
-  recording; (c) **actual transport bytes are not measured anywhere**, so no bandwidth or
-  billing figure exists for this system, only value lengths; (d) the Upstash request-size
-  ceiling for this plan has not been retrieved, and since the value length is not the wire
-  length, headroom above the 3.66 MB largest value is doubly unestablished.
+- **known unknowns**: (a) **actual transport bytes are not measured anywhere**, so no
+  bandwidth or billing figure exists for this system, only serialized value lengths;
+  (b) the Upstash request-size ceiling for this plan has not been retrieved, and since the
+  value length is not the wire length, headroom above the largest value is doubly
+  unestablished; (c) the sequential seven-domain batch wall-clock and the per-cycle Redis
+  round-trip latency are still unmeasured, because the cycle report records neither;
+  (d) steady-state size for the five new domains is not yet known, since they are still
+  backfilling and every cycle so far has grown.
+
+  **Withdrawn from this list, now measured:** "no production cycle has run with 7 domains"
+  and "production `stateValueBytes` is unknown". Three seven-domain cycles have run
+  (16:27:15Z, 20:27:15Z, 21:27:15Z) and every domain has reported a measured
+  `stateValueBytes` in each. Leaving them listed as unknown after measuring them would make
+  this file understate what the system has proven, which is the same defect as overstating
+  it.
 - **exact next action**: close the hot-state gate (NEXT PROGRAM STEP 3). Production
   restoration is now proven across two CONSECUTIVE cycles (20:27:15Z, 21:27:15Z), so that
   question is settled and is no longer the blocker. The blocker is growth: +25% across the
-  seven installed domains in one hour, with two backfill cycles still to run. Not the next
+  seven installed domains in one hour, with one 110-row backfill cycle still to run. Not the next
   batch, and not pathway activation: 0 of 10 relationships are analyzer-testable.
 
 ---

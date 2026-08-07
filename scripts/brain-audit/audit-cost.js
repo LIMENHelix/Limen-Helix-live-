@@ -18,6 +18,10 @@ var fs = require('fs'), path = require('path');
 var ROOT = path.join(__dirname, '..', '..');
 var REG = require(path.join(ROOT, 'brain-v2', 'bind', 'registry.js'));
 var LOOP = require(path.join(ROOT, 'brain-v2', 'kernel', 'loop.js'));
+/* A FIXED 13-DIGIT EPOCH. Deterministic so reruns diff cleanly, and the same WIDTH the
+   runtime writes, so the serialized size matches production instead of being 12 bytes
+   short. Never Date.now(): that would make every rerun differ for no reason. */
+var SAVED_AT_WIDTH_REFERENCE = 1786000000000;
 var HOUR = 3600000;
 
 var res = [];
@@ -37,9 +41,14 @@ REG.DOMAINS.forEach(function (d) {
   });
 
   var ser = JSON.stringify(LOOP.serialize(loop));
-  // the state envelope the runtime actually writes
+  /* THE ENVELOPE THE RUNTIME ACTUALLY WRITES, at the width it actually writes it.
+     `savedAt: 0` was one character; the runtime stores `startedAt`, a 13-digit epoch in
+     milliseconds, so every "exact" size here was 12 bytes short. Small, but the whole
+     point of this file is a number quoted as exact, and a fixed 13-digit constant keeps
+     the output deterministic while matching production width. */
   var envelope = JSON.stringify({ runtime: 'brain-v2-shadow/0.1.0', domain: d.snapshot,
-    lastRowT: rows.length ? rows[Math.min(119, rows.length - 1)].t : null, savedAt: 0,
+    lastRowT: rows.length ? rows[Math.min(119, rows.length - 1)].t : null,
+    savedAt: SAVED_AT_WIDTH_REFERENCE,
     loop: JSON.parse(ser) });
 
   /* Buffer.byteLength, NOT String.length. String.length counts UTF-16 code units; any
