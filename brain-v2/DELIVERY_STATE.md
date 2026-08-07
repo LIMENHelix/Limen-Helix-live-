@@ -1,0 +1,403 @@
+---
+authority: MEASURED_SNAPSHOT
+measured_at: 2026-08-06T17:30Z
+measured_at_commit: 2ead52f213ff4e7df81e0f2995f0e4111c2cfa9c
+notice: >
+  This records state; it grants no merge, deployment, spending, or external-action
+  authority. Nothing here authorises anything. Where a fact is mutable, re-verify it
+  against the repository and the live system before relying on it.
+---
+
+# brain-v2 delivery state
+
+The single current answer to "where is the brain, and what has actually been proven".
+Written because the reasoning behind this build lives in chat logs and PR threads, and a
+new session that cannot see them will re-derive wrong answers or lose the objective.
+
+`DOCUMENT_AUTHORITY.md` (2026-08-02), `OWNER_SYSTEM_INTENT.md` and
+`brain-v2/MASTER_PROMPT.md` (marked stale) do not carry delivery state. This file does, and
+only this file.
+
+**Anything below marked GATED or UNPROVEN is not evidence.** Do not cite it as a result.
+
+---
+
+## OWNER GOAL
+
+1. **One canonical brain runtime across all 20 domains.** One runtime, executed once per
+   domain, never twenty copied runtimes.
+2. **Domain differences live in binders and registry data, not runtime forks.** A
+   `if (domain === 'x')` branch in the runtime is the failure mode to avoid.
+   `assets/js/domain-brains/` already went the other way and carries 34 energy-specific
+   overrides; that is the counter-example, not the pattern.
+3. **Add measured pathways gradually**: lateral connections, information integration,
+   rendering, then decision-making. Each earns its place with measurement.
+4. **Preserve working brain code. Do not drift into unrelated site work.**
+
+---
+
+## CURRENT POSITION
+
+**THREE DIFFERENT COUNTS, AND COLLAPSING ANY TWO OF THEM IS THE MISREADING THIS TABLE
+EXISTS TO PREVENT.** Bound is a statement about declaration and offline readability.
+Installed is a statement about what executes hourly in shadow. Active is a statement about
+evidence, and it is still zero. A domain can be bound, installed, and evidence nothing.
+
+| fact | value |
+|---|---|
+| total domains | 20 |
+| **BOUND** (validating binder + a fixture that binder can read) | **20 of 20** |
+| **INSTALLED** in the production shadow runtime | **7**: energy, finance, education, economy, trade, industry, population |
+| not yet installed | **13** |
+| **relationships ACTIVE as neural pathways** | **0 of 10** |
+| declared relationships | 10, in energy (7) and finance (3) only. The five batch-1 domains declare **zero**. |
+| offline replay fixtures | 20 of 20 |
+
+Installation grants nothing. It puts a domain in shadow, where it senses and reports. It
+activates no relationship, licenses no claim of independent evidence, and is not a step
+toward one that can be skipped: the evidence gate is measured separately and is still shut.
+
+- **PR #5 merged as `8f69c7ac`.** First real Upstash cycle succeeded at 2026-08-05T18:27Z
+  for both canaries: `ok=true`, 120 rows applied each, 5 internal effectors, no outward
+  action.
+- **PROVEN — strict Redis persistence for initial creation.** `writeState`, `writeCycle`
+  and the read-back confirmation all succeeded against production Upstash. A memory
+  fallback or a wrong key prefix would have failed the cycle, not passed quietly.
+- **PROVEN — production restoration across invocations.** Cycle 2 (2026-08-05T19:27Z), both
+  domains: `ok=true`, `restored=true`, `cursorBefore === 2026-07-21T23:13:02.267Z` exactly
+  matching cycle 1's `cursorAfter`, cursor advanced to `2026-07-26T23:12:21.773Z`, 120 rows
+  applied with no replay of the first segment.
+
+  The stronger evidence is the **prediction registry carrying forward**, which a recreated
+  brain could not do — it would restart near zero each cycle:
+
+  | domain | open predictions | resolved |
+  |---|---|---|
+  | energy | 102 → 229 (+127) | 95 → 221 (+126) |
+  | finance | 45 → 267 (+222) | 28 → 233 (+205) |
+
+  So the loop's learning state was restored from Redis, not recreated. This is the gate
+  PR #5 could not close on its own.
+- **PROVEN — source-identity TRANSPORT, for the subset of channels that currently emit
+  source IDs.** Cycle 4 (2026-08-05T21:27Z) crossed the `su` boundary and
+  `withObservationId` matched the recorder exactly: energy 19 of 19, finance 56 of 56.
+  Nothing was dropped between adapter, recorder, binder and runtime.
+
+  **THIS IS TRANSPORT INTEGRITY, NOT PROVENANCE COVERAGE.** An earlier version of this file
+  said "the provenance chain is closed end to end". That sentence described a subset as
+  though it were the whole and is withdrawn.
+
+  - energy declares **18 channels; 1 currently emits `su`** (FRED Crude Oil)
+  - finance declares **13 channels; 3 currently emit `su`** (Finnhub, Alpha Vantage,
+    Treasury Yield Curve)
+  - **19 and 56 are OCCURRENCES, not distinct observation identities.** Repeated hourly
+    polls of one unchanged publisher record count repeatedly.
+  - repeated polling of the same upstream identity **must not** count as independent
+    evidence
+  - rows recorded before 2026-08-05T03:12Z retain their VALUES but have **unknown** source
+    identity, permanently — the field did not exist when they were written
+
+  ### Measured per-channel identity, 35 eligible rows since `su` deployment
+
+  | domain | channel | withSu | **DISTINCT** | repeats | tier |
+  |---|---|---|---|---|---|
+  | energy | FRED Crude Oil | 35 | **2** | 33 | source |
+  | energy | other 17: 11 value-change (news/RSS), 6 unknown (Massive, EIA Petroleum, Fed Reg x2, +2) | 0 | 0 | — | mixed |
+  | finance | Finnhub Market | 35 | **8** | 27 | source |
+  | finance | Alpha Vantage Market | 34 | **2** | 32 | source |
+  | finance | Treasury Yield Curve | 35 | **1** | 34 | source |
+  | finance | other 10: 3 value-change (Treasury Debt, FDIC, SOFR), 7 unknown | 0 | 0 | — | mixed |
+
+  35 occurrences of 2 identities is two observations polled 35 times, not 35 observations.
+
+  ### Relationship eligibility — measured, not inferred from occurrence counts
+
+  **0 of 10 declared relationships meet the analyzer's minimum (>=6 distinct identities on
+  BOTH sides).**
+
+  | domain | latent | side A distinct | side B distinct | eligible |
+  |---|---|---|---|---|
+  | energy | crude oil price level | FRED 2 | EIA Petroleum 0 | no |
+  | energy | crude oil price level | FRED 2 | Massive Crude 0 | no |
+  | energy | electric grid stress | 0 | 0 | no |
+  | energy | natural gas supply pressure | 0 | 0 | no |
+  | energy | renewable generation attention | 0 | 0 | no |
+  | energy | nuclear sector activity | 0 | 0 | no |
+  | energy | coal-to-renewable displacement | 0 | 0 | no |
+  | finance | SPY price level | Massive 0 | Finnhub 8 | no |
+  | finance | SPY price level | Massive 0 | Alpha Vantage 2 | no |
+  | finance | SPY price level | **Finnhub 8** | Alpha Vantage 2 | no |
+
+  The last row is closest: Finnhub clears the bar, Alpha Vantage does not — its key is
+  `07. latest trading day`, one identity per trading day. Holding 2 of the 6 required, it
+  needs **4 more**, subject to a successful fetch on each of those market days.
+
+  ### What this permits and forbids
+
+  - Missing identity **does NOT block installation** in shadow mode; shadow sensing over
+    value-change channels is legitimate if the gap is reported honestly.
+  - It **DOES block** claiming independent evidence or activating any relationship that
+    requires it. No neural pathway may be switched on from these numbers.
+  - Unavailable identity must stay **visible in domain health**, never defaulted or hidden.
+
+  BACKFILL IS COMPLETE: the cursor reached 2026-08-05T21:12:46.814Z, the newest recorded
+  row. From cycle 5 the runtime is in steady state and `rowsApplied` drops from ~120 to
+  roughly 1 per hour. That is normal, not a stall.
+- **UNPROVEN — absence of unexpected Redis keys.** Requires a looped `SCAN` (repeat with
+  the returned cursor until it returns `0`), and even then only covers the pattern queried.
+  `vercel env pull` returns sensitive values EMPTY, so this session has no Redis
+  credentials and cannot run it.
+- **No outward actions.** Five effectors, all in-process. No pre-existing site, UI or
+  decision consumer reads shadow state; `/api/brain-shadow` is a new, token-gated operator
+  reader and is the only one.
+
+---
+
+## BATCH 1: five domains installed (this PR, NOT YET VERIFIED IN PRODUCTION)
+
+**Evidence gained: none.** This is an installation, and installation is not evidence. What
+changed is how many domains sense in shadow, not what any of them has established.
+
+Added to the shadow runtime: **education, economy, trade, industry, population**. Selected
+by a read-only audit of all 18 uninstalled domains, measured against the PR #4 fixtures:
+
+| domain | channels read / declared | source-ID channels | declared relationships | first readable row |
+|---|---|---|---|---|
+| education | 10 / 10 | 1 | 0 | 0 |
+| economy | 15 / 15 | 3 | 0 | 0 |
+| trade | 13 / 13 | 2 | 0 | 0 |
+| industry | 10 / 11 | 0 | 0 | 0 |
+| population | 14 / 15 | 1 | 0 | 0 |
+
+Chosen for three properties, in this order. Each **declares zero relationships**, so
+installing them cannot activate a pathway even by mistake. Each reads from **row 0**, so its
+first cycle is immediately falsifiable rather than silent. Each carries 91% to 100% channel
+coverage, so an unavailable input is a small, named exception rather than the norm.
+
+**Culture and religion were excluded and the reason is not coverage.** Their first readable
+row is index 373 of 470, so at a 120-row cap they tick zero times for three consecutive
+cycles. A green cycle from either would prove nothing for three hours, which is the worst
+property a canary can have.
+
+**MEMBERSHIP IS NOW REGISTRY DATA.** `registry.INSTALLED_DOMAINS` is the only operational
+list; `lib/brain-shadow-runtime.js` re-exports that array and `handlers/brain-shadow.js`
+derives from the runtime. The runtime used to hold its own literal, which is one list owned
+by the wrong module: a domain added there but not to the health handler is executed hourly
+and reported as absent, and the operator read is the only surface anyone looks at.
+
+**SERIALIZED STATE SIZE IS NOW MEASURED per domain.** `writeState` returns
+`Buffer.byteLength(json, 'utf8')` of the exact string it passed to SET, the cycle report
+carries it as `stateValueBytes`, and `/api/brain-shadow` reports it per domain plus a total
+and how many domains that total covers. Nothing was measuring hot-state size before, so no
+growth projection could be checked against production at all.
+
+**WHAT THIS NUMBER IS, STATED EXACTLY.** The UTF-8 byte length of the serialized state value
+accepted by SET. It is useful for measuring **relative hot-state growth**, and it is **not a
+measurement of HTTP transport bandwidth or billing.** `brain-shadow-redis` speaks the Upstash
+REST API, which nests this value inside a JSON command array and escapes it a second time,
+and a GET adds its own response envelope, so the figure on the wire is strictly larger by an
+amount nothing here observes. An earlier version of this section called it "bytes actually
+written", doubled it for read-plus-write, projected a monthly bandwidth total from it, and
+compared it against an HTTP request ceiling. **All four of those are withdrawn.** They
+substituted a value length for a transport length, which is the same class of error as
+counting occurrences and calling them observations.
+
+Offline, first cold cycle of 120 rows, through the real write path:
+
+| domain | stateValueBytes | | domain | stateValueBytes |
+|---|---:|---|---|---:|
+| energy | 926,617 | | trade | 781,990 |
+| finance | 674,805 | | industry | 468,016 |
+| economy | 649,007 | | education | 436,741 |
+| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MB of value)** |
+
+**NOT VERIFIED IN PRODUCTION.** Nothing here has run against real Redis. The numbers above
+come from offline replay of the PR #4 fixtures through an in-memory transport. Production
+truth arrives at the first two `:27` cycles after merge, and until then this section
+describes what the code does, not what the system did.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: none. Installation is not evidence. No relationship moved, no
+  identity count changed, no claim became citable.
+- **domains promoted**: education, economy, trade, industry, population. 2 installed to 7.
+- **remaining domains**: 13 outside the runtime.
+- **current gate**: hot state growth (NEXT PROGRAM STEP 3). Hard gate before batch 2.
+- **known unknowns**: (a) no production cycle has run with 7 domains, so the sequential
+  batch wall-clock and the real Redis round-trip cost are both unmeasured; (b) production
+  `stateValueBytes` for the 5 new domains is unknown until the first cycle, and the offline
+  figures are a floor because the fixtures stop at 470 rows while production keeps
+  recording; (c) **actual transport bytes are not measured anywhere**, so no bandwidth or
+  billing figure exists for this system, only value lengths; (d) the Upstash request-size
+  ceiling for this plan has not been retrieved, and since the value length is not the wire
+  length, headroom above the 3.66 MB largest value is doubly unestablished.
+- **exact next action**: merge, then read `/api/brain-shadow` after the first two `:27`
+  cycles and record the production `stateValueBytes` per domain in this file. Not the next
+  batch: the gate above comes first.
+
+---
+
+## PAST MILESTONES
+
+### PR #3 — provenance foundation (merge `70de3b75`)
+
+| commit | what it actually proved |
+|---|---|
+| `a571163b` | UN indicator 49 row selection fixed (`pageSize=1` gave the server the choice) |
+| `6c2f8c8f` | The UN schema IS published. Indicator 49 is **persons, not thousands** |
+| `1e61863f` | The population relationship was **withdrawn**: WPP 2024 estimates end 2023, so the latest completed year is a projection, and World Bank may sit on another year |
+| `e4f6c893` | Publisher-side observation keys for the three SPY adapters |
+
+Net: source identity exists on a handful of channels. It did **not** produce a second
+bound domain, and the one relationship it seemed to earn was given back.
+
+### PR #4 — offline replay fixtures (merge `4024c98a`)
+
+| commit | what it actually proved |
+|---|---|
+| `370bf5f5` | 19 fixtures from ~19.5 days of production history; registry 1 → **20 bound** |
+| `898027aa` | All 20 fixtures checked (not a 4-domain sample); the r7 boundary pinned causally |
+
+Net: **offline replay only.** `brain-v2/` is in `.vercelignore`, so this changed nothing on
+the live site. "20 bound" describes the offline replay registry, NOT 20 production runtimes.
+Every fixture honestly reports `supportsIndependentObservations: false`.
+
+### PR #5 — server-side shadow runtime (merge `8f69c7ac`)
+
+| commit | what it actually proved |
+|---|---|
+| `09828c16` | One runtime parameterised by descriptor; two canaries; confined namespace |
+| `4c614d76` | Fail-closed cron, read-only GET, real durability checks |
+| `8cd624ab` | Strict Redis transport with **no memory fallback of any kind** |
+| `3695c383` | Raw `command()` kept private to the transport |
+
+Net: the shared production template. This is the thing the remaining 18 domains plug into.
+
+---
+
+## CORRECTIONS THAT MUST NOT BE REDISCOVERED
+
+1. **`lib/limen-db` falls back to per-instance memory** when Redis is absent *or when a
+   call fails*, and it satisfies a failed write AND the following read from that same
+   object — so a read-back guard written against it passes in exactly the case it exists to
+   catch. `_redisRequest` also **returns `null` without throwing** on `{error: ...}`, so
+   `set()` reported protocol errors as durable writes. The shadow runtime therefore has its
+   own strict transport. **limen-db is untouched; other consumers keep its behaviour.**
+2. **Token roles are not interchangeable.** `CRON_SECRET` authorises **execution/writes**
+   (non-empty, exact `Authorization: Bearer <secret>`). `BRAIN_SHADOW_TOKEN` authorises
+   **read-only operator inspection** and cannot make the runtime write. Neither has a
+   query-string form: query strings are logged.
+3. **Idempotency is SEQUENTIAL ONLY.** There is no lock. Two concurrent cycles would both
+   read the same cursor and apply the same rows. Safe at one hourly cron; do not describe
+   it as concurrency-safe.
+4. **Deployment hash is not proven by `vercel inspect` here** — it returned empty. A
+   working route plus a successful cycle establishes deployment; a hash claim needs the
+   hash actually retrieved.
+5. **HTTP 200 on `/lib/*.js` is weak bundle evidence.** The catch-all can answer 200.
+   Verify content, or rely on the runtime actually working.
+6. **`SCAN` needs its cursor loop.** One `SCAN 0 MATCH ...` is not exhaustive; repeat with
+   the returned cursor until it is `0`. It still only proves the pattern queried.
+7. **The kernel wires FIVE internal effectors** (`raise_attention`, `lower_attention`,
+   `collect_evidence`, `no_action`, `escalate`) and a 24-row cycle executes ~23 actions.
+   The guarantee is **no OUTWARD actuation**, never "no actuation".
+8. **`ACT.serialize` does not persist the motor's execution log**, so no lifetime actuation
+   count exists in stored state. Report per-cycle counts only.
+9. **`.vercelignore` cannot re-include a path whose parent is excluded.** `!brain-v2/kernel/`
+   would look correct and ship nothing. Exclude the parts that must not ship instead.
+10. **The `limen:` key prefix is load-bearing.** The recorder's history is physically at
+    `limen:feedhist:<domain>`; a bare key reads an empty list and reports a healthy cycle
+    over zero rows.
+11. **BOUND ≠ evidenced.** `registry.js` defines BOUND as a validating binder plus a
+    non-empty fixture the binder can read. A declared relationship is required only for
+    `supportsIndependentObservations` / SPEC row 10 — **not** for installation.
+
+---
+
+## NEXT PROGRAM STEP
+
+1. **THE PERSISTENCE GATE IS CLOSED.** Restoration (cycle 2) and source-identity transport
+   (cycle 4) are proven against production, so batched onboarding is unblocked.
+   **The EVIDENCE gate is a separate, still-open milestone** and does not block
+   installation: 0 of 10 relationships have enough distinct identities on both sides.
+   Install domains in shadow; activate relationships only when measured.
+2. **Then onboard remaining domains in registry-driven BATCHES.**
+   - Do **not** create 18 bespoke runtimes.
+   - Do **not** process one domain per session.
+   - A domain enters a batch only with: a binder, recorded rows, provenance handling,
+     isolation tests, and honest reporting of unavailable channels.
+   - Per-domain failure isolation is mandatory: one bad domain must not stop the others.
+   - Batch 1 (5 domains) is done. **13 remain.**
+
+3. **MANDATORY GATE BEFORE BATCH 2, bound hot state growth.** Batch 2 must not be
+   installed until this is closed, and it is a hard gate, not a preference.
+
+   **What was measured, and in which unit.** Serialized state VALUE length grows roughly
+   linearly with ticks and shows no plateau within 470 ticks. Offline replay of the PR #4
+   fixtures. These are value lengths, not wire bytes; see the unit note in BATCH 1.
+
+   | replay depth | economy | finance | infrastructure |
+   |---|---|---|---|
+   | 120 rows | 630 KB | 656 KB | 925 KB |
+   | 240 rows | 1,261 KB | 1,782 KB | 1,826 KB |
+   | 360 rows | 2,108 KB | 2,791 KB | 2,676 KB |
+   | 470 rows | 2,822 KB | **3,752 KB** | 3,459 KB |
+
+   Composition of finance at 470 ticks: `memory` 2,398 KB (64%) and
+   `registry.predictions` 763 KB (656 open, 611 resolved). Both accumulate per tick.
+   `lib/brain-shadow-store.js` enforces no size ceiling.
+
+   **Why it gates the batch and not this one.** Every cycle reads the whole state and writes
+   it back, so a value that grows without bound grows the work of every future cycle. At 7
+   installed domains the total is 4.30 MB of value and is manageable. At 20, offline replay
+   projects **49.9 MB of resident value**, with the largest single domain already 3.66 MB and
+   no ceiling in the store. Installing 13 more before bounding growth commits every
+   subsequent cycle to carrying it.
+
+   **STATED IN THE UNIT ACTUALLY MEASURED.** The figures above are serialized value lengths.
+   Earlier wording here turned them into a bandwidth-per-cycle number, a monthly billing
+   projection, and a comparison against a request-size ceiling. Those needed transport bytes,
+   which nothing measures, so they are withdrawn rather than restated more carefully. The
+   growth curve is real and is enough on its own to gate the batch; the cost curve is
+   currently unknown, and saying so is the honest form of the same warning.
+
+   **What closing it requires**, and each of these is a constraint the fix must not break:
+   - bound `memory` and the prediction registry, by retention policy, compaction, or both
+   - **preserve auditable history**: a pruned record must remain reconstructable or its
+     removal must be recorded, because state that quietly forgets is state that cannot be
+     audited later
+   - **preserve replay, rollback and deterministic tests**: `test/shadow-runtime.js` S3b
+     asserts byte-identical state across two independent runs, and S4 asserts a restored
+     brain carries the same channel state. A compaction that depends on wall-clock time or
+     on how many cycles happened to run breaks both, and would break them silently
+   - **measure ACTUAL TRANSPORT BYTES**, by instrumenting `lib/brain-shadow-redis` at the
+     point it builds a request and reads a response. Until that exists there is no bandwidth
+     figure and no billing figure for this system, and the request-size headroom above the
+     current 3.66 MB largest value cannot be established either. This belongs to THIS
+     milestone and was deliberately kept out of the batch-1 installation PR.
+   - re-measure against production and record the new curve here
+
+   **Not attempted in this PR, deliberately.** Compaction touches the kernel's memory and
+   prediction registry, which every existing measurement depends on. Bundling it with a
+   membership change would make a regression in either one impossible to attribute.
+
+4. **Separate bounded cleanup, not urgent, do not fold into a batch PR.**
+   `brain-v2/bind/agriculture.js:2` still reads "No fixture exists; MANIFEST-ONLY". PR #4
+   gave it a fixture and the registry reports it BOUND, so the header contradicts the code
+   below it. Documentation only, no behaviour, and it should not ride along with a change
+   that alters what runs.
+
+---
+
+## REQUIRED OF EVERY FUTURE BRAIN PR
+
+Update this file, in the same PR, with:
+
+- **evidence gained** — what is now proven that was not
+- **domains promoted** — which entered the live runtime
+- **remaining domains** — the count still outside it
+- **current gate** — what blocks the next step
+- **known unknowns** — what is still unproven, named as such
+- **exact next action** — the single next step, not a range of options
+
+A PR that changes brain behaviour without updating this file has moved the system and left
+its own record behind.

@@ -235,6 +235,68 @@ function inspect(name) {
   });
 }
 
+/**
+ * INSTALLED_DOMAINS: the domains the production shadow runtime actually executes.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * THIS IS THE ONLY OPERATIONAL MEMBERSHIP LIST IN THE SYSTEM.
+ *
+ * `lib/brain-shadow-runtime.js` and `handlers/brain-shadow.js` both derive their default
+ * set from here, and neither declares one of its own. Two independently authored lists is
+ * how a domain gets executed by the cron and then omitted from the health read: the cycle
+ * runs, nothing reports it, and the operator reads "that domain is not installed" about a
+ * domain that has been writing state for a week. The runtime used to hold the list and the
+ * handler used to iterate the runtime's copy, which was one list reached two ways; this is
+ * the same list reached two ways, declared where domain membership already lives.
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ *
+ * BOUND IS NOT INSTALLED, and the gap is deliberate. All 20 domains are BOUND, meaning a
+ * validating binder plus a fixture that binder can read. Seven are installed. A domain
+ * joins this list only after a batch audit has measured what it will actually contribute,
+ * so the distance between 20 and 7 is the distance between "declared and observable
+ * offline" and "executing hourly against production feed history".
+ *
+ * INSTALLED IS NOT EVIDENCED EITHER. Installation puts a domain in SHADOW. It activates no
+ * relationship, grants no pathway, and licenses no claim of independent evidence. The
+ * evidence gate is separate and still open: see brain-v2/DELIVERY_STATE.md.
+ */
+var INSTALLED_DOMAINS = [
+  /* Batch 0, the canaries. First production run of the shared runtime (PR #5). */
+  'energy', 'finance',
+  /* Batch 1, audited 2026-08-06. Selected because each reads from row 0 of its fixture,
+     so its first cycle is immediately falsifiable rather than silent for three hours, and
+     each carries 91-100% channel coverage, and declares ZERO relationships, which means
+     installing them cannot activate anything early even by mistake. */
+  'education', 'economy', 'trade', 'industry', 'population'
+];
+
+/**
+ * VALIDATED AT LOAD, NOT AT FIRST USE. An unresolvable name would otherwise surface as one
+ * failed cycle per hour on one domain, which reads as a data problem rather than a typo,
+ * and `runDomain` reports domain errors instead of throwing so nothing would ever escalate.
+ */
+INSTALLED_DOMAINS.forEach(function (p) {
+  if (!descriptorFor(p)) {
+    throw new Error('registry: INSTALLED_DOMAINS names "' + p + '", which is not one of the ' +
+      'twenty canonical domains under either naming system');
+  }
+});
+(function () {
+  var seen = Object.create(null);
+  INSTALLED_DOMAINS.forEach(function (p) {
+    var snap = NAMES.toRuntime(p);
+    /* A domain listed twice would run two cycles against one cursor in the same batch. The
+       second finds no rows past the cursor the first just wrote, so it reports a healthy
+       zero-row cycle and the duplication is invisible in the output. */
+    if (seen[snap]) {
+      throw new Error('registry: INSTALLED_DOMAINS lists ' + snap + ' twice (as ' + p + '); ' +
+        'a domain installed twice runs two cycles against one cursor and the second reports ' +
+        'a healthy no-op, so the duplicate never shows up in the health read');
+    }
+    seen[snap] = true;
+  });
+})();
+
 /** Every canonical domain, with its state and the reason for it. */
 function survey() { return DOMAINS.map(function (d) { return inspect(d.snapshot); }); }
 
@@ -259,6 +321,8 @@ module.exports = {
   DOMAINS: DOMAINS,
   SNAPSHOT_KEYS: SNAPSHOT_KEYS,
   PRODUCT_KEYS: DOMAINS.map(function (d) { return d.product; }),
+  /* The sole operational membership authority. Consumers derive; none redeclares. */
+  INSTALLED_DOMAINS: INSTALLED_DOMAINS,
   STATE: STATE,
   descriptorFor: descriptorFor,
   inspect: inspect,
