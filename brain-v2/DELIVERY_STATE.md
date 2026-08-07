@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-07T20:55Z
+measured_at: 2026-08-07T21:30Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -248,9 +248,29 @@ No replay: every applied row was newer than the stored cursor, and the total ros
 **14,271,904** across 7 measured domains. State survived a four-hour gap and a
 deployment, which is stronger restoration evidence than two adjacent cycles.
 
-**STILL OUTSTANDING: two CONSECUTIVE post-restoration cycles.** 16:27 and 20:27 are two
-post-deployment cycles separated by the outage, not consecutive ones. Only one cycle has run
-since the restore. The claim is not yet supported and is not made here.
+**Cycle at 21:27:15Z, second post-restoration, CONSECUTIVE with the first.** 20:27 and
+21:27 are one hour apart with nothing between them, which is the claim the earlier pairing
+(16:27 and 20:27, separated by the outage) could not support. All seven `restored:true`,
+and every domain's `cursorBefore` equalled its OWN 20:27 `cursorAfter`:
+
+| domain | 20:27 cursorAfter = 21:27 cursorBefore | applied | stateValueBytes 20:27 → 21:27 |
+|---|---|---:|---|
+| energy | 2026-08-07T20:12:43.770Z | 1 | 3,911,335 → 3,918,000 |
+| finance | 2026-08-07T20:12:43.770Z | 1 | 4,376,143 → 4,383,808 |
+| education | 2026-07-27T20:12:29.928Z | 120 | 916,504 → 1,562,659 |
+| economy | 2026-07-27T20:12:29.928Z | 120 | 1,300,158 → 2,159,066 |
+| trade | 2026-07-27T20:12:29.928Z | 120 | 1,525,786 → 2,194,589 |
+| industry | 2026-07-27T20:12:29.928Z | 120 | 1,004,203 → 1,658,563 |
+| population | 2026-07-27T20:12:29.928Z | 120 | 1,237,775 → 2,029,484 |
+
+57 of 57 criteria passed. Records selected by post-deployment timestamp, not array
+position, so a delayed or manually dispatched cycle cannot shift the pairing silently.
+
+**THE GATE JUST GOT TIGHTER, MEASURED IN PRODUCTION.** The five backfilling domains grew
+**44% to 71% in a single cycle**, and the seven-domain total went from 14,271,904 to
+17,906,169, **+25% in one hour**. They have two more backfill cycles before steady state.
+Offline replay of a cold start did not show this because it never ran more than one cycle
+per domain. Batch 2 must not be installed against a curve this steep.
 
 **PRODUCTION CONTRADICTS THE OFFLINE PROJECTION.** The five new domains matched offline
 replay within 0.1%, validating the method for a cold start. The two canaries did not:
@@ -275,9 +295,11 @@ floor, not a worst case.**
   billing figure exists for this system, only value lengths; (d) the Upstash request-size
   ceiling for this plan has not been retrieved, and since the value length is not the wire
   length, headroom above the 3.66 MB largest value is doubly unestablished.
-- **exact next action**: record TWO CONSECUTIVE post-restoration `:27` cycles. Only one
-  has run since the 19:50:21Z restore (20:27:15Z). Two cycles separated by the outage is
-  not the same claim and is not made. Not the next batch: the gate above comes first.
+- **exact next action**: close the hot-state gate (NEXT PROGRAM STEP 3). Production
+  restoration is now proven across two CONSECUTIVE cycles (20:27:15Z, 21:27:15Z), so that
+  question is settled and is no longer the blocker. The blocker is growth: +25% across the
+  seven installed domains in one hour, with two backfill cycles still to run. Not the next
+  batch, and not pathway activation: 0 of 10 relationships are analyzer-testable.
 
 ---
 
