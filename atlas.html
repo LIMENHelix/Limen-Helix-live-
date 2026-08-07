@@ -481,32 +481,45 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     font-size:26px;line-height:1;cursor:pointer}
   #orbClose:hover{color:#fff}
 
-  /* THE STAFF LIST RUNS DOWN THE LEFT, NOT ACROSS THE BOTTOM. Twenty entries in a bottom bar
-     wrap onto three rows and cover the part of the map people came to look at. Down the left
-     edge they read as a directory and the atlas keeps its whole height. */
-  #orbPick{position:fixed;left:0;top:0;bottom:0;width:138px;z-index:240;
-    display:flex;flex-direction:column;gap:3px;padding:14px 8px 18px;overflow-y:auto;
-    background:linear-gradient(to right,rgba(3,6,12,.94) 0%,rgba(3,6,12,.72) 62%,rgba(3,6,12,0) 100%);
+  /* THE STAFF LIST IS A COLLAPSED MENU, TOP LEFT — the same idiom as the pages menu on the
+     connectome. It was a bottom bar first, which wrapped onto three rows and covered the map,
+     then a left rail, which still covered it and duplicated twenty nodes that are already
+     clickable. Collapsed, the atlas is completely clear and the directory is one click away
+     for anyone who does not realise the orbs themselves are the menu. */
+  #orbPick{position:fixed;top:54px;left:20px;z-index:240}
+  #orbPick .pk-btn{background:rgba(5,8,16,.72);border:1px solid rgba(150,205,255,.22);
+    color:rgba(190,222,255,.85);padding:7px 13px;cursor:pointer;border-radius:3px;
+    font:600 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;transition:border-color .2s,color .2s,background .2s}
+  #orbPick .pk-btn:hover,#orbPick .pk-btn[aria-expanded="true"]{
+    border-color:rgba(150,205,255,.6);color:#eaf6ff;background:rgba(120,200,255,.1)}
+  #orbPick .pk-caret{display:inline-block;margin-left:9px;font-size:.8em;opacity:.7}
+  #orbPick .pk-menu{position:absolute;top:calc(100% + 5px);left:0;min-width:216px;
+    max-height:min(64vh,580px);overflow-y:auto;display:none;flex-direction:column;gap:2px;
+    background:rgba(5,8,16,.985);border:1px solid rgba(150,205,255,.2);border-radius:3px;
+    box-shadow:0 10px 34px rgba(0,0,0,.66);padding:5px;
     scrollbar-width:thin;scrollbar-color:rgba(226,236,250,.18) transparent}
-  #orbPick::-webkit-scrollbar{width:5px}
-  #orbPick::-webkit-scrollbar-thumb{background:rgba(226,236,250,.18);border-radius:3px}
-  #orbPick button{width:100%;text-align:left;background:rgba(226,236,250,.04);
-    border:1px solid rgba(226,236,250,.1);border-left:2px solid rgba(150,205,255,.28);
-    color:rgba(214,228,244,.62);padding:5px 8px;cursor:pointer;
+  #orbPick .pk-menu[data-open="true"]{display:flex}
+  #orbPick .pk-menu::-webkit-scrollbar{width:5px}
+  #orbPick .pk-menu::-webkit-scrollbar-thumb{background:rgba(226,236,250,.18);border-radius:3px}
+  #orbPick .pk-menu button{width:100%;text-align:left;background:transparent;
+    border:1px solid transparent;border-left:2px solid rgba(150,205,255,.26);
+    color:rgba(214,228,244,.62);padding:6px 9px;cursor:pointer;
     font:600 8.4px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;
-    text-transform:uppercase;transition:background .18s,border-color .18s,color .18s}
-  #orbPick button:hover{background:rgba(226,236,250,.12);color:#fff;
-    border-color:rgba(226,236,250,.35);border-left-color:rgba(150,205,255,.95)}
+    text-transform:uppercase;transition:background .16s,border-color .16s,color .16s}
+  #orbPick .pk-menu button:hover{background:rgba(226,236,250,.1);color:#fff;
+    border-left-color:rgba(150,205,255,.95)}
   /* The manager's name carries the row; the domain is the subtitle. Reads as a staff list. */
-  #orbPick button .who{display:block;color:rgba(150,205,255,.92);letter-spacing:.1em;margin-bottom:2px}
-  #orbPick button:hover .who{color:#bfe6ff}
-  #orbPick button.table{border-left-color:rgba(126,240,190,.75);background:rgba(126,240,190,.07);
-    color:rgba(226,246,238,.8);margin-bottom:7px}
-  #orbPick button.table .who{color:rgba(150,255,210,.95)}
-  #orbPick button.table:hover{background:rgba(126,240,190,.16);border-color:rgba(126,240,190,.5)}
+  #orbPick .pk-menu button .who{display:block;color:rgba(150,205,255,.92);letter-spacing:.1em;margin-bottom:2px}
+  #orbPick .pk-menu button:hover .who{color:#bfe6ff}
+  #orbPick .pk-menu button.table{border-left-color:rgba(126,240,190,.8);
+    background:rgba(126,240,190,.07);color:rgba(226,246,238,.82);margin-bottom:5px}
+  #orbPick .pk-menu button.table .who{color:rgba(150,255,210,.95)}
+  #orbPick .pk-menu button.table:hover{background:rgba(126,240,190,.16)}
   @media (max-width:760px){
-    #orbPick{width:104px;padding:10px 6px 14px}
-    #orbPick button{font-size:7.6px;padding:4px 6px}
+    #orbPick{top:48px;left:12px}
+    #orbPick .pk-btn{font-size:8px;padding:6px 10px}
+    #orbPick .pk-menu{min-width:190px}
   }
   @media (max-width:640px){ #orbCard{max-height:52vh} #orbPick button{padding:4px 7px;font-size:8px} }    #orbLayer .rec{font-size:12px;line-height:1.5;color:#7f8fa3;margin:14px 0 0;
       padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
@@ -520,6 +533,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   <div id="orbCard" role="dialog" aria-live="polite"></div>
 </div>
 <div id="orbPick" aria-label="The twenty domain managers"></div>
+<!-- Menu, transcript card and scrim all live above the map; the map itself stays uncovered. -->
 
 <script>
 (function () {
@@ -1107,6 +1121,31 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   /* Alphabetical, and sorted on a copy: DOMAINS order is the lifecycle order the ring is
      drawn in, so mutating it here would rearrange the map. This is a lookup list, and a
      lookup list is scanned by name. */
+  /* Collapsed by default. The twenty orbs on the map are already the primary way in — this
+     is the fallback for a visitor who does not think to click one, and a directory for
+     anyone hunting a specific domain. */
+  var pkBtn = document.createElement('button');
+  pkBtn.type = 'button'; pkBtn.className = 'pk-btn';
+  pkBtn.setAttribute('aria-expanded','false');
+  pkBtn.setAttribute('aria-haspopup','true');
+  pkBtn.innerHTML = 'The twenty<span class="pk-caret">▾</span>';
+  var pkMenu = document.createElement('div');
+  pkMenu.className = 'pk-menu'; pkMenu.setAttribute('role','menu');
+  pick.appendChild(pkBtn); pick.appendChild(pkMenu);
+
+  function pkOpen(on){
+    pkMenu.setAttribute('data-open', on ? 'true' : 'false');
+    pkBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+  pkBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    pkOpen(pkMenu.getAttribute('data-open') !== 'true');
+  });
+  // Click anywhere else, or Escape, closes it. A menu that only closes via its own button
+  // is a menu that stays open over the map.
+  document.addEventListener('click', function(e){ if (!pick.contains(e.target)) pkOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') pkOpen(false); });
+
   /* The whole table sits at the head of the staff list, because "see all twenty argue" is the
      thing worth clicking first and burying it inside one manager's card hides it. */
   (function(){
@@ -1115,8 +1154,8 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     all.innerHTML = '<span class="who">Convene</span>All twenty';
     all.title = 'Put all twenty managers in one room';
     all.setAttribute('aria-label', all.title);
-    all.addEventListener('click', conveneTable);
-    pick.appendChild(all);
+    all.addEventListener('click', function(){ pkOpen(false); conveneTable(); });
+    pkMenu.appendChild(all);
   })();
 
   DOMAINS.slice().sort(function(a,b){ return a[1].localeCompare(b[1]); }).forEach(function(dd){
@@ -1132,9 +1171,10 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     b.setAttribute('aria-label', b.title);
     b.addEventListener('click', function(){
       var r=b.getBoundingClientRect();
+      pkOpen(false);
       open(dd[0],dd[1],dd[2], r.x+r.width/2, r.y);
     });
-    pick.appendChild(b);
+    pkMenu.appendChild(b);
   });
 
   window.__orbOpen = function(id,x,y){
