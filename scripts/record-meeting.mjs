@@ -87,17 +87,13 @@ const hist = await getJSON(BASE + '/api/grounded-stress-history?all=1');
    run did show, and which is exactly the kind of miss that looks like missing data rather
    than a naming bug.
 
-   HELD LOCALLY ON PURPOSE, and this is a deliberate exception to a rule I would normally
-   follow. A canonical owner of this mapping exists elsewhere in the repo, and the better
-   engineering is always to read it rather than keep a copy. That area is off limits by
-   operator instruction, so this is a copy.
-
-   A copy can go stale, so it is not trusted — the check below verifies it against the live
-   history every run. If a fourth domain is ever split, or one of these three is renamed, the
-   run that first hits it says so out loud. Drift becomes a warning at the moment it happens
-   rather than an unmeasurable row nobody notices for weeks. */
-const TO_SNAPSHOT = { medicine: 'health', science: 'research', trade: 'supplyChain' };
-const snapKey = (id) => TO_SNAPSHOT[id] || id;
+   The map lives in assets/js/orb-briefing.js, so the page and this script cannot disagree
+   about which series belongs to whom. It is a deliberate copy of a mapping owned elsewhere in
+   a part of the repo that is off limits, so it is not trusted: the check below verifies it
+   against the live history every run. If a fourth domain is ever split, or one of these three
+   renamed, the run that first hits it says so out loud rather than writing unmeasurable rows
+   nobody notices for weeks. */
+const snapKey = (id) => ORB.snapshotKey(id);
 
 if (hist && hist.domains) {
   const unmapped = ORB.DOMAINS.map(([id]) => id).filter((id) => !hist.domains[snapKey(id)]);
@@ -123,6 +119,12 @@ function witnessFor(id) {
            span: Number(best.span.toFixed(6)), frozen: frozen,
            why: frozen ? 'channel is flat across its whole series' : undefined };
 }
+
+/* Hand the meeting what was asked for last time, and the series to judge it by. Without these
+   two the managers start every meeting cold, which is the whole thing this was built to fix. */
+cache.hist = hist;
+cache.ledger = await LEDGER.readAll();
+console.log(`ledger: ${cache.ledger.length} prior entries from ${LEDGER.backend()}`);
 
 const turns = ORB.meeting(room, cache);
 const at = new Date().toISOString();

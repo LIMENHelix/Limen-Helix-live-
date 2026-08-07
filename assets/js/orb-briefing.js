@@ -379,6 +379,27 @@
   }
 
 
+  /* TWO NAMES FOR THREE DOMAINS. The orbs use the PRODUCT name; the snapshot, the recorder and
+     the stress history use the SNAPSHOT key. Everything orb-side reads this one copy, so the
+     page and the recorder cannot disagree about which series belongs to whom.
+
+     A canonical owner of this mapping exists elsewhere in the repo. That area is off limits by
+     instruction, so this is a deliberate copy — and because a copy can go stale, the recorder
+     checks it against the live history on every run and warns rather than trusting it. */
+  var SNAPSHOT_KEY = { medicine: 'health', science: 'research', trade: 'supplyChain' };
+  function snapshotKey(id){ return SNAPSHOT_KEY[id] || id; }
+
+  /* The newest value of one channel, out of a /api/grounded-stress-history?all=1 payload.
+     Null rather than zero when it is missing: zero is a reading, absence is not. */
+  function latestReading(domainId, channel, cache){
+    if (!cache || !cache.hist || !cache.hist.domains || !channel) return null;
+    var slot = cache.hist.domains[snapshotKey(domainId)];
+    var arr = slot && slot.channels && slot.channels[channel];
+    if (!Array.isArray(arr) || !arr.length) return null;
+    var v = Number(arr[arr.length - 1]);
+    return isFinite(v) ? v : null;
+  }
+
   /* THE ROOM A MANAGER CONVENES: everyone they are actually wired to, capped at `seats`.
 
      This lives in the shared module rather than in the page for one specific reason. The
@@ -515,6 +536,64 @@
      manager is doing, not what the pair's relationship is: upstream of me means I am ASKING,
      downstream means I am OFFERING. `watch` is whose readings settle it later — always the
      upstream domain, because that is the one whose movement the other is waiting on. */
+  /* WHAT HAPPENED SINCE LAST TIME. This is what the ledger was built to pay for: a manager
+     picks up a thread instead of starting fresh every meeting.
+
+     THE NUMBERS ARE ALWAYS QUOTED, and the characterisation is a stated rule rather than a
+     feeling: movement counts when it exceeds a tenth of that channel's own observed span, so
+     a jumpy channel needs a bigger move to qualify than a placid one. Both branches say the
+     two readings out loud, so the sentence is checkable even if you disagree with the rule.
+
+     Returns null, and the manager simply says nothing, when there is no prior ask, when the
+     witness was frozen (a pinned channel can never answer anything), or when the channel has
+     gone missing since. Silence beats a manufactured follow-up. */
+  function recallOf(me, them, cache){
+    if (!cache || !cache.ledger || !cache.ledger.length) return null;
+    var prior = null;
+    for (var i = 0; i < cache.ledger.length; i++){
+      var e = cache.ledger[i];
+      if (!e || e.from !== me.id || e.to !== them.id || !e.witness) continue;
+      if (!prior || String(e.t) > String(prior.t)) prior = e;
+    }
+    if (!prior || prior.witness.frozen) return null;
+    var was = Number(prior.witness.value);
+    var now = latestReading(prior.watch, prior.witness.channel, cache);
+    if (now === null || !isFinite(was)) return null;
+
+    var span = Number(prior.witness.span);
+    var bar = isFinite(span) && span > 0 ? span * 0.1 : 0.02;
+    var moved = Math.abs(now - was) >= bar;
+    var when = agoPhrase(prior.t);
+    var n2 = function(v){ return (Math.round(v * 100) / 100).toFixed(2); };
+    var subject = prior.kind === 'ask' ? 'yours' : 'mine';
+
+    if (prior.kind === 'ask'){
+      return moved
+        ? 'I asked you for that ' + when + ', and it came: ' + prior.witness.channel +
+          ' on your side has gone ' + n2(was) + ' to ' + n2(now) + '.'
+        : 'I asked you for the same thing ' + when + '. Your ' + prior.witness.channel +
+          ' has not moved off ' + n2(was) + ', so nothing has reached me yet.';
+    }
+    return moved
+      ? 'I told you ' + when + ' I would send it early. It has since gone ' + n2(was) +
+        ' to ' + n2(now) + ' on my side, which is the thing I meant.'
+      : 'I said the same ' + when + '. Nothing has moved off ' + n2(was) + ' on my side, ' +
+        'so there has been nothing worth sending.';
+  }
+
+  // Coarse on purpose: nobody in a meeting says "nineteen hours and forty minutes ago".
+  function agoPhrase(iso){
+    var then = Date.parse(iso);
+    if (!then) return 'last time';
+    var hrs = (Date.now() - then) / 3600000;
+    if (hrs < 1.5) return 'an hour ago';
+    if (hrs < 20) return Math.round(hrs) + ' hours ago';
+    var days = Math.round(hrs / 24);
+    if (days <= 1) return 'yesterday';
+    if (days < 14) return days + ' days ago';
+    return 'a while back';
+  }
+
   function commitWith(me, them){
     var f = flowBetween(me.id, them.id);
     if (!f) return null;
@@ -617,6 +696,13 @@
            IN A FULL ROOM THEY ALTERNATE. Twenty managers each doing both is a forty-minute
            meeting, and the second half of a meeting nobody is still watching may as well not
            have happened. Every manager still either sells or asks; none does both. */
+        /* PICK THE THREAD UP FIRST. If this pair has been here before, what happened since
+           comes BEFORE the fresh ask, because "I asked you for this last time and nothing
+           moved" is a different sentence from asking cold, and the order is what makes it
+           read as continuing rather than repeating. */
+        var back = target ? recallOf(me, target, cache) : null;
+        if (back) lines.push(back);
+
         var pk = pitchOf(me.id);
         if (big){
           if (k % 2 === 1 && pk) lines.push(pk);
@@ -911,6 +997,7 @@
            meeting: meeting, edgeBetween: edgeBetween, flowBetween: flowBetween, ADDRESS: ADDRESS,
            roleOf: roleOf, standing: standing, DESK: DESK, deskOf: deskOf,
            roomFor: roomFor, MEET_SEATS: MEET_SEATS,
+           snapshotKey: snapshotKey, latestReading: latestReading, SNAPSHOT_KEY: SNAPSHOT_KEY,
            RELATION: RELATION, SPEAKERS: SPEAKERS, NEURO: NEURO, VOICE: VOICE,
            build: build };
 }));

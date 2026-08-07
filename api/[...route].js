@@ -131,6 +131,7 @@ const HANDLERS = {
   'gazette': require('../handlers/gazette'),
   'opportunities': require('../handlers/opportunities'),
   'orb-voice': require('../handlers/orb-voice'),
+  'orb-ledger': require('../handlers/orb-ledger'),
   'domain-snapshot': require('../handlers/domain-snapshot'),
   'domain-snapshot-debug': require('../handlers/domain-snapshot-debug'),
   'feed-status': require('../handlers/feed-status'),
