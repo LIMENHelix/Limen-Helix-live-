@@ -456,9 +456,10 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   #orbCard a.act.go.free{background:rgba(126,240,190,.15);border-color:rgba(126,240,190,.55);color:#e9fff5}
   #orbCard a.act.go.free:hover{background:rgba(126,240,190,.26);border-color:rgba(150,255,210,.9)}
 
-  /* THE ROOM. A meeting is longer than a briefing, so the card grows rather than trapping it
-     in a 46vh scroller nobody realises has more in it. */
-  #orbCard.meet{max-height:66vh}
+  /* THE ROOM. The transcript takes the lower half and the call sits above it, so who is
+     speaking and what they are saying are visible at the same time. Taller than this and the
+     seats get pushed off the top of the screen, which is the whole point of the layout. */
+  #orbCard.meet{max-height:44vh;bottom:2.5vh;width:min(94vw,900px)}
   #orbCard .meetnote{font-size:11.5px;color:rgba(200,216,232,.5);margin:0 0 14px}
   #orbCard .mturn{padding:12px 0;border-top:1px solid rgba(150,180,215,.13);animation:mturn .45s ease backwards}
   #orbCard .mturn:first-child{border-top:0}
@@ -480,15 +481,29 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     font-size:26px;line-height:1;cursor:pointer}
   #orbClose:hover{color:#fff}
 
-  #orbPick{position:fixed;left:0;right:0;bottom:0;z-index:240;display:flex;gap:6px;justify-content:center;
-    flex-wrap:wrap;padding:9px 12px 11px;background:linear-gradient(to top,rgba(3,6,12,.9),rgba(3,6,12,0))}
-  #orbPick button{background:rgba(226,236,250,.05);border:1px solid rgba(226,236,250,.14);
-    color:rgba(214,228,244,.75);padding:5px 9px;cursor:pointer;
-    font:600 8.6px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase}
-  #orbPick button:hover{background:rgba(226,236,250,.13);color:#fff;border-color:rgba(226,236,250,.4)}
+  /* THE STAFF LIST RUNS DOWN THE LEFT, NOT ACROSS THE BOTTOM. Twenty entries in a bottom bar
+     wrap onto three rows and cover the part of the map people came to look at. Down the left
+     edge they read as a directory and the atlas keeps its whole height. */
+  #orbPick{position:fixed;left:0;top:0;bottom:0;width:138px;z-index:240;
+    display:flex;flex-direction:column;gap:3px;padding:14px 8px 18px;overflow-y:auto;
+    background:linear-gradient(to right,rgba(3,6,12,.94) 0%,rgba(3,6,12,.72) 62%,rgba(3,6,12,0) 100%);
+    scrollbar-width:thin;scrollbar-color:rgba(226,236,250,.18) transparent}
+  #orbPick::-webkit-scrollbar{width:5px}
+  #orbPick::-webkit-scrollbar-thumb{background:rgba(226,236,250,.18);border-radius:3px}
+  #orbPick button{width:100%;text-align:left;background:rgba(226,236,250,.04);
+    border:1px solid rgba(226,236,250,.1);border-left:2px solid rgba(150,205,255,.28);
+    color:rgba(214,228,244,.62);padding:5px 8px;cursor:pointer;
+    font:600 8.4px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;
+    text-transform:uppercase;transition:background .18s,border-color .18s,color .18s}
+  #orbPick button:hover{background:rgba(226,236,250,.12);color:#fff;
+    border-color:rgba(226,236,250,.35);border-left-color:rgba(150,205,255,.95)}
   /* The manager's name carries the row; the domain is the subtitle. Reads as a staff list. */
   #orbPick button .who{display:block;color:rgba(150,205,255,.92);letter-spacing:.1em;margin-bottom:2px}
   #orbPick button:hover .who{color:#bfe6ff}
+  @media (max-width:760px){
+    #orbPick{width:104px;padding:10px 6px 14px}
+    #orbPick button{font-size:7.6px;padding:4px 6px}
+  }
   @media (max-width:640px){ #orbCard{max-height:52vh} #orbPick button{padding:4px 7px;font-size:8px} }    #orbLayer .rec{font-size:12px;line-height:1.5;color:#7f8fa3;margin:14px 0 0;
       padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
 
@@ -524,6 +539,12 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
   // ── the orb ─────────────────────────────────────────────────────────────────────────────
   var orb = null, raf = null, t0 = 0, sparks = [];
+  /* While a meeting runs this holds one seat per manager in the room and the frame loop draws
+     the call instead of the single orb. Null in solo mode, so nothing about opening one
+     manager changes. `live` is who holds the floor for the whole turn; `speaking` is only
+     true while audio is actually playing, so the plate lights up immediately and the orb
+     pulses when the voice really starts. */
+  var seats = null, activeSeat = null;
 
   // Stable pseudo-random hue per domain until phase drives it: derived from the name, so a
   // domain is the same colour every time rather than flickering to a new one.
@@ -548,20 +569,12 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   /* Translucent, lit from within, no face. Expression lives in the surface: the core
      brightens and the sparks quicken while it speaks, which reads as address without turning
      an instrument into a character. */
-  function drawOrb(now){
-    var t = (now-t0)/1000, w = innerWidth, h = innerHeight;
-    ctx.clearRect(0,0,w,h);
-    if (!orb) { raf = requestAnimationFrame(drawOrb); return; }
-
-    var k = Math.min(1, t/1.15), e = 1-Math.pow(1-k,3);
-    var targetX = w>=1100 ? w*0.34 : w/2;
-    var targetY = w>=1100 ? h*0.46 : h*0.32;
-    var cx = orb.fromX + (targetX-orb.fromX)*e;
-    var cy = orb.fromY + (targetY-orb.fromY)*e;
-    var R  = 10 + (Math.min(w,h)*0.17 - 10)*e;
-
-    var speak = orb.speaking ? (0.5+0.5*Math.sin(t*7.5))*orb.energy : 0;
-    var rr = R*(1+speak*0.035), H = orb.hue;
+  /* ONE ORB, DRAWN ANYWHERE. Pulled out of the frame loop so a meeting can lay several of
+     them out side by side like a call, instead of one orb changing colour and the viewer
+     having to remember who is talking. `seed` decorrelates the shared spark field, or four
+     orbs twinkle in perfect unison and read as four copies of one thing. */
+  function paintOrb(t, cx, cy, R, H, speak, seed){
+    var rr = R*(1+speak*0.035);
     var tint = function(l,a){ return 'hsla('+H+',92%,'+l+'%,'+a+')'; };
     var blue = function(l,a){ return 'hsla(212,95%,'+l+'%,'+a+')'; };
 
@@ -603,7 +616,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
     for (var si=0;si<sparks.length;si++){
       var s=sparks[si];
-      var ang=s.a+t*s.sp*(1+speak*1.6), dist=rr*s.rr*(1+speak*0.05);
+      var ang=s.a+(seed||0)*1.73+t*s.sp*(1+speak*1.6), dist=rr*s.rr*(1+speak*0.05);
       var px2=cx+Math.cos(ang)*dist, py2=cy+Math.sin(ang)*dist*s.ecc;
       var tw=0.5+0.5*Math.sin(t*s.tw+s.ph);
       var sa=(0.12+0.55*tw)*(0.5+speak*0.5);
@@ -616,6 +629,68 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         ctx.fillStyle=tint(70,(sa*0.16).toFixed(3)); ctx.fill(); }
     }
     ctx.restore();
+  }
+
+  /* Seats laid out across the top band. The transcript owns the bottom of the screen, so the
+     call sits above it and both stay on screen at once — a demo where you have to scroll to
+     see who is speaking is a demo nobody follows. */
+  function seatLayout(n, w, h){
+    var top = h*0.055, band = h*0.40;
+    var cols = (w >= 900) ? n : Math.min(2, n);
+    var rows = Math.ceil(n/cols);
+    var cw = w/cols, ch = band/rows;
+    var r = Math.max(24, Math.min(cw, ch)*0.29);
+    var out = [];
+    for (var i=0;i<n;i++){
+      var c = i%cols, rw = Math.floor(i/cols);
+      out.push({ x: cw*(c+0.5), y: top + ch*(rw+0.5), r: r });
+    }
+    return out;
+  }
+
+  // The nameplate under each seat, and the mic dot on whoever currently holds the floor.
+  function plate(s, p){
+    var y = p.y + p.r*1.6;
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.font = '600 12px ui-monospace,SFMono-Regular,Menlo,monospace';
+    ctx.fillStyle = s.live ? 'hsla('+s.hue+',88%,78%,.98)' : 'rgba(214,228,244,.5)';
+    ctx.fillText(s.name.toUpperCase(), p.x, y);
+    ctx.font = '400 10.5px ui-sans-serif,system-ui,-apple-system,sans-serif';
+    ctx.fillStyle = s.live ? 'rgba(226,236,250,.72)' : 'rgba(200,216,232,.3)';
+    ctx.fillText(s.label, p.x, y + 15);
+    if (s.live){
+      var wdt = ctx.measureText(s.label).width;
+      ctx.beginPath(); ctx.arc(p.x - wdt/2 - 11, y + 11, 3.2, 0, 6.2832);
+      ctx.fillStyle = 'hsla('+s.hue+',90%,66%,'+(s.speaking?0.95:0.4)+')';
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawOrb(now){
+    var t = (now-t0)/1000, w = innerWidth, h = innerHeight;
+    ctx.clearRect(0,0,w,h);
+
+    if (seats && seats.length){
+      var lay = seatLayout(seats.length, w, h);
+      for (var i=0;i<seats.length;i++){
+        var s = seats[i], p = lay[i];
+        var sp = s.speaking ? (0.5+0.5*Math.sin(t*7.5)) : 0;
+        paintOrb(t, p.x, p.y, p.r * (s.live ? 1.1 : 0.88), s.hue, sp, i);
+        plate(s, p);
+      }
+      raf = requestAnimationFrame(drawOrb); return;
+    }
+
+    if (!orb) { raf = requestAnimationFrame(drawOrb); return; }
+    var k = Math.min(1, t/1.15), e = 1-Math.pow(1-k,3);
+    var targetX = w>=1100 ? w*0.34 : w/2;
+    var targetY = w>=1100 ? h*0.46 : h*0.32;
+    var cx = orb.fromX + (targetX-orb.fromX)*e;
+    var cy = orb.fromY + (targetY-orb.fromY)*e;
+    var R  = 10 + (Math.min(w,h)*0.17 - 10)*e;
+    paintOrb(t, cx, cy, R, orb.hue, orb.speaking ? (0.5+0.5*Math.sin(t*7.5))*orb.energy : 0, 0);
     raf = requestAnimationFrame(drawOrb);
   }
 
@@ -648,6 +723,8 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         : '')+
       (room.length > 1 ? '<button class="act room" type="button" id="orbRoom">Bring in the room</button>' : '')+
       '<button class="act" type="button" id="orbAgain">Say it again</button></div>';
+    // Back to one manager: dismiss the room so the frame loop returns to the single orb.
+    seats = null; activeSeat = null;
     card.classList.remove('meet');
     card.innerHTML = html;
     var again = document.getElementById('orbAgain');
@@ -704,9 +781,14 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     if (!t || !t.voice || reduce) return;
     try{ var a = new Audio(voiceUrl(t.voice, t.spoken)); a.preload = 'auto'; a.load(); }catch(e){}
   }
+  // Drives whichever thing is on screen: the single orb in solo mode, the seat in a meeting.
+  function voiceOn(on){
+    if (orb){ orb.speaking = on; if (on) orb.energy = 1; }
+    if (activeSeat) activeSeat.speaking = on;
+  }
   function sayTurn(t, done){
     var moved = false;
-    function go(){ if (moved) return; moved = true; if (orb) orb.speaking = false; done(); }
+    function go(){ if (moved) return; moved = true; voiceOn(false); done(); }
     var est = 1400 + (t.spoken.length / 14) * 1000;
 
     /* THE GUARD IS NOT OPTIONAL, and it covers both paths. A stalled fetch and a dropped
@@ -719,7 +801,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         window.speechSynthesis.cancel();
         var u = new SpeechSynthesisUtterance(t.spoken);
         u.rate = 0.98; u.pitch = 0.92;
-        u.onstart = function(){ if (orb){ orb.speaking = true; orb.energy = 1; } };
+        u.onstart = function(){ voiceOn(true); };
         u.onend = go; u.onerror = go;
         window.speechSynthesis.speak(u);
       }catch(e){ setTimeout(go, 1600); }
@@ -731,7 +813,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     try{
       var a = new Audio(voiceUrl(t.voice, t.spoken));
       _audio = a;
-      a.onplay  = function(){ if (orb){ orb.speaking = true; orb.energy = 1; } };
+      a.onplay  = function(){ voiceOn(true); };
       a.onended = go;
       a.onerror = function(){ browser(); };
       a.play().catch(function(){ browser(); });      // autoplay blocked, or synthesis refused
@@ -752,9 +834,17 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       var turns = _B.meeting(ids, cache);
       if (!turns.length){ meetOn = false; render(b); return; }
 
-      var seats = [], seen = {};
-      turns.forEach(function(t){ if (!seen[t.id]){ seen[t.id] = 1; seats.push(t.name); } });
-      card.innerHTML = '<div class="fn">In the room</div><h2>'+seats.join(' &middot; ')+'</h2>'+
+      /* One seat per manager, in the order they first speak. The chair appears once even
+         though they take both the first and last turn. */
+      var seen = {};
+      seats = [];
+      turns.forEach(function(t){
+        if (seen[t.id]) return;
+        seen[t.id] = 1;
+        seats.push({ id:t.id, name:t.name, label:t.label, hue:hueFor(t.id), live:false, speaking:false });
+      });
+      var names = seats.map(function(s){ return s.name; });
+      card.innerHTML = '<div class="fn">In the room</div><h2>'+names.join(' &middot; ')+'</h2>'+
         '<p class="meetnote">Turn order is live strain. Who may address whom is the pathway '+
         'graph between these domains. Nothing said here is written by a model.</p>'+
         '<div id="orbMeet"></div>'+
@@ -769,8 +859,14 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         if (!meetOn) return;
         if (i >= turns.length){ endMeeting(b, box); return; }
         var t = turns[i++];
-        // The single orb takes the speaker's colour, so the room reads as one thing thinking.
-        if (orb) orb.hue = hueFor(t.id);
+        // Hand the floor over: exactly one seat is live, and the plate lights before the
+        // voice arrives so the room never looks like nobody is up next.
+        activeSeat = null;
+        for (var z = 0; z < seats.length; z++){
+          seats[z].live = (seats[z].id === t.id);
+          seats[z].speaking = false;
+          if (seats[z].live) activeSeat = seats[z];
+        }
         var d = document.createElement('div');
         d.className = 'mturn';
         var h = '<div class="mwho" style="color:hsl('+hueFor(t.id)+',78%,70%)">'+
@@ -792,6 +888,9 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
   function endMeeting(b, box){
     meetOn = false;
+    // Nobody holds the floor once it is over, but the room stays on screen to be looked at.
+    activeSeat = null;
+    if (seats) seats.forEach(function(s){ s.live = false; s.speaking = false; });
     var f = document.createElement('div');
     f.className = 'mend';
     f.innerHTML = '<p>That is the room. Every desk at that table is public and free to read.</p>';
@@ -906,6 +1005,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   function open(id,label,fn,x,y){
     sizeCanvas();
     meetOn = false;                       // opening a manager ends any room already running
+    seats = null; activeSeat = null;
     orb = { id:id, fromX: x!=null?x:innerWidth/2, fromY: y!=null?y:innerHeight/2,
             speaking:false, energy:1, hue:hueFor(id) };
     makeSparks();
@@ -926,6 +1026,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   function close(){
     layer.classList.remove('on'); layer.setAttribute('aria-hidden','true');
     meetOn = false;                       // otherwise a stopped room keeps talking off-screen
+    seats = null; activeSeat = null;
     orb = null;
     hush();
   }

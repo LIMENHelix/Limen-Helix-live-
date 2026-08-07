@@ -539,15 +539,18 @@
     var turns = [], spokenAlready = [];
     for (var k = 0; k < list.length; k++){
       var me = list[k], lines = [];
-      var headline = firstReading(me.brief);
-
       var role = me.role, mn = MANNER[role] || MANNER.steady, seed = me.id + ids.length + ':' + k;
+      /* NOBODY INTRODUCES THEMSELVES. Every surface that plays a meeting shows who is
+         speaking, on a nameplate under their orb, so "I am Harvey" spends the first line of
+         every turn on something the viewer can already see. What goes there instead is what
+         the domain is reading. */
+      var said = readings(me.brief, DEPTH[role] || 2);
 
       if (k === 0){
         // Whoever carries the most opens, in their own manner.
         var op = rotate(mn.open, list.length);
-        lines.push((op ? op + ' ' : '') + 'I am ' + me.name + '. I called this one, because right now I am carrying more of it than anyone else at this table.');
-        if (headline) lines.push(headline);
+        lines.push((op ? op + ' ' : '') + 'I called this one, because right now I am carrying more of it than anyone else at this table.');
+        said.forEach(function(p){ lines.push(p); });
         if (role === 'blunt' && mn.strained) lines.push(rotate(mn.strained, list.length));
         var linked = [];
         for (var m = 1; m < list.length; m++) if (edgeBetween(me.id, list[m].id)) linked.push(list[m].name);
@@ -572,13 +575,14 @@
         var wasCalled = prev && prev.role === 'chair' && edgeBetween(prev.id, me.id);
 
         if (target){
-          lines.push((wasCalled ? '' : '') + target.name + ', ' + ADDRESS[e.rel][e.dir] + '. I am ' + me.name + '.');
+          // Being called on by the chair is answering a question, not volunteering.
+          lines.push((wasCalled ? 'Right. ' : '') + target.name + ', ' + ADDRESS[e.rel][e.dir] + '.');
         } else {
           var op2 = rotate(mn.open, k);
-          lines.push('I am ' + me.name + '. ' + (op2 ? op2 + ' ' : '') +
+          lines.push((op2 ? op2 + ' ' : '') +
                      'Nothing said so far routes through me, so take this as a separate reading.');
         }
-        if (headline) lines.push(headline);
+        said.forEach(function(p){ lines.push(p); });
         // The quiet ones stop here. Everyone else places themselves against the room.
         if (role !== 'quiet') lines.push(me.brief.strainLine || positionOf(me, list));
         /* Temperament colours every turn, not just the chair's. Blunt sharpens only when the
@@ -606,8 +610,12 @@
 
     // The chair closes on where the load actually sits, which is the only thing a room like
     // this can conclude without someone deciding something.
+    /* The chair takes it back without saying their own name, for the same reason nobody
+       introduces themselves: the nameplate has been showing who is talking all along. */
     var chair = list[0], tail = [];
-    tail.push(chair.name + ' again.');
+    tail.push(rotate(['Right. Where that leaves us.',
+                      'Let me take it back.',
+                      'That is everyone.'], list.length));
     var downstream = [], upstream = [];
     for (var z = 1; z < list.length; z++){
       var f = flowBetween(chair.id, list[z].id);
@@ -659,13 +667,68 @@
      comes first, so a naive search picks it every time, and "15 of 15 sources reading" is
      bookkeeping rather than something to open a turn with. */
   function firstReading(b){
-    for (var i = 1; i < b.paras.length; i++){
-      var p = b.paras[i];
-      if (/^\s*\d+ of \d+ sources reading/.test(p)) continue;
-      if (/\d/.test(p) && p.length < 190) return p;
+    var r = readings(b, 1);
+    return r.length ? r[0] : null;
+  }
+
+  /* UP TO n SENTENCES THAT ACTUALLY CARRY A READING. A manager who says one number and then
+     talks about the room is not reporting, they are making conversation. This is what puts
+     their domain back in their mouth.
+
+     Skips the source tally for the same reason firstReading always did: it has digits and it
+     comes first, so a naive search takes it every time, and "15 of 15 sources reading" is
+     bookkeeping rather than something to open on. */
+  function readings(b, n){
+    var out = [];
+    if (!b || !b.paras) return out;
+    for (var i = 1; i < b.paras.length && out.length < n; i++){
+      var p = String(b.paras[i]);
+
+      // A bare tally really is only bookkeeping. Drop it.
+      if (/^\s*\d+ of \d+ sources reading\.?\s*$/.test(p)) continue;
+
+      /* A tally WITH named sources after it is not bookkeeping, it is the instrument list.
+         Rewritten HERE rather than left to speakable(), so the transcript on screen and the
+         words the voice says are identical. speakable() does the same repair for the solo
+         briefing, and two different repairs of the same sentence is how a demo ends up with
+         captions that do not match the audio. */
+      var inc = p.match(/^\s*\d+ of \d+ sources reading\s*[—–-]\s*including\s+([\s\S]+)$/i);
+      if (inc){ out.push('My sources include ' + inc[1]); continue; }
+      if (/^\s*\d+ of \d+ sources reading\s*[,—–-]\s*\S/.test(p)){
+        var rest = p.replace(/^\s*\d+ of \d+ sources reading\s*[,—–-]\s*/, '');
+        if (rest.trim()) out.push(rest.charAt(0).toUpperCase() + rest.slice(1));
+        continue;
+      }
+
+      if (/\d/.test(p) && p.length < 260) out.push(p);
+    }
+    /* LAST RESORT, AND STILL REAL. Measured against live production data: industry, defense,
+       culture and religion carry no numeric line at all, because their instruments are feeds
+       rather than indices. Their evidence rows name those feeds, so the manager says what
+       they are actually reading instead of saying nothing. A silent seat in a demo reads as a
+       broken one. */
+    if (!out.length){ var f = feedReading(b); if (f) out.push(f); }
+    return out;
+  }
+
+  // The feeds a domain is reading right now, lifted out of its own evidence rows.
+  function feedReading(b){
+    if (!b || !b.rows) return null;
+    for (var i = 0; i < b.rows.length; i++){
+      if (b.rows[i][0] !== 'Reading now') continue;
+      var parts = String(b.rows[i][1]).split(/<br\s*\/?>/i), names = [];
+      for (var j = 0; j < parts.length && names.length < 4; j++){
+        var nm = parts[j].split(/&mdash;|—/)[0].replace(/<[^>]*>/g, '').trim();
+        if (nm) names.push(nm);
+      }
+      if (names.length) return 'Right now I am reading ' + joinNames(names) + '.';
     }
     return null;
   }
+
+  /* HOW MUCH EACH ROLE ACTUALLY SAYS. Temperament is not only word choice: a quiet domain
+     that delivers three paragraphs is not quiet. Depth is the tell. */
+  var DEPTH = { chair:3, blunt:2, absorber:2, steady:2, quiet:1 };
   function positionOf(me, list){
     var at = list.indexOf(me);
     if (at <= 0) return 'I am carrying the most of it here.';
