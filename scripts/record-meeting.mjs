@@ -87,19 +87,26 @@ const hist = await getJSON(BASE + '/api/grounded-stress-history?all=1');
    run did show, and which is exactly the kind of miss that looks like missing data rather
    than a naming bug.
 
-   The registry owns the mapping, so take it from there rather than restating it. Fall back to
-   the literal three only if brain-v2 is absent, and never let that require take the script
-   down. */
-let TO_SNAPSHOT = { medicine: 'health', science: 'research', trade: 'supplyChain' };
-try {
-  const REG = require(join(ROOT, 'brain-v2', 'bind', 'registry.js'));
-  if (REG && Array.isArray(REG.DOMAINS) && REG.DOMAINS.length) {
-    const m = {};
-    for (const d of REG.DOMAINS) if (d.product !== d.snapshot) m[d.product] = d.snapshot;
-    if (Object.keys(m).length) TO_SNAPSHOT = m;
-  }
-} catch { /* registry not present: the literal three still cover it */ }
+   HELD LOCALLY ON PURPOSE, and this is a deliberate exception to a rule I would normally
+   follow. A canonical owner of this mapping exists elsewhere in the repo, and the better
+   engineering is always to read it rather than keep a copy. That area is off limits by
+   operator instruction, so this is a copy.
+
+   A copy can go stale, so it is not trusted — the check below verifies it against the live
+   history every run. If a fourth domain is ever split, or one of these three is renamed, the
+   run that first hits it says so out loud. Drift becomes a warning at the moment it happens
+   rather than an unmeasurable row nobody notices for weeks. */
+const TO_SNAPSHOT = { medicine: 'health', science: 'research', trade: 'supplyChain' };
 const snapKey = (id) => TO_SNAPSHOT[id] || id;
+
+if (hist && hist.domains) {
+  const unmapped = ORB.DOMAINS.map(([id]) => id).filter((id) => !hist.domains[snapKey(id)]);
+  if (unmapped.length) {
+    console.warn('\n  [warn] no stress history under either name for: ' + unmapped.join(', '));
+    console.warn('  [warn] the product/snapshot map in this file is probably out of date;');
+    console.warn('  [warn] commitments watching those domains cannot ever be settled.\n');
+  }
+}
 
 function witnessFor(id) {
   const chans = (hist && hist.domains && hist.domains[snapKey(id)] && hist.domains[snapKey(id)].channels) || null;
