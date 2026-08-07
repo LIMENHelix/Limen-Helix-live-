@@ -132,6 +132,7 @@ const HANDLERS = {
   'opportunities': require('../handlers/opportunities'),
   'orb-voice': require('../handlers/orb-voice'),
   'orb-ledger': require('../handlers/orb-ledger'),
+  'orb-meeting-cron': require('../handlers/orb-meeting-cron'),
   'domain-snapshot': require('../handlers/domain-snapshot'),
   'domain-snapshot-debug': require('../handlers/domain-snapshot-debug'),
   'feed-status': require('../handlers/feed-status'),
