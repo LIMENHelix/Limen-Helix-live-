@@ -1,7 +1,7 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-06T00:20Z
-measured_at_commit: 8f69c7ac1091463286ecb1de55c51919e9b78a3c
+measured_at: 2026-08-06T17:30Z
+measured_at_commit: 2ead52f213ff4e7df81e0f2995f0e4111c2cfa9c
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
   authority. Nothing here authorises anything. Where a fact is mutable, re-verify it
@@ -38,13 +38,24 @@ only this file.
 
 ## CURRENT POSITION
 
+**THREE DIFFERENT COUNTS, AND COLLAPSING ANY TWO OF THEM IS THE MISREADING THIS TABLE
+EXISTS TO PREVENT.** Bound is a statement about declaration and offline readability.
+Installed is a statement about what executes hourly in shadow. Active is a statement about
+evidence, and it is still zero. A domain can be bound, installed, and evidence nothing.
+
 | fact | value |
 |---|---|
 | total domains | 20 |
-| live in the production runtime | **2** (energy, finance) — same runtime, different descriptor |
-| not yet live | **18** |
-| offline replay fixtures | 20 of 20 (registry reports 20 bound) |
-| declared relationships | 10, in energy (7) and finance (3) only |
+| **BOUND** (validating binder + a fixture that binder can read) | **20 of 20** |
+| **INSTALLED** in the production shadow runtime | **7**: energy, finance, education, economy, trade, industry, population |
+| not yet installed | **13** |
+| **relationships ACTIVE as neural pathways** | **0 of 10** |
+| declared relationships | 10, in energy (7) and finance (3) only. The five batch-1 domains declare **zero**. |
+| offline replay fixtures | 20 of 20 |
+
+Installation grants nothing. It puts a domain in shadow, where it senses and reports. It
+activates no relationship, licenses no claim of independent evidence, and is not a step
+toward one that can be skipped: the evidence gate is measured separately and is still shut.
 
 - **PR #5 merged as `8f69c7ac`.** First real Upstash cycle succeeded at 2026-08-05T18:27Z
   for both canaries: `ok=true`, 120 rows applied each, 5 internal effectors, no outward
@@ -142,6 +153,90 @@ only this file.
 
 ---
 
+## BATCH 1: five domains installed (this PR, NOT YET VERIFIED IN PRODUCTION)
+
+**Evidence gained: none.** This is an installation, and installation is not evidence. What
+changed is how many domains sense in shadow, not what any of them has established.
+
+Added to the shadow runtime: **education, economy, trade, industry, population**. Selected
+by a read-only audit of all 18 uninstalled domains, measured against the PR #4 fixtures:
+
+| domain | channels read / declared | source-ID channels | declared relationships | first readable row |
+|---|---|---|---|---|
+| education | 10 / 10 | 1 | 0 | 0 |
+| economy | 15 / 15 | 3 | 0 | 0 |
+| trade | 13 / 13 | 2 | 0 | 0 |
+| industry | 10 / 11 | 0 | 0 | 0 |
+| population | 14 / 15 | 1 | 0 | 0 |
+
+Chosen for three properties, in this order. Each **declares zero relationships**, so
+installing them cannot activate a pathway even by mistake. Each reads from **row 0**, so its
+first cycle is immediately falsifiable rather than silent. Each carries 91% to 100% channel
+coverage, so an unavailable input is a small, named exception rather than the norm.
+
+**Culture and religion were excluded and the reason is not coverage.** Their first readable
+row is index 373 of 470, so at a 120-row cap they tick zero times for three consecutive
+cycles. A green cycle from either would prove nothing for three hours, which is the worst
+property a canary can have.
+
+**MEMBERSHIP IS NOW REGISTRY DATA.** `registry.INSTALLED_DOMAINS` is the only operational
+list; `lib/brain-shadow-runtime.js` re-exports that array and `handlers/brain-shadow.js`
+derives from the runtime. The runtime used to hold its own literal, which is one list owned
+by the wrong module: a domain added there but not to the health handler is executed hourly
+and reported as absent, and the operator read is the only surface anyone looks at.
+
+**SERIALIZED STATE SIZE IS NOW MEASURED per domain.** `writeState` returns
+`Buffer.byteLength(json, 'utf8')` of the exact string it passed to SET, the cycle report
+carries it as `stateValueBytes`, and `/api/brain-shadow` reports it per domain plus a total
+and how many domains that total covers. Nothing was measuring hot-state size before, so no
+growth projection could be checked against production at all.
+
+**WHAT THIS NUMBER IS, STATED EXACTLY.** The UTF-8 byte length of the serialized state value
+accepted by SET. It is useful for measuring **relative hot-state growth**, and it is **not a
+measurement of HTTP transport bandwidth or billing.** `brain-shadow-redis` speaks the Upstash
+REST API, which nests this value inside a JSON command array and escapes it a second time,
+and a GET adds its own response envelope, so the figure on the wire is strictly larger by an
+amount nothing here observes. An earlier version of this section called it "bytes actually
+written", doubled it for read-plus-write, projected a monthly bandwidth total from it, and
+compared it against an HTTP request ceiling. **All four of those are withdrawn.** They
+substituted a value length for a transport length, which is the same class of error as
+counting occurrences and calling them observations.
+
+Offline, first cold cycle of 120 rows, through the real write path:
+
+| domain | stateValueBytes | | domain | stateValueBytes |
+|---|---:|---|---|---:|
+| energy | 926,617 | | trade | 781,990 |
+| finance | 674,805 | | industry | 468,016 |
+| economy | 649,007 | | education | 436,741 |
+| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MB of value)** |
+
+**NOT VERIFIED IN PRODUCTION.** Nothing here has run against real Redis. The numbers above
+come from offline replay of the PR #4 fixtures through an in-memory transport. Production
+truth arrives at the first two `:27` cycles after merge, and until then this section
+describes what the code does, not what the system did.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: none. Installation is not evidence. No relationship moved, no
+  identity count changed, no claim became citable.
+- **domains promoted**: education, economy, trade, industry, population. 2 installed to 7.
+- **remaining domains**: 13 outside the runtime.
+- **current gate**: hot state growth (NEXT PROGRAM STEP 3). Hard gate before batch 2.
+- **known unknowns**: (a) no production cycle has run with 7 domains, so the sequential
+  batch wall-clock and the real Redis round-trip cost are both unmeasured; (b) production
+  `stateValueBytes` for the 5 new domains is unknown until the first cycle, and the offline
+  figures are a floor because the fixtures stop at 470 rows while production keeps
+  recording; (c) **actual transport bytes are not measured anywhere**, so no bandwidth or
+  billing figure exists for this system, only value lengths; (d) the Upstash request-size
+  ceiling for this plan has not been retrieved, and since the value length is not the wire
+  length, headroom above the 3.66 MB largest value is doubly unestablished.
+- **exact next action**: merge, then read `/api/brain-shadow` after the first two `:27`
+  cycles and record the production `stateValueBytes` per domain in this file. Not the next
+  batch: the gate above comes first.
+
+---
+
 ## PAST MILESTONES
 
 ### PR #3 — provenance foundation (merge `70de3b75`)
@@ -231,6 +326,65 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    - A domain enters a batch only with: a binder, recorded rows, provenance handling,
      isolation tests, and honest reporting of unavailable channels.
    - Per-domain failure isolation is mandatory: one bad domain must not stop the others.
+   - Batch 1 (5 domains) is done. **13 remain.**
+
+3. **MANDATORY GATE BEFORE BATCH 2, bound hot state growth.** Batch 2 must not be
+   installed until this is closed, and it is a hard gate, not a preference.
+
+   **What was measured, and in which unit.** Serialized state VALUE length grows roughly
+   linearly with ticks and shows no plateau within 470 ticks. Offline replay of the PR #4
+   fixtures. These are value lengths, not wire bytes; see the unit note in BATCH 1.
+
+   | replay depth | economy | finance | infrastructure |
+   |---|---|---|---|
+   | 120 rows | 630 KB | 656 KB | 925 KB |
+   | 240 rows | 1,261 KB | 1,782 KB | 1,826 KB |
+   | 360 rows | 2,108 KB | 2,791 KB | 2,676 KB |
+   | 470 rows | 2,822 KB | **3,752 KB** | 3,459 KB |
+
+   Composition of finance at 470 ticks: `memory` 2,398 KB (64%) and
+   `registry.predictions` 763 KB (656 open, 611 resolved). Both accumulate per tick.
+   `lib/brain-shadow-store.js` enforces no size ceiling.
+
+   **Why it gates the batch and not this one.** Every cycle reads the whole state and writes
+   it back, so a value that grows without bound grows the work of every future cycle. At 7
+   installed domains the total is 4.30 MB of value and is manageable. At 20, offline replay
+   projects **49.9 MB of resident value**, with the largest single domain already 3.66 MB and
+   no ceiling in the store. Installing 13 more before bounding growth commits every
+   subsequent cycle to carrying it.
+
+   **STATED IN THE UNIT ACTUALLY MEASURED.** The figures above are serialized value lengths.
+   Earlier wording here turned them into a bandwidth-per-cycle number, a monthly billing
+   projection, and a comparison against a request-size ceiling. Those needed transport bytes,
+   which nothing measures, so they are withdrawn rather than restated more carefully. The
+   growth curve is real and is enough on its own to gate the batch; the cost curve is
+   currently unknown, and saying so is the honest form of the same warning.
+
+   **What closing it requires**, and each of these is a constraint the fix must not break:
+   - bound `memory` and the prediction registry, by retention policy, compaction, or both
+   - **preserve auditable history**: a pruned record must remain reconstructable or its
+     removal must be recorded, because state that quietly forgets is state that cannot be
+     audited later
+   - **preserve replay, rollback and deterministic tests**: `test/shadow-runtime.js` S3b
+     asserts byte-identical state across two independent runs, and S4 asserts a restored
+     brain carries the same channel state. A compaction that depends on wall-clock time or
+     on how many cycles happened to run breaks both, and would break them silently
+   - **measure ACTUAL TRANSPORT BYTES**, by instrumenting `lib/brain-shadow-redis` at the
+     point it builds a request and reads a response. Until that exists there is no bandwidth
+     figure and no billing figure for this system, and the request-size headroom above the
+     current 3.66 MB largest value cannot be established either. This belongs to THIS
+     milestone and was deliberately kept out of the batch-1 installation PR.
+   - re-measure against production and record the new curve here
+
+   **Not attempted in this PR, deliberately.** Compaction touches the kernel's memory and
+   prediction registry, which every existing measurement depends on. Bundling it with a
+   membership change would make a regression in either one impossible to attribute.
+
+4. **Separate bounded cleanup, not urgent, do not fold into a batch PR.**
+   `brain-v2/bind/agriculture.js:2` still reads "No fixture exists; MANIFEST-ONLY". PR #4
+   gave it a fixture and the registry reports it BOUND, so the header contradicts the code
+   below it. Documentation only, no behaviour, and it should not ride along with a change
+   that alters what runs.
 
 ---
 
