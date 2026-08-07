@@ -126,7 +126,11 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
    'industry','education','communication','defense','religion','population','law','finance',
    'intelligence','energy','culture','infrastructure'].forEach(function(d){ PUBLIC[d] = '/' + d; });
   PUBLIC.medicine = '/fitness';
+  var _lastPt={x:null,y:null};
+  addEventListener('pointerdown',function(e){_lastPt={x:e.clientX,y:e.clientY};},{passive:true});
   function onNodeClick(n){
+    // The orb takes over: the domain speaks first, and "Enter" inside it still routes on.
+    if (n && n.id && window.__orbOpen) { window.__orbOpen(n.id, _lastPt.x, _lastPt.y); return; }
     var url = n && (PUBLIC[n.id] || PUBLIC[(n.childUniverse||'').toLowerCase()]);
     if (url) window.location.href = url;
     // else: no navigation — hover tooltip already shows the sector's state
@@ -397,5 +401,814 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 })();
 </script>
 <p style="position:fixed;left:0;right:0;bottom:8px;z-index:300;text-align:center;font:400 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.11em;text-transform:uppercase;color:rgba(214,228,255,.36);pointer-events:none;margin:0">Nebula imagery: NASA, ESA, CSA, STScI</p>
+<script src="/assets/js/orb-briefing.js"></script>
+<!-- ORB BRIEFING — one self-contained block. Touches nothing in the shared renderer: it hooks
+     the onNodeClick atlas.html already owns, draws on its own overlay canvas, and reads only
+     public endpoints.
+
+     PUBLIC SURFACE. This exists to build value and interest, so it stays at domain level: no
+     phase codes, no node identifiers, no raw stress figures. The 123 per-domain node
+     activations with their diagnoses and treatments are operator detail and stay behind the
+     gate. -->
+<style>
+  #orbLayer{position:fixed;inset:0;z-index:250;pointer-events:none;opacity:0;transition:opacity .35s ease}
+  #orbLayer.on{opacity:1;pointer-events:auto}
+  #orbLayer canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #orbScrim{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(3,6,12,.55) 0%,rgba(3,6,12,.88) 70%,rgba(3,6,12,.96) 100%)}
+
+  #orbCard{
+    position:absolute; left:50%; bottom:4vh; transform:translateX(-50%);
+    width:min(92vw,780px); max-height:46vh; overflow-y:auto;
+    font:400 13.5px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    color:#dbe6f2;
+  }
+  /* Wide screens: a tall column on the right rather than a squeezed sheet at the bottom,
+     which is what was truncating the longer briefings. The orb slides left to make room. */
+  @media (min-width:1100px){
+    #orbCard{ left:auto; right:3.5vw; bottom:auto; top:50%; transform:translateY(-50%);
+              width:min(38vw,440px); max-height:84vh; }
+  }
+  #orbCard .fn{font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.24em;
+    text-transform:uppercase;color:rgba(150,200,255,.75);margin-bottom:6px}
+  #orbCard h2{margin:0 0 12px;font-size:clamp(1.5rem,4vw,2.1rem);font-weight:600;letter-spacing:.02em;color:#f0f5fb}
+  #orbCard p{margin:0 0 11px;color:rgba(219,230,242,.88)}
+  #orbCard .rows{display:grid;gap:7px;margin:16px 0 14px;padding-top:14px;border-top:1px solid rgba(150,180,215,.16)}
+  #orbCard .row{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:baseline}
+  #orbCard .k{font:600 9.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;
+    text-transform:uppercase;color:rgba(150,200,255,.55)}
+  #orbCard .v{color:rgba(226,236,248,.92)}
+  #orbCard .v em{font-style:normal;color:rgba(255,236,180,.92)}
+  #orbCard .cite{font-size:11.5px;color:rgba(200,216,232,.55)}
+  #orbCard .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  #orbCard a.act,#orbCard button.act{display:inline-block;padding:7px 13px;background:rgba(226,236,250,.06);
+    border:1px solid rgba(226,236,250,.2);color:#dbe6f2;text-decoration:none;cursor:pointer;
+    font:600 9.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase}
+  #orbCard a.act:hover,#orbCard button.act:hover{background:rgba(226,236,250,.13);border-color:rgba(226,236,250,.45)}
+
+  /* The desk line. Set apart from the briefing paragraphs so a reader can tell the reading
+     from the offer at a glance, which is the honest way to put a pitch under a measurement. */
+  #orbCard p.desk{margin:14px 0 12px;padding:11px 13px;border-left:2px solid rgba(120,220,255,.4);
+    background:rgba(120,200,255,.05);color:rgba(226,236,248,.9);font-size:13px}
+  #orbCard p.desk .who{color:rgba(150,200,255,.8);font-weight:600}
+  /* The way out is the brightest thing on the card. Everything above is why you would click it. */
+  #orbCard a.act.go{background:rgba(120,220,255,.14);border-color:rgba(120,220,255,.5);color:#eaf6ff}
+  #orbCard a.act.go:hover{background:rgba(120,220,255,.24);border-color:rgba(150,235,255,.85)}
+  #orbCard a.act.go.free{background:rgba(126,240,190,.15);border-color:rgba(126,240,190,.55);color:#e9fff5}
+  #orbCard a.act.go.free:hover{background:rgba(126,240,190,.26);border-color:rgba(150,255,210,.9)}
+
+  /* THE ROOM. The transcript takes the lower half and the call sits above it, so who is
+     speaking and what they are saying are visible at the same time. Taller than this and the
+     seats get pushed off the top of the screen, which is the whole point of the layout. */
+  #orbCard.meet{max-height:44vh;bottom:2.5vh;width:min(94vw,900px)}
+  #orbCard .meetnote{font-size:11.5px;color:rgba(200,216,232,.5);margin:0 0 14px}
+  #orbCard .mturn{padding:12px 0;border-top:1px solid rgba(150,180,215,.13);animation:mturn .45s ease backwards}
+  #orbCard .mturn:first-child{border-top:0}
+  #orbCard .mwho{font:600 11.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.13em;text-transform:uppercase;margin-bottom:7px}
+  #orbCard .mwho em{font-style:normal;color:rgba(200,216,232,.5);letter-spacing:.06em}
+  #orbCard .mturn p{margin:0 0 7px}
+  #orbCard a.mdesk{display:inline-block;margin:4px 6px 0 0;padding:4px 9px;font-size:11px;
+    text-decoration:none;color:rgba(150,215,255,.95);border:1px solid rgba(120,220,255,.35);border-radius:3px}
+  #orbCard a.mdesk:hover{background:rgba(120,220,255,.14);border-color:rgba(150,235,255,.8)}
+  #orbCard a.mdesk.free{color:rgba(150,255,210,.95);border-color:rgba(126,240,190,.45)}
+  #orbCard a.mdesk.free:hover{background:rgba(126,240,190,.16);border-color:rgba(150,255,210,.9)}
+  #orbCard .mend{padding:12px 0 2px;color:rgba(200,216,232,.62);font-size:12.5px}
+  #orbCard .act.room{border-color:rgba(226,236,250,.34)}
+  @keyframes mturn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){#orbCard .mturn{animation:none}}
+
+  #orbClose{position:absolute;top:18px;right:20px;background:none;border:0;color:rgba(226,236,250,.5);
+    font-size:26px;line-height:1;cursor:pointer}
+  #orbClose:hover{color:#fff}
+
+  /* THE STAFF LIST IS A COLLAPSED MENU, TOP LEFT — the same idiom as the pages menu on the
+     connectome. It was a bottom bar first, which wrapped onto three rows and covered the map,
+     then a left rail, which still covered it and duplicated twenty nodes that are already
+     clickable. Collapsed, the atlas is completely clear and the directory is one click away
+     for anyone who does not realise the orbs themselves are the menu. */
+  #orbPick{position:fixed;top:54px;left:20px;z-index:240}
+  #orbPick .pk-btn{background:rgba(5,8,16,.72);border:1px solid rgba(150,205,255,.22);
+    color:rgba(190,222,255,.85);padding:7px 13px;cursor:pointer;border-radius:3px;
+    font:600 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.2em;
+    text-transform:uppercase;transition:border-color .2s,color .2s,background .2s}
+  #orbPick .pk-btn:hover,#orbPick .pk-btn[aria-expanded="true"]{
+    border-color:rgba(150,205,255,.6);color:#eaf6ff;background:rgba(120,200,255,.1)}
+  #orbPick .pk-caret{display:inline-block;margin-left:9px;font-size:.8em;opacity:.7}
+  #orbPick .pk-menu{position:absolute;top:calc(100% + 5px);left:0;min-width:216px;
+    max-height:min(64vh,580px);overflow-y:auto;display:none;flex-direction:column;gap:2px;
+    background:rgba(5,8,16,.985);border:1px solid rgba(150,205,255,.2);border-radius:3px;
+    box-shadow:0 10px 34px rgba(0,0,0,.66);padding:5px;
+    scrollbar-width:thin;scrollbar-color:rgba(226,236,250,.18) transparent}
+  #orbPick .pk-menu[data-open="true"]{display:flex}
+  #orbPick .pk-menu::-webkit-scrollbar{width:5px}
+  #orbPick .pk-menu::-webkit-scrollbar-thumb{background:rgba(226,236,250,.18);border-radius:3px}
+  #orbPick .pk-menu button{width:100%;text-align:left;background:transparent;
+    border:1px solid transparent;border-left:2px solid rgba(150,205,255,.26);
+    color:rgba(214,228,244,.62);padding:6px 9px;cursor:pointer;
+    font:600 8.4px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;
+    text-transform:uppercase;transition:background .16s,border-color .16s,color .16s}
+  #orbPick .pk-menu button:hover{background:rgba(226,236,250,.1);color:#fff;
+    border-left-color:rgba(150,205,255,.95)}
+  /* The manager's name carries the row; the domain is the subtitle. Reads as a staff list. */
+  #orbPick .pk-menu button .who{display:block;color:rgba(150,205,255,.92);letter-spacing:.1em;margin-bottom:2px}
+  #orbPick .pk-menu button:hover .who{color:#bfe6ff}
+  #orbPick .pk-menu button.table{border-left-color:rgba(126,240,190,.8);
+    background:rgba(126,240,190,.07);color:rgba(226,246,238,.82);margin-bottom:5px}
+  #orbPick .pk-menu button.table .who{color:rgba(150,255,210,.95)}
+  #orbPick .pk-menu button.table:hover{background:rgba(126,240,190,.16)}
+  @media (max-width:760px){
+    #orbPick{top:48px;left:12px}
+    #orbPick .pk-btn{font-size:8px;padding:6px 10px}
+    #orbPick .pk-menu{min-width:190px}
+  }
+  @media (max-width:640px){ #orbCard{max-height:52vh} #orbPick button{padding:4px 7px;font-size:8px} }    #orbLayer .rec{font-size:12px;line-height:1.5;color:#7f8fa3;margin:14px 0 0;
+      padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
+
+</style>
+
+<div id="orbLayer" aria-hidden="true">
+  <div id="orbScrim"></div>
+  <canvas id="orbCanvas"></canvas>
+  <button id="orbClose" type="button" aria-label="Close">&times;</button>
+  <div id="orbCard" role="dialog" aria-live="polite"></div>
+</div>
+<div id="orbPick" aria-label="The twenty domain managers"></div>
+<!-- Menu, transcript card and scrim all live above the map; the map itself stays uncovered. -->
+
+<script>
+(function () {
+  'use strict';
+
+  var layer = document.getElementById('orbLayer');
+  var cv = document.getElementById('orbCanvas');
+  var ctx = cv.getContext('2d');
+  var card = document.getElementById('orbCard');
+  var pick = document.getElementById('orbPick');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // atlas topics, with the civilisational function the connectome tooltip already uses
+  var _B = (typeof LIMEN_ORB !== 'undefined') ? LIMEN_ORB : (window.LIMEN_ORB || {});
+  var DOMAINS = _B.DOMAINS, FEEDKEY = _B.FEEDKEY, NEWS = _B.NEWS, PATHWAYS = _B.PATHWAYS,
+      RELATION = _B.RELATION, SPEAKERS = _B.SPEAKERS, NEURO = _B.NEURO, VOICE = _B.VOICE,
+      DESK = _B.DESK || {};
+
+  var cache = { snap:null, opps:null, cons:null, subs:{}, news:{} };
+  function getJSON(u){ return fetch(u).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); }
+
+  // ── the orb ─────────────────────────────────────────────────────────────────────────────
+  var orb = null, raf = null, t0 = 0, sparks = [];
+  /* While a meeting runs this holds one seat per manager in the room and the frame loop draws
+     the call instead of the single orb. Null in solo mode, so nothing about opening one
+     manager changes. `live` is who holds the floor for the whole turn; `speaking` is only
+     true while audio is actually playing, so the plate lights up immediately and the orb
+     pulses when the voice really starts. */
+  var seats = null, activeSeat = null;
+
+  // Stable pseudo-random hue per domain until phase drives it: derived from the name, so a
+  // domain is the same colour every time rather than flickering to a new one.
+  function hueFor(id){ var h=0; for (var i=0;i<id.length;i++) h=(h*31+id.charCodeAt(i))%360; return h; }
+
+  function makeSparks(){
+    sparks = [];
+    for (var i=0;i<90;i++) sparks.push({
+      a: Math.random()*6.2832, rr: 0.75+Math.random()*1.5,
+      sp: (Math.random()<0.5?-1:1)*(0.06+Math.random()*0.5),
+      sz: 0.5+Math.random()*1.6, ph: Math.random()*6.2832,
+      tw: 0.6+Math.random()*2.6, ecc: 0.28+Math.random()*0.5
+    });
+  }
+
+  function sizeCanvas(){
+    var d = Math.min(window.devicePixelRatio||1, 2);
+    cv.width = Math.round(innerWidth*d); cv.height = Math.round(innerHeight*d);
+    ctx.setTransform(d,0,0,d,0,0);
+  }
+
+  /* Translucent, lit from within, no face. Expression lives in the surface: the core
+     brightens and the sparks quicken while it speaks, which reads as address without turning
+     an instrument into a character. */
+  /* ONE ORB, DRAWN ANYWHERE. Pulled out of the frame loop so a meeting can lay several of
+     them out side by side like a call, instead of one orb changing colour and the viewer
+     having to remember who is talking. `seed` decorrelates the shared spark field, or four
+     orbs twinkle in perfect unison and read as four copies of one thing. */
+  function paintOrb(t, cx, cy, R, H, speak, seed){
+    var rr = R*(1+speak*0.035);
+    var tint = function(l,a){ return 'hsla('+H+',92%,'+l+'%,'+a+')'; };
+    var blue = function(l,a){ return 'hsla(212,95%,'+l+'%,'+a+')'; };
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+
+    var g0 = ctx.createRadialGradient(cx,cy,rr*0.6,cx,cy,rr*2.9);
+    g0.addColorStop(0, tint(64,(0.17+speak*0.12).toFixed(3)));
+    g0.addColorStop(0.45, blue(52,(0.09+speak*0.06).toFixed(3)));
+    g0.addColorStop(1, blue(45,0));
+    ctx.fillStyle=g0; ctx.beginPath(); ctx.arc(cx,cy,rr*2.9,0,6.2832); ctx.fill();
+
+    var g1 = ctx.createRadialGradient(cx-rr*0.26,cy-rr*0.3,rr*0.05,cx,cy,rr);
+    g1.addColorStop(0,'rgba(240,250,255,'+(0.86+speak*0.12).toFixed(3)+')');
+    g1.addColorStop(0.22, tint(72,0.55));
+    g1.addColorStop(0.52, blue(56,0.34));
+    g1.addColorStop(0.82, blue(40,0.15));
+    g1.addColorStop(1, blue(30,0.04));
+    ctx.fillStyle=g1; ctx.beginPath(); ctx.arc(cx,cy,rr,0,6.2832); ctx.fill();
+
+    // Refraction caustic low and right: the detail that stops it reading as a flat disc.
+    var cg = ctx.createRadialGradient(cx+rr*0.34,cy+rr*0.42,0,cx+rr*0.34,cy+rr*0.42,rr*0.72);
+    cg.addColorStop(0, tint(78,(0.20+speak*0.14).toFixed(3)));
+    cg.addColorStop(1, tint(60,0));
+    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(cx,cy,rr,0,6.2832); ctx.fill();
+
+    for (var i=0;i<3;i++){
+      var ph = t*(0.7+i*0.28)+i*2.1;
+      var ar = rr*(0.30+0.22*i)*(1+speak*0.09*Math.sin(ph*2));
+      ctx.beginPath();
+      ctx.ellipse(cx,cy,ar,ar*(0.42+0.3*Math.abs(Math.sin(ph))),Math.sin(ph*0.5)*0.6,0,6.2832);
+      ctx.strokeStyle='rgba(190,225,255,'+(0.06+speak*0.07).toFixed(3)+')';
+      ctx.lineWidth=1.1; ctx.stroke();
+    }
+
+    ctx.beginPath(); ctx.arc(cx,cy,rr*0.985,0,6.2832);
+    ctx.strokeStyle='rgba(214,238,255,'+(0.26+speak*0.3).toFixed(3)+')';
+    ctx.lineWidth=1.4; ctx.stroke();
+
+    for (var si=0;si<sparks.length;si++){
+      var s=sparks[si];
+      var ang=s.a+(seed||0)*1.73+t*s.sp*(1+speak*1.6), dist=rr*s.rr*(1+speak*0.05);
+      var px2=cx+Math.cos(ang)*dist, py2=cy+Math.sin(ang)*dist*s.ecc;
+      var tw=0.5+0.5*Math.sin(t*s.tw+s.ph);
+      var sa=(0.12+0.55*tw)*(0.5+speak*0.5);
+      if (sa<0.02) continue;
+      var sr=s.sz*(1+speak*0.35);
+      ctx.beginPath(); ctx.arc(px2,py2,sr,0,6.2832);
+      ctx.fillStyle = tw>0.86 ? 'rgba(255,255,255,'+sa.toFixed(3)+')' : tint(74,sa.toFixed(3));
+      ctx.fill();
+      if (tw>0.93){ ctx.beginPath(); ctx.arc(px2,py2,sr*4.2,0,6.2832);
+        ctx.fillStyle=tint(70,(sa*0.16).toFixed(3)); ctx.fill(); }
+    }
+    ctx.restore();
+  }
+
+  /* THE WALL. Everyone in the meeting has a tile, and so do you — a call where you cannot see
+     yourself in it is a broadcast. Two managers means three tiles; all twenty means
+     twenty-one. The grid reflows for any of that.
+
+     The transcript owns the bottom of the screen, so the wall sits above it and both stay
+     visible at once. A demo where you scroll to see who is talking is a demo nobody follows. */
+  function seatLayout(n, w, h){
+    var top = h*0.045, band = h*0.42;
+    // Roughly square-ish tiles, biased wider because the band is short and the screen is not.
+    var cols = Math.min(n, Math.max(1, Math.ceil(Math.sqrt(n * 1.9))));
+    if (w < 760) cols = Math.min(cols, 4);
+    var rows = Math.ceil(n/cols);
+    var cw = w/cols, ch = band/rows;
+    var r = Math.max(13, Math.min(cw*0.30, ch*0.27));
+    var out = [];
+    for (var i=0;i<n;i++){
+      var c = i%cols, rw = Math.floor(i/cols);
+      // Last row centres its remainder rather than hanging left, which reads as a bug.
+      var inRow = Math.min(cols, n - rw*cols);
+      var pad = (cols - inRow) * cw / 2;
+      out.push({ x: pad + cw*(c+0.5), y: top + ch*(rw+0.5), r: r });
+    }
+    return out;
+  }
+
+  /* A seat that is not speaking: listening, not switched off. Barely-there glass with a slow
+     breath, and the viewer's own seat marked rather than coloured, because you are in the
+     room but you are not one of the twenty. */
+  function quietSeat(t, p, s, seed){
+    var br = 1 + 0.03*Math.sin(t*0.9 + seed*1.3);
+    var r = p.r*br;
+    ctx.save();
+    var g = ctx.createRadialGradient(p.x-r*0.3, p.y-r*0.34, r*0.05, p.x, p.y, r);
+    if (s.you){
+      g.addColorStop(0,'rgba(255,255,255,.30)');
+      g.addColorStop(0.6,'rgba(214,228,244,.10)');
+      g.addColorStop(1,'rgba(214,228,244,.02)');
+    } else {
+      g.addColorStop(0,'hsla('+s.hue+',80%,84%,.20)');
+      g.addColorStop(0.6,'hsla('+s.hue+',70%,60%,.09)');
+      g.addColorStop(1,'hsla('+s.hue+',60%,45%,.02)');
+    }
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,6.2832); ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x,p.y,r,0,6.2832);
+    ctx.strokeStyle = s.you ? 'rgba(226,236,250,.26)' : 'hsla('+s.hue+',80%,72%,.20)';
+    ctx.setLineDash(s.you ? [3,4] : []);          // your seat reads as a placeholder, not a domain
+    ctx.lineWidth=1; ctx.stroke();
+    ctx.restore();
+  }
+
+  // The nameplate under each seat, and the mic dot on whoever currently holds the floor.
+  function plate(s, p){
+    // Type scales with the tile, or a twenty-one seat wall overlaps its own labels.
+    var fs = Math.max(8, Math.min(12, p.r*0.42));
+    var y = p.y + p.r*(s.live ? 2.05 : 1.55) + fs*0.4;
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.font = '600 '+fs.toFixed(1)+'px ui-monospace,SFMono-Regular,Menlo,monospace';
+    ctx.fillStyle = s.you ? 'rgba(226,236,250,'+(s.live?0.95:0.55)+')'
+                          : (s.live ? 'hsla('+s.hue+',88%,78%,.98)' : 'rgba(214,228,244,.46)');
+    ctx.fillText(s.name.toUpperCase(), p.x, y);
+    // The domain line is dropped on a crowded wall; the name is what identifies a seat.
+    if (fs >= 9.5){
+      var fs2 = fs*0.88;
+      ctx.font = '400 '+fs2.toFixed(1)+'px ui-sans-serif,system-ui,-apple-system,sans-serif';
+      ctx.fillStyle = s.live ? 'rgba(226,236,250,.7)' : 'rgba(200,216,232,.28)';
+      ctx.fillText(s.label, p.x, y + fs2*1.35);
+      if (s.live && !s.you){
+        var wdt = ctx.measureText(s.label).width;
+        ctx.beginPath(); ctx.arc(p.x - wdt/2 - fs2*0.9, y + fs2*1.0, fs2*0.28, 0, 6.2832);
+        ctx.fillStyle = 'hsla('+s.hue+',90%,66%,'+(s.speaking?0.95:0.4)+')';
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawOrb(now){
+    var t = (now-t0)/1000, w = innerWidth, h = innerHeight;
+    ctx.clearRect(0,0,w,h);
+
+    if (seats && seats.length){
+      var lay = seatLayout(seats.length, w, h);
+      for (var i=0;i<seats.length;i++){
+        var s = seats[i], p = lay[i];
+        /* ONLY THE ONE HOLDING THE FLOOR IS AN ORB. Twenty lit orbs is a screensaver: nothing
+           draws the eye, so nobody can tell who is speaking, which is the single thing this
+           view exists to show. Everyone else is a quiet glass disc, present and waiting. */
+        if (s.live) paintOrb(t, p.x, p.y, p.r*1.5, s.hue, s.speaking ? (0.5+0.5*Math.sin(t*7.5)) : 0, i);
+        else quietSeat(t, p, s, i);
+        plate(s, p);
+      }
+      raf = requestAnimationFrame(drawOrb); return;
+    }
+
+    if (!orb) { raf = requestAnimationFrame(drawOrb); return; }
+    var k = Math.min(1, t/1.15), e = 1-Math.pow(1-k,3);
+    var targetX = w>=1100 ? w*0.34 : w/2;
+    var targetY = w>=1100 ? h*0.46 : h*0.32;
+    var cx = orb.fromX + (targetX-orb.fromX)*e;
+    var cy = orb.fromY + (targetY-orb.fromY)*e;
+    var R  = 10 + (Math.min(w,h)*0.17 - 10)*e;
+    paintOrb(t, cx, cy, R, orb.hue, orb.speaking ? (0.5+0.5*Math.sin(t*7.5))*orb.energy : 0, 0);
+    raf = requestAnimationFrame(drawOrb);
+  }
+
+  // ── assembling the briefing ─────────────────────────────────────────────────────────────
+
+  function render(b){
+    var html = '<div class="fn">'+b.name+' &middot; '+b.fn+'</div><h2>'+b.label+'</h2>';
+    b.paras.forEach(function(p){ html += '<p>'+p+'</p>'; });
+    if (b.rows.length){
+      html += '<div class="rows">';
+      b.rows.forEach(function(r){ html += '<div class="row"><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>'; });
+      html += '</div>';
+    }
+    /* THE DESK. The briefing above tells you the state of a domain; this tells you there is a
+       free page behind it and who runs it. It sits after the evidence rows on purpose — the
+       reading earns the click, the pitch does not. Text comes from LIMEN_ORB.DESK, which is
+       derived from each page's own description, so the card cannot promise what the page
+       does not do. A desk with no honest line (medicine) shows the door without a pitch. */
+    var desk = DESK[b.id] || null;
+    if (desk && desk.offer)
+      html += '<p class="desk"><span class="who">What '+b.name+' runs:</span> '+desk.offer+'.</p>';
+    var room = roomFor(b.id);
+    html += '<div class="acts">'+
+      '<a class="act go'+(desk && desk.free ? ' free' : '')+'" href="'+
+        (desk ? desk.path : '/'+(b.id==='medicine'?'fitness':b.id))+'">'+
+        (desk ? desk.cta : 'Enter '+b.label)+' &rarr;</a>'+
+      // Remy is the only manager with two doors: the clinical read and the calculators.
+      (desk && desk.also
+        ? '<a class="act go'+(desk.also.free?' free':'')+'" href="'+desk.also.path+'">'+desk.also.cta+' &rarr;</a>'
+        : '')+
+      (room.length > 1 ? '<button class="act room" type="button" id="orbRoom">Bring in the room</button>' : '')+
+      '<button class="act" type="button" id="orbAgain">Say it again</button></div>';
+    // Back to one manager: dismiss the room so the frame loop returns to the single orb.
+    seats = null; activeSeat = null;
+    card.classList.remove('meet');
+    card.innerHTML = html;
+    var again = document.getElementById('orbAgain');
+    if (again) again.addEventListener('click', function(){ speak(b); });
+    var rm = document.getElementById('orbRoom');
+    if (rm) rm.addEventListener('click', function(){ convene(b); });
+  }
+
+  // ── the room ────────────────────────────────────────────────────────────────────────────
+
+  /* A MEETING ON THE PUBLIC ATLAS. Deterministic like everything else on this page: turn
+     order is live strain, who may address whom is the typed pathway graph, and no model
+     writes a sentence. That is what lets it be public at all.
+
+     The room is whoever this manager is actually wired to, capped at four seats. roomFor()
+     lives in the shared module, not here, so the page and anything that pre-renders or voices
+     a meeting agree on who is in it. A manager wired to nobody gets no button, because an
+     empty room would have to be faked to be worth showing. */
+  var meetOn = false;
+  function roomFor(id){ return _B.roomFor(id); }
+
+  /* Everything build() needs for a set of domains, fetched once and shared, so every turn in
+     a meeting is quoting the same instant rather than drifting between speakers. */
+  function ensure(ids){
+    var jobs = [];
+    if (!cache.snap) jobs.push(getJSON('/api/domain-snapshot').then(function(j){ cache.snap=j; }));
+    if (!cache.opps) jobs.push(getJSON('/api/limen-snapshot?type=opportunities').then(function(j){ cache.opps=j; }));
+    if (!cache.cons) jobs.push(getJSON('/api/limen-snapshot?type=console').then(function(j){ cache.cons=j; }));
+    ids.forEach(function(id){
+      if (!(id in cache.subs))
+        jobs.push(getJSON('/assets/data/deep/'+id+'-neuro-substrate.json').then(function(j){ cache.subs[id]=j; }));
+      if (NEWS[id] && !(id in cache.news))
+        jobs.push(getJSON('/api/'+id+'-news').then(function(j){ cache.news[id]=j; }));
+    });
+    return Promise.all(jobs);
+  }
+
+  /* A meeting needs two things a single briefing does not: what was asked for last time, and
+     the series it was measured against. Fetched only when a room convenes, because the
+     history payload covers all twenty domains and pulling it every time someone opens one orb
+     would be a large download nobody uses. Both fail soft to empty: no ledger simply means
+     nobody picks up a thread, which is exactly right on the first meeting there has ever
+     been. */
+  function ensureRoom(ids){
+    var jobs = [ensure(ids)];
+    if (!cache.ledger)
+      jobs.push(getJSON('/api/orb-ledger?limit=300')
+        .then(function(j){ cache.ledger = (j && j.entries) || []; }));
+    if (!cache.hist)
+      jobs.push(getJSON('/api/grounded-stress-history?all=1')
+        .then(function(j){ cache.hist = j || null; }));
+    return Promise.all(jobs);
+  }
+
+  /* MEETINGS SPEAK IN THE CAST VOICES, same as the solo briefings.
+
+     They cannot be pre-rendered the way the briefings are: a meeting's words depend on who is
+     in the room and what the instruments read at that second, so there is no fixed set of
+     sentences to render ahead of time. /api/orb-voice synthesises the turn instead. The URL
+     carries the exact text, so the edge caches it and the same sentence in the same voice is
+     paid for once.
+
+     The browser voice remains ONLY as a failure path. It is what you get if the endpoint is
+     down, out of budget, or blocked, and it exists so a meeting degrades instead of going
+     silent. It is not the design. */
+  function voiceUrl(voice, text){
+    return '/api/orb-voice?voice=' + encodeURIComponent(voice) + '&text=' + encodeURIComponent(text);
+  }
+  // Warm the next turn while the current one talks, or every turn opens with dead air.
+  function prefetchTurn(t){
+    if (!t || !t.voice || reduce) return;
+    try{ var a = new Audio(voiceUrl(t.voice, t.spoken)); a.preload = 'auto'; a.load(); }catch(e){}
+  }
+  // Drives whichever thing is on screen: the single orb in solo mode, the seat in a meeting.
+  function voiceOn(on){
+    if (orb){ orb.speaking = on; if (on) orb.energy = 1; }
+    if (activeSeat) activeSeat.speaking = on;
+  }
+  function sayTurn(t, done){
+    var moved = false;
+    function go(){ if (moved) return; moved = true; voiceOn(false); done(); }
+    var est = 1400 + (t.spoken.length / 14) * 1000;
+
+    /* THE GUARD IS NOT OPTIONAL, and it covers both paths. A stalled fetch and a dropped
+       speechSynthesis utterance both end the same way: onend never fires and the meeting is
+       stranded mid-room with no error and no way forward. Whichever fires first wins. */
+    function browser(){
+      if (moved) return;
+      if (!window.speechSynthesis){ setTimeout(go, Math.min(9000, est)); return; }
+      try{
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(t.spoken);
+        u.rate = 0.98; u.pitch = 0.92;
+        u.onstart = function(){ voiceOn(true); };
+        u.onend = go; u.onerror = go;
+        window.speechSynthesis.speak(u);
+      }catch(e){ setTimeout(go, 1600); }
+    }
+
+    if (reduce){ setTimeout(go, Math.min(9000, est)); return; }
+    if (!t.voice){ browser(); setTimeout(go, est * 2.2 + 8000); return; }
+
+    try{
+      var a = new Audio(voiceUrl(t.voice, t.spoken));
+      _audio = a;
+      a.onplay  = function(){ voiceOn(true); };
+      a.onended = go;
+      a.onerror = function(){ browser(); };
+      a.play().catch(function(){ browser(); });      // autoplay blocked, or synthesis refused
+    }catch(e){ browser(); }
+    setTimeout(go, est * 2.2 + 8000);
+  }
+
+  /* b is the manager who called it, or null for the full table, where the room is the subject
+     and there is nobody to go back to. */
+  function convene(b, idsIn){
+    var ids = idsIn || roomFor(b.id);
+    if (ids.length < 2) return;
+    hush();
+    meetOn = true;
+    card.classList.add('meet');
+    card.innerHTML = '<div class="fn">'+(b ? b.name+' is convening' : 'Convening the table')+'</div>'+
+                     '<h2>The room</h2><p>'+
+                     (b ? 'Bringing in everyone '+b.name+' is wired to…'
+                        : 'Bringing in all twenty…')+'</p>';
+    ensureRoom(ids).then(function(){
+      if (!meetOn) return;
+      var turns = _B.meeting(ids, cache);
+      if (!turns.length){ meetOn = false; render(b); return; }
+
+      /* One seat per manager, in the order they first speak. The chair appears once even
+         though they take both the first and last turn. */
+      var seen = {};
+      seats = [];
+      turns.forEach(function(t){
+        if (seen[t.id]) return;
+        seen[t.id] = 1;
+        seats.push({ id:t.id, name:t.name, label:t.label, hue:hueFor(t.id), live:false, speaking:false });
+      });
+      /* YOU ARE IN THE ROOM. Two managers is three seats, all twenty is twenty-one. Your seat
+         never takes a turn — it lights when a manager is talking to you rather than to each
+         other, which is what the desk pitch and the practical advice actually are. */
+      seats.push({ id:'__you', name:'You', label:'in the room', you:true,
+                   hue:210, live:false, speaking:false });
+      var names = seats.map(function(s){ return s.name; });
+      card.innerHTML = '<div class="fn">In the room</div><h2>'+names.join(' &middot; ')+'</h2>'+
+        '<p class="meetnote">Turn order is live strain. Who may address whom is the pathway '+
+        'graph between these domains. Nothing said here is written by a model.</p>'+
+        '<div id="orbMeet"></div>'+
+        '<div class="acts" id="orbMeetActs">'+
+        '<button class="act" type="button" id="orbMeetStop">Stop the meeting</button></div>';
+
+      document.getElementById('orbMeetStop')
+        .addEventListener('click', function(){ meetOn = false; hush(); if (b) render(b); else close(); });
+
+      var box = document.getElementById('orbMeet'), i = 0;
+      (function next(){
+        if (!meetOn) return;
+        if (i >= turns.length){ endMeeting(b, box); return; }
+        var t = turns[i++];
+        // Hand the floor over: exactly one seat is live, and the plate lights before the
+        // voice arrives so the room never looks like nobody is up next.
+        activeSeat = null;
+        for (var z = 0; z < seats.length; z++){
+          seats[z].live = (seats[z].id === t.id);
+          seats[z].speaking = false;
+          if (seats[z].live) activeSeat = seats[z];
+        }
+        var d = document.createElement('div');
+        d.className = 'mturn';
+        var h = '<div class="mwho" style="color:hsl('+hueFor(t.id)+',78%,70%)">'+
+                t.name+' <em>'+t.label+'</em></div>';
+        t.lines.forEach(function(l){ h += '<p>'+l+'</p>'; });
+        if (t.desk && !t.closing){
+          h += '<a class="mdesk'+(t.desk.free?' free':'')+'" href="'+t.desk.path+'">'+t.desk.cta+' &rarr;</a>';
+          if (t.desk.also)
+            h += '<a class="mdesk'+(t.desk.also.free?' free':'')+'" href="'+t.desk.also.path+'">'+t.desk.also.cta+' &rarr;</a>';
+        }
+        d.innerHTML = h;
+        box.appendChild(d);
+        d.scrollIntoView({ behavior:'smooth', block:'nearest' });
+        prefetchTurn(turns[i]);                        // the next one, while this one talks
+        sayTurn(t, function(){ setTimeout(next, 280); });
+      })();
+    });
+  }
+
+  function endMeeting(b, box){
+    meetOn = false;
+    // Nobody holds the floor once it is over, but the room stays on screen to be looked at.
+    activeSeat = null;
+    if (seats) seats.forEach(function(s){ s.live = false; s.speaking = false; });
+    var f = document.createElement('div');
+    f.className = 'mend';
+    f.innerHTML = '<p>That is the room. Every desk at that table is public and free to read.</p>';
+    box.appendChild(f);
+    f.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    var acts = document.getElementById('orbMeetActs');
+    if (acts){
+      acts.innerHTML = '<button class="act" type="button" id="orbBack">'+
+                       (b ? 'Back to '+b.name : 'Close the room')+'</button>';
+      document.getElementById('orbBack')
+        .addEventListener('click', function(){ if (b) render(b); else close(); });
+    }
+  }
+
+  /* The whole table. Opens the layer with no single manager behind it, because here the room
+     is the subject rather than one domain's briefing. */
+  function conveneTable(){
+    sizeCanvas(); makeSparks();
+    t0 = performance.now();
+    layer.classList.add('on'); layer.setAttribute('aria-hidden','false');
+    if (!raf) raf = requestAnimationFrame(drawOrb);
+    orb = null;
+    convene(null, DOMAINS.map(function(d){ return d[0]; }));
+  }
+
+  /* VOICE. Each domain is cast to one of 26 xAI voices, synthesised ahead of time by
+     scripts/generate-orb-voices.mjs so the bill does not scale with visitors.
+
+     THE RECORDING ALWAYS PLAYS. The first design refused to play whenever the text had
+     moved; measured against live data, 5 of 20 briefings changed within seconds, so the
+     cast voices would have been effectively never heard. Instead the manifest stores the
+     spoken TEXT, and when the live card has moved on the orb dates the recording. A
+     bulletin taped at five is not lying at six.
+
+     The comparison is therefore text equality, not a digest — the manifest `hash` field is
+     the generator's own incremental-rebuild key and this page does not read it. If the
+     audio fails for any reason the browser voice reads the words actually on screen, so
+     the orb always speaks and never says something the card does not. */
+  var _manifest = null, _audio = null;
+  function manifest(){
+    if (!_manifest) _manifest = getJSON('/assets/audio/orb/manifest.json')
+      .then(function(m){ return (m && m.voices) ? m : { voices:{} }; });
+    return _manifest;
+  }
+  function robot(b){
+    try{
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(b.spoken);
+      u.rate=0.98; u.pitch=0.92;
+      u.onstart=function(){ if (orb){ orb.speaking=true; orb.energy=1; } };
+      u.onend=function(){ if (orb) orb.speaking=false; };
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  function hush(){
+    try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
+    if (_audio){ try{ _audio.pause(); }catch(e){} _audio = null; }
+  }
+  function speak(b){
+    hush();
+    var mine = b.id;
+    var current = function(){ return orb && orb.id === mine; };
+    var rec = '/assets/audio/orb/' + b.id + '.mp3';
+
+    function play(url, onFail){
+      var a = new Audio(url);
+      a.onplay  = function(){ if (current()){ orb.speaking=true; orb.energy=1; } };
+      a.onended = function(){ if (current()) orb.speaking=false; };
+      a.onerror = function(){ if (current()){ orb.speaking=false; onFail(); } };
+      _audio = a;
+      a.play().catch(function(){ if (current()) onFail(); });   // autoplay blocked
+    }
+
+    manifest().then(function(m){
+      var e = m.voices[b.id];
+      if (!e) { if (current()) robot(b); return; }
+
+      /* The recording is right until the readings move under it. When they do we can now be
+         right about BOTH: synthesise the words actually on the card, in the same cast voice,
+         rather than playing a dated clip. Measured at 1 to 2 of 20 at any moment, so the
+         static file still serves almost every listen and the bill barely moves.
+
+         Three steps down, each strictly worse than the last and each still the right voice or
+         the right words: live synthesis, then the recording with a dateline, then the browser
+         voice reading what is on screen. */
+      var moved = !!(e.text && e.text !== b.spoken);
+      if (moved && VOICE[b.id] && b.spoken.length <= 1400){
+        play(voiceUrl(VOICE[b.id], b.spoken), function(){
+          if (!current()) return;
+          stamp(e.spoken_at);
+          play(rec, function(){ robot(b); });
+        });
+        return;
+      }
+      if (moved) stamp(e.spoken_at);
+      play(rec, function(){ robot(b); });
+    }).catch(function(){ if (current()) robot(b); });
+  }
+
+  /* Date the voice when it no longer matches the card. Only appears when the two have
+     actually diverged, so an orb whose briefing has not moved says nothing about recordings
+     and simply speaks. */
+  function stamp(iso){
+    if (!iso) return;
+    var when;
+    try {
+      var d = new Date(iso);
+      when = d.toLocaleTimeString([], { hour:'numeric', minute:'2-digit' });
+      var today = new Date();
+      if (d.toDateString() !== today.toDateString())
+        when = d.toLocaleDateString([], { month:'short', day:'numeric' }) + ', ' + when;
+    } catch(e){ return; }
+    var el = document.getElementById('orbRec');
+    if (!el){
+      el = document.createElement('div');
+      el.id = 'orbRec'; el.className = 'rec';
+      var acts = card.querySelector('.acts');
+      if (acts) card.insertBefore(el, acts); else card.appendChild(el);
+    }
+    el.textContent = 'Voice recorded ' + when + '. The readings above are live and have moved since.';
+  }
+
+  // ── open / close ────────────────────────────────────────────────────────────────────────
+  function open(id,label,fn,x,y){
+    sizeCanvas();
+    meetOn = false;                       // opening a manager ends any room already running
+    seats = null; activeSeat = null;
+    orb = { id:id, fromX: x!=null?x:innerWidth/2, fromY: y!=null?y:innerHeight/2,
+            speaking:false, energy:1, hue:hueFor(id) };
+    makeSparks();
+    t0 = performance.now();
+    layer.classList.add('on'); layer.setAttribute('aria-hidden','false');
+    if (!raf) raf = requestAnimationFrame(drawOrb);
+    var sp0 = SPEAKERS[id];
+    card.classList.remove('meet');
+    card.innerHTML = '<div class="fn">'+(sp0? sp0.name+' &middot; '+sp0.fn : fn)+'</div><h2>'+label+'</h2><p>Reading my instruments…</p>';
+
+    ensure([id]).then(function(){
+      var b = _B.build(id, label, fn, cache);
+      render(b);
+      if (!reduce) setTimeout(function(){ speak(b); }, 400);
+    });
+  }
+
+  function close(){
+    layer.classList.remove('on'); layer.setAttribute('aria-hidden','true');
+    meetOn = false;                       // otherwise a stopped room keeps talking off-screen
+    seats = null; activeSeat = null;
+    orb = null;
+    hush();
+  }
+
+  document.getElementById('orbClose').addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if (e.key==='Escape') close(); });
+  addEventListener('resize', sizeCanvas);
+
+  /* Alphabetical, and sorted on a copy: DOMAINS order is the lifecycle order the ring is
+     drawn in, so mutating it here would rearrange the map. This is a lookup list, and a
+     lookup list is scanned by name. */
+  /* Collapsed by default. The twenty orbs on the map are already the primary way in — this
+     is the fallback for a visitor who does not think to click one, and a directory for
+     anyone hunting a specific domain. */
+  var pkBtn = document.createElement('button');
+  pkBtn.type = 'button'; pkBtn.className = 'pk-btn';
+  pkBtn.setAttribute('aria-expanded','false');
+  pkBtn.setAttribute('aria-haspopup','true');
+  pkBtn.innerHTML = 'The twenty<span class="pk-caret">▾</span>';
+  var pkMenu = document.createElement('div');
+  pkMenu.className = 'pk-menu'; pkMenu.setAttribute('role','menu');
+  pick.appendChild(pkBtn); pick.appendChild(pkMenu);
+
+  function pkOpen(on){
+    pkMenu.setAttribute('data-open', on ? 'true' : 'false');
+    pkBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+  pkBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    pkOpen(pkMenu.getAttribute('data-open') !== 'true');
+  });
+  // Click anywhere else, or Escape, closes it. A menu that only closes via its own button
+  // is a menu that stays open over the map.
+  document.addEventListener('click', function(e){ if (!pick.contains(e.target)) pkOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') pkOpen(false); });
+
+  /* The whole table sits at the head of the staff list, because "see all twenty argue" is the
+     thing worth clicking first and burying it inside one manager's card hides it. */
+  (function(){
+    var all = document.createElement('button');
+    all.type = 'button'; all.className = 'table';
+    all.innerHTML = '<span class="who">Convene</span>All twenty';
+    all.title = 'Put all twenty managers in one room';
+    all.setAttribute('aria-label', all.title);
+    all.addEventListener('click', function(){ pkOpen(false); conveneTable(); });
+    pkMenu.appendChild(all);
+  })();
+
+  DOMAINS.slice().sort(function(a,b){ return a[1].localeCompare(b[1]); }).forEach(function(dd){
+    var b = document.createElement('button'), sp = SPEAKERS[dd[0]] || {}, dk = DESK[dd[0]] || {};
+    /* NAME FIRST. Twenty domain labels is a taxonomy; twenty people is a staff. The manager
+       is the door — clicking opens the orb, which gives the reading and only then offers the
+       page. Linking the bar straight to the page would skip the reason to go. */
+    b.type='button';
+    b.innerHTML = sp.name ? '<span class="who">'+sp.name+'</span>'+dd[1] : dd[1];
+    b.title = sp.name
+      ? sp.name + ' runs ' + dd[1] + (dk.cta ? ' — ' + dk.cta : '')
+      : dd[1];
+    b.setAttribute('aria-label', b.title);
+    b.addEventListener('click', function(){
+      var r=b.getBoundingClientRect();
+      pkOpen(false);
+      open(dd[0],dd[1],dd[2], r.x+r.width/2, r.y);
+    });
+    pkMenu.appendChild(b);
+  });
+
+  window.__orbOpen = function(id,x,y){
+    var dd = DOMAINS.filter(function(q){ return q[0]===id; })[0];
+    if (dd) open(dd[0],dd[1],dd[2],x,y);
+  };
+
+  /* Warm the shared feeds at load. Both are one request covering all twenty domains, and
+     fetching them only on click left the card reading "Reading my instruments" for the better
+     part of ten seconds. */
+  function warm(){
+    if (!cache.snap) getJSON('/api/domain-snapshot').then(function(j){ cache.snap=j; });
+    if (!cache.opps) getJSON('/api/limen-snapshot?type=opportunities').then(function(j){ cache.opps=j; });
+    if (!cache.cons) getJSON('/api/limen-snapshot?type=console').then(function(j){ cache.cons=j; });
+  }
+  if (window.requestIdleCallback) requestIdleCallback(warm,{timeout:2500}); else setTimeout(warm,1200);
+})();
+</script>
 </body>
 </html>

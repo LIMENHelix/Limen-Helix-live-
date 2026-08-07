@@ -39,6 +39,13 @@ var HUB_WEIGHTS = {
   trade:0.6, law:0.7, finance:0.9, intelligence:0.7
 };
 var GOLDEN_ANGLE = 2.399963229728653;
+/* HELIX. AMP is the inclination as a fraction of orbital radius; TWIST is how far the
+   tilt phase advances per node index. The golden angle is deliberately NOT reused here:
+   it would spread the tilts evenly and average the coil away into a sphere. A smaller,
+   regular step keeps consecutive domains near each other in height, which is what makes
+   the eye join them into a single winding strand. */
+var HELIX_AMP = 0.42;
+var HELIX_TWIST = 0.85;
 var NODE_COUNT = 20;
 
 // Phase mapping for each civilization domain
@@ -1554,12 +1561,21 @@ function applyFocusDomain() {
   }
 }
 
-function w2s(wx,wy) { return {x:(wx-camX)*camZ+CX, y:(wy-camY)*camZ+CY}; }
+// Focal length for the perspective divide. Large values give a gentle, almost isometric
+// depth; small values exaggerate it into a fisheye. 1500 reads as a real 3D system
+// without making the near globes balloon.
+var FOCAL = 1500;
+function w2s(wx, wy, wz) {
+  var z = wz || 0;
+  var s = FOCAL / (FOCAL - z);          // z > 0 is nearer the viewer, so it scales up
+  return { x: (wx - camX) * s * camZ + CX, y: (wy - camY) * s * camZ + CY, s: s };
+}
 
 function hitTest(mx,my) {
   for (var i=NODES.length-1;i>=0;i--) {
-    var p=w2s(NODES[i].x,NODES[i].y), dx=mx-p.x, dy=my-p.y;
-    var hitR=Math.max(NODES[i].r+12,20)*camZ;
+    var p=w2s(NODES[i].x,NODES[i].y,NODES[i].z), dx=mx-p.x, dy=my-p.y;
+    // Hit radius follows the same perspective scale, so what looks bigger IS bigger to click.
+    var hitR=Math.max(NODES[i].r+12,20)*camZ*Math.max(0.55,Math.min(1.7,p.s||1));
     if (dx*dx+dy*dy < hitR*hitR) return i;
   }
   return -1;
@@ -1653,8 +1669,11 @@ function drawActionPotentials(fa) {
 
 // === NODE RENDERING ===
 function drawNode(n, idx, nodeAlpha) {
-  var p=w2s(n.x,n.y), isH=idx===hoveredNode;
-  var r=n.r*camZ, pc=getPhaseColor(n), a=nodeAlpha;
+  var p=w2s(n.x,n.y,n.z), isH=idx===hoveredNode;
+  // Nearer globes are larger and brighter; far ones recede. Clamped so a distant domain
+  // never shrinks to an unclickable speck.
+  var dScale = Math.max(0.55, Math.min(1.7, p.s || 1));
+  var r=n.r*camZ*dScale, pc=getPhaseColor(n), a=nodeAlpha*Math.max(0.45, Math.min(1, dScale));
   // L1 cortex view: +15% brightness boost — ambient glow always present
   var ambR = r * 2.2;
   var ambG = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,ambR);
@@ -1762,7 +1781,7 @@ function showSubMenu(idx) {
   if (_miniMode) return;
   var n = NODES[idx], subs = DOMAIN_PORTALS[n.id] || [], sats = satellitesFor(n) || [];
   ensureSubMenu();
-  var p = w2s(n.x, n.y);
+  var p = w2s(n.x, n.y, n.z);
   var html = '<div class="sm-title">' + (SHORT_NAMES[n.id] || n.id) + '</div>';
   var domainUrl = PORTAL_ROUTES[n.childUniverse];
   if (domainUrl) html += '<a class="sm-main" href="' + domainUrl + '">Enter ' + n.label + ' domain &rarr;</a>';
@@ -1822,6 +1841,11 @@ function draw() {
     var theta = NODES[i]._spin;
     NODES[i].x = r * Math.cos(theta);
     NODES[i].y = r * Math.sin(theta);
+    /* INCLINATION. Each orbit is tilted out of the flat plane, and the tilt phase steps
+       with the node index, so the twenty globes occupy twenty different heights at any
+       instant. That is what turns a pinwheel into a coil. Amplitude scales with the
+       orbit so outer domains swing wider, the way inclination reads at distance. */
+    NODES[i].z = (r * HELIX_AMP) * Math.sin(theta + i * HELIX_TWIST);
   }
   checkTransition();
 
@@ -1850,7 +1874,12 @@ function draw() {
   drawActionPotentials(fa);
   drawSpinePulse(fa);
 
-  for (var i=0;i<NODES.length;i++) {
+  // Painter's algorithm: far globes first, so near ones occlude them.
+  var _order = [];
+  for (var oi = 0; oi < NODES.length; oi++) _order.push(oi);
+  _order.sort(function (a, b) { return (NODES[a].z || 0) - (NODES[b].z || 0); });
+  for (var oo = 0; oo < _order.length; oo++) {
+    var i = _order[oo];
     var na = fa;
     if (clickFadeNode>=0 && transitioning && i!==clickFadeNode) {
       var cf=Math.min(1,(performance.now()-transitionStart)/200);

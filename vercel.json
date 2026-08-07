@@ -55,14 +55,14 @@
       "schedule": "*/5 * * * *"
     },
     {
-      "path": "/api/brain-shadow?run=1",
-      "schedule": "27 * * * *"
+      "path": "/api/orb-meeting-cron?run=1",
+      "schedule": "18 */6 * * *"
     }
   ],
   "functions": {
     "api/**": {
       "excludeFiles": "{assets/**,*.html,_*.js,*.json,scripts/**}",
-      "includeFiles": "{api/protected-docs/**,api/helix_app/**,assets/data/*.json,assets/js/limen-plasticity.js,assets/js/limen-k4-selfconsistency.js}",
+      "includeFiles": "{api/protected-docs/**,api/helix_app/**,assets/data/*.json,assets/js/limen-plasticity.js,assets/js/limen-k4-selfconsistency.js,assets/js/orb-briefing.js}",
       "maxDuration": 800
     }
   },

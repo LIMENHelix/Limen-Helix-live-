@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>LIMEN — meeting room (test)</title>
+<!--
+  TEST BENCH, NOT A SHIPPING PAGE.
+
+  Listed in .vercelignore so it cannot reach production. The real thing goes behind
+  gate-master.js in the connectome admin section once the domain brain code is done.
+
+  Nothing here is written by a model. Turn order comes from live strain; who may address whom
+  comes from the typed pathway graph; and each domain's TEMPERAMENT is derived from its
+  position in that graph, not cast by hand — see roleOf() in assets/js/orb-briefing.js.
+  Watts is blunt because Energy reaches four domains and waits on none. Penny chairs because
+  Finance controls two and answers to nobody. Grace is quiet because Religion sits at degree
+  two. Change the graph and the personalities change with it.
+-->
+<style>
+  :root{
+    --bg:#05070b; --pan:#0c1016; --ln:#1a212c; --tx:#e2e8f0; --dim:#8592a4;
+    --ac:#5eead4; --warn:#e8b563;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--tx);
+    font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  body{padding:24px 24px 60px;max-width:1320px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 3px;font-weight:600}
+  .sub{color:var(--dim);font-size:13px;margin:0 0 20px;max-width:78ch}
+  .sub b{color:var(--warn);font-weight:600}
+  h2{font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
+    margin:24px 0 10px;font-weight:600;display:flex;gap:10px;align-items:baseline}
+  h2 span{text-transform:none;letter-spacing:0;font-weight:400;font-size:12px;opacity:.75}
+
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{background:var(--pan);border:1px solid var(--ln);color:var(--tx);border-radius:20px;
+    padding:6px 13px;font:inherit;font-size:13px;cursor:pointer;transition:.12s;
+    display:flex;align-items:center;gap:7px}
+  .chip:hover{border-color:var(--ac)}
+  .chip[aria-pressed="true"]{background:#0f2f31;border-color:var(--ac);color:#c8fff5}
+  .chip u{text-decoration:none;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+    opacity:.65;font-weight:600}
+  .bar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .btn{background:var(--ac);color:#04211d;border:0;border-radius:7px;padding:9px 18px;
+    font:inherit;font-weight:600;cursor:pointer}
+  .btn:disabled{opacity:.35;cursor:default}
+  .btn.ghost{background:none;border:1px solid var(--ln);color:var(--dim);font-weight:400}
+  .btn.ghost:hover:not(:disabled){color:var(--ac);border-color:var(--ac)}
+  .count{color:var(--dim);font-size:13px}
+
+  /* ── the call ──────────────────────────────────────────────────────────────────────── */
+  .call{display:grid;gap:12px;margin:18px 0 4px;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    background:radial-gradient(80% 120% at 50% 0%,rgba(94,234,212,.045),transparent 65%);
+    border-radius:14px;padding:14px;min-height:150px;align-content:start}
+  .call:empty{display:none}
+  .tile{position:relative;aspect-ratio:16/11;border-radius:11px;overflow:hidden;
+    background:linear-gradient(170deg,#0b0f15,#070a0e);
+    border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;
+    transition:border-color .3s,box-shadow .3s,transform .3s;
+    animation:join .45s cubic-bezier(.2,.9,.3,1) backwards}
+  @keyframes join{from{opacity:0;transform:scale(.9) translateY(10px)}}
+  .tile.live{border-color:hsla(var(--h),90%,65%,.85);
+    box-shadow:0 0 0 1px hsla(var(--h),90%,65%,.5),0 0 34px hsla(var(--h),90%,55%,.22);
+    transform:translateY(-3px)}
+
+  /* translucent orb: glass shell, light inside, nothing opaque */
+  .glob{position:relative;width:60%;max-width:130px;aspect-ratio:1;border-radius:50%;
+    transition:transform .45s cubic-bezier(.2,.9,.3,1)}
+  .tile.live .glob{transform:scale(1.1)}
+  .glob b,.glob i,.glob u{position:absolute;inset:0;border-radius:50%;display:block}
+  /* body: barely-there tint you can see the tile through */
+  .glob b{background:
+      radial-gradient(circle at 32% 28%,hsla(var(--h),95%,88%,.45),transparent 38%),
+      radial-gradient(circle at 50% 50%,hsla(var(--h),90%,60%,.20),hsla(var(--h),85%,45%,.10) 58%,transparent 72%);
+    backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+    box-shadow:inset 0 0 34px hsla(var(--h),90%,70%,.22),
+               inset 0 -12px 26px hsla(var(--h),80%,40%,.16),
+               0 0 30px hsla(var(--h),90%,55%,.18)}
+  /* rim light, so it reads as a sphere rather than a disc */
+  .glob i{box-shadow:inset 0 0 0 1px hsla(var(--h),95%,80%,.30),
+                     inset 2px 3px 10px hsla(var(--h),100%,95%,.20)}
+  /* the breath: only while speaking */
+  .glob u{background:radial-gradient(circle,hsla(var(--h),95%,75%,.30),transparent 62%);opacity:0}
+  .tile.live .glob u{animation:breathe 1.9s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(.92);opacity:.15}50%{transform:scale(1.2);opacity:.5}}
+
+  .plate{position:absolute;left:9px;bottom:8px;right:9px;display:flex;align-items:baseline;
+    gap:7px;font-size:12.5px;pointer-events:none}
+  .plate b{font-weight:600}
+  .plate em{font-style:normal;color:var(--dim);font-size:11px}
+  .plate .role{margin-left:auto;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:hsla(var(--h),80%,72%,.9);opacity:.85}
+  .mic{position:absolute;right:9px;top:8px;width:7px;height:7px;border-radius:50%;
+    background:hsla(var(--h),90%,60%,.9);opacity:0;transition:opacity .3s}
+  .tile.live .mic{opacity:1;animation:blink 1.6s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+  /* ── transcript ────────────────────────────────────────────────────────────────────── */
+  .script{background:var(--pan);border:1px solid var(--ln);border-radius:11px;
+    padding:4px 20px 16px;min-height:110px}
+  .turn{padding:14px 0;border-bottom:1px solid var(--ln);animation:say .4s ease backwards}
+  @keyframes say{from{opacity:0;transform:translateY(6px)}}
+  .turn:last-child{border-bottom:0}
+  .turn .hd{font-size:12px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px;
+    display:flex;align-items:center;gap:9px}
+  .turn .hd em{font-style:normal;color:var(--dim);text-transform:none;letter-spacing:0;font-size:12px}
+  .turn .hd u{text-decoration:none;font-size:9.5px;letter-spacing:.08em;color:var(--dim);
+    border:1px solid var(--ln);border-radius:3px;padding:1px 5px}
+  .turn p{margin:0 0 7px}
+  .turn p:last-child{margin-bottom:0}
+  .turn.closing .hd em:after{content:" · closing"}
+  .turn a.desk{display:inline-block;margin-top:8px;padding:5px 10px;font-size:11.5px;
+    text-decoration:none;color:var(--ac);border:1px solid rgba(94,234,212,.35);border-radius:3px}
+  .turn a.desk:hover{background:rgba(94,234,212,.1);border-color:rgba(94,234,212,.7)}
+  .idle{color:var(--dim);font-size:13.5px;padding:22px 0;text-align:center}
+  .cost{color:var(--dim);font-size:11.5px;margin-top:12px;text-align:right;
+    font-variant-numeric:tabular-nums}
+  .err{color:#ff9d8a}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<h1>Meeting room</h1>
+<p class="sub">Test bench. Pick two or more and convene. Turn order comes from live strain;
+who may address whom comes from the pathway graph; and each temperament is <b>derived from
+graph position, not cast by hand</b> — Watts is blunt because Energy reaches four domains and
+waits on none, Penny chairs because Finance controls two and answers to nobody, Grace is quiet
+because Religion sits at degree two. One speaks at a time and nobody interrupts.</p>
+
+<h2>Who is in the room</h2>
+<div class="chips" id="chips"></div>
+<div class="bar">
+  <button class="btn" id="go" disabled>Convene</button>
+  <button class="btn ghost" id="stop" disabled>Stop</button>
+  <button class="btn ghost" id="all">Select all</button>
+  <button class="btn ghost" id="none">Clear</button>
+  <span class="count" id="count">none selected</span>
+</div>
+
+<div class="call" id="call"></div>
+
+<h2>Transcript <span id="note"></span></h2>
+<div class="script" id="script"><div class="idle">Nothing convened yet.</div></div>
+<div class="cost" id="cost"></div>
+
+<script src="/assets/js/orb-briefing.js"></script>
+<script>
+(function(){
+  'use strict';
+  var chips=document.getElementById('chips'), call=document.getElementById('call'),
+      script=document.getElementById('script'), goBtn=document.getElementById('go'),
+      stopBtn=document.getElementById('stop'), countEl=document.getElementById('count'),
+      costEl=document.getElementById('cost'), noteEl=document.getElementById('note');
+
+  var picked={}, cache=null, running=false, audio=null, spentChars=0;
+
+  // Same hue function the atlas uses, so a domain keeps its colour across surfaces.
+  function hueFor(id){ var h=0; for (var i=0;i<id.length;i++) h=(h*31+id.charCodeAt(i))%360; return h; }
+  var ROLE_LABEL={chair:'chairs',blunt:'blunt',quiet:'quiet',absorber:'absorbs',steady:'steady'};
+
+  var LIST=LIMEN_ORB.DOMAINS.slice().sort(function(a,b){ return a[1].localeCompare(b[1]); });
+
+  LIST.forEach(function(d){
+    var role=LIMEN_ORB.roleOf(d[0]);
+    var b=document.createElement('button');
+    b.className='chip'; b.type='button'; b.setAttribute('aria-pressed','false');
+    b.innerHTML=d[1]+' <u>'+(ROLE_LABEL[role]||role)+'</u>';
+    b.onclick=function(){
+      if (running) return;
+      if (picked[d[0]]) delete picked[d[0]]; else picked[d[0]]=d;
+      b.setAttribute('aria-pressed', picked[d[0]]?'true':'false');
+      sync();
+    };
+    chips.appendChild(b);
+  });
+
+  function chosen(){ return LIST.filter(function(d){ return picked[d[0]]; }); }
+  function sync(){
+    var n=chosen().length;
+    countEl.textContent = n===0 ? 'none selected'
+      : n===1 ? '1 selected — a meeting needs at least two' : n+' selected';
+    goBtn.disabled = running || n<2;
+  }
+  document.getElementById('all').onclick=function(){
+    if (running) return;
+    LIST.forEach(function(d){ picked[d[0]]=d; });
+    [].forEach.call(chips.children,function(c){ c.setAttribute('aria-pressed','true'); });
+    sync();
+  };
+  document.getElementById('none').onclick=function(){
+    if (running) return;
+    picked={};
+    [].forEach.call(chips.children,function(c){ c.setAttribute('aria-pressed','false'); });
+    sync();
+  };
+
+  function getJSON(u){ return fetch(u).then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; }); }
+
+  // One shared read, so every turn in a meeting is quoting the same instant.
+  function loadCache(ids){
+    if (cache){
+      var miss=ids.filter(function(id){ return !(id in cache.subs); });
+      if (!miss.length) return Promise.resolve(cache);
+      return Promise.all(miss.map(function(id){
+        return getJSON('/assets/data/deep/'+id+'-neuro-substrate.json').then(function(j){ cache.subs[id]=j; });
+      })).then(function(){ return cache; });
+    }
+    var c={snap:null,opps:null,cons:null,subs:{},news:{}};
+    return Promise.all([
+      getJSON('/api/domain-snapshot').then(function(j){ c.snap=j; }),
+      getJSON('/api/limen-snapshot?type=opportunities').then(function(j){ c.opps=j; }),
+      getJSON('/api/limen-snapshot?type=console').then(function(j){ c.cons=j; })
+    ].concat(ids.map(function(id){
+      return getJSON('/assets/data/deep/'+id+'-neuro-substrate.json').then(function(j){ c.subs[id]=j; });
+    })).concat(ids.filter(function(id){ return LIMEN_ORB.NEWS[id]; }).map(function(id){
+      return getJSON('/api/'+id+'-news').then(function(j){ c.news[id]=j; });
+    }))).then(function(){ cache=c; return c; });
+  }
+
+  function tiles(list){
+    call.innerHTML='';
+    list.forEach(function(t,i){
+      var el=document.createElement('div');
+      el.className='tile'; el.dataset.id=t.id;
+      el.style.setProperty('--h', hueFor(t.id));
+      el.style.animationDelay=(i*70)+'ms';
+      el.innerHTML='<span class="mic"></span>'+
+        '<div class="glob"><b></b><i></i><u></u></div>'+
+        '<div class="plate"><b>'+t.name+'</b><em>'+t.label+'</em>'+
+        '<span class="role">'+(ROLE_LABEL[t.role]||'')+'</span></div>';
+      call.appendChild(el);
+    });
+  }
+  function light(id){
+    [].forEach.call(call.children,function(el){ el.classList.toggle('live', el.dataset.id===id); });
+  }
+  function dark(){ [].forEach.call(call.children,function(el){ el.classList.remove('live'); }); }
+
+  /* Fetch a turn's audio. null on any failure and the caller falls back to the browser voice
+     — a meeting that loses its audio should still be a meeting. */
+  function voiceFor(turn){
+    if (!turn.voice) return Promise.resolve(null);
+    return fetch('/api/orb-voice',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({voice:turn.voice, text:turn.spoken})
+    }).then(function(r){ return r.ok?r.blob():null; })
+      .then(function(b){ return b?URL.createObjectURL(b):null; })
+      .catch(function(){ return null; });
+  }
+  function say(turn,url){
+    return new Promise(function(done){
+      if (url){
+        audio=new Audio(url);
+        audio.onended=audio.onerror=function(){ done(); };
+        audio.play().catch(function(){ browserVoice(turn,done); });
+        return;
+      }
+      browserVoice(turn,done);
+    });
+  }
+  function browserVoice(turn,done){
+    if (!window.speechSynthesis){ setTimeout(done,1400); return; }
+    try{
+      var u=new SpeechSynthesisUtterance(turn.spoken);
+      u.rate=1.0; u.pitch=0.95; u.onend=u.onerror=function(){ done(); };
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }catch(e){ setTimeout(done,1400); }
+  }
+
+  function render(turn){
+    var h=hueFor(turn.id);
+    var d=document.createElement('div');
+    d.className='turn'+(turn.closing?' closing':'');
+    var html='<div class="hd" style="color:hsl('+h+',75%,68%)">'+turn.name+
+             ' <em>'+turn.label+'</em> <u>'+(ROLE_LABEL[turn.role]||'')+'</u></div>';
+    turn.lines.forEach(function(l){ html+='<p>'+l+'</p>'; });
+    /* Each manager's desk, linked from their own turn. A meeting where people pitch their
+       business and you cannot reach it is a meeting that wasted the pitch. Closing turns are
+       skipped — the chair already linked their desk when they spoke first. */
+    if (turn.desk && !turn.closing)
+      html+='<a class="desk" href="'+turn.desk.path+'">'+turn.desk.cta+' &rarr;</a>';
+    d.innerHTML=html;
+    script.appendChild(d);
+    d.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  function halt(){
+    running=false;
+    if (audio){ try{audio.pause();}catch(e){} audio=null; }
+    try{ speechSynthesis && speechSynthesis.cancel(); }catch(e){}
+    dark(); stopBtn.disabled=true; sync();
+  }
+  stopBtn.onclick=halt;
+
+  goBtn.onclick=function(){
+    var ids=chosen().map(function(d){ return d[0]; });
+    if (ids.length<2) return;
+    running=true; goBtn.disabled=true; stopBtn.disabled=false;
+    script.innerHTML='<div class="idle">Reading instruments…</div>';
+    call.innerHTML=''; costEl.textContent=''; noteEl.textContent='';
+
+    loadCache(ids).then(function(c){
+      var turns=LIMEN_ORB.meeting(ids,c);
+      if (!turns.length){
+        script.innerHTML='<div class="idle err">Could not convene — no strain data.</div>';
+        halt(); return;
+      }
+      script.innerHTML='';
+      // One tile per attendee: the chair speaks twice but only sits once.
+      var uniq=[],seen={};
+      turns.forEach(function(t){ if(!seen[t.id]){seen[t.id]=1;uniq.push(t);} });
+      tiles(uniq);
+      var unlinked=uniq.filter(function(a){
+        return !uniq.some(function(b){ return b.id!==a.id && LIMEN_ORB.edgeBetween(a.id,b.id); });
+      });
+      noteEl.textContent = unlinked.length
+        ? unlinked.length+' of '+uniq.length+' have no edge to anyone here'
+        : 'everyone here is connected to someone';
+
+      /* Strict queue. The next turn's audio is fetched while the current one speaks so the
+         room does not go silent between turns, but nothing plays early — which is what "no
+         interrupting" has to mean if it is to mean anything. */
+      var i=0, nextUrl=voiceFor(turns[0]);
+      (function step(){
+        if (!running || i>=turns.length){
+          if (running){
+            dark(); running=false; stopBtn.disabled=true; sync();
+            var ch=turns.reduce(function(a,t){ return a+t.spoken.length; },0);
+            spentChars+=ch;
+            costEl.textContent=turns.length+' turns, '+ch+' characters spoken · session USD '+
+              ((spentChars/1e6)*15).toFixed(3)+' (replays are cached and free)';
+          }
+          return;
+        }
+        var t=turns[i], urlP=nextUrl;
+        nextUrl=(i+1<turns.length)?voiceFor(turns[i+1]):Promise.resolve(null);
+        light(t.id); render(t);
+        urlP.then(function(url){
+          if (!running) return;
+          say(t,url).then(function(){ i++; setTimeout(step,400); });
+        });
+      })();
+    });
+  };
+
+  sync();
+})();
+</script>
+</body>
+</html>

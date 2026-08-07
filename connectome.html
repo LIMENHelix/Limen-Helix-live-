@@ -66,6 +66,86 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 <div class="headline"><b>20</b> domains · <b>123</b> brain nodes · <b>465,939</b> portals · <b>~880K</b> diagnoses · <b>~8.2M</b> treatments</div>
 <div id="entry-veil"></div>
 <script src="assets/js/limen-ui-state.js"></script>
+<script src="assets/js/orb-briefing.js"></script>
+<script>
+/* SECOND TOPBAR MENU: DOMAINS, beside the pages menu limen-topbar.js already renders.
+   The pages menu answers "where else can I go"; this one answers "take me to a domain",
+   which is the question this page is actually about.
+
+   Built here rather than in limen-topbar.js on purpose. That file is the single source of
+   truth for the bar on EVERY page, and a domains menu only belongs on the connectome. It
+   reuses the ltb-* classes so it is the same control, not a lookalike.
+
+   The names come from LIMEN_ORB, the same module the atlas orbs and the meeting room read,
+   so the roster cannot drift between surfaces. */
+(function () {
+  'use strict';
+  var B = window.LIMEN_ORB;
+  if (!B || !B.DOMAINS) return;                    // module absent: leave the bar alone
+
+  function build(bar) {
+    if (document.getElementById('ltb-domains')) return;
+    var dd = document.createElement('div');
+    dd.className = 'ltb-dropdown'; dd.id = 'ltb-domains';
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'ltb-dropdown-btn';
+    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-haspopup', 'true');
+    btn.innerHTML = 'Domains<span class="ltb-dropdown-caret">▾</span>';
+
+    var menu = document.createElement('div');
+    menu.className = 'ltb-menu'; menu.setAttribute('role', 'menu');
+    /* Tall list, so it scrolls rather than running off the bottom of the screen. The pages
+       menu is short enough not to need this; twenty entries are not. */
+    menu.style.maxHeight = 'min(70vh,620px)';
+    menu.style.overflowY = 'auto';
+
+    B.DOMAINS.slice().sort(function (a, b) { return a[1].localeCompare(b[1]); })
+      .forEach(function (d) {
+        var sp = (B.SPEAKERS && B.SPEAKERS[d[0]]) || {};
+        var a = document.createElement('a');
+        // Operator surface, so these go to the console rather than the public front.
+        a.href = '/domain-console?domain=' + encodeURIComponent(d[0]);
+        a.textContent = sp.name ? d[1] + ' · ' + sp.name : d[1];
+        a.setAttribute('role', 'menuitem');
+        menu.appendChild(a);
+      });
+
+    function open(on) {
+      menu.setAttribute('data-open', on ? 'true' : 'false');
+      btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      open(menu.getAttribute('data-open') !== 'true');
+      // Close the pages menu if it is open, so the two never overlap each other.
+      var other = bar.querySelector('.ltb-dropdown:not(#ltb-domains) .ltb-menu');
+      if (other) other.setAttribute('data-open', 'false');
+    });
+    document.addEventListener('click', function (e) { if (!dd.contains(e.target)) open(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+
+    dd.appendChild(btn); dd.appendChild(menu);
+
+    // Sit immediately after the pages menu. If that one is absent (it is operator-gated),
+    // fall back to the front of the bar rather than not appearing at all.
+    var pages = bar.querySelector('.ltb-dropdown');
+    if (pages && pages.nextSibling) bar.insertBefore(dd, pages.nextSibling);
+    else if (pages) bar.appendChild(dd);
+    else bar.insertBefore(dd, bar.firstChild ? bar.firstChild.nextSibling : null);
+  }
+
+  /* The bar mounts itself, sometimes on DOMContentLoaded, so poll briefly rather than
+     racing it. Gives up quietly instead of retrying forever. */
+  var tries = 0;
+  (function wait() {
+    var bar = document.getElementById('limen-topbar');
+    if (bar && bar.children.length) { build(bar); return; }
+    if (++tries > 40) return;
+    setTimeout(wait, 75);
+  })();
+})();
+</script>
 <script src="assets/js/civilization-connectome-galaxy.js?v=hs20260705b"></script>
 <script>
 (function () {
