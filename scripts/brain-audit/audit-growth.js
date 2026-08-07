@@ -36,9 +36,10 @@ REG.DOMAINS.forEach(function (d) {
   for (var i = 0; i < rows.length; i++) {
     var rd = binder.readRecorderRow(rows[i]) || {};
     if (Object.keys(rd).length) { LOOP.tick(loop, rd, rows[i].t); ticks++; }
-    if (MARKS.indexOf(i + 1) >= 0) sizes['r' + (i + 1)] = +(JSON.stringify(LOOP.serialize(loop)).length / 1024).toFixed(1);
+    if (MARKS.indexOf(i + 1) >= 0) sizes['r' + (i + 1)] = +(Buffer.byteLength(JSON.stringify(LOOP.serialize(loop)), 'utf8') / 1024).toFixed(1);
   }
-  sizes.full = +(JSON.stringify(LOOP.serialize(loop)).length / 1024).toFixed(1);
+  /* Buffer.byteLength, NOT String.length: code units are not bytes. */
+  sizes.full = +(Buffer.byteLength(JSON.stringify(LOOP.serialize(loop)), 'utf8') / 1024).toFixed(1);
   res.push({ product: d.product, rows: rows.length, ticks: ticks, sizes: sizes });
 });
 

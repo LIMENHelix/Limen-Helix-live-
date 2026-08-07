@@ -3,6 +3,7 @@
   "product": "economy",
   "snapshot": "economy",
   "aliased": false,
+  "installed": true,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -13,10 +14,8 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 15,
   "channelsUnread": [],
-  "unreadNames": [],
   "suChannels": 3,
   "distinctTotal": 3,
   "perChannel": [
@@ -25,110 +24,116 @@
     "name": "FRED CPI",
     "occ": 470,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "foodCpi",
     "name": "FRED Food CPI",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "gasPrice",
     "name": "FRED Gas Price",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "effr",
     "name": "NY Fed EFFR",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "sentiment",
     "name": "FRED Consumer Sentiment",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "payrolls",
     "name": "BLS Employment",
     "occ": 417,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "deficit",
     "name": "Treasury MTS",
     "occ": 468,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cashBalance",
     "name": "Treasury Cash Balance",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "debt",
     "name": "Treasury Debt Outstanding",
     "occ": 469,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "gdpGrowth",
     "name": "World Bank GDP Growth",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "wbInflation",
     "name": "World Bank Inflation",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFed",
     "name": "Fed Reg Fed Reserve",
     "occ": 421,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegTreas",
     "name": "Fed Reg Treasury",
     "occ": 413,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegIrs",
     "name": "Fed Reg IRS",
     "occ": 421,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedBias",
     "name": "Fed Monetary Press",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 3,
+  "analyzerMoving": 4,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 149.5,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 192.5,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -139,6 +144,7 @@
   "product": "energy",
   "snapshot": "energy",
   "aliased": false,
+  "installed": true,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -149,15 +155,10 @@
   "firstT": 1784247164011,
   "lastT": 1785546769274,
   "spanH": 361,
-  "ageH": 135.4,
   "channelsRead": 16,
   "channelsUnread": [
-   "eiaPetro",
-   "massiveOil"
-  ],
-  "unreadNames": [
-   "EIA Petroleum",
-   "Massive Crude Oil"
+   "eiaPetro (EIA Petroleum)",
+   "massiveOil (Massive Crude Oil)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -167,188 +168,201 @@
     "name": "FRED Crude Oil",
     "occ": 362,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "eiaPetro",
     "name": "EIA Petroleum",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "massiveOil",
     "name": "Massive Crude Oil",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nwsAlerts",
     "name": "NOAA NWS Alerts",
     "occ": 362,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaKev",
     "name": "CISA KEV",
     "occ": 362,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNrc",
     "name": "Fed Reg NRC",
     "occ": 315,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDoe",
     "name": "Fed Reg DOE",
     "occ": 311,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "gridRel",
     "name": "Grid Reliability (FERC/NERC)",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "natGas",
     "name": "EIA Natural Gas Weekly",
     "occ": 360,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "petroStatus",
     "name": "EIA Weekly Petroleum Status",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "opec",
     "name": "OPEC Reference Basket",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nuclear",
     "name": "Nuclear Energy News",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "electricity",
     "name": "EIA Electricity Monthly",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "lng",
     "name": "LNG Market News",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "iea",
     "name": "IEA Energy News",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "solar",
     "name": "Solar Industry News",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "wind",
     "name": "Wind Energy News",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "coal",
     "name": "Coal Transition News",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 7,
   "rels": [
    {
     "latent": "crude oil price level",
     "a": "fredCrude",
     "b": "eiaPetro",
-    "aDistinct": 0,
-    "bDistinct": 0,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 0,
+    "testable": false,
+    "blockedBy": "fredCrude + eiaPetro"
    },
    {
     "latent": "crude oil price level",
     "a": "fredCrude",
     "b": "massiveOil",
-    "aDistinct": 0,
-    "bDistinct": 0,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 0,
+    "testable": false,
+    "blockedBy": "fredCrude + massiveOil"
    },
    {
     "latent": "electric grid stress",
     "a": "gridRel",
     "b": "electricity",
-    "aDistinct": 0,
-    "bDistinct": 0,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 0,
+    "testable": false,
+    "blockedBy": "gridRel + electricity"
    },
    {
     "latent": "natural gas supply pressure",
     "a": "natGas",
     "b": "lng",
-    "aDistinct": 0,
-    "bDistinct": 0,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 0,
+    "testable": false,
+    "blockedBy": "natGas + lng"
    },
    {
     "latent": "renewable generation attention",
     "a": "solar",
     "b": "wind",
-    "aDistinct": 0,
-    "bDistinct": 0,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 0,
+    "testable": false,
+    "blockedBy": "solar + wind"
    },
    {
     "latent": "nuclear sector activity",
     "a": "nuclear",
     "b": "fedRegNrc",
-    "aDistinct": 0,
-    "bDistinct": 0,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 0,
+    "testable": false,
+    "blockedBy": "nuclear + fedRegNrc"
    },
    {
     "latent": "coal-to-renewable displacement",
     "a": "coal",
     "b": "solar",
-    "aDistinct": 0,
-    "bDistinct": 0,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 0,
+    "testable": false,
+    "blockedBy": "coal + solar"
    }
   ],
-  "relsEligible": 0,
-  "tickMs": 178.4,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 176.9,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -359,6 +373,7 @@
   "product": "environment",
   "snapshot": "environment",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -369,13 +384,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 9,
   "channelsUnread": [
-   "tempAnomaly"
-  ],
-  "unreadNames": [
-   "NOAA Climate"
+   "tempAnomaly (NOAA Climate)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -385,75 +396,81 @@
     "name": "NOAA Climate",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nwsAlerts",
     "name": "NOAA Alerts",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "earthquakes",
     "name": "USGS Earthquakes",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "epaNews",
     "name": "EPA News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "usgsNews",
     "name": "USGS News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "forestWatch",
     "name": "Global Forest Watch",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "iucn",
     "name": "IUCN Red List",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "climateNews",
     "name": "Inside Climate News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegEpa",
     "name": "Fed Reg EPA",
     "occ": 436,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDoi",
     "name": "Fed Reg Interior",
     "occ": 302,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 2,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 82.8,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 68.1,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -464,6 +481,7 @@
   "product": "medicine",
   "snapshot": "health",
   "aliased": true,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -474,15 +492,10 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 13,
   "channelsUnread": [
-   "cdcMmwr",
-   "retractions"
-  ],
-  "unreadNames": [
-   "CDC MMWR",
-   "Retraction Watch"
+   "cdcMmwr (CDC MMWR)",
+   "retractions (Retraction Watch)"
   ],
   "suChannels": 2,
   "distinctTotal": 3,
@@ -492,110 +505,116 @@
     "name": "openFDA Events",
     "occ": 466,
     "withSu": 10,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "drugRecalls",
     "name": "openFDA Recalls",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "drugShortages",
     "name": "FDA Drug Shortages",
     "occ": 470,
     "withSu": 10,
-    "distinct": 2
+    "distinctSourceKeys": 2
    },
    {
     "key": "fdaRecallFeed",
     "name": "FDA Recalls",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cdcMmwr",
     "name": "CDC MMWR",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "whoOutbreak",
     "name": "WHO Disease Outbreak",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "clinicalTrials",
     "name": "ClinicalTrials.gov",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nihGrants",
     "name": "NIH Grants",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "retractions",
     "name": "Retraction Watch",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "pubmed",
     "name": "PubMed",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegHhs",
     "name": "Fed Reg HHS",
     "occ": 295,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegCdc",
     "name": "Fed Reg CDC",
     "occ": 277,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegCms",
     "name": "Fed Reg CMS",
     "occ": 264,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNih",
     "name": "Fed Reg NIH",
     "occ": 235,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFda",
     "name": "Fed Reg FDA",
     "occ": 429,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 2,
+  "analyzerMoving": 5,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 89.2,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 70.9,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -606,6 +625,7 @@
   "product": "technology",
   "snapshot": "technology",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -616,17 +636,11 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 7,
   "channelsUnread": [
-   "patents",
-   "krebs",
-   "githubAdv"
-  ],
-  "unreadNames": [
-   "USPTO Patents",
-   "Krebs Security",
-   "GitHub Security Advisories"
+   "patents (USPTO Patents)",
+   "krebs (Krebs Security)",
+   "githubAdv (GitHub Security Advisories)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -636,75 +650,81 @@
     "name": "CISA KEV",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nvdCves",
     "name": "NVD Recent CVEs",
     "occ": 466,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "patents",
     "name": "USPTO Patents",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "arxivCs",
     "name": "arXiv CS",
     "occ": 438,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "hackerNews",
     "name": "Hacker News",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "krebs",
     "name": "Krebs Security",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "githubAdv",
     "name": "GitHub Security Advisories",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFcc",
     "name": "Fed Reg FCC",
     "occ": 170,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNist",
     "name": "Fed Reg NIST",
     "occ": 189,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFtc",
     "name": "Fed Reg FTC",
     "occ": 162,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 5,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 93.7,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 103.2,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -715,6 +735,7 @@
   "product": "science",
   "snapshot": "research",
   "aliased": true,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -725,13 +746,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 14,
   "channelsUnread": [
-   "retractions"
-  ],
-  "unreadNames": [
-   "Retraction Watch"
+   "retractions (Retraction Watch)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -741,110 +758,116 @@
     "name": "World Bank R&D",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "pubmed",
     "name": "PubMed",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "arxivAll",
     "name": "arXiv All",
     "occ": 441,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "arxivCs",
     "name": "arXiv CS",
     "occ": 438,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "openAlex",
     "name": "OpenAlex Institutions",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nsfAwards",
     "name": "NSF Awards",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "retractions",
     "name": "Retraction Watch",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nihGrants",
     "name": "NIH Grants",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "naturePress",
     "name": "Nature / Science Press",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegPto",
     "name": "Fed Reg PTO",
     "occ": 96,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNsf",
     "name": "Fed Reg NSF",
     "occ": 233,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegEdu",
     "name": "Fed Reg Education",
     "occ": 227,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNasa",
     "name": "Fed Reg NASA",
     "occ": 217,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegSi",
     "name": "Fed Reg Smithsonian",
     "occ": 216,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDoe",
     "name": "Fed Reg DOE",
     "occ": 399,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 8,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 78.2,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 120.2,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -855,6 +878,7 @@
   "product": "trade",
   "snapshot": "supplyChain",
   "aliased": true,
+  "installed": true,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -865,10 +889,8 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 13,
   "channelsUnread": [],
-  "unreadNames": [],
   "suChannels": 2,
   "distinctTotal": 2,
   "perChannel": [
@@ -877,96 +899,102 @@
     "name": "BLS Freight PPI",
     "occ": 421,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "logisticsIndex",
     "name": "World Bank Logistics Index",
     "occ": 469,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "nwsAlerts",
     "name": "NOAA NWS Alerts",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "earthquakes",
     "name": "USGS Earthquakes",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaKev",
     "name": "CISA KEV",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "supplyNews",
     "name": "RSS Supply Chain",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ofac",
     "name": "OFAC Recent Actions",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegCbp",
     "name": "Fed Reg CBP",
     "occ": 383,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegUscg",
     "name": "Fed Reg Coast Guard",
     "occ": 376,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFaa",
     "name": "Fed Reg FAA",
     "occ": 374,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNhtsa",
     "name": "Fed Reg NHTSA",
     "occ": 361,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFmcsa",
     "name": "Fed Reg FMCSA",
     "occ": 360,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegUstr",
     "name": "Fed Reg USTR",
     "occ": 356,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 2,
+  "analyzerMoving": 9,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 114.3,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 134.9,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -977,6 +1005,7 @@
   "product": "governance",
   "snapshot": "governance",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -987,21 +1016,13 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 7,
   "channelsUnread": [
-   "corruption",
-   "govEffect",
-   "ruleOfLaw",
-   "gao",
-   "cbo"
-  ],
-  "unreadNames": [
-   "World Bank Governance",
-   "World Bank Gov Effectiveness",
-   "World Bank Rule of Law",
-   "GAO Reports",
-   "CBO Publications"
+   "corruption (World Bank Governance)",
+   "govEffect (World Bank Gov Effectiveness)",
+   "ruleOfLaw (World Bank Rule of Law)",
+   "gao (GAO Reports)",
+   "cbo (CBO Publications)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -1011,89 +1032,95 @@
     "name": "World Bank Governance",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "govEffect",
     "name": "World Bank Gov Effectiveness",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ruleOfLaw",
     "name": "World Bank Rule of Law",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaKev",
     "name": "CISA KEV",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "govTrack",
     "name": "GovTrack",
     "occ": 1,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "congress",
     "name": "Congress.gov",
     "occ": 3,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "gao",
     "name": "GAO Reports",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cbo",
     "name": "CBO Publications",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "omb",
     "name": "OMB Releases",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "brennan",
     "name": "Brennan Center",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "pogo",
     "name": "POGO",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegEop",
     "name": "Fed Reg EOP",
     "occ": 316,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 6,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 55.3,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 70.7,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -1104,6 +1131,7 @@
   "product": "infrastructure",
   "snapshot": "infrastructure",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -1114,13 +1142,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 17,
   "channelsUnread": [
-   "cisaAdvisories"
-  ],
-  "unreadNames": [
-   "CISA Advisories"
+   "cisaAdvisories (CISA Advisories)"
   ],
   "suChannels": 1,
   "distinctTotal": 1,
@@ -1130,131 +1154,137 @@
     "name": "FRED Construction Spending",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "transportIndex",
     "name": "FRED Transportation Index",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedInvestment",
     "name": "FRED Federal Investment",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "logisticsIndex",
     "name": "World Bank Logistics Index",
     "occ": 469,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "railKm",
     "name": "World Bank Infrastructure",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nwsAlerts",
     "name": "NOAA NWS Alerts",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "earthquakes",
     "name": "USGS Earthquakes",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaKev",
     "name": "CISA KEV",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "phmsa",
     "name": "PHMSA Incidents",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaAdvisories",
     "name": "CISA Advisories",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "uawStrikes",
     "name": "UAW Strike Tracker",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegOsha",
     "name": "Fed Reg OSHA",
     "occ": 432,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDol",
     "name": "Fed Reg DOL",
     "occ": 421,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFerc",
     "name": "Fed Reg FERC",
     "occ": 420,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDhs",
     "name": "Fed Reg DHS",
     "occ": 413,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDot",
     "name": "Fed Reg DOT",
     "occ": 418,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegHud",
     "name": "Fed Reg HUD",
     "occ": 412,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegUsace",
     "name": "Fed Reg Army Corps",
     "occ": 405,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 1,
+  "analyzerMoving": 10,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 169.6,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 205.4,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -1265,6 +1295,7 @@
   "product": "agriculture",
   "snapshot": "agriculture",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -1275,15 +1306,10 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 11,
   "channelsUnread": [
-   "cornYield",
-   "wheatIndex"
-  ],
-  "unreadNames": [
-   "USDA NASS",
-   "FAO FAOSTAT"
+   "cornYield (USDA NASS)",
+   "wheatIndex (FAO FAOSTAT)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -1293,96 +1319,102 @@
     "name": "USDA Drought Monitor",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cornYield",
     "name": "USDA NASS",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "wheatIndex",
     "name": "FAO FAOSTAT",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "foodIndex",
     "name": "World Bank Food Index",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "agAlerts",
     "name": "NOAA NWS Ag Alerts",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cpcOutlook",
     "name": "NOAA CPC Drought",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fdaRecalls",
     "name": "FDA Recalls",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "agNews",
     "name": "RSS Agriculture",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegUsda",
     "name": "Fed Reg USDA",
     "occ": 430,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFda",
     "name": "Fed Reg FDA",
     "occ": 429,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegEpa",
     "name": "Fed Reg EPA",
     "occ": 436,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegAphis",
     "name": "Fed Reg APHIS",
     "occ": 421,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFsis",
     "name": "Fed Reg FSIS",
     "occ": 427,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 5,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 85.2,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 169.4,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -1393,6 +1425,7 @@
   "product": "industry",
   "snapshot": "industry",
   "aliased": false,
+  "installed": true,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -1403,13 +1436,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 10,
   "channelsUnread": [
-   "mfgValueAdd"
-  ],
-  "unreadNames": [
-   "World Bank Manufacturing"
+   "mfgValueAdd (World Bank Manufacturing)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -1419,82 +1448,88 @@
     "name": "BLS Manufacturing PPI",
     "occ": 425,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "mfgValueAdd",
     "name": "World Bank Manufacturing",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nhtsaRecalls",
     "name": "NHTSA Recalls",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cpscRecalls",
     "name": "CPSC Recalls",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "phmsa",
     "name": "PHMSA Incidents",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "csb",
     "name": "CSB Investigations",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "uawStrikes",
     "name": "UAW Strike Tracker",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegOsha",
     "name": "Fed Reg OSHA",
     "occ": 432,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegMsha",
     "name": "Fed Reg MSHA",
     "occ": 426,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegBis",
     "name": "Fed Reg BIS",
     "occ": 436,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDol",
     "name": "Fed Reg DOL",
     "occ": 421,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 5,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 50.2,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 43.6,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -1505,6 +1540,7 @@
   "product": "education",
   "snapshot": "education",
   "aliased": false,
+  "installed": true,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -1515,10 +1551,8 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 10,
   "channelsUnread": [],
-  "unreadNames": [],
   "suChannels": 1,
   "distinctTotal": 1,
   "perChannel": [
@@ -1527,75 +1561,81 @@
     "name": "World Bank Education",
     "occ": 469,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "tertiaryEnrol",
     "name": "World Bank Tertiary",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "openAlex",
     "name": "OpenAlex Institutions",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "edGovNews",
     "name": "ED.gov News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ncesNews",
     "name": "NCES News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "edWeek",
     "name": "EdWeek News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "iesNews",
     "name": "IES News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "chronicle",
     "name": "Chronicle of Higher Ed",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegEdu",
     "name": "Fed Reg Education",
     "occ": 227,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNsf",
     "name": "Fed Reg NSF",
     "occ": 233,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 1,
+  "analyzerMoving": 2,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 45.5,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 46.2,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -1606,6 +1646,7 @@
   "product": "communication",
   "snapshot": "communication",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -1616,21 +1657,13 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 6,
   "channelsUnread": [
-   "cpj",
-   "snopes",
-   "poynter",
-   "niemanLab",
-   "cisaAdvisories"
-  ],
-  "unreadNames": [
-   "CPJ Press Freedom",
-   "Snopes Fact Checks",
-   "Poynter Media News",
-   "Nieman Lab",
-   "CISA Advisories"
+   "cpj (CPJ Press Freedom)",
+   "snopes (Snopes Fact Checks)",
+   "poynter (Poynter Media News)",
+   "niemanLab (Nieman Lab)",
+   "cisaAdvisories (CISA Advisories)"
   ],
   "suChannels": 1,
   "distinctTotal": 1,
@@ -1640,82 +1673,88 @@
     "name": "World Bank Internet Users",
     "occ": 469,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "bbcItems",
     "name": "BBC World News",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "rssMedia",
     "name": "RSS Media",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "rsf",
     "name": "Reporters Without Borders",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cpj",
     "name": "CPJ Press Freedom",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "snopes",
     "name": "Snopes Fact Checks",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "poynter",
     "name": "Poynter Media News",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "niemanLab",
     "name": "Nieman Lab",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaAdvisories",
     "name": "CISA Advisories",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFcc",
     "name": "Fed Reg FCC",
     "occ": 170,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFtc",
     "name": "Fed Reg FTC",
     "occ": 162,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 1,
+  "analyzerMoving": 3,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 35,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 45.2,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -1726,6 +1765,7 @@
   "product": "culture",
   "snapshot": "culture",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -1736,13 +1776,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 15,
   "channelsUnread": [
-   "eventRegistry"
-  ],
-  "unreadNames": [
-   "Event Registry"
+   "eventRegistry (Event Registry)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -1752,117 +1788,123 @@
     "name": "Event Registry",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "rssCulture",
     "name": "RSS Culture",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nea",
     "name": "NEA News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "neh",
     "name": "NEH News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "unesco",
     "name": "UNESCO Culture",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "penAmerica",
     "name": "PEN America",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "artNewspaper",
     "name": "Art Newspaper",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "variety",
     "name": "Variety Entertainment",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "hypebeast",
     "name": "Hypebeast Trends",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "pitchfork",
     "name": "Pitchfork Music",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "spotifyCharts",
     "name": "Spotify Streaming Charts",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "billboard",
     "name": "Billboard Charts",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "genius",
     "name": "Genius Commentary",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "songkick",
     "name": "Songkick Tours",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "soundcloud",
     "name": "SoundCloud Emerging",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "musicScene",
     "name": "Music Scene Discourse",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 2,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 0.1,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 0.2,
   "ticks": 0,
   "abstained": 120,
   "rowsInFirstCycle": 120,
@@ -1873,6 +1915,7 @@
   "product": "defense",
   "snapshot": "defense",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -1883,19 +1926,12 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 11,
   "channelsUnread": [
-   "defenseNews",
-   "breakingDefense",
-   "xinhua",
-   "cisaAdvisories"
-  ],
-  "unreadNames": [
-   "Defense News",
-   "Breaking Defense",
-   "Xinhua (China)",
-   "CISA Advisories"
+   "defenseNews (Defense News)",
+   "breakingDefense (Breaking Defense)",
+   "xinhua (Xinhua (China))",
+   "cisaAdvisories (CISA Advisories)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -1905,110 +1941,116 @@
     "name": "NOAA NWS Alerts",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "earthquakes",
     "name": "USGS Earthquakes",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaKev",
     "name": "CISA KEV",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ofac",
     "name": "OFAC Recent Actions",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "defenseNews",
     "name": "Defense News",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "breakingDefense",
     "name": "Breaking Defense",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "isw",
     "name": "ISW Daily Updates",
     "occ": 96,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nato",
     "name": "NATO News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "sipri",
     "name": "SIPRI Arms Trade",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "tass",
     "name": "TASS (Russia)",
     "occ": 7,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "xinhua",
     "name": "Xinhua (China)",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaAdvisories",
     "name": "CISA Advisories",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDod",
     "name": "Fed Reg DoD",
     "occ": 380,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegState",
     "name": "Fed Reg State",
     "occ": 375,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDhs",
     "name": "Fed Reg DHS",
     "occ": 413,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 6,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 52.3,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 69.5,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -2019,6 +2061,7 @@
   "product": "religion",
   "snapshot": "religion",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -2029,10 +2072,8 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 15,
   "channelsUnread": [],
-  "unreadNames": [],
   "suChannels": 0,
   "distinctTotal": 0,
   "perChannel": [
@@ -2041,110 +2082,116 @@
     "name": "Vatican News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "uscirf",
     "name": "USCIRF",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "pew",
     "name": "Pew Religion",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "religionEvents",
     "name": "RSS Religion Events",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "religionNews",
     "name": "RSS Religion News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "alJazeera",
     "name": "Al Jazeera Religion",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "rns",
     "name": "Religion News Service",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "timesOfIsrael",
     "name": "Times of Israel Religion",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "hindustanTimes",
     "name": "Hindustan Times Religion",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "christianityToday",
     "name": "Christianity Today",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "buddhistDoor",
     "name": "BuddhistDoor Global",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "sikhNet",
     "name": "SikhNet News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "orthodox",
     "name": "Orthodox Christianity",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "jta",
     "name": "JTA Jewish News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "esoteric",
     "name": "Esoteric Spirituality",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 1,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 0.1,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 0.1,
   "ticks": 0,
   "abstained": 120,
   "rowsInFirstCycle": 120,
@@ -2155,6 +2202,7 @@
   "product": "population",
   "snapshot": "population",
   "aliased": false,
+  "installed": true,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -2165,13 +2213,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 14,
   "channelsUnread": [
-   "unPopulation"
-  ],
-  "unreadNames": [
-   "UN Population"
+   "unPopulation (UN Population)"
   ],
   "suChannels": 1,
   "distinctTotal": 1,
@@ -2181,110 +2225,116 @@
     "name": "World Bank Population",
     "occ": 470,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "fertilityRate",
     "name": "World Bank Fertility",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "unPopulation",
     "name": "UN Population",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "unfpa",
     "name": "UNFPA",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cdcNchs",
     "name": "CDC NCHS",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "whoGho",
     "name": "WHO GHO",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "unhcr",
     "name": "UNHCR Displacement",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "iom",
     "name": "IOM Migration",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ihme",
     "name": "IHME Population Health",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "guttmacher",
     "name": "Guttmacher Institute",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "censusBureau",
     "name": "Census Bureau",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "owid",
     "name": "Our World in Data Pop",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "populationMatters",
     "name": "Population Matters",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegCensus",
     "name": "Fed Reg Census",
     "occ": 142,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegSsa",
     "name": "Fed Reg SSA",
     "occ": 140,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 1,
+  "analyzerMoving": 3,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 23.3,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 33,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -2295,6 +2345,7 @@
   "product": "law",
   "snapshot": "law",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -2305,17 +2356,11 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 12,
   "channelsUnread": [
-   "regulationsGov",
-   "secEnforcement",
-   "scotusOpinions"
-  ],
-  "unreadNames": [
-   "Regulations.gov",
-   "SEC Enforcement Actions",
-   "Supreme Court Opinions"
+   "regulationsGov (Regulations.gov)",
+   "secEnforcement (SEC Enforcement Actions)",
+   "scotusOpinions (Supreme Court Opinions)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -2325,110 +2370,116 @@
     "name": "CISA KEV",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegRules",
     "name": "Federal Register",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "regulationsGov",
     "name": "Regulations.gov",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ofac",
     "name": "OFAC Recent Actions",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "courtListener",
     "name": "CourtListener",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "pacerDockets",
     "name": "PACER Docket Activity",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "dojPress",
     "name": "DOJ Press Releases",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "secEnforcement",
     "name": "SEC Enforcement Actions",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cfpbEnforcement",
     "name": "CFPB Enforcement",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "federalCaseload",
     "name": "U.S. Courts Federal Caseload",
     "occ": 1,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "afcars",
     "name": "HHS AFCARS Family Court",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "scotusOpinions",
     "name": "Supreme Court Opinions",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDoj",
     "name": "Fed Reg DOJ",
     "occ": 133,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegDea",
     "name": "Fed Reg DEA",
     "occ": 138,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegBop",
     "name": "Fed Reg BOP",
     "occ": 112,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 5,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 30.8,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 36.7,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -2439,6 +2490,7 @@
   "product": "finance",
   "snapshot": "finance",
   "aliased": false,
+  "installed": true,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -2449,13 +2501,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 12,
   "channelsUnread": [
-   "massiveSpy"
-  ],
-  "unreadNames": [
-   "Massive SPY"
+   "massiveSpy (Massive SPY)"
   ],
   "suChannels": 3,
   "distinctTotal": 3,
@@ -2465,121 +2513,130 @@
     "name": "Massive SPY",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "finnhub",
     "name": "Finnhub Market",
     "occ": 469,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "alphaVantage",
     "name": "Alpha Vantage Market",
     "occ": 469,
     "withSu": 10,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "sofr",
     "name": "NY Fed SOFR",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "yieldCurve",
     "name": "Treasury Yield Curve",
     "occ": 466,
     "withSu": 11,
-    "distinct": 1
+    "distinctSourceKeys": 1
    },
    {
     "key": "treasuryDebt",
     "name": "Treasury Debt",
     "occ": 469,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "secEdgar",
     "name": "SEC EDGAR Filings",
     "occ": 465,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedH41",
     "name": "Fed H.4.1 Balance Sheet",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "finra",
     "name": "FINRA Disciplinary",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fdic",
     "name": "FDIC Bank Failures",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "occ",
     "name": "OCC Enforcement",
     "occ": 434,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cftc",
     "name": "CFTC Press",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ncua",
     "name": "NCUA Credit Unions",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 3,
+  "analyzerMoving": 7,
   "rels": [
    {
     "latent": "SPY price level",
     "a": "massiveSpy",
     "b": "finnhub",
-    "aDistinct": 0,
-    "bDistinct": 1,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 1,
+    "testable": false,
+    "blockedBy": "massiveSpy + finnhub"
    },
    {
     "latent": "SPY price level",
     "a": "massiveSpy",
     "b": "alphaVantage",
-    "aDistinct": 0,
-    "bDistinct": 1,
-    "eligible": false
+    "aKeys": 0,
+    "bKeys": 1,
+    "testable": false,
+    "blockedBy": "massiveSpy + alphaVantage"
    },
    {
     "latent": "SPY price level",
     "a": "finnhub",
     "b": "alphaVantage",
-    "aDistinct": 1,
-    "bDistinct": 1,
-    "eligible": false
+    "aKeys": 1,
+    "bKeys": 1,
+    "testable": false,
+    "blockedBy": "finnhub + alphaVantage"
    }
   ],
-  "relsEligible": 0,
-  "tickMs": 66.8,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 91.7,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,
@@ -2590,6 +2647,7 @@
   "product": "intelligence",
   "snapshot": "intelligence",
   "aliased": false,
+  "installed": false,
   "state": "bound",
   "binderOk": true,
   "loadError": null,
@@ -2600,13 +2658,9 @@
   "firstT": 1784247164011,
   "lastT": 1785935534287,
   "spanH": 469,
-  "ageH": 27.4,
   "channelsRead": 14,
   "channelsUnread": [
-   "cisaAdvisories"
-  ],
-  "unreadNames": [
-   "CISA Advisories"
+   "cisaAdvisories (CISA Advisories)"
   ],
   "suChannels": 0,
   "distinctTotal": 0,
@@ -2616,110 +2670,116 @@
     "name": "CISA KEV",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "ofac",
     "name": "OFAC Recent Actions",
     "occ": 470,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cisaAdvisories",
     "name": "CISA Advisories",
     "occ": 0,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "nsaAdvisories",
     "name": "NSA Cybersecurity Advisories",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fbiCyber",
     "name": "FBI Cyber Division",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "dniThreat",
     "name": "DNI Annual Threat",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "rssIntel",
     "name": "RSS Intel Signals",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "cyberScoop",
     "name": "CyberScoop News",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "theRecord",
     "name": "The Record",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "lawfare",
     "name": "Lawfare NatSec",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "bellingcat",
     "name": "Bellingcat OSINT",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "intercept",
     "name": "The Intercept NatSec",
     "occ": 97,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegFbi",
     "name": "Fed Reg FBI",
     "occ": 347,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegCia",
     "name": "Fed Reg CIA",
     "occ": 355,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    },
    {
     "key": "fedRegNsa",
     "name": "Fed Reg NSA",
     "occ": 335,
     "withSu": 0,
-    "distinct": 0
+    "distinctSourceKeys": 0
    }
   ],
+  "analyzerUsableChannels": 0,
+  "analyzerIdentified": 0,
+  "analyzerMoving": 4,
   "rels": [],
-  "relsEligible": 0,
-  "tickMs": 41.2,
+  "relsTestable": 0,
+  "manifestLoaded": true,
+  "manifestWhy": null,
+  "supportsIndependentObservations": false,
+  "tickLoopMs": 43.4,
   "ticks": 120,
   "abstained": 0,
   "rowsInFirstCycle": 120,

@@ -1,7 +1,7 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-06T17:30Z
-measured_at_commit: 2ead52f213ff4e7df81e0f2995f0e4111c2cfa9c
+measured_at: 2026-08-07T20:55Z
+measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
   authority. Nothing here authorises anything. Where a fact is mutable, re-verify it
@@ -211,10 +211,53 @@ Offline, first cold cycle of 120 rows, through the real write path:
 | economy | 649,007 | | education | 436,741 |
 | population | 572,415 | | **7 installed** | **4,509,591 (4.30 MB of value)** |
 
-**NOT VERIFIED IN PRODUCTION.** Nothing here has run against real Redis. The numbers above
-come from offline replay of the PR #4 fixtures through an in-memory transport. Production
-truth arrives at the first two `:27` cycles after merge, and until then this section
-describes what the code does, not what the system did.
+### VERIFIED IN PRODUCTION 2026-08-07, and the outage in the middle of it
+
+Measured by authenticated reads of `/api/brain-shadow`, not inferred.
+
+**Cycle at 16:27:32Z, first post-merge.** All seven `ok:true`. `installedCount:7`,
+`totalDomains:20`. Aliases resolved: `trade` reported runtime domain `supplyChain`. The five
+new domains cold as expected (`restored:false`, `cursorBefore:null`), each applying 120 rows
+at the cap, cursor to `2026-07-22T20:12:33.982Z`. Energy and finance `restored:true`.
+`stateValueBytes` measured for 7 of 7, total **11,121,483**.
+
+**THEN THE RUNTIME WENT OFF THE AIR FOR THREE AND A HALF HOURS, and no brain file changed.**
+An unrelated feature merge at 16:26:55Z deployed at 16:30:19Z having lost two lines in a
+merge resolution: the `brain-shadow` entry in `api/[...route].js`, and the
+`/api/brain-shadow?run=1` cron in `vercel.json`, whose array slot was taken by another cron.
+`/api/brain-shadow` answered 404. **The cycles at 17:27, 18:27 and 19:27 did not run.**
+Every test passed and every deploy was green throughout, because nothing asserted that the
+brain was reachable. Restored at 19:50:21Z. See NEXT PROGRAM STEP 5.
+
+**Cycle at 20:27:15Z, first post-restoration.** All seven `ok:true` and **`restored:true`**,
+including the five installed by this batch, whose first cycle was cold. Every domain's
+`cursorBefore` equalled its OWN `cursorAfter` from 16:27, proved from each domain's
+`?history=` record:
+
+| domain | 16:27 cursorAfter | 20:27 cursorBefore | applied | stateValueBytes |
+|---|---|---|---:|---:|
+| energy | 2026-08-07T16:12:15.703Z | 2026-08-07T16:12:15.703Z | 4 | 3,911,335 |
+| finance | 2026-08-07T16:12:15.703Z | 2026-08-07T16:12:15.703Z | 4 | 4,376,143 |
+| education | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 916,504 |
+| economy | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,300,158 |
+| trade | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,525,786 |
+| industry | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,004,203 |
+| population | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,237,775 |
+
+No replay: every applied row was newer than the stored cursor, and the total rose to
+**14,271,904** across 7 measured domains. State survived a four-hour gap and a
+deployment, which is stronger restoration evidence than two adjacent cycles.
+
+**STILL OUTSTANDING: two CONSECUTIVE post-restoration cycles.** 16:27 and 20:27 are two
+post-deployment cycles separated by the outage, not consecutive ones. Only one cycle has run
+since the restore. The claim is not yet supported and is not made here.
+
+**PRODUCTION CONTRADICTS THE OFFLINE PROJECTION.** The five new domains matched offline
+replay within 0.1%, validating the method for a cold start. The two canaries did not:
+energy 4.19x and finance 6.43x the offline figure, because production has run for days and
+is past the end of the measured curve. Finance at 4,376,143 already exceeds the 3.66 MB
+largest value ever measured offline. **The offline 20-domain projection is therefore a
+floor, not a worst case.**
 
 ### The six fields this file requires of every brain PR
 
@@ -223,6 +266,7 @@ describes what the code does, not what the system did.
 - **domains promoted**: education, economy, trade, industry, population. 2 installed to 7.
 - **remaining domains**: 13 outside the runtime.
 - **current gate**: hot state growth (NEXT PROGRAM STEP 3). Hard gate before batch 2.
+  Production measurement makes it tighter than the offline projection said, not looser.
 - **known unknowns**: (a) no production cycle has run with 7 domains, so the sequential
   batch wall-clock and the real Redis round-trip cost are both unmeasured; (b) production
   `stateValueBytes` for the 5 new domains is unknown until the first cycle, and the offline
@@ -231,9 +275,9 @@ describes what the code does, not what the system did.
   billing figure exists for this system, only value lengths; (d) the Upstash request-size
   ceiling for this plan has not been retrieved, and since the value length is not the wire
   length, headroom above the 3.66 MB largest value is doubly unestablished.
-- **exact next action**: merge, then read `/api/brain-shadow` after the first two `:27`
-  cycles and record the production `stateValueBytes` per domain in this file. Not the next
-  batch: the gate above comes first.
+- **exact next action**: record TWO CONSECUTIVE post-restoration `:27` cycles. Only one
+  has run since the 19:50:21Z restore (20:27:15Z). Two cycles separated by the outage is
+  not the same claim and is not made. Not the next batch: the gate above comes first.
 
 ---
 
@@ -380,7 +424,36 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    prediction registry, which every existing measurement depends on. Bundling it with a
    membership change would make a regression in either one impossible to attribute.
 
-4. **Separate bounded cleanup, not urgent, do not fold into a batch PR.**
+5. **REACHABILITY IS NOW A TESTED INVARIANT.** `brain-v2/test/deployment-invariants.js`
+   fails CI if `api/[...route].js` loses the `brain-shadow` registration, if
+   `vercel.json` loses the `:27` cron, if anything else claims that schedule, or if any
+   cron targets a route that is not registered. Verified by reproducing the 2026-08-07
+   damage exactly: 4 of its 9 assertions fail on it, and it passes clean otherwise.
+
+   The lesson is not "someone was careless". It is that **an installed, correct,
+   unreachable brain is indistinguishable from a working one** from inside the repository.
+   Every brain file was right on main for the whole outage, every test passed, every deploy
+   was green. The only surface that would have said otherwise was the one that had stopped
+   answering. That is why the invariant asserts the declaration rather than the behaviour:
+   it fails on the pull request that causes it, not hours later in production.
+
+6. **THE AUDIT NUMBERS WERE CORRECTED. Do not cite the pre-correction ones.** Four defects
+   in `scripts/brain-audit`, all found in review, all now fixed:
+   - source-identity coverage was reported as relationship eligibility. The real rule, in
+     `scripts/build-brain-fixture.mjs`, also requires each side to be MOVING. The audit now
+     imports `analyze` / `loadManifest` / `testableRelationships` / `MIN_OBSERVATIONS` from
+     that analyzer instead of re-deriving them, and prints coverage and eligibility apart.
+   - `String.length` was labelled bytes. Now `Buffer.byteLength(value, 'utf8')`. Effect:
+     about 0.4% larger totals. Real, and no conclusion moved.
+   - the installed set was hardcoded to two domains. Now `REG.INSTALLED_DOMAINS`.
+   - kernel-loop timing was called cycle cost. Now `tickLoopMs`, which excludes the state
+     read, `LOOP.serialize`, the stringify, and all six Redis round trips.
+
+   Re-measured after correction: **10 declared relationships, 0 analyzer-testable, 0 of 20
+   domains supporting independent observations.** Unchanged conclusion, now on the real
+   rule. Serialized value all 20: 11.53 MB at 120 ticks, 50.09 MB at full replay.
+
+7. **Separate bounded cleanup, not urgent, do not fold into a batch PR.**
    `brain-v2/bind/agriculture.js:2` still reads "No fixture exists; MANIFEST-ONLY". PR #4
    gave it a fixture and the registry reports it BOUND, so the header contradicts the code
    below it. Documentation only, no behaviour, and it should not ride along with a change
