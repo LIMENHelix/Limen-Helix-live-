@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-08T00:05Z
+measured_at: 2026-08-08T01:10Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -498,10 +498,15 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 5. **REACHABILITY IS NOW A TESTED INVARIANT.** `brain-v2/test/deployment-invariants.js`
    fails CI if `api/[...route].js` loses the `brain-shadow` registration, if
    `vercel.json` loses the `:27` cron, if anything else claims that schedule, or if any
-   cron targets a route that is not registered. Verified by reproducing the 2026-08-07
-   damage exactly: **5 of its 14 assertions fail** on it, and it passes **14/14** clean.
-   (The 9-assertion, 4-failure figures described the FIRST version of this test, which
-   matched raw text and is superseded; see the version history in the test file.)
+   cron targets a route that is not registered. It also refuses a duplicate registration
+   and a dedicated `api/brain-shadow.<ext>` file that would shadow the catch-all.
+
+   **Measured at head `5216ddda`, against the 21-assertion version of that test:** clean
+   **21/21**; reproducing the 2026-08-07 damage exactly (registration removed, cron
+   substituted at the same schedule, cron count unchanged) gives **17/21, 4 failed**.
+   Both figures are properties of that head and that assertion count, not of the test in
+   general: earlier revisions ran 9 and then 14 assertions and produced different counts,
+   so any count quoted without its revision is meaningless.
 
    The lesson is not "someone was careless". It is that **an installed, correct,
    unreachable brain is indistinguishable from a working one** from inside the repository.
