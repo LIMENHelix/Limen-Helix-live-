@@ -294,6 +294,10 @@ var firstReport, secondReport, firstState;
     path.join('brain-v2', 'test', 'shadow-runtime.js'),
     path.join('brain-v2', 'test', 'compaction.js'),
     path.join('scripts', 'brain-audit', 'replay-compaction.js'),
+    /* An operator-run smoke, not a consumer: it writes and reads one throwaway `zzsmoke`
+       sequence to check that real Upstash SET NX behaves as the archive assumes. It reads no
+       installed domain's state and nothing reads it. */
+    path.join('scripts', 'brain-audit', 'redis-archive-smoke.js'),
     '.vercelignore'
   ];
   var SKIP_DIRS = ['node_modules', '.git', 'brain-v2/fixtures', 'brain-v2/state'];
@@ -687,9 +691,9 @@ var firstReport, secondReport, firstState;
     require.cache[realRedisPath] = savedFake;
     assert('`command` is not exported', EXPORTED.command === undefined,
       'exporting it would let a caller bypass the typed operations and the key boundary');
-    assert('and the export surface is exactly the five typed ops plus two helpers',
+    assert('and the export surface is exactly the six typed ops plus two helpers',
       JSON.stringify(Object.keys(EXPORTED).sort()) ===
-        JSON.stringify(['NAMESPACE_PREFIX', 'assertConfigured', 'get', 'lpush', 'lrange', 'ltrim', 'set']),
+        JSON.stringify(['NAMESPACE_PREFIX', 'assertConfigured', 'get', 'lpush', 'lrange', 'ltrim', 'set', 'setNX']),
       JSON.stringify(Object.keys(EXPORTED).sort()));
     assert('no export accepts a raw redis method name',
       ['get', 'set', 'lpush', 'ltrim', 'lrange'].every(function (fn) { return typeof EXPORTED[fn] === 'function'; }),

@@ -32,6 +32,12 @@ var fake = {
   NAMESPACE_PREFIX: 'limen:', assertConfigured: function () { return true; },
   get: async function (k) { return MEM[k] === undefined ? null : MEM[k]; },
   set: async function (k, v) { MEM[k] = v; return true; },
+  /* Create-if-absent, matching the real transport. The archive writes chunks with SET NX so
+     a slot is write-once; a stub without it does not exercise the path the runtime takes. */
+  setNX: async function (k, v) {
+    if (Object.prototype.hasOwnProperty.call(MEM, k)) return false;
+    MEM[k] = v; return true;
+  },
   lpush: async function () { return 1; },
   lrange: async function () { return []; },
   ltrim: async function () { return true; }

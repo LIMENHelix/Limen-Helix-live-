@@ -32,6 +32,12 @@ var fakeRedis = {
   assertConfigured: function () { return true; },
   get: async function (k) { return MEM[k] === undefined ? null : MEM[k]; },
   set: async function (k, v) { SETS.push(k); MEM[k] = v; return true; },
+  /* Models real SET NX: creates only when absent, and reports which happened. Without this
+     the concurrency test would be asserting against a fake that cannot race. */
+  setNX: async function (k, v) {
+    if (Object.prototype.hasOwnProperty.call(MEM, k)) return false;
+    SETS.push(k); MEM[k] = v; return true;
+  },
   /* Real list behaviour: writeCycle appends then READS BACK, so a stub returning [] makes
      every cycle fail for a reason that has nothing to do with compaction. */
   lpush: async function (k, v) { (LISTS[k] = LISTS[k] || []).unshift(v); return LISTS[k].length; },
@@ -39,6 +45,17 @@ var fakeRedis = {
   ltrim: async function (k, a, b) { if (LISTS[k]) LISTS[k] = LISTS[k].slice(a, b + 1); return true; }
 };
 var redisPath = require.resolve(path.join(ROOT, 'lib', 'brain-shadow-redis.js'));
+
+/**
+ * STUB DRIFT IS SILENT, SO CATCH IT HERE. The real transport is loaded first, purely to read
+ * its export surface, and the fake must cover all of it. When `setNX` was added, BOTH
+ * hand-written substitutes (this one and the replay's) still modelled the old surface; the
+ * tests kept passing against a fake that could not do what the runtime now does. A substitute
+ * missing an operation is not a smaller substitute, it is a test of different code.
+ */
+var REAL_REDIS_OPS = Object.keys(require(redisPath));
+var missingOps = REAL_REDIS_OPS.filter(function (op) { return !(op in fakeRedis); });
+
 require.cache[redisPath] = { id: redisPath, filename: redisPath, loaded: true, exports: fakeRedis };
 
 var COMPACT = require(path.join(ROOT, 'brain-v2', 'kernel', 'compact.js'));
@@ -82,6 +99,11 @@ function fixture(n) {
 }
 
 console.log('\n=== BRAIN-V2 COMPACTION (in-memory db; no network, no Redis) ===\n');
+
+console.log('C0: the in-memory substitute still covers the real transport');
+assert('the fake implements every operation the real redis module exports',
+  missingOps.length === 0, 'missing: ' + missingOps.join(', '));
+console.log('');
 
 console.log('C1: open records are never retired');
 var st = fixture();
@@ -162,11 +184,13 @@ console.log('\nC6: archive write, read-back, idempotency and conflict');
   assert('the same sequence with DIFFERENT content throws', conflicted);
 
   console.log('\nC7: a failed archive write prevents hot-state replacement');
-  var realSet = fakeRedis.set;
-  fakeRedis.set = async function () { throw new Error('shadow redis: SET rejected'); };
+  /* The archive creates with SET NX, so THAT is the call to break. Breaking plain `set`
+     tested nothing and let the write succeed, which then collided with the next test. */
+  var realNX = fakeRedis.setNX;
+  fakeRedis.setNX = async function () { throw new Error('shadow redis: SET NX rejected'); };
   var threw = false;
   try { await ARCHIVE.writeChunk('energy', 2, w1.hash, plan.retired); } catch (e) { threw = true; }
-  fakeRedis.set = realSet;
+  fakeRedis.setNX = realNX;
   assert('the archive write throws rather than returning', threw);
   assert('and nothing was compacted, because the caller never reached apply()',
     st.memory.episodic.length === 900 && Object.keys(st.forwardModel.consumed).length === 901,
@@ -515,6 +539,52 @@ console.log('\nC6: archive write, read-back, idempotency and conflict');
   assert('restore also bounds legacy snapshots that contain a larger error list',
     restoredErrors.errors.length === LOOP.ERROR_WINDOW && restoredErrors.errors[0].at === 20,
     String(restoredErrors.errors.length));
+
+  console.log('');
+  console.log('C15: two concurrent writers cannot both claim one archive sequence');
+  /**
+   * THE RACE THIS CLOSES. The archive used GET, then an unconditional SET, then GET. Two
+   * overlapping workers both saw an absent sequence, both wrote, the second overwrote the
+   * first, and each passed its own read-back because each read what it had just written. The
+   * runtime has no lock and is idempotent only for SEQUENTIAL duplicates.
+   *
+   * Both writers are started before either is awaited, so the interleaving is real rather
+   * than described.
+   */
+  var planA = COMPACT.plan(fixture(), {});
+  var planB = COMPACT.plan(fixture(700), {});     // different content, same sequence
+  assert('the two writers really do carry different content',
+    ARCHIVE.canonical(planA.retired) !== ARCHIVE.canonical(planB.retired));
+
+  var pA = ARCHIVE.writeChunk('raceDomain', 1, null, planA.retired);
+  var pB = ARCHIVE.writeChunk('raceDomain', 1, null, planB.retired);
+  var settled = await Promise.allSettled([pA, pB]);
+  var okCount = settled.filter(function (s) { return s.status === 'fulfilled'; }).length;
+  var conflicts = settled.filter(function (s) {
+    return s.status === 'rejected' && /conflict/.test(s.reason.message);
+  }).length;
+  assert('exactly one writer succeeds', okCount === 1,
+    JSON.stringify(settled.map(function (s) { return s.status; })));
+  assert('and the loser gets an explicit conflict, not a silent overwrite', conflicts === 1,
+    JSON.stringify(settled.map(function (s) { return s.status === 'rejected' ? s.reason.message.slice(0, 70) : 'ok'; })));
+
+  var stored = await STORE.readArchiveChunk('raceDomain', 1);
+  var winnerHash = ARCHIVE.hashOf(stored);
+  var hashA = ARCHIVE.buildChunk('raceDomain', 1, null, planA.retired).hash;
+  var hashB = ARCHIVE.buildChunk('raceDomain', 1, null, planB.retired).hash;
+  assert('the stored chunk is exactly one of the two, unmixed',
+    winnerHash === hashA || winnerHash === hashB, winnerHash.slice(0, 12));
+  var physical = SETS.filter(function (k) { return k === STORE.archiveKey('raceDomain', 1); }).length;
+  assert('exactly ONE physical write reached that key', physical === 1, String(physical));
+
+  /* And an identical-content racer must still be treated as a retry, not a conflict. */
+  var pC = ARCHIVE.writeChunk('raceDomain2', 1, null, planA.retired);
+  var pD = ARCHIVE.writeChunk('raceDomain2', 1, null, planA.retired);
+  var same = await Promise.allSettled([pC, pD]);
+  assert('two writers with IDENTICAL content both succeed, one as a reuse',
+    same.every(function (s) { return s.status === 'fulfilled'; }) &&
+    same.filter(function (s) { return s.value.reused; }).length === 1,
+    JSON.stringify(same.map(function (s) { return s.status === 'fulfilled' ? s.value.reused : s.reason.message.slice(0, 40); })));
 
   console.log('');
   console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
