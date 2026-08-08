@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-08T02:35Z
+measured_at: 2026-08-08T04:20Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -446,16 +446,24 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 3. **MANDATORY GATE BEFORE BATCH 2, bound hot state growth.** Batch 2 must not be
    installed until this is closed, and it is a hard gate, not a preference.
 
-   **What was measured, and in which unit.** Serialized state VALUE length grows roughly
-   linearly with ticks and shows no plateau within 470 ticks. Offline replay of the PR #4
-   fixtures. These are value lengths, not wire bytes; see the unit note in BATCH 1.
+   **What was measured, and in which unit.** The COMPLETE persisted value
+   `{runtime, domain, lastRowT, savedAt, loop}` that the runtime writes, not the loop
+   alone. An earlier revision of `audit-growth.js` measured `LOOP.serialize(loop)` by
+   itself and labelled it the stored state value, so its figures were smaller than what
+   production stores and disagreed with `audit-cost.js` at the same depth. Both scripts
+   now import one shared envelope definition and their 120-row figures agree exactly for
+   all 20 domains. Re-measured after that fix, the numbers moved by roughly 0.1 KB per
+   domain: the envelope is a fixed overhead, so the SHAPE of the curve is unchanged, and
+   growth is still roughly linear with no plateau within the fixture.
+
+   These are value lengths, not wire bytes; see the unit note in BATCH 1.
 
    | replay depth | economy | finance | infrastructure |
    |---|---|---|---|
-   | 120 rows | 633.7 KB | 658.9 KB | 928.8 KB |
-   | 240 rows | 1,268.2 KB | 1,787.7 KB | 1,833.4 KB |
-   | 360 rows | 2,118.6 KB | 2,798.6 KB | 2,686.5 KB |
-   | full replay | 2,834.7 KB | **3,761.8 KB** | 3,472.4 KB |
+   | 120 rows | 633.8 KB | 659.0 KB | 928.9 KB |
+   | 240 rows | 1,268.3 KB | 1,787.8 KB | 1,833.5 KB |
+   | 360 rows | 2,118.7 KB | 2,798.8 KB | 2,686.6 KB |
+   | full replay | 2,834.8 KB | **3,761.9 KB** | 3,472.5 KB |
 
    Composition of finance at 470 ticks: `memory` 2,398 KB (64%) and
    `registry.predictions` 763 KB (656 open, 611 resolved). Both accumulate per tick.
@@ -497,12 +505,21 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 
 5. **REACHABILITY IS NOW A TESTED INVARIANT.** `brain-v2/test/deployment-invariants.js`
    fails CI if `api/[...route].js` loses the `brain-shadow` registration, if
-   `vercel.json` loses the `:27` cron, if anything else claims that schedule, or if any
-   cron targets a route that is not registered.
+   `vercel.json` loses the `:27` cron, if a SECOND execution-capable brain cron exists on
+   any schedule, or if any cron targets a route that does not resolve to a loadable handler.
+   It does not reserve the `:27` minute: an unrelated job may use it.
    It also refuses a duplicate registration, a registration whose module does not resolve,
    a `HANDLERS` declared anywhere but the router's top-level binding, and a dedicated
    `api/brain-shadow.<ext>` or `api/brain-shadow/index.<ext>` that would shadow the
    catch-all. Each of those is a named negative control inside the test.
+
+   **It also checks the EFFECTIVE route, not only the initializer.** The router reads
+   `HANDLERS[name]` at request time, so `HANDLERS['brain-shadow'] = require(...)` after the
+   declaration, directly or through an alias, redirects the route while leaving every static
+   assertion green. The test loads `api/[...route].js` in a sandbox with each handler
+   replaced by a stub that records its own name, dispatches a request, and asserts the
+   brain-shadow stub is the one that ran. No real handler executes and the module cache is
+   untouched. Both mutation forms are negative controls.
 
    **No pass/fail counts are recorded here.** Four revisions of that test ran 9, 14, 21
    and 28 assertions, and every copied count went stale the moment coverage improved,

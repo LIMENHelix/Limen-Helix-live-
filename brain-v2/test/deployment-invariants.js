@@ -21,16 +21,14 @@
  * The whole test suite ran green through the outage. That is the gap this file closes.
  *
  * SUBSTITUTION IS THE FAILURE MODE, NOT DELETION. The cron was not removed and left a gap;
- * a different cron took its array slot, so the cron COUNT never changed. Two assertions
- * catch that independently: the exact path `/api/brain-shadow?run=1` must be present, and
- * the exact schedule `27 * * * *` must belong to it and to nothing else. Either one alone
- * detects the swap.
+ * a different cron took its array slot, so the cron COUNT never changed. What is asserted is
+ * the canonical execution cron by exact path and schedule, and that no SECOND
+ * execution-capable brain cron exists on any schedule.
  *
- * An earlier version also required a non-brain cron to exist, described as asserting
- * "coexistence". That assertion is GONE. It pinned somebody else's infrastructure: removing
- * the orb meeting cron, an authorised change, would have failed a BRAIN invariant, and
- * whoever hit it would have deleted this test rather than debugged it. It added no coverage
- * the two checks above do not already give.
+ * WHAT THIS GUARD DOES NOT OWN: other people's infrastructure. It does not require a
+ * non-brain cron to exist, and it does not reserve the :27 minute. Both were asserted once
+ * and both would have failed a BRAIN invariant because somebody legitimately changed an
+ * unrelated job.
  * ═══════════════════════════════════════════════════════════════════════════════════
  *
  * Deliberately NOT a network test. It asserts what the repository declares, so it fails in
@@ -72,27 +70,10 @@ console.log('D1: /api/brain-shadow is registered in the Hono catch-all');
 var routeRaw = fs.readFileSync(ROUTE_FILE, 'utf8');
 
 /**
- * PARSED, NOT PATTERN-MATCHED. Read out of the actual `HANDLERS` ObjectExpression via acorn:
- * a comment is not a Property node, a quoted snippet is a Literal value rather than a
- * `require` call, and a different object is a different node. Two earlier text-matching
- * versions each accepted one of those; every such evasion is a named control below.
- *
- * Returns null when HANDLERS cannot be found, which fails closed.
- */
-/**
- * TOP-LEVEL ONLY, and exactly one. `ast.body` is scanned directly rather than walked
- * recursively: a depth-first walk stops at the FIRST `HANDLERS` anywhere, so a scoped or
- * dead `const HANDLERS` inside a helper would satisfy this while the router's real
- * top-level binding had been emptied or redirected. That is the outage again, wearing the
- * shape of a passing test. The router uses the program-level binding, so that is the only
- * one that counts, and two of them is an error rather than a choice.
- */
-/**
- * THE ONE PLACE THAT DECIDES WHICH `HANDLERS` IS AUTHORITATIVE. Both the reader and the
- * removal helper call this, because having two answers to that question is what the last
- * defect was: the reader was fixed to bind top-level and the remover was left walking
- * recursively, so on a file with a legitimate nested `HANDLERS` the remover stripped the
- * wrong one and the control failed on healthy code.
+ * THE ONE PLACE THAT DECIDES WHICH `HANDLERS` IS AUTHORITATIVE, used by the reader, the
+ * removal helper and the effective-dispatch probe. Parsed, not pattern-matched, and scoped
+ * to `ast.body`: a recursive walk stops at the first same-named declaration anywhere, which
+ * would let a scoped or dead `HANDLERS` stand in for the router's real binding.
  *
  * Returns the single program-level ObjectExpression, or null for zero, several, or a
  * non-object initializer. Fails closed: which binding the router uses is not a guess.
@@ -256,6 +237,85 @@ assert('a wrong entry followed by a CORRECT duplicate also fails',
     ROUTE_KEY, HANDLER_PATH));
 
 console.log('');
+console.log('D1f: the EFFECTIVE route dispatches to the brain handler');
+/**
+ * THE INITIALIZER IS NOT THE ROUTE. Everything above reads the `HANDLERS` object literal,
+ * and the router reads `HANDLERS[name]` at REQUEST time, so any later mutation decides what
+ * actually serves:
+ *
+ *   HANDLERS['brain-shadow'] = require('../handlers/brain-cognition');
+ *   const alias = HANDLERS; alias['brain-shadow'] = require('../handlers/brain-cognition');
+ *
+ * Both leave the initializer pristine and every static assertion green.
+ *
+ * So the module is loaded in a sandbox with every `../handlers/*` replaced by a unique stub
+ * that records its own name, and a request for /api/brain-shadow is dispatched. Whichever
+ * stub runs IS the effective route. No real handler executes, nothing is imported for its
+ * side effects, and the module cache is left untouched.
+ *
+ * The dispatch is observed synchronously: `honoEntry` is async but has no `await` before it
+ * calls the handler, so the stub has already recorded by the time the promise is returned.
+ */
+function dispatchProbe(src, routeName) {
+  var Module = require('module');
+  var origLoad = Module._load;
+  var served = { name: null, code: null };
+  Module._load = function (request, parent, isMain) {
+    var m = /^\.\.\/handlers\/(.+)$/.exec(String(request));
+    if (m) {
+      var who = m[1];
+      return function stub() { served.name = who; };
+    }
+    return origLoad.apply(this, arguments);
+  };
+  try {
+    var mod = new Module(ROUTE_FILE, null);
+    mod.filename = ROUTE_FILE;
+    mod.paths = Module._nodeModulePaths(path.dirname(ROUTE_FILE));
+    mod._compile(src, ROUTE_FILE);
+    var entry = mod.exports;
+    if (typeof entry !== 'function') return { name: null, code: null, why: 'entry is not a function' };
+    var res = {
+      statusCode: 200, setHeader: function () {},
+      end: function () { served.code = res.statusCode; }
+    };
+    var p = entry({ url: '/api/' + routeName, method: 'GET', headers: {} }, res);
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+    return served;
+  } catch (e) {
+    return { name: null, code: null, why: e.message };
+  } finally {
+    Module._load = origLoad;
+  }
+}
+
+var effective = dispatchProbe(routeRaw, ROUTE_KEY);
+assert('a request for /api/' + ROUTE_KEY + ' dispatches to the ' + ROUTE_KEY + ' handler',
+  effective.name === ROUTE_KEY,
+  'served=' + JSON.stringify(effective));
+
+/* Controls: the initializer stays correct and the effective route does not. Every static
+   assertion above passes on both of these. */
+var MUTATE_DIRECT = "\nHANDLERS['" + ROUTE_KEY + "'] = require('../handlers/brain-cognition');\n";
+var MUTATE_ALIAS = "\nconst __alias = HANDLERS;\n__alias['" + ROUTE_KEY +
+  "'] = require('../handlers/brain-cognition');\n";
+function withMutation(mutation) {
+  /* Inserted after the router is built and before the export, which is where a real
+     post-declaration mutation would live. */
+  return routeRaw.replace('module.exports = async function honoEntry', mutation + '\nmodule.exports = async function honoEntry');
+}
+assert('control: a DIRECT post-declaration mutation is caught by the effective probe',
+  dispatchProbe(withMutation(MUTATE_DIRECT), ROUTE_KEY).name !== ROUTE_KEY,
+  'the initializer is untouched, so only dispatch reveals this');
+assert('control: an ALIAS mutation is caught too',
+  dispatchProbe(withMutation(MUTATE_ALIAS), ROUTE_KEY).name !== ROUTE_KEY,
+  'mutating through another binding is the same object');
+assert('control: the static reader still says the mutated files are fine, which is why this exists',
+  registers(handlerEntries(withMutation(MUTATE_DIRECT)), ROUTE_KEY, HANDLER_PATH) &&
+  registers(handlerEntries(withMutation(MUTATE_ALIAS)), ROUTE_KEY, HANDLER_PATH),
+  'if the static reader caught these, the probe would be redundant rather than necessary');
+
+console.log('');
 console.log('D1e: no dedicated api/ function shadows the catch-all');
 /**
  * Vercel resolves a concrete function before the `[...route]` catch-all, so a dedicated
@@ -333,10 +393,10 @@ console.log('D3: no cron may take the brain cron\'s place');
  * catches the swap, by asserting the brain cron coexists with everything else rather than
  * competing for a slot, and that nothing else claims its schedule.
  */
-var atBrainSchedule = crons.filter(function (c) { return c && c.schedule === CRON_SCHEDULE; });
-assert('nothing else is scheduled at "' + CRON_SCHEDULE + '", which would collide with it',
-  atBrainSchedule.length === 1 && atBrainSchedule[0].path === CRON_PATH,
-  JSON.stringify(atBrainSchedule));
+/* NOT ASSERTED: that no other job may use this schedule. The brain does not own a minute of
+   the hour, and an assertion that it did would fail a BRAIN invariant because somebody
+   scheduled an unrelated cron at :27. Concurrency is a property of brain execution crons,
+   which the next assertion covers directly. */
 
 /**
  * AT MOST ONE EXECUTION-CAPABLE BRAIN CRON, ON ANY SCHEDULE.
@@ -383,6 +443,15 @@ assert('control: a NON-execution brain cron (no run=1) is not counted',
   [{ path: '/api/' + ROUTE_KEY, schedule: '5 * * * *' }]
     .filter(function (c) { return isBrainExecutionCron(c.path); }).length === 0,
   'a read-only path cannot execute a cycle, so it is not a concurrency risk');
+/* The brain does not own a minute of the hour. An UNRELATED job at the same schedule is
+   somebody else's business and must not fail a brain invariant, while a second brain
+   execution cron still must. */
+assert('control: an unrelated cron at "' + CRON_SCHEDULE + '" is allowed, a second brain one is not',
+  crons.concat([{ path: '/api/some-other-job', schedule: CRON_SCHEDULE }])
+    .filter(function (c) { return isBrainExecutionCron(c.path); }).length === 1 &&
+  crons.concat([{ path: CRON_PATH, schedule: '9 * * * *' }])
+    .filter(function (c) { return isBrainExecutionCron(c.path); }).length !== 1,
+  'concurrency is a property of brain execution crons, not of a shared minute');
 
 /**
  * DELIBERATELY NOT ASSERTED: that some OTHER cron exists alongside this one.

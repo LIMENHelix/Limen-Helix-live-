@@ -18,6 +18,11 @@ var fs = require('fs'), path = require('path');
 var ROOT = path.join(__dirname, '..', '..');
 var REG = require(path.join(ROOT, 'brain-v2', 'bind', 'registry.js'));
 var LOOP = require(path.join(ROOT, 'brain-v2', 'kernel', 'loop.js'));
+/* ONE definition of the persisted value, shared with audit-cost so the two cannot drift.
+   This file previously measured LOOP.serialize(loop) ALONE and labelled it the stored
+   state value, so every figure here was smaller than what production stores and did not
+   agree with audit-cost at the same depth. */
+var ENV = require('./state-envelope.js');
 var HOUR = 3600000;
 
 var MARKS = [120, 240, 360];
@@ -36,10 +41,15 @@ REG.DOMAINS.forEach(function (d) {
   for (var i = 0; i < rows.length; i++) {
     var rd = binder.readRecorderRow(rows[i]) || {};
     if (Object.keys(rd).length) { LOOP.tick(loop, rd, rows[i].t); ticks++; }
-    if (MARKS.indexOf(i + 1) >= 0) sizes['r' + (i + 1)] = +(Buffer.byteLength(JSON.stringify(LOOP.serialize(loop)), 'utf8') / 1024).toFixed(1);
+    /* The cursor advances per ROW, including rows that produce no tick, exactly as the
+       runtime does, so lastRowT at each mark is the value production would have stored. */
+    if (MARKS.indexOf(i + 1) >= 0) {
+      sizes['r' + (i + 1)] =
+        +(ENV.envelopeBytes(d.snapshot, ENV.cursorAfterRows(rows, i + 1), LOOP.serialize(loop)) / 1024).toFixed(1);
+    }
   }
-  /* Buffer.byteLength, NOT String.length: code units are not bytes. */
-  sizes.full = +(Buffer.byteLength(JSON.stringify(LOOP.serialize(loop)), 'utf8') / 1024).toFixed(1);
+  sizes.full =
+    +(ENV.envelopeBytes(d.snapshot, ENV.cursorAfterRows(rows, rows.length), LOOP.serialize(loop)) / 1024).toFixed(1);
   res.push({ product: d.product, rows: rows.length, ticks: ticks, sizes: sizes });
 });
 
