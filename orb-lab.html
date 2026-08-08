@@ -100,7 +100,7 @@ var VERT_QUAD = [
 var FRAG = [
 'precision highp float;',
 'uniform vec2  uRes;',
-'uniform float uTime, uTurb, uDens, uGlow, uFlow, uBlur, uGlass;',
+'uniform float uTime, uTurb, uDens, uGlow, uFlow, uBlur, uGlass, uSteps;',
 'uniform vec3  uA, uB, uC;',
 'uniform vec2  uRot;',
 'uniform float uMode;',            // 0 star · 1 storm · 2 crystal
@@ -193,7 +193,11 @@ var FRAG = [
 '  vec2 uv = (gl_FragCoord.xy - 0.5*uRes) / min(uRes.x, uRes.y);',
 '  vec3 ro = vec3(0.0, 0.0, 4.6);',
 '  vec3 rd = normalize(vec3(uv, -1.6));',
-'  mat3 R = ry(uRot.x) * rx(uRot.y);',
+/* THE INTERIOR TURNS. This had no time term at all — only the motes rotated, so the body sat
+   dead still while a shell of dots went round it, which is exactly as odd as it sounds. Same
+   axis and rate as the motes, so the whole thing reads as one object turning rather than two
+   things doing different jobs. */
+'  mat3 R = ry(uRot.x + uTime*0.12) * rx(uRot.y + 0.32);',
 
 /* Ray/sphere. Everything below only runs for pixels that actually hit the glass. */
 '  float b = dot(ro, rd), c2 = dot(ro, ro) - 1.0;',
@@ -215,11 +219,15 @@ var FRAG = [
 '    vec3 rr = refract(rd, N, 1.0 / (1.10 + uGlass*0.42));',
 '    if (length(rr) < 0.001) rr = rd;',
 '    float span = (t1 - t0);',
-'    float STEPS = 64.0;',
+/* Step count is a uniform, not a constant, so the page can tune it against the frame rate it
+   actually achieves. GLSL ES needs a constant loop bound, so the loop still counts to 64 and
+   breaks early. */
+'    float STEPS = uSteps;',
 '    float dt = span / STEPS;',
 '    float jit = hash(vec3(gl_FragCoord.xy, uTime)) * dt;',
 '    float trans = 1.0;',
 '    for (int i = 0; i < 64; i++){',
+'      if (float(i) >= STEPS) break;',
 '      float f = float(i) / STEPS;',
 '      vec3 p = R * (hit + rr * (jit + float(i)*dt));',
 '      if (dot(p,p) > 1.02) continue;',
@@ -266,7 +274,7 @@ var VERT_DOT = [
 'mat3 rx(float a){ float s=sin(a),c=cos(a); return mat3(1.,0.,0., 0.,c,-s, 0.,s,c); }',
 'mat3 ry(float a){ float s=sin(a),c=cos(a); return mat3(c,0.,s, 0.,1.,0., -s,0.,c); }',
 'void main(){',
-'  mat3 R = ry(uRot.x + uTime*0.055) * rx(uRot.y + 0.32);',
+'  mat3 R = ry(uRot.x + uTime*0.12) * rx(uRot.y + 0.32);',   // same rate as the interior
 '  vec3 p = R * aP;',
 '  p *= 1.19 + 0.055*sin(uTime*0.7 + aSeed*6.28);',
 '  float zc = 4.6 - p.z;',
@@ -305,8 +313,8 @@ var PRESETS = {
                  a:[0.46,0.04,0.01], b:[1.00,0.40,0.05], c:[1.00,0.94,0.74] },
   environment: { name:'ENVIRONMENT', mode:1, turb:1.15, dens:2.20, glow:1.55, flow:0.50, blur:0.60, glass:0.90, dots:170,
                  a:[0.02,0.06,0.14], b:[0.18,0.46,0.70], c:[0.90,0.97,1.00] },
-  finance:     { name:'FINANCE',     mode:2, turb:2.10, dens:0.95, glow:1.25, flow:0.12, blur:0.28, glass:1.35, dots:120,
-                 a:[0.03,0.07,0.14], b:[0.16,0.62,0.80], c:[0.86,1.00,1.00] }
+  finance:     { name:'FINANCE',     mode:2, turb:2.10, dens:0.95, glow:1.30, flow:0.14, blur:0.28, glass:1.35, dots:120,
+                 a:[0.02,0.10,0.05], b:[0.13,0.72,0.38], c:[0.80,1.00,0.86] }
 };
 
 /* ── boot ────────────────────────────────────────────────────────────────────────────────── */
@@ -362,7 +370,7 @@ var PRESETS = {
   var bS = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,bS); gl.bufferData(gl.ARRAY_BUFFER,seeds,gl.STATIC_DRAW);
 
   var U = {}, UD = {};
-  ['uRes','uTime','uTurb','uDens','uGlow','uFlow','uBlur','uGlass','uA','uB','uC','uRot','uMode']
+  ['uRes','uTime','uTurb','uDens','uGlow','uFlow','uBlur','uGlass','uSteps','uA','uB','uC','uRot','uMode']
     .forEach(function(n){ U[n] = gl.getUniformLocation(P, n); });
   ['uRes','uTime','uRot'].forEach(function(n){ UD[n] = gl.getUniformLocation(D, n); });
 
@@ -414,9 +422,9 @@ var PRESETS = {
   }
   addEventListener('resize', size); size();
 
-  var t0 = performance.now(), frames = 0, last = t0;
+  var t0 = performance.now(), frames = 0, last = t0, steps = 48;
   var fpsEl = document.getElementById('fps'), stpEl = document.getElementById('stp');
-  stpEl.textContent = '64';
+  stpEl.textContent = steps;
 
   function frame(now){
     var t = (now - t0) / 1000;
@@ -432,6 +440,7 @@ var PRESETS = {
     gl.uniform1f(U.uGlow, S.glow); gl.uniform1f(U.uFlow, S.flow);
     gl.uniform1f(U.uBlur, S.blur); gl.uniform1f(U.uGlass, S.glass);
     gl.uniform1f(U.uMode, S.mode);
+    gl.uniform1f(U.uSteps, steps);
     gl.uniform3fv(U.uA, S.a); gl.uniform3fv(U.uB, S.b); gl.uniform3fv(U.uC, S.c);
     gl.uniform2f(U.uRot, rot.x, rot.y);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -453,8 +462,23 @@ var PRESETS = {
       gl.disable(gl.BLEND);
     }
 
+    /* ADAPTIVE QUALITY. "Very glitchy, start stop start stop" is a frame-rate problem, and
+       guessing someone else's GPU from here is exactly how I would get it wrong. So measure
+       the rate actually achieved and move the step count toward it: down hard when it is
+       struggling, up slowly when it has headroom. Steps are the right dial because halving
+       them halves the cost and only softens the interior, which is already meant to be soft;
+       cutting octaves or the warp would remove the structure that is the entire point. */
     frames++;
-    if (now - last > 500){ fpsEl.textContent = Math.round(frames*1000/(now-last)); frames = 0; last = now; }
+    if (now - last > 500){
+      var f = Math.round(frames*1000/(now-last));
+      fpsEl.textContent = f;
+      frames = 0; last = now;
+      if (f > 0){
+        if (f < 28)      steps = Math.max(18, steps - 8);
+        else if (f > 55) steps = Math.min(64, steps + 3);
+        stpEl.textContent = steps;
+      }
+    }
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
