@@ -204,25 +204,32 @@ assert('a wrong entry followed by a CORRECT duplicate also fails',
 console.log('');
 console.log('D1e: no dedicated api/ function shadows the catch-all');
 /**
- * Vercel resolves a concrete `api/<name>.<ext>` before the `[...route]` catch-all, so adding
- * `api/brain-shadow.js` would silently take the route over without touching HANDLERS. The
- * extensions checked cover the runtimes this repository actually uses (`.js`, `.py`) plus the
- * other Node/TS forms the platform accepts.
+ * Vercel resolves a concrete function before the `[...route]` catch-all, so a dedicated
+ * `brain-shadow` function would silently take the route over without touching HANDLERS.
+ *
+ * BOTH LAYOUTS COUNT. Flat `api/brain-shadow.<ext>` and directory-index
+ * `api/brain-shadow/index.<ext>` map to the same `/api/brain-shadow` path, and this
+ * repository already uses the directory-index form (`api/helix_app/index.py`). Checking
+ * only the flat layout would leave the directory form as an unguarded way in.
  */
 var SHADOW_EXTS = ['js', 'mjs', 'cjs', 'ts', 'tsx', 'py', 'go', 'rb'];
 function shadowFiles(dir, key) {
-  return SHADOW_EXTS.map(function (e) { return path.join(dir, key + '.' + e); })
-    .filter(function (p) { return fs.existsSync(p); });
+  var candidates = [];
+  SHADOW_EXTS.forEach(function (e) {
+    candidates.push(path.join(dir, key + '.' + e));            // api/<key>.<ext>
+    candidates.push(path.join(dir, key, 'index.' + e));        // api/<key>/index.<ext>
+  });
+  return candidates.filter(function (p) { return fs.existsSync(p); });
 }
 var shadows = shadowFiles(path.join(ROOT, 'api'), ROUTE_KEY);
-assert('no api/' + ROUTE_KEY + '.<ext> file shadows the catch-all registration',
+assert('no api/' + ROUTE_KEY + '.<ext> or api/' + ROUTE_KEY + '/index.<ext> shadows the registration',
   shadows.length === 0,
   'these would take precedence over HANDLERS: ' +
   JSON.stringify(shadows.map(function (p) { return path.relative(ROOT, p); })));
 
-/* Control: introduce a real dedicated function in a scratch api/ directory and prove the
-   same lookup catches it. Written outside the repository so the control can never leave a
-   file behind that would itself cause the outage it tests for. */
+/* Controls: introduce real dedicated functions in a scratch api/ directory, in BOTH
+   layouts, and prove the same lookup catches each. Written outside the repository so a
+   control can never leave behind the file it tests for. */
 (function () {
   var tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'brain-shadow-invariant-'));
   var api = path.join(tmp, 'api');
@@ -230,12 +237,19 @@ assert('no api/' + ROUTE_KEY + '.<ext> file shadows the catch-all registration',
     fs.mkdirSync(api);
     assert('control: an empty api/ directory reports no shadow',
       shadowFiles(api, ROUTE_KEY).length === 0);
+
     fs.writeFileSync(path.join(api, ROUTE_KEY + '.js'), 'module.exports = function () {};\n');
-    assert('control: a dedicated api/' + ROUTE_KEY + '.js IS detected as shadowing',
-      shadowFiles(api, ROUTE_KEY).length === 1);
+    fs.mkdirSync(path.join(api, ROUTE_KEY));
+    fs.writeFileSync(path.join(api, ROUTE_KEY, 'index.js'), 'module.exports = function () {};\n');
+    assert('control: flat .js AND directory index.js are BOTH detected',
+      shadowFiles(api, ROUTE_KEY).length === 2,
+      JSON.stringify(shadowFiles(api, ROUTE_KEY).map(function (p) { return path.relative(tmp, p); })));
+
     fs.writeFileSync(path.join(api, ROUTE_KEY + '.py'), 'def handler():\n    pass\n');
-    assert('control: a dedicated api/' + ROUTE_KEY + '.py is detected too',
-      shadowFiles(api, ROUTE_KEY).length === 2);
+    fs.writeFileSync(path.join(api, ROUTE_KEY, 'index.py'), 'def handler():\n    pass\n');
+    assert('control: the .py forms of both layouts are detected too, four in total',
+      shadowFiles(api, ROUTE_KEY).length === 4,
+      JSON.stringify(shadowFiles(api, ROUTE_KEY).map(function (p) { return path.relative(tmp, p); })));
   } finally {
     try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* scratch dir */ }
   }
