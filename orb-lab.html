@@ -129,19 +129,23 @@ var FRAG = [
    blurred by a second pass. */
 'float fbm(vec3 p, float oct){',
 '  float a = 0.5, s = 0.0, tot = 0.0;',
-'  for (int i = 0; i < 4; i++){',
+'  for (int i = 0; i < 6; i++){',
 '    if (float(i) >= oct) break;',
 '    s += a * vnoise(p); tot += a; p *= 2.03; a *= 0.5;',
 '  }',
 '  return s / max(tot, 0.0001);',
 '}',
-/* Inigo Quilez's domain warp, f(p + f(p)). His full form nests three deep and needs seven fbm
-   evaluations; one level of nesting needs three and is visually almost indistinguishable
-   inside a volume that is being blurred by depth anyway. This is the single change that took
-   a frame from not-completing to real time. */
+/* Inigo Quilez's domain warp, TWO levels: f(p + f(p + f(p))). The earlier single level was a
+   performance retreat, and the operator has said not to trade quality for cost. Two levels is
+   six fbm evaluations per sample and it is where the marbling and the filament structure come
+   from — one level gives you drift, two gives you flow that folds back on itself. */
 'float warp(vec3 p, float t, float oct){',
-'  vec2 q = vec2(fbm(p, oct), fbm(p + vec3(5.2, 1.3, 4.7), oct));',
-'  return fbm(p + vec3(q, q.x) * 2.7 + vec3(0.0, t * 0.25, 0.0), oct);',
+'  vec3 q = vec3(fbm(p, oct),',
+'                fbm(p + vec3(5.2, 1.3, 4.7), oct),',
+'                fbm(p + vec3(1.7, 9.2, 3.1), oct));',
+'  vec2 r = vec2(fbm(p + 2.6*q, oct),',
+'                fbm(p + 2.6*q + vec3(8.3, 2.8, 1.4), oct));',
+'  return fbm(p + 2.4 * vec3(r, r.x) + vec3(0.0, t * 0.25, 0.0), oct);',
 '}',
 
 /* NOTE THE SMOOTHSTEP DIRECTION. `smoothstep(1.0, 0.35, r)` reads naturally as "fade out
@@ -211,17 +215,17 @@ var FRAG = [
 '    vec3 rr = refract(rd, N, 1.0 / (1.10 + uGlass*0.42));',
 '    if (length(rr) < 0.001) rr = rd;',
 '    float span = (t1 - t0);',
-'    float STEPS = 40.0;',
+'    float STEPS = 64.0;',
 '    float dt = span / STEPS;',
 '    float jit = hash(vec3(gl_FragCoord.xy, uTime)) * dt;',
 '    float trans = 1.0;',
-'    for (int i = 0; i < 40; i++){',
+'    for (int i = 0; i < 64; i++){',
 '      float f = float(i) / STEPS;',
 '      vec3 p = R * (hit + rr * (jit + float(i)*dt));',
 '      if (dot(p,p) > 1.02) continue;',
 /* The dream: octaves fall away with depth. Far contents lose detail, which is depth of
    field and a performance saving in the same expression. */
-'      float oct = mix(4.0, 1.3, f * uBlur);',
+'      float oct = mix(6.0, 2.0, f * uBlur);',
 '      float d = density(p, oct);',
 /* ABSORPTION HAS TO BE LOW OR YOU ONLY EVER SEE THE FRONT WALL. The first pass used
    1-exp(-d*2.6*dt*6), which at typical density is 0.6 opacity in the FIRST sample — the ray
@@ -297,7 +301,7 @@ var FRAG_DOT = [
    ENERGY runs hot and dense per the operator's call; the dream blur comes DOWN across all
    three, because the first pass was soft enough that the granulation read as haze. */
 var PRESETS = {
-  energy:      { name:'ENERGY',      mode:0, turb:1.90, dens:2.60, glow:2.20, flow:0.50, blur:0.52, glass:1.00, dots:240,
+  energy:      { name:'ENERGY',      mode:0, turb:1.90, dens:1.70, glow:1.45, flow:0.50, blur:0.50, glass:1.00, dots:240,
                  a:[0.46,0.04,0.01], b:[1.00,0.40,0.05], c:[1.00,0.94,0.74] },
   environment: { name:'ENVIRONMENT', mode:1, turb:1.15, dens:2.20, glow:1.55, flow:0.50, blur:0.60, glass:0.90, dots:170,
                  a:[0.02,0.06,0.14], b:[0.18,0.46,0.70], c:[0.90,0.97,1.00] },
@@ -403,7 +407,7 @@ var PRESETS = {
     rot.y = drag.ry + (e.clientY - drag.y) * 0.006;
   });
 
-  var dpr = Math.min(devicePixelRatio || 1, 1.25);
+  var dpr = Math.min(devicePixelRatio || 1, 2);
   function size(){
     cv.width = Math.round(innerWidth*dpr); cv.height = Math.round(innerHeight*dpr);
     gl.viewport(0,0,cv.width,cv.height);
@@ -412,7 +416,7 @@ var PRESETS = {
 
   var t0 = performance.now(), frames = 0, last = t0;
   var fpsEl = document.getElementById('fps'), stpEl = document.getElementById('stp');
-  stpEl.textContent = '40';
+  stpEl.textContent = '64';
 
   function frame(now){
     var t = (now - t0) / 1000;
