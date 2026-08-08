@@ -1502,13 +1502,15 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
     if (reduce){                       // no ignition at all; go straight to the page
       nova.classList.add('lit', 'settled');
+      playVoice();
       if (close) close.focus();
       return;
     }
     size(); seed();
     t0 = performance.now();
     if (!raf) raf = requestAnimationFrame(draw);
-    setTimeout(function(){ nova.classList.add('lit'); }, 900);          // hook, white on fire
+    // The voice comes in with the hook, while the star is still at full brightness.
+    setTimeout(function(){ nova.classList.add('lit'); playVoice(); }, 900);
     setTimeout(function(){ nova.classList.add('settled'); }, BLOOM * 1000 + 250);
     setTimeout(function(){ if (close) close.focus(); }, BLOOM * 1000 + 900);
   }
@@ -1523,42 +1525,72 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     btn.focus();
   }
 
-  /* The narrator. One pre-rendered file, played on request and never on arrival. */
+  /* THE NARRATOR. It starts on its own, because you already asked the question — clicking
+     "What is this?" is the gesture, and making you click a second time to hear the answer is
+     friction that costs the moment. That is also why browsers permit it: this is not sound
+     starting unbidden on arrival.
+
+     Seven sections rather than one file, so the first words land 2.7 seconds in instead of
+     after a three-minute download, and so a section that fails is skipped rather than
+     stranding the rest. Order comes from the generator's manifest, so the page cannot drift
+     out of sequence with what was rendered. */
   var listen = document.getElementById('novaListen');
   var back   = document.getElementById('novaBack');
-  var audio  = null;
+  var NARR = { order: null, i: 0, audio: null, on: false };
+  var NDIR = '/assets/audio/nova/';
+
+  function setListen(playing, label){
+    if (!listen) return;
+    listen.classList.toggle('playing', !!playing);
+    listen.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    listen.querySelector('.ic').innerHTML = playing ? '&#9632;' : '&#9658;';
+    listen.querySelector('.lb').textContent = label || (playing ? 'Stop' : 'Listen');
+  }
+
+  function narrLoad(){
+    if (NARR.order) return Promise.resolve(NARR.order);
+    return fetch(NDIR + 'manifest.json')
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(m){ NARR.order = (m && m.order) || []; return NARR.order; })
+      .catch(function(){ NARR.order = []; return NARR.order; });
+  }
 
   function stopVoice(){
-    if (audio){ try{ audio.pause(); }catch(e){} audio = null; }
-    if (listen){
-      listen.classList.remove('playing');
-      listen.setAttribute('aria-pressed', 'false');
-      listen.querySelector('.ic').innerHTML = '&#9658;';
-      listen.querySelector('.lb').textContent = 'Listen';
-    }
+    NARR.on = false; NARR.i = 0;
+    if (NARR.audio){ try{ NARR.audio.pause(); }catch(e){} NARR.audio = null; }
+    setListen(false);
   }
-  function playVoice(){
-    stopVoice();
-    audio = new Audio('/assets/audio/nova/what-is-this.mp3');
-    audio.onended = stopVoice;
-    // If the file is missing or blocked, say so on the button rather than looking broken.
-    audio.onerror = function(){
-      stopVoice();
-      if (listen) listen.querySelector('.lb').textContent = 'Unavailable';
-    };
-    audio.play().then(function(){
-      if (!listen) return;
-      listen.classList.add('playing');
-      listen.setAttribute('aria-pressed', 'true');
-      listen.querySelector('.ic').innerHTML = '&#9632;';
-      listen.querySelector('.lb').textContent = 'Stop';
-    }).catch(function(){
-      stopVoice();
-      if (listen) listen.querySelector('.lb').textContent = 'Unavailable';
+
+  function step(){
+    if (!NARR.on) return;
+    if (NARR.i >= NARR.order.length){ stopVoice(); return; }
+    var a = new Audio(NDIR + NARR.order[NARR.i]);
+    NARR.audio = a;
+    // A missing section advances rather than stalling the whole narration.
+    a.onended = function(){ NARR.i++; step(); };
+    a.onerror = function(){ NARR.i++; step(); };
+    if (NARR.i + 1 < NARR.order.length){          // warm the next while this one talks
+      try { var n = new Audio(NDIR + NARR.order[NARR.i + 1]); n.preload = 'autoplay'; n.load(); } catch (e) {}
+    }
+    a.play().catch(function(){
+      // Blocked by the browser: fall back to a button the visitor can press.
+      NARR.on = false; NARR.audio = null;
+      setListen(false, 'Listen');
     });
   }
+
+  function playVoice(){
+    if (NARR.on) return;
+    NARR.on = true; NARR.i = 0;
+    setListen(true);
+    narrLoad().then(function(order){
+      if (!order.length){ NARR.on = false; setListen(false, 'Unavailable'); return; }
+      step();
+    });
+  }
+
   if (listen) listen.addEventListener('click', function(){
-    if (audio) stopVoice(); else playVoice();
+    if (NARR.on) stopVoice(); else playVoice();
   });
   if (back) back.addEventListener('click', shut);
 
