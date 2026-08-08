@@ -42,7 +42,7 @@ report. These rules are non-negotiable and override any looser instruction in a 
 - One task at a time. Finish and verify before starting anything else.
 
 ## Autonomous limits (`AGENT_BUILD=1`): budgeted, rate-limited, or forbidden
-Three different controls, because these are three different kinds of risk. Do NOT apply a
+Four different controls, because these are four different kinds of risk. Do NOT apply a
 blanket "never" to all of them, and do NOT put a dollar cap on the categorical ones: "$5 of
 signing a contract" is not a thing.
 
@@ -52,9 +52,33 @@ signing a contract" is not a thing.
 - **REACH — allowed, rate-limited.** Deploying to production and publishing outward posts.
   The risk here is exposure and churn, not dollars: a two-cent deploy can still break the
   site, so cap the RATE (deploys/day, posts/day) and keep every action revertible.
-- **FORBIDDEN autonomously, at any budget.** Moving funds OUT (payments, transfers, refunds),
-  signing or committing the entity, and legal / medical / financial representations. Prepare
+- **FUNDED OPERATIONS — allowed INSIDE A HARD-CAPPED INSTRUMENT.** A domain may hold its own
+  funded account or card and, within that ceiling, buy, subscribe, invest, and pay. This is
+  what makes the ant farm an economy rather than a simulation: a domain that allocates badly
+  actually has less next month.
+
+  **THE CEILING LIVES IN THE INSTRUMENT, NOT IN THIS REPO.** Fund each domain with a virtual
+  card capped at its budget, so the limit is enforced by the issuer. A card capped at $500
+  cannot overspend even if every guard in this codebase fails — and the section below records
+  that 8 of 12 AI call sites already bypass the budget ledger, so "the code will stop it" is
+  a claim this repo has not earned. Raising a ceiling, or funding a new instrument, is a
+  human step.
+
+- **FORBIDDEN autonomously, at any budget.** Moving funds OUT of the entity other than through
+  a capped instrument (arbitrary payments, transfers, refunds); signing or committing the
+  entity; and legal / medical / financial representations **made to a third party**. Prepare
   to that line and stop, and say what the human step is.
+
+  Note what this does NOT forbid, because the earlier wording bundled three unlike things.
+  **Allocating an internal budget between domains is bookkeeping**, not moving funds out.
+  **Recommending an investment is not a representation.** Both are allowed autonomously.
+  Executing a transfer outside a capped instrument is not.
+
+**Money in belongs to the entity.** Revenue from what the domains sell is business income for
+`LIMEN Helix Transformational Sciences LLC`. It does not route through a personal wallet, and
+a personal Venmo or PayPal account is not a domain treasury: both prohibit automated access
+and business use, and the realistic failure is a frozen account that strands the funds rather
+than an agent losing them.
 
 Never gate, defer or hedge ordinary build work on token or funding limits.
 
