@@ -288,9 +288,12 @@ var firstReport, secondReport, firstState;
     path.join('lib', 'brain-shadow-store.js'),
     path.join('lib', 'brain-shadow-runtime.js'),
     path.join('lib', 'brain-shadow-state.js'),
+    path.join('lib', 'brain-shadow-archive.js'),
     path.join('lib', 'brain-shadow-redis.js'),
     path.join('handlers', 'brain-shadow.js'),
     path.join('brain-v2', 'test', 'shadow-runtime.js'),
+    path.join('brain-v2', 'test', 'compaction.js'),
+    path.join('scripts', 'brain-audit', 'replay-compaction.js'),
     '.vercelignore'
   ];
   var SKIP_DIRS = ['node_modules', '.git', 'brain-v2/fixtures', 'brain-v2/state'];
