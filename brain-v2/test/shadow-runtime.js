@@ -587,6 +587,39 @@ var firstReport, secondReport, firstState;
 
 }).then(function () {
 
+  // ── S-archive-surface: there is exactly ONE way to write a chunk ───────────
+  console.log('');
+  console.log('S-archive-surface [adversarial]: no unconditional writer to an archive key exists');
+  /**
+   * WRITE-ONCE IS ONLY WORTH ANYTHING IF IT CANNOT BE ROUTED AROUND. `createArchiveChunk`
+   * makes the slot atomic, but an exported `writeArchiveChunk` doing a plain SET sat beside
+   * it and would have handed the next caller the race back under a friendlier name. Dead
+   * today is not the same as absent: the export IS the invitation.
+   *
+   * Two assertions, because either alone is escapable. The first pins the exported surface,
+   * so a new archive writer has to be added deliberately and this test edited to admit it.
+   * The second reads the SOURCE for an unconditional set against an archive key, catching a
+   * bypass that is spelled differently or is not exported at all.
+   */
+  var STORE_KEYS = Object.keys(STORE).sort();
+  assert('the store exports createArchiveChunk as the archive writer',
+    STORE_KEYS.indexOf('createArchiveChunk') >= 0, JSON.stringify(STORE_KEYS));
+  assert('and exports NO unconditional archive writer',
+    STORE_KEYS.filter(function (k) { return /^write.*Archive|^set.*Archive|^putArchive/i.test(k); }).length === 0,
+    JSON.stringify(STORE_KEYS));
+
+  var storeSrc = fs.readFileSync(path.join(ROOT, 'lib', 'brain-shadow-store.js'), 'utf8');
+  var storeCode = storeSrc
+    .replace(/\/\*[\s\S]*?\*\//g, '')          /* comments describe the removed function */
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+  assert('and no code path SETs an archive key without NX',
+    !/redis\.set\s*\(\s*archiveKey/.test(storeCode),
+    /* Quote the OFFENDING call, not the first `redis.set` in the file: the negative control
+       printed an unrelated state write, which would send a reader to the wrong line. */
+    (storeCode.match(/redis\.set\s*\(\s*archiveKey[^)]*\)?/) || [''])[0]);
+  assert('while the atomic creator does exactly that, via setNX',
+    /redis\.setNX\s*\(\s*archiveKey/.test(storeCode));
+
   // ── S10: the strict transport has no fallback at all ───────────────────────
   console.log('');
   console.log('S10 [adversarial]: the shadow transport cannot satisfy a write from memory');

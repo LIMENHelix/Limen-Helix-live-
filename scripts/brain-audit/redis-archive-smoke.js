@@ -23,9 +23,10 @@
  * It is read-only with respect to everything the runtime cares about.
  *
  * LEFTOVERS, STATED PLAINLY. The shadow transport has no delete — deliberately, since nothing
- * in the runtime may remove archived history — so each run leaves ONE key of a few hundred
- * bytes behind under `zzsmoke`. That is the honest cost of testing a write path with real
- * writes; it is not cleaned up silently, and it is not pretended away.
+ * in the runtime may remove archived history — so each run leaves TWO keys behind under
+ * `zzsmoke`: the archive chunk at <seq>, and the raw SET NX probe at <seq>+1. A few hundred
+ * bytes together. That is the honest cost of testing a write path with real writes; it is not
+ * cleaned up silently, and it is not pretended away.
  *
  * CREDENTIALS. Needs UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in the environment.
  * Those exist in Vercel's Production and Preview scopes and are not readable locally, so this

@@ -541,7 +541,7 @@ console.log('\nC6: archive write, read-back, idempotency and conflict');
     String(restoredErrors.errors.length));
 
   console.log('');
-  console.log('C15: two concurrent writers cannot both claim one archive sequence');
+  console.log('C17: two concurrent writers cannot both claim one archive sequence');
   /**
    * THE RACE THIS CLOSES. The archive used GET, then an unconditional SET, then GET. Two
    * overlapping workers both saw an absent sequence, both wrote, the second overwrote the
