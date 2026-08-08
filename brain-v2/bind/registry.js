@@ -277,7 +277,26 @@ var INSTALLED_DOMAINS = [
      readable row is 373 of 470, so at the 120-row cap they tick ZERO times for three
      consecutive cycles. A canary that cannot fail for three hours is the worst kind. They
      go in only behind a cursor that starts near their first readable row. */
-  'infrastructure', 'science', 'intelligence', 'environment', 'medicine'
+  'infrastructure', 'science', 'intelligence', 'environment', 'medicine',
+  /* Batch 3, audited 2026-08-08, same three properties in the same order. Each declares ZERO
+     relationships, each reads from row 0 so its first cycle is falsifiable immediately, and
+     these are the five highest-coverage domains left of the six that read from row 0.
+
+     COVERAGE IS MATERIALLY LOWER HERE AND THAT IS NOT HIDDEN. Batch 1 ran 91-100%, batch 2
+     86-94%, batch 3 is 58-85%: agriculture 11/13, law 12/15, defense 11/15, technology 7/10,
+     governance 7/12. The batch-1 wording said an unavailable input should be "a small, named
+     exception rather than the norm", and at governance's 5 of 12 unread that no longer holds.
+     It is installed anyway because the remaining pool contains nothing better and because
+     shadow sensing over the channels that DO read is still legitimate, but the honest
+     statement is that this batch senses less per domain than either batch before it. The
+     unread channels are named in DELIVERY_STATE.md rather than left as a percentage.
+
+     CULTURE AND RELIGION ARE STILL EXCLUDED, for the third time, and still not for coverage:
+     religion reads 15/15 and culture 15/16, the two best figures in the whole roster. Their
+     first readable row is 373 of 470, so at the 120-row cap they tick ZERO times for three
+     consecutive cycles. They go in with communication in batch 4, behind a cursor that starts
+     near their first readable row. */
+  'agriculture', 'law', 'defense', 'technology', 'governance'
 ];
 
 /**

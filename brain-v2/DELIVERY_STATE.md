@@ -1,7 +1,7 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-08T13:35Z
-measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
+measured_at: 2026-08-08T22:33Z
+measured_at_commit: c18a54cd0f5db9e3d7ede9f8424b764d88825c87
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
   authority. Nothing here authorises anything. Where a fact is mutable, re-verify it
@@ -47,10 +47,10 @@ evidence, and it is still zero. A domain can be bound, installed, and evidence n
 |---|---|
 | total domains | 20 |
 | **BOUND** (validating binder + a fixture that binder can read) | **20 of 20** |
-| **INSTALLED** in the production shadow runtime | **12**: energy, finance, education, economy, trade, industry, population, infrastructure, science, intelligence, environment, medicine |
-| not yet installed | **8** |
+| **INSTALLED** in the production shadow runtime | **12 executing now**, 17 declared by this PR. Production ran twelve at 2026-08-08T22:27Z; the five added here execute only after merge. |
+| not yet installed | **3 after this PR**: communication, culture, religion |
 | **relationships ACTIVE as neural pathways** | **0 of 10** |
-| declared relationships | 10, in energy (7) and finance (3) only. All ten batch-1 and batch-2 domains declare **zero**, so no installation so far could activate a pathway even by mistake. |
+| declared relationships | 10, in energy (7) and finance (3) only. All fifteen batch-1, batch-2 and batch-3 domains declare **zero**, so no installation so far could activate a pathway even by mistake. |
 | offline replay fixtures | 20 of 20 |
 
 Installation grants nothing. It puts a domain in shadow, where it senses and reports. It
@@ -402,8 +402,11 @@ Eight domains remain outside the runtime.
 
 - **evidence gained**: none. Installation is not evidence. No relationship moved, no
   identity count changed, no claim became citable.
-- **domains promoted**: education, economy, trade, industry, population. 2 installed to 7.
-- **remaining domains**: 13 outside the runtime.
+- **domains promoted**: infrastructure, science, intelligence, environment, medicine. 7
+  installed to 12. (An earlier version of this line listed batch 1's five domains and "2
+  installed to 7", which was batch 1's entry left standing under batch 2's heading. Corrected
+  2026-08-08 against `registry.INSTALLED_DOMAINS` and the production read.)
+- **remaining domains**: 8 outside the runtime.
 - **current gate**: hot state growth (NEXT PROGRAM STEP 3). Hard gate before batch 2.
   Production measurement makes it tighter than the offline projection said, not looser.
 - **known unknowns**: (a) **actual transport bytes are not measured anywhere**, so no
@@ -437,6 +440,132 @@ Eight domains remain outside the runtime.
   one row applied per domain, on a resident value already at 23,012,849 bytes for seven
   domains. That is the gate, and it is now quantified rather than anticipated. Not the next
   batch, and not pathway activation: 0 of 10 relationships are analyzer-testable.
+
+### VERIFIED IN PRODUCTION 2026-08-08T22:27Z — the twelve-domain registry executed
+
+The first production cycle of the merged PR #15 registry. Read from `/api/brain-shadow` with
+an operator token against `c18a54cd`, not inferred from the merge.
+
+`installedCount: 12`, `totalDomains: 20`, **twelve of twelve `ok: true`, zero errors.** The
+whole batch started within 3.5 seconds, 22:27:33.163Z to 22:27:36.674Z.
+
+| product | snapshot | ok | restored | rowsApplied | stateValueBytes | compaction.retired |
+|---|---|---|---|---:|---:|---:|
+| energy | energy | true | true | 1 | 3,724,240 | 2 |
+| finance | finance | true | true | 1 | 3,966,901 | 3 |
+| education | education | true | true | 1 | 2,456,680 | 2 |
+| economy | economy | true | true | 1 | 3,156,003 | 2 |
+| trade | supplyChain | true | true | 1 | 2,923,316 | 2 |
+| industry | industry | true | true | 1 | 2,497,433 | 2 |
+| population | population | true | true | 1 | 3,023,505 | 2 |
+| infrastructure | infrastructure | true | **false** | 120 | 983,401 | 0 |
+| science | research | true | **false** | 120 | 710,203 | 0 |
+| intelligence | intelligence | true | **false** | 120 | 583,312 | 0 |
+| environment | environment | true | **false** | 120 | 670,741 | 0 |
+| medicine | health | true | **false** | 120 | 711,270 | 0 |
+
+`stateValueBytesTotal` 25,407,005 over 12 measured domains, **24.23 MiB of value**. The
+per-domain figures sum to exactly that, checked rather than assumed.
+
+**WHAT THIS PROVES AND WHAT IT DOES NOT.** It proves the twelve-domain registry executes, that
+the five new domains bind and tick against real recorded history, and that per-domain failure
+isolation was not needed because nothing failed. It does **not** prove restoration for the five:
+`restored: false` is correct for a first cycle, and restoration is the property PR #5 had to
+prove separately for the canaries. **The five new domains have exactly one production cycle
+each.** Their second cycle is what establishes that their state came back from Redis rather
+than being recreated, and it had not run at this measurement.
+
+**DO NOT COMPARE THE `channelsRead` FIGURES ACROSS THESE TWO GROUPS.** `provenance.channelsRead`
+is summed over the ticks in the cycle, so the mature seven report 8 to 16 for their single row
+while the new five report 427 to 1,702 across 120 rows. Those are occurrence totals at two
+different tick counts, not channel counts, and reading the larger numbers as broader sensing
+inverts the truth: infrastructure's 1,702 is roughly 14 channels x 120 ticks.
+
+Compaction is running on the seven mature domains and holding them close to flat — energy
+3,730,249 → 3,724,240 in-cycle, retiring 2 records into archive sequence 2. The five new
+domains retired nothing, which is expected: they have not accumulated enough to trip retention.
+
+---
+
+## BATCH 3: five domains installed, 12 of 20 to 17 of 20 (THIS PR, NOT YET IN PRODUCTION)
+
+**Evidence gained: none.** Installation is not evidence. No relationship moved, no identity
+count changed, no claim became citable.
+
+Added: **agriculture, law, defense, technology, governance**. Selected by
+`scripts/brain-audit/audit-readiness.mjs` run against the current registry, on the same three
+criteria in the same order as batches 1 and 2.
+
+| domain | channels read / declared | coverage | declared relationships | first readable row | tickLoopMs |
+|---|---|---:|---:|---:|---:|
+| agriculture | 11 / 13 | 85% | 0 | 0 | 90 |
+| law | 12 / 15 | 80% | 0 | 0 | 35 |
+| defense | 11 / 15 | 73% | 0 | 0 | 71 |
+| technology | 7 / 10 | 70% | 0 | 0 | 78 |
+| governance | 7 / 12 | 58% | 0 | 0 | 35 |
+
+Each declares **zero relationships**, so installing them cannot activate a pathway even by
+mistake. Each reads from **row 0** — 120 ticks, 0 abstentions on the first capped batch — so
+its first cycle is falsifiable immediately rather than silent for three hours.
+
+**COVERAGE IS MATERIALLY LOWER THAN EITHER PREVIOUS BATCH, AND THIS IS THE STRONGEST OBJECTION
+TO THIS PR.** Batch 1 ran 91-100%, batch 2 86-94%, batch 3 is 58-85%. The batch-1 criterion
+said an unavailable input should be "a small, named exception rather than the norm", and at
+governance's 5 of 12 unread that criterion is no longer met. It is installed anyway because
+the remaining pool contains nothing better, because shadow sensing over the channels that do
+read is still legitimate, and because the gap is reported rather than averaged away. The
+unread channels, named:
+
+| domain | unread channels |
+|---|---|
+| agriculture | cornYield (USDA NASS), wheatIndex (FAO FAOSTAT) |
+| law | regulationsGov, secEnforcement (SEC Enforcement Actions), scotusOpinions |
+| defense | defenseNews, breakingDefense, xinhua, cisaAdvisories |
+| technology | patents (USPTO), krebs (Krebs Security), githubAdv (GitHub Security Advisories) |
+| governance | corruption, govEffect, ruleOfLaw (all World Bank), gao (GAO Reports), cbo (CBO Publications) |
+
+**None of these five carries a source-identity channel.** `suChannels` is 0 for all five, so
+this batch adds sensing and adds **no** distinct observation identities. It moves the evidence
+gate by nothing, which is the expected and correct outcome of an installation.
+
+Runtime aliases resolved and checked for collision: seventeen products map to **seventeen
+distinct snapshots**, verified by loading the registry rather than by reading the list.
+
+**CULTURE AND RELIGION ARE EXCLUDED FOR THE THIRD TIME, and for the third time not for
+coverage** — religion reads 15/15 and culture 15/16, the two best figures in the entire
+roster. Their first readable row is 373 of 470, so at the 120-row cap they tick ZERO times for
+three consecutive cycles and cannot fail during them. They go in with **communication** as
+batch 4, behind a cursor that starts near their first readable row.
+
+**Communication (6/11, 55%) is held to batch 4** as the sixth of the six row-0 domains, since
+batch 3 takes five.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: none. No pathway activated, no distinct identity added, nothing became
+  citable. The only thing that changed is how many domains will sense in shadow.
+- **domains promoted**: agriculture, law, defense, technology, governance. 12 installed to 17.
+- **remaining domains**: 3 outside the runtime — communication, culture, religion.
+- **current gate**: unchanged, hot state growth. The bounded-growth replay is the instrument
+  and this PR re-runs it across all seventeen rather than assuming batch 2's result carries.
+- **known unknowns**: (a) the five batch-2 domains have **one** production cycle each, so
+  their restoration across invocations is unproven; adding five more before that second cycle
+  lands means seventeen domains will be executing while ten of them have never demonstrated
+  restore; (b) production `stateValueBytes` for these five is unknown until their first cycle,
+  and the offline figure is a floor because fixtures stop at 470 rows; (c) the sequential
+  seventeen-domain batch wall-clock is unmeasured, but it is **not a plausible risk and this
+  file should stop implying it is**: the twelve-domain cycle spanned 3.5 s from the first
+  domain's `startedAt` to the last's `finishedAt`, and `vercel.json` sets `maxDuration: 800`
+  for `api/**`. That is roughly 230x headroom. The 3.5 s figure is in-function batch time and
+  excludes cold start and the HTTP round trip, so it is a floor for the invocation, not the
+  invocation; (d) **actual
+  transport bytes are still not measured anywhere**, so no bandwidth or billing figure exists;
+  (e) resident value at 24.23 MiB for twelve, where the seven mature domains average 3.03 MiB
+  and the five new ones 0.70 MiB and rising — a seventeen-domain steady state is therefore a
+  projection above 50 MiB, and compaction bounding it is proven only in replay.
+- **exact next action**: merge, then read `/api/brain-shadow` after the first `:27` cycle and
+  confirm `installedCount: 17` with seventeen `ok: true`. Record the production
+  `stateValueBytes` per domain here. Not batch 4, and not pathway activation.
 
 ---
 
@@ -529,7 +658,12 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    - A domain enters a batch only with: a binder, recorded rows, provenance handling,
      isolation tests, and honest reporting of unavailable channels.
    - Per-domain failure isolation is mandatory: one bad domain must not stop the others.
-   - Batch 1 (5 domains) is done. **13 remain.**
+   - Batches 1, 2 and 3 (5 domains each) are done. **3 remain**: communication, culture,
+     religion. (This line read "Batch 1 (5 domains) is done. 13 remain" through both the
+     batch-2 and compaction PRs. Corrected 2026-08-08 against `registry.INSTALLED_DOMAINS`.)
+   - **BATCH 4 IS NOT A REPEAT OF THIS PATTERN.** Culture and religion need a cursor that
+     starts near their first readable row (373 of 470) before installation means anything,
+     and that is a runtime change, not a membership change. Communication is a plain install.
 
 3. **MANDATORY GATE BEFORE BATCH 2, bound hot state growth.** Batch 2 must not be
    installed until this is closed, and it is a hard gate, not a preference.

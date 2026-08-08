@@ -347,8 +347,9 @@ var firstReport, secondReport, firstState;
    * registry's array, not a copy that happens to match today.
    */
   var EXPECTED_INSTALLED = ['energy', 'finance', 'education', 'economy', 'trade', 'industry',
-    'population', 'infrastructure', 'science', 'intelligence', 'environment', 'medicine'];
-  assert('the installed set is exactly the twelve declared, in order',
+    'population', 'infrastructure', 'science', 'intelligence', 'environment', 'medicine',
+    'agriculture', 'law', 'defense', 'technology', 'governance'];
+  assert('the installed set is exactly the seventeen declared, in order',
     JSON.stringify(REG.INSTALLED_DOMAINS) === JSON.stringify(EXPECTED_INSTALLED),
     JSON.stringify(REG.INSTALLED_DOMAINS));
   assert('the runtime re-exports the registry array itself, rather than keeping a copy',
@@ -376,8 +377,8 @@ var firstReport, secondReport, firstState;
   /* One survey, reused: summary() inspects all twenty fixtures and calling it twice to build
      an assertion and its own failure message doubles that for nothing. */
   var boundCount = REG.summary().byState[REG.STATE.BOUND];
-  assert('installing 12 does not claim 12 are evidenced: all 20 remain BOUND, a different count',
-    boundCount === 20 && REG.INSTALLED_DOMAINS.length === 12,
+  assert('installing 17 does not claim 17 are evidenced: all 20 remain BOUND, a different count',
+    boundCount === 20 && REG.INSTALLED_DOMAINS.length === 17,
     'bound=' + boundCount + ' installed=' + REG.INSTALLED_DOMAINS.length);
 
   console.log('');
