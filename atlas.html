@@ -594,6 +594,9 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   #orbLayer{position:fixed;inset:0;z-index:250;pointer-events:none;opacity:0;transition:opacity .35s ease}
   #orbLayer.on{opacity:1;pointer-events:auto}
   #orbLayer canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* GL under, 2D over. Order matters: plates and quiet seats must sit on top of the orb. */
+  #orbGL{z-index:1}
+  #orbCanvas{z-index:2}
   #orbScrim{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(3,6,12,.55) 0%,rgba(3,6,12,.88) 70%,rgba(3,6,12,.96) 100%)}
 
   #orbCard{
@@ -708,7 +711,11 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
 <div id="orbLayer" aria-hidden="true">
   <div id="orbScrim"></div>
-  <canvas id="orbCanvas"></canvas>
+  <!-- The rich orb renders here, UNDER the 2D canvas. The 2D layer keeps the nameplates and the
+     quiet seats exactly as they were, so wiring this in changes what the hero orb looks like
+     and nothing else about how a meeting is drawn. -->
+<canvas id="orbGL"></canvas>
+<canvas id="orbCanvas"></canvas>
   <button id="orbClose" type="button" aria-label="Close">&times;</button>
   <div id="orbCard" role="dialog" aria-live="polite"></div>
 </div>
@@ -767,10 +774,246 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   /* Translucent, lit from within, no face. Expression lives in the surface: the core
      brightens and the sparks quicken while it speaks, which reads as address without turning
      an instrument into a character. */
+  /* ── THE LENS ────────────────────────────────────────────────────────────────────────────
+     Each domain is a WORLD SEEN THROUGH GLASS, not a coloured ball. A sharp shell — fresnel
+     at the limb, hard specular, chromatic fringe — over a raymarched interior that softens
+     with depth. The contrast is the effect: sharp over soft reads as looking through
+     something into somewhere.
+
+     ORTHOGRAPHIC ON PURPOSE. The lab used a camera at a fixed distance, which fixes the orb
+     at screen centre. Here an orb has to appear at any position and radius — a hero in solo
+     mode, a seat in a meeting — so the sphere is reconstructed per pixel from its distance
+     to the centre in pixels. Position and size become uniforms rather than geometry.
+
+     The 2D paintOrb below is KEPT as the fallback. If WebGL is unavailable, or the shader
+     fails to compile on some driver, the page renders exactly what it did before rather than
+     showing nothing. */
+  var GL = { ok:false };
+  var ORB_FRAG = [
+'precision highp float;',
+'uniform vec2  uRes, uCenter;',
+'uniform float uRadius, uTime, uTurb, uDens, uGlow, uFlow, uBlur, uGlass, uSteps, uSpeak, uMode;',
+'uniform vec3  uA, uB, uC;',
+'mat3 ry(float a){ float s=sin(a),c=cos(a); return mat3(c,0.,s, 0.,1.,0., -s,0.,c); }',
+'mat3 rx(float a){ float s=sin(a),c=cos(a); return mat3(1.,0.,0., 0.,c,-s, 0.,s,c); }',
+'float hash(vec3 p){',
+'  p = fract(p * 0.3183099 + vec3(0.71, 0.113, 0.419));',
+'  p *= 17.0;',
+'  return fract(p.x * p.y * p.z * (p.x + p.y + p.z));',
+'}',
+'float vnoise(vec3 p){',
+'  vec3 i = floor(p), f = fract(p);',
+'  f = f*f*(3.0-2.0*f);',
+'  return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x), mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x), f.y),',
+'             mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x), mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x), f.y), f.z);',
+'}',
+'float fbm(vec3 p, float oct){',
+'  float a = 0.5, s = 0.0, tot = 0.0;',
+'  for (int i = 0; i < 6; i++){',
+'    if (float(i) >= oct) break;',
+'    s += a * vnoise(p); tot += a; p *= 2.03; a *= 0.5;',
+'  }',
+'  return s / max(tot, 0.0001);',
+'}',
+'float warp(vec3 p, float t, float oct){',
+'  vec3 q = vec3(fbm(p, oct), fbm(p + vec3(5.2,1.3,4.7), oct), fbm(p + vec3(1.7,9.2,3.1), oct));',
+'  vec2 r = vec2(fbm(p + 2.6*q, oct), fbm(p + 2.6*q + vec3(8.3,2.8,1.4), oct));',
+'  return fbm(p + 2.4*vec3(r, r.x) + vec3(0.0, t*0.25, 0.0), oct);',
+'}',
+/* Every smoothstep here has edge0 < edge1. Reversed edges are UNDEFINED in GLSL ES and
+   return NaN on some drivers, which turns the whole orb black. */
+'float density(vec3 p, float oct){',
+'  float r = length(p);',
+'  float wall = 1.0 - smoothstep(0.35, 1.0, r);',
+'  float t = uTime * uFlow;',
+'  float g;',
+'  if (uMode < 0.5){',
+'    g = warp(p * uTurb + vec3(0.0, t*0.30, 0.0), t, oct);',
+'    g = smoothstep(0.40, 0.78, g);',
+'    float core = 1.0 - smoothstep(0.0, 0.42, r);',
+'    return g * wall * uDens + core * core * 0.55;',
+'  } else if (uMode < 1.5){',
+'    vec3 q = p * uTurb; q.y *= 3.4;',
+'    g = warp(q + vec3(t*0.75, 0.0, 0.0), t, oct);',
+'    g = smoothstep(0.28, 0.66, g);',
+'    float eye = 1.0 - smoothstep(0.0, 0.30, length(p.xz));',
+'    return g * wall * uDens * (1.0 - eye*0.75);',
+'  }',
+'  vec3 q = p * uTurb;',
+'  g = warp(q, t*0.4, oct);',
+'  g = 1.0 - abs(g - 0.5) * 2.0;',
+'  g = pow(max(g, 0.0), 16.0);',
+'  return g * wall * uDens * 3.4;',
+'}',
+'vec3 ramp(float d){',
+'  vec3 c = mix(uA, uB, smoothstep(0.0, 0.55, d));',
+'  return mix(c, uC, smoothstep(0.5, 1.15, d));',
+'}',
+'void main(){',
+'  vec2 d = (gl_FragCoord.xy - uCenter) / uRadius;',       // -1..1 across the orb
+'  float rr2 = dot(d, d);',
+'  vec3 col = vec3(0.0);',
+'  float speak = uSpeak;',
+'  if (rr2 < 1.0){',
+'    vec3 N  = vec3(d, sqrt(max(0.0, 1.0 - rr2)));',       // the sphere, reconstructed
+'    vec3 rd = vec3(0.0, 0.0, -1.0);',
+'    float fres = pow(1.0 - N.z, 3.4);',
+'    vec3  L    = normalize(vec3(-0.55, 0.72, 0.62));',
+'    float spec = pow(max(dot(reflect(rd, N), L), 0.0), 90.0);',
+'    vec3 rr = refract(rd, N, 1.0 / (1.10 + uGlass*0.42));',
+'    if (length(rr) < 0.001) rr = rd;',
+'    mat3 R = ry(uTime*0.12) * rx(0.32);',                 // the interior turns
+'    float span = 2.0 * N.z;',
+'    float STEPS = uSteps;',
+'    float dt = span / STEPS;',
+'    float jit = hash(vec3(gl_FragCoord.xy, uTime)) * dt;',
+'    float trans = 1.0;',
+'    for (int i = 0; i < 64; i++){',
+'      if (float(i) >= STEPS) break;',
+'      float f = float(i) / STEPS;',
+'      vec3 p = R * (N + rr * (jit + float(i)*dt));',
+'      if (dot(p,p) > 1.02) continue;',
+'      float oct = mix(6.0, 2.0, f * uBlur);',
+'      float dn = density(p, oct);',
+'      if (dn > 0.004){',
+'        float a = 1.0 - exp(-dn * dt * 2.2);',
+'        col += ramp(dn) * a * trans * uGlow;',
+'        trans *= 1.0 - a * 0.85;',
+'        if (trans < 0.02) break;',
+'      }',
+'    }',
+'    if (speak > 0.02){',
+'      for (int w = 0; w < 2; w++){',
+'        float wf = fract(uTime*0.85 + float(w)*0.5);',
+'        float ring = abs(sqrt(rr2) - (0.12 + wf*0.88));',
+'        col += vec3(0.86,0.96,1.0) * (1.0 - smoothstep(0.0, 0.05, ring)) * (1.0-wf) * 0.28 * speak;',
+'      }',
+'    }',
+'    float fr = smoothstep(0.80, 0.965, sqrt(rr2));',
+'    col += vec3(0.88,0.96,1.0) * fr * (0.42 + speak*0.34) * uGlass;',
+'    col += vec3(1.0) * spec * 1.4 * uGlass;',
+'    col += ramp(0.9) * pow(fres, 6.0) * 0.5;',
+'  }',
+/* A hair of chromatic separation right at the limb: warm outside, cool inside. */
+'  float rad = sqrt(rr2);',
+'  col += vec3(1.0,0.54,0.38) * (1.0 - smoothstep(0.0, 0.020, abs(rad - 1.004))) * 0.30 * uGlass;',
+'  col += vec3(0.47,0.77,1.0) * (1.0 - smoothstep(0.0, 0.020, abs(rad - 0.986))) * 0.30 * uGlass;',
+'  float atm = exp(-max(rad - 1.0, 0.0) * 3.4);',
+'  col += ramp(0.75) * atm * 0.10 * uGlow;',
+'  col = col / (1.0 + col * 0.55);',
+'  col = pow(max(col, 0.0), vec3(0.4545));',
+'  gl_FragColor = vec4(col, 1.0);',
+'}'
+  ].join('\n');
+
+  /* PER-DOMAIN INTERIORS. One shader; each domain is a mode plus parameters plus a palette,
+     which is what makes twenty distinct worlds affordable. Modes: 0 granulating star,
+     1 banded weather, 2 fracture network. */
+  var WORLD = {
+    energy:        {m:0, tu:1.90, de:1.70, gl:1.45, fl:0.50, bl:0.50, gs:1.00, a:[.46,.04,.01], b:[1,.40,.05], c:[1,.94,.74]},
+    industry:      {m:0, tu:2.20, de:1.55, gl:1.25, fl:0.34, bl:0.55, gs:1.05, a:[.24,.10,.03], b:[.86,.45,.14], c:[1,.92,.76]},
+    science:       {m:0, tu:1.60, de:1.40, gl:1.35, fl:0.30, bl:0.60, gs:1.05, a:[.16,.05,.30], b:[.55,.32,.92], c:[.95,.92,1]},
+    religion:      {m:0, tu:1.20, de:1.25, gl:1.40, fl:0.16, bl:0.70, gs:1.10, a:[.30,.20,.03], b:[.94,.74,.24], c:[1,.98,.88]},
+    medicine:      {m:0, tu:1.75, de:1.45, gl:1.25, fl:0.40, bl:0.55, gs:1.00, a:[.32,.04,.10], b:[.92,.30,.36], c:[1,.90,.90]},
+    environment:   {m:1, tu:1.15, de:2.20, gl:1.55, fl:0.50, bl:0.60, gs:0.90, a:[.02,.06,.14], b:[.18,.46,.70], c:[.90,.97,1]},
+    agriculture:   {m:1, tu:1.25, de:2.00, gl:1.35, fl:0.34, bl:0.58, gs:0.90, a:[.05,.12,.03], b:[.42,.66,.18], c:[.96,1,.80]},
+    population:    {m:1, tu:1.30, de:1.90, gl:1.30, fl:0.30, bl:0.60, gs:0.90, a:[.14,.08,.03], b:[.78,.56,.28], c:[1,.95,.84]},
+    trade:         {m:1, tu:1.40, de:1.95, gl:1.35, fl:0.44, bl:0.55, gs:0.95, a:[.02,.12,.12], b:[.14,.62,.62], c:[.86,1,1]},
+    communication: {m:1, tu:1.50, de:1.85, gl:1.40, fl:0.56, bl:0.52, gs:0.95, a:[.12,.03,.20], b:[.62,.26,.86], c:[.98,.92,1]},
+    culture:       {m:1, tu:1.60, de:1.80, gl:1.45, fl:0.48, bl:0.50, gs:1.10, a:[.20,.02,.16], b:[.92,.22,.62], c:[1,.90,.98]},
+    economy:       {m:1, tu:1.35, de:1.90, gl:1.35, fl:0.36, bl:0.55, gs:0.95, a:[.16,.09,.02], b:[.82,.54,.10], c:[1,.94,.76]},
+    education:     {m:1, tu:1.20, de:1.80, gl:1.30, fl:0.28, bl:0.60, gs:0.95, a:[.04,.09,.18], b:[.28,.52,.86], c:[.94,.97,1]},
+    finance:       {m:2, tu:2.10, de:0.95, gl:1.30, fl:0.14, bl:0.28, gs:1.35, a:[.02,.10,.05], b:[.13,.72,.38], c:[.80,1,.86]},
+    law:           {m:2, tu:1.90, de:0.95, gl:1.25, fl:0.10, bl:0.30, gs:1.35, a:[.12,.08,.01], b:[.82,.62,.14], c:[1,.96,.80]},
+    governance:    {m:2, tu:1.80, de:0.95, gl:1.20, fl:0.10, bl:0.32, gs:1.30, a:[.02,.05,.16], b:[.20,.38,.86], c:[.88,.94,1]},
+    defense:       {m:2, tu:2.30, de:0.95, gl:1.25, fl:0.12, bl:0.26, gs:1.35, a:[.14,.02,.02], b:[.80,.22,.16], c:[1,.88,.82]},
+    infrastructure:{m:2, tu:1.70, de:0.95, gl:1.15, fl:0.08, bl:0.34, gs:1.30, a:[.06,.07,.09], b:[.46,.54,.62], c:[.94,.97,1]},
+    intelligence:  {m:2, tu:2.40, de:0.95, gl:1.30, fl:0.16, bl:0.24, gs:1.40, a:[.02,.09,.12], b:[.16,.66,.78], c:[.86,1,1]},
+    technology:    {m:2, tu:2.20, de:1.00, gl:1.35, fl:0.20, bl:0.28, gs:1.35, a:[.02,.08,.14], b:[.14,.60,.90], c:[.86,.98,1]}
+  };
+  function worldOf(id){ return WORLD[id] || WORLD.economy; }
+
+  (function initGL(){
+    var c = document.getElementById('orbGL');
+    if (!c) return;
+    var g = null;
+    try { g = c.getContext('webgl', { alpha:true, premultipliedAlpha:false, antialias:false }); } catch(e){}
+    if (!g) return;                                   // no WebGL: the 2D path stays in charge
+    function sh(t, src){
+      var s = g.createShader(t); g.shaderSource(s, src); g.compileShader(s);
+      if (!g.getShaderParameter(s, g.COMPILE_STATUS)) throw new Error(g.getShaderInfoLog(s));
+      return s;
+    }
+    var p;
+    try {
+      p = g.createProgram();
+      g.attachShader(p, sh(g.VERTEX_SHADER, 'attribute vec2 aPos;void main(){gl_Position=vec4(aPos,0.,1.);}'));
+      g.attachShader(p, sh(g.FRAGMENT_SHADER, ORB_FRAG));
+      g.linkProgram(p);
+      if (!g.getProgramParameter(p, g.LINK_STATUS)) throw new Error(g.getProgramInfoLog(p));
+    } catch (e) { return; }                           // shader refused: fall back, do not blank
+    var buf = g.createBuffer();
+    g.bindBuffer(g.ARRAY_BUFFER, buf);
+    g.bufferData(g.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), g.STATIC_DRAW);
+    var U = {};
+    ['uRes','uCenter','uRadius','uTime','uTurb','uDens','uGlow','uFlow','uBlur','uGlass',
+     'uSteps','uSpeak','uMode','uA','uB','uC'].forEach(function(n){ U[n] = g.getUniformLocation(p, n); });
+    GL = { ok:true, g:g, c:c, p:p, buf:buf, U:U, steps:44, frames:0, last:0 };
+  })();
+
+  function glSize(){
+    if (!GL.ok) return;
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    GL.c.width = Math.round(innerWidth*d); GL.c.height = Math.round(innerHeight*d);
+    GL.g.viewport(0,0,GL.c.width,GL.c.height);
+    GL.dpr = d;
+  }
+  function glClear(){
+    if (!GL.ok) return;
+    GL.g.clearColor(0,0,0,0); GL.g.clear(GL.g.COLOR_BUFFER_BIT);
+  }
+  /* Draw one orb at a screen position and radius, in CSS pixels. */
+  function glOrb(t, cx, cy, R, id, speak){
+    if (!GL.ok) return false;
+    var g = GL.g, U = GL.U, d = GL.dpr || 1, w = worldOf(id);
+    g.useProgram(GL.p);
+    g.bindBuffer(g.ARRAY_BUFFER, GL.buf);
+    var a = g.getAttribLocation(GL.p, 'aPos');
+    g.enableVertexAttribArray(a); g.vertexAttribPointer(a, 2, g.FLOAT, false, 0, 0);
+    g.enable(g.BLEND); g.blendFunc(g.SRC_ALPHA, g.ONE);
+    g.uniform2f(U.uRes, GL.c.width, GL.c.height);
+    // gl_FragCoord has its origin bottom-left; the page measures from the top.
+    g.uniform2f(U.uCenter, cx*d, GL.c.height - cy*d);
+    g.uniform1f(U.uRadius, Math.max(1, R*d));
+    g.uniform1f(U.uTime, t);
+    g.uniform1f(U.uTurb, w.tu); g.uniform1f(U.uDens, w.de); g.uniform1f(U.uGlow, w.gl);
+    g.uniform1f(U.uFlow, w.fl); g.uniform1f(U.uBlur, w.bl); g.uniform1f(U.uGlass, w.gs);
+    g.uniform1f(U.uMode, w.m);  g.uniform1f(U.uSteps, GL.steps); g.uniform1f(U.uSpeak, speak);
+    g.uniform3fv(U.uA, w.a); g.uniform3fv(U.uB, w.b); g.uniform3fv(U.uC, w.c);
+    g.drawArrays(g.TRIANGLES, 0, 3);
+    g.disable(g.BLEND);
+    return true;
+  }
+  /* Steps follow the frame rate actually achieved rather than a guess about the machine.
+     Halving them halves the cost and only softens the interior, which is meant to be soft. */
+  function glTune(now){
+    if (!GL.ok) return;
+    GL.frames++;
+    if (now - GL.last > 500){
+      var f = GL.frames*1000/(now-GL.last);
+      GL.frames = 0; GL.last = now;
+      if (f > 0 && f < 30)      GL.steps = Math.max(16, GL.steps - 8);
+      else if (f > 55)          GL.steps = Math.min(56, GL.steps + 3);
+    }
+  }
+
   /* ONE ORB, DRAWN ANYWHERE. Pulled out of the frame loop so a meeting can lay several of
      them out side by side like a call, instead of one orb changing colour and the viewer
      having to remember who is talking. `seed` decorrelates the shared spark field, or four
-     orbs twinkle in perfect unison and read as four copies of one thing. */
+     orbs twinkle in perfect unison and read as four copies of one thing.
+
+     THIS IS NOW THE FALLBACK, used only when WebGL is unavailable or the shader would not
+     compile. Keeping it means a driver problem costs the lens, not the page. */
   function paintOrb(t, cx, cy, R, H, speak, seed){
     var rr = R*(1+speak*0.035);
     var tint = function(l,a){ return 'hsla('+H+',92%,'+l+'%,'+a+')'; };
@@ -986,6 +1229,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   }
 
   function drawOrb(now){
+    glTune(now); glClear();
     var t = (now-t0)/1000, w = innerWidth, h = innerHeight;
     ctx.clearRect(0,0,w,h);
 
@@ -996,7 +1240,10 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
         /* ONLY THE ONE HOLDING THE FLOOR IS AN ORB. Twenty lit orbs is a screensaver: nothing
            draws the eye, so nobody can tell who is speaking, which is the single thing this
            view exists to show. Everyone else is a quiet glass disc, present and waiting. */
-        if (s.live) paintOrb(t, p.x, p.y, p.r*1.5, s.hue, s.speaking ? (0.5+0.5*Math.sin(t*7.5)) : 0, i);
+        var sp = s.speaking ? (0.5+0.5*Math.sin(t*7.5)) : 0;
+        if (s.live){
+          if (!glOrb(t, p.x, p.y, p.r*1.5, s.id, sp)) paintOrb(t, p.x, p.y, p.r*1.5, s.hue, sp, i);
+        }
         else quietSeat(t, p, s, i);
         plate(s, p);
       }
@@ -1010,7 +1257,8 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     var cx = orb.fromX + (targetX-orb.fromX)*e;
     var cy = orb.fromY + (targetY-orb.fromY)*e;
     var R  = 10 + (Math.min(w,h)*0.17 - 10)*e;
-    paintOrb(t, cx, cy, R, orb.hue, orb.speaking ? (0.5+0.5*Math.sin(t*7.5))*orb.energy : 0, 0);
+    var sp1 = orb.speaking ? (0.5+0.5*Math.sin(t*7.5))*orb.energy : 0;
+    if (!glOrb(t, cx, cy, R, orb.id, sp1)) paintOrb(t, cx, cy, R, orb.hue, sp1, 0);
     raf = requestAnimationFrame(drawOrb);
   }
 
@@ -1254,7 +1502,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   /* The whole table. Opens the layer with no single manager behind it, because here the room
      is the subject rather than one domain's briefing. */
   function conveneTable(){
-    sizeCanvas(); makeSparks();
+    sizeCanvas(); glSize(); makeSparks();
     t0 = performance.now();
     layer.classList.add('on'); layer.setAttribute('aria-hidden','false');
     if (!raf) raf = requestAnimationFrame(drawOrb);
@@ -1362,7 +1610,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
   // ── open / close ────────────────────────────────────────────────────────────────────────
   function open(id,label,fn,x,y){
-    sizeCanvas();
+    sizeCanvas(); glSize();
     meetOn = false;                       // opening a manager ends any room already running
     seats = null; activeSeat = null;
     orb = { id:id, fromX: x!=null?x:innerWidth/2, fromY: y!=null?y:innerHeight/2,
@@ -1392,7 +1640,7 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
   document.getElementById('orbClose').addEventListener('click', close);
   document.addEventListener('keydown', function(e){ if (e.key==='Escape') close(); });
-  addEventListener('resize', sizeCanvas);
+  addEventListener('resize', function(){ sizeCanvas(); glSize(); });
 
   /* Alphabetical, and sorted on a copy: DOMAINS order is the lifecycle order the ring is
      drawn in, so mutating it here would rearrange the map. This is a lookup list, and a
