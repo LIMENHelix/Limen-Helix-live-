@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-08T12:40Z
+measured_at: 2026-08-08T13:35Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -313,7 +313,8 @@ a ratio without them and divided the 16:27 figures against the table above, whic
 
 At 20:27 the same pairing gives 4.22x and 6.49x. Finance at 4,383,808 already exceeds the
 3.67 MiB largest value ever measured offline. **The offline 20-domain projection is
-therefore a floor, not a worst case.**
+therefore a floor, not a worst case.** These figures are the 2026-08-07 cycles; the latest
+verified single-domain maximum is finance at 4,522,058 B, 2026-08-08T13:27Z.
 
 ### The six fields this file requires of every brain PR
 
@@ -326,10 +327,10 @@ therefore a floor, not a worst case.**
 - **known unknowns**: (a) **actual transport bytes are not measured anywhere**, so no
   bandwidth or billing figure exists for this system, only serialized value lengths;
   (b) the Upstash request-size ceiling for this plan has not been retrieved, and since the
-  value length is not the wire length, headroom above the largest value is doubly
-  unestablished; (c) the sequential seven-domain batch wall-clock and the per-cycle Redis
+  value length is not the wire length, headroom above the largest SINGLE-DOMAIN value
+  (finance, 4,522,058 B at 2026-08-08T13:27Z) is doubly unestablished; (c) the sequential seven-domain batch wall-clock and the per-cycle Redis
   round-trip latency are still unmeasured, because the cycle report records neither;
-  (d) the SHAPE of steady-state growth beyond 12 cycles. It is now measured (below) but
+  (d) the SHAPE of steady-state growth beyond the 15 post-backfill cycles measured so far. It is now measured (below) but
   only over half a day, so whether the per-cycle rate holds, decays, or compounds over
   weeks is not established.
 
@@ -341,10 +342,12 @@ therefore a floor, not a worst case.**
   still grows, which is the gate's actual subject.
 
   **Withdrawn from this list, now measured:** "no production cycle has run with 7 domains"
-  and "production `stateValueBytes` is unknown". Five seven-domain cycles have run
-  (`startedAt` 16:27:32Z, 20:27:15Z, 21:27:15Z, 22:27:15Z, 23:27:15Z; per-domain values
-  differ by under two seconds within a cycle) and every domain has reported a measured
-  `stateValueBytes` in each. Leaving them listed as unknown after measuring them would make
+  and "production `stateValueBytes` is unknown". **19 complete seven-domain cycles have
+  run**, counted from the recorded `startedAt` values in each domain's history, not copied:
+  first 2026-08-07T16:27Z, latest 2026-08-08T13:27Z. **4 of those were backfill** (16:27,
+  20:27, 21:27, 22:27 on 2026-08-07, where at least one domain hit the 120-row cap) and
+  **15 are post-backfill steady state**. Per-domain `startedAt` differ by under two seconds
+  within a cycle, and every domain reported a measured `stateValueBytes` in each. Leaving them listed as unknown after measuring them would make
   this file understate what the system has proven, which is the same defect as overstating
   it.
 - **exact next action**: close the hot-state gate (NEXT PROGRAM STEP 3). Restoration is
@@ -511,9 +514,16 @@ Net: the shared production template. This is the thing the remaining 18 domains 
      on how many cycles happened to run breaks both, and would break them silently
    - **measure ACTUAL TRANSPORT BYTES**, by instrumenting `lib/brain-shadow-redis` at the
      point it builds a request and reads a response. Until that exists there is no bandwidth
-     figure and no billing figure for this system, and the request-size headroom above the
-     current 3.67 MiB largest value cannot be established either. This belongs to THIS
-     milestone and was deliberately kept out of the batch-1 installation PR.
+     figure and no billing figure for this system, and the request-size headroom cannot be
+     established either.
+
+     The value to size that headroom against is the **largest SINGLE DOMAIN** in production,
+     because that is what one request carries. A total across seven domains is seven
+     requests, not one, and must not be compared with a request ceiling. Latest verified:
+     **finance, 4,522,058 B (4.31 MiB), cycle 2026-08-08T13:27:04.663Z**. The offline
+     3.67 MiB full-replay figure is a floor from fixtures and is now superseded by that
+     measurement. This belongs to THIS milestone and was deliberately kept out of the
+     batch-1 installation PR.
    - re-measure against production and record the new curve here
 
    **Not attempted in this PR, deliberately.** Compaction touches the kernel's memory and
