@@ -1,7 +1,7 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-06T17:30Z
-measured_at_commit: 2ead52f213ff4e7df81e0f2995f0e4111c2cfa9c
+measured_at: 2026-08-08T13:35Z
+measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
   authority. Nothing here authorises anything. Where a fact is mutable, re-verify it
@@ -153,7 +153,7 @@ toward one that can be skipped: the evidence gate is measured separately and is 
 
 ---
 
-## BATCH 1: five domains installed (this PR, NOT YET VERIFIED IN PRODUCTION)
+## BATCH 1: five domains installed, VERIFIED IN PRODUCTION
 
 **Evidence gained: none.** This is an installation, and installation is not evidence. What
 changed is how many domains sense in shadow, not what any of them has established.
@@ -209,12 +209,112 @@ Offline, first cold cycle of 120 rows, through the real write path:
 | energy | 926,617 | | trade | 781,990 |
 | finance | 674,805 | | industry | 468,016 |
 | economy | 649,007 | | education | 436,741 |
-| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MB of value)** |
+| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MiB of value)** |
 
-**NOT VERIFIED IN PRODUCTION.** Nothing here has run against real Redis. The numbers above
-come from offline replay of the PR #4 fixtures through an in-memory transport. Production
-truth arrives at the first two `:27` cycles after merge, and until then this section
-describes what the code does, not what the system did.
+### VERIFIED IN PRODUCTION 2026-08-07, and the outage in the middle of it
+
+Measured by authenticated reads of `/api/brain-shadow`, not inferred.
+
+**Cycle at 16:27:32Z, first post-merge.** All seven `ok:true`. `installedCount:7`,
+`totalDomains:20`. Aliases resolved: `trade` reported runtime domain `supplyChain`. The five
+new domains cold as expected (`restored:false`, `cursorBefore:null`), each applying 120 rows
+at the cap, cursor to `2026-07-22T20:12:33.982Z`. Energy and finance `restored:true`.
+`stateValueBytes` measured for 7 of 7, total **11,121,483**.
+
+**THEN THE RUNTIME WENT OFF THE AIR FOR THREE AND A HALF HOURS, and no brain file changed.**
+An unrelated feature merge at 16:26:55Z deployed at 16:30:19Z having lost two lines in a
+merge resolution: the `brain-shadow` entry in `api/[...route].js`, and the
+`/api/brain-shadow?run=1` cron in `vercel.json`, whose array slot was taken by another cron.
+`/api/brain-shadow` answered 404. **The cycles at 17:27, 18:27 and 19:27 did not run.**
+Every test passed and every deploy was green throughout, because nothing asserted that the
+brain was reachable. Restored at 19:50:21Z. See NEXT PROGRAM STEP 5.
+
+**Cycle at 20:27:15Z, first post-restoration.** All seven `ok:true` and **`restored:true`**,
+including the five installed by this batch, whose first cycle was cold. Every domain's
+`cursorBefore` equalled its OWN `cursorAfter` from 16:27, proved from each domain's
+`?history=` record:
+
+| domain | 16:27 cursorAfter | 20:27 cursorBefore | applied | stateValueBytes |
+|---|---|---|---:|---:|
+| energy | 2026-08-07T16:12:15.703Z | 2026-08-07T16:12:15.703Z | 4 | 3,911,335 |
+| finance | 2026-08-07T16:12:15.703Z | 2026-08-07T16:12:15.703Z | 4 | 4,376,143 |
+| education | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 916,504 |
+| economy | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,300,158 |
+| trade | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,525,786 |
+| industry | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,004,203 |
+| population | 2026-07-22T20:12:33.982Z | 2026-07-22T20:12:33.982Z | 120 | 1,237,775 |
+
+No replay: every applied row was newer than the stored cursor, and the total rose to
+**14,271,904** across 7 measured domains. State survived a four-hour gap and a
+deployment, which is stronger restoration evidence than two adjacent cycles.
+
+**Cycle at 21:27:15Z, second post-restoration, CONSECUTIVE with the first.** 20:27 and
+21:27 are one hour apart with nothing between them, which is the claim the earlier pairing
+(16:27 and 20:27, separated by the outage) could not support. All seven `restored:true`,
+and every domain's `cursorBefore` equalled its OWN 20:27 `cursorAfter`:
+
+| domain | 20:27 cursorAfter = 21:27 cursorBefore | applied | stateValueBytes 20:27 → 21:27 |
+|---|---|---:|---|
+| energy | 2026-08-07T20:12:43.770Z | 1 | 3,911,335 → 3,918,000 |
+| finance | 2026-08-07T20:12:43.770Z | 1 | 4,376,143 → 4,383,808 |
+| education | 2026-07-27T20:12:29.928Z | 120 | 916,504 → 1,562,659 |
+| economy | 2026-07-27T20:12:29.928Z | 120 | 1,300,158 → 2,159,066 |
+| trade | 2026-07-27T20:12:29.928Z | 120 | 1,525,786 → 2,194,589 |
+| industry | 2026-07-27T20:12:29.928Z | 120 | 1,004,203 → 1,658,563 |
+| population | 2026-07-27T20:12:29.928Z | 120 | 1,237,775 → 2,029,484 |
+
+57 of 57 criteria passed. Records selected by post-deployment timestamp, not array
+position, so a delayed or manually dispatched cycle cannot shift the pairing silently.
+
+**THE GATE JUST GOT TIGHTER, MEASURED IN PRODUCTION.** The five backfilling domains grew
+**44% to 71% in a single cycle**, and the seven-domain total went from 14,271,904 to
+17,906,169, **+25% in one hour**. Offline replay of a cold start did not show this because
+it never ran more than one cycle per domain. Batch 2 must not be installed against a curve
+this steep.
+
+**Backfill completed at 23:27:16Z, and the earlier prediction about it was wrong twice.**
+An earlier draft said "360 of 470 rows consumed, one 110-row cycle remains, then a zero-row
+cycle". Production says otherwise on both halves:
+
+| education cycle (`startedAt`) | rowsApplied | cursorAfter |
+|---|---:|---|
+| 2026-08-07T16:27:32.964Z | 120 | 2026-07-22T20:12:33.982Z |
+| 2026-08-07T20:27:16.175Z | 120 | 2026-07-27T20:12:29.928Z |
+| 2026-08-07T21:27:15.932Z | 120 | 2026-08-01T20:12:56.266Z |
+| 2026-08-07T22:27:16.177Z | 120 | 2026-08-06T20:12:16.515Z |
+| 2026-08-07T23:27:16.134Z | **27** | 2026-08-07T23:12:06.626Z |
+
+It took **four** 120-row cycles and then 27, not three and then 110. And the catch-up cycle
+was not zero and never could be.
+
+**THE ERROR WAS TREATING A FIXTURE SIZE AS A PRODUCTION TAIL.** The 470-row figure is the
+offline replay corpus. Production is different in two ways that both matter:
+`readRecorderRows` reads the newest **500** rows, and `feed-record` runs at `:12`, sixteen
+minutes before `brain-shadow` at `:27`, so fresh rows arrive between every pair of cycles.
+The tail was never a fixed number to divide.
+
+A caught-up domain therefore applies **newly recorded rows, not zero**. All five now sit at
+`cursorAfter` 2026-08-07T23:12:06.626Z, identical to energy and finance, which is what
+caught-up looks like: energy applies 1 row per cycle in steady state, and the five will do
+the same. No further backfill count is predicted here, because nothing measured supports
+one.
+
+**PRODUCTION CONTRADICTS THE OFFLINE PROJECTION.** The five new domains matched offline
+replay within 0.1% on their first cold cycle, validating the method for a cold start. The
+two canaries did not, because production has run for days and is past the end of the
+measured curve. Both numerator and denominator are named, because an earlier draft quoted
+a ratio without them and divided the 16:27 figures against the table above, which shows
+20:27:
+
+| domain | 21:27 production | offline cold cycle | ratio |
+|---|---:|---:|---:|
+| energy | 3,918,000 | 926,617 | **4.23x** |
+| finance | 4,383,808 | 674,805 | **6.50x** |
+
+At 20:27 the same pairing gives 4.22x and 6.49x. Finance at 4,383,808 already exceeds the
+3.67 MiB largest value ever measured offline. **The offline 20-domain projection is
+therefore a floor, not a worst case.** These figures are the 2026-08-07 cycles; the latest
+verified single-domain maximum is finance at 4,522,058 B, 2026-08-08T13:27Z.
 
 ### The six fields this file requires of every brain PR
 
@@ -223,17 +323,38 @@ describes what the code does, not what the system did.
 - **domains promoted**: education, economy, trade, industry, population. 2 installed to 7.
 - **remaining domains**: 13 outside the runtime.
 - **current gate**: hot state growth (NEXT PROGRAM STEP 3). Hard gate before batch 2.
-- **known unknowns**: (a) no production cycle has run with 7 domains, so the sequential
-  batch wall-clock and the real Redis round-trip cost are both unmeasured; (b) production
-  `stateValueBytes` for the 5 new domains is unknown until the first cycle, and the offline
-  figures are a floor because the fixtures stop at 470 rows while production keeps
-  recording; (c) **actual transport bytes are not measured anywhere**, so no bandwidth or
-  billing figure exists for this system, only value lengths; (d) the Upstash request-size
-  ceiling for this plan has not been retrieved, and since the value length is not the wire
-  length, headroom above the 3.66 MB largest value is doubly unestablished.
-- **exact next action**: merge, then read `/api/brain-shadow` after the first two `:27`
-  cycles and record the production `stateValueBytes` per domain in this file. Not the next
-  batch: the gate above comes first.
+  Production measurement makes it tighter than the offline projection said, not looser.
+- **known unknowns**: (a) **actual transport bytes are not measured anywhere**, so no
+  bandwidth or billing figure exists for this system, only serialized value lengths;
+  (b) the Upstash request-size ceiling for this plan has not been retrieved, and since the
+  value length is not the wire length, headroom above the largest SINGLE-DOMAIN value
+  (finance, 4,522,058 B at 2026-08-08T13:27Z) is doubly unestablished; (c) the sequential seven-domain batch wall-clock and the per-cycle Redis
+  round-trip latency are still unmeasured, because the cycle report records neither;
+  (d) the SHAPE of steady-state growth beyond the 15 post-backfill cycles measured so far. It is now measured (below) but
+  only over half a day, so whether the per-cycle rate holds, decays, or compounds over
+  weeks is not established.
+
+  **STEADY-STATE GROWTH IS NOW MEASURED**, which was listed here as unknown while every
+  cycle was still backfill. Over 12 consecutive post-backfill cycles, each applying 1 row
+  per domain, the seven-domain total went 22,527,202 to 23,012,849 bytes: **+44,150 bytes
+  and +0.19% per cycle.** Per domain the rate is tight, 0.18% to 0.21%, so this is a
+  property of the loop rather than of one domain's data. A brain applying ONE row per hour
+  still grows, which is the gate's actual subject.
+
+  **Withdrawn from this list, now measured:** "no production cycle has run with 7 domains"
+  and "production `stateValueBytes` is unknown". **19 complete seven-domain cycles have
+  run**, counted from the recorded `startedAt` values in each domain's history, not copied:
+  first 2026-08-07T16:27Z, latest 2026-08-08T13:27Z. **4 of those were backfill** (16:27,
+  20:27, 21:27, 22:27 on 2026-08-07, where at least one domain hit the 120-row cap) and
+  **15 are post-backfill steady state**. Per-domain `startedAt` differ by under two seconds
+  within a cycle, and every domain reported a measured `stateValueBytes` in each. Leaving them listed as unknown after measuring them would make
+  this file understate what the system has proven, which is the same defect as overstating
+  it.
+- **exact next action**: close the hot-state gate (NEXT PROGRAM STEP 3). Restoration is
+  settled and steady-state growth is no longer unmeasured: it is **+0.19% per cycle** with
+  one row applied per domain, on a resident value already at 23,012,849 bytes for seven
+  domains. That is the gate, and it is now quantified rather than anticipated. Not the next
+  batch, and not pathway activation: 0 of 10 relationships are analyzer-testable.
 
 ---
 
@@ -331,27 +452,49 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 3. **MANDATORY GATE BEFORE BATCH 2, bound hot state growth.** Batch 2 must not be
    installed until this is closed, and it is a hard gate, not a preference.
 
-   **What was measured, and in which unit.** Serialized state VALUE length grows roughly
-   linearly with ticks and shows no plateau within 470 ticks. Offline replay of the PR #4
-   fixtures. These are value lengths, not wire bytes; see the unit note in BATCH 1.
+   **What was measured, and in which unit.** The COMPLETE persisted value
+   `{runtime, domain, lastRowT, savedAt, loop}` that the runtime writes, not the loop
+   alone. An earlier revision of `audit-growth.js` measured `LOOP.serialize(loop)` by
+   itself and labelled it the stored state value, so its figures were smaller than what
+   production stores and disagreed with `audit-cost.js` at the same depth. Both scripts
+   now import one shared envelope definition and their 120-row figures agree exactly for
+   all 20 domains. Re-measured after that fix, the numbers moved by roughly 0.1 KiB per
+   domain: the envelope is a fixed overhead, so the SHAPE of the curve is unchanged, and
+   growth is still roughly linear with no plateau within the fixture.
+
+   These are value lengths, not wire bytes; see the unit note in BATCH 1.
 
    | replay depth | economy | finance | infrastructure |
    |---|---|---|---|
-   | 120 rows | 630 KB | 656 KB | 925 KB |
-   | 240 rows | 1,261 KB | 1,782 KB | 1,826 KB |
-   | 360 rows | 2,108 KB | 2,791 KB | 2,676 KB |
-   | 470 rows | 2,822 KB | **3,752 KB** | 3,459 KB |
+   | 120 rows | 633.8 KiB | 659.0 KiB | 928.9 KiB |
+   | 240 rows | 1,268.3 KiB | 1,787.8 KiB | 1,833.5 KiB |
+   | 360 rows | 2,118.7 KiB | 2,798.8 KiB | 2,686.6 KiB |
+   | full replay | 2,834.8 KiB | **3,761.9 KiB** | 3,472.5 KiB |
 
    Composition of finance at 470 ticks: `memory` 2,398 KB (64%) and
    `registry.predictions` 763 KB (656 open, 611 resolved). Both accumulate per tick.
    `lib/brain-shadow-store.js` enforces no size ceiling.
 
    **Why it gates the batch and not this one.** Every cycle reads the whole state and writes
-   it back, so a value that grows without bound grows the work of every future cycle. At 7
-   installed domains the total is 4.30 MB of value and is manageable. At 20, offline replay
-   projects **49.9 MB of resident value**, with the largest single domain already 3.66 MB and
-   no ceiling in the store. Installing 13 more before bounding growth commits every
-   subsequent cycle to carrying it.
+   it back, so a value that grows without bound grows the work of every future cycle.
+
+   **THREE DIFFERENT NUMBERS, AND AN EARLIER DRAFT PRESENTED THE SMALLEST AS CURRENT STATE.**
+   It said "at 7 installed domains the total is 4.30 MiB and is manageable". That figure is
+   the OFFLINE cold-start estimate, production was already far past it, and "manageable" was
+   asserted with no capacity measurement behind it. All three faults are corrected here:
+
+   | figure | value | what it is |
+   |---|---:|---|
+   | offline cold-start estimate | 4,509,591 B (4.30 MiB) | 7 domains, first capped 120-row cycle, replayed from fixtures |
+   | **latest verified PRODUCTION resident value** | **23,012,849 B (21.95 MiB)** | 7 domains, cycle of 2026-08-08T12:27Z, all seven measured in that single cycle |
+   | offline 20-domain projection | 50.09 MiB | full replay of 20 fixtures. A FLOOR, not a worst case |
+
+   Production is **5.10x** the offline estimate for the same seven domains. No capacity claim
+   is made: the Upstash request ceiling has not been retrieved, per-cycle latency is not
+   recorded, and transport bytes are unmeasured, so there is nothing here that supports
+   calling any of it manageable or unmanageable.
+
+   Installing 13 more before bounding growth commits every subsequent cycle to carrying it.
 
    **STATED IN THE UNIT ACTUALLY MEASURED.** The figures above are serialized value lengths.
    Earlier wording here turned them into a bandwidth-per-cycle number, a monthly billing
@@ -371,16 +514,73 @@ Net: the shared production template. This is the thing the remaining 18 domains 
      on how many cycles happened to run breaks both, and would break them silently
    - **measure ACTUAL TRANSPORT BYTES**, by instrumenting `lib/brain-shadow-redis` at the
      point it builds a request and reads a response. Until that exists there is no bandwidth
-     figure and no billing figure for this system, and the request-size headroom above the
-     current 3.66 MB largest value cannot be established either. This belongs to THIS
-     milestone and was deliberately kept out of the batch-1 installation PR.
+     figure and no billing figure for this system, and the request-size headroom cannot be
+     established either.
+
+     The value to size that headroom against is the **largest SINGLE DOMAIN** in production,
+     because that is what one request carries. A total across seven domains is seven
+     requests, not one, and must not be compared with a request ceiling. Latest verified:
+     **finance, 4,522,058 B (4.31 MiB), cycle 2026-08-08T13:27:04.663Z**. The offline
+     3.67 MiB full-replay figure is a floor from fixtures and is now superseded by that
+     measurement. This belongs to THIS milestone and was deliberately kept out of the
+     batch-1 installation PR.
    - re-measure against production and record the new curve here
 
    **Not attempted in this PR, deliberately.** Compaction touches the kernel's memory and
    prediction registry, which every existing measurement depends on. Bundling it with a
    membership change would make a regression in either one impossible to attribute.
 
-4. **Separate bounded cleanup, not urgent, do not fold into a batch PR.**
+5. **REACHABILITY IS NOW A TESTED INVARIANT.** `brain-v2/test/deployment-invariants.js`
+   fails CI if `api/[...route].js` loses the `brain-shadow` registration, if
+   `vercel.json` loses the `:27` cron, if a SECOND execution-capable brain cron exists on
+   any schedule, or if any cron targets a route that does not resolve to a loadable handler.
+   It does not reserve the `:27` minute: an unrelated job may use it.
+   It also refuses a duplicate registration, a registration whose module does not resolve,
+   a `HANDLERS` declared anywhere but the router's top-level binding, and a dedicated
+   `api/brain-shadow.<ext>` or `api/brain-shadow/index.<ext>` that would shadow the
+   catch-all. Each of those is a named negative control inside the test.
+
+   **It also checks the EFFECTIVE route, not only the initializer.** The router reads
+   `HANDLERS[name]` at request time, so `HANDLERS['brain-shadow'] = require(...)` after the
+   declaration, directly or through an alias, redirects the route while leaving every static
+   assertion green. The test loads `api/[...route].js` in a sandbox with each handler
+   replaced by a stub that records its own name, dispatches a request, and asserts the
+   brain-shadow stub is the one that ran. No real handler executes and the module cache is
+   untouched. Both mutation forms are negative controls.
+
+   **No pass/fail counts are recorded here.** Four revisions of that test ran 9, 14, 21
+   and 28 assertions, and every copied count went stale the moment coverage improved,
+   which cost more review cycles than the guard itself. Run
+   `node brain-v2/test/deployment-invariants.js` for the current numbers; CI runs it on
+   every pull request.
+
+   The lesson is not "someone was careless". It is that **an installed, correct,
+   unreachable brain is indistinguishable from a working one** from inside the repository.
+   Every brain file was right on main for the whole outage, every test passed, every deploy
+   was green. The only surface that would have said otherwise was the one that had stopped
+   answering. That is why the invariant asserts the declaration rather than the behaviour:
+   it fails on the pull request that causes it, not hours later in production.
+
+6. **THE AUDIT NUMBERS WERE CORRECTED. Do not cite the pre-correction ones.** Four defects
+   in `scripts/brain-audit`, all found in review, all now fixed:
+   - source-identity coverage was reported as relationship eligibility. The real rule, in
+     `scripts/build-brain-fixture.mjs`, also requires each side to be MOVING. The audit now
+     imports `analyze` / `loadManifest` / `testableRelationships` / `MIN_OBSERVATIONS` from
+     that analyzer instead of re-deriving them, and prints coverage and eligibility apart.
+   - `String.length` was labelled bytes. Now `Buffer.byteLength(value, 'utf8')`. Effect:
+     about 0.4% larger totals. Real, and no conclusion moved.
+   - the installed set was hardcoded to two domains. Now `REG.INSTALLED_DOMAINS`.
+   - kernel-loop timing was called cycle cost. Now `tickLoopMs`, which excludes the state
+     read, `LOOP.serialize`, the stringify, and all seven Redis round trips.
+
+   Re-measured after correction: **10 declared relationships, 0 analyzer-testable, 0 of 20
+   domains supporting independent observations.** Unchanged conclusion, now on the real
+   rule. Serialized value all 20: 11.53 MiB after the first capped **120-ROW** cold cycle,
+   50.09 MiB at full replay. Rows, not ticks: culture and religion execute ZERO ticks inside
+   those 120 rows, because their readable data starts at row 373, so the two depths are not
+   interchangeable and comparing them would misstate the growth baseline.
+
+7. **Separate bounded cleanup, not urgent, do not fold into a batch PR.**
    `brain-v2/bind/agriculture.js:2` still reads "No fixture exists; MANIFEST-ONLY". PR #4
    gave it a fixture and the registry reports it BOUND, so the header contradicts the code
    below it. Documentation only, no behaviour, and it should not ride along with a change

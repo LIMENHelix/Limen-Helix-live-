@@ -18,6 +18,8 @@ var fs = require('fs'), path = require('path');
 var ROOT = path.join(__dirname, '..', '..');
 var REG = require(path.join(ROOT, 'brain-v2', 'bind', 'registry.js'));
 var LOOP = require(path.join(ROOT, 'brain-v2', 'kernel', 'loop.js'));
+/* ONE definition of the persisted value, shared with audit-growth so the two cannot drift. */
+var ENV = require('./state-envelope.js');
 var HOUR = 3600000;
 
 var res = [];
@@ -36,13 +38,12 @@ REG.DOMAINS.forEach(function (d) {
     if (Object.keys(rd).length) { LOOP.tick(loop, rd, rw.t); ticks++; }
   });
 
-  var ser = JSON.stringify(LOOP.serialize(loop));
-  // the state envelope the runtime actually writes
-  var envelope = JSON.stringify({ runtime: 'brain-v2-shadow/0.1.0', domain: d.snapshot,
-    lastRowT: rows.length ? rows[Math.min(119, rows.length - 1)].t : null, savedAt: 0,
-    loop: JSON.parse(ser) });
+  /* The exact value the runtime persists, built by the shared helper. */
+  var bytes = ENV.envelopeBytes(d.snapshot, ENV.cursorAfterRows(rows, 120), LOOP.serialize(loop));
 
-  res.push({ product: d.product, ticks: ticks, stateKB: +(envelope.length / 1024).toFixed(1),
+  res.push({ product: d.product, ticks: ticks,
+    stateValueBytes: bytes,
+    stateValueKiB: +(bytes / 1024).toFixed(1),
     channels: spec.channels.length });
 });
 
@@ -50,17 +51,19 @@ fs.writeFileSync(path.join(__dirname, 'cost-out.json'), JSON.stringify(res, null
 
 function pad(s, n) { s = String(s); return s + ' '.repeat(Math.max(0, n - s.length)); }
 function lpad(s, n) { s = String(s); return ' '.repeat(Math.max(0, n - s.length)) + s; }
-console.log('domain          ch  ticks  stateValueKB');
-res.forEach(function (r) { console.log(pad(r.product, 15) + lpad(r.channels, 3) + lpad(r.ticks, 7) + lpad(r.stateKB, 9)); });
+console.log('domain          ch  ticks  stateValueKiB');
+res.forEach(function (r) { console.log(pad(r.product, 15) + lpad(r.channels, 3) + lpad(r.ticks, 7) + lpad(r.stateValueKiB, 14)); });
 
-var live = ['energy', 'finance'];
+/* DERIVED from the registry, never typed. The first version hardcoded two domains and
+   would have kept reporting 'live 2' after batch 1 made it 7. */
+var live = REG.INSTALLED_DOMAINS;
 var cand = res.filter(function (r) { return live.indexOf(r.product) < 0; });
-var sumAll = res.reduce(function (a, r) { return a + r.stateKB; }, 0);
-var sumCand = cand.reduce(function (a, r) { return a + r.stateKB; }, 0);
-console.log('\nstate VALUE KB  live 2: ' + res.filter(function (r) { return live.indexOf(r.product) >= 0; })
-  .reduce(function (a, r) { return a + r.stateKB; }, 0).toFixed(1) +
-  '   candidates 18: ' + sumCand.toFixed(1) + '   all 20: ' + sumAll.toFixed(1));
-console.log('all 20 resident serialized value: ' + (sumAll / 1024).toFixed(2) + ' MB');
+var sumAll = res.reduce(function (a, r) { return a + r.stateValueKiB; }, 0);
+var sumCand = cand.reduce(function (a, r) { return a + r.stateValueKiB; }, 0);
+console.log('\nstate VALUE KiB  installed ' + live.length + ': ' + res.filter(function (r) { return live.indexOf(r.product) >= 0; })
+  .reduce(function (a, r) { return a + r.stateValueKiB; }, 0).toFixed(1) +
+  '   not installed ' + cand.length + ': ' + sumCand.toFixed(1) + '   all 20: ' + sumAll.toFixed(1));
+console.log('all 20 resident serialized value: ' + (sumAll / 1024).toFixed(2) + ' MiB');
 console.log('');
 console.log('NOT a bandwidth or billing figure. These are serialized VALUE lengths; actual');
 console.log('transport bytes are not measured anywhere. See the unit note in the header.');
