@@ -3,34 +3,14 @@
  *
  * Writes only its own output file. No network, no Redis, no repository mutation.
  *
- * ═══════════════════════════════════════════════════════════════════════════════════
- * FOUR DEFECTS IN THE FIRST VERSION OF THIS AUDIT, ALL FOUND IN REVIEW.
- *
- * 1. IT CONFLATED SOURCE-IDENTITY COVERAGE WITH RELATIONSHIP ELIGIBILITY. It called a
- *    relationship eligible when both sides had >= 6 distinct source keys. That is not the
- *    rule. `scripts/build-brain-fixture.mjs` is the authority, and it requires a side to
- *    be MOVING as well (`distinctValues >= 2`) before its keys count for anything: a
- *    channel that never changes value has nothing to observe no matter how many times its
- *    publisher restamps it. This file no longer re-derives the rule. It imports
- *    `analyze` / `loadManifest` / `testableRelationships` / `MIN_OBSERVATIONS` from the
- *    analyzer and reports what the analyzer says.
- *
- *    Coverage and eligibility are now printed as SEPARATE columns, because they answer
- *    different questions and merging them is what produced the wrong number.
- *
- * 2. It measured size with `String.length` and called the result bytes. Fixed in
- *    audit-cost / audit-growth with `Buffer.byteLength(value, 'utf8')`.
- *
- * 3. It hardcoded `['energy','finance']` as the live set, so it would have kept reporting
- *    2 installed after batch 1 made it 7. The installed set is `REG.INSTALLED_DOMAINS`
- *    and is derived here, never typed.
- *
- * 4. It reported kernel-loop timing as "cycle cost". It is not. See `tickLoopMs`.
- * ═══════════════════════════════════════════════════════════════════════════════════
+ * Coverage (what the binder can read) and ELIGIBILITY (the analyzer verdict) are separate
+ * questions and are reported separately. Eligibility is not re-derived here: analyze,
+ * loadManifest, testableRelationships and MIN_OBSERVATIONS are imported from
+ * scripts/build-brain-fixture.mjs, which is the authority.
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -44,8 +24,10 @@ const LOOP = require(path.join(ROOT, 'brain-v2', 'kernel', 'loop.js'));
 /* THE AUTHORITY ON ELIGIBILITY. Imported, not reimplemented. Verified safe to import:
    the module guards its CLI behind `if (!IS_CLI)`, and an instrumented import performs
    zero fetches and zero writes. */
+/* pathToFileURL, not a hand-built 'file://' string: that form mishandles Windows drive
+   letters and any path containing spaces or URL-sensitive characters. */
 const ANALYZER = await import(
-  'file://' + path.join(ROOT, 'scripts', 'build-brain-fixture.mjs').split(path.sep).join('/'));
+  pathToFileURL(path.join(ROOT, 'scripts', 'build-brain-fixture.mjs')).href);
 const { analyze, loadManifest, testableRelationships, MIN_OBSERVATIONS } = ANALYZER;
 
 const MAX_ROWS_PER_CYCLE = 120;              // mirrors lib/brain-shadow-runtime.js

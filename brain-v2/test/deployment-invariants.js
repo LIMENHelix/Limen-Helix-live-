@@ -41,6 +41,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var os = require('os');
 /* Already a dependency: scripts/check-repository.mjs parses every tracked JS with it. */
 var acorn = require('acorn');
 
@@ -71,28 +72,10 @@ console.log('D1: /api/brain-shadow is registered in the Hono catch-all');
 var routeRaw = fs.readFileSync(ROUTE_FILE, 'utf8');
 
 /**
- * THIS CHECK TOOK THREE ATTEMPTS, and the first two each looked sufficient while accepting
- * a form of the thing they guard:
- *
- *   v1  matched the raw file text      -> WITHDRAWN. A COMMENTED-OUT registration satisfied
- *                                         it, and v1 reported all 9 of its then-assertions
- *                                         passing while the endpoint would answer 404
- *   v2  stripped comments and template literals but searched the WHOLE FILE and left
- *       ordinary quoted strings intact -> the exact snippet inside a single- or
- *                                         double-quoted string, or in an unrelated
- *                                         object, would satisfy it
- *   v3  parses the file and reads the actual HANDLERS ObjectExpression
- *
- * The failures share one shape: each version asserted something ADJACENT to the property
- * instead of the property. Every one of those evasions is now a named negative control, so
- * the next weakening has to break a test rather than slip through.
- *
- * PARSED, NOT PATTERN-MATCHED. `acorn` is already a dependency (scripts/check-repository.mjs
- * parses every tracked JS with it), so the registration is read out of the actual
- * `HANDLERS` ObjectExpression instead of being inferred from text. A comment is not a
- * Property node, a quoted string is a Literal value rather than a `require` call, and an
- * object that is not HANDLERS is a different node entirely, so all four evasions below stop
- * being special cases and become structurally impossible.
+ * PARSED, NOT PATTERN-MATCHED. Read out of the actual `HANDLERS` ObjectExpression via acorn:
+ * a comment is not a Property node, a quoted snippet is a Literal value rather than a
+ * `require` call, and a different object is a different node. Two earlier text-matching
+ * versions each accepted one of those; every such evasion is a named control below.
  *
  * Returns null when HANDLERS cannot be found, which fails closed.
  */
@@ -124,56 +107,140 @@ function handlerEntries(src) {
   })(ast);
   return found;
 }
-function registers(entries, key, handlerPath) {
-  if (!entries) return false;
-  return entries.some(function (e) { return e.key === key && e.module === handlerPath; });
+/**
+ * EXACTLY ONE effective registration, not "at least one". JavaScript keeps the LAST
+ * duplicate property, so `.some()` would pass a file whose final `brain-shadow` entry points
+ * somewhere else entirely. Duplicate authority is itself invalid, so the count is asserted.
+ */
+function registrationsFor(entries, key) {
+  return (entries || []).filter(function (e) { return e.key === key; });
 }
+function registers(entries, key, handlerPath) {
+  var hits = registrationsFor(entries, key);
+  return hits.length === 1 && hits[0].module === handlerPath;
+}
+/* Structural removal: splice the parsed Property's own [start,end) range and put a benign
+   entry in its place. No dependence on quote style, whitespace, commas or line endings. */
+function withoutEntry(src, key) {
+  var ast = acorn.parse(src, { ecmaVersion: 2022, sourceType: 'script' });
+  var range = null;
+  (function walk(n) {
+    if (!n || typeof n !== 'object' || range) return;
+    if (n.type === 'VariableDeclarator' && n.id && n.id.name === 'HANDLERS' &&
+        n.init && n.init.type === 'ObjectExpression') {
+      n.init.properties.forEach(function (p) {
+        var k = p.key && (p.key.type === 'Literal' ? p.key.value : p.key.name);
+        if (k === key) range = [p.start, p.end];
+      });
+      return;
+    }
+    for (var i in n) {
+      var v = n[i];
+      if (Array.isArray(v)) v.forEach(walk); else if (v && typeof v === 'object') walk(v);
+    }
+  })(ast);
+  if (!range) return src;
+  return src.slice(0, range[0]) + "'__control_removed__': require('../handlers/brain-cognition')" +
+    src.slice(range[1]);
+}
+/* Synthetic HANDLERS sources, so the exotic controls do not depend on the real file's
+   formatting at all. */
+function synth(body) { return 'const HANDLERS = {\n' + body + '\n};\nmodule.exports = HANDLERS;\n'; }
+var ENTRY = "'" + ROUTE_KEY + "': require('" + HANDLER_PATH + "')";
 
 var ENTRIES = handlerEntries(routeRaw);
 assert('the HANDLERS object parses and yields registrations',
   !!ENTRIES && ENTRIES.length > 0,
   'if this fails the extractor is broken and every assertion below is meaningless');
 
-assert('the HANDLERS map registers ' + ROUTE_KEY + ' -> ' + HANDLER_PATH,
+assert('HANDLERS registers ' + ROUTE_KEY + ' -> ' + HANDLER_PATH + ', exactly once',
   registers(ENTRIES, ROUTE_KEY, HANDLER_PATH),
-  'without this line the endpoint answers 404 "route not handled by Hono entry" and the ' +
-  'cron cannot execute a cycle, while every brain file stays correct and every test passes');
+  'found ' + registrationsFor(ENTRIES, ROUTE_KEY).length + ' entries :: ' +
+  JSON.stringify(registrationsFor(ENTRIES, ROUTE_KEY)));
 
-/* ── the four ways a text-matching check WOULD have passed ───────────────────
-   Each builds a source that LACKS the registration but CONTAINS the exact snippet, and
-   asserts the parser still says no. Without these, "structural" is a word rather than a
-   property; v1 and v2 of this test each passed one of them. */
-var SNIPPET = "'" + ROUTE_KEY + "': require('" + HANDLER_PATH + "')";
-var REAL_LINE = "  '" + ROUTE_KEY + "': require('" + HANDLER_PATH + "'),\n";
-function withoutRealEntry(extra) {
-  var stripped = routeRaw.replace(REAL_LINE, '');
-  return extra ? stripped.replace('const HANDLERS = {', 'const HANDLERS = {\n' + extra) : stripped;
-}
-assert('control: removing the entry outright is detected',
-  !registers(handlerEntries(withoutRealEntry('')), ROUTE_KEY, HANDLER_PATH));
-assert('control: a COMMENTED-OUT registration does not satisfy it',
-  !registers(handlerEntries(withoutRealEntry('  // ' + SNIPPET + ',\n')), ROUTE_KEY, HANDLER_PATH));
-assert('control: the snippet in a SINGLE-quoted string does not satisfy it',
-  !registers(handlerEntries(withoutRealEntry(
-    "  'note': 'missing " + SNIPPET.replace(/'/g, "\\'") + "',\n")), ROUTE_KEY, HANDLER_PATH));
-assert('control: the snippet in a DOUBLE-quoted string does not satisfy it',
-  !registers(handlerEntries(withoutRealEntry(
-    '  "note": "missing ' + SNIPPET.replace(/"/g, '\\"') + '",\n')), ROUTE_KEY, HANDLER_PATH));
-assert('control: the snippet in an UNRELATED object does not satisfy it',
-  !registers(handlerEntries(withoutRealEntry('') + '\nconst DOCS = { ' + SNIPPET + ' };\n'),
-    ROUTE_KEY, HANDLER_PATH),
-  'scoping to the HANDLERS node is what makes this fail; a whole-file search would pass');
-assert('control: the controls are not vacuous, the unmodified file still registers it',
-  registers(handlerEntries(routeRaw), ROUTE_KEY, HANDLER_PATH),
-  'if this fails, withoutRealEntry() is mangling the file and every control above is empty');
-
-assert('and the handler file it names actually exists',
+assert('the handler file it names exists',
   fs.existsSync(path.join(ROOT, 'handlers', 'brain-shadow.js')),
   'a registered route pointing at a missing file throws on require, and a throw in this ' +
   'module takes down EVERY /api/* route, not just this one');
 
-/* Proves the matcher is not vacuous. If the regex were wrong it would report a missing
-   route on a healthy file, or worse, pass on anything. */
+console.log('');
+console.log('D1b: the detector is independent of source formatting');
+assert('double quotes and irregular whitespace still register',
+  registers(handlerEntries(synth('  "' + ROUTE_KEY + '"  :   require( "' + HANDLER_PATH + '" ) ,')),
+    ROUTE_KEY, HANDLER_PATH));
+assert('and structural removal from the REAL file is detected',
+  !registers(handlerEntries(withoutEntry(routeRaw, ROUTE_KEY)), ROUTE_KEY, HANDLER_PATH),
+  'removal is by parsed [start,end) range, so it does not depend on matching a source string');
+assert('the removal helper leaves the file parseable and otherwise intact',
+  (handlerEntries(withoutEntry(routeRaw, ROUTE_KEY)) || []).length === ENTRIES.length,
+  'if the splice broke the object every control below would be vacuously true');
+
+console.log('');
+console.log('D1c: neither a comment, a string, nor a foreign object counts');
+assert('a COMMENTED-OUT registration does not register',
+  !registers(handlerEntries(synth('  // ' + ENTRY + ',')), ROUTE_KEY, HANDLER_PATH));
+assert('the snippet in a SINGLE-quoted string does not register',
+  !registers(handlerEntries(synth("  'note': 'missing " + ENTRY.replace(/'/g, "\\'") + "',")),
+    ROUTE_KEY, HANDLER_PATH));
+assert('the snippet in a DOUBLE-quoted string does not register',
+  !registers(handlerEntries(synth('  "note": "missing ' + ENTRY.replace(/"/g, '\\"') + '",')),
+    ROUTE_KEY, HANDLER_PATH));
+assert('the snippet in an UNRELATED object does not register',
+  !registers(handlerEntries('const DOCS = { ' + ENTRY + ' };\n' + synth('')),
+    ROUTE_KEY, HANDLER_PATH));
+
+console.log('');
+console.log('D1d: duplicate authority is invalid in either order');
+/* JS keeps the LAST duplicate, so "correct then wrong" actually resolves to the wrong
+   handler. "Wrong then correct" resolves correctly today and is still refused: two entries
+   mean the effective route depends on ordering nobody is checking. */
+assert('a correct entry followed by a WRONG duplicate fails',
+  !registers(handlerEntries(synth('  ' + ENTRY + ',\n  \'' + ROUTE_KEY + "': require('../handlers/brain-cognition'),")),
+    ROUTE_KEY, HANDLER_PATH));
+assert('a wrong entry followed by a CORRECT duplicate also fails',
+  !registers(handlerEntries(synth('  \'' + ROUTE_KEY + "': require('../handlers/brain-cognition'),\n  " + ENTRY + ',')),
+    ROUTE_KEY, HANDLER_PATH));
+
+console.log('');
+console.log('D1e: no dedicated api/ function shadows the catch-all');
+/**
+ * Vercel resolves a concrete `api/<name>.<ext>` before the `[...route]` catch-all, so adding
+ * `api/brain-shadow.js` would silently take the route over without touching HANDLERS. The
+ * extensions checked cover the runtimes this repository actually uses (`.js`, `.py`) plus the
+ * other Node/TS forms the platform accepts.
+ */
+var SHADOW_EXTS = ['js', 'mjs', 'cjs', 'ts', 'tsx', 'py', 'go', 'rb'];
+function shadowFiles(dir, key) {
+  return SHADOW_EXTS.map(function (e) { return path.join(dir, key + '.' + e); })
+    .filter(function (p) { return fs.existsSync(p); });
+}
+var shadows = shadowFiles(path.join(ROOT, 'api'), ROUTE_KEY);
+assert('no api/' + ROUTE_KEY + '.<ext> file shadows the catch-all registration',
+  shadows.length === 0,
+  'these would take precedence over HANDLERS: ' +
+  JSON.stringify(shadows.map(function (p) { return path.relative(ROOT, p); })));
+
+/* Control: introduce a real dedicated function in a scratch api/ directory and prove the
+   same lookup catches it. Written outside the repository so the control can never leave a
+   file behind that would itself cause the outage it tests for. */
+(function () {
+  var tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'brain-shadow-invariant-'));
+  var api = path.join(tmp, 'api');
+  try {
+    fs.mkdirSync(api);
+    assert('control: an empty api/ directory reports no shadow',
+      shadowFiles(api, ROUTE_KEY).length === 0);
+    fs.writeFileSync(path.join(api, ROUTE_KEY + '.js'), 'module.exports = function () {};\n');
+    assert('control: a dedicated api/' + ROUTE_KEY + '.js IS detected as shadowing',
+      shadowFiles(api, ROUTE_KEY).length === 1);
+    fs.writeFileSync(path.join(api, ROUTE_KEY + '.py'), 'def handler():\n    pass\n');
+    assert('control: a dedicated api/' + ROUTE_KEY + '.py is detected too',
+      shadowFiles(api, ROUTE_KEY).length === 2);
+  } finally {
+    try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) { /* scratch dir */ }
+  }
+})();
+
 
 // ── D2: the execution cron exists, with its schedule ─────────────────────────
 console.log('');
