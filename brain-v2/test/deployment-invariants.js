@@ -79,33 +79,47 @@ var routeRaw = fs.readFileSync(ROUTE_FILE, 'utf8');
  *
  * Returns null when HANDLERS cannot be found, which fails closed.
  */
+/**
+ * TOP-LEVEL ONLY, and exactly one. `ast.body` is scanned directly rather than walked
+ * recursively: a depth-first walk stops at the FIRST `HANDLERS` anywhere, so a scoped or
+ * dead `const HANDLERS` inside a helper would satisfy this while the router's real
+ * top-level binding had been emptied or redirected. That is the outage again, wearing the
+ * shape of a passing test. The router uses the program-level binding, so that is the only
+ * one that counts, and two of them is an error rather than a choice.
+ */
 function handlerEntries(src) {
   var ast;
   try { ast = acorn.parse(src, { ecmaVersion: 2022, sourceType: 'script' }); }
   catch (e) { return null; }
-  var found = null;
-  (function walk(n) {
-    if (!n || typeof n !== 'object' || found) return;
-    if (n.type === 'VariableDeclarator' && n.id && n.id.name === 'HANDLERS' &&
-        n.init && n.init.type === 'ObjectExpression') {
-      found = n.init.properties.filter(function (p) { return p.type === 'Property'; })
-        .map(function (p) {
-          var key = p.key.type === 'Literal' ? p.key.value : p.key.name;
-          var v = p.value;
-          var isRequire = v && v.type === 'CallExpression' && v.callee &&
-            v.callee.name === 'require' && v.arguments.length === 1 &&
-            v.arguments[0].type === 'Literal';
-          return { key: key, module: isRequire ? v.arguments[0].value : null };
-        });
-      return;
-    }
-    for (var k in n) {
-      var v = n[k];
-      if (Array.isArray(v)) v.forEach(walk);
-      else if (v && typeof v === 'object') walk(v);
-    }
-  })(ast);
-  return found;
+  var decls = [];
+  ast.body.forEach(function (node) {
+    if (node.type !== 'VariableDeclaration') return;
+    node.declarations.forEach(function (d) {
+      if (d.id && d.id.type === 'Identifier' && d.id.name === 'HANDLERS') decls.push(d);
+    });
+  });
+  if (decls.length !== 1) return null;                      // none, or ambiguous: fail closed
+  var init = decls[0].init;
+  if (!init || init.type !== 'ObjectExpression') return null;
+  return init.properties.filter(function (p) { return p.type === 'Property'; })
+    .map(function (p) {
+      var key = p.key.type === 'Literal' ? p.key.value : p.key.name;
+      var v = p.value;
+      var isRequire = v && v.type === 'CallExpression' && v.callee &&
+        v.callee.name === 'require' && v.arguments.length === 1 &&
+        v.arguments[0].type === 'Literal' && typeof v.arguments[0].value === 'string';
+      return { key: key, module: isRequire ? v.arguments[0].value : null };
+    });
+}
+/**
+ * Does the module a registration names actually resolve? `require.resolve` finds the file
+ * without executing it, so a route pointing at a deleted module is caught here rather than
+ * by the catch-all throwing at request time and taking every /api/* route with it.
+ */
+function moduleResolves(modulePath) {
+  if (typeof modulePath !== 'string' || !modulePath) return false;
+  try { require.resolve(path.join(ROOT, 'api', modulePath)); return true; }
+  catch (e) { return false; }
 }
 /**
  * EXACTLY ONE effective registration, not "at least one". JavaScript keeps the LAST
@@ -188,6 +202,16 @@ assert('the snippet in a DOUBLE-quoted string does not register',
 assert('the snippet in an UNRELATED object does not register',
   !registers(handlerEntries('const DOCS = { ' + ENTRY + ' };\n' + synth('')),
     ROUTE_KEY, HANDLER_PATH));
+/* The dangerous variant: correctly named, correctly populated, and not the binding the
+   router uses. A recursive walk would have accepted it while the real map was empty. */
+assert('a correct HANDLERS NESTED inside a function does not register',
+  !registers(handlerEntries(
+    'function docs() { const HANDLERS = { ' + ENTRY + ' }; return HANDLERS; }\n' + synth('')),
+    ROUTE_KEY, HANDLER_PATH),
+  'only the top-level declaration the router binds may satisfy this');
+assert('two top-level HANDLERS declarations are ambiguous and fail closed',
+  handlerEntries(synth('  ' + ENTRY + ',') + '\n' + synth('')) === null,
+  'which one the router binds is not something this test may guess');
 
 console.log('');
 console.log('D1d: duplicate authority is invalid in either order');
@@ -303,20 +327,44 @@ assert('nothing else is scheduled at "' + CRON_SCHEDULE + '", which would collid
    forever and nothing will say so. This generalises the outage beyond the brain, and it
    reads the SAME parsed HANDLERS entries, so a cron target that appears only inside a
    comment or a string cannot satisfy it here either. */
-function isRegistered(entries, key) {
-  return !!entries && entries.some(function (e) { return e.key === key; });
+/**
+ * EFFECTIVE HANDLER AUTHORITY, not a matching key. A key whose value is `null`, an
+ * arbitrary expression, or a `require` of a deleted module satisfies "the key exists" and
+ * still does not serve: the catch-all returns 404 for a falsy handler, or throws while
+ * loading the missing module and takes every /api/* route with it. So the value is checked,
+ * uniquely, and its module target must resolve.
+ */
+function cronTargetResolves(entries, key) {
+  var hits = (entries || []).filter(function (e) { return e.key === key; });
+  if (hits.length === 1 && moduleResolves(hits[0].module)) return true;
+  /* A dedicated api/ function is an equally valid way to serve the path, in either the flat
+     or the directory-index layout. Reuses the same lookup as the shadow check. */
+  return shadowFiles(path.join(ROOT, 'api'), key).length > 0;
 }
-var unregistered = crons.map(function (c) { return String(c.path || ''); })
+var unresolvable = crons.map(function (c) { return String(c.path || ''); })
   .filter(function (p) { return p.indexOf('/api/') === 0; })
   .map(function (p) { return p.replace(/^\/api\//, '').split('?')[0]; })
-  .filter(function (name) {
-    return !isRegistered(ENTRIES, name)
-      && !fs.existsSync(path.join(ROOT, 'api', name + '.js'))
-      && !fs.existsSync(path.join(ROOT, 'api', name + '.py'));
-  });
-assert('every cron target resolves to a registered route or an api/ file',
-  unregistered.length === 0,
-  'scheduled against nothing: ' + JSON.stringify(unregistered));
+  .filter(function (name) { return !cronTargetResolves(ENTRIES, name); });
+assert('every cron target resolves to a unique loadable handler or a dedicated api/ file',
+  unresolvable.length === 0,
+  'scheduled against nothing that serves: ' + JSON.stringify(unresolvable));
+
+/* Controls: each of these has the KEY the cron names and still does not serve. */
+assert('a null handler value does not satisfy a cron target',
+  !cronTargetResolves(handlerEntries(synth("  'ghost-route': null,")), 'ghost-route'),
+  'the catch-all returns 404 for a falsy handler');
+assert('a non-require handler value does not satisfy a cron target',
+  !cronTargetResolves(handlerEntries(synth("  'ghost-route': function () {},")), 'ghost-route'));
+assert('a require of a MISSING module does not satisfy a cron target',
+  !cronTargetResolves(handlerEntries(synth("  'ghost-route': require('../handlers/does-not-exist'),")),
+    'ghost-route'),
+  'this one throws at load and takes every /api/* route with it');
+assert('a duplicated key does not satisfy a cron target',
+  !cronTargetResolves(handlerEntries(synth(
+    "  'ghost-route': require('../handlers/brain-shadow'),\n  'ghost-route': require('../handlers/brain-cognition'),")),
+    'ghost-route'));
+assert('control: a single valid require DOES satisfy it, so the checks above are not vacuous',
+  cronTargetResolves(handlerEntries(synth('  ' + ENTRY + ',')), ROUTE_KEY));
 
 console.log('');
 console.log(failures ? (tests - failures) + '/' + tests + ' passed, ' + failures + ' FAILED'
