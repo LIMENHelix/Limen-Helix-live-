@@ -60,6 +60,74 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
 
 #entry-veil{position:fixed;inset:0;z-index:60;background:#050810;pointer-events:none;transition:opacity 2s}
 
+/* ── WHAT IS THIS ────────────────────────────────────────────────────────────────────────
+   The centre of the map is the word CIVILIZATION, and the answer to "what is this" ignites
+   out of that exact word. The star is the explanation arriving, not scenery.
+
+   THE BLOOM RAMPS, IT NEVER FLASHES. A sudden dark-to-bright full-screen transition is a
+   seizure and migraine trigger, and this is a product whose own failure taxonomy contains
+   seizure-like runaway. Turbulence stays near half a cycle per second; anything faster
+   becomes flicker. prefers-reduced-motion skips the animation entirely. */
+#whatBtn{position:fixed;top:calc(50% + 46px);left:50%;transform:translateX(-50%);z-index:130;
+  background:rgba(5,8,16,.42);border:1px solid rgba(201,169,78,.28);border-radius:16px;
+  color:rgba(201,169,78,.72);padding:7px 16px;cursor:pointer;font-family:monospace;
+  font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;
+  transition:color .25s,border-color .25s,background .25s,box-shadow .25s}
+#whatBtn:hover{color:#fff;border-color:rgba(201,169,78,.85);background:rgba(201,169,78,.1);
+  box-shadow:0 0 26px rgba(201,169,78,.28)}
+@media (max-width:640px){#whatBtn{top:calc(50% + 38px);font-size:.46rem;padding:6px 13px}}
+
+#nova{position:fixed;inset:0;z-index:700;display:none;background:#03030a}
+#nova.on{display:block}
+#novaCv{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* The paper rises under the content as the plasma calms. Bright yellow, ink black. */
+#novaPaper{position:absolute;inset:0;background:
+    radial-gradient(120% 90% at 50% -10%, #fff4c4 0%, #f2e0a4 42%, #e9cf85 100%);
+  opacity:0;transition:opacity 1.15s ease}
+#nova.settled #novaPaper{opacity:1}
+#nova.settled #novaCv{opacity:.14;transition:opacity 1.15s ease}
+#novaDoc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+  padding:14vh 22px 90px;opacity:0;transition:opacity .8s ease .25s}
+#nova.lit #novaDoc{opacity:1}
+#novaDoc .inner{max-width:760px;margin:0 auto}
+/* The hook is white on the hot field, then becomes ink as the paper arrives. */
+#novaDoc h1{font-family:Georgia,serif;font-weight:400;line-height:1.12;
+  font-size:clamp(1.7rem,6.2vw,3.4rem);letter-spacing:-.01em;color:#fff;
+  text-shadow:0 2px 40px rgba(120,20,0,.55);transition:color 1.15s ease,text-shadow 1.15s ease}
+#nova.settled #novaDoc h1{color:#17120a;text-shadow:none}
+#novaDoc p{font-family:Georgia,serif;font-size:clamp(.95rem,2.2vw,1.09rem);line-height:1.66;
+  color:#241c0d;margin:1.05em 0;opacity:0;transition:opacity .9s ease .5s}
+#nova.settled #novaDoc p{opacity:1}
+#novaDoc .k{font-family:monospace;font-size:.52rem;letter-spacing:.34em;text-transform:uppercase;
+  color:#8a5a12;margin:2.6em 0 .9em;opacity:0;transition:opacity .9s ease .5s}
+#nova.settled #novaDoc .k{opacity:1}
+#novaDoc .k:first-of-type{margin-top:2em}
+/* The live readout: the one part nobody else can put on a page. */
+#novaDoc .live{border-left:3px solid #c9260f;background:rgba(255,255,255,.34);
+  padding:16px 18px;margin:1.4em 0;opacity:0;transition:opacity .9s ease .6s}
+#nova.settled #novaDoc .live{opacity:1}
+#novaDoc .live .row{font-family:monospace;font-size:.78rem;line-height:1.9;color:#2a2110}
+#novaDoc .live .row b{color:#7a1206;font-weight:700}
+#novaDoc .live .cite{font-family:Georgia,serif;font-style:italic;font-size:.82rem;
+  color:#6b5427;margin-top:10px;line-height:1.5}
+#novaDoc ul{list-style:none;margin:.6em 0;opacity:0;transition:opacity .9s ease .5s}
+#nova.settled #novaDoc ul{opacity:1}
+#novaDoc li{font-family:Georgia,serif;font-size:clamp(.9rem,2.1vw,1.02rem);line-height:1.6;
+  color:#241c0d;padding-left:18px;position:relative;margin:.72em 0}
+#novaDoc li:before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;
+  border-radius:50%;background:#c9260f;opacity:.65}
+#novaDoc .fine{font-family:monospace;font-size:.62rem;line-height:1.85;color:#6b5427;
+  border-top:1px solid rgba(122,18,6,.22);margin-top:3em;padding-top:1.2em}
+#novaClose{position:fixed;top:18px;right:20px;z-index:710;display:none;
+  background:rgba(255,255,255,.4);border:1px solid rgba(122,18,6,.3);border-radius:16px;
+  color:#7a1206;padding:8px 16px;cursor:pointer;font-family:monospace;
+  font-size:.5rem;letter-spacing:.28em;text-transform:uppercase}
+#nova.settled #novaClose{display:block}
+#novaClose:hover{background:#fff;border-color:#7a1206}
+@media (prefers-reduced-motion:reduce){
+  #novaPaper,#novaCv,#novaDoc,#novaDoc h1,#novaDoc p,#novaDoc .k,#novaDoc .live,#novaDoc ul{transition:none}
+}
+
 /* admin overlay */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,0.94);display:none;align-items:center;justify-content:center;z-index:600;padding:24px;backdrop-filter:blur(6px)}
 .ov.show{display:flex}
@@ -87,6 +155,9 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   <div class="title">CIVILIZATION</div>
   <div class="subtitle">System Atlas · 20 Sectors · Live</div>
 </div>
+<!-- The centre label is pointer-events:none, so the button is its own element and sits just
+     under it. You click the word at the centre, and the centre is what ignites. -->
+<button id="whatBtn" type="button" aria-haspopup="dialog">What is this?</button>
 <div class="hud hud-tr">CONNECTOME</div>
 <div class="hud hud-bl">20 DOMAINS · 30 PATHWAYS</div>
 
@@ -113,6 +184,83 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     </form>
   </div>
 </div>
+
+<!-- WHAT IS THIS. Everything here is either checkable on this site or stated as unfinished.
+     Nothing claims a capability the system does not currently have; the split between what it
+     does and what it is being built to do is deliberate and load-bearing. -->
+<div id="nova" role="dialog" aria-modal="true" aria-label="What is LIMEN Helix">
+  <canvas id="novaCv"></canvas>
+  <div id="novaPaper"></div>
+  <div id="novaDoc">
+    <div class="inner">
+      <h1>Most organizations are structurally lesioned.</h1>
+
+      <p>They acquire without removing. They grow without maintenance. They add excitation
+      without matched inhibition. Then they accumulate debt, lose flexibility, and fail the
+      way damaged brains fail.</p>
+
+      <p>LIMEN Helix maps neural dynamics onto business and civilization systems using
+      structural homology, not metaphor. It builds the inhibition, extinction and clearance
+      mechanisms in from the start, so an organization&rsquo;s failure modes are visible and
+      recoverable.</p>
+
+      <div class="k">One worked example, read live</div>
+      <p>Not an illustration. This is what the system is saying about the Energy domain right
+      now, pulled from this page as you read it.</p>
+      <div class="live">
+        <div class="row" id="novaLive">Reading the instruments&hellip;</div>
+        <div class="cite">Thalamic gating: Ferrarelli &amp; Tononi, <i>Schizophrenia Bulletin</i>,
+        2010 &mdash; what reaches attention, and what is filtered out before it does.</div>
+      </div>
+      <p>The same named failure mode, in neural tissue and in a power grid, with the
+      regulatory partner identified and its presence or absence stated. That is what
+      &ldquo;homology, not metaphor&rdquo; has to mean to be worth anything.</p>
+
+      <div class="k">What it does</div>
+      <ul>
+        <li><b>Detects and names pathology.</b> Gating failures, disinhibition, oscillatory
+        pathology, seizure-like runaway, incomplete circuits. There is no autonomous
+        correction: a human reads the diagnosis and decides.</li>
+        <li><b>Routes decisions through a hierarchy</b> that preserves the brain&rsquo;s
+        feedforward and feedback lamination, and thalamic gating for filtering. Prevents both
+        flooding and starvation.</li>
+        <li><b>Learns only from verified outcomes, not self-report.</b> Its validated scorer
+        returns nothing at all rather than a plausible number it cannot stand behind. Silence
+        instead of noise.</li>
+        <li><b>Scales time constants across neural, business and civilization</b> while
+        preserving the parameter ratios &mdash; the fractal invariant.</li>
+        <li><b>Twenty domain units feeding one integration layer</b> over an inter-brain bus,
+        with cron-driven consolidation. Each domain is a brain, not a silo.</li>
+      </ul>
+
+      <div class="k">What it is being built to do</div>
+      <ul>
+        <li><b>Transfer cross-domain integration from the operator into the substrate.</b>
+        Today a human still holds that loop and reweights by hand when one domain contradicts
+        another. Moving it into the system is the long goal, and it is not done.</li>
+        <li><b>Consolidate offline.</b> The cycles run, in shadow and observe-only.</li>
+        <li><b>Execute gated actions.</b> Action selection is dark-armed and stays that way
+        until the loop is proven on a single domain against ground truth.</li>
+      </ul>
+
+      <div class="k">Current state</div>
+      <p><b>Live now:</b> twenty domain units running; cron-driven consolidation firing on
+      schedule; deployed with durable persistence; the validated scorer returning verified
+      outcomes only.</p>
+      <p><b>Not finished, and said plainly:</b> partially built. The integration transfer is
+      staged, not delivered. Execution gates remain observe-only by design rather than by
+      accident.</p>
+
+      <div class="fine">
+        LIMEN Helix is a conceptual research and educational initiative exploring systems
+        modelling and cognition. It does not provide medical or therapeutic services.
+        100% of any future proceeds are intended to support autism research and related
+        charities.
+      </div>
+    </div>
+  </div>
+</div>
+<button id="novaClose" type="button">&larr; Back to the map</button>
 
 <script src="assets/js/limen-ui-state.js"></script>
 <script src="assets/js/civilization-connectome-galaxy.js?v=hs20260705b"></script>
@@ -1208,6 +1356,188 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     if (!cache.cons) getJSON('/api/limen-snapshot?type=console').then(function(j){ cache.cons=j; });
   }
   if (window.requestIdleCallback) requestIdleCallback(warm,{timeout:2500}); else setTimeout(warm,1200);
+})();
+</script>
+
+<script>
+/* ── THE STAR ────────────────────────────────────────────────────────────────────────────
+   "What is this?" ignites the centre of the map and the explanation arrives out of it.
+
+   Same technique as the orbs: offset radial gradients composited with 'lighter', drifting on
+   slow sines so the boundary between orange and red churns instead of sitting still. A star
+   is a temperature ramp — white-hot core, yellow, orange, red only at the rim — which is why
+   the centre is near-white rather than yellow. Red is kept to the edge on purpose: a
+   full screen of it on a diagnostics product reads as an alarm.
+
+   IT RAMPS AND NEVER STROBES. Churn runs near half a cycle per second. Faster than that is
+   flicker, and flicker is a seizure trigger. Reduced-motion skips straight to the settled
+   page. */
+(function () {
+  'use strict';
+  var btn   = document.getElementById('whatBtn');
+  var nova  = document.getElementById('nova');
+  var cv    = document.getElementById('novaCv');
+  var doc   = document.getElementById('novaDoc');
+  var close = document.getElementById('novaClose');
+  if (!btn || !nova || !cv) return;
+
+  var ctx = cv.getContext('2d');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var raf = null, t0 = 0, embers = [], live = false;
+
+  var BLOOM = 1.55;          // seconds to fill
+  var CALM  = 1.5;           // seconds for the churn to die back
+
+  function size(){
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(innerWidth * d); cv.height = Math.round(innerHeight * d);
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+
+  // Thrown outward at ignition and decelerating, so the edge of the blast has grain.
+  function seed(){
+    embers = [];
+    for (var i = 0; i < 90; i++) embers.push({
+      a: Math.random() * 6.2832, v: 0.28 + Math.random() * 0.95,
+      sz: 0.6 + Math.random() * 1.9, tw: 0.7 + Math.random() * 2.4, ph: Math.random() * 6.2832
+    });
+  }
+
+  function draw(now){
+    var t = (now - t0) / 1000, w = innerWidth, h = innerHeight;
+    var cx = w / 2, cy = h / 2;                     // the centre label's own position
+    ctx.clearRect(0, 0, w, h);
+
+    var grow = Math.min(1, t / BLOOM);
+    var e = 1 - Math.pow(1 - grow, 3);              // ease out, so it swells rather than snaps
+    var maxR = Math.hypot(w, h) * 0.66;
+    var R = Math.max(1, maxR * e);
+    var churn = t <= BLOOM ? 1 : Math.max(0, 1 - (t - BLOOM) / CALM);
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+
+    /* Four lobes on their own slow drifts. One gradient is a logo; four that disagree with
+       each other is plasma. */
+    for (var i = 0; i < 4; i++){
+      var ph = t * (0.30 + i * 0.09) + i * 1.9;
+      var ox = Math.cos(ph) * R * 0.14 * churn;
+      var oy = Math.sin(ph * 0.8 + i) * R * 0.12 * churn;
+      var lr = R * (0.74 + 0.24 * Math.sin(ph * 0.65 + i));
+      var g = ctx.createRadialGradient(cx + ox, cy + oy, lr * 0.015, cx + ox, cy + oy, lr);
+      g.addColorStop(0.00, 'rgba(255,253,242,' + (0.55 * e).toFixed(3) + ')');
+      g.addColorStop(0.14, 'rgba(255,226,122,' + (0.42 * e).toFixed(3) + ')');
+      g.addColorStop(0.34, 'rgba(255,194,30,'  + (0.30 * e).toFixed(3) + ')');
+      g.addColorStop(0.58, 'rgba(255,140,26,'  + (0.22 * e).toFixed(3) + ')');
+      g.addColorStop(0.80, 'rgba(201,38,15,'   + (0.16 * e).toFixed(3) + ')');
+      g.addColorStop(1.00, 'rgba(74,10,3,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(cx + ox, cy + oy, lr, 0, 6.2832); ctx.fill();
+    }
+
+    // The core stays white-hot and small. Hotter is whiter; this is what sells it as a star.
+    var core = R * (0.16 + 0.02 * Math.sin(t * 2.1) * churn);
+    var cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, core);
+    cg.addColorStop(0, 'rgba(255,255,252,' + (0.95 * e).toFixed(3) + ')');
+    cg.addColorStop(0.5, 'rgba(255,241,190,' + (0.6 * e).toFixed(3) + ')');
+    cg.addColorStop(1, 'rgba(255,205,80,0)');
+    ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, core, 0, 6.2832); ctx.fill();
+
+    for (var k = 0; k < embers.length; k++){
+      var s = embers[k];
+      var d = R * s.v * (0.35 + 0.65 * e);
+      var px = cx + Math.cos(s.a) * d, py = cy + Math.sin(s.a) * d * 0.92;
+      var tw = 0.5 + 0.5 * Math.sin(t * s.tw + s.ph);
+      var a = (0.20 + 0.5 * tw) * e * (0.35 + 0.65 * churn);
+      if (a < 0.02) continue;
+      ctx.beginPath(); ctx.arc(px, py, s.sz, 0, 6.2832);
+      ctx.fillStyle = tw > 0.82 ? 'rgba(255,255,255,' + a.toFixed(3) + ')'
+                                : 'rgba(255,197,90,' + a.toFixed(3) + ')';
+      ctx.fill();
+    }
+    ctx.restore();
+
+    if (t > BLOOM + CALM + 0.4){ raf = null; return; }   // settled: stop burning CPU
+    raf = requestAnimationFrame(draw);
+  }
+
+  function open(){
+    if (live) return;
+    live = true;
+    nova.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    fillLive();
+
+    if (reduce){                       // no ignition at all; go straight to the page
+      nova.classList.add('lit', 'settled');
+      if (close) close.focus();
+      return;
+    }
+    size(); seed();
+    t0 = performance.now();
+    if (!raf) raf = requestAnimationFrame(draw);
+    setTimeout(function(){ nova.classList.add('lit'); }, 900);          // hook, white on fire
+    setTimeout(function(){ nova.classList.add('settled'); }, BLOOM * 1000 + 250);
+    setTimeout(function(){ if (close) close.focus(); }, BLOOM * 1000 + 900);
+  }
+
+  function shut(){
+    live = false;
+    nova.classList.remove('on', 'lit', 'settled');
+    document.body.style.overflow = '';
+    if (raf){ cancelAnimationFrame(raf); raf = null; }
+    if (doc) doc.scrollTop = 0;
+    btn.focus();
+  }
+
+  /* The live line. Reads the same public endpoints this page already uses and the domain's
+     own substrate file — nothing new, and no claim assembled here that is not in those two
+     documents. If either is unavailable the block says so rather than inventing a reading. */
+  function fillLive(){
+    var el = document.getElementById('novaLive');
+    if (!el || el.dataset.done === '1') return;
+    var get = function(u){
+      return fetch(u).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+    };
+    Promise.all([
+      get('/api/domain-snapshot'),
+      get('/assets/data/deep/energy-neuro-substrate.json')
+    ]).then(function(res){
+      var snap = res[0], sub = res[1];
+      var map = sub && sub.issue_failure_class_map && sub.issue_failure_class_map.GRID_COLLAPSE;
+      var diag = sub && sub.incomplete_circuit_diagnostic && sub.incomplete_circuit_diagnostic.GRID_COLLAPSE;
+      if (!map || !diag){
+        el.textContent = 'The substrate for this domain is not reachable right now, so nothing is claimed here.';
+        return;
+      }
+      /* A LIVE READING MUST BE A READING. The first name matching /crude/ is "Massive Crude
+         Oil", whose value is null and whose label is "MASSIVE_API_KEY not set" — taking the
+         first match would print a missing-key notice on the landing page. Require an actual
+         number, and keep looking until one is found. */
+      var crude = null;
+      try {
+        var srcs = (snap && snap.domains && snap.domains.energy && snap.domains.energy.sources) || [];
+        for (var i = 0; i < srcs.length; i++){
+          var s = srcs[i];
+          if (s && s.value != null && /crude|wti/i.test((s.name || '') + ' ' + (s.label || ''))){
+            crude = s; break;
+          }
+        }
+      } catch (e) {}
+      el.innerHTML =
+        '<b>ENERGY</b>' + (crude ? ' &middot; ' + (crude.label || (crude.name + ' ' + crude.value)) : '') + '<br>' +
+        'Failure class: <b>' + String(map.class).toLowerCase().replace(/_/g, ' ') + '</b>' +
+        (map.subtype ? ' &mdash; ' + String(map.subtype).replace(/->/g, '&rarr;') : '') + '<br>' +
+        'Circuit: ' + String(diag.circuit).replace(/,/g, ', ') + '<br>' +
+        'Regulatory partner: <b>' + diag.regulatory_partner_present + '</b>';
+      el.dataset.done = '1';
+    });
+  }
+
+  btn.addEventListener('click', open);
+  if (close) close.addEventListener('click', shut);
+  document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape' && live) shut(); });
+  addEventListener('resize', function(){ if (live && !reduce) size(); });
 })();
 </script>
 </body>
