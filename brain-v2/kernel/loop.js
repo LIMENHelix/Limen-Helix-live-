@@ -60,6 +60,7 @@ var DIV   = require('../core/divergence.js');
 var C     = require('../core/channel.js');
 
 var VERSION = 'brain-v2/kernel/1.0.0';
+var ERROR_WINDOW = 64;
 
 /** Modules that can be individually ablated. TEST 19. */
 var ABLATABLE = ['barrier', 'forwardModel', 'selector', 'consolidation', 'connectome', 'episodic', 'modulators'];
@@ -203,6 +204,44 @@ function ablate(loop, moduleName, on) {
 }
 function isAblated(loop, m) { return !!loop.ablations[m]; }
 
+/**
+ * Close the prospective work that belongs to a terminal prediction.
+ *
+ * A prediction can finish without an observation (UNRESOLVABLE) or by expiry. Those are
+ * terminal outcomes about sensor availability, not reasons to leave the corresponding
+ * prospective check open forever. The old path closed checks only inside the observable
+ * branch, so missing data manufactured permanent outstanding work; compaction then archived
+ * the terminal prediction while an OPEN prospective item still referenced it.
+ *
+ * `actionIds` identify the actions whose outcome check depends on this prediction. The
+ * prediction check and action-outcome check close together so the two ledgers cannot drift.
+ */
+function closePredictionProspectives(loop, prediction, actionIds, closure, now) {
+  actionIds = actionIds || [];
+  MEM.dueItems(loop.memory, now).forEach(function (item) {
+    if (item.predictionId === prediction.id) {
+      MEM.close(loop.memory, item.id, Object.assign({}, closure, {
+        predictionId: prediction.id,
+        predictionStatus: prediction.status
+      }), now);
+    } else if (item.kind === 'action_outcome' && actionIds.indexOf(item.actionId) >= 0) {
+      MEM.close(loop.memory, item.id, Object.assign({}, closure, {
+        predictionId: prediction.id,
+        predictionStatus: prediction.status,
+        actionId: item.actionId
+      }), now);
+    }
+  });
+}
+
+/** Find the action attached directly to an action prediction, if its copy is still hot. */
+function actionIdsForPrediction(loop, prediction) {
+  if (!prediction || !prediction.efferenceCopyId) return [];
+  return (loop._efferences || []).filter(function (e) {
+    return e.id === prediction.efferenceCopyId;
+  }).map(function (e) { return e.actionId; }).filter(Boolean);
+}
+
 /** Deterministic per-tick trace id. Same inputs, same trace, so replay reproduces ids. */
 function traceFor(loop, now, readings) {
   return PK.newTraceId({ d: loop.domain, t: now, k: Object.keys(readings || {}).sort(), n: loop.ticks });
@@ -312,6 +351,10 @@ function tick(loop, readings, now) {
   PRED.sweepExpired(loop.registry, now).forEach(function (p) {
     resolutions.push({ predictionId: p.id, status: p.status, why: p.resolution.why });
     record('prediction_expired', { predictionId: p.id, variable: p.variable });
+    closePredictionProspectives(loop, p, actionIdsForPrediction(loop, p), {
+      resolved: false,
+      why: p.resolution.why
+    }, now);
   });
 
   PRED.due(loop.registry, now).forEach(function (p) {
@@ -345,6 +388,23 @@ function tick(loop, readings, now) {
       efferenceNote: explained.why
     });
     record('prediction_resolved', { predictionId: p.id, resolution: r.resolution });
+    /* The direct prediction link is authoritative for prospective closure. The windowed
+       efference set is for causal attribution and can legitimately exclude the linked copy
+       (for example after expiry or a restored boundary). Closing bookkeeping must not depend
+       on that attribution window happening to contain it. */
+    var actionIds = effs.map(function (e) { return e.actionId; })
+      .concat(actionIdsForPrediction(loop, p))
+      .filter(function (id, i, all) { return !!id && all.indexOf(id) === i; });
+
+    /* Missing observation is a terminal sensor outcome. Close the outstanding work as
+       UNRESOLVABLE now; leaving it OPEN creates a permanent hot-state leak and a dangling
+       reference once the terminal prediction is archived. */
+    if (!r.resolution.observable) {
+      closePredictionProspectives(loop, p, actionIds, {
+        resolved: false,
+        why: r.resolution.why
+      }, now);
+    }
 
     if (r.resolution.observable) {
       // Forward model learns from SUPERVISED error (actual vs its own predicted delta).
@@ -444,14 +504,12 @@ function tick(loop, readings, now) {
         });
       }
 
-      var actionIds = effs.map(function (e) { return e.actionId; }).filter(Boolean);
-      MEM.dueItems(loop.memory, now).forEach(function (i) {
-        if (i.predictionId === p.id) {
-          MEM.close(loop.memory, i.id, { resolved: true, hit: r.resolution.hit, predictionError: r.resolution.predictionError }, now);
-        } else if (i.kind === 'action_outcome' && actionIds.indexOf(i.actionId) >= 0) {
-          MEM.close(loop.memory, i.id, { resolved: true, hit: r.resolution.hit, viaPrediction: p.id, predictionError: r.resolution.predictionError }, now);
-        }
-      });
+      closePredictionProspectives(loop, p, actionIds, {
+        resolved: true,
+        hit: r.resolution.hit,
+        viaPrediction: p.id,
+        predictionError: r.resolution.predictionError
+      }, now);
     }
   });
   step('resolve', { resolved: resolutions.length, detail: resolutions });
@@ -623,7 +681,7 @@ function tick(loop, readings, now) {
   });
 
   // ── 11 + 12. EFFERENCE COPY, THEN COMMAND ─────────────────────────────────────────────
-  var execution = null, efference = null, action = null;
+  var execution = null, efference = null, action = null, actionPred = null;
   if (selection.outcome === 'released') {
     var cand = selection.released.candidate;
     try {
@@ -677,7 +735,7 @@ function tick(loop, readings, now) {
         var mvSpread = observedSpread(loop, cand.movesVariable);
         if (mvSpread && efference.baseline !== null) {
           try {
-            var actionPred = PRED.register(loop.registry, {
+            actionPred = PRED.register(loop.registry, {
               traceId: traceId,
               variable: cand.movesVariable,
               expected: efference.baseline + efference.predictedDelta,
@@ -718,6 +776,7 @@ function tick(loop, readings, now) {
       }
     } catch (e) {
       loop.errors.push({ at: now, where: 'actuate', why: e.message });
+      while (loop.errors.length > ERROR_WINDOW) loop.errors.shift();
       execution = { executionStatus: 'failed', failure: 'exception', why: e.message };
       record('execution_failed', { why: e.message });
     }
@@ -743,9 +802,10 @@ function tick(loop, readings, now) {
    * being disguised as diligence by scheduling a check that can never resolve.
    */
   if (execution && execution.executionStatus === 'executed') {
-    if (action.parameters && action.parameters.movesVariable) {
+    if (action.parameters && action.parameters.movesVariable && actionPred) {
       MEM.schedule(loop.memory, {
         traceId: traceId, kind: 'action_outcome', actionId: execution.actionId,
+        predictionId: actionPred.id,
         trigger: 'clock', dueAt: action.expectedEvaluationTime,
         responsibleModule: 'kernel/loop',
         expectedObservation: 'the measured effect of ' + execution.kind + ' on ' + action.parameters.movesVariable,
@@ -755,8 +815,12 @@ function tick(loop, readings, now) {
     } else {
       record('no_outcome_check', {
         actionId: execution.actionId, kind: execution.kind,
-        why: 'this action declares no variable it moves, so no observation could close a check. ' +
-             'Recorded rather than scheduled: an unclosable follow-up is a leak, not diligence.'
+        why: action.parameters && action.parameters.movesVariable
+          ? 'the action moves a measured variable, but no falsifiable action prediction was ' +
+            'registered, so there is no outcome claim that could close a check. Recorded rather ' +
+            'than scheduled: an unclosable follow-up is a leak, not diligence.'
+          : 'this action declares no variable it moves, so no observation could close a check. ' +
+            'Recorded rather than scheduled: an unclosable follow-up is a leak, not diligence.'
       });
     }
   }
@@ -1015,7 +1079,11 @@ function serialize(loop) {
     efferences: loop._efferences || [],
     varHistory: loop._varHistory || {},
     ablations: loop.ablations,
-    errors: loop.errors
+    /* THE ARCHIVE HEAD IS STATE. Without it here the head vanishes on restart, the next
+       sequence resets to 1 and collides with an existing chunk, and the cumulative
+       calibration counters are lost so calibration silently gets younger. */
+    archiveHead: loop.archiveHead || null,
+    errors: loop.errors.slice(-ERROR_WINDOW)
   };
 }
 
@@ -1027,6 +1095,7 @@ function serialize(loop) {
 function restore(spec, snap) {
   var loop = create(spec);
   if (!snap) return loop;
+  loop.archiveHead = snap.archiveHead || null;
   loop.ticks = snap.ticks || 0;
   loop.lastTickAt = snap.lastTickAt || null;
   loop.horizonMs = snap.horizonMs || loop.horizonMs;
@@ -1062,7 +1131,7 @@ function restore(spec, snap) {
   loop._efferences = snap.efferences || [];
   loop._varHistory = snap.varHistory || Object.create(null);
   loop.ablations = snap.ablations || Object.create(null);
-  loop.errors = snap.errors || [];
+  loop.errors = (snap.errors || []).slice(-ERROR_WINDOW);
   return loop;
 }
 
@@ -1083,6 +1152,7 @@ function consolidate(loop, now) {
 
 module.exports = {
   VERSION: VERSION,
+  ERROR_WINDOW: ERROR_WINDOW,
   ABLATABLE: ABLATABLE,
   create: create,
   restore: restore,

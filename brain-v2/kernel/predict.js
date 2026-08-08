@@ -211,26 +211,38 @@ function resolve(reg, predictionId, observation, efferenceExplained, now) {
  * Calibration over resolved predictions. MASTER_PROMPT §18 — reported as MEASURED only when
  * n is stated alongside, because a hit-rate over three predictions is not a calibration.
  */
-function calibration(reg) {
+function calibration(reg, priorTotals) {
+  /**
+   * `priorTotals` CARRIES RETIRED RESOLUTIONS. Compaction moves old resolved predictions to
+   * the archive, and this function recomputes from `reg.resolved`, so without them n would
+   * drop and the brain would report itself LESS measured after compaction than before.
+   * Folding the cumulative counters in here, rather than in a second calibration function,
+   * keeps one implementation: two would drift and only one would be the one consumers read.
+   * Absent or zero totals reproduce the previous behaviour exactly.
+   */
   var res = reg.resolved.map(function (id) { return reg.predictions[id]; })
-    .filter(function (p) { return p.resolution && p.resolution.observable; });
-  if (!res.length) return { n: 0, status: 'UNMEASURED', why: 'no resolved predictions' };
-  var hits = res.filter(function (p) { return p.resolution.hit; }).length;
-  var contaminated = res.filter(function (p) { return p.resolution.contaminated; }).length;
-  var mae = res.reduce(function (a, p) { return a + Math.abs(p.resolution.predictionError); }, 0) / res.length;
-  var brierish = res.reduce(function (a, p) {
+    .filter(function (p) { return p && p.resolution && p.resolution.observable; });
+  var pn = (priorTotals && priorTotals.n) || 0;
+  var n = res.length + pn;
+  if (!n) return { n: 0, status: 'UNMEASURED', why: 'no resolved predictions' };
+  var hits = res.filter(function (p) { return p.resolution.hit; }).length + ((priorTotals && priorTotals.hits) || 0);
+  var contaminated = res.filter(function (p) { return p.resolution.contaminated; }).length +
+    ((priorTotals && priorTotals.contaminated) || 0);
+  var sumAbs = res.reduce(function (a, p) { return a + Math.abs(p.resolution.predictionError); }, 0) +
+    ((priorTotals && priorTotals.sumAbsError) || 0);
+  var sumBrier = res.reduce(function (a, p) {
     var c = (typeof p.confidence === 'number') ? p.confidence : 0.5;
     var o = p.resolution.hit ? 1 : 0;
     return a + (c - o) * (c - o);
-  }, 0) / res.length;
+  }, 0) + ((priorTotals && priorTotals.sumBrier) || 0);
   return {
-    n: res.length,
-    status: res.length >= 20 ? 'MEASURED' : 'ESTIMATED',
-    why: res.length >= 20 ? null : 'n=' + res.length + ' is below the 20 needed for a stable estimate; treat as ESTIMATED',
-    hitRate: hits / res.length,
-    meanAbsoluteError: mae,
-    brierScore: brierish,
-    contaminatedFraction: contaminated / res.length
+    n: n,
+    status: n >= 20 ? 'MEASURED' : 'ESTIMATED',
+    why: n >= 20 ? null : 'n=' + n + ' is below the 20 needed for a stable estimate; treat as ESTIMATED',
+    hitRate: hits / n,
+    meanAbsoluteError: sumAbs / n,
+    brierScore: sumBrier / n,
+    contaminatedFraction: contaminated / n
   };
 }
 
@@ -395,6 +407,22 @@ function learn(fm, efference, actualDelta, now) {
   if (fm.consumed && fm.consumed[efference.id]) {
     return { updated: false, why: 'efference copy ' + efference.id + ' already produced its supervised update; one claim, one comparison' };
   }
+  /**
+   * RETIRED IS NOT FORGOTTEN. Compaction moves old consumed ids to the archive, so an
+   * efference from before the horizon is absent from `consumed` for a reason that is NOT
+   * "never seen". Without this it would be learned a second time: the same duplicate update
+   * the guard above exists to prevent, arriving through a different door. Refused, not
+   * relearned. Recording the horizon without enforcing it would have been a comment, not a
+   * guarantee.
+   */
+  /* THE FIELD IS emittedAt (loop.js:655). An earlier draft read `efference.at`, which no
+     efference carries, so the guard never fired and its test mirrored the same invented
+     field and passed. Checked against the name the emitter actually writes. */
+  if (typeof fm.consumedHorizon === 'number' &&
+      typeof efference.emittedAt === 'number' && efference.emittedAt <= fm.consumedHorizon) {
+    return { updated: false, why: 'efference copy ' + efference.id + ' predates the retained horizon (' +
+      fm.consumedHorizon + '); its consumed record is archived, so it is refused rather than relearned' };
+  }
   if (!fm.consumed) fm.consumed = Object.create(null);
   fm.consumed[efference.id] = true;
 
@@ -556,7 +584,10 @@ function forwardModelReport(fm) {
 function serialize(fm) {
   return {
     models: fm.models, lr: fm.lr, gainBound: fm.gainBound, trustN: fm.trustN,
-    version: fm.version, consumed: fm.consumed, history: fm.history.slice(-512),
+    /* consumedHorizon IS STATE. Unserialized it vanishes on restart and every archived
+       efference becomes relearnable, which is the duplicate update the guard prevents. */
+    version: fm.version, consumed: fm.consumed, consumedHorizon: fm.consumedHorizon || null,
+    history: fm.history.slice(-512),
     meta: META.serializeLedger(fm.meta)
   };
 }
@@ -565,6 +596,7 @@ function deserialize(o) {
   fm.models = o.models || Object.create(null);
   fm.version = o.version || 0;
   fm.consumed = o.consumed || Object.create(null);
+  fm.consumedHorizon = (typeof o.consumedHorizon === 'number') ? o.consumedHorizon : null;
   fm.history = o.history || [];
   /* A snapshot written before meta was serialised restores to an empty ledger, which
      is the old behaviour and correct for that data — there is nothing to restore. */
