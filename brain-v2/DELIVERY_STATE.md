@@ -47,10 +47,10 @@ evidence, and it is still zero. A domain can be bound, installed, and evidence n
 |---|---|
 | total domains | 20 |
 | **BOUND** (validating binder + a fixture that binder can read) | **20 of 20** |
-| **INSTALLED** in the production shadow runtime | **7**: energy, finance, education, economy, trade, industry, population |
-| not yet installed | **13** |
+| **INSTALLED** in the production shadow runtime | **12**: energy, finance, education, economy, trade, industry, population, infrastructure, science, intelligence, environment, medicine |
+| not yet installed | **8** |
 | **relationships ACTIVE as neural pathways** | **0 of 10** |
-| declared relationships | 10, in energy (7) and finance (3) only. The five batch-1 domains declare **zero**. |
+| declared relationships | 10, in energy (7) and finance (3) only. All ten batch-1 and batch-2 domains declare **zero**, so no installation so far could activate a pathway even by mistake. |
 | offline replay fixtures | 20 of 20 |
 
 Installation grants nothing. It puts a domain in shadow, where it senses and reports. It
@@ -315,6 +315,88 @@ At 20:27 the same pairing gives 4.22x and 6.49x. Finance at 4,383,808 already ex
 3.67 MiB largest value ever measured offline. **The offline 20-domain projection is
 therefore a floor, not a worst case.** These figures are the 2026-08-07 cycles; the latest
 verified single-domain maximum is finance at 4,522,058 B, 2026-08-08T13:27Z.
+
+## COMPACTION MERGED (PR #14, merge `8a2ba452`), AND WHAT PRODUCTION MEASURED
+
+**Evidence gained: none about any domain.** Compaction bounds hot state. It establishes
+nothing about what any domain senses, and it activates no pathway.
+
+**FIRST POST-MERGE PRODUCTION CYCLE, 2026-08-08T21:27:32Z.** All seven `ok:true`. Read from
+the stored cycle report, not inferred from a byte total:
+
+| domain | compaction.ran | retired | archive seq | beforeBytes | afterBytes |
+|---|---|---:|---:|---:|---:|
+| energy | true | 314 | 1 | 4,090,236 | 3,722,988 |
+
+Serialized state across the seven installed domains fell from **23,355,053 B at 20:27
+(pre-merge) to 21,739,546 B at 21:27**. `reusedChunk:false`, so archive sequence 1 was
+genuinely CREATED by `SET NX` against production Upstash rather than reusing a slot.
+Calibration after the retirement reads `n:533, status MEASURED, hitRate 0.807,
+contaminatedFraction 0` — it did not get younger, which is the property archived totals
+exist to preserve.
+
+**THE HEALTH READ COULD NOT SEE ANY OF THAT, and that was a real defect.** `/api/brain-shadow`
+builds each domain's entry from an explicit ALLOW-LIST of fields, and `compaction` and
+`calibration` were not on it. The runtime recorded both and the stored report carried both;
+the only surface an operator reads dropped them, so the endpoint whose job is to answer "did
+it compact?" could not answer it. Fixed, with an assertion that writes a real cycle and reads
+it back THROUGH the handler, so it tests the projection rather than the runtime.
+
+### THE COMPACTION GATE'S OWN INSTRUMENT WAS WRONG, and it passed by luck
+
+PR #14 verified the gate at 60 replay cycles. **It fails at 40 and at 100.** Same code, same
+seven domains, three different verdicts. That is not a gate.
+
+The cause was in the audit, not the runtime. `replay-compaction.js` judged recursive structure
+by "the late window must not sit entirely above the early window", over windows of **2 to 5
+samples**. Direct attribution settled what was actually happening:
+
+- `memory.episodic` holds **exactly 512 records at every post-warm-up cycle, min equal to
+  max**. The cap holds. Nothing accumulates.
+- Its NODE count wanders in a **33-node band on a base of 72,000**, 28 increments up and 39
+  down, OLS slope **0.033 nodes/cycle** over 80 cycles. Per-record composition drifts; the
+  record count does not move.
+
+A two-window comparison cannot tell bounded wander from accumulation, so it answered
+differently depending on where the windows landed. The verdict now requires TWO conditions: a
+slope significant against its own scatter (t > 3), AND a rise over the measured window worth at
+least one average retained record. Significance alone fires on 0.09 nodes/cycle, which is real
+and about a century from mattering; magnitude alone fires on noise.
+
+**Verified in both directions.** With the corrected verdict the seven-domain state passes at
+40, 60 and 100 cycles alike. Raising `RETAIN.episodic` to 100,000 so records genuinely
+accumulate makes it fail loudly at **15,095 nodes/cycle, t=95,125** — four orders of magnitude
+above the noise floor it now ignores. A gate that never fires would have been the worse
+outcome of this fix.
+
+## BATCH 2: five domains installed, 7 of 20 to 12 of 20
+
+Added: **infrastructure, science, intelligence, environment, medicine**. Selected on the
+batch-1 criteria, unchanged and in the same order, because those criteria were not a one-off
+convenience:
+
+| domain | channels read / declared | coverage | declared relationships | first readable row | cycle ms |
+|---|---|---:|---:|---:|---:|
+| infrastructure | 17 / 18 | 94% | 0 | 0 | 235 |
+| science | 14 / 15 | 93% | 0 | 0 | 107 |
+| intelligence | 14 / 15 | 93% | 0 | 0 | 86 |
+| environment | 9 / 10 | 90% | 0 | 0 | 63 |
+| medicine | 13 / 15 | 87% | 0 | 0 | 66 |
+
+Each declares **zero relationships**, so installing them cannot activate a pathway even by
+mistake. Each reads from **row 0**, so its first cycle is falsifiable immediately rather than
+silent for three hours. These are the five highest-coverage domains remaining.
+
+Runtime aliases resolved and checked for collision: `science` runs as `research`, `medicine`
+as `health`, `trade` as `supplyChain`. Twelve products map to twelve distinct snapshots.
+
+**CULTURE AND RELIGION ARE STILL EXCLUDED, still not for coverage.** Their first readable row
+is 373 of 470, so at the 120-row cap they tick ZERO times for three consecutive cycles. A
+canary that cannot fail for three hours is the worst kind. They go in behind a cursor that
+starts near their first readable row, not before.
+
+**Offline gate for all twelve: passes at 40, 60 and 100 cycles** with the corrected verdict.
+Eight domains remain outside the runtime.
 
 ### The six fields this file requires of every brain PR
 

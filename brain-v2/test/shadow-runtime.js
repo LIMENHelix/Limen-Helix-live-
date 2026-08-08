@@ -346,8 +346,9 @@ var firstReport, secondReport, firstState;
    * read never mentions. Identity is asserted, not equality: the runtime must re-export the
    * registry's array, not a copy that happens to match today.
    */
-  var EXPECTED_INSTALLED = ['energy', 'finance', 'education', 'economy', 'trade', 'industry', 'population'];
-  assert('the installed set is exactly the seven this batch declares, in order',
+  var EXPECTED_INSTALLED = ['energy', 'finance', 'education', 'economy', 'trade', 'industry',
+    'population', 'infrastructure', 'science', 'intelligence', 'environment', 'medicine'];
+  assert('the installed set is exactly the twelve declared, in order',
     JSON.stringify(REG.INSTALLED_DOMAINS) === JSON.stringify(EXPECTED_INSTALLED),
     JSON.stringify(REG.INSTALLED_DOMAINS));
   assert('the runtime re-exports the registry array itself, rather than keeping a copy',
@@ -375,8 +376,8 @@ var firstReport, secondReport, firstState;
   /* One survey, reused: summary() inspects all twenty fixtures and calling it twice to build
      an assertion and its own failure message doubles that for nothing. */
   var boundCount = REG.summary().byState[REG.STATE.BOUND];
-  assert('installing 7 does not claim 7 are evidenced: all 20 remain BOUND, which is a different count',
-    boundCount === 20 && REG.INSTALLED_DOMAINS.length === 7,
+  assert('installing 12 does not claim 12 are evidenced: all 20 remain BOUND, a different count',
+    boundCount === 20 && REG.INSTALLED_DOMAINS.length === 12,
     'bound=' + boundCount + ' installed=' + REG.INSTALLED_DOMAINS.length);
 
   console.log('');
@@ -873,6 +874,43 @@ var firstReport, secondReport, firstState;
     assert('and no field is named as though it were transport bytes',
       r.body.stateBytesTotal === undefined && r.body.stateBytesMeasuredDomains === undefined,
       'a value length doubled into bandwidth is the error the rename prevents');
+
+    /**
+     * THE HEALTH READ MUST EVIDENCE COMPACTION, because this projection is an allow-list and
+     * the fields compaction exists to produce were missing from it.
+     *
+     * Measured in production 2026-08-08: the 21:27:32Z cycle retired 314 records into archive
+     * sequence 1 and took energy from 4,090,236 to 3,722,988 bytes. The stored report carried
+     * all of that; `/api/brain-shadow` returned neither field, so the endpoint whose job is to
+     * answer "did it compact?" could not. A real stored cycle is written here and read back
+     * through the handler, so this asserts the PROJECTION rather than the runtime.
+     */
+    var probeDomain = REG.descriptorFor(REG.INSTALLED_DOMAINS[0]).snapshot;
+    await STORE.writeCycle(probeDomain, {
+      domain: probeDomain, ok: true, error: null,
+      startedAt: 1786220000000, finishedAt: 1786220001000,
+      rowsAvailable: 1, rowsApplied: 1, ticks: 1, cursorAfter: 1, restored: true,
+      provenance: {}, predictions: {}, abstentions: [], actuation: {},
+      stateValueBytes: 3722988,
+      compaction: { ran: true, retired: 314, archivedSequence: 1,
+        beforeBytes: 4090236, afterBytes: 3722988, reusedChunk: false },
+      calibration: { n: 533, status: 'MEASURED', hitRate: 0.8067542213883677 }
+    });
+    r = await call('/api/brain-shadow', { 'x-brain-token': 'op' }, { token: 'op', cron: 'sekrit' });
+    var projected = r.body.cycles[REG.INSTALLED_DOMAINS[0]];
+    assert('the health read reports what compaction did, not just that the cycle was ok',
+      !!projected && !!projected.compaction && projected.compaction.ran === true &&
+      projected.compaction.retired === 314 && projected.compaction.archivedSequence === 1,
+      JSON.stringify(projected && projected.compaction));
+    /* Guarded: when the field is missing this must FAIL, not throw. A harness that dies here
+       skips every assertion after it, which reads as a smaller failure than it is. */
+    var comp = (projected && projected.compaction) || {};
+    assert('including the bytes before and after, so the reduction is observable',
+      comp.beforeBytes === 4090236 && comp.afterBytes === 3722988,
+      JSON.stringify(projected && projected.compaction));
+    assert('and calibration, so it is visible that it did not get younger across a retirement',
+      !!projected.calibration && projected.calibration.n === 533,
+      JSON.stringify(projected.calibration));
 
     r = await call('/api/brain-shadow?run=1', { authorization: 'Bearer sekrit' }, { token: 'op', cron: 'sekrit' });
     assert('an exact Bearer CRON_SECRET match DOES execute', r.code === 200 || r.code === 207, String(r.code));

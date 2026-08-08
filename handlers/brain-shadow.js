@@ -133,7 +133,23 @@ module.exports = async function handler(req, res) {
         provenance: cyc.provenance, predictions: cyc.predictions,
         abstentions: (cyc.abstentions || []).length,
         actuation: cyc.actuation,
-        stateValueBytes: typeof cyc.stateValueBytes === 'number' ? cyc.stateValueBytes : null
+        stateValueBytes: typeof cyc.stateValueBytes === 'number' ? cyc.stateValueBytes : null,
+        /**
+         * COMPACTION AND CALIBRATION, because this projection is an ALLOW-LIST and the two
+         * fields the compaction work exists to evidence were not on it.
+         *
+         * Measured 2026-08-08: the 21:27:32Z cycle retired 314 records into archive sequence 1
+         * and took energy from 4,090,236 to 3,722,988 bytes, and the health read reported none
+         * of it. The stored report carried it the whole time; the only surface anyone looks at
+         * dropped it, so "did compaction run in production?" was unanswerable from the endpoint
+         * whose job is to answer it. That is the same failure shape as a domain executing
+         * hourly while the health read calls it absent.
+         *
+         * Null rather than omitted when a cycle predates the field, so an old report reads as
+         * "not recorded" instead of "did not compact".
+         */
+        compaction: cyc.compaction || null,
+        calibration: cyc.calibration || null
       } : null;
     }
     return send(res, 200, {

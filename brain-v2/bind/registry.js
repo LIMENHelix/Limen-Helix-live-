@@ -267,7 +267,17 @@ var INSTALLED_DOMAINS = [
      so its first cycle is immediately falsifiable rather than silent for three hours, and
      each carries 91-100% channel coverage, and declares ZERO relationships, which means
      installing them cannot activate anything early even by mistake. */
-  'education', 'economy', 'trade', 'industry', 'population'
+  'education', 'economy', 'trade', 'industry', 'population',
+  /* Batch 2, audited 2026-08-08, selected on the SAME three properties in the same order,
+     because the batch-1 criteria were not a one-off convenience: each declares ZERO
+     relationships, each reads from row 0 so its first cycle is falsifiable immediately, and
+     these are the five highest channel-coverage domains left (86-94%).
+
+     CULTURE AND RELIGION ARE STILL EXCLUDED, and still not for coverage: their first
+     readable row is 373 of 470, so at the 120-row cap they tick ZERO times for three
+     consecutive cycles. A canary that cannot fail for three hours is the worst kind. They
+     go in only behind a cursor that starts near their first readable row. */
+  'infrastructure', 'science', 'intelligence', 'environment', 'medicine'
 ];
 
 /**

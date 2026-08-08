@@ -101,7 +101,24 @@ function regressionSlope(samples, key) {
   return den ? num / den : 0;
 }
 
-/** Equal early/late windows after warm-up. A linear accumulator must lift the late window. */
+/**
+ * Trend after warm-up, MEASURED against its own noise.
+ *
+ * THE DEFECT THIS REPLACES, and it was in the instrument rather than the runtime. The verdict
+ * used to be "the late window must overlap the early window", over windows of 2 to 5 samples.
+ * On a signal that WANDERS inside a fixed band that is a coin flip, and it behaved like one:
+ * the same seven-domain state passed at 60 cycles, failed at 40 naming education, and failed
+ * at 100 naming population. Direct attribution then showed why. `memory.episodic` holds
+ * exactly 512 records at every post-warm-up cycle, min equal to max, so the CAP HOLDS; its
+ * node count drifts with per-record composition inside a 33-node band on a base of 72,000,
+ * with 28 increments up and 39 down and an OLS slope of 0.03 nodes per cycle. A two-window
+ * comparison cannot tell that from accumulation, and a gate that answers differently at three
+ * depths is not evidence at any of them.
+ *
+ * So the question is asked properly: is the slope distinguishable from zero given the scatter
+ * around it? A real per-record accumulator lifts the count every cycle and clears this easily;
+ * bounded wander does not. `t` is the slope over its own standard error.
+ */
 function compareWindows(samples, key, from) {
   var post = samples.slice(from);
   var width = Math.max(2, Math.min(5, Math.floor(post.length / 2)));
@@ -109,9 +126,27 @@ function compareWindows(samples, key, from) {
   function max(a) { return Math.max.apply(null, a.map(function (x) { return x[key]; })); }
   function min(a) { return Math.min.apply(null, a.map(function (x) { return x[key]; })); }
   function mean(a) { return a.reduce(function (s, x) { return s + x[key]; }, 0) / a.length; }
+
+  var slope = regressionSlope(post, key);
+  var n = post.length;
+  var xm = (n - 1) / 2, ym = post.reduce(function (s, x) { return s + x[key]; }, 0) / n;
+  var sxx = 0, sse = 0;
+  post.forEach(function (x, i) {
+    sxx += (i - xm) * (i - xm);
+    var fit = ym + slope * (i - xm);
+    sse += (x[key] - fit) * (x[key] - fit);
+  });
+  /* n-2 residual degrees of freedom; a two-point series has none and cannot be judged. */
+  var se = (n > 2 && sxx > 0) ? Math.sqrt(sse / (n - 2) / sxx) : Infinity;
+  var t = se && isFinite(se) && se > 0 ? slope / se : 0;
+
   return { earlyMin: min(early), earlyMax: max(early), lateMin: min(late), lateMax: max(late),
            earlyMean: mean(early), lateMean: mean(late),
-           slope: regressionSlope(post, key), samples: post.length };
+           slope: slope, slopeSE: se, t: t,
+           /* RISING, not merely moving: a shrinking collection is not a leak. Significance is
+              necessary and NOT sufficient - see the caller, which also requires the rise to be
+              worth at least one whole retained record. */
+           rising: slope > 0 && t > 3, samples: n };
 }
 
 /** Every serialized collection that has a declared cap outside compact.js. */
@@ -249,6 +284,12 @@ async function replay(product) {
   return {
     product: product, snapshot: d.snapshot, cycles: n,
     firstCompactAt: firstCompactAt, bytes: last.bytes,
+    /* Average nodes per retained record, from the final state: the structure count over every
+       record the state is holding. It is the yardstick the structure sentinel needs, because
+       "grew by a lot" is meaningless without knowing what one record costs. */
+    nodesPerRecord: last.structure / Math.max(1,
+      last.episodic + last.terminalProspective + last.openProspective +
+      last.terminalPredictions + last.openPredictions + last.consumed),
     totalTrend: totalTrend, bodyTrend: bodyTrend, structureTrend: structureTrend,
     textTrend: textTrend, openProspectiveTrend: openProspectiveTrend,
     openPredictionTrend: openPredictionTrend, consumedTrend: consumedTrend,
@@ -299,24 +340,39 @@ async function replay(product) {
     'episodic, terminal prospective, terminal predictions, resolved, episode index and attention all stayed within policy'));
 
   console.log('');
-  console.log('LIVE-LEDGER GATE + RECURSIVE STRUCTURE SENTINEL — equal windows after warm-up:');
+  console.log('LIVE-LEDGER GATE + RECURSIVE STRUCTURE SENTINEL — after warm-up:');
   console.log('  ' + pad('domain', 12) + lp('structure', 20) + lp('text bytes', 20) +
     lp('openPr', 16) + lp('openPd', 16) + lp('consumed', 16));
   var growing = [];
   rows.forEach(function (r) {
-    /* Open work and consumed ids have no count cap: they must not lift at all. Complete
-       recursive structure is a sentinel for an omitted nested collection. Record composition
-       legitimately jitters, so it fails only when the whole late window moves above the whole
-       early window. Text is diagnostic because embedded counters gain digits logarithmically. */
+    /* Open work and consumed ids have no count cap: they must not lift at all, so a raw max
+       comparison is right for them. Recursive structure is different in kind: it is a sentinel
+       for an omitted nested collection, and record COMPOSITION jitters inside a band even when
+       every record count is pinned at its cap, so it is judged by a slope measured against its
+       own scatter rather than by whether two short windows overlap. Text stays diagnostic
+       because embedded counters gain digits logarithmically. */
     [['openProspective', r.openProspectiveTrend], ['openPredictions', r.openPredictionTrend],
      ['consumed', r.consumedTrend]].forEach(function (x) {
       if (x[1].lateMax > x[1].earlyMax) growing.push(r.product + '.' + x[0] +
         ' max ' + x[1].earlyMax + ' -> ' + x[1].lateMax);
     });
-    if (r.structureTrend.lateMin > r.structureTrend.earlyMax) {
-      growing.push(r.product + '.recursiveStructure windows do not overlap: ' +
-        r.structureTrend.earlyMin + '..' + r.structureTrend.earlyMax + ' -> ' +
-        r.structureTrend.lateMin + '..' + r.structureTrend.lateMax);
+    /**
+     * TWO CONDITIONS, because either alone gives the wrong answer.
+     *
+     * Significance alone fires on drift of 0.09 nodes per cycle: real, measurable, and about
+     * one hundred years from mattering. Magnitude alone fires on noise. What this sentinel
+     * exists to catch is a nested collection compaction FORGOT, and such a collection gains
+     * whole records - so the rise over the measured window must be worth at least one average
+     * retained record. An omitted collection taking one record per cycle clears that by two
+     * orders of magnitude; composition drift inside pinned caps never does.
+     */
+    var st = r.structureTrend;
+    var rise = st.slope * st.samples;
+    if (st.rising && rise >= r.nodesPerRecord) {
+      growing.push(r.product + '.recursiveStructure RISES by ' + rise.toFixed(0) +
+        ' nodes over ' + st.samples + ' cycles (slope ' + st.slope.toFixed(3) +
+        '/cycle, t=' + st.t.toFixed(1) + '), which is at least one whole record of ~' +
+        r.nodesPerRecord.toFixed(0) + ' nodes');
     }
     function pair(t) { return t.earlyMax + '→' + t.lateMax; }
     console.log('  ' + pad(r.product, 12) + lp(pair(r.structureTrend), 20) +
