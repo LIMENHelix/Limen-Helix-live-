@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>LIMEN — orb lab</title>
+<!--
+  LAB PAGE. Wired to nothing. No API calls, no data, no shared module, no route.
+  Nothing here ships anywhere until it is looked at and chosen.
+
+  THE ORB IS A LENS, NOT A PAINTED BALL. Two halves that only work together:
+
+    the shell   razor sharp. Fresnel that bites at grazing angles, a hard specular hit, a
+                chromatic fringe at the very rim. This is the sharpest thing on the screen.
+    the inside  a volume, raymarched, and soft with depth. Near contents crisp, far contents
+                dissolving.
+
+  The contrast between them is the effect. Sharp glass over a soft interior reads as "I am
+  looking through something into somewhere else". Sharp over sharp is a diagram; soft over
+  soft is mud.
+
+  THE DEPTH BLUR IS FREE, and that is the nice part. Rather than blurring, the noise loses
+  octaves with distance — far samples are evaluated at lower frequency. Undersampling the far
+  field IS the depth of field, so the dreamlike falloff and the performance optimisation are
+  the same line of code.
+
+  THE DOTS HAVE Z NOW. The atlas sparks orbit on flattened 2D ellipses, so a dot slides left,
+  stops, slides right, stops. That is oscillation wearing an orbit's costume and the eye
+  catches it instantly. Here they sit on a real Fibonacci sphere, rotate about a tilted axis,
+  and are occluded when they pass behind the body.
+-->
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#03030a;color:#e8e3d9;overflow:hidden;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  canvas{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:grab}
+  canvas:active{cursor:grabbing}
+
+  .hud{position:fixed;top:14px;left:16px;z-index:10;font-size:.52rem;letter-spacing:.22em;
+    text-transform:uppercase;color:rgba(201,169,78,.75)}
+  .hud b{color:#fff}
+  .note{position:fixed;bottom:12px;left:0;right:0;text-align:center;z-index:10;
+    font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,227,217,.32)}
+
+  .panel{position:fixed;top:14px;right:16px;z-index:10;width:216px;
+    background:rgba(5,8,16,.82);border:1px solid rgba(201,169,78,.22);border-radius:4px;
+    padding:12px 13px 14px;backdrop-filter:blur(6px)}
+  .panel h2{font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;
+    color:rgba(201,169,78,.85);margin-bottom:10px;font-weight:600}
+  .pre{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+  .pre button{flex:1 1 auto;background:rgba(226,236,250,.05);border:1px solid rgba(226,236,250,.14);
+    color:rgba(214,228,244,.72);padding:5px 7px;cursor:pointer;border-radius:3px;
+    font:600 7.4px/1.2 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}
+  .pre button:hover{background:rgba(226,236,250,.14);color:#fff}
+  .pre button.on{background:rgba(201,169,78,.18);border-color:rgba(201,169,78,.6);color:#fff}
+  .row{margin:9px 0}
+  .row label{display:flex;justify-content:space-between;font-size:.46rem;letter-spacing:.16em;
+    text-transform:uppercase;color:rgba(232,227,217,.5);margin-bottom:4px}
+  .row label span{color:rgba(201,169,78,.9)}
+  .row input{width:100%;accent-color:#c9a94e;height:3px}
+  .fps{margin-top:12px;font-size:.46rem;letter-spacing:.16em;color:rgba(232,227,217,.42)}
+  .fps b{color:#7ef0be}
+  .err{position:fixed;inset:0;z-index:99;display:none;padding:34px;overflow:auto;
+    background:#0b0206;color:#ff9d8a;font-size:.7rem;line-height:1.55;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div class="hud">LIMEN · ORB LAB · <b id="hudName">ENERGY</b></div>
+<div class="panel">
+  <h2>Interior</h2>
+  <div class="pre" id="pre"></div>
+  <div class="row"><label>Turbulence <span id="vTurb"></span></label>
+    <input id="turb" type="range" min="0.4" max="4" step="0.05"></div>
+  <div class="row"><label>Density <span id="vDens"></span></label>
+    <input id="dens" type="range" min="0.1" max="3" step="0.05"></div>
+  <div class="row"><label>Glow <span id="vGlow"></span></label>
+    <input id="glow" type="range" min="0.2" max="3" step="0.05"></div>
+  <div class="row"><label>Churn <span id="vFlow"></span></label>
+    <input id="flow" type="range" min="0" max="1.2" step="0.02"></div>
+  <div class="row"><label>Dream blur <span id="vBlur"></span></label>
+    <input id="blur" type="range" min="0" max="1" step="0.02"></div>
+  <div class="row"><label>Glass <span id="vGlass"></span></label>
+    <input id="glass" type="range" min="0" max="1.6" step="0.02"></div>
+  <div class="row"><label>Motes <span id="vDots"></span></label>
+    <input id="dots" type="range" min="0" max="400" step="10"></div>
+  <div class="fps">fps <b id="fps">–</b> · steps <b id="stp">–</b></div>
+</div>
+<div class="note">drag to turn · the shell is sharp, the inside is not</div>
+<pre class="err" id="err"></pre>
+
+<script>
+/* ── shaders ─────────────────────────────────────────────────────────────────────────────── */
+var VERT_QUAD = [
+'attribute vec2 aPos;',
+'void main(){ gl_Position = vec4(aPos, 0.0, 1.0); }'
+].join('\n');
+
+var FRAG = [
+'precision highp float;',
+'uniform vec2  uRes;',
+'uniform float uTime, uTurb, uDens, uGlow, uFlow, uBlur, uGlass;',
+'uniform vec3  uA, uB, uC;',
+'uniform vec2  uRot;',
+'uniform float uMode;',            // 0 star · 1 storm · 2 crystal
+
+'mat3 rx(float a){ float s=sin(a),c=cos(a); return mat3(1.,0.,0., 0.,c,-s, 0.,s,c); }',
+'mat3 ry(float a){ float s=sin(a),c=cos(a); return mat3(c,0.,s, 0.,1.,0., -s,0.,c); }',
+
+/* No sin() in the hash. The first version used sin-based hashing inside a 6-octave fbm called
+   seven times per sample, forty-eight times per pixel — about sixteen thousand transcendentals
+   per pixel, which did not finish a frame. This is the standard cheap integer-ish hash. */
+'float hash(vec3 p){',
+'  p = fract(p * 0.3183099 + vec3(0.71, 0.113, 0.419));',
+'  p *= 17.0;',
+'  return fract(p.x * p.y * p.z * (p.x + p.y + p.z));',
+'}',
+'float vnoise(vec3 p){',
+'  vec3 i = floor(p), f = fract(p);',
+'  f = f*f*(3.0-2.0*f);',
+'  float n000=hash(i), n100=hash(i+vec3(1,0,0)), n010=hash(i+vec3(0,1,0)), n110=hash(i+vec3(1,1,0));',
+'  float n001=hash(i+vec3(0,0,1)), n101=hash(i+vec3(1,0,1)), n011=hash(i+vec3(0,1,1)), n111=hash(i+vec3(1,1,1));',
+'  return mix(mix(mix(n000,n100,f.x), mix(n010,n110,f.x), f.y),',
+'             mix(mix(n001,n101,f.x), mix(n011,n111,f.x), f.y), f.z);',
+'}',
+/* Octaves are a float and the loop breaks early, which is how the depth blur is done:
+   far samples simply get fewer octaves, so the far field loses detail instead of being
+   blurred by a second pass. */
+'float fbm(vec3 p, float oct){',
+'  float a = 0.5, s = 0.0, tot = 0.0;',
+'  for (int i = 0; i < 4; i++){',
+'    if (float(i) >= oct) break;',
+'    s += a * vnoise(p); tot += a; p *= 2.03; a *= 0.5;',
+'  }',
+'  return s / max(tot, 0.0001);',
+'}',
+/* Inigo Quilez's domain warp, f(p + f(p)). His full form nests three deep and needs seven fbm
+   evaluations; one level of nesting needs three and is visually almost indistinguishable
+   inside a volume that is being blurred by depth anyway. This is the single change that took
+   a frame from not-completing to real time. */
+'float warp(vec3 p, float t, float oct){',
+'  vec2 q = vec2(fbm(p, oct), fbm(p + vec3(5.2, 1.3, 4.7), oct));',
+'  return fbm(p + vec3(q, q.x) * 2.7 + vec3(0.0, t * 0.25, 0.0), oct);',
+'}',
+
+/* NOTE THE SMOOTHSTEP DIRECTION. `smoothstep(1.0, 0.35, r)` reads naturally as "fade out
+   toward the wall" and is UNDEFINED in GLSL ES when edge0 > edge1. It cost an hour: the whole
+   canvas rendered black because one NaN escaped into the accumulated colour and poisoned it,
+   including the atmosphere term outside the sphere. Always edge0 < edge1, and invert. */
+'float density(vec3 p, float oct){',
+'  float r = length(p);',
+'  float wall = 1.0 - smoothstep(0.35, 1.0, r);',      // nothing touches the glass
+'  float t = uTime * uFlow;',
+'  float g;',
+'  if (uMode < 0.5){',                                 // STAR: convective granulation
+'    g = warp(p * uTurb + vec3(0.0, t*0.30, 0.0), t, oct);',
+/* smoothstep, not pow. pow() compresses everything toward the middle and the granules came
+   out as haze; a threshold gives them edges, which is what makes them read as cells. */
+'    g = smoothstep(0.40, 0.78, g);',
+'    float core = 1.0 - smoothstep(0.0, 0.42, r);',
+'    return g * wall * uDens + core * core * 0.55;',
+'  } else if (uMode < 1.5){',                          // STORM: banded, sheared
+'    vec3 q = p * uTurb;',
+'    q.y *= 2.6;',                                     // shear into latitude bands
+'    g = warp(q + vec3(t*0.5, 0.0, 0.0), t, oct);',
+'    g = smoothstep(0.34, 0.86, g);',
+'    return g * wall * uDens;',
+'  }',
+'  vec3 q = p * uTurb;',                               // CRYSTAL: hard facets
+'  g = warp(q, t*0.4, oct);',
+'  g = abs(g - 0.5) * 2.0;',
+'  g = 1.0 - smoothstep(0.02, 0.30, g);',              // thin bright veins
+'  return g * wall * uDens * 0.9;',
+'}',
+
+'vec3 ramp(float d){',
+'  vec3 c = mix(uA, uB, smoothstep(0.0, 0.55, d));',
+'  return mix(c, uC, smoothstep(0.5, 1.15, d));',
+'}',
+
+'void main(){',
+'  vec2 uv = (gl_FragCoord.xy - 0.5*uRes) / min(uRes.x, uRes.y);',
+'  vec3 ro = vec3(0.0, 0.0, 4.6);',
+'  vec3 rd = normalize(vec3(uv, -1.6));',
+'  mat3 R = ry(uRot.x) * rx(uRot.y);',
+
+/* Ray/sphere. Everything below only runs for pixels that actually hit the glass. */
+'  float b = dot(ro, rd), c2 = dot(ro, ro) - 1.0;',
+'  float disc = b*b - c2;',
+'  vec3 col = vec3(0.0);',
+'  if (disc > 0.0){',
+'    float sq = sqrt(disc);',
+'    float t0 = -b - sq, t1 = -b + sq;',
+'    vec3  hit = ro + rd*t0;',
+'    vec3  N   = normalize(hit);',
+/* THE SHELL. Fresnel biting at the limb is what makes it a sphere rather than a disc, and
+   the specular is what makes it glass rather than gas. */
+'    float fres = pow(1.0 - max(dot(N, -rd), 0.0), 3.4);',
+'    vec3  L    = normalize(vec3(-0.55, 0.72, 0.62));',
+'    float spec = pow(max(dot(reflect(rd, N), L), 0.0), 90.0);',
+
+/* Refract in, then march the interior. The bend is what makes the contents sit BEHIND the
+   surface rather than on it. */
+'    vec3 rr = refract(rd, N, 1.0 / (1.10 + uGlass*0.42));',
+'    if (length(rr) < 0.001) rr = rd;',
+'    float span = (t1 - t0);',
+'    float STEPS = 32.0;',
+'    float dt = span / STEPS;',
+'    float jit = hash(vec3(gl_FragCoord.xy, uTime)) * dt;',
+'    float trans = 1.0;',
+'    for (int i = 0; i < 32; i++){',
+'      float f = float(i) / STEPS;',
+'      vec3 p = R * (hit + rr * (jit + float(i)*dt));',
+'      if (dot(p,p) > 1.02) continue;',
+/* The dream: octaves fall away with depth. Far contents lose detail, which is depth of
+   field and a performance saving in the same expression. */
+'      float oct = mix(4.0, 1.3, f * uBlur);',
+'      float d = density(p, oct);',
+/* ABSORPTION HAS TO BE LOW OR YOU ONLY EVER SEE THE FRONT WALL. The first pass used
+   1-exp(-d*2.6*dt*6), which at typical density is 0.6 opacity in the FIRST sample — the ray
+   was fully absorbed before it got anywhere, so the orb came out an even milky peach with no
+   interior at all. Low absorption is what lets you see into it, and depth is the whole point
+   of raymarching rather than shading a surface. */
+'      if (d > 0.004){',
+'        float a = 1.0 - exp(-d * dt * 2.2);',
+'        col += ramp(d) * a * trans * uGlow;',
+'        trans *= 1.0 - a * 0.85;',
+'        if (trans < 0.02) break;',
+'      }',
+'    }',
+/* Rim last, over the top of the contents, with a warm/cool split at the very edge — the
+   dispersion a curved transparent body actually produces. */
+'    col += vec3(1.00, 0.62, 0.42) * fres * 0.30 * uGlass;',
+'    col += vec3(0.46, 0.78, 1.00) * pow(fres, 1.5) * 0.34 * uGlass;',
+'    col += vec3(1.0) * spec * 1.5 * uGlass;',
+'    col += ramp(0.9) * pow(fres, 6.0) * 0.5;',
+'  }',
+/* Atmosphere outside the glass, so it sits in something instead of on black. */
+'  float g = exp(-max(length(uv)*1.35 - 0.55, 0.0) * 3.2);',
+'  col += ramp(0.75) * g * 0.055 * uGlow;',
+'  col = col / (1.0 + col * 0.55);',                  // filmic-ish rolloff, no clipping
+'  col = pow(max(col, 0.0), vec3(0.4545));',
+'  gl_FragColor = vec4(col, 1.0);',
+'}'
+].join('\n');
+
+/* THE MOTES. Real positions on a sphere, rotated about a tilted axis, occluded when they
+   pass behind the body. This is the whole difference from the atlas sparks, which orbit on
+   flattened 2D ellipses and therefore slide back and forth instead of going around. */
+var VERT_DOT = [
+'attribute vec3 aP;',
+'attribute float aSeed;',
+'uniform vec2 uRes; uniform float uTime; uniform vec2 uRot;',
+'varying float vA;',
+'mat3 rx(float a){ float s=sin(a),c=cos(a); return mat3(1.,0.,0., 0.,c,-s, 0.,s,c); }',
+'mat3 ry(float a){ float s=sin(a),c=cos(a); return mat3(c,0.,s, 0.,1.,0., -s,0.,c); }',
+'void main(){',
+'  mat3 R = ry(uRot.x + uTime*0.055) * rx(uRot.y + 0.32);',
+'  vec3 p = R * aP;',
+'  p *= 1.19 + 0.055*sin(uTime*0.7 + aSeed*6.28);',
+'  float zc = 4.6 - p.z;',
+'  vec2 s = p.xy * (1.6 / zc);',
+'  gl_Position = vec4(s * (2.0*min(uRes.x,uRes.y)/uRes), 0.0, 1.0);',
+'  gl_PointSize = max(1.0, (1.9 + 1.5*sin(uTime*1.6 + aSeed*9.0)) * (4.6/zc));',
+/* Behind the body and inside its silhouette: hidden. That occlusion is what makes it read
+   as a shell turning rather than dots on a plate. */
+'  float behind = (p.z < 0.0 && length(p.xy) < 1.0) ? 0.06 : 1.0;',
+'  float depth  = clamp((p.z + 1.3) / 2.6, 0.0, 1.0);',
+'  vA = behind * (0.16 + 0.62*depth) * (0.45 + 0.55*abs(sin(uTime*1.1 + aSeed*7.0)));',
+'}'
+].join('\n');
+
+var FRAG_DOT = [
+'precision mediump float;',
+'varying float vA;',
+'void main(){',
+'  vec2 d = gl_PointCoord - 0.5;',
+'  float r = dot(d,d);',
+'  if (r > 0.25) discard;',
+'  float a = vA * (1.0 - smoothstep(0.0, 0.25, r));',   // edge0 < edge1, or it is undefined
+'  gl_FragColor = vec4(vec3(1.0, 0.95, 0.86) * a, a);',
+'}'
+].join('\n');
+
+/* ── presets ─────────────────────────────────────────────────────────────────────────────── */
+var PRESETS = {
+  energy:      { name:'ENERGY',      mode:0, turb:1.75, dens:1.35, glow:1.30, flow:0.55, blur:0.85, glass:0.95, dots:180,
+                 a:[0.42,0.05,0.02], b:[1.00,0.42,0.06], c:[1.00,0.95,0.78] },
+  environment: { name:'ENVIRONMENT', mode:1, turb:1.35, dens:1.55, glow:0.95, flow:0.40, blur:0.95, glass:0.80, dots:120,
+                 a:[0.04,0.10,0.18], b:[0.22,0.52,0.72], c:[0.86,0.96,1.00] },
+  finance:     { name:'FINANCE',     mode:2, turb:2.40, dens:1.70, glow:1.15, flow:0.16, blur:0.45, glass:1.30, dots:90,
+                 a:[0.05,0.09,0.16], b:[0.30,0.72,0.86], c:[0.92,1.00,1.00] }
+};
+
+/* ── boot ────────────────────────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+  var cv = document.getElementById('gl');
+  var errBox = document.getElementById('err');
+  function fail(m){ errBox.style.display='block'; errBox.textContent = m; }
+
+  var gl = cv.getContext('webgl', { antialias:true, alpha:false, premultipliedAlpha:false });
+  if (!gl) { fail('WebGL is unavailable in this browser.'); return; }
+
+  function sh(type, src){
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+      // Report the log with numbered source, or a shader bug is a black screen and no clue.
+      var log = gl.getShaderInfoLog(s) || '(no log)';
+      var num = src.split('\n').map(function(l,i){ return String(i+1).padStart(4,' ')+' | '+l; }).join('\n');
+      throw new Error('SHADER COMPILE FAILED\n\n' + log + '\n\n' + num);
+    }
+    return s;
+  }
+  function prog(vs, fs){
+    var p = gl.createProgram();
+    gl.attachShader(p, sh(gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error('LINK FAILED\n' + gl.getProgramInfoLog(p));
+    return p;
+  }
+
+  var P, D;
+  try { P = prog(VERT_QUAD, FRAG); D = prog(VERT_DOT, FRAG_DOT); }
+  catch (e) { fail(e.message); return; }
+
+  // fullscreen quad
+  var quad = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+
+  // Fibonacci sphere: even coverage, no clumping at the poles the way lat/long does.
+  var NDOT = 400, pts = new Float32Array(NDOT*3), seeds = new Float32Array(NDOT);
+  (function(){
+    var ga = Math.PI * (3 - Math.sqrt(5));
+    for (var i=0;i<NDOT;i++){
+      var y = 1 - (i/(NDOT-1))*2, r = Math.sqrt(Math.max(0,1-y*y)), th = ga*i;
+      pts[i*3] = Math.cos(th)*r; pts[i*3+1] = y; pts[i*3+2] = Math.sin(th)*r;
+      seeds[i] = Math.random();
+    }
+  })();
+  var bP = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,bP); gl.bufferData(gl.ARRAY_BUFFER,pts,gl.STATIC_DRAW);
+  var bS = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,bS); gl.bufferData(gl.ARRAY_BUFFER,seeds,gl.STATIC_DRAW);
+
+  var U = {}, UD = {};
+  ['uRes','uTime','uTurb','uDens','uGlow','uFlow','uBlur','uGlass','uA','uB','uC','uRot','uMode']
+    .forEach(function(n){ U[n] = gl.getUniformLocation(P, n); });
+  ['uRes','uTime','uRot'].forEach(function(n){ UD[n] = gl.getUniformLocation(D, n); });
+
+  var S = Object.assign({}, PRESETS.energy);
+  var rot = { x:0, y:0 }, drag = null;
+
+  // controls
+  var ids = { turb:'turb', dens:'dens', glow:'glow', flow:'flow', blur:'blur', glass:'glass', dots:'dots' };
+  var labels = { turb:'vTurb', dens:'vDens', glow:'vGlow', flow:'vFlow', blur:'vBlur', glass:'vGlass', dots:'vDots' };
+  function sync(){
+    Object.keys(ids).forEach(function(k){
+      var el = document.getElementById(ids[k]);
+      el.value = S[k];
+      document.getElementById(labels[k]).textContent = (k==='dots') ? S[k] : Number(S[k]).toFixed(2);
+    });
+    document.getElementById('hudName').textContent = S.name;
+  }
+  Object.keys(ids).forEach(function(k){
+    document.getElementById(ids[k]).addEventListener('input', function(e){
+      S[k] = parseFloat(e.target.value); sync();
+    });
+  });
+  var pre = document.getElementById('pre');
+  Object.keys(PRESETS).forEach(function(key){
+    var b = document.createElement('button');
+    b.textContent = PRESETS[key].name; b.dataset.k = key;
+    b.addEventListener('click', function(){
+      S = Object.assign({}, PRESETS[key]);
+      [].forEach.call(pre.children, function(c){ c.classList.toggle('on', c.dataset.k === key); });
+      sync();
+    });
+    pre.appendChild(b);
+  });
+  pre.firstChild.classList.add('on');
+  sync();
+
+  cv.addEventListener('pointerdown', function(e){ drag = { x:e.clientX, y:e.clientY, rx:rot.x, ry:rot.y }; });
+  addEventListener('pointerup', function(){ drag = null; });
+  addEventListener('pointermove', function(e){
+    if (!drag) return;
+    rot.x = drag.rx + (e.clientX - drag.x) * 0.006;
+    rot.y = drag.ry + (e.clientY - drag.y) * 0.006;
+  });
+
+  var dpr = Math.min(devicePixelRatio || 1, 1.25);
+  function size(){
+    cv.width = Math.round(innerWidth*dpr); cv.height = Math.round(innerHeight*dpr);
+    gl.viewport(0,0,cv.width,cv.height);
+  }
+  addEventListener('resize', size); size();
+
+  var t0 = performance.now(), frames = 0, last = t0;
+  var fpsEl = document.getElementById('fps'), stpEl = document.getElementById('stp');
+  stpEl.textContent = '32';
+
+  function frame(now){
+    var t = (now - t0) / 1000;
+    gl.clearColor(0.012,0.012,0.039,1); gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.useProgram(P);
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    var aPos = gl.getAttribLocation(P,'aPos');
+    gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+    gl.uniform2f(U.uRes, cv.width, cv.height);
+    gl.uniform1f(U.uTime, t);
+    gl.uniform1f(U.uTurb, S.turb); gl.uniform1f(U.uDens, S.dens);
+    gl.uniform1f(U.uGlow, S.glow); gl.uniform1f(U.uFlow, S.flow);
+    gl.uniform1f(U.uBlur, S.blur); gl.uniform1f(U.uGlass, S.glass);
+    gl.uniform1f(U.uMode, S.mode);
+    gl.uniform3fv(U.uA, S.a); gl.uniform3fv(U.uB, S.b); gl.uniform3fv(U.uC, S.c);
+    gl.uniform2f(U.uRot, rot.x, rot.y);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    var n = Math.round(S.dots);
+    if (n > 0){
+      gl.useProgram(D);
+      gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+      gl.bindBuffer(gl.ARRAY_BUFFER, bP);
+      var aP = gl.getAttribLocation(D,'aP');
+      gl.enableVertexAttribArray(aP); gl.vertexAttribPointer(aP,3,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, bS);
+      var aSeed = gl.getAttribLocation(D,'aSeed');
+      gl.enableVertexAttribArray(aSeed); gl.vertexAttribPointer(aSeed,1,gl.FLOAT,false,0,0);
+      gl.uniform2f(UD.uRes, cv.width, cv.height);
+      gl.uniform1f(UD.uTime, t);
+      gl.uniform2f(UD.uRot, rot.x, rot.y);
+      gl.drawArrays(gl.POINTS, 0, Math.min(n, NDOT));
+      gl.disable(gl.BLEND);
+    }
+
+    frames++;
+    if (now - last > 500){ fpsEl.textContent = Math.round(frames*1000/(now-last)); frames = 0; last = now; }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
