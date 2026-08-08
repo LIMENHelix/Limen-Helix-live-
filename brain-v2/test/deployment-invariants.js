@@ -20,11 +20,17 @@
  *
  * The whole test suite ran green through the outage. That is the gap this file closes.
  *
- * THE THIRD ASSERTION IS THE ONE THAT MATTERS. The cron was not deleted, it was
- * SUBSTITUTED: a new cron took its array slot. A test that only asked "does a brain cron
- * exist" would pass on the day someone swaps it again for something else, because the
- * count stays the same. So the schedule is pinned too, and coexistence is asserted rather
- * than assumed.
+ * SUBSTITUTION IS THE FAILURE MODE, NOT DELETION. The cron was not removed and left a gap;
+ * a different cron took its array slot, so the cron COUNT never changed. Two assertions
+ * catch that independently: the exact path `/api/brain-shadow?run=1` must be present, and
+ * the exact schedule `27 * * * *` must belong to it and to nothing else. Either one alone
+ * detects the swap.
+ *
+ * An earlier version also required a non-brain cron to exist, described as asserting
+ * "coexistence". That assertion is GONE. It pinned somebody else's infrastructure: removing
+ * the orb meeting cron, an authorised change, would have failed a BRAIN invariant, and
+ * whoever hit it would have deleted this test rather than debugged it. It added no coverage
+ * the two checks above do not already give.
  * ═══════════════════════════════════════════════════════════════════════════════════
  *
  * Deliberately NOT a network test. It asserts what the repository declares, so it fails in
@@ -68,8 +74,9 @@ var routeRaw = fs.readFileSync(ROUTE_FILE, 'utf8');
  * THIS CHECK TOOK THREE ATTEMPTS, and the first two each looked sufficient while accepting
  * a form of the thing they guard:
  *
- *   v1  matched the raw file text      -> a COMMENTED-OUT registration satisfied it, 9/9,
- *                                         while the endpoint would answer 404
+ *   v1  matched the raw file text      -> WITHDRAWN. A COMMENTED-OUT registration satisfied
+ *                                         it, and v1 reported all 9 of its then-assertions
+ *                                         passing while the endpoint would answer 404
  *   v2  stripped comments and template literals but searched the WHOLE FILE and left
  *       ordinary quoted strings intact -> the exact snippet inside a single- or
  *                                         double-quoted string, or in an unrelated

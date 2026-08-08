@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-07T23:40Z
+measured_at: 2026-08-08T00:05Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -153,7 +153,7 @@ toward one that can be skipped: the evidence gate is measured separately and is 
 
 ---
 
-## BATCH 1: five domains installed (this PR, NOT YET VERIFIED IN PRODUCTION)
+## BATCH 1: five domains installed, VERIFIED IN PRODUCTION
 
 **Evidence gained: none.** This is an installation, and installation is not evidence. What
 changed is how many domains sense in shadow, not what any of them has established.
@@ -329,21 +329,26 @@ therefore a floor, not a worst case.**
   value length is not the wire length, headroom above the largest value is doubly
   unestablished; (c) the sequential seven-domain batch wall-clock and the per-cycle Redis
   round-trip latency are still unmeasured, because the cycle report records neither;
-  (d) steady-state size for the five new domains is not yet known, since they are still
-  backfilling and every cycle so far has grown.
+  (d) STEADY-STATE growth is not yet known. Backfill COMPLETED at 23:27:16Z and all five
+  now share energy's cursor, but every cycle measured so far was a backfill cycle, so no
+  measurement yet exists of how the serialized value moves across ordinary live cycles
+  applying a handful of new rows. That number, not the backfill curve, is what the
+  hot-state gate ultimately turns on.
 
   **Withdrawn from this list, now measured:** "no production cycle has run with 7 domains"
-  and "production `stateValueBytes` is unknown". Three seven-domain cycles have run
-  (`startedAt` 16:27:32Z, 20:27:15Z, 21:27:15Z; per-domain values differ by under two
-  seconds within a cycle) and every domain has reported a measured
+  and "production `stateValueBytes` is unknown". Five seven-domain cycles have run
+  (`startedAt` 16:27:32Z, 20:27:15Z, 21:27:15Z, 22:27:15Z, 23:27:15Z; per-domain values
+  differ by under two seconds within a cycle) and every domain has reported a measured
   `stateValueBytes` in each. Leaving them listed as unknown after measuring them would make
   this file understate what the system has proven, which is the same defect as overstating
   it.
 - **exact next action**: close the hot-state gate (NEXT PROGRAM STEP 3). Production
   restoration is now proven across two CONSECUTIVE cycles (20:27:15Z, 21:27:15Z), so that
   question is settled and is no longer the blocker. The blocker is growth: +25% across the
-  seven installed domains in one hour, with one 110-row backfill cycle still to run. Not the next
-  batch, and not pathway activation: 0 of 10 relationships are analyzer-testable.
+  seven installed domains during backfill, which completed at 23:27:16Z. The next
+  measurement needed is steady-state growth across ordinary live cycles, which has not
+  been observed yet. Not the next batch, and not pathway activation: 0 of 10
+  relationships are analyzer-testable.
 
 ---
 
@@ -448,8 +453,6 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    | replay depth | economy | finance | infrastructure |
    |---|---|---|---|
    | 120 rows | 633.7 KB | 658.9 KB | 928.8 KB |
-   | 240 rows | 1,261 KB | 1,782 KB | 1,826 KB |
-   | 360 rows | 2,108 KB | 2,791 KB | 2,676 KB |
    | 240 rows | 1,268.2 KB | 1,787.7 KB | 1,833.4 KB |
    | 360 rows | 2,118.6 KB | 2,798.6 KB | 2,686.5 KB |
    | full replay | 2,834.7 KB | **3,761.8 KB** | 3,472.4 KB |
@@ -496,7 +499,9 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    fails CI if `api/[...route].js` loses the `brain-shadow` registration, if
    `vercel.json` loses the `:27` cron, if anything else claims that schedule, or if any
    cron targets a route that is not registered. Verified by reproducing the 2026-08-07
-   damage exactly: 4 of its 9 assertions fail on it, and it passes clean otherwise.
+   damage exactly: **5 of its 14 assertions fail** on it, and it passes **14/14** clean.
+   (The 9-assertion, 4-failure figures described the FIRST version of this test, which
+   matched raw text and is superseded; see the version history in the test file.)
 
    The lesson is not "someone was careless". It is that **an installed, correct,
    unreachable brain is indistinguishable from a working one** from inside the repository.
