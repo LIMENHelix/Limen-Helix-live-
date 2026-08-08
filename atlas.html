@@ -124,6 +124,29 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   font-size:.5rem;letter-spacing:.28em;text-transform:uppercase}
 #nova.settled #novaClose{display:block}
 #novaClose:hover{background:#fff;border-color:#7a1206}
+/* The exit at the end of the text, for anyone who has just finished reading. */
+#novaBack{display:none;margin:2.6em 0 0;background:rgba(255,255,255,.4);
+  border:1px solid rgba(122,18,6,.3);border-radius:16px;color:#7a1206;padding:9px 18px;
+  cursor:pointer;font-family:monospace;font-size:.54rem;letter-spacing:.28em;text-transform:uppercase}
+#nova.settled #novaBack{display:inline-block}
+#novaBack:hover{background:#fff;border-color:#7a1206}
+
+/* THE NARRATOR. `helix` was held back when the twenty domain voices were cast; this is what
+   it was reserved for. Pre-rendered once because the text is static, so a thousand listeners
+   cost what one costs. Never autoplays: sound that starts by itself on a landing page is the
+   fastest way to lose the person you most want reading. */
+#novaListen{position:fixed;top:18px;left:20px;z-index:710;display:none;align-items:center;
+  gap:9px;background:rgba(255,255,255,.4);border:1px solid rgba(122,18,6,.3);border-radius:16px;
+  color:#7a1206;padding:8px 16px;cursor:pointer;font-family:monospace;
+  font-size:.5rem;letter-spacing:.28em;text-transform:uppercase}
+#nova.settled #novaListen{display:inline-flex}
+#novaListen:hover{background:#fff;border-color:#7a1206}
+#novaListen .ic{font-size:.8em;line-height:1}
+#novaListen.playing{background:#7a1206;border-color:#7a1206;color:#ffe9c9}
+@media (max-width:640px){
+  #novaClose,#novaListen{padding:7px 12px;font-size:.46rem}
+  #novaListen{gap:6px}
+}
 @media (prefers-reduced-motion:reduce){
   #novaPaper,#novaCv,#novaDoc,#novaDoc h1,#novaDoc p,#novaDoc .k,#novaDoc .live,#novaDoc ul{transition:none}
 }
@@ -251,6 +274,10 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       staged, not delivered. Execution gates remain observe-only by design rather than by
       accident.</p>
 
+      <!-- A second way out, at the end. Somebody who has just read three hundred words should
+           not have to scroll back up to leave. -->
+      <button id="novaBack" type="button">&larr; Back to the map</button>
+
       <div class="fine">
         LIMEN Helix is a conceptual research and educational initiative exploring systems
         modelling and cognition. It does not provide medical or therapeutic services.
@@ -259,8 +286,13 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
       </div>
     </div>
   </div>
+  <!-- INSIDE #nova on purpose. As a sibling it could never match `#nova.settled #novaClose`,
+       so the only way out was the Escape key, which nobody can see. -->
+  <button id="novaClose" type="button">&larr; Back to the map</button>
+  <button id="novaListen" type="button" aria-pressed="false">
+    <span class="ic">&#9658;</span><span class="lb">Listen</span>
+  </button>
 </div>
-<button id="novaClose" type="button">&larr; Back to the map</button>
 
 <script src="assets/js/limen-ui-state.js"></script>
 <script src="assets/js/civilization-connectome-galaxy.js?v=hs20260705b"></script>
@@ -1486,9 +1518,49 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     nova.classList.remove('on', 'lit', 'settled');
     document.body.style.overflow = '';
     if (raf){ cancelAnimationFrame(raf); raf = null; }
+    stopVoice();                       // leaving the page must also stop the narrator
     if (doc) doc.scrollTop = 0;
     btn.focus();
   }
+
+  /* The narrator. One pre-rendered file, played on request and never on arrival. */
+  var listen = document.getElementById('novaListen');
+  var back   = document.getElementById('novaBack');
+  var audio  = null;
+
+  function stopVoice(){
+    if (audio){ try{ audio.pause(); }catch(e){} audio = null; }
+    if (listen){
+      listen.classList.remove('playing');
+      listen.setAttribute('aria-pressed', 'false');
+      listen.querySelector('.ic').innerHTML = '&#9658;';
+      listen.querySelector('.lb').textContent = 'Listen';
+    }
+  }
+  function playVoice(){
+    stopVoice();
+    audio = new Audio('/assets/audio/nova/what-is-this.mp3');
+    audio.onended = stopVoice;
+    // If the file is missing or blocked, say so on the button rather than looking broken.
+    audio.onerror = function(){
+      stopVoice();
+      if (listen) listen.querySelector('.lb').textContent = 'Unavailable';
+    };
+    audio.play().then(function(){
+      if (!listen) return;
+      listen.classList.add('playing');
+      listen.setAttribute('aria-pressed', 'true');
+      listen.querySelector('.ic').innerHTML = '&#9632;';
+      listen.querySelector('.lb').textContent = 'Stop';
+    }).catch(function(){
+      stopVoice();
+      if (listen) listen.querySelector('.lb').textContent = 'Unavailable';
+    });
+  }
+  if (listen) listen.addEventListener('click', function(){
+    if (audio) stopVoice(); else playVoice();
+  });
+  if (back) back.addEventListener('click', shut);
 
   /* The live line. Reads the same public endpoints this page already uses and the domain's
      own substrate file — nothing new, and no claim assembled here that is not in those two
