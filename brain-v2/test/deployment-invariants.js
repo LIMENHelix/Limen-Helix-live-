@@ -87,10 +87,17 @@ var routeRaw = fs.readFileSync(ROUTE_FILE, 'utf8');
  * shape of a passing test. The router uses the program-level binding, so that is the only
  * one that counts, and two of them is an error rather than a choice.
  */
-function handlerEntries(src) {
-  var ast;
-  try { ast = acorn.parse(src, { ecmaVersion: 2022, sourceType: 'script' }); }
-  catch (e) { return null; }
+/**
+ * THE ONE PLACE THAT DECIDES WHICH `HANDLERS` IS AUTHORITATIVE. Both the reader and the
+ * removal helper call this, because having two answers to that question is what the last
+ * defect was: the reader was fixed to bind top-level and the remover was left walking
+ * recursively, so on a file with a legitimate nested `HANDLERS` the remover stripped the
+ * wrong one and the control failed on healthy code.
+ *
+ * Returns the single program-level ObjectExpression, or null for zero, several, or a
+ * non-object initializer. Fails closed: which binding the router uses is not a guess.
+ */
+function topLevelHandlers(ast) {
   var decls = [];
   ast.body.forEach(function (node) {
     if (node.type !== 'VariableDeclaration') return;
@@ -98,9 +105,17 @@ function handlerEntries(src) {
       if (d.id && d.id.type === 'Identifier' && d.id.name === 'HANDLERS') decls.push(d);
     });
   });
-  if (decls.length !== 1) return null;                      // none, or ambiguous: fail closed
+  if (decls.length !== 1) return null;
   var init = decls[0].init;
-  if (!init || init.type !== 'ObjectExpression') return null;
+  return (init && init.type === 'ObjectExpression') ? init : null;
+}
+
+function handlerEntries(src) {
+  var ast;
+  try { ast = acorn.parse(src, { ecmaVersion: 2022, sourceType: 'script' }); }
+  catch (e) { return null; }
+  var init = topLevelHandlers(ast);
+  if (!init) return null;
   return init.properties.filter(function (p) { return p.type === 'Property'; })
     .map(function (p) {
       var key = p.key.type === 'Literal' ? p.key.value : p.key.name;
@@ -133,26 +148,23 @@ function registers(entries, key, handlerPath) {
   var hits = registrationsFor(entries, key);
   return hits.length === 1 && hits[0].module === handlerPath;
 }
-/* Structural removal: splice the parsed Property's own [start,end) range and put a benign
-   entry in its place. No dependence on quote style, whitespace, commas or line endings. */
+/**
+ * Structural removal from the SAME authoritative object the reader uses. Splices the
+ * Property's own [start,end) range and leaves a benign entry, so it depends on no quote
+ * style, whitespace, comma or line ending. A nested `HANDLERS` elsewhere in the file is
+ * invisible here, which is the point: removing the wrong one made this control fail on
+ * valid source.
+ */
 function withoutEntry(src, key) {
   var ast = acorn.parse(src, { ecmaVersion: 2022, sourceType: 'script' });
+  var init = topLevelHandlers(ast);
+  if (!init) return src;
   var range = null;
-  (function walk(n) {
-    if (!n || typeof n !== 'object' || range) return;
-    if (n.type === 'VariableDeclarator' && n.id && n.id.name === 'HANDLERS' &&
-        n.init && n.init.type === 'ObjectExpression') {
-      n.init.properties.forEach(function (p) {
-        var k = p.key && (p.key.type === 'Literal' ? p.key.value : p.key.name);
-        if (k === key) range = [p.start, p.end];
-      });
-      return;
-    }
-    for (var i in n) {
-      var v = n[i];
-      if (Array.isArray(v)) v.forEach(walk); else if (v && typeof v === 'object') walk(v);
-    }
-  })(ast);
+  init.properties.forEach(function (p) {
+    if (p.type !== 'Property') return;
+    var k = p.key && (p.key.type === 'Literal' ? p.key.value : p.key.name);
+    if (k === key) range = [p.start, p.end];
+  });
   if (!range) return src;
   return src.slice(0, range[0]) + "'__control_removed__': require('../handlers/brain-cognition')" +
     src.slice(range[1]);
@@ -212,6 +224,24 @@ assert('a correct HANDLERS NESTED inside a function does not register',
 assert('two top-level HANDLERS declarations are ambiguous and fail closed',
   handlerEntries(synth('  ' + ENTRY + ',') + '\n' + synth('')) === null,
   'which one the router binds is not something this test may guess');
+
+/* A LEGITIMATE file that happens to contain a nested HANDLERS BEFORE the real one. The
+   reader and the remover must both ignore it. When only the reader was fixed, the remover
+   stripped the nested entry instead, and this control failed on healthy source. */
+(function () {
+  var legit = 'function docs() { const HANDLERS = { ' + ENTRY + ' }; return HANDLERS; }\n' +
+    synth('  ' + ENTRY + ',\n  \'other\': require(\'../handlers/brain-cognition\'),');
+  assert('a nested HANDLERS before the real one does not stop the real one registering',
+    registers(handlerEntries(legit), ROUTE_KEY, HANDLER_PATH),
+    'valid source must keep passing');
+  var cut = withoutEntry(legit, ROUTE_KEY);
+  assert('and structural removal takes the TOP-LEVEL entry, not the nested one',
+    !registers(handlerEntries(cut), ROUTE_KEY, HANDLER_PATH),
+    'removing the nested copy would leave the real registration intact and fail this control');
+  assert('the spliced source still parses and keeps its other top-level entries',
+    (handlerEntries(cut) || []).length === (handlerEntries(legit) || []).length,
+    'a splice that broke the object would make every removal control vacuous');
+})();
 
 console.log('');
 console.log('D1d: duplicate authority is invalid in either order');
@@ -307,6 +337,52 @@ var atBrainSchedule = crons.filter(function (c) { return c && c.schedule === CRO
 assert('nothing else is scheduled at "' + CRON_SCHEDULE + '", which would collide with it',
   atBrainSchedule.length === 1 && atBrainSchedule[0].path === CRON_PATH,
   JSON.stringify(atBrainSchedule));
+
+/**
+ * AT MOST ONE EXECUTION-CAPABLE BRAIN CRON, ON ANY SCHEDULE.
+ *
+ * Comparing schedule strings only catches an identical expression. A second entry such as
+ * `/api/brain-shadow?run=1&domain=energy` at `27 * * * 1` overlaps the pinned job every
+ * Monday and passed. That matters beyond the guard: `handlers/brain-shadow.js` executes any
+ * cron-authenticated request carrying `run=1`, and the runtime has NO LOCK (DELIVERY_STATE
+ * correction 3: idempotency is sequential only), so two invocations read the same cursor and
+ * race their state writes.
+ *
+ * Overlap analysis is deliberately not attempted. Without serialization, any second
+ * execution-capable scheduled invocation is invalid regardless of when it fires.
+ */
+function isBrainExecutionCron(cronPath) {
+  var u;
+  try { u = new URL(String(cronPath || ''), 'https://cron.invalid'); }
+  catch (e) { return false; }
+  if (u.pathname !== '/api/' + ROUTE_KEY) return false;
+  /* getAll: any `run=1` counts, whatever its position or what else is present. */
+  return u.searchParams.getAll('run').indexOf('1') >= 0;
+}
+var execCrons = crons.filter(function (c) { return c && isBrainExecutionCron(c.path); });
+assert('exactly one execution-capable ' + ROUTE_KEY + ' cron exists, on any schedule',
+  execCrons.length === 1,
+  'concurrent cycles would race the cursor: ' + JSON.stringify(execCrons));
+assert('and that sole execution cron is the canonical path on the pinned schedule',
+  execCrons.length === 1 && execCrons[0].path === CRON_PATH && execCrons[0].schedule === CRON_SCHEDULE,
+  JSON.stringify(execCrons));
+
+/* Controls: each adds a SECOND execution-capable entry that string comparison misses. */
+[
+  ['extra query parameter, different schedule',
+   { path: '/api/' + ROUTE_KEY + '?run=1&domain=energy', schedule: '27 * * * 1' }],
+  ['reordered query parameters, different schedule',
+   { path: '/api/' + ROUTE_KEY + '?domain=energy&run=1', schedule: '5 * * * *' }]
+].forEach(function (pair) {
+  var withSecond = crons.concat([pair[1]]);
+  assert('control: a second execution cron is rejected (' + pair[0] + ')',
+    withSecond.filter(function (c) { return isBrainExecutionCron(c.path); }).length !== 1,
+    JSON.stringify(pair[1]));
+});
+assert('control: a NON-execution brain cron (no run=1) is not counted',
+  [{ path: '/api/' + ROUTE_KEY, schedule: '5 * * * *' }]
+    .filter(function (c) { return isBrainExecutionCron(c.path); }).length === 0,
+  'a read-only path cannot execute a cycle, so it is not a concurrency risk');
 
 /**
  * DELIBERATELY NOT ASSERTED: that some OTHER cron exists alongside this one.
