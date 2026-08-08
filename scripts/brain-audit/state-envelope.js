@@ -17,11 +17,19 @@
  * transport re-encodes the value and adds an envelope, so this must not be doubled into
  * bandwidth, projected into a bill, or compared with a request-size ceiling. Transport
  * bytes, bandwidth, billing and request-size headroom all remain unmeasured.
+ *
+ * Any derived figure divides by 1024, so it is KiB/MiB. Never labelled KB/MB, which are
+ * decimal and would be a different number.
  */
 'use strict';
 
-/** Mirrors lib/brain-shadow-runtime.js RUNTIME_VERSION. */
-var RUNTIME_VERSION = 'brain-v2-shadow/0.1.0';
+var path = require('path');
+/* THE PRODUCTION CONTRACT ITSELF, not a copy of it. lib/brain-shadow-state.js owns the
+   runtime version and the envelope shape, and lib/brain-shadow-runtime.js builds its real
+   STORE.writeState payload from the same function. No version string or envelope literal
+   survives in this directory: a copy that has to be kept in sync by hand is the defect. */
+var PROD = require(path.join(__dirname, '..', '..', 'lib', 'brain-shadow-state.js'));
+var RUNTIME_VERSION = PROD.RUNTIME_VERSION;
 
 /**
  * A FIXED 13-DIGIT EPOCH. The runtime stores `startedAt`, a millisecond timestamp, so the
@@ -40,13 +48,7 @@ var SAVED_AT = 1786000000000;
  * @param {object} loopState   the result of LOOP.serialize(loop)
  */
 function envelope(domain, lastRowT, loopState) {
-  return {
-    runtime: RUNTIME_VERSION,
-    domain: domain,
-    lastRowT: lastRowT === undefined ? null : lastRowT,
-    savedAt: SAVED_AT,
-    loop: loopState
-  };
+  return PROD.stateEnvelope(domain, lastRowT === undefined ? null : lastRowT, SAVED_AT, loopState);
 }
 
 /** UTF-8 byte length of the serialized envelope. Buffer.byteLength, never String.length. */

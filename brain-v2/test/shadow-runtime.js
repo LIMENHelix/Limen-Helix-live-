@@ -287,6 +287,7 @@ var firstReport, secondReport, firstState;
   var ALLOWED = [
     path.join('lib', 'brain-shadow-store.js'),
     path.join('lib', 'brain-shadow-runtime.js'),
+    path.join('lib', 'brain-shadow-state.js'),
     path.join('lib', 'brain-shadow-redis.js'),
     path.join('handlers', 'brain-shadow.js'),
     path.join('brain-v2', 'test', 'shadow-runtime.js'),

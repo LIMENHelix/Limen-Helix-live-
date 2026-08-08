@@ -49,6 +49,8 @@ The sizes are the UTF-8 length of the serialized state **value**. They are **not
 the wire. The Upstash REST transport nests the value in a JSON command array, escapes it
 again, and adds an HTTP envelope; a GET adds a response envelope. So these must not be
 doubled into bandwidth, projected into a bill, or compared with a request-size ceiling.
+
+Derived figures divide by 1024, so they are **KiB / MiB**, never the decimal KB / MB.
 Earlier versions printed all three of those; they were withdrawn.
 
 What the numbers are good for is **relative growth of hot state**, which is what the

@@ -57,7 +57,7 @@ fs.writeFileSync(path.join(__dirname, 'growth-out.json'), JSON.stringify(res, nu
 
 function pad(s, n) { s = String(s); return s + ' '.repeat(Math.max(0, n - s.length)); }
 function lpad(s, n) { s = String(s); return ' '.repeat(Math.max(0, n - s.length)) + s; }
-console.log('domain          ticks   @120KB  @240KB  @360KB  fullKB   growth120->full');
+console.log('domain          ticks   @120KiB @240KiB @360KiB fullKiB   growth120->full');
 res.forEach(function (r) {
   var g = (r.sizes.r120 && r.sizes.full) ? (r.sizes.full / r.sizes.r120).toFixed(2) + 'x' : '-';
   console.log(pad(r.product, 15) + lpad(r.ticks, 5) + lpad(r.sizes.r120 || '-', 9) +
@@ -65,8 +65,8 @@ res.forEach(function (r) {
 });
 var maxFull = Math.max.apply(null, res.map(function (r) { return r.sizes.full; }));
 var sumFull = res.reduce(function (a, r) { return a + r.sizes.full; }, 0);
-console.log('\nlargest single-domain state at full replay: ' + maxFull.toFixed(1) + ' KB  (' + (maxFull / 1024).toFixed(2) + ' MB)');
-console.log('all 20 at full replay: ' + (sumFull / 1024).toFixed(2) + ' MB');
+console.log('\nlargest single-domain state at full replay: ' + maxFull.toFixed(1) + ' KiB  (' + (maxFull / 1024).toFixed(2) + ' MiB)');
+console.log('all 20 at full replay: ' + (sumFull / 1024).toFixed(2) + ' MiB');
 console.log('');
 console.log('NOT a bandwidth or billing figure. These are serialized VALUE lengths; actual');
 console.log('transport bytes are not measured anywhere. See the unit note in the header.');

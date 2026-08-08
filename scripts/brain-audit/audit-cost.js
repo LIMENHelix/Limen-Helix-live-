@@ -43,7 +43,7 @@ REG.DOMAINS.forEach(function (d) {
 
   res.push({ product: d.product, ticks: ticks,
     stateValueBytes: bytes,
-    stateValueKB: +(bytes / 1024).toFixed(1),
+    stateValueKiB: +(bytes / 1024).toFixed(1),
     channels: spec.channels.length });
 });
 
@@ -51,19 +51,19 @@ fs.writeFileSync(path.join(__dirname, 'cost-out.json'), JSON.stringify(res, null
 
 function pad(s, n) { s = String(s); return s + ' '.repeat(Math.max(0, n - s.length)); }
 function lpad(s, n) { s = String(s); return ' '.repeat(Math.max(0, n - s.length)) + s; }
-console.log('domain          ch  ticks  stateValueKB');
-res.forEach(function (r) { console.log(pad(r.product, 15) + lpad(r.channels, 3) + lpad(r.ticks, 7) + lpad(r.stateValueKB, 13)); });
+console.log('domain          ch  ticks  stateValueKiB');
+res.forEach(function (r) { console.log(pad(r.product, 15) + lpad(r.channels, 3) + lpad(r.ticks, 7) + lpad(r.stateValueKiB, 14)); });
 
 /* DERIVED from the registry, never typed. The first version hardcoded two domains and
    would have kept reporting 'live 2' after batch 1 made it 7. */
 var live = REG.INSTALLED_DOMAINS;
 var cand = res.filter(function (r) { return live.indexOf(r.product) < 0; });
-var sumAll = res.reduce(function (a, r) { return a + r.stateValueKB; }, 0);
-var sumCand = cand.reduce(function (a, r) { return a + r.stateValueKB; }, 0);
-console.log('\nstate VALUE KB  installed ' + live.length + ': ' + res.filter(function (r) { return live.indexOf(r.product) >= 0; })
-  .reduce(function (a, r) { return a + r.stateValueKB; }, 0).toFixed(1) +
+var sumAll = res.reduce(function (a, r) { return a + r.stateValueKiB; }, 0);
+var sumCand = cand.reduce(function (a, r) { return a + r.stateValueKiB; }, 0);
+console.log('\nstate VALUE KiB  installed ' + live.length + ': ' + res.filter(function (r) { return live.indexOf(r.product) >= 0; })
+  .reduce(function (a, r) { return a + r.stateValueKiB; }, 0).toFixed(1) +
   '   not installed ' + cand.length + ': ' + sumCand.toFixed(1) + '   all 20: ' + sumAll.toFixed(1));
-console.log('all 20 resident serialized value: ' + (sumAll / 1024).toFixed(2) + ' MB');
+console.log('all 20 resident serialized value: ' + (sumAll / 1024).toFixed(2) + ' MiB');
 console.log('');
 console.log('NOT a bandwidth or billing figure. These are serialized VALUE lengths; actual');
 console.log('transport bytes are not measured anywhere. See the unit note in the header.');

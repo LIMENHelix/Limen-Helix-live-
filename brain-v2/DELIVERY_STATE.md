@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-08T04:20Z
+measured_at: 2026-08-08T12:40Z
 measured_at_commit: 278a2fbee868d1f9c09f75f4cbf8d7821e5beb03
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -209,7 +209,7 @@ Offline, first cold cycle of 120 rows, through the real write path:
 | energy | 926,617 | | trade | 781,990 |
 | finance | 674,805 | | industry | 468,016 |
 | economy | 649,007 | | education | 436,741 |
-| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MB of value)** |
+| population | 572,415 | | **7 installed** | **4,509,591 (4.30 MiB of value)** |
 
 ### VERIFIED IN PRODUCTION 2026-08-07, and the outage in the middle of it
 
@@ -312,7 +312,7 @@ a ratio without them and divided the 16:27 figures against the table above, whic
 | finance | 4,383,808 | 674,805 | **6.50x** |
 
 At 20:27 the same pairing gives 4.22x and 6.49x. Finance at 4,383,808 already exceeds the
-3.67 MB largest value ever measured offline. **The offline 20-domain projection is
+3.67 MiB largest value ever measured offline. **The offline 20-domain projection is
 therefore a floor, not a worst case.**
 
 ### The six fields this file requires of every brain PR
@@ -329,11 +329,16 @@ therefore a floor, not a worst case.**
   value length is not the wire length, headroom above the largest value is doubly
   unestablished; (c) the sequential seven-domain batch wall-clock and the per-cycle Redis
   round-trip latency are still unmeasured, because the cycle report records neither;
-  (d) STEADY-STATE growth is not yet known. Backfill COMPLETED at 23:27:16Z and all five
-  now share energy's cursor, but every cycle measured so far was a backfill cycle, so no
-  measurement yet exists of how the serialized value moves across ordinary live cycles
-  applying a handful of new rows. That number, not the backfill curve, is what the
-  hot-state gate ultimately turns on.
+  (d) the SHAPE of steady-state growth beyond 12 cycles. It is now measured (below) but
+  only over half a day, so whether the per-cycle rate holds, decays, or compounds over
+  weeks is not established.
+
+  **STEADY-STATE GROWTH IS NOW MEASURED**, which was listed here as unknown while every
+  cycle was still backfill. Over 12 consecutive post-backfill cycles, each applying 1 row
+  per domain, the seven-domain total went 22,527,202 to 23,012,849 bytes: **+44,150 bytes
+  and +0.19% per cycle.** Per domain the rate is tight, 0.18% to 0.21%, so this is a
+  property of the loop rather than of one domain's data. A brain applying ONE row per hour
+  still grows, which is the gate's actual subject.
 
   **Withdrawn from this list, now measured:** "no production cycle has run with 7 domains"
   and "production `stateValueBytes` is unknown". Five seven-domain cycles have run
@@ -342,13 +347,11 @@ therefore a floor, not a worst case.**
   `stateValueBytes` in each. Leaving them listed as unknown after measuring them would make
   this file understate what the system has proven, which is the same defect as overstating
   it.
-- **exact next action**: close the hot-state gate (NEXT PROGRAM STEP 3). Production
-  restoration is now proven across two CONSECUTIVE cycles (20:27:15Z, 21:27:15Z), so that
-  question is settled and is no longer the blocker. The blocker is growth: +25% across the
-  seven installed domains during backfill, which completed at 23:27:16Z. The next
-  measurement needed is steady-state growth across ordinary live cycles, which has not
-  been observed yet. Not the next batch, and not pathway activation: 0 of 10
-  relationships are analyzer-testable.
+- **exact next action**: close the hot-state gate (NEXT PROGRAM STEP 3). Restoration is
+  settled and steady-state growth is no longer unmeasured: it is **+0.19% per cycle** with
+  one row applied per domain, on a resident value already at 23,012,849 bytes for seven
+  domains. That is the gate, and it is now quantified rather than anticipated. Not the next
+  batch, and not pathway activation: 0 of 10 relationships are analyzer-testable.
 
 ---
 
@@ -452,7 +455,7 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    itself and labelled it the stored state value, so its figures were smaller than what
    production stores and disagreed with `audit-cost.js` at the same depth. Both scripts
    now import one shared envelope definition and their 120-row figures agree exactly for
-   all 20 domains. Re-measured after that fix, the numbers moved by roughly 0.1 KB per
+   all 20 domains. Re-measured after that fix, the numbers moved by roughly 0.1 KiB per
    domain: the envelope is a fixed overhead, so the SHAPE of the curve is unchanged, and
    growth is still roughly linear with no plateau within the fixture.
 
@@ -460,21 +463,35 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 
    | replay depth | economy | finance | infrastructure |
    |---|---|---|---|
-   | 120 rows | 633.8 KB | 659.0 KB | 928.9 KB |
-   | 240 rows | 1,268.3 KB | 1,787.8 KB | 1,833.5 KB |
-   | 360 rows | 2,118.7 KB | 2,798.8 KB | 2,686.6 KB |
-   | full replay | 2,834.8 KB | **3,761.9 KB** | 3,472.5 KB |
+   | 120 rows | 633.8 KiB | 659.0 KiB | 928.9 KiB |
+   | 240 rows | 1,268.3 KiB | 1,787.8 KiB | 1,833.5 KiB |
+   | 360 rows | 2,118.7 KiB | 2,798.8 KiB | 2,686.6 KiB |
+   | full replay | 2,834.8 KiB | **3,761.9 KiB** | 3,472.5 KiB |
 
    Composition of finance at 470 ticks: `memory` 2,398 KB (64%) and
    `registry.predictions` 763 KB (656 open, 611 resolved). Both accumulate per tick.
    `lib/brain-shadow-store.js` enforces no size ceiling.
 
    **Why it gates the batch and not this one.** Every cycle reads the whole state and writes
-   it back, so a value that grows without bound grows the work of every future cycle. At 7
-   installed domains the total is 4.30 MB of value and is manageable. At 20, offline replay
-   projects **50.09 MB of resident value**, with the largest single domain already 3.67 MB and
-   no ceiling in the store. Installing 13 more before bounding growth commits every
-   subsequent cycle to carrying it.
+   it back, so a value that grows without bound grows the work of every future cycle.
+
+   **THREE DIFFERENT NUMBERS, AND AN EARLIER DRAFT PRESENTED THE SMALLEST AS CURRENT STATE.**
+   It said "at 7 installed domains the total is 4.30 MiB and is manageable". That figure is
+   the OFFLINE cold-start estimate, production was already far past it, and "manageable" was
+   asserted with no capacity measurement behind it. All three faults are corrected here:
+
+   | figure | value | what it is |
+   |---|---:|---|
+   | offline cold-start estimate | 4,509,591 B (4.30 MiB) | 7 domains, first capped 120-row cycle, replayed from fixtures |
+   | **latest verified PRODUCTION resident value** | **23,012,849 B (21.95 MiB)** | 7 domains, cycle of 2026-08-08T12:27Z, all seven measured in that single cycle |
+   | offline 20-domain projection | 50.09 MiB | full replay of 20 fixtures. A FLOOR, not a worst case |
+
+   Production is **5.10x** the offline estimate for the same seven domains. No capacity claim
+   is made: the Upstash request ceiling has not been retrieved, per-cycle latency is not
+   recorded, and transport bytes are unmeasured, so there is nothing here that supports
+   calling any of it manageable or unmanageable.
+
+   Installing 13 more before bounding growth commits every subsequent cycle to carrying it.
 
    **STATED IN THE UNIT ACTUALLY MEASURED.** The figures above are serialized value lengths.
    Earlier wording here turned them into a bandwidth-per-cycle number, a monthly billing
@@ -495,7 +512,7 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    - **measure ACTUAL TRANSPORT BYTES**, by instrumenting `lib/brain-shadow-redis` at the
      point it builds a request and reads a response. Until that exists there is no bandwidth
      figure and no billing figure for this system, and the request-size headroom above the
-     current 3.67 MB largest value cannot be established either. This belongs to THIS
+     current 3.67 MiB largest value cannot be established either. This belongs to THIS
      milestone and was deliberately kept out of the batch-1 installation PR.
    - re-measure against production and record the new curve here
 
@@ -548,8 +565,8 @@ Net: the shared production template. This is the thing the remaining 18 domains 
 
    Re-measured after correction: **10 declared relationships, 0 analyzer-testable, 0 of 20
    domains supporting independent observations.** Unchanged conclusion, now on the real
-   rule. Serialized value all 20: 11.53 MB after the first capped **120-ROW** cold cycle,
-   50.09 MB at full replay. Rows, not ticks: culture and religion execute ZERO ticks inside
+   rule. Serialized value all 20: 11.53 MiB after the first capped **120-ROW** cold cycle,
+   50.09 MiB at full replay. Rows, not ticks: culture and religion execute ZERO ticks inside
    those 120 rows, because their readable data starts at row 373, so the two depths are not
    interchangeable and comparing them would misstate the growth baseline.
 
