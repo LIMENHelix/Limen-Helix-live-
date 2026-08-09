@@ -129,6 +129,22 @@ module.exports = async function handler(req, res) {
         domain: cyc.domain, ok: cyc.ok, error: cyc.error,
         startedAt: cyc.startedAt, finishedAt: cyc.finishedAt,
         rowsAvailable: cyc.rowsAvailable, rowsApplied: cyc.rowsApplied, ticks: cyc.ticks,
+        /**
+         * CURSOR BEFORE AND AFTER, because continuity is a two-ended claim and this
+         * projection carried only one end.
+         *
+         * The runtime has always recorded `cursorBefore` (lib/brain-shadow-runtime.js), and
+         * `?history=` returns stored records unfiltered so it was readable there, but the
+         * SUMMARY read is the surface an operator actually looks at and it dropped the
+         * field. "Did the cursor stay continuous?" is answered by comparing this cycle's
+         * `cursorBefore` against the previous cycle's `cursorAfter`, and with only the
+         * latter projected the summary could not answer it at all. Same allow-list defect
+         * as compaction and calibration below, found the same way.
+         *
+         * Null on a cold start is MEANINGFUL, not missing: it is the precondition the
+         * cold-start prefix skip is guarded on.
+         */
+        cursorBefore: cyc.cursorBefore === undefined ? null : cyc.cursorBefore,
         cursorAfter: cyc.cursorAfter, restored: cyc.restored,
         provenance: cyc.provenance, predictions: cyc.predictions,
         abstentions: (cyc.abstentions || []).length,
