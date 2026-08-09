@@ -594,22 +594,42 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   #orbLayer{position:fixed;inset:0;z-index:250;pointer-events:none;opacity:0;transition:opacity .35s ease}
   #orbLayer.on{opacity:1;pointer-events:auto}
   #orbLayer canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-  /* GL under, 2D over. Order matters: plates and quiet seats must sit on top of the orb. */
+  /* GL under, 2D over, and the briefing over both. Order matters: plates and quiet seats must
+     sit on top of the orb, and the words have to sit on top of everything.
+
+     EVERY POSITIONED CHILD IN HERE DECLARES ITS OWN z-index, and that is the whole lesson. The
+     moment one of them does, DOM order stops deciding for the rest: a positioned element with
+     z-index:auto is painted BELOW any positioned sibling with a positive one, however late it
+     appears in the markup. Giving the canvases 1 and 2 therefore pushed #orbCard and #orbClose
+     underneath them, and since the shader writes alpha 1.0 across the whole viewport (not just
+     the orb's coverage), the layer above them is opaque. The briefing went invisible and its
+     buttons stopped taking clicks, in a change that only meant to alter how the orb looks.
+
+     The scrim is the one thing that stays below, which is what a scrim is for. */
   #orbGL{z-index:1}
   #orbCanvas{z-index:2}
   #orbScrim{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(3,6,12,.55) 0%,rgba(3,6,12,.88) 70%,rgba(3,6,12,.96) 100%)}
 
   #orbCard{
-    position:absolute; left:50%; bottom:4vh; transform:translateX(-50%);
+    position:absolute; z-index:3; left:50%; bottom:4vh; transform:translateX(-50%);
     width:min(92vw,780px); max-height:46vh; overflow-y:auto;
+    /* A GUTTER FOR THE SCROLLBAR. The card scrolls, so on any platform that draws a classic
+       scrollbar it lands on top of the last word of every line. Measured with no padding at
+       all: the text ran to the card's own right edge. */
+    padding-right:20px;
     font:400 13.5px/1.62 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     color:#dbe6f2;
   }
   /* Wide screens: a tall column on the right rather than a squeezed sheet at the bottom,
-     which is what was truncating the longer briefings. The orb slides left to make room. */
+     which is what was truncating the longer briefings. The orb slides left to make room.
+
+     PULLED IN OFF THE EDGE. At 1920 the column used to end 67px from the window with no
+     internal padding, so a wall of text sat hard against the frame while 576px of empty space
+     went unused between the orb and the card. The orb ends at x=837 there and the card now
+     starts at 1325, so the gap it gives back costs the picture nothing. */
   @media (min-width:1100px){
-    #orbCard{ left:auto; right:3.5vw; bottom:auto; top:50%; transform:translateY(-50%);
-              width:min(38vw,440px); max-height:84vh; }
+    #orbCard{ left:auto; right:6vw; bottom:auto; top:50%; transform:translateY(-50%);
+              width:min(38vw,480px); max-height:84vh; }
   }
   #orbCard .fn{font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.24em;
     text-transform:uppercase;color:rgba(150,200,255,.75);margin-bottom:6px}
@@ -660,7 +680,9 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
   @keyframes mturn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){#orbCard .mturn{animation:none}}
 
-  #orbClose{position:absolute;top:18px;right:20px;background:none;border:0;color:rgba(226,236,250,.5);
+  /* Above the card as well as the canvases: the way out must never be the thing a long
+     briefing scrolls over. */
+  #orbClose{position:absolute;z-index:4;top:18px;right:20px;background:none;border:0;color:rgba(226,236,250,.5);
     font-size:26px;line-height:1;cursor:pointer}
   #orbClose:hover{color:#fff}
 
@@ -1544,6 +1566,40 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     try{ window.speechSynthesis && window.speechSynthesis.cancel(); }catch(e){}
     if (_audio){ try{ _audio.pause(); }catch(e){} _audio = null; }
   }
+  /* THE TAP IS THE KICK-OFF. This starts the domain's recording with no data, no awaits and no
+     timer, so it runs inside the click that browsers require for sound, and the first note
+     lands about as fast as the file arrives.
+
+     Measured on the deployed page before this existed: 5,219 ms from click to first sound. The
+     old path waited on ensure() (three API calls), then a 400ms timer, then the voice manifest,
+     and then — because the readings had moved under the recording — a live TTS round trip. The
+     recording needs none of that. It is a static file keyed only on the domain id, which is the
+     one thing already known at the moment of the click.
+
+     onFail covers both ways it can fail to sound: the file errors, or play() is refused. */
+  function speakRecorded(id, onFail){
+    hush();
+    var current = function(){ return orb && orb.id === id; };
+    var a = new Audio('/assets/audio/orb/' + id + '.mp3');
+    a.onplay  = function(){ if (current()){ orb.speaking = true; orb.energy = 1; } };
+    a.onended = function(){ if (current()) orb.speaking = false; };
+    a.onerror = function(){ if (current()){ orb.speaking = false; onFail(); } };
+    _audio = a;
+    a.play().catch(function(){ if (current()) onFail(); });
+  }
+
+  /* The recording starts before the briefing exists, so the check that it still matches the
+     card has to happen afterwards. It never interrupts: cutting a voice off mid-sentence to
+     restate the same thing is worse than a dateline, and this file already holds that a
+     bulletin taped at five is not lying at six. */
+  function dateline(b){
+    manifest().then(function(m){
+      var e = m.voices[b.id];
+      if (!e || !orb || orb.id !== b.id) return;
+      if (e.text && e.text !== b.spoken) stamp(e.spoken_at);
+    }).catch(function(){});
+  }
+
   function speak(b){
     hush();
     var mine = b.id;
@@ -1623,10 +1679,22 @@ canvas#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;background
     card.classList.remove('meet');
     card.innerHTML = '<div class="fn">'+(sp0? sp0.name+' &middot; '+sp0.fn : fn)+'</div><h2>'+label+'</h2><p>Reading my instruments…</p>';
 
+    /* Voice first, data second. The two orderings are both real — the recording can fail before
+       or after the briefing lands — so each side checks what the other has done rather than
+       assuming it went first. */
+    var briefing = null, recFailed = false;
+    if (!reduce) speakRecorded(id, function(){
+      recFailed = true;
+      if (briefing) speak(briefing);          // data already here: fall through to the full path
+    });
+
     ensure([id]).then(function(){
       var b = _B.build(id, label, fn, cache);
+      briefing = b;
       render(b);
-      if (!reduce) setTimeout(function(){ speak(b); }, 400);
+      if (reduce) return;
+      if (recFailed) speak(b);                // nothing sounded; try synthesis and the browser voice
+      else dateline(b);                       // it is speaking; say so if the readings have moved
     });
   }
 
