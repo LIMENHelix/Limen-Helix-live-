@@ -169,10 +169,36 @@ function createBinder(spec) {
    * `su` is the source's own observation key. Rows recorded before the recorder kept it
    * carry none, and those genuinely cannot say whether the source published — null there
    * means "cannot tell", never "no new data".
+   *
+   * ── THREE SEPARATE FACTS, and collapsing any two of them is the error this comment
+   * exists to prevent ────────────────────────────────────────────────────────────────
+   *
+   *   observationId  the SOURCE'S identity for the observation (`su`). Says WHICH
+   *                  observation. Same token means the same observation.
+   *   (reference time) WHEN the observation refers to. Derived downstream from the
+   *                  identity against a declared reference interval; not a field here.
+   *   recordedAt     WHEN WE RECEIVED IT — `row.t`, stamped by handlers/feed-record.js at
+   *                  write time. OUR clock, deliberately, because receipt ORDER is a fact
+   *                  about the recorder and only the recorder can be its authority.
+   *
+   * `recordedAt` IS NOT EVIDENCE OF ANYTHING THE SOURCE DID. It cannot say a source
+   * published something new; that is `observationId`'s job and the two must never stand in
+   * for each other. Its one purpose is ordering: when one identity carries two different
+   * values, receipt order is what distinguishes a REVISION from a simultaneous
+   * contradiction. Measured 2026-08-09: Alpha Vantage restates its session close under an
+   * unchanged identity about two hours later, so without this the two are indistinguishable
+   * and both have to abstain.
+   *
+   * TAKEN FROM THE ROW, never from a clock read here and never from the caller. A row is
+   * the thing that was received, so it carries its own receipt time; synthesising one at
+   * read time would order rows by when they were REPLAYED, which is array order wearing a
+   * timestamp. A row with no usable `t` gets no `recordedAt` and downstream must treat that
+   * as "cannot order", not as "first" or "last".
    */
   function readRecorderRow(row) {
     var byName = {};
     (row && row.src || []).forEach(function (s) { byName[s.n] = s; });
+    var recordedAt = (row && typeof row.t === 'number' && isFinite(row.t)) ? row.t : null;
     var out = {};
     CHANNELS.forEach(function (c) {
       var s = byName[c.name];
@@ -196,6 +222,9 @@ function createBinder(spec) {
       if (v === null) return;
       var r = { value: v };
       if (s.su !== undefined && s.su !== null && s.su !== '') r.observationId = s.su;
+      /* Attached per reading rather than once per tick, because a reading is what travels
+         downstream; the tick's time is not carried on the thing that gets compared. */
+      if (recordedAt !== null) r.recordedAt = recordedAt;
       out[c.key] = r;
     });
     return out;

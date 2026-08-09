@@ -1083,6 +1083,139 @@ investigating why turned up a value changing under a fixed identity.
 
 ---
 
+## AUTHORITATIVE REVISION ORDERING (THIS PR). NO PATHWAY IS ACTIVATED.
+
+The comparability gate abstained whenever one identity carried two values, because it could
+not tell a REVISION from a CONTRADICTION. That cost the strongest candidate three of its four
+aligned sessions and left it at 1 of 6. This closes that, and closes nothing else.
+
+### The receipt time already existed. It was not reaching the reading.
+
+`handlers/feed-record.js` stamps every row with `t = Date.now()` at write time and has done
+since the recorder was built. **Nothing here creates a clock**; the work was propagation.
+`bind/factory.js readRecorderRow` built `{value, observationId}` and dropped the row's own `t`
+one hop before anything could order by it.
+
+**THREE FACTS, AND COLLAPSING ANY TWO IS THE ERROR THIS EXISTS TO PREVENT:**
+
+| fact | field | says | authority |
+|---|---|---|---|
+| observation identity | `observationId` (`su`) | WHICH observation | the source |
+| reference time | derived from the identity | WHAT INTERVAL it refers to | the source |
+| receipt time | `recordedAt` (`row.t`) | WHEN WE RECEIVED IT | the recorder |
+
+`recordedAt` is OUR clock deliberately, because receipt ORDER is a fact about the recorder and
+only the recorder can be its authority. **It is not evidence that a source published
+anything** and nothing may count it as such. Its single use is ordering two values under one
+identity.
+
+### The rule, and what it refuses
+
+- later receipt, differing value **→ revision**, the later value wins
+- equal receipt, differing values **→ simultaneous contradiction**, abstain
+- any receipt missing **→ unorderable**, abstain, reported apart from contradiction because
+  without a receipt we cannot even ask which came later
+
+**ARRAY ORDER IS NEVER CONSULTED** — true of the resolution, and it was NOT true of the audit
+record in the first draft; see defect 2 below. Every decision is a max over a group or a scan of
+sorted keys, so a replay that re-reads the same rows in another order produces the same winner
+AND the same superseded record. A control puts the
+provisional value LAST in the array while keeping it earlier by receipt; anything falling back
+to position picks the wrong value. **Superseded figures are retained** with the receipt that
+settled them, so a revision cannot silently replace a number.
+
+Taken from the row itself, never from a clock read at parse time and never from the caller. A
+row with no usable `t` yields **no** `recordedAt` key at all — absent, not zero, so nothing can
+sort it as earliest. `readLive` attaches none, because a live read has no recorder receipt.
+
+### MEASURED against real production rows: 1 of 6 back to 4 of 6, zero abstentions
+
+| session | Alpha Vantage | Finnhub | diff | |
+|---|---:|---:|---:|---|
+| 2026-08-04 | 771.33 | 771.33 | **0.00** | |
+| 2026-08-05 | 769.79 | 769.79 | **0.00** | revised from 769.77 |
+| 2026-08-06 | 768.56 | 768.56 | **0.00** | revised from 768.60 |
+| 2026-08-07 | 773.26 | 773.26 | **0.00** | revised from 773.22 |
+
+Three of the four rest on a revision, and every superseded value is retained. The earlier hand
+count also said 4, but it said so by keeping the first value under each identity, which was
+luck rather than a reason; this is 4 for a stated reason with the discarded figures on the
+record. **All four agree exactly**, which is the settled-value confirmation.
+
+### FOUR DEFECTS FOUND IN REVIEW OF THE FIRST DRAFT, each with its own negative control
+
+All four were reachable from the first draft, all four were reproduced before being fixed, and
+each fix is proved by reverting it and watching named assertions fail (2, 1, 2 and 1).
+
+1. **Receipt order was applied across the whole instant, so ANY later value won.** A
+   later-received value from a DIFFERENT identity silently overwrote an earlier one and was
+   recorded as a revision, which would let receipt order manufacture agreement out of a real
+   disagreement between two sources. **Only a source may revise itself**: resolution now runs
+   per identity, and identities still disagreeing afterwards abstain whatever their receipts say.
+2. **The superseded receipt depended on array order.** A provisional value polled more than once
+   carries several receipts, and the draft reported whichever was scanned last, so reversing the
+   rows changed the audit record. **This falsified the "array order is never consulted" claim the
+   first PR description made**, and that claim is withdrawn rather than restated. The recorded
+   receipt is now the MAXIMUM: the last moment the source still stood by the value it replaced.
+3. **Revision metadata was session-wide, but the comparison uses one reading.** A point-in-time
+   channel can revise an earlier tick that is never chosen; reporting it made `revisedSessions`
+   claim the evidence rested on a revision when the selected value had never moved. The record
+   now describes the chosen instant and nothing else.
+4. **A contradiction could be buried by a later revision.** Only the newest receipt bucket was
+   inspected, so values 10 and 20 both at receipt 1000 followed by 30 at receipt 2000 resolved
+   cleanly. **Every receipt bucket is now checked**: a source saying two things at one moment is
+   not un-said by it later saying a third.
+
+**A new abstention reason, `CROSS_IDENTITY`, is reported apart from `CONFLICTING`**, because they
+are different faults with different remedies: one identity contradicting itself at a single
+receipt is a publisher problem, while two identities disagreeing is the sources disagreeing and
+no receipt time can adjudicate it.
+
+**Three existing tests failed after the fix, and the FIXTURES were wrong, not the behaviour.**
+They used two distinct identities while naming single-identity cases, so they had been passing
+for the wrong reason. The fixtures were corrected rather than the assertions relaxed, which is
+the distinction that separates a fix from a cover-up.
+
+### What was deliberately NOT done
+
+**The kernel hop was reverted.** Adding `recordedAt` to `loop.js IDENTITY_FIELDS` forwards it
+through the barrier, and it was written, probed and then removed: it reaches no report and no
+serialized state, so **no test can pin it** and nothing consumes it yet. It is safe —
+`core/channel.js sourceIdentity()` reads four named fields and cannot be perturbed by another —
+but an unobservable field that no test can hold is not a deliverable. It belongs in the PR that
+gives it a consumer.
+
+### The golden hash moved, and the move is proved rather than announced
+
+`test/domains.js READ_SHA` is a behavioural guarantee over 362 recorded rows and this change
+moves it. **Stripping only `recordedAt` reproduces the previous hash byte-identically across
+all 5682 readings**, so no existing field's presence, name, order or value changed. That
+assertion is kept permanently alongside the new pin, because "we updated the golden hash" is
+the sentence a real regression hides behind. 100% of those readings carry a receipt.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: none, and no pathway activated. What changed is that settled observations
+  can now be counted at all: a restatement is no longer indistinguishable from a contradiction.
+- **domains promoted**: none. Installed stays 20 of 20.
+- **remaining domains**: 0.
+- **current gate**: still comparability, and the candidate moves from **1 of 6 to 4 of 6**
+  cadence-aligned sessions. Two short, capped at one per trading day by the slower side.
+- **known unknowns**: (a) the gate is still **not wired** into any binder or the runtime, and no
+  channel declares a `referenceInterval`, so nothing in production calls it; (b) `recordedAt`
+  reaches the binder reading and stops there, so the kernel cannot yet order revisions; (c) the
+  revision rule is proved against synthetic fixtures and one live capture, and rests on the
+  recorder's clock being monotonic across rows for a domain — true for one hourly cron, and NOT
+  a property anything asserts; (d) two rows written in the same millisecond would present a
+  genuine revision as a contradiction and abstain, which is the safe direction but is a floor on
+  precision, not an absence of one.
+- **exact next action**: give `recordedAt` a consumer, which means declaring `referenceInterval`
+  on the finance channels and calling the gate from something. That is the wiring PR and it is
+  where the kernel hop belongs. Not activation: at 4 of 6 the pair does not clear the floor, and
+  the floor does not move.
+
+---
+
 ## PAST MILESTONES
 
 ### PR #3 — provenance foundation (merge `70de3b75`)
