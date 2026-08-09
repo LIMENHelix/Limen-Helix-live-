@@ -72,14 +72,57 @@ var SNAPSHOT_KEYS = [
  *             a dump of that. Getting this backwards would have the registry hunting for
  *             a file the recorder can never produce.
  */
+/**
+ * COLD-START CURSOR POLICY, declared here per domain and nowhere else.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ * THE PROBLEM THIS SOLVES, and why it is registry data rather than runtime logic.
+ *
+ * A cold brain has no cursor, so it replays from the oldest row it can see, capped at
+ * MAX_ROWS_PER_CYCLE. For most domains the oldest rows are readable and the first cycle
+ * ticks immediately. For culture and religion they are NOT: their channels began recording
+ * on 2026-08-01, which is row 373 of 470 in the fixtures, so at a 120-row cap they abstain
+ * on every row for three consecutive cycles. A domain that cannot fail for three hours is
+ * the worst possible canary, and it is the sole reason both were held out of batches 1, 2
+ * and 3 despite carrying the best channel coverage in the roster (religion 15/15,
+ * culture 15/16).
+ *
+ * A domain opting in here has its cold-start cursor placed immediately before the first row
+ * its own binder can read, so its FIRST cycle ticks and is falsifiable at once.
+ *
+ * THE RUNTIME NAMES NO DOMAIN. It reads this flag off the descriptor. `if (domain ===
+ * 'culture')` in the runtime is precisely the failure mode DELIVERY_STATE's OWNER GOAL
+ * forbids, and the mechanism is generic: skip the leading run of rows this binder reads
+ * nothing from. The other eighteen domains have the flag false and take the identical code
+ * path they take today, which the tests assert rather than assume.
+ *
+ * IT APPLIES ON COLD START ONLY. Once state exists, the stored cursor governs absolutely.
+ * This cannot move a restored brain's cursor, forward or back.
+ * ═══════════════════════════════════════════════════════════════════════════════════
+ */
+var COLD_START_SKIPS_UNREADABLE_PREFIX = { culture: true, religion: true };
+
 var DOMAINS = SNAPSHOT_KEYS.map(function (snapshot) {
   var product = NAMES.toCanonical(snapshot);
   return {
     product: product,
     snapshot: snapshot,
     binder: product,
-    aliased: NAMES.isAliased(snapshot)
+    aliased: NAMES.isAliased(snapshot),
+    coldStartSkipsUnreadablePrefix: COLD_START_SKIPS_UNREADABLE_PREFIX[snapshot] === true
   };
+});
+
+/**
+ * VALIDATED AT LOAD, for the same reason INSTALLED_DOMAINS is. A typo here is silent: the
+ * flag simply never attaches, the domain keeps abstaining for three cycles, and the symptom
+ * is indistinguishable from the bug this policy exists to fix.
+ */
+Object.keys(COLD_START_SKIPS_UNREADABLE_PREFIX).forEach(function (k) {
+  if (SNAPSHOT_KEYS.indexOf(k) === -1) {
+    throw new Error('registry: COLD_START_SKIPS_UNREADABLE_PREFIX names "' + k + '", which is ' +
+      'not a snapshot key of one of the twenty canonical domains');
+  }
 });
 
 var STATE = {
@@ -296,7 +339,24 @@ var INSTALLED_DOMAINS = [
      first readable row is 373 of 470, so at the 120-row cap they tick ZERO times for three
      consecutive cycles. They go in with communication in batch 4, behind a cursor that starts
      near their first readable row. */
-  'agriculture', 'law', 'defense', 'technology', 'governance'
+  'agriculture', 'law', 'defense', 'technology', 'governance',
+  /* Batch 4, the last three, 2026-08-09. This completes 20 of 20 INSTALLED. It is NOT a
+     fourth repetition of the previous pattern, and the difference is the whole point.
+
+     communication is a plain install on the unchanged criteria: zero declared
+     relationships, reads from row 0, 6 of 11 channels. Its 55% coverage is the lowest in
+     the roster and it was held to last for that reason.
+
+     culture and religion required a MECHANISM, not a membership line. They read 15/16 and
+     15/15, the best coverage of all twenty, and were excluded three times purely because
+     their first readable row is 373 of 470. Both now opt into
+     COLD_START_SKIPS_UNREADABLE_PREFIX above, so each starts immediately before its own
+     first readable row and ticks on its first cycle instead of abstaining for three.
+
+     ALL THREE STILL DECLARE ZERO RELATIONSHIPS, so completing the roster activates no
+     pathway. 20 of 20 installed and 0 of 10 active is the correct and intended end state
+     of this program step; the evidence gate is separate and remains shut. */
+  'communication', 'culture', 'religion'
 ];
 
 /**

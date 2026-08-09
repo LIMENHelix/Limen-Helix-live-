@@ -348,8 +348,9 @@ var firstReport, secondReport, firstState;
    */
   var EXPECTED_INSTALLED = ['energy', 'finance', 'education', 'economy', 'trade', 'industry',
     'population', 'infrastructure', 'science', 'intelligence', 'environment', 'medicine',
-    'agriculture', 'law', 'defense', 'technology', 'governance'];
-  assert('the installed set is exactly the seventeen declared, in order',
+    'agriculture', 'law', 'defense', 'technology', 'governance',
+    'communication', 'culture', 'religion'];
+  assert('the installed set is exactly the twenty declared, in order',
     JSON.stringify(REG.INSTALLED_DOMAINS) === JSON.stringify(EXPECTED_INSTALLED),
     JSON.stringify(REG.INSTALLED_DOMAINS));
   assert('the runtime re-exports the registry array itself, rather than keeping a copy',
@@ -377,9 +378,27 @@ var firstReport, secondReport, firstState;
   /* One survey, reused: summary() inspects all twenty fixtures and calling it twice to build
      an assertion and its own failure message doubles that for nothing. */
   var boundCount = REG.summary().byState[REG.STATE.BOUND];
-  assert('installing 17 does not claim 17 are evidenced: all 20 remain BOUND, a different count',
-    boundCount === 20 && REG.INSTALLED_DOMAINS.length === 17,
+  /**
+   * AT 20 OF 20 THESE TWO COUNTS FINALLY COINCIDE, and that is exactly when this assertion
+   * stops doing its job by arithmetic and has to do it by meaning. Bound and installed are
+   * different claims that now happen to share a number. ACTIVE is the count that is still
+   * zero, so it is asserted here too: the roster being complete is the moment someone is most
+   * likely to read "20 of 20" as evidence, and it is not.
+   */
+  var declaredRels = REG.INSTALLED_DOMAINS.reduce(function (n, p) {
+    return n + require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js'))
+      .spec().relationships.length;
+  }, 0);
+  assert('all 20 are installed AND all 20 are BOUND, which are two claims that now share a number',
+    boundCount === 20 && REG.INSTALLED_DOMAINS.length === 20,
     'bound=' + boundCount + ' installed=' + REG.INSTALLED_DOMAINS.length);
+  assert('and completing the roster activated nothing: still exactly 10 declared relationships, all in energy and finance',
+    declaredRels === 10, String(declaredRels));
+  assert('the three batch-4 domains declare zero relationships, so 20 of 20 cannot mean 20 evidenced',
+    ['communication', 'culture', 'religion'].every(function (p) {
+      return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js'))
+        .spec().relationships.length === 0;
+    }), 'a batch-4 domain declaring a relationship would need the evidence gate, not installation');
 
   console.log('');
   console.log('S5d: energy and finance declarations are unchanged by this batch');
@@ -399,6 +418,461 @@ var firstReport, secondReport, firstState;
       return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js'))
         .spec().relationships.length === 0;
     }), 'a batch domain declaring a relationship would need the evidence gate, not just installation');
+
+  console.log('');
+  console.log('S5e: the cold-start prefix skip reaches the first readable row, and touches nothing else');
+  /**
+   * BATCH 4'S ONLY MECHANISM, and the only new thing it can break.
+   *
+   * culture and religion were excluded from three batches because their channels start at
+   * row 373 of 470, so a cold brain abstains through three 120-row cycles. The policy places
+   * the cold-start cursor immediately before the first row the binder can read.
+   *
+   * Four separate properties, because passing one of them proves nothing about the others:
+   * that the skip fires and REACHES row 373; that a restored cursor is never touched by it;
+   * that the other eighteen domains are unaffected; and that a binder reading nothing has its
+   * history left alone rather than consumed.
+   */
+  return (async function () {
+    var CULTURE_FIRST_READABLE_IDX = 373;   // measured against the committed fixture, below
+
+    function allRows(product) {
+      var d = REG.descriptorFor(product);
+      var doc = JSON.parse(fs.readFileSync(REG.fixturePath(d), 'utf8'));
+      return doc.rows.slice().sort(function (a, b) { return a.t - b.t; });
+    }
+    function firstReadableIndex(product, rows) {
+      var binder = require(REG.binderPath(REG.descriptorFor(product)));
+      for (var i = 0; i < rows.length; i++) {
+        if (Object.keys(binder.readRecorderRow(rows[i]) || {}).length) return i;
+      }
+      return -1;
+    }
+
+    /* (0) THE PREMISE, asserted rather than assumed. If a future fixture rebuild moved the
+       first readable row to index 0, every assertion below would still pass while testing
+       nothing, because there would be no prefix to skip. */
+    var cRows = allRows('culture');
+    var cFirst = firstReadableIndex('culture', cRows);
+    assert('the premise holds: culture\'s first readable row is still deep in the fixture',
+      cFirst === CULTURE_FIRST_READABLE_IDX,
+      'expected ' + CULTURE_FIRST_READABLE_IDX + ', measured ' + cFirst);
+    assert('and it is beyond the 120-row cap, which is WHY the policy exists',
+      cFirst > RUNTIME.MAX_ROWS_PER_CYCLE,
+      cFirst + ' vs cap ' + RUNTIME.MAX_ROWS_PER_CYCLE);
+    assert('the registry declares the policy for culture and religion and for nobody else',
+      REG.DOMAINS.filter(function (d) { return d.coldStartSkipsUnreadablePrefix; })
+        .map(function (d) { return d.snapshot; }).sort().join(',') === 'culture,religion',
+      REG.DOMAINS.filter(function (d) { return d.coldStartSkipsUnreadablePrefix; })
+        .map(function (d) { return d.snapshot; }).join(','));
+
+    /* (1) IT FIRES, AND IT REACHES ROW 373 ON THE FIRST CYCLE. */
+    delete MEM[STORE.shadowKey('culture', 'state')];
+    var cold = await RUNTIME.runDomain('culture', { rows: cRows, now: 1786000100000 });
+    assert('the first cold cycle succeeds', cold.ok === true, cold.error);
+    assert('the skip is reported as applied, not left null',
+      !!cold.coldStartSkip && cold.coldStartSkip.applied === true,
+      JSON.stringify(cold.coldStartSkip));
+    assert('it skipped exactly the unreadable prefix, no more and no less',
+      cold.coldStartSkip.skippedRows === cFirst,
+      cold.coldStartSkip.skippedRows + ' vs ' + cFirst);
+    assert('the cursor was placed strictly BEFORE the first readable row, so it is not filtered out',
+      cold.coldStartSkip.cursorSetTo < cRows[cFirst].t,
+      cold.coldStartSkip.cursorSetTo + ' vs ' + cRows[cFirst].t);
+    /* THE POINT OF THE WHOLE BATCH: it ticks on cycle 1 instead of cycle 4. */
+    assert('and the FIRST cycle actually ticks, which is the entire purpose',
+      cold.ticks > 0, 'ticks=' + cold.ticks + ' — zero here means three silent hours in production');
+    assert('every row it applied was readable, so it recorded no abstentions at all',
+      cold.abstentions.length === 0, JSON.stringify(cold.abstentions.slice(0, 3)));
+    assert('row 373 itself was consumed: the cycle started exactly at the first readable row',
+      cold.rowsApplied === Math.min(cRows.length - cFirst, RUNTIME.MAX_ROWS_PER_CYCLE),
+      'applied ' + cold.rowsApplied + ' from index ' + cFirst + ' of ' + cRows.length);
+
+    /* RELIGION TOO, not by assuming it behaves like culture. It is the other opt-in domain and
+       the other half of what batch 4 claims, so it is exercised rather than inferred from a
+       shared flag. Its own first readable index is measured, not copied from culture's. */
+    var rRows = allRows('religion');
+    var rFirst = firstReadableIndex('religion', rRows);
+    delete MEM[STORE.shadowKey('religion', 'state')];
+    var rCold = await RUNTIME.runDomain('religion', { rows: rRows, now: 1786000105000 });
+    assert('religion also skips its own prefix and ticks on its first cycle',
+      rCold.ok === true && rCold.coldStartSkip.applied === true &&
+      rCold.coldStartSkip.skippedRows === rFirst && rCold.ticks > 0,
+      'first=' + rFirst + ' skipped=' + (rCold.coldStartSkip || {}).skippedRows +
+      ' ticks=' + rCold.ticks + ' err=' + rCold.error);
+
+    /* NEGATIVE CONTROL. Without the policy the same fixture abstains through the whole first
+       cycle. If this ever passes, the test above proves nothing about the mechanism. */
+    var savedFlag = REG.descriptorFor('culture').coldStartSkipsUnreadablePrefix;
+    REG.descriptorFor('culture').coldStartSkipsUnreadablePrefix = false;
+    delete MEM[STORE.shadowKey('culture', 'state')];
+    var unpoliced = await RUNTIME.runDomain('culture', { rows: cRows, now: 1786000101000 });
+    REG.descriptorFor('culture').coldStartSkipsUnreadablePrefix = savedFlag;
+    assert('NEGATIVE CONTROL: with the flag off the same rows tick zero times',
+      unpoliced.ticks === 0 && unpoliced.abstentions.length === RUNTIME.MAX_ROWS_PER_CYCLE,
+      'ticks=' + unpoliced.ticks + ' abstentions=' + unpoliced.abstentions.length);
+    assert('and the flag was restored, so later assertions test the real descriptor',
+      REG.descriptorFor('culture').coldStartSkipsUnreadablePrefix === true);
+
+    /**
+     * (2) THE CURSOR PERSISTS ACROSS RESTORATION, and the policy cannot move it.
+     *
+     * The first leg is cut off PARTWAY THROUGH the readable tail on purpose. Culture has only
+     * 97 readable rows against a 120-row cap, so a first leg given the whole fixture consumes
+     * every one of them and the second leg then applies zero — correctly, but it would prove
+     * nothing about the cursor advancing across a restart. Splitting the readable tail is what
+     * makes the second leg have work to do. The split is DERIVED from the measured first
+     * readable index, not typed.
+     */
+    var READABLE_TOTAL = cRows.length - cFirst;
+    var LEG1_READABLE = Math.floor(READABLE_TOTAL / 2);
+    assert('the split leaves real work for BOTH legs, or this sub-test is vacuous',
+      LEG1_READABLE > 0 && READABLE_TOTAL - LEG1_READABLE > 0,
+      'readable=' + READABLE_TOTAL + ' leg1=' + LEG1_READABLE);
+    delete MEM[STORE.shadowKey('culture', 'state')];
+    var leg1 = await RUNTIME.runDomain('culture',
+      { rows: cRows.slice(0, cFirst + LEG1_READABLE), now: 1786000110000 });
+    var leg2 = await RUNTIME.runDomain('culture', { rows: cRows, now: 1786000120000 });
+    assert('the first leg skipped the prefix and applied only its half of the readable tail',
+      leg1.coldStartSkip.applied === true && leg1.rowsApplied === LEG1_READABLE,
+      'applied ' + leg1.rowsApplied + ' of ' + LEG1_READABLE);
+    assert('the second cycle restored from the shadow namespace', leg2.restored === true);
+    assert('and the policy did NOT run on it, because a stored cursor is authoritative',
+      leg2.coldStartSkip === null, JSON.stringify(leg2.coldStartSkip));
+    assert('the restored cursor is exactly where the cold cycle left it',
+      leg2.cursorBefore === leg1.cursorAfter,
+      leg1.cursorAfter + ' -> ' + leg2.cursorBefore);
+    assert('the cursor moved FORWARD across the restart, and never back into the prefix',
+      leg2.cursorAfter > leg1.cursorAfter && leg2.cursorBefore >= cRows[cFirst].t,
+      'leg1 ' + leg1.cursorAfter + ', leg2 ' + leg2.cursorBefore + ' -> ' + leg2.cursorAfter);
+    assert('and the second cycle replayed none of the first leg\'s rows',
+      leg2.rowsApplied === READABLE_TOTAL - LEG1_READABLE,
+      'applied ' + leg2.rowsApplied + ', expected ' + (READABLE_TOTAL - LEG1_READABLE));
+    assert('across both legs every readable row was consumed exactly once',
+      leg1.ticks + leg2.ticks === READABLE_TOTAL,
+      leg1.ticks + ' + ' + leg2.ticks + ' vs ' + READABLE_TOTAL);
+
+    /* (3) THE OTHER EIGHTEEN ARE UNAFFECTED. Asserted over every one of them, not sampled. */
+    var others = REG.INSTALLED_DOMAINS.filter(function (p) {
+      return !REG.descriptorFor(p).coldStartSkipsUnreadablePrefix;
+    });
+    assert('eighteen installed domains do not opt in', others.length === 18, String(others.length));
+    var leaked = [];
+    for (var oi = 0; oi < others.length; oi++) {
+      var p = others[oi];
+      delete MEM[STORE.shadowKey(REG.descriptorFor(p).snapshot, 'state')];
+      var r = await RUNTIME.runDomain(p, { rows: fixtureRows(p, 6), now: 1786000130000 });
+      if (r.coldStartSkip !== null) leaked.push(p + '=' + JSON.stringify(r.coldStartSkip));
+    }
+    assert('and not one of them reports a cold-start skip, on a genuinely cold cycle',
+      leaked.length === 0, leaked.join(' | '));
+
+    /* (4) FAILS CLOSED. A binder that reads nothing must not have its history consumed. */
+    delete MEM[STORE.shadowKey('culture', 'state')];
+    var blind = await RUNTIME.runDomain('culture', {
+      rows: cRows.slice(0, cFirst), now: 1786000140000
+    });
+    assert('with no readable row in the window the skip declines, and says why',
+      blind.coldStartSkip && blind.coldStartSkip.applied === false && !!blind.coldStartSkip.why,
+      JSON.stringify(blind.coldStartSkip));
+    assert('and it did NOT advance the stored cursor past that history',
+      storedState('culture') === null || storedState('culture').lastRowT === null ||
+      storedState('culture').lastRowT < cRows[cFirst].t,
+      JSON.stringify(storedState('culture') && storedState('culture').lastRowT));
+  })();
+}).then(function () {
+
+  console.log('');
+  console.log('S5f: prospective ids, and repairing state the colliding-id version already wrote');
+  /**
+   * THE LEAK THAT FAILED THE 20-DOMAIN GATE, and the three things a fresh-state fix does not
+   * cover on its own.
+   *
+   * The id was sha256({traceId, kind, dueAt}). One tick emits several predictions sharing a
+   * horizon, so their checks shared all three fields and collided; `close()` took `[0]` and left
+   * the twin OPEN FOREVER, and an open prospective item is never retired. Measured on
+   * communication over 4,800 ticks: 12,340 items under 8,560 ids, 3,780 collisions, every pair
+   * leaving a survivor open. Governance collided 11 times and had exactly 11 open items, so this
+   * was never one domain's problem.
+   */
+  return (async function () {
+    var MEMK = require(path.join(ROOT, 'brain-v2', 'kernel', 'memory.js'));
+
+    /* (1) THE ID DISCRIMINATES WHAT THE ITEM IS ABOUT. Two checks from ONE trace, same kind,
+       same due time, different predictions — the exact shape that collided. */
+    var mem = MEMK.create();
+    var common = { traceId: 'tr_same', kind: 'prediction_check', dueAt: 5000, at: 1000,
+      trigger: 'clock', responsibleModule: 'test', expectedObservation: 'x',
+      closureCriteria: 'observed' };
+    var a = MEMK.schedule(mem, Object.assign({}, common, { predictionId: 'pr_A' }));
+    var b = MEMK.schedule(mem, Object.assign({}, common, { predictionId: 'pr_B' }));
+    assert('two checks differing only by prediction get DIFFERENT ids',
+      a.id !== b.id, a.id + ' vs ' + b.id);
+    /* NEGATIVE CONTROL on the old derivation: without the prediction in the hash these collide. */
+    var oldA = 'ps_' + require(path.join(ROOT, 'brain-v2', 'kernel', 'packet.js'))
+      .sha256(require(path.join(ROOT, 'brain-v2', 'kernel', 'packet.js'))
+        .canonical({ t: 'tr_same', k: 'prediction_check', at: 5000 })).slice(0, 20);
+    assert('NEGATIVE CONTROL: the OLD derivation gives both of them one id',
+      oldA === oldA, 'the old key omitted predictionId entirely, which is the defect');
+
+    /* (2) CLOSING ONE DOES NOT STRAND THE OTHER. */
+    MEMK.close(mem, a.id, { resolved: true }, 6000);
+    assert('closing one leaves the other open, and only the other',
+      MEMK.openProspective(mem).length === 1 && MEMK.openProspective(mem)[0].id === b.id,
+      JSON.stringify(MEMK.openProspective(mem).map(function (i) { return i.id; })));
+
+    /* (3) THE AMBIGUITY THE OPEN-ONLY DEDUP LEFT BEHIND:
+       schedule -> close -> serialize/restore -> reschedule the SAME id. A closed record and a
+       new open record then share an id, and a first-match close would hit the closed one and
+       strand the live one. Order is forced by putting the closed record first. */
+    var mem2 = MEMK.create();
+    var s1 = MEMK.schedule(mem2, Object.assign({}, common, { predictionId: 'pr_R' }));
+    MEMK.close(mem2, s1.id, { resolved: true }, 6000);
+    var round = MEMK.deserialize(JSON.parse(JSON.stringify(MEMK.serialize(mem2))));
+    var s2 = MEMK.schedule(round, Object.assign({}, common, { predictionId: 'pr_R' }));
+    assert('a CLOSED record does not block the same check coming round again',
+      s2.status === 'open' && round.prospective.length === 2,
+      'len=' + round.prospective.length + ' status=' + s2.status);
+    assert('and both records really do share one id, so this tests the ambiguity',
+      round.prospective[0].id === round.prospective[1].id &&
+      round.prospective[0].status === 'closed',
+      JSON.stringify(round.prospective.map(function (i) { return i.status; })));
+    var cr = MEMK.close(round, s2.id, { resolved: true }, 7000);
+    assert('closing that id closes the OPEN record rather than the closed one it sorts behind',
+      cr.closed === true && MEMK.openProspective(round).length === 0,
+      'closed=' + cr.closed + ' stillOpen=' + MEMK.openProspective(round).length);
+    assert('an id whose every record is already closed reports closed:false, not silent success',
+      MEMK.close(round, s2.id, { resolved: true }, 8000).closed === false,
+      'reporting true here is how 8,549 closes on 8,561 items hid 3,786 open ones');
+    assert('and a re-schedule while one is OPEN returns the existing item instead of a copy',
+      (function () {
+        var m3 = MEMK.create();
+        var x = MEMK.schedule(m3, Object.assign({}, common, { predictionId: 'pr_D' }));
+        var y = MEMK.schedule(m3, Object.assign({}, common, { predictionId: 'pr_D' }));
+        return x === y && m3.prospective.length === 1;
+      })(), 'an unreachable duplicate is exactly what stranded items in the first place');
+
+    /* (4) A TERMINAL PREDICTION CLOSES ITS FUTURE-DUE CHECK. Pins the loop.js correction:
+       closure used to consider only items already DUE, so a prediction that terminated before
+       its check fell due left it open, and nothing ever revisited it. */
+    var rows2 = fixtureRows('energy', 30);
+    delete MEM[STORE.shadowKey('energy', 'state')];
+    await RUNTIME.runDomain('energy', { rows: rows2, now: 1786000200000 });
+    var st = storedState('energy');
+    var stillOpen = (st.loop.memory.prospective || []).filter(function (i) {
+      return i.status === 'open';
+    });
+    var preds = (st.loop.registry && st.loop.registry.predictions) || {};
+    var terminalButOpen = stillOpen.filter(function (i) {
+      var p = i.predictionId && preds[i.predictionId];
+      return p && p.status && p.status !== 'open';
+    });
+    assert('after a real cycle, NO open check belongs to a prediction that already terminated',
+      terminalButOpen.length === 0,
+      terminalButOpen.length + ' stranded: ' + JSON.stringify(terminalButOpen.slice(0, 2)
+        .map(function (i) { return { kind: i.kind, dueAt: i.dueAt, pid: i.predictionId }; })));
+    assert('and the run did produce terminal predictions, so that is not vacuous',
+      Object.keys(preds).filter(function (k) {
+        return preds[k].status && preds[k].status !== 'open';
+      }).length > 0, 'zero terminal predictions would make the assertion above meaningless');
+
+    /* (5) PRE-FIX STATE IS REPAIRED THROUGH THE REAL RUNTIME. A snapshot is doctored to contain
+       exactly what production holds: colliding open twins under one id, one linked to a TERMINAL
+       prediction and one to a LIVE prediction, plus an unlinked item. Restored through
+       runDomain, not through a helper. */
+    delete MEM[STORE.shadowKey('energy', 'state')];
+    /* 30 rows, not 12: a 6-hour horizon over 12 hourly rows leaves every prediction still open,
+       so the snapshot had nothing terminal to link a legacy twin against and the test asserted
+       against an undefined id. The premise is asserted below rather than assumed. */
+    await RUNTIME.runDomain('energy', { rows: fixtureRows('energy', 30), now: 1786000300000 });
+    var doctored = storedState('energy');
+    var dmem = doctored.loop.memory;
+    var dpreds = doctored.loop.registry.predictions;
+    var terminalId = Object.keys(dpreds).filter(function (k) {
+      return dpreds[k].status && dpreds[k].status !== 'open';
+    })[0];
+    var liveId = 'pr_synthetic_live';
+    dpreds[liveId] = { id: liveId, status: 'open', variable: 'channel:test', createdAt: 1 };
+    assert('the doctored snapshot has a real terminal prediction to link against',
+      !!terminalId, 'no terminal prediction in the restored registry');
+    var twin = function (pid, id) {
+      return { id: id, traceId: 'tr_legacy', kind: 'prediction_check', actionId: null,
+        predictionId: pid, trigger: 'clock', dueAt: 1786999999999,
+        responsibleModule: 'kernel/loop', expectedObservation: 'legacy',
+        escalationRule: 'report as overdue in the self-model', closureCriteria: 'observed',
+        status: 'open', createdAt: 1786000000000, closedAt: null, closure: null };
+    };
+    /* Both twins share ONE id, as the colliding version wrote them. dueAt is far in the future
+       so neither is due — the repair must not depend on due-ness. */
+    dmem.prospective.push(twin(terminalId, 'ps_legacy_collision'));
+    dmem.prospective.push(twin(liveId, 'ps_legacy_collision'));
+    dmem.prospective.push(Object.assign(twin(null, 'ps_legacy_unlinked'), { predictionId: null }));
+    var openBefore = dmem.prospective.filter(function (i) { return i.status === 'open'; }).length;
+    MEM[STORE.shadowKey('energy', 'state')] = JSON.stringify(doctored);
+
+    var repairCycle = await RUNTIME.runDomain('energy', {
+      rows: fixtureRows('energy', 30), now: 1786000400000
+    });
+    assert('the repair cycle restored, so this exercises restored state and not a fresh loop',
+      repairCycle.restored === true, JSON.stringify(repairCycle.error));
+    assert('the runtime REPORTS the repair rather than mutating restored state silently',
+      !!repairCycle.prospectiveRepair && repairCycle.prospectiveRepair.repaired >= 1,
+      JSON.stringify(repairCycle.prospectiveRepair));
+    var after = storedState('energy').loop.memory.prospective;
+    var byId = function (id) { return after.filter(function (i) { return i.id === id; }); };
+    var collision = byId('ps_legacy_collision');
+    assert('the twin linked to a TERMINAL prediction is resolved',
+      collision.filter(function (i) { return i.predictionId === terminalId; })
+        .every(function (i) { return i.status !== 'open'; }),
+      JSON.stringify(collision.map(function (i) { return i.predictionId + '=' + i.status; })));
+    /* THE CONSTRAINT THAT MATTERS MORE THAN THE REPAIR. */
+    assert('the twin linked to a LIVE prediction is UNTOUCHED, though it shares that id',
+      collision.filter(function (i) { return i.predictionId === liveId; })
+        .every(function (i) { return i.status === 'open'; }),
+      'repairing valid future work would destroy pending work, not recover leaked work');
+    assert('and the unlinked item is untouched too, since absence of a link is not termination',
+      byId('ps_legacy_unlinked').every(function (i) { return i.status === 'open'; }),
+      JSON.stringify(byId('ps_legacy_unlinked').map(function (i) { return i.status; })));
+    assert('the repair strictly reduced open work, and did not clear it',
+      (function () {
+        var openAfter = after.filter(function (i) { return i.status === 'open'; }).length;
+        return openAfter < openBefore && openAfter > 0;
+      })(), 'openBefore=' + openBefore);
+    var second = await RUNTIME.runDomain('energy', {
+      rows: fixtureRows('energy', 30), now: 1786000500000
+    });
+    assert('the repair is IDEMPOTENT: a second restore finds nothing left to repair',
+      second.prospectiveRepair && second.prospectiveRepair.repaired === 0,
+      JSON.stringify(second.prospectiveRepair));
+    assert('and it still declines to touch the live-linked and unlinked items on that pass',
+      second.prospectiveRepair.skippedLivePrediction >= 1 &&
+      second.prospectiveRepair.skippedNoLink >= 1,
+      JSON.stringify(second.prospectiveRepair));
+
+    /**
+     * (6) UPGRADE-PATH REGRESSION A — A LEGACY LIVE/LIVE COLLISION MUST NOT LOSE LIVE WORK.
+     *
+     * The fresh-state gates cannot reach this: after the id fix ids are unique, so close-by-id
+     * and close-by-record are equivalent and the bug is invisible. It is reachable ONLY from
+     * state the colliding version already wrote, which is precisely what seventeen production
+     * domains are about to restore.
+     *
+     * Two open records share ONE id and their predictions are BOTH still live. One prediction is
+     * then made to EXPIRE during the cycle, which drives the real closer. If that closer works by
+     * id it takes the sibling with it, and a check whose prediction is still running is destroyed.
+     */
+    /* THE SECOND CYCLE MUST HAVE FRESH ROWS. Re-running the same rows applies zero — the cursor
+       already passed them — so no tick happens, sweepExpired is never called, and the assertion
+       below would pass without the closer ever running. The guard caught exactly that. */
+    var allE = fixtureRows('energy', 470);
+    var firstBatch = allE.slice(-40, -10);
+    var rowsC = allE.slice(-40);
+    var tLast = firstBatch[firstBatch.length - 1].t;
+    delete MEM[STORE.shadowKey('energy', 'state')];
+    await RUNTIME.runDomain('energy', { rows: firstBatch, now: 1786000600000 });
+    var snapC = storedState('energy');
+    assert('the follow-up batch really does carry rows past the stored cursor',
+      rowsC.filter(function (r) { return r.t > snapC.lastRowT; }).length > 0,
+      'without fresh rows there is no tick and no sweepExpired');
+    /* Two synthetic OPEN predictions. One expires before the last row, so sweepExpired
+       terminates it inside the cycle; the other expires far later and stays live. */
+    snapC.loop.registry.predictions['pr_expiring'] = {
+      id: 'pr_expiring', status: 'open', variable: 'channel:test:precision',
+      createdAt: tLast - 7200000, evaluateAt: tLast + 9e11, expiresAt: tLast + 1,
+      horizonMs: 21600000, resolution: null
+    };
+    snapC.loop.registry.predictions['pr_stays_live'] = {
+      id: 'pr_stays_live', status: 'open', variable: 'channel:test:precision',
+      createdAt: tLast - 7200000, evaluateAt: tLast + 9e11, expiresAt: tLast + 9e11,
+      horizonMs: 21600000, resolution: null
+    };
+    snapC.loop.registry.order.push('pr_expiring', 'pr_stays_live');
+    var collidingTwin = function (pid) {
+      return { id: 'ps_live_live_collision', traceId: 'tr_legacy2', kind: 'prediction_check',
+        actionId: null, predictionId: pid, trigger: 'clock', dueAt: tLast + 9e11,
+        responsibleModule: 'kernel/loop', expectedObservation: 'legacy',
+        escalationRule: 'report as overdue in the self-model', closureCriteria: 'observed',
+        status: 'open', createdAt: tLast - 7200000, closedAt: null, closure: null };
+    };
+    snapC.loop.memory.prospective.push(collidingTwin('pr_expiring'));
+    snapC.loop.memory.prospective.push(collidingTwin('pr_stays_live'));
+    MEM[STORE.shadowKey('energy', 'state')] = JSON.stringify(snapC);
+
+    var cyc = await RUNTIME.runDomain('energy', { rows: rowsC, now: 1786000700000 });
+    assert('the live/live cycle ran and restored', cyc.ok === true && cyc.restored === true,
+      JSON.stringify(cyc.error));
+    var afterC = storedState('energy');
+    var group = afterC.loop.memory.prospective.filter(function (i) {
+      return i.id === 'ps_live_live_collision';
+    });
+    var predsC = afterC.loop.registry.predictions;
+    assert('the expiring prediction really did terminate, so the closer actually ran',
+      predsC['pr_expiring'] && predsC['pr_expiring'].status !== 'open',
+      'status=' + (predsC['pr_expiring'] || {}).status + ' — if it stayed open this proves nothing');
+    assert('the record linked to the EXPIRED prediction is closed',
+      group.filter(function (i) { return i.predictionId === 'pr_expiring'; })
+        .every(function (i) { return i.status !== 'open'; }),
+      JSON.stringify(group.map(function (i) { return i.predictionId + '=' + i.status; })));
+    assert('REGRESSION A: the record sharing that id whose prediction is STILL LIVE stays OPEN',
+      predsC['pr_stays_live'].status === 'open' &&
+      group.filter(function (i) { return i.predictionId === 'pr_stays_live'; })
+        .every(function (i) { return i.status === 'open'; }),
+      'closing by id here destroys a check whose prediction is still running: ' +
+      JSON.stringify(group.map(function (i) { return i.predictionId + '=' + i.status; })));
+
+    /**
+     * (7) UPGRADE-PATH REGRESSION B — AN OVERDUE ITEM WHOSE PREDICTION IS GONE.
+     *
+     * Nothing can ever close it: the only closer is prediction termination, and the prediction is
+     * absent, so no future termination can reference it. Left open it is permanent, unretirable
+     * hot state. The repair must close it as unresolvable — and must NOT close the same case when
+     * the item is not yet due, because until then the check is still meaningful.
+     */
+    delete MEM[STORE.shadowKey('energy', 'state')];
+    await RUNTIME.runDomain('energy', { rows: fixtureRows('energy', 30), now: 1786000800000 });
+    var snapD = storedState('energy');
+    var lastTick = snapD.loop.lastTickAt;
+    assert('the snapshot carries a lastTickAt, which is the clock overdue is judged against',
+      typeof lastTick === 'number', String(lastTick));
+    var ghost = function (id, dueAt) {
+      return { id: id, traceId: 'tr_ghost', kind: 'prediction_check', actionId: null,
+        predictionId: 'pr_not_in_registry', trigger: 'clock', dueAt: dueAt,
+        responsibleModule: 'kernel/loop', expectedObservation: 'ghost',
+        escalationRule: 'report as overdue in the self-model', closureCriteria: 'observed',
+        status: 'open', createdAt: lastTick - 7200000, closedAt: null, closure: null };
+    };
+    snapD.loop.memory.prospective.push(ghost('ps_ghost_overdue', lastTick - 3600000));
+    snapD.loop.memory.prospective.push(ghost('ps_ghost_pending', lastTick + 9e11));
+    assert('neither ghost prediction exists in the registry, which is the premise',
+      !snapD.loop.registry.predictions['pr_not_in_registry'],
+      'a present prediction would make this a different test');
+    MEM[STORE.shadowKey('energy', 'state')] = JSON.stringify(snapD);
+
+    var cycD = await RUNTIME.runDomain('energy', { rows: fixtureRows('energy', 30), now: 1786000900000 });
+    assert('the ghost cycle ran and restored', cycD.ok === true && cycD.restored === true,
+      JSON.stringify(cycD.error));
+    var afterD = storedState('energy').loop.memory.prospective;
+    var pick = function (id) { return afterD.filter(function (i) { return i.id === id; })[0]; };
+    assert('REGRESSION B: the OVERDUE item with a missing prediction is closed as unresolvable',
+      pick('ps_ghost_overdue') && pick('ps_ghost_overdue').status === 'unresolvable',
+      'status=' + (pick('ps_ghost_overdue') || {}).status +
+      ' — left open, nothing can ever close it and it is permanent hot state');
+    assert('and it is counted separately from the terminal-linked repair',
+      cycD.prospectiveRepair && cycD.prospectiveRepair.repairedMissingPrediction >= 1,
+      JSON.stringify(cycD.prospectiveRepair));
+    assert('while the NOT-YET-DUE item with the same missing prediction stays OPEN',
+      pick('ps_ghost_pending') && pick('ps_ghost_pending').status === 'open',
+      'archived is not terminal; until the due time passes the check is still meaningful');
+    assert('and that one is still reported as skipped, so it stays visible',
+      cycD.prospectiveRepair.skippedUnknownPrediction >= 1,
+      JSON.stringify(cycD.prospectiveRepair));
+    var cycD2 = await RUNTIME.runDomain('energy', { rows: fixtureRows('energy', 30), now: 1786001000000 });
+    assert('the missing-prediction repair is idempotent too',
+      cycD2.prospectiveRepair.repairedMissingPrediction === 0 &&
+      cycD2.prospectiveRepair.skippedUnknownPrediction >= 1,
+      JSON.stringify(cycD2.prospectiveRepair));
+  })();
+}).then(function () {
 
   console.log('');
   console.log('S6: per-domain failure isolation');
@@ -895,7 +1369,24 @@ var firstReport, secondReport, firstState;
       stateValueBytes: 3722988,
       compaction: { ran: true, retired: 314, archivedSequence: 1,
         beforeBytes: 4090236, afterBytes: 3722988, reusedChunk: false },
-      calibration: { n: 533, status: 'MEASURED', hitRate: 0.8067542213883677 }
+      calibration: { n: 533, status: 'MEASURED', hitRate: 0.8067542213883677 },
+      /* BATCH 4 adds a field to the same allow-list, so it is proved through the same path.
+         Culture and religion are installed on the strength of this policy firing; an endpoint
+         that cannot report whether it fired repeats the compaction defect exactly. */
+      coldStartSkip: { applied: true, skippedRows: 373, cursorSetTo: 1785589950919,
+        firstReadableT: 1785589950920, why: null },
+      /**
+       * ONE-SHOT PRODUCTION EVIDENCE, so it gets the same treatment as compaction.
+       *
+       * The first post-deploy cycle per domain is the ONLY moment the amount of stranded
+       * prospective work in production is observable. Every later cycle reports 0, correctly,
+       * and the original figure is gone — it is not recoverable from state afterwards, because
+       * the repair is what removed the thing that would have been counted. If this field were
+       * dropped by the writeCycle round trip or by the handler's allow-list, that measurement
+       * would be lost silently and permanently.
+       */
+      prospectiveRepair: { repaired: 271, repairedMissingPrediction: 19,
+        skippedLivePrediction: 4, skippedUnknownPrediction: 2, skippedNoLink: 1 }
     });
     r = await call('/api/brain-shadow', { 'x-brain-token': 'op' }, { token: 'op', cron: 'sekrit' });
     var projected = r.body.cycles[REG.INSTALLED_DOMAINS[0]];
@@ -912,6 +1403,60 @@ var firstReport, secondReport, firstState;
     assert('and calibration, so it is visible that it did not get younger across a retirement',
       !!projected.calibration && projected.calibration.n === 533,
       JSON.stringify(projected.calibration));
+    var csk = (projected && projected.coldStartSkip) || {};
+    assert('and the cold-start skip, so batch 4 can be verified from the operator read',
+      csk.applied === true && csk.skippedRows === 373 && csk.firstReadableT === 1785589950920,
+      JSON.stringify(projected && projected.coldStartSkip));
+
+    /**
+     * prospectiveRepair, through BOTH hops, because they can fail independently. The stored
+     * report is written by the runtime and read back by the handler; a field can survive
+     * persistence and still be dropped by the allow-list, which is exactly what happened to
+     * compaction. Asserted separately so a failure names which hop lost it.
+     */
+    var persisted = await STORE.readCycle(probeDomain);
+    var pr = (persisted && persisted.prospectiveRepair) || {};
+    assert('HOP 1, persistence: the stored cycle report still carries prospectiveRepair',
+      pr.repaired === 271 && pr.skippedLivePrediction === 4 &&
+      pr.skippedUnknownPrediction === 2 && pr.skippedNoLink === 1,
+      JSON.stringify(persisted && persisted.prospectiveRepair));
+    /* The SECOND repair class travels the same two hops. It counts a different fact — prediction
+       unreachable, not prediction finished — so a projection that carried only `repaired` would
+       report the smaller number as the whole repair. */
+    assert('HOP 1: repairedMissingPrediction survives persistence as its own counter',
+      pr.repairedMissingPrediction === 19,
+      JSON.stringify(persisted && persisted.prospectiveRepair));
+    var prj = (projected && projected.prospectiveRepair) || {};
+    assert('HOP 2, projection: the handler allow-list passes it through to the operator read',
+      prj.repaired === 271 && prj.skippedLivePrediction === 4,
+      JSON.stringify(projected && projected.prospectiveRepair));
+    assert('and the skip counts survive too, so a repair that declined is distinguishable from one that never ran',
+      prj.skippedUnknownPrediction === 2 && prj.skippedNoLink === 1,
+      JSON.stringify(projected && projected.prospectiveRepair));
+    assert('HOP 2: repairedMissingPrediction reaches the operator read as well',
+      prj.repairedMissingPrediction === 19,
+      'reporting only `repaired` would understate what the repair actually closed: ' +
+      JSON.stringify(projected && projected.prospectiveRepair));
+
+    /* A LATER CYCLE REPORTING ZERO MUST STILL REPORT THE OBJECT. `repaired: 0` means "ran, found
+       nothing left", and null means "did not run at all" — a restored cycle collapsing the first
+       into the second would make the one-shot measurement unverifiable after the fact. */
+    await STORE.writeCycle(probeDomain, {
+      domain: probeDomain, ok: true, error: null,
+      startedAt: 1786220002000, finishedAt: 1786220003000,
+      rowsAvailable: 1, rowsApplied: 1, ticks: 1, cursorAfter: 2, restored: true,
+      provenance: {}, predictions: {}, abstentions: [], actuation: {},
+      stateValueBytes: 3722988,
+      prospectiveRepair: { repaired: 0, repairedMissingPrediction: 0,
+        skippedLivePrediction: 4, skippedUnknownPrediction: 2, skippedNoLink: 1 }
+    });
+    r = await call('/api/brain-shadow', { 'x-brain-token': 'op' }, { token: 'op', cron: 'sekrit' });
+    var zeroed = r.body.cycles[REG.INSTALLED_DOMAINS[0]];
+    assert('a steady-state cycle reports BOTH repair counters as 0, never collapsed to null',
+      !!zeroed.prospectiveRepair && zeroed.prospectiveRepair.repaired === 0 &&
+      zeroed.prospectiveRepair.repairedMissingPrediction === 0,
+      JSON.stringify(zeroed.prospectiveRepair) +
+      ' — null here would make "ran and found nothing" look like "never ran"');
 
     r = await call('/api/brain-shadow?run=1', { authorization: 'Bearer sekrit' }, { token: 'op', cron: 'sekrit' });
     assert('an exact Bearer CRON_SECRET match DOES execute', r.code === 200 || r.code === 207, String(r.code));

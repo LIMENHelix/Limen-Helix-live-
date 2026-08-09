@@ -1,7 +1,7 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-08T22:33Z
-measured_at_commit: c18a54cd0f5db9e3d7ede9f8424b764d88825c87
+measured_at: 2026-08-09T00:40Z
+measured_at_commit: 1eb36379dc76fdcea546c961efc264e94fa0620d
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
   authority. Nothing here authorises anything. Where a fact is mutable, re-verify it
@@ -47,10 +47,10 @@ evidence, and it is still zero. A domain can be bound, installed, and evidence n
 |---|---|
 | total domains | 20 |
 | **BOUND** (validating binder + a fixture that binder can read) | **20 of 20** |
-| **INSTALLED** in the production shadow runtime | **12 executing now**, 17 declared by this PR. Production ran twelve at 2026-08-08T22:27Z; the five added here execute only after merge. |
-| not yet installed | **3 after this PR**: communication, culture, religion |
+| **INSTALLED** in the production shadow runtime | **17 executing now**, 20 declared by this PR. Production ran seventeen at 2026-08-09T00:27Z; the three added here execute only after merge. |
+| not yet installed | **0 after this PR.** The roster is complete. That is a statement about MEMBERSHIP and about nothing else. |
 | **relationships ACTIVE as neural pathways** | **0 of 10** |
-| declared relationships | 10, in energy (7) and finance (3) only. All fifteen batch-1, batch-2 and batch-3 domains declare **zero**, so no installation so far could activate a pathway even by mistake. |
+| declared relationships | 10, in energy (7) and finance (3) only. All eighteen batch-1 through batch-4 domains declare **zero**, so no installation ever could activate a pathway even by mistake. |
 | offline replay fixtures | 20 of 20 |
 
 Installation grants nothing. It puts a domain in shadow, where it senses and reports. It
@@ -487,7 +487,7 @@ domains retired nothing, which is expected: they have not accumulated enough to 
 
 ---
 
-## BATCH 3: five domains installed, 12 of 20 to 17 of 20 (THIS PR, NOT YET IN PRODUCTION)
+## BATCH 3: five domains installed, 12 of 20 to 17 of 20 (MERGED, VERIFIED IN PRODUCTION)
 
 **Evidence gained: none.** Installation is not evidence. No relationship moved, no identity
 count changed, no claim became citable.
@@ -566,6 +566,263 @@ batch 3 takes five.
 - **exact next action**: merge, then read `/api/brain-shadow` after the first `:27` cycle and
   confirm `installedCount: 17` with seventeen `ok: true`. Record the production
   `stateValueBytes` per domain here. Not batch 4, and not pathway activation.
+
+### VERIFIED IN PRODUCTION 2026-08-09T00:27:15Z — seventeen executed, and the byte record
+
+Merged as `1eb36379` at 2026-08-08T23:28:20Z, released by the restoration gate below. First
+`:27` cycle after the deploy went Ready. Read from `/api/brain-shadow`, not inferred.
+
+`installedCount: 17`, seventeen entries in `cycles`, **seventeen of seventeen `ok: true`, zero
+errors.** This is the `stateValueBytes` record the batch-3 next-action line above required, and
+it is recorded here rather than in a documentation-only PR.
+
+| product | snapshot | restored | rowsApplied | stateValueBytes | compaction.retired |
+|---|---|---|---:|---:|---:|
+| energy | energy | true | 1 | 3,726,878 | 1 |
+| finance | finance | true | 1 | 3,974,692 | 1 |
+| education | education | true | 1 | 2,458,815 | 1 |
+| economy | economy | true | 1 | 3,158,540 | 1 |
+| trade | supplyChain | true | 1 | 2,924,840 | 1 |
+| industry | industry | true | 1 | 2,499,706 | 1 |
+| population | population | true | 1 | 3,024,764 | 1 |
+| infrastructure | infrastructure | true | 120 | 2,826,747 | **101** |
+| science | research | true | 120 | 2,267,209 | 29 |
+| intelligence | intelligence | true | 120 | 2,120,921 | 0 |
+| environment | environment | true | 120 | 1,973,284 | **100** |
+| medicine | health | true | 120 | 2,354,264 | 25 |
+| agriculture | agriculture | **false** | 120 | 797,154 | 0 |
+| law | law | **false** | 120 | 586,476 | 0 |
+| defense | defense | **false** | 120 | 825,373 | 0 |
+| technology | technology | **false** | 120 | 640,723 | 0 |
+| governance | governance | **false** | 120 | 469,645 | 0 |
+
+Total 36,630,031 bytes, **34.93 MiB of value**, and the per-domain figures sum to exactly the
+reported `stateValueBytesTotal`, checked rather than assumed. Batch 3's five contribute
+3,319,371 (3.17 MiB) of that on a first cycle; the other twelve hold 31.77 MiB.
+
+**PROVEN — restoration for the five PR #15 domains.** At the 23:27:35Z cycle all five returned
+`ok:true` and **`restored:true`**, which is the gate that released the batch-3 merge. At 00:27Z
+they are still backfilling at 120 rows per cycle, and compaction has begun firing on them
+(infrastructure retired 101 records, environment 100). Batch 3's own five correctly report
+`restored:false` on their first cycle; **their restoration is not yet proven and is the gate on
+batch 4.**
+
+**The mature seven now retire only 1 record per cycle** against 2-3 at 22:27Z, while the
+backfilling domains retire in the hundreds. Retirement tracks how much arrived, not how long a
+domain has been installed, and reading a low number as compaction weakening would be backwards.
+
+---
+
+## BATCH 4: the last three, 17 of 20 to 20 of 20 (THIS PR, NOT YET IN PRODUCTION)
+
+**Evidence gained: none.** Completing the roster is a membership fact. No relationship moved,
+no distinct identity was added, no claim became citable. **Active pathways remain 0 of 10.**
+
+Added: **communication, culture, religion**. This is NOT a fourth repetition of the previous
+pattern, and the difference is the substance of the PR.
+
+| domain | channels read / declared | coverage | declared relationships | first readable row |
+|---|---|---:|---:|---:|
+| communication | 6 / 11 | 55% | 0 | 0 |
+| culture | 15 / 16 | 94% | 0 | **373** |
+| religion | 15 / 15 | **100%** | 0 | **373** |
+
+**communication** is a plain install on the unchanged criteria. Its 55% coverage is the lowest
+in the roster, which is why it was held to last; the five unread channels are CPJ Press
+Freedom, Snopes, Poynter, Nieman Lab and CISA Advisories.
+
+**culture and religion needed a mechanism, not a membership line.** They carry the best channel
+coverage of all twenty and were excluded from three consecutive batches for one reason: their
+channels began recording on 2026-08-01, which is row 373 of 470, so a cold brain abstains on
+every row for three consecutive 120-row cycles. A domain that cannot fail for three hours is
+the worst possible canary.
+
+### The cold-start prefix skip
+
+`registry.COLD_START_SKIPS_UNREADABLE_PREFIX` declares the policy for `culture` and `religion`
+and for nobody else, validated at load against the snapshot keys so a typo throws instead of
+silently never attaching. The descriptor carries it as `coldStartSkipsUnreadablePrefix`.
+
+**THE RUNTIME NAMES NO DOMAIN.** It reads the flag off the descriptor and applies a generic
+rule: skip the leading run of rows this binder reads nothing from. `if (domain === 'culture')`
+in the runtime is precisely what the OWNER GOAL above forbids, and `test/shadow-runtime.js` S5b
+already asserts the runtime contains no per-domain branch.
+
+Four properties, each asserted separately because passing one proves nothing about the others:
+
+1. **It reaches row 373 on the first cycle.** Measured, not assumed: the test asserts the first
+   readable index is still 373 and still beyond the 120-row cap, so a future fixture rebuild
+   that moved it cannot leave the suite passing while testing nothing. The cold cycle skips
+   exactly 373 rows, records **zero abstentions**, and ticks.
+2. **The cursor persists across restoration and the policy cannot move it.** Guarded on
+   `cursor === null`, so a restored cycle reports `coldStartSkip: null`. The first leg is cut
+   off partway through the readable tail on purpose — culture has only 97 readable rows against
+   a 120-row cap, so a first leg given the whole fixture consumes all of them and the second
+   would apply zero, proving nothing about forward movement. Split at half, the two legs consume
+   every readable row exactly once and the cursor never re-enters the prefix.
+3. **The other eighteen are unaffected.** Asserted over every one of them on a genuinely cold
+   cycle, not sampled: not one reports a cold-start skip.
+4. **It fails closed.** If the binder reads nothing anywhere in the window, the cursor is left
+   untouched and the report says why. Advancing it would consume a broken domain's entire
+   visible history and report a clean cycle over zero rows, which is the same class of defect as
+   a read-back guard that passes because the write went to memory.
+
+A **negative control** runs with the flag off over the same rows: zero ticks and 120
+abstentions, so the mechanism is what produces the result rather than the fixture.
+
+`coldStartSkip` is projected through `/api/brain-shadow`. The handler's per-domain projection is
+an allow-list, and batch 2 found the hard way that a field missing from it makes the one surface
+an operator reads unable to answer the question the work exists to answer. `null` means the
+policy did not run; `applied:false` with a `why` means it ran and declined, and those are
+different states.
+
+### THE COLLIDING PROSPECTIVE-ID LEAK — found by this batch, and bigger than the batch
+
+The 20-domain bounded-growth gate FAILED at 40 and 60 cycles on communication:
+`openProspective` 2,640 → 3,792 → 4,509, body +54,525 B/cycle, structure +1,673.7 nodes/cycle
+at t=208.3. It passed at 100. **A gate that passes at one of three cadences is not closed**, and
+the batch-2 lesson about the same shape was to fix the instrument rather than adopt the passing
+run, so the passing run was not adopted.
+
+**Two things I reported before measuring properly, both withdrawn.** First, that the growth was
+unbounded — it saturates, so the 40 and 60 failures are a fill phase. Second, that it was a
+property of communication — it is not.
+
+**ROOT CAUSE: prospective-item ids collided.** The id was
+`sha256({traceId, kind, dueAt})`. One tick emits several predictions sharing a horizon, so their
+checks shared trace, kind and due time and therefore shared an id. `close()` resolved an id with
+`filter(...)[0]` and mutated the FIRST match, so a collision closed one twin and left the other
+**open forever** — and an open prospective item is never retired, by design.
+
+| measurement, communication over 4,800 ticks | value |
+|---|---:|
+| prospective items | 12,340 |
+| DISTINCT ids | 8,560 |
+| colliding ids | 3,780 |
+| colliding pairs leaving a survivor open | **3,780 of 3,780** |
+| `close()` calls on prediction_checks | 8,549 |
+| prediction_checks scheduled | 8,561 |
+| prediction_checks still open | 3,786 |
+
+Those last three cannot all be true unless closes were landing on already-closed twins, which is
+what they were doing. `close()` reported `closed:true` for an already-closed item, so the
+arithmetic never surfaced.
+
+**IT WAS NEVER COMMUNICATION-SPECIFIC.** Governance collided 11 times and held exactly 11 open
+items; culture 0 and 6. The nineteen "passing" domains were not flat because they were healthy,
+only because they collide rarely. Communication had the volume to trip the gate.
+
+**Three fixes, in `brain-v2/kernel/`, none of which loosens a limit.** `RETAIN.prospectiveClosed`
+is untouched at 256; the point is that finished work now actually reaches closed state so the
+existing cap can retire it.
+
+1. **The id discriminates what the item is about**, adding `predictionId` and `actionId`. Still a
+   pure function of the item's own identity, so replay stays byte-identical (S3b). Collisions:
+   communication 3,780 → 1, governance 11 → 3.
+2. **`schedule()` is idempotent on an open id.** The residual collisions were true
+   double-schedules, identical in every field and therefore indistinguishable to anything
+   downstream. Collisions now **0** across every domain probed.
+3. **`close()` closes every OPEN record under an id**, and `closeRecord()` closes one record by
+   object identity. First-match could never be safe while duplicates are representable: a closed
+   record and an open record legitimately share an id when a check comes round again, and if the
+   closed one sorts first the live one is stranded. An id whose records are all closed now
+   reports `closed:false` rather than a silent success.
+
+**Open prospective after the fix**: communication **13** (from 3,792), governance 6, culture 6,
+religion 7, and **zero** already-due-but-open items anywhere.
+
+Separately, `closePredictionProspectives` considered only items already DUE, so a prediction that
+terminated before its check fell due left it open with nothing to revisit it. It now closes every
+open item of a terminated prediction, which its own docstring already declared as the intent. The
+id fix was measured in isolation first so the two are attributable.
+
+### REPAIRING STATE THAT WAS ALREADY WRITTEN
+
+**Changing the id derivation prevents new strandings and repairs nothing already stored.**
+Seventeen domains have been running in production accumulating exactly this, so `LOOP.restore`
+now repairs it, and the repair is reported through `/api/brain-shadow` because it MUTATES
+restored learning state — an invisible drop in open work reads as loss, not repair.
+
+An item is closed only when its prediction is present in the restored registry AND terminal.
+**Deliberately left alone**: items whose prediction is still open, however far in the future they
+fall due; items with no `predictionId`; and items whose prediction is absent from the registry,
+because it may have been archived while the item is legitimately pending and "not found" is not
+evidence of termination. Idempotent, so the second cycle repairs nothing.
+
+**The repair had a destructive defect that its own test caught.** It decided per record but
+closed by id, so on a legacy collision holding one terminal-linked and one live-linked record it
+destroyed the live one. That is what `closeRecord` exists for. Expect a one-off non-zero
+`prospectiveRepair.repaired` on the first post-deploy cycle per domain, then zeroes.
+
+### TWO MORE UPGRADE-PATH DEFECTS, neither reachable from fresh state
+
+Both were found in review of the final diff, and **the 40/60/100 gates cannot reach either one**.
+After the id fix ids are unique, so close-by-id and close-by-record are equivalent and the first
+defect is invisible in replay. Only state the colliding version already wrote exposes it — which
+is exactly what the seventeen production domains are about to restore. A gate passing over fresh
+replay state is not evidence about an upgrade path.
+
+**1. A LEGACY LIVE/LIVE COLLISION COULD CLOSE VALID WORK. This one was a regression introduced by
+the fix above.** Making `close()` close every open record under an id repaired the
+"closed-sorts-first" stranding, but `closePredictionProspectives` still called it BY ID after it
+had already matched the exact record it meant to close. Legacy state can hold two open records
+under one id whose predictions are BOTH still live; terminating one then closed the other's check
+while its prediction was still running. The repair was fixed with `closeRecord` and the normal
+path was left exposed, which is the same mistake twice. Both closer calls now use `closeRecord`.
+Negative control: with close-by-id restored, the live-linked record is destroyed
+(`pr_expiring=unresolvable, pr_stays_live=unresolvable`).
+
+**2. AN OVERDUE ITEM WHOSE PREDICTION IS GONE STAYED OPEN FOREVER.** The repair skipped
+absent-prediction items on the reasoning that "archived is not terminal". That holds for a pending
+check and fails for an overdue one: the only thing that closes a check is the termination of its
+prediction, and a prediction absent from the registry cannot terminate again, so nothing can ever
+close it and it is permanent unretirable state. Such items now close as **`unresolvable`** — a
+statement about REACHABILITY, not about the prediction having been wrong — counted separately as
+`repairedMissingPrediction`, because "its prediction finished" and "its prediction is unreachable"
+are different facts. Items with the same missing prediction that are **not yet due** stay open and
+stay counted under `skippedUnknownPrediction`.
+
+**This second class is not only an upgrade-path case.** Compaction archives resolved predictions,
+so an item can be orphaned in ordinary operation. The repair runs on every restore rather than as
+a one-time migration, so it catches the ongoing case too — meaning
+`prospectiveRepair.repairedMissingPrediction` may show a small ongoing trickle rather than
+dropping to a permanent zero, and that is correct behaviour rather than a recurring fault.
+
+Both counters travel the persisted cycle report and the handler allow-list, asserted per hop so a
+failure names which hop lost the field, with `0` kept distinguishable from never-ran.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: none. Twenty of twenty INSTALLED with zero of ten ACTIVE is the correct
+  end state of this program step, not an anticlimax. **What IS new is a closed defect**: hot
+  state no longer accumulates permanently-open prospective work, in any domain.
+- **domains promoted**: communication, culture, religion. 17 installed to **20**.
+- **remaining domains**: **0**. The roster is complete.
+- **current gate**: hot state growth, and this PR moves it rather than re-passing it. The gate
+  FAILED at 40 and 60 cycles on communication, the cause was found and fixed, and the gate is
+  re-run at 40, 60 and 100 across all twenty. A pass at one cadence was not accepted as a pass.
+- **known unknowns**: (a) batch 3's five have not yet returned `restored:true`, which is the
+  stated gate on merging this PR; (a2) **how much stranded prospective work the seventeen
+  production domains are actually carrying is unknown until they restore.** The repair is proven
+  against a doctored snapshot through the real runtime, not against production state, and its
+  size there cannot be read without a cycle. The first post-deploy `prospectiveRepair.repaired`
+  per domain is that measurement; (a3) the saturation plateau at 4,509 was measured on synthetic
+  rows and the residual 13 open items are not proven to be a production floor; (b) production `stateValueBytes` for these three is unknown
+  until their first cycle, and for culture and religion the offline figure is a floor for a
+  second reason — they now start at row 373 and consume their readable tail immediately rather
+  than after three idle cycles; (c) **actual transport bytes are still not measured anywhere**;
+  (d) the twenty-domain batch wall-clock is unmeasured, though seventeen ran in about 4 s
+  against `maxDuration: 800`; (e) the policy is proven against the committed fixtures, and
+  production recorder history is a different, growing window — if a future window contains no
+  readable row for an opted-in domain the policy declines and that domain behaves exactly as it
+  does today, which is why it fails closed rather than open.
+- **exact next action**: hold for batch 3's `restored:true`, then merge, then read
+  `/api/brain-shadow` and confirm `installedCount: 20` with twenty `ok:true`,
+  `coldStartSkip.applied:true` for culture and religion, and record
+  `prospectiveRepair.repaired` per domain — that number is the only measurement of how much
+  stranded work production was holding, and it is available exactly once per domain. Not pathway
+  activation: 0 of 10 relationships are analyzer-testable and completing the roster changed none
+  of them.
 
 ---
 
@@ -658,12 +915,16 @@ Net: the shared production template. This is the thing the remaining 18 domains 
    - A domain enters a batch only with: a binder, recorded rows, provenance handling,
      isolation tests, and honest reporting of unavailable channels.
    - Per-domain failure isolation is mandatory: one bad domain must not stop the others.
-   - Batches 1, 2 and 3 (5 domains each) are done. **3 remain**: communication, culture,
-     religion. (This line read "Batch 1 (5 domains) is done. 13 remain" through both the
-     batch-2 and compaction PRs. Corrected 2026-08-08 against `registry.INSTALLED_DOMAINS`.)
-   - **BATCH 4 IS NOT A REPEAT OF THIS PATTERN.** Culture and religion need a cursor that
-     starts near their first readable row (373 of 470) before installation means anything,
-     and that is a runtime change, not a membership change. Communication is a plain install.
+   - Batches 1, 2 and 3 (5 domains each) and batch 4 (3 domains) are done. **0 remain.**
+     (This line read "Batch 1 (5 domains) is done. 13 remain" through both the batch-2 and
+     compaction PRs. Corrected 2026-08-08 against `registry.INSTALLED_DOMAINS`.)
+   - **BATCH 4 WAS NOT A REPEAT OF THIS PATTERN**, and the record should not read as though it
+     were. Communication was a plain install. Culture and religion needed a cold-start cursor
+     policy so they reach their first readable row (373 of 470) on cycle one instead of
+     abstaining for three, which is a runtime mechanism rather than a membership line.
+   - **THE BATCHING PROGRAM STEP IS NOW CLOSED.** What is NOT closed, and must not inherit its
+     completion: the evidence gate. 20 of 20 INSTALLED sits alongside 0 of 10 ACTIVE, and the
+     roster being full is the moment that distinction is easiest to lose.
 
 3. **MANDATORY GATE BEFORE BATCH 2, bound hot state growth.** Batch 2 must not be
    installed until this is closed, and it is a hard gate, not a preference.
