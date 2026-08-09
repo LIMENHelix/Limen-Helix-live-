@@ -1020,11 +1020,26 @@ metadata gap failing closed with a named reason, and 5-does-not-qualify against 
   than guessing; (c) aligned and settled, the candidate's sessions agree EXACTLY, so the likely
   outcome at six is a **convergent** verdict. Source agreement is a legitimate result and must be
   reported as such, never as a divergence discovery.
-- **exact next action**: accumulate two further cadence-aligned sessions and re-measure from
-  PERSISTED state. Not a calendar date: an earlier "clears on 2026-08-11" estimate was derived from
-  raw identity accumulation and is **withdrawn**. Not activation, and not wiring: declaring
-  `referenceInterval` on channels is the activation PR's work, deliberately not bundled here so a
-  regression in either would be attributable.
+- **exact next action**: establish **authoritative revision ordering** — a recording time carried
+  alongside `observedAt`, sourced from the recorder rather than fabricated — then re-measure
+  settled session evidence. **Waiting for sessions to accumulate is NOT the next action and cannot
+  become one at 1 of 6.** Restatement is recurring, not a one-off: it happened on every session
+  Alpha Vantage published in the measured window, so each new session arrives already contested and
+  abstains on arrival. Two more of them would leave the count where it is.
+
+  **No timestamp may be invented to break the tie.** Using arrival order, poll order or a
+  synthesised clock would settle a provenance question with a number the source never supplied,
+  which is the same defect class as counting polls as observations. If the recorder cannot supply a
+  recording time for a row, that row's session stays contested and abstains.
+
+  That change reaches into the recorder and provenance chain, so it belongs in **its own PR**. This
+  one is the inert fail-closed gate and is complete on its own terms. Still not activation and not
+  wiring: declaring `referenceInterval` on channels is the activation PR's work, deliberately not
+  bundled so a regression in either would be attributable.
+
+  Withdrawn along the way: an earlier "clears on 2026-08-11" estimate derived from raw identity
+  accumulation, and the "accumulate two further sessions" action this line used to carry. Both
+  assumed a counter that the restatement finding showed does not measure what it was read as.
 
 ### Five defects found in review of the first draft, each with its own negative control
 
