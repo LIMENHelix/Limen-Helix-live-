@@ -102,8 +102,9 @@ var ABSTAIN = {
   NOT_A_SESSION_DAY:    'observation_falls_on_a_non_session_day',
   OUTSIDE_WINDOW:       'point_in_time_observation_outside_the_session_window',
   TOO_FAR_FROM_CLOSE:   'freshest_point_in_time_reading_is_older_than_the_declared_max_lag',
-  CONFLICTING:          'two_observations_share_an_instant_and_a_receipt_time_and_disagree_on_value',
-  UNORDERABLE:          'differing_values_at_one_instant_cannot_be_ordered_without_a_recordedAt',
+  CONFLICTING:          'one_identity_reported_two_values_at_a_single_receipt_time',
+  CROSS_IDENTITY:       'two_identities_disagree_at_one_instant_and_no_receipt_can_choose_between_them',
+  UNORDERABLE:          'one_identity_reported_differing_values_that_cannot_be_ordered_without_a_recordedAt',
   NO_SESSION_OVERLAP:   'no_session_is_covered_by_both_sides'
 };
 
@@ -357,10 +358,23 @@ function reduceToSessions(side, cal, notes) {
      *   equal receipt, differing values -> simultaneous contradiction; abstain
      *   any receipt missing             -> unorderable; abstain
      *
-     * ARRAY ORDER IS NEVER CONSULTED. Every decision below is a max over a group, so a
-     * replay re-reading the same rows in another order produces the same winner. Falling
-     * back to position would order observations by when they were REPLAYED, which is the
-     * defect this module was built to refuse in a different costume.
+     * ONLY A SOURCE MAY REVISE ITSELF, which is the boundary the first draft did not draw.
+     * Receipt order was applied across the whole instant, so a LATER-RECEIVED value from a
+     * DIFFERENT identity silently overwrote an earlier one and the pair was recorded as a
+     * revision. Two identities are two claims; one arriving later does not settle the
+     * other, and calling that a restatement would let receipt order manufacture agreement
+     * out of a genuine disagreement between sources. So resolution runs per identity, and
+     * identities that still disagree afterwards are CONFLICTING whatever their receipts say.
+     *
+     * EVERY RECEIPT BUCKET IS CHECKED, not only the newest. Two rows sharing one receipt and
+     * disagreeing are a contradiction at that moment, and a later revision does not make it
+     * not have happened. Testing only the top bucket let any subsequent value erase it.
+     *
+     * ARRAY ORDER IS NEVER CONSULTED. Every decision below is a max over a group or a scan
+     * of sorted keys, so a replay re-reading the same rows in another order produces the
+     * same winner and the same superseded record. Falling back to position would order
+     * observations by when they were REPLAYED, which is the defect this module was built to
+     * refuse in a different costume.
      *
      * Abstention is still per SESSION, not per pair: one bad session must not discard five
      * sound ones.
@@ -371,46 +385,104 @@ function reduceToSessions(side, cal, notes) {
       (byInstant[at] || (byInstant[at] = [])).push(arr[i]);
     }
 
-    var resolved = [], revisions = [], conflict = null;
+    var resolved = [], revisionAt = Object.create(null), conflict = null;
     Object.keys(byInstant).forEach(function (at) {
       if (conflict) return;
       var group = byInstant[at];
-      var distinct = Object.create(null);
-      group.forEach(function (o) { distinct[o.value] = true; });
 
-      if (Object.keys(distinct).length === 1) { resolved.push(pickOne(group)); return; }
+      /* One bucket per source identity. A revision is a source restating itself, so this is
+         the only scope in which receipt order is allowed to decide anything. */
+      var byIdentity = Object.create(null);
+      group.forEach(function (o) {
+        var k = String(o.identity);
+        (byIdentity[k] || (byIdentity[k] = [])).push(o);
+      });
 
-      /* Unorderable is reported apart from contradictory, because without a receipt time we
-         cannot even ask which came later. Calling that a contradiction would overstate what
-         is known. */
-      for (var g = 0; g < group.length; g++) {
-        if (typeof group[g].recordedAt !== 'number' || !isFinite(group[g].recordedAt)) {
-          conflict = ABSTAIN.UNORDERABLE; return;
+      /* Sorted, so the order identities are resolved in is fixed by their names rather than
+         by arrival. Nothing below depends on it today; leaving it to insertion order would
+         be a latent way for input order to re-enter. */
+      var ids = Object.keys(byIdentity).sort();
+      var settled = [];
+      var superseded = Object.create(null);          // value -> latest receipt of that value
+
+      for (var k = 0; k < ids.length; k++) {
+        var mine = byIdentity[ids[k]];
+        var distinct = Object.create(null);
+        for (var d = 0; d < mine.length; d++) distinct[mine[d].value] = true;
+
+        /* One identity, one value: nothing to order, and no receipt time is required. This
+           is what keeps legacy rows that merely repeat themselves working untouched. */
+        if (Object.keys(distinct).length === 1) { settled.push(pickOne(mine)); continue; }
+
+        /* Unorderable is reported apart from contradictory, because without a receipt time we
+           cannot even ask which came later. Calling that a contradiction would overstate what
+           is known. */
+        for (var g = 0; g < mine.length; g++) {
+          if (typeof mine[g].recordedAt !== 'number' || !isFinite(mine[g].recordedAt)) {
+            conflict = ABSTAIN.UNORDERABLE; return;
+          }
         }
-      }
-      var maxRec = -Infinity;
-      group.forEach(function (o) { if (o.recordedAt > maxRec) maxRec = o.recordedAt; });
-      var top = group.filter(function (o) { return o.recordedAt === maxRec; });
-      var topValues = Object.create(null);
-      top.forEach(function (o) { topValues[o.value] = true; });
-      if (Object.keys(topValues).length > 1) { conflict = ABSTAIN.CONFLICTING; return; }
 
-      var winner = pickOne(top);
-      /* SUPERSEDED VALUES STAY AUDITABLE. A revision that silently replaced a figure would
-         leave the record unable to show that the number ever moved, which is the same
-         complaint this file makes about repeated polls: the discard has to be visible. */
-      var older = Object.create(null);
-      group.forEach(function (o) { if (o.value !== winner.value) older[o.value] = o.recordedAt; });
-      var supersededValues = Object.keys(older);
-      if (supersededValues.length) {
-        revisions.push({
-          observedAt: Number(at), value: winner.value, recordedAt: winner.recordedAt,
-          superseded: supersededValues.map(function (v) {
-            return { value: Number(v), recordedAt: older[v] };
-          }).sort(function (x, y) { return x.recordedAt - y.recordedAt || x.value - y.value; })
-        });
+        /* A contradiction inside ANY receipt bucket, checked before a winner is picked. The
+           source said two things at one moment; that it later said a third does not resolve
+           which of the two it meant. */
+        var buckets = Object.create(null);
+        for (var m = 0; m < mine.length; m++) {
+          var b = buckets[mine[m].recordedAt] || (buckets[mine[m].recordedAt] = Object.create(null));
+          b[mine[m].value] = true;
+        }
+        var bks = Object.keys(buckets);
+        for (var bi = 0; bi < bks.length; bi++) {
+          if (Object.keys(buckets[bks[bi]]).length > 1) { conflict = ABSTAIN.CONFLICTING; return; }
+        }
+
+        var maxRec = -Infinity;
+        for (var n = 0; n < mine.length; n++) if (mine[n].recordedAt > maxRec) maxRec = mine[n].recordedAt;
+        var top = mine.filter(function (o) { return o.recordedAt === maxRec; });
+        var winner = pickOne(top);
+
+        /* SUPERSEDED VALUES STAY AUDITABLE. A revision that silently replaced a figure would
+           leave the record unable to show that the number ever moved, which is the same
+           complaint this file makes about repeated polls: the discard has to be visible.
+           A provisional figure repeated across several polls carries several receipts, so
+           the one recorded is the MAXIMUM: the last moment the source still stood by the
+           value it went on to replace. Taking whichever happened to be scanned last made the
+           record depend on arrival order for a fact that has nothing to do with it. */
+        for (var s = 0; s < mine.length; s++) {
+          if (mine[s].value === winner.value) continue;
+          var prev = superseded[mine[s].value];
+          if (prev === undefined || mine[s].recordedAt > prev) superseded[mine[s].value] = mine[s].recordedAt;
+        }
+        settled.push(winner);
       }
-      resolved.push(winner);
+      if (conflict) return;
+
+      /* Identities have each spoken once now. If they do not agree, this instant carries two
+         claims and no receipt may choose between them. */
+      var finalValues = Object.create(null);
+      for (var f = 0; f < settled.length; f++) finalValues[settled[f].value] = true;
+      /* REPORTED APART FROM A SINGLE-IDENTITY CONTRADICTION, because they are different
+         faults with different remedies. One identity saying two things at one receipt is a
+         publisher problem. Two identities disagreeing is the sources disagreeing, which is
+         the very thing divergence exists to grade — but it cannot be graded from an instant
+         that was never comparable, and no receipt time can choose between them, so it
+         abstains here rather than being passed off as a revision. */
+      if (Object.keys(finalValues).length > 1) { conflict = ABSTAIN.CROSS_IDENTITY; return; }
+
+      /* Every survivor now carries the same value, so this decides only which identity and
+         receipt are reported. Its receipt is the latest at which the settled value was
+         asserted, which is what "the receipt that settled it" means. */
+      var chosenHere = pickOne(settled);
+      var supersededValues = Object.keys(superseded);
+      if (supersededValues.length) {
+        revisionAt[at] = {
+          observedAt: Number(at), value: chosenHere.value, recordedAt: chosenHere.recordedAt,
+          superseded: supersededValues.map(function (v) {
+            return { value: Number(v), recordedAt: superseded[v] };
+          }).sort(function (x, y) { return x.recordedAt - y.recordedAt || x.value - y.value; })
+        };
+      }
+      resolved.push(chosenHere);
     });
     if (conflict) { notes[conflict] = (notes[conflict] || 0) + 1; return; }
 
@@ -438,7 +510,16 @@ function reduceToSessions(side, cal, notes) {
        never covered was invisible, and the reported figure understated how much repetition
        the gate had actually discarded. */
     folded += arr.length - 1;
-    bySession[session] = { session: session, chosen: chosen, considered: arr.length, revisions: revisions };
+    /* THE REVISION RECORD DESCRIBES THE READING THAT WAS ACTUALLY COMPARED, and nothing
+       else. Earlier instants in the same session were never selected, so their restatements
+       say nothing about the evidence this session contributes; reporting them made a pair
+       look as though the figure it rests on had moved when it had not. `revisedSessions`
+       counts off this, so the overstatement reached the verdict, not just the detail. */
+    var revHere = revisionAt[chosen.observedAt];
+    bySession[session] = {
+      session: session, chosen: chosen, considered: arr.length,
+      revisions: revHere ? [revHere] : []
+    };
   });
 
   return { bySession: bySession, folded: folded };

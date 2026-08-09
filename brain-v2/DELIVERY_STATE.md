@@ -1116,8 +1116,10 @@ identity.
 - any receipt missing **→ unorderable**, abstain, reported apart from contradiction because
   without a receipt we cannot even ask which came later
 
-**ARRAY ORDER IS NEVER CONSULTED.** Every decision is a max over a group, so a replay that
-re-reads the same rows in another order produces the same winner. A control puts the
+**ARRAY ORDER IS NEVER CONSULTED** — true of the resolution, and it was NOT true of the audit
+record in the first draft; see defect 2 below. Every decision is a max over a group or a scan of
+sorted keys, so a replay that re-reads the same rows in another order produces the same winner
+AND the same superseded record. A control puts the
 provisional value LAST in the array while keeping it earlier by receipt; anything falling back
 to position picks the wrong value. **Superseded figures are retained** with the receipt that
 settled them, so a revision cannot silently replace a number.
@@ -1139,6 +1141,40 @@ Three of the four rest on a revision, and every superseded value is retained. Th
 count also said 4, but it said so by keeping the first value under each identity, which was
 luck rather than a reason; this is 4 for a stated reason with the discarded figures on the
 record. **All four agree exactly**, which is the settled-value confirmation.
+
+### FOUR DEFECTS FOUND IN REVIEW OF THE FIRST DRAFT, each with its own negative control
+
+All four were reachable from the first draft, all four were reproduced before being fixed, and
+each fix is proved by reverting it and watching named assertions fail (2, 1, 2 and 1).
+
+1. **Receipt order was applied across the whole instant, so ANY later value won.** A
+   later-received value from a DIFFERENT identity silently overwrote an earlier one and was
+   recorded as a revision, which would let receipt order manufacture agreement out of a real
+   disagreement between two sources. **Only a source may revise itself**: resolution now runs
+   per identity, and identities still disagreeing afterwards abstain whatever their receipts say.
+2. **The superseded receipt depended on array order.** A provisional value polled more than once
+   carries several receipts, and the draft reported whichever was scanned last, so reversing the
+   rows changed the audit record. **This falsified the "array order is never consulted" claim the
+   first PR description made**, and that claim is withdrawn rather than restated. The recorded
+   receipt is now the MAXIMUM: the last moment the source still stood by the value it replaced.
+3. **Revision metadata was session-wide, but the comparison uses one reading.** A point-in-time
+   channel can revise an earlier tick that is never chosen; reporting it made `revisedSessions`
+   claim the evidence rested on a revision when the selected value had never moved. The record
+   now describes the chosen instant and nothing else.
+4. **A contradiction could be buried by a later revision.** Only the newest receipt bucket was
+   inspected, so values 10 and 20 both at receipt 1000 followed by 30 at receipt 2000 resolved
+   cleanly. **Every receipt bucket is now checked**: a source saying two things at one moment is
+   not un-said by it later saying a third.
+
+**A new abstention reason, `CROSS_IDENTITY`, is reported apart from `CONFLICTING`**, because they
+are different faults with different remedies: one identity contradicting itself at a single
+receipt is a publisher problem, while two identities disagreeing is the sources disagreeing and
+no receipt time can adjudicate it.
+
+**Three existing tests failed after the fix, and the FIXTURES were wrong, not the behaviour.**
+They used two distinct identities while naming single-identity cases, so they had been passing
+for the wrong reason. The fixtures were corrected rather than the assertions relaxed, which is
+the distinction that separates a fix from a cover-up.
 
 ### What was deliberately NOT done
 

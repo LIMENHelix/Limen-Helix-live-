@@ -507,11 +507,12 @@ function tickSeries(days, baseValue, cal) {
                        { spec: TICK_NH,  observations: tickSeries(DAYNUM, 100) }, CAL);
   assert('the conflicted session is excluded', v.alignedSessions === 5, String(v.alignedSessions));
   assert('and it is the first one', v.sessions.indexOf('2026-08-04') < 0, v.sessions.join(','));
-  /* UNORDERABLE, not CONFLICTING: these observations carry no `recordedAt`, so the question
-     "which came later" cannot even be asked. Calling that a contradiction would claim more
-     than is known. The contradiction case proper is T21c. */
-  assert('counted as unorderable, because neither carries a receipt time',
-    v.abstentions[CMP.ABSTAIN.UNORDERABLE] === 1, JSON.stringify(v.abstentions));
+  /* CROSS_IDENTITY. The fixture above uses two DIFFERENT identities, so no receipt time
+     could ever choose between them and the missing receipts are beside the point. This
+     assertion previously expected UNORDERABLE, which was the fixture naming one case and
+     expressing another; T21d covers the single-identity missing-receipt case properly. */
+  assert('counted as a cross-identity disagreement, which no receipt can settle',
+    v.abstentions[CMP.ABSTAIN.CROSS_IDENTITY] === 1, JSON.stringify(v.abstentions));
   assert('so the pair no longer qualifies', v.eligible === false, v.why);
   assert('only the conflicted session is lost, not the sound ones', v.comparable === true);
 
@@ -671,7 +672,9 @@ function tickSeries(days, baseValue, cal) {
 
   console.log('T21c: EQUAL receipt with differing values is a contradiction, not a revision');
   var at0 = closeAtOf(4);
-  var tie = [obs('x|1', 10, at0, 1786000000000), obs('x|2', 20, at0, 1786000000000)];
+  /* ONE identity saying two things at one receipt. Two identities disagreeing is a different
+     fault with a different name (T22 case 1), and an earlier fixture here conflated them. */
+  var tie = [obs('same', 10, at0, 1786000000000), obs('same', 20, at0, 1786000000000)];
   var v3 = CMP.evaluate({ spec: CLOSE_NH, observations: tie },
                         { spec: CLOSE_NH, observations: [obs('y', 10, at0, 1786000000000)] }, CAL);
   assert('it abstains', v3.alignedSessions === 0);
@@ -679,9 +682,12 @@ function tickSeries(days, baseValue, cal) {
     v3.abstentions[CMP.ABSTAIN.CONFLICTING] === 1 &&
     v3.abstentions[CMP.ABSTAIN.UNORDERABLE] === undefined, JSON.stringify(v3.abstentions));
 
-  console.log('T21d: a MISSING receipt on either side of a disagreement abstains');
-  [[obs('x|1', 10, at0, 1786000000000), obs('x|2', 20, at0)],
-   [obs('x|1', 10, at0), obs('x|2', 20, at0, 1786000000000)]].forEach(function (pair, i) {
+  console.log('T21d: a MISSING receipt on ONE identity\'s restatement abstains as unorderable');
+  /* ONE identity throughout. An earlier version of this test used two identities, which made
+     it a cross-identity disagreement (T18) rather than the missing-receipt case it named. */
+  [[obs('same', 10, at0, 1786000000000), obs('same', 20, at0)],
+   [obs('same', 10, at0), obs('same', 20, at0, 1786000000000)],
+   [obs('same', 10, at0), obs('same', 20, at0)]].forEach(function (pair, i) {
     var vv = CMP.evaluate({ spec: CLOSE_NH, observations: pair },
                           { spec: CLOSE_NH, observations: [obs('y', 10, at0)] }, CAL);
     assert('case ' + (i + 1) + ': unorderable, never silently ordered',
@@ -705,6 +711,74 @@ function tickSeries(days, baseValue, cal) {
                                 JSON.parse(JSON.stringify(CAL)))) === JSON.stringify(v));
   assert('and the superseded record survives it',
     round.pairs[0].revisions.a[0].superseded[0].value === v.pairs[0].revisions.a[0].superseded[0].value);
+})();
+
+// ── T22: four defects found reviewing the first revision-ordering draft ──────────────
+(function () {
+  console.log('T22: NEGATIVE CONTROLS — receipt order may only ever settle ONE identity');
+  var at0 = closeAtOf(4);
+
+  /* 1. ONLY A SOURCE MAY REVISE ITSELF. The first draft grouped an instant by time alone, so
+     a later-received value from a DIFFERENT identity silently overwrote an earlier one and
+     was recorded as a revision. Receipt order would then manufacture agreement out of a real
+     disagreement between two sources. */
+  var v1 = CMP.evaluate(
+    { spec: CLOSE_NH, observations: [obs('idA', 10, at0, 1000), obs('idB', 20, at0, 2000)] },
+    { spec: CLOSE_NH, observations: [obs('y', 20, at0, 1000)] }, CAL);
+  assert('a later receipt from ANOTHER identity is not a revision',
+    v1.alignedSessions === 0 && v1.abstentions[CMP.ABSTAIN.CROSS_IDENTITY] === 1,
+    JSON.stringify(v1.abstentions));
+  assert('and the same two identities agreeing are fine',
+    CMP.evaluate({ spec: CLOSE_NH, observations: [obs('idA', 10, at0, 1000), obs('idB', 10, at0, 2000)] },
+                 { spec: CLOSE_NH, observations: [obs('y', 10, at0, 1000)] }, CAL).alignedSessions === 1);
+
+  /* 2. THE SUPERSEDED RECEIPT MUST NOT DEPEND ON ARRAY ORDER. A provisional value polled
+     twice carries two receipts; the first draft reported whichever was scanned last, so
+     reversing the rows changed the audit record. The MAXIMUM is the right one: the last
+     moment the source still stood by the value it went on to replace. */
+  var polled = [obs('id', 10, at0, 1000), obs('id', 10, at0, 1500), obs('id', 20, at0, 2000)];
+  var other1 = [obs('y', 20, at0, 1)];
+  var f = CMP.evaluate({ spec: CLOSE_NH, observations: polled }, { spec: CLOSE_NH, observations: other1 }, CAL);
+  var r = CMP.evaluate({ spec: CLOSE_NH, observations: polled.slice().reverse() },
+                       { spec: CLOSE_NH, observations: other1 }, CAL);
+  assert('the superseded receipt is identical under reversal',
+    JSON.stringify(f.pairs[0].revisions.a) === JSON.stringify(r.pairs[0].revisions.a),
+    JSON.stringify([f.pairs[0].revisions.a, r.pairs[0].revisions.a]));
+  assert('and it is the LATEST receipt at which the superseded value was still asserted',
+    f.pairs[0].revisions.a[0].superseded[0].recordedAt === 1500,
+    JSON.stringify(f.pairs[0].revisions.a[0]));
+
+  /* 3. THE REVISION RECORD DESCRIBES THE READING ACTUALLY COMPARED. A point-in-time channel
+     can revise an earlier tick that never gets chosen; reporting it made `revisedSessions`
+     claim the evidence rested on a revision when the selected value had never moved. */
+  var early = at0 - 3600000;
+  var v3 = CMP.evaluate(
+    { spec: CLOSE_NH, observations: [obs('a', 5, at0, 10)] },
+    { spec: TICK_NH, observations: [obs('t1', 1, early, 10), obs('t1', 2, early, 20), obs('t2', 5, at0, 30)] },
+    CAL);
+  assert('a revision at an unchosen instant is not attributed to the session',
+    v3.alignedSessions === 1 && v3.revisedSessions === 0, JSON.stringify(v3.revisedSessions));
+  assert('the chosen reading is the closing tick, which was never revised',
+    v3.pairs[0].b.value === 5 && v3.pairs[0].revisions.b.length === 0,
+    JSON.stringify(v3.pairs[0]));
+  assert('while a revision AT the chosen instant IS reported',
+    CMP.evaluate({ spec: CLOSE_NH, observations: [obs('a', 6, at0, 10)] },
+                 { spec: TICK_NH, observations: [obs('t2', 5, at0, 10), obs('t2', 6, at0, 30)] }, CAL)
+      .revisedSessions === 1);
+
+  /* 4. A CONTRADICTION IS NOT ERASED BY A LATER REVISION. The first draft inspected only the
+     newest receipt bucket, so any subsequent value buried an equal-receipt contradiction. */
+  var v4 = CMP.evaluate(
+    { spec: CLOSE_NH, observations: [obs('id', 10, at0, 1000), obs('id', 20, at0, 1000), obs('id', 30, at0, 2000)] },
+    { spec: CLOSE_NH, observations: [obs('y', 30, at0, 1)] }, CAL);
+  assert('an equal-receipt contradiction still abstains even after a later value',
+    v4.alignedSessions === 0 && v4.abstentions[CMP.ABSTAIN.CONFLICTING] === 1,
+    JSON.stringify(v4.abstentions));
+  assert('and it is CONFLICTING, distinct from a cross-identity disagreement',
+    v4.abstentions[CMP.ABSTAIN.CROSS_IDENTITY] === undefined, JSON.stringify(v4.abstentions));
+  assert('a clean revision over the same shape still resolves',
+    CMP.evaluate({ spec: CLOSE_NH, observations: [obs('id', 10, at0, 1000), obs('id', 30, at0, 2000)] },
+                 { spec: CLOSE_NH, observations: [obs('y', 30, at0, 1)] }, CAL).alignedSessions === 1);
 })();
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
