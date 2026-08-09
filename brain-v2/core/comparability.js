@@ -20,6 +20,23 @@
  * performs the incomparable comparison and then explains it. **Align equivalent
  * reference intervals or abstain.** Abstention is a correct output here, not a failure.
  *
+ * WHAT BUILDING THIS THEN FOUND, which is larger than the pair it was built for. Running
+ * the finished gate over the same rows dropped the candidate from four aligned sessions to
+ * ONE, because Alpha Vantage RESTATES its session close under an unchanged identity about
+ * two hours after first publishing it (769.77 -> 769.79, 768.60 -> 768.56,
+ * 773.22 -> 773.26). Two consequences, both corrections to earlier claims:
+ *
+ *   1. **A source identity does not determine a value.** Counting distinct identities as a
+ *      proxy for distinct observations quietly assumed it did.
+ *   2. The "agreement to within 0.04" previously reported was measured on the PROVISIONAL
+ *      figures, because that analysis kept the first occurrence under each identity. After
+ *      settlement the two sources agree EXACTLY, 0.00, on every session.
+ *
+ * This module abstains on such a session, which is right as a fail-closed default and is
+ * NOT the right final answer: a revision is not a contradiction. Separating them needs a
+ * RECORDING time alongside `observedAt`, which observations do not currently carry. That
+ * is a declaration change, deliberately not invented here.
+ *
  * WHAT IT DOES NOT DO, deliberately:
  *   - it names no domain, channel, source, instrument, market or clock time. Every one
  *     of those arrives as declared data. `if (channel === 'finnhub')` is the failure mode
@@ -29,8 +46,8 @@
  *     RESULT; using agreement to decide whether they may be compared would assume the
  *     conclusion.
  *   - it does not lower, raise or reinterpret the evidence threshold. MIN_ALIGNED is
- *     imported from core/divergence.js rather than redefined, because a second copy of
- *     that number is a second thing to drift.
+ *     imported from core/divergence.js rather than redefined, and a caller cannot
+ *     override it downward.
  */
 
 'use strict';
@@ -50,7 +67,9 @@ var MIN_ALIGNED = DIV.MIN_OBSERVATIONS;
  *
  *   SESSION_CLOSE  the value is the settled figure FOR a session. One per session.
  *   POINT_IN_TIME  the value is an instantaneous reading AT an instant. Many per session,
- *                  which is why it must be reduced before it can meet a session close.
+ *                  which is why it must be reduced before it can meet a session close,
+ *                  and why it must additionally declare how close to the close its
+ *                  reading has to be.
  */
 var INTERVAL = {
   SESSION_CLOSE: 'session_close',
@@ -63,19 +82,28 @@ var INTERVAL = {
  * one level up.
  */
 var ABSTAIN = {
-  NO_INTERVAL:         'no_declared_reference_interval',
-  UNKNOWN_INTERVAL:    'unknown_reference_interval_kind',
-  NO_CALENDAR_DECLARED:'channel_declares_no_calendar',
-  CALENDAR_MISMATCH:   'sides_declare_different_calendars',
-  CALENDAR_MISSING:    'declared_calendar_was_not_supplied',
-  CALENDAR_INCOMPLETE: 'calendar_missing_timezone_close_or_session_days',
-  TIMEZONE_UNSUPPORTED:'runtime_cannot_resolve_calendar_timezone',
-  NO_OBSERVED_AT:      'observation_carries_no_observedAt',
-  NO_IDENTITY:         'observation_carries_no_identity',
-  NO_VALUE:            'observation_carries_no_finite_value',
-  NOT_A_SESSION_DAY:   'observation_falls_on_a_non_session_day',
-  OUTSIDE_WINDOW:      'point_in_time_observation_outside_the_session_window',
-  NO_SESSION_OVERLAP:  'no_session_is_covered_by_both_sides'
+  NO_INTERVAL:          'no_declared_reference_interval',
+  UNKNOWN_INTERVAL:     'unknown_reference_interval_kind',
+  NO_CALENDAR_DECLARED: 'channel_declares_no_calendar',
+  CALENDAR_MISMATCH:    'sides_declare_different_calendars',
+  CALENDAR_MISSING:     'declared_calendar_was_not_supplied',
+  CALENDAR_INCOMPLETE:  'calendar_missing_timezone_close_or_session_days',
+  CALENDAR_BAD_TIME:    'calendar_open_or_close_is_not_a_valid_time_of_day',
+  CALENDAR_WINDOW_INVERTED: 'calendar_open_is_not_before_close',
+  CALENDAR_BAD_SESSION_DAYS: 'calendar_sessionDays_are_not_distinct_integers_0_to_6',
+  CALENDAR_BAD_HOLIDAYS: 'calendar_holidays_are_not_well_formed_calendar_dates',
+  TIMEZONE_UNSUPPORTED: 'runtime_cannot_resolve_calendar_timezone',
+  NO_MAX_LAG:           'point_in_time_channel_declares_no_maxLagFromCloseMs',
+  BAD_MAX_LAG:          'maxLagFromCloseMs_is_not_a_positive_finite_number',
+  MIN_ALIGNED_TOO_LOW:  'minAligned_override_below_the_evidence_floor',
+  NO_OBSERVED_AT:       'observation_carries_no_observedAt',
+  NO_IDENTITY:          'observation_carries_no_identity',
+  NO_VALUE:             'observation_carries_no_finite_value',
+  NOT_A_SESSION_DAY:    'observation_falls_on_a_non_session_day',
+  OUTSIDE_WINDOW:       'point_in_time_observation_outside_the_session_window',
+  TOO_FAR_FROM_CLOSE:   'freshest_point_in_time_reading_is_older_than_the_declared_max_lag',
+  CONFLICTING:          'two_observations_share_an_instant_and_disagree_on_value',
+  NO_SESSION_OVERLAP:   'no_session_is_covered_by_both_sides'
 };
 
 /* ── time, in the calendar's own zone ─────────────────────────────────────────────── */
@@ -144,6 +172,28 @@ function weekdayOf(dateStr) {
   return new Date(Date.UTC(d[0], d[1] - 1, d[2])).getUTCDay();
 }
 
+/* ── declaration validation, all of it fail-closed and named ──────────────────────── */
+
+function validTimeOfDay(s) {
+  if (typeof s !== 'string' || !/^\d{2}:\d{2}$/.test(s)) return false;
+  var h = +s.slice(0, 2), m = +s.slice(3, 5);
+  return h >= 0 && h <= 23 && m >= 0 && m <= 59;
+}
+function minutesOfDay(s) { return (+s.slice(0, 2)) * 60 + (+s.slice(3, 5)); }
+
+/**
+ * A DATE THAT DOES NOT EXIST MUST BE REJECTED, NOT ROLLED FORWARD. `Date.UTC(2026, 1, 30)`
+ * happily yields 2 March, so a holiday declared as "2026-02-30" would silently suppress a
+ * different day than the one written down. Round-tripping the components catches it.
+ */
+function validCalendarDate(s) {
+  if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  var y = +s.slice(0, 4), mo = +s.slice(5, 7), d = +s.slice(8, 10);
+  if (mo < 1 || mo > 12 || d < 1 || d > 31) return false;
+  var dt = new Date(Date.UTC(y, mo - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === mo - 1 && dt.getUTCDate() === d;
+}
+
 /**
  * WEEKENDS AND HOLIDAYS ARE DECLARED, NOT ASSUMED, and this module ships no market
  * calendar of its own. Inventing a holiday list would be fabricating data, and an
@@ -152,8 +202,7 @@ function weekdayOf(dateStr) {
  * jobs are to place the session window and to REJECT a day that cannot be a session.
  */
 function isSessionDay(dateStr, cal) {
-  var dow = weekdayOf(dateStr);
-  if (cal.sessionDays.indexOf(dow) < 0) return false;
+  if (cal.sessionDays.indexOf(weekdayOf(dateStr)) < 0) return false;
   if (cal.holidays && cal.holidays.indexOf(dateStr) >= 0) return false;
   return true;
 }
@@ -161,9 +210,33 @@ function isSessionDay(dateStr, cal) {
 function calendarProblem(cal) {
   if (!cal) return ABSTAIN.CALENDAR_MISSING;
   if (typeof cal.timeZone !== 'string' || !cal.timeZone ||
-      typeof cal.close !== 'string' || !/^\d{2}:\d{2}$/.test(cal.close) ||
+      cal.close === undefined || cal.close === null ||
       !Array.isArray(cal.sessionDays) || !cal.sessionDays.length) {
     return ABSTAIN.CALENDAR_INCOMPLETE;
+  }
+  /* Structure before zone lookup, so a malformed calendar reports the specific fault
+     rather than whichever check happens to run first. */
+  if (!validTimeOfDay(cal.close)) return ABSTAIN.CALENDAR_BAD_TIME;
+  if (cal.open !== undefined && cal.open !== null) {
+    if (!validTimeOfDay(cal.open)) return ABSTAIN.CALENDAR_BAD_TIME;
+    /* An open at or after the close is either a typo or an overnight session. This module
+       does not model overnight sessions, and guessing which was meant would place every
+       window wrongly, so it declines instead. */
+    if (minutesOfDay(cal.open) >= minutesOfDay(cal.close)) return ABSTAIN.CALENDAR_WINDOW_INVERTED;
+  }
+  var seenDay = Object.create(null);
+  for (var i = 0; i < cal.sessionDays.length; i++) {
+    var d = cal.sessionDays[i];
+    if (typeof d !== 'number' || !isFinite(d) || d % 1 !== 0 || d < 0 || d > 6 || seenDay[d]) {
+      return ABSTAIN.CALENDAR_BAD_SESSION_DAYS;
+    }
+    seenDay[d] = true;
+  }
+  if (cal.holidays !== undefined && cal.holidays !== null) {
+    if (!Array.isArray(cal.holidays)) return ABSTAIN.CALENDAR_BAD_HOLIDAYS;
+    for (var h = 0; h < cal.holidays.length; h++) {
+      if (!validCalendarDate(cal.holidays[h])) return ABSTAIN.CALENDAR_BAD_HOLIDAYS;
+    }
   }
   if (!timeZoneUsable(cal.timeZone)) return ABSTAIN.TIMEZONE_UNSUPPORTED;
   return null;
@@ -176,6 +249,21 @@ function intervalProblem(spec) {
     return ABSTAIN.UNKNOWN_INTERVAL;
   }
   if (typeof ri.calendar !== 'string' || !ri.calendar) return ABSTAIN.NO_CALENDAR_DECLARED;
+  /**
+   * A POINT-IN-TIME CHANNEL MUST DECLARE HOW STALE ITS READING MAY BE.
+   *
+   * Being inside the session window is not enough. A feed that dies at lunchtime still has
+   * a "latest reading in the window", and comparing that against a settled close is the
+   * same intraday-versus-close error this module exists to refuse, only harder to see
+   * because both observations now carry the same session. The tolerance is a property of
+   * the channel, so the channel declares it; an undeclared one abstains rather than
+   * inheriting a default that would be wrong for some publisher.
+   */
+  if (ri.kind === INTERVAL.POINT_IN_TIME) {
+    if (ri.maxLagFromCloseMs === undefined || ri.maxLagFromCloseMs === null) return ABSTAIN.NO_MAX_LAG;
+    if (typeof ri.maxLagFromCloseMs !== 'number' || !isFinite(ri.maxLagFromCloseMs) ||
+        ri.maxLagFromCloseMs <= 0) return ABSTAIN.BAD_MAX_LAG;
+  }
   return null;
 }
 
@@ -191,16 +279,20 @@ function intervalProblem(spec) {
  * to one identity. Nothing about how long a value persists may raise its evidential
  * weight.
  *
- * Selection: the latest `observedAt` at or before the session close, ties broken by the
- * lexicographically greatest identity. The tie-break is not cosmetic. Two aliases of one
- * publication can share an instant, and picking by arrival order would make the result
- * depend on recording order, which would break replay and restoration determinism.
+ * Grouping happens first and selection second, so nothing about the result depends on
+ * arrival order. An earlier draft folded selection into the scan, which made conflict
+ * detection order-dependent: a contradictory pair that had already been superseded by a
+ * later reading was never compared against anything and went unnoticed.
+ *
+ * Selection: the latest `observedAt`, ties broken by the lexicographically greatest
+ * identity. The tie-break is not cosmetic — two aliases of one publication can share an
+ * instant, and picking by arrival order would make replay and restoration non-deterministic.
  */
 function reduceToSessions(side, cal, notes) {
-  var kind = side.spec.referenceInterval.kind;
-  var bySession = Object.create(null);
-  var dropped = Object.create(null);
-  function drop(reason) { dropped[reason] = (dropped[reason] || 0) + 1; }
+  var ri = side.spec.referenceInterval;
+  var kind = ri.kind;
+  var groups = Object.create(null);
+  function drop(reason) { notes[reason] = (notes[reason] || 0) + 1; }
 
   (side.observations || []).forEach(function (o) {
     if (!o || o.identity === undefined || o.identity === null || o.identity === '') return drop(ABSTAIN.NO_IDENTITY);
@@ -220,17 +312,58 @@ function reduceToSessions(side, cal, notes) {
       if (o.observedAt > closeAt || o.observedAt < openAt) return drop(ABSTAIN.OUTSIDE_WINDOW);
     }
 
-    var held = bySession[session];
-    if (!held) { bySession[session] = { session: session, chosen: o, considered: 1 }; return; }
-    held.considered++;
-    if (o.observedAt > held.chosen.observedAt ||
-       (o.observedAt === held.chosen.observedAt && String(o.identity) > String(held.chosen.identity))) {
-      held.chosen = o;
-    }
+    (groups[session] || (groups[session] = [])).push(o);
   });
 
-  Object.keys(dropped).forEach(function (r) { notes[r] = (notes[r] || 0) + dropped[r]; });
-  return bySession;
+  var bySession = Object.create(null);
+  var folded = 0;
+  Object.keys(groups).forEach(function (session) {
+    var arr = groups[session];
+
+    /**
+     * CONTRADICTORY EVIDENCE IS NOT RESOLVED BY A TIE-BREAK. Two observations stamped at
+     * the same instant carrying different values cannot both be that instant's reading.
+     * Picking one by identity ordering would settle a contradiction by alphabet, which is
+     * arbitrary dressed as deterministic. The session abstains, and only that session:
+     * one bad session must not discard five sound ones.
+     */
+    var byInstant = Object.create(null), conflict = false;
+    for (var i = 0; i < arr.length; i++) {
+      var at = arr[i].observedAt;
+      if (byInstant[at] !== undefined && byInstant[at] !== arr[i].value) { conflict = true; break; }
+      byInstant[at] = arr[i].value;
+    }
+    if (conflict) { notes[ABSTAIN.CONFLICTING] = (notes[ABSTAIN.CONFLICTING] || 0) + 1; return; }
+
+    var chosen = arr[0];
+    for (var j = 1; j < arr.length; j++) {
+      if (arr[j].observedAt > chosen.observedAt ||
+         (arr[j].observedAt === chosen.observedAt && String(arr[j].identity) > String(chosen.identity))) {
+        chosen = arr[j];
+      }
+    }
+
+    /* Freshness is checked on the CHOSEN reading, not on every candidate: routine
+       intraday readings are supposed to be far from the close, and counting each of them
+       as a staleness event would bury the one fact this counter exists to surface, which
+       is that a session's FRESHEST reading was too old to stand against a close. */
+    if (kind === INTERVAL.POINT_IN_TIME) {
+      var close2 = instantForLocal(session, cal.close, cal.timeZone);
+      if (close2 - chosen.observedAt > ri.maxLagFromCloseMs) {
+        notes[ABSTAIN.TOO_FAR_FROM_CLOSE] = (notes[ABSTAIN.TOO_FAR_FROM_CLOSE] || 0) + 1;
+        return;
+      }
+    }
+
+    /* Counted for EVERY surviving session, matched or not. An earlier version summed this
+       over aligned pairs only, so persistence folded away on a session the other side
+       never covered was invisible, and the reported figure understated how much repetition
+       the gate had actually discarded. */
+    folded += arr.length - 1;
+    bySession[session] = { session: session, chosen: chosen, considered: arr.length };
+  });
+
+  return { bySession: bySession, folded: folded };
 }
 
 /* ── the gate ─────────────────────────────────────────────────────────────────────── */
@@ -239,7 +372,7 @@ function reduceToSessions(side, cal, notes) {
  * Decide whether a declared pair is comparable, and on which sessions.
  *
  *   a, b       { spec, observations }
- *              spec.referenceInterval = { kind, calendar }
+ *              spec.referenceInterval = { kind, calendar, maxLagFromCloseMs? }
  *              observations = [{ identity, value, observedAt }]
  *   calendars  { <id>: { timeZone, close, sessionDays, open?, holidays? } }
  *
@@ -254,8 +387,23 @@ function reduceToSessions(side, cal, notes) {
  */
 function evaluate(a, b, calendars, opts) {
   opts = opts || {};
-  var minAligned = (typeof opts.minAligned === 'number') ? opts.minAligned : MIN_ALIGNED;
   var notes = Object.create(null);
+  var calId = null;
+
+  /**
+   * THE FLOOR CANNOT BE LOWERED BY A CALLER. `opts.minAligned` exists so a study can
+   * demand MORE evidence, never less. An override below the floor is a programming error
+   * and is refused by name rather than silently clamped, because a clamp would let a
+   * caller believe it ran a relaxed gate and got a pass.
+   */
+  var minAligned = MIN_ALIGNED;
+  if (opts.minAligned !== undefined && opts.minAligned !== null) {
+    if (typeof opts.minAligned !== 'number' || !isFinite(opts.minAligned) ||
+        opts.minAligned % 1 !== 0 || opts.minAligned < MIN_ALIGNED) {
+      return verdict(false, ABSTAIN.MIN_ALIGNED_TOO_LOW, { requested: opts.minAligned, floor: MIN_ALIGNED });
+    }
+    minAligned = opts.minAligned;
+  }
 
   var pa = intervalProblem(a && a.spec), pb = intervalProblem(b && b.spec);
   if (pa || pb) return verdict(false, pa || pb, { side: pa ? 'a' : 'b' });
@@ -266,13 +414,15 @@ function evaluate(a, b, calendars, opts) {
     });
   }
 
-  var calId = a.spec.referenceInterval.calendar;
+  calId = a.spec.referenceInterval.calendar;
   var cal = (calendars || {})[calId];
   var cp = calendarProblem(cal);
   if (cp) return verdict(false, cp, { calendar: calId });
 
-  var sa = reduceToSessions(a, cal, notes);
-  var sb = reduceToSessions(b, cal, notes);
+  var ra = reduceToSessions(a, cal, notes);
+  var rb = reduceToSessions(b, cal, notes);
+  var sa = ra.bySession, sb = rb.bySession;
+  var collapsedAll = ra.folded + rb.folded;
 
   /* Sorted so the aligned set is byte-identical across runs, replays and restorations.
      Object key order is insertion order, which is arrival order, which is not stable. */
@@ -283,8 +433,6 @@ function evaluate(a, b, calendars, opts) {
       session: s,
       a: { identity: sa[s].chosen.identity, value: sa[s].chosen.value, observedAt: sa[s].chosen.observedAt },
       b: { identity: sb[s].chosen.identity, value: sb[s].chosen.value, observedAt: sb[s].chosen.observedAt },
-      /* How many observations were folded away on each side for this session. Evidence of
-         collapse having happened, rather than an assurance that it did. */
       collapsed: { a: sa[s].considered - 1, b: sb[s].considered - 1 }
     };
   });
@@ -297,7 +445,9 @@ function evaluate(a, b, calendars, opts) {
   var movingA = Object.keys(va).length >= 2;
   var movingB = Object.keys(vb).length >= 2;
 
-  if (!pairs.length) return verdict(false, ABSTAIN.NO_SESSION_OVERLAP, { pairs: pairs, notes: notes });
+  if (!pairs.length) {
+    return verdict(false, ABSTAIN.NO_SESSION_OVERLAP, { collapsed: collapsedAll });
+  }
 
   var enough = pairs.length >= minAligned;
   return {
@@ -312,24 +462,25 @@ function evaluate(a, b, calendars, opts) {
     sessions: sessions,
     pairs: pairs,
     movement: { a: movingA, b: movingB },
-    /* Collapse totals across every session, so "persistence did not inflate this" is a
-       number a reader can check rather than a claim they have to take. */
-    collapsed: pairs.reduce(function (n, p) { return n + p.collapsed.a + p.collapsed.b; }, 0),
+    /* EVERY observation folded away by session selection, across every surviving session
+       on both sides, not only the aligned ones. `collapsedAligned` is the subset that sits
+       under the pairs above; reporting only that one understated the discard. */
+    collapsed: collapsedAll,
+    collapsedAligned: pairs.reduce(function (n, p) { return n + p.collapsed.a + p.collapsed.b; }, 0),
     abstentions: notes
   };
 
   function verdict(comparable, why, extra) {
     var v = {
       comparable: comparable, eligible: false, why: why,
-      calendar: calId || null, minAligned: minAligned,
-      alignedSessions: (extra && extra.pairs) ? extra.pairs.length : 0,
-      sessions: [], pairs: (extra && extra.pairs) || [],
-      movement: { a: false, b: false }, collapsed: 0,
-      abstentions: (extra && extra.notes) || notes
+      calendar: calId, minAligned: minAligned,
+      alignedSessions: 0, sessions: [], pairs: [],
+      movement: { a: false, b: false },
+      collapsed: (extra && typeof extra.collapsed === 'number') ? extra.collapsed : 0,
+      collapsedAligned: 0,
+      abstentions: notes
     };
-    if (extra) Object.keys(extra).forEach(function (k) {
-      if (k !== 'pairs' && k !== 'notes') v[k] = extra[k];
-    });
+    if (extra) Object.keys(extra).forEach(function (k) { if (k !== 'collapsed') v[k] = extra[k]; });
     return v;
   }
 }
@@ -339,9 +490,11 @@ module.exports = {
   ABSTAIN: ABSTAIN,
   MIN_ALIGNED: MIN_ALIGNED,
   evaluate: evaluate,
-  /* Exported for testing the time handling directly. Pure, no clock read. */
+  /* Exported for testing the time and declaration handling directly. All pure, no clock. */
   localDateOf: localDateOf,
   instantForLocal: instantForLocal,
   isSessionDay: isSessionDay,
-  timeZoneUsable: timeZoneUsable
+  timeZoneUsable: timeZoneUsable,
+  validCalendarDate: validCalendarDate,
+  validTimeOfDay: validTimeOfDay
 };

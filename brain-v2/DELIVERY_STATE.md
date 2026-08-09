@@ -944,8 +944,9 @@ Reaching 6/6 would not have made that pair safe to compare. Measured on the same
 | Alpha Vantage stale | **0.445** | 102 |
 
 **102 of 110 rows (93%) compared an intraday quote against the PREVIOUS session's close.** Worst
-5.03 on a ~770 price. Aligned properly the two sources agree to within 0.04, so every large
-apparent disagreement was staleness. The existing machinery would not have caught it: both sides
+5.03 on a ~770 price, so every large apparent disagreement was staleness. (The "within 0.04"
+figure this paragraph used to end on is **withdrawn**; see the restatement finding below. Aligned
+and settled, the two agree exactly.) The existing machinery would not have caught it: both sides
 grade `source` tier, the authoritative one, and `divergence.js` `confounded` offers exactly two
 hypotheses, `regime_separation` and `wrong_relationship_declaration`. Cadence mismatch is neither.
 
@@ -968,12 +969,37 @@ evidence. **Identity count and movement are computed on the ALIGNED SUBSET only*
 finance case one channel carries 107 distinct values while the comparable series carries 4, and
 the larger number describes activity the relationship never sees.
 
-**Run against real production rows the gate reproduces the hand measurement exactly**: 4 aligned
-sessions (Aug 4, 5, 6, 7), diffs 0.00 / 0.02 / 0.04 / 0.04, `comparable: true`, `eligible: false`,
-why "only 4 aligned session(s), 6 required", **216 observations folded away** that a raw identity
-count would have credited as evidence.
+**Run against real production rows the finished gate finds ONE aligned session, not four**, and
+that difference is the most important thing this PR measured. `comparable: true`,
+`eligible: false`, why "only 1 aligned session(s), 6 required", 103 observations folded away, and
+**four sessions abstaining as `CONFLICTING`**.
 
-63 assertions in `brain-v2/test/comparability.js`, all synthetic and clock-free, covering DST in
+### THE IDENTITY DOES NOT DETERMINE THE VALUE, and that is a hole one level up
+
+**Alpha Vantage RESTATES its session close under an unchanged identity**, about two hours after
+first publishing it. Measured over the recorded rows:
+
+| session | provisional (x2 polls) | revised (holds) | Finnhub close-quote |
+|---|---:|---:|---:|
+| 2026-08-05 | 769.77 | **769.79** | 769.79 |
+| 2026-08-06 | 768.60 | **768.56** | 768.56 |
+| 2026-08-07 | 773.22 | **773.26** | 773.26 |
+
+Finnhub does it too, once (`quote-t:1786043304`, 769.44 then 769.40).
+
+**Two corrections follow, both to numbers this file previously carried.** First, an identity
+carrying two different values means **counting distinct identities was never a sufficient proxy
+for counting distinct observations**, which is the assumption the whole 6-identity gate rests on.
+Second, the earlier "agree to within 0.02-0.04" was measured on the PROVISIONAL figures, because
+that analysis kept only the first occurrence under each identity. **After settlement the two
+sources agree exactly, 0.00, on every session.**
+
+The gate abstains on a restated session. That is correct as a fail-closed default and is **not**
+the right final answer: a revision is not a contradiction. Separating them needs a RECORDING time
+alongside `observedAt`, which observations do not currently carry. That is a declaration change
+and is deliberately **not** invented here.
+
+116 assertions in `brain-v2/test/comparability.js`, all synthetic and clock-free, covering DST in
 both directions, weekends, declared holidays, intraday-versus-close, stale-close, duplicates,
 aliases, arrival-order and serialize/restore determinism, a second exchange calendar, every
 metadata gap failing closed with a named reason, and 5-does-not-qualify against 6-does.
@@ -985,13 +1011,13 @@ metadata gap failing closed with a named reason, and 5-does-not-qualify against 
 - **domains promoted**: none. Installed stays 20 of 20.
 - **remaining domains**: 0. Unchanged; the batching step is closed.
 - **current gate**: comparability, and it is now instrumented rather than argued. The candidate
-  stands at **4 of 6 cadence-aligned sessions**, capped at one per trading day by the slower side.
-  **Finnhub's 22 identities cannot raise that number.**
+  stands at **1 of 6 cadence-aligned sessions**, capped at one per trading day by the slower side
+  and reduced further by restatement. **Finnhub's 22 identities cannot raise that number.**
 - **known unknowns**: (a) the gate is proven against synthetic fixtures and one live capture; it is
   **not wired into any binder or the runtime**, so no channel yet declares a `referenceInterval`
   and nothing calls it in production; (b) whether a session-aligned series is the right reference
   interval for pairs that are not exchange-quoted is undetermined, and the module abstains rather
-  than guessing; (c) properly aligned, the candidate's four sessions agree to 0.04, so the likely
+  than guessing; (c) aligned and settled, the candidate's sessions agree EXACTLY, so the likely
   outcome at six is a **convergent** verdict. Source agreement is a legitimate result and must be
   reported as such, never as a divergence discovery.
 - **exact next action**: accumulate two further cadence-aligned sessions and re-measure from
@@ -999,6 +1025,36 @@ metadata gap failing closed with a named reason, and 5-does-not-qualify against 
   raw identity accumulation and is **withdrawn**. Not activation, and not wiring: declaring
   `referenceInterval` on channels is the activation PR's work, deliberately not bundled here so a
   regression in either would be attributable.
+
+### Five defects found in review of the first draft, each with its own negative control
+
+Every one was reachable from the first draft and each fix is proved by reverting it and watching
+named assertions fail (2, 5, 3, 5 and 5 failures respectively).
+
+1. **Inside the window was treated as near the close.** A feed dying at lunchtime still had a
+   "latest reading in the window" and stood against a settled close, which is the same
+   intraday-versus-close error in a harder-to-see form. `POINT_IN_TIME` channels now declare
+   `maxLagFromCloseMs` and abstain outside it; an undeclared tolerance fails closed rather than
+   inheriting a default that would be wrong for some publisher. Freshness is checked on the CHOSEN
+   reading, so routine intraday readings are not miscounted as staleness.
+2. **`opts.minAligned` could lower the floor.** It is now refused by name below `MIN_ALIGNED`
+   rather than silently clamped, because a clamp lets a caller believe it ran a relaxed gate and
+   got a pass. Stricter overrides are still honoured and reported.
+3. **Calendar validation was incomplete.** Out-of-range or malformed `open`/`close`, an open at or
+   after the close, non-distinct or out-of-range `sessionDays`, and malformed `holidays` each
+   return their own named abstention. **A holiday of `2026-02-30` no longer normalises into 2
+   March**, which would have suppressed a different day than the one written down.
+4. **Contradictory evidence was resolved by tie-break.** Two values stamped at one instant were
+   settled by identity ordering, which is arbitrary dressed as deterministic. Such a session now
+   abstains, and only that session. Grouping was moved ahead of selection so detection cannot
+   depend on arrival order: the previous draft compared only against the currently selected
+   observation, so a contradiction already superseded by a later reading went unnoticed.
+5. **`collapsed` undercounted.** It summed folds over aligned pairs only, so persistence discarded
+   on a session the other side never covered was invisible. The total now covers every surviving
+   session on both sides, with `collapsedAligned` reported separately.
+
+Defect 4 is what surfaced the restatement finding above: the rule fired on real data, and
+investigating why turned up a value changing under a fixed identity.
 
 ### Also folded in, both previously approved and non-blocking
 

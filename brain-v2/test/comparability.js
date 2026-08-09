@@ -11,6 +11,9 @@
  *
  * Every fixture is built from explicit UTC instants. Nothing here reads the clock, so a
  * pass today is a pass in December.
+ *
+ * T15 onward are negative controls for defects found in review of the first draft. Each
+ * one FAILED before its fix, and each is written so that reverting the fix fails it.
  */
 
 'use strict';
@@ -43,34 +46,35 @@ var CAL = {
   }
 };
 
+var QUARTER_HOUR = 15 * 60 * 1000;
 var CLOSE_SPEC = { referenceInterval: { kind: CMP.INTERVAL.SESSION_CLOSE, calendar: 'equities' } };
-var TICK_SPEC  = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'equities' } };
+var TICK_SPEC  = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'equities', maxLagFromCloseMs: QUARTER_HOUR } };
 var CLOSE_NH   = { referenceInterval: { kind: CMP.INTERVAL.SESSION_CLOSE, calendar: 'noHolidays' } };
-var TICK_NH    = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'noHolidays' } };
+var TICK_NH    = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'noHolidays', maxLagFromCloseMs: QUARTER_HOUR } };
 
 function utc(y, mo, d, h, mi) { return Date.UTC(y, mo - 1, d, h || 0, mi || 0, 0); }
 function obs(identity, value, observedAt) { return { identity: identity, value: value, observedAt: observedAt }; }
+function dateOf(d) { return '2026-08-' + (d < 10 ? '0' + d : d); }
 
 /* Six real trading sessions, weekend skipped. 2026-08-07 is a Friday. */
 var SESSIONS = ['2026-08-04', '2026-08-05', '2026-08-06', '2026-08-07', '2026-08-10', '2026-08-11'];
 var DAYNUM   = [4, 5, 6, 7, 10, 11];
 
+function closeAtOf(d, cal) {
+  cal = cal || CAL.noHolidays;
+  return CMP.instantForLocal(dateOf(d), cal.close, cal.timeZone);
+}
+
 /** A close-side series: one settled figure per session, at that session's close instant. */
 function closeSeries(days, baseValue, cal) {
-  cal = cal || CAL.noHolidays;
-  return days.map(function (d, i) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    return obs('vendorA|day:' + date, baseValue + i, CMP.instantForLocal(date, cal.close, cal.timeZone));
-  });
+  return days.map(function (d, i) { return obs('vendorA|day:' + dateOf(d), baseValue + i, closeAtOf(d, cal)); });
 }
 
 /** A tick-side series: several intraday readings per session plus the closing one. */
 function tickSeries(days, baseValue, cal) {
-  cal = cal || CAL.noHolidays;
   var out = [];
   days.forEach(function (d, i) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    var closeAt = CMP.instantForLocal(date, cal.close, cal.timeZone);
+    var closeAt = closeAtOf(d, cal);
     /* Two intraday readings at deliberately WRONG values, then the closing one. If the
        reducer picked any of the first two the aligned values would not match. */
     out.push(obs('vendorB|t:' + (closeAt - 7200000), baseValue + i + 5.0, closeAt - 7200000));
@@ -96,7 +100,7 @@ function tickSeries(days, baseValue, cal) {
     v.pairs.every(function (p) { return p.a.value === p.b.value; }),
     JSON.stringify(v.pairs.map(function (p) { return [p.a.value, p.b.value]; })));
   assert('and the two intraday readings per session were folded away',
-    v.collapsed === 12, String(v.collapsed));
+    v.collapsed === 12 && v.collapsedAligned === 12, String(v.collapsed));
 })();
 
 // ── T2: THE THRESHOLD IS NOT WEAKENED ────────────────────────────────────────────────
@@ -135,14 +139,14 @@ function tickSeries(days, baseValue, cal) {
 
 // ── T4: aliases of one publication must not become two observations ──────────────────
 (function () {
-  console.log('T4: two aliases for the same session collapse, deterministically');
+  console.log('T4: two aliases carrying the SAME value collapse, deterministically');
   var closes = closeSeries(DAYNUM, 100);
   var aliased = [];
   closes.forEach(function (o) {
     aliased.push(o);
-    /* Same session, same instant, different identity string, DIFFERENT value. If both
-       survived, the aligned series would silently depend on which arrived first. */
-    aliased.push(obs('vendorA-mirror|' + o.identity, o.value + 99, o.observedAt));
+    /* Same session, same instant, different identity string, SAME value: a genuine alias
+       of one publication. Conflicting values at one instant are T18's business. */
+    aliased.push(obs('vendorA-mirror|' + o.identity, o.value, o.observedAt));
   });
   var v = CMP.evaluate(
     { spec: CLOSE_NH, observations: aliased },
@@ -160,11 +164,7 @@ function tickSeries(days, baseValue, cal) {
 
 // ── T5: the measured production failure, reproduced and refused ──────────────────────
 (function () {
-  console.log('T5: a close compared against the NEXT session\'s intraday tick does not align');
-  /* Side A publishes closes for Aug 4,5,6,7,10,11. Side B publishes ticks only on the
-     FOLLOWING sessions. Same instrument, same calendar, six identities each, zero
-     comparable sessions. This is the 93%-stale shape with the overlap removed. */
-  var later = [5, 6, 7, 10, 11, 12];
+  console.log('T5: a close compared against a LATER session\'s intraday tick does not align');
   var v = CMP.evaluate(
     { spec: CLOSE_NH, observations: closeSeries([3, 4, 5, 6, 7, 10], 100) },
     { spec: TICK_NH,  observations: tickSeries([11, 12, 13, 14, 17, 18], 100) },
@@ -173,31 +173,25 @@ function tickSeries(days, baseValue, cal) {
   assert('and the reason is that no session is covered by both',
     v.why === CMP.ABSTAIN.NO_SESSION_OVERLAP, v.why);
   assert('zero aligned sessions', v.alignedSessions === 0, String(v.alignedSessions));
-  assert('six identities per side did not help', later.length === 6);
+  assert('six identities per side did not help', v.pairs.length === 0);
 })();
 
 // ── T6: an out-of-window tick is not the session's close ─────────────────────────────
 (function () {
   console.log('T6: a tick after the close belongs to no session and is dropped');
-  var after = DAYNUM.map(function (d) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    var closeAt = CMP.instantForLocal(date, CAL.noHolidays.close, CAL.noHolidays.timeZone);
-    return obs('vendorB|after:' + date, 999, closeAt + 3600000);   // one hour after the close
-  });
+  var after = DAYNUM.map(function (d) { return obs('vendorB|after:' + dateOf(d), 999, closeAtOf(d) + 3600000); });
   var v = CMP.evaluate(
     { spec: CLOSE_NH, observations: closeSeries(DAYNUM, 100) },
     { spec: TICK_NH,  observations: after },
     CAL);
   assert('no overlap', v.comparable === false && v.why === CMP.ABSTAIN.NO_SESSION_OVERLAP, v.why);
   assert('and every after-close tick is counted under its own reason',
-    v.abstentions[CMP.ABSTAIN.OUTSIDE_WINDOW] === 6,
-    JSON.stringify(v.abstentions));
+    v.abstentions[CMP.ABSTAIN.OUTSIDE_WINDOW] === 6, JSON.stringify(v.abstentions));
 
   console.log('T6b: a tick BEFORE the open is dropped for the same reason');
   var early = DAYNUM.map(function (d) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    return obs('vendorB|pre:' + date, 999,
-      CMP.instantForLocal(date, CAL.noHolidays.open, CAL.noHolidays.timeZone) - 60000);
+    return obs('vendorB|pre:' + dateOf(d), 999,
+      CMP.instantForLocal(dateOf(d), CAL.noHolidays.open, CAL.noHolidays.timeZone) - 60000);
   });
   var v2 = CMP.evaluate(
     { spec: CLOSE_NH, observations: closeSeries(DAYNUM, 100) },
@@ -210,15 +204,11 @@ function tickSeries(days, baseValue, cal) {
 (function () {
   console.log('T7: a weekend observation is not a session');
   /* 2026-08-08 is a Saturday and 2026-08-09 a Sunday. */
-  var weekend = [
-    obs('w|sat', 100, utc(2026, 8, 8, 20, 0)),
-    obs('w|sun', 101, utc(2026, 8, 9, 20, 0))
-  ];
-  var v = CMP.evaluate(
-    { spec: CLOSE_NH, observations: weekend },
-    { spec: CLOSE_NH, observations: weekend }, CAL);
-  assert('both weekend days rejected', v.abstentions[CMP.ABSTAIN.NOT_A_SESSION_DAY] === 4,
-    JSON.stringify(v.abstentions));
+  var weekend = [obs('w|sat', 100, utc(2026, 8, 8, 20, 0)), obs('w|sun', 101, utc(2026, 8, 9, 20, 0))];
+  var v = CMP.evaluate({ spec: CLOSE_NH, observations: weekend },
+                       { spec: CLOSE_NH, observations: weekend }, CAL);
+  assert('both weekend days rejected on both sides',
+    v.abstentions[CMP.ABSTAIN.NOT_A_SESSION_DAY] === 4, JSON.stringify(v.abstentions));
   assert('and nothing aligns', v.comparable === false, v.why);
 
   console.log('T7b: a DECLARED holiday is not a session, and the same date is fine without the declaration');
@@ -247,16 +237,17 @@ function tickSeries(days, baseValue, cal) {
     (CMP.instantForLocal('2026-08-07', '16:00', 'America/New_York') - utc(2026, 8, 7, 16, 0)) === 3600000);
 
   /* A winter tick at 20:30Z is INSIDE the session (15:30 EST); the identical wall-clock
-     instant in summer would be after the close. A fixed offset cannot get both right. */
-  var winterClose = CMP.instantForLocal('2026-01-09', '16:00', 'America/New_York');
+     instant in summer is after the close. A fixed offset cannot get both right. This spec
+     declares an hour of tolerance so the DST point is tested independently of T15's. */
+  var HOUR_TICK = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'noHolidays', maxLagFromCloseMs: 3600000 } };
   var v = CMP.evaluate(
-    { spec: CLOSE_NH, observations: [obs('a|w', 50, winterClose)] },
-    { spec: TICK_NH,  observations: [obs('b|w', 50, utc(2026, 1, 9, 20, 30))] }, CAL);
+    { spec: CLOSE_NH, observations: [obs('a|w', 50, CMP.instantForLocal('2026-01-09', '16:00', 'America/New_York'))] },
+    { spec: HOUR_TICK, observations: [obs('b|w', 50, utc(2026, 1, 9, 20, 30))] }, CAL);
   assert('a 20:30Z winter tick is inside the session and aligns', v.alignedSessions === 1,
     JSON.stringify(v.abstentions));
   var v2 = CMP.evaluate(
     { spec: CLOSE_NH, observations: [obs('a|s', 50, CMP.instantForLocal('2026-08-07', '16:00', 'America/New_York'))] },
-    { spec: TICK_NH,  observations: [obs('b|s', 50, utc(2026, 8, 7, 20, 30))] }, CAL);
+    { spec: HOUR_TICK, observations: [obs('b|s', 50, utc(2026, 8, 7, 20, 30))] }, CAL);
   assert('the same 20:30Z clock time in summer is AFTER the close and is dropped',
     v2.abstentions[CMP.ABSTAIN.OUTSIDE_WINDOW] === 1, JSON.stringify(v2.abstentions));
 })();
@@ -264,16 +255,10 @@ function tickSeries(days, baseValue, cal) {
 // ── T9: counts come from the aligned subset, not the channel ─────────────────────────
 (function () {
   console.log('T9: movement is judged on the aligned series, not the whole channel');
-  /* The tick channel is wildly active intraday, but every CLOSING tick is the same
-     number, and the close side is flat too. The channel moves; the comparison does not. */
-  var flatCloses = DAYNUM.map(function (d) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    return obs('a|' + date, 500, CMP.instantForLocal(date, CAL.noHolidays.close, CAL.noHolidays.timeZone));
-  });
+  var flatCloses = DAYNUM.map(function (d) { return obs('a|' + dateOf(d), 500, closeAtOf(d)); });
   var busyTicks = [];
   DAYNUM.forEach(function (d, i) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    var closeAt = CMP.instantForLocal(date, CAL.noHolidays.close, CAL.noHolidays.timeZone);
+    var closeAt = closeAtOf(d);
     busyTicks.push(obs('b|x' + i, 400 + i * 13, closeAt - 7200000));
     busyTicks.push(obs('b|y' + i, 600 - i * 11, closeAt - 3600000));
     busyTicks.push(obs('b|c' + i, 500, closeAt));
@@ -304,8 +289,7 @@ function tickSeries(days, baseValue, cal) {
       === CMP.ABSTAIN.NO_CALENDAR_DECLARED);
   assert('the two sides declare different calendars',
     why({ spec: CLOSE_SPEC, observations: [] }, good) === CMP.ABSTAIN.CALENDAR_MISMATCH);
-  assert('the declared calendar was not supplied',
-    why(good, good, {}) === CMP.ABSTAIN.CALENDAR_MISSING);
+  assert('the declared calendar was not supplied', why(good, good, {}) === CMP.ABSTAIN.CALENDAR_MISSING);
   assert('the calendar is missing a close time',
     why(good, good, { noHolidays: { timeZone: 'America/New_York', sessionDays: [1] } })
       === CMP.ABSTAIN.CALENDAR_INCOMPLETE);
@@ -338,18 +322,15 @@ function tickSeries(days, baseValue, cal) {
   var b = { spec: TICK_NH,  observations: tickSeries(DAYNUM, 100) };
   var first = CMP.evaluate(a, b, CAL);
 
-  var a2 = JSON.parse(JSON.stringify(a)), b2 = JSON.parse(JSON.stringify(b)), cal2 = JSON.parse(JSON.stringify(CAL));
-  var second = CMP.evaluate(a2, b2, cal2);
+  var second = CMP.evaluate(JSON.parse(JSON.stringify(a)), JSON.parse(JSON.stringify(b)),
+                            JSON.parse(JSON.stringify(CAL)));
   assert('identical after a JSON round trip of every input',
     JSON.stringify(first) === JSON.stringify(second));
 
-  /* Recording order is not evidence. A replay that re-reads the same rows in a different
-     order must not produce a different aligned set. */
   var shuffled = { spec: TICK_NH, observations: b.observations.slice().sort(function (x, y) {
     return String(x.identity) < String(y.identity) ? -1 : 1; }) };
   assert('and identical when the observations arrive in a different order',
     JSON.stringify(CMP.evaluate(a, shuffled, CAL)) === JSON.stringify(first));
-
   assert('running it twice on the same input changes nothing',
     JSON.stringify(CMP.evaluate(a, b, CAL)) === JSON.stringify(first));
 })();
@@ -357,22 +338,18 @@ function tickSeries(days, baseValue, cal) {
 // ── T12: nothing here is tuned to one market ─────────────────────────────────────────
 (function () {
   console.log('T12: a structurally different calendar works with no code change');
-  var days = [4, 5, 6, 7, 10, 11];
-  var closes = days.map(function (d, i) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    return obs('jp|' + date, 3000 + i, CMP.instantForLocal(date, CAL.tokyo.close, CAL.tokyo.timeZone));
-  });
+  var days = DAYNUM;
+  var closes = days.map(function (d, i) { return obs('jp|' + dateOf(d), 3000 + i, closeAtOf(d, CAL.tokyo)); });
   var ticks = [];
   days.forEach(function (d, i) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    var closeAt = CMP.instantForLocal(date, CAL.tokyo.close, CAL.tokyo.timeZone);
+    var closeAt = closeAtOf(d, CAL.tokyo);
     ticks.push(obs('jp2|early' + i, 9999, closeAt - 5400000));
-    ticks.push(obs('jp2|' + date, 3000 + i, closeAt));
+    ticks.push(obs('jp2|' + dateOf(d), 3000 + i, closeAt));
   });
-  var TOKYO_CLOSE = { referenceInterval: { kind: CMP.INTERVAL.SESSION_CLOSE, calendar: 'tokyo' } };
-  var TOKYO_TICK  = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'tokyo' } };
-  var v = CMP.evaluate({ spec: TOKYO_CLOSE, observations: closes },
-                       { spec: TOKYO_TICK,  observations: ticks }, CAL);
+  var v = CMP.evaluate(
+    { spec: { referenceInterval: { kind: CMP.INTERVAL.SESSION_CLOSE, calendar: 'tokyo' } }, observations: closes },
+    { spec: { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'tokyo', maxLagFromCloseMs: QUARTER_HOUR } }, observations: ticks },
+    CAL);
   assert('six aligned sessions on a different exchange calendar', v.alignedSessions === 6,
     String(v.alignedSessions));
   assert('eligible', v.eligible === true, v.why);
@@ -384,44 +361,246 @@ function tickSeries(days, baseValue, cal) {
 // ── T13: comparability is not decided by agreement ───────────────────────────────────
 (function () {
   console.log('T13: values never decide comparability');
-  var closes = closeSeries(DAYNUM, 100);
-  var wild = DAYNUM.map(function (d, i) {
-    var date = '2026-08-' + (d < 10 ? '0' + d : d);
-    return obs('b|' + date, 1000000 * (i + 1),
-      CMP.instantForLocal(date, CAL.noHolidays.close, CAL.noHolidays.timeZone));
-  });
-  var v = CMP.evaluate({ spec: CLOSE_NH, observations: closes },
+  var wild = DAYNUM.map(function (d, i) { return obs('b|' + dateOf(d), 1000000 * (i + 1), closeAtOf(d)); });
+  var v = CMP.evaluate({ spec: CLOSE_NH, observations: closeSeries(DAYNUM, 100) },
                        { spec: CLOSE_NH, observations: wild }, CAL);
   assert('two sides that violently disagree are still COMPARABLE', v.comparable === true, v.why);
   assert('and eligible, because whether they agree is divergence\'s question, not this one',
     v.eligible === true, v.why);
 
-  /* The mirror: identical values on sessions that do not overlap must not align. */
-  var same = [3, 4, 5, 6, 7, 10];
-  var other = [11, 12, 13, 14, 17, 18];
-  var v2 = CMP.evaluate(
-    { spec: CLOSE_NH, observations: closeSeries(same, 42).map(function (o) { return obs(o.identity, 42, o.observedAt); }) },
-    { spec: CLOSE_NH, observations: closeSeries(other, 42).map(function (o) { return obs(o.identity, 42, o.observedAt); }) },
-    CAL);
+  var flat = function (days) {
+    return days.map(function (d) { return obs('x|' + dateOf(d), 42, closeAtOf(d)); });
+  };
+  var v2 = CMP.evaluate({ spec: CLOSE_NH, observations: flat([3, 4, 5, 6, 7, 10]) },
+                        { spec: CLOSE_NH, observations: flat([11, 12, 13, 14, 17, 18]) }, CAL);
   assert('and perfectly equal values on disjoint sessions do NOT align',
     v2.comparable === false && v2.why === CMP.ABSTAIN.NO_SESSION_OVERLAP, v2.why);
 })();
 
 // ── T14: the gate activates nothing ──────────────────────────────────────────────────
 (function () {
-  console.log('T14: the module cannot activate a pathway or move a threshold');
+  console.log('T14: the module cannot activate a pathway');
   var api = Object.keys(require('../core/comparability.js')).sort().join(',');
-  assert('its surface is a verdict and time helpers, with no activate/enable/promote',
+  assert('its surface is a verdict and pure helpers, with no activate/enable/promote',
     !/activat|enable|promote|install/i.test(api), api);
-  assert('MIN_ALIGNED is read-only in practice: a caller override cannot go below the floor',
-    CMP.evaluate({ spec: CLOSE_NH, observations: closeSeries(DAYNUM.slice(0, 2), 1) },
-                 { spec: TICK_NH,  observations: tickSeries(DAYNUM.slice(0, 2), 1) },
-                 CAL, { minAligned: 2 }).minAligned === 2,
-    'an explicit opts.minAligned is honoured and REPORTED, so a relaxed run cannot be mistaken for a default one');
-  assert('while the default remains six',
-    CMP.evaluate({ spec: CLOSE_NH, observations: closeSeries(DAYNUM.slice(0, 2), 1) },
-                 { spec: TICK_NH,  observations: tickSeries(DAYNUM.slice(0, 2), 1) },
-                 CAL).minAligned === 6);
+})();
+
+// ── T15: a feed that stops early must not stand against a settled close ──────────────
+(function () {
+  console.log('T15: NEGATIVE CONTROL — inside the window is not the same as near the close');
+  /* Every session has ticks, all comfortably inside the window, but the feed dies three
+     hours before the close. Before the maxLag rule these produced six aligned sessions and
+     a PASS, comparing a lunchtime reading against a settled close. */
+  var early = [];
+  DAYNUM.forEach(function (d, i) {
+    var closeAt = closeAtOf(d);
+    early.push(obs('b|a' + i, 700 + i, closeAt - 14400000));
+    early.push(obs('b|b' + i, 701 + i, closeAt - 10800000));
+  });
+  var v = CMP.evaluate({ spec: CLOSE_NH, observations: closeSeries(DAYNUM, 100) },
+                       { spec: TICK_NH,  observations: early }, CAL);
+  assert('no session survives', v.comparable === false && v.why === CMP.ABSTAIN.NO_SESSION_OVERLAP, v.why);
+  assert('each session is counted ONCE as too far from the close, not once per tick',
+    v.abstentions[CMP.ABSTAIN.TOO_FAR_FROM_CLOSE] === 6, JSON.stringify(v.abstentions));
+  assert('and routine intraday ticks are not miscounted as staleness on a healthy feed',
+    CMP.evaluate({ spec: CLOSE_NH, observations: closeSeries(DAYNUM, 100) },
+                 { spec: TICK_NH,  observations: tickSeries(DAYNUM, 100) }, CAL)
+      .abstentions[CMP.ABSTAIN.TOO_FAR_FROM_CLOSE] === undefined);
+
+  console.log('T15b: the tolerance is declared, and its absence fails closed');
+  var noLag = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'noHolidays' } };
+  assert('a point-in-time channel with no maxLagFromCloseMs abstains',
+    CMP.evaluate({ spec: CLOSE_NH, observations: [] }, { spec: noLag, observations: [] }, CAL).why
+      === CMP.ABSTAIN.NO_MAX_LAG);
+  [0, -1, 'soon', NaN, Infinity].forEach(function (bad) {
+    var s = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'noHolidays', maxLagFromCloseMs: bad } };
+    assert('a maxLagFromCloseMs of ' + JSON.stringify(bad) + ' abstains',
+      CMP.evaluate({ spec: CLOSE_NH, observations: [] }, { spec: s, observations: [] }, CAL).why
+        === CMP.ABSTAIN.BAD_MAX_LAG);
+  });
+  assert('a session close is NOT subject to the lag rule, having no intraday samples',
+    CMP.evaluate({ spec: CLOSE_NH, observations: closeSeries(DAYNUM, 100) },
+                 { spec: CLOSE_NH, observations: closeSeries(DAYNUM, 200) }, CAL).eligible === true);
+})();
+
+// ── T16: the floor cannot be lowered by a caller ─────────────────────────────────────
+(function () {
+  console.log('T16: NEGATIVE CONTROL — opts.minAligned cannot go below the evidence floor');
+  var two = DAYNUM.slice(0, 2);
+  var a = { spec: CLOSE_NH, observations: closeSeries(two, 1) };
+  var b = { spec: TICK_NH,  observations: tickSeries(two, 1) };
+  [1, 2, 5, 0, -3].forEach(function (n) {
+    var v = CMP.evaluate(a, b, CAL, { minAligned: n });
+    assert('minAligned ' + n + ' is refused by name, not clamped',
+      v.eligible === false && v.why === CMP.ABSTAIN.MIN_ALIGNED_TOO_LOW, v.why);
+  });
+  assert('a non-integer override is refused too',
+    CMP.evaluate(a, b, CAL, { minAligned: 6.5 }).why === CMP.ABSTAIN.MIN_ALIGNED_TOO_LOW);
+  assert('the floor itself is accepted', CMP.evaluate(a, b, CAL, { minAligned: 6 }).minAligned === 6);
+  assert('and a STRICTER override is honoured and reported',
+    CMP.evaluate({ spec: CLOSE_NH, observations: closeSeries(DAYNUM, 1) },
+                 { spec: TICK_NH,  observations: tickSeries(DAYNUM, 1) }, CAL, { minAligned: 10 })
+      .eligible === false);
+  assert('while the default remains six', CMP.evaluate(a, b, CAL).minAligned === 6);
+})();
+
+// ── T17: calendar declarations are validated, never normalised ───────────────────────
+(function () {
+  console.log('T17: NEGATIVE CONTROL — a malformed calendar abstains by name and never rolls a date forward');
+  var good = { spec: CLOSE_NH, observations: closeSeries(DAYNUM, 100) };
+  function whyCal(cal) { return CMP.evaluate(good, good, { noHolidays: cal }).why; }
+  var base = { timeZone: 'America/New_York', close: '16:00', sessionDays: [1, 2, 3, 4, 5] };
+  function with_(k, v) { var c = Object.assign({}, base); c[k] = v; return c; }
+
+  assert('an out-of-range close abstains', whyCal(with_('close', '99:99')) === CMP.ABSTAIN.CALENDAR_BAD_TIME);
+  assert('a close of 24:00 abstains', whyCal(with_('close', '24:00')) === CMP.ABSTAIN.CALENDAR_BAD_TIME);
+  assert('a malformed close abstains', whyCal(with_('close', '4pm')) === CMP.ABSTAIN.CALENDAR_BAD_TIME);
+  assert('an out-of-range open abstains', whyCal(with_('open', '25:00')) === CMP.ABSTAIN.CALENDAR_BAD_TIME);
+  assert('a non-string open abstains', whyCal(with_('open', 930)) === CMP.ABSTAIN.CALENDAR_BAD_TIME);
+  assert('an open after the close abstains rather than modelling an overnight session',
+    whyCal(with_('open', '17:00')) === CMP.ABSTAIN.CALENDAR_WINDOW_INVERTED);
+  assert('an open EQUAL to the close abstains, since the window would be empty',
+    whyCal(with_('open', '16:00')) === CMP.ABSTAIN.CALENDAR_WINDOW_INVERTED);
+
+  [[7], [-1], [1, 1], [1.5], ['1'], [null]].forEach(function (bad) {
+    assert('sessionDays ' + JSON.stringify(bad) + ' abstains',
+      whyCal(with_('sessionDays', bad)) === CMP.ABSTAIN.CALENDAR_BAD_SESSION_DAYS);
+  });
+
+  assert('a non-array holidays abstains',
+    whyCal(with_('holidays', '2026-08-06')) === CMP.ABSTAIN.CALENDAR_BAD_HOLIDAYS);
+  assert('a malformed holiday date abstains',
+    whyCal(with_('holidays', ['2026-8-6'])) === CMP.ABSTAIN.CALENDAR_BAD_HOLIDAYS);
+  /* THE ONE THAT WOULD HAVE SUPPRESSED THE WRONG DAY. Date.UTC(2026, 1, 30) is 2 March, so
+     a normalising implementation would quietly close a session nobody declared. */
+  assert('a date that does not exist abstains instead of rolling into the next month',
+    whyCal(with_('holidays', ['2026-02-30'])) === CMP.ABSTAIN.CALENDAR_BAD_HOLIDAYS);
+  assert('and the underlying check agrees',
+    CMP.validCalendarDate('2026-02-30') === false && CMP.validCalendarDate('2026-02-28') === true &&
+    CMP.validCalendarDate('2026-13-01') === false && CMP.validCalendarDate('2026-08-06') === true);
+  assert('a well-formed holiday list is still accepted',
+    whyCal(with_('holidays', ['2026-08-06'])) === null || whyCal(with_('holidays', ['2026-08-06'])) === undefined ||
+    CMP.evaluate(good, good, { noHolidays: with_('holidays', ['2026-08-06']) }).comparable === true);
+})();
+
+// ── T18: contradictory evidence abstains rather than being tie-broken ────────────────
+(function () {
+  console.log('T18: NEGATIVE CONTROL — two values stamped at one instant cannot be resolved by ordering');
+  var closes = closeSeries(DAYNUM, 100);
+  var conflicted = [];
+  closes.forEach(function (o, i) {
+    conflicted.push(o);
+    /* Same session, same instant, DIFFERENT value. Lexical tie-breaking would have picked
+       one of them and reported a clean pair. */
+    if (i === 0) conflicted.push(obs('vendorA-zz|' + o.identity, o.value + 5, o.observedAt));
+  });
+  var v = CMP.evaluate({ spec: CLOSE_NH, observations: conflicted },
+                       { spec: TICK_NH,  observations: tickSeries(DAYNUM, 100) }, CAL);
+  assert('the conflicted session is excluded', v.alignedSessions === 5, String(v.alignedSessions));
+  assert('and it is the first one', v.sessions.indexOf('2026-08-04') < 0, v.sessions.join(','));
+  assert('counted under its own reason', v.abstentions[CMP.ABSTAIN.CONFLICTING] === 1,
+    JSON.stringify(v.abstentions));
+  assert('so the pair no longer qualifies', v.eligible === false, v.why);
+  assert('only the conflicted session is lost, not the sound ones', v.comparable === true);
+
+  /* ORDER INDEPENDENCE. An earlier draft detected conflicts only against the currently
+     selected observation, so a contradictory pair already superseded by a later reading
+     was never noticed. Here the contradiction sits BEFORE a later reading in one ordering
+     and after it in the other; both must abstain. */
+  var late = closeAtOf(4) ;
+  var trio = [
+    obs('c|1', 10, late - 60000),
+    obs('c|2', 20, late - 60000),
+    obs('c|3', 30, late)
+  ];
+  var f = CMP.evaluate({ spec: CLOSE_NH, observations: trio }, { spec: CLOSE_NH, observations: trio }, CAL);
+  var r = CMP.evaluate({ spec: CLOSE_NH, observations: trio.slice().reverse() },
+                       { spec: CLOSE_NH, observations: trio.slice().reverse() }, CAL);
+  assert('a superseded contradiction is still detected', f.alignedSessions === 0, JSON.stringify(f.abstentions));
+  assert('and detection does not depend on arrival order',
+    JSON.stringify(f.abstentions) === JSON.stringify(r.abstentions), JSON.stringify(r.abstentions));
+
+  console.log('T18b: identical values at one instant are an alias, not a conflict');
+  var same = [obs('d|1', 10, late), obs('d|2', 10, late)];
+  var v2 = CMP.evaluate({ spec: CLOSE_NH, observations: same }, { spec: CLOSE_NH, observations: same }, CAL);
+  assert('they collapse to one observation', v2.alignedSessions === 1, JSON.stringify(v2.abstentions));
+  assert('with no conflict recorded', v2.abstentions[CMP.ABSTAIN.CONFLICTING] === undefined,
+    JSON.stringify(v2.abstentions));
+})();
+
+// ── T19: the collapse figure covers every session, not only the aligned ones ─────────
+(function () {
+  console.log('T19: NEGATIVE CONTROL — persistence folded away on unmatched sessions is still counted');
+  /* Side A covers six sessions with 5 copies each; side B covers only three of them. The
+     folds on A's three unmatched sessions are real discards and were previously invisible,
+     because the total was summed over aligned pairs only. */
+  var a = [];
+  DAYNUM.forEach(function (d) {
+    for (var i = 0; i < 5; i++) a.push(obs('a|' + dateOf(d), 100 + d, closeAtOf(d)));
+  });
+  var b = [];
+  [4, 5, 6].forEach(function (d) {
+    for (var i = 0; i < 3; i++) b.push(obs('b|' + dateOf(d), 100 + d, closeAtOf(d)));
+  });
+  var v = CMP.evaluate({ spec: CLOSE_NH, observations: a }, { spec: CLOSE_NH, observations: b }, CAL);
+  assert('three aligned sessions', v.alignedSessions === 3, String(v.alignedSessions));
+  assert('the aligned-only figure is 4 per session on A plus 2 on B',
+    v.collapsedAligned === 3 * 4 + 3 * 2, String(v.collapsedAligned));
+  assert('but the reported total also covers A\'s three unmatched sessions',
+    v.collapsed === 6 * 4 + 3 * 2, String(v.collapsed));
+  assert('and the total is strictly larger than the aligned-only figure here',
+    v.collapsed > v.collapsedAligned);
+
+  console.log('T19b: and it is reported even when NOTHING aligns');
+  var v2 = CMP.evaluate(
+    { spec: CLOSE_NH, observations: a },
+    { spec: CLOSE_NH, observations: [obs('z|1', 1, closeAtOf(17)), obs('z|2', 1, closeAtOf(17))] }, CAL);
+  assert('no overlap', v2.comparable === false && v2.why === CMP.ABSTAIN.NO_SESSION_OVERLAP);
+  assert('yet the discarded repetition is still counted', v2.collapsed === 6 * 4 + 1,
+    String(v2.collapsed));
+})();
+
+// ── T20: the production shape that the conflict rule actually caught ─────────────────
+(function () {
+  console.log('T20: a source that RESTATES a value under an unchanged identity abstains');
+  /**
+   * MEASURED, 2026-08-09, and it corrected a number this file's own header quoted.
+   *
+   * Alpha Vantage publishes a session close, then revises it about two hours later under
+   * the SAME `trading-day` identity: 769.77 -> 769.79 (Aug 5), 768.60 -> 768.56 (Aug 6),
+   * 773.22 -> 773.26 (Aug 7). The revised figure is the one that matches the other side's
+   * close exactly. An earlier analysis kept only the first occurrence per identity and so
+   * reported "agreement to within 0.04"; after settlement the two agree to 0.00.
+   *
+   * THE IDENTITY THEREFORE DOES NOT DETERMINE THE VALUE, which is a hole in the evidence
+   * model one level up: counting distinct identities silently assumed it did.
+   *
+   * The gate abstains here and that is the correct fail-closed behaviour, but abstention is
+   * not the RIGHT long-term answer: a revision is not a contradiction, and telling them
+   * apart needs a recording time the observation does not currently carry. Deliberately
+   * not invented here. This test pins the behaviour so the decision is made explicitly
+   * rather than by whoever edits the reducer next.
+   */
+  var closeAt = closeAtOf(5);
+  var revised = [
+    obs('av|trading-day:2026-08-05', 769.77, closeAt),
+    obs('av|trading-day:2026-08-05', 769.77, closeAt),
+    obs('av|trading-day:2026-08-05', 769.79, closeAt),
+    obs('av|trading-day:2026-08-05', 769.79, closeAt)
+  ];
+  var other = [obs('fh|close', 769.79, closeAt)];
+  var v = CMP.evaluate({ spec: CLOSE_NH, observations: revised },
+                       { spec: CLOSE_NH, observations: other }, CAL);
+  assert('the restated session abstains rather than picking a value',
+    v.alignedSessions === 0 && v.abstentions[CMP.ABSTAIN.CONFLICTING] === 1,
+    JSON.stringify(v.abstentions));
+  assert('and it abstains whichever order the two values arrive in',
+    JSON.stringify(CMP.evaluate({ spec: CLOSE_NH, observations: revised.slice().reverse() },
+                                { spec: CLOSE_NH, observations: other }, CAL).abstentions)
+      === JSON.stringify(v.abstentions));
+  assert('a source that does NOT restate is unaffected',
+    CMP.evaluate({ spec: CLOSE_NH, observations: [obs('av|x', 769.79, closeAt), obs('av|x', 769.79, closeAt)] },
+                 { spec: CLOSE_NH, observations: other }, CAL).alignedSessions === 1);
 })();
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
