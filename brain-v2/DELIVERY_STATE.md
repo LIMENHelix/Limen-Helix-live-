@@ -1,6 +1,6 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-09T00:40Z
+measured_at: 2026-08-09T13:27Z
 measured_at_commit: 1eb36379dc76fdcea546c961efc264e94fa0620d
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
@@ -47,7 +47,7 @@ evidence, and it is still zero. A domain can be bound, installed, and evidence n
 |---|---|
 | total domains | 20 |
 | **BOUND** (validating binder + a fixture that binder can read) | **20 of 20** |
-| **INSTALLED** in the production shadow runtime | **17 executing now**, 20 declared by this PR. Production ran seventeen at 2026-08-09T00:27Z; the three added here execute only after merge. |
+| **INSTALLED** in the production shadow runtime | **17 executing now**, 20 declared by this PR. Production ran seventeen at 2026-08-09T13:27:31Z, all `ok:true` and all `restored:true`; the three added here execute only after merge. |
 | not yet installed | **0 after this PR.** The roster is complete. That is a statement about MEMBERSHIP and about nothing else. |
 | **relationships ACTIVE as neural pathways** | **0 of 10** |
 | declared relationships | 10, in energy (7) and finance (3) only. All eighteen batch-1 through batch-4 domains declare **zero**, so no installation ever could activate a pathway even by mistake. |
@@ -604,8 +604,24 @@ reported `stateValueBytesTotal`, checked rather than assumed. Batch 3's five con
 `ok:true` and **`restored:true`**, which is the gate that released the batch-3 merge. At 00:27Z
 they are still backfilling at 120 rows per cycle, and compaction has begun firing on them
 (infrastructure retired 101 records, environment 100). Batch 3's own five correctly report
-`restored:false` on their first cycle; **their restoration is not yet proven and is the gate on
-batch 4.**
+`restored:false` on their first cycle, which is correct for a first cycle and not yet restoration.
+
+**PROVEN — restoration for batch 3's five, and the gate on batch 4 is therefore CLEARED.**
+Measured at the **2026-08-09T13:27:31Z** cycle by an authenticated read of `/api/brain-shadow`
+against `1eb36379`, not inferred from the merge: `installedCount:17`, **seventeen of seventeen
+`ok:true` AND `restored:true`**, agriculture, law, defense, technology and governance among them.
+Every domain reported `rowsApplied:1`, so backfill is finished across the whole installed roster
+and all seventeen are in steady state. `stateValueBytesTotal` **52,511,522 B (50.08 MiB)**, and
+the seventeen per-domain figures sum to exactly that, checked rather than assumed.
+
+This is the line that read "their restoration is not yet proven and is the gate on batch 4"
+until 2026-08-09. It was true when written and stopped being true at 13:27Z; leaving it standing
+would have held PR #17 against a gate that had already opened.
+
+**The 50.08 MiB is an AGGREGATE and is not a request-ceiling figure.** State is read and written
+sequentially, one domain per request, so the value to compare against any per-request ceiling
+remains the largest SINGLE domain. Comparing the seventeen-domain total against a request limit
+is the same error the batch-1 unit note already withdrew, in a new place.
 
 **The mature seven now retire only 1 record per cycle** against 2-3 at 22:27Z, while the
 backfilling domains retire in the hundreds. Retirement tracks how much arrived, not how long a
@@ -743,16 +759,27 @@ Seventeen domains have been running in production accumulating exactly this, so 
 now repairs it, and the repair is reported through `/api/brain-shadow` because it MUTATES
 restored learning state — an invisible drop in open work reads as loss, not repair.
 
-An item is closed only when its prediction is present in the restored registry AND terminal.
-**Deliberately left alone**: items whose prediction is still open, however far in the future they
-fall due; items with no `predictionId`; and items whose prediction is absent from the registry,
-because it may have been archived while the item is legitimately pending and "not found" is not
-evidence of termination. Idempotent, so the second cycle repairs nothing.
+An item is closed as repaired only when its prediction is present in the restored registry AND
+terminal. **Deliberately left alone**: items whose prediction is still open, however far in the
+future they fall due; items with no `predictionId`; and items whose prediction is absent from the
+registry but which are **not yet due**, because it may have been archived while the item is
+legitimately pending and "not found" is not evidence of termination. Idempotent, so the second
+cycle repairs nothing.
+
+**An absent prediction on an item that is ALREADY DUE is a different case and is NOT left alone.**
+An earlier revision of this paragraph said absent-prediction items were untouched without that
+split, and the defect section below revoked it; the two statements stood in the same document.
+Overdue-and-unreachable items close as `unresolvable` and are counted separately as
+`repairedMissingPrediction`. The reasoning and the negative controls are in defect 2 below, and
+this paragraph now agrees with it.
 
 **The repair had a destructive defect that its own test caught.** It decided per record but
 closed by id, so on a legacy collision holding one terminal-linked and one live-linked record it
 destroyed the live one. That is what `closeRecord` exists for. Expect a one-off non-zero
-`prospectiveRepair.repaired` on the first post-deploy cycle per domain, then zeroes.
+`prospectiveRepair.repaired` on the first post-deploy cycle per domain, then zeroes. The first
+cycle is likewise the only measurement of the LEGACY backlog of `repairedMissingPrediction`, but
+that counter does not then go permanently to zero: compaction orphans items in ordinary
+operation, so a small ongoing trickle is correct behaviour rather than a recurring fault.
 
 ### TWO MORE UPGRADE-PATH DEFECTS, neither reachable from fresh state
 
@@ -801,12 +828,17 @@ failure names which hop lost the field, with `0` kept distinguishable from never
 - **current gate**: hot state growth, and this PR moves it rather than re-passing it. The gate
   FAILED at 40 and 60 cycles on communication, the cause was found and fixed, and the gate is
   re-run at 40, 60 and 100 across all twenty. A pass at one cadence was not accepted as a pass.
-- **known unknowns**: (a) batch 3's five have not yet returned `restored:true`, which is the
-  stated gate on merging this PR; (a2) **how much stranded prospective work the seventeen
+- **known unknowns**: (a) **CLEARED 2026-08-09T13:27:31Z, not unknown any longer.** This read
+  "batch 3's five have not yet returned `restored:true`, which is the stated gate on merging this
+  PR". All seventeen returned `ok:true` and `restored:true` at that cycle, so the gate is met and
+  nothing about this PR is waiting on it; (a2) **how much stranded prospective work the seventeen
   production domains are actually carrying is unknown until they restore.** The repair is proven
   against a doctored snapshot through the real runtime, not against production state, and its
-  size there cannot be read without a cycle. The first post-deploy `prospectiveRepair.repaired`
-  per domain is that measurement; (a3) the saturation plateau at 4,509 was measured on synthetic
+  size there cannot be read without a cycle. The first post-deploy cycle per domain is that
+  measurement, and it is **`prospectiveRepair.repaired` AND `repairedMissingPrediction`**, which
+  are different facts and are counted separately for that reason: "its prediction finished" and
+  "its prediction is unreachable". Recording only the first would lose half of a measurement that
+  is available exactly once; (a3) the saturation plateau at 4,509 was measured on synthetic
   rows and the residual 13 open items are not proven to be a production floor; (b) production `stateValueBytes` for these three is unknown
   until their first cycle, and for culture and religion the offline figure is a floor for a
   second reason — they now start at row 373 and consume their readable tail immediately rather
@@ -816,13 +848,14 @@ failure names which hop lost the field, with `0` kept distinguishable from never
   production recorder history is a different, growing window — if a future window contains no
   readable row for an opted-in domain the policy declines and that domain behaves exactly as it
   does today, which is why it fails closed rather than open.
-- **exact next action**: hold for batch 3's `restored:true`, then merge, then read
-  `/api/brain-shadow` and confirm `installedCount: 20` with twenty `ok:true`,
-  `coldStartSkip.applied:true` for culture and religion, and record
-  `prospectiveRepair.repaired` per domain — that number is the only measurement of how much
-  stranded work production was holding, and it is available exactly once per domain. Not pathway
-  activation: 0 of 10 relationships are analyzer-testable and completing the roster changed none
-  of them.
+- **exact next action**: merge. The hold for batch 3's `restored:true` is discharged, measured at
+  13:27:31Z. Then read `/api/brain-shadow` after the first `:27` cycle and confirm
+  `installedCount: 20` with twenty `ok:true`, `coldStartSkip.applied:true` for culture and
+  religion, and record **both** `prospectiveRepair.repaired` and
+  `prospectiveRepair.repairedMissingPrediction` per domain. Those two together are the only
+  measurement of how much stranded work production was holding, they are available exactly once
+  per domain, and an earlier version of this line named only the first. Not pathway activation:
+  0 of 10 relationships are analyzer-testable and completing the roster changed none of them.
 
 ---
 
