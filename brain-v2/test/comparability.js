@@ -53,7 +53,16 @@ var CLOSE_NH   = { referenceInterval: { kind: CMP.INTERVAL.SESSION_CLOSE, calend
 var TICK_NH    = { referenceInterval: { kind: CMP.INTERVAL.POINT_IN_TIME, calendar: 'noHolidays', maxLagFromCloseMs: QUARTER_HOUR } };
 
 function utc(y, mo, d, h, mi) { return Date.UTC(y, mo - 1, d, h || 0, mi || 0, 0); }
-function obs(identity, value, observedAt) { return { identity: identity, value: value, observedAt: observedAt }; }
+/**
+ * `recordedAt` is OPTIONAL and is omitted entirely when not passed, so legacy fixtures have
+ * no such key rather than a null one. Time is INJECTED here in every case; nothing in this
+ * file reads a clock, which is what makes a pass today a pass in December.
+ */
+function obs(identity, value, observedAt, recordedAt) {
+  var o = { identity: identity, value: value, observedAt: observedAt };
+  if (recordedAt !== undefined) o.recordedAt = recordedAt;
+  return o;
+}
 function dateOf(d) { return '2026-08-' + (d < 10 ? '0' + d : d); }
 
 /* Six real trading sessions, weekend skipped. 2026-08-07 is a Friday. */
@@ -498,8 +507,11 @@ function tickSeries(days, baseValue, cal) {
                        { spec: TICK_NH,  observations: tickSeries(DAYNUM, 100) }, CAL);
   assert('the conflicted session is excluded', v.alignedSessions === 5, String(v.alignedSessions));
   assert('and it is the first one', v.sessions.indexOf('2026-08-04') < 0, v.sessions.join(','));
-  assert('counted under its own reason', v.abstentions[CMP.ABSTAIN.CONFLICTING] === 1,
-    JSON.stringify(v.abstentions));
+  /* UNORDERABLE, not CONFLICTING: these observations carry no `recordedAt`, so the question
+     "which came later" cannot even be asked. Calling that a contradiction would claim more
+     than is known. The contradiction case proper is T21c. */
+  assert('counted as unorderable, because neither carries a receipt time',
+    v.abstentions[CMP.ABSTAIN.UNORDERABLE] === 1, JSON.stringify(v.abstentions));
   assert('so the pair no longer qualifies', v.eligible === false, v.why);
   assert('only the conflicted session is lost, not the sound ones', v.comparable === true);
 
@@ -591,8 +603,8 @@ function tickSeries(days, baseValue, cal) {
   var other = [obs('fh|close', 769.79, closeAt)];
   var v = CMP.evaluate({ spec: CLOSE_NH, observations: revised },
                        { spec: CLOSE_NH, observations: other }, CAL);
-  assert('the restated session abstains rather than picking a value',
-    v.alignedSessions === 0 && v.abstentions[CMP.ABSTAIN.CONFLICTING] === 1,
+  assert('WITHOUT a receipt time the restated session still abstains, as unorderable',
+    v.alignedSessions === 0 && v.abstentions[CMP.ABSTAIN.UNORDERABLE] === 1,
     JSON.stringify(v.abstentions));
   assert('and it abstains whichever order the two values arrive in',
     JSON.stringify(CMP.evaluate({ spec: CLOSE_NH, observations: revised.slice().reverse() },
@@ -601,6 +613,98 @@ function tickSeries(days, baseValue, cal) {
   assert('a source that does NOT restate is unaffected',
     CMP.evaluate({ spec: CLOSE_NH, observations: [obs('av|x', 769.79, closeAt), obs('av|x', 769.79, closeAt)] },
                  { spec: CLOSE_NH, observations: other }, CAL).alignedSessions === 1);
+})();
+
+// ── T21: revision ordering, the thing recordedAt exists for ──────────────────────────
+(function () {
+  console.log('T21: a later RECEIPT settles a restated value; the earlier one stays auditable');
+  /* Every instant here is explicit. Nothing reads a clock, so receipt times are injected
+     exactly as the recorder would have stamped them (handlers/feed-record.js row.t). */
+  var REC = { first: 1786000000000, revised: 1786007200000 };   // two hours apart
+  function rev(days) {
+    var out = [];
+    days.forEach(function (d, i) {
+      var at = closeAtOf(d);
+      out.push(obs('av|' + dateOf(d), 700 + i + 0.02, at, REC.first));     // provisional
+      out.push(obs('av|' + dateOf(d), 700 + i, at, REC.revised));          // restatement
+    });
+    return out;
+  }
+  var other = DAYNUM.map(function (d, i) { return obs('fh|' + dateOf(d), 700 + i, closeAtOf(d)); });
+  var v = CMP.evaluate({ spec: CLOSE_NH, observations: rev(DAYNUM) },
+                       { spec: CLOSE_NH, observations: other }, CAL);
+  assert('all six sessions resolve instead of abstaining', v.alignedSessions === 6,
+    JSON.stringify(v.abstentions));
+  assert('the LATER receipt is the value used, not the first-published one',
+    v.pairs.every(function (p) { return p.a.value === p.b.value; }),
+    JSON.stringify(v.pairs.map(function (p) { return [p.a.value, p.b.value]; })));
+  assert('every session is marked as resting on a revision', v.revisedSessions === 6,
+    String(v.revisedSessions));
+  var r0 = v.pairs[0].revisions.a[0];
+  assert('and the superseded figure is retained with the receipt that settled it',
+    !!r0 && r0.recordedAt === REC.revised && r0.superseded.length === 1 &&
+    r0.superseded[0].recordedAt === REC.first,
+    JSON.stringify(r0));
+  assert('the other side, which never revised, records none',
+    v.pairs.every(function (p) { return p.revisions.b.length === 0; }));
+
+  console.log('T21b: receipt order decides it, NOT array order');
+  var forward = CMP.evaluate({ spec: CLOSE_NH, observations: rev(DAYNUM) },
+                             { spec: CLOSE_NH, observations: other }, CAL);
+  var reversed = CMP.evaluate({ spec: CLOSE_NH, observations: rev(DAYNUM).reverse() },
+                              { spec: CLOSE_NH, observations: other.slice().reverse() }, CAL);
+  assert('reversing every input array changes nothing at all',
+    JSON.stringify(forward) === JSON.stringify(reversed));
+  /* The decisive control: put the PROVISIONAL row last in the array but keep it earlier by
+     receipt. Anything falling back to position would now pick the wrong value. */
+  var provisionalLast = [];
+  DAYNUM.forEach(function (d, i) {
+    var at = closeAtOf(d);
+    provisionalLast.push(obs('av|' + dateOf(d), 700 + i, at, REC.revised));
+    provisionalLast.push(obs('av|' + dateOf(d), 700 + i + 0.02, at, REC.first));
+  });
+  var v2 = CMP.evaluate({ spec: CLOSE_NH, observations: provisionalLast },
+                        { spec: CLOSE_NH, observations: other }, CAL);
+  assert('the last-in-array provisional value still loses to the earlier-received revision',
+    v2.alignedSessions === 6 && v2.pairs.every(function (p) { return p.a.value === p.b.value; }),
+    JSON.stringify(v2.pairs.map(function (p) { return p.a.value; })));
+
+  console.log('T21c: EQUAL receipt with differing values is a contradiction, not a revision');
+  var at0 = closeAtOf(4);
+  var tie = [obs('x|1', 10, at0, 1786000000000), obs('x|2', 20, at0, 1786000000000)];
+  var v3 = CMP.evaluate({ spec: CLOSE_NH, observations: tie },
+                        { spec: CLOSE_NH, observations: [obs('y', 10, at0, 1786000000000)] }, CAL);
+  assert('it abstains', v3.alignedSessions === 0);
+  assert('under CONFLICTING, distinct from unorderable',
+    v3.abstentions[CMP.ABSTAIN.CONFLICTING] === 1 &&
+    v3.abstentions[CMP.ABSTAIN.UNORDERABLE] === undefined, JSON.stringify(v3.abstentions));
+
+  console.log('T21d: a MISSING receipt on either side of a disagreement abstains');
+  [[obs('x|1', 10, at0, 1786000000000), obs('x|2', 20, at0)],
+   [obs('x|1', 10, at0), obs('x|2', 20, at0, 1786000000000)]].forEach(function (pair, i) {
+    var vv = CMP.evaluate({ spec: CLOSE_NH, observations: pair },
+                          { spec: CLOSE_NH, observations: [obs('y', 10, at0)] }, CAL);
+    assert('case ' + (i + 1) + ': unorderable, never silently ordered',
+      vv.alignedSessions === 0 && vv.abstentions[CMP.ABSTAIN.UNORDERABLE] === 1,
+      JSON.stringify(vv.abstentions));
+  });
+
+  console.log('T21e: LEGACY rows, carrying no receipt time at all, are unaffected when they agree');
+  var legacy = DAYNUM.map(function (d, i) { return obs('L|' + dateOf(d), 800 + i, closeAtOf(d)); });
+  var v4 = CMP.evaluate({ spec: CLOSE_NH, observations: legacy },
+                        { spec: CLOSE_NH, observations: legacy }, CAL);
+  assert('six aligned sessions with no recordedAt anywhere', v4.alignedSessions === 6,
+    JSON.stringify(v4.abstentions));
+  assert('and no revision is claimed for them', v4.revisedSessions === 0, String(v4.revisedSessions));
+
+  console.log('T21f: the verdict survives serialization with revisions intact');
+  var round = JSON.parse(JSON.stringify(v));
+  assert('byte-identical after a JSON round trip',
+    JSON.stringify(CMP.evaluate(JSON.parse(JSON.stringify({ spec: CLOSE_NH, observations: rev(DAYNUM) })),
+                                JSON.parse(JSON.stringify({ spec: CLOSE_NH, observations: other })),
+                                JSON.parse(JSON.stringify(CAL)))) === JSON.stringify(v));
+  assert('and the superseded record survives it',
+    round.pairs[0].revisions.a[0].superseded[0].value === v.pairs[0].revisions.a[0].superseded[0].value);
 })();
 
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
