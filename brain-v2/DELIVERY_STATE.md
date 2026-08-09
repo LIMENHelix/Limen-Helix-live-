@@ -1,7 +1,7 @@
 ---
 authority: MEASURED_SNAPSHOT
-measured_at: 2026-08-09T13:27Z
-measured_at_commit: 1eb36379dc76fdcea546c961efc264e94fa0620d
+measured_at: 2026-08-09T20:27Z
+measured_at_commit: 7b56f3aa946108cac305e90c2f376d4e9a2b151b
 notice: >
   This records state; it grants no merge, deployment, spending, or external-action
   authority. Nothing here authorises anything. Where a fact is mutable, re-verify it
@@ -47,7 +47,7 @@ evidence, and it is still zero. A domain can be bound, installed, and evidence n
 |---|---|
 | total domains | 20 |
 | **BOUND** (validating binder + a fixture that binder can read) | **20 of 20** |
-| **INSTALLED** in the production shadow runtime | **17 executing now**, 20 declared by this PR. Production ran seventeen at 2026-08-09T13:27:31Z, all `ok:true` and all `restored:true`; the three added here execute only after merge. |
+| **INSTALLED** in the production shadow runtime | **20 of 20 executing.** Production ran twenty at 2026-08-09T20:27Z, all `ok:true`, all `restored:true`, all at `rowsApplied:1`. The roster is complete and the batching program step is CLOSED. |
 | not yet installed | **0 after this PR.** The roster is complete. That is a statement about MEMBERSHIP and about nothing else. |
 | **relationships ACTIVE as neural pathways** | **0 of 10** |
 | declared relationships | 10, in energy (7) and finance (3) only. All eighteen batch-1 through batch-4 domains declare **zero**, so no installation ever could activate a pathway even by mistake. |
@@ -629,7 +629,7 @@ domain has been installed, and reading a low number as compaction weakening woul
 
 ---
 
-## BATCH 4: the last three, 17 of 20 to 20 of 20 (THIS PR, NOT YET IN PRODUCTION)
+## BATCH 4: the last three, 17 of 20 to 20 of 20 (MERGED `7b56f3aa`, VERIFIED IN PRODUCTION)
 
 **Evidence gained: none.** Completing the roster is a membership fact. No relationship moved,
 no distinct identity was added, no claim became citable. **Active pathways remain 0 of 10.**
@@ -856,6 +856,230 @@ failure names which hop lost the field, with `0` kept distinguishable from never
   measurement of how much stranded work production was holding, they are available exactly once
   per domain, and an earlier version of this line named only the first. Not pathway activation:
   0 of 10 relationships are analyzer-testable and completing the roster changed none of them.
+
+### VERIFIED IN PRODUCTION 2026-08-09 — twenty executed, and the one-shot repair record
+
+Merged as `7b56f3aa` at 14:58:25Z. Read from `/api/brain-shadow` with an operator token, not
+inferred from the merge. **This section is the record the next-action line above required, and it
+is written from the measurement itself rather than reconstructed later.**
+
+**First post-deploy cycle, 15:27:18Z.** `installedCount: 20`, twenty entries, **twenty `ok:true`,
+zero errors, zero abstentions anywhere.** Twenty products map to twenty distinct runtime domains.
+Batch wall clock **6.18 s** against `maxDuration: 800`. `stateValueBytesTotal` **54,536,556 B
+(52.01 MiB)**, the per-domain figures summing to exactly that.
+
+**THE ONE-SHOT PROSPECTIVE REPAIR, WHICH CANNOT BE READ AGAIN.** 563 `repaired` plus 76
+`repairedMissingPrediction` across the seventeen restoring domains:
+
+| domain | repaired | domain | repaired | domain | repaired |
+|---|---:|---|---:|---|---:|
+| **finance** | **279** (+76 missing) | education | 30 | agriculture | 11 |
+| infrastructure | 36 | population | 26 | energy | 9 |
+| science | 34 | economy | 14 | technology | 8 |
+| intelligence | 33 | medicine | 13 | trade | 7 |
+| environment | 31 | law | 13 | defense | 5 |
+| industry | 11 | governance | 3 | | |
+
+- **Every missing-prediction repair in the roster is finance's 76.** No other domain had one.
+- `skippedUnknownPrediction` was **0** everywhere: no not-yet-due orphan was touched.
+- `skippedLivePrediction` was exactly **6** on all seventeen.
+- communication, culture and religion report `prospectiveRepair: null` and always will. They never
+  ran the colliding-id version, so they carry no legacy backlog.
+- **Idempotency held in production**: every domain reported 0/0 on all five following cycles.
+  `null` before the deploy and `0` after, so "never ran" stayed distinguishable from "ran and
+  found nothing" on the live surface.
+- The prediction that `repairedMissingPrediction` "may show a small ongoing trickle" is **measured
+  at zero** over five cycles. Too short to falsify it; recorded as measurement, not expectation.
+
+**THE COLD-START SKIP FIRED, AND THE DOCUMENTED CONSTANT DID NOT TRANSFER.** culture and religion
+both reported `applied:true`, **`skippedRows: 305`**, `why: null`, with **120 ticks and 0
+abstentions** each. This file said 373, which is the FIXTURE's first readable index out of 470.
+Production's recorder window is different and growing (`rowsAvailable: 500`). The mechanism
+transferred; the number did not. **Do not quote 373 as a production figure.** Known unknown (e)
+above anticipated exactly this, which is why the policy fails closed rather than open.
+
+**RESTORATION, and cursor continuity proven numerically.** All three new domains returned
+`restored:true` from the **16:27:23Z** cycle onward, sustained through 20:27Z. Across all twenty
+domains and **386 consecutive cycle pairs there are 0 continuity breaks**: every cycle's
+`cursorBefore` equals the immediately preceding cycle's `cursorAfter` exactly. The skip ran on
+exactly one cycle per opted-in domain and moved nothing afterwards, proven by equality rather than
+inferred from `coldStartSkip: null`. At 20:27Z all twenty were `ok:true`, `restored:true` and at
+`rowsApplied: 1`: backfill is finished across the whole roster, resident value 57,513,022 B
+(54.85 MiB).
+
+**Attribution check that failed.** Finance dropped 186,082 bytes across the repair cycle, which
+looks like the repair retiring stranded work. It is not: compaction ran the same cycle and retired
+356 records, `beforeBytes` 4,098,670 to `afterBytes` 3,803,514. The drop is compaction's, and the
+repair's byte effect is not separable from this data.
+
+**Evidence gained: none, and that is the correct end state.** Twenty of twenty INSTALLED sits
+alongside **0 of 10 ACTIVE**. Completing the roster moved no relationship, added no distinct
+identity, and made no claim citable.
+
+---
+
+## THE COMPARABILITY GATE (THIS PR). NO PATHWAY IS ACTIVATED.
+
+**Activation was attempted on 2026-08-09 and FAILED CLOSED. Nothing was activated, and that is
+the finding.** Running the repository's own evidence mechanism (`scripts/build-brain-fixture.mjs`,
+`analyze` + `testableRelationships`, `MIN_OBSERVATIONS = 6`) against live production rows:
+
+| domain | declared pairs | testable |
+|---|---:|---:|
+| energy | 7 | **0** |
+| finance | 3 | **0** |
+
+No energy channel carries more than 2 source identities. **Four of the ten pairs are blocked by
+channels that emit no numeric value at all across 500 rows** (Massive SPY, Massive Crude Oil, EIA
+Petroleum): a dead source, not immaturity. The strongest candidate is finance
+`finnhub <-> alphaVantage`, latent "SPY price level", at Finnhub 22 identities and Alpha Vantage 4.
+
+### THE IDENTITY COUNT WAS THE WRONG QUANTITY, and this is the substance of the PR
+
+Reaching 6/6 would not have made that pair safe to compare. Measured on the same live rows:
+
+| comparison | mean abs gap | rows |
+|---|---:|---:|
+| Alpha Vantage same session | 0.120 | 8 |
+| Alpha Vantage stale | **0.445** | 102 |
+
+**102 of 110 rows (93%) compared an intraday quote against the PREVIOUS session's close.** Worst
+5.03 on a ~770 price, so every large apparent disagreement was staleness. (The "within 0.04"
+figure this paragraph used to end on is **withdrawn**; see the restatement finding below. Aligned
+and settled, the two agree exactly.) The existing machinery would not have caught it: both sides
+grade `source` tier, the authoritative one, and `divergence.js` `confounded` offers exactly two
+hypotheses, `regime_separation` and `wrong_relationship_declaration`. Cadence mismatch is neither.
+
+A third `confounded` hypothesis was proposed and **rejected by the operator, correctly**: naming a
+third cause still performs the incomparable comparison and then explains it. **Align equivalent
+reference intervals or abstain.**
+
+### What was built: `brain-v2/core/comparability.js`
+
+Declared reference intervals compared against a declared calendar. It names no domain, channel,
+source, instrument, market or clock time; calendars arrive as caller-supplied data and the module
+ships none, because an invented holiday list would be fabricated data and an incomplete one would
+silently admit a session that never happened. It never parses an identity string and never uses
+value similarity to decide comparability, since using agreement to license a comparison assumes
+the conclusion. `MIN_ALIGNED` is imported from `divergence.js` rather than redefined.
+
+**At most one observation per source per session, selected deterministically** (latest at or
+before the close, ties broken by identity), which is what stops persistence from manufacturing
+evidence. **Identity count and movement are computed on the ALIGNED SUBSET only**: in the measured
+finance case one channel carries 107 distinct values while the comparable series carries 4, and
+the larger number describes activity the relationship never sees.
+
+**Run against real production rows the finished gate finds ONE aligned session, not four**, and
+that difference is the most important thing this PR measured. `comparable: true`,
+`eligible: false`, why "only 1 aligned session(s), 6 required", 103 observations folded away, and
+**four sessions abstaining as `CONFLICTING`**.
+
+### THE IDENTITY DOES NOT DETERMINE THE VALUE, and that is a hole one level up
+
+**Alpha Vantage RESTATES its session close under an unchanged identity**, about two hours after
+first publishing it. Measured over the recorded rows:
+
+| session | provisional (x2 polls) | revised (holds) | Finnhub close-quote |
+|---|---:|---:|---:|
+| 2026-08-05 | 769.77 | **769.79** | 769.79 |
+| 2026-08-06 | 768.60 | **768.56** | 768.56 |
+| 2026-08-07 | 773.22 | **773.26** | 773.26 |
+
+Finnhub does it too, once (`quote-t:1786043304`, 769.44 then 769.40).
+
+**Two corrections follow, both to numbers this file previously carried.** First, an identity
+carrying two different values means **counting distinct identities was never a sufficient proxy
+for counting distinct observations**, which is the assumption the whole 6-identity gate rests on.
+Second, the earlier "agree to within 0.02-0.04" was measured on the PROVISIONAL figures, because
+that analysis kept only the first occurrence under each identity. **After settlement the two
+sources agree exactly, 0.00, on every session.**
+
+The gate abstains on a restated session. That is correct as a fail-closed default and is **not**
+the right final answer: a revision is not a contradiction. Separating them needs a RECORDING time
+alongside `observedAt`, which observations do not currently carry. That is a declaration change
+and is deliberately **not** invented here.
+
+116 assertions in `brain-v2/test/comparability.js`, all synthetic and clock-free, covering DST in
+both directions, weekends, declared holidays, intraday-versus-close, stale-close, duplicates,
+aliases, arrival-order and serialize/restore determinism, a second exchange calendar, every
+metadata gap failing closed with a named reason, and 5-does-not-qualify against 6-does.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: none, and no pathway was activated. What is new is a **gate**, plus the
+  measured finding that the quantity previously tracked toward activation was the wrong one.
+- **domains promoted**: none. Installed stays 20 of 20.
+- **remaining domains**: 0. Unchanged; the batching step is closed.
+- **current gate**: comparability, and it is now instrumented rather than argued. The candidate
+  stands at **1 of 6 cadence-aligned sessions**, capped at one per trading day by the slower side
+  and reduced further by restatement. **Finnhub's 22 identities cannot raise that number.**
+- **known unknowns**: (a) the gate is proven against synthetic fixtures and one live capture; it is
+  **not wired into any binder or the runtime**, so no channel yet declares a `referenceInterval`
+  and nothing calls it in production; (b) whether a session-aligned series is the right reference
+  interval for pairs that are not exchange-quoted is undetermined, and the module abstains rather
+  than guessing; (c) aligned and settled, the candidate's sessions agree EXACTLY, so the likely
+  outcome at six is a **convergent** verdict. Source agreement is a legitimate result and must be
+  reported as such, never as a divergence discovery.
+- **exact next action**: establish **authoritative revision ordering** — a recording time carried
+  alongside `observedAt`, sourced from the recorder rather than fabricated — then re-measure
+  settled session evidence. **Waiting for sessions to accumulate is NOT the next action and cannot
+  become one at 1 of 6.** Restatement is recurring, not a one-off: it happened on every session
+  Alpha Vantage published in the measured window, so each new session arrives already contested and
+  abstains on arrival. Two more of them would leave the count where it is.
+
+  **No timestamp may be invented to break the tie.** Using arrival order, poll order or a
+  synthesised clock would settle a provenance question with a number the source never supplied,
+  which is the same defect class as counting polls as observations. If the recorder cannot supply a
+  recording time for a row, that row's session stays contested and abstains.
+
+  That change reaches into the recorder and provenance chain, so it belongs in **its own PR**. This
+  one is the inert fail-closed gate and is complete on its own terms. Still not activation and not
+  wiring: declaring `referenceInterval` on channels is the activation PR's work, deliberately not
+  bundled so a regression in either would be attributable.
+
+  Withdrawn along the way: an earlier "clears on 2026-08-11" estimate derived from raw identity
+  accumulation, and the "accumulate two further sessions" action this line used to carry. Both
+  assumed a counter that the restatement finding showed does not measure what it was read as.
+
+### Five defects found in review of the first draft, each with its own negative control
+
+Every one was reachable from the first draft and each fix is proved by reverting it and watching
+named assertions fail (2, 5, 3, 5 and 5 failures respectively).
+
+1. **Inside the window was treated as near the close.** A feed dying at lunchtime still had a
+   "latest reading in the window" and stood against a settled close, which is the same
+   intraday-versus-close error in a harder-to-see form. `POINT_IN_TIME` channels now declare
+   `maxLagFromCloseMs` and abstain outside it; an undeclared tolerance fails closed rather than
+   inheriting a default that would be wrong for some publisher. Freshness is checked on the CHOSEN
+   reading, so routine intraday readings are not miscounted as staleness.
+2. **`opts.minAligned` could lower the floor.** It is now refused by name below `MIN_ALIGNED`
+   rather than silently clamped, because a clamp lets a caller believe it ran a relaxed gate and
+   got a pass. Stricter overrides are still honoured and reported.
+3. **Calendar validation was incomplete.** Out-of-range or malformed `open`/`close`, an open at or
+   after the close, non-distinct or out-of-range `sessionDays`, and malformed `holidays` each
+   return their own named abstention. **A holiday of `2026-02-30` no longer normalises into 2
+   March**, which would have suppressed a different day than the one written down.
+4. **Contradictory evidence was resolved by tie-break.** Two values stamped at one instant were
+   settled by identity ordering, which is arbitrary dressed as deterministic. Such a session now
+   abstains, and only that session. Grouping was moved ahead of selection so detection cannot
+   depend on arrival order: the previous draft compared only against the currently selected
+   observation, so a contradiction already superseded by a later reading went unnoticed.
+5. **`collapsed` undercounted.** It summed folds over aligned pairs only, so persistence discarded
+   on a session the other side never covered was invisible. The total now covers every surviving
+   session on both sides, with `collapsedAligned` reported separately.
+
+Defect 4 is what surfaced the restatement finding above: the rule fired on real data, and
+investigating why turned up a value changing under a fixed identity.
+
+### Also folded in, both previously approved and non-blocking
+
+1. **`cursorBefore` is now on the summary allow-list** (`handlers/brain-shadow.js`). The runtime
+   always recorded it and `?history=` always returned it, but the summary read dropped it, so the
+   surface an operator reads could not answer "did the cursor stay continuous?" Same allow-list
+   defect as compaction and calibration. Asserted through the handler with the two ends set to
+   DIFFERENT values, so a projection that aliased one onto the other fails, plus a negative control
+   proving a cycle without the field projects an explicit `null` rather than vanishing.
+2. **The batch-4 production record above**, written from the preserved measurement.
 
 ---
 
