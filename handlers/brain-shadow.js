@@ -149,7 +149,24 @@ module.exports = async function handler(req, res) {
          * "not recorded" instead of "did not compact".
          */
         compaction: cyc.compaction || null,
-        calibration: cyc.calibration || null
+        calibration: cyc.calibration || null,
+        /**
+         * COLD-START PREFIX SKIP, on the allow-list for the same reason compaction is. Batch 4
+         * installs two domains whose entire justification is that this policy fires, so an
+         * endpoint that could not report whether it fired would leave the one operator-visible
+         * surface unable to answer the only new question the batch raises.
+         *
+         * Null covers three different situations and deliberately does not distinguish them
+         * here, because the stored report does: the policy did not run (restored cycle, or the
+         * domain never opted in), or the cycle predates the field. `applied:false` with a `why`
+         * is a RAN-AND-DECLINED result and is not the same as null.
+         */
+        coldStartSkip: cyc.coldStartSkip || null,
+        /* On the allow-list because it reports a MUTATION of restored learning state. The
+           first post-deploy cycle per domain closes prospective checks stranded by the
+           colliding-id defect; if that number were invisible, an open-count drop would look
+           like loss rather than repair. */
+        prospectiveRepair: cyc.prospectiveRepair || null
       } : null;
     }
     return send(res, 200, {

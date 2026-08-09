@@ -215,17 +215,41 @@ function isAblated(loop, m) { return !!loop.ablations[m]; }
  *
  * `actionIds` identify the actions whose outcome check depends on this prediction. The
  * prediction check and action-outcome check close together so the two ledgers cannot drift.
+ *
+ * EVERY OPEN ITEM, NOT ONLY THE DUE ONES, and that distinction was the bug. This function is
+ * reached from three places and all three pass a prediction that has already finished —
+ * expired, unresolvable, or resolved. A check whose `dueAt` had not yet arrived at that moment
+ * was skipped, fell due later, and was then never revisited by anything, because the only
+ * thing that closes it is the termination of a prediction that had already terminated.
+ *
+ * Since an open prospective item is never retired, each of those became permanent hot state.
+ * Measured on communication: 3,774 orphans over 4,800 ticks, which failed the 20-domain
+ * bounded-growth gate at 40 and 60 cycles. Waiting for `dueAt` on a check whose subject has
+ * finished cannot yield new information; there is nothing left to observe.
  */
 function closePredictionProspectives(loop, prediction, actionIds, closure, now) {
   actionIds = actionIds || [];
-  MEM.dueItems(loop.memory, now).forEach(function (item) {
+  /**
+   * closeRecord, NOT close-by-id, and this is the second place that distinction bites.
+   *
+   * This loop already matched the exact record it means to close. Handing its ID to a
+   * close-by-id that closes every open record under that id undoes the matching: LEGACY state
+   * can hold two open records sharing one id whose predictions are BOTH still live, and
+   * terminating one of them would then close the other's check while its prediction is still
+   * running. That destroys live work — strictly worse than the leak this all started as.
+   *
+   * For state written after the id fix the two are equivalent, because ids are unique. The
+   * difference exists only for records the colliding version already wrote, which is exactly
+   * the state seventeen production domains are about to restore.
+   */
+  MEM.openProspective(loop.memory).forEach(function (item) {
     if (item.predictionId === prediction.id) {
-      MEM.close(loop.memory, item.id, Object.assign({}, closure, {
+      MEM.closeRecord(loop.memory, item, Object.assign({}, closure, {
         predictionId: prediction.id,
         predictionStatus: prediction.status
       }), now);
     } else if (item.kind === 'action_outcome' && actionIds.indexOf(item.actionId) >= 0) {
-      MEM.close(loop.memory, item.id, Object.assign({}, closure, {
+      MEM.closeRecord(loop.memory, item, Object.assign({}, closure, {
         predictionId: prediction.id,
         predictionStatus: prediction.status,
         actionId: item.actionId
@@ -1092,6 +1116,87 @@ function serialize(loop) {
  * them and wireMotor() re-registers, because a serialised handler would be the "wired ≠
  * invoked" substitution: the record would claim a listener that does not exist in this process.
  */
+/**
+ * REPAIR STATE THAT WAS ALREADY WRITTEN BY THE COLLIDING-ID VERSION.
+ *
+ * Discriminating the id prevents NEW strandings. It repairs nothing that is already stored, and
+ * seventeen domains have been running in production accumulating exactly this: open prospective
+ * items whose prediction terminated long ago, which no code path will ever revisit, and which
+ * compaction may never retire because an open record is never retired.
+ *
+ * THE DISCRIMINATION THAT MAKES THIS SAFE. An item is repaired only when its prediction is
+ * present in the restored registry AND that prediction is terminal. Then there is provably
+ * nothing left to observe, and the item is closed as unresolvable with a stated reason.
+ *
+ * DELIBERATELY LEFT ALONE, because closing these would destroy live work rather than repair
+ * dead work:
+ *   - items whose prediction is still OPEN, however far in the future they fall due
+ *   - items carrying no predictionId, which are not prediction-linked at all
+ *   - items whose prediction is absent from the registry AND which are not yet due. Archived is
+ *     not terminal, and until the due time passes the check is still meaningful. These stay open
+ *     and stay counted, so they remain visible rather than quietly swept.
+ *
+ * A SECOND STRANDING CLASS, and it is not a collision. An item whose prediction is ABSENT and
+ * which is ALREADY PAST DUE can never be closed by anything: the only thing that closes a check
+ * is the termination of its prediction, and a prediction that is gone cannot terminate again.
+ * Compaction archives resolved predictions, so this arises in ordinary operation and not only on
+ * the upgrade path. Such an item is closed UNRESOLVABLE — the honest status, since its closure
+ * test provably cannot run — and counted SEPARATELY from the terminal-linked repair, because
+ * "its prediction finished" and "its prediction is unreachable" are different facts.
+ *
+ * Idempotent: a second restore finds nothing left to close, because everything it closes stops
+ * being open. Counted on the loop so the runtime can report it rather than leave a silent
+ * mutation of restored state.
+ */
+function repairStrandedProspectives(loop) {
+  var preds = (loop.registry && loop.registry.predictions) || {};
+  var at = loop.lastTickAt || null;
+  var repaired = 0, repairedMissingPrediction = 0;
+  var skippedLivePrediction = 0, skippedUnknownPrediction = 0, skippedNoLink = 0;
+  MEM.openProspective(loop.memory).forEach(function (item) {
+    if (!item.predictionId) { skippedNoLink++; return; }
+    var p = preds[item.predictionId];
+    if (!p) {
+      /* Overdue judged against the last tick this brain actually saw. With no lastTickAt there
+         is no clock to judge against, so the item is left alone and counted. */
+      if (at !== null && typeof item.dueAt === 'number' && item.dueAt <= at) {
+        MEM.closeRecord(loop.memory, item, {
+          resolved: false,
+          why: 'repaired on restore: this check is past due and its prediction is no longer in ' +
+               'the registry, so the only thing that could ever close it cannot occur. ' +
+               'UNRESOLVABLE is a statement about reachability, not about the prediction ' +
+               'having been wrong',
+          predictionId: item.predictionId,
+          predictionStatus: 'absent-from-registry'
+        }, at);
+        repairedMissingPrediction++;
+        return;
+      }
+      skippedUnknownPrediction++;
+      return;
+    }
+    if (!p.status || p.status === 'open') { skippedLivePrediction++; return; }
+    /* closeRecord, NOT close-by-id. A legacy collision can hold a terminal-linked record and a
+       LIVE-linked record under one id, and closing by id would destroy the live one. */
+    MEM.closeRecord(loop.memory, item, {
+      resolved: false,
+      why: 'repaired on restore: this check was stranded by the colliding prospective-id defect ' +
+           'and its prediction is already terminal, so nothing remains to observe',
+      predictionId: p.id,
+      predictionStatus: p.status
+    }, at);
+    repaired++;
+  });
+  loop._prospectiveRepair = {
+    repaired: repaired,
+    repairedMissingPrediction: repairedMissingPrediction,
+    skippedLivePrediction: skippedLivePrediction,
+    skippedUnknownPrediction: skippedUnknownPrediction,
+    skippedNoLink: skippedNoLink
+  };
+  return loop._prospectiveRepair;
+}
+
 function restore(spec, snap) {
   var loop = create(spec);
   if (!snap) return loop;
@@ -1132,6 +1237,10 @@ function restore(spec, snap) {
   loop._varHistory = snap.varHistory || Object.create(null);
   loop.ablations = snap.ablations || Object.create(null);
   loop.errors = (snap.errors || []).slice(-ERROR_WINDOW);
+  /* LAST, because it needs both the restored registry and the restored memory. Repairs only
+     prospective work whose prediction is already terminal; see the function's own note for what
+     it deliberately refuses to touch. */
+  repairStrandedProspectives(loop);
   return loop;
 }
 
@@ -1156,6 +1265,7 @@ module.exports = {
   ABLATABLE: ABLATABLE,
   create: create,
   restore: restore,
+  repairStrandedProspectives: repairStrandedProspectives,
   tick: tick,
   consolidate: consolidate,
   ablate: ablate,

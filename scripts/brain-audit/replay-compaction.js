@@ -316,7 +316,25 @@ async function replay(product) {
   console.log('');
 
   var rows = [];
-  for (var i = 0; i < REG.INSTALLED_DOMAINS.length; i++) rows.push(await replay(REG.INSTALLED_DOMAINS[i]));
+  for (var i = 0; i < REG.INSTALLED_DOMAINS.length; i++) {
+    rows.push(await replay(REG.INSTALLED_DOMAINS[i]));
+    /**
+     * RELEASE THE PREVIOUS DOMAIN'S ARCHIVE CHUNKS.
+     *
+     * `MEM` is the injected in-memory transport and it held every chunk written by every domain
+     * for the whole run. Domains were already sequential, so nothing needs a prior domain's
+     * chunks once its replay has returned its summary row; retaining them just grew the heap
+     * linearly in domains x cycles. At 20 domains x 100 cycles that aborted the process with
+     * SIGABRT (exit 134), which is not a gate verdict and must never be read as one.
+     *
+     * THIS CHANGES NO ASSERTION. Every threshold, every window and every domain is untouched;
+     * the summary row for a domain is fully computed before its chunks are dropped, and
+     * write-once (setNX) behaviour still holds within the domain being measured, which is the
+     * only scope where the archive's identity matters. Verified by the 40- and 60-cycle runs
+     * producing byte-identical figures before and after this change.
+     */
+    Object.keys(MEM).forEach(function (k) { delete MEM[k]; });
+  }
 
   console.log(pad('domain', 12) + lp('KiB', 8) + lp('struct', 9) + lp('textKiB', 9) +
     lp('epis', 6) + lp('openPr', 8) + lp('openPd', 8) + lp('termPd', 8) +

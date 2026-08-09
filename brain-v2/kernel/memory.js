@@ -286,7 +286,29 @@ function schedule(mem, spec) {
   if (typeof spec.dueAt !== 'number') throw new Error('prospective item needs dueAt');
   if (!spec.closureCriteria) throw new Error('prospective item needs closureCriteria — an item with no closure test never closes');
   var item = {
-    id: 'ps_' + PK.sha256(PK.canonical({ t: spec.traceId, k: spec.kind, at: spec.dueAt })).slice(0, 20),
+    /**
+     * THE ID MUST DISCRIMINATE WHAT THE ITEM IS ABOUT, not just when it is due.
+     *
+     * This was `{t: traceId, k: kind, at: dueAt}`. One tick emits several predictions that
+     * share a horizon, so they share a traceId, a kind and a dueAt — and therefore collided on
+     * one id. `close()` resolves an id with `filter(...)[0]` and mutates the FIRST match, so a
+     * collision closed one twin and left the other OPEN FOREVER. An open prospective item is
+     * never retired, so every collision became permanent hot state.
+     *
+     * MEASURED before this change, communication over 4,800 ticks: 12,340 items carrying only
+     * 8,560 distinct ids, 3,780 collisions, and every single colliding pair had a survivor
+     * still open. It is not domain-specific — governance collided 11 times and had exactly 11
+     * open items — so this defect set the open-prospective floor for all twenty domains.
+     * Communication merely generated enough volume to fail the bounded-growth gate with it.
+     *
+     * `predictionId` and `actionId` are what distinguish two checks that a shared trace, kind
+     * and due time cannot. Still a pure function of the item's own identity, so replay stays
+     * byte-identical, which `test/shadow-runtime.js` S3b asserts.
+     */
+    id: 'ps_' + PK.sha256(PK.canonical({
+      t: spec.traceId, k: spec.kind, at: spec.dueAt,
+      p: spec.predictionId || null, a: spec.actionId || null
+    })).slice(0, 20),
     traceId: spec.traceId,
     kind: spec.kind,
     actionId: spec.actionId || null,
@@ -302,6 +324,25 @@ function schedule(mem, spec) {
     closedAt: null,
     closure: null
   };
+  /**
+   * IDS ARE UNIQUE, ENFORCED HERE RATHER THAN HOPED FOR.
+   *
+   * Discriminating the id by prediction and action took communication's collisions from 3,780
+   * to 1 and governance's from 11 to 3. What remains is a genuine double-schedule: the same
+   * check, same trace, same kind, same due time, same prediction, scheduled twice. Those two
+   * records are indistinguishable in every field, so nothing downstream could ever tell them
+   * apart — including `close()`, which resolves an id to its FIRST match and would leave the
+   * twin open forever.
+   *
+   * Scheduling is therefore idempotent on the id: an existing OPEN item with this id IS this
+   * work, so it is returned instead of pushing an unreachable copy. A closed item with the same
+   * id does not block a new one, because that is the same check legitimately coming round
+   * again after its previous instance finished.
+   */
+  var existing = mem.prospective.filter(function (x) {
+    return x.id === item.id && x.status === 'open';
+  })[0];
+  if (existing) return existing;
   mem.prospective.push(item);
   mem.version++;
   return item;
@@ -311,19 +352,78 @@ function dueItems(mem, now) {
   return mem.prospective.filter(function (i) { return i.status === 'open' && now >= i.dueAt; });
 }
 
+/**
+ * Every OPEN item, whether or not its `dueAt` has passed.
+ *
+ * `dueItems` answers "what is ready to be checked now", which is right for the clock-driven
+ * path and WRONG for closing work whose subject has already finished. A prediction that
+ * terminated BEFORE its check fell due left that check open permanently: the closer only
+ * looked at due items, the check became due afterwards, and nothing ever revisited it. An open
+ * prospective item is never retired by design, so those items accumulated in hot state with no
+ * ceiling.
+ *
+ * MEASURED, on communication over 4,800 ticks: 3,774 of 3,792 open items were already-due
+ * `prediction_check`s belonging to predictions that had long since resolved, against 8,548
+ * resolved predictions. That is roughly 44% of resolutions leaving a permanent record behind,
+ * and it is why the 20-domain bounded-growth gate failed at 40 and 60 cycles.
+ */
+function openProspective(mem) {
+  return mem.prospective.filter(function (i) { return i.status === 'open'; });
+}
+
 function overdue(mem, now, graceMs) {
   var g = numOr(graceMs, 0);
   return mem.prospective.filter(function (i) { return i.status === 'open' && now > i.dueAt + g; });
 }
 
-function close(mem, itemId, closure, now) {
-  var i = mem.prospective.filter(function (x) { return x.id === itemId; })[0];
-  if (!i) return { closed: false, why: 'unknown prospective item' };
-  i.status = closure && closure.resolved ? 'closed' : 'unresolvable';
-  i.closedAt = now;
-  i.closure = closure;
+/**
+ * Close EVERY open record under this id, not the first one that matches.
+ *
+ * `filter(...)[0]` was the second half of the leak. Discriminating the id and deduplicating
+ * open schedules stops new collisions, but neither makes first-match safe: a CLOSED record and
+ * an OPEN record can legitimately share an id when the same check comes round again after its
+ * previous instance finished, and if the closed one sorts first then the open one is never
+ * reached and is stranded forever. Selecting by id alone can therefore never be relied on
+ * while duplicates are representable at all.
+ *
+ * Closing all open matches makes the outcome independent of array order, so restored state
+ * written by any earlier version behaves correctly regardless of how its records are arranged.
+ *
+ * An already-fully-closed id reports `closed:false` with a reason rather than a silent success.
+ * The old code reported `closed:true` for it, which is how 8,549 close() calls on 8,561
+ * scheduled items could coexist with 3,786 still open and look like nothing was wrong.
+ */
+/**
+ * Close ONE specific record, by identity of the object rather than by id.
+ *
+ * Close-by-id is right for the normal path, where every record under an id is the same work.
+ * It is WRONG for repairing legacy state, where a collision can hold two genuinely different
+ * pieces of work under one id — one whose prediction is terminal and one whose prediction is
+ * still live. Closing by id there would take the live one with it, destroying pending work in
+ * the name of recovering leaked work. Measured: the repair did exactly that until this existed.
+ */
+function closeRecord(mem, item, closure, now) {
+  if (!item || item.status !== 'open') {
+    return { closed: false, why: 'record is not open', item: item || null, count: 0 };
+  }
+  item.status = closure && closure.resolved ? 'closed' : 'unresolvable';
+  item.closedAt = now;
+  item.closure = closure;
   mem.version++;
-  return { closed: true, status: i.status, item: i };
+  return { closed: true, status: item.status, item: item, count: 1 };
+}
+
+function close(mem, itemId, closure, now) {
+  var matches = mem.prospective.filter(function (x) { return x.id === itemId; });
+  if (!matches.length) return { closed: false, why: 'unknown prospective item' };
+  var open = matches.filter(function (x) { return x.status === 'open'; });
+  if (!open.length) {
+    return { closed: false, why: 'every record under this id is already closed',
+             status: matches[0].status, item: matches[0], count: 0 };
+  }
+  var status = closure && closure.resolved ? 'closed' : 'unresolvable';
+  open.forEach(function (i) { closeRecord(mem, i, closure, now); });
+  return { closed: true, status: status, item: open[0], count: open.length };
 }
 
 function report(mem, now) {
@@ -368,6 +468,8 @@ module.exports = {
   promote: promote,
   schedule: schedule,
   dueItems: dueItems,
+  openProspective: openProspective,
+  closeRecord: closeRecord,
   overdue: overdue,
   close: close,
   report: report,
