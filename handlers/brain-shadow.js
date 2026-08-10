@@ -182,7 +182,19 @@ module.exports = async function handler(req, res) {
            first post-deploy cycle per domain closes prospective checks stranded by the
            colliding-id defect; if that number were invisible, an open-count drop would look
            like loss rather than repair. */
-        prospectiveRepair: cyc.prospectiveRepair || null
+        prospectiveRepair: cyc.prospectiveRepair || null,
+        /**
+         * RELATIONSHIP COMPARABILITY, on the allow-list for the same reason compaction,
+         * calibration, the cold-start skip and cursorBefore are: this projection drops
+         * anything not named here, and a field the runtime records but the operator read
+         * cannot show is a measurement nobody can act on.
+         *
+         * Null distinguishes "this domain declares no relationships" — eighteen of twenty —
+         * from a domain whose pairs were evaluated. It reports comparability ONLY. A pair
+         * reading `eligible:true` has cleared the comparability gate and nothing else; no
+         * pathway is active and the evidence gate is separate and still shut.
+         */
+        relationshipEvidence: cyc.relationshipEvidence || null
       } : null;
     }
     return send(res, 200, {
