@@ -80,6 +80,40 @@ function derive(id, rule, cal) { return RT.observedAtFor(id, rule, cal, CMP.inst
   assert('but a correct millis rule on a millis token works',
     derive('x|quote-t:1786132800000', { kind: RT.EXTRACT.EPOCH_MILLIS, after: 'quote-t:' }).observedAt
       === 1786132800000);
+
+  console.log('T2b: NEGATIVE CONTROL — a date that matches the shape but does not exist');
+  /* `2026-02-30` passes /\d{4}-\d{2}-\d{2}/ and `Date.UTC` rolls it into 2 March, so a shape
+     check alone fabricated a reference time for a day that never existed — and resolved it in
+     the wrong DST offset too (21:00Z rather than 20:00Z). */
+  assert('2026-02-30 abstains instead of becoming 2 March',
+    why('x|trading-day:2026-02-30', DAY, CALS.usEquity) === RT.REASON.NOT_A_REAL_DATE);
+  assert('and so do a 13th month and a zero day',
+    why('x|trading-day:2026-13-01', DAY, CALS.usEquity) === RT.REASON.NOT_A_REAL_DATE &&
+    why('x|trading-day:2026-08-00', DAY, CALS.usEquity) === RT.REASON.NOT_A_REAL_DATE);
+  assert('while real dates either side of it still resolve',
+    derive('x|trading-day:2026-02-27', DAY, CALS.usEquity).ok === true &&
+    derive('x|trading-day:2026-03-02', DAY, CALS.usEquity).ok === true);
+
+  console.log('T2c: NEGATIVE CONTROL — markers match at a FIELD boundary, not anywhere');
+  /* An unrestricted substring search reads `last-quote-t:` as `quote-t:` and returns a
+     confident, wrong instant. A publisher adding a longer-named field would silently change
+     what this module reports. */
+  assert('a longer field name is NOT the declared marker',
+    why('v|last-quote-t:1786132800|z:1', SEC) === RT.REASON.MARKER_ABSENT);
+  assert('nor is the marker appearing mid-value',
+    why('v|note:see-quote-t:1786132800', SEC) === RT.REASON.MARKER_ABSENT);
+  assert('the genuine field is still found wherever it sits',
+    derive('quote-t:1786132800', SEC).observedAt === 1786132800000 &&
+    derive('a:1|quote-t:1786132800|b:2', SEC).observedAt === 1786132800000);
+
+  console.log('T2d: NEGATIVE CONTROL — a duplicated marker is ambiguous, not first-wins');
+  assert('two fields carrying the marker abstain rather than picking by position',
+    why('v|quote-t:1786132800|quote-t:1700000000', SEC) === RT.REASON.MARKER_AMBIGUOUS);
+  assert('and it abstains in either order, so position never decides',
+    why('v|quote-t:1700000000|quote-t:1786132800', SEC) === RT.REASON.MARKER_AMBIGUOUS);
+  assert('duplicated session-date fields abstain too',
+    why('v|trading-day:2026-08-06|trading-day:2026-08-07', DAY, CALS.usEquity)
+      === RT.REASON.MARKER_AMBIGUOUS);
 })();
 
 // ── T3: readings to observations ─────────────────────────────────────────────────────

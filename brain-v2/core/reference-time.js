@@ -23,6 +23,11 @@
 
 'use strict';
 
+/* ONE DEFINITION OF "is this a real calendar date", imported rather than re-implemented.
+   `comparability.js` already needed it to validate declared holidays, and a second copy here
+   is a second thing to drift — the same reason MIN_ALIGNED is imported and not restated. */
+var CAL = require('./comparability.js');
+
 /**
  * The declared extraction kinds. Both take a marker, because these identities are composed
  * key/value strings (`vendor:thing|symbol:SPY|quote-t:1786000000`) and the marker names which
@@ -49,7 +54,11 @@ var REASON = {
   NO_RULE:        'channel_declares_no_observedAt_rule',
   UNKNOWN_KIND:   'unknown_observedAt_extraction_kind',
   NO_MARKER:      'observedAt_rule_declares_no_after_marker',
-  MARKER_ABSENT:  'identity_does_not_contain_the_declared_marker',
+  MARKER_ABSENT:  'identity_has_no_field_beginning_with_the_declared_marker',
+  /* TWO FIELDS CARRYING THE SAME MARKER IS AMBIGUOUS, and picking one would be choosing by
+     position. Which of `quote-t:A|quote-t:B` a publisher meant is not knowable here. */
+  MARKER_AMBIGUOUS: 'identity_contains_the_declared_marker_more_than_once',
+  NOT_A_REAL_DATE: 'the_session_date_does_not_exist_in_the_calendar',
   UNPARSEABLE:    'the_text_after_the_marker_is_not_the_declared_shape',
   OUT_OF_RANGE:   'the_extracted_value_is_not_a_usable_instant',
   NEEDS_CALENDAR: 'session_date_extraction_needs_a_calendar_with_a_close_time'
@@ -64,14 +73,26 @@ var MAX_MS = Date.UTC(2100, 0, 1);
 
 function fail(why, detail) { return { ok: false, observedAt: null, why: why, detail: detail || null }; }
 
-/** The text following the declared marker, up to the next field separator. */
-function segmentAfter(identity, marker) {
-  var s = String(identity);
-  var i = s.indexOf(marker);
-  if (i < 0) return null;
-  var rest = s.slice(i + marker.length);
-  var cut = rest.indexOf('|');
-  return cut >= 0 ? rest.slice(0, cut) : rest;
+/**
+ * The value of the one pipe-delimited FIELD that begins with the declared marker.
+ *
+ * MATCHED AT A FIELD BOUNDARY, NOT ANYWHERE IN THE STRING. An unrestricted substring search
+ * reads `last-quote-t:1786132800` as `quote-t:...` and returns a confident, wrong instant —
+ * a publisher adding a field with a longer name silently changes what this module reports.
+ *
+ * DUPLICATES FAIL CLOSED. Two fields carrying one marker cannot be resolved from here, and
+ * taking the first would be choosing by position, which is the defect the gate refuses one
+ * level up.
+ */
+function fieldAfter(identity, marker) {
+  var fields = String(identity).split('|');
+  var hits = [];
+  for (var i = 0; i < fields.length; i++) {
+    if (fields[i].lastIndexOf(marker, 0) === 0) hits.push(fields[i].slice(marker.length));
+  }
+  if (hits.length === 0) return { ok: false, why: REASON.MARKER_ABSENT };
+  if (hits.length > 1) return { ok: false, why: REASON.MARKER_AMBIGUOUS };
+  return { ok: true, seg: hits[0] };
 }
 
 /**
@@ -94,11 +115,16 @@ function observedAtFor(identity, rule, calendar, resolve) {
   }
   if (typeof rule.after !== 'string' || !rule.after) return fail(REASON.NO_MARKER);
 
-  var seg = segmentAfter(identity, rule.after);
-  if (seg === null) return fail(REASON.MARKER_ABSENT, rule.after);
+  var found = fieldAfter(identity, rule.after);
+  if (!found.ok) return fail(found.why, rule.after);
+  var seg = found.seg;
 
   if (rule.kind === EXTRACT.SESSION_DATE) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(seg)) return fail(REASON.UNPARSEABLE, seg);
+    /* THE SHAPE IS NOT THE DATE. `2026-02-30` matches the pattern and `Date.UTC` rolls it into
+       2 March, so the shape check alone fabricated a reference time for a day that never
+       existed — and resolved it in the wrong DST offset as well. */
+    if (!CAL.validCalendarDate(seg)) return fail(REASON.NOT_A_REAL_DATE, seg);
     if (!calendar || typeof calendar.timeZone !== 'string' || typeof calendar.close !== 'string') {
       return fail(REASON.NEEDS_CALENDAR);
     }
