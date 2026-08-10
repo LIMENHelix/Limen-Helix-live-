@@ -85,9 +85,40 @@ var WEEK = 7 * DAY;
  */
 var CHANNELS = [
   // ── One instrument, three independent vendors. SPY, in dollars, verified per URL. ──
+  /**
+   * MASSIVE SPY DECLARES NO REFERENCE INTERVAL, DELIBERATELY. It emits no numeric value at
+   * all in production — 500 recorded rows, 0 distinct values, 0 source identities, measured
+   * 2026-08-09 — so nothing is known about the shape of an identity it has never produced.
+   * Declaring an interval from its vendor documentation would be describing data that does
+   * not exist. Its two relationships therefore abstain by name, which is the honest report,
+   * and it can be declared the day it publishes something.
+   */
   { key: 'massiveSpy',   name: 'Massive SPY',                 recordedField: 'v', field: 'value', source: 'Polygon SPY prev close (key-gated)', cadenceMs: DAY,  units: '$/share',   q: 0.02, r: 0.05 },
-  { key: 'finnhub',      name: 'Finnhub Market',              recordedField: 'v', field: 'value', source: 'Finnhub quote SPY (key-gated)',      cadenceMs: HOUR, units: '$/share',   q: 0.02, r: 0.06 },
-  { key: 'alphaVantage', name: 'Alpha Vantage Market',        recordedField: 'v', field: 'value', source: 'Alpha Vantage GLOBAL_QUOTE SPY (key-gated)', cadenceMs: HOUR, units: '$/share', q: 0.02, r: 0.06 },
+  /**
+   * REFERENCE INTERVAL, declared because the comparability gate refuses to guess one.
+   *
+   * Finnhub publishes an instantaneous quote stamped with the publisher's own `quote-t`, so
+   * the reading refers to THAT MOMENT, not to the session. `maxLagFromCloseMs` is 15 minutes:
+   * being inside the session window is not the same as being near the close, and a feed that
+   * died at lunchtime must not stand against a settled closing figure. Measured 2026-08-09,
+   * Finnhub carries a quote at exactly the 16:00 close on every session in the window, so the
+   * tolerance is met by real data rather than chosen to fit.
+   */
+  { key: 'finnhub',      name: 'Finnhub Market',              recordedField: 'v', field: 'value', source: 'Finnhub quote SPY (key-gated)',      cadenceMs: HOUR, units: '$/share',   q: 0.02, r: 0.06,
+    referenceInterval: { kind: 'point_in_time', calendar: 'usEquity', maxLagFromCloseMs: 15 * 60 * 1000,
+      observedAt: { kind: 'epoch_seconds', after: 'quote-t:' } } },
+  /**
+   * Alpha Vantage keys on `trading-day`, so its figure is the SESSION'S settled close and
+   * refers to the whole session rather than to an instant. It is polled hourly (`cadenceMs`)
+   * and that is a different fact from what it refers to; conflating the two is what produced
+   * 93% intraday-versus-previous-close comparisons before the gate existed.
+   *
+   * It also RESTATES that close under the unchanged identity about two hours after first
+   * publishing it, which is why receipt ordering had to exist before this could be declared.
+   */
+  { key: 'alphaVantage', name: 'Alpha Vantage Market',        recordedField: 'v', field: 'value', source: 'Alpha Vantage GLOBAL_QUOTE SPY (key-gated)', cadenceMs: HOUR, units: '$/share', q: 0.02, r: 0.06,
+    referenceInterval: { kind: 'session_close', calendar: 'usEquity',
+      observedAt: { kind: 'session_date', after: 'trading-day:' } } },
 
   // ── Rates and balances: real quantities with their own publication schedules. ──
   { key: 'sofr',         name: 'NY Fed SOFR',                 recordedField: 'v', field: 'value', source: 'NY Fed markets API, secured/sofr',   cadenceMs: DAY,  units: '% overnight', q: 0.01, r: 0.04 },

@@ -1216,6 +1216,98 @@ the sentence a real regression hides behind. 100% of those readings carry a rece
 
 ---
 
+## WIRING THE COMPARABILITY GATE (THIS PR). NO PATHWAY IS ACTIVATED.
+
+The gate has been merged and inert since PR #18: nothing declared a reference interval and
+nothing called it, so its verdict could only be obtained by running a script by hand against a
+downloaded fixture. This connects it, as an OBSERVER, and activates nothing.
+
+### Reference time is DECLARED per channel, because the gate refuses to guess it
+
+`core/comparability.js` will not parse an identity: an identity is the source's own opaque
+token and a gate that guessed at its format would be inventing provenance. But the format has
+to be known somewhere, and the only place the source is known is the channel. So each channel
+declares how its own identity carries a reference time, and `core/reference-time.js` applies
+whatever rule it is handed. It knows nothing about any particular source either.
+
+Rules are **plain data, not functions**, so they survive JSON, serialization and replay and a
+reader can see what a channel claims without executing anything.
+
+| channel | declared | why |
+|---|---|---|
+| `finnhub` | `point_in_time`, `maxLagFromCloseMs` 15 min, `epoch_seconds` after `quote-t:` | publishes an instantaneous quote stamped by the publisher |
+| `alphaVantage` | `session_close`, `session_date` after `trading-day:` | publishes the session's settled close, polled hourly, which is a different fact |
+| `massiveSpy` | **nothing** | emits no numeric value at all in production, so nothing is known about an identity it has never produced |
+
+**`massiveSpy` declaring nothing is the honest report, not an omission.** Writing an interval
+from its vendor documentation would describe data that does not exist, so its two relationships
+abstain by name and it can be declared the day it publishes something.
+
+`bind/calendars.js` declares `usEquity`. **Its holiday list is empty and that is a stated
+limit**: a correct US market holiday list is real data this repository does not have, and a
+remembered one would be fabricated. Sessions are derived from observations that exist rather
+than enumerated, so on a closed day nothing is published and no session is created. That makes
+empty safe HERE, and it is written down where it would not be: a source publishing a dated
+figure every weekday regardless of whether the market opened must supply a real list first.
+
+### Measured over the WINDOW, not the cycle, and isolated from it
+
+In steady state a cycle applies one row, so a cycle-scoped answer would be asking whether six
+sessions can be found in one hour. Comparability is a property of the history available, so it
+is measured over the rows the runtime already read. **Nothing is ticked and the cursor does not
+move.** The evaluation is wrapped so a throw is recorded as an evidence-side error and cannot
+fail a cycle whose sensing, state and cursor are already settled.
+
+`relationshipEvidence` is on the handler allow-list, for the reason compaction, calibration,
+the cold-start skip and `cursorBefore` each had to be added: this projection drops anything not
+named, and a field the runtime records that the operator read cannot show is a measurement
+nobody can act on. Null means the domain declares no relationships, which is eighteen of twenty.
+
+### What it reports on real production rows
+
+| pair | verdict |
+|---|---|
+| `massiveSpy <-> finnhub` | not comparable, **blockedBy: massiveSpy** |
+| `massiveSpy <-> alphaVantage` | not comparable, **blockedBy: massiveSpy** |
+| `finnhub <-> alphaVantage` | **comparable, 4 of 6 aligned sessions**, 3 resting on a revision |
+
+385 of 500 finnhub readings and 386 of 500 alphaVantage readings drop as
+`reading_carries_no_source_identity`: they predate the recorder keeping `su`. That is history,
+and it is counted **apart** from a rule that fails to fit a token the source did supply, which
+would be a declaration bug. Reporting both under one reason would hide the bug inside the
+history.
+
+### THE KERNEL HOP WAS NOT NEEDED, and this PR says so rather than adding it anyway
+
+The scope for this work named the `recordedAt` kernel hop reverted from PR #20. **It is not
+required here and was not added.** The runtime feeds the gate directly from
+`binder.readRecorderRow`, whose readings already carry `recordedAt`, so the field never has to
+cross the kernel for comparability to be evaluated. It becomes necessary only when the kernel's
+divergence engine itself must order revisions, which is activation work and is closed. Adding
+it now would reproduce exactly the situation that got it reverted: a field nothing consumes and
+no test can pin.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: none, and no pathway activated. Comparability is now reported rather than
+  obtainable only by hand.
+- **domains promoted**: none. Installed stays 20 of 20.
+- **remaining domains**: 0.
+- **current gate**: unchanged. `finnhub <-> alphaVantage` stands at **4 of 6** cadence-aligned
+  sessions and the floor is still six, imported from `divergence.js` and not overridable down.
+- **known unknowns**: (a) the verdict is reported and **read by nothing**; no decision, no state
+  and no pathway consumes it; (b) `usEquity` models no holidays, safe for these two channels and
+  stated where it would not be; (c) the two `massiveSpy` pairs cannot be assessed at all until
+  that channel publishes a value, and no amount of waiting on the other pair changes that;
+  (d) the reference-time rules are proved against the two identity formats that exist today, so
+  a publisher changing its token format surfaces as `MARKER_ABSENT` counts rather than as a
+  wrong answer, which is the safe direction, but nothing watches that counter yet.
+- **exact next action**: nothing here shortens the remaining arithmetic. The pair needs **two
+  more trading sessions** to reach 6 of 6, capped at one per trading day by the slower side.
+  Activation remains a separate, still-closed gate and clearing comparability does not open it.
+
+---
+
 ## PAST MILESTONES
 
 ### PR #3 — provenance foundation (merge `70de3b75`)

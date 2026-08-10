@@ -1376,6 +1376,11 @@ var firstReport, secondReport, firstState;
          that cannot report whether it fired repeats the compaction defect exactly. */
       coldStartSkip: { applied: true, skippedRows: 373, cursorSetTo: 1785589950919,
         firstReadableT: 1785589950920, why: null },
+      /* RELATIONSHIP COMPARABILITY through the same allow-list. It is an OBSERVATION and
+         activates nothing, but a field the runtime records and the operator read drops is a
+         measurement nobody can act on, which is the defect compaction already taught. */
+      relationshipEvidence: [{ a: 'finnhub', b: 'alphaVantage', latent: 'SPY price level',
+        comparable: true, eligible: false, alignedSessions: 4, minAligned: 6, revisedSessions: 3 }],
       /**
        * ONE-SHOT PRODUCTION EVIDENCE, so it gets the same treatment as compaction.
        *
@@ -1418,6 +1423,11 @@ var firstReport, secondReport, firstState;
      * Asserted with the two values DIFFERENT, so a projection that accidentally aliased one
      * onto the other fails here instead of passing on equal numbers.
      */
+    var re = (projected && projected.relationshipEvidence) || [];
+    assert('and relationship comparability reaches the operator read',
+      re.length === 1 && re[0].a === 'finnhub' && re[0].alignedSessions === 4 &&
+      re[0].eligible === false && re[0].minAligned === 6,
+      JSON.stringify(projected && projected.relationshipEvidence));
     assert('and cursorBefore, so continuity is answerable from the summary read',
       projected.cursorBefore === 1786219000000 && projected.cursorAfter === 1786219999000,
       JSON.stringify({ before: projected.cursorBefore, after: projected.cursorAfter }));
