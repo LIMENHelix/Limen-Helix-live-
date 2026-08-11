@@ -1364,7 +1364,8 @@ var firstReport, secondReport, firstState;
     await STORE.writeCycle(probeDomain, {
       domain: probeDomain, ok: true, error: null,
       startedAt: 1786220000000, finishedAt: 1786220001000,
-      rowsAvailable: 1, rowsApplied: 1, ticks: 1, cursorAfter: 1, restored: true,
+      rowsAvailable: 1, rowsApplied: 1, ticks: 1,
+      cursorBefore: 1786219000000, cursorAfter: 1786219999000, restored: true,
       provenance: {}, predictions: {}, abstentions: [], actuation: {},
       stateValueBytes: 3722988,
       compaction: { ran: true, retired: 314, archivedSequence: 1,
@@ -1375,6 +1376,11 @@ var firstReport, secondReport, firstState;
          that cannot report whether it fired repeats the compaction defect exactly. */
       coldStartSkip: { applied: true, skippedRows: 373, cursorSetTo: 1785589950919,
         firstReadableT: 1785589950920, why: null },
+      /* RELATIONSHIP COMPARABILITY through the same allow-list. It is an OBSERVATION and
+         activates nothing, but a field the runtime records and the operator read drops is a
+         measurement nobody can act on, which is the defect compaction already taught. */
+      relationshipEvidence: [{ a: 'finnhub', b: 'alphaVantage', latent: 'SPY price level',
+        comparable: true, eligible: false, alignedSessions: 4, minAligned: 6, revisedSessions: 3 }],
       /**
        * ONE-SHOT PRODUCTION EVIDENCE, so it gets the same treatment as compaction.
        *
@@ -1407,6 +1413,24 @@ var firstReport, secondReport, firstState;
     assert('and the cold-start skip, so batch 4 can be verified from the operator read',
       csk.applied === true && csk.skippedRows === 373 && csk.firstReadableT === 1785589950920,
       JSON.stringify(projected && projected.coldStartSkip));
+
+    /**
+     * CURSOR CONTINUITY IS A TWO-ENDED CLAIM, and the summary projected only one end.
+     *
+     * Continuity means this cycle's `cursorBefore` equals the previous cycle's `cursorAfter`.
+     * The runtime recorded both and `?history=` returned both; the summary read dropped
+     * `cursorBefore`, so the surface an operator actually reads could not answer the question.
+     * Asserted with the two values DIFFERENT, so a projection that accidentally aliased one
+     * onto the other fails here instead of passing on equal numbers.
+     */
+    var re = (projected && projected.relationshipEvidence) || [];
+    assert('and relationship comparability reaches the operator read',
+      re.length === 1 && re[0].a === 'finnhub' && re[0].alignedSessions === 4 &&
+      re[0].eligible === false && re[0].minAligned === 6,
+      JSON.stringify(projected && projected.relationshipEvidence));
+    assert('and cursorBefore, so continuity is answerable from the summary read',
+      projected.cursorBefore === 1786219000000 && projected.cursorAfter === 1786219999000,
+      JSON.stringify({ before: projected.cursorBefore, after: projected.cursorAfter }));
 
     /**
      * prospectiveRepair, through BOTH hops, because they can fail independently. The stored
@@ -1457,6 +1481,14 @@ var firstReport, secondReport, firstState;
       zeroed.prospectiveRepair.repairedMissingPrediction === 0,
       JSON.stringify(zeroed.prospectiveRepair) +
       ' — null here would make "ran and found nothing" look like "never ran"');
+
+    /* NEGATIVE CONTROL for cursorBefore: this cycle was written WITHOUT the field, which is
+       both a cold start and a pre-field legacy record. It must project as an explicit null
+       rather than vanishing from the object, because a reader cannot distinguish a missing
+       key from a key that was never recorded. */
+    assert('a cycle carrying no cursorBefore projects it as an explicit null, not absent',
+      'cursorBefore' in zeroed && zeroed.cursorBefore === null,
+      JSON.stringify({ present: 'cursorBefore' in zeroed, value: zeroed.cursorBefore }));
 
     r = await call('/api/brain-shadow?run=1', { authorization: 'Bearer sekrit' }, { token: 'op', cron: 'sekrit' });
     assert('an exact Bearer CRON_SECRET match DOES execute', r.code === 200 || r.code === 207, String(r.code));

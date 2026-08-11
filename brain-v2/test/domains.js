@@ -204,7 +204,15 @@ console.log('');
      energy declaring its legacy `v` explicitly changed the declaration and nothing else.
      Previous: 56505177dbe1b504cb42267806862e38a97e7fcfc9c26e2070663d145cd1d4f6 */
   var SPEC_SHA = 'f3caed39f9d0909b6dd4593192eebf189f7e3c8aac88a2327fb4d3a0a69c3a2b';
-  var READ_SHA = '7d8c6c687ba1f7f659ef41bd9ee90ab5aa86f2a1fecfab74297376b583499201';
+  /* UPDATED 2026-08-09 when readings gained `recordedAt`, the recorder's receipt time from
+     `row.t`. READ_SHA is a BEHAVIOURAL guarantee and moving it needs more than a note, so
+     the move is proved additive below rather than asserted: strip only the new field and the
+     PREVIOUS hash comes back byte-identical across all 5682 readings, so no existing field's
+     presence, name, order or value changed. That assertion is kept permanently, because
+     "we updated the golden hash" is exactly the sentence behind which a real regression hides.
+     Previous: 7d8c6c687ba1f7f659ef41bd9ee90ab5aa86f2a1fecfab74297376b583499201 */
+  var READ_SHA = '30f160831b6410103b8f3483c518ade2d4ff49aa2c7bc0cd9dc8c207e1cfd9de';
+  var READ_SHA_BEFORE_RECORDED_AT = '7d8c6c687ba1f7f659ef41bd9ee90ab5aa86f2a1fecfab74297376b583499201';
 
   assert('energy spec() is byte-identical to the pre-factory manifest',
     sha(JSON.stringify(ENERGY.spec())) === SPEC_SHA, sha(JSON.stringify(ENERGY.spec())));
@@ -213,6 +221,23 @@ console.log('');
   var all = rows.map(function (r) { return JSON.stringify(ENERGY.readRecorderRow(r)); }).join('|');
   assert('and readRecorderRow is identical across all ' + rows.length + ' recorded rows',
     sha(all) === READ_SHA, sha(all));
+
+  /* THE HASH MOVED BY EXACTLY ONE FIELD, AND NOTHING ELSE. */
+  var strippedReadings = 0, withReceipt = 0;
+  var stripped = rows.map(function (r) {
+    var o = ENERGY.readRecorderRow(r);
+    Object.keys(o).forEach(function (k) {
+      strippedReadings++;
+      if (typeof o[k].recordedAt === 'number') withReceipt++;
+      delete o[k].recordedAt;
+    });
+    return JSON.stringify(o);
+  }).join('|');
+  assert('removing ONLY recordedAt restores the previous hash, so the change is purely additive',
+    sha(stripped) === READ_SHA_BEFORE_RECORDED_AT, sha(stripped));
+  assert('and every one of the ' + strippedReadings + ' readings carries the receipt, not a subset',
+    withReceipt === strippedReadings && strippedReadings > 0,
+    withReceipt + '/' + strippedReadings);
 
   /* The findings' test functions do not survive JSON, so they are checked separately —
      a hash that silently omitted them would pass while every rule had been replaced. */

@@ -129,6 +129,22 @@ module.exports = async function handler(req, res) {
         domain: cyc.domain, ok: cyc.ok, error: cyc.error,
         startedAt: cyc.startedAt, finishedAt: cyc.finishedAt,
         rowsAvailable: cyc.rowsAvailable, rowsApplied: cyc.rowsApplied, ticks: cyc.ticks,
+        /**
+         * CURSOR BEFORE AND AFTER, because continuity is a two-ended claim and this
+         * projection carried only one end.
+         *
+         * The runtime has always recorded `cursorBefore` (lib/brain-shadow-runtime.js), and
+         * `?history=` returns stored records unfiltered so it was readable there, but the
+         * SUMMARY read is the surface an operator actually looks at and it dropped the
+         * field. "Did the cursor stay continuous?" is answered by comparing this cycle's
+         * `cursorBefore` against the previous cycle's `cursorAfter`, and with only the
+         * latter projected the summary could not answer it at all. Same allow-list defect
+         * as compaction and calibration below, found the same way.
+         *
+         * Null on a cold start is MEANINGFUL, not missing: it is the precondition the
+         * cold-start prefix skip is guarded on.
+         */
+        cursorBefore: cyc.cursorBefore === undefined ? null : cyc.cursorBefore,
         cursorAfter: cyc.cursorAfter, restored: cyc.restored,
         provenance: cyc.provenance, predictions: cyc.predictions,
         abstentions: (cyc.abstentions || []).length,
@@ -166,7 +182,19 @@ module.exports = async function handler(req, res) {
            first post-deploy cycle per domain closes prospective checks stranded by the
            colliding-id defect; if that number were invisible, an open-count drop would look
            like loss rather than repair. */
-        prospectiveRepair: cyc.prospectiveRepair || null
+        prospectiveRepair: cyc.prospectiveRepair || null,
+        /**
+         * RELATIONSHIP COMPARABILITY, on the allow-list for the same reason compaction,
+         * calibration, the cold-start skip and cursorBefore are: this projection drops
+         * anything not named here, and a field the runtime records but the operator read
+         * cannot show is a measurement nobody can act on.
+         *
+         * Null distinguishes "this domain declares no relationships" — eighteen of twenty —
+         * from a domain whose pairs were evaluated. It reports comparability ONLY. A pair
+         * reading `eligible:true` has cleared the comparability gate and nothing else; no
+         * pathway is active and the evidence gate is separate and still shut.
+         */
+        relationshipEvidence: cyc.relationshipEvidence || null
       } : null;
     }
     return send(res, 200, {
