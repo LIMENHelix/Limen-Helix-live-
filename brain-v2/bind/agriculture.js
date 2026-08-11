@@ -31,6 +31,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -77,34 +78,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * channel that actually measures drought area — which is exactly how a keyword count gets
  * mistaken for the thing it names.
  */
-var FINDINGS = [
-  { id: 'DROUGHT_AREA_DEPARTURE', requires: ['droughtArea'],
-    basis: 'percentage of CONUS in D2-D4 drought departing its own baseline by >=2sd; direction not interpreted',
-    test: function (v, s, d) { return d.droughtArea && Math.abs(d.droughtArea.z) >= SIGMA; } },
-
-  { id: 'CORN_YIELD_DEPARTURE', requires: ['cornYield'],
-    basis: 'USDA corn yield departing its own baseline',
-    test: function (v, s, d) { return d.cornYield && Math.abs(d.cornYield.z) >= SIGMA; } },
-
-  { id: 'WHEAT_OUTPUT_DEPARTURE', requires: ['wheatIndex'],
-    basis: 'FAO wheat output index departing its own baseline',
-    test: function (v, s, d) { return d.wheatIndex && Math.abs(d.wheatIndex.z) >= SIGMA; } },
-
-  { id: 'FOOD_PRODUCTION_DEPARTURE', requires: ['foodIndex'],
-    basis: 'World Bank food production index departing its own baseline',
-    test: function (v, s, d) { return d.foodIndex && Math.abs(d.foodIndex.z) >= SIGMA; } },
-
-  { id: 'AG_ALERT_DEPARTURE', requires: ['agAlerts'],
-    basis: 'agriculture-impact weather alert count departing its own baseline',
-    test: function (v, s, d) { return d.agAlerts && Math.abs(d.agAlerts.z) >= SIGMA; } },
-
-  { id: 'DROUGHT_AND_ALERTS_CO_DEPARTING', requires: ['droughtArea', 'agAlerts'],
-    basis: 'measured drought area and agriculture-impact alerts both departing their own baselines — a slow area measure and a fast event count moving together, which either alone cannot distinguish from its own noise',
-    test: function (v, s, d) {
-      return d.droughtArea && d.agAlerts && Math.abs(d.droughtArea.z) >= 1.0 && Math.abs(d.agAlerts.z) >= 1.0 &&
-             (Math.abs(d.droughtArea.z) + Math.abs(d.agAlerts.z)) >= 2.5;
-    } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 6 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('agriculture');
 
 module.exports = FACTORY.createBinder({
   domain: 'agriculture',

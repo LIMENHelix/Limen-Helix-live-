@@ -60,6 +60,7 @@
 
 var DIV = require('../core/divergence.js');
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -146,15 +147,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * and that is not the question: a joint finding would assert they move together on this
  * horizon, and a population total is a stock that fertility feeds over decades.
  */
-var FINDINGS = [
-  { id: 'POPULATION_TOTAL_DEPARTURE', requires: ['populationTotal'],
-    basis: 'US total population departing its own baseline by >=2sd; annual, direction not interpreted',
-    test: function (v, s, d) { return d.populationTotal && Math.abs(d.populationTotal.z) >= SIGMA; } },
-
-  { id: 'FERTILITY_RATE_DEPARTURE', requires: ['fertilityRate'],
-    basis: 'US total fertility rate, births per woman, departing its own baseline; annual, direction not interpreted',
-    test: function (v, s, d) { return d.fertilityRate && Math.abs(d.fertilityRate.z) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 2 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('population');
 
 module.exports = FACTORY.createBinder({
   domain: 'population',

@@ -25,6 +25,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -62,15 +63,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * World Bank publishes, not a gap to be filled by promoting one of the five news counts
  * or the works index — every one of those measures publishing.
  */
-var FINDINGS = [
-  { id: 'EDUCATION_SPEND_DEPARTURE', requires: ['eduSpend'],
-    basis: 'education expenditure as a share of GDP departing its own baseline by >=2sd; annual, direction not interpreted',
-    test: function (v, s, d) { return d.eduSpend && Math.abs(d.eduSpend.z) >= SIGMA; } },
-
-  { id: 'TERTIARY_ENROLMENT_DEPARTURE', requires: ['tertiaryEnrol'],
-    basis: 'gross tertiary enrolment ratio departing its own baseline; annual, direction not interpreted',
-    test: function (v, s, d) { return d.tertiaryEnrol && Math.abs(d.tertiaryEnrol.z) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 2 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('education');
 
 module.exports = FACTORY.createBinder({
   domain: 'education',

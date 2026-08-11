@@ -33,6 +33,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -76,11 +77,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * much litigation is happening; what the channels hold is how many ARTICLES mentioned
  * dockets and caseloads that week.
  */
-var FINDINGS = [
-  { id: 'NEW_KEV_30D_DEPARTURE', requires: ['cisaKev'],
-    basis: 'count of KEV entries added in the last 30 days departing its own baseline by >=2sd; direction not interpreted',
-    test: function (v, s, d) { return d.cisaKev && Math.abs(d.cisaKev.z) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 1 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('law');
 
 module.exports = FACTORY.createBinder({
   domain: 'law',

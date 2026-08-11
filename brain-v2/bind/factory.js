@@ -33,6 +33,8 @@
 
 'use strict';
 
+var FORMS = require('./diagnosis-forms.js');   // the reviewed interpreter for declarative diagnoses
+
 /**
  * Pull the declared field out of a live snapshot source.
  *
@@ -113,16 +115,22 @@ function validate(spec) {
     if (!r.latent) throw new Error('binder ' + spec.domain + ': every relationship must name the latent both channels observe');
   });
 
+  /**
+   * FINDINGS ARE DECLARATIVE ENTRIES, NOT FUNCTIONS.
+   *
+   * They used to be `test: function (v, s, d) {...}` stored beside the declaration. bind/
+   * diagnosis-forms.js now owns the arithmetic and bind/diagnosis-registry.js owns the
+   * definitions, so what arrives here is data naming one of ten reviewed forms. The checks
+   * that used to live in this loop — an id, and requirements that name real channels — are
+   * still enforced, by that validator, alongside the ones only a bounded grammar can make:
+   * a known form, the right operand count, and a threshold that was actually reviewed.
+   *
+   * The `requires`-names-a-real-channel rule is unchanged in meaning and still throws for
+   * the same reason: a rule that can never fire is indistinguishable from one that never
+   * found anything.
+   */
   (spec.findings || []).forEach(function (f) {
-    if (!f.id) throw new Error('binder ' + spec.domain + ': every finding needs an id');
-    (f.requires || []).forEach(function (k) {
-      if (!seen[k]) {
-        throw new Error('binder ' + spec.domain + ': finding ' + f.id + ' requires channel "' + k +
-          '", which this domain does not declare. It could never fire, and a rule that cannot ' +
-          'fire is indistinguishable from one that found nothing.');
-      }
-    });
-    if (typeof f.test !== 'function') throw new Error('binder ' + spec.domain + ': finding ' + f.id + ' needs a test');
+    FORMS.validate(spec.domain, f, seen);
   });
 
   return seen;
@@ -140,7 +148,36 @@ function createBinder(spec) {
 
   var CHANNELS = spec.channels;
   var REL = spec.relationships || [];
-  var FINDINGS = spec.findings || [];
+
+  /**
+   * COMPILE the declarative entries into what core/brain.js calls.
+   *
+   * The closure is built by reviewed code (diagnosis-forms.compile) from data that never
+   * carried behaviour. Compilation happens HERE, at construction, and not lazily at
+   * evaluation, because core/brain.js wraps every test in a try/catch that turns a throw
+   * into "did not fire" — a malformed entry discovered there would report as a calm domain.
+   * Built at construction, it refuses to build the binder at all.
+   *
+   * THE RUNTIME SHAPE IS DELIBERATELY THE OLD ONE: id, requires, basis, test, in that order
+   * and nothing else. `spec()` returns this same array, it is serialised into stored brain
+   * specs, and test/domains.js hashes it as the compatibility guarantee for the one domain
+   * with a real fixture. This migration changed how a diagnosis is WRITTEN, not what any
+   * domain declares, so the serialised declaration must not move. Copying the entry's form,
+   * operands and thresholds onto the runtime object would change that payload everywhere
+   * without changing a single decision.
+   *
+   * The declarative fields are not lost by this: they live in bind/diagnosis-registry.js,
+   * which is where a reader should look for them. If the published spec ever should carry
+   * the form, that is a real change to what the system says about itself and belongs in a
+   * review with a hash change attached, not as a side effect of a refactor.
+   */
+  var FINDINGS = (spec.findings || []).map(function (f) {
+    var runtime = { id: f.id };
+    if (f.requires !== undefined) runtime.requires = f.requires;
+    if (f.basis !== undefined) runtime.basis = f.basis;
+    runtime.test = FORMS.compile(spec.domain, f);
+    return runtime;
+  });
 
   /** Readings for one cycle from a live /api/domain-snapshot domain object. */
   function readLive(domainObj) {

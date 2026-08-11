@@ -24,6 +24,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -59,15 +60,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * together would be worth knowing, but asserting they should is the relationship this
  * file's header declined to declare.
  */
-var FINDINGS = [
-  { id: 'MFG_PRICE_DEPARTURE', requires: ['mfgPpi'],
-    basis: 'manufacturing producer price index departing its own baseline by >=2sd; direction not interpreted',
-    test: function (v, s, d) { return d.mfgPpi && Math.abs(d.mfgPpi.z) >= SIGMA; } },
-
-  { id: 'MFG_VALUE_ADDED_DEPARTURE', requires: ['mfgValueAdd'],
-    basis: 'manufacturing value added as a share of GDP departing its own baseline; annual, so it will usually abstain',
-    test: function (v, s, d) { return d.mfgValueAdd && Math.abs(d.mfgValueAdd.z) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 2 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('industry');
 
 module.exports = FACTORY.createBinder({
   domain: 'industry',

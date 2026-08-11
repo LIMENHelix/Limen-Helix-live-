@@ -29,6 +29,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -76,26 +77,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * counts. No fused-state finding: the domain already reports its own dysregulation, and
  * re-testing it restates a number the cycle has already emitted.
  */
-var FINDINGS = [
-  { id: 'FREIGHT_PRICE_DEPARTURE', requires: ['freightPpi'],
-    basis: 'freight producer price index departing its own baseline by >=2sd; direction not interpreted',
-    test: function (v, s, d) { return d.freightPpi && Math.abs(d.freightPpi.z) >= SIGMA; } },
-
-  { id: 'WEATHER_ALERT_DEPARTURE', requires: ['nwsAlerts'],
-    basis: 'active NWS alert count departing its own baseline',
-    test: function (v, s, d) { return d.nwsAlerts && Math.abs(d.nwsAlerts.z) >= SIGMA; } },
-
-  { id: 'SEISMIC_DEPARTURE', requires: ['earthquakes'],
-    basis: 'M4.5+ earthquake count departing its own baseline',
-    test: function (v, s, d) { return d.earthquakes && Math.abs(d.earthquakes.z) >= SIGMA; } },
-
-  { id: 'PHYSICAL_HAZARDS_CO_DEPARTING', requires: ['nwsAlerts', 'earthquakes'],
-    basis: 'weather alerts and seismic activity both departing their own baselines — two independent hazard counts, which either alone cannot distinguish from its own noise',
-    test: function (v, s, d) {
-      return d.nwsAlerts && d.earthquakes && Math.abs(d.nwsAlerts.z) >= 1.0 && Math.abs(d.earthquakes.z) >= 1.0 &&
-             (Math.abs(d.nwsAlerts.z) + Math.abs(d.earthquakes.z)) >= 2.5;
-    } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 4 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('supplyChain');
 
 module.exports = FACTORY.createBinder({
   /* THE SNAPSHOT KEY, not the filename. */

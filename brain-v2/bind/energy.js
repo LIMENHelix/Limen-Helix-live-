@@ -27,6 +27,7 @@
 
 var DIV = require('../core/divergence.js');
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -162,31 +163,15 @@ var CHANNELS = [
  */
 var SIGMA = 2.0;   // [mark: prior] — same threshold as the core detector, stated once
 
-var FINDINGS = [
-  { id: 'OIL_SHOCK', requires: ['fredCrude'],
-    basis: 'FRED WTI departing its own baseline by >=2sd',
-    test: function (v, s, d) { return d.fredCrude && d.fredCrude.z >= SIGMA; } },
-
-  { id: 'GRID_COLLAPSE', requires: ['gridRel', 'electricity'],
-    basis: 'grid-reliability AND electricity news volume both elevated vs own baseline',
-    test: function (v, s, d) { return d.gridRel && d.electricity && d.gridRel.z >= SIGMA && d.electricity.z >= 1.0; } },
-
-  { id: 'PIPELINE_DISRUPTION', requires: ['natGas', 'lng'],
-    basis: 'gas and LNG news co-elevated — chokepoint signature',
-    test: function (v, s, d) { return d.natGas && d.lng && (d.natGas.z >= SIGMA || d.lng.z >= SIGMA) && (d.natGas.z + d.lng.z) >= 2.5; } },
-
-  { id: 'RENEWABLE_INTERMITTENCY', requires: ['solar', 'wind'],
-    basis: 'solar and wind coverage elevated together',
-    test: function (v, s, d) { return d.solar && d.wind && (d.solar.z + d.wind.z) >= 2.5; } },
-
-  { id: 'NUCLEAR_INCIDENT', requires: ['nuclear', 'fedRegNrc'],
-    basis: 'nuclear coverage AND NRC filing activity both departing baseline',
-    test: function (v, s, d) { return d.nuclear && d.fedRegNrc && d.nuclear.z >= SIGMA && d.fedRegNrc.z >= 1.0; } },
-
-  { id: 'SYSTEMIC_ENERGY_STRESS', requires: ['fredCrude', 'gridRel'],
-    basis: 'the fused domain state itself past 2sd, with price and grid both live',
-    test: function (v, s, d) { return typeof s.departure === 'number' && Math.abs(s.departure) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 6 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('energy');
 
 /**
  * ENERGY IS THE COMPATIBILITY REFERENCE for the binder factory.

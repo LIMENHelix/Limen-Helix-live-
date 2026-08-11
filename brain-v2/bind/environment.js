@@ -26,6 +26,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -66,30 +67,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * those move when somebody publishes, and a finding built on them would report a busy
  * newsroom as an environmental event.
  */
-var FINDINGS = [
-  { id: 'TEMPERATURE_ANOMALY', requires: ['tempAnomaly'],
-    basis: 'temperature anomaly departing its own baseline by >=2sd',
-    test: function (v, s, d) { return d.tempAnomaly && Math.abs(d.tempAnomaly.z) >= SIGMA; } },
-
-  { id: 'SEISMIC_ACTIVITY', requires: ['earthquakes'],
-    basis: 'M4.5+ earthquake count departing its own baseline',
-    test: function (v, s, d) { return d.earthquakes && d.earthquakes.z >= SIGMA; } },
-
-  { id: 'SEVERE_WEATHER', requires: ['nwsAlerts'],
-    basis: 'active NWS alert count departing its own baseline',
-    test: function (v, s, d) { return d.nwsAlerts && d.nwsAlerts.z >= SIGMA; } },
-
-  { id: 'COMPOUND_HAZARD', requires: ['nwsAlerts', 'earthquakes'],
-    basis: 'weather alerts and seismic activity both elevated — two independent hazard counts, which either alone cannot distinguish from its own noise',
-    test: function (v, s, d) {
-      return d.nwsAlerts && d.earthquakes && d.nwsAlerts.z >= 1.0 && d.earthquakes.z >= 1.0 &&
-             (d.nwsAlerts.z + d.earthquakes.z) >= 2.5;
-    } },
-
-  { id: 'SYSTEMIC_ENVIRONMENTAL_STRESS', requires: ['tempAnomaly', 'nwsAlerts'],
-    basis: 'the fused domain state itself past 2sd, with a physical measure and an event count both live',
-    test: function (v, s, d) { return typeof s.departure === 'number' && Math.abs(s.departure) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 5 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('environment');
 
 module.exports = FACTORY.createBinder({
   domain: 'environment',
