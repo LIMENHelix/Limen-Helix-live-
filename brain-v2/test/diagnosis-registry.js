@@ -102,10 +102,23 @@ function oldFindingsFor(file) {
   return fn(2.0);
 }
 
-/** Which binder file declares which domain, without requiring the module. */
+/**
+ * The binder modules in bind/, identified by WHAT THEY EXPORT rather than by what they are
+ * not called.
+ *
+ * This was a hardcoded list of exclusions — factory, registry, and the two new registry
+ * files — which is a rule that silently rots. `bind/calendars.js` landed on main between this
+ * branch being cut and CI running it: a declared-data module, not a binder, and the exclusion
+ * list did not know about it. The suite required it and died on `binder.spec is not a
+ * function`, which names the symptom and not the cause. A binder is a thing with a domain, a
+ * findings array and a spec; anything else in this directory is not one, whenever it arrives.
+ */
 function binderFiles() {
   return fs.readdirSync(BIND_DIR).filter(function (f) {
-    return f.slice(-3) === '.js' && ['factory.js', 'registry.js', 'diagnosis-registry.js', 'diagnosis-forms.js'].indexOf(f) < 0;
+    if (f.slice(-3) !== '.js') return false;
+    var m;
+    try { m = require(path.join(BIND_DIR, f)); } catch (e) { return false; }
+    return !!m && typeof m.domain === 'string' && Array.isArray(m.FINDINGS) && typeof m.spec === 'function';
   });
 }
 

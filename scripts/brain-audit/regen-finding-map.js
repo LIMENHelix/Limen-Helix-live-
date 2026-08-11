@@ -82,10 +82,19 @@ function normalizeBody(fn) {
     .replace(/; \}$/, '');
 }
 
+/**
+ * Binder modules, identified by what they EXPORT rather than by an exclusion list.
+ *
+ * The list used to name factory, registry and the two registry files. `bind/calendars.js`
+ * then landed on main — declared data, not a binder — and an exclusion list cannot know about
+ * a file that does not exist yet. A binder has a domain, a findings array and a spec.
+ */
 function binderFiles() {
   return fs.readdirSync(BIND_DIR).filter(function (f) {
-    return f.slice(-3) === '.js' &&
-      ['factory.js', 'registry.js', 'diagnosis-registry.js', 'diagnosis-forms.js'].indexOf(f) < 0;
+    if (f.slice(-3) !== '.js') return false;
+    var m;
+    try { m = require(path.join(BIND_DIR, f)); } catch (e) { return false; }
+    return !!m && typeof m.domain === 'string' && Array.isArray(m.FINDINGS) && typeof m.spec === 'function';
   });
 }
 
