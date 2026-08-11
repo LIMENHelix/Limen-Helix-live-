@@ -31,6 +31,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          # FULL HISTORY, because one test needs commits and not just a working tree.
+          # brain-v2/test/diagnosis-registry.js proves the declarative diagnosis registry
+          # decides exactly what the executable predicates it replaced decided, and it reads
+          # those predicates out of git at the baseline commit rather than from a copy — a
+          # vendored copy could drift into agreement with the thing it is supposed to check.
+          # The default depth of 1 does not contain that commit, so the suite exited 1 with
+          # "invalid object name". It now refuses to run rather than skipping the comparison,
+          # which is why this line is load-bearing and not a convenience.
+          fetch-depth: 0
 
       # cache: npm and `npm ci` below BOTH refuse to run without a committed
       # package-lock.json. It was in .gitignore until 2026-08-01, so this job as

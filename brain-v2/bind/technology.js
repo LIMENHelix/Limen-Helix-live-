@@ -37,6 +37,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -79,22 +80,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * departure; a finding that re-tests `state.departure` restates a number the cycle has
  * already emitted, so it adds a second voice saying the same thing rather than evidence.
  */
-var FINDINGS = [
-  { id: 'NEW_KEV_30D_DEPARTURE', requires: ['cisaKev'],
-    basis: 'count of KEV entries added in the last 30 days departing its own baseline by >=2sd; direction not interpreted',
-    test: function (v, s, d) { return d.cisaKev && Math.abs(d.cisaKev.z) >= SIGMA; } },
-
-  { id: 'NEW_CVE_RATE_DEPARTURE', requires: ['nvdCves'],
-    basis: 'count of CVEs published in the last 7 days departing its own baseline; direction not interpreted',
-    test: function (v, s, d) { return d.nvdCves && Math.abs(d.nvdCves.z) >= SIGMA; } },
-
-  { id: 'VULNERABILITY_COUNTS_CO_DEPARTING', requires: ['cisaKev', 'nvdCves'],
-    basis: 'the 30-day exploited-vulnerability flow and the 7-day publication flow both departing their own baselines — two different populations over two different windows moving together, which either alone cannot distinguish from its own noise',
-    test: function (v, s, d) {
-      return d.cisaKev && d.nvdCves && Math.abs(d.cisaKev.z) >= 1.0 && Math.abs(d.nvdCves.z) >= 1.0 &&
-             (Math.abs(d.cisaKev.z) + Math.abs(d.nvdCves.z)) >= 2.5;
-    } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 3 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('technology');
 
 module.exports = FACTORY.createBinder({
   domain: 'technology',

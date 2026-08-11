@@ -475,10 +475,26 @@ console.log('');
   catch (e) { threw = /must name the latent|does not declare/.test(e.message); }
   assert('a relationship with no stated latent throws', threw);
 
+  /* UPDATED for the declarative diagnosis registry. The fixture used to be an inline
+     `test:` function, which the factory no longer accepts at all; the RULE it proves is
+     unchanged, so the fixture moved to the new representation rather than the assertion
+     being dropped. The refusal of the old representation is asserted immediately below,
+     because "the old shape is gone" and "the rule still holds" are two different claims. */
+  function decl(extra) {
+    return Object.assign({ id: 'F', form: 'SINGLE_DEPART_ABS', operands: ['a'], requires: ['a'],
+      thresholds: ['SIGMA'], basis: 'a stated basis', schemaVersion: 1, definitionVersion: 1,
+      status: 'declared', provenance: { derivedFrom: 'test', commit: 'test' } }, extra);
+  }
+
   threw = false;
-  try { build({ findings: [{ id: 'F', requires: ['ghost'], test: function () { return false; } }] }); }
+  try { build({ findings: [decl({ requires: ['ghost'] })] }); }
   catch (e) { threw = /does not declare/.test(e.message); }
   assert('a finding requiring an undeclared channel throws — it could never fire', threw);
+
+  threw = false;
+  try { build({ findings: [decl({ test: function () { return false; } })] }); }
+  catch (e) { threw = /entries are DATA/.test(e.message); }
+  assert('and an inline test function is refused — definitions may not carry behaviour', threw);
 
   threw = false;
   try {

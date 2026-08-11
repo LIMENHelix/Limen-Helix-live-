@@ -33,6 +33,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -75,19 +76,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * assert they should move together, which is the relationship this file spent its header
  * refusing to declare.
  */
-var FINDINGS = [
-  { id: 'CORRUPTION_INDEX_DEPARTURE', requires: ['corruption'],
-    basis: 'control-of-corruption index departing its own baseline by >=2sd; direction not interpreted',
-    test: function (v, s, d) { return d.corruption && Math.abs(d.corruption.z) >= SIGMA; } },
-
-  { id: 'GOV_EFFECTIVENESS_DEPARTURE', requires: ['govEffect'],
-    basis: 'government-effectiveness index departing its own baseline; direction not interpreted',
-    test: function (v, s, d) { return d.govEffect && Math.abs(d.govEffect.z) >= SIGMA; } },
-
-  { id: 'RULE_OF_LAW_DEPARTURE', requires: ['ruleOfLaw'],
-    basis: 'rule-of-law index departing its own baseline; direction not interpreted',
-    test: function (v, s, d) { return d.ruleOfLaw && Math.abs(d.ruleOfLaw.z) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 3 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('governance');
 
 module.exports = FACTORY.createBinder({
   domain: 'governance',

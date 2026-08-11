@@ -32,6 +32,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -86,33 +87,15 @@ var SIGMA = 2.0;   // [mark: prior] — same threshold the core detector uses, s
  * threshold nobody here can defend. Nothing is built on a document count or the net term
  * score: those move when an agency publishes, which is a fact about publishing.
  */
-var FINDINGS = [
-  { id: 'PRICE_SHOCK', requires: ['cpi'],
-    basis: 'monthly CPI change departing its own baseline by >=2sd',
-    test: function (v, s, d) { return d.cpi && Math.abs(d.cpi.z) >= SIGMA; } },
-
-  { id: 'POLICY_RATE_MOVE', requires: ['effr'],
-    basis: 'effective fed funds rate departing its own baseline',
-    test: function (v, s, d) { return d.effr && Math.abs(d.effr.z) >= SIGMA; } },
-
-  { id: 'FUEL_PRICE_MOVE', requires: ['gasPrice'],
-    basis: 'retail gasoline price departing its own baseline',
-    test: function (v, s, d) { return d.gasPrice && Math.abs(d.gasPrice.z) >= SIGMA; } },
-
-  { id: 'LABOUR_MARKET_SHIFT', requires: ['payrolls'],
-    basis: 'nonfarm payrolls departing their own baseline',
-    test: function (v, s, d) { return d.payrolls && Math.abs(d.payrolls.z) >= SIGMA; } },
-
-  { id: 'FISCAL_STRESS', requires: ['deficit', 'cashBalance'],
-    basis: 'the monthly deficit and the operating cash balance both departing their own baselines — two different fiscal quantities moving together, which one of them alone cannot show',
-    test: function (v, s, d) {
-      return d.deficit && d.cashBalance && Math.abs(d.deficit.z) >= SIGMA && Math.abs(d.cashBalance.z) >= 1.0;
-    } },
-
-  { id: 'SYSTEMIC_ECONOMIC_STRESS', requires: ['cpi', 'effr'],
-    basis: 'the fused domain state itself past 2sd, with a price and a rate both live',
-    test: function (v, s, d) { return typeof s.departure === 'number' && Math.abs(s.departure) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 6 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('economy');
 
 module.exports = FACTORY.createBinder({
   domain: 'economy',

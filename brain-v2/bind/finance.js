@@ -64,6 +64,7 @@
 
 var DIV = require('../core/divergence.js');
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -165,31 +166,15 @@ var SIGMA = 2.0;   // [mark: prior] — same threshold the core detector uses, s
  * quantity rather than a publication count. A finding on a keyword-match count would fire
  * on a news cycle and be reported as a financial condition.
  */
-var FINDINGS = [
-  { id: 'MARKET_DISLOCATION', requires: ['finnhub'],
-    basis: 'SPY departing its own baseline by >=2sd on a live quote',
-    test: function (v, s, d) { return d.finnhub && Math.abs(d.finnhub.z) >= SIGMA; } },
-
-  { id: 'FUNDING_STRESS', requires: ['sofr'],
-    basis: 'overnight secured rate departing its own baseline — a funding-market signal, not a level judgement',
-    test: function (v, s, d) { return d.sofr && Math.abs(d.sofr.z) >= SIGMA; } },
-
-  { id: 'CURVE_SHIFT', requires: ['yieldCurve'],
-    basis: 'bills-minus-notes spread departing its own baseline',
-    test: function (v, s, d) { return d.yieldCurve && Math.abs(d.yieldCurve.z) >= SIGMA; } },
-
-  { id: 'VENDOR_DISAGREEMENT', requires: ['massiveSpy', 'finnhub'],
-    basis: 'two vendors on ONE instrument departing in opposite directions — an instrument cannot do that, so this is an instrumentation fault',
-    test: function (v, s, d) {
-      return d.massiveSpy && d.finnhub &&
-             Math.sign(d.massiveSpy.z) !== Math.sign(d.finnhub.z) &&
-             Math.abs(d.massiveSpy.z - d.finnhub.z) >= SIGMA;
-    } },
-
-  { id: 'SYSTEMIC_FINANCIAL_STRESS', requires: ['finnhub', 'sofr'],
-    basis: 'the fused domain state itself past 2sd, with a price and a rate both live',
-    test: function (v, s, d) { return typeof s.departure === 'number' && Math.abs(s.departure) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 5 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('finance');
 
 module.exports = FACTORY.createBinder({
   domain: 'finance',

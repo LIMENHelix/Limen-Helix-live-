@@ -37,6 +37,7 @@
 'use strict';
 
 var FACTORY = require('./factory.js');
+var DIAGNOSES = require('./diagnosis-registry.js');
 
 var HOUR = 3600000;
 var DAY = 24 * HOUR;
@@ -84,30 +85,15 @@ var SIGMA = 2.0;   // [mark: prior]
  * be reported as a health condition — which in this domain is not merely wrong but the
  * kind of wrong somebody might act on.
  */
-var FINDINGS = [
-  { id: 'ADVERSE_EVENT_SURGE', requires: ['adverseEvents'],
-    basis: 'openFDA adverse event reports departing their own baseline by >=2sd',
-    test: function (v, s, d) { return d.adverseEvents && d.adverseEvents.z >= SIGMA; } },
-
-  { id: 'ENFORCEMENT_SURGE', requires: ['drugRecalls'],
-    basis: 'openFDA drug enforcement actions in the 30d window departing their own baseline',
-    test: function (v, s, d) { return d.drugRecalls && d.drugRecalls.z >= SIGMA; } },
-
-  { id: 'SUPPLY_SHORTAGE', requires: ['drugShortages'],
-    basis: 'tracked drug shortages departing their own baseline',
-    test: function (v, s, d) { return d.drugShortages && d.drugShortages.z >= SIGMA; } },
-
-  { id: 'SAFETY_AND_SUPPLY_TOGETHER', requires: ['drugRecalls', 'drugShortages'],
-    basis: 'enforcement actions and tracked shortages both elevated — two separately reported quantities moving together, which either alone cannot distinguish from its own noise',
-    test: function (v, s, d) {
-      return d.drugRecalls && d.drugShortages && d.drugRecalls.z >= 1.0 && d.drugShortages.z >= 1.0 &&
-             (d.drugRecalls.z + d.drugShortages.z) >= 2.5;
-    } },
-
-  { id: 'SYSTEMIC_HEALTH_STRESS', requires: ['adverseEvents', 'drugShortages'],
-    basis: 'the fused domain state itself past 2sd, with two reported quantities live',
-    test: function (v, s, d) { return typeof s.departure === 'number' && Math.abs(s.departure) >= SIGMA; } }
-];
+/**
+ * DIAGNOSES — declared as data in bind/diagnosis-registry.js, interpreted by
+ * bind/diagnosis-forms.js. These 5 were this domain's inline `test:` functions until the
+ * registry migration; the entries were generated from them and the equivalence is proved
+ * in brain-v2/test/diagnosis-registry.js against the predicates as they were at ea5923ba.
+ *
+ * The registry is keyed (domain, id), so reading it by domain here is the whole coupling.
+ */
+var FINDINGS = DIAGNOSES.findingsFor('health');
 
 module.exports = FACTORY.createBinder({
   /* THE SNAPSHOT KEY, not the filename. See the header. */
