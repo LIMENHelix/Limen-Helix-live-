@@ -203,7 +203,12 @@ console.log('');
      which is the behavioural guarantee. It did not — the readings are byte-identical, so
      energy declaring its legacy `v` explicitly changed the declaration and nothing else.
      Previous: 56505177dbe1b504cb42267806862e38a97e7fcfc9c26e2070663d145cd1d4f6 */
-  var SPEC_SHA = 'f3caed39f9d0909b6dd4593192eebf189f7e3c8aac88a2327fb4d3a0a69c3a2b';
+  /* UPDATED 2026-08-11 when the eleven news channels gained `recordedFieldLegacy` and
+     `legacyUnits`. They now declare `recordedField: 'r7'` and fall back to `v` only where a
+     row predates the recorder storing `r7`. The spec hash moves because the manifest gained
+     fields; READ_SHA moves too and is proved additive below.
+     Previous: f3caed39f9d0909b6dd4593192eebf189f7e3c8aac88a2327fb4d3a0a69c3a2b */
+  var SPEC_SHA = '8d704003a8486bf6930f32132ac272ed34b222e9fcb1ab1c8aeb02506c9b6735';
   /* UPDATED 2026-08-09 when readings gained `recordedAt`, the recorder's receipt time from
      `row.t`. READ_SHA is a BEHAVIOURAL guarantee and moving it needs more than a note, so
      the move is proved additive below rather than asserted: strip only the new field and the
@@ -211,7 +216,16 @@ console.log('');
      presence, name, order or value changed. That assertion is kept permanently, because
      "we updated the golden hash" is exactly the sentence behind which a real regression hides.
      Previous: 7d8c6c687ba1f7f659ef41bd9ee90ab5aa86f2a1fecfab74297376b583499201 */
-  var READ_SHA = '30f160831b6410103b8f3483c518ade2d4ff49aa2c7bc0cd9dc8c207e1cfd9de';
+  /* UPDATED 2026-08-11 when readings gained `recordedFieldUsed`, which names WHICH recorded
+     key a reading came from. Same discipline as the recordedAt move: the new hash is not
+     asserted on its own, it is proved additive below by stripping only the new field and
+     getting the previous hash back across all 5682 readings. That matters more here than it
+     did there, because this change also altered which key those channels PREFER — and the
+     stripped hash is the evidence that preferring `r7` changed no value on a fixture whose
+     6516 source entries carry no `r7` at all.
+     Previous: 30f160831b6410103b8f3483c518ade2d4ff49aa2c7bc0cd9dc8c207e1cfd9de */
+  var READ_SHA = '9b3912800a4e731b0948f2f6e1c3b7af20b85f8379ef57b37f168f374e2050ae';
+  var READ_SHA_BEFORE_FIELD_MARKER = '30f160831b6410103b8f3483c518ade2d4ff49aa2c7bc0cd9dc8c207e1cfd9de';
   var READ_SHA_BEFORE_RECORDED_AT = '7d8c6c687ba1f7f659ef41bd9ee90ab5aa86f2a1fecfab74297376b583499201';
 
   assert('energy spec() is byte-identical to the pre-factory manifest',
@@ -222,22 +236,61 @@ console.log('');
   assert('and readRecorderRow is identical across all ' + rows.length + ' recorded rows',
     sha(all) === READ_SHA, sha(all));
 
-  /* THE HASH MOVED BY EXACTLY ONE FIELD, AND NOTHING ELSE. */
-  var strippedReadings = 0, withReceipt = 0;
-  var stripped = rows.map(function (r) {
+  /* THE HASH MOVED BY EXACTLY ONE FIELD, AND NOTHING ELSE.
+     Stripped in reverse order of addition: first recordedFieldUsed to reach the state
+     before 2026-08-11, then recordedAt to reach the state before 2026-08-09. Each step
+     must land exactly on the hash that was pinned at the time. */
+  var strippedReadings = 0, withMarker = 0, withReceipt = 0;
+  var strippedMarker = rows.map(function (r) {
     var o = ENERGY.readRecorderRow(r);
     Object.keys(o).forEach(function (k) {
       strippedReadings++;
-      if (typeof o[k].recordedAt === 'number') withReceipt++;
-      delete o[k].recordedAt;
+      if (typeof o[k].recordedFieldUsed === 'string') withMarker++;
+      delete o[k].recordedFieldUsed;
     });
     return JSON.stringify(o);
   }).join('|');
-  assert('removing ONLY recordedAt restores the previous hash, so the change is purely additive',
+  assert('removing ONLY recordedFieldUsed restores the previous hash, so preferring r7 changed no value',
+    sha(strippedMarker) === READ_SHA_BEFORE_FIELD_MARKER, sha(strippedMarker));
+  assert('and every one of the ' + strippedReadings + ' readings names the key it came from, not a subset',
+    withMarker === strippedReadings && strippedReadings > 0, withMarker + '/' + strippedReadings);
+
+  var stripped = rows.map(function (r) {
+    var o = ENERGY.readRecorderRow(r);
+    Object.keys(o).forEach(function (k) {
+      if (typeof o[k].recordedAt === 'number') withReceipt++;
+      delete o[k].recordedAt;
+      delete o[k].recordedFieldUsed;
+    });
+    return JSON.stringify(o);
+  }).join('|');
+  assert('removing recordedAt as well restores the hash from before that field existed',
     sha(stripped) === READ_SHA_BEFORE_RECORDED_AT, sha(stripped));
   assert('and every one of the ' + strippedReadings + ' readings carries the receipt, not a subset',
     withReceipt === strippedReadings && strippedReadings > 0,
     withReceipt + '/' + strippedReadings);
+
+  /* THE FIXTURE IS ENTIRELY LEGACY-ERA, which is why the values could not move. Asserted
+     rather than trusted: if a future fixture gains r7 rows, the hash assertions above become
+     wrong for a real reason and this says which. */
+  var srcEntries = 0, srcWithR7 = 0;
+  rows.forEach(function (r) {
+    (r.src || []).forEach(function (s) {
+      srcEntries++;
+      if (typeof s.r7 === 'number' && isFinite(s.r7)) srcWithR7++;
+    });
+  });
+  assert('none of the ' + srcEntries + ' recorded source entries carries r7, so every reading fell back to v',
+    srcWithR7 === 0, String(srcWithR7));
+  var legacyUsed = 0, currentUsed = 0;
+  rows.forEach(function (r) {
+    var o = ENERGY.readRecorderRow(r);
+    Object.keys(o).forEach(function (k) {
+      if (o[k].recordedFieldUsed === 'v') legacyUsed++; else currentUsed++;
+    });
+  });
+  assert('and every reading reports the legacy key it actually used',
+    legacyUsed === strippedReadings && currentUsed === 0, legacyUsed + ' legacy, ' + currentUsed + ' current');
 
   /* The findings' test functions do not survive JSON, so they are checked separately —
      a hash that silently omitted them would pass while every rule had been replaced. */
@@ -287,17 +340,39 @@ console.log('');
   catch (e) { threw = /the recorder never writes/.test(e.message); }
   assert('a recordedField the recorder never writes is refused, not silently undefined', threw);
 
-  /* ENERGY DECLARES THE LEGACY CHOICE DELIBERATELY, on all eighteen channels including
-     its thirteen recent7d ones, because 0 of that fixture's 6516 source entries carry
-     `r7`. It is a written-down decision now, not a default that happened to be right. */
+  /**
+   * ENERGY SPANS TWO RECORDER ERAS, AND SAYS SO PER CHANNEL.
+   *
+   * This used to assert that every channel declared the legacy `v`, including the news
+   * channels, because 0 of the fixture's 6516 source entries carry `r7`. That was right
+   * about the fixture and wrong about the live system: those channels declare
+   * `field: 'recent7d'` and the recorder has stored `r7` since 2026-08-01, so replay was
+   * reading the saturated page count where live read a seven-day density. Measured in
+   * production 2026-08-11, nine of the eleven sat at exactly 100 while live `recent7d`
+   * ranged 0 to 29.
+   *
+   * The declaration now names both keys, so the fixture still reads `v` and new rows read
+   * `r7`, and neither case is a default that happened to be right. The count is ELEVEN,
+   * not the thirteen an older comment claimed.
+   */
   assert('energy declares recordedField on every channel',
     ENERGY.CHANNELS.every(function (c) { return !!c.recordedField; }));
-  assert('and every one of them is the legacy v, on purpose',
-    ENERGY.CHANNELS.every(function (c) { return c.recordedField === 'v'; }));
-  assert('including the thirteen declared recent7d, which is the deliberate part',
-    ENERGY.CHANNELS.filter(function (c) { return c.field === 'recent7d'; })
-      .every(function (c) { return c.recordedField === 'v'; }),
-    String(ENERGY.CHANNELS.filter(function (c) { return c.field === 'recent7d'; }).length));
+
+  var newsChannels = ENERGY.CHANNELS.filter(function (c) { return c.field === 'recent7d'; });
+  var valueChannels = ENERGY.CHANNELS.filter(function (c) { return c.field !== 'recent7d'; });
+  assert('eleven channels read recent7d live, and seven read value',
+    newsChannels.length === 11 && valueChannels.length === 7,
+    newsChannels.length + ' recent7d, ' + valueChannels.length + ' value');
+  assert('every recent7d channel now prefers the current key r7',
+    newsChannels.every(function (c) { return c.recordedField === 'r7'; }));
+  assert('and each declares the legacy v it falls back to for pre-2026-08-01 rows',
+    newsChannels.every(function (c) { return c.recordedFieldLegacy === 'v'; }));
+  assert('and names the legacy units, because the fallback is a different quantity',
+    newsChannels.every(function (c) { return !!c.legacyUnits && c.legacyUnits !== c.units; }));
+  assert('the seven value channels declare v with no fallback, because they never had two eras',
+    valueChannels.every(function (c) {
+      return c.recordedField === 'v' && c.recordedFieldLegacy === undefined && c.legacyUnits === undefined;
+    }));
   assert('finance declares it on every channel too',
     FINANCE.CHANNELS.every(function (c) { return !!c.recordedField; }));
 })();
