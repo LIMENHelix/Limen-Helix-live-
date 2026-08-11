@@ -102,6 +102,37 @@ function validate(spec) {
       throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' declares recordedField "' +
         c.recordedField + '", which the recorder never writes. Legal: ' + RECORDED_FIELDS.join(', '));
     }
+    /**
+     * A LEGACY FALLBACK IS A SECOND QUANTITY, AND THE DECLARATION HAS TO SAY SO.
+     *
+     * `recordedFieldLegacy` exists for a channel that spans two recorder eras: `r7` after
+     * 2026-08-01 and only `v` before it. Those are not the same measurement wearing
+     * different names. `r7` counts articles in the last seven days; `v` is the raw page
+     * count, which saturates at 100 and stops moving. Reading one where the other is
+     * expected is the "two instruments under one channel key" error, and the only thing
+     * that keeps it visible is being forced to name the other instrument's units.
+     *
+     * So declaring a fallback without `legacyUnits` throws. It is deliberately impossible
+     * to add an era boundary silently.
+     */
+    if (c.recordedFieldLegacy !== undefined) {
+      if (RECORDED_FIELDS.indexOf(c.recordedFieldLegacy) < 0) {
+        throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' declares recordedFieldLegacy "' +
+          c.recordedFieldLegacy + '", which the recorder never writes. Legal: ' + RECORDED_FIELDS.join(', '));
+      }
+      if (c.recordedFieldLegacy === c.recordedField) {
+        throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' declares the same key as both ' +
+          'current and legacy recorded field. A fallback to itself is not a fallback.');
+      }
+      if (!c.legacyUnits) {
+        throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' declares a legacy recorded field ' +
+          'but no `legacyUnits`. The fallback is a DIFFERENT QUANTITY from `units`, and a history that ' +
+          'spans both must be able to say so. Naming it is what keeps the era boundary visible.');
+      }
+    } else if (c.legacyUnits !== undefined) {
+      throw new Error('binder ' + spec.domain + ': channel ' + c.key + ' declares legacyUnits with no ' +
+        'recordedFieldLegacy to describe.');
+    }
   });
 
   (spec.relationships || []).forEach(function (r) {
@@ -241,23 +272,45 @@ function createBinder(spec) {
       var s = byName[c.name];
       if (!s) return;
       /**
-       * THE DECLARED KEY, not a universal `v` and not a guess from `field`.
+       * THE DECLARED KEY, not a universal `v` and not a guess from `field`, and where a
+       * channel spans two recorder eras, the CURRENT key in preference to the legacy one.
        *
-       * Energy declares `recordedField: 'v'` on all eighteen channels, including its
-       * thirteen recent7d ones, and that is a DELIBERATE legacy declaration rather than a
-       * default: the recorder only began storing `r7` on 2026-08-01 and the energy
-       * fixture predates it, so 0 of its 6516 source entries carry `r7` and 5682 carry
-       * `v`. Reading `r7` there would drop those thirteen channels to nothing and change
-       * every number the scorecard quotes.
+       * The recorder began storing `r7` (rss.recent7d) on 2026-08-01. Rows written before
+       * that date carry only `v`, the raw article count, which saturates at the Google News
+       * page size: measured in production 2026-08-11, nine of energy's eleven news channels
+       * sat at exactly 100 while their live `recent7d` ranged from 0 to 29. A channel that
+       * declares `field: 'recent7d'` live and reads `v` when replayed is therefore not
+       * reading a stale number, it is reading a DIFFERENT QUANTITY, and the two disagree by
+       * 52 to 100 on those same channels.
        *
-       * A domain recorded after that date declares `recordedField: 'r7'` and gets the
-       * un-saturated count. Because the choice is written down per channel, the two cases
-       * are distinguishable instead of one silently masquerading as the other.
+       * So a channel may declare both: `recordedField` for the current era and
+       * `recordedFieldLegacy` for rows that predate it. The current key wins whenever the
+       * row actually carries it.
+       *
+       * PRESENCE IS `typeof number`, NOT TRUTHINESS, and this is the whole defect in one
+       * line. `s.r7 || s.v` reads a recorded `r7` of 0 as absent and silently substitutes
+       * the saturated legacy count. Zero articles in seven days is a real and meaningful
+       * reading — energy's `gridRel` published exactly that in production on 2026-08-11
+       * while its `v` said 100 — and a fallback that cannot tell "none" from "not recorded"
+       * inverts the quietest signal the channel has.
+       *
+       * WHICH KEY WAS USED IS REPORTED, because the two eras are different quantities and a
+       * history that silently mixes them is the "two instruments under one channel key"
+       * error this codebase has made before. Downstream can see the boundary; it is not
+       * hidden inside a number.
        */
       var raw = s[c.recordedField];
+      var usedField = c.recordedField;
       var v = (typeof raw === 'number' && isFinite(raw)) ? raw : null;
+      if (v === null && c.recordedFieldLegacy) {
+        var legacyRaw = s[c.recordedFieldLegacy];
+        if (typeof legacyRaw === 'number' && isFinite(legacyRaw)) {
+          v = legacyRaw;
+          usedField = c.recordedFieldLegacy;
+        }
+      }
       if (v === null) return;
-      var r = { value: v };
+      var r = { value: v, recordedFieldUsed: usedField };
       if (s.su !== undefined && s.su !== null && s.su !== '') r.observationId = s.su;
       /* Attached per reading rather than once per tick, because a reading is what travels
          downstream; the tick's time is not carried on the thing that gets compared. */
