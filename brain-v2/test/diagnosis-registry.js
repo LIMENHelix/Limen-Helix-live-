@@ -54,12 +54,42 @@ function assert(name, cond, detail) {
  * block is extracted and evaluated with SIGMA in scope, which is the only free name those
  * bodies ever referenced. This is the genuine pre-migration code, not a re-typing of it.
  */
+/**
+ * THE BASELINE MUST EXIST, AND ITS ABSENCE MUST BE LOUD.
+ *
+ * A shallow clone (actions/checkout defaults to depth 1) does not contain the baseline
+ * commit, and the first version of this file returned null in that case. The sections that
+ * matter then compared nothing, and the failure surfaced ten screens later as a TypeError on
+ * a null. A test that cannot reach its evidence must say exactly that, at the top, once.
+ */
+function requireBaseline() {
+  try {
+    cp.execSync('git cat-file -t ' + BASELINE, { cwd: path.join(__dirname, '..', '..'), stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch (e) {
+    console.error('');
+    console.error('CANNOT RUN: the baseline commit ' + BASELINE + ' is not in this clone.');
+    console.error('This suite proves the registry decides what the ORIGINAL predicates decided,');
+    console.error('and it reads them from git rather than from a copy. Without that history there');
+    console.error('is nothing to compare against, and passing would mean nothing.');
+    console.error('');
+    console.error('  CI:    actions/checkout needs fetch-depth: 0');
+    console.error('  local: git fetch --unshallow');
+    console.error('');
+    process.exit(1);
+  }
+}
+requireBaseline();
+
 function oldFindingsFor(file) {
   var src;
   try {
     src = cp.execSync('git show ' + BASELINE + ':brain-v2/bind/' + file,
       { cwd: path.join(__dirname, '..', '..'), maxBuffer: 1 << 24 }).toString();
-  } catch (e) { return null; }
+  } catch (e) {
+    /* The baseline exists (checked above), so a miss here means the FILE did not exist at
+       that commit — a genuine result for a binder added later, not an environment problem. */
+    return null;
+  }
   var start = src.search(/^var FINDINGS = \[/m);
   if (start < 0) return [];
   var rest = src.slice(start);
@@ -589,8 +619,11 @@ console.log('');
      threshold and confirm the old-vs-new comparison notices. */
   (function () {
     var file = 'economy.js';
-    var olds = oldFindingsFor(file);
+    var olds = oldFindingsFor(file) || [];
     var priceShock = olds.filter(function (f) { return f.id === 'PRICE_SHOCK'; })[0];
+    assert('control 5 precondition: the baseline PRICE_SHOCK predicate was actually read',
+      !!priceShock && typeof priceShock.test === 'function');
+    if (!priceShock) return;
     var corrupted = FORMS.compile('economy', { id: 'PRICE_SHOCK', form: 'SINGLE_DEPART_ABS',
       operands: ['cpi'], thresholds: [1.0], requires: ['cpi'] });
     var deps = { cpi: { z: 1.5 } };
