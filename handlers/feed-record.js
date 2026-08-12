@@ -32,6 +32,45 @@
 var db = require('../lib/limen-db');
 
 var CAP = 2160;                 // ~90 days at hourly cadence, per domain (fits Upstash free storage)
+
+/**
+ * TITLE EVIDENCE, stored SEPARATELY from the numeric row, and why both of those matter.
+ *
+ * SEPARATE, because the numeric row is what every binder replays. `compactSource` below is
+ * untouched by this: same fields, same order, same bytes, so brain replay, the pinned
+ * READ_SHA and every measurement quoted against them are unaffected by titles existing.
+ * Semantic evidence gets its own key, its own shape and its own retention, and a fault in
+ * it cannot corrupt the spine.
+ *
+ * ON CHANGE ONLY, because the arithmetic does not survive doing otherwise. Measured
+ * 2026-08-11 against production: a title record runs ~463 bytes (the Google News link alone
+ * averages 297 characters and is 64% of it), and 496 titles exist across the twenty domains
+ * per snapshot. Written every hour that is 224 KB per snapshot, which at the 90-day
+ * retention the numeric rows use would be 473 MB. Measured over 200 real recorded rows,
+ * only 39% of headline SETS are distinct — the count saturates but the stories turn over —
+ * so writing a source's titles only when its set actually changes costs 39% of naive.
+ *
+ * That is still 184 MB at 90 days, on top of the ~84 MB the numeric rows already hold, so
+ * retention is bounded HERE rather than inherited from CAP.
+ *
+ * COUNTED IN SETS, NOT TITLES. A cap on individual titles lets ltrim cut a headline set in
+ * half, leaving a partial set that a reader cannot distinguish from a complete one. One
+ * entry per changed set means trimming drops whole sets only.
+ *
+ * TUNABLE, with the arithmetic stated so the next person can re-derive it rather than guess:
+ * a set is ~5 items x ~440 bytes ~= 2.2 KB, so sets-per-domain x 2.2 KB = storage per domain.
+ * At 800: ~1.8 MB per domain, ~35 MB across twenty. Energy changes ~103 sets/day, so 800 is
+ * roughly a week of its history; a quieter domain keeps proportionally longer.
+ */
+var TITLE_SET_CAP = 800;
+
+/**
+ * Upper bound on a stored title, as a guard against an unbounded upstream rather than an
+ * expected path — the longest title measured live on Google News was 214 characters. Beyond
+ * this the title is cut AND the cut is recorded on the item, because a silently shortened
+ * string still reads as verbatim to everything downstream.
+ */
+var TITLE_MAX_CHARS = 2000;
 var HOUR_MS = 60 * 60 * 1000;
 var SNAPSHOT_URL = 'https://www.limenhelix.com/api/domain-snapshot';
 
@@ -206,6 +245,24 @@ module.exports = async function handler(req, res) {
     }
   }
 
+  /**
+   * ── TITLE MODE: recent title evidence for one domain, newest first ──
+   *
+   * Open, like the numeric read path beside it, and for the same reason: this records what
+   * public feeds already published, so gating it would protect nothing while making the
+   * store unverifiable from outside the process. Whether a title was preserved with its
+   * provenance intact is exactly the thing a reviewer needs to be able to check.
+   */
+  if (q.titles) {
+    var tn = Math.max(1, Math.min(500, parseInt(q.n, 10) || 48));
+    try {
+      var trows = await db.lrange('feedtitles:' + q.titles, 0, tn - 1);
+      return res.status(200).json({ ok: true, domain: q.titles, count: (trows || []).length, titles: trows || [] });
+    } catch (e) {
+      return res.status(500).json({ ok: false, error: e.message });
+    }
+  }
+
   // ── STATS MODE: per-domain span/count ──
   if (q.stats) {
     try {
@@ -240,6 +297,7 @@ module.exports = async function handler(req, res) {
   var hourBucket = Math.floor(t / HOUR_MS);
 
   var written = 0, skipped = 0, domainKeys = [];
+  var titlesWritten = 0, titleSetsWritten = 0, titleErrors = 0;
   var coverage = {}, covTotal = 0, covWithId = 0;
   for (var dk in domains) {
     if (!domains.hasOwnProperty(dk)) continue;
@@ -264,6 +322,109 @@ module.exports = async function handler(req, res) {
       await db.ltrim(key, 0, CAP - 1); // keep last ~90 days
       written++;
     } catch (e) { /* one domain failing must not abort the rest */ }
+
+    /**
+     * TITLE EVIDENCE — observational only, written to its OWN key, as WHOLE SETS.
+     *
+     * What this is: the titles this system already fetches, kept with the provenance the
+     * feed already supplied, so a later reader can tell WHICH item a title was, WHEN it was
+     * published and WHAT PUBLISHER LABEL it carried. Those are parsed and thrown away today,
+     * which is why a title can currently only be counted, never cited.
+     *
+     * What this is NOT: nothing here classifies a title, scores it, derives stress from it,
+     * creates a candidate, or touches a pathway. It moves text across the recorder boundary
+     * and stops.
+     *
+     * ── THE CHECKPOINT IS THE TITLE STORE'S OWN, NOT THE NUMERIC ROW'S ────────────────
+     *
+     * The first version decided "has this set changed?" by comparing against the PREVIOUS
+     * NUMERIC ROW's `hh`. That loses data permanently: if the numeric row is written and the
+     * title write then fails, the next cycle compares against a numeric row that already
+     * carries the new hash, concludes nothing changed, and never retries. The titles are
+     * gone with no error and no gap anyone can see.
+     *
+     * So persistence is tracked separately and the checkpoint advances ONLY after the
+     * corresponding write succeeded — per source, so one source failing cannot mark another
+     * as persisted. A failed write leaves the checkpoint behind and the next cycle retries.
+     *
+     * ── WHOLE SETS, because ltrim counts entries, not meaning ─────────────────────────
+     *
+     * Storing one entry per title let the cap split a headline set down the middle, leaving
+     * a partial set that looks complete. Each changed set is now ONE entry carrying its
+     * items, so trimming can drop a whole set but never half of one, and each item still
+     * records its index and the set's size.
+     */
+    try {
+      var ckKey = 'feedtitles:ck:' + dk;
+      var checkpoint = {};
+      try { checkpoint = (await db.get(ckKey)) || {}; } catch (e) { checkpoint = {}; }
+
+      var sources = domains[dk].sources || [];
+      for (var si = 0; si < sources.length; si++) {
+        var s = sources[si];
+        if (!s || !Array.isArray(s.headlines) || !s.headlines.length) continue;
+        var hh = headlineHash(s.headlines);
+        /* Already persisted, by this store's own record of what it persisted. */
+        if (checkpoint[s.name] === hh) continue;
+
+        var links = Array.isArray(s.headlineLinks) ? s.headlineLinks : [];
+        var pubAt = Array.isArray(s.headlinePublishedAt) ? s.headlinePublishedAt : [];
+        var pubBy = Array.isArray(s.headlinePublishers) ? s.headlinePublishers : [];
+        var items = [];
+        for (var hi = 0; hi < s.headlines.length; hi++) {
+          var title = s.headlines[hi];
+          if (typeof title !== 'string' || !title.trim()) continue;
+          var item = {
+            i: hi,                               // position within the set
+            ti: title,                           // the title, VERBATIM — not truncated
+            /* AGGREGATOR ITEM URL. A news.google.com redirect: the only per-item identifier
+               this feed supplies. Deliberately NOT named canonicalUrl and NOT a
+               publisher-issued GUID, because it is neither. null where none parsed. */
+            au: (typeof links[hi] === 'string' && links[hi]) ? links[hi] : null,
+            pa: (typeof pubAt[hi] === 'number' && isFinite(pubAt[hi])) ? pubAt[hi] : null,
+            /**
+             * PUBLISHER LABEL, as the feed states it in <source>. A LABEL AND NOTHING MORE.
+             *
+             * It is not proof of ownership, not evidence of editorial independence, and not
+             * evidence of syndication independence. Two labels differing does not make two
+             * sources independent: both may be resyndicating one wire story, and this field
+             * cannot tell you. Anything that later wants an independence verdict has to
+             * establish it across evidence and record how — it may not read it off here.
+             */
+            pl: (typeof pubBy[hi] === 'string' && pubBy[hi]) ? pubBy[hi] : null
+          };
+          /* A pathological title is bounded rather than stored whole, but truncation is
+             RECORDED rather than silent: `ti` alone would still read as verbatim. Measured
+             on live Google News, the longest title seen was 214 characters, so this is a
+             guard against the unbounded case and not an expected path. */
+          if (item.ti.length > TITLE_MAX_CHARS) {
+            item.tr = { truncated: true, originalLength: item.ti.length };
+            item.ti = item.ti.slice(0, TITLE_MAX_CHARS);
+          }
+          items.push(item);
+        }
+        if (!items.length) continue;
+
+        var setRec = {
+          t: t,                                  // when WE recorded it — receipt only, our clock
+          d: dk,
+          f: s.name,                             // the FEED it arrived on, in full. Not the publisher.
+          ck: 'headline_title',                  // contentKind: titles, never article bodies
+          hh: hh,                                // ties this set to the numeric row's hash
+          n: items.length,                       // set size, so a reader can see it is whole
+          items: items
+        };
+        try {
+          await db.lpush('feedtitles:' + dk, setRec);
+          await db.ltrim('feedtitles:' + dk, 0, TITLE_SET_CAP - 1);
+          /* ONLY NOW. The checkpoint records what was actually persisted. */
+          checkpoint[s.name] = hh;
+          titleSetsWritten++;
+          titlesWritten += items.length;
+        } catch (e) { titleErrors++; }   // checkpoint stays behind, so the next cycle retries
+      }
+      try { await db.set(ckKey, checkpoint); } catch (e) { titleErrors++; }
+    } catch (e) { titleErrors++; }
   }
 
   // Maintain a small index of which domain lists exist (for stats/resolver discovery)
@@ -278,6 +439,15 @@ module.exports = async function handler(req, res) {
     skipped: skipped,
     domains: domainKeys.length,
     cap: CAP,
+    /* Title evidence written this run, and failures writing it. Reported separately from
+       `written` because they are separate stores with separate retention: a run that
+       recorded every numeric row and no titles is a different event from a clean one, and
+       collapsing them would hide it. Zero titles is NORMAL on a run where no headline set
+       changed; it is only a problem if it never moves. */
+    titlesWritten: titlesWritten,
+    titleErrors: titleErrors,
+    titleSetsWritten: titleSetsWritten,
+    titleSetCap: TITLE_SET_CAP,
     /* Per-domain: how many sources carried their own observation key this run. The
        number that matters for SPEC row 10 — a domain at 0 cannot accumulate independent
        observations no matter how long it records. */
