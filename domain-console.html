@@ -71,6 +71,38 @@ html,body{background:#080c14;color:#e8e3d9;font-family:monospace;height:100%;wid
 }
 .ch-title a{color:rgba(201,169,78,0.6);text-decoration:none;transition:color 0.2s}
 .ch-title a:hover{color:rgba(201,169,78,0.95)}
+/* ── SHARED TOPBAR: pinned to px, because this page inflates the root ──────────────
+   assets/js/limen-topbar.js sizes itself in rem (.ltb-dropdown-btn and .ltb-menu a at
+   0.72rem). That is correct on the 36 other pages that load it, which all use the browser
+   default 16px root: 0.72rem = 11.52px.
+
+   THIS page is the one exception. It sets html{font-size:clamp(24px,2.6vw,32px)} above so
+   its own sub-0.5rem scale becomes legible, and the shared topbar inherits that root along
+   with everything else — rendering at 17-23px, roughly twice this console's own 0.36rem
+   content. With uppercase text, 2.5px letter-spacing and min-width:200px, every menu item
+   then wrapped onto two lines and the panel widened until it covered the left column.
+
+   So the sizes below are not a restyle. They are the px equivalents of the topbar's own rem
+   values at a 16px root, which is what the other 36 pages already render. The component is
+   untouched; this page simply stops passing it an inflated root. Menu labels stay on one line,
+   with the longest label — rather than the inflated type — determining the panel width.
+
+   The right long-term fix is for the topbar to be root-independent at source. Doing that
+   means editing a component on 37 pages, which needs someone who can actually look at them.
+   Pre-existing and deliberately NOT changed here: .clr-analyst-btn/.clr-refresh-btn are
+   0.4rem = 6.4px on those 36 pages, which is its own legibility question. */
+#limen-topbar .ltb-dropdown-btn,
+#limen-topbar .ltb-menu a{font-size:11.52px}
+#limen-topbar .ltb-menu a{white-space:nowrap}
+#limen-topbar .ltb-bio,
+#limen-topbar .ltb-clock{font-size:6.72px}
+#limen-topbar .ltb-actions .clr-analyst-btn,
+#limen-topbar .ltb-actions .clr-refresh-btn{font-size:6.4px}
+@media (max-width:640px){
+  #limen-topbar .ltb-dropdown-btn{font-size:8px}
+  #limen-topbar .ltb-clock{font-size:5.76px}
+}
+
 /* ── Nav dropdown ── */
 .ch-nav-dropdown{position:relative;display:inline-block}
 .ch-nav-btn{font-family:monospace;font-size:0.36rem;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(201,169,78,0.2);border-radius:2px;background:rgba(201,169,78,0.04);color:rgba(201,169,78,0.7);cursor:pointer;transition:all 0.2s}
