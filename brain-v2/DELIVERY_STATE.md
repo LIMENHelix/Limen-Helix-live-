@@ -1560,3 +1560,37 @@ Update this file, in the same PR, with:
 
 A PR that changes brain behaviour without updating this file has moved the system and left
 its own record behind.
+
+
+---
+
+## DOMAIN FUNCTION PROOF (DRAFT). NO PATHWAY IS ACTIVATED.
+
+The 20/20 installed count and the 0/10 active-relationship count answer different questions
+and cannot establish whether each domain functions on real data. The runtime already receives
+a structured report from every kernel tick, but discarded the fields that show the distinction:
+observations admitted at the barrier, emitted versus abstained domain states, dysregulations,
+findings, and the prediction registry's resolved count.
+
+This branch adds a read-only `domainFunction` projection to each operator-visible domain cycle.
+It changes no formula, threshold, diagnosis, relationship, pathway, state transition, action, or
+score. The L3-current-evidence flag is a structural conjunction, not a composite score: a tick
+ran, at least one real observation was admitted, at least one non-abstained measured state was
+emitted, and the restored loop carries at least one resolved prospective prediction. Every
+missing element is named. Internal action and outward connection remain separate facts.
+
+### The six fields this file requires of every brain PR
+
+- **evidence gained**: repository wiring and negative controls only until production is read;
+  the new field makes per-domain L3 evidence measurable rather than inferred from installation.
+- **domains promoted**: none. Installed stays 20 of 20.
+- **remaining domains**: zero outside the runtime; the question is now which of the twenty
+  produce complete current-cycle evidence.
+- **current gate**: CI, then an authenticated post-deploy `/api/brain-shadow` read on the exact
+  merged commit. No domain earns L3 from this branch until that read.
+- **known unknowns**: a cycle with no fresh recorder row cannot prove current sensing; a domain
+  may legitimately abstain; outward consumers remain zero; this does not qualify or activate
+  any of the ten declared relationships.
+- **exact next action**: run the branch tests and full unit suite, review the draft PR, then—only
+  after explicit merge authorization—read all twenty production `domainFunction` records and
+  repair the named missing ingredient per domain rather than altering thresholds to move a count.
