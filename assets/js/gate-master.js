@@ -1,14 +1,10 @@
 /**
- * gate-master.js — client access gate for MASTER-only pages (the operator). Include as
- * the FIRST script in <head>. Bounces everyone else (incl. assigned operators) to the
- * front door, and auto-attaches the admin passcode to protected API calls.
+ * gate-master.js — credential bridge for protected MASTER actions.
+ *
+ * Pages are public. This script does not redirect or decide who may view one. It preserves
+ * the existing prompt-and-retry behavior only when a caller invokes a server-protected API.
  */
 (function () {
-  var p = null; try { p = JSON.parse(sessionStorage.getItem('limen_admin') || 'null'); } catch (e) {}
-  var granted = false; try { granted = sessionStorage.getItem('limen_access') === 'granted'; } catch (e) {}
-  var ok = p ? p.master === true : granted;
-  if (!ok) { window.location.replace('/?return=' + encodeURIComponent(location.pathname + location.search)); return; }
-
   var GATED = /\/api\/(capital-engine|paper-trade|paper-orders|paper-positions|operator-action|trigger-pattern-author|pattern-proposal|print-from-pattern|playbook|ventures|ai-switch|expand-artifact-claude|enrich-portal-claude)\b/;
   function key(force) {
     var k = ''; try { k = sessionStorage.getItem('limen_cap_key') || sessionStorage.getItem('limen_pass') || ''; } catch (e) {}

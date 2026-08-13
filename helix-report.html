@@ -128,25 +128,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',mon
 </style>
 </head>
 <body>
-<!-- auth-gate removed 2026-06-24: the Helix Report is the public-facing disclosure product (like
-     its sibling company-portal.html, which is ungated) and is linked from the PUBLIC kernel-comparison
-     command board. The gate was bouncing every click to the front page. Public by design. -->
-<script>
-(function(){
-  if(localStorage.getItem('limen_gate')==='1') return;
-  var ov=document.createElement('div');ov.id='directGate';
-  ov.style.cssText='position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column';
-  ov.innerHTML='<div style="text-align:center;max-width:340px;padding:2rem"><div style="font-size:.55rem;letter-spacing:6px;color:rgba(201,169,78,0.4);text-transform:uppercase;font-family:monospace;margin-bottom:1.5rem;font-weight:bold">Access Required</div><div id="dg-display" style="font-size:2.2rem;letter-spacing:18px;color:rgba(201,169,78,0.7);font-family:monospace;min-height:3rem;margin-bottom:1.5rem">_ _ _ _</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:0 auto 1.5rem">'+[1,2,3,4,5,6,7,8,9].map(function(n){return '<button class="dgk" onclick="dgKey('+n+')">'+n+'</button>'}).join('')+'<button class="dgk" onclick="dgClear()">CLR</button><button class="dgk" onclick="dgKey(0)">0</button><button class="dgk" onclick="dgSubmit()">\u21b5</button></div><div id="dg-msg" style="font-size:.6rem;letter-spacing:3px;color:rgba(255,60,40,0);font-family:monospace;text-transform:uppercase;min-height:1.2rem;transition:color .3s"></div></div>';
-  var sty=document.createElement('style');sty.textContent='.dgk{background:none;border:1px solid rgba(201,169,78,0.15);color:rgba(201,169,78,0.6);font-size:1.3rem;font-family:monospace;padding:14px;cursor:pointer;transition:all .2s;border-radius:3px}.dgk:hover{border-color:rgba(201,169,78,0.4);background:rgba(201,169,78,0.05)}.dgk:active{background:rgba(201,169,78,0.12);transform:scale(0.95)}';
-  document.head.appendChild(sty);document.body.appendChild(ov);
-  window._dgInput='';
-  window.dgKey=function(n){if(window._dgInput.length>=4)return;window._dgInput+=String(n);dgUpdate();if(window._dgInput.length===4)setTimeout(dgSubmit,200)};
-  window.dgClear=function(){window._dgInput='';dgUpdate();document.getElementById('dg-msg').style.color='rgba(255,60,40,0)'};
-  window.dgSubmit=function(){if(window._dgInput==='1092'){document.getElementById('dg-msg').textContent='ACCESS GRANTED';document.getElementById('dg-msg').style.color='rgba(201,169,78,0.7)';localStorage.setItem('limen_gate','1');setTimeout(function(){ov.style.transition='opacity 0.6s';ov.style.opacity='0';setTimeout(function(){ov.remove()},600)},600)}else{document.getElementById('dg-msg').textContent='INCORRECT CODE';document.getElementById('dg-msg').style.color='rgba(255,60,40,0.7)';setTimeout(function(){window._dgInput='';dgUpdate();document.getElementById('dg-msg').style.color='rgba(255,60,40,0)'},1200)}};
-  window.dgUpdate=function(){var d='';for(var i=0;i<4;i++){d+=i<window._dgInput.length?window._dgInput[i]:'_';if(i<3)d+=' ';}document.getElementById('dg-display').textContent=d};
-  document.addEventListener('keydown',function(e){if(!document.getElementById('directGate'))return;if(e.key>='0'&&e.key<='9')dgKey(parseInt(e.key));else if(e.key==='Backspace'){window._dgInput=window._dgInput.slice(0,-1);dgUpdate();}else if(e.key==='Enter')dgSubmit()});
-})();
-</script>
+<!-- Public report surface. Protected operator actions remain authenticated at their API boundaries. -->
 <div class="app">
   <div class="topbar"><div class="topbar-left"><div class="topbar-brand"><a href="connectome.html">LIMEN HELIX</a> <span class="topbar-separator">&middot;</span></div><div class="topbar-title">HELIX REPORT</div></div><div class="topbar-right"><button class="print-btn" onclick="printReport()">PRINT</button><span>NOT FINANCIAL ADVICE</span></div></div>
   <div class="portal-nav"><a href="civilization.html">CIVILIZATION</a><span class="pn-sep">&middot;</span><a href="/portal?domain=finance">FINANCE</a><span class="pn-sep">&middot;</span><a href="opportunities.html">OPPORTUNITIES</a><span class="pn-sep">&middot;</span><a href="helix-artifacts.html?lane=investment">INVESTMENT THESES</a><span class="pn-sep">&middot;</span><a href="#" onclick="openNewsFeed(event)" id="navNewsFeed">NEWS FEED</a><span class="pn-sep">&middot;</span><a href="helix-report.html" class="pn-current">HELIX PORTAL</a></div>

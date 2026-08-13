@@ -158,19 +158,9 @@
     bar.id = 'limen-topbar';
     bar.setAttribute('role', 'banner');
 
-    /* OPERATOR MENU ONLY. Nine of these destinations are gated, so showing this to a
-       public visitor advertises doors that bounce them to the front door. The test matches
-       both gates: auth-gate.js checks limen_access, gate-master.js also accepts a master
-       admin session. */
-    var isOperator = (function () {
-      try {
-        if (sessionStorage.getItem('limen_access') === 'granted') return true;
-        var adm = JSON.parse(sessionStorage.getItem('limen_admin') || 'null');
-        return !!(adm && adm.master === true);
-      } catch (e) { return false; }
-    })();
-
-    if (isOperator) {
+    /* Navigation is public. Server-protected actions still authenticate at the action
+       boundary; hiding links behind a sessionStorage presentation gate provided no
+       security and made the portal tree appear broken. */
     var dd = document.createElement('div');
     dd.className = 'ltb-dropdown';
     var btn = document.createElement('button');
@@ -197,7 +187,6 @@
     dd.appendChild(btn);
     dd.appendChild(menu);
     bar.appendChild(dd);
-    }
 
     // Action slot (filled by console-clarity.js when present)
     var actions = document.createElement('div');

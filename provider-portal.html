@@ -266,40 +266,6 @@ html,body {
 <div id="limen-topbar"></div>
 <script src="assets/js/limen-topbar.js"></script>
 
-<!-- CODE GATE OVERLAY -->
-<div id="codeGate" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;flex-direction:column">
-  <div style="text-align:center;max-width:340px;padding:2rem">
-    <div style="font-size:.55rem;letter-spacing:6px;color:rgba(201,169,78,0.4);text-transform:uppercase;font-family:monospace;margin-bottom:1.5rem;font-weight:bold">Access Required</div>
-    <div style="font-size:.85rem;color:rgba(201,169,78,0.3);font-style:italic;font-family:Georgia,serif;margin-bottom:2rem;line-height:1.8">This gateway is restricted.<br>Enter the access code to proceed.</div>
-    <div id="codeDisplay" style="font-size:2.2rem;letter-spacing:18px;color:rgba(201,169,78,0.7);font-family:monospace;min-height:3rem;margin-bottom:1.5rem;text-shadow:0 0 20px rgba(201,169,78,0.3)">____</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:0 auto 1.5rem">
-      <button class="ck" onclick="codeKey(1)">1</button>
-      <button class="ck" onclick="codeKey(2)">2</button>
-      <button class="ck" onclick="codeKey(3)">3</button>
-      <button class="ck" onclick="codeKey(4)">4</button>
-      <button class="ck" onclick="codeKey(5)">5</button>
-      <button class="ck" onclick="codeKey(6)">6</button>
-      <button class="ck" onclick="codeKey(7)">7</button>
-      <button class="ck" onclick="codeKey(8)">8</button>
-      <button class="ck" onclick="codeKey(9)">9</button>
-      <button class="ck" onclick="codeClear()" style="font-size:.6rem;letter-spacing:2px">CLR</button>
-      <button class="ck" onclick="codeKey(0)">0</button>
-      <button class="ck" onclick="codeSubmit()" style="font-size:.6rem;letter-spacing:2px;color:rgba(201,169,78,0.6)">&crarr;</button>
-    </div>
-    <div id="codeMsg" style="font-size:.6rem;letter-spacing:3px;color:rgba(255,60,40,0);font-family:monospace;text-transform:uppercase;min-height:1.2rem;transition:color .3s"></div>
-    <a href="/atlas" style="display:inline-block;background:none;border:1px solid rgba(201,169,78,0.1);color:rgba(201,169,78,0.25);padding:6px 18px;font-size:.55rem;letter-spacing:3px;cursor:pointer;text-transform:uppercase;font-family:monospace;margin-top:1rem;text-decoration:none;transition:all .3s" onmouseover="this.style.borderColor='rgba(201,169,78,0.3)';this.style.color='rgba(201,169,78,0.5)'" onmouseout="this.style.borderColor='rgba(201,169,78,0.1)';this.style.color='rgba(201,169,78,0.25)'">&larr; Return</a>
-  </div>
-</div>
-<style>
-.ck{background:none;border:1px solid rgba(201,169,78,0.15);color:rgba(201,169,78,0.6);font-size:1.3rem;font-family:monospace;padding:14px;cursor:pointer;transition:all .2s;border-radius:3px}
-.ck:hover{border-color:rgba(201,169,78,0.4);background:rgba(201,169,78,0.05);color:rgba(201,169,78,0.9)}
-.ck:active{background:rgba(201,169,78,0.12);transform:scale(0.95)}
-@media(max-width:600px){.ck{padding:12px;font-size:1.1rem}#codeDisplay{font-size:1.8rem;letter-spacing:14px}}
-</style>
-<script>
-if(sessionStorage.getItem('limen_access')!=='granted'){window.location.replace('/?return='+encodeURIComponent('/'+'provider-portal.html'+location.search));}
-</script>
-
 <div class="app">
   <!-- topbar removed: see assets/js/limen-topbar.js -->
 

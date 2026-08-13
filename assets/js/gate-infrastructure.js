@@ -1,15 +1,10 @@
 /**
- * gate-infrastructure.js — client access gate for INFRASTRUCTURE-only admin pages
- * (master, or a person with the infrastructure domain → operator, Liz Jurkoic).
- * Include as the FIRST script in <head>. Bounces everyone else to the front door,
- * and auto-attaches the admin passcode to protected API calls.
+ * gate-infrastructure.js — credential bridge for protected INFRASTRUCTURE actions.
+ *
+ * Infrastructure pages are public. The server still authorizes protected API actions,
+ * and this script keeps the existing prompt-and-retry behavior for those actions only.
  */
 (function () {
-  var p = null; try { p = JSON.parse(sessionStorage.getItem('limen_admin') || 'null'); } catch (e) {}
-  var granted = false; try { granted = sessionStorage.getItem('limen_access') === 'granted'; } catch (e) {}
-  var ok = p ? (p.master === true || (Array.isArray(p.domains) && p.domains.indexOf('infrastructure') > -1)) : granted;
-  if (!ok) { window.location.replace('/?return=' + encodeURIComponent(location.pathname + location.search)); return; }
-
   var GATED = /\/api\/(capital-engine|paper-trade|operator-action|trigger-pattern-author|pattern-proposal|print-from-pattern|infra-entry)\b/;
   function key(force) {
     var k = ''; try { k = sessionStorage.getItem('limen_cap_key') || sessionStorage.getItem('limen_pass') || ''; } catch (e) {}
