@@ -149,6 +149,8 @@ module.exports = async function handler(req, res) {
         provenance: cyc.provenance, predictions: cyc.predictions,
         abstentions: (cyc.abstentions || []).length,
         actuation: cyc.actuation,
+        /* Separates installed from sensed/state-emitting/prediction-grading on real rows. */
+        domainFunction: cyc.domainFunction || null,
         stateValueBytes: typeof cyc.stateValueBytes === 'number' ? cyc.stateValueBytes : null,
         /**
          * COMPACTION AND CALIBRATION, because this projection is an ALLOW-LIST and the two
@@ -202,7 +204,8 @@ module.exports = async function handler(req, res) {
       runtime: RUNTIME.RUNTIME_VERSION,
       namespace: STORE.PREFIX,
       note: 'shadow only: no outward actuation, no production brain state, no site consumer. ' +
-            'Installed means executing in shadow; it activates no relationship and evidences nothing.',
+            'Installed names execution; domainFunction reports what the cycle actually sensed, emitted and graded. ' +
+            'Neither activates a relationship.',
       installed: installed,
       installedCount: installed.length,
       /* TOTAL, NOT BOUND. This field was called `boundCount` and was `DOMAINS.length`, which
