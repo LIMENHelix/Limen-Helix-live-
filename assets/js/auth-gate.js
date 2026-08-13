@@ -1,12 +1,10 @@
 /**
- * auth-gate.js — Unified LIMEN access control
- * Include as first script on any protected page.
- * Redirects to gate (/) if not authenticated.
- * Preserves return path via ?return= parameter.
+ * auth-gate.js — retired presentation gate.
+ *
+ * Kept as a compatibility shim for cached pages and branches that still include the file.
+ * Public pages must never redirect based on sessionStorage. Privileged API operations remain
+ * protected by their server-side credentials; removing the page gate does not grant them.
  */
-(function() {
-  var AUTH_VALUE = 'granted';
-  if (sessionStorage.getItem('limen_access') !== AUTH_VALUE) {
-    window.location.replace('/?return=' + encodeURIComponent(location.pathname + location.search));
-  }
+(function () {
+  'use strict';
 })();

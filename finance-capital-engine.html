@@ -3,15 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<!-- ACCESS GATE: finance admins only (master, or a person with the finance domain →
-     you, Drew, Liz Jurkoic). Bounces everyone else to the front door. Runs first. -->
 <script>
-(function(){
-  var p=null; try{ p=JSON.parse(sessionStorage.getItem('limen_admin')||'null'); }catch(e){}
-  var granted=false; try{ granted=sessionStorage.getItem('limen_access')==='granted'; }catch(e){}
-  var ok = p ? (p.master===true || (Array.isArray(p.domains)&&p.domains.indexOf('finance')>-1)) : granted;
-  if(!ok){ window.location.replace('/?return='+encodeURIComponent(location.pathname)); }
-})();
 // Send the admin passcode on every Capital Engine API call (reuses the one from login;
 // prompts once if missing). The server validates it; the page only ever has what you typed.
 (function(){
