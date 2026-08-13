@@ -87,6 +87,16 @@ html,body{background:#080c14;color:#e8e3d9;font-family:monospace;height:100%;wid
    untouched; this page simply stops passing it an inflated root. Menu labels stay on one line,
    with the longest label — rather than the inflated type — determining the panel width.
 
+   MEASURED, headless Chrome, this page, menu open:
+     1900x1000  before  item 23.04px, menu 231x785, 14 of 14 items wrapped to two lines
+                after   item 11.52px, menu 222x435, 0 wrapped
+     390x844    before  item 17.28px, menu 200x646, 14 of 14 wrapped
+                after   item 11.52px, menu 222x435, 0 wrapped, no horizontal overflow
+   At 785px tall the menu ran past the viewport and its last five entries — OBSERVATORY
+   through SITE MAP — were unreachable, so this was a lost-navigation bug and not only an
+   ugly one. The console's own text measured 10.88px desktop / 8.16px mobile in BOTH states,
+   which is how we know this moved the topbar and nothing else on the page.
+
    The right long-term fix is for the topbar to be root-independent at source. Doing that
    means editing a component on 37 pages, which needs someone who can actually look at them.
    Pre-existing and deliberately NOT changed here: .clr-analyst-btn/.clr-refresh-btn are
