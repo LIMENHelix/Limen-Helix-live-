@@ -234,10 +234,12 @@ assets/data/_bridge-build-log.json
 brain-v2/fixtures/
 brain-v2/test/
 brain-v2/corpus/
-# Same rule for the top-level test fixtures: the published workbooks in
+# Same rule for this fixture set specifically: the published workbooks in
 # test/fixtures/uscourts/ are inputs to scripts/test-uscourts-caseload.js and are fetched
-# live at runtime, so they must never be part of the function bundle.
-test/fixtures/
+# live at runtime, so they must never be part of the function bundle. Scoped to this
+# directory rather than the whole top-level tree, so a future fixture set has to make its
+# own decision instead of inheriting an exclusion it was never reviewed for.
+test/fixtures/uscourts/
 brain-v2/state/
 brain-v2/*.md
 brain-v2/run.js

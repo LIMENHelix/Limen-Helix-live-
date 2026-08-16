@@ -213,17 +213,23 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     // ---- provenance ---------------------------------------------------------------------
     h += '<div class="ap-card"><h2>Provenance</h2>';
     h += row('Canonical source file', '<a href="' + esc(p.source.url) + '">' + esc(p.source.filename) + '</a>');
-    h += row('Bytes retrieved', esc(p.source.bytes));
+    h += row('Source content hash (SHA-256)', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sourceSha256) + '</span>');
+    h += row('Bytes retrieved', esc(p.sourceBytes));
     h += row('Publisher landing page', '<a href="' + esc(a.landingPage) + '">caseload-statistics-data-tables</a>');
     h += row('Reporting endpoint', esc(e.reportingEndpoint) + ' &middot; ' + esc(e.reportingEndpointLabel));
-    h += row('Workbook created', esc(p.workbook.created || 'not stated'));
-    h += row('Workbook modified', esc(p.workbook.modified || 'not stated'));
+    h += row('Source last modified (HTTP)', esc(p.sourceUpdatedAt || 'not supplied by the publisher'));
+    h += row('Workbook created', esc(p.workbookCreated || 'not stated'));
+    h += row('Workbook modified', esc(p.workbookModified || 'not stated'));
     h += row('Workbook creator', esc(p.workbook.creator || 'not stated') + (p.workbook.lastModifiedBy ? ' &middot; last modified by ' + esc(p.workbook.lastModifiedBy) : ''));
     h += row('Sheet', esc((p.workbook.sheetNames || []).join(', ') || 'not stated'));
+    h += row('Retrieved at', esc(p.retrievedAt));
     h += row('Schema version applied', esc(e.schemaVersion) + ' &middot; ' + esc(e.schemaSpan));
     h += row('Validation', esc(p.validation));
-    h += row('Parser', '<code>' + esc(p.parser) + '</code>');
-    h += row('Retrieved at', esc(p.retrievedAt));
+    h += row('Parser', '<code>' + esc(p.parser) + '</code> &middot; ' + esc(p.parserVersion));
+    h += row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>');
+    h += row('Units as published', esc(p.rawUnits));
+    h += row('Units after transformation', esc(p.transformedUnits));
+    h += '<div class="ap-note" style="margin-top:9px">' + esc(p.transformation) + '</div>';
     h += '</div>';
 
     // ---- limitations --------------------------------------------------------------------

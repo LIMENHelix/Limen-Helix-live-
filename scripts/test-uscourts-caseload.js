@@ -135,12 +135,36 @@ assert('an unknown third-variable header is refused', r.ok === false && r.code =
 r = mutateHeader(V2, 'A', 'District');
 assert('a changed row-label header is refused', r.ok === false && r.code === 'HEADER_MISMATCH', r.code);
 
-// Mixing versions must not resolve to either one.
-var mixed = clone(wbOf(V2));
-cellsOf(mixed, 3).B = 'Commenced';       // v1 first variable ...
-r = C.parseWorkbookObject(mixed, { filename: V2 });
-assert('a v1 label inside a v2 sheet still resolves only by full header match', r.ok === true && r.schemaVersion === 'v1', r.code || r.schemaVersion);
-assert('  ...and it reports the label it actually saw', r.ok === true && r.firstVariableLabel === 'Commenced');
+/* ── 3b. SCHEMA ERA: headers alone are not identification ─────────────────────────────── */
+//
+// A 2026 workbook whose first group header reads "Commenced" is NOT a v1 file: v1 ended at
+// the 2021 December edition. Accepting it would attach a stale variable definition to a
+// current period. Header match AND era match, or refuse.
+
+var wrongEra = clone(wbOf(V2));                 // a genuine 2026 sheet ...
+cellsOf(wrongEra, 3).B = 'Commenced';           // ... relabelled with the v1 first variable
+r = C.parseWorkbookObject(wrongEra, { filename: V2 });
+assert('a 2026 workbook labelled "Commenced" is REFUSED', r.ok === false, 'got ok=' + r.ok + ' schema=' + r.schemaVersion);
+assert('  ...with SCHEMA_ERA_MISMATCH', r.ok === false && r.code === 'SCHEMA_ERA_MISMATCH', r.code);
+assert('  ...naming the version its headers matched', r.ok === false && r.detectedByHeaders === 'v1', r.detectedByHeaders);
+assert('  ...and that version\'s published span', r.ok === false && /2018-06-30 \.\. 2021-12-31/.test(String(r.publishedSpan)), r.publishedSpan);
+
+// The mirror case: a 2021 workbook labelled with the v2 variable is equally impossible.
+var wrongEra2 = clone(wbOf(V1));
+cellsOf(wrongEra2, 3).B = 'Filed';
+r = C.parseWorkbookObject(wrongEra2, { filename: V1 });
+assert('a 2021 workbook labelled "Filed" is REFUSED', r.ok === false && r.code === 'SCHEMA_ERA_MISMATCH', r.code);
+assert('  ...naming v2 as the header match', r.ok === false && r.detectedByHeaders === 'v2', r.detectedByHeaders);
+
+// Era boundaries themselves: the ordering must put June before December within a year.
+assert('June sorts before December in the same year', C.ordinal(2021, '0630') < C.ordinal(2021, '1231'));
+assert('v1 era contains its last edition (2021 December)', C.eraContains(C.SCHEMAS[0], 2021, '1231') === true);
+assert('v1 era excludes 2022 June', C.eraContains(C.SCHEMAS[0], 2022, '0630') === false);
+assert('v2 era excludes 2021 December', C.eraContains(C.SCHEMAS[1], 2021, '1231') === false);
+assert('v2 era contains its first edition (2022 June)', C.eraContains(C.SCHEMAS[1], 2022, '0630') === true);
+assert('v2 era is open-ended', C.eraContains(C.SCHEMAS[1], 2099, '1231') === true);
+// Without a filename the check degrades to whole years but must still reject the wrong era.
+assert('era is still enforced when the endpoint is unknown', C.eraContains(C.SCHEMAS[0], 2026, null) === false);
 
 // Footnote superscripts must normalise away: v1 headers carry them and must still match.
 assert('normalisation strips footnote superscripts', C._norm('Percent\r\nChange¹') === 'percentchange', C._norm('Percent\r\nChange¹'));
@@ -176,6 +200,43 @@ r = mutateYear('C', '2030');
 assert('non-consecutive periods are refused', r.ok === false && r.code === 'PERIOD_NOT_CONSECUTIVE', r.code);
 r = mutateYear('D', 'Delta');
 assert('a renamed percent-change column is refused', r.ok === false && r.code === 'PERCENT_HEADER_MISMATCH', r.code);
+
+// CROSS-GROUP AGREEMENT. If Pending covers different years from Filed, the three groups
+// cannot be flattened into one record, and silently taking group B's years would mislabel
+// the other two.
+function shiftGroup(cols, delta) {
+  var wb = clone(wbOf(V2));
+  var y4 = cellsOf(wb, 4);
+  cols.forEach(function (c) { y4[c] = String(Number(y4[c]) + delta); });
+  return C.parseWorkbookObject(wb, { filename: V2 });
+}
+r = shiftGroup(['H', 'I'], -1);
+assert('a Pending group covering different years is refused', r.ok === false && r.code === 'GROUP_PERIOD_MISMATCH', r.code);
+assert('  ...and the refusal shows all three groups', r.ok === false && r.groups && r.groups.length === 3, JSON.stringify(r.groups));
+r = shiftGroup(['E', 'F'], -2);
+assert('a Terminated group covering different years is refused', r.ok === false && r.code === 'GROUP_PERIOD_MISMATCH', r.code);
+r = shiftGroup(['B', 'C', 'E', 'F', 'H', 'I'], -1);
+assert('shifting ALL groups together is a filename mismatch, not a group mismatch',
+  r.ok === false && r.code === 'FILENAME_PERIOD_MISMATCH', r.code);
+
+// FILENAME vs HEADER. The filename is the publisher's own statement of which period this
+// workbook is; if the headers disagree, neither can be preferred without guessing.
+r = C.parse(buf(V2), { filename: 'stfj_b_630.2024.xlsx' });
+assert('a filename year that contradicts the header is refused',
+  r.ok === false && r.code === 'FILENAME_PERIOD_MISMATCH', r.code);
+assert('  ...reporting both values', r.ok === false && r.filenameYear === 2024 && r.headerCurrentPeriod === 2026,
+  r.filenameYear + '/' + r.headerCurrentPeriod);
+// A June workbook served under a December filename passes every year check, because the
+// year matches and the era is the same. The only in-sheet signal of June-vs-December is the
+// title, so that is what settles it.
+r = C.parse(buf(V2), { filename: 'stfj_b_1231.2026.xlsx' });
+assert('a December filename on a June workbook is refused',
+  r.ok === false && r.code === 'TITLE_ENDPOINT_MISMATCH', r.code);
+assert('  ...naming what the title should have said',
+  r.ok === false && r.expectedInTitle === 'Ending December 31', r.expectedInTitle);
+// ...and the correct pairing still parses.
+r = C.parse(buf(V2), { filename: 'stfj_b_630.2026.xlsx' });
+assert('the correctly-named June workbook still parses', r.ok === true, r.code);
 
 /* ── 6. Missing cells and invalid units ───────────────────────────────────────────────── */
 
@@ -324,5 +385,160 @@ var renderSection = page.slice(page.indexOf('function render('));
 var literals = (renderSection.match(/>\s*[0-9]{3,}\s*</g) || []);
 assert('no hardcoded multi-digit figure is rendered', literals.length === 0, JSON.stringify(literals).slice(0, 120));
 
-console.log('\n' + (tests - failures) + '/' + tests + ' passed');
-process.exit(failures ? 1 : 0);
+/* ── 12. Observation provenance is complete ───────────────────────────────────────────── */
+
+console.log('\n12. OBSERVATION PROVENANCE');
+
+assert('parse reports an immutable content hash', /^[0-9a-f]{64}$/.test(String(v2.sourceSha256)), String(v2.sourceSha256));
+assert('the hash identifies THESE bytes, not the schema', v1.sourceSha256 !== v2.sourceSha256);
+assert('the hash is stable across repeated parses',
+  C.parse(buf(V2), { filename: V2 }).sourceSha256 === v2.sourceSha256);
+assert('parse reports byte length', v2.sourceBytes === buf(V2).length, String(v2.sourceBytes));
+assert('parse reports a parser version', /^uscourts-caseload\/\d+\.\d+\.\d+$/.test(String(v2.parserVersion)), v2.parserVersion);
+assert('parse reports a transformation version', typeof v2.transformVersion === 'string' && v2.transformVersion.length > 8, v2.transformVersion);
+assert('a refusal still carries the content hash of the rejected bytes',
+  /^[0-9a-f]{64}$/.test(String(C.parse(buf(V2), { filename: 'stfj_b_630.2024.xlsx' }).sourceSha256)));
+assert('workbook source-updated timestamps are carried', typeof v2.workbook.modified === 'string' && v2.workbook.modified.length > 10, v2.workbook.modified);
+
+var sample = v2.circuits[0].variables.commencedOrFiled;
+assert('each cell carries the RAW published text', sample.raw && sample.raw.current === '44203', JSON.stringify(sample.raw));
+assert('each cell carries the TRANSFORMED value', sample.current === 44203, String(sample.current));
+assert('raw and transformed agree for counts', Number(sample.raw.current) === sample.current);
+assert('each cell declares raw units', sample.rawUnits && /as published/.test(sample.rawUnits.counts), JSON.stringify(sample.rawUnits));
+assert('each cell declares transformed units', sample.transformedUnits && /integer/.test(sample.transformedUnits.counts), JSON.stringify(sample.transformedUnits));
+assert('every circuit carries raw for all three variables', v2.circuits.every(function (c) {
+  return ['commencedOrFiled', 'terminated', 'pending'].every(function (k) {
+    return c.variables[k].raw && typeof c.variables[k].raw.current === 'string';
+  });
+}));
+
+/* ── 13. Handler: bounded upstream budget and outcome-dependent caching ───────────────── */
+
+console.log('\n13. HANDLER BUDGET AND CACHE POLICY');
+
+function callHandler(query, fetchImpl) {
+  var origFetch = global.fetch;
+  global.fetch = fetchImpl;
+  var cap = { headers: {}, status: 0, body: null };
+  var res = {
+    setHeader: function (k, val) { cap.headers[String(k).toLowerCase()] = val; return res; },
+    status: function (c) { cap.status = c; return res; },
+    json: function (o) { cap.body = o; return res; }
+  };
+  return Promise.resolve(H({ query: query }, res))
+    .then(function () { global.fetch = origFetch; return cap; })
+    .catch(function (e) { global.fetch = origFetch; throw e; });
+}
+
+/** Never resolves; rejects only when the caller's AbortSignal fires. */
+function hangingFetch() {
+  return function (_url, opts) {
+    return new Promise(function (_res, rej) {
+      var sig = opts && opts.signal;
+      if (!sig) return;
+      sig.addEventListener('abort', function () {
+        var e = new Error('The operation was aborted'); e.name = 'AbortError'; rej(e);
+      });
+    });
+  };
+}
+
+/** Serves whichever fixture matches the requested filename; 404s anything else. */
+function fixtureFetch(map) {
+  return function (url) {
+    var name = String(url).split('/').pop();
+    var f = map[name];
+    if (!f) return Promise.resolve({ status: 404, headers: { get: function () { return null; } }, arrayBuffer: function () { return Promise.resolve(new ArrayBuffer(0)); } });
+    var b = buf(f);
+    return Promise.resolve({
+      status: 200,
+      headers: { get: function (k) { return String(k).toLowerCase() === 'last-modified' ? 'Tue, 21 Jul 2026 17:46:18 GMT' : null; } },
+      arrayBuffer: function () { return Promise.resolve(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)); }
+    });
+  };
+}
+
+/* These cases stub `global.fetch`, which is shared process state, so they MUST run in
+   series. Running them concurrently lets one case's stub answer another's request — which
+   is exactly what happened first time: the hanging-upstream case picked up the fixture stub
+   and "passed" a budget test it never exercised. */
+var cases = [];
+
+// (a) a hanging upstream must stop at the budget, not at per-attempt-timeout x attempts.
+cases.push(function () {
+  var t0 = Date.now();
+  return callHandler({ authority: 'us_courts_caseload' }, hangingFetch()).then(function (cap) {
+    var elapsed = Date.now() - t0;
+    assert('a hanging upstream is bounded by the total budget',
+      elapsed <= H.TOTAL_FETCH_BUDGET_MS + 1500, elapsed + 'ms vs budget ' + H.TOTAL_FETCH_BUDGET_MS);
+    assert('  ...and it does NOT run to n_attempts x per-attempt timeout',
+      elapsed < 4 * H.PER_ATTEMPT_TIMEOUT_MS + 1500, elapsed + 'ms');
+    assert('  ...reporting an abstention rather than values',
+      cap.body && cap.body.ok === false && !cap.body.evidence, cap.body && cap.body.code);
+    assert('  ...with a budget or no-edition code',
+      cap.body && ['UPSTREAM_BUDGET_EXHAUSTED', 'NO_EDITION_RETRIEVED'].indexOf(cap.body.code) >= 0, cap.body && cap.body.code);
+    assert('a transient upstream failure is NOT cached for hours',
+      cap.headers['cache-control'] === H.CACHE_TRANSIENT, cap.headers['cache-control']);
+    assert('  ...and the transient policy is well under an hour',
+      /s-maxage=(\d+)/.test(H.CACHE_TRANSIENT) && Number(RegExp.$1) <= 300, H.CACHE_TRANSIENT);
+  });
+});
+
+// (b) a validated success caches hard.
+cases.push(function () {
+  var map = {}; map[V2] = V2; map[V2_PRIOR] = V2_PRIOR;
+  return callHandler({ authority: 'us_courts_caseload' }, fixtureFetch(map)).then(function (cap) {
+    assert('validated evidence is served', cap.body && cap.body.ok === true, cap.body && cap.body.code);
+    assert('  ...and IS cached for hours', cap.headers['cache-control'] === H.CACHE_SUCCESS, cap.headers['cache-control']);
+    assert('  ...carrying the source hash', cap.body && /^[0-9a-f]{64}$/.test(String(cap.body.provenance.sourceSha256)));
+    assert('  ...the publisher last-modified header', cap.body && /2026/.test(String(cap.body.provenance.sourceUpdatedAt)), cap.body && cap.body.provenance.sourceUpdatedAt);
+    assert('  ...the retrieval time', cap.body && /^\d{4}-\d{2}-\d{2}T/.test(String(cap.body.provenance.retrievedAt)));
+    assert('  ...and the parser + transform versions',
+      cap.body && cap.body.provenance.parserVersion === C.PARSER_VERSION && !!cap.body.provenance.transformVersion);
+  });
+});
+
+// (c) a REFUSAL must never inherit the long cache.
+cases.push(function () {
+  // Serve the v1 workbook under every filename: the first candidate is a 2026 name, so the
+  // filename period cannot match the v1 headers and the handler must refuse.
+  return callHandler({ authority: 'us_courts_caseload' }, function (url) {
+    var b = buf(V1);
+    return Promise.resolve({
+      status: 200, headers: { get: function () { return null; } },
+      arrayBuffer: function () { return Promise.resolve(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)); }
+    });
+  }).then(function (cap) {
+    assert('a schema refusal is surfaced, not swapped for an older edition',
+      cap.body && cap.body.ok === false, cap.body && cap.body.code);
+    assert('  ...with a refusal code from the parser',
+      cap.body && ['FILENAME_PERIOD_MISMATCH', 'SCHEMA_ERA_MISMATCH', 'TITLE_ENDPOINT_MISMATCH'].indexOf(cap.body.code) >= 0, cap.body && cap.body.code);
+    assert('  ...and it is NOT cached for hours', cap.headers['cache-control'] === H.CACHE_TRANSIENT, cap.headers['cache-control']);
+    assert('  ...while still identifying the rejected bytes',
+      cap.body && /^[0-9a-f]{64}$/.test(String(cap.body.refusedFile.sourceSha256)));
+    assert('  ...and showing no values at all', cap.body && !cap.body.evidence);
+  });
+});
+
+// (d) an unimplemented authority is a property of the code, cached briefly, never for hours.
+cases.push(function () { return callHandler({ authority: 'wjp_rol_index' }, hangingFetch()).then(function (cap) {
+  assert('an unimplemented authority refuses without touching upstream', cap.status === 404 && cap.body.code === 'AUTHORITY_NOT_IMPLEMENTED');
+  assert('  ...and is not cached for hours', cap.headers['cache-control'] !== H.CACHE_SUCCESS, cap.headers['cache-control']);
+}); });
+cases.push(function () { return callHandler({}, hangingFetch()).then(function (cap) {
+  assert('a missing authority parameter is never cached', cap.headers['cache-control'] === H.CACHE_NEVER, cap.headers['cache-control']);
+}); });
+
+assert('the success and transient cache policies are different', H.CACHE_SUCCESS !== H.CACHE_TRANSIENT);
+assert('only the success policy carries stale-while-revalidate hours',
+  /stale-while-revalidate=86400/.test(H.CACHE_SUCCESS) && !/stale-while-revalidate=[1-9]/.test(H.CACHE_TRANSIENT),
+  H.CACHE_TRANSIENT);
+
+cases.reduce(function (chain, fn) { return chain.then(fn); }, Promise.resolve()).then(function () {
+  console.log('\n' + (tests - failures) + '/' + tests + ' passed');
+  process.exit(failures ? 1 : 0);
+}).catch(function (e) {
+  console.error('  FAIL async section threw :: ' + (e && e.stack || e));
+  console.log('\n' + (tests - failures - 1) + '/' + (tests + 1) + ' passed');
+  process.exit(1);
+});
