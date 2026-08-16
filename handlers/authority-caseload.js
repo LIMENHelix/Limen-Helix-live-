@@ -95,9 +95,19 @@ async function fetchWorkbook(ed, deadlineMs) {
     var startedAt = Date.now();
     try {
       var r = await fetch(url, { headers: { 'User-Agent': UA, 'Accept': '*/*' }, signal: ctrl.signal });
+      if (r.status !== 200) {
+        clearTimeout(timer);
+        attempts.push({ url: url, status: r.status, ms: Date.now() - startedAt });
+        continue;
+      }
+      /* THE ABORT TIMER STAYS ARMED THROUGH BODY CONSUMPTION. Headers arriving is not the
+         end of the attempt: a 200 whose body then stalls would hang forever if the timer
+         were cleared here, because arrayBuffer() has no timeout of its own and the shared
+         deadline can only be enforced through this signal. Clear it once the bytes are in
+         hand, and in the catch. */
+      var ab = await r.arrayBuffer();
       clearTimeout(timer);
-      if (r.status !== 200) { attempts.push({ url: url, status: r.status, ms: Date.now() - startedAt }); continue; }
-      var buf = Buffer.from(await r.arrayBuffer());
+      var buf = Buffer.from(ab);
       if (buf.slice(0, 2).toString('latin1') !== 'PK') {
         attempts.push({ url: url, status: r.status, reason: 'response is not a workbook', ms: Date.now() - startedAt });
         continue;
@@ -265,6 +275,15 @@ module.exports = async function handler(req, res) {
   abstentions.push('Percent change is reproduced as published; it is not recomputed here.');
 
   var retrievedAt = new Date().toISOString();
+
+  /* Complete the observation-level provenance with the facts only the fetch knows. The
+     parser has already stamped source identity and code versions onto every observation;
+     these two are network-time and cannot be derived from the bytes. */
+  CASELOAD.stampObservations(current, {
+    sourceUrl: current._source.url,
+    sourceUpdatedAt: current._source.sourceUpdatedAt,
+    retrievedAt: retrievedAt
+  });
 
   return respond(res, 200, CACHE_SUCCESS, {
     ok: true,

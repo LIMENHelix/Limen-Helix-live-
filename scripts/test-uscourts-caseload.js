@@ -234,6 +234,26 @@ assert('a December filename on a June workbook is refused',
   r.ok === false && r.code === 'TITLE_ENDPOINT_MISMATCH', r.code);
 assert('  ...naming what the title should have said',
   r.ok === false && r.expectedInTitle === 'Ending December 31', r.expectedInTitle);
+
+// The month/day alone is not enough. "Ending June 30, 2024 and 2025" satisfies a June
+// endpoint check while describing entirely different periods from the columns and filename.
+function retitle(text) {
+  var wb = clone(wbOf(V2));
+  cellsOf(wb, 1).A = text;
+  return C.parseWorkbookObject(wb, { filename: V2 });
+}
+r = retitle('Table B. U.S. Courts of Appeals–Cases Commenced, Terminated, and Pending During the 12-Month Periods Ending June 30, 2024 and 2025');
+assert('a title naming the WRONG YEARS is refused even with the right month/day',
+  r.ok === false && r.code === 'TITLE_PERIOD_MISMATCH', r.code);
+assert('  ...reporting the years it found against the header periods',
+  r.ok === false && JSON.stringify(r.yearsFoundInTitle) === '[2024,2025]' &&
+  r.headerPriorPeriod === 2025 && r.headerCurrentPeriod === 2026,
+  JSON.stringify(r.yearsFoundInTitle) + ' vs ' + r.headerPriorPeriod + '/' + r.headerCurrentPeriod);
+r = retitle('Table B. ... During the 12-Month Periods Ending June 30, 2025 and 2027');
+assert('a title naming only ONE correct year is refused',
+  r.ok === false && r.code === 'TITLE_PERIOD_MISMATCH', r.code);
+r = retitle('Table B. ... During the 12-Month Periods Ending June 30, 2025 and 2026');
+assert('a title naming both correct periods is accepted', r.ok === true, r.code);
 // ...and the correct pairing still parses.
 r = C.parse(buf(V2), { filename: 'stfj_b_630.2026.xlsx' });
 assert('the correctly-named June workbook still parses', r.ok === true, r.code);
@@ -412,6 +432,39 @@ assert('every circuit carries raw for all three variables', v2.circuits.every(fu
   });
 }));
 
+/* OBSERVATION-LEVEL, not response-level. A hash at the top of the payload does not travel
+   with a figure once it is copied out, so every single observation must be attributable on
+   its own. 13 circuits x 3 variables = 39 observations. */
+var OBS_VARS = ['commencedOrFiled', 'terminated', 'pending'];
+function everyObservation(parsed, fn) {
+  return parsed.circuits.every(function (c) { return OBS_VARS.every(function (k) { return fn(c.variables[k], c.circuit, k); }); });
+}
+var obsCount = v2.circuits.length * OBS_VARS.length;
+assert('39 observations are present', obsCount === 39, String(obsCount));
+assert('every observation carries its own source hash',
+  everyObservation(v2, function (o) { return o.provenance && o.provenance.sourceSha256 === v2.sourceSha256; }));
+assert('every observation carries a source reference', everyObservation(v2, function (o) {
+  return o.provenance && /^stfj_b_630\.2026\.xlsx@[0-9a-f]{12}$/.test(String(o.provenance.sourceRef));
+}), JSON.stringify(v2.circuits[0].variables.pending.provenance));
+assert('every observation carries the parser version',
+  everyObservation(v2, function (o) { return o.provenance.parserVersion === C.PARSER_VERSION; }));
+assert('every observation carries the transformation version',
+  everyObservation(v2, function (o) { return o.provenance.transformVersion === C.TRANSFORM_VERSION; }));
+// The two network-time facts the parser cannot know are stamped by the caller.
+assert('the parser does NOT invent a retrieval time',
+  everyObservation(v2, function (o) { return o.provenance.retrievedAt === undefined; }));
+C.stampObservations(v2, { retrievedAt: '2026-08-16T00:00:00.000Z', sourceUpdatedAt: 'Fri, 07 Aug 2026 17:38:16 GMT' });
+assert('the caller can stamp retrievedAt onto every observation',
+  everyObservation(v2, function (o) { return o.provenance.retrievedAt === '2026-08-16T00:00:00.000Z'; }));
+assert('the caller can stamp sourceUpdatedAt onto every observation',
+  everyObservation(v2, function (o) { return /07 Aug 2026/.test(String(o.provenance.sourceUpdatedAt)); }));
+assert('stamping preserves what the parser already set',
+  everyObservation(v2, function (o) { return o.provenance.sourceSha256 === v2.sourceSha256; }));
+assert('stamping a refusal is a no-op', C.stampObservations({ ok: false }, { retrievedAt: 'x' }).ok === false);
+// Two different workbooks must not share observation identity.
+assert('observations from different files carry different hashes',
+  v1.circuits[0].variables.pending.provenance.sourceSha256 !== v2.circuits[0].variables.pending.provenance.sourceSha256);
+
 /* ── 13. Handler: bounded upstream budget and outcome-dependent caching ───────────────── */
 
 console.log('\n13. HANDLER BUDGET AND CACHE POLICY');
@@ -439,6 +492,29 @@ function hangingFetch() {
       sig.addEventListener('abort', function () {
         var e = new Error('The operation was aborted'); e.name = 'AbortError'; rej(e);
       });
+    });
+  };
+}
+
+/**
+ * Returns headers immediately, then STALLS the body. This is the case a header-only timeout
+ * misses: clearing the abort timer once headers arrive leaves arrayBuffer() unbounded, so a
+ * 200 whose body never completes hangs past every budget.
+ */
+function stalledBodyFetch() {
+  return function (_url, opts) {
+    var sig = opts && opts.signal;
+    return Promise.resolve({
+      status: 200,
+      headers: { get: function () { return null; } },
+      arrayBuffer: function () {
+        return new Promise(function (_res, rej) {
+          function boom() { var e = new Error('The operation was aborted'); e.name = 'AbortError'; rej(e); }
+          if (!sig) return;
+          if (sig.aborted) return boom();
+          sig.addEventListener('abort', boom);
+        });
+      }
     });
   };
 }
@@ -481,6 +557,25 @@ cases.push(function () {
       cap.headers['cache-control'] === H.CACHE_TRANSIENT, cap.headers['cache-control']);
     assert('  ...and the transient policy is well under an hour',
       /s-maxage=(\d+)/.test(H.CACHE_TRANSIENT) && Number(RegExp.$1) <= 300, H.CACHE_TRANSIENT);
+  });
+});
+
+// (a2) a 200 whose BODY stalls must also be bounded. This is the case a header-only timeout
+// misses entirely, and it is the more dangerous one: the request looks successful.
+cases.push(function () {
+  var t0 = Date.now();
+  return callHandler({ authority: 'us_courts_caseload' }, stalledBodyFetch()).then(function (cap) {
+    var elapsed = Date.now() - t0;
+    assert('a 200 with a stalled BODY is bounded by the budget',
+      elapsed <= H.TOTAL_FETCH_BUDGET_MS + 1500, elapsed + 'ms vs budget ' + H.TOTAL_FETCH_BUDGET_MS);
+    assert('  ...and does not hang indefinitely', elapsed < 20000, elapsed + 'ms');
+    assert('  ...returning an abstention, not values',
+      cap.body && cap.body.ok === false && !cap.body.evidence, cap.body && cap.body.code);
+    assert('  ...and is not cached for hours', cap.headers['cache-control'] === H.CACHE_TRANSIENT, cap.headers['cache-control']);
+    // The attempt log must show a timeout, proving the abort fired during body read rather
+    // than the response being classified as a non-workbook.
+    var flat = JSON.stringify(cap.body.attempted || []);
+    assert('  ...recording the attempt as a timeout', /timeout/.test(flat), flat.slice(0, 200));
   });
 });
 

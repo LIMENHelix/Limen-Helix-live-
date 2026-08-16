@@ -229,6 +229,16 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     h += row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>');
     h += row('Units as published', esc(p.rawUnits));
     h += row('Units after transformation', esc(p.transformedUnits));
+    // Observation-level provenance: state that it exists and show one, so a reader can see
+    // that a figure lifted out of this table stays attributable on its own.
+    var obsN = 0, obsSample = null;
+    e.circuits.forEach(function (c) {
+      ['commencedOrFiled', 'terminated', 'pending'].forEach(function (k) {
+        obsN++; if (!obsSample && c.variables[k].provenance) obsSample = c.variables[k].provenance;
+      });
+    });
+    h += row('Per-observation provenance', esc(obsN) + ' observations, each carrying its own source reference, hash, retrieval time and code versions');
+    if (obsSample) h += row('Observation source reference', '<span style="font-size:10.5px">' + esc(obsSample.sourceRef) + '</span>');
     h += '<div class="ap-note" style="margin-top:9px">' + esc(p.transformation) + '</div>';
     h += '</div>';
 
