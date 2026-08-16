@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIMEN HELIX &middot; AUTHORITY PORTAL</title>
+<link rel="stylesheet" href="assets/css/portal.css">
+<style>
+/* Self-contained px sizing. This page deliberately does NOT inherit the rem scale used by
+   the console pages: a shared component sized in rem inheriting an inflated root font-size
+   is a defect this repo has already had to fix once. Everything below is explicit. */
+body { background: #0a0a0b; }
+.ap-wrap { max-width: 1080px; margin: 0 auto; padding: 22px 20px 80px; font-family: 'IBM Plex Mono', 'SF Mono', ui-monospace, monospace; color: #dad5c8; }
+.ap-eyebrow { font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(201,169,78,0.55); }
+.ap-title { font-size: 19px; letter-spacing: 1.2px; color: #C9A94E; margin: 7px 0 4px; line-height: 1.35; font-weight: 500; }
+.ap-sub { font-size: 12px; color: rgba(218,213,200,0.62); line-height: 1.6; }
+.ap-card { border: 1px solid rgba(201,169,78,0.14); background: rgba(0,0,0,0.22); border-radius: 3px; padding: 14px 16px; margin-top: 16px; }
+.ap-card h2 { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,169,78,0.62); margin: 0 0 10px; font-weight: 500; }
+.ap-row { display: flex; justify-content: space-between; gap: 18px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.035); font-size: 12px; }
+.ap-row:last-child { border-bottom: 0; }
+.ap-k { color: rgba(200,195,184,0.45); letter-spacing: 0.6px; flex: 0 0 auto; }
+.ap-v { color: #dad5c8; text-align: right; word-break: break-word; }
+.ap-v a { color: rgba(201,169,78,0.8); }
+table.ap-t { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.ap-t th { font-size: 9.5px; letter-spacing: 1.6px; text-transform: uppercase; color: rgba(201,169,78,0.55); text-align: right; padding: 6px 7px; border-bottom: 1px solid rgba(201,169,78,0.18); font-weight: 500; white-space: nowrap; }
+table.ap-t th.l, table.ap-t td.l { text-align: left; }
+table.ap-t td { padding: 5px 7px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.03); white-space: nowrap; }
+table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,0.22); }
+.ap-grp { border-left: 1px solid rgba(201,169,78,0.14); }
+.ap-scroll { overflow-x: auto; }
+.ap-note { font-size: 11.5px; line-height: 1.65; color: rgba(218,213,200,0.66); }
+.ap-warn { border-left: 2px solid rgba(232,84,84,0.5); background: rgba(232,84,84,0.05); padding: 10px 12px; font-size: 11.5px; line-height: 1.65; color: rgba(220,215,200,0.78); border-radius: 2px; }
+.ap-flag { border-left: 2px solid rgba(201,169,78,0.45); background: rgba(201,169,78,0.05); padding: 10px 12px; font-size: 11.5px; line-height: 1.65; color: rgba(220,215,200,0.78); border-radius: 2px; }
+.ap-abst { font-size: 11.5px; line-height: 1.6; color: rgba(218,213,200,0.6); padding: 5px 0 5px 14px; position: relative; }
+.ap-abst:before { content: '\2014'; position: absolute; left: 0; color: rgba(201,169,78,0.45); }
+.ap-pill { display: inline-block; font-size: 9.5px; letter-spacing: 1.6px; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; border: 1px solid rgba(201,169,78,0.3); color: rgba(201,169,78,0.8); margin-left: 7px; vertical-align: middle; }
+.ap-pill.no { border-color: rgba(232,84,84,0.35); color: rgba(232,84,84,0.8); }
+.ap-mut { color: rgba(200,195,184,0.36); }
+.ap-chg.up { color: #4aaa6a; } .ap-chg.dn { color: #e85454; }
+@media (max-width: 620px) {
+  .ap-row { flex-direction: column; gap: 2px; } .ap-v { text-align: left; }
+  .ap-title { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+<div id="limen-topbar"></div>
+<script src="assets/js/limen-topbar.js"></script>
+
+<div class="ap-wrap" id="ap"><div class="ap-eyebrow">Authority portal</div><div class="ap-sub" style="margin-top:12px">Loading evidence&hellip;</div></div>
+
+<script>
+(function () {
+  var el = document.getElementById('ap');
+  var qs = new URLSearchParams(location.search);
+  var authority = (qs.get('authority') || '').trim();
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+  function num(n) { return (n === null || n === undefined) ? '<span class="ap-mut">n/a</span>' : Number(n).toLocaleString('en-US'); }
+  function pct(p, suppressed) {
+    if (suppressed) return '<span class="ap-mut">suppressed</span>';
+    if (p === null || p === undefined) return '<span class="ap-mut">n/a</span>';
+    var cls = p > 0 ? 'up' : (p < 0 ? 'dn' : '');
+    // Reproduced as published; only the display is rounded, the underlying value is not changed.
+    return '<span class="ap-chg ' + cls + '">' + (p > 0 ? '+' : '') + (Math.round(p * 10) / 10).toFixed(1) + '%</span>';
+  }
+  function row(k, v) { return '<div class="ap-row"><span class="ap-k">' + esc(k) + '</span><span class="ap-v">' + v + '</span></div>'; }
+
+  function shell(inner) { el.innerHTML = inner; }
+
+  if (!authority) {
+    shell('<div class="ap-eyebrow">Authority portal</div>' +
+      '<div class="ap-title">No authority selected</div>' +
+      '<div class="ap-card"><div class="ap-warn">This portal renders published evidence for one authority at a time. ' +
+      'Append <code>?authority=&lt;id&gt;</code> to the URL.</div>' +
+      '<div class="ap-row" style="margin-top:10px"><span class="ap-k">Implemented</span>' +
+      '<span class="ap-v"><a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a></span></div></div>');
+    return;
+  }
+
+  fetch('/api/authority-caseload?authority=' + encodeURIComponent(authority))
+    .then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
+    .then(function (res) { render(res.j); })
+    .catch(function (e) {
+      shell('<div class="ap-eyebrow">Authority portal</div><div class="ap-title">Evidence unavailable</div>' +
+        '<div class="ap-card"><div class="ap-warn">The evidence API could not be reached: ' + esc(e && e.message) +
+        '. No values are shown, because none were retrieved.</div></div>');
+    });
+
+  function render(d) {
+    // ---- refusals and not-implemented authorities -------------------------------------
+    if (!d || d.ok === false) {
+      var code = d && d.code || 'UNKNOWN';
+      var head = code === 'AUTHORITY_NOT_IMPLEMENTED' ? 'No evidence implementation for this authority'
+        : 'Evidence withheld';
+      var body = '<div class="ap-warn"><b>' + esc(code) + '</b><br>' + esc(d && d.detail || 'No detail supplied.') + '</div>';
+      if (code === 'AUTHORITY_NOT_IMPLEMENTED') {
+        body += '<div class="ap-note" style="margin-top:11px">The connectome registry lists 14 authority destinations. ' +
+          'Only <a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> has an evidence implementation. ' +
+          'The rest are deliberately unbuilt, and this page says so rather than rendering an empty shell that would look finished.</div>';
+      }
+      if (d && d.abstentions && d.abstentions.length) {
+        body += '<h2 style="margin-top:16px">Abstentions</h2>' +
+          d.abstentions.map(function (a) { return '<div class="ap-abst">' + esc(a) + '</div>'; }).join('');
+      }
+      if (d && d.diagnostics) {
+        body += '<h2 style="margin-top:16px">Refusal diagnostics</h2><div class="ap-note"><pre style="white-space:pre-wrap;font-size:11px;color:rgba(218,213,200,0.55)">' +
+          esc(JSON.stringify(d.diagnostics, null, 1).slice(0, 2200)) + '</pre></div>';
+      }
+      shell('<div class="ap-eyebrow">Authority portal &middot; ' + esc(authority) + '</div>' +
+        '<div class="ap-title">' + esc(head) + '</div>' + '<div class="ap-card">' + body + '</div>');
+      return;
+    }
+
+    var a = d.authority, e = d.evidence, p = d.provenance;
+    var h = '';
+
+    // ---- identity ----------------------------------------------------------------------
+    h += '<div class="ap-eyebrow">Authority portal &middot; ' + esc(a.id) + '</div>';
+    h += '<div class="ap-title">' + esc(a.name) + '</div>';
+    h += '<div class="ap-sub">' + esc(a.publisher) + ' &middot; ' + esc(a.series) + '</div>';
+
+    // ---- what this evidence is, and what it is not -------------------------------------
+    h += '<div class="ap-card"><h2>What this measure is</h2>';
+    h += '<div class="ap-flag">A <b>semiannual, 12-month rolling administrative measure</b>. ' +
+      'Each edition reports the 12 months ending on its reporting date, and editions are published twice a year, ' +
+      'so consecutive editions overlap by six months. It is a count of administrative case events, not a survey and not an index.</div>';
+    h += row('Measure type', esc(a.measureType));
+    h += row('Observation window', esc(a.observationWindow));
+    h += row('Publication interval', esc(a.publicationInterval));
+    h += row('Observed publication lag', esc(a.publicationLagObserved));
+    h += row('Units', esc(a.units));
+    h += '</div>';
+
+    // ---- consumption status (explicit, per the brief) -----------------------------------
+    var c = a.consumedBy;
+    h += '<div class="ap-card"><h2>How this evidence is used</h2>';
+    h += '<div class="ap-flag">' + esc(c.statement) + '</div>';
+    h += row('Consumed by a Law finding', '<span class="ap-pill no">no</span>');
+    h += row('Consumed by a brain channel', '<span class="ap-pill no">no</span>');
+    h += row('Consumed by a Thing layer', '<span class="ap-pill no">none</span>');
+    h += row('Drives a pathway', '<span class="ap-pill no">no</span>');
+    h += row('Produces stress / diagnosis / activation', '<span class="ap-pill no">no</span>');
+    h += '</div>';
+
+    // ---- distinguish from the RSS proxy -------------------------------------------------
+    var n = a.notTheSameAs;
+    h += '<div class="ap-card"><h2>Not the same as Law&rsquo;s similarly named channel</h2>';
+    h += '<div class="ap-warn">' + esc(n.statement) + '</div>';
+    h += row('This page shows', 'AO case counts &middot; units: ' + esc(a.units));
+    h += row('The brain channel', '<code>' + esc(n.channel) + '</code> &middot; units: ' + esc(n.channelUnits));
+    h += row('Channel source', esc(n.channelSource));
+    h += '</div>';
+
+    // ---- the evidence -------------------------------------------------------------------
+    var lbl = e.firstVariableLabel;
+    h += '<div class="ap-card"><h2>Published values &middot; ' + esc(e.reportingEndpointLabel || ('period ' + e.currentPeriod)) + '</h2>';
+    if (!e.firstVariableEquivalenceEstablished) {
+      h += '<div class="ap-warn" style="margin-bottom:11px">The first variable is published here as <b>' + esc(lbl) + '</b>. ' +
+        'Earlier editions label it <b>Commenced</b>. No publisher documentation establishes that the two are the same variable, ' +
+        'so this portal shows the label as published and does not join the two into one continuous series.</div>';
+    }
+    h += '<div class="ap-scroll"><table class="ap-t"><thead><tr>' +
+      '<th class="l">Circuit</th>' +
+      '<th class="ap-grp">' + esc(lbl) + ' ' + esc(e.priorPeriod) + '</th><th>' + esc(lbl) + ' ' + esc(e.currentPeriod) + '</th><th>change</th>' +
+      '<th class="ap-grp">Terminated ' + esc(e.priorPeriod) + '</th><th>Terminated ' + esc(e.currentPeriod) + '</th><th>change</th>' +
+      '<th class="ap-grp">Pending ' + esc(e.priorPeriod) + '</th><th>Pending ' + esc(e.currentPeriod) + '</th><th>change</th>' +
+      '</tr></thead><tbody>';
+    e.circuits.forEach(function (r) {
+      var f = r.variables.commencedOrFiled, t = r.variables.terminated, g = r.variables.pending;
+      h += '<tr' + (r.circuit === 'Total' ? ' class="tot"' : '') + '><td class="l">' + esc(r.circuit) + '</td>' +
+        '<td class="ap-grp">' + num(f.prior) + '</td><td>' + num(f.current) + '</td><td>' + pct(f.percentChange, f.percentChangeSuppressed) + '</td>' +
+        '<td class="ap-grp">' + num(t.prior) + '</td><td>' + num(t.current) + '</td><td>' + pct(t.percentChange, t.percentChangeSuppressed) + '</td>' +
+        '<td class="ap-grp">' + num(g.prior) + '</td><td>' + num(g.current) + '</td><td>' + pct(g.percentChange, g.percentChangeSuppressed) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+    h += '<div class="ap-note" style="margin-top:10px">Units: ' + esc(a.units) + '. ' +
+      'Geographic scope: ' + esc(a.geographicScope) + '. Percent change is reproduced as published, not recomputed.</div>';
+    h += '</div>';
+
+    // ---- revisions ----------------------------------------------------------------------
+    h += '<div class="ap-card"><h2>Revisions</h2>';
+    if (d.supersession) {
+      var s = d.supersession;
+      h += row('Overlapping period compared', esc(s.overlapPeriod));
+      h += row('Cells compared', esc(s.comparedCells) + ' (all three variables)');
+      h += row('Values restated by the publisher', esc(s.restatedCount));
+      h += row('Compared against', '<a href="' + esc(s.comparedAgainst.url) + '">' + esc(s.comparedAgainst.filename) + '</a>');
+      if (s.changes.length) {
+        h += '<div class="ap-scroll" style="margin-top:9px"><table class="ap-t"><thead><tr>' +
+          '<th class="l">Circuit</th><th class="l">Variable</th><th>As published then</th><th>Restated to</th><th>Delta</th></tr></thead><tbody>';
+        s.changes.forEach(function (ch) {
+          h += '<tr><td class="l">' + esc(ch.circuit) + '</td><td class="l">' + esc(ch.variable) + '</td>' +
+            '<td>' + num(ch.originallyPublished) + '</td><td>' + num(ch.restatedTo) + '</td>' +
+            '<td class="ap-chg ' + (ch.delta > 0 ? 'up' : 'dn') + '">' + (ch.delta > 0 ? '+' : '') + esc(ch.delta) + '</td></tr>';
+        });
+        h += '</tbody></table></div>';
+      } else {
+        h += '<div class="ap-note" style="margin-top:9px">No restatements were observed in this comparison.</div>';
+      }
+      h += '<div class="ap-warn" style="margin-top:11px">' + esc(s.scope) + '</div>';
+    } else {
+      h += '<div class="ap-warn">No restatement comparison is available' +
+        (d.supersessionUnavailable ? ' (' + esc(d.supersessionUnavailable.code) + ')' : '') +
+        '. No revision claim is made either way.</div>';
+    }
+    h += '</div>';
+
+    // ---- provenance ---------------------------------------------------------------------
+    h += '<div class="ap-card"><h2>Provenance</h2>';
+    h += row('Canonical source file', '<a href="' + esc(p.source.url) + '">' + esc(p.source.filename) + '</a>');
+    h += row('Bytes retrieved', esc(p.source.bytes));
+    h += row('Publisher landing page', '<a href="' + esc(a.landingPage) + '">caseload-statistics-data-tables</a>');
+    h += row('Reporting endpoint', esc(e.reportingEndpoint) + ' &middot; ' + esc(e.reportingEndpointLabel));
+    h += row('Workbook created', esc(p.workbook.created || 'not stated'));
+    h += row('Workbook modified', esc(p.workbook.modified || 'not stated'));
+    h += row('Workbook creator', esc(p.workbook.creator || 'not stated') + (p.workbook.lastModifiedBy ? ' &middot; last modified by ' + esc(p.workbook.lastModifiedBy) : ''));
+    h += row('Sheet', esc((p.workbook.sheetNames || []).join(', ') || 'not stated'));
+    h += row('Schema version applied', esc(e.schemaVersion) + ' &middot; ' + esc(e.schemaSpan));
+    h += row('Validation', esc(p.validation));
+    h += row('Parser', '<code>' + esc(p.parser) + '</code>');
+    h += row('Retrieved at', esc(p.retrievedAt));
+    h += '</div>';
+
+    // ---- limitations --------------------------------------------------------------------
+    h += '<div class="ap-card"><h2>Limitations</h2>';
+    if (e.publisherNote) h += '<div class="ap-warn" style="margin-bottom:10px"><b>Publisher note.</b> ' + esc(e.publisherNote) + '</div>';
+    h += '<div class="ap-abst">' + esc(a.excluded) + '.</div>';
+    h += '<div class="ap-abst">' + esc(a.knownBreak) + '</div>';
+    h += '<div class="ap-abst">' + esc(a.suppressionRule) + '</div>';
+    h += '<div class="ap-abst">A 12-month rolling window dilutes any single event across twelve months, so presence in this table is not the same as detectability as a departure.</div>';
+    h += '</div>';
+
+    // ---- abstentions --------------------------------------------------------------------
+    h += '<div class="ap-card"><h2>Explicit abstentions</h2>';
+    (d.abstentions || []).forEach(function (x) { h += '<div class="ap-abst">' + esc(x) + '</div>'; });
+    h += '<div class="ap-abst">No forecast, score, ranking, stress value, or validated status is asserted anywhere on this page.</div>';
+    h += '</div>';
+
+    shell(h);
+  }
+})();
+</script>
+</body>
+</html>

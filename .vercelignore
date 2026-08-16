@@ -234,6 +234,10 @@ assets/data/_bridge-build-log.json
 brain-v2/fixtures/
 brain-v2/test/
 brain-v2/corpus/
+# Same rule for the top-level test fixtures: the published workbooks in
+# test/fixtures/uscourts/ are inputs to scripts/test-uscourts-caseload.js and are fetched
+# live at runtime, so they must never be part of the function bundle.
+test/fixtures/
 brain-v2/state/
 brain-v2/*.md
 brain-v2/run.js
