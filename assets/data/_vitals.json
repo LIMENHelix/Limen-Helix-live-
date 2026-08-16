@@ -1,6 +1,6 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-08-15T08:35:02.025Z",
+  "generatedAt": "2026-08-16T08:35:32.043Z",
   "overall": {
     "score": 90,
     "status": "HEALTHY",
@@ -263,12 +263,12 @@
       "order": 35,
       "score": 100,
       "status": "HEALTHY",
-      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 14m old",
+      "summary": "3/3 data-flow probes green · 506 companies · 454 live-scored · 15m old",
       "metrics": {
         "totalCompanies": 506,
         "domainsWithCompanies": 20,
         "liveScored": 454,
-        "snapshotAgeSec": 845,
+        "snapshotAgeSec": 877,
         "probes": {
           "console-companies": 100,
           "live-scoring": 100,
@@ -283,42 +283,87 @@
       "order": 36,
       "score": 98,
       "status": "HEALTHY",
-      "summary": "16 domain(s) promoted (economy, environment, health, technology, research, supplyChain, governance, infrastructure, agriculture, industry, communication, culture, defense, religion, population, intelligence) · 47/48 probes green",
+      "summary": "18 domain(s) promoted (economy, energy, environment, health, technology, research, supplyChain, governance, infrastructure, agriculture, industry, communication, culture, defense, religion, population, finance, intelligence) · 55/56 probes green",
       "metrics": {
         "economy.feedFractal": {
-          "itemCount": 0,
-          "channels": []
+          "itemCount": 1,
+          "channels": [
+            {
+              "key": "feed_pricing",
+              "value": 0.09516258196404037,
+              "typedItems": 1
+            }
+          ]
         },
         "economy.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.712,
-          "stuck": 0.341
+          "confidence": 0.484,
+          "stuck": 0.471
         },
         "economy.outcomeTrack": {
           "trackedForecasts": 0
         },
         "economy.stressPromotion": {
-          "stress": 0.19589587202457545,
-          "legacyFeedStress": 0.20922449445032568,
+          "stress": 0.42783024033574846,
+          "legacyFeedStress": 0.4290178869669927,
+          "source": "node-market-feed-grounded"
+        },
+        "energy.marketChannel": {
+          "score": 0.24303049586702574,
+          "price": 84.77,
+          "asOf": "2026-08-11",
+          "source": "FRED DCOILWTICO"
+        },
+        "energy.marketPriceAgeDays": 5,
+        "energy.feedFractal": {
+          "itemCount": 19,
+          "channels": [
+            {
+              "key": "feed_conflict",
+              "value": 0.6321205588285577,
+              "typedItems": 3
+            },
+            {
+              "key": "feed_supply",
+              "value": 0.8775435717470181,
+              "typedItems": 7
+            }
+          ]
+        },
+        "energy.phaseBelief": {
+          "grounded": true,
+          "phaseMAP": 3,
+          "confidence": 0.201,
+          "stuck": 0.268
+        },
+        "energy.outcomeTrack": {
+          "trackedForecasts": 25,
+          "resolvedCount": 10,
+          "pendingCount": 15,
+          "estimatorHitRate": 0
+        },
+        "energy.stressPromotion": {
+          "stress": 0.4599145239719019,
+          "legacyFeedStress": 0.46123670961376684,
           "source": "node-market-feed-grounded"
         },
         "environment.feedFractal": {
-          "itemCount": 1,
+          "itemCount": 0,
           "channels": []
         },
         "environment.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.754,
-          "stuck": 0.206
+          "confidence": 0.685,
+          "stuck": 0.261
         },
         "environment.outcomeTrack": {
           "trackedForecasts": 0
         },
         "environment.stressPromotion": {
-          "stress": 0.11399392029577327,
-          "legacyFeedStress": 0.11235675159082859,
+          "stress": 0.18080079719075148,
+          "legacyFeedStress": 0.2121268071844638,
           "source": "node-market-feed-grounded"
         },
         "health.feedFractal": {
@@ -328,15 +373,15 @@
         "health.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.646,
-          "stuck": 0.177
+          "confidence": 0.676,
+          "stuck": 0.189
         },
         "health.outcomeTrack": {
           "trackedForecasts": 0
         },
         "health.stressPromotion": {
-          "stress": 0.07330514177305004,
-          "legacyFeedStress": 0.0733779596245414,
+          "stress": 0.09658921697643788,
+          "legacyFeedStress": 0.0944850163580993,
           "source": "node-market-feed-grounded"
         },
         "technology.feedFractal": {
@@ -346,15 +391,15 @@
         "technology.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.668,
-          "stuck": 0.158
+          "confidence": 0.688,
+          "stuck": 0.16
         },
         "technology.outcomeTrack": {
           "trackedForecasts": 0
         },
         "technology.stressPromotion": {
-          "stress": 0.07547588721674674,
-          "legacyFeedStress": 0.07613997719083725,
+          "stress": 0.09257262970671451,
+          "legacyFeedStress": 0.09149298589613371,
           "source": "node-market-feed-grounded"
         },
         "research.feedFractal": {
@@ -364,138 +409,117 @@
         "research.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.65,
-          "stuck": 0.385
+          "confidence": 0.658,
+          "stuck": 0.36
         },
         "research.outcomeTrack": {
           "trackedForecasts": 0
         },
         "research.stressPromotion": {
-          "stress": 0.291013885055621,
-          "legacyFeedStress": 0.29338184538528284,
+          "stress": 0.2783393132700312,
+          "legacyFeedStress": 0.2765199420996451,
           "source": "node-market-feed-grounded"
         },
         "supplyChain.feedFractal": {
-          "itemCount": 7,
+          "itemCount": 6,
           "channels": [
             {
               "key": "feed_supply",
               "value": 0.8290982871984751,
               "typedItems": 6
-            },
-            {
-              "key": "feed_pricing",
-              "value": 0.09516258196404037,
-              "typedItems": 1
             }
           ]
         },
         "supplyChain.phaseBelief": {
           "grounded": true,
           "phaseMAP": 3,
-          "confidence": 0.213,
-          "stuck": 0.416
+          "confidence": 0.28,
+          "stuck": 0.395
         },
         "supplyChain.outcomeTrack": {
           "trackedForecasts": 0
         },
         "supplyChain.stressPromotion": {
-          "stress": 0.7099662053878367,
-          "legacyFeedStress": 0.7106433447906932,
+          "stress": 0.7080490072991935,
+          "legacyFeedStress": 0.6981775641281736,
           "source": "node-market-feed-grounded"
         },
         "governance.feedFractal": {
-          "itemCount": 1,
+          "itemCount": 3,
           "channels": []
         },
         "governance.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.733,
-          "stuck": 0.182
+          "confidence": 0.758,
+          "stuck": 0.167
         },
         "governance.outcomeTrack": {
           "trackedForecasts": 0
         },
         "governance.stressPromotion": {
-          "stress": 0.12771503336316617,
-          "legacyFeedStress": 0.1291684502528783,
+          "stress": 0.1253898605594856,
+          "legacyFeedStress": 0.12097610070890077,
           "source": "node-market-feed-grounded"
         },
         "infrastructure.feedFractal": {
-          "itemCount": 1,
+          "itemCount": 0,
           "channels": []
         },
         "infrastructure.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.758,
-          "stuck": 0.219
+          "confidence": 0.71,
+          "stuck": 0.274
         },
         "infrastructure.outcomeTrack": {
           "trackedForecasts": 0
         },
         "infrastructure.stressPromotion": {
-          "stress": 0.11842854974777461,
-          "legacyFeedStress": 0.11487811155375817,
+          "stress": 0.17948814316891223,
+          "legacyFeedStress": 0.18402347651581574,
           "source": "node-market-feed-grounded"
         },
         "agriculture.feedFractal": {
-          "itemCount": 7,
+          "itemCount": 5,
           "channels": [
             {
               "key": "feed_supply",
               "value": 0.8111243971624382,
               "typedItems": 5
-            },
-            {
-              "key": "feed_pricing",
-              "value": 0.09516258196404037,
-              "typedItems": 1
             }
           ]
         },
         "agriculture.phaseBelief": {
           "grounded": true,
           "phaseMAP": 3,
-          "confidence": 0.248,
-          "stuck": 0.278
+          "confidence": 0.256,
+          "stuck": 0.369
         },
         "agriculture.outcomeTrack": {
           "trackedForecasts": 0
         },
         "agriculture.stressPromotion": {
-          "stress": 0.5150514721930336,
-          "legacyFeedStress": 0.49513115764744003,
+          "stress": 0.6667666425677234,
+          "legacyFeedStress": 0.6693866826111639,
           "source": "node-market-feed-grounded"
         },
         "industry.feedFractal": {
-          "itemCount": 3,
-          "channels": [
-            {
-              "key": "feed_litigation",
-              "value": 0.3296799539643607,
-              "typedItems": 2
-            },
-            {
-              "key": "feed_pricing",
-              "value": 0.09516258196404037,
-              "typedItems": 1
-            }
-          ]
+          "itemCount": 0,
+          "channels": []
         },
         "industry.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.565,
-          "stuck": 0.164
+          "confidence": 0.765,
+          "stuck": 0.179
         },
         "industry.outcomeTrack": {
           "trackedForecasts": 0
         },
         "industry.stressPromotion": {
-          "stress": 0.06030934253578459,
-          "legacyFeedStress": 0.06339520331256214,
+          "stress": 0.07653603492374059,
+          "legacyFeedStress": 0.0740211149244002,
           "source": "node-market-feed-grounded"
         },
         "communication.feedFractal": {
@@ -505,15 +529,15 @@
         "communication.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.762,
-          "stuck": 0.218
+          "confidence": 0.771,
+          "stuck": 0.202
         },
         "communication.outcomeTrack": {
           "trackedForecasts": 0
         },
         "communication.stressPromotion": {
-          "stress": 0.11298373666792108,
-          "legacyFeedStress": 0.1134785136290608,
+          "stress": 0.10477421609925042,
+          "legacyFeedStress": 0.09978199129586256,
           "source": "node-market-feed-grounded"
         },
         "culture.feedFractal": {
@@ -523,49 +547,44 @@
         "culture.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.674,
-          "stuck": 0.174
+          "confidence": 0.777,
+          "stuck": 0.168
         },
         "culture.outcomeTrack": {
           "trackedForecasts": 0
         },
         "culture.stressPromotion": {
-          "stress": 0.09106994532013504,
-          "legacyFeedStress": 0.08441108774694311,
+          "stress": 0.06850462497741382,
+          "legacyFeedStress": 0.0859757805947898,
           "source": "node-market-feed-grounded"
         },
         "defense.feedFractal": {
-          "itemCount": 16,
+          "itemCount": 18,
           "channels": [
-            {
-              "key": "feed_supply",
-              "value": 0.9305165487771985,
-              "typedItems": 8
-            },
             {
               "key": "feed_conflict",
               "value": 0.6321205588285577,
               "typedItems": 3
             },
             {
-              "key": "feed_litigation",
-              "value": 0.486582880967408,
-              "typedItems": 2
+              "key": "feed_supply",
+              "value": 0.8646647167633873,
+              "typedItems": 6
             }
           ]
         },
         "defense.phaseBelief": {
           "grounded": true,
           "phaseMAP": 3,
-          "confidence": 0.101,
-          "stuck": 0.453
+          "confidence": 0.243,
+          "stuck": 0.416
         },
         "defense.outcomeTrack": {
           "trackedForecasts": 0
         },
         "defense.stressPromotion": {
-          "stress": 0.7244571917074937,
-          "legacyFeedStress": 0.7104265151586387,
+          "stress": 0.7197810426928108,
+          "legacyFeedStress": 0.7252248597462227,
           "source": "node-market-feed-grounded"
         },
         "religion.feedFractal": {
@@ -587,21 +606,61 @@
           "source": "node-market-feed-grounded"
         },
         "population.feedFractal": {
-          "itemCount": 0,
-          "channels": []
+          "itemCount": 1,
+          "channels": [
+            {
+              "key": "feed_pricing",
+              "value": 0.09516258196404037,
+              "typedItems": 1
+            }
+          ]
         },
         "population.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.732,
-          "stuck": 0.177
+          "confidence": 0.621,
+          "stuck": 0.161
         },
         "population.outcomeTrack": {
           "trackedForecasts": 0
         },
         "population.stressPromotion": {
-          "stress": 0.10208237154764671,
-          "legacyFeedStress": 0.10583160100483177,
+          "stress": 0.1058013413567414,
+          "legacyFeedStress": 0.1054683659181686,
+          "source": "node-market-feed-grounded"
+        },
+        "finance.feedFractal": {
+          "itemCount": 15,
+          "channels": [
+            {
+              "key": "feed_conflict",
+              "value": 0.6321205588285577,
+              "typedItems": 3
+            },
+            {
+              "key": "feed_supply",
+              "value": 0.8290982871984751,
+              "typedItems": 6
+            },
+            {
+              "key": "feed_pricing",
+              "value": 0.09516258196404037,
+              "typedItems": 1
+            }
+          ]
+        },
+        "finance.phaseBelief": {
+          "grounded": true,
+          "phaseMAP": 3,
+          "confidence": 0.222,
+          "stuck": 0.376
+        },
+        "finance.outcomeTrack": {
+          "trackedForecasts": 0
+        },
+        "finance.stressPromotion": {
+          "stress": 0.6618005489250434,
+          "legacyFeedStress": 0.6642890704332497,
           "source": "node-market-feed-grounded"
         },
         "intelligence.feedFractal": {
@@ -611,21 +670,26 @@
         "intelligence.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.783,
-          "stuck": 0.17
+          "confidence": 0.721,
+          "stuck": 0.188
         },
         "intelligence.outcomeTrack": {
           "trackedForecasts": 0
         },
         "intelligence.stressPromotion": {
-          "stress": 0.06812140572533647,
-          "legacyFeedStress": 0.06926974461250994,
+          "stress": 0.1388961539042945,
+          "legacyFeedStress": 0.11051149778801606,
           "source": "node-market-feed-grounded"
         },
         "probes": {
           "economy:feed-fractal": 100,
           "economy:phase-belief": 100,
           "economy:stress-promoted": 100,
+          "energy:market-channel": 100,
+          "energy:feed-fractal": 100,
+          "energy:phase-belief": 100,
+          "energy:outcome-tracker": 100,
+          "energy:stress-promoted": 100,
           "environment:feed-fractal": 100,
           "environment:phase-belief": 100,
           "environment:stress-promoted": 100,
@@ -668,13 +732,17 @@
           "population:feed-fractal": 100,
           "population:phase-belief": 100,
           "population:stress-promoted": 100,
+          "finance:feed-fractal": 100,
+          "finance:phase-belief": 100,
+          "finance:stress-promoted": 100,
           "intelligence:feed-fractal": 100,
           "intelligence:phase-belief": 100,
           "intelligence:stress-promoted": 100
         },
-        "snapshotAgeSec": 845,
+        "snapshotAgeSec": 877,
         "promotedDomains": [
           "economy",
+          "energy",
           "environment",
           "health",
           "technology",
@@ -689,6 +757,7 @@
           "defense",
           "religion",
           "population",
+          "finance",
           "intelligence"
         ]
       },
@@ -1721,7 +1790,7 @@
       "order": 80,
       "score": 63,
       "status": "IN_PAIN",
-      "summary": "6/6 engine lanes · 8/9 markers · inbox 2013/2504 ready (349.4h old)",
+      "summary": "6/6 engine lanes · 8/9 markers · inbox 2013/2504 ready (373.4h old)",
       "metrics": {
         "present": {
           "masterBrain": true,
@@ -1765,7 +1834,7 @@
             "research": 625
           }
         },
-        "inboxAgeHours": 349.43321305555554,
+        "inboxAgeHours": 373.4415222222222,
         "scoreParts": {
           "lanes": 100,
           "structural": 89,
@@ -1774,9 +1843,9 @@
       },
       "attention": [
         {
-          "issue": "Master Brain inbox stale (15 DAYS)",
+          "issue": "Master Brain inbox stale (16 DAYS)",
           "severity": "high",
-          "count": 349,
+          "count": 373,
           "action": "run scripts/build-master-inbox.mjs --apply. Beyond ~14 days this is not staleness, it is a pipeline that stopped: nothing has gated or prioritised engine outputs since then.",
           "organ": "masterBrain"
         }
@@ -1794,7 +1863,7 @@
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.0009803224012586806,
+        "ageHours": 0.0012563343641493056,
         "nodeCount": 795,
         "edgeCount": 13010,
         "dampedCount": 354,
@@ -2018,9 +2087,9 @@
       },
       "attention": [
         {
-          "issue": "Bridge readings stale (15 DAYS)",
+          "issue": "Bridge readings stale (16 DAYS)",
           "severity": "high",
-          "count": 349,
+          "count": 373,
           "action": "run scripts/build-bridge-readings.mjs --apply. Beyond ~14 days the bridge layer is not being re-evaluated at all, so every derived angle downstream is built on a stale mapping.",
           "organ": "bridge"
         }
@@ -2029,16 +2098,16 @@
   },
   "operatorAttention": [
     {
-      "issue": "Master Brain inbox stale (15 DAYS)",
+      "issue": "Master Brain inbox stale (16 DAYS)",
       "severity": "high",
-      "count": 349,
+      "count": 373,
       "action": "run scripts/build-master-inbox.mjs --apply. Beyond ~14 days this is not staleness, it is a pipeline that stopped: nothing has gated or prioritised engine outputs since then.",
       "organ": "masterBrain"
     },
     {
-      "issue": "Bridge readings stale (15 DAYS)",
+      "issue": "Bridge readings stale (16 DAYS)",
       "severity": "high",
-      "count": 349,
+      "count": 373,
       "action": "run scripts/build-bridge-readings.mjs --apply. Beyond ~14 days the bridge layer is not being re-evaluated at all, so every derived angle downstream is built on a stale mapping.",
       "organ": "bridge"
     },
@@ -2156,115 +2225,6 @@
     }
   ],
   "lastHeals": [
-    {
-      "startedAt": "2026-07-28T09:02:00.751Z",
-      "finishedAt": "2026-07-28T09:02:03.013Z",
-      "preScore": 96,
-      "postScore": 96,
-      "heals": [
-        {
-          "name": "wire-eligible-cb",
-          "issue": "Eligible CB rows with broken portal links",
-          "countBefore": 176,
-          "ranAt": "2026-07-28T09:02:00.756Z",
-          "success": true,
-          "summary": "completed",
-          "exitCode": 0
-        }
-      ],
-      "skipped": [
-        {
-          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
-          "severity": "med",
-          "count": 515,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
-          "severity": "med",
-          "count": 146,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "path-C anomalies in propagator output (unbounded composites)",
-          "severity": "med",
-          "count": 11,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
-          "severity": "med",
-          "count": 5,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Master Brain inbox never built — engine outputs not gated/prioritized yet",
-          "severity": "med",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Propagator output has NO downstream consumers (per [[limen_full_system_audit_2026_05_25]])",
-          "severity": "med",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
-          "severity": "low",
-          "count": 796,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
-          "severity": "low",
-          "count": 22,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Portals with brain-tagging below 90%",
-          "severity": "low",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Segment breakouts sharing a parent CIK (intentional)",
-          "severity": "low",
-          "count": 1,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Surfaces build company-portal links without an hp gate",
-          "severity": "high",
-          "count": 2,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "energy market price date is 8 days old (expected <=5 incl. weekends) — may be OUR fetch stuck, or the upstream source's own publication lagging; verify against the raw series before assuming either",
-          "severity": "medium",
-          "count": 1,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Name-fingerprint dup clusters",
-          "severity": "high",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Null kernel composite on ELIGIBLE-marked portals",
-          "severity": "high",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Portal regen backlog — entities the body needs but has no portal for",
-          "severity": "med",
-          "count": 174,
-          "reason": "no registered heal"
-        }
-      ]
-    },
     {
       "startedAt": "2026-07-29T09:03:45.994Z",
       "finishedAt": "2026-07-29T09:03:48.369Z",
@@ -4593,6 +4553,136 @@
           "issue": "Bridge readings stale (15 DAYS)",
           "severity": "high",
           "count": 349,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals claiming validationStatus \"validated\" with NO CIK — the kernel cannot have scored them",
+          "severity": "high",
+          "count": 111,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "religion dsum.stress equals the legacy feed-volume value — the grounded promotion is not active this tick",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Eligible CB rows whose portal was never built",
+          "severity": "med",
+          "count": 170,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 146,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "path-C anomalies in propagator output (unbounded composites)",
+          "severity": "med",
+          "count": 11,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
+          "severity": "med",
+          "count": 5,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
+          "count": 796,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "low",
+          "count": 35,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+          "severity": "low",
+          "count": 22,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Propagator drives no decisions — its consumer is PAUSED",
+          "severity": "low",
+          "count": 2,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Segment breakouts sharing a parent CIK (intentional)",
+          "severity": "low",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 170,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-08-16T08:35:29.795Z",
+      "finishedAt": "2026-08-16T08:35:32.057Z",
+      "preScore": 90,
+      "postScore": 90,
+      "heals": [
+        {
+          "name": "wire-eligible-cb",
+          "issue": "Eligible CB rows with broken portal links",
+          "countBefore": 2,
+          "ranAt": "2026-08-16T08:35:29.800Z",
+          "success": false,
+          "summary": "NO EFFECT — exited 0 but the count did not fall (2 → 2). completed",
+          "exitCode": 0,
+          "exitOk": true,
+          "countAfter": 2,
+          "resolved": false
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Master Brain inbox stale (16 DAYS)",
+          "severity": "high",
+          "count": 373,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Bridge readings stale (16 DAYS)",
+          "severity": "high",
+          "count": 373,
           "reason": "no registered heal"
         },
         {
