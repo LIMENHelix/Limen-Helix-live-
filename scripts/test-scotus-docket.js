@@ -23,7 +23,8 @@ function fixture(change) {
     '<tr><td>Decision Date:</td><td>August 29, 2025</td></tr></table>' +
     '<h2>Proceedings and Orders</h2><table>' +
     '<tr><td>Sep 03 2025</td><td>Petition for a writ of certiorari filed. (Response due October 6, 2025) ' +
-    '<a href="/DocketPDF/25/25-250/1/petition.pdf">Petition</a> <a href="/DocketPDF/25/25-250/2/proof.pdf">Proof of Service</a></td></tr>' +
+    '<a href="/DocketPDF/25/25-250/1/petition.pdf">Petition</a> <a href="/DocketPDF/25/25-250/2/proof.pdf">Proof of Service</a> ' +
+    '<a href=/opinions/25pdf/24-1287_4gcj.pdf>opinion</a><span data-file="/DocketPDF/25/25-250/3/judgment.pdf"></span></td></tr>' +
     '<tr><td>Nov 05 2025</td><td>Argued. For federal parties: counsel. For private parties: counsel.</td></tr>' +
     '</table><h2>Attorneys</h2><div>Counsel of Record</div></body></html>';
   return change ? change(html) : html;
@@ -48,7 +49,7 @@ assert('lower-court decision date retained', parsed.lowerCourtDecisionDate === '
 assert('two dated proceedings retained', parsed.proceedings.length === 2);
 assert('first event text remains documentary', /Petition for a writ/.test(parsed.proceedings[0].text));
 assert('each event has content identity', parsed.proceedings.every(function (x) { return /^[0-9a-f]{64}$/.test(x.observationId); }));
-assert('official document links retained', parsed.documentLinks.length === 2);
+assert('quoted, unquoted, and serialized official document links are retained', parsed.documentLinks.length === 4);
 assert('links are absolute Court URLs', parsed.documentLinks.every(function (x) { return x.url.indexOf('https://www.supremecourt.gov/') === 0; }));
 assert('source has immutable content hash', /^[0-9a-f]{64}$/.test(parsed.sourceSha256));
 assert('source byte count retained', parsed.sourceBytes === Buffer.byteLength(fixture(), 'utf8'));
