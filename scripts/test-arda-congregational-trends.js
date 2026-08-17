@@ -64,7 +64,8 @@ function reportFixture(options) {
   return '<!doctype html><html><body><h1>U.S. Membership Report (2020)</h1>' +
     '<p>Exact definitions of "congregations" and "adherents" vary by religious body</p>' +
     '<table id="RCMS0"><thead><tr>' + headers.map(function (x) { return '<th>' + esc(x) + '</th>'; }).join('') +
-    '</tr></thead><tbody>' + rows.join('') + '</tbody></table>' +
+    '</tr></thead><tbody>' + rows.join('') + '</tbody>' +
+    '<tfoot><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>356,910.0</td><td>161,224,088.0</td><td>&nbsp;</td></tr></tfoot></table>' +
     '<p>The population of the United States was 331,449,281 in 2020. The adherent totals of the religious groups listed above ' +
     '(161,224,088) included 48.6% of the total population in 2020.</p>' +
     chartScript(options.chart) + new Array(300).join('<p>published structural report context</p>') + '</body></html>';
@@ -93,6 +94,10 @@ t('structural public report parses 372 bodies', function () {
 });
 t('coverage remains 217 with adherents and 155 congregation-only', function () {
   assert.deepStrictEqual([report.bodyCounts.withAdherents, report.bodyCounts.congregationsOnly], [217, 155]);
+});
+t('live tfoot summary row is excluded from body observations', function () {
+  assert.strictEqual(report.bodies.length, 372);
+  assert.strictEqual(report.bodies.some(function (x) { return x.body === ''; }), false);
 });
 t('displayed rows reproduce the two measured sums', function () {
   assert.strictEqual(report.bodyCounts.displayedCongregationSum, 356910);
