@@ -317,6 +317,67 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     shell(h);
   }
 
+
+  function renderUscirf(d) {
+    var a = d.authority, e = d.evidence, p = d.provenance;
+    var h = '<div class="ap-eyebrow">Authority portal &middot; ' + esc(a.id) + '</div>' +
+      '<div class="ap-title">' + esc(a.name) + '</div>' +
+      '<div class="ap-sub">' + esc(e.reportYear) + ' report &middot; conditions during calendar year ' +
+      esc(e.conditionsYear) + ' &middot; ' + esc(a.publisher) + '</div>';
+
+    h += '<div class="ap-card"><h2>What this evidence is</h2>' +
+      '<div class="ap-flag">Named <b>USCIRF policy recommendations</b> under statutory standards. ' +
+      'A USCIRF recommendation is not a State Department designation, country score, incident count, or current-condition reading.</div>' +
+      row('Measure type', esc(a.measureType)) +
+      row('Conditions period', esc(a.conditionsPeriod)) +
+      row('Publication interval', esc(a.publicationInterval)) +
+      row('Geographic scope', esc(a.geographicScope)) +
+      row('Published units', esc(a.units)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(a.operatorUse) + '</div></div>';
+
+    var c = a.consumedBy;
+    h += '<div class="ap-card"><h2>How this evidence is used</h2><div class="ap-flag">' + esc(c.statement) + '</div>' +
+      row('Consumed by a Religion finding', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a brain channel', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a Thing layer', '<span class="ap-pill no">none</span>') +
+      row('Drives a pathway', '<span class="ap-pill no">no</span>') +
+      row('Produces stress / diagnosis / activation', '<span class="ap-pill no">no</span>') + '</div>';
+
+    (e.categories || []).forEach(function (category) {
+      h += '<div class="ap-card"><h2>' + esc(category.publishedLabel) + ' &middot; ' +
+        esc(category.recommendations.length) + '</h2>';
+      if (category.categoryId === 'epc_recommendation') {
+        h += '<div class="ap-warn" style="margin-bottom:10px">These are nonstate-actor recommendations and are not mixed with the country lists.</div>';
+      }
+      h += '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Published name</th>' +
+        '<th class="l">Subject type</th><th>Report</th><th>Conditions year</th></tr></thead><tbody>';
+      category.recommendations.forEach(function (x) {
+        h += '<tr><td class="l">' + esc(x.publishedName) + '</td><td class="l">' +
+          esc(x.subjectType) + '</td><td>' + esc(x.reportYear) + '</td><td>' +
+          esc(x.conditionsYear) + '</td></tr>';
+      });
+      h += '</tbody></table></div></div>';
+    });
+
+    h += '<div class="ap-card"><h2>Provenance</h2>' +
+      row('Official recommendations page', '<a href="' + esc(p.source.url) + '">USCIRF 2026 Recommendations</a>') +
+      row('Annual reports', '<a href="' + esc(a.annualReportsPage) + '">USCIRF annual reports</a>') +
+      row('Statutory reference', '<a href="' + esc(a.statutoryReference) + '">International Religious Freedom Act</a>') +
+      row('Source content hash (SHA-256)', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sourceSha256) + '</span>') +
+      row('Bytes retrieved', esc(p.sourceBytes)) +
+      row('Source last modified (HTTP)', esc(p.source.sourceUpdatedAt || 'not supplied by USCIRF')) +
+      row('Retrieved at', esc(p.retrievedAt)) +
+      row('Parser', '<code>' + esc(p.parser) + '</code> &middot; ' + esc(p.parserVersion)) +
+      row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>') +
+      row('Validation', esc(p.validation)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(p.transformation) + '</div></div>';
+
+    h += '<div class="ap-card"><h2>Limitations and abstentions</h2>';
+    (d.abstentions || []).forEach(function (x) { h += '<div class="ap-abst">' + esc(x) + '</div>'; });
+    h += '</div>';
+    shell(h);
+  }
+
   function render(d) {
     // ---- refusals and not-implemented authorities -------------------------------------
     if (!d || d.ok === false) {
@@ -333,7 +394,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
           'Implemented providers: <a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> and ' +
           '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>, and ' +
           '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>, and ' +
-          '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a>. ' +
+          '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a>, and ' +
+          '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a>. ' +
           'The rest are deliberately unbuilt, and this page says so rather than rendering an empty shell that would look finished.</div>';
       }
       if (d && d.abstentions && d.abstentions.length) {
@@ -352,6 +414,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
     if (d.viewKind === 'scotus_docket') { renderScotus(d); return; }
     if (d.viewKind === 'gallup_religious_attendance') { renderGallup(d); return; }
+    if (d.viewKind === 'uscirf_annual_report') { renderUscirf(d); return; }
 
     var a = d.authority, e = d.evidence, p = d.provenance;
     var h = '';
