@@ -54,6 +54,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
   var el = document.getElementById('ap');
   var qs = new URLSearchParams(location.search);
   var authority = (qs.get('authority') || '').trim();
+  var country = (qs.get('country') || 'USA').trim().toUpperCase();
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -78,11 +79,12 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       '<div class="ap-card"><div class="ap-warn">This portal renders published evidence for one authority at a time. ' +
       'Append <code>?authority=&lt;id&gt;</code> to the URL.</div>' +
       '<div class="ap-row" style="margin-top:10px"><span class="ap-k">Implemented</span>' +
-      '<span class="ap-v"><a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a></span></div></div>');
+      '<span class="ap-v"><a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
+      '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a></span></div></div>');
     return;
   }
 
-  fetch('/api/authority-caseload?authority=' + encodeURIComponent(authority))
+  fetch('/api/authority-evidence?authority=' + encodeURIComponent(authority) + '&country=' + encodeURIComponent(country))
     .then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
     .then(function (res) { render(res.j); })
     .catch(function (e) {
@@ -90,6 +92,104 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
         '<div class="ap-card"><div class="ap-warn">The evidence API could not be reached: ' + esc(e && e.message) +
         '. No values are shown, because none were retrieved.</div></div>');
     });
+
+  function score(n) {
+    return (n === null || n === undefined) ? '<span class="ap-mut">n/a</span>' : Number(n).toFixed(3);
+  }
+
+  function delta(n) {
+    if (n === null || n === undefined) return '<span class="ap-mut">n/a</span>';
+    return '<span class="ap-chg">' + (n > 0 ? '+' : '') + Number(n).toFixed(3) + '</span>';
+  }
+
+  function renderWjp(d) {
+    var a = d.authority, e = d.evidence, p = d.provenance;
+    var cur = e.selected, prior = e.prior;
+    var labels = {
+      overall: 'Overall Rule of Law Index',
+      factor1: '1 · Constraints on Government Powers',
+      factor2: '2 · Absence of Corruption',
+      factor3: '3 · Open Government',
+      factor4: '4 · Fundamental Rights',
+      factor5: '5 · Order and Security',
+      factor6: '6 · Regulatory Enforcement',
+      factor7: '7 · Civil Justice',
+      factor8: '8 · Criminal Justice'
+    };
+    var h = '<div class="ap-eyebrow">Authority portal &middot; ' + esc(a.id) + '</div>' +
+      '<div class="ap-title">' + esc(a.name) + '</div>' +
+      '<div class="ap-sub">' + esc(cur.country) + ' &middot; ' + esc(cur.region) + ' &middot; edition ' + esc(e.edition) + '</div>';
+
+    h += '<div class="ap-card"><h2>Jurisdiction</h2><div class="ap-row"><span class="ap-k">Select</span><span class="ap-v">' +
+      '<select id="ap-country" style="background:#111;color:#dad5c8;border:1px solid rgba(201,169,78,.3);padding:5px 8px;font:12px monospace">';
+    (d.availableCountries || []).forEach(function (x) {
+      h += '<option value="' + esc(x.code) + '"' + (x.code === cur.countryCode ? ' selected' : '') + '>' + esc(x.name) + ' (' + esc(x.code) + ')</option>';
+    });
+    h += '</select></span></div></div>';
+
+    h += '<div class="ap-card"><h2>What this measure is</h2>' +
+      '<div class="ap-flag">An <b>annual composite index derived from household and expert surveys</b>. ' +
+      'It is not court-administration volume, not a live sensor, and not a direct measurement of any single mechanism.</div>' +
+      row('Measure type', esc(a.measureType)) +
+      row('Publication interval', esc(a.publicationInterval)) +
+      row('Geographic scope', esc(a.geographicScope)) +
+      row('Published units', esc(a.units)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(a.operatorUse) + '</div></div>';
+
+    var c = a.consumedBy;
+    h += '<div class="ap-card"><h2>How this evidence is used</h2><div class="ap-flag">' + esc(c.statement) + '</div>' +
+      row('Consumed by a Law finding', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a brain channel', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a Thing layer', '<span class="ap-pill no">none</span>') +
+      row('Drives a pathway', '<span class="ap-pill no">no</span>') +
+      row('Produces stress / diagnosis / activation', '<span class="ap-pill no">no</span>') + '</div>';
+
+    h += '<div class="ap-card"><h2>Published factor scores</h2>' +
+      '<div class="ap-warn" style="margin-bottom:11px">' + esc(a.changeBoundary) + '</div>' +
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Published metric</th>' +
+      '<th>' + esc(prior ? prior.year : 'prior') + '</th><th>' + esc(cur.year) + '</th><th>arithmetic difference</th></tr></thead><tbody>';
+    Object.keys(labels).forEach(function (k) {
+      h += '<tr' + (k === 'overall' ? ' class="tot"' : '') + '><td class="l">' + esc(labels[k]) + '</td>' +
+        '<td>' + score(prior && prior.metrics[k] && prior.metrics[k].value) + '</td>' +
+        '<td>' + score(cur.metrics[k].value) + '</td>' +
+        '<td>' + delta(e.arithmeticChanges[k]) + '</td></tr>';
+    });
+    h += '</tbody></table></div><div class="ap-note" style="margin-top:9px">' +
+      esc(e.changeInterpretation) + '</div></div>';
+
+    h += '<div class="ap-card"><h2>Overall score history &middot; 2015 onward</h2>' +
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Edition</th><th>Published overall score</th></tr></thead><tbody>';
+    (e.history || []).forEach(function (x) {
+      h += '<tr><td class="l">' + esc(x.publishedYearLabel) + '</td><td>' + score(x.overall.value) + '</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    h += '<div class="ap-card"><h2>Provenance</h2>' +
+      row('Canonical source file', '<a href="' + esc(p.source.url) + '">' + esc(p.source.filename) + '</a>') +
+      row('Publisher landing page', '<a href="' + esc(a.landingPage) + '">WJP Rule of Law Index</a>') +
+      row('Methodology', '<a href="' + esc(a.methodologyPage) + '">How the index is constructed</a>') +
+      row('Source content hash (SHA-256)', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sourceSha256) + '</span>') +
+      row('Bytes retrieved', esc(p.sourceBytes)) +
+      row('Source last modified (HTTP)', esc(p.source.sourceUpdatedAt || 'not supplied by the publisher')) +
+      row('Workbook modified', esc(p.workbook.modified || 'not stated')) +
+      row('Retrieved at', esc(p.retrievedAt)) +
+      row('Schema version applied', esc(e.schemaVersion)) +
+      row('Parser', '<code>' + esc(p.parser) + '</code> &middot; ' + esc(p.parserVersion)) +
+      row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>') +
+      row('Validation', esc(p.validation)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(p.transformation) + '</div></div>';
+
+    h += '<div class="ap-card"><h2>Limitations and abstentions</h2>' +
+      '<div class="ap-abst">' + esc(a.comparability) + '</div>';
+    (d.abstentions || []).forEach(function (x) { h += '<div class="ap-abst">' + esc(x) + '</div>'; });
+    h += '</div>';
+
+    shell(h);
+    var select = document.getElementById('ap-country');
+    if (select) select.addEventListener('change', function () {
+      location.href = '/authority-portal?authority=wjp_rol_index&country=' + encodeURIComponent(select.value);
+    });
+  }
 
   function render(d) {
     // ---- refusals and not-implemented authorities -------------------------------------
@@ -100,7 +200,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       var body = '<div class="ap-warn"><b>' + esc(code) + '</b><br>' + esc(d && d.detail || 'No detail supplied.') + '</div>';
       if (code === 'AUTHORITY_NOT_IMPLEMENTED') {
         body += '<div class="ap-note" style="margin-top:11px">The connectome registry lists 14 authority destinations. ' +
-          'Only <a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> has an evidence implementation. ' +
+          'Implemented providers: <a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> and ' +
+          '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>. ' +
           'The rest are deliberately unbuilt, and this page says so rather than rendering an empty shell that would look finished.</div>';
       }
       if (d && d.abstentions && d.abstentions.length) {
@@ -115,6 +216,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
         '<div class="ap-title">' + esc(head) + '</div>' + '<div class="ap-card">' + body + '</div>');
       return;
     }
+
+    if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
 
     var a = d.authority, e = d.evidence, p = d.provenance;
     var h = '';
