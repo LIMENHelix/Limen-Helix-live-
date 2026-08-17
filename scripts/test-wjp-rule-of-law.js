@@ -40,7 +40,7 @@ function workbook(maxYear) {
       v[pos[W.FIELDS.country]] = i === 0 ? 'United States' : 'Country ' + code;
       v[pos[W.FIELDS.code]] = code;
       v[pos[W.FIELDS.region]] = i === 0 ? 'EU, EFTA, and North America' : 'Test Region';
-      v[pos[W.FIELDS.year]] = String(year);
+      v[pos[W.FIELDS.year]] = year === 2018 ? '2017-2018' : String(year);
       W.METRICS.forEach(function (m, j) {
         v[pos[m[1]]] = String((0.35 + (i % 20) / 100 + (year - 2015) / 1000 + j / 1000).toFixed(3));
       });
@@ -66,6 +66,7 @@ var usa = W.countryView(parsed, 'USA');
 assert('USA resolves', usa.ok && usa.current.country === 'United States');
 assert('current and prior editions remain distinct', usa.current.year === 2025 && usa.prior.year === 2024);
 assert('history begins at 2015', usa.history[0].year === 2015 && usa.history.length === 11);
+assert('publisher edition range is preserved and ordered by its ending year', usa.history.some(function (x) { return x.publishedYearLabel === '2017-2018' && x.year === 2018; }));
 assert('arithmetic change is current minus prior', Math.abs(usa.arithmeticChanges.overall - 0.001) < 1e-12, String(usa.arithmeticChanges.overall));
 assert('unknown country abstains', W.countryView(parsed, 'ZZZ').code === 'COUNTRY_NOT_FOUND');
 assert('malformed country refuses', W.countryView(parsed, 'US').code === 'INVALID_COUNTRY_CODE');
@@ -86,6 +87,8 @@ x = clone(goodRows); x[1].values[x[0].values.indexOf(W.FIELDS.overall)] = '1.1';
 assert('score above one refuses', W.parseRows(x).code === 'ROW_VALIDATION_FAILED');
 x = clone(goodRows); x[1].values[x[0].values.indexOf(W.FIELDS.code)] = 'US';
 assert('bad country identity refuses', W.parseRows(x).code === 'ROW_VALIDATION_FAILED');
+x = clone(goodRows); x[1].values[x[0].values.indexOf(W.FIELDS.year)] = '2017-2019';
+assert('a multi-year gap in an edition label refuses', W.parseRows(x).code === 'ROW_VALIDATION_FAILED');
 x = workbook(2024);
 assert('an unreviewed edition refuses', W.parseRows(x).code === 'EDITION_MISMATCH');
 x = clone(goodRows);
@@ -124,7 +127,7 @@ assert('descriptor states no Thing layer', d.consumedBy.thingLayer === null);
 assert('descriptor states no pathway use', d.consumedBy.pathway === false);
 assert('descriptor distinguishes arithmetic from significance', /not WJP statistical significance/.test(d.changeBoundary));
 assert('descriptor refuses 30-second interpretation', /annual/.test(d.publicationInterval));
-assert('the shared router exposes exactly the two built authorities', R.SUPPORTED.join(',') === 'us_courts_caseload,wjp_rol_index', R.SUPPORTED.join(','));
+assert('the shared router exposes exactly the three built authorities', R.SUPPORTED.join(',') === 'scotus_docket,us_courts_caseload,wjp_rol_index', R.SUPPORTED.join(','));
 
 console.log('\n6. SHARED PAGE CONTRACT');
 var page = fs.readFileSync(path.join(__dirname, '..', 'authority-portal.html'), 'utf8');
