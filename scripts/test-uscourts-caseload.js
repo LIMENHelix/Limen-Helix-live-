@@ -372,7 +372,9 @@ assert('filenameFor builds the published name', H.filenameFor({ endpoint: '630',
 console.log('\n11. PAGE CLAIM DISCIPLINE');
 
 var page = fs.readFileSync(path.join(__dirname, '..', 'authority-portal.html'), 'utf8');
-var scriptBody = page.replace(/<style[\s\S]*?<\/style>/g, '');
+// The shared page now has provider-specific renderers. This claim boundary belongs to
+// the US Courts renderer only; WJP legitimately displays the publisher's named scores.
+var caseloadBody = page.slice(page.indexOf('function render(d) {')).replace(/<style[\s\S]*?<\/style>/g, '');
 
 /**
  * These terms must not be ASSERTED. They may legitimately appear in a DENIAL — the brief
@@ -387,7 +389,7 @@ var DENIALS = [
   "No forecast, score, ranking, stress value, or validated status is asserted anywhere on this page.",
   "row('Produces stress / diagnosis / activation', '<span class=\"ap-pill no\">no</span>')"
 ];
-var claimBody = scriptBody;
+var claimBody = caseloadBody;
 DENIALS.forEach(function (d) {
   assert('denial present verbatim: ' + d.slice(0, 44) + '...', claimBody.indexOf(d) >= 0);
   claimBody = claimBody.split(d).join('');
