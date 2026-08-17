@@ -5,6 +5,7 @@
 'use strict';
 
 var PROVIDERS = {
+  gallup_religious_attendance: require('./authority-gallup'),
   scotus_docket: require('./authority-scotus'),
   us_courts_caseload: require('./authority-caseload'),
   wjp_rol_index: require('./authority-wjp')
