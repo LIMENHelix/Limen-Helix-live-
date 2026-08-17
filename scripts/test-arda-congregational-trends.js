@@ -210,7 +210,7 @@ t('portal has a dedicated ARDA renderer and source disagreement warning', functi
   assert.ok(page.indexOf('function renderArdaTrends(d)') >= 0);
   assert.ok(page.indexOf("d.viewKind === 'arda_congregational_trends'") >= 0);
   assert.ok(/authority=arda_congregational_trends/.test(page));
-  assert.ok(/unresolved source difference/.test(page));
+  assert.ok(/unresolved source difference/i.test(page));
 });
 
 var hs = fs.readFileSync(path.join(__dirname, '..', 'handlers', 'authority-arda.js'), 'utf8');
