@@ -127,7 +127,7 @@ assert('descriptor states no Thing layer', d.consumedBy.thingLayer === null);
 assert('descriptor states no pathway use', d.consumedBy.pathway === false);
 assert('descriptor distinguishes arithmetic from significance', /not WJP statistical significance/.test(d.changeBoundary));
 assert('descriptor refuses 30-second interpretation', /annual/.test(d.publicationInterval));
-assert('the shared router exposes exactly the three built authorities', R.SUPPORTED.join(',') === 'scotus_docket,us_courts_caseload,wjp_rol_index', R.SUPPORTED.join(','));
+assert('the shared router exposes exactly the four built authorities', R.SUPPORTED.join(',') === 'gallup_religious_attendance,scotus_docket,us_courts_caseload,wjp_rol_index', R.SUPPORTED.join(','));
 
 console.log('\n6. SHARED PAGE CONTRACT');
 var page = fs.readFileSync(path.join(__dirname, '..', 'authority-portal.html'), 'utf8');
