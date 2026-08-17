@@ -18,6 +18,7 @@
     "test:unit": "node scripts/run-tests.mjs",
     "test": "npm run check && npm run test:unit",
     "harness:graph": "node scripts/build-harness-graph.js",
-    "harness:test": "node scripts/test-db-touch.js"
+    "harness:test": "node scripts/test-db-touch.js",
+    "vercel-build": "node scripts/measure-ats-vercel-build.js"
   }
 }
