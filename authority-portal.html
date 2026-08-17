@@ -82,7 +82,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       '<div class="ap-row" style="margin-top:10px"><span class="ap-k">Implemented</span>' +
       '<span class="ap-v"><a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
       '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a> &middot; ' +
-      '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a></span></div></div>');
+      '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a> &middot; ' +
+      '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a></span></div></div>');
     return;
   }
 
@@ -259,6 +260,63 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     shell(h);
   }
 
+
+  function renderGallup(d) {
+    var a = d.authority, e = d.evidence, p = d.provenance;
+    var h = '<div class="ap-eyebrow">Authority portal &middot; ' + esc(a.id) + '</div>' +
+      '<div class="ap-title">' + esc(a.name) + '</div>' +
+      '<div class="ap-sub">Published ' + esc(e.publishedDate) + ' &middot; current aggregate ' +
+      esc(e.currentWindow) + ' &middot; more than ' + num(e.sampleFloor) + ' U.S. adults</div>';
+
+    h += '<div class="ap-card"><h2>What this evidence is</h2>' +
+      '<div class="ap-flag">Published estimates from <b>aggregated self-reported telephone surveys</b>. ' +
+      'They are not turnstile counts, membership rolls, congregation counts, or a census.</div>' +
+      row('Measure type', esc(a.measureType)) +
+      row('Current observation window', esc(a.observationWindow)) +
+      row('Publication interval', esc(a.publicationInterval)) +
+      row('Geographic scope', esc(a.geographicScope)) +
+      row('Published units', esc(a.units)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(a.operatorUse) + '</div></div>';
+
+    var c = a.consumedBy;
+    h += '<div class="ap-card"><h2>How this evidence is used</h2><div class="ap-flag">' + esc(c.statement) + '</div>' +
+      row('Consumed by a Religion finding', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a brain channel', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a Thing layer', '<span class="ap-pill no">none</span>') +
+      row('Drives a pathway', '<span class="ap-pill no">no</span>') +
+      row('Produces stress / diagnosis / activation', '<span class="ap-pill no">no</span>') + '</div>';
+
+    h += '<div class="ap-card"><h2>Published observations</h2>' +
+      '<div class="ap-warn" style="margin-bottom:11px">Each value retains Gallup\'s cohort and aggregate window. ' +
+      'The 2021-2023 pool is not a point observation dated on the article\'s publication day.</div>' +
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Published measure</th>' +
+      '<th class="l">Cohort</th><th>Reference window</th><th>Published value</th></tr></thead><tbody>';
+    (e.series || []).forEach(function (series) {
+      (series.observations || []).forEach(function (o) {
+        h += '<tr><td class="l">' + esc(series.publishedLabel) + '</td><td class="l">' + esc(series.cohort) + '</td>' +
+          '<td>' + esc(o.referenceWindow) + '</td><td>' + esc(o.value) + '%</td></tr>';
+      });
+    });
+    h += '</tbody></table></div></div>';
+
+    h += '<div class="ap-card"><h2>Provenance</h2>' +
+      row('Official source', '<a href="' + esc(p.source.url) + '">Gallup attendance report</a>') +
+      row('Methodology', '<a href="' + esc(a.methodologyPage) + '">Gallup Methodology Center</a>') +
+      row('Source content hash (SHA-256)', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sourceSha256) + '</span>') +
+      row('Bytes retrieved', esc(p.sourceBytes)) +
+      row('Source last modified (HTTP)', esc(p.source.sourceUpdatedAt || 'not supplied by the publisher')) +
+      row('Retrieved at', esc(p.retrievedAt)) +
+      row('Parser', '<code>' + esc(p.parser) + '</code> &middot; ' + esc(p.parserVersion)) +
+      row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>') +
+      row('Validation', esc(p.validation)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(p.transformation) + '</div></div>';
+
+    h += '<div class="ap-card"><h2>Limitations and abstentions</h2>';
+    (d.abstentions || []).forEach(function (x) { h += '<div class="ap-abst">' + esc(x) + '</div>'; });
+    h += '</div>';
+    shell(h);
+  }
+
   function render(d) {
     // ---- refusals and not-implemented authorities -------------------------------------
     if (!d || d.ok === false) {
@@ -274,7 +332,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
         body += '<div class="ap-note" style="margin-top:11px">The connectome registry lists 14 authority destinations. ' +
           'Implemented providers: <a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> and ' +
           '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>, and ' +
-          '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>. ' +
+          '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>, and ' +
+          '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a>. ' +
           'The rest are deliberately unbuilt, and this page says so rather than rendering an empty shell that would look finished.</div>';
       }
       if (d && d.abstentions && d.abstentions.length) {
@@ -292,6 +351,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
 
     if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
     if (d.viewKind === 'scotus_docket') { renderScotus(d); return; }
+    if (d.viewKind === 'gallup_religious_attendance') { renderGallup(d); return; }
 
     var a = d.authority, e = d.evidence, p = d.provenance;
     var h = '';
