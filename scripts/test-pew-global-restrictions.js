@@ -217,9 +217,9 @@ t('both official chart URLs are HTTPS Pew sources', function () {
   assert.match(H.GRI_URL, /^https:\/\/www\.pewresearch\.org\/chart\//);
   assert.match(H.SHI_URL, /^https:\/\/www\.pewresearch\.org\/chart\//);
 });
-t('shared router exposes exactly six implemented authorities', function () {
+t('shared router exposes exactly eight implemented authorities', function () {
   assert.strictEqual(R.SUPPORTED.join(','),
-    'arda_congregational_trends,gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index');
+    'arda_congregational_trends,ats_seminary_enrollment,gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index');
   assert.strictEqual(R.PROVIDERS.pew_global_restrictions, H);
 });
 
