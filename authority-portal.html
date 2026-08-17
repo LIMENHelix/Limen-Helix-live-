@@ -451,6 +451,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       row('SHI bytes / HTTP last modified', esc(p.sources.shi.sourceBytes) + ' / ' + esc(p.sources.shi.sourceUpdatedAt || 'not supplied')) +
       row('Methodology', '<a href="' + esc(a.methodologyPage) + '">Pew 2023 methodology</a>') +
       row('Published errata', '<a href="' + esc(a.errataPage) + '">Pew restrictions errata</a>') +
+      row('Observation-level records', esc(e.countryCount * 2) + ' axis observations; each carries raw value, transformed value, units, reference year, source hash, retrieval time, and code versions') +
+      row('Numeric transformation', 'identity &middot; the published score and category are preserved without normalization, aggregation, interpolation, or ranking') +
       row('Retrieved at', esc(p.retrievedAt)) +
       row('Parser', '<code>' + esc(p.parser) + '</code> &middot; ' + esc(p.parserVersion)) +
       row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>') +
