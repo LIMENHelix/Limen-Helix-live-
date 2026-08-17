@@ -80,7 +80,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       '<div class="ap-card"><div class="ap-warn">This portal renders published evidence for one authority at a time. ' +
       'Append <code>?authority=&lt;id&gt;</code> to the URL.</div>' +
       '<div class="ap-row" style="margin-top:10px"><span class="ap-k">Implemented</span>' +
-      '<span class="ap-v"><a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
+      '<span class="ap-v"><a href="/authority-portal?authority=arda_congregational_trends">arda_congregational_trends</a> &middot; ' +
+      '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
       '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a> &middot; ' +
       '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a> &middot; ' +
       '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; '+
@@ -473,6 +474,114 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     });
   }
 
+
+  function renderArdaTrends(d) {
+    var a = d.authority, e = d.evidence, p = d.provenance, r = e.reconciliation;
+    var h = '<div class="ap-eyebrow">Authority portal &middot; ' + esc(a.id) + '</div>' +
+      '<div class="ap-title">' + esc(a.name) + '</div>' +
+      '<div class="ap-sub">U.S. decennial evidence &middot; 1980&ndash;2020 tradition shares &middot; 2020 body detail</div>';
+
+    h += '<div class="ap-card"><h2>What this evidence is</h2>' +
+      '<div class="ap-flag">Administrative counts reported through the U.S. Religion Census and published by ARDA, plus ARDA\'s published long-window tradition shares. ' +
+      '<b>This is not attendance, belief, participation intensity, institutional health, or resilience.</b></div>' +
+      row('Archive / display publisher', esc(a.publisher)) +
+      row('Original census collector', esc(a.originalCollector)) +
+      row('Reference span', esc(a.referencePeriod)) +
+      row('Publication interval', esc(a.publicationInterval)) +
+      row('Geographic scope', esc(a.geographicScope)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(a.operatorUse) + '</div></div>';
+
+    var consumed = a.consumedBy;
+    h += '<div class="ap-card"><h2>How this evidence is used</h2><div class="ap-flag">' + esc(consumed.statement) + '</div>' +
+      row('Consumed by a Religion finding', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a brain channel', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a Thing layer', '<span class="ap-pill no">none</span>') +
+      row('Drives a pathway', '<span class="ap-pill no">no</span>') +
+      row('Produces stress / diagnosis / activation', '<span class="ap-pill no">no</span>') + '</div>';
+
+    h += '<div class="ap-card"><h2>2020 published population and coverage</h2>' +
+      row('U.S. population', num(e.population)) +
+      row('Archive adherent total', num(e.archive.totals.adherents)) +
+      row('Published share of population', esc(e.archive.totals.adherentSharePercent.toFixed(1)) + '%') +
+      row('Religious bodies displayed', num(e.bodyCounts.bodies)) +
+      row('Bodies with congregations + adherents', num(e.bodyCounts.withAdherents)) +
+      row('Bodies with congregations only', num(e.bodyCounts.congregationsOnly)) +
+      '<div class="ap-note" style="margin-top:9px">Missing adherent values remain missing. They are not converted to zero and are not imputed.</div></div>';
+
+    h += '<div class="ap-card"><h2>Published-source reconciliation</h2>' +
+      '<div class="ap-warn"><b>Unresolved source difference.</b> The 372 displayed body rows sum to ' +
+      num(r.displayedBodyCongregationSum) + ' congregations; ARDA\'s archive summary states ' +
+      num(r.archiveCongregationTotal) + '. The difference is ' + num(r.congregationDifference) +
+      '. The adherent totals agree exactly at ' + num(r.archiveAdherentTotal) +
+      '. This portal preserves both congregation figures and does not choose one.</div>' +
+      row('Displayed-row congregation sum', num(r.displayedBodyCongregationSum)) +
+      row('Archive-summary congregation total', num(r.archiveCongregationTotal)) +
+      row('Difference', num(r.congregationDifference)) +
+      row('Displayed-row adherent sum', num(r.displayedBodyAdherentSum)) +
+      row('Archive-summary adherent total', num(r.archiveAdherentTotal)) + '</div>';
+
+    h += '<div class="ap-card"><h2>Published tradition shares &middot; percent of U.S. population</h2>' +
+      '<div class="ap-warn" style="margin-bottom:10px">ARDA warns that collection methods change over time. Values are shown as published; no growth rate, rank, interpolation, or causal trend is calculated.</div>' +
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Published tradition</th>';
+    (e.traditionYears || []).forEach(function (year) { h += '<th>' + esc(year) + '</th>'; });
+    h += '</tr></thead><tbody>';
+    (e.traditions || []).forEach(function (x) {
+      h += '<tr><td class="l">' + esc(x.tradition) + '</td>';
+      (e.traditionYears || []).forEach(function (year) {
+        var o = (x.observations || []).filter(function (z) { return z.year === year; })[0];
+        h += '<td>' + (o ? esc(o.percentOfPopulation.toFixed(1)) + '%' : '<span class="ap-mut">n/a</span>') + '</td>';
+      });
+      h += '</tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    h += '<div class="ap-card"><h2>2020 body detail &middot; ' + num(e.bodyCounts.bodies) + '</h2>' +
+      '<div class="ap-note" style="margin-bottom:9px">Filter the full published table by religious body, tradition, or family. A blank adherent field means the publisher reports congregations only.</div>' +
+      '<input id="arda-body-filter" type="search" placeholder="Filter body, tradition, or family" ' +
+      'style="width:100%;box-sizing:border-box;background:#0d0d0f;border:1px solid rgba(201,169,78,.25);color:#dad5c8;padding:8px 10px;font:12px IBM Plex Mono,monospace;margin-bottom:10px">' +
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Religious body</th><th class="l">Tradition</th><th class="l">Family</th>' +
+      '<th>Congregations</th><th>Adherents</th><th>Per 1,000</th></tr></thead><tbody id="arda-body-rows">';
+    (e.bodies || []).forEach(function (x) {
+      var search = (x.body + ' ' + x.tradition + ' ' + (x.family || '')).toLowerCase();
+      h += '<tr data-search="' + esc(search) + '"><td class="l"><a href="' + esc(x.profileUrl) + '">' + esc(x.body) + '</a></td>' +
+        '<td class="l">' + esc(x.tradition) + '</td><td class="l">' + esc(x.family || '') + '</td>' +
+        '<td>' + num(x.congregations) + '</td><td>' + num(x.adherents) + '</td><td>' +
+        (x.adherenceRatePer1000 === null ? '<span class="ap-mut">n/a</span>' : esc(x.adherenceRatePer1000.toFixed(2))) +
+        '</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    h += '<div class="ap-card"><h2>Provenance</h2>' +
+      row('Public membership report', '<a href="' + esc(p.sources.report.url) + '">ARDA U.S. Membership Report (2020)</a>') +
+      row('Report source hash', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sources.report.sourceSha256) + '</span>') +
+      row('Report bytes / HTTP last modified', esc(p.sources.report.sourceBytes) + ' / ' + esc(p.sources.report.sourceUpdatedAt || 'not supplied')) +
+      row('Archive summary', '<a href="' + esc(p.sources.archive.url) + '">ARDA 2020 State File summary</a>') +
+      row('Archive source hash', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sources.archive.sourceSha256) + '</span>') +
+      row('Archive DOI', '<a href="' + esc(a.doi) + '">' + esc(e.archive.doi) + '</a>') +
+      row('Archive citation date', esc(e.archive.citationDate)) +
+      row('RELTRAD augmentation', esc(e.archive.reltradAugmentation)) +
+      row('Observation-level records', num(e.observationCount) + ' published value observations; each carries raw value, transformed value, units, reference year, source URL/hash, retrieval time, and code versions') +
+      row('Numeric transformation', 'identity &middot; published values are retained without normalization, interpolation, ranking, or scoring') +
+      row('Retrieved at', esc(p.retrievedAt)) +
+      row('Parser', '<code>' + esc(p.parser) + '</code> &middot; ' + esc(p.parserVersion)) +
+      row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>') +
+      row('Validation', esc(p.validation)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(p.transformation) + '</div></div>';
+
+    h += '<div class="ap-card"><h2>Limitations and abstentions</h2>';
+    (d.abstentions || []).forEach(function (x) { h += '<div class="ap-abst">' + esc(x) + '</div>'; });
+    h += '</div>';
+    shell(h);
+
+    var filter = document.getElementById('arda-body-filter');
+    if (filter) filter.addEventListener('input', function () {
+      var q = filter.value.trim().toLowerCase();
+      Array.prototype.forEach.call(document.querySelectorAll('#arda-body-rows tr'), function (tr) {
+        tr.style.display = !q || String(tr.getAttribute('data-search') || '').indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  }
+
   function render(d) {
     // ---- refusals and not-implemented authorities -------------------------------------
     if (!d || d.ok === false) {
@@ -486,7 +595,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       }
       if (code === 'AUTHORITY_NOT_IMPLEMENTED') {
         body += '<div class="ap-note" style="margin-top:11px">The connectome registry lists 14 authority destinations. ' +
-          'Implemented providers: <a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> and ' +
+          'Implemented providers: <a href="/authority-portal?authority=arda_congregational_trends">arda_congregational_trends</a>, ' +
+          '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a>, and ' +
           '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>, and ' +
           '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>, and ' +
           '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a>, and ' +
@@ -509,6 +619,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
 
     if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
     if (d.viewKind === 'scotus_docket') { renderScotus(d); return; }
+    if (d.viewKind === 'arda_congregational_trends') { renderArdaTrends(d); return; }
     if (d.viewKind === 'gallup_religious_attendance') { renderGallup(d); return; }
     if (d.viewKind === 'pew_global_restrictions') { renderPewRestrictions(d); return; }
     if (d.viewKind === 'uscirf_annual_report') { renderUscirf(d); return; }
