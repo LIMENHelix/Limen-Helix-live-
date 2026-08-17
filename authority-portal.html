@@ -83,7 +83,9 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       '<span class="ap-v"><a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
       '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a> &middot; ' +
       '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a> &middot; ' +
-      '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a></span></div></div>');
+      '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; '+
+      '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a> &middot; '+
+      '<a href="/authority-portal?authority=pew_global_restrictions">pew_global_restrictions</a></span></div></div>');
     return;
   }
 
@@ -378,6 +380,99 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     shell(h);
   }
 
+
+  function renderPewRestrictions(d) {
+    var a = d.authority, e = d.evidence, p = d.provenance;
+    var h = '<div class="ap-eyebrow">Authority portal &middot; ' + esc(a.id) + '</div>' +
+      '<div class="ap-title">' + esc(a.name) + '</div>' +
+      '<div class="ap-sub">' + esc(e.countryCount) + ' countries and territories &middot; calendar year ' +
+      esc(e.referenceYear) + ' &middot; published ' + esc(e.publicationDate) + '</div>';
+
+    h += '<div class="ap-card"><h2>What this evidence is</h2>' +
+      '<div class="ap-flag">Two separate Pew Research Center indexes built from human coding of published sources. ' +
+      '<b>No composite restriction score</b> is created here.</div>' +
+      row('Government Restrictions Index (GRI)', esc(a.units.gri)) +
+      row('Social Hostilities Index (SHI)', esc(a.units.shi)) +
+      row('Reference period', esc(a.referencePeriod)) +
+      row('Publication interval', esc(a.publicationInterval)) +
+      row('Geographic scope', esc(a.geographicScope)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(a.operatorUse) + '</div></div>';
+
+    var c = a.consumedBy;
+    h += '<div class="ap-card"><h2>How this evidence is used</h2><div class="ap-flag">' + esc(c.statement) + '</div>' +
+      row('Consumed by a Religion finding', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a brain channel', '<span class="ap-pill no">no</span>') +
+      row('Consumed by a Thing layer', '<span class="ap-pill no">none</span>') +
+      row('Drives a pathway', '<span class="ap-pill no">no</span>') +
+      row('Produces stress / diagnosis / activation', '<span class="ap-pill no">no</span>') + '</div>';
+
+    h += '<div class="ap-card"><h2>Published category counts</h2>' +
+      '<div class="ap-warn" style="margin-bottom:10px">The category thresholds differ by axis. A GRI label is not reused for SHI.</div>' +
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Published category</th><th>GRI countries</th><th>SHI countries</th></tr></thead><tbody>';
+    ['Low', 'Moderate', 'High', 'Very high'].forEach(function (category) {
+      h += '<tr><td class="l">' + esc(category) + '</td><td>' + esc(e.categoryCounts.gri[category]) +
+        '</td><td>' + esc(e.categoryCounts.shi[category]) + '</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    h += '<div class="ap-card"><h2>Axis-specific thresholds</h2><div class="ap-scroll">' +
+      '<table class="ap-t"><thead><tr><th class="l">Axis</th><th class="l">Category</th><th>Minimum</th><th>Maximum</th></tr></thead><tbody>';
+    ['gri', 'shi'].forEach(function (axis) {
+      (e.thresholds[axis] || []).forEach(function (x) {
+        h += '<tr><td class="l">' + axis.toUpperCase() + '</td><td class="l">' + esc(x.category) +
+          '</td><td>' + esc(x.min.toFixed(1)) + '</td><td>' + esc(x.max.toFixed(1)) + '</td></tr>';
+      });
+    });
+    h += '</tbody></table></div></div>';
+
+    h += '<div class="ap-card"><h2>Published country observations &middot; ' + esc(e.countryCount) + '</h2>' +
+      '<div class="ap-note" style="margin-bottom:9px">Filter by country or published region. Both source observations remain visible together without being combined.</div>' +
+      '<input id="pew-country-filter" type="search" placeholder="Filter country or region" ' +
+      'style="width:100%;box-sizing:border-box;background:#0d0d0f;border:1px solid rgba(201,169,78,.25);color:#dad5c8;padding:8px 10px;font:12px IBM Plex Mono,monospace;margin-bottom:10px">' +
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Country / territory</th><th class="l">Region</th>' +
+      '<th>GRI</th><th>GRI category</th><th>SHI</th><th>SHI category</th></tr></thead><tbody id="pew-country-rows">';
+    (e.countries || []).forEach(function (x) {
+      var search = (x.country + ' ' + x.region).toLowerCase();
+      h += '<tr data-search="' + esc(search) + '"><td class="l">' + esc(x.country) +
+        (x.aliasApplied ? '<div class="ap-mut" style="font-size:9.5px">published labels: ' +
+          esc(x.publishedCountry.gri) + ' / ' + esc(x.publishedCountry.shi) + '</div>' : '') +
+        '</td><td class="l">' + esc(x.region) + '</td><td>' + esc(x.gri.score.toFixed(1)) +
+        '</td><td>' + esc(x.gri.category) + '</td><td>' + esc(x.shi.score.toFixed(1)) +
+        '</td><td>' + esc(x.shi.category) + '</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+
+    h += '<div class="ap-card"><h2>Provenance</h2>' +
+      row('GRI official chart', '<a href="' + esc(p.sources.gri.url) + '">2023 Government Restrictions Index</a>') +
+      row('GRI source hash', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sources.gri.sourceSha256) + '</span>') +
+      row('GRI bytes / HTTP last modified', esc(p.sources.gri.sourceBytes) + ' / ' + esc(p.sources.gri.sourceUpdatedAt || 'not supplied')) +
+      row('SHI official chart', '<a href="' + esc(p.sources.shi.url) + '">2023 Social Hostilities Index</a>') +
+      row('SHI source hash', '<span style="font-size:10.5px;word-break:break-all">' + esc(p.sources.shi.sourceSha256) + '</span>') +
+      row('SHI bytes / HTTP last modified', esc(p.sources.shi.sourceBytes) + ' / ' + esc(p.sources.shi.sourceUpdatedAt || 'not supplied')) +
+      row('Methodology', '<a href="' + esc(a.methodologyPage) + '">Pew 2023 methodology</a>') +
+      row('Published errata', '<a href="' + esc(a.errataPage) + '">Pew restrictions errata</a>') +
+      row('Observation-level records', esc(e.countryCount * 2) + ' axis observations; each carries raw value, transformed value, units, reference year, source hash, retrieval time, and code versions') +
+      row('Numeric transformation', 'identity &middot; the published score and category are preserved without normalization, aggregation, interpolation, or ranking') +
+      row('Retrieved at', esc(p.retrievedAt)) +
+      row('Parser', '<code>' + esc(p.parser) + '</code> &middot; ' + esc(p.parserVersion)) +
+      row('Transformation version', '<code>' + esc(p.transformVersion) + '</code>') +
+      row('Validation', esc(p.validation)) +
+      '<div class="ap-note" style="margin-top:9px">' + esc(p.transformation) + '</div></div>';
+
+    h += '<div class="ap-card"><h2>Limitations and abstentions</h2>';
+    (d.abstentions || []).forEach(function (x) { h += '<div class="ap-abst">' + esc(x) + '</div>'; });
+    h += '</div>';
+    shell(h);
+
+    var filter = document.getElementById('pew-country-filter');
+    if (filter) filter.addEventListener('input', function () {
+      var q = filter.value.trim().toLowerCase();
+      Array.prototype.forEach.call(document.querySelectorAll('#pew-country-rows tr'), function (tr) {
+        tr.style.display = !q || String(tr.getAttribute('data-search') || '').indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  }
+
   function render(d) {
     // ---- refusals and not-implemented authorities -------------------------------------
     if (!d || d.ok === false) {
@@ -395,7 +490,8 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
           '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>, and ' +
           '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>, and ' +
           '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a>, and ' +
-          '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a>. ' +
+          '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a>, and ' +
+          '<a href="/authority-portal?authority=pew_global_restrictions">pew_global_restrictions</a>. ' +
           'The rest are deliberately unbuilt, and this page says so rather than rendering an empty shell that would look finished.</div>';
       }
       if (d && d.abstentions && d.abstentions.length) {
@@ -414,6 +510,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
     if (d.viewKind === 'scotus_docket') { renderScotus(d); return; }
     if (d.viewKind === 'gallup_religious_attendance') { renderGallup(d); return; }
+    if (d.viewKind === 'pew_global_restrictions') { renderPewRestrictions(d); return; }
     if (d.viewKind === 'uscirf_annual_report') { renderUscirf(d); return; }
 
     var a = d.authority, e = d.evidence, p = d.provenance;

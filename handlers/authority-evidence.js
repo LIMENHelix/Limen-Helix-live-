@@ -6,6 +6,7 @@
 
 var PROVIDERS = {
   gallup_religious_attendance: require('./authority-gallup'),
+  pew_global_restrictions: require('./authority-pew-restrictions'),
   scotus_docket: require('./authority-scotus'),
   us_courts_caseload: require('./authority-caseload'),
   uscirf_annual_report: require('./authority-uscirf'),
