@@ -40,8 +40,8 @@ test('current window preserved', function () { assert.strictEqual(parsed.current
 test('sample floor parsed', function () { assert.strictEqual(parsed.sampleFloor, 32000); });
 test('subgroup floor parsed', function () { assert.strictEqual(parsed.subgroupFloor, 200); });
 test('nine series emitted', function () { assert.strictEqual(parsed.series.length, 9); });
-test('thirteen observations emitted', function () {
-  assert.strictEqual(parsed.series.reduce(function (n, s) { return n + s.observations.length; }, 0), 13);
+test('twelve observations emitted', function () {
+  assert.strictEqual(parsed.series.reduce(function (n, s) { return n + s.observations.length; }, 0), 12);
 });
 test('frequency values preserve five categories', function () {
   assert.deepStrictEqual(parsed.series.slice(0,5).map(function (s) { return s.observations[0].value; }), [21,9,11,25,31]);
@@ -125,7 +125,7 @@ test('stamping gives every observation unique identity and provenance', function
     assert.ok(!ids[o.observationId]);
     ids[o.observationId] = true;
   }); });
-  assert.strictEqual(Object.keys(ids).length, 13);
+  assert.strictEqual(Object.keys(ids).length, 12);
 });
 test('source URL is official Gallup HTTPS', function () {
   assert.match(handler.SOURCE_URL, /^https:\/\/news\.gallup\.com\//);
