@@ -125,6 +125,7 @@ const HANDLERS = {
   'law-markets': require('../handlers/law-markets'),
   'religion-markets': require('../handlers/religion-markets'),
   'brain-signals': require('../handlers/brain-signals'),
+  'authority-caseload': require('../handlers/authority-caseload'),
   'enrich-portal-claude': require('../handlers/enrich-portal-claude'),
   'expand-artifact': require('../handlers/expand-artifact'),
   'expand-artifact-claude': require('../handlers/expand-artifact-claude'),
