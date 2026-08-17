@@ -8,6 +8,7 @@ var PROVIDERS = {
   gallup_religious_attendance: require('./authority-gallup'),
   scotus_docket: require('./authority-scotus'),
   us_courts_caseload: require('./authority-caseload'),
+  uscirf_annual_report: require('./authority-uscirf'),
   wjp_rol_index: require('./authority-wjp')
 };
 var SUPPORTED = Object.keys(PROVIDERS).sort();
