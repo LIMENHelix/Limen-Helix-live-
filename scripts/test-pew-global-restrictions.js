@@ -219,7 +219,7 @@ t('both official chart URLs are HTTPS Pew sources', function () {
 });
 t('shared router exposes exactly six implemented authorities', function () {
   assert.strictEqual(R.SUPPORTED.join(','),
-    'gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index');
+    'arda_congregational_trends,gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index');
   assert.strictEqual(R.PROVIDERS.pew_global_restrictions, H);
 });
 
