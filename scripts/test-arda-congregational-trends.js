@@ -204,9 +204,9 @@ t('public report and archive URLs are HTTPS ARDA sources', function () {
   assert.match(H.REPORT_URL, /^https:\/\/www\.thearda\.com\//);
   assert.match(H.ARCHIVE_URL, /^https:\/\/thearda\.com\//);
 });
-t('shared router exposes exactly seven implemented authorities', function () {
+t('shared router exposes exactly eight implemented authorities', function () {
   assert.strictEqual(R.SUPPORTED.join(','),
-    'arda_congregational_trends,gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index');
+    'arda_congregational_trends,ats_seminary_enrollment,gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index');
   assert.strictEqual(R.PROVIDERS.arda_congregational_trends, H);
 });
 
