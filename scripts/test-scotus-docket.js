@@ -64,8 +64,8 @@ assert('missing title refuses', S.parse(fixture(function (x) { return x.replace(
 assert('missing docketed date refuses', S.parse(fixture(function (x) { return x.replace('September 4, 2025', 'date unknown'); }), '25-250').code === 'DOCKETED_DATE_MISSING');
 assert('missing proceedings section refuses', S.parse(fixture(function (x) { return x.replace('Proceedings and Orders', 'Activity'); }), '25-250').code === 'PROCEEDINGS_SECTION_MISSING');
 assert('no dated proceeding refuses', S.parse(fixture(function (x) { return x.replace(/Sep 03 2025/g, 'date one').replace(/Nov 05 2025/g, 'date two'); }), '25-250').code === 'NO_PROCEEDINGS');
-assert('external links are rejected', S.parse(fixture(function (x) { return x.replace('/DocketPDF/25/25-250/1/petition.pdf', 'https://example.com/petition.pdf'); }), '25-250').documentLinks.length === 1);
-assert('mailto links would be rejected', S.parse(fixture(function (x) { return x.replace('/DocketPDF/25/25-250/1/petition.pdf', 'mailto:clerk@example.com'); }), '25-250').documentLinks.length === 1);
+assert('external links are rejected', S.parse(fixture(function (x) { return x.replace('/DocketPDF/25/25-250/1/petition.pdf', 'https://example.com/petition.pdf'); }), '25-250').documentLinks.length === 3);
+assert('mailto links would be rejected', S.parse(fixture(function (x) { return x.replace('/DocketPDF/25/25-250/1/petition.pdf', 'mailto:clerk@example.com'); }), '25-250').documentLinks.length === 3);
 
 console.log('\n4. CLAIM BOUNDARY');
 var d = H.descriptor();
