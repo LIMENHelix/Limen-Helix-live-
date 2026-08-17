@@ -43,6 +43,18 @@ function fixture(axis) {
     baseNames.map(function (name, i) { return rowHtml(axis, name, i); }).join('') +
     '</tbody></table><p>' + new Array(80).join('reviewed chart context ') + '</p></body></html>';
 }
+function tokenFixture(axis) {
+  var spec = P.AXES[axis];
+  return '<!doctype html><html><head><title>' + spec.pageMarker + '</title></head><body>' +
+    '<p>' + P.PUBLICATION_DATE + '</p><h1>' + spec.pageMarker + '</h1>' +
+    '<p>Pew Research Center analysis of external data. Refer to the Methodology for details.</p>' +
+    '<div>' + spec.scoreHeader + '</div>' +
+    baseNames.map(function (name, i) {
+      var score = scoreFor(axis, i);
+      return '<div>' + P.REGIONS[i % P.REGIONS.length] + '</div><div>' + publishedName(axis, name) +
+        '</div><div>' + P.expectedCategory(axis, score) + '</div><div>' + score + '</div>';
+    }).join('') + '<p>' + new Array(80).join('reviewed chart context ') + '</p></body></html>';
+}
 
 var griHtml = fixture('gri');
 var shiHtml = fixture('shi');
@@ -57,6 +69,15 @@ t('GRI structural chart parses 198 rows', function () {
 t('SHI structural chart parses 198 rows', function () {
   assert.strictEqual(shi.ok, true);
   assert.strictEqual(shi.rows.length, 198);
+});
+t('accessible token layout parses without HTML table cells', function () {
+  var tokenGri = P.parseChart(tokenFixture('gri'), 'gri');
+  var tokenShi = P.parseChart(tokenFixture('shi'), 'shi');
+  assert.strictEqual(tokenGri.ok, true);
+  assert.strictEqual(tokenGri.rows.length, 198);
+  assert.strictEqual(tokenShi.ok, true);
+  assert.strictEqual(tokenShi.rows.length, 198);
+  assert.strictEqual(P.pair(tokenGri, tokenShi).countries.length, 198);
 });
 t('the two axes pair without a composite', function () {
   assert.strictEqual(paired.ok, true);
@@ -152,6 +173,17 @@ t('each axis observation retains its own source', function () {
     assert.strictEqual(country.gri.axis, 'gri');
     assert.strictEqual(country.shi.axis, 'shi');
     assert.notStrictEqual(country.gri.units, country.shi.units);
+    [country.gri, country.shi].forEach(function (observation) {
+      assert.strictEqual(observation.rawValue, observation.score);
+      assert.strictEqual(observation.transformedValue, observation.score);
+      assert.strictEqual(observation.rawUnits, observation.units);
+      assert.strictEqual(observation.transformedUnits, observation.units);
+      assert.match(observation.transformation, /^identity:/);
+      assert.ok(/^[0-9a-f]{64}$/.test(observation.provenance.sourceSha256));
+      assert.strictEqual(observation.provenance.retrievedAt, '2026-08-17T20:00:00.000Z');
+      assert.strictEqual(observation.provenance.parserVersion, P.PARSER_VERSION);
+      assert.strictEqual(observation.provenance.transformVersion, P.TRANSFORM_VERSION);
+    });
   });
 });
 t('no country record gains stress or activation fields', function () {
