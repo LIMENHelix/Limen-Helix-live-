@@ -15,7 +15,7 @@ function assert(name, ok, detail) {
 
 function headers() {
   var out = [
-    W.FIELDS.countryYear, W.FIELDS.country, W.FIELDS.code, W.FIELDS.region, W.FIELDS.year,
+    W.FIELDS.country, W.FIELDS.code, W.FIELDS.region, W.FIELDS.year,
     W.FIELDS.overall, W.FIELDS.f1, W.FIELDS.f2, W.FIELDS.f3, W.FIELDS.f4,
     W.FIELDS.f5, W.FIELDS.f6, W.FIELDS.f7, W.FIELDS.f8
   ];
@@ -37,7 +37,6 @@ function workbook(maxYear) {
     for (var i = 0; i < W.EXPECTED_CURRENT_ROWS; i++) {
       var code = i === 0 ? 'USA' : codeFor(i);
       var v = new Array(h.length).fill('');
-      v[pos[W.FIELDS.countryYear]] = code + '-' + year;
       v[pos[W.FIELDS.country]] = i === 0 ? 'United States' : 'Country ' + code;
       v[pos[W.FIELDS.code]] = code;
       v[pos[W.FIELDS.region]] = i === 0 ? 'EU, EFTA, and North America' : 'Test Region';
@@ -54,7 +53,8 @@ function workbook(maxYear) {
 console.log('\n1. REVIEWED SCHEMA');
 var goodRows = workbook(2025);
 var parsed = W.parseRows(goodRows, { sheetNames: ['Historical Data'], sheetPath: 'xl/worksheets/sheet14.xml' });
-assert('the reviewed 58-column schema parses', parsed.ok === true, parsed.code);
+assert('the live-shaped 58-column schema parses without Country-Year', parsed.ok === true, parsed.code);
+assert('identity uses the required source country code and year', parsed.observations[0].countryYear === null && parsed.observations[0].countryCode === 'USA' && parsed.observations[0].year === 2015);
 assert('the edition is 2025', parsed.edition === 2025, String(parsed.edition));
 assert('all 143 current jurisdictions are required', parsed.currentCountryCount === 143, String(parsed.currentCountryCount));
 assert('the history is not a one-row smoke test', parsed.rowCount === 1573, String(parsed.rowCount));
@@ -78,6 +78,8 @@ x = clone(goodRows); x[0].values.push('extra');
 assert('59 columns refuse', W.parseRows(x).code === 'COLUMN_COUNT_MISMATCH');
 x = clone(goodRows); x[0].values[x[0].values.indexOf(W.FIELDS.f7)] = 'renamed civil justice';
 assert('a consumed header rename refuses', W.parseRows(x).code === 'REQUIRED_HEADER_MISSING');
+x = clone(goodRows); x[0].values[x[0].values.indexOf(W.FIELDS.code)] = 'renamed country code';
+assert('removing a composite identity field refuses', W.parseRows(x).code === 'REQUIRED_HEADER_MISSING');
 x = clone(goodRows); x[0].values[x[0].values.length - 1] = W.FIELDS.f7;
 assert('a duplicate consumed header refuses', W.parseRows(x).code === 'DUPLICATE_HEADER');
 x = clone(goodRows); x[1].values[x[0].values.indexOf(W.FIELDS.overall)] = '1.1';
