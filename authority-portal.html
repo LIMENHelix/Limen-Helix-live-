@@ -80,7 +80,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       '<div class="ap-card"><div class="ap-warn">This portal renders published evidence for one authority at a time. ' +
       'Append <code>?authority=&lt;id&gt;</code> to the URL.</div>' +
       '<div class="ap-row" style="margin-top:10px"><span class="ap-k">Implemented</span>' +
-      '<span class="ap-v"><a href="/authority-portal?authority=arda_congregational_trends">arda_congregational_trends</a> &middot; ' +
+      '<span class="ap-v"><a href="/authority-portal?authority=arda_congregational_trends">arda_congregational_trends</a> &middot; <a href="/authority-portal?authority=ats_seminary_enrollment">ats_seminary_enrollment</a> &middot; ' +
       '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
       '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a> &middot; ' +
       '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a> &middot; ' +
@@ -582,6 +582,66 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
     });
   }
 
+
+
+  function renderAtsEnrollment(d) {
+    var a=d.authority,e=d.evidence,p=d.provenance;
+    var h='<div class="ap-eyebrow">Authority portal &middot; '+esc(a.id)+'</div>'+
+      '<div class="ap-title">'+esc(a.name)+'</div>'+
+      '<div class="ap-sub">ATS member-school evidence &middot; Fall 2025 &middot; published Table 2.11</div>';
+
+    h+='<div class="ap-card"><h2>What this evidence is</h2>'+
+      '<div class="ap-flag">Administrative head-count enrollment reported by ATS member schools in the United States and Canada. <b>Enrollment is not clergy supply, ordination, graduation, placement, institutional vitality, or faith-community resilience.</b></div>'+
+      row('Publisher',esc(a.publisher))+row('Reference period',esc(a.referencePeriod))+
+      row('Publication interval',esc(a.publicationInterval))+row('Geographic scope',esc(a.geographicScope))+
+      '<div class="ap-note" style="margin-top:9px">'+esc(a.operatorUse)+'</div></div>';
+
+    h+='<div class="ap-card"><h2>How this evidence is used</h2><div class="ap-flag">'+esc(a.consumedBy.statement)+'</div>'+
+      row('Consumed by a Religion finding','<span class="ap-pill no">no</span>')+
+      row('Consumed by a brain channel','<span class="ap-pill no">no</span>')+
+      row('Consumed by a Thing layer','<span class="ap-pill no">none</span>')+
+      row('Drives a pathway','<span class="ap-pill no">no</span>')+
+      row('Produces stress / diagnosis / activation','<span class="ap-pill no">no</span>')+'</div>';
+
+    h+='<div class="ap-card"><h2>Fall 2025 published enrollment</h2>'+
+      row('All published program categories',num(e.grandTotal)+' students (head count)')+
+      row('M category',num(e.degreeRows[e.degreeRows.length-1].male))+
+      row('F category',num(e.degreeRows[e.degreeRows.length-1].female))+
+      row('O category',num(e.degreeRows[e.degreeRows.length-1].otherKnown))+
+      row('U category',num(e.degreeRows[e.degreeRows.length-1].unknown))+
+      '<div class="ap-note" style="margin-top:9px">These are publisher categories and published counts, not inferred identities or population estimates.</div></div>';
+
+    h+='<div class="ap-card"><h2>Enrollment by degree-program category</h2>'+
+      '<div class="ap-warn" style="margin-bottom:10px">Counts are shown exactly as published. No share, growth rate, rank, completion rate, or pipeline conversion is calculated.</div>'+
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Program category</th><th>M</th><th>F</th><th>O</th><th>U</th><th>Total</th></tr></thead><tbody>';
+    (e.degreeRows||[]).forEach(function(x){h+='<tr><td class="l">'+esc(x.label)+'</td><td>'+num(x.male)+'</td><td>'+num(x.female)+'</td><td>'+num(x.otherKnown)+'</td><td>'+num(x.unknown)+'</td><td>'+num(x.total)+'</td></tr>';});
+    h+='</tbody></table></div></div>';
+
+    h+='<div class="ap-card"><h2>Enrollment by published age band</h2>'+
+      '<div class="ap-warn" style="margin-bottom:10px">ATS states that age/enrollment data are collected in odd-numbered years. The U-category total of '+num(e.unknownGenderTotal)+' is retained separately because Table 2.11 does not distribute it across these displayed age bands.</div>'+
+      '<div class="ap-scroll"><table class="ap-t"><thead><tr><th class="l">Age band</th><th>M</th><th>F</th><th>O</th><th>Known-category total</th></tr></thead><tbody>';
+    (e.ageRows||[]).forEach(function(x){h+='<tr><td class="l">'+esc(x.label)+'</td><td>'+num(x.male)+'</td><td>'+num(x.female)+'</td><td>'+num(x.otherKnown)+'</td><td>'+num(x.totalKnownGender)+'</td></tr>';});
+    h+='<tr><td class="l"><b>Published known-category age total</b></td><td></td><td></td><td></td><td><b>'+num(e.knownGenderAgeTotal)+'</b></td></tr></tbody></table></div>'+
+      '<div class="ap-note" style="margin-top:9px">'+num(e.knownGenderAgeTotal)+' age-banded M/F/O records + '+num(e.unknownGenderTotal)+' U-category records = '+num(e.grandTotal)+' published students.</div></div>';
+
+    h+='<div class="ap-card"><h2>Provenance</h2>'+
+      row('Annual publication index','<a href="'+esc(p.sources.index.url)+'">ATS Annual Data Tables</a>')+
+      row('2025-26 report','<a href="'+esc(p.sources.report.url)+'">ATS 2025-26 Annual Data Tables</a>')+
+      row('Report source hash','<span style="font-size:10.5px;word-break:break-all">'+esc(p.sources.report.sourceSha256)+'</span>')+
+      row('Report bytes / HTTP last modified',num(p.sources.report.sourceBytes)+' / '+esc(p.sources.report.sourceUpdatedAt||'not supplied'))+
+      row('Published table',esc(e.publishedTable)+' &middot; '+esc(e.referencePeriod))+
+      row('Observation-level records',num(e.observationCount)+' published count observations with raw value, transformed value, units, reference period, source hash, retrieval time, and code versions')+
+      row('Numeric transformation','identity &middot; no normalization, ratio, ranking, interpolation, or scoring')+
+      row('Retrieved at',esc(p.retrievedAt))+row('Parser','<code>'+esc(p.parser)+'</code> &middot; '+esc(p.parserVersion))+
+      row('Transformation version','<code>'+esc(p.transformVersion)+'</code>')+
+      '<div class="ap-note" style="margin-top:9px">The report is byte-pinned. Any revised PDF with different bytes withholds all values until separately reviewed.</div></div>';
+
+    h+='<div class="ap-card"><h2>Limitations and abstentions</h2>';
+    (d.abstentions||[]).forEach(function(x){h+='<div class="ap-abst">'+esc(x)+'</div>';});
+    h+='</div>';
+    shell(h);
+  }
+
   function render(d) {
     // ---- refusals and not-implemented authorities -------------------------------------
     if (!d || d.ok === false) {
@@ -595,7 +655,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       }
       if (code === 'AUTHORITY_NOT_IMPLEMENTED') {
         body += '<div class="ap-note" style="margin-top:11px">The connectome registry lists 14 authority destinations. ' +
-          'Implemented providers: <a href="/authority-portal?authority=arda_congregational_trends">arda_congregational_trends</a>, ' +
+          'Implemented providers: <a href="/authority-portal?authority=arda_congregational_trends">arda_congregational_trends</a>, <a href="/authority-portal?authority=ats_seminary_enrollment">ats_seminary_enrollment</a>, ' +
           '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a>, and ' +
           '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>, and ' +
           '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>, and ' +
@@ -619,6 +679,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
 
     if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
     if (d.viewKind === 'scotus_docket') { renderScotus(d); return; }
+    if (d.viewKind === 'ats_seminary_enrollment') { renderAtsEnrollment(d); return; }
     if (d.viewKind === 'arda_congregational_trends') { renderArdaTrends(d); return; }
     if (d.viewKind === 'gallup_religious_attendance') { renderGallup(d); return; }
     if (d.viewKind === 'pew_global_restrictions') { renderPewRestrictions(d); return; }
