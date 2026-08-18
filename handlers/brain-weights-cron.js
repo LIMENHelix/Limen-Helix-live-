@@ -63,8 +63,6 @@ var DOMAIN_NAMES = require('../lib/domain-names');
 function loadBrainModules() {
   var out = { P: null, K4: null, error: null };
 
-// Narrow test seam: exposes authentication only, never persistence or brain state.
-module.exports._authorizeWrite = authorizeWrite;
   try {
     out.P = require('../assets/js/limen-plasticity.js');
     out.K4 = require('../assets/js/limen-k4-selfconsistency.js');
@@ -268,3 +266,6 @@ module.exports = async function handler(req, res) {
     forecastModel: resolver.FORECAST_MODEL, results: out, backend: db.getBackend()
   });
 };
+
+// Narrow test seam: exposes authentication only, never persistence or brain state.
+module.exports._authorizeWrite = authorizeWrite;
