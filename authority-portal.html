@@ -84,7 +84,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
       '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a> &middot; ' +
       '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a> &middot; ' +
-      '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; '+
+      '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; <a href="/authority-portal?authority=interfaith_america_pluralism">interfaith_america_pluralism</a> &middot; '+
       '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a> &middot; '+
       '<a href="/authority-portal?authority=pew_global_restrictions">pew_global_restrictions</a></span></div></div>');
     return;
@@ -584,6 +584,53 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
 
 
 
+  function renderInterfaithAmerica(d) {
+    var a=d.descriptor,e=d.evidence;
+    var sectorLabels={campus:'Campus',civic:'Civic',workplace:'Workplace',health:'Faith and health',learning:'Learning',communications:'Communications'};
+    var h='<div class="ap-eyebrow">Authority portal &middot; '+esc(d.authority)+'</div>'+
+      '<div class="ap-title">'+esc(a.title)+'</div>'+
+      '<div class="ap-sub">Interfaith America &middot; 2025 Annual Report &middot; reviewed provider-output snapshot</div>';
+
+    h+='<div class="ap-card"><h2>What this evidence is</h2>'+
+      '<div class="ap-flag"><b>Reviewed provider-output snapshot, not a measure of pluralism.</b> The rows preserve selected program reach and activity counts published by Interfaith America for 2025.</div>'+
+      row('Published measure',esc(a.measure))+row('Reference period',esc(e.referencePeriod))+
+      row('Review date',esc(e.reviewedOn))+row('Runtime status','<span class="ap-pill">snapshot</span>')+
+      '<div class="ap-note" style="margin-top:9px">'+esc(a.operatorUse)+'</div></div>';
+
+    h+='<div class="ap-card"><h2>How this evidence is used</h2>'+
+      row('Consumed by a Religion finding','<span class="ap-pill no">no</span>')+
+      row('Consumed by a brain channel','<span class="ap-pill no">no</span>')+
+      row('Consumed by a Thing layer','<span class="ap-pill no">none</span>')+
+      row('Drives a pathway','<span class="ap-pill no">no</span>')+
+      row('Produces stress / diagnosis / activation','<span class="ap-pill no">no</span>')+
+      '<div class="ap-note" style="margin-top:9px">An operator can see where this provider reports activity and open the publication for follow-up. Nothing here enters scoring.</div></div>';
+
+    (e.sectors||[]).forEach(function(sector){
+      var rows=(e.observations||[]).filter(function(x){return x.sector===sector;});
+      h+='<div class="ap-card"><h2>'+esc(sectorLabels[sector]||sector)+'</h2>';
+      rows.forEach(function(x){
+        var shown=esc(x.rawDisplay)+' '+esc(x.rawUnits)+(x.publishedQualifier==='at_least'?' <span class="ap-pill">lower bound</span>':'');
+        h+=row(x.publishedLabel,shown);
+      });
+      h+='</div>';
+    });
+
+    h+='<div class="ap-card"><h2>Interpretation boundary</h2>'+
+      '<div class="ap-warn">These rows use different units and may describe overlapping people or institutions. They must not be added into a total. Impressions and views are exposure counts, not unique people or demonstrated attention, agreement, trust, or behavior change.</div></div>';
+
+    h+='<div class="ap-card"><h2>Provenance</h2>'+
+      row('Official report','<a href="'+esc(e.report.url)+'">'+esc(e.report.title)+'</a>')+
+      row('Observation-level records',num(e.observations.length)+' identity-transformed published counts')+
+      row('Snapshot version','<code>'+esc(e.versions.snapshot)+'</code>')+
+      row('Transformation version','<code>'+esc(e.versions.transformation)+'</code>')+
+      '<div class="ap-warn" style="margin-top:10px">The report page is not mirrored or hash-pinned in this release, and publisher sourceUpdatedAt was not established. Every row is self-reported by one provider and is not independently corroborated.</div></div>';
+
+    h+='<div class="ap-card"><h2>Limitations and abstentions</h2>';
+    (a.boundaries||[]).forEach(function(x){h+='<div class="ap-abst">'+esc(x)+'</div>';});
+    h+='</div>';
+    shell(h);
+  }
+
   function renderAtsEnrollment(d) {
     var a=d.descriptor,e=d.evidence,total=e.degreeRows[e.degreeRows.length-1];
     var h='<div class="ap-eyebrow">Authority portal &middot; '+esc(d.authority)+'</div>'+
@@ -655,7 +702,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
           '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a>, and ' +
           '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>, and ' +
           '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>, and ' +
-          '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a>, and ' +
+          '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; <a href="/authority-portal?authority=interfaith_america_pluralism">interfaith_america_pluralism</a>, and ' +
           '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a>, and ' +
           '<a href="/authority-portal?authority=pew_global_restrictions">pew_global_restrictions</a>. ' +
           'The rest are deliberately unbuilt, and this page says so rather than rendering an empty shell that would look finished.</div>';
@@ -675,6 +722,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
 
     if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
     if (d.viewKind === 'scotus_docket') { renderScotus(d); return; }
+    if (d.viewKind === 'interfaith_america_pluralism') { renderInterfaithAmerica(d); return; }
     if (d.viewKind === 'ats_seminary_enrollment') { renderAtsEnrollment(d); return; }
     if (d.viewKind === 'arda_congregational_trends') { renderArdaTrends(d); return; }
     if (d.viewKind === 'gallup_religious_attendance') { renderGallup(d); return; }
