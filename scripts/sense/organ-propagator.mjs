@@ -13,11 +13,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { inputs } from './_inputs.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 const PROPAGATOR = path.join(ROOT, 'lib', 'limen-stress-propagator.js');
 const SNAPSHOT = path.join(ROOT, 'assets', 'data', 'stress-network-state.json');
+const COMMAND_BOARD = path.join(ROOT, 'assets', 'data', 'command-board-data.json');
+const COMPANIES_MANIFEST = path.join(ROOT, 'assets', 'data', 'companies-manifest.json');
 
 export const id = 'propagator';
 export const role = 'spider-web stress propagator';
@@ -26,11 +29,12 @@ export const order = 90;
 const STALE_HOURS = 6;
 
 export function sense() {
+  const io = inputs();
   const present = { propagator: fs.existsSync(PROPAGATOR), snapshot: fs.existsSync(SNAPSHOT) };
   if (!present.propagator) {
     return { score: 0, status: 'IN_PAIN', summary: 'propagator file missing', metrics: { present }, attention: [{ issue: 'limen-stress-propagator.js missing', severity: 'high', count: 1, action: 'restore from git history', organ: id }] };
   }
-  let snap = {}, ageHours = null, nodeCount = 0, edgeCount = 0, dampedCount = 0, pathCCount = 0, alertCount = 0, networkPushedCount = 0;
+  let snap = {}, ageHours = null, nodeCount = 0, edgeCount = 0, dampedCount = 0, pathCCount = null, alertCount = 0, networkPushedCount = 0;
   if (present.snapshot) {
     try {
       const stat = fs.statSync(SNAPSHOT);
@@ -44,7 +48,6 @@ export function sense() {
       for (const n of nodeList) {
         if (!n || typeof n !== 'object') continue;
         if (n.inhibitoryEdgesFunctional > 0) dampedCount++;
-        if (n.pathCAnomaly) pathCCount++;
         if (n.alert) alertCount++;
         if (n.networkPushed) networkPushedCount++;
       }
@@ -52,11 +55,33 @@ export function sense() {
     } catch (e) { /* parse error */ }
   }
 
+  // path-C is an upstream Command Board input, not an unbounded propagator
+  // output: propagation caps intrinsic stress before traversal. Measure the
+  // current source rows instead of the committable snapshot, whose count can
+  // lag a live score refresh by months.
+  const cb = io.json(COMMAND_BOARD, 'assets/data/command-board-data.json');
+  const manifest = io.json(COMPANIES_MANIFEST, 'assets/data/companies-manifest.json');
+  const cap = Number(snap?.stats?.intrinsicPropagationCap);
+  const alertMult = Number(snap?.stats?.alertMult);
+  if (cb && manifest && Number.isFinite(cap) && Number.isFinite(alertMult)) {
+    const portalCiks = new Set(Object.values(manifest.index || {})
+      .map((portal) => String(portal?.cik ?? '').replace(/^0+/, ''))
+      .filter(Boolean));
+    pathCCount = (cb.companies || []).filter((row) => {
+      const composite = Number(row.co) || 0;
+      const rawStress = composite * (row.a ? alertMult : 1);
+      const cik = String(row.c ?? '').replace(/^0+/, '');
+      return portalCiks.has(cik) && row.path === 'C' && rawStress > cap;
+    }).length;
+  }
+
   const attention = [];
   if (!present.snapshot) attention.push({ issue: 'stress-network-state.json missing — propagator has never run or output lost', severity: 'high', count: 1, action: 'invoke api/limen-worker-stress-refresh', organ: id });
   else if (ageHours !== null && ageHours > STALE_HOURS) attention.push({ issue: 'stress-network snapshot stale (>6h)', severity: 'med', count: Math.round(ageHours), action: 'invoke api/limen-worker-stress-refresh OR investigate the cron', organ: id });
   if (nodeCount > 0 && nodeCount < 300) attention.push({ issue: 'Propagator node count low (<300)', severity: 'med', count: nodeCount, action: 'investigate — corpus has 767 portals; many should be in the stress graph', organ: id });
-  if (pathCCount > 0) attention.push({ issue: 'path-C anomalies in propagator output (unbounded composites)', severity: 'med', count: pathCCount, action: 'inspect — kernel path C indicates outlier financial state, may be data error', organ: id });
+  if (pathCCount > 0) attention.push({ issue: 'upstream path-C scores exceed the propagator input cap (cap remains enforced)', severity: 'med', count: pathCCount, action: 'inspect the kernel score; propagation is bounded at intrinsicPropagationCap and does not amplify the uncapped value', organ: id });
+  const inputGap = io.attention(id);
+  if (inputGap) attention.push(inputGap);
   // ── CONSUMER CHECK · was a hardcoded string, now a measurement ──────────────────────────
   //
   // This used to push, unconditionally on every run:
@@ -177,7 +202,7 @@ export function sense() {
 
   return {
     score, status,
-    summary: `${nodeCount} nodes · ${edgeCount} edges · ${dampedCount} damped · ${pathCCount} pathC · ${alertCount} alert · snapshot ${ageHours === null ? 'missing' : ageHours.toFixed(1) + 'h old'}`,
+    summary: `${nodeCount} nodes · ${edgeCount} edges · ${dampedCount} damped · ${pathCCount === null ? 'pathC unmeasured' : pathCCount + ' pathC over cap'} · ${alertCount} alert · snapshot ${ageHours === null ? 'missing' : ageHours.toFixed(1) + 'h old'}`,
     metrics: { present, ageHours, nodeCount, edgeCount, dampedCount, pathCCount, alertCount, networkPushedCount, consumers, scoreParts: { presence: presenceScore, fresh: freshScore, size: sizeScore, regulation: regulationScore } },
     attention
   };

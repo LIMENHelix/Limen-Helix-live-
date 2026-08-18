@@ -20,7 +20,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const DATA_DIR = path.join(__dirname, '..', 'assets', 'data');
+const REPO_ROOT = process.env.OPERATOR_REFS_ROOT
+  ? path.resolve(process.env.OPERATOR_REFS_ROOT)
+  : path.join(__dirname, '..');
+const DATA_DIR = path.join(REPO_ROOT, 'assets', 'data');
 const OUTPUT_PATH = path.join(DATA_DIR, 'operator-references.json');
 
 // A company's citation domain is not always its primary operating domain.
@@ -40,10 +43,10 @@ const PRIMARY_DOMAIN_BY_CIK = {
 // cited with {ticker, name, cik} triples. Anything outside these patterns
 // won't be scanned (avoids matching test fixtures, diagnostics, etc.).
 const SCAN_DIRS = [
-  path.join(__dirname, '..'),
-  path.join(__dirname, '..', 'assets', 'js'),
-  path.join(__dirname, '..', 'assets', 'js', 'domain-brains'),
-  path.join(__dirname, '..', 'assets', 'js', 'domain-brains', 'data'),
+  REPO_ROOT,
+  path.join(REPO_ROOT, 'assets', 'js'),
+  path.join(REPO_ROOT, 'assets', 'js', 'domain-brains'),
+  path.join(REPO_ROOT, 'assets', 'js', 'domain-brains', 'data'),
 ];
 
 const FILE_PATTERN = /(clarity-operator|opportunities|node-business-engine|targeting-engine|opportunity-playbooks|opportunities\.html)/;
@@ -78,9 +81,12 @@ function scanDir(dir) {
       const txt = fs.readFileSync(p, 'utf8');
       // Pattern: {ticker:'XXX', name:'…', cik:'\d+', …}  (any field order)
       // Match ticker→cik OR cik→ticker, capture name in between if present.
-      const reTC = /ticker\s*:\s*['"]([A-Z][A-Z0-9.-]{0,8})['"]\s*,?\s*name\s*:\s*['"]([^'"]+)['"][\s\S]{0,200}?cik\s*:\s*['"]?(\d{1,10})['"]?/g;
-      const reCT = /cik\s*:\s*['"]?(\d{1,10})['"]?\s*,?\s*[\s\S]{0,80}?name\s*:\s*['"]([^'"]+)['"][\s\S]{0,80}?ticker\s*:\s*['"]([A-Z][A-Z0-9.-]{0,8})['"]/g;
-      const reTOnlyCik = /ticker\s*:\s*['"]([A-Z][A-Z0-9.-]{0,8})['"][\s\S]{0,200}?cik\s*:\s*['"]?(\d{1,10})['"]?/g;
+      // Never cross an object boundary while associating identity fields.
+      // The old [\s\S] spans paired XPO's ticker/name with the next object's
+      // J.B. Hunt CIK 728535, creating a synthetic identity.
+      const reTC = /ticker\s*:\s*['"]([A-Z][A-Z0-9.-]{0,8})['"]\s*,?\s*name\s*:\s*['"]([^'"]+)['"][^{}]{0,200}?cik\s*:\s*['"]?(\d{1,10})['"]?/g;
+      const reCT = /cik\s*:\s*['"]?(\d{1,10})['"]?\s*,?\s*[^{}]{0,80}?name\s*:\s*['"]([^'"]+)['"][^{}]{0,80}?ticker\s*:\s*['"]([A-Z][A-Z0-9.-]{0,8})['"]/g;
+      const reTOnlyCik = /ticker\s*:\s*['"]([A-Z][A-Z0-9.-]{0,8})['"][^{}]{0,200}?cik\s*:\s*['"]?(\d{1,10})['"]?/g;
       let m;
       while ((m = reTC.exec(txt)) !== null) {
         if (m[3] === '0' || m[3] === 'ETF') continue;
@@ -126,7 +132,7 @@ for (const cik of Object.keys(byCik)) {
     ticker: e.ticker,
     name: e.name || e.ticker,
     domain: PRIMARY_DOMAIN_BY_CIK[cik] || primaryDomain || 'unknown',
-    sources: Array.from(e.sources).map(p => path.relative(path.join(__dirname, '..'), p).replace(/\\/g, '/'))
+    sources: Array.from(e.sources).map(p => path.relative(REPO_ROOT, p).replace(/\\/g, '/'))
   });
 }
 
@@ -143,7 +149,7 @@ fs.writeFileSync(OUTPUT_PATH, JSON.stringify(payload, null, 2));
 
 console.log('files scanned:           ' + filesScanned);
 console.log('unique CIKs extracted:   ' + out.length);
-console.log('output:                  ' + path.relative(path.join(__dirname, '..'), OUTPUT_PATH).replace(/\\/g, '/'));
+console.log('output:                  ' + path.relative(REPO_ROOT, OUTPUT_PATH).replace(/\\/g, '/'));
 console.log('');
 
 // Cross-reference with command-board-data.json

@@ -11,6 +11,7 @@
  *
  * Usage: node scripts/score-companies.js
  *        node scripts/score-companies.js --metadata-only --ciks 901832,10456
+ *        node scripts/score-companies.js --refresh-selected --ciks 31462,1805284
  *
  * Features:
  *   - Deduplicates by CIK across all sources
@@ -35,6 +36,7 @@ const COMPANIES_DIR = path.join(DATA_DIR, 'companies');
 const IDENTITY_REPAIRS_PATH = path.join(DATA_DIR, 'audit', 'sec-cik-identity-repairs.json');
 const REFRESH_ERRORS = process.argv.includes('--refresh-errors');
 const METADATA_ONLY = process.argv.includes('--metadata-only');
+const REFRESH_SELECTED = process.argv.includes('--refresh-selected');
 const ciksArgIndex = process.argv.indexOf('--ciks');
 const METADATA_CIKS = new Set(
   ciksArgIndex >= 0 && process.argv[ciksArgIndex + 1]
@@ -336,7 +338,8 @@ async function main() {
     // Resume: skip if already scored (but still correct the portal slug so
     // resumed rows link to their portal — see loadPortalSlugMap).
     const existingKey = normCik(co.cik);
-    if (existing[existingKey] && !(REFRESH_ERRORS && existing[existingKey].p === 'ERROR')) {
+    const selectedForRefresh = REFRESH_SELECTED && METADATA_CIKS.has(existingKey);
+    if (existing[existingKey] && !(REFRESH_ERRORS && existing[existingKey].p === 'ERROR') && !selectedForRefresh) {
       const ex = existing[existingKey];
       const ps = portalSlugByCik[normCik(co.cik)];
       const canon = canonicalizeDomain(co.domain);
