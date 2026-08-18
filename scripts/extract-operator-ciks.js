@@ -23,6 +23,19 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, '..', 'assets', 'data');
 const OUTPUT_PATH = path.join(DATA_DIR, 'operator-references.json');
 
+// A company's citation domain is not always its primary operating domain.
+// These pharmaceutical registrants are cited by the population operator for
+// demographic exposure, but their Command Board/portal routing belongs to the
+// medicine domain. Key by normalized SEC CIK so regeneration cannot silently
+// restore the citation domain as the primary domain.
+const PRIMARY_DOMAIN_BY_CIK = {
+  '901832': 'medicine',  // AstraZeneca plc
+  '10456': 'medicine',   // Baxter International Inc.
+  '1776985': 'medicine', // BioNTech SE
+  '882095': 'medicine',  // Gilead Sciences, Inc.
+  '730272': 'medicine',  // Repligen Corporation
+};
+
 // Files to scan — domain operator + opportunity files where companies are
 // cited with {ticker, name, cik} triples. Anything outside these patterns
 // won't be scanned (avoids matching test fixtures, diagnostics, etc.).
@@ -112,7 +125,7 @@ for (const cik of Object.keys(byCik)) {
     cik: cik,
     ticker: e.ticker,
     name: e.name || e.ticker,
-    domain: primaryDomain || 'unknown',
+    domain: PRIMARY_DOMAIN_BY_CIK[cik] || primaryDomain || 'unknown',
     sources: Array.from(e.sources).map(p => path.relative(path.join(__dirname, '..'), p).replace(/\\/g, '/'))
   });
 }
