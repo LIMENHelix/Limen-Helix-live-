@@ -17,6 +17,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { resolveCompanyPortalSlug } from './_resolve-company-portal-slug.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -42,8 +43,8 @@ const co = elig.companies || [];
 let slugFixed = 0, hpTrue = 0, hpFalse = 0;
 for (const r of co) {
   const cikSlug = c2s[norm(r.c)];
-  const aliasSlug = r.s && (ALIAS[r.s] || r.s);
-  const eff = cikSlug || (aliasSlug && has(aliasSlug) ? aliasSlug : null);
+  const directOrAliasSlug = resolveCompanyPortalSlug(r.s, ALIAS, has);
+  const eff = cikSlug || directOrAliasSlug;
   if (eff && r.s !== eff) { r.s = eff; slugFixed++; }
   const hp = !!eff;
   if (r.hp !== hp) { r.hp = hp; }
