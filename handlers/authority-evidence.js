@@ -6,6 +6,7 @@
 
 var PROVIDERS = {
   arda_congregational_trends: require('./authority-arda'),
+  ats_seminary_enrollment: require('./authority-ats'),
   gallup_religious_attendance: require('./authority-gallup'),
   pew_global_restrictions: require('./authority-pew-restrictions'),
   scotus_docket: require('./authority-scotus'),
