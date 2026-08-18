@@ -62,7 +62,7 @@
     '.dcb-panel-body::-webkit-scrollbar-thumb{background:rgba(201,169,78,0.08);border-radius:2px}',
     '.dcb-panel.collapsed .dcb-panel-body{max-height:0;padding-top:0;padding-bottom:0;opacity:0;overflow:hidden}',
     /* 3-tier contrast system: PRIMARY #e0daca (0.88) / SECONDARY #b0a898 (0.62) / MUTED #807868 (0.40) */
-    '.dcb-stress-big{font-size:1.2rem;font-weight:500;letter-spacing:1px}',
+    '.dcb-stress-big{font-size:.6rem;font-weight:500;letter-spacing:1px}',
     '.dcb-meta{font-size:0.32rem;color:#9a9080;letter-spacing:1px}',
     '.dcb-meta b{color:#d0c8b8}',
     '.dcb-signal{padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.36rem;color:#c0b8a5;line-height:1.5;overflow:hidden;text-overflow:ellipsis}',
