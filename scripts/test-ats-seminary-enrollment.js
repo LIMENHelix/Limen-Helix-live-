@@ -48,8 +48,8 @@ function invoke(query) { return new Promise(function(resolve){ var res={headers:
   t('handler serves reviewed evidence',function(){assert.strictEqual(ok.status,200);assert.strictEqual(ok.body.evidence.live,false);assert.strictEqual(ok.body.evidence.observations.length,68);});
   var no=await invoke({authority:'not_real'});
   t('handler refuses another authority',function(){assert.strictEqual(no.status,404);});
-  var supported='arda_congregational_trends,ats_seminary_enrollment,gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index';
-  t('shared router exposes exactly eight authorities',function(){assert.strictEqual(router.SUPPORTED.join(','),supported);assert.strictEqual(router.PROVIDERS.ats_seminary_enrollment,handler);});
+  var supported='arda_congregational_trends,ats_seminary_enrollment,gallup_religious_attendance,interfaith_america_pluralism,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index';
+  t('shared router exposes exactly nine authorities',function(){assert.strictEqual(router.SUPPORTED.join(','),supported);assert.strictEqual(router.PROVIDERS.ats_seminary_enrollment,handler);});
   var portal=fs.readFileSync(path.join(__dirname,'..','authority-portal.html'),'utf8');
   t('operator renderer exists',function(){assert.match(portal,/function renderAtsEnrollment/);assert.match(portal,/reviewed publication snapshot/i);assert.match(portal,/not clergy supply/i);});
   var runtime=fs.readFileSync(path.join(__dirname,'..','handlers','authority-ats.js'),'utf8');
