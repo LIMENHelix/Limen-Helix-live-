@@ -24,6 +24,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { resolveCompanyPortalSlug } from './_resolve-company-portal-slug.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -218,8 +219,10 @@ function wiringFor(filePath) {
       if (!row.s) continue;
       r.withSlug++;
       if (row.hp) r.hpTrue++;
-      const eff = aliases[row.s] || row.s;
-      if (fs.existsSync(path.join(DIR, eff + '.json'))) r.resolving++;
+      // Match the live company-portal resolver: a valid requested portal wins;
+      // aliases are fallback-only and must never shadow an existing file.
+      const eff = resolveCompanyPortalSlug(row.s, aliases, (slug) => fs.existsSync(path.join(DIR, slug + '.json')));
+      if (eff) r.resolving++;
       else {
         r.broken++;
         // A portal for this CIK under a DIFFERENT slug means the pointer is wrong and a
