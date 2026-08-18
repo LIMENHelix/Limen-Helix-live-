@@ -58,7 +58,6 @@ var TOPO  = require('./topology.js');
 var BRAIN = require('../core/brain.js');
 var DIV   = require('../core/divergence.js');
 var C     = require('../core/channel.js');
-var OPREAD = require('../core/operator-readout.js');
 
 var VERSION = 'brain-v2/kernel/1.0.0';
 var ERROR_WINDOW = 64;
@@ -899,8 +898,6 @@ function finish(loop, rep, records, now, cycle, modulation) {
   rep.regulation = reg;
   rep.modulation = modulation || null;
   rep.errors = loop.errors.slice(-4);
-  // The public/operator surface receives a bounded projection, never the kernel's raw cycle.
-  rep.operatorRead = cycle ? OPREAD.fromCycle(cycle) : null;
   return rep;
 }
 
