@@ -57,7 +57,7 @@ function invoke(query){return new Promise(function(resolve){var res={statusCode:
   t('handler refuses another authority',function(){assert.strictEqual(no.status,404);});
   t('shared router exposes the exact provider',function(){assert.strictEqual(router.PROVIDERS.interfaith_america_pluralism,handler);assert.strictEqual(router.SUPPORTED.length,9);});
   var portal=fs.readFileSync(path.join(__dirname,'..','authority-portal.html'),'utf8');
-  t('operator renderer exists',function(){assert.match(portal,/function renderInterfaithAmerica/);assert.match(portal,/provider-output snapshot/i);assert.match(portal,/must not be added/i);});
+  t('operator renderer leads with useful actions',function(){var block=portal.slice(portal.indexOf('function renderInterfaithAmerica'),portal.indexOf('function renderAtsEnrollment'));assert.match(block,/Operator brief/);assert.match(block,/What an operator can do/);assert.match(block,/direct outreach or deeper evidence review/);assert.doesNotMatch(block,/Consumed by a Religion finding|Produces stress \/ diagnosis \/ activation/);});
   var source=fs.readFileSync(path.join(__dirname,'..','lib','interfaith-america-pluralism.js'),'utf8')+fs.readFileSync(path.join(__dirname,'..','handlers','authority-interfaith-america.js'),'utf8');
   t('authority implementation imports no brain or Thing code',function(){assert.doesNotMatch(source,/require\([^)]*(brain-v2|thing-formulas|brain-signals|thing1|thing2)/i);});
   t('authority implementation exports no scoring or activation function',function(){assert.doesNotMatch(source,/module\.exports\.(?:score|activate|promote|diagnose)/);});
