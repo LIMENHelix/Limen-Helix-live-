@@ -142,7 +142,7 @@
       !data.ready ? badge('WAITING FOR V2 CYCLE','#e8954e') :
       state.abstained ? badge('ABSTAINED','#e8954e') : badge('MEASURED','#5ab5a0');
 
-    var html = '<div style="font-family:'IBM Plex Mono',monospace;color:#c8c3b8;padding:12px 14px 30px">'+
+    var html = '<div style="font-family:IBM Plex Mono,monospace;color:#c8c3b8;padding:12px 14px 30px">'+
       '<div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid rgba(201,169,78,.22);padding-bottom:10px">'+
       '<div><div style="font-size:.29rem;letter-spacing:2px;color:#807868">AUTHORITATIVE DOMAIN RUNTIME</div>'+
       '<div style="font-size:.74rem;letter-spacing:2px;color:#e8e3d9">'+esc(label.toUpperCase())+' · BRAIN V2</div>'+
