@@ -600,9 +600,11 @@ function hash(input) {
 }
 
 // ── Validation ───────────────────────────────────────────────────
+const ACTIVE_LANES = new Set(['investment', 'research']);
+
 function validate(body) {
   if (!body || typeof body !== 'object') return { ok: false, reason: 'body-not-object' };
-  if (!body.lane || !LANES[body.lane]) return { ok: false, reason: 'invalid-lane', allowed: Object.keys(LANES) };
+  if (!body.lane || !ACTIVE_LANES.has(body.lane)) return { ok: false, reason: 'invalid-or-retired-lane', allowed: Array.from(ACTIVE_LANES) };
   if (!body.sourcePatternSig) return { ok: false, reason: 'missing-sourcePatternSig' };
   if (!body.contextPacket || typeof body.contextPacket !== 'object') {
     return { ok: false, reason: 'missing-contextPacket' };
@@ -772,8 +774,8 @@ module.exports = async function handler(req, res) {
         envHasModelOverride: !!process.env.ANTHROPIC_MODEL,
         envHasMaxTokensOverride: !!process.env.ANTHROPIC_MAX_TOKENS
       },
-      lanes: LANES,
-      sections: LANE_SECTIONS
+      lanes: Object.fromEntries(Array.from(ACTIVE_LANES).map(lane => [lane, LANES[lane]])),
+      sections: Object.fromEntries(Array.from(ACTIVE_LANES).map(lane => [lane, LANE_SECTIONS[lane]]))
     }, null, 2));
   }
   if (req.method !== 'POST') {

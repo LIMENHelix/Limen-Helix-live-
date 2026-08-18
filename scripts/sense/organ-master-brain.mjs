@@ -1,8 +1,8 @@
 // scripts/sense/organ-master-brain.mjs — PFC / executive cortex.
 //
-// Master Brain integrates civilization + connectome kernels and gates 6
-// execution lanes (Research / Patent / Grant / SBA / Franchise / Investment).
-// Static checks: file existence, all 6 lanes declared, weight-blend present,
+// Master Brain integrates civilization + connectome kernels and gates the two
+// active execution lanes (Research / Investment).
+// Static checks: file existence, both lanes declared, weight-blend present,
 // engineOutput persistence wired.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,10 +18,10 @@ const INBOX_PATH = path.join(ROOT, 'assets', 'data', '_master-inbox.json');
 const CONSUMER_PATH = path.join(ROOT, 'lib', 'master-brain-consumer.js');
 
 export const id = 'masterBrain';
-export const role = 'PFC / executive cortex (6 engine gates)';
+export const role = 'PFC / executive cortex (research + investment gates)';
 export const order = 80;
 
-const SIX_LANES = ['patent', 'grant', 'sba', 'franchise', 'investment', 'research'];
+const ACTIVE_LANES = ['investment', 'research'];
 
 export function sense() {
   const present = {
@@ -47,8 +47,8 @@ export function sense() {
   const src = (present.masterBrain ? fs.readFileSync(MASTER_BRAIN, 'utf8') : '') + '\n' + (present.executor ? fs.readFileSync(EXECUTOR, 'utf8') : '');
 
   // lane declarations
-  const lanesPresent = SIX_LANES.filter(l => new RegExp(`['"\`]${l}['"\`]`).test(src));
-  const lanesMissing = SIX_LANES.filter(l => !lanesPresent.includes(l));
+  const lanesPresent = ACTIVE_LANES.filter(l => new RegExp(`['"\`]${l}['"\`]`).test(src));
+  const lanesMissing = ACTIVE_LANES.filter(l => !lanesPresent.includes(l));
 
   const checks = {
     consumesCivilization: /civilization|LIMENCivilization|civ_kernel/i.test(src),
@@ -102,7 +102,7 @@ export function sense() {
     action: 'run scripts/build-master-inbox.mjs --apply. Beyond ~14 days this is not staleness, it is a pipeline that stopped: nothing has gated or prioritised engine outputs since then.', organ: id });
   if (inboxStats && inboxStats.readyToFire === 0 && inboxStats.totalCandidates > 0) attention.push({ issue: 'All ' + inboxStats.totalCandidates + ' candidate artifacts INHIBITED — readiness/salience thresholds too high OR engine outputs too placeholder-heavy', severity: 'low', count: inboxStats.totalCandidates, action: 'inspect /master-inbox.html or master-brain-consumer.js thresholds', organ: id });
 
-  const lanesScore = Math.round(lanesPresent.length / SIX_LANES.length * 100);
+  const lanesScore = Math.round(lanesPresent.length / ACTIVE_LANES.length * 100);
   const structuralPassed = Object.values(checks).filter(Boolean).length;
   const structuralScore = Math.round(structuralPassed / Object.keys(checks).length * 100);
   /**
@@ -127,7 +127,7 @@ export function sense() {
 
   return {
     score, status,
-    summary: `${lanesPresent.length}/${SIX_LANES.length} engine lanes · ${structuralPassed}/${Object.keys(checks).length} markers` + (inboxStats ? ` · inbox ${inboxStats.readyToFire}/${inboxStats.totalCandidates} ready (${inboxAgeHours !== null ? inboxAgeHours.toFixed(1) + 'h old' : 'fresh'})` : ' · inbox ✗'),
+    summary: `${lanesPresent.length}/${ACTIVE_LANES.length} active engine lanes · ${structuralPassed}/${Object.keys(checks).length} markers` + (inboxStats ? ` · inbox ${inboxStats.readyToFire}/${inboxStats.totalCandidates} ready (${inboxAgeHours !== null ? inboxAgeHours.toFixed(1) + 'h old' : 'fresh'})` : ' · inbox ✗'),
     metrics: { present, lanesPresent, lanesMissing, checks, inbox: inboxStats, inboxAgeHours, scoreParts: { lanes: lanesScore, structural: structuralScore, freshness: freshScore } },
     attention
   };

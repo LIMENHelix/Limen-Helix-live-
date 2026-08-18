@@ -2563,7 +2563,6 @@
       'assets/js/agriculture-pulse-engine.js',
       'assets/js/agriculture-node-business-engine.js',
       'assets/js/agriculture-business-review.js',
-      'assets/js/agriculture-execution-panels.js',
       'assets/js/agriculture-business-build.js',
       'assets/js/agriculture-directive-extractor.js',
       'assets/js/agriculture-directive-ranker.js',
