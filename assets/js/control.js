@@ -355,7 +355,7 @@
       say = 'System posture <b>' + esc(POSTURE_SAY[s.posture] || s.posture || '—') + '</b>' +
             (s.boundedAction ? ' · bounded to <b>' + esc(s.boundedAction) + '</b>' : '') +
             (focus ? ' · the floor is with <b>' + esc(focus) + '</b>' : '') +
-            (typeof s.systemSignal === 'number' ? ' · mean |fused departure| ' + s.systemSignal.toFixed(2) + 'σ' : '') +
+            (typeof s.systemStress === 'number' ? ' · system stress ' + s.systemStress.toFixed(2) : '') +
             '<em> — I open a human gate; I never walk through it.</em>';
     }
     host.innerHTML =

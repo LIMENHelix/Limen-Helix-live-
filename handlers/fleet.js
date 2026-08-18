@@ -2,8 +2,8 @@
  * api/fleet — the operator fleet, live.
  *
  * GET /api/fleet            -> 20 named operators + master Kai, decided off the
- *                              latest persisted brain-v2 cycles plus the separately
- *                              sourced opportunities snapshot. Deterministic, free.
+ *                              latest server signals (console_snapshot + per-domain
+ *                              cognition + opportunities_snapshot). Deterministic, free.
  * GET /api/fleet?journal=1  -> also append this run to each operator's journal so
  *                              they compound over time (opt-in; casual reads don't write).
  *
@@ -38,7 +38,6 @@ module.exports = async function handler(req, res) {
     res.statusCode = 200;
     return res.end(JSON.stringify({
       ok: true,
-      authority: 'brain-v2',
       ranAt: run.ranAt,
       meta: loaded.meta,
       master: run.master,
