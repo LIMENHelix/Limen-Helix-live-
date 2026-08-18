@@ -10,6 +10,7 @@
  * Outputs: assets/data/command-board-data.json
  *
  * Usage: node scripts/score-companies.js
+ *        node scripts/score-companies.js --metadata-only --ciks 901832,10456
  *
  * Features:
  *   - Deduplicates by CIK across all sources
@@ -33,6 +34,13 @@ const OUTPUT_PATH = path.join(DATA_DIR, 'command-board-data.json');
 const COMPANIES_DIR = path.join(DATA_DIR, 'companies');
 const IDENTITY_REPAIRS_PATH = path.join(DATA_DIR, 'audit', 'sec-cik-identity-repairs.json');
 const REFRESH_ERRORS = process.argv.includes('--refresh-errors');
+const METADATA_ONLY = process.argv.includes('--metadata-only');
+const ciksArgIndex = process.argv.indexOf('--ciks');
+const METADATA_CIKS = new Set(
+  ciksArgIndex >= 0 && process.argv[ciksArgIndex + 1]
+    ? process.argv[ciksArgIndex + 1].split(',').map(normCik)
+    : []
+);
 
 // Subcategory -> parent canonical domain mapping. Per memory
 // limen_command_board_audit.md: the 20 canonical LIMEN domain ids are the
@@ -309,9 +317,11 @@ async function main() {
 
   // Load existing results for resume
   let existing = {};
+  let previousOutput = null;
   if (fs.existsSync(OUTPUT_PATH)) {
     try {
       const prev = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8'));
+      previousOutput = prev;
       (prev.companies || []).forEach(c => { existing[normCik(c.c)] = c; });
       console.log('  Existing results:   ' + Object.keys(existing).length + ' (will resume)');
     } catch (e) { console.log('  No valid existing results'); }
@@ -329,13 +339,27 @@ async function main() {
     if (existing[existingKey] && !(REFRESH_ERRORS && existing[existingKey].p === 'ERROR')) {
       const ex = existing[existingKey];
       const ps = portalSlugByCik[normCik(co.cik)];
-      if (ps) ex.s = ps;
-      ex.t = co.ticker;
-      ex.c = co.cik;
+      const canon = canonicalizeDomain(co.domain);
+      const refreshMetadata = METADATA_CIKS.size === 0 || METADATA_CIKS.has(existingKey);
+      if (refreshMetadata) {
+        if (ps) ex.s = ps;
+        ex.t = co.ticker;
+        ex.c = co.cik;
+        // Resume preserves measured kernel fields, but source-owned identity
+        // and routing metadata must still refresh. Otherwise a corrected
+        // source domain can never reach an already-scored Command Board row.
+        ex.d = canon.domain;
+        ex.subTag = canon.subTag;
+        ex.ds = DOMAIN_STRESS[co.domain] || DOMAIN_STRESS[canon.domain] || 0.2;
+      }
       results.push(ex);
       skipped++;
       continue;
     }
+
+    // Metadata repair must never trigger a fresh SEC/kernel score. Existing
+    // measured rows are retained above; unknown targets stay out of the file.
+    if (METADATA_ONLY) continue;
 
     try {
       const d = await postScore(co.cik);
@@ -451,12 +475,16 @@ async function main() {
   }
 
   // Write output
+  const priorMetric = (key, current) =>
+    METADATA_ONLY && previousOutput && previousOutput[key] !== undefined
+      ? previousOutput[key]
+      : current;
   const output = {
     _generated: new Date().toISOString(),
     _total: results.length,
-    _scored: scored,
-    _resumed: skipped,
-    _errors: errors,
+    _scored: priorMetric('_scored', scored),
+    _resumed: priorMetric('_resumed', skipped),
+    _errors: priorMetric('_errors', errors),
     _historical_distress_added: histAdded,
     _sources: { companyIndex: src1.length, sp500: src2.length, entityRegistry: src3.length, operatorReferences: src4.length },
     _identity: {
@@ -464,7 +492,9 @@ async function main() {
       repairRegistry: path.relative(DATA_DIR, IDENTITY_REPAIRS_PATH).replace(/\\/g, '/'),
       correctionsApplied: identityCorrections,
       retiredSecuritiesExcluded: retiredExcluded,
-      refreshErrors: REFRESH_ERRORS
+      refreshErrors: METADATA_ONLY && previousOutput?._identity
+        ? previousOutput._identity.refreshErrors
+        : REFRESH_ERRORS
     },
     _canonical_subcategory_map: SUBCATEGORY_TO_PARENT,
     _derived_ds_by_domain: derivedDsByDomain,
