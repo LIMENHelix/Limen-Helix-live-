@@ -31,6 +31,8 @@ const OPERATOR_REFS_PATH = path.join(DATA_DIR, 'operator-references.json');
 const HIST_DISTRESS_PATH = path.join(DATA_DIR, 'historical-distress-cohort.json');
 const OUTPUT_PATH = path.join(DATA_DIR, 'command-board-data.json');
 const COMPANIES_DIR = path.join(DATA_DIR, 'companies');
+const IDENTITY_REPAIRS_PATH = path.join(DATA_DIR, 'audit', 'sec-cik-identity-repairs.json');
+const REFRESH_ERRORS = process.argv.includes('--refresh-errors');
 
 // Subcategory -> parent canonical domain mapping. Per memory
 // limen_command_board_audit.md: the 20 canonical LIMEN domain ids are the
@@ -61,6 +63,32 @@ function canonicalizeDomain(rawDomain) {
 
 function normCik(c) { return String(c == null ? '' : c).replace(/^0+/, '') || '0'; }
 
+function loadIdentityRepairs() {
+  const doc = JSON.parse(fs.readFileSync(IDENTITY_REPAIRS_PATH, 'utf8'));
+  const repairs = doc.repairs || [];
+  return {
+    source: doc.authoritativeTickerSource,
+    repairs,
+    canonicalize(company) {
+      const ticker = String(company.ticker || '').trim().toUpperCase();
+      const cik = normCik(company.cik);
+      const repair = repairs.find((entry) =>
+        (entry.oldTickers || []).some((old) => String(old).toUpperCase() === ticker) &&
+        (entry.oldCiks || []).some((old) => normCik(old) === cik)
+      );
+      if (!repair) {
+        const canonical = repairs.find((entry) => normCik(entry.cik) === cik && String(entry.ticker).toUpperCase() === ticker);
+        return { company, repair: canonical || null, changed: false };
+      }
+      return {
+        company: { ...company, ticker: repair.ticker, cik: repair.cik },
+        repair,
+        changed: ticker !== String(repair.ticker).toUpperCase() || cik !== normCik(repair.cik)
+      };
+    }
+  };
+}
+
 // Map normalized CIK -> canonical portal filename slug, scanned from the live
 // portal corpus. The Command Board's `s` (slug) MUST equal the portal filename
 // so company-portal.html?company=<s> resolves. Source-derived slugs (ticker /
@@ -86,7 +114,7 @@ function loadPortalSlugMap() {
 // deployment with a different (unvalidated) kernel; this repoints the
 // batch scorer at the same endpoint Helix Report calls so Command Board
 // rows match the report verbatim.
-const BASE_URL = process.env.LIMEN_BASE_URL || 'https://www.limenhelix.com';
+const BASE_URL = process.env.LIMEN_BASE_URL || 'https://limenhelix.com';
 const API_URL = BASE_URL + '/api/limen/score';
 const DELAY_MS = 300;
 const TIMEOUT_MS = 60000;  // validated kernel SEC EDGAR fetch can be slow
@@ -123,7 +151,7 @@ function postScore(cik, retries = 1) {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
-        if (res.statusCode >= 400) {
+        if (res.statusCode < 200 || res.statusCode >= 300) {
           return reject(new Error('HTTP ' + res.statusCode + ': ' + data.slice(0, 200)));
         }
         try { resolve(JSON.parse(data)); }
@@ -249,15 +277,30 @@ async function main() {
   console.log('  operator-references:   ' + src4.length + ' companies');
 
   // Merge and deduplicate by CIK
-  const all = [...src1, ...src2, ...src3, ...src4];
+  const identity = loadIdentityRepairs();
+  let identityCorrections = 0;
+  let retiredExcluded = 0;
+  const all = [...src1, ...src2, ...src3, ...src4].map((company) => {
+    const result = identity.canonicalize(company);
+    if (result.changed) identityCorrections++;
+    return result;
+  }).filter((result) => {
+    if (result.repair && result.repair.status === 'retired') {
+      retiredExcluded++;
+      return false;
+    }
+    return true;
+  }).map((result) => result.company);
   const seen = new Map();
   for (const co of all) {
-    if (!seen.has(co.cik)) {
-      seen.set(co.cik, co);
+    const key = normCik(co.cik);
+    if (!seen.has(key)) {
+      seen.set(key, co);
     }
   }
   const targets = [...seen.values()].sort((a, b) => a.name.localeCompare(b.name));
   console.log('  Deduplicated total: ' + targets.length + ' unique CIKs');
+  console.log('  Identity corrections: ' + identityCorrections + '; retired securities excluded: ' + retiredExcluded);
 
   // Canonical portal-slug map (cik -> portal filename slug). Used to set each
   // row's `s` so the Command Board's company->portal link resolves.
@@ -269,7 +312,7 @@ async function main() {
   if (fs.existsSync(OUTPUT_PATH)) {
     try {
       const prev = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf8'));
-      (prev.companies || []).forEach(c => { existing[c.c] = c; });
+      (prev.companies || []).forEach(c => { existing[normCik(c.c)] = c; });
       console.log('  Existing results:   ' + Object.keys(existing).length + ' (will resume)');
     } catch (e) { console.log('  No valid existing results'); }
   }
@@ -282,10 +325,13 @@ async function main() {
 
     // Resume: skip if already scored (but still correct the portal slug so
     // resumed rows link to their portal — see loadPortalSlugMap).
-    if (existing[co.cik]) {
-      const ex = existing[co.cik];
+    const existingKey = normCik(co.cik);
+    if (existing[existingKey] && !(REFRESH_ERRORS && existing[existingKey].p === 'ERROR')) {
+      const ex = existing[existingKey];
       const ps = portalSlugByCik[normCik(co.cik)];
       if (ps) ex.s = ps;
+      ex.t = co.ticker;
+      ex.c = co.cik;
       results.push(ex);
       skipped++;
       continue;
@@ -413,6 +459,13 @@ async function main() {
     _errors: errors,
     _historical_distress_added: histAdded,
     _sources: { companyIndex: src1.length, sp500: src2.length, entityRegistry: src3.length, operatorReferences: src4.length },
+    _identity: {
+      source: identity.source,
+      repairRegistry: path.relative(DATA_DIR, IDENTITY_REPAIRS_PATH).replace(/\\/g, '/'),
+      correctionsApplied: identityCorrections,
+      retiredSecuritiesExcluded: retiredExcluded,
+      refreshErrors: REFRESH_ERRORS
+    },
     _canonical_subcategory_map: SUBCATEGORY_TO_PARENT,
     _derived_ds_by_domain: derivedDsByDomain,
     companies: results
