@@ -96,8 +96,8 @@ a:hover{color:#C9A94E}
   </div>
 </div>
 
-<div class="sect" style="color:#C9A94E;border-top:1px solid rgba(201,169,78,0.25)">🧠 DOMAIN BRAINS · SELF-MODEL &amp; IMMUNITY · <span style="color:rgba(200,195,184,0.4)">the 20 organs' own live metacognition - NOT the corpus heal-log below</span></div>
-<div id="cognition-note" style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-bottom:10px">Reading brain self-models…</div>
+<div class="sect" style="color:#C9A94E;border-top:1px solid rgba(201,169,78,0.25)">🧠 DOMAIN BRAINS · BRAIN V2 · <span style="color:rgba(200,195,184,0.4)">authoritative persisted domain cycles — click any domain for its evidence</span></div>
+<div id="cognition-note" style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-bottom:10px">Reading brain-v2 cycles…</div>
 <div id="cognition-grid" class="organ-grid"></div>
 
 <div class="sect">ORGAN PULSE · click an organ to drill in</div>
@@ -344,56 +344,47 @@ function renderOrganDetail(o) {
 var COG_DOMAINS = ['energy','infrastructure','culture','finance','economy','technology','defense','intelligence','trade','industry','environment','governance','agriculture','communication','medicine','education','population','science','law','religion'];
 var IMMUNE_COLOR = { clear:'#5ab5a0', watch:'#C9A94E', active:'#e8954e', alert:'#e85454' };
 function _esc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
-function renderBrainCognition() {
-  // server feed first (Redis, cross-device - survives without the cockpit open),
-  // fall back to localStorage (same-device mirror) if the feed is empty/unreachable.
-  fetch('/api/brain-cognition?cb=' + Date.now())
+function renderBrainV2() {
+  fetch('/api/domain-brain?cb=' + Date.now(), { cache:'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (d) {
-      if (d && d.cognition && d.count > 0) _renderCognitionMap(d.cognition, 'server feed');
-      else _renderCognitionLocal();
+      var grid = document.getElementById('cognition-grid');
+      var note = document.getElementById('cognition-note');
+      if (!grid || !note) return;
+      var map = d && d.domains || {};
+      var aliases = { medicine:'health', science:'research', trade:'supplyChain' };
+      var ready = Object.keys(map).filter(function (k) { return map[k] && map[k].ready; }).length;
+      note.innerHTML = ready + ' / 20 brains with a persisted measured readout · authority brain-v2 · ' +
+        '<a href="/domain-console?domain=energy" style="color:#C9A94E">open a full domain read</a>';
+      var html = '';
+      COG_DOMAINS.forEach(function (dom) {
+        var key = aliases[dom] || dom;
+        var entry = map[key] || map[dom];
+        if (!entry) return;
+        var read = entry.state || {}, st = read.state || {}, fn = entry.domainFunction || {};
+        var findings = read.findings || [], obs = fn.observations || {}, pred = entry.predictions || {};
+        var measured = entry.ready && entry.ok && !st.abstained;
+        var col = !entry.ok ? '#e85454' : st.abstained ? '#e8954e' : measured ? '#5ab5a0' : '#807868';
+        var status = !entry.ok ? 'ERROR' : st.abstained ? 'ABSTAINED' : measured ? 'MEASURED' : 'WAITING';
+        var departure = (typeof st.departure === 'number') ? st.departure.toFixed(2) + 'σ' : '—';
+        html += '<a class="organ" href="/domain-console?domain=' + encodeURIComponent(dom) + '" style="display:block;text-decoration:none">' +
+          '<div class="organ-head"><div class="organ-id">' + _esc(dom) + '</div>' +
+          '<div style="font-size:.34rem;letter-spacing:1.3px;color:' + col + ';border:1px solid ' + col + '55;border-radius:2px;padding:1px 7px">' + status + '</div></div>' +
+          '<div class="organ-summary" style="margin-bottom:5px">departure <b>' + _esc(departure) + '</b> · confidence <b>' +
+            _esc(typeof st.confidence === 'number' ? st.confidence.toFixed(2) : '—') + '</b></div>' +
+          '<div style="font-size:.31rem;color:rgba(200,195,184,.48);line-height:1.65">' +
+            (obs.admitted||0) + ' observations · ' + findings.length + ' findings<br>' +
+            (pred.open||0) + ' predictions open · ' + (pred.resolved||0) + ' resolved' +
+          '</div></a>';
+      });
+      grid.innerHTML = html || '<div style="color:#807868;font-size:.36rem;padding:8px">No persisted brain-v2 cycles yet.</div>';
     })
-    .catch(_renderCognitionLocal);
+    .catch(function (e) {
+      var note = document.getElementById('cognition-note');
+      if (note) note.textContent = 'brain-v2 read unavailable: ' + e.message;
+    });
 }
-function _renderCognitionLocal() {
-  var map = {};
-  try { map = JSON.parse(localStorage.getItem('limen:brain-cognition') || '{}'); } catch (e) { map = {}; }
-  _renderCognitionMap(map, 'this device');
-}
-function _renderCognitionMap(map, source) {
-  var grid = document.getElementById('cognition-grid');
-  var note = document.getElementById('cognition-note');
-  if (!grid || !note) return;
-  var keys = Object.keys(map || {});
-  if (!keys.length) {
-    note.innerHTML = 'No live brain cognition yet - visit <a href="/civilization.html">Civilization</a> (the cockpit) once. The 20 brains cycle there and report their self-models here (immune severity, conscience vetoes, intuition hunches).';
-    grid.innerHTML = '';
-    return;
-  }
-  var newest = 0; keys.forEach(function(k){ if (map[k] && map[k].ts > newest) newest = map[k].ts; });
-  note.innerHTML = keys.length + ' / 20 brains reporting · ' + source + ' · freshest ' + new Date(newest).toLocaleString() + ' · immune / awareness / conscience / intuition computed live every cycle';
-  var html = '';
-  COG_DOMAINS.forEach(function(dom){
-    var entry = map[dom]; if (!entry || !entry.c) return;
-    var c = entry.c, im = c.immune||{}, m = c.model||{}, aw = c.awareness||{}, co = c.conscience||{}, it = c.intuition||{};
-    var ist = String(im.immuneState || 'clear').toLowerCase();
-    var col = IMMUNE_COLOR[ist] || 'rgba(200,195,184,0.4)';
-    var sev = (im.severity!=null) ? ' ' + (Math.round(im.severity*100)/100) : '';
-    html += '<div class="organ" style="cursor:default">' +
-      '<div class="organ-head"><div class="organ-id">' + dom + '</div>' +
-        '<div style="font-size:0.4rem;letter-spacing:1.5px;color:' + col + ';border:1px solid ' + col + '55;border-radius:2px;padding:1px 7px;text-transform:uppercase">' + ist + sev + '</div></div>' +
-      '<div class="organ-role">immune · ' + (im.antigenCount||0) + ' antigen' + (im.antigenCount===1?'':'s') + (im.blockedFromTraversal?' · L2 traversal blocked':'') + '</div>' +
-      (aw.selfNarrative ? '<div class="organ-summary" style="margin-bottom:6px">' + _esc(aw.selfNarrative) + (aw.humanReviewRequired?' <span style="color:#C9A94E">· human-review</span>':'') + '</div>' : '') +
-      '<div style="font-size:0.32rem;color:rgba(200,195,184,0.45);line-height:1.7">' +
-        'regulation <b style="color:#e8e3d9;font-weight:normal">' + _esc(m.regulation||'—') + '</b> · pred.stress <b style="color:#e8e3d9;font-weight:normal">' + (m.predictedStress!=null?m.predictedStress:'—') + '</b> · pred.err <b style="color:#e8e3d9;font-weight:normal">' + (m.predictionError!=null?m.predictionError:'—') + '</b>' +
-        (co.conscienceState ? '<br>conscience <b style="color:#e8e3d9;font-weight:normal">' + _esc(co.conscienceState) + '</b>' + (co.artifactReadinessDecision?' · '+_esc(co.artifactReadinessDecision):'') + ((co.blockedClaims&&co.blockedClaims.length)?' · '+co.blockedClaims.length+' blocked':'') : '') +
-        ((it.hunches&&it.hunches.length) ? '<br>intuition · ' + it.hunches.length + ' hunch' + (it.hunches.length===1?'':'es') : '') +
-      '</div>' +
-    '</div>';
-  });
-  grid.innerHTML = html || '<div style="color:rgba(200,195,184,0.35);font-size:0.36rem;padding:8px">brains reported but no cognition payload - re-visit the cockpit</div>';
-}
-renderBrainCognition();
+renderBrainV2();
 </script>
 </body>
 </html>
