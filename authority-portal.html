@@ -587,23 +587,24 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
   function renderInterfaithAmerica(d) {
     var a=d.descriptor,e=d.evidence;
     var sectorLabels={campus:'Campus',civic:'Civic',workplace:'Workplace',health:'Faith and health',learning:'Learning',communications:'Communications'};
+    var lowerBounds=(e.observations||[]).filter(function(x){return x.publishedQualifier==='at_least';}).length;
     var h='<div class="ap-eyebrow">Authority portal &middot; '+esc(d.authority)+'</div>'+
       '<div class="ap-title">'+esc(a.title)+'</div>'+
-      '<div class="ap-sub">Interfaith America &middot; 2025 Annual Report &middot; reviewed provider-output snapshot</div>';
+      '<div class="ap-sub">Institutional reach and program activity published for 2025</div>';
 
-    h+='<div class="ap-card"><h2>What this evidence is</h2>'+
-      '<div class="ap-flag"><b>Reviewed provider-output snapshot, not a measure of pluralism.</b> The rows preserve selected program reach and activity counts published by Interfaith America for 2025.</div>'+
-      row('Published measure',esc(a.measure))+row('Reference period',esc(e.referencePeriod))+
-      row('Review date',esc(e.reviewedOn))+row('Runtime status','<span class="ap-pill">snapshot</span>')+
+    h+='<div class="ap-card"><h2>Operator brief</h2>'+
+      '<div class="ap-flag"><b>Use this map to find where institutional activity is concentrated.</b> It organizes the provider\'s published campus, civic, workplace, health, learning, and communications footprint into source-linked evidence an operator can investigate.</div>'+
+      row('Operating lanes',num((e.sectors||[]).length))+
+      row('Published evidence records',num((e.observations||[]).length))+
+      row('Claims explicitly published as lower bounds',num(lowerBounds))+
+      row('Reference period',esc(e.referencePeriod))+
       '<div class="ap-note" style="margin-top:9px">'+esc(a.operatorUse)+'</div></div>';
 
-    h+='<div class="ap-card"><h2>How this evidence is used</h2>'+
-      row('Consumed by a Religion finding','<span class="ap-pill no">no</span>')+
-      row('Consumed by a brain channel','<span class="ap-pill no">no</span>')+
-      row('Consumed by a Thing layer','<span class="ap-pill no">none</span>')+
-      row('Drives a pathway','<span class="ap-pill no">no</span>')+
-      row('Produces stress / diagnosis / activation','<span class="ap-pill no">no</span>')+
-      '<div class="ap-note" style="margin-top:9px">An operator can see where this provider reports activity and open the publication for follow-up. Nothing here enters scoring.</div></div>';
+    h+='<div class="ap-card"><h2>What an operator can do</h2>'+
+      '<div class="ap-row"><span class="ap-k">1</span><span class="ap-v">Locate active networks, cohorts, grantee groups, and institutional programs by operating lane.</span></div>'+
+      '<div class="ap-row"><span class="ap-k">2</span><span class="ap-v">Separate exact published counts from lower-bound claims before using them in diligence.</span></div>'+
+      '<div class="ap-row"><span class="ap-k">3</span><span class="ap-v">Open the source report, identify the named program or partner, and decide whether direct outreach or deeper evidence review is warranted.</span></div>'+
+      '<div class="ap-row"><span class="ap-k">4</span><span class="ap-v">Preserve this 2025 baseline for a later comparison only when the next report uses compatible definitions.</span></div></div>';
 
     (e.sectors||[]).forEach(function(sector){
       var rows=(e.observations||[]).filter(function(x){return x.sector===sector;});
@@ -615,17 +616,23 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       h+='</div>';
     });
 
-    h+='<div class="ap-card"><h2>Interpretation boundary</h2>'+
-      '<div class="ap-warn">These rows use different units and may describe overlapping people or institutions. They must not be added into a total. Impressions and views are exposure counts, not unique people or demonstrated attention, agreement, trust, or behavior change.</div></div>';
+    h+='<div class="ap-card"><h2>Operator follow-up questions</h2>'+
+      '<div class="ap-abst">Which named institutions or partners appear across more than one operating lane?</div>'+
+      '<div class="ap-abst">Does a later report preserve the same program definition and counting unit?</div>'+
+      '<div class="ap-abst">Which reach claims have independent evidence of durable participation or outcomes?</div>'+
+      '<div class="ap-abst">Which program exposes a concrete partner, grantee, cohort, or contact worth direct diligence?</div></div>';
 
-    h+='<div class="ap-card"><h2>Provenance</h2>'+
+    h+='<div class="ap-card"><h2>Reading discipline</h2>'+
+      '<div class="ap-note">The rows use different units and may overlap, so they are read separately rather than added. Impressions and views describe exposure; program counts describe reported reach. The page keeps those distinctions visible while leaving the evidence useful.</div></div>';
+
+    h+='<div class="ap-card"><h2>Source record</h2>'+
       row('Official report','<a href="'+esc(e.report.url)+'">'+esc(e.report.title)+'</a>')+
-      row('Observation-level records',num(e.observations.length)+' identity-transformed published counts')+
-      row('Snapshot version','<code>'+esc(e.versions.snapshot)+'</code>')+
-      row('Transformation version','<code>'+esc(e.versions.transformation)+'</code>')+
-      '<div class="ap-warn" style="margin-top:10px">The report page is not mirrored or hash-pinned in this release, and publisher sourceUpdatedAt was not established. Every row is self-reported by one provider and is not independently corroborated.</div></div>';
+      row('Reviewed on',esc(e.reviewedOn))+
+      row('Observation records',num(e.observations.length))+
+      row('Evidence version','<code>'+esc(e.versions.snapshot)+'</code>')+
+      '<div class="ap-note" style="margin-top:9px">Published values are retained by identity transformation. Four lower bounds remain lower bounds.</div></div>';
 
-    h+='<div class="ap-card"><h2>Limitations and abstentions</h2>';
+    h+='<div class="ap-card"><h2>Evidence cautions</h2>';
     (a.boundaries||[]).forEach(function(x){h+='<div class="ap-abst">'+esc(x)+'</div>';});
     h+='</div>';
     shell(h);
