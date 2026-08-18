@@ -569,31 +569,9 @@ if (!window.__isDomainPage) {
 <script src="assets/js/energy-neuro-substrate.js"></script>
 <script src="assets/js/analyst-report-builder.js" defer></script>
 <script src="assets/js/limen-bootstrap.js"></script>
-<script>
-(function(){
-  var iso = window.LIMENDomainIsolator;
-  var domain = iso && iso.isDomainScoped() ? iso.getActiveDomain() : 'energy';
-  function loadScript(src){return new Promise(function(ok,fail){var s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=function(){console.warn('[DCL] failed to load '+src);ok()};document.head.appendChild(s)})}
-  // PER-DOMAIN NEURO MODULES (2026-07-21, full per-domain independence): load THIS domain's OWN
-  // overlay modules so its brain's _compute<Domain>Overlays invokes its own copies, not energy's.
-  // Energy is skipped here — it loads its set via the hardcoded tags above (avoids double-load).
-  // Loaded BEFORE the brain so the window.<Domain>* globals exist when the first cycle runs.
-  var NEURO_MODULES = ['telemetry-adapter','metaplasticity','offline-maintenance','refractory-limiter',
-    'prediction-error-compressor','connectivity-audit','retrograde-throttle','extinction',
-    'neuro-substrate','ei-balance'];
-  var _neuroChain = Promise.resolve();
-  if (domain !== 'energy') {
-    NEURO_MODULES.forEach(function(m){ _neuroChain = _neuroChain.then(function(){ return loadScript('assets/js/'+domain+'-'+m+'.js'); }); });
-  }
-  // Load domain brain, refresh controller, and shared console brain.
-  // Domain-specific operator scripts are loaded by each brain's auto-loader.
-  _neuroChain
-    .then(function(){return loadScript('assets/js/domain-brains/'+domain+'-brain.js')})
-    .then(function(){return loadScript('assets/js/domain-brains/'+domain+'-refresh-controller.js')})
-    .then(function(){return loadScript('assets/js/domain-brains/domain-console-brain.js')})
-    .then(function(){return loadScript('assets/js/domain-agent-box.js')});
-})();
-</script>
+<!-- brain-v2 is the authoritative domain runtime. The legacy per-domain browser brains are
+     deliberately not started here; the renderer reads the bounded persisted server projection. -->
+<script src="assets/js/domain-brains/domain-console-v2.js"></script>
 
 <script>
 (function () {
