@@ -32,12 +32,13 @@
  * running this every 15 minutes does not manufacture learning events. Ticks with no new resolved
  * outcome are no-ops that simply restamp. Everything stays mode:'shadow'.
  *
- * SECURITY: writes are gated on BRAIN_WEIGHTS_TOKEN being configured — the same operator opt-in
- * that gates the POST path, because durable learning is meant to be one switch. Unset means
- * compute-and-report, never a silent write. GET is open; it stores calibration state only, and
- * nothing here acts, spends, files, or contacts anyone.
+ * SECURITY: writes require caller authentication, not merely a configured secret. Vercel cron
+ * requests may authenticate with Authorization: Bearer <CRON_SECRET>; operators may use either
+ * that header or x-brain-token with BRAIN_WEIGHTS_TOKEN. Missing or wrong credentials leave this
+ * endpoint compute-only. Query-string credentials are deliberately ignored because URLs are logged.
  */
 
+var crypto = require('crypto');
 var db = require('../lib/limen-db');
 var resolver = require('../lib/feed-resolver');
 var DOMAIN_NAMES = require('../lib/domain-names');
@@ -61,6 +62,9 @@ var DOMAIN_NAMES = require('../lib/domain-names');
  */
 function loadBrainModules() {
   var out = { P: null, K4: null, error: null };
+
+// Narrow test seam: exposes authentication only, never persistence or brain state.
+module.exports._authorizeWrite = authorizeWrite;
   try {
     out.P = require('../assets/js/limen-plasticity.js');
     out.K4 = require('../assets/js/limen-k4-selfconsistency.js');
@@ -70,7 +74,31 @@ function loadBrainModules() {
   return out;
 }
 
-var TOKEN = process.env.BRAIN_WEIGHTS_TOKEN || '';
+function readHeader(req, name) {
+  var headers = (req && req.headers) || {};
+  if (typeof headers.get === 'function') return headers.get(name) || '';
+  return headers[name] || headers[name.toLowerCase()] || '';
+}
+
+function sameSecret(candidate, expected) {
+  if (!candidate || !expected) return false;
+  var a = Buffer.from(String(candidate));
+  var b = Buffer.from(String(expected));
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+function authorizeWrite(req) {
+  var auth = String(readHeader(req, 'authorization') || '');
+  var match = auth.match(/^Bearer\s+(.+)$/i);
+  var bearer = match ? match[1] : '';
+  var operator = String(readHeader(req, 'x-brain-token') || '');
+  var cronSecret = process.env.CRON_SECRET || '';
+  var brainSecret = process.env.BRAIN_WEIGHTS_TOKEN || '';
+  return sameSecret(bearer, cronSecret) ||
+    sameSecret(bearer, brainSecret) ||
+    sameSecret(operator, brainSecret);
+}
+
 var HIST_CAP = 200;
 var FCAP = 720, RCAP = 2160;
 var MIN_RESOLVED = 5;             // matches GP_MIN_EXT in the brains: below this, abstain
@@ -100,7 +128,8 @@ module.exports = async function handler(req, res) {
   var q = {};
   try { q = Object.fromEntries(new URL(req.url, 'http://h').searchParams); } catch (e) {}
   var dry = !!q.dry;
-  var canWrite = !!TOKEN && !dry;
+  var writeAuthorized = authorizeWrite(req);
+  var canWrite = writeAuthorized && !dry;
 
   var mods = loadBrainModules();
   if (!mods.P || !mods.K4) {
@@ -234,7 +263,7 @@ module.exports = async function handler(req, res) {
 
   return res.status(200).json({
     ok: true, mode: dry ? 'dry-run' : (canWrite ? 'write' : 'compute-only'),
-    reason: canWrite ? undefined : (dry ? 'dry=1' : 'BRAIN_WEIGHTS_TOKEN not set — computed, not written'),
+    reason: canWrite ? undefined : (dry ? 'dry=1' : 'caller not authorized for writes — computed, not written'),
     domains: DOMAINS.length, wrote: wrote, advanced: advanced, abstained: abstained, errors: errors,
     forecastModel: resolver.FORECAST_MODEL, results: out, backend: db.getBackend()
   });
