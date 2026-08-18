@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "retired-engine-lane-purge/1.0",
+  "generatedAt": "2026-08-18T13:08:32.558Z",
+  "sourceCommit": "7e12bde88075ad748824f962402717c06e88da44",
+  "activeLanes": [
+    "investment",
+    "research"
+  ],
+  "retiredLanes": [
+    "patent",
+    "grant",
+    "sba",
+    "franchise"
+  ],
+  "portalsScanned": 796,
+  "portalsChanged": 461,
+  "removed": {
+    "patent": {
+      "artifacts": 626,
+      "bytes": 3179406,
+      "portals": 461
+    },
+    "grant": {
+      "artifacts": 626,
+      "bytes": 3140385,
+      "portals": 461
+    },
+    "sba": {
+      "artifacts": 0,
+      "bytes": 922,
+      "portals": 0
+    },
+    "franchise": {
+      "artifacts": 0,
+      "bytes": 922,
+      "portals": 0
+    }
+  },
+  "removedTotals": {
+    "artifacts": 1252,
+    "bytes": 6321635
+  },
+  "verbiageTemplates": {
+    "beforeBytes": 34161,
+    "afterBytes": 9228,
+    "activeKeys": [
+      "investment"
+    ]
+  },
+  "rebuiltInbox": {
+    "totalCandidates": 1252,
+    "readyToFire": 881,
+    "byLaneReady": {
+      "investment": 255,
+      "research": 626
+    }
+  },
+  "applied": true
+}

@@ -3,17 +3,14 @@
  *
  * Subscribes to civilization + connectome patterns + Thing 2 phase output
  * (via direct read of window.LIMEN exposures), runs the integrative cycle,
- * decides which of the 6 engines to fire, persists artifacts to the
+ * decides whether the research or investment engine should fire, persists artifacts to the
  * engine-output endpoint, and emits the master pattern.
  *
  * Per [[limen_neural_analogy]]: the PFC is the only executor. This is
- * where READY-TO-SIGN packages get produced. Actual submission to
- * USPTO/SBA/grants.gov is a human-click step (H6 two-lane integrity).
+ * where operator-facing research and investment artifacts get produced.
  *
- * Per [[limen_engine_sequence_and_specs]]: the 6 lanes are
- *   patent / grant / sba / franchise / investment / research
- * grouped into Phase A Protect / B Finance / C Replicate / D Execute
- * with Research as continuous Phase 0.
+ * Active lanes are investment and research only. Patent, grant, SBA, and
+ * franchise were deliberately retired and may not be synthesized here.
  *
  * Exposed via window.LIMENMasterLivingBrain.
  *
@@ -32,20 +29,14 @@
 
   // Per-lane readiness thresholds. Above the bar → engine fires next cycle.
   var LANE_THRESHOLDS = {
-    patent:     { readiness: 0.55, salience: 0.30 },
-    grant:      { readiness: 0.50, salience: 0.30 },
-    sba:        { readiness: 0.55, salience: 0.30 },
-    franchise:  { readiness: 0.60, salience: 0.30 },
     investment: { readiness: 0.60, salience: 0.40 }, // tightest — terminal lane
     research:   { readiness: 0.40, salience: 0.20 }  // loosest — continuous backbone
   };
 
   // Map operator key (from pattern.operators) to engine lane
   var OP_TO_LANE = {
-    patents: 'patent',
-    grants: 'grant',
     investments: 'investment'
-    // sba, franchise, research need explicit signal hints from upstream
+    // research is the continuous evidence-building backbone below
   };
 
   function MasterLivingBrain(options) {
@@ -136,11 +127,10 @@
     }
 
     // Phase-conditioned policy override: if integrated stress > 0.7,
-    // suppress franchise + investment lanes (rupture/dark phase per
+    // suppress the investment lane (rupture/dark phase per
     // limen_master_brain_architecture).
     if (kernels.thing2.stress > 0.70) {
       operators.investments.readiness = Math.min(operators.investments.readiness, 0.30);
-      // No franchise operator key today; would suppress here if added.
     }
 
     // Bindings — pull from upstream
@@ -243,28 +233,9 @@
       }
     }
 
-    // Patent
-    if (_meets(ops.patents, LANE_THRESHOLDS.patent)) {
-      pushDescriptor('patent', 'engine-patent', ops.patents.readiness);
-    }
-    // Grant
-    if (_meets(ops.grants, LANE_THRESHOLDS.grant)) {
-      pushDescriptor('grant', 'engine-grant', ops.grants.readiness);
-    }
     // Investment — kernel-gated (rupture phases suppress per _computePattern)
     if (_meets(ops.investments, LANE_THRESHOLDS.investment)) {
       pushDescriptor('investment', 'engine-investment', ops.investments.readiness);
-    }
-    // SBA — fires when grant + patent lane signals are both reasonably high
-    if (ops.grants.readiness > LANE_THRESHOLDS.grant.readiness * 0.9 &&
-        ops.patents.readiness > LANE_THRESHOLDS.patent.readiness * 0.8) {
-      pushDescriptor('sba', 'engine-sba', (ops.grants.readiness + ops.patents.readiness) / 2);
-    }
-    // Franchise — fires when patent is high AND integrated stress is low
-    if (ops.patents.readiness > LANE_THRESHOLDS.patent.readiness &&
-        envelope.kernels.thing2.stress < 0.4) {
-      pushDescriptor('franchise', 'engine-franchise',
-                     ops.patents.readiness * (1 - envelope.kernels.thing2.stress));
     }
     // Research — continuous backbone; fires on any cycle with upstream input
     if ((envelope.provenance.inputs || []).length > 0) {

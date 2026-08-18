@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * build-engine-outputs.mjs — run the 6 engine lanes across the corpus.
+ * build-engine-outputs.mjs — run the investment and research lanes across the corpus.
  *
  * For each portal with bridgeReadings, calls engineGenerator.generateForPortal()
  * and writes the result to portal.engineOutputs. Idempotent.
@@ -34,7 +34,7 @@ console.log('portals to process: ' + files.length);
 console.log();
 
 let total = 0, withBridges = 0, withOutputs = 0, totalArtifacts = 0;
-const byLane = { patent: 0, grant: 0, sba: 0, investment: 0, research: 0, franchise: 0 };
+const byLane = { investment: 0, research: 0 };
 
 for (const f of files) {
   let p; try { p = JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')); } catch (e) { continue; }

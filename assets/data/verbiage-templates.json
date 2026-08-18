@@ -1,212 +1,8 @@
 {
-  "schemaVersion": "verbiage/1.0",
+  "schemaVersion": "verbiage/2.0_research_investment_only",
   "generatedAt": "2026-05-30",
-  "description": "Verbiage templates distilled from real approved patents (USPTO), funded grants (NIH/NSF SBIR), approved SBA loans + 10-K risk factors + bond prospectuses, and disciplined investment memos (Marks/Buffett/Loeb/Einhorn/Ackman/Burry). Each lane carries the canonical section structure, fill-in templates with {{placeholder}} fields the bridge engine can populate from portal kernel readings + bridgeReadings.matched[*].derivedAngles, anchor-phrase libraries that recur across real samples, and tone tests for output evaluation.",
-
+  "description": "Investment-lane language templates. Research uses the bounded research schema in lib/engine-output-generator.js. Patent, grant, SBA, and franchise application templates are retired.",
   "lanes": {
-
-    "patent": {
-      "sourcesStudied": [
-        "US9009166B2 (social credit scoring)",
-        "US10270788B2 (Netskope anomaly detection)",
-        "US8725629B2 (BlackRock credit risk portfolio)",
-        "US6119103A (Visa financial risk prediction)",
-        "US8521631B2 (SAS loan evaluation)",
-        "US8407139B1 (Allstate credit responsibility factors)",
-        "US10977654B2 (PayPal ML fraud detection)",
-        "US8694401B2 (Lenddo social footprint credit)",
-        "US11645711B2 (Capital One account risk)",
-        "US12124933B2 (Actimize transaction anomaly)"
-      ],
-      "canonicalStructure": [
-        "CROSS-REFERENCE TO RELATED APPLICATIONS",
-        "FIELD OF THE INVENTION",
-        "BACKGROUND",
-        "SUMMARY",
-        "BRIEF DESCRIPTION OF THE DRAWINGS",
-        "DETAILED DESCRIPTION",
-        "CLAIMS",
-        "ABSTRACT"
-      ],
-      "templates": {
-        "title": "{{ACTION_VERB_PHRASE}} for {{DOMAIN_OBJECT}} using {{MECHANISM}}",
-        "abstract": "A {{system|method|apparatus}} for {{PURPOSE}} is disclosed. The {{system|method}} {{VERB_1}}s {{OBJECT_1}} from {{SOURCE_1}}. The {{system|method}} {{VERB_2}}s {{INTERMEDIATE_1}}, {{VERB_3}}s {{INTERMEDIATE_2}}, and {{TERMINAL_VERB}}s {{OUTPUT}} to {{RECIPIENT}} based at least in part on {{CRITERION}}.",
-        "backgroundOpener": "{{DOMAIN}} is a critical aspect of {{ACTIVITY}}. Conventional {{methods|systems|approaches}} {{verb-past}} {{prior_approach}} {{but_limitation_clause}}.",
-        "backgroundGapStatement": "{{Specific_problem_description}} represents a difficult task for modern {{intelligent_systems|computational_methods}}.",
-        "summary": "In one embodiment, a {{method|system|apparatus}} for {{PURPOSE}} comprises: {{paraphrased_claim_1_steps}}. In another aspect, {{paraphrased_dependent_variation_1}}. In yet another aspect, {{paraphrased_dependent_variation_2}}.",
-        "claim1Method": "1. A computer-implemented method for {{PURPOSE}}, comprising:\n    receiving, by a processor, {{INPUT_1}} {{from SOURCE_1}}, wherein the {{INPUT_1}} includes {{STRUCTURAL_DETAIL}};\n    {{GERUND_2}}, by the processor, {{OBJECT_2}}, the {{OBJECT_2}} being {{POST_MOD_CLAUSE}};\n    determining, by the processor, based at least in part on {{INPUT_1}} and {{OBJECT_2}}, {{INTERMEDIATE_OUTPUT}}, wherein the determining the {{INTERMEDIATE_OUTPUT}} includes {{SUB_STEP}};\n    {{GERUND_4}} {{OBJECT_4}} {{TIMING_PHRASE}};\n    {{GERUND_5}}, by the processor, {{OBJECT_5}} in response to determining that {{CONDITION}} exceeds a predefined {{METRIC}} threshold; and\n    transmitting {{FINAL_OUTPUT}} to {{RECIPIENT}}.",
-        "claim1Apparatus": "1. An apparatus for {{PURPOSE}}, comprising: a memory configured to store instructions; a processor disposed in communication with said memory wherein said processor upon execution of the instructions is configured to: {{verb_led_step_1}}; {{verb_led_step_2}}; {{verb_led_step_3}}; {{verb_led_step_4}}; {{verb_led_step_5}}.",
-        "claim1System": "1. A system comprising: one or more processors; and a non-transitory computer-readable medium storing instructions that, when executed by the one or more processors, cause the system to perform operations comprising: {{paraphrased_claim_1_method_steps}}.",
-        "dependentNarrowing": "{{N}}. The {{method|system|apparatus}} of claim {{PARENT_N}}, wherein the {{PARENT_NAMED_ELEMENT}} comprises at least one of {{LIST_ITEM_A}}, {{LIST_ITEM_B}}, and {{LIST_ITEM_C}}.",
-        "dependentNarrowingSimple": "{{N}}. The {{method|system|apparatus}} of claim {{PARENT_N}}, wherein the {{PARENT_NAMED_ELEMENT}} is a {{SPECIFIC_NARROWING}}.",
-        "dependentAdding": "{{N}}. The {{method|system|apparatus}} of claim {{PARENT_N}}, further comprising {{NEW_GERUND_STEP}} {{NEW_OBJECT}} {{MODIFIER_CLAUSE}}."
-      },
-      "stepVerbs": ["receiving", "collecting", "feeding", "transforming", "grouping", "categorizing", "classifying", "determining", "scoring", "generating", "applying", "storing", "transmitting", "monitoring", "publishing", "marking", "approving", "denying"],
-      "anchorPhrases": [
-        "based at least in part on",
-        "in response to determining that",
-        "responsive to detecting",
-        "wherein the {X} comprises at least one of {A}, {B}, and {C}",
-        "wherein the {X} further comprises",
-        "at least one of",
-        "a plurality of",
-        "the {thing} being {property}",
-        "such that {outcome_clause}",
-        "in real time",
-        "in near real-time",
-        "for example, 55 percent, 60 percent, 70 percent, or 90 percent",
-        "a predefined {threshold|criterion}",
-        "a predetermined {threshold|criterion}",
-        "a configurable {threshold|criterion}"
-      ],
-      "shibboleths": [
-        "by a processor (comma-comma injection mid-clause)",
-        "gerund-first step lines (receiving / determining / generating)",
-        "semicolons separating claim steps, never bullets",
-        "'The method of claim 1, wherein...' or '...further comprising...'",
-        "'at least one of A, B, and C' instead of natural-English lists",
-        "'a plurality of' never 'several' or 'multiple'"
-      ],
-      "forbiddenVerbiageInClaims": ["novel", "innovative", "improved", "new and useful", "best", "optimal"],
-      "noveltyWithoutSayingNovel": {
-        "structuralNegation": "Conventional {methods|systems} of {X} can be enhanced to...",
-        "problemFraming": "The problem is that...",
-        "comparativeAdvantage": "Since {our_approach} more accurately reflects {Y} than {prior_approach}, the use of {X} advantageously enables...",
-        "difficultyAssertion": "{X} represents a difficult task for modern intelligent systems"
-      },
-      "claimsPreamble": "What is claimed is:"
-    },
-
-    "grant": {
-      "sourcesStudied": [
-        "NIH SBIR Phase II R44 Theranova (1R44AA027188-02, $2.1M, neuromodulation/AUD)",
-        "NIH SBIR Phase II MapHabit (1SB1AG087924-01, $2.66M, neuroscience-of-habit)",
-        "NIH SBIR Phase II Dream Face (1R44AG066439-01, $1.0M, AD assistive AI)",
-        "NIH SBIR Phase I VAL Health (1R44AG044872-01A1, $149K, behavioral-econ)",
-        "NSF SBIR Phase II Workplace Technologies (0646275, $500K, decision modeling)",
-        "NSF SBIR Phase I Paradocs (2233197, $275K, NLP decision support)",
-        "DoD/USAF SBIR Phase I Cravety (FA8649-24-P-0278, behavioral analytics)"
-      ],
-      "canonicalStructure": [
-        "Project Summary / Abstract (30 lines max, public)",
-        "Project Narrative (2-3 sentences, public-health relevance)",
-        "Specific Aims (1 page — opens with long-term goal, ends with aims list)",
-        "Significance (gap → burden → consequence of inaction)",
-        "Innovation (departure from status quo → novel mechanism → IP/competitive moat)",
-        "Approach (Preliminary Studies → Research Design → Aims expanded → Statistical Plan → Timeline → Pitfalls/Alternatives)",
-        "Commercialization Plan (Phase II only)",
-        "Budget Justification"
-      ],
-      "templates": {
-        "abstract4Beat": "BEAT_1_PROBLEM: {{CONDITION}} ranks as the {{Nth}} leading cause of {{X}}, affecting approximately {{N}} million Americans. The condition costs ${{N}} billion annually through {{healthcare, lost productivity, and crime-related expenses}}. Currently, fewer than {{N}}% of {{POPULATION}} {{receive treatment | use the tool}} due to limitations in existing options.\n\nBEAT_2_WHY_CURRENT_FAILS: Standard {{tools|treatments|methods}} include {{OPTION_A}} or {{OPTION_B}}. However, {{OPTION_A}} demonstrates only moderate effectiveness and carries {{side_effects|costs|cognitive_burden}} limiting {{acceptance|adoption}}. {{OPTION_B}} provides modest benefits and often requires {{CONSTRAINT}}, which many {{users|patients}} find undesirable.\n\nBEAT_3_INNOVATION: Recent research indicates that {{MECHANISM}} significantly modulates {{TARGET_OUTCOME}}. {{COMPANY}} developed the {{PRODUCT_NAME}} — a {{FORM_FACTOR_DESCRIPTOR}} for {{APPLICATION}}. Phase I results showed the system {{VERB_PAST}} {{OUTCOME_A}} ({{N}}% reduction), {{OUTCOME_B}} ({{N}}% reduction), and {{OUTCOME_C}} ({{N}}% reduction) after {{DURATION}}.\n\nBEAT_4_PHASE_II_PLAN: This Phase II project involves {{refining_design}} and conducting a {{multi-site, sham-controlled | pragmatic | randomized}} {{trial|study}} to evaluate {{safety, effectiveness, and acceptability}}, supporting potential {{FDA_CLEARANCE | COMMERCIALIZATION | MARKET_DEPLOYMENT}}.",
-        "longTermGoal": "The long-term goal of this research is to {{VERB}} {{SYSTEM|METHOD}} that {{END_BENEFIT}}.",
-        "overallObjective": "The overall objective of this proposal is to {{VERB}} {{DELIVERABLE}} that {{SPECIFIC_FUNCTIONAL_CAPABILITY}}.",
-        "centralHypothesis": "Our central hypothesis is that {{MECHANISM_X}} will {{OUTCOME_Y}}, based on preliminary findings demonstrating {{N}}% effect in n={{N}} pilot.",
-        "rationale": "The rationale for the proposed research is that successful completion will {{NEAR_TERM_IMPACT}}, which will yield {{COMMERCIAL|CLINICAL|SCIENTIFIC_IMPACT}}.",
-        "aimSentence": "Aim {{N}} will {{develop|characterize|validate|benchmark|demonstrate}} {{DELIVERABLE}} using {{METHOD}}. We will measure {{PRIMARY_ENDPOINT}} against {{SUCCESS_CRITERION}}.",
-        "significanceGap": "Despite {{the_well-documented_importance_of_X}}, current {{tools|methods|instruments}} are limited by {{ENUMERATED_FAILURE_MODES}}.",
-        "significanceCriticalGap": "This proposal addresses the critical gap between {{RESEARCH_EVIDENCE}} and {{SOCIETAL|COMMERCIAL_DEPLOYMENT}}.",
-        "innovationOpener": "The proposed work is innovative because it {{combines|integrates}} {{DISCIPLINE_A}} with {{DISCIPLINE_B}} in a way not previously {{attempted|demonstrated}}.",
-        "innovationSubstantiveDeparture": "This represents a substantive departure from {{INCUMBENT_APPROACH}} by {{SPECIFIC_MECHANISM}}.",
-        "approachSpecific": "Specifically, we will {{develop|train|calibrate|benchmark|deploy}} {{OBJECT}} using {{METHOD}}.",
-        "expectedOutcomesCloser": "Successful completion of these aims will yield {{TANGIBLE_ARTIFACT}}, establishing the foundation for {{PHASE_II|REGULATORY_PATHWAY|MARKET_ENTRY}}.",
-        "transformativeClaim": "The proposed work will be transformative because it {{SHIFTS_PARADIGM|OPENS_MARKET|REPLACES_INCUMBENT_METHOD}}."
-      },
-      "bridgePatternSentences": {
-        "mapHabitShape": "[Discipline]-based [artifact] that leverages the science of [neural process A], together with the neuroscience of [process B]",
-        "diBelloShape": "Dynamic modeling technology enabling [end-users] to visualize and calculate the [financial/operational] impact of changes",
-        "cravetyShape": "Combine [behavioral science framework] and [computational substrate] to enable [end-user] to [better verb] [outcome]"
-      },
-      "quantitativeAnchors": {
-        "required": "minimum_3_per_abstract",
-        "categories": {
-          "populationScale": "{{N}} million {{Americans|patients|firms|portals}}",
-          "economicBurden": "${{N}} billion annually",
-          "pilotEffectSize": "{{N}}% reduction in {{OUTCOME}}",
-          "sampleSize": "n={{N}} {{participants|firms|portals}} over {{N}} months",
-          "successThreshold": "≥{{N}}% {{accuracy|sensitivity|engagement}}"
-        }
-      },
-      "anchorPhrases": [
-        "approximately N million Americans",
-        "costs $N billion annually through healthcare, lost productivity, and crime-related expenses",
-        "fewer than 20% receive treatment",
-        "first-line {tools} demonstrate only moderate effectiveness",
-        "Recent research indicates that {mechanism} significantly modulates {outcome}",
-        "Phase I results showed the system {verb-ed} {outcome} (N% reduction)",
-        "supporting potential {regulatory_milestone} for commercialization",
-        "The long-term goal of this research is to",
-        "The overall objective of this proposal is to",
-        "Our central hypothesis is that",
-        "The rationale for the proposed research is that"
-      ],
-      "operationalNote": "NIH RePORTER + NSF awards database are JS-rendered and not fetchable. Use sbir.gov/awards/{id} for server-rendered awarded grants when scaling exemplar retrieval."
-    },
-
-    "sba": {
-      "sourcesStudied": [
-        "SBA SOP 50 10 8 effective 2026-06-01",
-        "MBFS Sample Enhanced Credit Memorandum (Apr 2022)",
-        "Windsor Advantage SBA credit-memo guidelines",
-        "Starfield & Smith Credit-Elsewhere Test guidance",
-        "HUD Section 108 Underwriting Guidelines",
-        "OCC Commercial Loans Comptroller's Handbook"
-      ],
-      "canonicalStructure": [
-        "Borrower Summary",
-        "Guarantors / Management Background",
-        "Use of Proceeds (Sources-and-Uses table, must balance)",
-        "Sources of Repayment (Primary / Secondary / Tertiary)",
-        "Financial Analysis (Operating Statement + Balance Sheet + Debt Service)",
-        "Stress Test / Sensitivity",
-        "Collateral",
-        "Industry / Competition (IBISWorld NAICS)",
-        "Credit Not Available Elsewhere (REQUIRED, fact-specific)",
-        "Credit Decision Rationale (Strengths/Weaknesses/Mitigants/Recommendation)",
-        "Conditions Precedent",
-        "Post-Closing Covenants"
-      ],
-      "templates": {
-        "borrowerSummary": "{{BORROWER_LEGAL_NAME}} (NAICS {{NAICS}}, EIN {{EIN}}) is a {{NAICS_DESCRIPTION}} organized as a {{ENTITY_TYPE}} in {{STATE}} on {{FORMATION_DATE}}. Operations are conducted from {{PRIMARY_ADDRESS}} with {{N_EMPLOYEES}} employees. Ownership: {{OWNER_TABLE_WITH_PCT}}. Aggregate exposure (post-funding): ${{AGGREGATE_EXPOSURE}}.",
-        "guarantorBackground": "{{GUARANTOR_NAME}}, {{OWNERSHIP_PCT}}% owner, has served as {{CURRENT_TITLE}} of {{CURRENT_EMPLOYER}} for the past {{YEARS_IN_ROLE}} years. Prior to {{CURRENT_ROLE}}, {{he|she}} {{PRIOR_EXPERIENCE_SENTENCE}}. {{GUARANTOR_NAME}} holds a {{DEGREE}} from {{INSTITUTION}}. Personal credit score is {{FICO}} ({{CREDIT_REPORT_DATE}}); the credit report indicates all trades have been paid as agreed.",
-        "useOfProceeds": "Loan proceeds of ${{LOAN_AMOUNT}} will be utilized as follows:\n\nSOURCES                              USES\n{{LENDER}}        ${{LOAN_AMOUNT}}   {{USE_LINE_1}}   ${{U1_AMT}}\nEquity Injection  ${{EQUITY_AMT}}    {{USE_LINE_2}}   ${{U2_AMT}}\nSeller Note       ${{SELLER_AMT}}    {{USE_LINE_3}}   ${{U3_AMT}}\n                                     Closing Costs    ${{CC_AMT}}\nTOTAL SOURCES     ${{TOTAL}}         TOTAL USES       ${{TOTAL}}",
-        "sourcesOfRepayment": "Primary:    {{PRIMARY_SOURCE}} ({{CASH_FLOW_BASIS}})\nSecondary:  Global cash flow of guarantor(s) totaling ${{GLOBAL_CF}} (DSCR {{GLOBAL_DSCR}}x).\nTertiary:   Liquidation of collateral (see §6).\n\nPrimary repayment source is operating cash flow projected at ${{ANNUAL_CF}} annually based on {{REVENUE_BASIS}}. The Business DSCR is projected at {{BIZ_DSCR}}x on a pro-forma basis, exceeding the {{POLICY_MIN_DSCR}}x policy minimum.",
-        "dscrAnalysis": "Cash Available for Debt Service (CAFDS) of ${{CAFDS_Y1}} based upon net income of ${{NI}} plus add-back of depreciation of ${{DEPR}} and interest expense of ${{INT}}, less {{distributions|owners_comp}} of ${{DISTROS}}. Debt service totals ${{DS}}, indicating a DSCR of {{DSCR}}x in {{Y1}} compared to {{DSCR_Y2}}x in {{Y2}} and {{DSCR_Y3}}x in {{Y3}}.",
-        "stressTest": "The analyst also performed an interest rate shock, which demonstrates the following changes in DSCRs:\n  • Increased interest rate by 1% to {{R+1}}% — DSCR decreases to {{DSCR_R+1}}x;\n  • Increased interest rate by 2% to {{R+2}}% — DSCR decreases to {{DSCR_R+2}}x;\n  • Increased interest rate by 3% to {{R+3}}% — DSCR decreases to {{DSCR_R+3}}x.\nIn order to maintain a minimum DSCR of 1.00x, revenue can decline by approximately {{BREAKEVEN_PCT}}% to ${{BREAKEVEN_REV}}.",
-        "creditNotElsewhere": "The Lender has determined that {{BORROWER}} is unable to obtain the requested credit on reasonable terms from non-Federal, non-State, or non-local government sources, including this Lender without SBA assistance, due to the following specific weaknesses:\n  (i)   {{SPECIFIC_WEAKNESS_1}};\n  (ii)  {{SPECIFIC_WEAKNESS_2}};\n  (iii) {{SPECIFIC_WEAKNESS_3}}.\nConventional terms reviewed: {{CONVENTIONAL_TERMS_SUMMARY}}.",
-        "creditDecisionRationale": "STRENGTHS:\n  1. {{STRENGTH_1}}\n  2. {{STRENGTH_2}}\n  3. {{STRENGTH_3}}\n  4. {{STRENGTH_4}}\n\nWEAKNESSES / RISKS — MITIGANTS:\n  Risk 1: {{RISK_1}} — Mitigated by {{MITIGANT_1}}.\n  Risk 2: {{RISK_2}} — Mitigated by {{MITIGANT_2}}.\n  Risk 3: {{RISK_3}} — Mitigated by {{MITIGANT_3}}.\n\nRECOMMENDATION:\nRecommend {{approval|approval_with_conditions|decline}} of a ${{LOAN_AMOUNT}} SBA 7(a) loan to {{BORROWER}} based upon (1) {{SUMMARY_STRENGTH_1}}, (2) {{SUMMARY_STRENGTH_2}}, and (3) {{SUMMARY_STRENGTH_3}}. Based on the strengths and weaknesses analyzed herein, the analyst agrees with the {{RISK_RATING}} risk rating.",
-        "personalNetWorth": "Per the personal financial statement dated {{PFS_DATE}}, {{GUARANTOR}} has a stated net worth of ${{NW}} based upon assets of ${{ASSETS}} and liabilities of ${{LIABS}}. When excluding closely held business interest valued at ${{CLOSELY_HELD_VAL}}, {{GUARANTOR}} has an adjusted net worth of ${{ADJ_NW}}. Liquid assets total ${{LIQUID}} and consist of {{LIQUID_COMPOSITION}}. The stated cash on hand can cover {{N_MONTHS}} months of personal debt service."
-      },
-      "tenKRiskFactor": {
-        "structureMoves": ["HEADING (exposure + impact assertion)", "EXPOSURE PARAGRAPH", "TRIGGER PARAGRAPH(S)", "IMPACT CLOSER"],
-        "headingTemplate": "{{Trigger_condition_clause}} {{can|could}} materially adversely affect the Company's business, results of operations, financial condition and stock price.",
-        "exposureParagraph": "The Company {{operates|maintains|relies on}} {{EXPOSURE_DESCRIPTION}}, representing {{MAGNITUDE}} of {{TOTAL_RELEVANT_BASE}}. As a result, the Company's operations and performance depend significantly on {{FACTOR_CLASS}}.",
-        "triggerParagraph": "{{TRIGGER_1}}, {{TRIGGER_2}}, and {{TRIGGER_3}} can {{VERB}} {{INTERMEDIATE_EFFECT}}. In addition, {{SECONDARY_TRIGGER}} can also be materially adversely affected in response to {{CAUSAL_CHAIN}}.",
-        "impactCloser": "These and other impacts can materially adversely affect the Company's business, results of operations, financial condition and stock price.",
-        "mandatoryPreamble": "The following summarizes factors that could have a material adverse effect on the Company's business, reputation, results of operations, financial condition and stock price. The Company may not be able to accurately predict, control or mitigate these risks. The risks and uncertainties described below are not exhaustive and should not be considered a complete statement of all potential risks or uncertainties that the Company faces or may face in the future."
-      },
-      "bondProspectus": {
-        "useOfProceeds": "{{Issuer}} {{expects to use|intends to use}} the net proceeds of this offering {{(and available cash on hand)}} for general corporate purposes, {{including|which may include}} {{SPECIFIC_USE_1}}, {{SPECIFIC_USE_2}}, and to pay related {{premiums, fees and expenses|underwriting discounts and offering expenses}}.",
-        "ranking": "The Notes will be {{ISSUER}}'s senior unsecured obligations and will rank {{pari passu|equally}} in right of payment with all of {{ISSUER}}'s other {{unsubordinated, unsecured indebtedness|senior unsecured indebtedness from time to time outstanding}}, and senior in right of payment to all existing and future subordinated indebtedness of {{ISSUER}}. The Notes will be effectively subordinated to any secured indebtedness of {{ISSUER}} to the extent of the value of the assets securing such indebtedness, and structurally subordinated to all existing and future indebtedness and other liabilities of {{ISSUER}}'s subsidiaries.",
-        "interest": "Interest on the Notes will accrue at a rate of {{COUPON}}% per annum from {{SETTLEMENT_DATE}}, or from the most recent date to which interest has been paid or duly provided for. Interest will be payable {{semi-annually|annually}} in arrears on {{IPD_1}} and {{IPD_2}} of each year, commencing {{FIRST_PAYMENT_DATE}}. Interest will be computed on the basis of a {{360-day|365-day}} year consisting of twelve 30-day months.",
-        "noHolderPut": "{{Holders|You}} will not have the right to cause {{ISSUER}} to repurchase the Notes in whole or in part at any time before they mature.",
-        "pslraSafeHarbor": "This {{FILING_NAME}} contains forward-looking statements, within the meaning of the Private Securities Litigation Reform Act of 1995, that involve risks and uncertainties. Forward-looking statements can be identified by words such as \"future,\" \"anticipates,\" \"believes,\" \"estimates,\" \"expects,\" \"intends,\" \"plans,\" \"predicts,\" \"will,\" \"would,\" \"could,\" \"can,\" \"may,\" and similar terms. Forward-looking statements are not guarantees of future performance and the {{Company|Issuer}}'s actual results may differ significantly from the results discussed in the forward-looking statements. Factors that might cause such differences include, but are not limited to, those discussed under the heading \"Risk Factors.\" The {{Company|Issuer}} assumes no obligation to revise or update any forward-looking statements for any reason, except as required by law."
-      },
-      "mandatoryNarratives": ["creditNotElsewhere (fact-specific, no boilerplate)", "workingCapitalJustification (if WC ≥ 50% of proceeds on Small Loans >$50K)", "debtRefinanceJustification (balloon | credit_cards | inappropriate_term | cash_flow_saving_ge_10pct)", "equityProForma (tie to business type + management experience + competition)"],
-      "anchorPhrases": [
-        "based upon the {year} {tax_return|financial_statement} provided for analysis",
-        "demonstrates a DSCR of {x.xx}x compared to {x.xx}x in {prior_year}",
-        "on a pro-forma basis",
-        "after add-back of depreciation of $X and interest expense of $X, less distributions of $X paid to the owners",
-        "the credit report indicates all trades have been paid as agreed",
-        "stated net worth of $X based upon assets of $X and liabilities of $X",
-        "when excluding closely held business interest valued at $X",
-        "based on the strengths/weaknesses, the analyst agrees with the given risk rating",
-        "Recommend approval based on: (1) … (2) … (3) … Risks include … mitigated by …",
-        "unable to obtain the requested credit on reasonable terms from non-Federal, non-State, or non-local government sources"
-      ]
-    },
-
     "investment": {
       "sourcesStudied": [
         "Howard Marks / Oaktree memos",
@@ -247,8 +43,27 @@
         "burryFalsifiableDateTest": "The strongest discipline marker — commit publicly to a falsifiable date (\"maximum stress during the latter half of 2007\"). Makes the position re-reviewable.",
         "ackmanImperativeVerbsTest": "When proposing operating plan: imperative-verb bullets (Fix / Accelerate / Reduce / Increase). No hedging adverbs."
       },
-      "disciplineMarkers": ["named comparables (peer set, not 'cheap to peers')", "dated catalysts (calendar anchor or probability)", "baseline + delta (Buffett-style)", "arithmetic shown not hidden", "source + timestamp", "sample size on channel work", "stated kill conditions", "what would change our mind", "re-review date", "Street's model implicitly requires"],
-      "sloppyMemoTells": ["story stock / secular tailwind / best-in-class used as conclusion not input", "multiples without peer set", "catalysts expected without date or probability", "no counter-position acknowledged", "no mention of liquidity/sizing/correlation", "conclusions before evidence", "forecasts matching guidance to the dollar"],
+      "disciplineMarkers": [
+        "named comparables (peer set, not 'cheap to peers')",
+        "dated catalysts (calendar anchor or probability)",
+        "baseline + delta (Buffett-style)",
+        "arithmetic shown not hidden",
+        "source + timestamp",
+        "sample size on channel work",
+        "stated kill conditions",
+        "what would change our mind",
+        "re-review date",
+        "Street's model implicitly requires"
+      ],
+      "sloppyMemoTells": [
+        "story stock / secular tailwind / best-in-class used as conclusion not input",
+        "multiples without peer set",
+        "catalysts expected without date or probability",
+        "no counter-position acknowledged",
+        "no mention of liquidity/sizing/correlation",
+        "conclusions before evidence",
+        "forecasts matching guidance to the dollar"
+      ],
       "anchorPhrases": [
         "The market is pricing this for X, but Y suggests",
         "Consensus assumes X; channel work shows Y",
@@ -262,14 +77,7 @@
       ]
     }
   },
-
   "engineHooks": {
-    "description": "How the 6 engine lanes consume verbiage templates + bridge data + portal context. Each engine lane reads (a) the matched bridge patterns on a portal, (b) the derivedAngles per matched pattern, (c) the portal's kernel readings + functionalNetwork, and (d) the relevant lane templates from this file. Output: artifact text that reads like a real approved document.",
-    "patentEngine": "consumes bridgeReadings.matched[*].derivedAngles.patent + portal.kernelReadings + lane='patent'; fills templates.claim1Method, templates.abstract, templates.background",
-    "grantEngine": "consumes bridgeReadings.matched[*].derivedAngles.grant + portal context + lane='grant'; fills templates.abstract4Beat (REQUIRES ≥3 quantitative anchors), templates.longTermGoal, templates.centralHypothesis, templates.aimSentence × 3",
-    "sbaEngine": "consumes bridgeReadings.matched[*].derivedAngles.sba + portal financial data + guarantor data + lane='sba'; fills templates.borrowerSummary, templates.guarantorBackground, templates.useOfProceeds, templates.sourcesOfRepayment, templates.dscrAnalysis, templates.stressTest, templates.creditNotElsewhere, templates.creditDecisionRationale",
-    "investmentEngine": "consumes bridgeReadings.matched[*].derivedAngles.investment + portal.kernelReadings + bridge.knownTreatments + lane='investment'; fills templates.header, templates.variantViewOpener_v1|v2|v3 (rotate), templates.catalystBlock, templates.valuationArithmetic, templates.positionSizing, templates.riskAndFalsifiability, templates.exitConditions",
-    "franchiseEngine": "leverages sba.templates + FTC Franchise Rule disclosure structure (Item 1-23); not yet templated — pending dedicated franchise sample research",
-    "researchEngine": "leverages grant.templates Specific Aims structure; output as Research Note format (Hypothesis / Background / Method / Expected Outcome / Falsifiability / Citations)"
+    "investmentEngine": "consumes bridgeReadings.matched[*].derivedAngles.investment + portal.kernelReadings + bridge.knownTreatments + lane='investment'; fills templates.header, templates.variantViewOpener_v1|v2|v3 (rotate), templates.catalystBlock, templates.valuationArithmetic, templates.positionSizing, templates.riskAndFalsifiability, templates.exitConditions"
   }
 }

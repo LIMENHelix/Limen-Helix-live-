@@ -2,8 +2,8 @@
 //
 // The bridge layer is the prime-directive piece: explicit pattern mappings
 // between neural mechanisms and business signatures. Without it, LIMEN is a
-// regulatory monitor; with it, LIMEN derives ideas (patents, grants,
-// investment angles) that neither neurology nor business literature alone has
+// regulatory monitor; with it, LIMEN derives research questions and
+// investment angles that neither neurology nor business literature alone has
 // produced.
 //
 // This organ measures:
@@ -46,7 +46,9 @@ export function sense() {
   const verbiage = io.json(VERBIAGE_PATH, 'assets/data/verbiage-templates.json');
   const verbiageReadable = verbiage !== null;
   const verbiageLanes = (verbiage && verbiage.lanes) ? Object.keys(verbiage.lanes) : [];
-  const verbiageReady = verbiageLanes.length >= 4;   // patent + grant + sba + investment minimum
+  // Research is generated from its bounded schema in engine-output-generator;
+  // only investment consumes this legacy verbiage library.
+  const verbiageReady = verbiageLanes.length === 1 && verbiageLanes[0] === 'investment';
 
   let total = 0;
   let withBridges = 0;
@@ -54,7 +56,7 @@ export function sense() {
   let totalDerivedAngles = 0;
   let withEngineOutputs = 0;
   let totalArtifacts = 0;
-  const byLaneArtifacts = { patent: 0, grant: 0, sba: 0, investment: 0, research: 0, franchise: 0 };
+  const byLaneArtifacts = { investment: 0, research: 0 };
   const byPattern = {};
   const byMappingType = {};
   const blindToBridge = [];
@@ -133,7 +135,7 @@ export function sense() {
   else if (patternCount === 0) attention.push({ issue: 'Bridge pattern library is EMPTY', severity: 'high', count: 1, action: 'file reads fine and contains no patterns — restore assets/data/bridge-patterns.json', organ: id });
   // Same guard. Unreadable => io.attention() reports the gap; it is not a missing library.
   if (!verbiageReadable) attention.push({ issue: 'Verbiage template library unreadable — engine outputs will read generated, not approved', severity: 'high', count: 1, action: 'this file IS in the sparse checkout, so absence is real — restore assets/data/verbiage-templates.json (distilled from real USPTO/NIH/SBA/investor samples)', organ: id });
-  else if (!verbiageReady) attention.push({ issue: 'Verbiage library incomplete — needs all 4 lanes (patent, grant, sba, investment)', severity: 'med', count: 4 - verbiageLanes.length, action: 'expand assets/data/verbiage-templates.json', organ: id });
+  else if (!verbiageReady) attention.push({ issue: 'Verbiage library must contain the investment lane only', severity: 'med', count: Math.abs(verbiageLanes.length - 1) + (verbiageLanes.includes('investment') ? 0 : 1), action: 'remove retired templates and restore investment in assets/data/verbiage-templates.json', organ: id });
   if (corpusReadable && withBridges < total * 0.7 && total > 0) attention.push({ issue: 'Bridge coverage below 70% — many portals have no neuro↔business mapping', severity: 'med', count: total - withBridges, action: 'either expand bridge-patterns.json to cover more business signatures, OR these portals genuinely lack pathology pattern (informational)', organ: id });
   for (const pd of patternDominance) attention.push({ issue: 'Pattern dominance: ' + pd.patternId + ' matches ' + Math.round(pd.shareOfMatches * 100) + '% of all bridges (over-firing?)', severity: 'low', count: pd.count, action: 'tighten indicators in pattern ' + pd.patternId + ' to be more specific', organ: id });
   const ioItem = io.attention(id); if (ioItem) attention.push(ioItem);
