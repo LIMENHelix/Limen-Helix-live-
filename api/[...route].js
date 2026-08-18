@@ -52,7 +52,6 @@ const HANDLERS = {
   'asset-quote': require('../handlers/asset-quote'),
   'biosensor-state': require('../handlers/biosensor-state'),
   'brain-cognition': require('../handlers/brain-cognition'),
-  'domain-brain': require('../handlers/domain-brain'),
   'brain-shadow': require('../handlers/brain-shadow'),
   'brain-cognition-refresh': require('../handlers/brain-cognition-refresh'),
   'capital-engine': require('../handlers/capital-engine'),
