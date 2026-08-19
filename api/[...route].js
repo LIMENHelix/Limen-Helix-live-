@@ -130,6 +130,7 @@ const HANDLERS = {
   'expand-artifact-claude': require('../handlers/expand-artifact-claude'),
   'fleet': require('../handlers/fleet'),
   'grok-movies': require('../handlers/grok-movies'),
+  'what-men-carry': require('../handlers/what-men-carry'),
   'gazette': require('../handlers/gazette'),
   'opportunities': require('../handlers/opportunities'),
   'orb-voice': require('../handlers/orb-voice'),

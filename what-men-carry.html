@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What Men Carry · LIMEN Helix</title>
+  <meta name="description" content="15-second cinematic videos about men's invisible burdens: mental health, trauma, custody, stress. Watch free. Subscribe to share taglines." />
+  <link rel="canonical" href="https://limenhelix.com/what-men-carry" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      line-height: 1.6;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    header {
+      text-align: center;
+      padding: 60px 0;
+      border-bottom: 1px solid #333;
+    }
+    h1 { font-size: 3rem; margin-bottom: 15px; font-weight: 600; }
+    .tagline { font-size: 1.2rem; color: #aaa; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .mission { font-size: 0.95rem; color: #888; margin-top: 30px; line-height: 1.8; }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px 15px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #1a1a1a;
+      color: #e5e5e5;
+    }
+    .search-box::placeholder { color: #666; }
+    .filter-select {
+      padding: 12px 15px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #1a1a1a;
+      color: #e5e5e5;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin: 40px 0;
+    }
+    .video-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: border-color 0.3s;
+    }
+    .video-card:hover { border-color: #555; }
+    .video-title { font-size: 1.3rem; font-weight: 600; }
+    .video-meta {
+      font-size: 0.9rem;
+      color: #888;
+      display: flex;
+      gap: 15px;
+    }
+    .video-topic {
+      display: inline-block;
+      padding: 5px 12px;
+      background: #2a2a2a;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #aaa;
+      width: fit-content;
+      border: 1px solid #444;
+    }
+    .tagline-box {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #d0d0d0;
+      padding: 15px;
+      background: #0a0a0a;
+      border-left: 3px solid #cc5500;
+      border-radius: 4px;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-watch {
+      background: #1a4d7f;
+      color: #e5e5e5;
+    }
+    .btn-watch:hover { background: #0d2d5f; }
+    .btn-copy {
+      background: #cc5500;
+      color: white;
+    }
+    .btn-copy:hover { background: #a04200; }
+    .btn-copy.locked {
+      background: #555;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    .btn-copy.locked:hover { background: #555; }
+
+    .auth-panel {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 30px;
+      margin: 40px 0;
+      text-align: center;
+    }
+    .auth-panel h2 { margin-bottom: 20px; font-size: 1.5rem; }
+    .auth-panel p { color: #aaa; margin-bottom: 20px; }
+    .auth-email {
+      width: 100%;
+      max-width: 350px;
+      padding: 12px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      background: #0a0a0a;
+      color: #e5e5e5;
+    }
+    .auth-email::placeholder { color: #666; }
+    .btn-subscribe {
+      background: #cc5500;
+      color: white;
+      padding: 14px 35px;
+      margin: 0 5px;
+      font-size: 1rem;
+    }
+    .btn-subscribe:hover { background: #a04200; }
+    .btn-check {
+      background: #333;
+      color: #e5e5e5;
+      padding: 14px 35px;
+      margin: 0 5px;
+      font-size: 1rem;
+    }
+    .btn-check:hover { background: #444; }
+    .status-msg {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .status-msg.success {
+      background: #1e3a1e;
+      color: #7dce7d;
+      border: 1px solid #2d5a2d;
+    }
+    .status-msg.error {
+      background: #3a1e1e;
+      color: #e07d7d;
+      border: 1px solid #5a2d2d;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>What Men Carry</h1>
+      <p class="tagline">15-second cinematic videos about men's invisible burdens.</p>
+      <div class="mission">
+        <p>Mental health. Trauma. PTSD. Custody. Stress. Depression. The weight men carry in silence.<br/>
+        Watch for free. Subscribe to share the taglines that matter.</p>
+      </div>
+    </header>
+
+    <div class="auth-panel">
+      <h2>Subscribe to Share</h2>
+      <p>Copy powerful taglines to share, inspire, and spark conversations about men's mental health.</p>
+      <input type="email" id="userEmail" class="auth-email" placeholder="your@email.com" />
+      <button class="btn-check" onclick="checkSubscription()">Check Subscription</button>
+      <button class="btn-subscribe" onclick="startCheckout()">Subscribe</button>
+      <div id="authStatus"></div>
+    </div>
+
+    <div class="controls">
+      <input type="text" id="searchBox" class="search-box" placeholder="Search videos, taglines, or topics..." onkeyup="search()" />
+      <select id="topicFilter" class="filter-select" onchange="search()">
+        <option value="">All Topics</option>
+      </select>
+    </div>
+
+    <div id="gallery" class="gallery"></div>
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <p>No videos found. Try a different search.</p>
+    </div>
+  </div>
+
+  <script>
+    let allVideos = [];
+    let userEmail = '';
+    let isSubscribed = false;
+
+    async function loadVideos() {
+      try {
+        const res = await fetch('/api/what-men-carry?action=list');
+        const data = await res.json();
+        if (data.ok) {
+          allVideos = data.videos;
+          renderVideos(allVideos);
+          loadTopics();
+        }
+      } catch (e) {
+        console.error('Failed to load videos:', e);
+      }
+    }
+
+    async function loadTopics() {
+      try {
+        const res = await fetch('/api/what-men-carry?action=topics');
+        const data = await res.json();
+        if (data.ok) {
+          const select = document.getElementById('topicFilter');
+          data.topics.forEach(topic => {
+            const opt = document.createElement('option');
+            opt.value = topic;
+            opt.textContent = topic;
+            select.appendChild(opt);
+          });
+        }
+      } catch (e) {
+        console.error('Failed to load topics:', e);
+      }
+    }
+
+    function renderVideos(videos) {
+      const gallery = document.getElementById('gallery');
+      const emptyState = document.getElementById('emptyState');
+
+      if (!videos.length) {
+        gallery.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      gallery.innerHTML = videos.map(v => `
+        <div class="video-card">
+          <div class="video-title">${escapeHtml(v.title)}</div>
+          <div class="video-meta">
+            <span>⏱ ${v.duration}</span>
+          </div>
+          <div class="video-topic">${escapeHtml(v.topic)}</div>
+          <div class="tagline-box">"${escapeHtml(v.tagline)}"</div>
+          <div class="actions">
+            <button class="btn-watch" onclick="playVideo('${v.id}')">Watch</button>
+            <button class="btn-copy ${isSubscribed ? '' : 'locked'}" onclick="${isSubscribed ? `copyTagline('${v.id}')` : `alert('Subscribe to copy taglines')`}">
+              ${isSubscribed ? 'Copy' : 'Lock'}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function search() {
+      const query = document.getElementById('searchBox').value.toLowerCase();
+      const topic = document.getElementById('topicFilter').value;
+
+      let filtered = allVideos.filter(v => {
+        const matchesQuery = !query || v.title.toLowerCase().includes(query) || v.tagline.toLowerCase().includes(query) || v.topic.toLowerCase().includes(query);
+        const matchesTopic = !topic || v.topic === topic;
+        return matchesQuery && matchesTopic;
+      });
+
+      renderVideos(filtered);
+    }
+
+    function playVideo(id) {
+      alert(`Playing: ${id}\n\nVideo playback coming soon. Real video URLs can be added to the manifest.`);
+    }
+
+    function copyTagline(id) {
+      const video = allVideos.find(v => v.id === id);
+      if (!video) return;
+      navigator.clipboard.writeText(video.tagline).then(() => {
+        alert(`Copied tagline from "${video.title}":\n\n"${video.tagline}"`);
+      }).catch(() => {
+        alert(`Tagline:\n\n"${video.tagline}"`);
+      });
+    }
+
+    async function checkSubscription() {
+      const email = document.getElementById('userEmail').value.trim();
+      if (!email) {
+        showStatus('Enter your email', 'error');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/what-men-carry?action=verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          userEmail = email;
+          isSubscribed = data.subscribed;
+          if (isSubscribed) {
+            showStatus('You are subscribed! Copy taglines to share.', 'success');
+            renderVideos(allVideos);
+          } else {
+            showStatus('No active subscription found.', 'error');
+          }
+        }
+      } catch (e) {
+        showStatus('Error checking subscription.', 'error');
+      }
+    }
+
+    async function startCheckout() {
+      const email = document.getElementById('userEmail').value.trim();
+      if (!email) {
+        showStatus('Enter your email', 'error');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/what-men-carry?action=checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          window.location.href = data.url;
+        } else {
+          showStatus(data.error || 'Checkout failed', 'error');
+        }
+      } catch (e) {
+        showStatus('Error starting checkout', 'error');
+      }
+    }
+
+    function showStatus(msg, type) {
+      const div = document.getElementById('authStatus');
+      div.className = `status-msg ${type}`;
+      div.textContent = msg;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    loadVideos();
+  </script>
+</body>
+</html>
