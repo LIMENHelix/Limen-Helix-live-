@@ -15,10 +15,10 @@ const stripe = require('../lib/stripe-rail');
 const db = require('../lib/limen-db');
 
 const SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
-const SUBSCRIPTION_KEY = 'what-men-carry:subscriptions:v1';
+const PURCHASES_KEY = 'what-men-carry:purchases:v1';
 const INTENT_KEY = 'what-men-carry:intents:v1';
 const MAX_INTENTS = 500;
-const PRICE_CENTS = 499; // $4.99/month (adjustable)
+const PRICE_CENTS = 99; // $0.99 per video (one-time purchase)
 
 function send(res, obj, code) {
   res.statusCode = code || 200;
@@ -48,25 +48,25 @@ async function recordIntent(rec) {
   } catch (e) {}
 }
 
-async function recordSubscription(email, stripeSessionId) {
+async function recordPurchase(email, videoId, stripePaymentId) {
   try {
-    var subs = await db.get(SUBSCRIPTION_KEY);
-    if (!Array.isArray(subs)) subs = [];
-    subs.unshift({
+    var purchases = await db.get(PURCHASES_KEY);
+    if (!Array.isArray(purchases)) purchases = [];
+    purchases.unshift({
       email: email,
-      stripeSessionId: stripeSessionId,
-      subscribedAt: new Date().toISOString(),
-      active: true
+      videoId: videoId,
+      stripePaymentId: stripePaymentId,
+      purchasedAt: new Date().toISOString()
     });
-    await db.set(SUBSCRIPTION_KEY, subs);
+    await db.set(PURCHASES_KEY, purchases);
   } catch (e) {}
 }
 
-async function isSubscribed(email) {
+async function hasPurchased(email, videoId) {
   try {
-    var subs = await db.get(SUBSCRIPTION_KEY);
-    if (!Array.isArray(subs)) return false;
-    return subs.some(s => s.email === email && s.active);
+    var purchases = await db.get(PURCHASES_KEY);
+    if (!Array.isArray(purchases)) return false;
+    return purchases.some(p => p.email === email && p.videoId === videoId);
   } catch (e) {
     return false;
   }
@@ -112,15 +112,26 @@ module.exports = async function handler(req, res) {
     if (action === 'checkout') {
       const body = await readBody(req);
       const email = String(body.email || '').toLowerCase().trim();
+      const videoId = String(body.videoId || '').trim();
 
       if (!validEmail(email)) {
         return send(res, { ok: false, error: 'Valid email required' }, 400);
+      }
+
+      if (!videoId) {
+        return send(res, { ok: false, error: 'Video ID required' }, 400);
+      }
+
+      const video = manifest.find(v => v.id === videoId);
+      if (!video) {
+        return send(res, { ok: false, error: 'Video not found' }, 404);
       }
 
       if (!stripe.hasKey()) {
         await recordIntent({
           at: new Date().toISOString(),
           email: email,
+          videoId: videoId,
           action: 'checkout',
           blocked: 'payments-not-enabled'
         });
@@ -130,44 +141,46 @@ module.exports = async function handler(req, res) {
         }, 503);
       }
 
-      const session = await stripe.createSubscriptionCheckout({
-        domain: 'what-men-carry',
-        rung: 'p1',
-        name: 'What Men Carry Monthly',
-        line: 'Access to powerful cinematic 15-second videos and copyable taglines about men\'s invisible burdens.',
-        priceCents: PRICE_CENTS,
-        email: email,
-        successUrl: SITE + '/what-men-carry?subscribed=true&session={CHECKOUT_SESSION_ID}',
-        cancelUrl: SITE + '/what-men-carry?checkout=cancelled'
+      const paymentLink = await stripe.createPaymentLink({
+        name: 'What Men Carry: ' + video.title,
+        amount: PRICE_CENTS / 100,
+        currency: 'usd',
+        streamId: videoId
       });
 
-      if (!session.ok) {
+      if (!paymentLink.ok) {
         return send(res, {
           ok: false,
-          error: 'Could not start checkout: ' + (session.error || 'unknown error')
+          error: 'Could not create payment link: ' + (paymentLink.error || 'unknown error')
         }, 502);
       }
 
       await recordIntent({
         at: new Date().toISOString(),
         email: email,
+        videoId: videoId,
         action: 'checkout',
-        sessionId: session.sessionId
+        paymentLinkId: paymentLink.paymentLinkId
       });
 
-      return send(res, { ok: true, url: session.url });
+      return send(res, { ok: true, url: paymentLink.url });
     }
 
     if (action === 'verify') {
       const body = await readBody(req);
       const email = String(body.email || '').toLowerCase().trim();
+      const videoId = String(body.videoId || '').trim();
 
       if (!validEmail(email)) {
         return send(res, { ok: false, error: 'Valid email required' }, 400);
       }
 
-      const subscribed = await isSubscribed(email);
-      return send(res, { ok: true, subscribed: subscribed, email: email });
+      if (!videoId) {
+        return send(res, { ok: false, error: 'Video ID required' }, 400);
+      }
+
+      const purchased = await hasPurchased(email, videoId);
+      return send(res, { ok: true, purchased: purchased, email: email, videoId: videoId });
     }
 
     return send(res, { ok: false, error: 'Unknown action: ' + action }, 400);

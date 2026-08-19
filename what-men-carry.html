@@ -202,11 +202,10 @@
     </header>
 
     <div class="auth-panel">
-      <h2>Subscribe to Share</h2>
-      <p>Copy powerful taglines to share, inspire, and spark conversations about men's mental health.</p>
+      <h2>Buy & Copy Taglines</h2>
+      <p>Each video costs $0.99. Buy once, copy the tagline forever. Share to spark conversations about men's mental health.</p>
       <input type="email" id="userEmail" class="auth-email" placeholder="your@email.com" />
-      <button class="btn-check" onclick="checkSubscription()">Check Subscription</button>
-      <button class="btn-subscribe" onclick="startCheckout()">Subscribe</button>
+      <button class="btn-check" onclick="loadPurchases()">Load My Purchases</button>
       <div id="authStatus"></div>
     </div>
 
@@ -226,7 +225,7 @@
   <script>
     let allVideos = [];
     let userEmail = '';
-    let isSubscribed = false;
+    let userPurchases = {};
 
     async function loadVideos() {
       try {
@@ -271,7 +270,9 @@
       }
 
       emptyState.style.display = 'none';
-      gallery.innerHTML = videos.map(v => `
+      gallery.innerHTML = videos.map(v => {
+        const purchased = userPurchases && userPurchases[v.id];
+        return `
         <div class="video-card">
           <div class="video-title">${escapeHtml(v.title)}</div>
           <div class="video-meta">
@@ -281,12 +282,13 @@
           <div class="tagline-box">"${escapeHtml(v.tagline)}"</div>
           <div class="actions">
             <button class="btn-watch" onclick="playVideo('${v.id}')">Watch</button>
-            <button class="btn-copy ${isSubscribed ? '' : 'locked'}" onclick="${isSubscribed ? `copyTagline('${v.id}')` : `alert('Subscribe to copy taglines')`}">
-              ${isSubscribed ? 'Copy' : 'Lock'}
-            </button>
+            ${purchased
+              ? `<button class="btn-copy" onclick="copyTagline('${v.id}')">Copy Tagline</button>`
+              : `<button class="btn-copy locked" onclick="buyVideo('${v.id}')">Buy $0.99</button>`
+            }
           </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
     function search() {
@@ -316,40 +318,43 @@
       });
     }
 
-    async function checkSubscription() {
+    async function loadPurchases() {
       const email = document.getElementById('userEmail').value.trim();
       if (!email) {
         showStatus('Enter your email', 'error');
         return;
       }
 
-      try {
-        const res = await fetch('/api/what-men-carry?action=verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        const data = await res.json();
+      userEmail = email;
+      userPurchases = {};
+      showStatus('Checking your purchases...', 'success');
 
-        if (data.ok) {
-          userEmail = email;
-          isSubscribed = data.subscribed;
-          if (isSubscribed) {
-            showStatus('You are subscribed! Copy taglines to share.', 'success');
-            renderVideos(allVideos);
-          } else {
-            showStatus('No active subscription found.', 'error');
+      for (const video of allVideos) {
+        try {
+          const res = await fetch('/api/what-men-carry?action=verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, videoId: video.id })
+          });
+          const data = await res.json();
+          if (data.ok && data.purchased) {
+            userPurchases[video.id] = true;
           }
-        }
-      } catch (e) {
-        showStatus('Error checking subscription.', 'error');
+        } catch (e) {}
       }
+
+      if (Object.keys(userPurchases).length > 0) {
+        showStatus(`You have ${Object.keys(userPurchases).length} purchased video(s). Copy taglines now.`, 'success');
+      } else {
+        showStatus(`No purchases found for ${email}. Buy videos to copy taglines.`, 'error');
+      }
+      renderVideos(allVideos);
     }
 
-    async function startCheckout() {
+    async function buyVideo(videoId) {
       const email = document.getElementById('userEmail').value.trim();
       if (!email) {
-        showStatus('Enter your email', 'error');
+        showStatus('Enter your email first', 'error');
         return;
       }
 
@@ -357,14 +362,14 @@
         const res = await fetch('/api/what-men-carry?action=checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
+          body: JSON.stringify({ email, videoId })
         });
         const data = await res.json();
 
         if (data.ok) {
           window.location.href = data.url;
         } else {
-          showStatus(data.error || 'Checkout failed', 'error');
+          showStatus(data.error || 'Could not start checkout', 'error');
         }
       } catch (e) {
         showStatus('Error starting checkout', 'error');

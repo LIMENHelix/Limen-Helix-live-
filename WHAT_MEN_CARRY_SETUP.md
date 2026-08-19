@@ -5,8 +5,9 @@
 **What Men Carry** is a revenue stream dedicated to powerful 15-second cinematic silent videos about men's invisible burdens: mental health, trauma, PTSD, custody, stress, depression, and vulnerability.
 
 - **Watch**: Free for all users
-- **Copy taglines**: Subscribe $4.99/month (price TBD)
+- **Copy taglines**: Buy per video ($0.99 one-time)
 - **Taglines only**: Descriptions (cinematic briefs) are metadata only—never shown to users
+- **Model**: Impulse-friendly, honor each share, volume-based recurring revenue
 
 ## Files
 
@@ -120,30 +121,31 @@ GET /api/what-men-carry?action=topics
 → { ok: true, topics: ["Custody & Presence", "PTSD & Trauma", ...] }
 ```
 
-### Start Checkout
+### Start Checkout (Buy One Video)
 ```
 POST /api/what-men-carry?action=checkout
-Body: { email: "user@example.com" }
-→ { ok: true, url: "https://checkout.stripe.com/..." }
+Body: { email: "user@example.com", videoId: "wmc-001-custody" }
+→ { ok: true, url: "https://buy.stripe.com/..." }
 ```
 
-### Check Subscription
+### Check if User Has Purchased
 ```
 POST /api/what-men-carry?action=verify
-Body: { email: "user@example.com" }
-→ { ok: true, subscribed: true, email: "user@example.com" }
+Body: { email: "user@example.com", videoId: "wmc-001-custody" }
+→ { ok: true, purchased: true, email: "user@example.com", videoId: "wmc-001-custody" }
 ```
 
 ## Database
 
-Subscriptions and intents stored in `limen-db`:
-- `what-men-carry:subscriptions:v1` — active subscribers
+Purchases and intents stored in `limen-db`:
+- `what-men-carry:purchases:v1` — purchased videos by user (email + videoId + timestamp)
 - `what-men-carry:intents:v1` — checkout intents (leads)
 
 Query these to:
-- Export subscriber list
-- Monitor conversion rate (intents → subscriptions)
-- Email campaigns
+- Revenue per video (which taglines drive sales?)
+- Customer lifetime value (how many videos does each buyer purchase?)
+- Repeat buyers (who came back for more?)
+- Email campaigns (reach out to first-time buyers)
 - Analytics
 
 ## Current Videos (6 seeded)
@@ -157,21 +159,28 @@ Query these to:
 
 ---
 
-## Pricing Recommendation
+## Pricing: $0.99 per Video
 
-**For traction and testing: Start with Option A ($4.99/month)**
+**Why this model:**
+- **Impulse-friendly**: $0.99 is low enough to buy without thinking twice
+- **Honor each share**: Each tagline costs $0.99, feels intentional
+- **Volume revenue**: 10 videos × 100 buyers = $1,000 MRR (scaling)
+- **No churn risk**: One-time purchase, not recurring billing
+- **Social proof**: "I paid for this" drives sharing
 
-- Low friction, impulse-friendly
-- Easy to test subscription flow
-- Can pivot to tiering once you have 20+ videos
+**Metrics to track:**
+- Average videos purchased per buyer (target: 2-3)
+- Customer LTV (sum of all purchases per email)
+- Repeat purchase rate (% who buy 2+ videos)
+- Revenue per video (which topics perform best?)
+- Conversion rate (gallery views → purchases)
 
-Then evaluate:
-- Conversion rate (checkout starts → subscriptions)
-- Subscriber retention
-- Average LTV
-- User feedback on pricing
-
-**If retention >60% and LTV >$20/user**, consider upselling to topic tiers at $9.99/mo.
+**Growth levers:**
+- Add more videos (broader topics = broader audience)
+- Email first-time buyers: "You bought X. You'll love Y."
+- Social badges: "Share your tagline" → viral loop
+- Topic bundles: "Buy all Custody videos for $2.99" (later)
+- Gift purchases: "Buy for a friend"
 
 ---
 

@@ -32,7 +32,7 @@ P6 Order   P7 Separation   (P7b optional)   P8 Conscience   P9 Threshold   P10 R
 
 The Structure-of-Recursion "Collapse/Bonding/Overload/Scaffolding" labels are the **abstract skeleton
 of the same arc, not a competing sequence** — the core indexes by number; registers are display skins.
-Reconcile display names against `scripts/kernel-validation/LIMEN_RECURSION_ARC.md`.
+Reconcile display names against `scripts/kernel-validation/LIMEN_RECURSION_HELIX.md`.
 
 **The state space itself is a STATED prior** `[mark: prior — taxonomy unvalidated]`. What each phase
 represents, and that the transition ordering is anything more than internal convention, is NOT yet
