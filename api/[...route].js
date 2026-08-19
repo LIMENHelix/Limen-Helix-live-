@@ -129,6 +129,7 @@ const HANDLERS = {
   'expand-artifact': require('../handlers/expand-artifact'),
   'expand-artifact-claude': require('../handlers/expand-artifact-claude'),
   'fleet': require('../handlers/fleet'),
+  'grok-movies': require('../handlers/grok-movies'),
   'gazette': require('../handlers/gazette'),
   'opportunities': require('../handlers/opportunities'),
   'orb-voice': require('../handlers/orb-voice'),
