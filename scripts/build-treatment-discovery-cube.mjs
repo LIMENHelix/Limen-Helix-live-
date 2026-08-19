@@ -34,6 +34,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 import {
   makeEmptyCell,
   makePendingVerdict,
@@ -46,11 +47,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
+// DOMAIN_BUILDOUT_PLAYBOOK §G.3 — resolve domain keys, never string-build them.
+// A glob over `assets/data/domains/<domain>.json` silently skips agriculture (its file is
+// p2_agri.json) and silently mis-keys the other three alias domains. domain-identity.js is
+// the alias table; it gained a node export on 2026-07-21 for exactly this class of caller.
+const require = createRequire(import.meta.url);
+const identity = require('../assets/js/domain-identity.js');
+
 const PORTAL_DIR = path.join(ROOT, 'assets/data/companies');
 const DOMAIN_DIR = path.join(ROOT, 'assets/data/domains');
 const AGGREGATED_DIR = path.join(ROOT, 'assets/data/aggregated');
+// canonical-nodes.json is the SINGLE SOURCE OF TRUTH for which node ids exist and what
+// class each one is. brain-node-business-mapping.json remains the node-PROFILE content
+// source (region / network / function / dysregulation prose), which canonical does not
+// carry. Their 1:1 parity was asserted and never enforced; main() now enforces it and
+// fails loudly on divergence rather than letting the two drift apart silently.
+const CANONICAL_NODES_FILE = path.join(ROOT, 'assets/data/canonical-nodes.json');
 const TAXONOMY_FILE = path.join(ROOT, 'assets/data/brain-node-business-mapping.json');
-const NODES_111_FILE = path.join(ROOT, 'assets/data/brain-nodes-111.json');
+const UNRESOLVED_IDS_FILE = path.join(ROOT, 'assets/data/audit/cube-unresolved-ids.json');
 const NODE_MAP_FILE = path.join(ROOT, 'assets/data/brain-node-map.json');
 const DISORDER_LOOKUP_FILE = path.join(ROOT, 'assets/data/neuro-disorder-lookup.json');
 const BRIDGES_FILE = path.join(ROOT, 'assets/data/bridge-patterns.json');
@@ -113,6 +127,52 @@ function severityToStateBucket(severity) {
 }
 
 // ============================================================================
+// NODE ID RESOLUTION — alias the unambiguous, REPORT the rest
+// ============================================================================
+
+// Only pure casing drift is aliased. These three are the same id written differently:
+//   NAc / nACC → NAcc      vMPFC → vmPFC
+// Deliberately NOT aliased: dPFC (dorsal ≠ dorsolateral — a semantic guess), AMY (BLA or
+// the whole complex?), INS (AI or whole insula?), EMG (not a node at all). Guessing those
+// would be fabricating anatomy, so they are recorded in the unresolved-id report instead.
+const NODE_ALIASES = {
+  NAc: 'NAcc',
+  nACC: 'NAcc',
+  vMPFC: 'vmPFC',
+};
+
+let _canonicalIds = new Set();
+const _unresolvedIds = new Map();   // raw id → occurrence count
+
+// Candidate targets are SUGGESTIONS for an operator, never applied automatically.
+const UNRESOLVED_CANDIDATES = {
+  dPFC: ['dlPFC', 'mPFC'],
+  AMY: ['BLA', 'CeA'],
+  INS: ['AI', 'PI'],
+  EMG: [],
+};
+
+/**
+ * resolveNodeId(raw) → canonical id, or null if it cannot be resolved.
+ *
+ * Previously every gate was a bare `canonicalNodeIds.has(id)`, so an unrecognised id was
+ * dropped silently and the cube lost content without saying so. Now the drop is counted and
+ * published — disagreement logged as signal, not filtered away.
+ */
+function canonicaliseNodeId(raw) {
+  if (!raw) return null;
+  return NODE_ALIASES[raw] || raw;
+}
+
+function resolveNodeId(raw) {
+  if (!raw) return null;
+  const aliased = NODE_ALIASES[raw] || raw;
+  if (_canonicalIds.has(aliased)) return aliased;
+  _unresolvedIds.set(raw, (_unresolvedIds.get(raw) || 0) + 1);
+  return null;
+}
+
+// ============================================================================
 // MAIN
 // ============================================================================
 
@@ -127,33 +187,84 @@ async function main() {
   const bindingReport = safeReadJSON(BINDING_REPORT_FILE);
   const masterInbox = safeReadJSON(MASTER_INBOX_FILE);
 
-  const canonicalNodeIds = new Set(Object.keys(taxonomy));
-  console.log(`[pivot-organ] taxonomy nodes: ${canonicalNodeIds.size}`);
+  // ── Node identity: canonical is the source of truth, parity is ENFORCED ────────────────
+  const canonicalDoc = JSON.parse(fs.readFileSync(CANONICAL_NODES_FILE, 'utf-8'));
+  const canonicalNodes = canonicalDoc.nodes || {};
+  const canonicalIdList = Object.keys(canonicalNodes);
 
-  // Load all L1 domain templates
-  const domainFiles = fs
-    .readdirSync(DOMAIN_DIR)
-    .filter((f) => /^[a-z]+\.json$/.test(f));
+  if (canonicalDoc._meta && canonicalDoc._meta.total !== canonicalIdList.length) {
+    throw new Error(
+      `canonical-nodes.json _meta.total (${canonicalDoc._meta.total}) != actual node count ` +
+      `(${canonicalIdList.length}) — the registry disagrees with itself`
+    );
+  }
+  // brain-node-business-mapping.json supplies node PROFILE prose that canonical does not
+  // carry, so both are read. If they ever diverge the cube would silently profile a node
+  // that canonical does not recognise (or lose prose for one it does) — refuse instead.
+  const taxIds = Object.keys(taxonomy);
+  const notInTaxonomy = canonicalIdList.filter((k) => !(k in taxonomy));
+  const notInCanonical = taxIds.filter((k) => !(k in canonicalNodes));
+  if (notInTaxonomy.length || notInCanonical.length) {
+    throw new Error(
+      'canonical-nodes.json and brain-node-business-mapping.json are out of parity — ' +
+      `missing from taxonomy: [${notInTaxonomy.join(', ')}]; ` +
+      `missing from canonical: [${notInCanonical.join(', ')}]`
+    );
+  }
+
+  const canonicalNodeIds = new Set(canonicalIdList);
+  _canonicalIds = canonicalNodeIds;
+  console.log(`[pivot-organ] canonical nodes: ${canonicalNodeIds.size} (parity with taxonomy enforced)`);
+
+  // ── Domain templates: RESOLVE, never string-build (playbook §G.3) ──────────────────────
+  //
+  // The old glob was /^[a-z]+\.json$/, which cannot match `p2_agri.json` — digits and an
+  // underscore. Agriculture was therefore skipped in silence, and the builder's own comment
+  // explained the gap as "its data lives only in deep p2_agri_* files, never aggregated".
+  // That was wrong: p2_agri.json IS the aggregate (38 activations, 736 treatments, every
+  // brainNodeId resolving to canonical, identical shape to every other template).
+  //
+  // The glob still discovers the non-canonical comparison domains (addiction, business,
+  // contemplative, legal, metabolic, neurology, pediatric, provider, psychedelic) which are
+  // real cube surfaces with no entry in the identity table. Canonical domains are then
+  // loaded through identity.portalKey(), which is what pulls agriculture in.
   const domains = {};
-  for (const f of domainFiles) {
-    const id = f.replace(/\.json$/, '');
+  const loadTemplate = (domainKey, file) => {
+    const p = path.join(DOMAIN_DIR, file);
+    if (!fs.existsSync(p)) return false;
     try {
-      domains[id] = JSON.parse(fs.readFileSync(path.join(DOMAIN_DIR, f), 'utf-8'));
+      domains[domainKey] = JSON.parse(fs.readFileSync(p, 'utf-8'));
+      return true;
     } catch (err) {
-      console.log(`  [warn] could not parse domain ${id}: ${err.message}`);
+      console.log(`  [warn] could not parse domain ${domainKey} (${file}): ${err.message}`);
+      return false;
+    }
+  };
+
+  for (const f of fs.readdirSync(DOMAIN_DIR).filter((f) => /^[a-z]+\.json$/.test(f))) {
+    loadTemplate(f.replace(/\.json$/, ''), f);
+  }
+
+  const identityResolved = [];
+  for (const d of identity.allCanonical()) {
+    const pk = identity.portalKey(d);
+    if (!domains[d] && loadTemplate(d, `${pk}.json`)) identityResolved.push(`${d} -> ${pk}.json`);
+  }
+
+  // Snapshot-key aliases are separate comparison surfaces (the page's button list shows
+  // supplyChain / health / research alongside their canonical parents). This replaces the
+  // hand-written two-line patch that aliased trade and medicine but silently omitted
+  // science -> research.
+  const aliasSurfaces = [];
+  for (const d of identity.allCanonical()) {
+    const sk = identity.snapshotKey(d);
+    if (sk !== d && domains[d] && !domains[sk]) {
+      domains[sk] = domains[d];           // by-reference: STEP A/B only READ dom.activations
+      aliasSurfaces.push(`${sk} = ${d}`);
     }
   }
-  // Sub-domain aliases: supplyChain and health are comparison domains (surfaced
-  // via crossDomainAffinities + the page's button list) but have no L1 template
-  // of their own, so their cells were empty. Alias each to its nearest parent
-  // domain's treatment knowledge — supplyChain≈trade (logistics/trade), health≈
-  // medicine (clinical). By-reference is safe (STEP A/B only READ dom.activations).
-  // This fills those views with REAL treatments (a transparent alias, not bespoke
-  // data). NOTE: agriculture also lacks a template but has NO parent domain to
-  // alias to (its data lives only in deep p2_agri_* files, never aggregated) — so
-  // it is left unsourced rather than mislabeled with another domain's treatments.
-  if (domains['trade'] && !domains['supplyChain']) domains['supplyChain'] = domains['trade'];
-  if (domains['medicine'] && !domains['health']) domains['health'] = domains['medicine'];
+  console.log(`[pivot-organ] identity-resolved templates: ${identityResolved.join(', ') || 'none'}`);
+  console.log(`[pivot-organ] snapshot-key alias surfaces: ${aliasSurfaces.join(', ') || 'none'}`);
   const domainIds = Object.keys(domains);
   console.log(`[pivot-organ] L1 domain templates loaded: ${domainIds.length}`);
   console.log(`  ${domainIds.join(', ')}`);
@@ -189,13 +300,18 @@ async function main() {
 
   // Cell lookup: key = cellId
   const cellMap = new Map();
-  const ensureCell = (brainNodeId, stateBucket, comparisonDomain) => {
-    if (!canonicalNodeIds.has(brainNodeId)) return null;
+  const ensureCell = (rawNodeId, stateBucket, comparisonDomain) => {
+    // Alias-safe and NON-counting: callers have already counted the raw occurrence via
+    // resolveNodeId(). Applying the alias here too is what makes the NAc/nACC/vMPFC merge
+    // happen at ingestion — identical (node × bucket × domain) keys collapse onto one cell
+    // rather than producing a second node file.
+    const brainNodeId = canonicaliseNodeId(rawNodeId);
+    if (!brainNodeId || !canonicalNodeIds.has(brainNodeId)) return null;
     if (!STATE_BUCKETS.includes(stateBucket)) stateBucket = 'unknown';
     const cellId = `${brainNodeId}__${stateBucket}__${comparisonDomain}`;
     if (!cellMap.has(cellId)) {
       const c = makeEmptyCell({ brainNodeId, stateBucket, comparisonDomain });
-      c.node = buildNodeProfile(brainNodeId, taxonomy, nodeMap);
+      c.node = buildNodeProfile(brainNodeId, taxonomy, nodeMap, canonicalNodes);
       cellMap.set(cellId, c);
     }
     return cellMap.get(cellId);
@@ -209,8 +325,9 @@ async function main() {
   // ============================================================================
 
   let cellsSeededByLookup = 0;
-  for (const [nodeId, node] of Object.entries(disorderLookup.nodes || {})) {
-    if (!canonicalNodeIds.has(nodeId)) continue;
+  for (const [rawLookupId, node] of Object.entries(disorderLookup.nodes || {})) {
+    const nodeId = resolveNodeId(rawLookupId);
+    if (!nodeId) continue;
     for (const [bucket, stateCell] of Object.entries(node.states)) {
       if (bucket === 'regulated' && stateCell.disorders.length === 0 && stateCell.treatments.length === 0) {
         continue;
@@ -259,8 +376,8 @@ async function main() {
     if (!Array.isArray(dom.activations)) continue;
     for (const act of dom.activations) {
       if (!act.brainNodeId) continue;
-      const nodeId = act.brainNodeId;
-      if (!canonicalNodeIds.has(nodeId)) continue;
+      const nodeId = resolveNodeId(act.brainNodeId);
+      if (!nodeId) continue;
 
       // State from activation.phase_archetype if available
       const stateBucket = phaseToStateBucket(act.phase_archetype) === 'unknown'
@@ -383,13 +500,14 @@ async function main() {
       if (!Array.isArray(entries)) entries = [entries];
       for (const entry of entries) {
         if (!entry || !entry.brainNodeId) continue;
-        if (!canonicalNodeIds.has(entry.brainNodeId)) continue;
+        const bindingNodeId = resolveNodeId(entry.brainNodeId);
+        if (!bindingNodeId) continue;
 
         // For binding cell: use the BOUND node + the portal's state bucket
         // (the binding tells us the portal participates in this node's circuit;
         //  the portal's state colors the cell that participation enters)
         const bucket = portalStateBucket === 'unknown' ? 'mixed' : portalStateBucket;
-        const cell = ensureCell(entry.brainNodeId, bucket, comparisonDomain);
+        const cell = ensureCell(bindingNodeId, bucket, comparisonDomain);
         if (!cell) continue;
 
         if (cell.portalBindings.length >= MAX_BINDINGS_PER_CELL) continue;
@@ -493,8 +611,8 @@ async function main() {
 
   let bridgeReinforced = 0;
   for (const pat of bridges.patterns || []) {
-    const nodeId = pat.neural?.region;
-    if (!nodeId || !canonicalNodeIds.has(nodeId)) continue;
+    const nodeId = resolveNodeId(pat.neural?.region);
+    if (!nodeId) continue;
     const bucket = bridgeStateToBucket(pat.neural.state);
     if (bucket === 'unknown') continue;
     // Apply bridge to every comparison domain (most relevantly business)
@@ -638,6 +756,64 @@ async function main() {
   // Write
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(cube, null, 2));
 
+  // ── Unresolved-id report ────────────────────────────────────────────────────────────────
+  // Every brainNodeId the sources referenced that canonical does not recognise, with how
+  // often it appeared and what it might have meant. Published rather than silently dropped:
+  // mapping these is an operator decision and this report is the input to it.
+  // labelMatch: many unresolved ids are not ids at all but the node's PROSE REGION NAME
+  // ("Putamen", "Spinal Dorsal Horn"). Where such a name matches a canonical node's region
+  // label exactly after normalisation, say so — it converts "unreachable" into "unmapped",
+  // which is a different and much cheaper problem. Matching is EXACT after stripping
+  // parentheticals and punctuation; nothing is fuzzy-matched, so near-misses stay null:
+  // "Corpus Callosum" does NOT match CC (Cingulate Cortex) and "Arcuate Fasciculus" does
+  // NOT match ARC (Arcuate Nucleus) — different structures with confusable names.
+  // ADVISORY ONLY. Nothing here is applied to the build.
+  const normLabel = (s) => String(s || '').toLowerCase().replace(/\([^)]*\)/g, ' ').replace(/[^a-z0-9]+/g, '');
+  const labelIndex = new Map();
+  for (const [nodeId, tx] of Object.entries(taxonomy)) {
+    const n = normLabel(tx.region);
+    if (n && !labelIndex.has(n)) labelIndex.set(n, nodeId);
+  }
+
+  const unresolved = [...(_unresolvedIds.entries())]
+    .sort((a, b) => b[1] - a[1])
+    .map(([id, count]) => {
+      const hit = labelIndex.get(normLabel(id)) || null;
+      return {
+        id,
+        occurrences: count,
+        candidateTargets: UNRESOLVED_CANDIDATES[id] || [],
+        labelMatch: hit,
+        labelMatchRegion: hit ? (taxonomy[hit] && taxonomy[hit].region) || null : null,
+        note: hit
+          ? 'prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing'
+          : (UNRESOLVED_CANDIDATES[id] && UNRESOLVED_CANDIDATES[id].length)
+            ? 'ambiguous — operator must choose; NOT auto-aliased'
+            : 'no canonical candidate identified',
+      };
+    });
+  fs.mkdirSync(path.dirname(UNRESOLVED_IDS_FILE), { recursive: true });
+  fs.writeFileSync(UNRESOLVED_IDS_FILE, JSON.stringify({
+    schemaVersion: '1.0.0',
+    generatedAt: new Date().toISOString(),
+    producedBy: 'scripts/build-treatment-discovery-cube.mjs',
+    description:
+      'brainNodeIds referenced by cube sources that canonical-nodes.json does not contain. ' +
+      'These were dropped from the build. Unambiguous casing drift is aliased in the builder ' +
+      '(NAc/nACC -> NAcc, vMPFC -> vmPFC); anything requiring an anatomical judgement is left ' +
+      'here for an operator rather than guessed.',
+    aliasesApplied: NODE_ALIASES,
+    labelMatchNote:
+      'labelMatch is an EXACT normalised match of the unresolved token against a canonical ' +
+      "node's prose region label. It is advisory: a non-null labelMatch means the id is most " +
+      'likely UNMAPPED rather than unreachable, and an operator confirms before any alias is added.',
+    distinctUnresolved: unresolved.length,
+    labelMatched: unresolved.filter((u) => u.labelMatch).length,
+    totalOccurrences: unresolved.reduce((s, u) => s + u.occurrences, 0),
+    unresolved,
+  }, null, 2));
+  console.log(`[pivot-organ] unresolved ids: ${unresolved.length} distinct -> ${path.relative(ROOT, UNRESOLVED_IDS_FILE)}`);
+
   // CLI summary
   console.log('');
   console.log('=== TREATMENT-DISCOVERY CUBE STATS ===');
@@ -676,11 +852,18 @@ function safeReadJSON(p) {
   }
 }
 
-function buildNodeProfile(brainNodeId, taxonomy, nodeMap) {
+function buildNodeProfile(brainNodeId, taxonomy, nodeMap, canonicalNodes) {
   const tx = taxonomy[brainNodeId] || {};
   const m = nodeMap[brainNodeId] || {};
+  const canon = (canonicalNodes && canonicalNodes[brainNodeId]) || {};
   return {
     brainNodeId,
+    // Carried per row so a reader can tell a real region from a composite network, a
+    // molecule or a tract WITHOUT the cube filtering any of them out. canBindBusiness is
+    // recorded, never applied here: it is an action-layer brake enforced by lib/node-guard.js
+    // when a row tries to become a business/efferent binding, not a knowledge-layer filter.
+    class: canon.class || null,
+    canBindBusiness: canon.canBindBusiness === true,
     region: tx.region || null,
     abbreviation: brainNodeId,
     network: tx.network || null,
@@ -706,9 +889,8 @@ function collectPortalNodeIds(functionalNetwork, canonicalNodeIds) {
     if (!v) continue;
     if (!Array.isArray(v)) v = [v];
     for (const e of v) {
-      if (e?.brainNodeId && canonicalNodeIds.has(e.brainNodeId)) {
-        out.add(e.brainNodeId);
-      }
+      const resolved = resolveNodeId(e?.brainNodeId);
+      if (resolved) out.add(resolved);
     }
   }
   return [...out];

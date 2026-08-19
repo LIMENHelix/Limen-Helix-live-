@@ -1,0 +1,594 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-19T17:38:56.901Z",
+  "producedBy": "scripts/build-treatment-discovery-cube.mjs",
+  "description": "brainNodeIds referenced by cube sources that canonical-nodes.json does not contain. These were dropped from the build. Unambiguous casing drift is aliased in the builder (NAc/nACC -> NAcc, vMPFC -> vmPFC); anything requiring an anatomical judgement is left here for an operator rather than guessed.",
+  "aliasesApplied": {
+    "NAc": "NAcc",
+    "nACC": "NAcc",
+    "vMPFC": "vmPFC"
+  },
+  "labelMatchNote": "labelMatch is an EXACT normalised match of the unresolved token against a canonical node's prose region label. It is advisory: a non-null labelMatch means the id is most likely UNMAPPED rather than unreachable, and an operator confirms before any alias is added.",
+  "distinctUnresolved": 71,
+  "labelMatched": 15,
+  "totalOccurrences": 76,
+  "unresolved": [
+    {
+      "id": "AMY",
+      "occurrences": 3,
+      "candidateTargets": [
+        "BLA",
+        "CeA"
+      ],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "ambiguous — operator must choose; NOT auto-aliased"
+    },
+    {
+      "id": "INS",
+      "occurrences": 3,
+      "candidateTargets": [
+        "AI",
+        "PI"
+      ],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "ambiguous — operator must choose; NOT auto-aliased"
+    },
+    {
+      "id": "BG",
+      "occurrences": 2,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "4-8Hz",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "40Hz",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "8-12Hz",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "AT",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Adrenal Cortex",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Adrenal Medulla",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Anterior Pituitary",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Arcuate Fasciculus",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Astrocytes",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "ASTRO",
+      "labelMatchRegion": "Astrocytes",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "CA1/CA3/DG",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Caudate Nucleus",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "CAUD",
+      "labelMatchRegion": "Caudate Nucleus",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Cerebellar Cortex — Vermis",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Cingulum Bundle",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "CING",
+      "labelMatchRegion": "Cingulum Bundle",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Claustrum",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "CLAUST",
+      "labelMatchRegion": "Claustrum",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Corpus Callosum",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "DLPFC",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "DMV",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "DRN",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Default Mode Subsystem — Midline Core",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Dentate",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "FFA",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "FPC/BA10",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "FPCN",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "IFG",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "IT",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Insular-Amygdala-PFC Triangle",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Insular-Cingulate Network",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Intralaminar Thalamic Nuclei",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Lateral",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Lateral Habenula",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "MD",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "MNS",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "MTL",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Median Raphe Nucleus",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Microglia",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "MICRO",
+      "labelMatchRegion": "Microglia (neuroimmune cells)",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Mid-Insula",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "MI",
+      "labelMatchRegion": "Mid Insula",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "NA",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "NBM/Ch4",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "NMDA/AMPA",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Olfactory Bulb / Piriform Cortex",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "PHC",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "PVN + projections",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Paraventricular Nucleus",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Perirhinal Cortex",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "PRC",
+      "labelMatchRegion": "Perirhinal Cortex",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Pineal Gland",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "PIN",
+      "labelMatchRegion": "Pineal Gland",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Posterior Insula",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "PI",
+      "labelMatchRegion": "Posterior Insula",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Precuneus",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "PRECUNEUS",
+      "labelMatchRegion": "Precuneus",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Pulvinar Thalamus",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "PULV",
+      "labelMatchRegion": "Pulvinar Thalamus",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Putamen",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "PUT",
+      "labelMatchRegion": "Putamen",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Reward Prediction Error System",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Septal Nuclei",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "SEPT",
+      "labelMatchRegion": "Septal Nuclei",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Spinal Dorsal Horn",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "SDH",
+      "labelMatchRegion": "Spinal Dorsal Horn",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "Spinothalamic Tract",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Sympathetic Chain Ganglia",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Uncinate Fasciculus",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": "UNC",
+      "labelMatchRegion": "Uncinate Fasciculus",
+      "note": "prose region label matches a canonical node exactly — likely UNMAPPED, not unreachable; operator confirms before aliasing"
+    },
+    {
+      "id": "V4/V5",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "Vagal Immune Axis",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "eCB",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "endogenous",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "inhibitory",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "neural",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "neurotrophic",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "posterior STG",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "EMG",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "dPFC",
+      "occurrences": 1,
+      "candidateTargets": [
+        "dlPFC",
+        "mPFC"
+      ],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "ambiguous — operator must choose; NOT auto-aliased"
+    },
+    {
+      "id": "HPC",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "PPTN",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    },
+    {
+      "id": "SPN",
+      "occurrences": 1,
+      "candidateTargets": [],
+      "labelMatch": null,
+      "labelMatchRegion": null,
+      "note": "no canonical candidate identified"
+    }
+  ]
+}

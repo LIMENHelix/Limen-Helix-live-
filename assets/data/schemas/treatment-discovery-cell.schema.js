@@ -207,7 +207,9 @@ export const RESIDUAL_DIRECTIONS = Object.freeze([
  * @property {string[]} limen_phase        e.g. ["P3", "P7"]
  * @property {string} functional_role      gatekeeper|signal_detector|amplifier|router|...
  * @property {string} function             prose normal-function description
- * @property {string} dysregulationProse   raw text from brain-nodes-111
+ * @property {string} dysregulationProse   raw text from brain-node-business-mapping.json
+ *                                        (historically brain-nodes-111.json, now DEPRECATED
+ *                                        as a taxonomy source — see PROTECTED_FILES.md)
  * @property {string[]} communicatesWith   other node abbreviations
  * @property {Object} sourceProvenance     where this profile came from
  */
