@@ -78,7 +78,7 @@ assert('descriptor states no pathway', d.consumedBy.pathway === false);
 assert('descriptor denies filing truth', d.boundaries.some(function (x) { return /does not establish the truth/.test(x); }));
 assert('descriptor denies filing-volume meaning', d.boundaries.some(function (x) { return /Filing volume is not/.test(x); }));
 assert('descriptor refuses case inference', d.boundaries.some(function (x) { return /does not perform party-name search/.test(x); }));
-assert('router exposes exactly eight implemented authorities', R.SUPPORTED.join(',') === 'arda_congregational_trends,ats_seminary_enrollment,gallup_religious_attendance,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index', R.SUPPORTED.join(','));
+assert('router exposes exactly nine implemented authorities', R.SUPPORTED.join(',') === 'arda_congregational_trends,ats_seminary_enrollment,gallup_religious_attendance,interfaith_america_pluralism,pew_global_restrictions,scotus_docket,us_courts_caseload,uscirf_annual_report,wjp_rol_index', R.SUPPORTED.join(','));
 
 console.log('\n5. SHARED PAGE');
 var page = fs.readFileSync(path.join(__dirname, '..', 'authority-portal.html'), 'utf8');

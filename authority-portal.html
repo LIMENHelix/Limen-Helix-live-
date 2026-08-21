@@ -84,7 +84,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
       '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a> &middot; ' +
       '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a> &middot; ' +
       '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a> &middot; ' +
-      '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; '+
+      '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; <a href="/authority-portal?authority=interfaith_america_pluralism">interfaith_america_pluralism</a> &middot; '+
       '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a> &middot; '+
       '<a href="/authority-portal?authority=pew_global_restrictions">pew_global_restrictions</a></span></div></div>');
     return;
@@ -584,6 +584,60 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
 
 
 
+  function renderInterfaithAmerica(d) {
+    var a=d.descriptor,e=d.evidence;
+    var sectorLabels={campus:'Campus',civic:'Civic',workplace:'Workplace',health:'Faith and health',learning:'Learning',communications:'Communications'};
+    var lowerBounds=(e.observations||[]).filter(function(x){return x.publishedQualifier==='at_least';}).length;
+    var h='<div class="ap-eyebrow">Authority portal &middot; '+esc(d.authority)+'</div>'+
+      '<div class="ap-title">'+esc(a.title)+'</div>'+
+      '<div class="ap-sub">Institutional reach and program activity published for 2025</div>';
+
+    h+='<div class="ap-card"><h2>Operator brief</h2>'+
+      '<div class="ap-flag"><b>Use this map to find where institutional activity is concentrated.</b> It organizes the provider\'s published campus, civic, workplace, health, learning, and communications footprint into source-linked evidence an operator can investigate.</div>'+
+      row('Operating lanes',num((e.sectors||[]).length))+
+      row('Published evidence records',num((e.observations||[]).length))+
+      row('Claims explicitly published as lower bounds',num(lowerBounds))+
+      row('Reference period',esc(e.referencePeriod))+
+      '<div class="ap-note" style="margin-top:9px">'+esc(a.operatorUse)+'</div></div>';
+
+    h+='<div class="ap-card"><h2>What an operator can do</h2>'+
+      '<div class="ap-row"><span class="ap-k">1</span><span class="ap-v">Locate active networks, cohorts, grantee groups, and institutional programs by operating lane.</span></div>'+
+      '<div class="ap-row"><span class="ap-k">2</span><span class="ap-v">Separate exact published counts from lower-bound claims before using them in diligence.</span></div>'+
+      '<div class="ap-row"><span class="ap-k">3</span><span class="ap-v">Open the source report, identify the named program or partner, and decide whether direct outreach or deeper evidence review is warranted.</span></div>'+
+      '<div class="ap-row"><span class="ap-k">4</span><span class="ap-v">Preserve this 2025 baseline for a later comparison only when the next report uses compatible definitions.</span></div></div>';
+
+    (e.sectors||[]).forEach(function(sector){
+      var rows=(e.observations||[]).filter(function(x){return x.sector===sector;});
+      h+='<div class="ap-card"><h2>'+esc(sectorLabels[sector]||sector)+'</h2>';
+      rows.forEach(function(x){
+        var shown=esc(x.rawDisplay)+' '+esc(x.rawUnits)+(x.publishedQualifier==='at_least'?' <span class="ap-pill">lower bound</span>':'');
+        h+=row(x.publishedLabel,shown);
+      });
+      h+='</div>';
+    });
+
+    h+='<div class="ap-card"><h2>Operator follow-up questions</h2>'+
+      '<div class="ap-abst">Which named institutions or partners appear across more than one operating lane?</div>'+
+      '<div class="ap-abst">Does a later report preserve the same program definition and counting unit?</div>'+
+      '<div class="ap-abst">Which reach claims have independent evidence of durable participation or outcomes?</div>'+
+      '<div class="ap-abst">Which program exposes a concrete partner, grantee, cohort, or contact worth direct diligence?</div></div>';
+
+    h+='<div class="ap-card"><h2>Reading discipline</h2>'+
+      '<div class="ap-note">The rows use different units and may overlap, so they are read separately rather than added. Impressions and views describe exposure; program counts describe reported reach. The page keeps those distinctions visible while leaving the evidence useful.</div></div>';
+
+    h+='<div class="ap-card"><h2>Source record</h2>'+
+      row('Official report','<a href="'+esc(e.report.url)+'">'+esc(e.report.title)+'</a>')+
+      row('Reviewed on',esc(e.reviewedOn))+
+      row('Observation records',num(e.observations.length))+
+      row('Evidence version','<code>'+esc(e.versions.snapshot)+'</code>')+
+      '<div class="ap-note" style="margin-top:9px">Published values are retained by identity transformation. Four lower bounds remain lower bounds.</div></div>';
+
+    h+='<div class="ap-card"><h2>Evidence cautions</h2>';
+    (a.boundaries||[]).forEach(function(x){h+='<div class="ap-abst">'+esc(x)+'</div>';});
+    h+='</div>';
+    shell(h);
+  }
+
   function renderAtsEnrollment(d) {
     var a=d.descriptor,e=d.evidence,total=e.degreeRows[e.degreeRows.length-1];
     var h='<div class="ap-eyebrow">Authority portal &middot; '+esc(d.authority)+'</div>'+
@@ -655,7 +709,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
           '<a href="/authority-portal?authority=us_courts_caseload">us_courts_caseload</a>, and ' +
           '<a href="/authority-portal?authority=wjp_rol_index&country=USA">wjp_rol_index</a>, and ' +
           '<a href="/authority-portal?authority=scotus_docket">scotus_docket</a>, and ' +
-          '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a>, and ' +
+          '<a href="/authority-portal?authority=gallup_religious_attendance">gallup_religious_attendance</a> &middot; <a href="/authority-portal?authority=interfaith_america_pluralism">interfaith_america_pluralism</a>, and ' +
           '<a href="/authority-portal?authority=uscirf_annual_report">uscirf_annual_report</a>, and ' +
           '<a href="/authority-portal?authority=pew_global_restrictions">pew_global_restrictions</a>. ' +
           'The rest are deliberately unbuilt, and this page says so rather than rendering an empty shell that would look finished.</div>';
@@ -675,6 +729,7 @@ table.ap-t tr.tot td { color: #C9A94E; border-bottom: 1px solid rgba(201,169,78,
 
     if (d.viewKind === 'wjp_rule_of_law') { renderWjp(d); return; }
     if (d.viewKind === 'scotus_docket') { renderScotus(d); return; }
+    if (d.viewKind === 'interfaith_america_pluralism') { renderInterfaithAmerica(d); return; }
     if (d.viewKind === 'ats_seminary_enrollment') { renderAtsEnrollment(d); return; }
     if (d.viewKind === 'arda_congregational_trends') { renderArdaTrends(d); return; }
     if (d.viewKind === 'gallup_religious_attendance') { renderGallup(d); return; }
