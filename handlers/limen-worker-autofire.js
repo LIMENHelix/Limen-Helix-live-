@@ -56,7 +56,10 @@ var SINGLE_CALL_LANES = new Set(['investment', 'research']);
 // don't overshoot budget.
 var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
 
-var BASE = process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'https://limenhelix.com';
+// The deployment hostname can be protected even when the public custom domain
+// is intentionally open. Internal calls must use the public application origin;
+// otherwise Vercel returns its own 401 before x-limen-pass reaches the handler.
+var BASE = process.env.PUBLIC_BASE_URL || 'https://limenhelix.com';
 
 function _internalHeaders() {
   var h = { 'content-type': 'application/json' };

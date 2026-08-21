@@ -134,7 +134,14 @@ function restoreEnv() {
   assert('autofire checks the global paid-AI kill switch', autofireSource.includes("require('../lib/ai-kill-switch')"));
   assert('a lost budget debit pauses future paid calls', autofireSource.includes('await aiKillSwitch.setSpendPaused(true)'));
   assert('autofire sends the master pass only as a header', autofireSource.includes("h['x-limen-pass'] = master"));
+  assert('autofire uses the public origin instead of a protected deployment hostname',
+    autofireSource.includes("process.env.PUBLIC_BASE_URL || 'https://limenhelix.com'") &&
+    !autofireSource.includes("process.env.VERCEL_URL ? 'https://'"));
   assert('autofire lanes remain exactly research and investment', /new Set\(\['investment', 'research'\]\)/.test(autofireSource));
+
+  const logSource = fs.readFileSync(path.join(ROOT, 'handlers', 'limen-autofire-log.js'), 'utf8');
+  assert('autofire log reports the shared autonomy budget', logSource.includes("require('../lib/autonomy-budget')"));
+  assert('autofire log no longer reports the retired default-20 budget', !logSource.includes('AUTOFIRE_DAILY_BUDGET'));
 
   restoreEnv();
   if (process.exitCode) process.exit(process.exitCode);

@@ -14,10 +14,9 @@
  */
 
 var db = require('../lib/limen-db');
+var autonomyBudget = require('../lib/autonomy-budget');
 
 var AUTOFIRE_AUDIT_LOG = 'autofire_audit_log';
-var BUDGET_KEY_PREFIX = 'autofire_budget_';
-var DAILY_BUDGET_DOLLARS = parseFloat(process.env.AUTOFIRE_DAILY_BUDGET || '20');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -45,10 +44,10 @@ module.exports = async function handler(req, res) {
       ? entries.filter(function (e) { return (e.at || 0) >= sinceMs; })
       : entries;
 
-    // Today's budget
-    var d = new Date();
-    var todayKey = BUDGET_KEY_PREFIX + d.toISOString().slice(0, 10);
-    var spentToday = (await db.get(todayKey)) || 0;
+    // The worker and the operator read must report the same shared gate. Old
+    // autofire_budget_* keys are retained as history but no longer authorize or
+    // describe autonomous spend.
+    var budget = await autonomyBudget.status();
 
     res.statusCode = 200;
     res.setHeader('content-type', 'application/json');
@@ -58,9 +57,8 @@ module.exports = async function handler(req, res) {
       generatedAt: Date.now(),
       total: entries.length,
       returned: Math.min(filtered.length, limit),
-      dailyBudget: DAILY_BUDGET_DOLLARS,
-      spentToday: spentToday,
-      remainingBudget: Math.max(0, DAILY_BUDGET_DOLLARS - spentToday),
+      budget: budget,
+      budgetAccounting: 'conservative-estimate-per-provider-attempt',
       cycles: filtered.slice(0, limit)
     }));
   } catch (err) {
