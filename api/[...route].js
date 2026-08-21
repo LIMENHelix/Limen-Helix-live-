@@ -36,8 +36,8 @@ const HANDLERS = {
   'relay-marketplace': require('../handlers/relay-marketplace'),
   'relay-marketplace-checkout': require('../handlers/relay-marketplace-checkout'),
   'relay-stripe-webhook': require('../handlers/relay-stripe-webhook'),
-  // Test 1: Only relay-csv-import
   'relay-csv-import': require('../handlers/relay-csv-import'),
+  'relay-ebay-scraper': require('../handlers/relay-ebay-scraper'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),
