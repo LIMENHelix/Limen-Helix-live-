@@ -1,0 +1,4235 @@
+{
+  "schemaVersion": "unsupported-kernel-claims/1.0",
+  "generatedAt": "2026-08-20T00:00:00.000Z",
+  "sourceCommit": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7",
+  "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+  "scope": "Portal-side K1 verdicts with validationStatus=validated, a finite compositeScore, and no first-class portal CIK.",
+  "finding": "An embedded CIK in helixReportUrl is not accepted as score provenance because unrelated portals reuse embedded CIKs. The portal remains; only the unsupported verdict and its dependent derived artifacts are removed from active use.",
+  "totals": {
+    "portals": 111,
+    "activeAlerts": 6,
+    "bridgeMatches": 141,
+    "investmentOutputs": 106,
+    "researchOutputs": 106
+  },
+  "records": [
+    {
+      "path": "assets/data/companies/abbott_diagnostics.json",
+      "fileSha256": "92cc546a4e78a2bff3add63a7c091855ef8d4c4067e6817cbc8c1afd1f929d0f",
+      "slug": "abbott_diagnostics",
+      "name": "Abbott Diagnostics Division",
+      "ticker": "ABT",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000001800",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000001800",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 28500000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/abbott_diagnostics.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/airbus.json",
+      "fileSha256": "a2e914f7ef1b9500ca42ca5ae98b0e023cc159ebd2600327f8f14ed92f5dc4bb",
+      "slug": "airbus",
+      "name": "Airbus SE",
+      "ticker": "AIR",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?company=airbus",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 12400000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/airbus.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/albemarle.json",
+      "fileSha256": "a6d47e79c6a891a1b64e413cede578ac8871d397ec095bf28aa0a68cfa5b74ea",
+      "slug": "albemarle",
+      "name": "Albemarle Corporation",
+      "ticker": "ALB",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000915913",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000915913",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 5890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/albemarle.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/amazon_logistics.json",
+      "fileSha256": "66a12f5f1359e7bb8231949efb9661bd4d309cb301dc3b41800b7387e0564317",
+      "slug": "amazon_logistics",
+      "name": "Amazon Logistics (Amazon.com, Inc. — Logistics Division)",
+      "ticker": "AMZN",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001018724",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1018724",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 89100000000,
+            "debtLatest": 138500000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 3,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/amazon_logistics.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/amd.json",
+      "fileSha256": "f8fbdede1c25c59573fc2c7d547cabfbc594e92b19967a1f0f9a9c3f2f8f036a",
+      "slug": "amd",
+      "name": "Advanced Micro Devices, Inc.",
+      "ticker": "AMD",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000002488",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000002488",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 9100000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/amd.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/amerisourcebergen.json",
+      "fileSha256": "cc8c2093093587e1bf5e5d8c73b2d221ca58ae61d035559e24792bc9bba37396",
+      "slug": "amerisourcebergen",
+      "name": "AmerisourceBergen Corporation",
+      "ticker": "ABC",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001018724",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001018724",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q4",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 12800000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/amerisourcebergen.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/amphenol.json",
+      "fileSha256": "ff11818745c4d4122372f2ddaf7eb3ea5d47c18ff365b05ae5c9a5e5f5844ea1",
+      "slug": "amphenol",
+      "name": "Amphenol Corporation",
+      "ticker": "APH",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000023165",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000023165",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2840000000,
+            "debtLatest": 5120000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/amphenol.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/anthem.json",
+      "fileSha256": "88b64806297386fa02181c06de8ecaea162c77ea609e714dccb987c7448b83b4",
+      "slug": "anthem",
+      "name": "Anthem Inc.",
+      "ticker": "ANTM",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001124865",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1124865",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 32100000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/anthem.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/aptiv.json",
+      "fileSha256": "99608676b14efde9843366dd93bbf2a2ea295ee1f034ef1aaadb0c43991da8d6",
+      "slug": "aptiv",
+      "name": "Aptiv PLC",
+      "ticker": "APTV",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1840000000,
+            "debtLatest": 3210000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/aptiv.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/aramark.json",
+      "fileSha256": "293b1cb1dd51657b7bd71ae7857a4baa04877862a05d5c5fd73a079aed2e658b",
+      "slug": "aramark",
+      "name": "Aramark Corporation",
+      "ticker": "ARMK",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001144408",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001144408",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q4",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1850000000,
+            "debtLatest": 7200000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/aramark.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/arcbest.json",
+      "fileSha256": "5bcfd2b4e6ab5252c0d59c7564a52e3a078baf3c558a84b39784703f8b42229d",
+      "slug": "arcbest",
+      "name": "ArcBest Corporation",
+      "ticker": "ARCB",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001018482",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001018482",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 187000000,
+            "debtLatest": 1240000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/arcbest.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/arrow_electronics.json",
+      "fileSha256": "849d76816521a5cba471c76db01ba13abd0de9008576037ff3fedd4770401467",
+      "slug": "arrow_electronics",
+      "name": "Arrow Electronics Inc.",
+      "ticker": "ARW",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000005423",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000005423",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1840000000,
+            "debtLatest": 3120000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/arrow_electronics.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/atlassian.json",
+      "fileSha256": "27d0fa2a127e9d9dbfcf68ad019f3619a762d2941c778fb4250e44e89629130c",
+      "slug": "atlassian",
+      "name": "Atlassian Corporation PLC",
+      "ticker": "TEAM",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001650372",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1650372",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3847000000,
+            "debtLatest": 1200000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/atlassian.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/autodesk.json",
+      "fileSha256": "8667a633b426d52e27854479eb692df09ac7f438eca2f465c44e3b9acd7a0ebf",
+      "slug": "autodesk",
+      "name": "Autodesk Inc.",
+      "ticker": "ADSK",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000884128",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000884128",
+        "financialHealth": {
+          "asOf": "2024-01-31",
+          "lastKernelRun": "2024-02-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 32,
+          "latestQuarter": "2024Q4",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/autodesk.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/avantor.json",
+      "fileSha256": "f132ea5064a10a9d1becf258e45533618c21abbebedcad847ef6c8a9d4e4f260",
+      "slug": "avantor",
+      "name": "Avantor, Inc.",
+      "ticker": "AVTR",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 4890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/avantor.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/baker_hughes.json",
+      "fileSha256": "6fbff2320a992c4b1d2da71d6b16c99077c813c92272633204248dbf82611228",
+      "slug": "baker_hughes",
+      "name": "Baker Hughes Company",
+      "ticker": "BKR",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001701605",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1701605",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/baker_hughes.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/berry_global.json",
+      "fileSha256": "fc50bfb13e4ae0ee39f8c5035f98eb49e53d218d318c33df9668a56babc30e86",
+      "slug": "berry_global",
+      "name": "Berry Global Group, Inc.",
+      "ticker": "BERY",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001580338",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1580338",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 485000000,
+            "debtLatest": 6200000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/berry_global.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/cardinal_health.json",
+      "fileSha256": "1f9b5e5038a8f49211616ca0b3a67dd0a1900442acf255ebca9a8b502cc6b256",
+      "slug": "cardinal_health",
+      "name": "Cardinal Health Inc.",
+      "ticker": "CAH",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000721371",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000721371",
+        "financialHealth": {
+          "asOf": "2024-06-30",
+          "lastKernelRun": "2024-09-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2840000000,
+            "debtLatest": 8920000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/cardinal_health.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/catalent.json",
+      "fileSha256": "c83b3af53edd47a1c70578a952b2daa3108047ac154bd12d34a6a65acb7626f0",
+      "slug": "catalent",
+      "name": "Catalent, Inc.",
+      "ticker": "CTLT",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001567181",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1567181",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": true,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 4890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/catalent.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/catalent_pharma.json",
+      "fileSha256": "8a0bb7df2a453e93773947118ca107522401ee5520c7f1fb7ab618e26b3ae5a1",
+      "slug": "catalent_pharma",
+      "name": "Catalent Pharma Solutions, Inc.",
+      "ticker": "CTLT",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001567181",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1567181",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": true,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 5890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/catalent_pharma.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/cheniere_energy.json",
+      "fileSha256": "7dc4307a45e3c042560f25903d6c367833825b2dc6931cba7b9c5f22b7d1b6e9",
+      "slug": "cheniere_energy",
+      "name": "Cheniere Energy, Inc.",
+      "ticker": "LNG",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001362334",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1362334",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 2847000000,
+            "debtLatest": 28900000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/cheniere_energy.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/commscope.json",
+      "fileSha256": "284f262fe85acacb501209c5d9dd49550543c77fb2a0474bf302c524e744d2f5",
+      "slug": "commscope",
+      "name": "CommScope Holding Company Inc.",
+      "ticker": "COMM",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": true,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 7890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 3,
+        "investmentOutputs": 3,
+        "researchOutputs": 3,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/commscope.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/conagra_brands.json",
+      "fileSha256": "54f663b22eceabd631cdd914b662cd44fa38aed1a94f3b2de7a792aa521f4afe",
+      "slug": "conagra_brands",
+      "name": "Conagra Brands, Inc.",
+      "ticker": "CAG",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000023409",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000023409",
+        "financialHealth": {
+          "asOf": "2024-05-31",
+          "lastKernelRun": "2024-06-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/conagra_brands.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/corelogic.json",
+      "fileSha256": "960b9f879d7c74d109bcf57b699de0b885f1da0fdb617456c9b0b37937838341",
+      "slug": "corelogic",
+      "name": "CoreLogic, Inc.",
+      "ticker": "CLGX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001393351",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1393351",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 285000000,
+            "debtLatest": 3200000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/corelogic.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/corning.json",
+      "fileSha256": "3d3efd2c80677e3a64be466219c5a4f40cdd4fcad111044e5f6532f0cc7471ff",
+      "slug": "corning",
+      "name": "Corning Incorporated",
+      "ticker": "GLW",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000024474",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000024474",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 8900000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/corning.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/csx.json",
+      "fileSha256": "e635c35b5e9178e69597e3b42cd3a421689dfc8e90e4da94d367d14efceb8fe5",
+      "slug": "csx",
+      "name": "CSX Corporation",
+      "ticker": "CSX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000277948",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000277948",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 1847000000,
+            "debtLatest": 28900000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/csx.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/dhl_supply_chain.json",
+      "fileSha256": "b45a6256a28436130ff7bb575ce180a002cd3ccceadd3cf0565a24a4b729df9e",
+      "slug": "dhl_supply_chain",
+      "name": "Deutsche Post DHL Group",
+      "ticker": "DHL.DE",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?entity=dhl_supply_chain",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/dhl_supply_chain.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/diamondback_energy.json",
+      "fileSha256": "9ed358132ba83170c358f57a650de5a50ff9ab48199ef99a75c5646d62c314c8",
+      "slug": "diamondback_energy",
+      "name": "Diamondback Energy, Inc.",
+      "ticker": "FANG",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001581800",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1581800",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 2850000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/diamondback_energy.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/domtar.json",
+      "fileSha256": "c4d2e3305b9ff7d56a6381721c24be9c2a57411bd6cdd775fc172385dc7a487f",
+      "slug": "domtar",
+      "name": "Domtar Corporation",
+      "ticker": "UFS",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000027099",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000027099",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 385000000,
+            "debtLatest": 2100000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/domtar.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/dow.json",
+      "fileSha256": "948eea382ce995116a4f2c305635ad6a4cd4c26e0712f92e567c81c98116b209",
+      "slug": "dow",
+      "name": "Dow Inc.",
+      "ticker": "DOW",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001751788",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1751788",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": true,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 8900000000,
+            "cashRunwayQ": 6
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/dow.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/elastic.json",
+      "fileSha256": "ee8379c0d5eec452a3551ffcc206392309b05bb87a4c5306aef1b104e4070f55",
+      "slug": "elastic",
+      "name": "Elastic NV",
+      "ticker": "ELST",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001618852",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1618852",
+        "financialHealth": {
+          "asOf": "2024-10-31",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 0,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/elastic.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/enbridge.json",
+      "fileSha256": "9e0965d952c1096c7a6e75d27506dd8db44e7c62c0716fb24ca602bf6fc05397",
+      "slug": "enbridge",
+      "name": "Enbridge Inc.",
+      "ticker": "ENB",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001271899",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001271899",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2840000000,
+            "debtLatest": 58200000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/enbridge.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/entegris.json",
+      "fileSha256": "ca286c1b9726f288d2fb4252ca532cafd678a6c783aea80461c0c6f191a53bac",
+      "slug": "entegris",
+      "name": "Entegris Inc.",
+      "ticker": "ENTG",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001024097",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001024097",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 2890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/entegris.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/enterprise_products_partners.json",
+      "fileSha256": "d8fe91ae6b7b4e1e5ac26d58cc5c27bf6837ce09c9d22c132a8dc15b0578c318",
+      "slug": "enterprise_products_partners",
+      "name": "Enterprise Products Partners L.P.",
+      "ticker": "EPD",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001161699",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001161699",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 18900000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/enterprise_products_partners.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/exelon.json",
+      "fileSha256": "07bb94f64cabe1d08aec10eb2f05e8940dfd851fafebad31ac5fe838c5294c49",
+      "slug": "exelon",
+      "name": "Exelon Corporation",
+      "ticker": "EXC",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001109357",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001109357",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2840000000,
+            "debtLatest": 34200000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/exelon.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/factset.json",
+      "fileSha256": "6916af3fac7d8e0aa7d1281fe2500f1854def7a51e2df00486383e302ee49cd5",
+      "slug": "factset",
+      "name": "FactSet Research Systems Inc.",
+      "ticker": "FDS",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001108873",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001108873",
+        "financialHealth": {
+          "asOf": "2024-08-31",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 487000000,
+            "debtLatest": 2100000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/factset.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/fastly.json",
+      "fileSha256": "787d3d4f777daca27345ef1d5009033985d59f190816197c74c9ee612c2365c5",
+      "slug": "fastly",
+      "name": "Fastly Inc.",
+      "ticker": "FSLY",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 287000000,
+            "debtLatest": 0,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/fastly.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/fedex_logistics.json",
+      "fileSha256": "60de19467080a679551f639811da77a6632a879bdd3dd38c888fc3e950900278",
+      "slug": "fedex_logistics",
+      "name": "FedEx Logistics (FedEx Services Inc.)",
+      "ticker": "FDX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001048911",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001048911",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 4200000000,
+            "debtLatest": 28500000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/fedex_logistics.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/fiserv.json",
+      "fileSha256": "46867634b8ce7ef5a98d8d6bf2b05beea2c27c5c9900299caa767be15397cfb2",
+      "slug": "fiserv",
+      "name": "Fiserv, Inc.",
+      "ticker": "FISV",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000798354",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000798354",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 18500000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/fiserv.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/flex.json",
+      "fileSha256": "e4ca1b9f5f2b0904d2f7f1d0ffdcdaf690fe0f02e77eb31a89402ab1b42de06c",
+      "slug": "flex",
+      "name": "Flex Ltd.",
+      "ticker": "FLEX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001393197",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1393197",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 4800000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/flex.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/flowserve.json",
+      "fileSha256": "dbad3268aac9f9a363d6ea3dfd141307f4a5360ac3befb732ff4f4706c7a80fe",
+      "slug": "flowserve",
+      "name": "Flowserve Corporation",
+      "ticker": "FLS",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000033185",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000033185",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 487000000,
+            "debtLatest": 2840000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/flowserve.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/fortescue_metals.json",
+      "fileSha256": "52798ae5c977f4cc456ea59c20f872aa45b3c0a45d9159c873655a7b9a001620",
+      "slug": "fortescue_metals",
+      "name": "Fortescue Metals Group Limited",
+      "ticker": "FMG",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?ticker=FMG",
+        "financialHealth": {
+          "asOf": "2024-06-30",
+          "lastKernelRun": "2024-09-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q2",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 6800000000,
+            "debtLatest": 4200000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/fortescue_metals.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/fortinet.json",
+      "fileSha256": "f568031602bff0f45fab2f4439eb89910455208d6f7530b932501b2a1088569d",
+      "slug": "fortinet",
+      "name": "Fortinet, Inc.",
+      "ticker": "FTNT",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001345087",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1345087",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 2100000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/fortinet.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/freeport_mcmoran.json",
+      "fileSha256": "f8b6da3ddbd5bf2e9c3745adc7ba32f6f2982d18f4941323949f726aeac2bf01",
+      "slug": "freeport_mcmoran",
+      "name": "Freeport-McMoRan Inc.",
+      "ticker": "FCX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000831259",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000831259",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 4200000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/freeport_mcmoran.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/general_electric.json",
+      "fileSha256": "188e7310ebae0d28f930120e8c645ebcb6bf5cfe09e6b9ffc98388641cce7337",
+      "slug": "general_electric",
+      "name": "General Electric Company",
+      "ticker": "GE",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000040545",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000040545",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 42100000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/general_electric.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/gerresheimer.json",
+      "fileSha256": "126733e30999695aa38499e247a11797320b7e8ddb72f6bfab9b249901597e54",
+      "slug": "gerresheimer",
+      "name": "Gerresheimer AG",
+      "ticker": "GXI",
+      "firstClassCik": null,
+      "embeddedReportCik": "null",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=null",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 285000000,
+            "debtLatest": 1850000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/gerresheimer.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/glencore.json",
+      "fileSha256": "71676fa0e4d6e5e9dced1a740f5da23b434422dcc01b0443ca38a676d74759bb",
+      "slug": "glencore",
+      "name": "Glencore plc",
+      "ticker": "GLEN",
+      "firstClassCik": null,
+      "embeddedReportCik": "null",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=null",
+        "financialHealth": {
+          "asOf": "2024-06-30",
+          "lastKernelRun": "2024-09-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q2",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 9100000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/glencore.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/globalfoundries.json",
+      "fileSha256": "46ac54d7a4cbca5f80eb488c14d7932ac85f2cebe2af27c6e3191570cc1be644",
+      "slug": "globalfoundries",
+      "name": "GlobalFoundries Inc.",
+      "ticker": "GFS",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001822212",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1822212",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": true,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 4800000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/globalfoundries.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/google_cloud.json",
+      "fileSha256": "30e7a9e3c6bd3ccc894be0c85af909333bb0d619b29fec7c1b7d51b196a35a8e",
+      "slug": "google_cloud",
+      "name": "Google Cloud, LLC (Alphabet Inc.)",
+      "ticker": "GOOGL",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001652044",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001652044",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.87,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 110400000000,
+            "debtLatest": 13550000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/google_cloud.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/halliburton.json",
+      "fileSha256": "1c0432c3831d73969bb45148ef89b023c21041b879136d42b17527ab75a0bbee",
+      "slug": "halliburton",
+      "name": "Halliburton Company",
+      "ticker": "HAL",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000045012",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000045012",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/halliburton.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/hexcel.json",
+      "fileSha256": "285a451de7ca2d242ef346999c8636d945ea24d113c547b4e46b97a1de3d3035",
+      "slug": "hexcel",
+      "name": "Hexcel Corporation",
+      "ticker": "HXL",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000354349",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000354349",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 3180000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/hexcel.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/intercontinental_exchange.json",
+      "fileSha256": "821d940e43d5dbcbcfd8a268025f461bebfd6ccf90f32380d1746e49428fd1e6",
+      "slug": "intercontinental_exchange",
+      "name": "Intercontinental Exchange, Inc.",
+      "ticker": "ICE",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001443447",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1443447",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.82,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 2847000000,
+            "debtLatest": 7821000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/intercontinental_exchange.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/iron_mountain.json",
+      "fileSha256": "d000a21d429951ba3f8c0ccc79ab2602f3f435b15395f06f1adb9bc9c9a41b67",
+      "slug": "iron_mountain",
+      "name": "Iron Mountain Incorporated",
+      "ticker": "IRM",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001020569",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001020569",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 32,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 8950000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/iron_mountain.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/jack_henry.json",
+      "fileSha256": "4f5c581c4d13bd8e8e94b85f24ff783baacb5ecb550815434a3cb1692b280388",
+      "slug": "jack_henry",
+      "name": "Jack Henry & Associates Inc.",
+      "ticker": "JKHY",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000467268",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000467268",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.82,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p8",
+          "financialState": {
+            "cashLatest": 1847000000,
+            "debtLatest": 2156000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/jack_henry.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/jacobs_engineering.json",
+      "fileSha256": "8518825b0f0a0eaf2c9c999408fc0bf2fe82419da9977fe5bf1f20ca1c153a8e",
+      "slug": "jacobs_engineering",
+      "name": "Jacobs Engineering Group Inc.",
+      "ticker": "J",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000051043",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000051043",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2840000000,
+            "debtLatest": 4920000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/jacobs_engineering.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/kinder_morgan.json",
+      "fileSha256": "8b004853ef371c4d8793a7dea27115359326121df40e54e0ab87ebedcf708cf7",
+      "slug": "kinder_morgan",
+      "name": "Kinder Morgan, Inc.",
+      "ticker": "KMI",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001506104",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1506104",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 42300000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/kinder_morgan.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/kla.json",
+      "fileSha256": "ad8eade25788821a230b290f6d7593bb92d65b4d7b2bb0ed4d8a3250693d8bf2",
+      "slug": "kla",
+      "name": "KLA Corporation",
+      "ticker": "KLAC",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001046413",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001046413",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q4",
+          "compositeScore": 0.82,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 2100000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/kla.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/komatsu.json",
+      "fileSha256": "c40b55019e9b4e0e639f3f033f1b1b97f733b1e4c1068edfd6311a733d4a4f31",
+      "slug": "komatsu",
+      "name": "Komatsu Ltd.",
+      "ticker": "6301.T",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?ticker=6301.T",
+        "financialHealth": {
+          "asOf": "2024-03-31",
+          "lastKernelRun": "2024-06-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q1",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1840000000,
+            "debtLatest": 2100000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/komatsu.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/kuehne_nagel.json",
+      "fileSha256": "0e1c167b4322c211c09c3a3ed8f0f0da0e27dc05b7d2d898610b8c00e332e602",
+      "slug": "kuehne_nagel",
+      "name": "Kuehne + Nagel International AG",
+      "ticker": "KNIN.SW",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?slug=kuehne_nagel",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2840000000,
+            "debtLatest": 3120000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/kuehne_nagel.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/lam_research.json",
+      "fileSha256": "c3834aabbe9924d9334cc53537611bbb5230dfc1a1b05024360170123dc8d362",
+      "slug": "lam_research",
+      "name": "Lam Research Corporation",
+      "ticker": "LRCX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000707085",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000707085",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 3100000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/lam_research.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/linde.json",
+      "fileSha256": "8fe3f38262c8e7472da1e2fe8646b61abec04ab71766987be3f1259682d9ee47",
+      "slug": "linde",
+      "name": "Linde plc",
+      "ticker": "LIN",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001049760",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001049760",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 4200000000,
+            "debtLatest": 28500000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/linde.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/lyondell_basell.json",
+      "fileSha256": "28726006576757f08baac896ff4337be3a8a560b45588d9ca636a8601b5467e8",
+      "slug": "lyondell_basell",
+      "name": "Lyondell Basell Industries N.V.",
+      "ticker": "LYB",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001516904",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1516904",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 1850000000,
+            "debtLatest": 8200000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/lyondell_basell.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/maersk_line.json",
+      "fileSha256": "1ce02331246eda70d6fa848f4769efeedce62bde58b77bbf88864f6f76b1cf1f",
+      "slug": "maersk_line",
+      "name": "A.P. Møller - Mærsk A/S",
+      "ticker": "MAERSK-B.CO",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?entity=maersk_line",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 12400000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/maersk_line.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/magellan_midstream.json",
+      "fileSha256": "175c762e45b9a9dbff7553820399564876afb46041d1ee51f5c389823822c7fd",
+      "slug": "magellan_midstream",
+      "name": "Magellan Midstream Partners L.P.",
+      "ticker": "MMP",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001368505",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001368505",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 847000000,
+            "debtLatest": 12400000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/magellan_midstream.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/magna_international.json",
+      "fileSha256": "bf0614686d971a5aabce271cfa67be73d619dd95b3ad999b429b3ba249fe15a8",
+      "slug": "magna_international",
+      "name": "Magna International Inc.",
+      "ticker": "MGA",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000912057",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000912057",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 32,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2840000000,
+            "debtLatest": 5120000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/magna_international.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/marathon_petroleum.json",
+      "fileSha256": "09840f23f42315587fc77f764c81c370befe2ce86fe82a22f3d18b5ec9148b79",
+      "slug": "marathon_petroleum",
+      "name": "Marathon Petroleum Corporation",
+      "ticker": "MPC",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001141165",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1141165",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/marathon_petroleum.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/micron.json",
+      "fileSha256": "1b794ef1e9c5516ef9f8762e0c7c1d88f68051f7d4f0d4fecbb01331eceb002d",
+      "slug": "micron",
+      "name": "Micron Technology Inc.",
+      "ticker": "MU",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000723125",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000723125",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 32,
+          "latestQuarter": "2024Q4",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 12100000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/micron.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/microsoft_azure.json",
+      "fileSha256": "487aaf959767c345740053345b89a4f409fe5aea3972c53ffc4c43264ee47759",
+      "slug": "microsoft_azure",
+      "name": "Microsoft Azure (Division of Microsoft Corporation)",
+      "ticker": "MSFT",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000789019",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000789019",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.92,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 87400000000,
+            "debtLatest": 56200000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/microsoft_azure.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/morningstar.json",
+      "fileSha256": "4e02d3e25c550b979608a00c84dd2d44773a963094496f8e9d901e69e8fa3eb4",
+      "slug": "morningstar",
+      "name": "Morningstar Inc.",
+      "ticker": "MORN",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001141900",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001141900",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 847000000,
+            "debtLatest": 1200000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/morningstar.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/nabors_industries.json",
+      "fileSha256": "6315dfeeebf3ce053d8ae84a94c11e8ff88e51b41d5bbcf0ebdb812f2e671454",
+      "slug": "nabors_industries",
+      "name": "Nabors Industries Ltd.",
+      "ticker": "NBR",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001023045",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1023045",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 3850000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/nabors_industries.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/novelis.json",
+      "fileSha256": "1f53a995b75cfd1bd31d80f066d1a675038861342daeba460050bed71a54d96a",
+      "slug": "novelis",
+      "name": "Novelis Inc.",
+      "ticker": "NVLS",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001411910",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1411910",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 3850000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/novelis.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/nucor.json",
+      "fileSha256": "e1dc021ffb04f0fa1fb44cf65f906c3d092a0cf35e5f86311c5dc9f0f3697f1c",
+      "slug": "nucor",
+      "name": "Nucor Corporation",
+      "ticker": "NUE",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000073309",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000073309",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2847000000,
+            "debtLatest": 4156000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/nucor.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/olin_corporation.json",
+      "fileSha256": "06acbfdcadf61f308425e30fb33ee2745c2379884172cb6de27e79df507bc155",
+      "slug": "olin_corporation",
+      "name": "Olin Corporation",
+      "ticker": "OLN",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000060086",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000060086",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 487000000,
+            "debtLatest": 2840000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/olin_corporation.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/palo_alto_networks.json",
+      "fileSha256": "90472adc2b81e6ce82771de775b3f86bf5621a7c29146e724077ab9adba027d8",
+      "slug": "palo_alto_networks",
+      "name": "Palo Alto Networks Inc.",
+      "ticker": "PANW",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001327567",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1327567",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p7",
+          "financialState": {
+            "cashLatest": 3847000000,
+            "debtLatest": 4921000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/palo_alto_networks.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/perkinelmer.json",
+      "fileSha256": "cf45b06a92ba284fc6c966c6b8d8c52efe0c0118a820da63356de7c116a2c0c0",
+      "slug": "perkinelmer",
+      "name": "PerkinElmer, Inc.",
+      "ticker": "PKI",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000031791",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000031791",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 3890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/perkinelmer.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/phillips_66.json",
+      "fileSha256": "6a3778c8ed88d823446a4422d7b39bf3cffca17c163fccbe2779cc88fa037091",
+      "slug": "phillips_66",
+      "name": "Phillips 66 Company",
+      "ticker": "PSX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001534701",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1534701",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 8100000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/phillips_66.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/pratt_whitney.json",
+      "fileSha256": "174f950dfd7337edcf4b157416d4a3bf4b13c27ac40bc9455f956e43be13958d",
+      "slug": "pratt_whitney",
+      "name": "Pratt & Whitney (RTX Corporation subsidiary)",
+      "ticker": "RTX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001045810",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001045810",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 28500000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/pratt_whitney.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/raytheon_technologies.json",
+      "fileSha256": "2bc3af2ac96427847edd663b37e961de19db61d9be9394c9e134ff5027cbe097",
+      "slug": "raytheon_technologies",
+      "name": "Raytheon Technologies Corporation",
+      "ticker": "RTX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001564590",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1564590",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 28500000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/raytheon_technologies.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/regeneron.json",
+      "fileSha256": "10abb8da11a947b22f867ae4ead54e290c9e65506ea3cd9443a7a85b5070310d",
+      "slug": "regeneron",
+      "name": "Regeneron Pharmaceuticals Inc.",
+      "ticker": "REGN",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001102312",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1102312",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 12100000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/regeneron.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/rio_tinto.json",
+      "fileSha256": "f6d2d89dcdb16aa3153febaa1ca56a04b12de3b53ab42752e12298cf1259a660",
+      "slug": "rio_tinto",
+      "name": "Rio Tinto Limited",
+      "ticker": "RIO",
+      "firstClassCik": null,
+      "embeddedReportCik": "null",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=null",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 20,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 12400000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/rio_tinto.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/roche_genentech.json",
+      "fileSha256": "1e6754dcaa102c3dc484304ff3b10768c738396f49df676acaa1fd2592b4ff9e",
+      "slug": "roche_genentech",
+      "name": "Roche Holding AG",
+      "ticker": "RHHBY",
+      "firstClassCik": null,
+      "embeddedReportCik": "roche_genentech",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=roche_genentech",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 18400000000,
+            "debtLatest": 28600000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/roche_genentech.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/rolls_royce.json",
+      "fileSha256": "557afd2b381f23c60b316966ae8dd2e62aa1e7f992cc83cdacc67be1a1fa6ea3",
+      "slug": "rolls_royce",
+      "name": "Rolls-Royce Holdings PLC",
+      "ticker": "RR.L",
+      "firstClassCik": null,
+      "embeddedReportCik": "rolls_royce",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=rolls_royce",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 8700000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/rolls_royce.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/roper_technologies.json",
+      "fileSha256": "e7f2d376ec701f6dcfa19c10a3c7f4a8672e897a97aed63401c02c0891cc219c",
+      "slug": "roper_technologies",
+      "name": "Roper Technologies Inc.",
+      "ticker": "ROP",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000882835",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000882835",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 32,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1840000000,
+            "debtLatest": 8920000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/roper_technologies.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/safran.json",
+      "fileSha256": "0da73d6fababbcf38fa4ef2450ef1a94dc54e53434a15fa98c86a0ee4548df44",
+      "slug": "safran",
+      "name": "Safran SA",
+      "ticker": "SAF",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?entity=safran",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 12100000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/safran.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/saudi_aramco.json",
+      "fileSha256": "695c1836e177a0bd7c77f344529fd0c5ae8c8853eaef6aee8b7781c513593eac",
+      "slug": "saudi_aramco",
+      "name": "Saudi Arabian Oil Company",
+      "ticker": "2222.SE",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?entity=saudi_aramco",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 165000000000,
+            "debtLatest": 18000000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/saudi_aramco.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/servicenow.json",
+      "fileSha256": "1361d042a2488bb39efe27db0e55ea76fdfb867676a172a98c492a5a65d17140",
+      "slug": "servicenow",
+      "name": "ServiceNow, Inc.",
+      "ticker": "NOW",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001373715",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1373715",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 3847000000,
+            "debtLatest": 4521000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/servicenow.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/shopify.json",
+      "fileSha256": "20527ac46d30a79b7b4207339a02a16f55e7ff096a3a2a03fb190af9bfb9795a",
+      "slug": "shopify",
+      "name": "Shopify Inc.",
+      "ticker": "SHOP",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 24,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 3847000000,
+            "debtLatest": 1250000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/shopify.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/siemens_healthineers.json",
+      "fileSha256": "14b690445c84c5fec60a9316255e98fc9ddab627e20b88e00bdea6649cad0ae4",
+      "slug": "siemens_healthineers",
+      "name": "Siemens Healthineers AG",
+      "ticker": "SHL",
+      "firstClassCik": null,
+      "embeddedReportCik": "null",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=null",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 4200000000,
+            "debtLatest": 8900000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/siemens_healthineers.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/smurfit_westrock.json",
+      "fileSha256": "f568b960d8feeff51bc2f4b46d5f8d5a384c4f0bcd2b6c14fc5e7bc6ce4f57d8",
+      "slug": "smurfit_westrock",
+      "name": "Smurfit WestRock Company",
+      "ticker": "SW",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001945474",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1945474",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 8900000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/smurfit_westrock.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/sysco.json",
+      "fileSha256": "24aeb1ad62eb72fe9baf2352cc81997a83b1762f2b64ab4c552707172bd0422b",
+      "slug": "sysco",
+      "name": "Sysco Corporation",
+      "ticker": "SYY",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000096021",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000096021",
+        "financialHealth": {
+          "asOf": "2024-06-30",
+          "lastKernelRun": "2024-09-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 8900000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/sysco.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/technipfmc.json",
+      "fileSha256": "4c52c0b3b5a52a31aa4069b0b5cfaeaf2e609797cad43ed927cd4dac9e2d6d1b",
+      "slug": "technipfmc",
+      "name": "TechnipFMC plc",
+      "ticker": "FMCG",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001193857",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001193857",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 3890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/technipfmc.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/totalenergies.json",
+      "fileSha256": "6598cf600bf0243f4f75d4cdb0fd82ebcac79eac184ee815af2d6ccd2ff4c38a",
+      "slug": "totalenergies",
+      "name": "TotalEnergies SE",
+      "ticker": "TTEF",
+      "firstClassCik": null,
+      "embeddedReportCik": null,
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?entity=totalenergies",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 8200000000,
+            "debtLatest": 24500000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/totalenergies.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/transocean.json",
+      "fileSha256": "2db29bfd74aa4105aef39516ae8f8bc244154041748f54e4b97d82bef59b29dd",
+      "slug": "transocean",
+      "name": "Transocean Ltd.",
+      "ticker": "RIG",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001011971",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1011971",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 4890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/transocean.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/tronox.json",
+      "fileSha256": "2f204ac904952dca2ebb71a9e54fcd953f93ffa684f38ddbc42671fd0829c08d",
+      "slug": "tronox",
+      "name": "Tronox Holdings plc",
+      "ticker": "TROX",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001697963",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001697963",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 285000000,
+            "debtLatest": 2100000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/tronox.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/twilio.json",
+      "fileSha256": "a2af9154c8c0b3f6e7b11be946592f3a90a3961743d191b39e2c0fc73072dab5",
+      "slug": "twilio",
+      "name": "Twilio Inc.",
+      "ticker": "TWLO",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001652860",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1652860",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 3100000000,
+            "cashRunwayQ": 18
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/twilio.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/union_pacific.json",
+      "fileSha256": "ce51cbbdfddf6b29e2161f431a959924a3ae18bbf8a1e165ae853ac20ffcec5d",
+      "slug": "union_pacific",
+      "name": "Union Pacific Corporation",
+      "ticker": "UNP",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000100858",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000100858",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1840000000,
+            "debtLatest": 18200000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/union_pacific.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/univar_solutions.json",
+      "fileSha256": "3b0206757cafa99ea04b9bcec0a3612fdae13e9bc3e724a5022711b21d9600a4",
+      "slug": "univar_solutions",
+      "name": "Univar Solutions Inc.",
+      "ticker": "UNVR",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p4",
+          "financialState": {
+            "cashLatest": 285000000,
+            "debtLatest": 2100000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/univar_solutions.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/valero_energy.json",
+      "fileSha256": "f2e5a1c9547ce85d078bd9653d04a0d33cb021f3bb56913fe77bb0cc4a7b9740",
+      "slug": "valero_energy",
+      "name": "Valero Energy Corporation",
+      "ticker": "VLO",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001096687",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001096687",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 8900000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/valero_energy.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/veolia_environment.json",
+      "fileSha256": "8eab899dce5873aa616772c8d2514f5a96b4a90a0125c5a2e851746f7d560e55",
+      "slug": "veolia_environment",
+      "name": "Veolia Environment S.A.",
+      "ticker": "VIE",
+      "firstClassCik": null,
+      "embeddedReportCik": "null",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=null",
+        "financialHealth": {
+          "asOf": "2024-12-31",
+          "lastKernelRun": "2024-12-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 18500000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/veolia_environment.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/verisk_analytics.json",
+      "fileSha256": "b1009d9b2290a2dbfc2276f6fbb687edbc4caf3fe450474968b566ec1a936b30",
+      "slug": "verisk_analytics",
+      "name": "Verisk Analytics, Inc.",
+      "ticker": "VRSK",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001442086",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1442086",
+        "financialHealth": {
+          "asOf": "2024-09-30",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p2",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 4850000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/verisk_analytics.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/vertiv.json",
+      "fileSha256": "c1ae81c033bcf8fb4c769231e91906181abfd1ddca00f08d873738e181bca4f8",
+      "slug": "vertiv",
+      "name": "Vertiv Holdings Co.",
+      "ticker": "VRT",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001828193",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1828193",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 487000000,
+            "debtLatest": 3200000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/vertiv.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/viatris.json",
+      "fileSha256": "cdcb9d08be439f9ccc6bd62015b4df0bf6c24908486f01aacb338523bff4fb05",
+      "slug": "viatris",
+      "name": "Viatris Inc.",
+      "ticker": "VTRS",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001821244",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1821244",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.62,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 2100000000,
+            "debtLatest": 8700000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/viatris.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/walgreens_boots.json",
+      "fileSha256": "cdb2a5e5fe127f13d631bb8a7720df45a61f99161a5c397c1633ba93220d48ea",
+      "slug": "walgreens_boots",
+      "name": "Walgreens Boots Alliance, Inc.",
+      "ticker": "WBA",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001618207",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1618207",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.58,
+          "alert": true,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 3200000000,
+            "debtLatest": 28500000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/walgreens_boots.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/waste_connections.json",
+      "fileSha256": "ffefb212975d07d25c1f3f0b863084c78ec86a1aca6e3108fc47f9474b2ea293",
+      "slug": "waste_connections",
+      "name": "Waste Connections, Inc.",
+      "ticker": "WCN",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001443592",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1443592",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 32,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 847000000,
+            "debtLatest": 8920000000,
+            "cashRunwayQ": 28
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/waste_connections.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/weatherford.json",
+      "fileSha256": "bc0f247e09325f7f6ff01a50882186aabba6f969b672655ef3fb8c2dd6de80ee",
+      "slug": "weatherford",
+      "name": "Weatherford International plc",
+      "ticker": "WFRD",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001443593",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001443593",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 3850000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/weatherford.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/westlake_chemical.json",
+      "fileSha256": "b2a3bb2317b288393ff42fbfcf35cad52a6f476d04f39e1a57d2d59970e648f8",
+      "slug": "westlake_chemical",
+      "name": "Westlake Chemical Corporation",
+      "ticker": "WLK",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000750143",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000750143",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 4850000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/westlake_chemical.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/workday.json",
+      "fileSha256": "77f8b9a6623d3b1ce98ca5d28b7b2512cb64c7d77d638a47b0f3dff4a8831f8f",
+      "slug": "workday",
+      "name": "Workday, Inc.",
+      "ticker": "WDAY",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0001616707",
+        "financialHealth": {
+          "asOf": "2024-10-31",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.78,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p6",
+          "financialState": {
+            "cashLatest": 3847000000,
+            "debtLatest": 2850000000,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/workday.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/workiva.json",
+      "fileSha256": "335fea9159dd46eb8538396716eb8f0c548f203f39aa8f1da123bd9d6abdd384",
+      "slug": "workiva",
+      "name": "Workiva Inc.",
+      "ticker": "WK",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 16,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 187000000,
+            "debtLatest": 0,
+            "cashRunwayQ": null
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 0,
+        "researchOutputs": 0,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/workiva.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/worthington_industries.json",
+      "fileSha256": "dcfc53afd4913feecd63aa1cd16d19b92ea3e299a5195c6658a45f191006b67d",
+      "slug": "worthington_industries",
+      "name": "Worthington Industries Inc.",
+      "ticker": "WOR",
+      "firstClassCik": null,
+      "embeddedReportCik": "0000106535",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=0000106535",
+        "financialHealth": {
+          "asOf": "2024-06-30",
+          "lastKernelRun": "2024-09-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q2",
+          "compositeScore": 0.68,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 487000000,
+            "debtLatest": 1240000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/worthington_industries.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/xpo_logistics.json",
+      "fileSha256": "f87763f31c428112cb372a55f0817b481968075aad559404221c5cbedd9844da",
+      "slug": "xpo_logistics",
+      "name": "XPO Logistics Inc.",
+      "ticker": "XPO",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001616707",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1616707",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-11-15T09:30:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 12,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "yellow",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 4890000000,
+            "cashRunwayQ": 8
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 2,
+        "investmentOutputs": 2,
+        "researchOutputs": 2,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/xpo_logistics.json"
+      }
+    },
+    {
+      "path": "assets/data/companies/xylem.json",
+      "fileSha256": "df16f57b46c3401a2ed34e342bef34ad35d22581243f7e9d178b6fbf89b3bd56",
+      "slug": "xylem",
+      "name": "Xylem Inc.",
+      "ticker": "XYL",
+      "firstClassCik": null,
+      "embeddedReportCik": "0001373141",
+      "originalClaim": {
+        "kernelStatus": "ELIGIBLE_NOW",
+        "helixReportMode": "validated_kernel",
+        "helixReportUrl": "helix-report.html?cik=1373141",
+        "financialHealth": {
+          "asOf": "2024-Q3",
+          "lastKernelRun": "2024-10-15T14:32:00Z",
+          "kernelId": "limen_backtest.py",
+          "validationStatus": "validated",
+          "envelopeStatus": "ELIGIBLE_NOW",
+          "historyQuarters": 28,
+          "latestQuarter": "2024Q3",
+          "compositeScore": 0.72,
+          "alert": false,
+          "distressBand": "green",
+          "dominantPhase": "p5",
+          "financialState": {
+            "cashLatest": 1240000000,
+            "debtLatest": 4890000000,
+            "cashRunwayQ": 12
+          }
+        }
+      },
+      "dependentArtifacts": {
+        "bridgeMatches": 1,
+        "investmentOutputs": 1,
+        "researchOutputs": 1,
+        "fullOriginalPreservedAt": "7873162e7fb08cb731ed85d216ab1d1ae8edf2b7:assets/data/companies/xylem.json"
+      }
+    }
+  ]
+}

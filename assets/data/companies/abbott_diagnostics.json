@@ -10,7 +10,7 @@
   "industry": "Laboratory Analytical Instruments",
   "domainId": "medicine",
   "portalAttachment": "medicine-portal.html",
-  "kernelStatus": "ELIGIBLE_NOW",
+  "kernelStatus": "PROVENANCE_UNVERIFIED",
   "fredSeries": [
     "MMNRNJ",
     "IPDCIR",
@@ -28,24 +28,30 @@
     "reagent precursors",
     "semiconductor components"
   ],
-  "helixReportMode": "validated_kernel",
-  "helixReportUrl": "helix-report.html?cik=0000001800",
+  "helixReportMode": "unavailable",
+  "helixReportUrl": null,
   "financialHealth": {
-    "asOf": "2024-Q3",
-    "lastKernelRun": "2024-10-15T09:30:00Z",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "validated",
-    "envelopeStatus": "ELIGIBLE_NOW",
-    "historyQuarters": 12,
-    "latestQuarter": "2024Q3",
-    "compositeScore": 0.78,
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PROVENANCE_UNVERIFIED",
+    "historyQuarters": 0,
+    "latestQuarter": null,
+    "compositeScore": null,
     "alert": false,
-    "distressBand": "green",
-    "dominantPhase": "p4",
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": 8200000000,
-      "debtLatest": 28500000000,
+      "cashLatest": null,
+      "debtLatest": null,
       "cashRunwayQ": null
+    },
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json",
+      "quarantinedAt": "2026-08-20T00:00:00.000Z",
+      "originalPreserved": true
     }
   },
   "warningSignals": [
@@ -697,54 +703,28 @@
     ]
   },
   "bridgeReadings": {
-    "matched": [
-      {
-        "patternId": "OFC_value_x_capital_allocation_pathology",
-        "neuralRegion": "OFC",
-        "neuralRegionLabel": "Orbitofrontal Cortex",
-        "businessSignature": "capital_allocation_reversal_failure",
-        "mappingType": "isomorphic_pathology",
-        "matchedIndicators": [
-          "kernel_p4_persistence"
-        ],
-        "totalIndicators": 2,
-        "matchRate": 0.5,
-        "confidence": 0.395,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "Detection of capital-allocation reversal-failure via OFC-equivalent value-update-failure metric",
-            "noveltyAnchor": "Reversal-learning framework for capital-allocation diagnostics"
-          },
-          "grant": {
-            "programMatch": [
-              "NSF Decision Risk",
-              "Kauffman corporate strategy"
-            ],
-            "angle": "Behavioral models of capital-allocation reversal"
-          },
-          "investment": {
-            "thesis": "Long companies adopting reversal-protocols; short companies in sunk-cost persistence",
-            "horizon": "18-36mo"
-          },
-          "research": {
-            "hypothesis": "Boards trained in reversal-protocols make faster divestiture decisions",
-            "methodology": "intervention study with board-decision speed coding"
-          },
-          "franchise": null,
-          "sba": null
-        },
-        "phaseAffinity": [
-          "p4",
-          "p7b"
-        ],
-        "knownTreatments": [
-          "reversal learning training",
-          "real-time feedback protocols",
-          "behavioral remediation"
-        ]
-      }
-    ],
-    "evaluatedAt": "2026-07-31T19:07:38.871Z",
-    "patternsConsidered": 33
+    "matched": [],
+    "evaluatedAt": null,
+    "patternsConsidered": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
+  },
+  "engineOutputs": {
+    "investment": [],
+    "research": [],
+    "generatedAt": null,
+    "generatorVersion": "quarantined/1.0",
+    "bridgeCount": 0,
+    "artifactsByLane": {
+      "investment": 0,
+      "research": 0
+    },
+    "totalArtifacts": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   }
 }

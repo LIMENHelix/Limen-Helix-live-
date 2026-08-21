@@ -10,7 +10,7 @@
   "industry": "Crude Petroleum and Natural Gas Extraction",
   "domainId": "infrastructure",
   "portalAttachment": "infrastructure-portal.html",
-  "kernelStatus": "ELIGIBLE_NOW",
+  "kernelStatus": "PROVENANCE_UNVERIFIED",
   "fredSeries": [
     "DCOILWTICO",
     "DHHNGSP",
@@ -29,24 +29,30 @@
     "liquefied natural gas (LNG)",
     "refined products"
   ],
-  "helixReportMode": "validated_kernel",
-  "helixReportUrl": "helix-report.html?entity=saudi_aramco",
+  "helixReportMode": "unavailable",
+  "helixReportUrl": null,
   "financialHealth": {
-    "asOf": "2024-Q3",
-    "lastKernelRun": "2024-10-15T09:30:00Z",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "validated",
-    "envelopeStatus": "ELIGIBLE_NOW",
-    "historyQuarters": 12,
-    "latestQuarter": "2024Q3",
-    "compositeScore": 0.78,
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PROVENANCE_UNVERIFIED",
+    "historyQuarters": 0,
+    "latestQuarter": null,
+    "compositeScore": null,
     "alert": false,
-    "distressBand": "green",
-    "dominantPhase": "p2",
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": 165000000000,
-      "debtLatest": 18000000000,
+      "cashLatest": null,
+      "debtLatest": null,
       "cashRunwayQ": null
+    },
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json",
+      "quarantinedAt": "2026-08-20T00:00:00.000Z",
+      "originalPreserved": true
     }
   },
   "warningSignals": [
@@ -803,61 +809,28 @@
     ]
   },
   "bridgeReadings": {
-    "matched": [
-      {
-        "patternId": "PPTN_dopaminergic_reward_timing_x_milestone_payment_desynchronization",
-        "neuralRegion": "PPTN",
-        "neuralRegionLabel": "Pedunculopontine Tegmental Nucleus",
-        "businessSignature": "milestone_payment_desynchronization_with_sustained_effort_collapse",
-        "mappingType": "analogous_mechanism",
-        "matchedIndicators": [
-          "sovereign_funding_timing_risk_in_supplier_notes",
-          "going_concern_audit_signal"
-        ],
-        "totalIndicators": 5,
-        "matchRate": 0.4,
-        "confidence": 0.252,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "Automated milestone-payment timing analytics system that detects effort-reward temporal decoupling in government-funded biotech firms using SEC filing text, contract award databases, and internal burn-rate signals, generating early-warning scores before runway crisis",
-            "noveltyAnchor": "Application of reward-timing neuroscience constructs (inter-reward interval variance, temporal credit assignment failure) as the formal model underlying a financial early-warning algorithm for contract-dependent pharmaceutical companies"
-          },
-          "grant": {
-            "programMatch": [
-              "NIH SBIR PA-23-185: Small Business Innovation in Health Data Analytics",
-              "NSF SBIR Topic: AI for Financial Risk in Life Sciences",
-              "DoD SBIR: Contractor performance prediction and resilience assessment"
-            ],
-            "angle": "Frame as a neuroscience-derived behavioral finance tool for predicting government contractor persistence and completion risk, directly relevant to NIH/DoD program officer stewardship of small biotech grantees like 60 Degrees"
-          },
-          "investment": {
-            "thesis": "60 Degrees Pharmaceuticals is structurally exposed to PPTN-analog temporal decoupling risk: with NIH and DoD as near-exclusive revenue sources and no commercial product cash flow, any sovereign payment delay propagates directly into organizational motivational decoherence. Short thesis on warrant recovery (SXTPW) if next contract milestone slips; watch 90-day burn-vs-inflow divergence ratio as primary signal.",
-            "horizon": "6-18 months",
-            "instruments": [
-              "SXTPW warrants (asymmetric downside exposure)",
-              "Put options on peer basket (Ultragenyx, Agios) if sector-level DoD/NIH budget timing risk materializes",
-              "Long position contingent on confirmed on-time milestone payment + commercial partnership announcement"
-            ]
-          },
-          "research": {
-            "hypothesis": "Government-contract-dependent pharmaceutical firms exhibiting grant-tranche-to-milestone-completion lag >90 days across two consecutive funding cycles will show statistically significant increases in voluntary key-personnel attrition and downward guidance revision frequency within the following two quarters, consistent with reward-timing desynchronization theory derived from PPTN-VTA circuit pathology.",
-            "methodology": "Retrospective cohort analysis of SEC 10-K/10-Q filings and USASpending.gov contract award data for n=40 small-cap government-funded biopharma firms (2015-2024); compute milestone-payment lag distributions; correlate with personnel attrition proxy (risk-factor language NLP) and guidance revision counts; test against matched commercial-revenue firms as control group using difference-in-differences design."
-          },
-          "sba": null,
-          "franchise": null
-        },
-        "phaseAffinity": [
-          "p3",
-          "p7b"
-        ],
-        "knownTreatments": [
-          "Deep brain stimulation of PPTN (restores cholinergic entrainment of VTA burst timing)",
-          "Cholinesterase inhibitors — donepezil (amplifies residual PPTN cholinergic signal to VTA)",
-          "Interval training behavioral protocols (externally scaffolds reward-timing expectation to rebuild internal clock)"
-        ]
-      }
-    ],
-    "evaluatedAt": "2026-06-14T03:48:26.059Z",
-    "patternsConsidered": 33
+    "matched": [],
+    "evaluatedAt": null,
+    "patternsConsidered": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
+  },
+  "engineOutputs": {
+    "investment": [],
+    "research": [],
+    "generatedAt": null,
+    "generatorVersion": "quarantined/1.0",
+    "bridgeCount": 0,
+    "artifactsByLane": {
+      "investment": 0,
+      "research": 0
+    },
+    "totalArtifacts": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   }
 }
