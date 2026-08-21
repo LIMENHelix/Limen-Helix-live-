@@ -10,7 +10,7 @@
   "industry": "Services—Prepackaged Software",
   "domainId": "governance",
   "portalAttachment": "governance-portal.html",
-  "kernelStatus": "ELIGIBLE_NOW",
+  "kernelStatus": "PROVENANCE_UNVERIFIED",
   "fredSeries": [
     "UNRATE",
     "INDPRO",
@@ -22,24 +22,30 @@
     "NOW"
   ],
   "commodityExposure": [],
-  "helixReportMode": "validated_kernel",
-  "helixReportUrl": "helix-report.html?cik=1373715",
+  "helixReportMode": "unavailable",
+  "helixReportUrl": null,
   "financialHealth": {
-    "asOf": "2024-Q3",
-    "lastKernelRun": "2024-11-15T09:30:00Z",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "validated",
-    "envelopeStatus": "ELIGIBLE_NOW",
-    "historyQuarters": 16,
-    "latestQuarter": "2024Q3",
-    "compositeScore": 0.78,
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PROVENANCE_UNVERIFIED",
+    "historyQuarters": 0,
+    "latestQuarter": null,
+    "compositeScore": null,
     "alert": false,
-    "distressBand": "green",
-    "dominantPhase": "p6",
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": 3847000000,
-      "debtLatest": 4521000000,
+      "cashLatest": null,
+      "debtLatest": null,
       "cashRunwayQ": null
+    },
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json",
+      "quarantinedAt": "2026-08-20T00:00:00.000Z",
+      "originalPreserved": true
     }
   },
   "warningSignals": [
@@ -747,60 +753,28 @@
     ]
   },
   "bridgeReadings": {
-    "matched": [
-      {
-        "patternId": "BG_tonic_inhibition_x_monopsony_supplier_throttle",
-        "neuralRegion": "BG",
-        "neuralRegionLabel": "Basal Ganglia (indirect pathway / globus pallidus internus)",
-        "businessSignature": "monopsony_supplier_throttle",
-        "mappingType": "isomorphic_pathology",
-        "matchedIndicators": [
-          "supplier_margin_compression_cohort"
-        ],
-        "totalIndicators": 4,
-        "matchRate": 0.25,
-        "confidence": 0.18,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "Method for detecting monopsony-induced supplier throttle via cross-entity gross-margin divergence kernels in SEC filing graphs",
-            "noveltyAnchor": "Mapping basal-ganglia indirect-pathway tonic-firing biomarkers onto supplier-graph margin telemetry as an early-warning index for supplier-cohort capex collapse"
-          },
-          "grant": {
-            "programMatch": [
-              "NSF SBIR Phase I — Industrial Organization Analytics",
-              "FTC Bureau of Economics research grants",
-              "Sloan Foundation Economic Institutions"
-            ],
-            "angle": "Empirical detection of buyer-power pathology in retail-CPG dyads using firm-level filings, with neural-systems analogy as theoretical scaffold for distinguishing efficient gating from pathological throttle"
-          },
-          "investment": {
-            "thesis": "Short basket of tonic-inhibited CPG suppliers with >15% Walmart revenue concentration and declining capex/sales; pair-long against retailer; unwind on antitrust catalyst or supplier consolidation event",
-            "horizon": "18-36 months",
-            "instruments": [
-              "Equity pairs (WMT long / KHC, CPB, CAG short basket)",
-              "CDS on highly-throttled suppliers",
-              "Long-dated put spreads on private-label-exposed CPG names"
-            ]
-          },
-          "research": {
-            "hypothesis": "CPG suppliers crossing a Walmart-revenue-concentration threshold of ~20% exhibit a measurable lag-2-year decline in R&D and capex intensity relative to category peers, isomorphic to bradykinesia onset following dopaminergic depletion past a striatal threshold",
-            "methodology": "Panel regression of supplier capex/R&D intensity on lagged buyer-concentration disclosures across 1995-2024 CPG cohort, with synthetic-control matching on category and pre-period growth; event-study around antitrust interventions as 'DBS analog' shocks"
-          },
-          "sba": null,
-          "franchise": null
-        },
-        "phaseAffinity": [
-          "p6",
-          "p7b"
-        ],
-        "knownTreatments": [
-          "Levodopa (restores dopaminergic disinhibition of striatum)",
-          "Deep brain stimulation of STN/GPi (high-frequency disruption of pathological tonic inhibitory firing)",
-          "MAO-B inhibitors (prolong dopamine availability to reduce indirect-pathway dominance)"
-        ]
-      }
-    ],
-    "evaluatedAt": "2026-07-31T19:07:41.387Z",
-    "patternsConsidered": 33
+    "matched": [],
+    "evaluatedAt": null,
+    "patternsConsidered": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
+  },
+  "engineOutputs": {
+    "investment": [],
+    "research": [],
+    "generatedAt": null,
+    "generatorVersion": "quarantined/1.0",
+    "bridgeCount": 0,
+    "artifactsByLane": {
+      "investment": 0,
+      "research": 0
+    },
+    "totalArtifacts": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   }
 }

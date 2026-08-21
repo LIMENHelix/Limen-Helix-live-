@@ -1,15 +1,15 @@
 {
   "schemaVersion": "master-inbox/1.0",
-  "generatedAt": "2026-08-21T01:11:30.262Z",
+  "generatedAt": "2026-08-20T00:00:00.000Z",
   "stats": {
     "portalsScanned": 796,
-    "portalsWithArtifacts": 461,
-    "totalCandidates": 1252,
-    "readyToFire": 881,
-    "inhibited": 371,
+    "portalsWithArtifacts": 376,
+    "totalCandidates": 1040,
+    "readyToFire": 759,
+    "inhibited": 281,
     "byLaneReady": {
-      "investment": 255,
-      "research": 626
+      "investment": 239,
+      "research": 520
     }
   },
   "laneThresholds": {
@@ -33,9 +33,9 @@
         "salience": 0.4
       },
       "phaseInhibit": [],
-      "totalCandidates": 626,
-      "readyCount": 255,
-      "inhibitedCount": 371,
+      "totalCandidates": 520,
+      "readyCount": 239,
+      "inhibitedCount": 281,
       "ready": [
         {
           "portalSlug": "general_mills",
@@ -1426,28 +1426,6 @@
           "reason": "salience 0.398 < 0.4"
         },
         {
-          "portalSlug": "palo_alto_networks",
-          "portalName": "Palo Alto Networks Inc.",
-          "portalCik": null,
-          "portalTicker": "PANW",
-          "portalDomain": "governance",
-          "lane": "investment",
-          "patternId": "CBLM_motor_learning_x_supply_chain_coordination",
-          "confidence": 0.243,
-          "artifactRef": "palo_alto_networks/investment/0",
-          "preview": "Short companies in supply-chain coordination collapse; long companies investing in operations-rebuild protocols",
-          "readiness": 0.572,
-          "salience": 0.477,
-          "fireScore": 0.273,
-          "phase": "p7",
-          "phaseSeverity": 0.7,
-          "alert": false,
-          "completeness": 1,
-          "phaseInhibited": false,
-          "status": "INHIBITED",
-          "reason": "readiness 0.572 < 0.6"
-        },
-        {
           "portalSlug": "gulfport_energy_corp",
           "portalName": "GULFPORT ENERGY CORP",
           "portalCik": "0000874499",
@@ -1468,6 +1446,28 @@
           "phaseInhibited": false,
           "status": "INHIBITED",
           "reason": "salience 0.39 < 0.4"
+        },
+        {
+          "portalSlug": "lexicon_pharmaceuticals_inc",
+          "portalName": "LEXICON PHARMACEUTICALS, INC.",
+          "portalCik": "0001062822",
+          "portalTicker": "LXRX",
+          "portalDomain": "medicine",
+          "lane": "investment",
+          "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
+          "confidence": 0.375,
+          "artifactRef": "lexicon_pharmaceuticals_inc/investment/1",
+          "preview": "Activist-investor catalysts post-say-on-pay failure",
+          "readiness": 0.688,
+          "salience": 0.39,
+          "fireScore": 0.268,
+          "phase": "p1",
+          "phaseSeverity": 0.1,
+          "alert": true,
+          "completeness": 1,
+          "phaseInhibited": false,
+          "status": "INHIBITED",
+          "reason": "salience 0.39 < 0.4"
         }
       ]
     },
@@ -1477,8 +1477,8 @@
         "salience": 0.2
       },
       "phaseInhibit": [],
-      "totalCandidates": 626,
-      "readyCount": 626,
+      "totalCandidates": 520,
+      "readyCount": 520,
       "inhibitedCount": 0,
       "ready": [
         {

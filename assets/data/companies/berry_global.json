@@ -10,7 +10,7 @@
   "industry": "Plastics Film and Sheet; Bags and Containers",
   "domainId": "supplyChain",
   "portalAttachment": "supplychain-portal.html",
-  "kernelStatus": "ELIGIBLE_NOW",
+  "kernelStatus": "PROVENANCE_UNVERIFIED",
   "fredSeries": [
     "INDPRO",
     "UMCSENT",
@@ -31,24 +31,30 @@
     "natural gas",
     "recycled plastics"
   ],
-  "helixReportMode": "validated_kernel",
-  "helixReportUrl": "helix-report.html?cik=1580338",
+  "helixReportMode": "unavailable",
+  "helixReportUrl": null,
   "financialHealth": {
-    "asOf": "2024-Q3",
-    "lastKernelRun": "2024-11-15T09:30:00Z",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "validated",
-    "envelopeStatus": "ELIGIBLE_NOW",
-    "historyQuarters": 28,
-    "latestQuarter": "2024Q3",
-    "compositeScore": 0.62,
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PROVENANCE_UNVERIFIED",
+    "historyQuarters": 0,
+    "latestQuarter": null,
+    "compositeScore": null,
     "alert": false,
-    "distressBand": "yellow",
-    "dominantPhase": "p5",
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": 485000000,
-      "debtLatest": 6200000000,
-      "cashRunwayQ": 8
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
+    },
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json",
+      "quarantinedAt": "2026-08-20T00:00:00.000Z",
+      "originalPreserved": true
     }
   },
   "warningSignals": [
@@ -778,53 +784,28 @@
     ]
   },
   "bridgeReadings": {
-    "matched": [
-      {
-        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
-        "neuralRegion": "HAB",
-        "neuralRegionLabel": "Habenula",
-        "businessSignature": "contrarian_board_lock",
-        "mappingType": "isomorphic_pathology",
-        "matchedIndicators": [
-          "kernel_p5_stuck"
-        ],
-        "totalIndicators": 2,
-        "matchRate": 0.5,
-        "confidence": 0.325,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
-            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
-          },
-          "grant": {
-            "programMatch": [
-              "NACD research"
-            ],
-            "angle": "Anti-reward decision dynamics in board composition"
-          },
-          "investment": {
-            "thesis": "Activist-investor catalysts during contrarian-board lock",
-            "horizon": "12-24mo"
-          },
-          "research": {
-            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
-            "methodology": "event-study of board refresh and subsequent capital-action"
-          },
-          "franchise": null,
-          "sba": null
-        },
-        "phaseAffinity": [
-          "p5",
-          "p7b"
-        ],
-        "knownTreatments": [
-          "ketamine (habenula modulation)",
-          "DBS to habenula in treatment-resistant depression",
-          "lateralized reward training"
-        ]
-      }
-    ],
-    "evaluatedAt": "2026-07-31T19:07:39.504Z",
-    "patternsConsidered": 33
+    "matched": [],
+    "evaluatedAt": null,
+    "patternsConsidered": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
+  },
+  "engineOutputs": {
+    "investment": [],
+    "research": [],
+    "generatedAt": null,
+    "generatorVersion": "quarantined/1.0",
+    "bridgeCount": 0,
+    "artifactsByLane": {
+      "investment": 0,
+      "research": 0
+    },
+    "totalArtifacts": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   }
 }
