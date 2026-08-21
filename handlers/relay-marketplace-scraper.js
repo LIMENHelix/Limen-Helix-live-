@@ -23,16 +23,6 @@ function readBody(req) {
   });
 }
 
-async function getScraper(source) {
-  switch (source) {
-    case 'ebay': return ebay;
-    case 'mercari': return mercari;
-    case 'vinted': return vinted;
-    case 'poshmark': return poshmark;
-    default: return null;
-  }
-}
-
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
