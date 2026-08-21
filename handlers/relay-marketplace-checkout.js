@@ -81,11 +81,18 @@ module.exports = async function handler(req, res) {
   });
 
   // Create Stripe payment link (buyer pays full subtotal)
+  // Pass metadata so webhook can find the order
   const link = await stripe.createPaymentLink({
     name: 'Relay order · ' + listing.title.slice(0, 60) + ' × ' + quantity,
     amount: subtotal,
     streamId: 'relay-order',  // tagged in finance ledger
-    currency: 'usd'
+    currency: 'usd',
+    metadata: {
+      orderId: order.id,
+      marketplace: marketplaceId,
+      seller: listing.sellerId,
+      buyer: buyerId
+    }
   });
   if (!link.ok) {
     return sendJSON(res, 502, { ok: false, error: link.error });

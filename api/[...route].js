@@ -35,6 +35,7 @@ const HANDLERS = {
   'relay-checkout': require('../handlers/relay-checkout'),
   'relay-marketplace': require('../handlers/relay-marketplace'),
   'relay-marketplace-checkout': require('../handlers/relay-marketplace-checkout'),
+  'relay-stripe-webhook': require('../handlers/relay-stripe-webhook'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),
