@@ -4,8 +4,6 @@
  * POST { action, query, marketplaceId, sellerId, maxItems, includeSource }
  */
 
-const ebay = require('../lib/ebay-scraper');
-
 function sendJSON(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json');
@@ -31,6 +29,7 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
+  const ebay = require('../lib/ebay-scraper');
   const body = await readBody(req);
   const action = body.action || 'search';
   const query = body.query || '';

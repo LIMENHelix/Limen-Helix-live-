@@ -6,11 +6,6 @@
  * Supported sources: ebay, mercari, vinted, poshmark, csv
  */
 
-const ebay = require('../lib/ebay-scraper');
-const mercari = require('../lib/mercari-scraper');
-const vinted = require('../lib/vinted-scraper');
-const poshmark = require('../lib/poshmark-scraper');
-
 function sendJSON(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json');
@@ -46,6 +41,10 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
+  const ebay = require('../lib/ebay-scraper');
+  const mercari = require('../lib/mercari-scraper');
+  const vinted = require('../lib/vinted-scraper');
+  const poshmark = require('../lib/poshmark-scraper');
   const body = await readBody(req);
   const source = (body.source || 'ebay').toLowerCase();
   const action = body.action || 'search';

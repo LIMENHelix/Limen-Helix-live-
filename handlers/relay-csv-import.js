@@ -9,8 +9,6 @@
  * title,price,condition,category,description,imageUrl
  */
 
-const marketplace = require('../lib/relay-marketplace');
-
 function sendJSON(res, code, obj) {
   res.statusCode = code;
   res.setHeader('Content-Type', 'application/json');
@@ -84,6 +82,7 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
+  const marketplace = require('../lib/relay-marketplace');
   const body = await readBody(req);
   const csv = body.csv || '';
   const marketplaceId = body.marketplaceId || '';
