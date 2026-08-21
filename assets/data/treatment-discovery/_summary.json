@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0.0",
-  "builtAt": "2026-08-19T17:38:50.931Z",
+  "builtAt": "2026-08-21T01:11:30.262Z",
   "totalCells": 5537,
   "populatedCells": 5484,
-  "cellsWithResiduals": 0,
+  "cellsWithResiduals": 1706,
   "perStateBreakdown": {
     "mixed": 1882,
     "hyperactive": 1765,
@@ -44,7 +44,45 @@
     "research": 153,
     "health": 164
   },
-  "unverifiedClaimsCount": 75149,
+  "residualSummary": {
+    "groupsProcessed": 251,
+    "groupsWithBothSides": 13,
+    "totalSimilarPairs": 2,
+    "totalNeuroResiduals": 1502,
+    "totalDomainResiduals": 4183,
+    "cellsWithResiduals": 1706,
+    "cellsWithSimilar": 2,
+    "similarityThreshold": 0.3,
+    "computedAt": "2026-08-21T01:11:30.262Z"
+  },
+  "unverifiedClaimsCount": 41267,
+  "pendingClaimOccurrences": 75149,
+  "verificationReconciliation": {
+    "schemaVersion": "verification-reconciliation/1.0",
+    "snapshotAt": "2026-08-21T01:11:30.262Z",
+    "sourceCommit": "cbe6d8e8e0ad0715105abc4a71d164cada46a13c",
+    "uniqueCurrentClaims": 47177,
+    "matchedLedgerClaims": 5910,
+    "currentClaimsWithoutLedger": 41267,
+    "archivedLedgerClaims": 1990,
+    "effectiveCurrentByVerdict": {
+      "VERIFIED": 2414,
+      "DISPUTED": 89,
+      "THEORETICAL": 917,
+      "UNVERIFIABLE": 2490,
+      "FABRICATED": 0,
+      "PENDING": 41267
+    },
+    "ledgerAllTimeByVerdict": {
+      "VERIFIED": 3700,
+      "DISPUTED": 89,
+      "THEORETICAL": 1583,
+      "UNVERIFIABLE": 2528,
+      "FABRICATED": 0,
+      "PENDING": 0
+    },
+    "note": "Current claims are the unique claim-id population in this cube snapshot. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
+  },
   "loadedComparisonDomains": [
     "addiction",
     "business",
@@ -79,5 +117,24 @@
     "research",
     "health"
   ],
-  "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification: PENDING (most claims), VERIFIED (post-#33), DISPUTED / FABRICATED suppress residuals."
+  "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
+  "epistemicBuckets": {
+    "proven": 2414,
+    "unproven": 917,
+    "unknown": 43757,
+    "impossible": 89,
+    "totalClaims": 47177,
+    "processedVerdicts": 5910,
+    "verdictCounts": {
+      "VERIFIED": 2414,
+      "DISPUTED": 89,
+      "THEORETICAL": 917,
+      "UNVERIFIABLE": 2490,
+      "FABRICATED": 0,
+      "PENDING": 41267
+    },
+    "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
+    "archivedLedgerClaims": 1990,
+    "computedAt": "2026-08-21T01:11:30.262Z"
+  }
 }

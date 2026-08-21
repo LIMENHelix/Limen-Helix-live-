@@ -37,7 +37,7 @@ function* iterPortals() {
   }
 }
 
-const inbox = buildInbox(iterPortals());
+const inbox = buildInbox(iterPortals(), { generatedAt: process.env.LIMEN_SNAPSHOT_AT });
 console.log('portals scanned:        ' + inbox.stats.portalsScanned);
 console.log('portals with artifacts: ' + inbox.stats.portalsWithArtifacts);
 console.log('total candidates:       ' + inbox.stats.totalCandidates);

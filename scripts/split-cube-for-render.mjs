@@ -147,7 +147,14 @@ function main() {
     perStateBreakdown: cube.stats.perStateBreakdown,
     perDomainBreakdown: cube.stats.perDomainBreakdown,
     residualSummary: cube.stats.residualSummary,
-    unverifiedClaimsCount: cube.unverifiedClaimsCount,
+    // Operator-facing count is the UNIQUE current claim population after the
+    // ledger has been propagated. Keep the legacy occurrence count separately;
+    // broadcasting one claim across domains must not make the UI imply that it
+    // is thousands of independent unverified claims.
+    unverifiedClaimsCount:
+      cube.verificationReconciliation?.effectiveCurrentByVerdict?.PENDING ?? cube.unverifiedClaimsCount,
+    pendingClaimOccurrences: cube.unverifiedClaimsCount,
+    verificationReconciliation: cube.verificationReconciliation,
     loadedComparisonDomains: cube.loadedComparisonDomains,
     note:
       'Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification: PENDING (most claims), VERIFIED (post-#33), DISPUTED / FABRICATED suppress residuals.',
