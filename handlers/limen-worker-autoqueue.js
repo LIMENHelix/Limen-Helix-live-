@@ -21,6 +21,7 @@
 var db = require('../lib/limen-db');
 var policy = require('../lib/limen-policy');
 var cronAuth = require('../lib/cron-auth');
+var masterInbox = require('../assets/data/_master-inbox.json');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 var AUTOQUEUE_KEY = 'autoqueue';
@@ -28,6 +29,8 @@ var DEDUPE_PREFIX = 'autoqueue_dedupe_';   // dedupe_{cik}_{lane}
 var DEDUPE_TTL = 7 * 86400;                // 7 days
 var AUTOQUEUE_MAX = 200;                   // hold last N recommendations
 var AUTOQUEUE_TTL = 14 * 86400;            // 2 weeks
+var MASTER_SEED_PER_TICK = Math.max(1, Math.min(parseInt(process.env.MASTER_SEED_PER_TICK || '10', 10) || 10, 25));
+var ACTIVE_LANES = new Set(['investment', 'research']);
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -106,6 +109,68 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // 3b. The reconciled master inbox is the existing research/investment
+    // prioritizer. It used to be repo-only, so 759 READY_TO_FIRE candidates had
+    // no path into the live queue. Seed only its capped topPriority surface,
+    // preserve the exact gate inputs, and rate-limit queue admission. This does
+    // not bypass autofire's spend cap, stage refusal, or 24h CIK/lane dedupe.
+    var masterTop = Array.isArray(masterInbox.topPriority) ? masterInbox.topPriority : [];
+    var masterAdded = [];
+    var masterDeduped = 0;
+    var masterInvalid = 0;
+    for (var mi = 0; mi < masterTop.length && masterAdded.length < MASTER_SEED_PER_TICK; mi++) {
+      var item = masterTop[mi];
+      var lane = item && item.lane;
+      var cik = String(item && item.portalCik || '').replace(/^0+/, '') || null;
+      if (!item || item.status !== 'READY_TO_FIRE' || !ACTIVE_LANES.has(lane) || !cik || !item.artifactRef) {
+        masterInvalid++;
+        continue;
+      }
+
+      var alreadyPending = queue.some(function (q) {
+        return q.sourceArtifactRef === item.artifactRef && q.status === 'PENDING';
+      });
+      var masterDedupeKey = DEDUPE_PREFIX + 'master_' + item.artifactRef.replace(/[^A-Za-z0-9_.-]/g, '_');
+      if (alreadyPending || await db.get(masterDedupeKey)) {
+        masterDeduped++;
+        continue;
+      }
+
+      masterAdded.push({
+        queuedAt: Date.now(),
+        cik: cik,
+        ticker: item.portalTicker || null,
+        entity_name: item.portalName || null,
+        domain: item.portalDomain || null,
+        portalSlug: item.portalSlug || null,
+        from: item.phase || 'n/a',
+        to: item.phase || 'n/a',
+        direction: 'master-priority',
+        magnitude: null,
+        recommendedLane: lane,
+        salience: 'MASTER_READY',
+        salienceScore: item.salience,
+        autofireEligible: true,
+        source: 'master-inbox',
+        sourceArtifactRef: item.artifactRef,
+        sourcePatternSig: item.patternId || item.artifactRef,
+        sourceSnapshotAt: masterInbox.generatedAt || null,
+        masterGate: {
+          readiness: item.readiness,
+          salience: item.salience,
+          fireScore: item.fireScore,
+          confidence: item.confidence,
+          completeness: item.completeness,
+          phase: item.phase,
+          phaseInhibited: item.phaseInhibited
+        },
+        status: 'PENDING'
+      });
+      await db.set(masterDedupeKey, { at: Date.now(), artifactRef: item.artifactRef }, DEDUPE_TTL);
+    }
+    if (masterAdded.length) queue = masterAdded.concat(queue);
+    added += masterAdded.length;
+
     // 4. Cap queue size + persist
     if (queue.length > AUTOQUEUE_MAX) queue = queue.slice(0, AUTOQUEUE_MAX);
     await db.set(AUTOQUEUE_KEY, queue, AUTOQUEUE_TTL);
@@ -122,6 +187,15 @@ module.exports = async function handler(req, res) {
       networkStressBoosts: stressApplied,
       stressFeedFresh: stressFresh,
       skippedNoRecommendation: skippedNoRec,
+      masterInbox: {
+        snapshotAt: masterInbox.generatedAt || null,
+        readyTotal: masterInbox.stats && masterInbox.stats.readyToFire,
+        topPriorityExamined: masterTop.length,
+        admitted: masterAdded.length,
+        deduped: masterDeduped,
+        invalid: masterInvalid,
+        perTickCap: MASTER_SEED_PER_TICK
+      },
       queueSize: queue.length,
       sampleAdded: sampleAdded,
       elapsedMs: elapsed

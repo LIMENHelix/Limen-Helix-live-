@@ -99,6 +99,11 @@ function restoreEnv() {
   process.env.CRON_SECRET = 'cron-test-secret';
   r = await invoke(autoqueue, request('GET', '/api/limen-worker-autoqueue', 'Bearer cron-test-secret'));
   assert('exact cron bearer executes autoqueue', r.code === 200 && r.json && r.json.ok, r.body);
+  const seededQueue = store.get('autoqueue') || [];
+  assert('autoqueue admits a bounded master-inbox batch', seededQueue.length === 10 && r.json.masterInbox.admitted === 10, seededQueue.length);
+  assert('master-inbox candidates preserve their source identity and gate', seededQueue.every(q =>
+    q.source === 'master-inbox' && q.sourceArtifactRef && q.sourcePatternSig && q.masterGate && q.autofireEligible === true));
+  assert('master-inbox candidates remain research/investment only', seededQueue.every(q => ['research', 'investment'].includes(q.recommendedLane)));
 
   r = await invoke(sleep, request('GET', '/api/limen-worker-sleep-cycle', 'Bearer cron-test-secret'));
   assert('exact cron bearer executes sleep cycle', r.code === 200 && r.json && r.json.ok, r.body);
@@ -138,10 +143,15 @@ function restoreEnv() {
     autofireSource.includes("process.env.PUBLIC_BASE_URL || 'https://limenhelix.com'") &&
     !autofireSource.includes("process.env.VERCEL_URL ? 'https://'"));
   assert('autofire lanes remain exactly research and investment', /new Set\(\['investment', 'research'\]\)/.test(autofireSource));
+  assert('master-inbox readiness is explicit rather than relabelled HIGH',
+    autofireSource.includes("q.source === 'master-inbox' && q.autofireEligible === true"));
 
   const logSource = fs.readFileSync(path.join(ROOT, 'handlers', 'limen-autofire-log.js'), 'utf8');
   assert('autofire log reports the shared autonomy budget', logSource.includes("require('../lib/autonomy-budget')"));
   assert('autofire log no longer reports the retired default-20 budget', !logSource.includes('AUTOFIRE_DAILY_BUDGET'));
+
+  const ignored = fs.readFileSync(path.join(ROOT, '.vercelignore'), 'utf8');
+  assert('the runtime master inbox is no longer excluded from deployment', !/^assets\/data\/_master-inbox\.json$/m.test(ignored));
 
   restoreEnv();
   if (process.exitCode) process.exit(process.exitCode);
