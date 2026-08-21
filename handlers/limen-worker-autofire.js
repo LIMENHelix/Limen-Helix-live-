@@ -10,8 +10,7 @@
  *
  * SAFETY GUARDS (must-have for autonomous Anthropic spend):
  *   - Single-call lanes only (investment, research). Multi-pass lanes
- *     stay operator-fire because they take 6-25 min and exceed the
- *     300s Vercel function budget.
+ *     stay retired; this worker performs one bounded draft call per tick.
  *   - Shared autonomy master arm + daily budget cap. Both
  *     LIMEN_AUTONOMY_ENABLED=1 and LIMEN_AUTONOMY_DAILY_USD>0 are
  *     required; lib/autonomy-budget is the single spend ledger.
@@ -44,8 +43,8 @@ var CIK_DEDUPE_TTL = 86400;
 var AUDIT_LOG_MAX = 500;
 var AUDIT_LOG_TTL = 30 * 86400;
 
-// 1 fire per tick — guarantees we stay within Vercel's 300s budget
-// even on the slowest Sonnet call (we've seen 270s+ on dense lanes).
+// 1 fire per tick — guarantees we stay within Vercel's 800s budget
+// even on a dense draft call allowed up to ten minutes.
 // Cron runs every 30 min, so 48 fires/day cap is structural even
 // before the dollar budget binds.
 var MAX_FIRES_PER_TICK = parseInt(process.env.AUTOFIRE_MAX_PER_TICK || '1', 10);
@@ -55,6 +54,8 @@ var SINGLE_CALL_LANES = new Set(['investment', 'research']);
 // pricing as of build date). Conservative high-end estimate so we
 // don't overshoot budget.
 var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
+var RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000;
+var MAX_ATTEMPTS_PER_ENTRY = 3;
 
 // The deployment hostname can be protected even when the public custom domain
 // is intentionally open. Internal calls must use the public application origin;
@@ -239,9 +240,9 @@ async function _fireOne(entry) {
           ts: Date.now()
         }
       }),
-      // 240s leaves ~60s headroom under Vercel's 300s function cap
-      // for portal-load + persist + audit-write
-      signal: AbortSignal.timeout(240000)
+      // The downstream provider is allowed 600s. Leave 100s inside the
+      // function's 800s limit for portal load, persistence, and audit writes.
+      signal: AbortSignal.timeout(700000)
     });
     expandResp = await r.json();
   } catch (e) {
@@ -375,7 +376,8 @@ module.exports = async function handler(req, res) {
       if (!Array.isArray(q0)) q0 = [];
       var t_queue = Date.now() - stepT;
       var cands = q0.filter(function (q) {
-        return q.status === 'PENDING' && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
+        return q.status === 'PENDING' && (q.retryAfter || 0) <= Date.now()
+            && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
             && SINGLE_CALL_LANES.has(q.recommendedLane);
       });
       stepT = Date.now();
@@ -411,6 +413,7 @@ module.exports = async function handler(req, res) {
     if (!Array.isArray(queue)) queue = [];
     var candidates = queue.filter(function (q) {
       return q.status === 'PENDING'
+          && (q.retryAfter || 0) <= Date.now()
           && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
           && SINGLE_CALL_LANES.has(q.recommendedLane);
     });
@@ -490,9 +493,9 @@ module.exports = async function handler(req, res) {
     if (initialAudit.length > AUDIT_LOG_MAX) initialAudit = initialAudit.slice(0, AUDIT_LOG_MAX);
     await db.set(AUTOFIRE_AUDIT_LOG, initialAudit, AUDIT_LOG_TTL);
 
-    // 5. Fire all candidates in PARALLEL — both finish within Vercel's
-    //    300s budget even if each Sonnet call takes ~270s. Sequential
-    //    would blow past on the second fire.
+    // 5. Fire the bounded candidate set. MAX_FIRES_PER_TICK defaults to one;
+    //    Promise.allSettled preserves the existing explicit accounting if an
+    //    operator lowers provider latency and raises that cap deliberately.
     var firePromises = toFire.map(function (entry) {
       return _fireOne(entry).then(function (result) {
         return { entry: entry, result: result };
@@ -530,6 +533,34 @@ module.exports = async function handler(req, res) {
           }
           await db.set(CIK_DEDUPE_PREFIX + entry.cik + '_' + entry.recommendedLane, { at: Date.now() }, CIK_DEDUPE_TTL);
         } catch (_) { /* state-write errors must not poison the result */ }
+      } else if (!result.skipped) {
+        // A failed paid attempt must not hammer the same candidate every 30
+        // minutes. Back off for six hours and retire after three attempts,
+        // while preserving the error and attempt count on the queue record.
+        try {
+          var qFail = await db.get(AUTOQUEUE_KEY);
+          if (Array.isArray(qFail)) {
+            for (var qfi = 0; qfi < qFail.length; qfi++) {
+              var sameArtifact = entry.sourceArtifactRef && qFail[qfi].sourceArtifactRef === entry.sourceArtifactRef;
+              var sameLegacy = !entry.sourceArtifactRef && qFail[qfi].cik === entry.cik
+                && qFail[qfi].recommendedLane === entry.recommendedLane;
+              if ((sameArtifact || sameLegacy) && qFail[qfi].status === 'PENDING') {
+                qFail[qfi].autofireAttempts = (qFail[qfi].autofireAttempts || 0) + 1;
+                qFail[qfi].lastAttemptAt = Date.now();
+                qFail[qfi].lastAttemptError = result.reason || 'unknown';
+                if (qFail[qfi].autofireAttempts >= MAX_ATTEMPTS_PER_ENTRY) {
+                  qFail[qfi].status = 'FAILED';
+                  qFail[qfi].actionedAt = Date.now();
+                  qFail[qfi].actionedBy = 'autofire-retry-limit';
+                } else {
+                  qFail[qfi].retryAfter = Date.now() + RETRY_BACKOFF_MS;
+                }
+                break;
+              }
+            }
+            await db.set(AUTOQUEUE_KEY, qFail, 14 * 86400);
+          }
+        } catch (_) { /* the audit record still preserves the failure */ }
       }
 
       // The provider request may have incurred cost even if persistence failed.
