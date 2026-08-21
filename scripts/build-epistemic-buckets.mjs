@@ -24,31 +24,27 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const LEDGER = path.join(ROOT, 'assets/data/audit/verification-ledger.json');
 const SUMMARY = path.join(ROOT, 'assets/data/treatment-discovery/_summary.json');
+const SNAPSHOT_AT = process.env.LIMEN_SNAPSHOT_AT || new Date().toISOString();
 
 function main() {
   const ledger = JSON.parse(fs.readFileSync(LEDGER, 'utf-8'));
   const summary = JSON.parse(fs.readFileSync(SUMMARY, 'utf-8'));
 
-  // Tally processed verdicts straight from the ledger (authoritative — the
-  // ledger.stats block can drift; the verdicts map cannot).
-  const verdictCounts = {};
-  for (const id of Object.keys(ledger.verdicts || {})) {
-    const v = (ledger.verdicts[id] && ledger.verdicts[id].verdict) || 'PENDING';
-    verdictCounts[v] = (verdictCounts[v] || 0) + 1;
+  // Use the current cube snapshot, not the ledger's all-time population. A
+  // rebuilt cube may retire claim ids while the append-only ledger correctly
+  // preserves their historical verdicts. Mixing those populations made the
+  // UI count archived claims as if they were still rendered.
+  const reconciliation = summary.verificationReconciliation;
+  if (!reconciliation || !reconciliation.effectiveCurrentByVerdict) {
+    throw new Error('summary is missing verificationReconciliation; run reconcile-discovery-stores.mjs');
   }
-  const processed = Object.values(verdictCounts).reduce((a, b) => a + b, 0);
+  const verdictCounts = { ...reconciliation.effectiveCurrentByVerdict };
+  const processed = reconciliation.matchedLedgerClaims;
 
   const buckets = { proven: 0, unproven: 0, unknown: 0, impossible: 0 };
   for (const [verdict, n] of Object.entries(verdictCounts)) {
     buckets[ES.classify(verdict)] += n;
   }
-
-  // PENDING claims never written to the ledger are still UNKNOWN — keep them.
-  const pendingNotInLedger = Math.max(
-    0,
-    (summary.unverifiedClaimsCount || 0) - (verdictCounts.PENDING || 0)
-  );
-  buckets.unknown += pendingNotInLedger;
 
   summary.epistemicBuckets = {
     proven: buckets.proven,
@@ -61,7 +57,8 @@ function main() {
     note:
       'Every claim kept and separated by epistemic state. Verification writes the ' +
       'state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).',
-    computedAt: new Date().toISOString(),
+    archivedLedgerClaims: reconciliation.archivedLedgerClaims,
+    computedAt: SNAPSHOT_AT,
   };
 
   // Fix the legacy note that contradicted doctrine.

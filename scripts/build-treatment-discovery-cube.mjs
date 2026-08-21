@@ -46,6 +46,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
+const SNAPSHOT_AT = process.env.LIMEN_SNAPSHOT_AT || new Date().toISOString();
 
 // DOMAIN_BUILDOUT_PLAYBOOK §G.3 — resolve domain keys, never string-build them.
 // A glob over `assets/data/domains/<domain>.json` silently skips agriculture (its file is
@@ -276,7 +277,7 @@ async function main() {
   // Cube
   const cube = {
     schemaVersion: '1.0.0',
-    builtAt: new Date().toISOString(),
+    builtAt: SNAPSHOT_AT,
     kernelShaLock: null,
     loadedComparisonDomains: domainIds,
     description:
@@ -432,7 +433,7 @@ async function main() {
             field: 'treatment',
             sourceFile: `assets/data/domains/${domainId}.json`,
             sourcePath: `$.activations[?brainNodeId=='${nodeId}'].treatments[?label=='${tx.label}']`,
-            retrievedAt: new Date().toISOString(),
+            retrievedAt: SNAPSHOT_AT,
             retrievedFromSha: null,
           },
           verification: makePendingVerdict('websearch'),
@@ -746,7 +747,7 @@ async function main() {
       cube.stats.populatedCells++;
     }
 
-    cell.lastBuiltAt = new Date().toISOString();
+    cell.lastBuiltAt = SNAPSHOT_AT;
   }
 
   cube.cells = cells;
@@ -795,7 +796,7 @@ async function main() {
   fs.mkdirSync(path.dirname(UNRESOLVED_IDS_FILE), { recursive: true });
   fs.writeFileSync(UNRESOLVED_IDS_FILE, JSON.stringify({
     schemaVersion: '1.0.0',
-    generatedAt: new Date().toISOString(),
+    generatedAt: SNAPSHOT_AT,
     producedBy: 'scripts/build-treatment-discovery-cube.mjs',
     description:
       'brainNodeIds referenced by cube sources that canonical-nodes.json does not contain. ' +
@@ -876,7 +877,7 @@ function buildNodeProfile(brainNodeId, taxonomy, nodeMap, canonicalNodes) {
       field: 'NodeProfile',
       sourceFile: 'assets/data/brain-node-business-mapping.json + brain-node-map.json',
       sourcePath: `$.${brainNodeId}`,
-      retrievedAt: new Date().toISOString(),
+      retrievedAt: SNAPSHOT_AT,
       retrievedFromSha: null,
     },
   };

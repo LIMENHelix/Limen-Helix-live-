@@ -74452,8 +74452,8 @@
     }
   },
   "stats": {
-    "VERIFIED": 3872,
-    "DISPUTED": 113,
+    "VERIFIED": 3700,
+    "DISPUTED": 89,
     "THEORETICAL": 1583,
     "UNVERIFIABLE": 2528,
     "FABRICATED": 0,
@@ -74461,7 +74461,33 @@
     "byVerifier": {
       "rule-based": 5030,
       "internal-consistency": 8,
-      "pubmed": 3058
+      "pubmed": 2862
     }
+  },
+  "reconciliation": {
+    "schemaVersion": "verification-reconciliation/1.0",
+    "snapshotAt": "2026-08-21T01:11:30.262Z",
+    "sourceCommit": "cbe6d8e8e0ad0715105abc4a71d164cada46a13c",
+    "uniqueCurrentClaims": 47177,
+    "matchedLedgerClaims": 5910,
+    "currentClaimsWithoutLedger": 41267,
+    "archivedLedgerClaims": 1990,
+    "effectiveCurrentByVerdict": {
+      "VERIFIED": 2414,
+      "DISPUTED": 89,
+      "THEORETICAL": 917,
+      "UNVERIFIABLE": 2490,
+      "FABRICATED": 0,
+      "PENDING": 41267
+    },
+    "ledgerAllTimeByVerdict": {
+      "VERIFIED": 3700,
+      "DISPUTED": 89,
+      "THEORETICAL": 1583,
+      "UNVERIFIABLE": 2528,
+      "FABRICATED": 0,
+      "PENDING": 0
+    },
+    "note": "Current claims are the unique claim-id population in this cube snapshot. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
   }
 }
