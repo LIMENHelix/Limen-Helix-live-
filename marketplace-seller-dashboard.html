@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relay Seller Dashboard</title>
+<style>
+  :root{ --bg:#0c0e13; --panel:#14171f; --line:#252a35; --ink:#e8e3d9; --soft:#8b94a3; --gold:#c9a94e; --green:#5ab5a0; --red:#e74c3c; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;padding:20px}
+  .container{max-width:1000px;margin:0 auto}
+
+  header{margin-bottom:32px}
+  .eyebrow{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.8;font-weight:600}
+  h1{font-size:1.8rem;margin:.4rem 0 .2rem}
+  .seller-info{color:var(--soft);font-size:.9rem;margin-top:8px}
+
+  .tabs{display:flex;gap:16px;margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:0}
+  .tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--soft)}
+  .tab.active{border-bottom-color:var(--gold);color:var(--ink)}
+
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:20px}
+  .card h2{font-size:1.1rem;margin:0 0 16px;color:var(--gold)}
+
+  .form-group{margin-bottom:16px}
+  .form-group label{display:block;font-size:.9rem;margin-bottom:6px;font-weight:600}
+  .form-group input, .form-group textarea, .form-group select{width:100%;padding:10px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--ink);font-family:inherit;font-size:.9rem}
+  .form-group textarea{resize:vertical;min-height:100px}
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,169,78,0.1)}
+
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+
+  button{background:var(--gold);color:#1a1306;border:none;border-radius:8px;padding:12px 24px;font-weight:700;cursor:pointer;font-size:.95rem}
+  button:hover{filter:brightness(1.08)}
+  button:disabled{opacity:0.5;cursor:not-allowed}
+  button.secondary{background:transparent;border:1px solid var(--line);color:var(--soft)}
+  button.secondary:hover{background:var(--line)}
+
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
+  @media(max-width:600px){.stats{grid-template-columns:1fr}}
+  .stat-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+  .stat-card .label{font-size:.75rem;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+  .stat-card .value{font-size:1.8rem;font-weight:800;color:var(--gold)}
+
+  .listing-item{background:var(--line);border-radius:8px;padding:16px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start}
+  .listing-item .thumb{width:80px;height:80px;background:var(--bg);border-radius:6px;flex-shrink:0}
+  .listing-item .info{flex:1}
+  .listing-item .title{font-weight:600;margin-bottom:4px}
+  .listing-item .meta{font-size:.8rem;color:var(--soft);margin-bottom:8px}
+  .listing-item .price{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:8px}
+  .listing-item .actions{display:flex;gap:8px}
+  .listing-item button{padding:6px 12px;font-size:.8rem}
+
+  .payout-item{background:var(--line);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .payout-item .amount{font-weight:700;color:var(--green)}
+  .payout-item .status{font-size:.8rem;color:var(--soft)}
+  .payout-item .status.pending{color:var(--red)}
+
+  .status-msg{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:.9rem}
+  .status-msg.ok{background:rgba(16,185,129,0.2);color:var(--green)}
+  .status-msg.err{background:rgba(231,76,60,0.2);color:var(--red)}
+
+  .link{color:var(--gold);text-decoration:none;font-size:.9rem;cursor:pointer}
+  .link:hover{text-decoration:underline}
+
+  .empty{color:var(--soft);text-align:center;padding:32px;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="eyebrow">Relay Marketplace</div>
+    <h1>Seller Dashboard</h1>
+    <div class="seller-info">
+      Seller ID: <code id="sellerId" style="color:var(--soft);font-size:.85rem"></code>
+      | <a href="javascript:logout()" class="link">Logout</a>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="label">Total Listings</div>
+      <div class="value" id="listingCount">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Total Earnings</div>
+      <div class="value" id="totalEarnings">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Pending Payout</div>
+      <div class="value" id="pendingPayout" style="color:var(--red)">—</div>
+    </div>
+  </div>
+
+  <div id="statusMsg"></div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('listings')">My Listings</div>
+    <div class="tab" onclick="switchTab('create')">Sell Item</div>
+    <div class="tab" onclick="switchTab('payouts')">Earnings & Payouts</div>
+  </div>
+
+  <!-- My Listings Tab -->
+  <div id="listings-tab" class="tab-content active">
+    <div class="card">
+      <h2>My Listings</h2>
+      <div id="listingsContainer" class="empty">Loading listings...</div>
+    </div>
+  </div>
+
+  <!-- Create Listing Tab -->
+  <div id="create-tab" class="tab-content">
+    <div class="card">
+      <h2>Create New Listing</h2>
+      <form onsubmit="createListing(event)">
+        <div class="form-group">
+          <label>Title *</label>
+          <input type="text" id="title" placeholder="e.g., Vintage Leather Jacket" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Price (USD) *</label>
+            <input type="number" id="price" placeholder="29.99" step="0.01" min="0.50" required />
+          </div>
+          <div class="form-group">
+            <label>Condition *</label>
+            <select id="condition" required>
+              <option value="">-- Select --</option>
+              <option value="like-new">Like New</option>
+              <option value="good">Good</option>
+              <option value="fair">Fair</option>
+              <option value="used">Used</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="category" required>
+            <option value="">-- Select --</option>
+            <option value="fashion">Fashion</option>
+            <option value="shoes">Shoes</option>
+            <option value="accessories">Accessories</option>
+            <option value="home">Home</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="description" placeholder="Describe the item, condition, any flaws..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Image URL (or leave blank)</label>
+          <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg" />
+        </div>
+
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" id="quantity" value="1" min="1" />
+        </div>
+
+        <button type="submit">List Item for Sale</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Earnings & Payouts Tab -->
+  <div id="payouts-tab" class="tab-content">
+    <div class="card">
+      <h2>Pending Payouts</h2>
+      <div id="payoutsContainer" class="empty">Loading payouts...</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var SELLER_ID = localStorage.getItem('relay-seller-id');
+var MARKETPLACE_ID = localStorage.getItem('relay-marketplace-id') || 'mkt_demo_1';
+
+if (!SELLER_ID) {
+  SELLER_ID = prompt('Enter your seller email to get started:');
+  if (!SELLER_ID) {
+    window.location.href = '/';
+    throw new Error('No seller ID');
+  }
+  localStorage.setItem('relay-seller-id', SELLER_ID);
+}
+
+document.getElementById('sellerId').textContent = SELLER_ID;
+
+loadSellerStats();
+loadListings();
+loadPayouts();
+
+async function loadSellerStats() {
+  try {
+    const r = await fetch('/api/relay-marketplace?action=seller-stats&sellerId=' + encodeURIComponent(SELLER_ID));
+    const j = await r.json();
+    if (j.ok) {
+      document.getElementById('listingCount').textContent = j.listingsCount || 0;
+      document.getElementById('totalEarnings').textContent = '$' + j.earnings.toFixed(2);
+      document.getElementById('pendingPayout').textContent = '$' + j.pendingPayoutsAmount.toFixed(2);
+    }
+  } catch (e) {
+    console.error('Error loading stats:', e.message);
+  }
+}
+
+async function loadListings() {
+  try {
+    const r = await fetch('/api/relay-marketplace?action=seller-listings&sellerId=' + encodeURIComponent(SELLER_ID));
+    const j = await r.json();
+    if (j.ok && Array.isArray(j.listings)) {
+      if (j.listings.length === 0) {
+        document.getElementById('listingsContainer').innerHTML = '<div class="empty">No listings yet. Create one to get started!</div>';
+      } else {
+        document.getElementById('listingsContainer').innerHTML = j.listings.map(function(l) {
+          return `
+            <div class="listing-item">
+              <div class="thumb" style="background:url('${l.images && l.images[0] ? l.images[0] : ''}') center/cover"></div>
+              <div class="info">
+                <div class="title">${l.title}</div>
+                <div class="meta">${l.category} • ${l.condition} • Listed ${new Date(l.ts).toLocaleDateString()}</div>
+                <div class="price">$${l.price.toFixed(2)}</div>
+                <div class="actions">
+                  <button class="secondary" onclick="editListing('${l.id}')">Edit</button>
+                  <button class="secondary" onclick="removeListing('${l.id}')">Remove</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    } else {
+      document.getElementById('listingsContainer').innerHTML = '<div class="empty">Error loading listings</div>';
+    }
+  } catch (e) {
+    document.getElementById('listingsContainer').innerHTML = '<div class="empty">Error: ' + e.message + '</div>';
+  }
+}
+
+async function loadPayouts() {
+  try {
+    const r = await fetch('/api/relay-marketplace?action=seller-stats&sellerId=' + encodeURIComponent(SELLER_ID));
+    const j = await r.json();
+    if (j.ok) {
+      if (j.pendingPayoutsCount === 0) {
+        document.getElementById('payoutsContainer').innerHTML = '<div class="empty">No pending payouts</div>';
+      } else {
+        // This is a simplified view; real implementation would fetch detailed payouts
+        document.getElementById('payoutsContainer').innerHTML = `
+          <div class="payout-item">
+            <div>
+              <div style="margin-bottom:4px">Pending Payout</div>
+              <div class="status pending">${j.pendingPayoutsCount} payout(s) pending approval</div>
+            </div>
+            <div class="amount">$${j.pendingPayoutsAmount.toFixed(2)}</div>
+          </div>
+          <p style="font-size:.85rem;color:var(--soft);margin-top:12px">Payouts are reviewed and processed by the marketplace owner. Once approved, funds are transferred to your bank account.</p>
+        `;
+      }
+    }
+  } catch (e) {
+    document.getElementById('payoutsContainer').innerHTML = '<div class="empty">Error: ' + e.message + '</div>';
+  }
+}
+
+async function createListing(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.disabled = true;
+
+  try {
+    const images = document.getElementById('imageUrl').value ? [document.getElementById('imageUrl').value] : [];
+    const r = await fetch('/api/relay-marketplace', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'create-listing',
+        marketplaceId: MARKETPLACE_ID,
+        sellerId: SELLER_ID,
+        title: document.getElementById('title').value,
+        price: parseFloat(document.getElementById('price').value),
+        description: document.getElementById('description').value,
+        category: document.getElementById('category').value,
+        condition: document.getElementById('condition').value,
+        quantity: parseInt(document.getElementById('quantity').value),
+        images: images
+      })
+    });
+
+    const j = await r.json();
+    if (j.ok) {
+      showStatus('Item listed successfully!', 'ok');
+      e.target.reset();
+      switchTab('listings');
+      loadListings();
+      loadSellerStats();
+      setTimeout(() => document.getElementById('statusMsg').innerHTML = '', 3000);
+    } else {
+      showStatus('Error: ' + (j.error || 'failed to create listing'), 'err');
+    }
+  } catch (e) {
+    showStatus('Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function editListing(listingId) {
+  alert('Edit feature coming soon');
+}
+
+function removeListing(listingId) {
+  if (!confirm('Remove this listing?')) return;
+  alert('Remove feature coming soon');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active'); });
+  document.getElementById(tab + '-tab').classList.add('active');
+  event.target.classList.add('active');
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg ' + type;
+}
+
+function logout() {
+  localStorage.removeItem('relay-seller-id');
+  window.location.href = '/';
+}
+
+// Auto-refresh every 30 seconds
+setInterval(function() {
+  loadSellerStats();
+  loadListings();
+}, 30000);
+</script>
+</body>
+</html>

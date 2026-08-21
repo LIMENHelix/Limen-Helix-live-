@@ -33,6 +33,8 @@ const HANDLERS = {
   'autopilot': require('../handlers/autopilot'),
   'relay-margin': require('../handlers/relay-margin'),
   'relay-checkout': require('../handlers/relay-checkout'),
+  'relay-marketplace': require('../handlers/relay-marketplace'),
+  'relay-marketplace-checkout': require('../handlers/relay-marketplace-checkout'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),

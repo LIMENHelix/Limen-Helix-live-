@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relay Marketplace — Buy & Sell Fashion</title>
+<style>
+  :root{ --bg:#fafaf8; --card:#ffffff; --line:#e5e0d8; --ink:#1a1512; --soft:#6b6359; --accent:#2563eb; --green:#10b981; }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+
+  header{background:var(--card);border-bottom:1px solid var(--line);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+  .logo{font-size:1.4rem;font-weight:800;letter-spacing:-.02em}
+  .header-right{display:flex;gap:12px;align-items:center}
+  .search-bar{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;width:200px;font-size:.9rem}
+  .cart-icon{cursor:pointer;font-size:1.2rem;position:relative}
+  .cart-count{position:absolute;top:-8px;right:-8px;background:var(--accent);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+
+  nav{background:var(--card);border-bottom:1px solid var(--line);padding:0 20px}
+  nav a{display:inline-block;padding:12px 16px;font-size:.9rem;color:var(--soft);text-decoration:none;border-bottom:2px solid transparent}
+  nav a:hover{color:var(--ink)}
+  nav a.active{border-bottom-color:var(--accent);color:var(--ink)}
+
+  .container{max-width:1200px;margin:0 auto;padding:20px}
+
+  .filters{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+  .filter-btn{background:var(--card);border:1px solid var(--line);padding:8px 16px;border-radius:6px;cursor:pointer;font-size:.85rem}
+  .filter-btn.active{background:var(--accent);color:white;border-color:var(--accent)}
+
+  .listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:40px}
+  .listing-card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:box-shadow 0.2s}
+  .listing-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+  .listing-card .image{width:100%;height:200px;background:var(--line);object-fit:cover}
+  .listing-card .info{padding:12px}
+  .listing-card .title{font-weight:600;font-size:.9rem;margin:0 0 4px;line-height:1.3}
+  .listing-card .condition{font-size:.75rem;color:var(--soft);margin-bottom:8px}
+  .listing-card .price{font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:8px}
+  .listing-card .seller{font-size:.75rem;color:var(--soft)}
+  .listing-card .add-btn{width:100%;background:var(--accent);color:white;border:none;padding:8px;border-radius:6px;font-weight:600;cursor:pointer;font-size:.85rem}
+  .listing-card .add-btn:hover{filter:brightness(0.9)}
+
+  /* Cart Drawer */
+  .cart-drawer{position:fixed;right:-400px;top:0;width:400px;height:100vh;background:var(--card);border-left:1px solid var(--line);z-index:200;transition:right 0.3s;overflow-y:auto;box-shadow:0 0 20px rgba(0,0,0,0.1)}
+  .cart-drawer.open{right:0}
+  .cart-header{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card)}
+  .cart-header button{background:none;border:none;font-size:1.4rem;cursor:pointer}
+  .cart-items{padding:16px}
+  .cart-item{display:flex;justify-content:space-between;padding:12px;background:var(--bg);border-radius:8px;margin-bottom:8px}
+  .cart-item .title{font-weight:600;font-size:.9rem}
+  .cart-item .price{font-weight:700;color:var(--accent)}
+  .cart-item .remove{background:none;border:none;color:var(--soft);cursor:pointer;font-size:.8rem}
+  .cart-summary{padding:16px;border-top:1px solid var(--line);position:sticky;bottom:0;background:var(--card)}
+  .cart-summary .row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:.9rem}
+  .cart-summary .total{font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:12px}
+  .checkout-btn{width:100%;background:var(--accent);color:white;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.95rem}
+  .checkout-btn:hover{filter:brightness(0.9)}
+  .checkout-btn:disabled{opacity:0.5;cursor:not-allowed}
+  .cart-empty{padding:32px 16px;text-align:center;color:var(--soft)}
+
+  .loading{text-align:center;padding:40px;color:var(--soft)}
+  .spinner{display:inline-block;width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .status-msg{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:.9rem}
+  .status-msg.ok{background:#d1fae5;color:#047857}
+  .status-msg.err{background:#fee2e2;color:#dc2626}
+
+  @media(max-width:768px){
+    .listings-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+    .cart-drawer{width:100%;right:-100%}
+    .search-bar{width:120px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Relay</div>
+  <div class="header-right">
+    <input type="text" class="search-bar" placeholder="Search items..." id="searchInput" />
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒
+      <span class="cart-count" id="cartCount" style="display:none">0</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <a href="#" class="active" onclick="setCategory(null); return false">All Items</a>
+  <a href="#" onclick="setCategory('fashion'); return false">Fashion</a>
+  <a href="#" onclick="setCategory('shoes'); return false">Shoes</a>
+  <a href="#" onclick="setCategory('accessories'); return false">Accessories</a>
+  <a href="#" onclick="setCategory('home'); return false">Home</a>
+</nav>
+
+<div class="container">
+  <div id="statusMsg"></div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setCondition(null)">All Conditions</button>
+    <button class="filter-btn" onclick="setCondition('like-new')">Like New</button>
+    <button class="filter-btn" onclick="setCondition('good')">Good</button>
+    <button class="filter-btn" onclick="setCondition('fair')">Fair</button>
+  </div>
+
+  <div id="listingsContainer">
+    <div class="loading"><div class="spinner"></div>Loading marketplace...</div>
+  </div>
+</div>
+
+<!-- Cart Drawer -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h2>Cart</h2>
+    <button onclick="toggleCart()">✕</button>
+  </div>
+  <div id="cartItemsContainer" class="cart-items">
+    <div class="cart-empty">Your cart is empty</div>
+  </div>
+  <div class="cart-summary">
+    <div class="row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+    <div class="row"><span>Shipping</span><span id="shipping">$0.00</span></div>
+    <div class="total">Total: <span id="total">$0.00</span></div>
+    <button class="checkout-btn" id="checkoutBtn" onclick="checkout()" disabled>Go to Checkout</button>
+  </div>
+</div>
+
+<script>
+var MARKETPLACE_ID = localStorage.getItem('relay-marketplace-id') || 'mkt_demo_1';
+var BUYER_ID = localStorage.getItem('relay-buyer-id') || 'buyer_' + Date.now();
+var cart = [];
+var listings = [];
+var currentCategory = null;
+var currentCondition = null;
+
+// Initialize
+localStorage.setItem('relay-buyer-id', BUYER_ID);
+loadListings();
+updateCartUI();
+
+async function loadListings() {
+  try {
+    const r = await fetch('/api/relay-marketplace?action=list-listings&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID) + '&limit=100');
+    const j = await r.json();
+    if (j.ok) {
+      listings = j.listings || [];
+      renderListings();
+    } else {
+      showStatus('Failed to load listings: ' + (j.error || 'unknown error'), 'err');
+    }
+  } catch (e) {
+    showStatus('Error: ' + e.message, 'err');
+  }
+}
+
+function renderListings() {
+  let filtered = listings.filter(function(l) {
+    if (currentCategory && l.category !== currentCategory) return false;
+    if (currentCondition && l.condition !== currentCondition) return false;
+    return true;
+  });
+
+  const html = filtered.map(function(l) {
+    return `
+      <div class="listing-card" onclick="viewListing('${l.id}')">
+        <img src="${l.images && l.images[0] ? l.images[0] : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22220%22 height=%22200%22%3E%3Crect fill=%22%23e5e0d8%22 width=%22220%22 height=%22200%22/%3E%3C/svg%3E'}" class="image" alt="${l.title}" />
+        <div class="info">
+          <div class="title">${l.title}</div>
+          <div class="condition">${l.condition}</div>
+          <div class="price">$${l.price.toFixed(2)}</div>
+          <div class="seller">By seller</div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('${l.id}')">Add to Cart</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('listingsContainer').innerHTML = html || '<p style="padding:40px;text-align:center;color:var(--soft)">No items found</p>';
+}
+
+function setCategory(cat) {
+  currentCategory = cat;
+  renderListings();
+}
+
+function setCondition(cond) {
+  currentCondition = cond;
+  renderListings();
+}
+
+function addToCart(listingId) {
+  const listing = listings.find(function(l) { return l.id === listingId; });
+  if (!listing) return;
+
+  const existing = cart.find(function(c) { return c.id === listingId; });
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ id: listingId, title: listing.title, price: listing.price, qty: 1 });
+  }
+  updateCartUI();
+  showStatus('Added to cart!', 'ok');
+  setTimeout(() => document.getElementById('statusMsg').innerHTML = '', 2000);
+}
+
+function removeFromCart(listingId) {
+  cart = cart.filter(function(c) { return c.id !== listingId; });
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.reduce(function(sum, c) { return sum + c.qty; }, 0);
+  document.getElementById('cartCount').style.display = count > 0 ? 'flex' : 'none';
+  document.getElementById('cartCount').textContent = count;
+
+  const subtotal = cart.reduce(function(sum, c) { return sum + (c.price * c.qty); }, 0);
+  const shipping = subtotal > 75 ? 0 : 5.99;
+  const total = subtotal + shipping;
+
+  document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+  document.getElementById('shipping').textContent = '$' + shipping.toFixed(2);
+  document.getElementById('total').textContent = '$' + total.toFixed(2);
+
+  const itemsHtml = cart.length === 0
+    ? '<div class="cart-empty">Your cart is empty</div>'
+    : cart.map(function(c) {
+        return `
+          <div class="cart-item">
+            <div>
+              <div class="title">${c.title}</div>
+              <div style="font-size:.8rem;color:var(--soft)">Qty: ${c.qty}</div>
+            </div>
+            <div>
+              <div class="price">$${(c.price * c.qty).toFixed(2)}</div>
+              <button class="remove" onclick="event.stopPropagation(); removeFromCart('${c.id}')">Remove</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+  document.getElementById('cartItemsContainer').innerHTML = itemsHtml;
+  document.getElementById('checkoutBtn').disabled = cart.length === 0;
+}
+
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+}
+
+async function checkout() {
+  if (cart.length === 0) {
+    showStatus('Cart is empty', 'err');
+    return;
+  }
+
+  const btn = document.getElementById('checkoutBtn');
+  btn.disabled = true;
+  btn.textContent = 'Processing...';
+
+  try {
+    const items = cart.map(function(c) { return { id: c.id, qty: c.qty }; });
+    const r = await fetch('/api/relay-marketplace-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        marketplaceId: MARKETPLACE_ID,
+        buyerId: BUYER_ID,
+        items: items
+      })
+    });
+
+    const j = await r.json();
+    if (j.ok && j.url) {
+      // Redirect to Stripe checkout
+      window.location.href = j.url;
+    } else {
+      showStatus('Checkout failed: ' + (j.error || 'unknown error'), 'err');
+      btn.disabled = false;
+      btn.textContent = 'Go to Checkout';
+    }
+  } catch (e) {
+    showStatus('Error: ' + e.message, 'err');
+    btn.disabled = false;
+    btn.textContent = 'Go to Checkout';
+  }
+}
+
+function viewListing(listingId) {
+  const listing = listings.find(function(l) { return l.id === listingId; });
+  if (listing) {
+    alert(listing.title + '\n\n$' + listing.price.toFixed(2) + '\n\nCondition: ' + listing.condition + '\n\n' + (listing.description || 'No description'));
+  }
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg ' + type;
+}
+</script>
+</body>
+</html>
