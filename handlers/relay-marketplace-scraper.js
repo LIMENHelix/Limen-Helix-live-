@@ -74,6 +74,7 @@ module.exports = async function handler(req, res) {
       let result;
       if (source === 'vinted') result = await scraper.searchVinted(query, { maxItems });
       else if (source === 'mercari') result = await scraper.searchMercari(query, { limit: maxItems });
+      else if (source === 'poshmark') result = await scraper.searchPoshmark(query, { maxItems });
       else result = await scraper.searchEbay(query, { limit: maxItems });
 
       if (!result.ok) return sendJSON(res, 502, { ok: false, error: result.error });
