@@ -14,6 +14,7 @@ Three dispositions, and the distinction is load-bearing:
 |---|---|
 | **PROTECTED** | load-bearing and believed correct. Do not change internals without an explicit task. |
 | **QUARANTINED** | present, not load-bearing, not yet judged. Do not extend, do not delete, do not cite as evidence. |
+| **DEPRECATED** | superseded for its original role but still load-bearing for a stated remaining one. Do not cite it for the superseded role, do not delete it, and do not migrate the remaining consumer without replacing what it supplies. |
 | **PHANTOM** | named somewhere as if real. Does not exist. Recorded so it is not re-sanctified. |
 
 Protecting dead code is the same failure as protecting a phantom, one rung up. A path may not be
@@ -45,6 +46,31 @@ repo, zero with 432 edges.** Largest single edge set is 87 (`domains/defense.jso
 
 Struck. The number should not appear in any artifact. It is retained on line 3 only as the sole
 surviving evidence of what the module was intended to do (see QUARANTINE).
+
+---
+
+## DEPRECATED
+
+### `assets/data/brain-nodes-111.json` — deprecated as a taxonomy source, retained as a prose source
+
+**Deprecated as taxonomy source; retained as prose source for `build-neuro-disorder-lookup.mjs`
+pending migration.** Not to be deleted.
+
+- **Its name is wrong and its contents are wrong for the name.** "111" is a stale label; the file
+  holds **129** legacy numeric-id records (`id: 1…129`), including entries the canonical set
+  deliberately excludes. The canonical registry is `assets/data/canonical-nodes.json` — **123**
+  nodes, `_meta.total` now enforced by `scripts/check-repository.mjs`.
+- **It was never the cube's taxonomy.** `build-treatment-discovery-cube.mjs` declared a
+  `NODES_111_FILE` constant and **never referenced it** — dead code, removed 2026-08-19. Anyone
+  reading that constant would conclude the cube was built off this file. It was not.
+- **One real consumer remains.** `scripts/build-neuro-disorder-lookup.mjs:223` reads it for
+  `region`, `network`, `function` and `dysregulation` **prose**. Canonical carries none of those
+  fields (it carries `class`, `canBindBusiness`, `motif`, `tier`, `fractalWeight`,
+  `businessFunction`, `role`, `failureModes`). Repointing that consumer at canonical would
+  silently strip the prose, so it has deliberately **not** been repointed.
+- **Migration condition:** move it only once canonical (or another registry) supplies the prose
+  fields. Until then this file is the only surviving record of the legacy numeric-id schema and
+  its `limen_phase` assignments.
 
 ---
 

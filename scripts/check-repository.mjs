@@ -146,12 +146,37 @@ try {
   failures.push({ f: 'vercel.json', why: 'could not read or parse: ' + e.message });
 }
 
+// ── canonical node registry: _meta.total must equal the real node count ────
+//
+// canonical-nodes.json is the single source of truth for which brain nodes exist, and
+// several builders derive their node set from it. Its `_meta.total` was ASSERTED and never
+// enforced, so the header could drift from the body and nothing would notice — the same
+// shape as brain-connectome.json's meta reading "111 nodes" over 123 rows of data.
+let canonicalTotal = null;
+try {
+  const raw = readFileSync('assets/data/canonical-nodes.json', 'utf8');
+  const doc = JSON.parse(raw);
+  const actual = Object.keys(doc.nodes || {}).length;
+  canonicalTotal = actual;
+  if (!doc._meta || typeof doc._meta.total !== 'number') {
+    failures.push({ f: 'assets/data/canonical-nodes.json', why: '_meta.total is missing or not a number' });
+  } else if (doc._meta.total !== actual) {
+    failures.push({
+      f: 'assets/data/canonical-nodes.json',
+      why: '_meta.total (' + doc._meta.total + ') != actual .nodes count (' + actual + ') — the registry disagrees with itself',
+    });
+  }
+} catch (e) {
+  failures.push({ f: 'assets/data/canonical-nodes.json', why: 'could not read or parse: ' + e.message });
+}
+
 // ── report ─────────────────────────────────────────────────────────────────
 if (!QUIET) {
   console.log('repository check');
   console.log('  javascript parsed : ' + jsOk);
   console.log('  json parsed       : ' + jsonOk + (jsonSkipped ? '  (' + jsonSkipped + ' skipped over the size cap)' : ''));
   console.log('  cron targets      : ' + cronChecked);
+  console.log('  canonical nodes   : ' + (canonicalTotal === null ? 'UNREADABLE' : canonicalTotal + ' (_meta.total enforced)'));
   if (notes.length && notes.length <= 12) notes.forEach(n => console.log('  note: ' + n));
   else if (notes.length) console.log('  note: ' + notes.length + ' files skipped over the size cap');
 }
