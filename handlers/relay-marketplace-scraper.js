@@ -23,12 +23,21 @@ function readBody(req) {
   });
 }
 
+async function getScraper(source) {
+  switch (source) {
+    case 'ebay': return ebay;
+    case 'mercari': return mercari;
+    case 'vinted': return vinted;
+    case 'poshmark': return poshmark;
+    default: return null;
+  }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Cache-Control', 'no-store');
-
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
@@ -65,7 +74,6 @@ module.exports = async function handler(req, res) {
       let result;
       if (source === 'vinted') result = await scraper.searchVinted(query, { maxItems });
       else if (source === 'mercari') result = await scraper.searchMercari(query, { limit: maxItems });
-      else if (source === 'poshmark') result = await scraper.searchPoshmark(query, { maxItems });
       else result = await scraper.searchEbay(query, { limit: maxItems });
 
       if (!result.ok) return sendJSON(res, 502, { ok: false, error: result.error });
