@@ -3,335 +3,576 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Relay Seller Dashboard</title>
+<title>Relay Seller Dashboard · Marketplace</title>
 <style>
-  :root{ --bg:#0c0e13; --panel:#14171f; --line:#252a35; --ink:#e8e3d9; --soft:#8b94a3; --gold:#c9a94e; --green:#5ab5a0; --red:#e74c3c; }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;padding:20px}
-  .container{max-width:1000px;margin:0 auto}
+  :root {
+    --bg: #f8f7f5;
+    --card: #ffffff;
+    --line: #e5e0d8;
+    --ink: #1a1512;
+    --soft: #6b6359;
+    --accent: #2563eb;
+    --green: #059669;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; }
 
-  header{margin-bottom:32px}
-  .eyebrow{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.8;font-weight:600}
-  h1{font-size:1.8rem;margin:.4rem 0 .2rem}
-  .seller-info{color:var(--soft);font-size:.9rem;margin-top:8px}
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .branding {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .byline {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .seller-info {
+    font-size: 0.85rem;
+    color: var(--soft);
+  }
 
-  .tabs{display:flex;gap:16px;margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:0}
-  .tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--soft)}
-  .tab.active{border-bottom-color:var(--gold);color:var(--ink)}
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+  }
 
-  .tab-content{display:none}
-  .tab-content.active{display:block}
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
 
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:20px}
-  .card h2{font-size:1.1rem;margin:0 0 16px;color:var(--gold)}
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    color: var(--soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
 
-  .form-group{margin-bottom:16px}
-  .form-group label{display:block;font-size:.9rem;margin-bottom:6px;font-weight:600}
-  .form-group input, .form-group textarea, .form-group select{width:100%;padding:10px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--ink);font-family:inherit;font-size:.9rem}
-  .form-group textarea{resize:vertical;min-height:100px}
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,169,78,0.1)}
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+  }
 
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .listing-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .listing-card:hover {
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+    border-color: var(--accent);
+  }
+  .listing-card .image {
+    width: 100%;
+    height: 160px;
+    background: var(--line);
+    object-fit: cover;
+  }
+  .listing-card .info {
+    padding: 12px;
+  }
+  .listing-card .title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0 0 4px;
+    line-height: 1.3;
+  }
+  .listing-card .price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .listing-card .status {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    background: #d1fae5;
+    color: #047857;
+    border-radius: 4px;
+    display: inline-block;
+  }
 
-  button{background:var(--gold);color:#1a1306;border:none;border-radius:8px;padding:12px 24px;font-weight:700;cursor:pointer;font-size:.95rem}
-  button:hover{filter:brightness(1.08)}
-  button:disabled{opacity:0.5;cursor:not-allowed}
-  button.secondary{background:transparent;border:1px solid var(--line);color:var(--soft)}
-  button.secondary:hover{background:var(--line)}
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
 
-  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
-  @media(max-width:600px){.stats{grid-template-columns:1fr}}
-  .stat-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
-  .stat-card .label{font-size:.75rem;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-  .stat-card .value{font-size:1.8rem;font-weight:800;color:var(--gold)}
+  .camera-section {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .camera-section h4 {
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+  }
+  video {
+    width: 100%;
+    height: 240px;
+    background: var(--line);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    display: none;
+  }
+  video.active {
+    display: block;
+  }
+  .camera-controls {
+    display: flex;
+    gap: 8px;
+  }
+  .camera-controls button {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .camera-controls button:hover {
+    border-color: var(--accent);
+    background: #f0f6ff;
+  }
+  .camera-controls button.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .camera-controls button.primary:hover {
+    background: #1d4ed8;
+  }
 
-  .listing-item{background:var(--line);border-radius:8px;padding:16px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start}
-  .listing-item .thumb{width:80px;height:80px;background:var(--bg);border-radius:6px;flex-shrink:0}
-  .listing-item .info{flex:1}
-  .listing-item .title{font-weight:600;margin-bottom:4px}
-  .listing-item .meta{font-size:.8rem;color:var(--soft);margin-bottom:8px}
-  .listing-item .price{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:8px}
-  .listing-item .actions{display:flex;gap:8px}
-  .listing-item button{padding:6px 12px;font-size:.8rem}
+  .submit-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+  .submit-btn:hover { background: #1d4ed8; }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .payout-item{background:var(--line);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-  .payout-item .amount{font-weight:700;color:var(--green)}
-  .payout-item .status{font-size:.8rem;color:var(--soft)}
-  .payout-item .status.pending{color:var(--red)}
+  .status-msg {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+  }
+  .status-msg.ok { background: #d1fae5; color: #047857; }
+  .status-msg.err { background: #fee2e2; color: #dc2626; }
 
-  .status-msg{padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:.9rem}
-  .status-msg.ok{background:rgba(16,185,129,0.2);color:var(--green)}
-  .status-msg.err{background:rgba(231,76,60,0.2);color:var(--red)}
+  .payout-list {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .payout-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .payout-item:last-child { border-bottom: none; }
+  .payout-info {
+    flex: 1;
+  }
+  .payout-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .payout-status.pending {
+    background: #fef08a;
+    color: #713f12;
+  }
+  .payout-status.approved {
+    background: #d1fae5;
+    color: #047857;
+  }
+  .payout-status.processing {
+    background: #cffafe;
+    color: #0e7490;
+  }
 
-  .link{color:var(--gold);text-decoration:none;font-size:.9rem;cursor:pointer}
-  .link:hover{text-decoration:underline}
+  footer {
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    padding: 32px;
+    text-align: center;
+    color: var(--soft);
+    font-size: 0.85rem;
+  }
+  .footer-brand {
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
 
-  .empty{color:var(--soft);text-align:center;padding:32px;font-size:.9rem}
+  @media(max-width: 768px) {
+    .stats-row { grid-template-columns: 1fr; }
+    header { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .tabs { flex-wrap: wrap; }
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="eyebrow">Relay Marketplace</div>
-    <h1>Seller Dashboard</h1>
-    <div class="seller-info">
-      Seller ID: <code id="sellerId" style="color:var(--soft);font-size:.85rem"></code>
-      | <a href="javascript:logout()" class="link">Logout</a>
-    </div>
-  </header>
 
-  <div class="stats">
-    <div class="stat-card">
-      <div class="label">Total Listings</div>
-      <div class="value" id="listingCount">—</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Total Earnings</div>
-      <div class="value" id="totalEarnings">—</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Pending Payout</div>
-      <div class="value" id="pendingPayout" style="color:var(--red)">—</div>
-    </div>
+<header>
+  <div class="branding">
+    <div class="logo">Relay</div>
+    <div class="byline">by LIMEN Helix</div>
   </div>
+  <div class="seller-info">
+    Seller: <span id="sellerDisplay">Loading...</span>
+  </div>
+</header>
 
+<div class="container">
   <div id="statusMsg"></div>
 
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('listings')">My Listings</div>
-    <div class="tab" onclick="switchTab('create')">Sell Item</div>
-    <div class="tab" onclick="switchTab('payouts')">Earnings & Payouts</div>
-  </div>
-
-  <!-- My Listings Tab -->
-  <div id="listings-tab" class="tab-content active">
-    <div class="card">
-      <h2>My Listings</h2>
-      <div id="listingsContainer" class="empty">Loading listings...</div>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Total Listings</div>
+      <div class="stat-value" id="totalListings">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Earnings</div>
+      <div class="stat-value" id="totalEarnings">$0.00</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Pending Payout</div>
+      <div class="stat-value" id="pendingPayout">$0.00</div>
     </div>
   </div>
 
-  <!-- Create Listing Tab -->
-  <div id="create-tab" class="tab-content">
-    <div class="card">
-      <h2>Create New Listing</h2>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('listings')">My Listings</button>
+    <button class="tab-btn" onclick="switchTab('sell')">Sell Item</button>
+    <button class="tab-btn" onclick="switchTab('payouts')">Earnings & Payouts</button>
+  </div>
+
+  <!-- Listings Tab -->
+  <div id="listings" class="tab-content active">
+    <div id="listingsContainer" style="padding: 40px; text-align: center; color: var(--soft);">Loading listings...</div>
+  </div>
+
+  <!-- Sell Item Tab -->
+  <div id="sell" class="tab-content">
+    <div style="max-width: 600px;">
+      <h2 style="margin-top: 0;">Create New Listing</h2>
+
+      <div class="camera-section">
+        <h4>Take Photo</h4>
+        <video id="cameraVideo" playsinline></video>
+        <div class="camera-controls">
+          <button onclick="startCamera()">Start Camera</button>
+          <button class="primary" onclick="capturePhoto()" id="captureBtn" disabled>Capture Photo</button>
+          <button onclick="stopCamera()">Stop Camera</button>
+        </div>
+        <input type="hidden" id="imageUrl" />
+      </div>
+
       <form onsubmit="createListing(event)">
         <div class="form-group">
-          <label>Title *</label>
-          <input type="text" id="title" placeholder="e.g., Vintage Leather Jacket" required />
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Price (USD) *</label>
-            <input type="number" id="price" placeholder="29.99" step="0.01" min="0.50" required />
-          </div>
-          <div class="form-group">
-            <label>Condition *</label>
-            <select id="condition" required>
-              <option value="">-- Select --</option>
-              <option value="like-new">Like New</option>
-              <option value="good">Good</option>
-              <option value="fair">Fair</option>
-              <option value="used">Used</option>
-            </select>
-          </div>
+          <label>Title</label>
+          <input type="text" id="listingTitle" placeholder="e.g. Vintage leather jacket" required />
         </div>
 
         <div class="form-group">
-          <label>Category *</label>
-          <select id="category" required>
-            <option value="">-- Select --</option>
+          <label>Price (USD)</label>
+          <input type="number" id="listingPrice" min="0" step="0.01" placeholder="49.99" required />
+        </div>
+
+        <div class="form-group">
+          <label>Condition</label>
+          <select id="listingCondition" required>
+            <option value="">Choose condition</option>
+            <option value="like-new">Like New</option>
+            <option value="good">Good</option>
+            <option value="fair">Fair</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select id="listingCategory" required>
+            <option value="">Choose category</option>
             <option value="fashion">Fashion</option>
             <option value="shoes">Shoes</option>
             <option value="accessories">Accessories</option>
             <option value="home">Home</option>
-            <option value="other">Other</option>
           </select>
         </div>
 
         <div class="form-group">
           <label>Description</label>
-          <textarea id="description" placeholder="Describe the item, condition, any flaws..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>📸 Capture Photo or Upload</label>
-          <div style="display:flex;gap:8px;margin-bottom:12px">
-            <button type="button" onclick="startCamera()" style="flex:1">📷 Start Camera</button>
-            <button type="button" onclick="capturePhoto()" style="flex:1" id="captureBtn" disabled>📸 Take Photo</button>
-            <button type="button" onclick="stopCamera()" style="flex:1" id="stopBtn" disabled>Stop</button>
-          </div>
-          <video id="cameraPreview" style="width:100%;max-height:300px;border-radius:8px;background:#000;margin-bottom:8px;display:none;border:1px solid var(--line)"></video>
-          <canvas id="photoCanvas" style="display:none"></canvas>
-          <img id="capturedPhoto" style="width:100%;border-radius:8px;margin-bottom:8px;display:none;border:1px solid var(--line)" />
-          <input type="hidden" id="imageUrl" />
-          <p style="font-size:.8rem;color:var(--soft);margin:8px 0">or paste image URL below:</p>
-          <input type="url" id="imageUrlManual" placeholder="https://example.com/image.jpg" />
+          <textarea id="listingDescription" placeholder="Describe your item..."></textarea>
         </div>
 
         <div class="form-group">
           <label>Quantity</label>
-          <input type="number" id="quantity" value="1" min="1" />
+          <input type="number" id="listingQuantity" min="1" value="1" />
         </div>
 
-        <button type="submit">List Item for Sale</button>
+        <button type="submit" class="submit-btn">Create Listing</button>
       </form>
     </div>
   </div>
 
-  <!-- Earnings & Payouts Tab -->
-  <div id="payouts-tab" class="tab-content">
-    <div class="card">
-      <h2>Pending Payouts</h2>
-      <div id="payoutsContainer" class="empty">Loading payouts...</div>
-    </div>
+  <!-- Payouts Tab -->
+  <div id="payouts" class="tab-content">
+    <h2 style="margin-top: 0;">Earnings & Payouts</h2>
+    <div id="payoutsContainer" style="padding: 40px; text-align: center; color: var(--soft);">Loading payouts...</div>
   </div>
-
 </div>
 
+<footer>
+  <div class="footer-brand">Relay · by LIMEN Helix</div>
+  <div>Fast, secure seller tools · Get paid reliably</div>
+</footer>
+
 <script>
+var MARKETPLACE_ID = localStorage.getItem('relay-marketplace-id') || 'mkt_1787335292880_bm7h5jy';
 var SELLER_ID = localStorage.getItem('relay-seller-id');
-var MARKETPLACE_ID = localStorage.getItem('relay-marketplace-id') || 'mkt_demo_1';
+var videoStream = null;
+var marketplaceListings = [];
 
 if (!SELLER_ID) {
-  SELLER_ID = prompt('Enter your seller email to get started:');
-  if (!SELLER_ID) {
-    window.location.href = '/';
-    throw new Error('No seller ID');
-  }
+  SELLER_ID = 'seller_' + prompt('Enter your seller ID (or leave blank for a new ID):');
+  if (!SELLER_ID.slice(7)) SELLER_ID = 'seller_' + Date.now();
   localStorage.setItem('relay-seller-id', SELLER_ID);
 }
 
-document.getElementById('sellerId').textContent = SELLER_ID;
-
-// Camera functions
-var cameraStream = null;
-async function startCamera() {
-  try {
-    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    const video = document.getElementById('cameraPreview');
-    video.srcObject = cameraStream;
-    video.style.display = 'block';
-    document.getElementById('captureBtn').disabled = false;
-    document.getElementById('stopBtn').disabled = false;
-  } catch (e) {
-    alert('Camera access denied or not available: ' + e.message);
-  }
-}
-
-function capturePhoto() {
-  const video = document.getElementById('cameraPreview');
-  const canvas = document.getElementById('photoCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  ctx.drawImage(video, 0, 0);
-  const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-  document.getElementById('imageUrl').value = dataUrl;
-  const img = document.getElementById('capturedPhoto');
-  img.src = dataUrl;
-  img.style.display = 'block';
-  stopCamera();
-  showStatus('Photo captured!', 'ok');
-}
-
-function stopCamera() {
-  if (cameraStream) {
-    cameraStream.getTracks().forEach(t => t.stop());
-    document.getElementById('cameraPreview').style.display = 'none';
-    document.getElementById('captureBtn').disabled = true;
-    document.getElementById('stopBtn').disabled = true;
-  }
-}
-
-loadSellerStats();
+document.getElementById('sellerDisplay').textContent = SELLER_ID;
 loadListings();
 loadPayouts();
-
-async function loadSellerStats() {
-  try {
-    const r = await fetch('/api/relay-marketplace?action=seller-stats&sellerId=' + encodeURIComponent(SELLER_ID));
-    const j = await r.json();
-    if (j.ok) {
-      document.getElementById('listingCount').textContent = j.listingsCount || 0;
-      document.getElementById('totalEarnings').textContent = '$' + j.earnings.toFixed(2);
-      document.getElementById('pendingPayout').textContent = '$' + j.pendingPayoutsAmount.toFixed(2);
-    }
-  } catch (e) {
-    console.error('Error loading stats:', e.message);
-  }
-}
+setInterval(() => { loadStats(); loadPayouts(); }, 30000);
 
 async function loadListings() {
   try {
-    const r = await fetch('/api/relay-marketplace?action=seller-listings&sellerId=' + encodeURIComponent(SELLER_ID));
+    const r = await fetch('/api/relay-marketplace?action=seller-listings&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID) + '&sellerId=' + encodeURIComponent(SELLER_ID));
     const j = await r.json();
-    if (j.ok && Array.isArray(j.listings)) {
-      if (j.listings.length === 0) {
-        document.getElementById('listingsContainer').innerHTML = '<div class="empty">No listings yet. Create one to get started!</div>';
-      } else {
-        document.getElementById('listingsContainer').innerHTML = j.listings.map(function(l) {
-          return `
-            <div class="listing-item">
-              <div class="thumb" style="background:url('${l.images && l.images[0] ? l.images[0] : ''}') center/cover"></div>
-              <div class="info">
-                <div class="title">${l.title}</div>
-                <div class="meta">${l.category} • ${l.condition} • Listed ${new Date(l.ts).toLocaleDateString()}</div>
-                <div class="price">$${l.price.toFixed(2)}</div>
-                <div class="actions">
-                  <button class="secondary" onclick="editListing('${l.id}')">Edit</button>
-                  <button class="secondary" onclick="removeListing('${l.id}')">Remove</button>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-      }
-    } else {
-      document.getElementById('listingsContainer').innerHTML = '<div class="empty">Error loading listings</div>';
+    if (j.ok) {
+      marketplaceListings = j.listings || [];
+      renderListings();
+      loadStats();
     }
   } catch (e) {
-    document.getElementById('listingsContainer').innerHTML = '<div class="empty">Error: ' + e.message + '</div>';
+    showStatus('Error loading listings: ' + e.message, 'err');
   }
+}
+
+function renderListings() {
+  const html = marketplaceListings.map(function(l) {
+    return `
+      <div class="listing-card">
+        <img src="${l.images && l.images[0] ? l.images[0] : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22160%22%3E%3Crect fill=%22%23e5e0d8%22 width=%22200%22 height=%22160%22/%3E%3C/svg%3E'}" class="image" alt="${l.title}" />
+        <div class="info">
+          <div class="title">${l.title}</div>
+          <div class="price">$${l.price.toFixed(2)}</div>
+          <span class="status">${l.status}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const container = document.getElementById('listingsContainer');
+  container.innerHTML = html || '<p style="padding: 40px; color: var(--soft);">No listings yet. Start selling!</p>';
+}
+
+async function loadStats() {
+  try {
+    const r = await fetch('/api/relay-marketplace?action=seller-stats&sellerId=' + encodeURIComponent(SELLER_ID) + '&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID));
+    const j = await r.json();
+    if (j.ok && j.stats) {
+      const s = j.stats;
+      document.getElementById('totalListings').textContent = s.totalListings || 0;
+      document.getElementById('totalEarnings').textContent = '$' + (s.totalEarnings || 0).toFixed(2);
+      document.getElementById('pendingPayout').textContent = '$' + (s.pendingPayout || 0).toFixed(2);
+    }
+  } catch (e) {}
 }
 
 async function loadPayouts() {
   try {
-    const r = await fetch('/api/relay-marketplace?action=seller-stats&sellerId=' + encodeURIComponent(SELLER_ID));
+    const r = await fetch('/api/relay-marketplace?action=seller-payouts&sellerId=' + encodeURIComponent(SELLER_ID) + '&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID));
     const j = await r.json();
-    if (j.ok) {
-      if (j.pendingPayoutsCount === 0) {
-        document.getElementById('payoutsContainer').innerHTML = '<div class="empty">No pending payouts</div>';
-      } else {
-        // This is a simplified view; real implementation would fetch detailed payouts
-        document.getElementById('payoutsContainer').innerHTML = `
+    if (j.ok && j.payouts) {
+      const html = j.payouts.map(function(p) {
+        return `
           <div class="payout-item">
-            <div>
-              <div style="margin-bottom:4px">Pending Payout</div>
-              <div class="status pending">${j.pendingPayoutsCount} payout(s) pending approval</div>
+            <div class="payout-info">
+              <span class="payout-status ${p.status}">${p.status.toUpperCase()}</span>
+              <div style="margin-top: 4px;">Order ${p.orderId.slice(0, 8)}...</div>
             </div>
-            <div class="amount">$${j.pendingPayoutsAmount.toFixed(2)}</div>
+            <div style="text-align: right; font-weight: 700;">$${p.amount.toFixed(2)}</div>
           </div>
-          <p style="font-size:.85rem;color:var(--soft);margin-top:12px">Payouts are reviewed and processed by the marketplace owner. Once approved, funds are transferred to your bank account.</p>
         `;
-      }
+      }).join('');
+
+      document.getElementById('payoutsContainer').innerHTML = html || '<div style="padding: 40px; text-align: center; color: var(--soft);">No payouts yet.</div>';
     }
-  } catch (e) {
-    document.getElementById('payoutsContainer').innerHTML = '<div class="empty">Error: ' + e.message + '</div>';
-  }
+  } catch (e) {}
 }
 
-async function createListing(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('button');
+function startCamera() {
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'environment' }
+  }).then(function(stream) {
+    videoStream = stream;
+    const video = document.getElementById('cameraVideo');
+    video.srcObject = stream;
+    video.classList.add('active');
+    document.getElementById('captureBtn').disabled = false;
+  }).catch(function(e) {
+    showStatus('Camera access denied: ' + e.message, 'err');
+  });
+}
+
+function capturePhoto() {
+  const video = document.getElementById('cameraVideo');
+  if (!video.srcObject) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0);
+
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+  document.getElementById('imageUrl').value = dataUrl;
+  showStatus('Photo captured! Click Create Listing to save.', 'ok');
+}
+
+function stopCamera() {
+  if (videoStream) {
+    videoStream.getTracks().forEach(function(t) { t.stop(); });
+    videoStream = null;
+  }
+  document.getElementById('cameraVideo').classList.remove('active');
+  document.getElementById('captureBtn').disabled = true;
+}
+
+async function createListing(event) {
+  event.preventDefault();
+
+  const btn = event.target.querySelector('[type="submit"]');
   btn.disabled = true;
+  btn.textContent = 'Creating...';
 
   try {
-    const capturedImg = document.getElementById('imageUrl').value;
-    const manualImg = document.getElementById('imageUrlManual').value;
-    const images = capturedImg ? [capturedImg] : (manualImg ? [manualImg] : []);
+    const images = [];
+    const imageUrl = document.getElementById('imageUrl').value;
+    if (imageUrl) images.push(imageUrl);
+
     const r = await fetch('/api/relay-marketplace', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -339,66 +580,48 @@ async function createListing(e) {
         action: 'create-listing',
         marketplaceId: MARKETPLACE_ID,
         sellerId: SELLER_ID,
-        title: document.getElementById('title').value,
-        price: parseFloat(document.getElementById('price').value),
-        description: document.getElementById('description').value,
-        category: document.getElementById('category').value,
-        condition: document.getElementById('condition').value,
-        quantity: parseInt(document.getElementById('quantity').value),
+        title: document.getElementById('listingTitle').value,
+        price: parseFloat(document.getElementById('listingPrice').value),
+        condition: document.getElementById('listingCondition').value,
+        category: document.getElementById('listingCategory').value,
+        description: document.getElementById('listingDescription').value,
+        quantity: parseInt(document.getElementById('listingQuantity').value) || 1,
         images: images
       })
     });
 
     const j = await r.json();
     if (j.ok) {
-      showStatus('Item listed successfully!', 'ok');
-      e.target.reset();
-      switchTab('listings');
-      loadListings();
-      loadSellerStats();
-      setTimeout(() => document.getElementById('statusMsg').innerHTML = '', 3000);
+      showStatus('Listing created!', 'ok');
+      event.target.reset();
+      document.getElementById('imageUrl').value = '';
+      stopCamera();
+      setTimeout(() => loadListings(), 1000);
     } else {
-      showStatus('Error: ' + (j.error || 'failed to create listing'), 'err');
+      showStatus('Failed: ' + (j.error || 'unknown error'), 'err');
     }
   } catch (e) {
     showStatus('Error: ' + e.message, 'err');
   } finally {
     btn.disabled = false;
+    btn.textContent = 'Create Listing';
   }
 }
 
-function editListing(listingId) {
-  alert('Edit feature coming soon');
-}
-
-function removeListing(listingId) {
-  if (!confirm('Remove this listing?')) return;
-  alert('Remove feature coming soon');
-}
-
 function switchTab(tab) {
-  document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
-  document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active'); });
-  document.getElementById(tab + '-tab').classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+
   event.target.classList.add('active');
+  document.getElementById(tab).classList.add('active');
 }
 
 function showStatus(msg, type) {
   const el = document.getElementById('statusMsg');
   el.textContent = msg;
   el.className = 'status-msg ' + type;
+  setTimeout(() => { el.textContent = ''; }, 3000);
 }
-
-function logout() {
-  localStorage.removeItem('relay-seller-id');
-  window.location.href = '/';
-}
-
-// Auto-refresh every 30 seconds
-setInterval(function() {
-  loadSellerStats();
-  loadListings();
-}, 30000);
 </script>
 </body>
 </html>
