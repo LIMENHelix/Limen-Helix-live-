@@ -84,6 +84,17 @@ async function handleGET(req, res, q) {
 async function handlePOST(req, res, body) {
   const action = body.action || '';
 
+  if (action === 'create-marketplace') {
+    const mkt = await marketplace.createMarketplace({
+      name: body.name || 'Marketplace',
+      commissionRate: body.commissionRate || 0.15,
+      franchiseFeeRate: body.franchiseFeeRate || 0.05,
+      owner: body.owner || null,
+      domain: body.domain || null
+    });
+    return sendJSON(res, 201, { ok: true, marketplace: mkt });
+  }
+
   if (action === 'create-seller') {
     const email = (body.email || '').toLowerCase();
     if (!email) return sendJSON(res, 400, { ok: false, error: 'email required' });
