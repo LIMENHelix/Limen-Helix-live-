@@ -127,6 +127,19 @@ function restoreEnv() {
   r = await invoke(engine, request('POST', '/api/limen-engine-output', null, {}, { 'x-limen-pass': 'master-test-secret' }));
   assert('engine-output accepts master auth before validating content', r.code === 400 && r.json && r.json.error === 'missing-engineId', r.body);
 
+  r = await invoke(engine, request('POST', '/api/limen-engine-output', null, {
+    cik: '62996',
+    slug: 'mmc',
+    engineId: 'engine-investment',
+    lane: 'investment',
+    sourcePatternSig: 'test-pattern',
+    operator: 'autofire-worker',
+    payload: { draftBody: 'Draft with [DATA_NEEDED: audited value].' }
+  }, { 'x-limen-pass': 'master-test-secret' }));
+  assert('a draft needing data is not recorded as ready-to-sign in its own history',
+    r.code === 201 && r.json && r.json.status === 'DRAFT_NEEDS_DATA' &&
+    r.json.record && r.json.record.history[0].status === 'DRAFT_NEEDS_DATA', r.body);
+
   const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
   const cronPaths = vercel.crons.map(x => x.path);
   assert('autoqueue schedule is restored', cronPaths.includes('/api/limen-worker-autoqueue'));
