@@ -157,8 +157,18 @@
         </div>
 
         <div class="form-group">
-          <label>Image URL (or leave blank)</label>
-          <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg" />
+          <label>📸 Capture Photo or Upload</label>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <button type="button" onclick="startCamera()" style="flex:1">📷 Start Camera</button>
+            <button type="button" onclick="capturePhoto()" style="flex:1" id="captureBtn" disabled>📸 Take Photo</button>
+            <button type="button" onclick="stopCamera()" style="flex:1" id="stopBtn" disabled>Stop</button>
+          </div>
+          <video id="cameraPreview" style="width:100%;max-height:300px;border-radius:8px;background:#000;margin-bottom:8px;display:none;border:1px solid var(--line)"></video>
+          <canvas id="photoCanvas" style="display:none"></canvas>
+          <img id="capturedPhoto" style="width:100%;border-radius:8px;margin-bottom:8px;display:none;border:1px solid var(--line)" />
+          <input type="hidden" id="imageUrl" />
+          <p style="font-size:.8rem;color:var(--soft);margin:8px 0">or paste image URL below:</p>
+          <input type="url" id="imageUrlManual" placeholder="https://example.com/image.jpg" />
         </div>
 
         <div class="form-group">
@@ -195,6 +205,46 @@ if (!SELLER_ID) {
 }
 
 document.getElementById('sellerId').textContent = SELLER_ID;
+
+// Camera functions
+var cameraStream = null;
+async function startCamera() {
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    const video = document.getElementById('cameraPreview');
+    video.srcObject = cameraStream;
+    video.style.display = 'block';
+    document.getElementById('captureBtn').disabled = false;
+    document.getElementById('stopBtn').disabled = false;
+  } catch (e) {
+    alert('Camera access denied or not available: ' + e.message);
+  }
+}
+
+function capturePhoto() {
+  const video = document.getElementById('cameraPreview');
+  const canvas = document.getElementById('photoCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.drawImage(video, 0, 0);
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+  document.getElementById('imageUrl').value = dataUrl;
+  const img = document.getElementById('capturedPhoto');
+  img.src = dataUrl;
+  img.style.display = 'block';
+  stopCamera();
+  showStatus('Photo captured!', 'ok');
+}
+
+function stopCamera() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(t => t.stop());
+    document.getElementById('cameraPreview').style.display = 'none';
+    document.getElementById('captureBtn').disabled = true;
+    document.getElementById('stopBtn').disabled = true;
+  }
+}
 
 loadSellerStats();
 loadListings();
@@ -279,7 +329,9 @@ async function createListing(e) {
   btn.disabled = true;
 
   try {
-    const images = document.getElementById('imageUrl').value ? [document.getElementById('imageUrl').value] : [];
+    const capturedImg = document.getElementById('imageUrl').value;
+    const manualImg = document.getElementById('imageUrlManual').value;
+    const images = capturedImg ? [capturedImg] : (manualImg ? [manualImg] : []);
     const r = await fetch('/api/relay-marketplace', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
