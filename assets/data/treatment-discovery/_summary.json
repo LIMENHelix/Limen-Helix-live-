@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.0.0",
-  "builtAt": "2026-08-21T01:11:30.262Z",
-  "totalCells": 5537,
-  "populatedCells": 5484,
-  "cellsWithResiduals": 1706,
+  "builtAt": "2026-08-20T00:00:00.000Z",
+  "totalCells": 5521,
+  "populatedCells": 5468,
+  "cellsWithResiduals": 1693,
   "perStateBreakdown": {
     "mixed": 1882,
-    "hyperactive": 1765,
+    "hyperactive": 1761,
     "hypoactive": 1542,
-    "regulated": 348
+    "regulated": 336
   },
   "perDomainBreakdown": {
     "addiction": 161,
@@ -16,15 +16,15 @@
     "communication": 182,
     "contemplative": 159,
     "culture": 179,
-    "defense": 185,
-    "economy": 176,
+    "defense": 184,
+    "economy": 166,
     "education": 182,
     "energy": 182,
     "environment": 185,
     "finance": 184,
-    "governance": 184,
+    "governance": 182,
     "industry": 181,
-    "infrastructure": 188,
+    "infrastructure": 187,
     "intelligence": 183,
     "law": 172,
     "legal": 155,
@@ -36,7 +36,7 @@
     "provider": 157,
     "psychedelic": 158,
     "religion": 173,
-    "science": 180,
+    "science": 178,
     "technology": 182,
     "trade": 180,
     "agriculture": 174,
@@ -49,29 +49,29 @@
     "groupsWithBothSides": 13,
     "totalSimilarPairs": 2,
     "totalNeuroResiduals": 1502,
-    "totalDomainResiduals": 4183,
-    "cellsWithResiduals": 1706,
+    "totalDomainResiduals": 4157,
+    "cellsWithResiduals": 1693,
     "cellsWithSimilar": 2,
     "similarityThreshold": 0.3,
-    "computedAt": "2026-08-21T01:11:30.262Z"
+    "computedAt": "2026-08-20T00:00:00.000Z"
   },
-  "unverifiedClaimsCount": 41267,
-  "pendingClaimOccurrences": 75149,
+  "unverifiedClaimsCount": 40808,
+  "pendingClaimOccurrences": 73805,
   "verificationReconciliation": {
     "schemaVersion": "verification-reconciliation/1.0",
-    "snapshotAt": "2026-08-21T01:11:30.262Z",
-    "sourceCommit": "cbe6d8e8e0ad0715105abc4a71d164cada46a13c",
-    "uniqueCurrentClaims": 47177,
-    "matchedLedgerClaims": 5910,
-    "currentClaimsWithoutLedger": 41267,
-    "archivedLedgerClaims": 1990,
+    "snapshotAt": "2026-08-20T00:00:00.000Z",
+    "sourceCommit": "e2493ffaf4e1be03b0bccc051b9ca6afc5acd1cc",
+    "uniqueCurrentClaims": 46588,
+    "matchedLedgerClaims": 5780,
+    "currentClaimsWithoutLedger": 40808,
+    "archivedLedgerClaims": 2120,
     "effectiveCurrentByVerdict": {
-      "VERIFIED": 2414,
+      "VERIFIED": 2330,
       "DISPUTED": 89,
-      "THEORETICAL": 917,
-      "UNVERIFIABLE": 2490,
+      "THEORETICAL": 897,
+      "UNVERIFIABLE": 2464,
       "FABRICATED": 0,
-      "PENDING": 41267
+      "PENDING": 40808
     },
     "ledgerAllTimeByVerdict": {
       "VERIFIED": 3700,
@@ -119,22 +119,22 @@
   ],
   "note": "Treatment-discovery report uses (brainNodeId × comparisonDomain × stateBucket) cells. Six-step chain per cell: ISSUE → NODE → DISORDER → NEURO_TX → DOMAIN_TX → RESIDUAL. Verification labels each claim by epistemic state (PROVEN / UNPROVEN / UNKNOWN / IMPOSSIBLE) and keeps every residual — none are suppressed.",
   "epistemicBuckets": {
-    "proven": 2414,
-    "unproven": 917,
-    "unknown": 43757,
+    "proven": 2330,
+    "unproven": 897,
+    "unknown": 43272,
     "impossible": 89,
-    "totalClaims": 47177,
-    "processedVerdicts": 5910,
+    "totalClaims": 46588,
+    "processedVerdicts": 5780,
     "verdictCounts": {
-      "VERIFIED": 2414,
+      "VERIFIED": 2330,
       "DISPUTED": 89,
-      "THEORETICAL": 917,
-      "UNVERIFIABLE": 2490,
+      "THEORETICAL": 897,
+      "UNVERIFIABLE": 2464,
       "FABRICATED": 0,
-      "PENDING": 41267
+      "PENDING": 40808
     },
     "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
-    "archivedLedgerClaims": 1990,
-    "computedAt": "2026-08-21T01:11:30.262Z"
+    "archivedLedgerClaims": 2120,
+    "computedAt": "2026-08-20T00:00:00.000Z"
   }
 }
