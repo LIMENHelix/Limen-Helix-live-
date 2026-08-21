@@ -41,18 +41,22 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
-  let ebay, mercari, vinted, poshmark;
-  try {
-    ebay = require('../lib/ebay-scraper');
-    mercari = require('../lib/mercari-scraper');
-    vinted = require('../lib/vinted-scraper');
-    poshmark = require('../lib/poshmark-scraper');
-  } catch (e) {
-    console.error('[marketplace-scraper] Failed to load scrapers:', e.message);
-    return sendJSON(res, 503, { ok: false, error: 'Service temporarily unavailable: ' + e.message });
-  }
   const body = await readBody(req);
   const source = (body.source || 'ebay').toLowerCase();
+
+  let scraper;
+  try {
+    switch (source) {
+      case 'ebay': scraper = require('../lib/ebay-scraper'); break;
+      case 'mercari': scraper = require('../lib/mercari-scraper'); break;
+      case 'vinted': scraper = require('../lib/vinted-scraper'); break;
+      case 'poshmark': scraper = require('../lib/poshmark-scraper'); break;
+      default: return sendJSON(res, 400, { ok: false, error: 'Unknown source: ' + source });
+    }
+  } catch (e) {
+    console.error('[marketplace-scraper] Failed to load scraper:', e.message);
+    return sendJSON(res, 503, { ok: false, error: 'Service unavailable: ' + e.message });
+  }
   const action = body.action || 'search';
   const query = body.query || '';
   const marketplaceId = body.marketplaceId || '';
@@ -65,76 +69,23 @@ module.exports = async function handler(req, res) {
     return sendJSON(res, 400, { ok: false, error: 'query required (min 2 chars)' });
   }
 
-  const scraper = await getScraper(source);
-  if (!scraper) {
-    return sendJSON(res, 400, { ok: false, error: 'Unknown source: ' + source + '. Supported: ebay, mercari, vinted, poshmark' });
-  }
-
   try {
     if (action === 'search') {
       let result;
-      switch (source) {
-        case 'ebay':
-          result = await ebay.searchEbay(query, { limit: maxItems });
-          break;
-        case 'mercari':
-          result = await mercari.searchMercari(query, { limit: maxItems });
-          break;
-        case 'vinted':
-          result = await vinted.searchVinted(query, { maxItems: maxItems });
-          break;
-        case 'poshmark':
-          result = await poshmark.searchPoshmark(query, { maxItems: maxItems });
-          break;
-        default:
-          return sendJSON(res, 400, { ok: false, error: 'Unknown source' });
-      }
+      if (source === 'vinted') result = await scraper.searchVinted(query, { maxItems });
+      else if (source === 'mercari') result = await scraper.searchMercari(query, { limit: maxItems });
+      else result = await scraper.searchEbay(query, { limit: maxItems });
 
-      if (!result.ok) {
-        return sendJSON(res, 502, { ok: false, error: result.error });
-      }
+      if (!result.ok) return sendJSON(res, 502, { ok: false, error: result.error });
       return sendJSON(res, 200, { ok: true, action: 'search', source: source, items: result.items });
     }
 
     if (action === 'scrape-and-post') {
-      if (!marketplaceId || !sellerId) {
-        return sendJSON(res, 400, { ok: false, error: 'marketplaceId and sellerId required' });
-      }
-
-      let result;
-      switch (source) {
-        case 'ebay':
-          result = await ebay.scrapeAndPost(query, marketplaceId, sellerId, { maxItems, includeSource, delayMs });
-          break;
-        case 'mercari':
-          result = await mercari.scrapeAndPost(query, marketplaceId, sellerId, { maxItems, includeSource, delayMs });
-          break;
-        case 'vinted':
-          result = await vinted.scrapeAndPost(query, marketplaceId, sellerId, { maxItems, includeSource, delayMs });
-          break;
-        case 'poshmark':
-          result = await poshmark.scrapeAndPost(query, marketplaceId, sellerId, { maxItems, includeSource, delayMs });
-          break;
-        default:
-          return sendJSON(res, 400, { ok: false, error: 'Unknown source' });
-      }
-
-      if (!result.ok) {
-        return sendJSON(res, 502, { ok: false, error: result.error });
-      }
-
-      return sendJSON(res, 200, {
-        ok: true,
-        action: 'scrape-and-post',
-        source: source,
-        query: result.query,
-        created: result.created,
-        failed: result.failed,
-        createdListings: result.createdListings,
-        failedItems: result.failedItems
-      });
+      if (!marketplaceId || !sellerId) return sendJSON(res, 400, { ok: false, error: 'marketplaceId and sellerId required' });
+      const result = await scraper.scrapeAndPost(query, marketplaceId, sellerId, { maxItems, includeSource, delayMs });
+      if (!result.ok) return sendJSON(res, 502, { ok: false, error: result.error });
+      return sendJSON(res, 200, { ok: true, action: 'scrape-and-post', source, query: result.query, created: result.created, failed: result.failed, createdListings: result.createdListings, failedItems: result.failedItems });
     }
-
     return sendJSON(res, 400, { ok: false, error: 'Unknown action: ' + action });
   } catch (e) {
     console.error('[marketplace-scraper] Error:', e.message);
