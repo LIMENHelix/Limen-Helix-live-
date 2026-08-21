@@ -80,8 +80,9 @@ const thin = { below20: [] };
 const categoryBleed = { pureMisslot: 0, coopetition: 0, examples: [] };
 const domainRouting = { mismatches: [] };
 const kernelIntegrity = { nullCompositeEligible: [], nanComposite: [], totalEligible: 0,
-  // A composite the kernel could NOT have produced. limen_backtest.py scores from EDGAR keyed
-  // by CIK; a portal with no CIK has no EDGAR identity. Measured 2026-07-31: 111 such portals
+  // A composite whose provenance cannot be verified from the portal record. limen_backtest.py
+  // scores from EDGAR keyed by CIK, but a URL-embedded CIK is not first-class identity evidence:
+  // unrelated companies reuse the same embedded value. Measured 2026-07-31: 111 such portals
   // carry validationStatus 'validated', 6 of them raise a distress ALERT, and 9 back a curated
   // Command Board row. Their scores cluster on EIGHT values (0.78 x34, 0.72 x32, 0.68 x20,
   // 0.62 x19, ...) against 357 distinct values for the 518 CIK-backed portals, and every
@@ -275,7 +276,7 @@ if (thin.below20.length > 0) attention.push({ issue: 'Thin portals (<20 fn entri
 if (domainRouting.mismatches.length > 0) attention.push({ issue: 'Domain mis-routing (pharma SIC on non-medicine domain)', count: domainRouting.mismatches.length, severity: 'med', action: 'fix domainId at source (CB data) and re-wire' });
 if (categoryBleed.pureMisslot > 0) attention.push({ issue: 'Category bleed (competitors in supplier/customer slots)', count: categoryBleed.pureMisslot, severity: 'low', action: 'run scripts/fix-fn-category-bleed.mjs --apply' });
 if (brainFidelity.underTagged.length > 0) attention.push({ issue: 'Portals with brain-tagging below 90%', count: brainFidelity.underTagged.length, severity: 'low', action: 'regenerate via runner (gate enforces ≥90%)' });
-if (kernelIntegrity.validatedWithoutCik.length > 0) attention.push({ issue: 'Portals claiming validationStatus "validated" with NO CIK — the kernel cannot have scored them', count: kernelIntegrity.validatedWithoutCik.length, severity: 'high', action: 'limen_backtest.py scores from EDGAR by CIK; these have none, and their composites cluster on 8 values vs 357 for CIK-backed portals. Mostly foreign filers (Airbus, BASF, Shell, Saudi Aramco) and subsidiaries (AWS, google_cloud, pratt_whitney) that should carry FOREIGN_FILER / PRIVATE, not ELIGIBLE_NOW + validated. Decide the correct label before trusting any of these scores; ' + kernelIntegrity.validatedWithoutCik.filter(x => x.alert).length + ' of them currently raise a distress ALERT' });
+if (kernelIntegrity.validatedWithoutCik.length > 0) attention.push({ issue: 'Portals claiming validationStatus "validated" without first-class CIK provenance', count: kernelIntegrity.validatedWithoutCik.length, severity: 'high', action: 'Score provenance cannot be verified from these portal records. A CIK embedded only in helixReportUrl is insufficient because unrelated portals reuse embedded values. Quarantine the verdict and dependent artifacts until identity is independently resolved and the score is re-derived; ' + kernelIntegrity.validatedWithoutCik.filter(x => x.alert).length + ' currently raise a distress ALERT' });
 if (kernelIntegrity.nullCompositeEligible.length > 0) attention.push({ issue: 'Null kernel composite on ELIGIBLE-marked portals', count: kernelIntegrity.nullCompositeEligible.length, severity: 'high', action: 'investigate — kernel never scored these (CIK mismatch? API failure during generation?)' });
 if (kernelIntegrity.nanComposite.length > 0) attention.push({ issue: 'NaN composite values (data error)', count: kernelIntegrity.nanComposite.length, severity: 'high', action: 'inspect financialHealth.composite — likely division by zero in kernel math' });
 if (prose.badEntries > 0) attention.push({ issue: 'Truncated prose in fn entries (ellipsis / fragment / empty)', count: prose.badEntries, severity: 'med', action: 'run scripts/heal-prose-truncation.mjs --apply  (when built) — flag for regeneration meanwhile' });

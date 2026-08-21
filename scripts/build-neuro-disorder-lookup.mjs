@@ -15,6 +15,11 @@
  *      - dysregulation: "Hyperactive → X, Y, Z. Hypoactive → A, B, C."
  *      - function, network, phase, business
  *   3. brain-nodes-111.json (PROSE, 129 entries, partial overlap with #2)
+ *      DEPRECATED as a taxonomy source (see PROTECTED_FILES.md) — canonical is
+ *      assets/data/canonical-nodes.json, 123 nodes. It is STILL READ HERE, and only
+ *      here, because it supplies region/network/function/dysregulation PROSE that
+ *      canonical does not carry. Do not repoint this at canonical without first
+ *      replacing those fields — doing so would silently strip the prose.
  *      - dysregulation prose with similar structure
  *
  * Every claim emitted carries verification: PENDING. Task #33 (Main Brain
@@ -244,6 +249,7 @@ function main() {
     sources: {
       taxonomy: 'assets/data/brain-node-business-mapping.json',
       nodes111: 'assets/data/brain-nodes-111.json',
+      nodes111Status: 'DEPRECATED as taxonomy source; retained as prose source pending migration (PROTECTED_FILES.md)',
       bridges: 'assets/data/bridge-patterns.json',
     },
     note:

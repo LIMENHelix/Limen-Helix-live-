@@ -10,7 +10,7 @@
   "industry": "Laboratory Analytical Instruments",
   "domainId": "science",
   "portalAttachment": "science-portal.html",
-  "kernelStatus": "ELIGIBLE_NOW",
+  "kernelStatus": "PROVENANCE_UNVERIFIED",
   "fredSeries": [
     "INDPRO",
     "UMCSENT",
@@ -28,24 +28,30 @@
     "semiconductor-materials",
     "plastics-resins"
   ],
-  "helixReportMode": "validated_kernel",
-  "helixReportUrl": "helix-report.html?cik=0000031791",
+  "helixReportMode": "unavailable",
+  "helixReportUrl": null,
   "financialHealth": {
-    "asOf": "2024-Q3",
-    "lastKernelRun": "2024-11-15T09:30:00Z",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "validated",
-    "envelopeStatus": "ELIGIBLE_NOW",
-    "historyQuarters": 16,
-    "latestQuarter": "2024Q3",
-    "compositeScore": 0.72,
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PROVENANCE_UNVERIFIED",
+    "historyQuarters": 0,
+    "latestQuarter": null,
+    "compositeScore": null,
     "alert": false,
-    "distressBand": "yellow",
-    "dominantPhase": "p5",
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": 1240000000,
-      "debtLatest": 3890000000,
-      "cashRunwayQ": 8
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
+    },
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json",
+      "quarantinedAt": "2026-08-20T00:00:00.000Z",
+      "originalPreserved": true
     }
   },
   "warningSignals": [
@@ -717,216 +723,28 @@
     ]
   },
   "bridgeReadings": {
-    "matched": [
-      {
-        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
-        "neuralRegion": "vmPFC",
-        "neuralRegionLabel": "ventromedial Prefrontal Cortex",
-        "businessSignature": "executive_comp_misalignment",
-        "mappingType": "isomorphic_pathology",
-        "matchedIndicators": [
-          "fn_executive_changes"
-        ],
-        "totalIndicators": 2,
-        "matchRate": 0.5,
-        "confidence": 0.375,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "System for detecting executive-compensation misalignment via vmPFC-equivalent value-decoupling metric",
-            "noveltyAnchor": "Maps clinical value-computation distortion to compensation-pattern signal"
-          },
-          "grant": {
-            "programMatch": [
-              "NIH NIA aging-and-decision",
-              "SSRC Corporate Governance"
-            ],
-            "angle": "Behavioral economics of compensation-pathology detection"
-          },
-          "investment": {
-            "thesis": "Activist-investor catalysts post-say-on-pay failure",
-            "horizon": "6-18mo"
-          },
-          "research": {
-            "hypothesis": "Companies adopting clinical value-elicitation protocols at comp committee show reduced pay-performance gap",
-            "methodology": "intervention study with controlled trial across mid-cap companies"
-          },
-          "franchise": null,
-          "sba": null
-        },
-        "phaseAffinity": [
-          "p3",
-          "p7b"
-        ],
-        "knownTreatments": [
-          "value-based decision training",
-          "behavioral activation",
-          "explicit value-elicitation protocols"
-        ]
-      },
-      {
-        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
-        "neuralRegion": "HAB",
-        "neuralRegionLabel": "Habenula",
-        "businessSignature": "contrarian_board_lock",
-        "mappingType": "isomorphic_pathology",
-        "matchedIndicators": [
-          "kernel_p5_stuck"
-        ],
-        "totalIndicators": 2,
-        "matchRate": 0.5,
-        "confidence": 0.325,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "Detection of contrarian-board lock via habenula-equivalent anti-reward dominance metric applied to action-rejection pattern",
-            "noveltyAnchor": "Anti-reward framework for board-decision diagnostics"
-          },
-          "grant": {
-            "programMatch": [
-              "NACD research"
-            ],
-            "angle": "Anti-reward decision dynamics in board composition"
-          },
-          "investment": {
-            "thesis": "Activist-investor catalysts during contrarian-board lock",
-            "horizon": "12-24mo"
-          },
-          "research": {
-            "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
-            "methodology": "event-study of board refresh and subsequent capital-action"
-          },
-          "franchise": null,
-          "sba": null
-        },
-        "phaseAffinity": [
-          "p5",
-          "p7b"
-        ],
-        "knownTreatments": [
-          "ketamine (habenula modulation)",
-          "DBS to habenula in treatment-resistant depression",
-          "lateralized reward training"
-        ]
-      }
-    ],
-    "evaluatedAt": "2026-07-31T19:07:41.196Z",
-    "patternsConsidered": 33
+    "matched": [],
+    "evaluatedAt": null,
+    "patternsConsidered": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   },
   "engineOutputs": {
-    "investment": [
-      {
-        "lane": "investment",
-        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
-        "confidence": 0.375,
-        "side": "SHORT",
-        "horizon": "6-18mo",
-        "valuationBasis": {
-          "computed": false,
-          "reason": "missing price,shares,revenue"
-        },
-        "artifact": {
-          "header": "PerkinElmer, Inc. (PKI) — SHORT — qualitative thesis (size: conviction-scaled)\nInitiated: 2026-06-06    Kernel phase: CONSERVE-MODE    Composite: 0.720\nValuation: not computed (insufficient market data — missing price, shares, revenue) — directional thesis only, no point price target published.\nBridge pattern: VMPFC_value_misalignment_x_executive_comp_pathology (confidence 0.375)",
-          "variantView": "PKI screens as laboratory analytical instruments-typical. Underneath, the operative driver is ventromedial Prefrontal Cortex-equivalent isomorphic pathology (executive comp misalignment) which the sector index does not price in at current levels. the market prices PKI at its current level.",
-          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the executive comp misalignment signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on PerkinElmer, Inc..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 6-18 months: once the executive comp misalignment pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
-          "valuation": "No point price target is published: the inputs required to re-rate the multiple (price, shares, revenue, net debt) are not all available for this entity. The thesis is directional only — the phase (CONSERVE-MODE) implies multiple compression versus current pricing, with no fabricated target.",
-          "positionSizing": "Size: conviction-scaled to bridge confidence 0.375 (1 matched indicators); no fixed percentage published absent a computable risk/reward. Phase governor: CONSERVE-MODE.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_executive_changes\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying ventromedial Prefrontal Cortex ↔ executive comp misalignment mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches the phase-implied re-rating completes, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 6-18 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
-          "thesisStatement": "Activist-investor catalysts post-say-on-pay failure",
-          "instruments": [
-            "common equity"
-          ]
-        },
-        "provenance": {
-          "kernelId": "engine_output_generator/2.0_market_data",
-          "sourceLane": "investment",
-          "generatedAt": "2026-06-06T00:01:34.182Z",
-          "marketDataSources": {
-            "quote": null,
-            "fundamentals": null
-          }
-        }
-      },
-      {
-        "lane": "investment",
-        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
-        "confidence": 0.325,
-        "side": "SHORT",
-        "horizon": "12-24mo",
-        "valuationBasis": {
-          "computed": false,
-          "reason": "missing price,shares,revenue"
-        },
-        "artifact": {
-          "header": "PerkinElmer, Inc. (PKI) — SHORT — qualitative thesis (size: conviction-scaled)\nInitiated: 2026-06-06    Kernel phase: CONSERVE-MODE    Composite: 0.720\nValuation: not computed (insufficient market data — missing price, shares, revenue) — directional thesis only, no point price target published.\nBridge pattern: HAB_anti_reward_x_contrarian_board_lock (confidence 0.325)",
-          "variantView": "PKI screens as laboratory analytical instruments-typical. Underneath, the operative driver is Habenula-equivalent isomorphic pathology (contrarian board lock) which the sector index does not price in at current levels. the market prices PKI at its current level.",
-          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the contrarian board lock signature.\n  • Cash runway — approximately 8 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~24 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on PerkinElmer, Inc..\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 12-24 months: once the contrarian board lock pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
-          "valuation": "No point price target is published: the inputs required to re-rate the multiple (price, shares, revenue, net debt) are not all available for this entity. The thesis is directional only — the phase (CONSERVE-MODE) implies multiple compression versus current pricing, with no fabricated target.",
-          "positionSizing": "Size: conviction-scaled to bridge confidence 0.325 (1 matched indicators); no fixed percentage published absent a computable risk/reward. Phase governor: CONSERVE-MODE.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"kernel_p5_stuck\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase IMPROVES (distress reverses toward an earlier / recovery phase) for two consecutive readings — the short is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Habenula ↔ contrarian board lock mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches the phase-implied re-rating completes, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 12-24 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
-          "thesisStatement": "Activist-investor catalysts during contrarian-board lock",
-          "instruments": [
-            "common equity"
-          ]
-        },
-        "provenance": {
-          "kernelId": "engine_output_generator/2.0_market_data",
-          "sourceLane": "investment",
-          "generatedAt": "2026-06-06T00:01:34.182Z",
-          "marketDataSources": {
-            "quote": null,
-            "fundamentals": null
-          }
-        }
-      }
-    ],
-    "research": [
-      {
-        "lane": "research",
-        "patternId": "VMPFC_value_misalignment_x_executive_comp_pathology",
-        "confidence": 0.375,
-        "artifact": {
-          "title": "Empirical test of ventromedial Prefrontal Cortex-equivalent executive comp misalignment mapping on PerkinElmer, Inc.",
-          "hypothesis": "Companies adopting clinical value-elicitation protocols at comp committee show reduced pay-performance gap",
-          "methodology": "intervention study with controlled trial across mid-cap companies",
-          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
-          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for ventromedial Prefrontal Cortex-equivalent corporate-pathology detection across the phase-affinity phases.",
-          "bridgeReference": "VMPFC_value_misalignment_x_executive_comp_pathology"
-        },
-        "provenance": {
-          "kernelId": "engine_output_generator/1.0",
-          "sourceLane": "research",
-          "generatedAt": "2026-06-06T00:01:34.182Z"
-        }
-      },
-      {
-        "lane": "research",
-        "patternId": "HAB_anti_reward_x_contrarian_board_lock",
-        "confidence": 0.325,
-        "artifact": {
-          "title": "Empirical test of Habenula-equivalent contrarian board lock mapping on PerkinElmer, Inc.",
-          "hypothesis": "Board-composition changes restore initiation analogous to habenula modulation",
-          "methodology": "event-study of board refresh and subsequent capital-action",
-          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
-          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Habenula-equivalent corporate-pathology detection across the phase-affinity phases.",
-          "bridgeReference": "HAB_anti_reward_x_contrarian_board_lock"
-        },
-        "provenance": {
-          "kernelId": "engine_output_generator/1.0",
-          "sourceLane": "research",
-          "generatedAt": "2026-06-06T00:01:34.182Z"
-        }
-      }
-    ],
-    "generatedAt": "2026-06-06T00:01:34.182Z",
-    "generatorVersion": "2.0_research_investment_only",
-    "bridgeCount": 2,
+    "investment": [],
+    "research": [],
+    "generatedAt": null,
+    "generatorVersion": "quarantined/1.0",
+    "bridgeCount": 0,
     "artifactsByLane": {
-      "investment": 2,
-      "research": 2
+      "investment": 0,
+      "research": 0
     },
-    "totalArtifacts": 4
+    "totalArtifacts": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   }
 }

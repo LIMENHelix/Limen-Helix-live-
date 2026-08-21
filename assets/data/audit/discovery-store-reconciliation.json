@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "discovery-store-reconciliation/1.0",
+  "generatedAt": "2026-08-20T00:00:00.000Z",
+  "sourceCommit": "e2493ffaf4e1be03b0bccc051b9ca6afc5acd1cc",
+  "method": "scripts/reconcile-discovery-stores.mjs",
+  "stores": {
+    "cube": {
+      "builtAt": "2026-08-20T00:00:00.000Z",
+      "cells": 5521,
+      "sha256": "0e2d3ba38c37c61b8c00a661fe0ada5a70e627b5177ce28aeb279b45e349a612"
+    },
+    "ledger": {
+      "lastEvidenceUpdatedAt": "2026-06-04T02:25:32.137Z",
+      "verdictRecords": 7900,
+      "byVerdict": {
+        "VERIFIED": 3700,
+        "DISPUTED": 89,
+        "THEORETICAL": 1583,
+        "UNVERIFIABLE": 2528,
+        "FABRICATED": 0,
+        "PENDING": 0
+      },
+      "byVerifier": {
+        "rule-based": 5030,
+        "internal-consistency": 8,
+        "pubmed": 2862
+      },
+      "reconciliation": {
+        "schemaVersion": "verification-reconciliation/1.0",
+        "snapshotAt": "2026-08-20T00:00:00.000Z",
+        "sourceCommit": "e2493ffaf4e1be03b0bccc051b9ca6afc5acd1cc",
+        "uniqueCurrentClaims": 46588,
+        "matchedLedgerClaims": 5780,
+        "currentClaimsWithoutLedger": 40808,
+        "archivedLedgerClaims": 2120,
+        "effectiveCurrentByVerdict": {
+          "VERIFIED": 2330,
+          "DISPUTED": 89,
+          "THEORETICAL": 897,
+          "UNVERIFIABLE": 2464,
+          "FABRICATED": 0,
+          "PENDING": 40808
+        },
+        "ledgerAllTimeByVerdict": {
+          "VERIFIED": 3700,
+          "DISPUTED": 89,
+          "THEORETICAL": 1583,
+          "UNVERIFIABLE": 2528,
+          "FABRICATED": 0,
+          "PENDING": 0
+        },
+        "note": "Current claims are the unique claim-id population in this cube snapshot. Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; they are not counted as current rendered claims."
+      },
+      "sha256": "47f4b5ee6bed5d6fc4aa2c508e655bfcb034d18a1de6af209698d78511e4a037"
+    },
+    "renderSummary": {
+      "totalCells": 5521,
+      "epistemicBuckets": {
+        "proven": 2330,
+        "unproven": 897,
+        "unknown": 43272,
+        "impossible": 89,
+        "totalClaims": 46588,
+        "processedVerdicts": 5780,
+        "verdictCounts": {
+          "VERIFIED": 2330,
+          "DISPUTED": 89,
+          "THEORETICAL": 897,
+          "UNVERIFIABLE": 2464,
+          "FABRICATED": 0,
+          "PENDING": 40808
+        },
+        "note": "Every claim kept and separated by epistemic state. Verification writes the state; it never deletes the finding. Impossible = study why it fails (kept, not discarded).",
+        "archivedLedgerClaims": 2120,
+        "computedAt": "2026-08-20T00:00:00.000Z"
+      },
+      "sha256": "5eb0cce5c1e03f449e6616c8a0e5da32504ec85e3758e61366024501d3aabf3f"
+    },
+    "inbox": {
+      "generatedAt": "2026-08-20T00:00:00.000Z",
+      "activeLanes": [
+        "investment",
+        "research"
+      ],
+      "stats": {
+        "portalsScanned": 796,
+        "portalsWithArtifacts": 376,
+        "totalCandidates": 1040,
+        "readyToFire": 759,
+        "inhibited": 281,
+        "byLaneReady": {
+          "investment": 239,
+          "research": 520
+        }
+      },
+      "sha256": "8b136193cb65445d573c1f932a0902f4460ef4cf3fc31bf4647855949ecefce4"
+    }
+  },
+  "invariants": {
+    "oneSnapshotTimestamp": true,
+    "ledgerRollupEqualsRecords": true,
+    "archivedLedgerEvidencePreserved": true,
+    "onlyResearchAndInvestmentLanes": true
+  }
+}

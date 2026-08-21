@@ -82,6 +82,7 @@ const args = process.argv.slice(2);
 const ARG = {
   ruleBasedOnly: args.includes('--rule-based'),
   dryRun: args.includes('--dry-run'),
+  reconcileOnly: args.includes('--reconcile-only'),
   maxClaims: parseInt((args.find((a) => a.startsWith('--max=')) || '--max=200').split('=')[1], 10),
   priorityNodes: ((args.find((a) => a.startsWith('--priority=')) || '--priority=').split('=')[1] || '')
     .split(',')
@@ -129,6 +130,26 @@ async function main() {
       FABRICATED: 0, PENDING: 0, byVerifier: {},
     },
   };
+
+  if (ARG.reconcileOnly) {
+    const snapshotAt = process.env.LIMEN_SNAPSHOT_AT || new Date().toISOString();
+    const sourceCommit = process.env.LIMEN_SOURCE_COMMIT || null;
+    const reconciliation = reconcilePopulation(cube, ledger, snapshotAt, sourceCommit);
+    ledger.reconciliation = reconciliation;
+
+    const propagated = propagateVerdictsToCube(cube, ledger);
+    cube.verificationReconciliation = reconciliation;
+    fs.writeFileSync(LEDGER_FILE, JSON.stringify(ledger, null, 2));
+    fs.writeFileSync(CUBE_FILE, JSON.stringify(cube, null, 2));
+
+    console.log('[verification-organ] reconcile-only');
+    console.log(`  current unique claims:       ${reconciliation.uniqueCurrentClaims}`);
+    console.log(`  matched ledger claims:       ${reconciliation.matchedLedgerClaims}`);
+    console.log(`  current without ledger:      ${reconciliation.currentClaimsWithoutLedger}`);
+    console.log(`  archived ledger claims kept: ${reconciliation.archivedLedgerClaims}`);
+    console.log(`  propagated occurrences:      ${propagated}`);
+    return;
+  }
 
   // If --reverify-ids set, wipe those ledger entries so they re-process
   // instead of being skipped by the "already verified" check.
@@ -245,9 +266,12 @@ async function main() {
     }
   }
 
+  // Stats are a materialized view of verdicts, never an independently
+  // incremented authority. Recounting here prevents interrupted/reverification
+  // runs from leaving the rollup inconsistent with the record population.
+  ledger.stats = recomputeLedgerStats(ledger.verdicts || {});
   ledger.lastUpdatedAt = new Date().toISOString();
   fs.mkdirSync(path.dirname(LEDGER_FILE), { recursive: true });
-  fs.writeFileSync(LEDGER_FILE, JSON.stringify(ledger, null, 2));
 
   // ============================================================================
   // PROPAGATE — apply verdicts back to cube cells
@@ -255,6 +279,15 @@ async function main() {
   console.log('');
   console.log('[verification-organ] propagating verdicts to cube cells');
   const propagated = propagateVerdictsToCube(cube, ledger);
+  const reconciliation = reconcilePopulation(
+    cube,
+    ledger,
+    ledger.lastUpdatedAt,
+    process.env.LIMEN_SOURCE_COMMIT || null
+  );
+  ledger.reconciliation = reconciliation;
+  cube.verificationReconciliation = reconciliation;
+  fs.writeFileSync(LEDGER_FILE, JSON.stringify(ledger, null, 2));
   fs.writeFileSync(CUBE_FILE, JSON.stringify(cube, null, 2));
 
   // ============================================================================
@@ -296,6 +329,86 @@ function extractAllClaims(cube, ledger) {
     extractCellClaims(cell, claims, ledger, reverifySet);
   }
   return claims;
+}
+
+const VERDICT_KEYS = ['VERIFIED', 'DISPUTED', 'THEORETICAL', 'UNVERIFIABLE', 'FABRICATED', 'PENDING'];
+
+function emptyVerdictCounts() {
+  return Object.fromEntries(VERDICT_KEYS.map((key) => [key, 0]));
+}
+
+function recomputeLedgerStats(verdicts) {
+  const stats = { ...emptyVerdictCounts(), byVerifier: {} };
+  for (const verdict of Object.values(verdicts || {})) {
+    const state = verdict && verdict.verdict ? verdict.verdict : 'PENDING';
+    stats[state] = (stats[state] || 0) + 1;
+    const verifier = verdict && verdict.verifier ? verdict.verifier : 'unknown';
+    stats.byVerifier[verifier] = (stats.byVerifier[verifier] || 0) + 1;
+  }
+  return stats;
+}
+
+function collectCurrentClaims(cube) {
+  const claims = new Map();
+  const add = (claimId, item) => {
+    const verdict = (item && item.verification && item.verification.verdict) || 'PENDING';
+    if (claims.has(claimId) && claims.get(claimId) !== verdict) {
+      throw new Error(
+        `current cube assigns conflicting verdicts to ${claimId}: ` +
+        `${claims.get(claimId)} vs ${verdict}`
+      );
+    }
+    claims.set(claimId, verdict);
+  };
+
+  for (const cell of cube.cells || []) {
+    for (const item of cell.issues || []) add(`iss::${item.id}`, item);
+    for (const item of cell.disorders || []) add(`dx::${item.id}`, item);
+    for (const item of cell.neuroTreatments || []) add(`ntx::${item.id}`, item);
+    for (const item of cell.domainTreatments || []) add(`dtx::${item.id}`, item);
+    for (const item of cell.portalBindings || []) {
+      add(`bind::${cell.cellId}::${item.portalSlug}::${item.relationshipType}::${item.entityName}`, item);
+    }
+    for (const item of cell.crossDomainAffinities || []) {
+      add(`aff::${cell.cellId}::${item.toDomain}::${item.toRole}`, item);
+    }
+    for (const item of cell.residuals || []) add(`res::${item.id}`, item);
+  }
+  return claims;
+}
+
+function reconcilePopulation(cube, ledger, snapshotAt, sourceCommit) {
+  const currentClaims = collectCurrentClaims(cube);
+  const ledgerIds = Object.keys(ledger.verdicts || {});
+  const currentIds = new Set(currentClaims.keys());
+  const matchedIds = ledgerIds.filter((id) => currentIds.has(id));
+  const archivedIds = ledgerIds.filter((id) => !currentIds.has(id));
+  const currentWithoutLedger = [...currentIds].filter((id) => !ledger.verdicts[id]);
+  const effectiveCurrentByVerdict = emptyVerdictCounts();
+
+  for (const [claimId, sourceVerdict] of currentClaims) {
+    const effective = (ledger.verdicts[claimId] && ledger.verdicts[claimId].verdict) || sourceVerdict;
+    effectiveCurrentByVerdict[effective] = (effectiveCurrentByVerdict[effective] || 0) + 1;
+  }
+
+  ledger.stats = recomputeLedgerStats(ledger.verdicts || {});
+  return {
+    schemaVersion: 'verification-reconciliation/1.0',
+    snapshotAt,
+    sourceCommit,
+    uniqueCurrentClaims: currentClaims.size,
+    matchedLedgerClaims: matchedIds.length,
+    currentClaimsWithoutLedger: currentWithoutLedger.length,
+    archivedLedgerClaims: archivedIds.length,
+    effectiveCurrentByVerdict,
+    ledgerAllTimeByVerdict: Object.fromEntries(
+      Object.entries(ledger.stats).filter(([key]) => key !== 'byVerifier')
+    ),
+    note:
+      'Current claims are the unique claim-id population in this cube snapshot. ' +
+      'Archived ledger claims are preserved evidence whose ids no longer occur in the current cube; ' +
+      'they are not counted as current rendered claims.',
+  };
 }
 
 function extractCellClaims(cell, claims, ledger, reverifySet = new Set()) {

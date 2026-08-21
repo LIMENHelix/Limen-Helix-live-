@@ -50,6 +50,7 @@ import { makePendingVerdict } from '../assets/data/schemas/treatment-discovery-c
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
+const SNAPSHOT_AT = process.env.LIMEN_SNAPSHOT_AT || new Date().toISOString();
 
 const CUBE_FILE = path.join(ROOT, 'assets/data/treatment-discovery-cube.json');
 
@@ -175,7 +176,7 @@ function main() {
               field: 'residual',
               sourceFile: 'assets/data/treatment-discovery-cube.json',
               sourcePath: `$.cells[?cellId == ${cells[0].cellId}].neuroTreatments[?id=='${ntx.id}']`,
-              retrievedAt: new Date().toISOString(),
+              retrievedAt: SNAPSHOT_AT,
               retrievedFromSha: null,
             },
           });
@@ -212,7 +213,7 @@ function main() {
               field: 'residual',
               sourceFile: 'assets/data/treatment-discovery-cube.json',
               sourcePath: `$.cells[?cellId == ${cells[0].cellId}].domainTreatments[?id=='${dtx.id}']`,
-              retrievedAt: new Date().toISOString(),
+              retrievedAt: SNAPSHOT_AT,
               retrievedFromSha: null,
             },
           });
@@ -265,7 +266,7 @@ function main() {
     cellsWithResiduals: summary.cellsWithResiduals,
     cellsWithSimilar: summary.cellsWithSimilar,
     similarityThreshold: SIMILARITY_THRESHOLD,
-    computedAt: new Date().toISOString(),
+    computedAt: SNAPSHOT_AT,
   };
 
   fs.writeFileSync(CUBE_FILE, JSON.stringify(cube, null, 2));

@@ -10,15 +10,14 @@
  *
  * SAFETY GUARDS (must-have for autonomous Anthropic spend):
  *   - Single-call lanes only (investment, research). Multi-pass lanes
- *     stay operator-fire because they take 6-25 min and exceed the
- *     300s Vercel function budget.
- *   - Daily budget cap (default $20/day; estimated $0.20-1.00 per
- *     single-call artifact, so ~20-100 artifacts/day max). Persisted
- *     to Redis with daily TTL.
+ *     stay retired; this worker performs one bounded draft call per tick.
+ *   - Shared autonomy master arm + daily budget cap. Both
+ *     LIMEN_AUTONOMY_ENABLED=1 and LIMEN_AUTONOMY_DAILY_USD>0 are
+ *     required; lib/autonomy-budget is the single spend ledger.
  *   - Per-CIK 24h dedupe — same CIK won't auto-fire twice in 24h.
  *   - HIGH salience only — MEDIUM/LOW stay operator-fire.
- *   - Status persisted as READY_TO_SIGN; never auto-submitted
- *     externally. Human signature still required.
+ *   - Status persisted as READY_TO_SIGN only when placeholder-free;
+ *     otherwise DRAFT_NEEDS_DATA. Never auto-submitted externally.
  *   - Max 2 fires per cron tick — bounds invocation time.
  *
  * GET /api/limen-worker-autofire
@@ -29,12 +28,14 @@
 var db = require('../lib/limen-db');
 var stageClassifier = require('../lib/limen-stage-classifier');
 var { loadPortal } = require('../lib/portal-loader');
+var cronAuth = require('../lib/cron-auth');
+var autonomyBudget = require('../lib/autonomy-budget');
+var aiKillSwitch = require('../lib/ai-kill-switch');
 var fs = require('fs');
 var path = require('path');
 
 var AUTOQUEUE_KEY = 'autoqueue';
 var AUTOFIRE_AUDIT_LOG = 'autofire_audit_log';
-var BUDGET_KEY_PREFIX = 'autofire_budget_';      // _YYYY-MM-DD
 // Per (CIK, lane) dedupe so same CIK can fire DIFFERENT lanes within
 // 24h. Same lane re-fire blocked for 24h to prevent thrashing.
 var CIK_DEDUPE_PREFIX = 'autofire_cik_lane_dedupe_'; // _{cik}
@@ -42,9 +43,8 @@ var CIK_DEDUPE_TTL = 86400;
 var AUDIT_LOG_MAX = 500;
 var AUDIT_LOG_TTL = 30 * 86400;
 
-var DAILY_BUDGET_DOLLARS = parseFloat(process.env.AUTOFIRE_DAILY_BUDGET || '20');
-// 1 fire per tick — guarantees we stay within Vercel's 300s budget
-// even on the slowest Sonnet call (we've seen 270s+ on dense lanes).
+// 1 fire per tick — guarantees we stay within Vercel's 800s budget
+// even on a dense draft call allowed up to ten minutes.
 // Cron runs every 30 min, so 48 fires/day cap is structural even
 // before the dollar budget binds.
 var MAX_FIRES_PER_TICK = parseInt(process.env.AUTOFIRE_MAX_PER_TICK || '1', 10);
@@ -54,13 +54,18 @@ var SINGLE_CALL_LANES = new Set(['investment', 'research']);
 // pricing as of build date). Conservative high-end estimate so we
 // don't overshoot budget.
 var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
+var RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000;
+var MAX_ATTEMPTS_PER_ENTRY = 3;
 
-var BASE = process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'https://limenhelix.com';
-var OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
+// The deployment hostname can be protected even when the public custom domain
+// is intentionally open. Internal calls must use the public application origin;
+// otherwise Vercel returns its own 401 before x-limen-pass reaches the handler.
+var BASE = process.env.PUBLIC_BASE_URL || 'https://limenhelix.com';
 
 function _internalHeaders() {
   var h = { 'content-type': 'application/json' };
-  if (OPERATOR_TOKEN) h.authorization = 'Bearer ' + OPERATOR_TOKEN;
+  var master = process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY || '';
+  if (master) h['x-limen-pass'] = master;
   return h;
 }
 
@@ -200,14 +205,8 @@ function _buildContextPacket(portal, lane) {
   };
 }
 
-async function _todayKey() {
-  var d = new Date();
-  var iso = d.toISOString().slice(0, 10);
-  return BUDGET_KEY_PREFIX + iso;
-}
-
 async function _fireOne(entry) {
-  var slug = _slugForCik(entry.cik);
+  var slug = entry.portalSlug || _slugForCik(entry.cik);
   if (!slug) {
     return { skipped: true, reason: 'no-portal-for-cik', cik: entry.cik };
   }
@@ -218,7 +217,7 @@ async function _fireOne(entry) {
 
   var lane = entry.recommendedLane;
   var packet = _buildContextPacket(portal, lane);
-  var sig = 'autofire-' + lane + '-' + entry.cik + '-' + Date.now();
+  var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + entry.cik + '-' + Date.now());
 
   // Call expand-artifact-claude (single-call only — investment / research)
   var expandResp;
@@ -241,18 +240,19 @@ async function _fireOne(entry) {
           ts: Date.now()
         }
       }),
-      // 240s leaves ~60s headroom under Vercel's 300s function cap
-      // for portal-load + persist + audit-write
-      signal: AbortSignal.timeout(240000)
+      // The downstream provider is allowed 600s. Leave 100s inside the
+      // function's 800s limit for portal load, persistence, and audit writes.
+      signal: AbortSignal.timeout(700000)
     });
     expandResp = await r.json();
   } catch (e) {
-    return { skipped: false, ok: false, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message) };
+    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message) };
   }
 
   if (!expandResp || !expandResp.ok) {
     return {
       skipped: false, ok: false, cik: entry.cik, lane: lane,
+      billableAttempt: true,
       reason: 'expand-not-ok', detail: (expandResp && expandResp.error) || 'unknown'
     };
   }
@@ -312,18 +312,19 @@ async function _fireOne(entry) {
     });
     persistResp = await p.json();
   } catch (e) {
-    return { skipped: false, ok: false, cik: entry.cik, lane: lane, reason: 'persist-error', detail: String(e.message) };
+    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'persist-error', detail: String(e.message) };
   }
 
   if (!persistResp || !persistResp.ok) {
     return {
       skipped: false, ok: false, cik: entry.cik, lane: lane,
+      billableAttempt: true,
       reason: 'persist-not-ok', detail: (persistResp && persistResp.error) || 'unknown'
     };
   }
 
   return {
-    skipped: false, ok: true, cik: entry.cik, lane: lane,
+    skipped: false, ok: true, billableAttempt: true, cik: entry.cik, lane: lane,
     outputId: persistResp.outputId,
     wordCount: wordCount,
     viewerUrl: 'https://limenhelix.com/helix-artifact?id=' + persistResp.outputId
@@ -332,6 +333,9 @@ async function _fireOne(entry) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (req.method !== 'GET') { res.statusCode = 405; res.setHeader('Allow', 'GET'); return res.end(); }
+  if (!cronAuth.enforce(req, res)) return;
   var t0 = Date.now();
 
   // Probe mode — quick sanity check of all preflight ops without firing.
@@ -340,19 +344,28 @@ module.exports = async function handler(req, res) {
   var probeMode = url.searchParams.get('probe') === '1';
 
   try {
-    // 1. Check today's budget
+    // 1. Enforce both paid-AI gates before reading or mutating the queue.
+    //    CRON_SECRET authenticates this invocation; ADMIN_MASTER authenticates
+    //    the two internal mutation calls made by _fireOne().
+    var master = process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY || '';
+    if (!master) {
+      res.setHeader('content-type', 'application/json');
+      res.statusCode = 503;
+      return res.end(JSON.stringify({ ok: false, paused: 'admin-master-unconfigured' }));
+    }
+
     var stepT = Date.now();
-    var todayKey = await _todayKey();
-    var spentToday = (await db.get(todayKey)) || 0;
-    if (typeof spentToday !== 'number') spentToday = 0;
+    var spendDisabled = await aiKillSwitch.spendDisabled();
+    var budgetStatus = await autonomyBudget.status();
     var t_budget = Date.now() - stepT;
 
-    if (spentToday >= DAILY_BUDGET_DOLLARS) {
+    if (spendDisabled || !budgetStatus.armed) {
       res.setHeader('content-type', 'application/json');
       res.statusCode = 200;
       return res.end(JSON.stringify({
-        ok: true, paused: 'daily-budget-exhausted',
-        spentToday: spentToday, dailyBudget: DAILY_BUDGET_DOLLARS,
+        ok: true,
+        paused: spendDisabled ? 'ai-spend-disabled' : 'autonomy-not-armed',
+        budget: budgetStatus,
         timing: { budget_ms: t_budget }
       }));
     }
@@ -363,7 +376,8 @@ module.exports = async function handler(req, res) {
       if (!Array.isArray(q0)) q0 = [];
       var t_queue = Date.now() - stepT;
       var cands = q0.filter(function (q) {
-        return q.status === 'PENDING' && q.salience === 'HIGH'
+        return q.status === 'PENDING' && (q.retryAfter || 0) <= Date.now()
+            && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
             && SINGLE_CALL_LANES.has(q.recommendedLane);
       });
       stepT = Date.now();
@@ -383,6 +397,7 @@ module.exports = async function handler(req, res) {
         samplePortalLoaded: !!samplePortal,
         samplePortalName: samplePortal && samplePortal.name,
         sampleLoaderSource: sampleRes.source,
+        budget: budgetStatus,
         timing: {
           budget_ms: t_budget,
           queue_read_ms: t_queue,
@@ -393,21 +408,13 @@ module.exports = async function handler(req, res) {
       }));
     }
 
-    if (spentToday >= DAILY_BUDGET_DOLLARS) {
-      res.setHeader('content-type', 'application/json');
-      res.statusCode = 200;
-      return res.end(JSON.stringify({
-        ok: true, paused: 'daily-budget-exhausted',
-        spentToday: spentToday, dailyBudget: DAILY_BUDGET_DOLLARS
-      }));
-    }
-
     // 2. Read autoqueue, filter HIGH-salience PENDING single-call lanes
     var queue = await db.get(AUTOQUEUE_KEY);
     if (!Array.isArray(queue)) queue = [];
     var candidates = queue.filter(function (q) {
       return q.status === 'PENDING'
-          && q.salience === 'HIGH'
+          && (q.retryAfter || 0) <= Date.now()
+          && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
           && SINGLE_CALL_LANES.has(q.recommendedLane);
     });
 
@@ -415,6 +422,7 @@ module.exports = async function handler(req, res) {
     var toFire = [];
     var dedupedCount = 0;
     var stageRefused = [];
+    var budgetRefusal = null;
     for (var i = 0; i < candidates.length && toFire.length < MAX_FIRES_PER_TICK; i++) {
       var c = candidates[i];
       var dedupeKey = CIK_DEDUPE_PREFIX + c.cik + '_' + c.recommendedLane;
@@ -425,7 +433,7 @@ module.exports = async function handler(req, res) {
       // matrix. Pre-revenue applicants shouldn't get SBA / Franchise
       // even on single-call paths; same applies to investment lane
       // mid-stage equity if the entity has no operating history.
-      var slugForStage = _slugForCik(c.cik);
+      var slugForStage = c.portalSlug || _slugForCik(c.cik);
       if (slugForStage) {
         var portalForStage = await _loadPortal(slugForStage);
         if (portalForStage) {
@@ -458,9 +466,13 @@ module.exports = async function handler(req, res) {
       }
 
       var estimatedCost = COST_PER_CALL_USD[c.recommendedLane] || 0.50;
-      if (spentToday + estimatedCost > DAILY_BUDGET_DOLLARS) break;
+      var budgetCheck = await autonomyBudget.check(estimatedCost);
+      if (!budgetCheck.allow) {
+        budgetRefusal = budgetCheck;
+        break;
+      }
+      c._estimatedCostUsd = estimatedCost;
       toFire.push(c);
-      spentToday += estimatedCost;
     }
 
     // 4. Pre-write a tentative audit-log entry so partial completion
@@ -481,9 +493,9 @@ module.exports = async function handler(req, res) {
     if (initialAudit.length > AUDIT_LOG_MAX) initialAudit = initialAudit.slice(0, AUDIT_LOG_MAX);
     await db.set(AUTOFIRE_AUDIT_LOG, initialAudit, AUDIT_LOG_TTL);
 
-    // 5. Fire all candidates in PARALLEL — both finish within Vercel's
-    //    300s budget even if each Sonnet call takes ~270s. Sequential
-    //    would blow past on the second fire.
+    // 5. Fire the bounded candidate set. MAX_FIRES_PER_TICK defaults to one;
+    //    Promise.allSettled preserves the existing explicit accounting if an
+    //    operator lowers provider latency and raises that cap deliberately.
     var firePromises = toFire.map(function (entry) {
       return _fireOne(entry).then(function (result) {
         return { entry: entry, result: result };
@@ -521,12 +533,55 @@ module.exports = async function handler(req, res) {
           }
           await db.set(CIK_DEDUPE_PREFIX + entry.cik + '_' + entry.recommendedLane, { at: Date.now() }, CIK_DEDUPE_TTL);
         } catch (_) { /* state-write errors must not poison the result */ }
+      } else if (!result.skipped) {
+        // A failed paid attempt must not hammer the same candidate every 30
+        // minutes. Back off for six hours and retire after three attempts,
+        // while preserving the error and attempt count on the queue record.
+        try {
+          var qFail = await db.get(AUTOQUEUE_KEY);
+          if (Array.isArray(qFail)) {
+            for (var qfi = 0; qfi < qFail.length; qfi++) {
+              var sameArtifact = entry.sourceArtifactRef && qFail[qfi].sourceArtifactRef === entry.sourceArtifactRef;
+              var sameLegacy = !entry.sourceArtifactRef && qFail[qfi].cik === entry.cik
+                && qFail[qfi].recommendedLane === entry.recommendedLane;
+              if ((sameArtifact || sameLegacy) && qFail[qfi].status === 'PENDING') {
+                qFail[qfi].autofireAttempts = (qFail[qfi].autofireAttempts || 0) + 1;
+                qFail[qfi].lastAttemptAt = Date.now();
+                qFail[qfi].lastAttemptError = result.reason || 'unknown';
+                if (qFail[qfi].autofireAttempts >= MAX_ATTEMPTS_PER_ENTRY) {
+                  qFail[qfi].status = 'FAILED';
+                  qFail[qfi].actionedAt = Date.now();
+                  qFail[qfi].actionedBy = 'autofire-retry-limit';
+                } else {
+                  qFail[qfi].retryAfter = Date.now() + RETRY_BACKOFF_MS;
+                }
+                break;
+              }
+            }
+            await db.set(AUTOQUEUE_KEY, qFail, 14 * 86400);
+          }
+        } catch (_) { /* the audit record still preserves the failure */ }
+      }
+
+      // The provider request may have incurred cost even if persistence failed.
+      // Debit only after an attempted paid call, never merely for selection.
+      if (result.billableAttempt) {
+        try {
+          await autonomyBudget.record(entry._estimatedCostUsd || (COST_PER_CALL_USD[entry.recommendedLane] || 0.50), {
+            streamId: 'autofire:' + entry.recommendedLane,
+            note: 'conservative estimated cost for autonomous ' + entry.recommendedLane + ' artifact attempt for CIK ' + entry.cik
+          });
+        } catch (budgetErr) {
+          // Losing the budget ledger must stop the next paid invocation. The
+          // runtime kill switch is the durable fail-closed boundary.
+          result.budgetRecordError = String(budgetErr && budgetErr.message || budgetErr);
+          try { await aiKillSwitch.setSpendPaused(true); } catch (_) {}
+        }
       }
     }
 
-    // 6. Persist final budget
-    var ttl = Math.max(60, 86400 - Math.floor((Date.now() % 86400000) / 1000));
-    await db.set(todayKey, spentToday, ttl);
+    // 6. Read the shared budget after all billable attempts.
+    budgetStatus = await autonomyBudget.status();
 
     // 7. Overwrite the tentative audit entry with final state.
     //    Match by 'at' timestamp.
@@ -541,7 +596,9 @@ module.exports = async function handler(req, res) {
       skipped: results.filter(function (r) { return r.skipped; }).length,
       errors: results.filter(function (r) { return !r.skipped && !r.ok; }).length,
       dedupedCount: dedupedCount,
-      spentTodayAfter: spentToday,
+      budgetAfter: budgetStatus,
+      budgetAccounting: 'conservative-estimate-per-provider-attempt',
+      budgetRefusal: budgetRefusal,
       elapsedMs: Date.now() - cycleStartAt,
       results: results
     };
@@ -568,8 +625,9 @@ module.exports = async function handler(req, res) {
       skipped: results.filter(function (r) { return r.skipped; }).length,
       errors: results.filter(function (r) { return !r.skipped && !r.ok; }).length,
       dedupedCount: dedupedCount,
-      spentToday: spentToday,
-      dailyBudget: DAILY_BUDGET_DOLLARS,
+      budget: budgetStatus,
+      budgetAccounting: 'conservative-estimate-per-provider-attempt',
+      budgetRefusal: budgetRefusal,
       maxPerTick: MAX_FIRES_PER_TICK,
       results: results
     }));

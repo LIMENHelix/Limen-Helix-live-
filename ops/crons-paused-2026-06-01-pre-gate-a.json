@@ -2,11 +2,16 @@
   "schemaNote": "This file is NOT read by Vercel. It is a paused-cron preservation record kept outside vercel.json so that vercel.json contains only schema-valid top-level keys. Vercel rejected an earlier attempt to keep these entries inside vercel.json under a custom key.",
   "pausedDate": "2026-06-01",
   "reason": "Paused pre-Gate-A to prevent autonomous fire. The autonomous artifact-fire pipeline must not run before the state-write chokepoint (Gate A) exists. /api/expand-artifact-claude is currently failing (HTML responses / timeouts) and the per-CIK dedupe only fires on SUCCESS, so failed fires retry forever and burn ~$9-16/day. Pause until Gate A is built; do not repair the endpoint first, because repair re-arms an ungated pipeline.",
-  "restoreInstruction": "After Gate A v0 is wired at the state-write chokepoint (/api/operator-action) and verified to reject autonomous fires that bypass it, copy each entry in pausedCrons[] back into the crons[] array in vercel.json (preserve the 3 existing data-maintenance entries: ingest, snapshot, stress-refresh). Then commit and push. Vercel will pick up the schedule on the next deploy.",
-  "pausedCrons": [
+  "restoredDate": "2026-08-20",
+  "restoredReason": "The research/investment-only loop now has fail-closed CRON_SECRET authentication, a fail-closed engine-output mutation boundary, the global paid-AI kill switch, the double-gated shared autonomy budget, per-CIK/lane dedupe, and READY_TO_SIGN/DRAFT_NEEDS_DATA persistence with no external submission.",
+  "restoreInstruction": "Historical only. The three current single-call workers below are restored in vercel.json. Do not restore multipass: it belonged to retired lanes and is not implemented in the current router.",
+  "pausedCrons": [],
+  "restoredCrons": [
     { "path": "/api/limen-worker-autoqueue", "schedule": "*/15 * * * *" },
     { "path": "/api/limen-worker-autofire", "schedule": "*/30 * * * *" },
-    { "path": "/api/limen-worker-multipass", "schedule": "*/5 * * * *" },
     { "path": "/api/limen-worker-sleep-cycle", "schedule": "0 * * * *" }
+  ],
+  "retiredCrons": [
+    { "path": "/api/limen-worker-multipass", "formerSchedule": "*/5 * * * *", "reason": "No handler exists; multi-pass patent/grant/SBA/franchise lanes are retired. Research and investment use the bounded single-call autofire worker." }
   ]
 }

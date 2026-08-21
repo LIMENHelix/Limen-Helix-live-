@@ -75,7 +75,8 @@
     leftHtml += '<div class="cp-section-title">Identity</div>';
     leftHtml += '<div class="cp-field"><span class="cp-label">Name</span><span class="cp-value">' + esc(co.name) + '</span></div>';
     leftHtml += '<div class="cp-field"><span class="cp-label">Ticker</span><span class="cp-value cp-ticker">' + esc(co.ticker) + '</span></div>';
-    leftHtml += '<div class="cp-field"><span class="cp-label">CIK</span><span class="cp-value">' + esc(co.cik) + '</span></div>';
+    var validCik = /^\d{1,10}$/.test(String(co.cik == null ? '' : co.cik));
+    leftHtml += '<div class="cp-field"><span class="cp-label">CIK</span><span class="cp-value">' + esc(validCik ? co.cik : '\u2014') + '</span></div>';
     leftHtml += '<div class="cp-field"><span class="cp-label">SIC</span><span class="cp-value">' + esc(co.sic) + '</span></div>';
     leftHtml += '<div class="cp-field"><span class="cp-label">Industry</span><span class="cp-value">' + esc(co.industry) + '</span></div>';
     leftHtml += '<div class="cp-field"><span class="cp-label">Domain</span><span class="cp-value"><a href="' + portalFile + '">' + esc(domainLabel) + '</a></span></div>';
@@ -87,14 +88,24 @@
     // SEC links
     leftHtml += '<div class="cp-section">';
     leftHtml += '<div class="cp-section-title">SEC / EDGAR</div>';
-    leftHtml += '<a class="cp-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + esc(co.cik) + '&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">10-K Filings</a>';
-    leftHtml += '<a class="cp-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + esc(co.cik) + '&type=10-Q&dateb=&owner=include&count=10" target="_blank" rel="noopener">10-Q Filings</a>';
+    if (validCik) {
+      leftHtml += '<a class="cp-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + esc(co.cik) + '&type=10-K&dateb=&owner=include&count=10" target="_blank" rel="noopener">10-K Filings</a>';
+      leftHtml += '<a class="cp-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=' + esc(co.cik) + '&type=10-Q&dateb=&owner=include&count=10" target="_blank" rel="noopener">10-Q Filings</a>';
+    } else {
+      leftHtml += '<div class="cp-note">No verified SEC identity is attached to this portal.</div>';
+    }
     leftHtml += '</div>';
 
     // HELIX Report link
     leftHtml += '<div class="cp-section">';
     leftHtml += '<div class="cp-section-title">HELIX Analysis</div>';
-    leftHtml += '<a class="cp-action" href="' + esc(co.helixReportUrl || ('helix-report.html?cik=' + co.cik)) + '">Run v4.0 Phase Analysis \u2192</a>';
+    var explicitReport = typeof co.helixReportUrl === 'string' && co.helixReportUrl.length > 0;
+    var reportAllowed = co.helixReportMode !== 'unavailable' && (explicitReport || validCik);
+    if (reportAllowed) {
+      leftHtml += '<a class="cp-action" href="' + esc(explicitReport ? co.helixReportUrl : ('helix-report.html?cik=' + co.cik)) + '">Run v4.0 Phase Analysis \u2192</a>';
+    } else {
+      leftHtml += '<div class="cp-note">Validated phase analysis unavailable \u2014 score provenance has not been verified.</div>';
+    }
     leftHtml += '</div>';
 
     // FRED Series

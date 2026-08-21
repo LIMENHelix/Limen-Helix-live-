@@ -10,7 +10,7 @@
   "industry": "Aircraft Manufacturing",
   "domainId": "defense",
   "portalAttachment": "defense-portal.html",
-  "kernelStatus": "ELIGIBLE_NOW",
+  "kernelStatus": "PROVENANCE_UNVERIFIED",
   "fredSeries": [
     "MMNRNJ",
     "TOTALSA",
@@ -30,24 +30,30 @@
     "steel",
     "copper"
   ],
-  "helixReportMode": "validated_kernel",
-  "helixReportUrl": "helix-report.html?company=airbus",
+  "helixReportMode": "unavailable",
+  "helixReportUrl": null,
   "financialHealth": {
-    "asOf": "2024-Q3",
-    "lastKernelRun": "2024-10-15T09:30:00Z",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "validated",
-    "envelopeStatus": "ELIGIBLE_NOW",
-    "historyQuarters": 12,
-    "latestQuarter": "2024Q3",
-    "compositeScore": 0.72,
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "PROVENANCE_UNVERIFIED",
+    "historyQuarters": 0,
+    "latestQuarter": null,
+    "compositeScore": null,
     "alert": false,
-    "distressBand": "green",
-    "dominantPhase": "p6",
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": 8200000000,
-      "debtLatest": 12400000000,
-      "cashRunwayQ": 18
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
+    },
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json",
+      "quarantinedAt": "2026-08-20T00:00:00.000Z",
+      "originalPreserved": true
     }
   },
   "warningSignals": [
@@ -747,172 +753,28 @@
     ]
   },
   "bridgeReadings": {
-    "matched": [
-      {
-        "patternId": "AI_interoception_x_board_self_awareness_deficit",
-        "neuralRegion": "AI",
-        "neuralRegionLabel": "Anterior Insula",
-        "businessSignature": "board_self_awareness_deficit",
-        "mappingType": "isomorphic_pathology",
-        "matchedIndicators": [
-          "fn_auditor_independence"
-        ],
-        "totalIndicators": 2,
-        "matchRate": 0.5,
-        "confidence": 0.405,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "Detection of board-interoception deficit via AI-equivalent self-monitoring-failure metric applied to internal-vs-external assessment divergence",
-            "noveltyAnchor": "Interoception framework for corporate governance diagnostics"
-          },
-          "grant": {
-            "programMatch": [
-              "NACD research",
-              "SSRC Corporate Governance"
-            ],
-            "angle": "Quantitative board-interoception assessment tools"
-          },
-          "investment": {
-            "thesis": "Short companies with interoception-deficit signal; long post-board-restoration",
-            "horizon": "18-36mo"
-          },
-          "research": {
-            "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
-            "methodology": "longitudinal intervention study"
-          },
-          "franchise": null,
-          "sba": null
-        },
-        "phaseAffinity": [
-          "p1",
-          "p3"
-        ],
-        "knownTreatments": [
-          "interoceptive exposure training",
-          "body-scan meditation",
-          "biofeedback",
-          "vagal nerve stimulation"
-        ]
-      },
-      {
-        "patternId": "BG_tonic_inhibition_x_monopsony_supplier_throttle",
-        "neuralRegion": "BG",
-        "neuralRegionLabel": "Basal Ganglia (indirect pathway / globus pallidus internus)",
-        "businessSignature": "monopsony_supplier_throttle",
-        "mappingType": "isomorphic_pathology",
-        "matchedIndicators": [
-          "supplier_margin_compression_cohort"
-        ],
-        "totalIndicators": 4,
-        "matchRate": 0.25,
-        "confidence": 0.18,
-        "derivedAngles": {
-          "patent": {
-            "claimDirection": "Method for detecting monopsony-induced supplier throttle via cross-entity gross-margin divergence kernels in SEC filing graphs",
-            "noveltyAnchor": "Mapping basal-ganglia indirect-pathway tonic-firing biomarkers onto supplier-graph margin telemetry as an early-warning index for supplier-cohort capex collapse"
-          },
-          "grant": {
-            "programMatch": [
-              "NSF SBIR Phase I — Industrial Organization Analytics",
-              "FTC Bureau of Economics research grants",
-              "Sloan Foundation Economic Institutions"
-            ],
-            "angle": "Empirical detection of buyer-power pathology in retail-CPG dyads using firm-level filings, with neural-systems analogy as theoretical scaffold for distinguishing efficient gating from pathological throttle"
-          },
-          "investment": {
-            "thesis": "Short basket of tonic-inhibited CPG suppliers with >15% Walmart revenue concentration and declining capex/sales; pair-long against retailer; unwind on antitrust catalyst or supplier consolidation event",
-            "horizon": "18-36 months",
-            "instruments": [
-              "Equity pairs (WMT long / KHC, CPB, CAG short basket)",
-              "CDS on highly-throttled suppliers",
-              "Long-dated put spreads on private-label-exposed CPG names"
-            ]
-          },
-          "research": {
-            "hypothesis": "CPG suppliers crossing a Walmart-revenue-concentration threshold of ~20% exhibit a measurable lag-2-year decline in R&D and capex intensity relative to category peers, isomorphic to bradykinesia onset following dopaminergic depletion past a striatal threshold",
-            "methodology": "Panel regression of supplier capex/R&D intensity on lagged buyer-concentration disclosures across 1995-2024 CPG cohort, with synthetic-control matching on category and pre-period growth; event-study around antitrust interventions as 'DBS analog' shocks"
-          },
-          "sba": null,
-          "franchise": null
-        },
-        "phaseAffinity": [
-          "p6",
-          "p7b"
-        ],
-        "knownTreatments": [
-          "Levodopa (restores dopaminergic disinhibition of striatum)",
-          "Deep brain stimulation of STN/GPi (high-frequency disruption of pathological tonic inhibitory firing)",
-          "MAO-B inhibitors (prolong dopamine availability to reduce indirect-pathway dominance)"
-        ]
-      }
-    ],
-    "evaluatedAt": "2026-07-31T19:07:39.045Z",
-    "patternsConsidered": 33
+    "matched": [],
+    "evaluatedAt": null,
+    "patternsConsidered": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   },
   "engineOutputs": {
-    "investment": [
-      {
-        "lane": "investment",
-        "patternId": "AI_interoception_x_board_self_awareness_deficit",
-        "confidence": 0.405,
-        "side": "LONG",
-        "horizon": "18-36mo",
-        "valuationBasis": {
-          "computed": false,
-          "reason": "missing shares,revenue"
-        },
-        "artifact": {
-          "header": "Airbus SE (AIR) — LONG — qualitative thesis (size: conviction-scaled)\nInitiated: 2026-06-05    Kernel phase: EXPANSION    Composite: 0.720\nValuation: not computed (insufficient market data — missing shares, revenue) — directional thesis only, no point price target published.\nBridge pattern: AI_interoception_x_board_self_awareness_deficit (confidence 0.405)",
-          "variantView": "Consensus prices AIR for continued underperformance — the market prices AIR at its current level, implying persistent margin compression and stalled recovery. We believe consensus is wrong on the board self awareness deficit signature: Airbus SE's functional-network exhibits Anterior Insula-equivalent isomorphic pathology (matched indicators: fn_auditor_independence), and the kernel reading is EXPANSION. The Street's model implicitly requires continued operational drift the bridge pattern signals will reverse, which we view as unrealistic because the underlying pattern matches a known Anterior Insula pathology with documented intervention pathways.",
-          "catalystBlock": "Hard catalysts (falsifiable):\n  • Next quarterly earnings release — post-earnings drift is the primary re-rating window for the board self awareness deficit signature.\n  • Cash runway — approximately 18 quarters on the latest filing ⇒ a financing/refinancing event is likely within ~54 months (dated, falsifiable).\n  • Going-concern language — monitor the next annual filing for a going-concern modification.\n\nSoft catalysts (monitored):\n  • Functional-network counterparty stress — leading indicator: spider-web induced stress on Airbus SE.\n  • Bridge-pattern confidence trajectory — leading indicator: bridge-engine match rate across the peer cohort.\n\nWe expect the re-rating to materialize over 18-36 months: once the board self awareness deficit pattern is recognized, the gap between current pricing and the phase-implied valuation compresses.",
-          "valuation": "No point price target is published: the inputs required to re-rate the multiple (price, shares, revenue, net debt) are not all available for this entity. The thesis is directional only — the phase (EXPANSION) implies multiple expansion versus current pricing, with no fabricated target.",
-          "positionSizing": "Size: conviction-scaled to bridge confidence 0.405 (1 matched indicators); no fixed percentage published absent a computable risk/reward. Phase governor: EXPANSION.",
-          "risk": "What would change our mind — we are wrong if:\n  • Bridge pattern confidence falls below 0.30 for two consecutive bridge-engine runs.\n  • Indicator \"fn_auditor_independence\" reverses in two consecutive quarters\n  • Counterparty-network stress propagation flips sign in the spider-web propagator.\n  • Kernel phase deteriorates to a more distressed phase for two consecutive readings — the long is invalidated.\n\nMitigating factors monitored:\n  • Bridge-engine refresh cadence: per build-bridge-readings runner cron.\n  • Kernel reading freshness: per K2 persistence runner.\n\nPrimary risks we accept:\n  • Pattern detection vs. mechanism — the bridge pattern is a CLAIM about isomorphic pathology; the empirical correlation requires Phase-II validation.\n  • Cross-domain transfer is only as strong as the underlying Anterior Insula ↔ board self awareness deficit mapping confidence (see pattern file).",
-          "exit": "We will exit upon:\n  (a) Price reaches the phase-implied re-rating completes, OR\n  (b) Variant view confirmed and consensus converges, OR\n  (c) Any \"we are wrong if\" trigger fires at the confirm threshold, OR\n  (d) 18-36 months elapse without progress on the bridge-pattern indicators.\n\nWe will NOT exit on:\n  • Drawdown alone absent thesis change.\n  • Sentiment reversal absent a fundamental bridge-pattern shift.",
-          "thesisStatement": "Short companies with interoception-deficit signal; long post-board-restoration",
-          "instruments": [
-            "common equity"
-          ]
-        },
-        "provenance": {
-          "kernelId": "engine_output_generator/2.0_market_data",
-          "sourceLane": "investment",
-          "generatedAt": "2026-06-05T23:59:34.587Z",
-          "marketDataSources": {
-            "quote": "yahoo_v8",
-            "fundamentals": null
-          }
-        }
-      }
-    ],
-    "research": [
-      {
-        "lane": "research",
-        "patternId": "AI_interoception_x_board_self_awareness_deficit",
-        "confidence": 0.405,
-        "artifact": {
-          "title": "Empirical test of Anterior Insula-equivalent board self awareness deficit mapping on Airbus SE",
-          "hypothesis": "Board interoception protocols predict reduced control-failure incidents",
-          "methodology": "longitudinal intervention study",
-          "preregistration": "Hypothesis, primary endpoint, and analysis plan to be filed with OSF prior to data collection.",
-          "falsifiability": "Hypothesis is falsified if the effect size is below a pre-registered minimum (set at OSF preregistration) or if matched controls show an equivalent effect.",
-          "expectedOutcome": "Confirmation of the bridge-pattern mapping would establish empirical basis for Anterior Insula-equivalent corporate-pathology detection across the phase-affinity phases.",
-          "bridgeReference": "AI_interoception_x_board_self_awareness_deficit"
-        },
-        "provenance": {
-          "kernelId": "engine_output_generator/1.0",
-          "sourceLane": "research",
-          "generatedAt": "2026-06-05T23:59:34.587Z"
-        }
-      }
-    ],
-    "generatedAt": "2026-06-05T23:59:34.587Z",
-    "generatorVersion": "2.0_research_investment_only",
-    "bridgeCount": 1,
+    "investment": [],
+    "research": [],
+    "generatedAt": null,
+    "generatorVersion": "quarantined/1.0",
+    "bridgeCount": 0,
     "artifactsByLane": {
-      "investment": 1,
-      "research": 1
+      "investment": 0,
+      "research": 0
     },
-    "totalArtifacts": 2
+    "totalArtifacts": 0,
+    "quarantine": {
+      "reasonCode": "KERNEL_PROVENANCE_UNVERIFIED",
+      "auditPath": "assets/data/audit/unsupported-kernel-claims.json"
+    }
   }
 }

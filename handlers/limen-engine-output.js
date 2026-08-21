@@ -36,20 +36,27 @@ const REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 const HAS_REDIS = !!(REDIS_URL && REDIS_TOKEN);
 
 // ── H6 — Operator auth gate ──────────────────────────────────────────
-// Bearer-token check on mutation paths (POST + PATCH). GET stays open so
-// the viewer page (/helix-artifact.html) and list page (/helix-artifacts)
-// can render without credentials. When LIMEN_OPERATOR_TOKEN is unset the
-// gate is OFF (local-dev mode) and an x-auth-disabled response header is
-// surfaced so the absence is visible.
-const OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
-const AUTH_ON = !!OPERATOR_TOKEN;
+// Mutation paths accept either the dedicated operator bearer or the existing
+// master pass in x-limen-pass. GET stays public for artifact viewers. If neither
+// server credential is configured the mutation boundary FAILS CLOSED; production
+// must never fall back to a public write surface.
+const adminGate = require('../lib/admin-gate');
+function operatorToken() { return process.env.LIMEN_OPERATOR_TOKEN || ''; }
+function authConfigured() {
+  return !!(operatorToken() || process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY);
+}
 function checkAuth(req) {
-  if (!AUTH_ON) return { ok: true, mode: 'disabled' };
+  if (adminGate.isMaster(adminGate.reqKey(req))) return { ok: true, mode: 'master' };
+  const token = operatorToken();
   const header = req.headers && (req.headers.authorization || req.headers.Authorization);
-  if (!header) return { ok: false, reason: 'missing-bearer' };
+  if (!token) {
+    if (!authConfigured()) return { ok: false, unavailable: true, reason: 'mutation-auth-unconfigured' };
+    return { ok: false, reason: 'missing-master-pass' };
+  }
+  if (!header) return { ok: false, reason: 'missing-credential' };
   const m = /^Bearer\s+(.+)$/i.exec(String(header).trim());
   if (!m) return { ok: false, reason: 'malformed-bearer' };
-  if (m[1] !== OPERATOR_TOKEN) return { ok: false, reason: 'token-mismatch' };
+  if (m[1] !== token) return { ok: false, reason: 'token-mismatch' };
   return { ok: true, mode: 'operator' };
 }
 
@@ -285,7 +292,7 @@ async function persistArtifact(body, opts) {
     },
 
     history: [
-      { at: now, status: 'READY_TO_SIGN', actor: body.operator || 'master-living-brain' }
+      { at: now, status: status, actor: body.operator || 'master-living-brain' }
     ]
   };
 
@@ -466,7 +473,11 @@ async function patchStatus(outputId, newStatus, actor, notes) {
       // Internal call: include the operator token so the H6 gate on
       // /api/limen-outcome doesn't reject our own fire-and-forget.
       const internalHeaders = { 'content-type': 'application/json' };
-      if (OPERATOR_TOKEN) internalHeaders.authorization = 'Bearer ' + OPERATOR_TOKEN;
+      if (operatorToken()) internalHeaders.authorization = 'Bearer ' + operatorToken();
+      else {
+        const master = process.env.ADMIN_MASTER || process.env.ADMIN_MASTER_KEY || '';
+        if (master) internalHeaders['x-limen-pass'] = master;
+      }
       // Don't await — fire and forget.
       fetch(base + '/api/limen-outcome', {
         method: 'POST',
@@ -491,18 +502,18 @@ module.exports = async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
-  res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization, x-limen-pass');
+  res.setHeader('x-auth-mode', authConfigured() ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
   }
 
-  // H6 gate — POST + PATCH require LIMEN_OPERATOR_TOKEN if it's set in env.
+  // H6 gate — POST + PATCH always require a configured server credential.
   if (req.method === 'POST' || req.method === 'PATCH') {
     const auth = checkAuth(req);
     if (!auth.ok) {
-      res.statusCode = 401;
+      res.statusCode = auth.unavailable ? 503 : 401;
       res.setHeader('content-type', 'application/json');
       res.setHeader('WWW-Authenticate', 'Bearer realm="limen-engine-output"');
       return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
