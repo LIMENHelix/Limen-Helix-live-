@@ -292,7 +292,7 @@ async function persistArtifact(body, opts) {
     },
 
     history: [
-      { at: now, status: 'READY_TO_SIGN', actor: body.operator || 'master-living-brain' }
+      { at: now, status: status, actor: body.operator || 'master-living-brain' }
     ]
   };
 
