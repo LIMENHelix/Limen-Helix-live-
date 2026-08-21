@@ -82,7 +82,13 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
-  const marketplace = require('../lib/relay-marketplace');
+  let marketplace;
+  try {
+    marketplace = require('../lib/relay-marketplace');
+  } catch (e) {
+    console.error('[csv-import] Failed to load marketplace:', e.message);
+    return sendJSON(res, 503, { ok: false, error: 'Service temporarily unavailable: ' + e.message });
+  }
   const body = await readBody(req);
   const csv = body.csv || '';
   const marketplaceId = body.marketplaceId || '';

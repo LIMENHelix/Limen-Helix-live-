@@ -41,10 +41,16 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
-  const ebay = require('../lib/ebay-scraper');
-  const mercari = require('../lib/mercari-scraper');
-  const vinted = require('../lib/vinted-scraper');
-  const poshmark = require('../lib/poshmark-scraper');
+  let ebay, mercari, vinted, poshmark;
+  try {
+    ebay = require('../lib/ebay-scraper');
+    mercari = require('../lib/mercari-scraper');
+    vinted = require('../lib/vinted-scraper');
+    poshmark = require('../lib/poshmark-scraper');
+  } catch (e) {
+    console.error('[marketplace-scraper] Failed to load scrapers:', e.message);
+    return sendJSON(res, 503, { ok: false, error: 'Service temporarily unavailable: ' + e.message });
+  }
   const body = await readBody(req);
   const source = (body.source || 'ebay').toLowerCase();
   const action = body.action || 'search';

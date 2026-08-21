@@ -29,7 +29,13 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
-  const ebay = require('../lib/ebay-scraper');
+  let ebay;
+  try {
+    ebay = require('../lib/ebay-scraper');
+  } catch (e) {
+    console.error('[ebay-scraper] Failed to load:', e.message);
+    return sendJSON(res, 503, { ok: false, error: 'Service temporarily unavailable: ' + e.message });
+  }
   const body = await readBody(req);
   const action = body.action || 'search';
   const query = body.query || '';
