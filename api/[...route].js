@@ -38,6 +38,8 @@ const HANDLERS = {
   'relay-stripe-webhook': require('../handlers/relay-stripe-webhook'),
   'relay-csv-import': require('../handlers/relay-csv-import'),
   'relay-ebay-scraper': require('../handlers/relay-ebay-scraper'),
+  'relay-marketplace-scraper': require('../handlers/relay-marketplace-scraper'),
+  'relay-vinted-scraper': require('../handlers/relay-vinted-scraper'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),
