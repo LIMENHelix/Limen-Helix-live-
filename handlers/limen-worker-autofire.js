@@ -205,7 +205,7 @@ function _buildContextPacket(portal, lane) {
 }
 
 async function _fireOne(entry) {
-  var slug = _slugForCik(entry.cik);
+  var slug = entry.portalSlug || _slugForCik(entry.cik);
   if (!slug) {
     return { skipped: true, reason: 'no-portal-for-cik', cik: entry.cik };
   }
@@ -216,7 +216,7 @@ async function _fireOne(entry) {
 
   var lane = entry.recommendedLane;
   var packet = _buildContextPacket(portal, lane);
-  var sig = 'autofire-' + lane + '-' + entry.cik + '-' + Date.now();
+  var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + entry.cik + '-' + Date.now());
 
   // Call expand-artifact-claude (single-call only — investment / research)
   var expandResp;
@@ -375,7 +375,7 @@ module.exports = async function handler(req, res) {
       if (!Array.isArray(q0)) q0 = [];
       var t_queue = Date.now() - stepT;
       var cands = q0.filter(function (q) {
-        return q.status === 'PENDING' && q.salience === 'HIGH'
+        return q.status === 'PENDING' && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
             && SINGLE_CALL_LANES.has(q.recommendedLane);
       });
       stepT = Date.now();
@@ -411,7 +411,7 @@ module.exports = async function handler(req, res) {
     if (!Array.isArray(queue)) queue = [];
     var candidates = queue.filter(function (q) {
       return q.status === 'PENDING'
-          && q.salience === 'HIGH'
+          && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
           && SINGLE_CALL_LANES.has(q.recommendedLane);
     });
 
@@ -430,7 +430,7 @@ module.exports = async function handler(req, res) {
       // matrix. Pre-revenue applicants shouldn't get SBA / Franchise
       // even on single-call paths; same applies to investment lane
       // mid-stage equity if the entity has no operating history.
-      var slugForStage = _slugForCik(c.cik);
+      var slugForStage = c.portalSlug || _slugForCik(c.cik);
       if (slugForStage) {
         var portalForStage = await _loadPortal(slugForStage);
         if (portalForStage) {
