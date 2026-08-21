@@ -40,6 +40,7 @@
  */
 
 var db = require('../lib/limen-db');
+var cronAuth = require('../lib/cron-auth');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 var AUTOQUEUE_KEY = 'autoqueue';
@@ -161,6 +162,9 @@ function _remediationsFromAudit(audit, consolidation) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (req.method !== 'GET') { res.statusCode = 405; res.setHeader('Allow', 'GET'); return res.end(); }
+  if (!cronAuth.enforce(req, res)) return;
   var t0 = Date.now();
 
   try {

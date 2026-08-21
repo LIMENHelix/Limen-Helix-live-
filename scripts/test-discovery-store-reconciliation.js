@@ -7,7 +7,12 @@ const crypto = require('node:crypto');
 
 const ROOT = path.resolve(__dirname, '..');
 const read = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const hash = (p) => crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, p))).digest('hex');
+// Reconciliation hashes are generated from the tracked LF JSON bytes. Git may
+// materialize CRLF in a Windows worktree without changing the tracked blob, so
+// normalize only line endings here; all substantive byte changes still fail.
+const hash = (p) => crypto.createHash('sha256')
+  .update(fs.readFileSync(path.join(ROOT, p), 'utf8').replace(/\r\n/g, '\n'))
+  .digest('hex');
 
 const ledger = read('assets/data/audit/verification-ledger.json');
 const summary = read('assets/data/treatment-discovery/_summary.json');

@@ -20,6 +20,7 @@
 
 var db = require('../lib/limen-db');
 var policy = require('../lib/limen-policy');
+var cronAuth = require('../lib/cron-auth');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 var AUTOQUEUE_KEY = 'autoqueue';
@@ -30,6 +31,9 @@ var AUTOQUEUE_TTL = 14 * 86400;            // 2 weeks
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (req.method !== 'GET') { res.statusCode = 405; res.setHeader('Allow', 'GET'); return res.end(); }
+  if (!cronAuth.enforce(req, res)) return;
   var t0 = Date.now();
 
   try {
