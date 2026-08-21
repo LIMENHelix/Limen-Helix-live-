@@ -142,6 +142,10 @@ function restoreEnv() {
   assert('autofire uses the public origin instead of a protected deployment hostname',
     autofireSource.includes("process.env.PUBLIC_BASE_URL || 'https://limenhelix.com'") &&
     !autofireSource.includes("process.env.VERCEL_URL ? 'https://'"));
+  assert('autofire permits the measured long-form generation window', autofireSource.includes('AbortSignal.timeout(700000)'));
+  assert('failed paid attempts back off instead of retrying every tick',
+    autofireSource.includes('RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000') &&
+    autofireSource.includes("qFail[qfi].status = 'FAILED'"));
   assert('autofire lanes remain exactly research and investment', /new Set\(\['investment', 'research'\]\)/.test(autofireSource));
   assert('master-inbox readiness is explicit rather than relabelled HIGH',
     autofireSource.includes("q.source === 'master-inbox' && q.autofireEligible === true"));
@@ -152,6 +156,10 @@ function restoreEnv() {
 
   const ignored = fs.readFileSync(path.join(ROOT, '.vercelignore'), 'utf8');
   assert('the runtime master inbox is no longer excluded from deployment', !/^assets\/data\/_master-inbox\.json$/m.test(ignored));
+
+  const expandSource = fs.readFileSync(path.join(ROOT, 'handlers', 'expand-artifact-claude.js'), 'utf8');
+  assert('the provider timeout fits inside the 800-second function budget',
+    expandSource.includes("process.env.ANTHROPIC_TIMEOUT_MS || '600000'"));
 
   restoreEnv();
   if (process.exitCode) process.exit(process.exitCode);
