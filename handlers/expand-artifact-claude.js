@@ -43,6 +43,17 @@ const ANTHROPIC_TIMEOUT_MS = parseInt(process.env.ANTHROPIC_TIMEOUT_MS || '60000
 const ANTHROPIC_VERSION = '2023-06-01';
 const ENDPOINT = 'https://api.anthropic.com/v1/messages';
 
+// Module-scoped Undici dispatcher configured once at module load, reused
+// across requests. Node 24's default headersTimeout (300s) is insufficient
+// for dense Anthropic requests; configure to 650s (exceeds provider's 600s).
+const { Agent } = require('undici');
+const UNDICI_DISPATCHER = new Agent({
+  headersTimeout: 650000,  // 650s: exceeds Anthropic provider timeout
+  bodyTimeout: 650000,     // 650s: allows full response transmission
+  connectTimeout: 10000    // 10s: normal connection establishment
+});
+
+
 // Internal vocabulary that must NEVER appear in artifact output.
 // Used both in the system prompt and as a post-generation linter.
 const BANNED_TERMS = [
@@ -681,18 +692,20 @@ async function callAnthropic(body, opts) {
         'content-type': 'application/json'
       },
       body: JSON.stringify(_agBody),
-      signal: controller.signal
+      signal: controller.signal,
+      dispatcher: UNDICI_DISPATCHER
     });
     json = await resp.json();
     await require('../lib/anthropic-call').close(_agGuard, json);
   } catch (err) {
     clearTimeout(timer);
-    return { ok: false, status: 0, reason: 'fetch-failed', detail: String(err && err.message || err) };
+    const errorCode = err.cause && err.cause.code ? err.cause.code : 'unknown';
+    return { ok: false, status: 0, reason: 'fetch-failed', detail: String(err && err.message || err), errorCode: errorCode };
   }
   clearTimeout(timer);
 
   if (!resp.ok) {
-    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json };
+    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json, errorCode: null };
   }
 
   let text = '';
@@ -810,7 +823,7 @@ module.exports = async function handler(req, res) {
     if (!r.ok) {
       res.statusCode = r.status || 502;
       res.setHeader('content-type', 'application/json');
-      return res.end(JSON.stringify({ ok: false, error: r.reason || 'upstream-error', detail: r.detail }));
+      return res.end(JSON.stringify({ ok: false, error: r.reason || 'upstream-error', detail: r.detail, errorCode: r.errorCode || null }));
     }
 
     const contentHash = hash(r.rawText || '');
@@ -827,6 +840,7 @@ module.exports = async function handler(req, res) {
       draftBody: r.structured && r.structured.draftBody || r.rawText,
       structured: r.structured,
       bannedHits: r.bannedHits,
+      errorCode: r.errorCode || null,
       provenance: {
         generatedAt: Date.now(),
         generatedAtISO: new Date().toISOString(),

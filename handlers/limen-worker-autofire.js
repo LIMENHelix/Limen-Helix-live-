@@ -246,14 +246,15 @@ async function _fireOne(entry) {
     });
     expandResp = await r.json();
   } catch (e) {
-    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message) };
+    var errorCode = e.cause && e.cause.code ? e.cause.code : 'unknown';
+    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message), errorCode: errorCode };
   }
 
   if (!expandResp || !expandResp.ok) {
     return {
       skipped: false, ok: false, cik: entry.cik, lane: lane,
       billableAttempt: true,
-      reason: 'expand-not-ok', detail: (expandResp && expandResp.error) || 'unknown'
+      reason: 'expand-not-ok', detail: (expandResp && expandResp.error) || 'unknown', errorCode: (expandResp && expandResp.errorCode) || 'unknown'
     };
   }
 
