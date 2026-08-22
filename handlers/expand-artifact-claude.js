@@ -53,7 +53,6 @@ const UNDICI_DISPATCHER = new Agent({
   connectTimeout: 10000    // 10s: normal connection establishment
 });
 
-// Cleanup (graceful shutdown via SIGTERM)
 
 // Internal vocabulary that must NEVER appear in artifact output.
 // Used both in the system prompt and as a post-generation linter.
@@ -706,7 +705,7 @@ async function callAnthropic(body, opts) {
   clearTimeout(timer);
 
   if (!resp.ok) {
-    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json };
+    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json, errorCode: null };
   }
 
   let text = '';
