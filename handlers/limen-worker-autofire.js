@@ -20,8 +20,10 @@
  *     otherwise DRAFT_NEEDS_DATA. Never auto-submitted externally.
  *   - Max 1 fire per cron tick — bounds invocation time.
  *
- * This is not yet a brain-v2 motor path. Domain brains do not select these
- * commands; the existing autonomous queue does.
+ * The existing queue proposes candidates. The owning domain's persisted outward
+ * critic must separately release one against `no_action`; READY_TO_FIRE alone is
+ * not an execution instruction. This path generates artifacts only and never
+ * authorizes publication or a broker order.
  *
  * GET /api/limen-worker-autofire
  *   Returns summary { evaluated, fired, budgetSpent, dedupedCount,
@@ -36,6 +38,9 @@ var autonomyBudget = require('../lib/autonomy-budget');
 var aiKillSwitch = require('../lib/ai-kill-switch');
 var autofireEfference = require('../lib/autofire-efference');
 var efferenceStore = require('../lib/autofire-efference-store');
+var domainBridge = require('../lib/autofire-domain-bridge');
+var autofireLearning = require('../lib/autofire-learning');
+var brainStore = require('../lib/brain-shadow-store');
 var fs = require('fs');
 var path = require('path');
 
@@ -122,10 +127,10 @@ var SCOPE_TEMPLATES = {
     proposedApproach: 'Three-horizon scenario tree with probability-weighted IRR per scenario. Position sizing keyed to Kelly criterion under quoted scenario probabilities, capped at portfolio-concentration limits. Kill criteria specified ex-ante across phase transition triggers, leverage/liquidity covenants, and reflexive market events.'
   },
   research: {
-    title: 'Structural research brief — {company}',
-    description: 'Independent research brief for {company} ({industry}) suitable for institutional consumption. Covers competitive moat, capital efficiency, scenario-conditioned cash-flow durability, and three-event-horizon catalysts.',
-    problemStatement: 'Institutional investors evaluating {company} need a research artifact that synthesizes operational topology, capital-structure exposure, and event-conditioned cash-flow paths in one document. Sell-side coverage tends to be either superficial (snapshot) or so detailed it loses the decision-relevant signal.',
-    proposedApproach: 'Five-section brief: Operating model + topology of dependencies, Capital structure + covenant ladder, Three scenario-conditioned 5-year free cash flow paths, Three-event-horizon catalyst calendar with binary outcomes flagged, Methodology + sources + assumptions ledger.'
+    title: 'Science/medicine evidence synthesis — {company}',
+    description: 'Ongoing evidence synthesis for a Science or Medicine subject. Tracks published studies, replication, convergence, contradiction, retraction, and the effects claimed across the neurological/business homology and P0-P10 kernel arc.',
+    problemStatement: 'A published study is an observation, not proof of progress. The research lane must preserve evidence identity and independence, distinguish convergence from repetition, and show exactly how any claim maps neurology to business, business to neurology, kernel dynamics, and P0-P10 proof and effects.',
+    proposedApproach: 'Evidence ledger with four explicit mappings: neurology-to-business homology, business-to-neurology homology, kernel dynamics, and P0-P10 proof/effects. Preserve supporting, constructive, contradicting and retracting evidence separately. Abstain on progress until independence and the mapping are established.'
   }
 };
 
@@ -224,6 +229,47 @@ async function _fireOne(entry) {
   var packet = _buildContextPacket(portal, lane);
   var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + entry.cik + '-' + Date.now());
 
+  // B11 owner-domain release. The candidate exists before this gate; the gate
+  // cannot manufacture one from stress, headlines, or a finding. It can only
+  // release or hold it, and its decision is durably reviewable.
+  var ownerDomain = autofireLearning.ownerFor(lane, entry.domain);
+  var ownerCycle = null;
+  if (ownerDomain) {
+    try { ownerCycle = await brainStore.readCycle(ownerDomain); }
+    catch (err) {
+      return {
+        skipped: false, ok: false, billableAttempt: false,
+        cik: entry.cik, lane: lane,
+        reason: 'domain-cycle-unreadable', detail: err.message,
+        motorStatus: 'NOT_SELECTED'
+      };
+    }
+  }
+  var selected = await domainBridge.select(efferenceStore, {
+    lane: lane,
+    candidate: entry,
+    domainCycle: ownerCycle,
+    at: Date.now()
+  });
+  if (!selected.ok) {
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'domain-selection-not-durable', detail: selected.detail || selected.error,
+      motorStatus: 'NOT_SELECTED'
+    };
+  }
+  if (selected.receipt.status !== 'RELEASED') {
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'domain-outward-held', detail: selected.receipt.reasons.join(','),
+      selectionId: selected.receipt.id,
+      selectionReasons: selected.receipt.reasons,
+      motorStatus: 'HELD'
+    };
+  }
+
   // B11 + B14, across the asynchronous actuator boundary. The command-time
   // prediction must be durable BEFORE the first provider request. If that write
   // fails, nothing is dispatched: an action without a copy cannot later
@@ -248,6 +294,25 @@ async function _fireOne(entry) {
     };
   }
   var efferenceCopy = commanded.copy;
+
+  // Create the action episode before the provider request. A command that
+  // cannot enter durable episodic learning is not dispatched.
+  var commandLearning = await autofireLearning.recordCommand(efferenceStore, {
+    selection: selected.receipt,
+    efferenceCopy: efferenceCopy
+  });
+  if (!commandLearning.ok) {
+    await autofireEfference.resolve(efferenceStore, efferenceCopy, {
+      ok: false, skipped: false, reason: 'command-learning-not-durable'
+    }, Date.now());
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'command-learning-not-durable', detail: commandLearning.detail || commandLearning.error,
+      selectionId: selected.receipt.id,
+      motorStatus: 'NOT_DISPATCHED'
+    };
+  }
 
   async function finish(result) {
     var motor = await autofireEfference.resolve(efferenceStore, efferenceCopy, result, Date.now());
@@ -352,10 +417,12 @@ async function _fireOne(entry) {
           claudeUsage: { output_tokens: (expandResp.usage && expandResp.usage.output_tokens) || 0 },
           citations: inner.evidenceCitationsUsed || [],
           autofire: {
-            triggeredBy: 'phase-transition',
+            triggeredBy: entry.source || 'phase-transition',
             transition: { from: entry.from, to: entry.to },
             salience: entry.salience,
             triggeredAt: Date.now(),
+            selectionId: selected.receipt.id,
+            ownerDomain: selected.receipt.ownerDomain,
             efferenceCopyId: efferenceCopy.id,
             actionId: efferenceCopy.actionId
           }

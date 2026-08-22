@@ -234,7 +234,9 @@ async function handlerProof() {
   fakeDb.values.set('autoqueue', [{
     status: 'PENDING', source: 'master-inbox', autofireEligible: true,
     recommendedLane: 'research', cik: '320193', portalSlug: 'apple',
+    domain: 'medicine',
     sourceArtifactRef: 'research:apple:structural', sourcePatternSig: 'sig-apple',
+    masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
     salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
   }]);
 
@@ -252,8 +254,16 @@ async function handlerProof() {
   const budgetPath = path.join(ROOT, 'lib', 'autonomy-budget.js');
   const killPath = path.join(ROOT, 'lib', 'ai-kill-switch.js');
   const efferenceStorePath = path.join(ROOT, 'lib', 'autofire-efference-store.js');
+  const brainStorePath = path.join(ROOT, 'lib', 'brain-shadow-store.js');
   mock(dbPath, fakeDb);
   mock(efferenceStorePath, fakeEfferenceStore);
+  mock(brainStorePath, {
+    async readCycle(domain) { return {
+      domain: domain, ok: true, startedAt: 10, finishedAt: 11, cursorAfter: 9,
+      relationshipEvidence: null,
+      domainFunction: { evidence: { l3CurrentEvidenceComplete: true, outwardConnected: true }, outwardConsumersDeclared: 1 }
+    }; }
+  });
   mock(stagePath, {
     classifyStage() { return { stage: 'mature-operating' }; },
     routeLaneForStage() { return { allowed: true }; }
@@ -318,7 +328,9 @@ async function handlerProof() {
     fakeDb.values.set('autoqueue', [{
       status: 'PENDING', source: 'master-inbox', autofireEligible: true,
       recommendedLane: 'investment', cik: '789019', portalSlug: 'microsoft',
+      domain: 'technology',
       sourceArtifactRef: 'investment:microsoft:structural', sourcePatternSig: 'sig-msft',
+      masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
       salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
     }]);
     persistOutputId = null;
@@ -352,10 +364,18 @@ async function outcomeIdentityProof() {
   const oldUrl = process.env.UPSTASH_REDIS_REST_URL;
   const oldToken = process.env.UPSTASH_REDIS_REST_TOKEN;
   const oldOperator = process.env.LIMEN_OPERATOR_TOKEN;
+  const oldCron = process.env.CRON_SECRET;
   process.env.UPSTASH_REDIS_REST_URL = 'https://redis.test';
   process.env.UPSTASH_REDIS_REST_TOKEN = 'redis-test-token';
   delete process.env.LIMEN_OPERATOR_TOKEN;
+  process.env.CRON_SECRET = 'learning-test-secret';
   delete require.cache[outcomePath];
+  const learningPath = require.resolve(path.join(ROOT, 'lib', 'autofire-learning.js'));
+  const previousLearning = require.cache[learningPath];
+  let learnedEvent = null;
+  require.cache[learningPath] = { id: learningPath, filename: learningPath, loaded: true, exports: {
+    async recordOutcome(_store, event) { learnedEvent = event; return { ok: true, b12Updated: false }; }
+  } };
   const oldFetch = global.fetch;
   try {
     global.fetch = async function (_url, options) {
@@ -363,24 +383,29 @@ async function outcomeIdentityProof() {
       if (cmd[0] === 'GET' && cmd[1] === 'limen:engine_output:eo_research_apple_1') {
         return { ok: true, async json() { return { result: JSON.stringify({
           outputId: 'eo_research_apple_1', lane: 'research', cik: '320193',
-          payload: { autofire: { efferenceCopyId: 'efx_trace_1', actionId: 'act_trace_1' } }
+          payload: { autofire: { ownerDomain: 'health', efferenceCopyId: 'efx_trace_1', actionId: 'act_trace_1' } }
         }) }; } };
       }
       return { ok: true, async json() { return { result: 1 }; } };
     };
     const outcome = require(outcomePath);
-    const response = await invoke(outcome, request('POST', '/api/limen-outcome', {
+    const outcomeReq = request('POST', '/api/limen-outcome', {
       outputId: 'eo_research_apple_1', eventType: 'OUTCOME_RESEARCH_PUBLISHED',
       actor: 'test'
-    }));
+    });
+    outcomeReq.headers.authorization = 'Bearer learning-test-secret';
+    const response = await invoke(outcome, outcomeReq);
     ok('real outcome handler accepts the later research event', response.code === 201 && response.json.ok, response.body);
     ok('later event derives efference and action identity from the artifact', response.json.event.efferenceCopyId === 'efx_trace_1' && response.json.event.actionId === 'act_trace_1');
+    ok('later event carries the owning domain into B12/B13 learning', learnedEvent && learnedEvent.ownerDomain === 'health');
   } finally {
     global.fetch = oldFetch;
     if (oldUrl === undefined) delete process.env.UPSTASH_REDIS_REST_URL; else process.env.UPSTASH_REDIS_REST_URL = oldUrl;
     if (oldToken === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN; else process.env.UPSTASH_REDIS_REST_TOKEN = oldToken;
     if (oldOperator === undefined) delete process.env.LIMEN_OPERATOR_TOKEN; else process.env.LIMEN_OPERATOR_TOKEN = oldOperator;
+    if (oldCron === undefined) delete process.env.CRON_SECRET; else process.env.CRON_SECRET = oldCron;
     if (previous) require.cache[outcomePath] = previous; else delete require.cache[outcomePath];
+    if (previousLearning) require.cache[learningPath] = previousLearning; else delete require.cache[learningPath];
   }
 }
 

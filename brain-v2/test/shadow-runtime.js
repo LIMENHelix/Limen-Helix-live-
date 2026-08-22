@@ -155,15 +155,23 @@ var firstReport, secondReport, firstState;
      completed and still executed. Nothing it did reached the network. */
   assert('and NOT ONE of them attempted a network call, with fetch rigged to throw',
     netAttempts.length === 0, JSON.stringify(netAttempts));
-  /* EVERY INSTALLED DOMAIN, not just the two canaries. This assertion is the reason a batch
-     cannot quietly install a domain that wires an outward consumer: it fails at install
-     time rather than at the first cycle that would have reached outward. */
-  assert('every INSTALLED domain declares no efferent, so no domain wires an outward consumer',
-    RUNTIME.INSTALLED_DOMAINS.every(function (p) {
+  /* EVERY INSTALLED DOMAIN, not a sample. Exactly three owners may reach the bounded artifact
+     bridge: Finance for investment, Science and Medicine for research. No declaration may
+     authorize live trading, and every other domain must remain disconnected. */
+  var outward = RUNTIME.INSTALLED_DOMAINS.filter(function (p) {
+    return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js')).spec().efferent !== null;
+  });
+  assert('exactly Finance, Science and Medicine declare the bounded outward bridge',
+    JSON.stringify(outward.sort()) === JSON.stringify(['finance', 'medicine', 'science']), JSON.stringify(outward));
+  assert('all three declarations are proposal/publication-only and none authorizes live trading',
+    outward.every(function (p) {
+      var eff = require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js')).spec().efferent;
+      return Array.isArray(eff) && eff.length === 1 && eff[0].consumer === 'autofire-domain-bridge' && eff[0].liveTrading !== true;
+    }));
+  assert('the other seventeen domains still declare no outward consumer',
+    RUNTIME.INSTALLED_DOMAINS.filter(function (p) { return outward.indexOf(p) < 0; }).every(function (p) {
       return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js')).spec().efferent === null;
-    }), JSON.stringify(RUNTIME.INSTALLED_DOMAINS.filter(function (p) {
-      return require(path.join(ROOT, 'brain-v2', 'bind', REG.descriptorFor(p).binder + '.js')).spec().efferent !== null;
-    })));
+    }));
   /* THE SERIALIZED STATE VALUE, measured by the store on the string it passed to SET. Named
      for what it is: not transport bytes, which are larger and are not measured anywhere. */
   assert('the cycle reports the UTF-8 length of the serialized state value',
@@ -275,9 +283,9 @@ var firstReport, secondReport, firstState;
 
 }).then(function () {
 
-// ── S5: nobody reads the shadow namespace ────────────────────────────────────
+// ── S5: namespace access and the one bounded consumer ────────────────────────
   console.log('');
-  console.log('S5: no existing consumer reads shadow results');
+  console.log('S5: no undeclared code addresses shadow keys; one bounded consumer reads through the store');
   /**
    * ASSERTED BY SCANNING THE REPOSITORY, because this is a claim about code that already
    * exists and prose cannot check it. The shadow modules and this test are the permitted
@@ -320,12 +328,34 @@ var firstReport, secondReport, firstState;
     });
   })(ROOT);
 
-  assert('nothing outside the shadow modules references the namespace', hits.length === 0,
+  assert('nothing outside the shadow modules addresses the namespace directly', hits.length === 0,
     JSON.stringify(hits));
   assert('and the scan actually looked at the repository, rather than finding nothing because it walked nowhere',
     fs.existsSync(path.join(ROOT, 'lib', 'brain-shadow-store.js')) &&
     fs.readFileSync(path.join(ROOT, 'lib', 'brain-shadow-store.js'), 'utf8').indexOf('brain:v2:shadow') >= 0,
     'the allowed list must be reachable by the same walk');
+  var storeConsumers = [];
+  (function walkConsumers(dir) {
+    var entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch (e) { return; }
+    entries.forEach(function (ent) {
+      var full = path.join(dir, ent.name);
+      var rel = path.relative(ROOT, full).split(path.sep).join('/');
+      if (SKIP_DIRS.some(function (s) { return rel === s || rel.indexOf(s + '/') === 0; })) return;
+      if (ent.isDirectory()) return walkConsumers(full);
+      if (!/\.(js|mjs|cjs)$/.test(ent.name)) return;
+      var text = fs.readFileSync(full, 'utf8');
+      if (/require\([^\n]*brain-shadow-store/.test(text)) storeConsumers.push(rel);
+    });
+  })(ROOT);
+  var actionConsumers = storeConsumers.filter(function (rel) {
+    return rel !== 'lib/brain-shadow-runtime.js' && rel !== 'handlers/brain-shadow.js' &&
+      rel !== 'lib/brain-shadow-archive.js' && rel !== 'brain-v2/test/shadow-runtime.js' &&
+      rel !== 'brain-v2/test/compaction.js' && rel.indexOf('scripts/brain-audit/') !== 0;
+  });
+  assert('the autofire bridge is the only action consumer of shadow cycle state',
+    JSON.stringify(actionConsumers) === JSON.stringify(['handlers/limen-worker-autofire.js']),
+    JSON.stringify(actionConsumers));
 
   console.log('');
   console.log('S5b: and the runtime is ONE runtime, not one per domain');
