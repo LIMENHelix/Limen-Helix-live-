@@ -69,16 +69,19 @@ async function createListingsOnRelay(items) {
   console.log(`\n📤 Creating ${items.length} listings on Relay API...\n`);
 
   try {
+    // Convert items to CSV format
+    const csvLines = ['title,price,condition,category,description,imageUrl'];
+    items.forEach(item => {
+      const quote = (str) => `"${String(str).replace(/"/g, '""')}"`;
+      csvLines.push(`${quote(item.title)},${item.price},${item.condition},fashion,${quote(item.description)},${item.imageUrl}`);
+    });
+    const csv = csvLines.join('\n');
+
     const payload = {
-      action: 'import',
-      rows: items.map(item => ({
-        title: item.title.substring(0, 100),
-        price: item.price.toString(),
-        condition: item.condition,
-        category: 'fashion',
-        description: item.description,
-        imageUrl: item.imageUrl
-      }))
+      csv: csv,
+      marketplaceId: 'relay-main',
+      sellerId: 'seller-001',
+      downloadImages: true
     };
 
     const response = await fetch(`${RELAY_API}/api/relay-csv-import`, {
