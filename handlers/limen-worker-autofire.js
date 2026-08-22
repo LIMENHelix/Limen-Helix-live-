@@ -1,7 +1,7 @@
 /**
  * api/limen-worker-autofire.js — Autonomous engine firing for HIGH-salience single-call lanes
  *
- * Closes the perception→action loop. Reads HIGH-salience PENDING
+ * Executes the bounded autoqueue→artifact action loop. Reads HIGH-salience PENDING
  * entries from the autoqueue, generates the recommended artifact via
  * /api/expand-artifact-claude, persists to /api/limen-engine-output
  * as READY_TO_SIGN, marks autoqueue FIRED, logs the action.
@@ -18,7 +18,10 @@
  *   - HIGH salience only — MEDIUM/LOW stay operator-fire.
  *   - Status persisted as READY_TO_SIGN only when placeholder-free;
  *     otherwise DRAFT_NEEDS_DATA. Never auto-submitted externally.
- *   - Max 2 fires per cron tick — bounds invocation time.
+ *   - Max 1 fire per cron tick — bounds invocation time.
+ *
+ * This is not yet a brain-v2 motor path. Domain brains do not select these
+ * commands; the existing autonomous queue does.
  *
  * GET /api/limen-worker-autofire
  *   Returns summary { evaluated, fired, budgetSpent, dedupedCount,
@@ -31,6 +34,8 @@ var { loadPortal } = require('../lib/portal-loader');
 var cronAuth = require('../lib/cron-auth');
 var autonomyBudget = require('../lib/autonomy-budget');
 var aiKillSwitch = require('../lib/ai-kill-switch');
+var autofireEfference = require('../lib/autofire-efference');
+var efferenceStore = require('../lib/autofire-efference-store');
 var fs = require('fs');
 var path = require('path');
 
@@ -219,6 +224,51 @@ async function _fireOne(entry) {
   var packet = _buildContextPacket(portal, lane);
   var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + entry.cik + '-' + Date.now());
 
+  // B11 + B14, across the asynchronous actuator boundary. The command-time
+  // prediction must be durable BEFORE the first provider request. If that write
+  // fails, nothing is dispatched: an action without a copy cannot later
+  // distinguish its own receipt from independent evidence.
+  var commandAt = Date.now();
+  var commanded = await autofireEfference.command(efferenceStore, {
+    lane: lane,
+    cik: entry.cik,
+    sourceIdentity: entry.sourceArtifactRef
+      ? { kind: 'master-inbox-artifact', value: entry.sourceArtifactRef }
+      : { kind: 'phase-transition-pattern', value: sig },
+    emittedAt: commandAt,
+    attempt: Number.isInteger(entry.autofireAttempts) ? entry.autofireAttempts : 0
+  });
+  if (!commanded.ok) {
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'efference-command-refused',
+      detail: commanded.error,
+      motorStatus: 'NOT_DISPATCHED'
+    };
+  }
+  var efferenceCopy = commanded.copy;
+
+  async function finish(result) {
+    var motor = await autofireEfference.resolve(efferenceStore, efferenceCopy, result, Date.now());
+    result.efferenceCopyId = efferenceCopy.id;
+    result.actionId = efferenceCopy.actionId;
+    result.motorStatus = motor.status || (motor.ok ? 'RESOLVED' : 'UNCONFIRMED');
+    result.efferenceResolutionPersisted = motor.ok === true;
+    result.forwardModel = {
+      variable: 'artifact_persisted',
+      actual: motor.actual === undefined ? null : motor.actual,
+      predicted: motor.predicted === undefined ? null : motor.predicted,
+      supervisedError: motor.supervisedError === undefined ? null : motor.supervisedError,
+      modelUpdated: motor.modelUpdated === true,
+      modelN: motor.modelN === undefined ? null : motor.modelN,
+      trustedForNextCommand: motor.trustedForNextCommand === true
+    };
+    result.externalOutcomePending = true;
+    if (!motor.ok) result.efferenceResolutionError = motor.error || 'unknown';
+    return result;
+  }
+
   // Call expand-artifact-claude (single-call only — investment / research)
   var expandResp;
   try {
@@ -247,15 +297,15 @@ async function _fireOne(entry) {
     expandResp = await r.json();
   } catch (e) {
     var errorCode = e.cause && e.cause.code ? e.cause.code : 'unknown';
-    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message), errorCode: errorCode };
+    return finish({ skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message), errorCode: errorCode });
   }
 
   if (!expandResp || !expandResp.ok) {
-    return {
+    return finish({
       skipped: false, ok: false, cik: entry.cik, lane: lane,
       billableAttempt: true,
       reason: 'expand-not-ok', detail: (expandResp && expandResp.error) || 'unknown', errorCode: (expandResp && expandResp.errorCode) || 'unknown'
-    };
+    });
   }
 
   var outer = expandResp.structured || {};
@@ -305,7 +355,9 @@ async function _fireOne(entry) {
             triggeredBy: 'phase-transition',
             transition: { from: entry.from, to: entry.to },
             salience: entry.salience,
-            triggeredAt: Date.now()
+            triggeredAt: Date.now(),
+            efferenceCopyId: efferenceCopy.id,
+            actionId: efferenceCopy.actionId
           }
         }
       }),
@@ -313,23 +365,24 @@ async function _fireOne(entry) {
     });
     persistResp = await p.json();
   } catch (e) {
-    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'persist-error', detail: String(e.message) };
+    return finish({ skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'persist-error', detail: String(e.message) });
   }
 
-  if (!persistResp || !persistResp.ok) {
-    return {
+  if (!persistResp || !persistResp.ok || !persistResp.outputId) {
+    return finish({
       skipped: false, ok: false, cik: entry.cik, lane: lane,
       billableAttempt: true,
-      reason: 'persist-not-ok', detail: (persistResp && persistResp.error) || 'unknown'
-    };
+      reason: persistResp && persistResp.ok ? 'persist-missing-receipt' : 'persist-not-ok',
+      detail: (persistResp && persistResp.error) || (persistResp && persistResp.ok ? 'persistence response did not carry outputId' : 'unknown')
+    });
   }
 
-  return {
+  return finish({
     skipped: false, ok: true, billableAttempt: true, cik: entry.cik, lane: lane,
     outputId: persistResp.outputId,
     wordCount: wordCount,
     viewerUrl: 'https://limenhelix.com/helix-artifact?id=' + persistResp.outputId
-  };
+  });
 }
 
 module.exports = async function handler(req, res) {
@@ -355,6 +408,35 @@ module.exports = async function handler(req, res) {
       return res.end(JSON.stringify({ ok: false, paused: 'admin-master-unconfigured' }));
     }
 
+    // Retire timed-out commands on every natural cron cycle, including cycles
+    // with no eligible queue item. Probe mode remains read-only.
+    var efferenceSweep;
+    if (probeMode) {
+      try {
+        efferenceStore.assertDurable();
+        efferenceSweep = { ok: true, skipped: 'probe-mode' };
+      } catch (storeErr) {
+        res.setHeader('content-type', 'application/json');
+        res.statusCode = 503;
+        return res.end(JSON.stringify({
+          ok: false,
+          paused: 'efference-store-unavailable',
+          detail: String(storeErr && storeErr.message || storeErr)
+        }));
+      }
+    } else {
+      efferenceSweep = await autofireEfference.sweep(efferenceStore, Date.now());
+      if (!efferenceSweep.ok) {
+        res.setHeader('content-type', 'application/json');
+        res.statusCode = 503;
+        return res.end(JSON.stringify({
+          ok: false,
+          paused: 'efference-sweep-failed',
+          efferenceSweep: efferenceSweep
+        }));
+      }
+    }
+
     var stepT = Date.now();
     var spendDisabled = await aiKillSwitch.spendDisabled();
     var budgetStatus = await autonomyBudget.status();
@@ -367,6 +449,7 @@ module.exports = async function handler(req, res) {
         ok: true,
         paused: spendDisabled ? 'ai-spend-disabled' : 'autonomy-not-armed',
         budget: budgetStatus,
+        efferenceSweep: efferenceSweep,
         timing: { budget_ms: t_budget }
       }));
     }
@@ -399,6 +482,7 @@ module.exports = async function handler(req, res) {
         samplePortalName: samplePortal && samplePortal.name,
         sampleLoaderSource: sampleRes.source,
         budget: budgetStatus,
+        efferenceSweep: efferenceSweep,
         timing: {
           budget_ms: t_budget,
           queue_read_ms: t_queue,
@@ -603,6 +687,7 @@ module.exports = async function handler(req, res) {
       elapsedMs: Date.now() - cycleStartAt,
       results: results
     };
+    finalRecord.efferenceSweep = efferenceSweep;
     var foundTentative = false;
     for (var ai = 0; ai < auditFinal.length; ai++) {
       if (auditFinal[ai].at === cycleStartAt && auditFinal[ai].status === 'IN_FLIGHT') {
@@ -630,6 +715,7 @@ module.exports = async function handler(req, res) {
       budgetAccounting: 'conservative-estimate-per-provider-attempt',
       budgetRefusal: budgetRefusal,
       maxPerTick: MAX_FIRES_PER_TICK,
+      efferenceSweep: efferenceSweep,
       results: results
     }));
 

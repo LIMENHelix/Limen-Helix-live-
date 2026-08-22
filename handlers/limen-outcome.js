@@ -127,8 +127,14 @@ async function redisIncrBy(key, by) {
   return redisCmd(['INCRBY', key, String(by)]);
 }
 async function redisLPush(key, value, trimLen) {
-  await redisCmd(['LPUSH', key, JSON.stringify(value)]);
-  if (trimLen > 0) await redisCmd(['LTRIM', key, '0', String(trimLen - 1)]);
+  const pushed = await redisCmd(['LPUSH', key, JSON.stringify(value)]);
+  if (trimLen > 0 && pushed && pushed.ok) {
+    await redisCmd(['LTRIM', key, '0', String(trimLen - 1)]);
+  }
+  // recordEvent uses this receipt to distinguish durable Redis persistence
+  // from the per-process memory fallback. Returning undefined made every
+  // successful Redis write report storage:'memory' and duplicated it locally.
+  return pushed;
 }
 async function redisLRange(key, start, stop) {
   const r = await redisCmd(['LRANGE', key, String(start), String(stop)]);
@@ -180,7 +186,15 @@ async function recordEvent(body) {
     tsISO: new Date(now).toISOString(),
     lane: buckets.lane,
     domain: buckets.domain,
-    cik: buckets.cik
+    cik: buckets.cik,
+    // Carries command identity across the later reward/outcome path without
+    // conflating the two learning signals. Artifact persistence is B14's
+    // supervised self-effect observation; submission/publication/P&L here is a
+    // later outcome and may teach reward, never rewrite the efference copy.
+    efferenceCopyId: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.efferenceCopyId) || body.efferenceCopyId || null,
+    actionId: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.actionId) || body.actionId || null
   };
 
   let storage = 'memory';
