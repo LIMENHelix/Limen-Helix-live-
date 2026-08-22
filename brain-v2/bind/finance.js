@@ -184,5 +184,10 @@ module.exports = FACTORY.createBinder({
   channels: CHANNELS,
   findings: FINDINGS,
   relationships: REL,
-  efferent: null   // R7: nothing consumes this domain's output yet, and it says so
+  efferent: [{
+    consumer: 'autofire-domain-bridge',
+    command: 'generate_investment_artifact',
+    authority: 'proposal_only',
+    liveTrading: false
+  }]
 });

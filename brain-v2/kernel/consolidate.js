@@ -98,19 +98,25 @@ function run(con, mem, ctx) {
   replayed.forEach(function (e) {
     if (!e.outcome || !e.selection || !e.selection.kind) return;
     var k = e.selection.kind;
-    if (!byKind[k]) byKind[k] = [];
-    byKind[k].push(e);
+    var pc = e.procedureContext || {};
+    var trigger = pc.triggerCondition || 'dysregulation detected with a live driving channel';
+    var groupKey = k + '|' + trigger;
+    if (!byKind[groupKey]) byKind[groupKey] = [];
+    byKind[groupKey].push(e);
   });
 
   var candidates = [], promotions = [];
-  Object.keys(byKind).forEach(function (kind) {
-    var eps = byKind[kind];
-    var trigger = 'dysregulation detected with a live driving channel';
+  Object.keys(byKind).forEach(function (groupKey) {
+    var eps = byKind[groupKey];
+    var kind = eps[0].selection.kind;
+    var pc = eps[0].procedureContext || {};
+    var trigger = pc.triggerCondition || 'dysregulation detected with a live driving channel';
     var cand = MEM.proposeProcedure(mem, {
       actionKind: kind,
       triggerCondition: trigger,
-      requiredEvidence: ['at least one fusable channel', 'a resolved outcome with efference subtracted'],
-      expectedResult: 'residual prediction error inside the declared interval',
+      contraindications: pc.contraindications || [],
+      requiredEvidence: pc.requiredEvidence || ['at least one fusable channel', 'a resolved outcome with efference subtracted'],
+      expectedResult: pc.expectedResult || 'residual prediction error inside the declared interval',
       at: now
     });
     eps.forEach(function (e) {

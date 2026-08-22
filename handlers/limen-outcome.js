@@ -44,6 +44,7 @@ const HAS_REDIS = !!(REDIS_URL && REDIS_TOKEN);
 // Mirrors api/limen-engine-output.js.
 const OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
 const AUTH_ON = !!OPERATOR_TOKEN;
+const LEARNING_TOKEN = OPERATOR_TOKEN || process.env.CRON_SECRET || '';
 function checkAuth(req) {
   if (!AUTH_ON) return { ok: true, mode: 'disabled' };
   const header = req.headers && (req.headers.authorization || req.headers.Authorization);
@@ -58,8 +59,13 @@ const EVENT_TYPES = new Set([
   'SUBMITTED', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'WITHDRAWN',
   'OUTCOME_REVENUE', 'OUTCOME_PATENT_ISSUED', 'OUTCOME_GRANT_AWARDED',
   'OUTCOME_FRANCHISE_SIGNED', 'OUTCOME_INVESTMENT_PNL',
-  'OUTCOME_RESEARCH_PUBLISHED'
+  'OUTCOME_RESEARCH_PUBLISHED', 'OUTCOME_RESEARCH_EVALUATED'
 ]);
+const LEARNING_EVENT_TYPES = new Set([
+  'OUTCOME_INVESTMENT_PNL', 'OUTCOME_RESEARCH_PUBLISHED', 'OUTCOME_RESEARCH_EVALUATED'
+]);
+const autofireLearning = require('../lib/autofire-learning');
+const efferenceStore = require('../lib/autofire-efference-store');
 
 // Which event types count as "approved" for approval-rate purposes
 const APPROVED_TYPES = new Set(['APPROVED', 'OUTCOME_PATENT_ISSUED',
@@ -127,8 +133,14 @@ async function redisIncrBy(key, by) {
   return redisCmd(['INCRBY', key, String(by)]);
 }
 async function redisLPush(key, value, trimLen) {
-  await redisCmd(['LPUSH', key, JSON.stringify(value)]);
-  if (trimLen > 0) await redisCmd(['LTRIM', key, '0', String(trimLen - 1)]);
+  const pushed = await redisCmd(['LPUSH', key, JSON.stringify(value)]);
+  if (trimLen > 0 && pushed && pushed.ok) {
+    await redisCmd(['LTRIM', key, '0', String(trimLen - 1)]);
+  }
+  // recordEvent uses this receipt to distinguish durable Redis persistence
+  // from the per-process memory fallback. Returning undefined made every
+  // successful Redis write report storage:'memory' and duplicated it locally.
+  return pushed;
 }
 async function redisLRange(key, start, stop) {
   const r = await redisCmd(['LRANGE', key, String(start), String(stop)]);
@@ -180,7 +192,23 @@ async function recordEvent(body) {
     tsISO: new Date(now).toISOString(),
     lane: buckets.lane,
     domain: buckets.domain,
-    cik: buckets.cik
+    cik: buckets.cik,
+    // Carries command identity across the later reward/outcome path without
+    // conflating the two learning signals. Artifact persistence is B14's
+    // supervised self-effect observation; submission/publication/P&L here is a
+    // later outcome and may teach reward, never rewrite the efference copy.
+    efferenceCopyId: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.efferenceCopyId) || body.efferenceCopyId || null,
+    actionId: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.actionId) || body.actionId || null,
+    ownerDomain: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.ownerDomain) || body.ownerDomain || null,
+    /* Raw, named terms are preserved. Learning derives only the explicit
+       categorical rule in lib/autofire-learning; no opaque composite score is
+       stored or accepted here. */
+    outcomeData: body.outcomeData && typeof body.outcomeData === 'object'
+      ? JSON.parse(JSON.stringify(body.outcomeData))
+      : null
   };
 
   let storage = 'memory';
@@ -338,19 +366,10 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
   res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-learning-auth-mode', LEARNING_TOKEN ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
-  }
-
-  if (req.method === 'POST') {
-    const auth = checkAuth(req);
-    if (!auth.ok) {
-      res.statusCode = 401;
-      res.setHeader('content-type', 'application/json');
-      res.setHeader('WWW-Authenticate', 'Bearer realm="limen-outcome"');
-      return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
-    }
   }
 
   try {
@@ -364,7 +383,39 @@ module.exports = async function handler(req, res) {
       } else if (typeof body === 'string') {
         try { body = JSON.parse(body); } catch (_) { body = {}; }
       }
+      /* Legacy outcome POSTs retain their existing optional operator gate. The
+         three events allowed to teach B10/B12/B13 fail closed and use the
+         already-configured CRON_SECRET when no separate operator token exists.
+         A public page must never be able to write reward into the brain. */
+      if (LEARNING_EVENT_TYPES.has(body && body.eventType)) {
+        if (!LEARNING_TOKEN) {
+          res.statusCode = 503;
+          res.setHeader('content-type', 'application/json');
+          return res.end(JSON.stringify({ ok: false, error: 'learning-outcome-auth-not-configured' }));
+        }
+        const learningHeader = req.headers && (req.headers.authorization || req.headers.Authorization);
+        const learningMatch = /^Bearer\s+(.+)$/i.exec(String(learningHeader || '').trim());
+        if (!learningMatch || learningMatch[1] !== LEARNING_TOKEN) {
+          res.statusCode = 401;
+          res.setHeader('content-type', 'application/json');
+          return res.end(JSON.stringify({ ok: false, error: 'unauthorized-learning-outcome' }));
+        }
+      }
+      const auth = checkAuth(req);
+      if (!auth.ok) {
+        res.statusCode = 401;
+        res.setHeader('content-type', 'application/json');
+        res.setHeader('WWW-Authenticate', 'Bearer realm="limen-outcome"');
+        return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
+      }
       const result = await recordEvent(body);
+      if (result.ok && result.event &&
+          ['OUTCOME_INVESTMENT_PNL', 'OUTCOME_RESEARCH_PUBLISHED', 'OUTCOME_RESEARCH_EVALUATED'].indexOf(result.event.eventType) >= 0) {
+        result.learning = await autofireLearning.recordOutcome(efferenceStore, result.event);
+        result.learningAccepted = result.learning.ok === true || result.learning.queuedForRetry === true;
+        if (!result.learningAccepted) result.status = 503;
+        else if (!result.learning.ok) result.status = 202;
+      }
       res.statusCode = result.status;
       res.setHeader('content-type', 'application/json');
       res.setHeader('x-redis-backed', HAS_REDIS ? '1' : '0');

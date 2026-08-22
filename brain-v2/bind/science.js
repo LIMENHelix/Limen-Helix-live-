@@ -106,5 +106,9 @@ module.exports = FACTORY.createBinder({
   /* ZERO. arXiv CS is a subset of arXiv All — one measurement at two scopes, not two
      instruments observing one latent. PubMed and arXiv index different corpora. */
   relationships: [],
-  efferent: null   // R7
+  efferent: [{
+    consumer: 'autofire-domain-bridge',
+    command: 'generate_research_artifact',
+    authority: 'publication_evidence_only'
+  }]
 });

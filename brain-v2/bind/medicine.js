@@ -106,5 +106,9 @@ module.exports = FACTORY.createBinder({
   /* ZERO. The closest-looking pair — openFDA Recalls and FDA Recalls — measures drug
      enforcement actions and food-recall feed items. Nothing else pairs at all. */
   relationships: [],
-  efferent: null   // R7
+  efferent: [{
+    consumer: 'autofire-domain-bridge',
+    command: 'generate_research_artifact',
+    authority: 'publication_evidence_only'
+  }]
 });
