@@ -62,7 +62,15 @@ function parseCSV(text) {
 
 async function downloadImage(url) {
   try {
-    if (!url || !url.startsWith('http')) return null;
+    if (!url) return null;
+
+    // If already a base64 data URI, return as-is
+    if (url.startsWith('data:')) {
+      return url;
+    }
+
+    // Otherwise fetch and convert
+    if (!url.startsWith('http')) return null;
     const r = await fetch(url);
     if (!r.ok) return null;
     const buffer = await r.arrayBuffer();
