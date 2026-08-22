@@ -253,7 +253,7 @@ async function _fireOne(entry) {
     return {
       skipped: false, ok: false, cik: entry.cik, lane: lane,
       billableAttempt: true,
-      reason: 'expand-not-ok', detail: (expandResp && expandResp.error) || 'unknown'
+      reason: 'expand-not-ok', detail: (expandResp && expandResp.error) || 'unknown', errorCode: (expandResp && expandResp.errorCode) || 'unknown'
     };
   }
 
