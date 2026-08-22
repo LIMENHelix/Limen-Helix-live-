@@ -35,7 +35,7 @@
     // because everything else in this menu is reachable from it.
     { label: '◈ MISSION CONTROL',  href: '/admin' },
     { label: '$ CAPITAL ENGINE',   href: '/capital-engine' },
-    { label: '◆ RELAY MARGIN',     href: '/relay-margin' },
+    { label: '◆ RELAY MARKETPLACE', href: '/merchant-onboarding' },
     { label: '⬇ MY DOCUMENTS',     href: '/my-documents' },
     { label: '⬢ TREATMENT DISCOVERY', href: '/treatment-discovery' },
     { label: 'PATTERN PROPOSALS',  href: '/pattern-proposals' },
