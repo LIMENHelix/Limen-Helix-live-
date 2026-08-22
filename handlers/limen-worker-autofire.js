@@ -246,7 +246,8 @@ async function _fireOne(entry) {
     });
     expandResp = await r.json();
   } catch (e) {
-    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message) };
+    var errorCode = e.cause && e.cause.code ? e.cause.code : 'unknown';
+    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message), errorCode: errorCode };
   }
 
   if (!expandResp || !expandResp.ok) {

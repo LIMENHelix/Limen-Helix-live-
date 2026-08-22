@@ -706,7 +706,7 @@ async function callAnthropic(body, opts) {
   clearTimeout(timer);
 
   if (!resp.ok) {
-    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json };
+    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json, errorCode: r.errorCode || null };
   }
 
   let text = '';
