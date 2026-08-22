@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relay · Merchant Onboarding</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f8f7f5 0%, #fafaf8 100%);
+      color: #1a1512;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+      color: #1a1512;
+    }
+
+    .header .subtitle {
+      font-size: 16px;
+      color: #6b6048;
+    }
+
+    .tagline {
+      text-align: center;
+      font-size: 14px;
+      color: #8b7f73;
+      margin-bottom: 50px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .step {
+      background: white;
+      border: 1px solid #e8dcd2;
+      border-radius: 8px;
+      padding: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .step:hover {
+      border-color: #2563eb;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    }
+
+    .step-number {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 40px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .step h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      color: #1a1512;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: #6b6048;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .step-link {
+      display: inline-block;
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .step-link:hover {
+      border-bottom-color: #2563eb;
+    }
+
+    .features {
+      background: white;
+      border: 1px solid #e8dcd2;
+      border-radius: 8px;
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+
+    .features h2 {
+      font-size: 22px;
+      margin-bottom: 25px;
+      color: #1a1512;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #f0ebe3;
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .feature-item strong {
+      color: #2563eb;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .feature-item span {
+      font-size: 13px;
+      color: #6b6048;
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 40px;
+      background: #2563eb;
+      border-radius: 8px;
+      color: white;
+    }
+
+    .cta-section h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .cta-section p {
+      font-size: 16px;
+      margin-bottom: 25px;
+      opacity: 0.95;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      background: white;
+      color: #2563eb;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .faq {
+      background: white;
+      border: 1px solid #e8dcd2;
+      border-radius: 8px;
+      padding: 40px;
+      margin-top: 40px;
+    }
+
+    .faq h2 {
+      font-size: 22px;
+      margin-bottom: 25px;
+      color: #1a1512;
+    }
+
+    .faq-item {
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #f0ebe3;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-item strong {
+      color: #2563eb;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .faq-item p {
+      font-size: 14px;
+      color: #6b6048;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid #e8dcd2;
+      font-size: 13px;
+      color: #8b7f73;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Relay · Merchant Onboarding</h1>
+      <p class="subtitle">Join the peer-to-peer marketplace. Sell items, earn commission, grow your business.</p>
+    </div>
+
+    <p class="tagline">Launch your storefront in 3 steps. No setup fees. 80% payout rate.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Create Seller Account</h3>
+        <p>Sign up with your email and business details. We'll generate your unique Seller ID and dashboard access.</p>
+        <a href="/marketplace-seller-dashboard" class="step-link">Go to Dashboard →</a>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Add Your Inventory</h3>
+        <p>Upload products via CSV, use our camera capture, or sync from other marketplaces. Images embedded automatically.</p>
+        <a href="#inventory" class="step-link">How to add items →</a>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Start Earning</h3>
+        <p>Buyers discover your items on the Relay storefront. Each sale: 80% payout, real-time earnings tracking, monthly payouts.</p>
+        <a href="/marketplace-storefront" class="step-link">View Storefront →</a>
+      </div>
+    </div>
+
+    <div class="features">
+      <h2>Why Relay?</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <strong>80% Payout Rate</strong>
+          <span>Industry-leading split. 15% marketplace + 5% franchise = your 80%.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Real-Time Dashboard</strong>
+          <span>Track earnings, pending payouts, and listings. Auto-refresh every 30 seconds.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Camera Integration</strong>
+          <span>Photograph items directly from your dashboard. No external tools needed.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Bulk Upload</strong>
+          <span>CSV import for 20+ items at once. Auto-syncs from other marketplaces.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Zero Setup Fees</strong>
+          <span>Free to join. Only commission on completed sales.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Stripe Payments</strong>
+          <span>Secure checkout. Buyers pay via credit card. You get paid weekly.</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="inventory" class="features">
+      <h2>How to Add Items</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <strong>Method 1: Camera Capture</strong>
+          <span>Click "Take Photo" in your dashboard. Photograph item, fill in details, list immediately.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Method 2: CSV Upload</strong>
+          <span>Prepare a CSV with title, price, condition, category, description. Bulk import 20+ items.</span>
+        </div>
+        <div class="feature-item">
+          <strong>Method 3: Marketplace Sync</strong>
+          <span>Use our scraper to auto-import from Vinted, Poshmark, Mercari. Sync daily for fresh inventory.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <h2>Ready to Sell?</h2>
+      <p>Join Relay and start earning today. Your dashboard is waiting.</p>
+      <a href="/marketplace-seller-dashboard" class="btn">Access Your Dashboard</a>
+    </div>
+
+    <div class="faq">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <strong>What's the commission structure?</strong>
+        <p>For every sale, Relay takes 20% (15% marketplace fee + 5% franchise fee). You keep 80%. For a $50 item, you earn $40.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>When do I get paid?</strong>
+        <p>Payouts are processed weekly. Pending earnings show in your dashboard in real-time. Transfers go to your connected bank account.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Can I sell unlimited items?</strong>
+        <p>Yes. There's no limit on inventory. List as many items as you want. You only pay commission on completed sales.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>How do buyers find my items?</strong>
+        <p>All Relay merchants' items appear on our shared storefront at /marketplace-storefront. Buyers browse by category, condition, and price.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Can I sync from other marketplaces?</strong>
+        <p>Yes. Use our CSV importer or marketplace scraper to pull items from Vinted, Poshmark, Mercari, etc. Images download automatically.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Is there a setup fee?</strong>
+        <p>No. Relay is free to join. There are no monthly fees, listing fees, or upfront costs. You only pay commission on sales.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>What payment methods do buyers use?</strong>
+        <p>Buyers pay via credit card through Stripe Checkout. Payments are secure and encrypted.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Can I manage multiple stores?</strong>
+        <p>Each seller account is independent. Create multiple accounts if you want separate storefronts or business models.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Relay · by LIMEN Helix | <a href="/" style="color: inherit; text-decoration: none;">Back to LIMEN Helix</a></p>
+    </div>
+  </div>
+</body>
+</html>
