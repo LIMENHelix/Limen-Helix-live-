@@ -706,7 +706,7 @@ async function callAnthropic(body, opts) {
   clearTimeout(timer);
 
   if (!resp.ok) {
-    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json, errorCode: r.errorCode || null };
+    return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json };
   }
 
   let text = '';
@@ -824,7 +824,7 @@ module.exports = async function handler(req, res) {
     if (!r.ok) {
       res.statusCode = r.status || 502;
       res.setHeader('content-type', 'application/json');
-      return res.end(JSON.stringify({ ok: false, error: r.reason || 'upstream-error', detail: r.detail }));
+      return res.end(JSON.stringify({ ok: false, error: r.reason || 'upstream-error', detail: r.detail, errorCode: r.errorCode || null }));
     }
 
     const contentHash = hash(r.rawText || '');
