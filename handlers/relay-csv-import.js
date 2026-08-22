@@ -61,31 +61,40 @@ function parseCSV(text) {
   return { ok: true, rows: rows };
 }
 
-// Parse a CSV line handling quoted fields
+// Parse a CSV line handling quoted fields with proper quote escaping
 function parseCSVLine(line) {
   const result = [];
   let current = '';
   let inQuotes = false;
+  let i = 0;
 
-  for (let i = 0; i < line.length; i++) {
+  while (i < line.length) {
     const char = line[i];
     const nextChar = line[i + 1];
 
     if (char === '"') {
       if (inQuotes && nextChar === '"') {
+        // Escaped quote: add one quote to output and skip both
         current += '"';
-        i++;
+        i += 2;
       } else {
+        // Toggle quote state and skip the quote character itself
         inQuotes = !inQuotes;
+        i++;
       }
     } else if (char === ',' && !inQuotes) {
+      // Field separator: push current field and reset
       result.push(current.trim());
       current = '';
+      i++;
     } else {
+      // Regular character: add to current field
       current += char;
+      i++;
     }
   }
 
+  // Push the last field
   result.push(current.trim());
   return result;
 }
