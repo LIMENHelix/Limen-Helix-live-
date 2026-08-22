@@ -211,6 +211,7 @@ const HANDLERS = {
   'paper-orders': require('../handlers/paper-orders'),
   'paper-positions': require('../handlers/paper-positions'),
   'paper-trade': require('../handlers/paper-trade'),
+  'tradier-sandbox': require('../handlers/tradier-sandbox'),
   'pattern-proposal': require('../handlers/pattern-proposal'),
   'print-from-pattern': require('../handlers/print-from-pattern'),
   'redis-diag': require('../handlers/redis-diag'),
