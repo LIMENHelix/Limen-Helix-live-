@@ -223,6 +223,22 @@ module.exports = async function handler(req, res) {
     if (queue.length > AUTOQUEUE_MAX) queue = _trimQueue(queue).queue;
     await db.set(AUTOQUEUE_KEY, queue, AUTOQUEUE_TTL);
 
+    // Keep the scheduled admission decision observable.  The cron response is
+    // not exposed to operators, so without this line a zero-admission run is
+    // indistinguishable from a stale worker, a full dedupe set, or a policy
+    // refusal.  This is diagnostic only: it does not alter admission or state.
+    console.log('[AUTOQUEUE] master-seed', JSON.stringify({
+      snapshotAt: masterInbox.generatedAt || null,
+      readyTotal: masterInbox.stats && masterInbox.stats.readyToFire,
+      readyPool: masterTop.length,
+      seedCapacity: seedCapacity,
+      admitted: masterAdded.length,
+      deduped: masterDeduped,
+      invalid: masterInvalid,
+      terminalEvicted: terminalEvicted,
+      queueSize: queue.length
+    }));
+
     var elapsed = Date.now() - t0;
     res.setHeader('content-type', 'application/json');
     res.statusCode = 200;
