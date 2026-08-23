@@ -265,8 +265,10 @@ The separate deep-directive pool is also present for every domain. The read-only
 464,034 traversed portal files, 7,956,122 directives, 1,811,102 candidates, and 10,021
 retained render items. This does not certify provenance, portal quality, or runtime
 consumption; it explains the distinction between “the deep tree has content” and “the
-authoring queue has reviewed work.” The 19 empty authoring queues remain explicit
-admission/abstention stubs, not evidence that their deep trees are empty.
+authoring queue has reviewed work.” The phrase “19 empty authoring queues” describes
+the initial pre-pipeline audit only; it is superseded by the later all-20 queue
+population result above. Queue population still does not admit evidence or runtime
+inputs.
 
 ### Job 3 subtask complete — primary-source identifier rehydration surface
 
