@@ -225,6 +225,27 @@ dated snapshot). The queue is read-only planning material: it derives no timesta
 stress, diagnosis, pathway, or activation. This closes the classification/abstention
 subtask, not the underlying adapter repairs.
 
+### Job 3 subtask complete — domain authoring admissions
+
+The previous audit correctly found one populated external-bundle queue (Energy,
+156 tasks) and nineteen zero-task stubs, but copying Energy's schema into the
+other domains would have turned generated portal content into invented human work.
+`scripts/audit-domain-authoring-admissions.js --write` now records the measured
+reconciliation surface in
+`assets/data/deep/domain-authoring-admissions.json`:
+
+- 20 deep directive surfaces are present;
+- all 20 have measured citation, monitoring, and target fields on their retained
+  directive sample;
+- Energy retains its 156-task external authoring queue;
+- the other 19 are explicit `REQUIRES_QUEUE_RECONCILIATION` admissions, each with
+  a named next action, rather than false populated queues.
+
+`scripts/test-domain-authoring-admissions.js` passes 6/6 assertions. This makes the
+missing queue work visible and reproducible without claiming that generated
+directives are reviewed authoring tasks. The underlying 19 domain-specific source
+contracts still need review before any real task is created.
+
 The read-only `scripts/audit-title-transport-production.js` sweep then queried
 `/api/feed-record?titles=<runtimeKey>&n=500` for all 20 keys. All endpoints returned
 successfully; 18 had persisted title sets, while Economy and Finance had zero because
