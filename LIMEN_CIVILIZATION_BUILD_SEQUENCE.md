@@ -122,7 +122,9 @@ this is a reconciliation task, not permission to declare every treatment unsuppo
 `scripts/reconcile-treatment-provenance.js` pass found 1,421 unique aggregate treatment labels: 1,411 match the split discovery
 cells, and every matched label carries a citation or source-provenance record there. Ten labels remain unmatched (defense 2, finance 4,
 religion 2, technology 2) and are the first concrete provenance tasks. Energy's queue schema will not be copied as if it were
-universal.
+universal. Those ten tasks are preserved separately in
+`assets/data/deep/aggregate-treatment-provenance-queue.json`; they are not silently merged into a domain queue until their source is
+re-opened or the treatment is explicitly retired.
 
 ### Gate
 

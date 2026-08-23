@@ -16,6 +16,8 @@ var DOMAINS = ['agriculture','communication','culture','defense','economy','educ
   'environment','finance','governance','industry','infrastructure','intelligence','law','medicine',
   'population','religion','science','technology','trade'];
 var AGGREGATE = { agriculture: 'p2_agri.json' };
+var WRITE = process.argv.indexOf('--write') >= 0;
+var QUEUE_OUT = path.join(ROOT, 'assets', 'data', 'deep', 'aggregate-treatment-provenance-queue.json');
 
 function read(file) { return JSON.parse(fs.readFileSync(file, 'utf8')); }
 function norm(value) { return String(value || '').trim().toLowerCase().replace(/\s+/g, ' '); }
@@ -61,6 +63,7 @@ files.forEach(function (name) {
 });
 
 var rows = [];
+var tasks = [];
 DOMAINS.forEach(function (domain) {
   var a = aggregate[domain];
   var labels = Object.keys(a);
@@ -70,6 +73,23 @@ DOMAINS.forEach(function (domain) {
     if (!c) { unmatched++; return; }
     matched++;
     if (c.withSourceProvenance || c.withCitation) matchedWithProvenance++;
+  });
+  labels.forEach(function (k) {
+    if (cube[k]) return;
+    var item = a[k];
+    tasks.push({
+      id: 'aggregate-treatment-provenance-' + domain + '-' + norm(item.label).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+      domain: domain,
+      target: item.label,
+      level: 'aggregate-treatment',
+      authoringType: 'source provenance reconciliation needed',
+      missingFields: ['exact discovery-cell match', 'sourceProvenance or citation'],
+      existingContext: 'aggregate treatment is present, but no exact label match was found in the split discovery cells',
+      sourceHints: 're-open the originating domain source; do not infer provenance from a similar treatment',
+      requiredHumanAction: 'Locate the exact source and wire observation-level provenance, or explicitly retire/demote the treatment',
+      priority: 1,
+      whyItMatters: 'an unmatched aggregate treatment must not silently enter a downstream authoring or opportunity lane'
+    });
   });
   rows.push({
     domain: domain,
@@ -81,10 +101,19 @@ DOMAINS.forEach(function (domain) {
   });
 });
 
-console.log(JSON.stringify({
+var report = {
   readOnly: true,
   aggregateFiles: DOMAINS.length,
   cubeFiles: files.length,
   cubeTreatmentKeys: Object.keys(cube).length,
+  tasks: tasks,
   rows: rows
-}, null, 2));
+};
+if (WRITE) {
+  report.readOnly = false;
+  report.note = 'Reconciliation-only tasks. Not merged into per-domain authoring queues until reviewed.';
+  report.generatedAt = new Date().toISOString();
+  fs.writeFileSync(QUEUE_OUT, JSON.stringify(report, null, 2));
+  console.error('wrote ' + path.relative(ROOT, QUEUE_OUT) + ': ' + tasks.length + ' tasks');
+}
+console.log(JSON.stringify(report, null, 2));
