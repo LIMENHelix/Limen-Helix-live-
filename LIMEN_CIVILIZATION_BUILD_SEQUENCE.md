@@ -793,12 +793,15 @@ the other 11 are explicitly `not-active` with `NO_SANDBOX_ADAPTER` blockers
 `hero-image`, `auction`, `homestead`, `crm`, `real-estate`, and `broker/order`).
 They are not silently treated as active.
 
-This is a bridge rehearsal, not a full production-cron observation: it proves the
+This is a bridge rehearsal, not a production-cron observation: it proves the
 ordering, persistence, source separation, learning handoff, and labels of the
-sandbox path, not that current live queues contain work or that any provider
-would return the simulated outcomes. Lane classification and the sandbox
-learning seam are complete; the full Job 6 gate stays open until the real
-read-only runtime surface is included in the same bounded report.
+sandbox path, not that any provider would return the simulated outcomes.
+
+The live read-only surface below supplies the missing runtime observation. Job 6
+is therefore **complete as a classification and safety rehearsal**: every lane
+is classified, blocked lanes are explicit, simulated actions are never reported
+as executed, spend is zero, and no missing receipt or persistence failure is
+hidden. This does not close Job 7's paper-operation gate.
 
 ### Job 6 live read-only surface — measured 2026-08-23
 
@@ -914,46 +917,43 @@ handoff seam is complete but its persisted server-side consumer remains open.
 Job 5 therefore owns the current B11/B14 outcome-producer audit and the useful
 B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
-### Current execution checkpoint — 2026-08-23
+### Current execution checkpoint — 2026-08-24 (authoritative)
 
-The branch `agent/limen-master-build-sequence` contains the authoritative sequence
-and the completed bridge/sandbox subtasks. The latest committed rehearsal result is
-`300` routed simulated commands, `300` explicit lane abstentions, `300` persisted
-outcomes, and `$0` spend. No production code has been activated by this checkpoint;
-push, PR, merge, and deploy remain separate owner decisions.
-
+Main is `c1fb3370`; the authoritative branch is clean and contains the merged
+sequence updates from PRs #93–#95. CI and Vercel passed on each exact head.
 The all-domain queue and primary-identifier review surfaces are deployed and
-measured; they must not be counted as evidence admission, firing, or revenue.
-The remaining substrate work requires source ownership/syndication review,
-semantic title-to-candidate transport, cadence/replay closure, and actual
-domain use of reviewed queues. Job 5 now has a measured B11/B14 blocker:
-commands and learners exist, but no autonomous producer emits the qualifying
-research or investment outcome events. The sandbox can rehearse command/outcome
-mechanics, but it must not hide missing domain inputs or turn conceptual
-homology into an operational claim.
+measured; they are review inputs, not evidence admission, firing, or revenue.
 
-Latest substrate checkpoint: `ddc7d512` preserves Massive Crude's Polygon
-aggregate identity, `542a4b33` preserves arXiv query-result identity, and
-`03e0de36` refreshes the production identity-gap queue. These commits are local
-to this isolated branch; no push, PR, merge, deploy, or production activation
-has occurred.
+Job 3 remains in progress for source ownership/syndication review, semantic
+title-to-candidate transport, cadence/replay closure, and actual domain use of
+reviewed queues. Job 4's browser handoff seam is complete, but its persisted
+server-side consumer remains open.
 
-The subsequent NOAA collection-identity repair is `63b2180e`; PubMed's missing
-publisher timestamp is recorded as an explicit abstention in `af771a72`. The
-full unit sweep after these additions is `94 passed, 1 skipped, 0 failed`.
+Job 5's sandbox sequence is now explicit:
 
-### Current execution checkpoint — queue pipeline review surface
+1. PR #93 (`08d7f8fc`) measured zero autonomous production posts for
+   `OUTCOME_INVESTMENT_PNL`, `OUTCOME_RESEARCH_PUBLISHED`, and
+   `OUTCOME_RESEARCH_EVALUATED`.
+2. PR #94 (`9773109b`) persisted a separate synthetic
+   `sandbox-world-fixture/v1` observation stream before motor outcomes.
+3. PR #95 (`c1fb3370`) routed those outcomes through B13/B17 learning and one
+   offline consolidation pass.
 
-The all-domain queue pass is now represented by PR #86 and main commit
-`9255f06b`. Every queue item carries its checked-in source filename and measured
-`observed` fields: source URL count, source-array count, citation count,
-evidence-grade count, company count, treatment count, template ratio, and an
-explicit provenance state. These fields are observations for review, not
-approval. The three classifier `REAL` candidates are held as review tasks;
-`evidenceEligible.portals` remains empty in all 20 cortex indexes.
+The current read-only 30-day rehearsal records `300` independent synthetic
+observations, `300` commands, `300` outcomes, `300` learning consumptions, one
+consolidation pass, `0` pending, `$0` simulated spend, and `0` outward
+executions. This closes the sandbox source-separation and learning seams only;
+the synthetic stream is not provider/world evidence.
 
-The queue population gate is therefore complete, while Job 3 remains in
-progress. Source rehydration, independent ownership/syndication review,
-semantic title transport into diagnosis candidates, cadence/replay closure,
-and actual domain use of the queues remain outstanding. No queue item creates
-stress, a diagnosis, a pathway, a publication, or a broker action.
+Job 6 is now complete at its stated read-only classification gate. The live
+surface report classifies all 13 operating lanes and records the two active
+lanes as blocked for lack of eligible outcomes; the other 11 are explicitly
+not-observable because they are outside the current research/investment scope.
+No simulated result is presented as an executed action.
+
+The active production blocker is unchanged: no autonomous producer currently
+returns a qualifying research publication/evaluation receipt or an investment
+30/60/90-day P&L receipt to the learner. The next implementation must add those
+observers with source identity, observation time, terms, persistence failure
+handling, and explicit abstention. No real-money activity is authorized until
+Jobs 1–7 are complete.
