@@ -527,20 +527,20 @@ is included in the same bounded report.
 
 `scripts/audit-civilization-runtime-surface.cjs` queried only public GET
 endpoints and wrote `assets/data/deep/civilization-runtime-surface.json`.
-Production returned 20 domains and 276 sources (`liveCount: 237`,
-`fallbackCount: 33`); the public autofire log returned 126 total cycles, with
+Production returned 20 domains and 276 sources (`liveCount: 238`,
+`fallbackCount: 32`); the public autofire log returned 127 total cycles, with
 the latest bounded 20 showing `evaluated: 0`, `fired: 0`, `errors: 0`, and
 `observedResults: 0`. The public budget surface reported `enabled: true`,
-`armed: true`, `$0` spent, and `$20` remaining. `/api/brain-shadow` returned
-401, so authenticated per-domain runtime details were not observable in this
-read. Research and investment therefore remain **blocked for lack of eligible
-public queue results**, not reported as executed; the other 11 lanes remain
-explicitly not-observable by scope.
+`armed: true`, `$0` spent, and `$20` remaining. An authenticated, read-only
+`/api/brain-shadow` read returned 20/20 domains `ok`, 0 errors, 20 ticks, 20
+rows applied, 20 restored, and `stateValueBytesTotal: 63,432,766`. Research and
+investment therefore remain **blocked for lack of eligible public queue
+results**, not reported as executed; the other 11 lanes remain explicitly
+not-observable by scope.
 
-The fixture summarizer passes 6/6. This closes the live-surface measurement
-subtask and identifies the remaining Job 6 blocker: a bounded authenticated
-operator read or an equivalent public read-only status surface, not a manual
-trigger and not a production mutation.
+The fixture summarizer passes 7/7. This closes the live-surface measurement
+subtask and identifies the remaining Job 6 blocker: eligible research/investment
+queue input, not a manual trigger and not a production mutation.
 
 ## Job 7 — Paper-operation pilot
 
