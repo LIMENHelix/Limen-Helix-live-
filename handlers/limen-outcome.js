@@ -7,6 +7,7 @@
  *
  *   Body: {
  *     outputId,           // engine-output id (eo_<lane>_<cik>_<hash>)
+ *     commandId,          // optional reconciled Tradier B14 command id for investment P&L
  *     eventType,          // SUBMITTED | UNDER_REVIEW | APPROVED |
  *                         // REJECTED | WITHDRAWN | OUTCOME_REVENUE |
  *                         // OUTCOME_PATENT_ISSUED | OUTCOME_GRANT_AWARDED |
@@ -33,6 +34,9 @@
  * GET /api/limen-outcome?log=1&limit=50
  *   Most recent outcome events globally.
  *
+ * A reconciled Tradier command may supply commandId instead of outputId for
+ * OUTCOME_INVESTMENT_PNL. The caller must still provide the explicit paper
+ * outcome terms; reconciliation supplies identity, not P&L or benchmark data.
  * Same Redis-or-memory fallback pattern as /api/limen-engine-output.
  */
 
@@ -44,6 +48,7 @@ const HAS_REDIS = !!(REDIS_URL && REDIS_TOKEN);
 // Mirrors api/limen-engine-output.js.
 const OPERATOR_TOKEN = process.env.LIMEN_OPERATOR_TOKEN || '';
 const AUTH_ON = !!OPERATOR_TOKEN;
+const LEARNING_TOKEN = OPERATOR_TOKEN || process.env.CRON_SECRET || '';
 function checkAuth(req) {
   if (!AUTH_ON) return { ok: true, mode: 'disabled' };
   const header = req.headers && (req.headers.authorization || req.headers.Authorization);
@@ -58,8 +63,14 @@ const EVENT_TYPES = new Set([
   'SUBMITTED', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'WITHDRAWN',
   'OUTCOME_REVENUE', 'OUTCOME_PATENT_ISSUED', 'OUTCOME_GRANT_AWARDED',
   'OUTCOME_FRANCHISE_SIGNED', 'OUTCOME_INVESTMENT_PNL',
-  'OUTCOME_RESEARCH_PUBLISHED'
+  'OUTCOME_RESEARCH_PUBLISHED', 'OUTCOME_RESEARCH_EVALUATED'
 ]);
+const LEARNING_EVENT_TYPES = new Set([
+  'OUTCOME_INVESTMENT_PNL', 'OUTCOME_RESEARCH_PUBLISHED', 'OUTCOME_RESEARCH_EVALUATED'
+]);
+const autofireLearning = require('../lib/autofire-learning');
+const efferenceStore = require('../lib/autofire-efference-store');
+const tradierB14 = require('../lib/tradier-b14');
 
 // Which event types count as "approved" for approval-rate purposes
 const APPROVED_TYPES = new Set(['APPROVED', 'OUTCOME_PATENT_ISSUED',
@@ -127,8 +138,14 @@ async function redisIncrBy(key, by) {
   return redisCmd(['INCRBY', key, String(by)]);
 }
 async function redisLPush(key, value, trimLen) {
-  await redisCmd(['LPUSH', key, JSON.stringify(value)]);
-  if (trimLen > 0) await redisCmd(['LTRIM', key, '0', String(trimLen - 1)]);
+  const pushed = await redisCmd(['LPUSH', key, JSON.stringify(value)]);
+  if (trimLen > 0 && pushed && pushed.ok) {
+    await redisCmd(['LTRIM', key, '0', String(trimLen - 1)]);
+  }
+  // recordEvent uses this receipt to distinguish durable Redis persistence
+  // from the per-process memory fallback. Returning undefined made every
+  // successful Redis write report storage:'memory' and duplicated it locally.
+  return pushed;
 }
 async function redisLRange(key, start, stop) {
   const r = await redisCmd(['LRANGE', key, String(start), String(stop)]);
@@ -150,12 +167,25 @@ async function lookupArtifact(outputId) {
   return null;
 }
 
-function deriveBuckets(artifact, eventBody) {
+async function lookupTradierCommand(commandId) {
+  if (!commandId) return { command: null, error: null };
+  try {
+    return { command: await tradierB14.read(efferenceStore, commandId), error: null };
+  } catch (err) {
+    // A durable-store outage is not the same as an unknown command. Keep the
+    // distinction visible so callers do not mistake an infrastructure failure
+    // for a missing outcome identity.
+    return { command: null, error: String(err && err.message || err) };
+  }
+}
+
+function deriveBuckets(artifact, eventBody, command) {
+  const intent = command && command.intent || {};
   return {
-    lane: (artifact && artifact.lane) || eventBody.lane || null,
+    lane: (artifact && artifact.lane) || eventBody.lane || (intent.ownerDomain === 'finance' ? 'investment' : null),
     domain: (artifact && artifact.payload && artifact.payload.domain) ||
             (artifact && artifact.payload && artifact.payload.domainId) ||
-            eventBody.domain || null,
+            eventBody.domain || intent.ownerDomain || null,
     cik: (artifact && artifact.cik) || eventBody.cik || null
   };
 }
@@ -165,12 +195,40 @@ async function recordEvent(body) {
   const validation = validate(body);
   if (!validation.ok) return { ok: false, status: 400, error: validation.reason };
 
-  const artifact = await lookupArtifact(body.outputId);
-  const buckets = deriveBuckets(artifact, body);
+  const commandId = body.commandId ? String(body.commandId) : null;
+  const commandLookup = await lookupTradierCommand(commandId);
+  if (commandLookup.error) {
+    return { ok: false, status: 503, error: 'tradier-command-lookup-failed', detail: commandLookup.error };
+  }
+  const command = commandLookup.command;
+  if (commandId && !command) return { ok: false, status: 404, error: 'tradier-command-not-found' };
+  if (commandId && body.eventType !== 'OUTCOME_INVESTMENT_PNL') {
+    return { ok: false, status: 400, error: 'tradier-command-outcome-must-be-investment-pnl' };
+  }
+  if (commandId && (!command.receipt || !command.receipt.orderId ||
+      !/^RECONCILED_/.test(String(command.status || '')) || !command.reafference)) {
+    return { ok: false, status: 409, error: 'tradier-command-not-reconciled' };
+  }
+  const outputId = body.outputId || (commandId ? 'tradier-command:' + commandId : null);
+  const artifact = await lookupArtifact(outputId);
+  const buckets = deriveBuckets(artifact, body, command);
+  const commandIntent = command && command.intent || {};
+  const outcomeData = body.outcomeData && typeof body.outcomeData === 'object'
+    ? JSON.parse(JSON.stringify(body.outcomeData)) : null;
+  if (commandId && outcomeData) {
+    if (outcomeData.executionMode !== 'paper') {
+      return { ok: false, status: 400, error: 'tradier-command-outcome-must-be-paper' };
+    }
+    if (outcomeData.brokerOrderId && String(outcomeData.brokerOrderId) !== String(command.receipt.orderId)) {
+      return { ok: false, status: 400, error: 'broker-order-id-does-not-match-tradier-command' };
+    }
+    outcomeData.brokerOrderId = String(command.receipt.orderId);
+  }
   const now = Date.now();
   const event = {
-    eventId: 'evt_' + hash({ outputId: body.outputId, type: body.eventType, ts: now }),
-    outputId: body.outputId,
+    eventId: 'evt_' + hash({ outputId: outputId, commandId: commandId, type: body.eventType, ts: now }),
+    outputId: outputId,
+    commandId: commandId,
     eventType: body.eventType,
     actor: body.actor || 'anonymous',
     notes: body.notes || null,
@@ -180,7 +238,23 @@ async function recordEvent(body) {
     tsISO: new Date(now).toISOString(),
     lane: buckets.lane,
     domain: buckets.domain,
-    cik: buckets.cik
+    cik: buckets.cik,
+    // Carries command identity across the later reward/outcome path without
+    // conflating the two learning signals. Artifact persistence is B14's
+    // supervised self-effect observation; submission/publication/P&L here is a
+    // later outcome and may teach reward, never rewrite the efference copy.
+    efferenceCopyId: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.efferenceCopyId) || body.efferenceCopyId || null,
+    actionId: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.actionId) || body.actionId || commandIntent.actionId || null,
+    ownerDomain: (artifact && artifact.payload && artifact.payload.autofire &&
+      artifact.payload.autofire.ownerDomain) || body.ownerDomain || commandIntent.ownerDomain || null,
+    selectionId: commandIntent.selectionId || body.selectionId || null,
+    sourceArtifactId: commandIntent.sourceArtifactId || body.sourceArtifactId || null,
+    /* Raw, named terms are preserved. Learning derives only the explicit
+       categorical rule in lib/autofire-learning; no opaque composite score is
+       stored or accepted here. */
+    outcomeData: outcomeData
   };
 
   let storage = 'memory';
@@ -188,7 +262,7 @@ async function recordEvent(body) {
 
   if (HAS_REDIS) {
     // 1. Append to event log per-artifact
-    const r1 = await redisLPush('limen:outcome_events:' + body.outputId, event, 200);
+    const r1 = await redisLPush('limen:outcome_events:' + outputId, event, 200);
     // 2. Append to global event log
     const r2 = await redisLPush('limen:outcome_events_log', event, LOG_MAX);
     // 3. Update aggregate counters (per lane / domain / cik)
@@ -325,10 +399,10 @@ async function getEventLog(limit) {
 // ── Validation ──
 function validate(body) {
   if (!body || typeof body !== 'object') return { ok: false, reason: 'body-not-object' };
-  if (!body.outputId) return { ok: false, reason: 'missing-outputId' };
   if (!body.eventType || !EVENT_TYPES.has(body.eventType)) {
     return { ok: false, reason: 'invalid-eventType', allowed: Array.from(EVENT_TYPES) };
   }
+  if (!body.outputId && !body.commandId) return { ok: false, reason: 'missing-outputId-or-commandId' };
   return { ok: true };
 }
 
@@ -338,19 +412,10 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
   res.setHeader('x-auth-mode', AUTH_ON ? 'enforced' : 'disabled');
+  res.setHeader('x-learning-auth-mode', LEARNING_TOKEN ? 'enforced' : 'fail-closed');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
-  }
-
-  if (req.method === 'POST') {
-    const auth = checkAuth(req);
-    if (!auth.ok) {
-      res.statusCode = 401;
-      res.setHeader('content-type', 'application/json');
-      res.setHeader('WWW-Authenticate', 'Bearer realm="limen-outcome"');
-      return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
-    }
   }
 
   try {
@@ -364,7 +429,39 @@ module.exports = async function handler(req, res) {
       } else if (typeof body === 'string') {
         try { body = JSON.parse(body); } catch (_) { body = {}; }
       }
+      /* Legacy outcome POSTs retain their existing optional operator gate. The
+         three events allowed to teach B10/B12/B13 fail closed and use the
+         already-configured CRON_SECRET when no separate operator token exists.
+         A public page must never be able to write reward into the brain. */
+      if (LEARNING_EVENT_TYPES.has(body && body.eventType)) {
+        if (!LEARNING_TOKEN) {
+          res.statusCode = 503;
+          res.setHeader('content-type', 'application/json');
+          return res.end(JSON.stringify({ ok: false, error: 'learning-outcome-auth-not-configured' }));
+        }
+        const learningHeader = req.headers && (req.headers.authorization || req.headers.Authorization);
+        const learningMatch = /^Bearer\s+(.+)$/i.exec(String(learningHeader || '').trim());
+        if (!learningMatch || learningMatch[1] !== LEARNING_TOKEN) {
+          res.statusCode = 401;
+          res.setHeader('content-type', 'application/json');
+          return res.end(JSON.stringify({ ok: false, error: 'unauthorized-learning-outcome' }));
+        }
+      }
+      const auth = checkAuth(req);
+      if (!auth.ok) {
+        res.statusCode = 401;
+        res.setHeader('content-type', 'application/json');
+        res.setHeader('WWW-Authenticate', 'Bearer realm="limen-outcome"');
+        return res.end(JSON.stringify({ ok: false, error: 'unauthorized', reason: auth.reason }));
+      }
       const result = await recordEvent(body);
+      if (result.ok && result.event &&
+          ['OUTCOME_INVESTMENT_PNL', 'OUTCOME_RESEARCH_PUBLISHED', 'OUTCOME_RESEARCH_EVALUATED'].indexOf(result.event.eventType) >= 0) {
+        result.learning = await autofireLearning.recordOutcome(efferenceStore, result.event);
+        result.learningAccepted = result.learning.ok === true || result.learning.queuedForRetry === true;
+        if (!result.learningAccepted) result.status = 503;
+        else if (!result.learning.ok) result.status = 202;
+      }
       res.statusCode = result.status;
       res.setHeader('content-type', 'application/json');
       res.setHeader('x-redis-backed', HAS_REDIS ? '1' : '0');

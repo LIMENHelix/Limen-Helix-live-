@@ -67,6 +67,19 @@ function restoreEnv() {
       async set(k, v) { dbTouches++; store.set(k, v); return { ok: true }; }
     }
   };
+  const efferenceStorePath = require.resolve(path.join(ROOT, 'lib', 'autofire-efference-store.js'));
+  require.cache[efferenceStorePath] = {
+    id: efferenceStorePath, filename: efferenceStorePath, loaded: true,
+    exports: {
+      assertDurable() { return true; },
+      async get() { return null; },
+      async set() { return true; },
+      async del() { return 0; },
+      async lpush() { return 1; },
+      async ltrim() { return true; },
+      async lrange() { return []; }
+    }
+  };
 
   process.env.CRON_SECRET = 'cron-test-secret';
   process.env.ADMIN_MASTER = 'master-test-secret';

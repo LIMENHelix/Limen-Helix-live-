@@ -1,7 +1,7 @@
 /**
  * api/limen-worker-autofire.js — Autonomous engine firing for HIGH-salience single-call lanes
  *
- * Closes the perception→action loop. Reads HIGH-salience PENDING
+ * Executes the bounded autoqueue→artifact action loop. Reads HIGH-salience PENDING
  * entries from the autoqueue, generates the recommended artifact via
  * /api/expand-artifact-claude, persists to /api/limen-engine-output
  * as READY_TO_SIGN, marks autoqueue FIRED, logs the action.
@@ -18,7 +18,12 @@
  *   - HIGH salience only — MEDIUM/LOW stay operator-fire.
  *   - Status persisted as READY_TO_SIGN only when placeholder-free;
  *     otherwise DRAFT_NEEDS_DATA. Never auto-submitted externally.
- *   - Max 2 fires per cron tick — bounds invocation time.
+ *   - Max 1 fire per cron tick — bounds invocation time.
+ *
+ * The existing queue proposes candidates. The owning domain's persisted outward
+ * critic must separately release one against `no_action`; READY_TO_FIRE alone is
+ * not an execution instruction. This path generates artifacts only and never
+ * authorizes publication or a broker order.
  *
  * GET /api/limen-worker-autofire
  *   Returns summary { evaluated, fired, budgetSpent, dedupedCount,
@@ -31,6 +36,13 @@ var { loadPortal } = require('../lib/portal-loader');
 var cronAuth = require('../lib/cron-auth');
 var autonomyBudget = require('../lib/autonomy-budget');
 var aiKillSwitch = require('../lib/ai-kill-switch');
+var autofireEfference = require('../lib/autofire-efference');
+var efferenceStore = require('../lib/autofire-efference-store');
+var domainBridge = require('../lib/autofire-domain-bridge');
+var autofireLearning = require('../lib/autofire-learning');
+var brainStore = require('../lib/brain-shadow-store');
+var financeB14Bridge = require('../lib/finance-b14-bridge');
+var tradierSandbox = require('../lib/tradier-sandbox');
 var fs = require('fs');
 var path = require('path');
 
@@ -117,10 +129,10 @@ var SCOPE_TEMPLATES = {
     proposedApproach: 'Three-horizon scenario tree with probability-weighted IRR per scenario. Position sizing keyed to Kelly criterion under quoted scenario probabilities, capped at portfolio-concentration limits. Kill criteria specified ex-ante across phase transition triggers, leverage/liquidity covenants, and reflexive market events.'
   },
   research: {
-    title: 'Structural research brief — {company}',
-    description: 'Independent research brief for {company} ({industry}) suitable for institutional consumption. Covers competitive moat, capital efficiency, scenario-conditioned cash-flow durability, and three-event-horizon catalysts.',
-    problemStatement: 'Institutional investors evaluating {company} need a research artifact that synthesizes operational topology, capital-structure exposure, and event-conditioned cash-flow paths in one document. Sell-side coverage tends to be either superficial (snapshot) or so detailed it loses the decision-relevant signal.',
-    proposedApproach: 'Five-section brief: Operating model + topology of dependencies, Capital structure + covenant ladder, Three scenario-conditioned 5-year free cash flow paths, Three-event-horizon catalyst calendar with binary outcomes flagged, Methodology + sources + assumptions ledger.'
+    title: 'Science/medicine evidence synthesis — {company}',
+    description: 'Ongoing evidence synthesis for a Science or Medicine subject. Tracks published studies, replication, convergence, contradiction, retraction, and the effects claimed across the neurological/business homology and P0-P10 kernel arc.',
+    problemStatement: 'A published study is an observation, not proof of progress. The research lane must preserve evidence identity and independence, distinguish convergence from repetition, and show exactly how any claim maps neurology to business, business to neurology, kernel dynamics, and P0-P10 proof and effects.',
+    proposedApproach: 'Evidence ledger with four explicit mappings: neurology-to-business homology, business-to-neurology homology, kernel dynamics, and P0-P10 proof/effects. Preserve supporting, constructive, contradicting and retracting evidence separately. Abstain on progress until independence and the mapping are established.'
   }
 };
 
@@ -219,6 +231,135 @@ async function _fireOne(entry) {
   var packet = _buildContextPacket(portal, lane);
   var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + entry.cik + '-' + Date.now());
 
+  // B11 owner-domain release. The candidate exists before this gate; the gate
+  // cannot manufacture one from stress, headlines, or a finding. It can only
+  // release or hold it, and its decision is durably reviewable.
+  var ownerDomain = autofireLearning.ownerFor(lane, entry.domain);
+  var ownerCycle = null;
+  if (ownerDomain) {
+    try { ownerCycle = await brainStore.readCycle(ownerDomain); }
+    catch (err) {
+      return {
+        skipped: false, ok: false, billableAttempt: false,
+        cik: entry.cik, lane: lane,
+        reason: 'domain-cycle-unreadable', detail: err.message,
+        motorStatus: 'NOT_SELECTED'
+      };
+    }
+  }
+  var selected = await domainBridge.select(efferenceStore, {
+    lane: lane,
+    candidate: entry,
+    domainCycle: ownerCycle,
+    at: Date.now()
+  });
+  if (!selected.ok) {
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'domain-selection-not-durable', detail: selected.detail || selected.error,
+      motorStatus: 'NOT_SELECTED'
+    };
+  }
+  if (selected.receipt.status !== 'RELEASED') {
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'domain-outward-held', detail: selected.receipt.reasons.join(','),
+      selectionId: selected.receipt.id,
+      selectionReasons: selected.receipt.reasons,
+      motorStatus: 'HELD'
+    };
+  }
+
+  // Optional Finance motor bridge. A queue entry must carry an explicit trade
+  // intent; the worker never derives a ticker, side, quantity, price, or risk
+  // limit from the company, stress, headline, or kernel phase. With the
+  // sandbox autonomy switch off this records HELD and artifact generation keeps
+  // its existing behavior. With it on, a broker preview is created before the
+  // paid artifact call, but no order is submitted here.
+  var financeB14Preview = null;
+  if (lane === 'investment' && entry.tradeIntent) {
+    try {
+      financeB14Preview = await financeB14Bridge.preview(
+        efferenceStore, tradierSandbox, selected.receipt, entry.tradeIntent);
+    } catch (err) {
+      return {
+        skipped: false, ok: false, billableAttempt: false,
+        cik: entry.cik, lane: lane,
+        reason: 'finance-b14-preview-refused', detail: err.message,
+        errorCode: err.code || 'FINANCE_B14_PREVIEW_REFUSED',
+        selectionId: selected.receipt.id,
+        motorStatus: 'NOT_DISPATCHED'
+      };
+    }
+  }
+
+  // B11 + B14, across the asynchronous actuator boundary. The command-time
+  // prediction must be durable BEFORE the first provider request. If that write
+  // fails, nothing is dispatched: an action without a copy cannot later
+  // distinguish its own receipt from independent evidence.
+  var commandAt = Date.now();
+  var commanded = await autofireEfference.command(efferenceStore, {
+    lane: lane,
+    cik: entry.cik,
+    sourceIdentity: entry.sourceArtifactRef
+      ? { kind: 'master-inbox-artifact', value: entry.sourceArtifactRef }
+      : { kind: 'phase-transition-pattern', value: sig },
+    emittedAt: commandAt,
+    attempt: Number.isInteger(entry.autofireAttempts) ? entry.autofireAttempts : 0
+  });
+  if (!commanded.ok) {
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'efference-command-refused',
+      detail: commanded.error,
+      motorStatus: 'NOT_DISPATCHED'
+    };
+  }
+  var efferenceCopy = commanded.copy;
+
+  // Create the action episode before the provider request. A command that
+  // cannot enter durable episodic learning is not dispatched.
+  var commandLearning = await autofireLearning.recordCommand(efferenceStore, {
+    selection: selected.receipt,
+    efferenceCopy: efferenceCopy
+  });
+  if (!commandLearning.ok) {
+    await autofireEfference.resolve(efferenceStore, efferenceCopy, {
+      ok: false, skipped: false, reason: 'command-learning-not-durable'
+    }, Date.now());
+    return {
+      skipped: false, ok: false, billableAttempt: false,
+      cik: entry.cik, lane: lane,
+      reason: 'command-learning-not-durable', detail: commandLearning.detail || commandLearning.error,
+      selectionId: selected.receipt.id,
+      motorStatus: 'NOT_DISPATCHED'
+    };
+  }
+
+  async function finish(result) {
+    if (financeB14Preview) result.financeB14Preview = financeB14Preview;
+    var motor = await autofireEfference.resolve(efferenceStore, efferenceCopy, result, Date.now());
+    result.efferenceCopyId = efferenceCopy.id;
+    result.actionId = efferenceCopy.actionId;
+    result.motorStatus = motor.status || (motor.ok ? 'RESOLVED' : 'UNCONFIRMED');
+    result.efferenceResolutionPersisted = motor.ok === true;
+    result.forwardModel = {
+      variable: 'artifact_persisted',
+      actual: motor.actual === undefined ? null : motor.actual,
+      predicted: motor.predicted === undefined ? null : motor.predicted,
+      supervisedError: motor.supervisedError === undefined ? null : motor.supervisedError,
+      modelUpdated: motor.modelUpdated === true,
+      modelN: motor.modelN === undefined ? null : motor.modelN,
+      trustedForNextCommand: motor.trustedForNextCommand === true
+    };
+    result.externalOutcomePending = true;
+    if (!motor.ok) result.efferenceResolutionError = motor.error || 'unknown';
+    return result;
+  }
+
   // Call expand-artifact-claude (single-call only — investment / research)
   var expandResp;
   try {
@@ -247,15 +388,15 @@ async function _fireOne(entry) {
     expandResp = await r.json();
   } catch (e) {
     var errorCode = e.cause && e.cause.code ? e.cause.code : 'unknown';
-    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message), errorCode: errorCode };
+    return finish({ skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message), errorCode: errorCode });
   }
 
   if (!expandResp || !expandResp.ok) {
-    return {
+    return finish({
       skipped: false, ok: false, cik: entry.cik, lane: lane,
       billableAttempt: true,
       reason: 'expand-not-ok', detail: (expandResp && expandResp.error) || 'unknown', errorCode: (expandResp && expandResp.errorCode) || 'unknown'
-    };
+    });
   }
 
   var outer = expandResp.structured || {};
@@ -302,10 +443,14 @@ async function _fireOne(entry) {
           claudeUsage: { output_tokens: (expandResp.usage && expandResp.usage.output_tokens) || 0 },
           citations: inner.evidenceCitationsUsed || [],
           autofire: {
-            triggeredBy: 'phase-transition',
+            triggeredBy: entry.source || 'phase-transition',
             transition: { from: entry.from, to: entry.to },
             salience: entry.salience,
-            triggeredAt: Date.now()
+            triggeredAt: Date.now(),
+            selectionId: selected.receipt.id,
+            ownerDomain: selected.receipt.ownerDomain,
+            efferenceCopyId: efferenceCopy.id,
+            actionId: efferenceCopy.actionId
           }
         }
       }),
@@ -313,23 +458,24 @@ async function _fireOne(entry) {
     });
     persistResp = await p.json();
   } catch (e) {
-    return { skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'persist-error', detail: String(e.message) };
+    return finish({ skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'persist-error', detail: String(e.message) });
   }
 
-  if (!persistResp || !persistResp.ok) {
-    return {
+  if (!persistResp || !persistResp.ok || !persistResp.outputId) {
+    return finish({
       skipped: false, ok: false, cik: entry.cik, lane: lane,
       billableAttempt: true,
-      reason: 'persist-not-ok', detail: (persistResp && persistResp.error) || 'unknown'
-    };
+      reason: persistResp && persistResp.ok ? 'persist-missing-receipt' : 'persist-not-ok',
+      detail: (persistResp && persistResp.error) || (persistResp && persistResp.ok ? 'persistence response did not carry outputId' : 'unknown')
+    });
   }
 
-  return {
+  return finish({
     skipped: false, ok: true, billableAttempt: true, cik: entry.cik, lane: lane,
     outputId: persistResp.outputId,
     wordCount: wordCount,
     viewerUrl: 'https://limenhelix.com/helix-artifact?id=' + persistResp.outputId
-  };
+  });
 }
 
 module.exports = async function handler(req, res) {
@@ -355,6 +501,35 @@ module.exports = async function handler(req, res) {
       return res.end(JSON.stringify({ ok: false, paused: 'admin-master-unconfigured' }));
     }
 
+    // Retire timed-out commands on every natural cron cycle, including cycles
+    // with no eligible queue item. Probe mode remains read-only.
+    var efferenceSweep;
+    if (probeMode) {
+      try {
+        efferenceStore.assertDurable();
+        efferenceSweep = { ok: true, skipped: 'probe-mode' };
+      } catch (storeErr) {
+        res.setHeader('content-type', 'application/json');
+        res.statusCode = 503;
+        return res.end(JSON.stringify({
+          ok: false,
+          paused: 'efference-store-unavailable',
+          detail: String(storeErr && storeErr.message || storeErr)
+        }));
+      }
+    } else {
+      efferenceSweep = await autofireEfference.sweep(efferenceStore, Date.now());
+      if (!efferenceSweep.ok) {
+        res.setHeader('content-type', 'application/json');
+        res.statusCode = 503;
+        return res.end(JSON.stringify({
+          ok: false,
+          paused: 'efference-sweep-failed',
+          efferenceSweep: efferenceSweep
+        }));
+      }
+    }
+
     var stepT = Date.now();
     var spendDisabled = await aiKillSwitch.spendDisabled();
     var budgetStatus = await autonomyBudget.status();
@@ -367,6 +542,7 @@ module.exports = async function handler(req, res) {
         ok: true,
         paused: spendDisabled ? 'ai-spend-disabled' : 'autonomy-not-armed',
         budget: budgetStatus,
+        efferenceSweep: efferenceSweep,
         timing: { budget_ms: t_budget }
       }));
     }
@@ -399,6 +575,7 @@ module.exports = async function handler(req, res) {
         samplePortalName: samplePortal && samplePortal.name,
         sampleLoaderSource: sampleRes.source,
         budget: budgetStatus,
+        efferenceSweep: efferenceSweep,
         timing: {
           budget_ms: t_budget,
           queue_read_ms: t_queue,
@@ -603,6 +780,7 @@ module.exports = async function handler(req, res) {
       elapsedMs: Date.now() - cycleStartAt,
       results: results
     };
+    finalRecord.efferenceSweep = efferenceSweep;
     var foundTentative = false;
     for (var ai = 0; ai < auditFinal.length; ai++) {
       if (auditFinal[ai].at === cycleStartAt && auditFinal[ai].status === 'IN_FLIGHT') {
@@ -630,6 +808,7 @@ module.exports = async function handler(req, res) {
       budgetAccounting: 'conservative-estimate-per-provider-attempt',
       budgetRefusal: budgetRefusal,
       maxPerTick: MAX_FIRES_PER_TICK,
+      efferenceSweep: efferenceSweep,
       results: results
     }));
 

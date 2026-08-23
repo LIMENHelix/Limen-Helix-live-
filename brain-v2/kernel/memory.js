@@ -232,6 +232,12 @@ function proposeProcedure(mem, spec) {
 function observeProcedure(mem, candidateId, observation) {
   var c = mem.candidates.filter(function (x) { return x.id === candidateId; })[0];
   if (!c) return { recorded: false, why: 'unknown candidate ' + candidateId };
+  var duplicate = c.observations.filter(function (o) {
+    return observation.episodeId && o.episodeId === observation.episodeId;
+  })[0];
+  if (duplicate) {
+    return { recorded: false, duplicate: true, why: 'episode already observed', n: c.observations.length };
+  }
   c.observations.push(observation);
   mem.version++;
   return { recorded: true, n: c.observations.length };

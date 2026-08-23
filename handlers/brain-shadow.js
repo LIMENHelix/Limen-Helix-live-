@@ -203,7 +203,7 @@ module.exports = async function handler(req, res) {
       ok: true,
       runtime: RUNTIME.RUNTIME_VERSION,
       namespace: STORE.PREFIX,
-      note: 'shadow only: no outward actuation, no production brain state, no site consumer. ' +
+      note: 'shadow state remains prefix-confined. Finance, Science and Medicine declare one bounded artifact-generation consumer; no trade or publication is authorized here. ' +
             'Installed names execution; domainFunction reports what the cycle actually sensed, emitted and graded. ' +
             'Neither activates a relationship.',
       installed: installed,

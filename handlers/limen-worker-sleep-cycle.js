@@ -41,6 +41,8 @@
 
 var db = require('../lib/limen-db');
 var cronAuth = require('../lib/cron-auth');
+var autofireLearning = require('../lib/autofire-learning');
+var efferenceStore = require('../lib/autofire-efference-store');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 var AUTOQUEUE_KEY = 'autoqueue';
@@ -169,6 +171,11 @@ module.exports = async function handler(req, res) {
 
   try {
     var consolidation = await _consolidationPass();
+    // B12/B13 actuator learning is separate from the legacy transition audit
+    // above. Retry any durably logged outcome that did not finish learning, then
+    // run the actual brain-v2 consolidation mechanism in its OFFLINE state.
+    var outcomeLearning = await autofireLearning.sweepOutcomes(efferenceStore, 100);
+    var actuatorConsolidation = await autofireLearning.consolidateAll(efferenceStore, Date.now());
     var pruning = await _pruningPass();
     var audit = await _auditPass();
     var remediations = _remediationsFromAudit(audit, consolidation);
@@ -204,6 +211,8 @@ module.exports = async function handler(req, res) {
       generatedAt: Date.now(),
       elapsedMs: Date.now() - t0,
       consolidation: consolidation,
+      actuatorLearning: outcomeLearning,
+      actuatorConsolidation: actuatorConsolidation,
       pruning: pruning,
       audit: audit,
       remediations_emitted: remediations.length,

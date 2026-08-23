@@ -22,6 +22,7 @@ var db = require('../lib/limen-db');
 var policy = require('../lib/limen-policy');
 var cronAuth = require('../lib/cron-auth');
 var masterInbox = require('../assets/data/_master-inbox.json');
+var outwardPolicy = require('../brain-v2/core/outward-action-policy.js');
 
 var TRANSITION_LOG_KEY = 'phase_transitions';
 var AUTOQUEUE_KEY = 'autoqueue';
@@ -109,6 +110,7 @@ module.exports = async function handler(req, res) {
       var ns = (stressFresh && stressByCik[nsCik]) ? stressByCik[nsCik] : null;
       var rec = policy.recommendLane(t, ns);
       if (!rec) { skippedNoRec++; continue; }
+      if (!outwardPolicy.ownerFor(rec.lane, t.domain)) { skippedNoRec++; continue; }
       if (rec.networkStressApplied) stressApplied++;
 
       var dedupeKey = DEDUPE_PREFIX + t.cik + '_' + rec.lane;
@@ -160,6 +162,10 @@ module.exports = async function handler(req, res) {
       var lane = item && item.lane;
       var cik = String(item && item.portalCik || '').replace(/^0+/, '') || null;
       if (!item || item.status !== 'READY_TO_FIRE' || !ACTIVE_LANES.has(lane) || !cik || !item.artifactRef) {
+        masterInvalid++;
+        continue;
+      }
+      if (!outwardPolicy.ownerFor(lane, item.portalDomain)) {
         masterInvalid++;
         continue;
       }
