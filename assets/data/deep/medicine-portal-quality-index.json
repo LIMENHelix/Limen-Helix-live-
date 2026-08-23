@@ -1,14 +1,829 @@
 {
-  "generatedAt": null,
-  "admission": "Honest empty stub — medicine deep-portal pipeline has NOT run yet. NOT energy content.",
-  "classifier": "K2",
-  "sampledTotal": 0,
-  "sampleNote": "not sampled",
-  "byDepth": {},
-  "classificationTotals": {},
+  "generatedAt": "2026-08-23T21:57:30.408Z",
+  "classifier": "classifyPortalV2 (canonical)",
+  "domain": "medicine",
+  "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+  "sampledTotal": 139,
+  "sampleNote": "L0/L1 full; L2+ capped per depth; checked-in domain surface only",
+  "byDepth": {
+    "0": {
+      "MIXED_CONTEXT_ONLY": 1
+    },
+    "1": {
+      "MIXED_CONTEXT_ONLY": 23
+    },
+    "2": {
+      "DANGEROUS": 114,
+      "MIXED_CONTEXT_ONLY": 1
+    }
+  },
+  "classificationTotals": {
+    "MIXED_CONTEXT_ONLY": 25,
+    "DANGEROUS": 114
+  },
   "realPortalsFound": [],
   "realPortalCount": 0,
   "perDiagnosis": {},
-  "authoringCandidates": [],
-  "rules": "real = entity-bearing + citation-backed"
+  "authoringCandidates": [
+    {
+      "portalId": "medicine_addiction_behavioral",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_addiction_substance",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_addiction_withdrawal",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_anesthesia_airway",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_anesthesia_monitoring",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_anesthesia_regional",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_anesthesia_sedation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_cardimaging",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_cardrehab",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_electrophys",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_heartfailure",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_intervention",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_prevention",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_valvular",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_cardiology_vascular",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_differential",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_genomic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_laboratory",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_medimaging",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_pathology",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_pointofcare",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_screening",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_diagnostics_wearable",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_critical",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_disaster",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_observation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_prehospital",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_resuscitation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_toxicology",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_trauma",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_emergency_triage",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_geriatric_caregiver",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_geriatric_hospice",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_geriatric_longterm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_geriatric_palliatve",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_geriatric_polypharm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_gutbrain_functional",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_gutbrain_microbiome",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_gutbrain_vagal",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_infectious_amr",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_infectious_epidem",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_infectious_outbreak",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_infectious_pandemic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_infectious_tropical",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_medquality_accredit",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_medquality_credential",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_medquality_qi",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_medquality_rca",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_medresearch_biobank",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_medresearch_biostat",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_medresearch_precision",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_metabolic_diabetes",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_metabolic_obesity",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_metabolic_thyroid",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_dementia",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_epilepsy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_headache",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_movement",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_neuroimmune",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_neuromuscular",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_neurooncology",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_neurology_stroke",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_cancergenetics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_cancerscreen",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_chemo",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_immunoonc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_radiation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_supportive",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_surgiconc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_oncology_targeted",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pathology_cytology",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pathology_hematol",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pathology_microbiol",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pathology_poct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_clinical",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_compounding",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_dispensing",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_formulation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_pharmacokinetics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_pharminformatics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_pharmreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_pharmacy_pharmtox",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_chronic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_geriatric",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_mentalhealth",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_pediatricprimary",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_prevention",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_screening",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_telehealth",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_primary_womenshealth",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychedelic_dissociative",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychedelic_entactogenic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychedelic_serotonergic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_anxiety",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_eating",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_mood",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_neurodevel",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_personality",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_psychotic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_sleep",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_psychiatry_substance",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_radiology_ultrasound",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_rehabilitation_prosthetic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_cardiac",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_general",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_minimally",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_neuro",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_orthopedic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_reconstructive",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_robotic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_surgery_transplant",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_telehealth_ehr",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_telehealth_interop",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "medicine_telehealth_mhealth",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    }
+  ],
+  "rules": "company names alone != real; evidence/cite without verifiable provenance = DANGEROUS; only REAL with provenance is evidence-eligible",
+  "admission": "NONE — classification only; authoring admission remains separate"
 }

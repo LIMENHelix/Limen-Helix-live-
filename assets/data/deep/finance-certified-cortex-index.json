@@ -1,22 +1,1026 @@
 {
-  "generatedAt": null,
+  "generatedAt": "2026-08-23T21:57:30.689Z",
   "builtFrom": [
-    "finance deep-portal tree (not yet built/analyzed)"
+    "finance checked-in domain surface",
+    "classifyPortalV2 (canonical)"
   ],
-  "rule": "K3 certified cortex — evidence only from curated external bundles; portals never evidence",
+  "rule": "Portal tree is navigation/context/authoring substrate only. No unreviewed portal is admitted as evidence.",
   "evidenceEligible": {
-    "externalBundles": []
+    "portals": [],
+    "externalBundles": [],
+    "portalNote": "external bundles require a separate domain-specific provenance review"
   },
-  "contextOnly": [],
+  "contextOnly": [
+    {
+      "portalId": "finance",
+      "depth": 0,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (71) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_accounting",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (5) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_bond",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (18) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_central",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (21) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_centralbank",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (8) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_commercial",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (18) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_compliance",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (14) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_derivatives",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_findata",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (5) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_fintech",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (2) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_forex",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_insurance",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_microfinance",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (31) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_private",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_reinsurance",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (8) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_sovereign",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (6) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_stock",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (18) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_venture",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "finance_wealthmgmt",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (19) but template treatments / no real provenance — context only"
+      ]
+    }
+  ],
   "blockedDangerous": {
-    "policy": "L2-L6 blocked from evidence/promptView/traversal",
-    "deepTreeTotal_L3toL6": 0,
+    "policy": "DANGEROUS/SYNTHETIC blocked from evidence and bundle build by default",
     "sampled": {
-      "DANGEROUS": 0
+      "MIXED_CONTEXT_ONLY": 19,
+      "DANGEROUS": 121
     }
   },
-  "needsRehydration": [],
+  "needsRehydration": [
+    {
+      "portalId": "finance_corporatefin",
+      "depth": 1,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_accttech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_auditstd",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_costacct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_finacct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_forensic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_intlctrl",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_mgmtacct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_accounting_taxacct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_corporate",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_government",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_highyield",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_municipal",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_rating",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_structured",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_trading",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_bond_yield",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_cbcommunication",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_cbindependence",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_currency",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_payment",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_policy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_rates",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_reserves",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_central_supervision",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_banksup",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_cbcomm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_currency",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_digcurr",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_finstab",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_lolr",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_macropru",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_monpol",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_paysys",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_centralbank_resmgmt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_bankcompliance",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_banktech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_deposits",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_lending",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_regulation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_risk",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_tradefinance",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_commercial_treasury",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_amlcompl",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_compgov",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_comptech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_dataprtfn",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_intaudit",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_kycproc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_mktcond",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_regchange",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_regrpt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_compliance_sanctcompl",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_capstruct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_corpval",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_divpolicy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_finplan",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_ipo",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_manda",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_privplace",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_restruct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_treasury",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_corporatefin_workcap",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_clearing",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_credit",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_derivreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_derivrisk",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_exotic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_futures",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_options",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_derivatives_swaps",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_altdata",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_credanlt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_datagov",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_datavend",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_esgdata",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_finai",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_finmodel",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_mktdata",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_portanlt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_findata_riskanlt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_apibank",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_blkfin",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_digbank",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_insrtech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_lendplat",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_neobank",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_openbank",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_payinnov",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_regtech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_fintech_roboadv",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_algofx",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_carry",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_cbintervention",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_emergingfx",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_forward",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_fxoptions",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_fxregulation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_forex_spot",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_actuarial",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_claims",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_health",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_insreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_insurtech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_life",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_property",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_insurance_reinsurance",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_agentbnk",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_cdfi",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_credunion",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_finlit",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_impmeas",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_microcrd",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_microins",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_microsav",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_mobmoney",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_microfinance_socperf",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_private_distressed",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_private_fund",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_private_growth",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "finance_private_infrape",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    }
+  ],
   "perDiagnosis": {},
   "consumedByRuntime": false,
-  "admission": "Honest empty stub at energy schema — finance deep-portal authoring/certification pipeline has NOT run yet. NOT energy content."
+  "admission": "NONE applied — descriptive index only"
 }
