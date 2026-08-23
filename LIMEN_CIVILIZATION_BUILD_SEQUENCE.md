@@ -201,6 +201,15 @@ consumption; it explains the distinction between “the deep tree has content”
 authoring queue has reviewed work.” The 19 empty authoring queues remain explicit
 admission/abstention stubs, not evidence that their deep trees are empty.
 
+A live read of `/api/domain-snapshot` on 2026-08-23 (snapshot
+`1787498917092-240`) found all 20 runtime keys present, 245 live sources, 30 reported
+fallbacks, and 99 sources carrying headline/text fields. It found 258 source entries
+without `sourceUpdatedAt`; this is a provenance/freshness gap, not evidence that those
+sources are current. Economy, Technology, and Finance carried no headline/text fields
+in this read. `scripts/audit-runtime-source-surface.js` repeats this check from the
+public endpoint or a saved snapshot and keeps generated numeric `signal` strings out
+of the semantic-text count.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
