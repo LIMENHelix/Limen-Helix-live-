@@ -179,7 +179,7 @@ Every entry must carry:
   "cik": "<10-digit zero-padded SEC CIK if available, null otherwise>",
   "slug": "<lowercase_underscore_slug>",
   "neuralRole": "<DMN | Salience | PFC | Motor | Sensory | Limbic | Peer>",
-  "brainNodeId": "<one of 124 LIMEN canonical node IDs — see default palette below>",
+  "brainNodeId": "<one of 123 LIMEN canonical node IDs — see default palette below>",
   "brainNodeRole": "<descriptive role label tied to the brain node's business binding>",
   "relationshipNote": "<2-4 sentences with: named programs / contract specifics / % market share / historical pivots / regulatory actions / distinguishing facts. NO GENERIC PROSE. Walmart-grade specificity. If the specific is unknown, mark inline [DATA_NEEDED: <field>].>",
   "confidence": "high | medium | low",

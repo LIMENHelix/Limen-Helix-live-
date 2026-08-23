@@ -2,12 +2,12 @@
 /**
  * build-brain-node-business-mapping.js
  *
- * Joins the 124-node canonical taxonomy (assets/data/brain-node-domains.json)
+ * Joins the 123-node canonical taxonomy (assets/data/brain-node-domains.json)
  * with the 111-directory's rich per-node neuroscience info (_node_directory.json),
  * emitting assets/data/brain-node-business-mapping.json — the authoring reference
  * portal authors consult when binding a company to a brainNodeId.
  *
- * The 124-taxonomy stays canonical for what node IDs exist. This artifact adds:
+ * The 123-node taxonomy stays canonical for what node IDs exist. This artifact adds:
  *   - region (full anatomical name)
  *   - network (DMN / Salience / Executive / Limbic / ...)
  *   - phase (P-numbers from the 111-directory's phase model)
@@ -15,7 +15,7 @@
  *   - dysregulation (hyperactive / hypoactive patterns)
  *   - business (industries that typically bind to this node)
  *   - source ("111-directory" | "draft" | "synthesized")
- *   - domainBindings (existing per-domain role assignments from 124-taxonomy)
+ *   - domainBindings (existing per-domain role assignments from the 123-node taxonomy)
  *
  * Per feedback memory "ask if unsure when binding a company to a brain node":
  * this artifact answers WHAT-INDUSTRIES-MAP-TO-NODE (general, no ambiguity to ask).
@@ -353,7 +353,7 @@ const DRAFTS = {
     business: 'See NAcc.' },
 };
 
-// Manual normalization for keys that exist in 124-taxonomy but differ only in
+// Manual normalization for keys that exist in the 123-node taxonomy but differ only in
 // case from the 111-directory. Maps taxonomyId -> directoryId.
 const CASE_NORMALIZE = {
   dlPFC: 'DLPFC',
