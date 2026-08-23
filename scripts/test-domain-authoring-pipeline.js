@@ -1,0 +1,22 @@
+'use strict';
+var assert = require('assert');
+var fs = require('fs');
+var os = require('os');
+var path = require('path');
+var PIPE = require('../lib/domain-authoring-pipeline.js');
+var root = fs.mkdtempSync(path.join(os.tmpdir(), 'limen-domain-pipeline-'));
+function write(name, value) { fs.writeFileSync(path.join(root, name), JSON.stringify(value)); }
+write('science_root.json', { activations: [{ treatments: [{ label: 'Measured observation', cite: 'https://example.test/source' }], companies: [{ ticker: 'SCI' }] }] });
+write('science_branch_thin.json', { activations: [{ treatments: [{ label: 'Assess progress' }] }] });
+write('science_branch_fake.json', { activations: [{ treatments: [{ label: 'Implement governance', evidence: 'A', cite: 'DOI 1' }] }] });
+var r = PIPE.build('science', root, 120);
+assert.strictEqual(r.quality.domain, 'science');
+assert.strictEqual(r.quality.sampledTotal, 3);
+assert.strictEqual(r.quality.realPortalCount, 1);
+assert.strictEqual(r.quality.classificationTotals.REAL, 1);
+assert(r.quality.classificationTotals.NEEDS_AUTHORING >= 1 || r.quality.classificationTotals.SYNTHETIC >= 1);
+assert(r.queue.tasks.every(function (t) { return t.sourceHints === null && t.provenance.classifier === 'classifyPortalV2'; }));
+assert.strictEqual(r.cortex.consumedByRuntime, false);
+assert.strictEqual(r.cortex.evidenceEligible.externalBundles.length, 0);
+assert(r.queue.tasks.every(function (t) { return t.authoringType !== 'execution-input'; }));
+console.log('10/10 passed');

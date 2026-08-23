@@ -1,14 +1,731 @@
 {
-  "generatedAt": null,
-  "admission": "Honest empty stub — science deep-portal pipeline has NOT run yet. NOT energy content.",
-  "classifier": "K2",
-  "sampledTotal": 0,
-  "sampleNote": "not sampled",
-  "byDepth": {},
-  "classificationTotals": {},
+  "generatedAt": "2026-08-23T21:57:29.789Z",
+  "classifier": "classifyPortalV2 (canonical)",
+  "domain": "science",
+  "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+  "sampledTotal": 121,
+  "sampleNote": "L0/L1 full; L2+ capped per depth; checked-in domain surface only",
+  "byDepth": {
+    "0": {
+      "MIXED_CONTEXT_ONLY": 1
+    },
+    "1": {
+      "MIXED_CONTEXT_ONLY": 19
+    },
+    "2": {
+      "DANGEROUS": 100,
+      "MIXED_CONTEXT_ONLY": 1
+    }
+  },
+  "classificationTotals": {
+    "MIXED_CONTEXT_ONLY": 21,
+    "DANGEROUS": 100
+  },
   "realPortalsFound": [],
   "realPortalCount": 0,
   "perDiagnosis": {},
-  "authoringCandidates": [],
-  "rules": "real = entity-bearing + citation-backed"
+  "authoringCandidates": [
+    {
+      "portalId": "science_citation_altmetric",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_citation_citanalysis",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_citation_databases",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_citation_manipulation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_citation_metrics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_citation_opencitations",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_citation_refmgmt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_citation_researchimpact",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_collaboration_coauthor",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_collaboration_interdisc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_computing_hpc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_computing_parallel",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_computing_simulation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_dataanalysis",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_datacollection",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_datagovernance",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_datasharing",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_datastorage",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_fair",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_integration",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_data_reproducibility",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_ethics_conflicts",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_ethics_misconduct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_ethics_vulnerable",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_computational",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_controls",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_expdesign",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_fieldwork",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_imaging",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_instruments",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_measurement",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_experimental_protocols",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_allocation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_career",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_fundmetrics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_grants",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_industryfunding",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_intlfunding",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_peerreview",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_funding_philanthropy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_exploratory",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_generation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_paradigm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_preregistration",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_scimodeling",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_synthesis",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_testing",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_hypothesis_theory",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_instruments_accel",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_instruments_chromat",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_instruments_microscopy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_instruments_sequencers",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_instruments_spectrosc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_instruments_telescopes",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_integrity_replicatn",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_integrity_reproduc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_integrity_retraction",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_integrity_whistleblo",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_biosafety",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_greenlab",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_labequipment",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_labinformatics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_labmgmt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_labquality",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_labsafety",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_laboratory_labtechniques",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_metrics_altmetrics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_metrics_bibliometr",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_openscience_preprints",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_editorial",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_reviewbias",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_reviewethics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_reviewinnov",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_reviewprocess",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_reviewquality",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_reviewreform",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_peer_timeliness",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_conferences",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_journals",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_monographs",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_openaccess",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_preprints",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_pubintegrity",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_pubmetrics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_publication_reprodpub",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_crisis",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_cultural",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_incentives",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_repinfra",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_repmethods",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_repstandards",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_reptools",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_replication_reptraining",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_translation_commerc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_translation_trl",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_workforce_diversity",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_workforce_mentorship",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_workforce_postdoc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_workforce_retention",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "science_workforce_worklife",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    }
+  ],
+  "rules": "company names alone != real; evidence/cite without verifiable provenance = DANGEROUS; only REAL with provenance is evidence-eligible",
+  "admission": "NONE — classification only; authoring admission remains separate"
 }

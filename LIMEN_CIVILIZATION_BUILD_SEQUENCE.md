@@ -137,12 +137,32 @@ an explicit abstention when it did not. Science, medicine, and finance are
 priority 1 because they are the first research/investment owners; this priority
 does not create content or release any outward action.
 
-Measured at the current checkout: 20 domain surfaces, 1 existing authoring
-queue (Energy, 156 tasks), and 19 open reconciliation admissions. The generated
+Measured at the current checkout before the priority-domain pipeline pass: 20
+domain surfaces, 1 existing authoring queue (Energy, 156 tasks), and 19 open
+reconciliation admissions. The generated
 artifact is `assets/data/deep/domain-authoring-reconciliation-queue.json`;
 `scripts/test-domain-authoring-reconciliation.js` passes 16/16. The next step
 is to run and review each priority domain's source-specific pipeline, not to
 copy Energy's task schema into them.
+
+### Job 3 subtask complete — reusable pipeline applied to priority owners
+
+`lib/domain-authoring-pipeline.js` now supplies the Energy-shaped structural
+contracts without importing Energy diagnoses, thresholds, or source hints.
+`scripts/build-domain-authoring-pipeline.cjs` applied it to the checked-in
+Science, Medicine, and Finance surfaces. The outputs remain classification and
+authoring admissions only: no portal is silently admitted as evidence, no
+content is fabricated, and `consumedByRuntime` remains false.
+
+Measured output: Science `121` sampled files / `121` tasks, Medicine `139` /
+`139`, and Finance `140` sampled files / `140` tasks (the Finance surface is
+larger than the per-depth sample cap). The queues are dominated by
+`DANGEROUS` authority-masquerading content plus `MIXED_CONTEXT_ONLY` company
+context, so every task retains a primary-source/provenance action. After this
+pass the reconciliation inventory is `4` populated domain queues (Energy,
+Science, Medicine, Finance) and `16` still-open admissions. The next step is
+source-specific review of these queues, followed by applying the same reusable
+structure to the remaining domains.
 
 ### Job 3 subtask complete — aggregate/discovery reconciliation
 
