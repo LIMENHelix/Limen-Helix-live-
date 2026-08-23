@@ -362,6 +362,26 @@ money, or alter the six-identity/pathway gates. B11/B14 stay open until that bri
 has a failure test, restart test, and an outcome trace that is independent of the
 originating domain observation.
 
+### Job 5 subtask complete — sandbox motor bridge
+
+`brain-v2/core/sandbox-motor-bridge.js` and
+`brain-v2/test/sandbox-motor-bridge.js` now provide that rehearsal boundary. The
+bridge accepts only the versioned Civilization handoff and the two active lanes
+(`investments`, `research-papers`); it persists a command receipt before returning
+the command, requires an explicitly labelled `sandbox-counterfactual` result, and
+persists the outcome before applying a supervised B14 update. Its injected store
+lets the test force a write failure, prove that no command exists after a failed
+receipt, reject a non-independent result, and round-trip the command/outcome/model
+state across restore. The test passes 18/18 assertions and the repository unit
+suite passes 87 tests with one documented external-corpus skip.
+
+This closes the **sandbox bridge subtask**, not the full B11/B14 gate. The module is
+not called by a cron, domain binder, production shadow runtime, broker, or paid
+provider. The remaining work is to connect a domain-selected handoff to this
+bridge inside the read-only 30-day sandbox and to record a separate outcome stream;
+only then can the system measure whether a domain command and its later result are
+actually linked without confusing simulation with the world.
+
 ## Job 6 — Run the full read-only civilization sandbox
 
 **Target window:** 2–4 weeks after Jobs 3–5  
