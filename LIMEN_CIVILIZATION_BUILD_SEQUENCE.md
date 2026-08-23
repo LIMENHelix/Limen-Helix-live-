@@ -88,6 +88,12 @@ Use the three-part homology test: shared topology, shared failure mode, and shar
 - Every mapping is classified as conceptual, structurally supported, measured in software, or unresolved.
 - No analogy is used as a runtime safety claim without an engineering test.
 
+### Job 2 status — ledger v1 complete
+
+[`brain-v2/HOMOLOGY_LEDGER.md`](brain-v2/HOMOLOGY_LEDGER.md) now records B0–B17 across neural function, business equivalent,
+civilization equivalent, failure mode, intervention class, invariant, implementation location, and current classification. The ledger
+keeps conceptual homology separate from software behavior and names unresolved blocks instead of filling them with analogy.
+
 ## Job 3 — Repair the sensory substrate across all 20 domains
 
 **Target window:** 3–6 weeks  
@@ -102,6 +108,15 @@ Use the three-part homology test: shared topology, shared failure mode, and shar
 - Reconcile units, cadence, revisions, timestamps, and fallback behavior.
 - Measure replayability and source freshness for every domain.
 - Keep unsupported or unavailable providers abstaining instead of filling gaps with saturated constants.
+
+### Job 3 initial audit — measured before implementation
+
+`node scripts/audit-authoring-queues.js` measured 20/20 queue files present, but only Energy populated (`156` tasks, generated
+`static-2026-06-18`); the other 19 contain `0` tasks. All 20 domain aggregate files exist. The deep JSON surface is not uniform:
+Agriculture has 4 domain-prefixed deep files, Energy 10, and the other domains 9 each in this checkout. Empty queues are not evidence
+that those domains have nothing to author; several explicitly say their deep-portal pipeline has not run. The next implementation step
+is a domain-agnostic, read-only queue builder that derives tasks from each domain's own corpus and preserves an explicit abstention
+when a source or field is unavailable. Energy's queue schema will not be copied as if it were universal.
 
 ### Gate
 
@@ -208,4 +223,5 @@ Only after research and finance are reliable, add revenue/publication flows, com
 
 ## Execution rule
 
-The next active job is **Job 1**. We do not start Job 2 until Job 1's gate is recorded in this document, and we do not authorize real-money activity until Jobs 1–7 are complete.
+The next active job is **Job 3**. Jobs 1 and 2 are recorded complete in this document. Job 3 begins with a read-only substrate audit;
+we do not authorize real-money activity until Jobs 1–7 are complete.
