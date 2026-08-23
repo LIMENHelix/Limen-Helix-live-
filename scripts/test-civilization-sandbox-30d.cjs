@@ -8,6 +8,7 @@
  */
 
 const BR = require('../brain-v2/core/sandbox-motor-bridge.js');
+const HANDOFF = require('../brain-v2/core/sandbox-domain-handoff.js');
 
 const DOMAINS = [
   'economy','energy','environment','health','technology','research','supplyChain',
@@ -32,16 +33,21 @@ function laneFor(domain) {
   return INVESTMENT.has(domain) ? 'investments' : RESEARCH.has(domain) ? 'research-papers' : null;
 }
 
-function handoff(domain, lane, day) {
+function domainPacket(domain) {
   return {
-    schemaVersion: 'civilization-handoff/1.0',
-    opportunityId: 'sandbox-' + domain + '-' + day,
-    lane: lane,
-    sourceDomains: [domain],
-    sourceDiagnoses: [{ domain: domain, id: 'DX_' + domain.toUpperCase(), summary: 'sandbox-only fixture' }],
-    sourceTreatments: [{ domain: domain, treatment: { id: 'TX_' + domain.toUpperCase() } }],
-    motorClaim: { variable: 'sandbox:' + lane + ':delta', magnitude: 1 }
+    schemaVersion: HANDOFF.PACKET_SCHEMA,
+    domainId: domain,
+    sourceType: 'domain-brain',
+    activeDiagnoses: [{ id: 'DX_' + domain.toUpperCase(), label: domain + ' sandbox diagnosis', summary: 'sandbox-only fixture', active: true, relevance: 0.9 }],
+    treatments: [{ id: 'TX_' + domain.toUpperCase(), treatment: { id: 'TX_' + domain.toUpperCase(), label: domain + ' sandbox treatment' } }]
   };
+}
+
+function handoff(domain, lane, day, at) {
+  return HANDOFF.fromPacket(domainPacket(domain), {
+    id: 'sandbox-' + domain + '-' + day,
+    motorClaim: { variable: 'sandbox:' + lane + ':delta', magnitude: 1 }
+  }, lane, at);
 }
 
 const store = new Store();
@@ -55,7 +61,7 @@ for (let day = 0; day < DAYS; day++) {
       continue;
     }
     const at = START + day * DAY;
-    const cmd = BR.submit(bridge, handoff(domain, lane, day), at);
+    const cmd = BR.submit(bridge, handoff(domain, lane, day, at), at);
     const result = BR.complete(bridge, cmd.commandId, {
       outcomeId: 'sandbox-result-' + domain + '-' + day,
       sourceType: 'sandbox-counterfactual',

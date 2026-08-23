@@ -439,10 +439,21 @@ suite passes 87 tests with one documented external-corpus skip.
 
 This closes the **sandbox bridge subtask**, not the full B11/B14 gate. The module is
 not called by a cron, domain binder, production shadow runtime, broker, or paid
-provider. The remaining work is to connect a domain-selected handoff to this
-bridge inside the read-only 30-day sandbox and to record a separate outcome stream;
-only then can the system measure whether a domain command and its later result are
-actually linked without confusing simulation with the world.
+provider. The domain-selected handoff is now connected inside the read-only
+30-day sandbox; the remaining B11/B14 requirement is an independently persisted
+outcome stream from outside the originating domain observation, without confusing
+simulation with the world.
+
+### Job 5 subtask complete — domain packet into sandbox bridge
+
+`brain-v2/core/sandbox-domain-handoff.js` now performs that domain-selection seam
+for the rehearsal. It accepts only `civilization-domain-packet/1.0`, carries
+diagnosis and treatment identity into `civilization-handoff/1.0`, requires an
+active research/investment lane and a motor claim, and refuses empty or
+unversioned packets. `brain-v2/test/sandbox-domain-handoff.js` passes 11/11;
+the 30-day rehearsal now uses this adapter rather than constructing handoffs
+directly. This is still sandbox-only and does not close the independent-world-
+outcome requirement for B11/B14.
 
 ### Job 5 measurement pass — B9, B13, and B17
 
@@ -493,7 +504,8 @@ Run a 30-day rehearsal across all domains and lanes. Record every proposed actio
 ### Job 6 subtask complete — 30-day motor-bridge rehearsal
 
 `node scripts/test-civilization-sandbox-30d.cjs` ran a deterministic 30-day,
-20-domain rehearsal through the sandbox bridge. Ten domains routed to the two
+20-domain rehearsal through the versioned domain-packet adapter and sandbox
+bridge. Ten domains routed to the two
 active lanes and ten explicitly abstained: `300` simulated commands persisted,
 `300` sandbox outcomes persisted, `0` pending, and `284` commands reached trusted
 forward-model reafference after the eight-observation threshold. The rehearsal
