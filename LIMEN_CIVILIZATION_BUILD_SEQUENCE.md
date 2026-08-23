@@ -566,11 +566,16 @@ The fixture summarizer passes 7/7. The local repair keeps `topPriority` as a
 25-item presentation surface, exports a complete `readyForAutofire` pool, admits
 it under the existing 200-entry queue and 10-per-tick cap, and evicts only old
 terminal records when space is needed. Pending work is never evicted. The
-focused feeder suite passes 11/11 and the lane suite remains 8/8. This closes
-the queue-input diagnosis and local repair; the production Job 6 gate remains
-open until that branch is deployed and a read-only cycle shows new candidates
-being admitted and evaluated. No manual trigger or production mutation was
-used.
+focused feeder suite passes 11/11 and the lane suite remains 8/8. The repair
+was merged as PR #69 (`f87aebfc`) and then instrumented with a diagnostic-only
+admission log in PR #70 (`3c420ee6`). On the first post-deploy admission tick,
+production measured `readyTotal: 759`, `readyPool: 759`, `admitted: 10`,
+`deduped: 27`, `invalid: 22`, and queue size `45`; no manual trigger or
+production mutation was used. The next natural autofire cycle evaluated `20`
+pending entries, fired `0`, spent `$0`, and held the command with
+`brain_b10_did_not_release_command`. Thus queue input is now flowing; Job 6's
+remaining motor-loop blocker is the domain-to-B10 release bridge, not feeder
+starvation.
 
 ## Job 7 — Paper-operation pilot
 
@@ -629,8 +634,9 @@ push, PR, merge, and deploy remain separate owner decisions.
 
 The next active implementation queue is the remaining Job 3 substrate work (source
 identity/replayability and the 19 domain authoring admissions), followed by wiring
-the sandbox bridge to a real second-domain edge for B9. The queue-input starvation
-repair is now local and awaiting its normal review/deploy path. One source-identity repair
+the sandbox bridge to a real second-domain edge for B9 and the domain-to-B10
+release bridge now identified in production. Queue admission is deployed and
+measured; it must not be counted as firing or revenue. One source-identity repair
 (Massive Crude aggregate identity) is complete; the remaining gaps require
 adapter-specific measurements or explicit abstentions. This ordering is deliberate:
 the bridge can rehearse command/outcome mechanics, but it must not hide missing
