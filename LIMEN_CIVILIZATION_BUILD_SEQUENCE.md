@@ -210,6 +210,14 @@ in this read. `scripts/audit-runtime-source-surface.js` repeats this check from 
 public endpoint or a saved snapshot and keeps generated numeric `signal` strings out
 of the semantic-text count.
 
+The read-only `scripts/audit-title-transport-production.js` sweep then queried
+`/api/feed-record?titles=<runtimeKey>&n=500` for all 20 keys. All endpoints returned
+successfully; 18 had persisted title sets, while Economy and Finance had zero because
+their current source surfaces carry no headline sets. Technology had one set. The
+bounded read returned 7,052 sets / 35,260 title items, and all 35,260 carried URL,
+publication-time, and publisher fields. These are observed-at-cap counts, not total
+retention or proof that titles are already consumed by candidate creation or diagnosis.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
