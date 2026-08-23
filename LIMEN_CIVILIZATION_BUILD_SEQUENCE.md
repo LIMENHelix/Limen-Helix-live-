@@ -283,8 +283,20 @@ The domain pipeline now distinguishes `IDENTIFIER_PRESENT_UNRESOLVED` from
 `NO_VERIFIABLE_PROVENANCE`; URLs/source arrays remain
 `URL_OR_SOURCES_PRESENT_UNVERIFIED`. No identifier is fetched, trusted,
 syndication-independent, converted into a diagnosis, or supplied to brain-v2 by
-this work. The next action is explicit resolution and provenance review of these
-22 identifiers, not another queue-population pass.
+this work.
+
+### Job 3 subtask complete — DOI identity resolution, metadata only
+
+`scripts/resolve-primary-source-identifiers.cjs --write` resolved all `22/22`
+DOIs through the Crossref REST metadata registry and wrote
+`assets/data/deep/primary-source-resolution.json`. Twenty resolved directly and
+two legacy JAMA DOI aliases resolved through Crossref redirects; the original
+identifier and redirect chain are retained. The result is explicitly
+`RESOLVED_METADATA_ONLY`, not source-content verification: no abstract, result,
+claim, numeric value, independence verdict, diagnosis, stress, or runtime input
+is created. The next gate is human/source review of publisher identity, domain
+relevance, version/revision behavior, and syndication independence before any
+evidence admission.
 
 ### Job 3 subtask complete — diagnosis-surface non-inflation audit
 
