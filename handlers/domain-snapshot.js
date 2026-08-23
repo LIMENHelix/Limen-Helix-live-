@@ -2050,7 +2050,7 @@ async function fetchFREDGasPrice() {
     if (isNaN(val) || data.observations[0].value === '.') { trackHealth('FRED Gas Price', 'economy', 'fallback', 'non-numeric'); return null; }
     var stress = clamp((val - 2.50) / 2.50, 0, 1);
     trackHealth('FRED Gas Price', 'economy', 'live', null, val);
-    return { value: val, label: 'gas $' + val.toFixed(2) + '/gal', stress: round(stress), signal: 'gas price $' + val.toFixed(2), name: 'FRED Gas Price', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: val, label: 'gas $' + val.toFixed(2) + '/gal', stress: round(stress), signal: 'gas price $' + val.toFixed(2), name: 'FRED Gas Price', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.observations[0].date || null };
   } catch (e) { trackHealth('FRED Gas Price', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -2066,7 +2066,7 @@ async function fetchFREDFoodCPI() {
     var pctChange = prev > 0 ? round(((curr - prev) / prev) * 100) : 0;
     var stress = clamp(Math.abs(pctChange) / 0.8, 0, 1);
     trackHealth('FRED Food CPI', 'economy', 'live', null, curr);
-    return { value: pctChange, label: 'food CPI ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: round(stress), signal: 'food price index', name: 'FRED Food CPI', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: pctChange, label: 'food CPI ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: round(stress), signal: 'food price index', name: 'FRED Food CPI', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.observations[0].date || null };
   } catch (e) { trackHealth('FRED Food CPI', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -2080,7 +2080,7 @@ async function fetchFREDConsumerSentiment() {
     if (isNaN(val) || data.observations[0].value === '.') { trackHealth('FRED Consumer Sentiment', 'economy', 'fallback', 'non-numeric'); return null; }
     var stress = clamp((100 - val) / 50, 0, 1);
     trackHealth('FRED Consumer Sentiment', 'economy', 'live', null, val);
-    return { value: val, label: 'consumer sentiment ' + val.toFixed(1), stress: round(stress), signal: 'consumer sentiment index', name: 'FRED Consumer Sentiment', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: val, label: 'consumer sentiment ' + val.toFixed(1), stress: round(stress), signal: 'consumer sentiment index', name: 'FRED Consumer Sentiment', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.observations[0].date || null };
   } catch (e) { trackHealth('FRED Consumer Sentiment', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -2772,7 +2772,7 @@ async function fetchFREDConstructionSpending() {
     if (isNaN(curr) || data.observations[0].value === '.') { trackHealth('FRED Construction Spending', 'infrastructure', 'fallback', 'non-numeric'); return null; }
     var pctChange = prev > 0 ? round(((curr - prev) / prev) * 100) : 0;
     trackHealth('FRED Construction Spending', 'infrastructure', 'live', null, curr);
-    return { value: pctChange, label: 'construction spending ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: clamp(Math.abs(pctChange) / 10, 0, 1), signal: 'construction spending index', name: 'FRED Construction Spending', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: pctChange, label: 'construction spending ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: clamp(Math.abs(pctChange) / 10, 0, 1), signal: 'construction spending index', name: 'FRED Construction Spending', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.observations[0].date || null };
   } catch (e) { trackHealth('FRED Construction Spending', 'infrastructure', 'fallback', e.message); return null; }
 }
 
@@ -2789,7 +2789,7 @@ async function fetchFREDTransportationIndex() {
     if (isNaN(curr) || data.observations[0].value === '.') { trackHealth('FRED Transportation Index', 'infrastructure', 'fallback', 'non-numeric'); return null; }
     var pctChange = prev > 0 ? round(((curr - prev) / prev) * 100) : 0;
     trackHealth('FRED Transportation Index', 'infrastructure', 'live', null, curr);
-    return { value: pctChange, label: 'freight transport ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: clamp(Math.abs(pctChange) / 8, 0, 1), signal: 'transport freight index', name: 'FRED Transportation Index', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: pctChange, label: 'freight transport ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: clamp(Math.abs(pctChange) / 8, 0, 1), signal: 'transport freight index', name: 'FRED Transportation Index', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.observations[0].date || null };
   } catch (e) { trackHealth('FRED Transportation Index', 'infrastructure', 'fallback', e.message); return null; }
 }
 
@@ -2806,7 +2806,7 @@ async function fetchFREDFederalInvestment() {
     if (isNaN(curr) || data.observations[0].value === '.') { trackHealth('FRED Federal Investment', 'infrastructure', 'fallback', 'non-numeric'); return null; }
     var pctChange = prev > 0 ? round(((curr - prev) / prev) * 100) : 0;
     trackHealth('FRED Federal Investment', 'infrastructure', 'live', null, curr);
-    return { value: pctChange, label: 'federal spending ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: clamp(Math.abs(pctChange) / 12, 0, 1), signal: 'federal infrastructure spending', name: 'FRED Federal Investment', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: pctChange, label: 'federal spending ' + (pctChange >= 0 ? '+' : '') + pctChange + '%', stress: clamp(Math.abs(pctChange) / 12, 0, 1), signal: 'federal infrastructure spending', name: 'FRED Federal Investment', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.observations[0].date || null };
   } catch (e) { trackHealth('FRED Federal Investment', 'infrastructure', 'fallback', e.message); return null; }
 }
 
@@ -4614,7 +4614,7 @@ async function fetchWorldBankGDPGrowth() {
     // Stress: growth < 1% triggers; growth < 0 = recession.
     var stress = clamp((2 - growth) / 4, 0, 1);
     trackHealth('World Bank GDP Growth', 'economy', 'live', null, growth);
-    return { value: growth, label: 'US GDP ' + (growth >= 0 ? '+' : '') + growth.toFixed(2) + '%', stress: round(stress), signal: 'US GDP growth ' + growth.toFixed(2) + '% YoY (year ' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: growth, label: 'US GDP ' + (growth >= 0 ? '+' : '') + growth.toFixed(2) + '%', stress: round(stress), signal: 'US GDP growth ' + growth.toFixed(2) + '% YoY (year ' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rows[0].date || null };
   } catch (e) { trackHealth('World Bank GDP Growth', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -4632,7 +4632,7 @@ async function fetchWorldBankInflation() {
     // Stress: > 2% (Fed target) triggers; > 4% = sticky.
     var stress = clamp((infl - 2) / 4, 0, 1);
     trackHealth('World Bank Inflation', 'economy', 'live', null, infl);
-    return { value: infl, label: 'US CPI ' + infl.toFixed(2) + '% YoY', stress: round(stress), signal: 'US CPI inflation ' + infl.toFixed(2) + '% YoY (year ' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: infl, label: 'US CPI ' + infl.toFixed(2) + '% YoY', stress: round(stress), signal: 'US CPI inflation ' + infl.toFixed(2) + '% YoY (year ' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rows[0].date || null };
   } catch (e) { trackHealth('World Bank Inflation', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -5104,7 +5104,7 @@ async function fetchWorldBankFertility() {
     var stress = clamp((2.1 - current) / 0.7, 0, 1);
     trackHealth('World Bank Fertility', 'population', 'live', null, current);
     var deltaPct = !isNaN(prior) && prior > 0 ? ((current - prior) / prior) * 100 : 0;
-    return { value: current, label: 'TFR ' + current.toFixed(2) + ' (year ' + rows[0].date + ')', stress: round(stress), signal: 'US total fertility rate ' + current.toFixed(2) + ' births/woman (' + rows[0].date + ', ' + (deltaPct >= 0 ? '+' : '') + deltaPct.toFixed(1) + '% YoY)', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: current, label: 'TFR ' + current.toFixed(2) + ' (year ' + rows[0].date + ')', stress: round(stress), signal: 'US total fertility rate ' + current.toFixed(2) + ' births/woman (' + rows[0].date + ', ' + (deltaPct >= 0 ? '+' : '') + deltaPct.toFixed(1) + '% YoY)', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rows[0].date || null };
   } catch (e) { trackHealth('World Bank Fertility', 'population', 'fallback', e.message); return null; }
 }
 
@@ -5123,7 +5123,7 @@ async function fetchWorldBankTertiary() {
     // Stress: below 80% gross enrollment ratio = access stress; below 70% = decline.
     var stress = clamp((85 - pct) / 20, 0, 1);
     trackHealth('World Bank Tertiary', 'education', 'live', null, pct);
-    return { value: pct, label: 'US tertiary enrollment ' + pct.toFixed(1) + '% gross (year ' + rows[0].date + ')', stress: round(stress), signal: 'US gross tertiary enrollment ratio ' + pct.toFixed(1) + '% (' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: pct, label: 'US tertiary enrollment ' + pct.toFixed(1) + '% gross (year ' + rows[0].date + ')', stress: round(stress), signal: 'US gross tertiary enrollment ratio ' + pct.toFixed(1) + '% (' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rows[0].date || null };
   } catch (e) { trackHealth('World Bank Tertiary', 'education', 'fallback', e.message); return null; }
 }
 
@@ -5142,7 +5142,7 @@ async function fetchWorldBankRD() {
     // Stress: <2.5% R&D/GDP → funding stress; >3.5% healthy
     var stress = clamp((3.0 - pct) / 1.5, 0, 1);
     trackHealth('World Bank R&D', 'research', 'live', null, pct);
-    return { value: pct, label: 'US R&D ' + pct.toFixed(2) + '% GDP (year ' + rows[0].date + ')', stress: round(stress), signal: 'US research and development expenditure ' + pct.toFixed(2) + '% of GDP (' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: pct, label: 'US R&D ' + pct.toFixed(2) + '% GDP (year ' + rows[0].date + ')', stress: round(stress), signal: 'US research and development expenditure ' + pct.toFixed(2) + '% of GDP (' + rows[0].date + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rows[0].date || null };
   } catch (e) { trackHealth('World Bank R&D', 'research', 'fallback', e.message); return null; }
 }
 
@@ -6138,6 +6138,17 @@ module.exports._fetchAlphaVantage = fetchAlphaVantage;
 module.exports._fetchMassiveCrudeOil = fetchMassiveCrudeOil;
 module.exports._fetchMassiveSPY = fetchMassiveSPY;
 module.exports._fetchRSS = _fetchRSS;
+module.exports._fetchFREDGasPrice = fetchFREDGasPrice;
+module.exports._fetchFREDFoodCPI = fetchFREDFoodCPI;
+module.exports._fetchFREDConsumerSentiment = fetchFREDConsumerSentiment;
+module.exports._fetchFREDConstructionSpending = fetchFREDConstructionSpending;
+module.exports._fetchFREDTransportationIndex = fetchFREDTransportationIndex;
+module.exports._fetchFREDFederalInvestment = fetchFREDFederalInvestment;
+module.exports._fetchWorldBankGDPGrowth = fetchWorldBankGDPGrowth;
+module.exports._fetchWorldBankInflation = fetchWorldBankInflation;
+module.exports._fetchWorldBankFertility = fetchWorldBankFertility;
+module.exports._fetchWorldBankTertiary = fetchWorldBankTertiary;
+module.exports._fetchWorldBankRD = fetchWorldBankRD;
 module.exports._fetchArXivCS = fetchArXivCS;
 module.exports._fetchArXivAll = fetchArXivAll;
 module.exports._fetchNOAAAlerts = fetchNOAAAlerts;
