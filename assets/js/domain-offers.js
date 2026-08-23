@@ -31,11 +31,13 @@
 
   var PRICE = { rhythm: '$4 / mo', trend: '$6 / mo', event: '$8 / mo' };
 
-  // phase -> alert shape, from the arc's holding/breaking/driving grammar (lib/phase-spec.js)
-  var SHAPE = {
-    p1: 'event', p2: 'rhythm', p3: 'event', p4: 'trend', p5: 'trend',
-    p6: 'rhythm', p7: 'event', p8: 'trend', p9: 'event', p10: 'rhythm'
-  };
+  // phase -> alert shape, from the canonical generated phase registry.
+  // domain-offers.js must not grow a second phase grammar.
+  var REGISTRY = window.LIMEN_PHASE_REGISTRY;
+  if (!REGISTRY || !REGISTRY.shape) {
+    throw new Error('LIMEN phase registry is required before domain offers');
+  }
+  var SHAPE = REGISTRY.shape;
 
   var OFFERS = {
 
