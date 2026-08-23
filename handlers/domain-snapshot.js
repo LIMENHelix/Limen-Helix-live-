@@ -5571,7 +5571,12 @@ async function fetchMassiveCrudeOil() {
     // Stress: crude above $80 = elevated, above $100 = high
     var stress = clamp((price - 60) / 50, 0, 1);
     trackHealth('Massive Crude Oil', 'energy', 'live', null, price);
-    return { value: price, label: 'crude $' + price.toFixed(2), stress: round(stress), signal: 'crude oil $' + price.toFixed(2) + '/bbl', updated: Date.now(), fetchedAt: Date.now() };
+    // Polygon's aggregate timestamp is the publisher's observation window. Preserve it
+    // exactly as for Massive SPY; never substitute our fetch clock when it is absent.
+    var id = _polygonAggregateIdentity(r, 'CL');
+    var out = { value: price, label: 'crude $' + price.toFixed(2), stress: round(stress), signal: 'crude oil $' + price.toFixed(2) + '/bbl', updated: Date.now(), fetchedAt: Date.now() };
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Massive Crude Oil', 'energy', 'fallback', e.message); return null; }
 }
 
@@ -6090,4 +6095,5 @@ module.exports._polygonAggregateIdentity = _polygonAggregateIdentity;
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
 module.exports._fetchFinnhub = fetchFinnhub;
 module.exports._fetchAlphaVantage = fetchAlphaVantage;
+module.exports._fetchMassiveCrudeOil = fetchMassiveCrudeOil;
 module.exports._fetchMassiveSPY = fetchMassiveSPY;

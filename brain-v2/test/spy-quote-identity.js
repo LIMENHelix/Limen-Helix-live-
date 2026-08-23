@@ -33,6 +33,7 @@ var DS = require('../../handlers/domain-snapshot.js');
 var finnhub = DS._finnhubQuoteIdentity;
 var alpha = DS._alphaVantageQuoteIdentity;
 var polygon = DS._polygonAggregateIdentity;
+var crudeFetcher = DS._fetchMassiveCrudeOil;
 
 var failures = 0, tests = 0;
 function assert(name, cond, detail) {
@@ -232,6 +233,8 @@ console.log('');
                                                   results.avNone = await DS._fetchAlphaVantage();
       stub({ status: 'OK', results: [pg(1785900000000)] });  results.pgWith = await DS._fetchMassiveSPY();
       stub({ status: 'OK', results: [{ o: 748.1, c: 750.72 }] });  results.pgNone = await DS._fetchMassiveSPY();
+      stub({ status: 'OK', results: [{ T: 'CL', o: 72.1, c: 73.4, t: 1785900000000 }] }); results.crudeWith = await crudeFetcher();
+      stub({ status: 'OK', results: [{ T: 'CL', o: 72.1, c: 73.4 }] }); results.crudeNone = await crudeFetcher();
     } finally {
       global.fetch = realFetch;
       Object.keys(realEnv).forEach(function (k) {
@@ -248,6 +251,9 @@ console.log('');
     assert('massive returns a reading carrying the computed identity',
       results.pgWith && results.pgWith.sourceUpdatedAt === polygon(pg(1785900000000), 'SPY'),
       JSON.stringify(results.pgWith));
+    assert('massive crude returns a reading carrying the CL aggregate identity',
+      results.crudeWith && results.crudeWith.sourceUpdatedAt === polygon({ t: 1785900000000 }, 'CL'),
+      JSON.stringify(results.crudeWith));
 
     console.log('S7b: and when the upstream stamp is missing, the READING SURVIVES');
     assert('finnhub still reports the price, with no sourceUpdatedAt property',
@@ -259,6 +265,9 @@ console.log('');
     assert('massive still reports the price, with no sourceUpdatedAt property',
       results.pgNone && results.pgNone.value === 750.72 &&
       !('sourceUpdatedAt' in results.pgNone), JSON.stringify(results.pgNone));
+    assert('massive crude still reports the price when its aggregate stamp is absent',
+      results.crudeNone && results.crudeNone.value === 73.4 &&
+      !('sourceUpdatedAt' in results.crudeNone), JSON.stringify(results.crudeNone));
 
     assert('and the identity is never our own clock, on the real path either',
       [results.fhWith, results.avWith, results.pgWith].every(function (r) {

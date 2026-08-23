@@ -225,6 +225,23 @@ dated snapshot). The queue is read-only planning material: it derives no timesta
 stress, diagnosis, pathway, or activation. This closes the classification/abstention
 subtask, not the underlying adapter repairs.
 
+### Job 3 subtask complete — Massive Crude aggregate identity
+
+One adapter gap was safe to close because the upstream response already carries
+the aggregate-window timestamp used by the parallel Massive SPY adapter. The
+Massive Crude fetcher now preserves `results[0].t` as a Polygon aggregate
+identity for symbol `CL`; when that field is absent, the reading remains
+available but `sourceUpdatedAt` is omitted rather than replaced with the local
+fetch clock. This is a provenance repair only: it changes no value, stress,
+diagnosis, pathway, or activation decision.
+
+The real fetcher path is covered by the expanded mocked-provider test
+`brain-v2/test/spy-quote-identity.js` (47/47): stamped and unstamped Crude
+responses both exercise the handler wiring, and the unstamped case confirms
+that missing publisher identity is an explicit abstention. This closes one
+measured adapter gap; the remaining source-identity queue is not bulk-repaired
+by inference.
+
 ### Job 3 subtask complete — domain authoring admissions
 
 The previous audit correctly found one populated external-bundle queue (Energy,
@@ -524,6 +541,8 @@ push, PR, merge, and deploy remain separate owner decisions.
 
 The next active implementation queue is the remaining Job 3 substrate work (source
 identity/replayability and the 19 domain authoring admissions), followed by wiring
-the sandbox bridge to a real second-domain edge for B9. This ordering is deliberate:
+the sandbox bridge to a real second-domain edge for B9. One source-identity repair
+(Massive Crude aggregate identity) is complete; the remaining gaps require
+adapter-specific measurements or explicit abstentions. This ordering is deliberate:
 the bridge can rehearse command/outcome mechanics, but it must not hide missing
 domain inputs or turn conceptual homology into an operational claim.
