@@ -319,6 +319,49 @@ Execute in this order:
 
 Each loop must have runtime evidence, independent outcome resolution, persistence, and a negative/failure test. Wiring alone does not count as closure.
 
+### Job 5 measurement pass — B11/B14 status (2026-08-23)
+
+The current kernel was run against the committed 362-row Energy fixture with
+`node brain-v2/test/loop-acceptance.js`, and the full shadow-runtime suite was run
+with `node brain-v2/test/shadow-runtime.js`.
+
+What is actually present:
+
+- **B11 internal motor:** 231 executions in the real-loop acceptance run. The
+  actuator wrote `executed` only after a handler receipt, rejected dead listeners,
+  required an efference copy for variable-moving actions, and exercised separate
+  refractory and adaptation mechanisms. The shadow suite confirms that all five
+  wired effectors are internal, make no network call, and are persisted only as
+  per-cycle observations.
+- **B14 forward model:** eight efference copies and eight supervised updates were
+  produced in the acceptance run; the largest model reached `n=7` with a trust
+  threshold of `8`. Therefore the self-effect subtraction was **0 of 344**
+  resolutions. This is an abstention, not evidence that self-effect was absent.
+  The negative/lesion test removes copies, updates, and models while the loop still
+  runs, and restart tests preserve the forward-model state.
+- **Persistence:** shadow-runtime adversarial tests refuse missing Redis,
+  rejected writes, malformed responses, and failed read-back. The suite explicitly
+  notes that its transport tests use an injected in-memory test double; production
+  Redis behavior still requires a deployed operator read.
+
+What is not closed:
+
+1. No domain binder declares an outward consumer (`efferent: null` for all 20), so
+   B11 currently reaches only the five in-process attention/evidence effectors.
+2. The action outcomes are resolved against later recorded observations, not yet
+   against an independently persisted research/investment receipt stream.
+3. B14 has not crossed its trust gate on the available real fixture, so no trusted
+   reafference cancellation has been observed. The machinery is present and refuses
+   to guess; the claim “cancellation works” is not made.
+
+The next implementation is therefore a **sandbox-only research/investment motor
+bridge**: it must consume a versioned domain handoff, persist a simulated command
+receipt before producing a simulated result, persist an independent outcome record,
+and feed that record back to the forward model. It must not call a broker, spend
+money, or alter the six-identity/pathway gates. B11/B14 stay open until that bridge
+has a failure test, restart test, and an outcome trace that is independent of the
+originating domain observation.
+
 ## Job 6 — Run the full read-only civilization sandbox
 
 **Target window:** 2–4 weeks after Jobs 3–5  
