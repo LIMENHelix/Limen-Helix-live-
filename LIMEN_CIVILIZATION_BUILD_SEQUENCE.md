@@ -307,6 +307,21 @@ missing queue work visible and reproducible without claiming that generated
 directives are reviewed authoring tasks. The underlying 19 domain-specific source
 contracts still need review before any real task is created.
 
+### Job 3 subtask complete — aggregate treatment provenance reconciliation
+
+The existing read-only reconciliation was run against all 20 aggregate domain
+files and 115 split discovery-cell files. It found 10 concrete unmatched
+aggregate treatments: two in Defense, four in Finance, two in Religion, and two
+in Technology. Each is preserved in
+`assets/data/deep/aggregate-treatment-provenance-queue.json` with the missing
+exact-cell match and source provenance fields, a source hint not to infer from
+a similar treatment, and the required human action to locate the source or
+retire/demote the treatment. A regression test passes 8/8 assertions.
+
+This is a reconciliation queue, not a domain authoring queue, opportunity
+input, diagnosis, or execution input. The other 19 domain queues remain
+explicitly unpopulated until their source/authoring contracts are reviewed.
+
 The read-only `scripts/audit-title-transport-production.js` sweep then queried
 `/api/feed-record?titles=<runtimeKey>&n=500` for all 20 keys. All endpoints returned
 successfully; 18 had persisted title sets, while Economy and Finance had zero because
