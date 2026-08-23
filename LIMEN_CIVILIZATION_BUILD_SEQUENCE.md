@@ -272,12 +272,16 @@ research/investment lanes preserved their diagnosis and treatment identity throu
 the versioned handoff and `D3-A3.v3` artifact packet; the other 10 emitted explicit
 `ABSTAIN_NO_ACTIVE_LANE_AFFINITY` rows rather than being forced into an unrelated
 lane. This closes the field-survival subtask. Remaining Job 4 work is stale/missing
-field handling and race-condition tests around the browser event handoff. The same
-test caught and the adapter fixed one stale-state defect: `domain-brain-stale` was
+field handling and race-condition tests around the browser event handoff; those
+tests are now the completed subtask. The same test caught and the adapter fixed one
+stale-state defect: `domain-brain-stale` was
 being labeled correctly but did not receive the `STALE_BRAIN` audit warning because
 the warning branch only matched the non-stale source type. The corrected test now
 passes for 10 routed domains, 10 explicit lane abstentions, stale handling, and
-missing-domain handling; event-order/race behavior remains open.
+missing-domain handling. Its scheduler probe also passes: two rebuild requests
+coalesce to one timer and the rebuild consumes the latest shared slot, so the
+event-order/race subtask is now closed for this browser adapter. A server-side
+persisted handoff and independent outcome consumer are still later work.
 
 ### Work
 

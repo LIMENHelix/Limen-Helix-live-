@@ -61,8 +61,16 @@ function slotFor(domain) {
 const ctx = L.makeContext({ seed: 17 });
 ctx.window.__cap = {};
 ctx.window.LIMENDomains = {};
+const eventHandlers = {};
+const pendingTimers = [];
+ctx.window.addEventListener = (name, fn) => { (eventHandlers[name] || (eventHandlers[name] = [])).push(fn); };
+ctx.addEventListener = ctx.window.addEventListener;
+ctx.setTimeout = (fn) => { pendingTimers.push(fn); return pendingTimers.length; };
+ctx.window.setTimeout = ctx.setTimeout;
+ctx.clearTimeout = () => {};
+ctx.window.clearTimeout = ctx.clearTimeout;
 loadWithCapture(ctx, 'assets/js/domain-brain-adapter.js', ['_buildPayload']);
-loadWithCapture(ctx, 'assets/js/civilization/domain-packet-adapter.js', ['_buildPacket']);
+loadWithCapture(ctx, 'assets/js/civilization/domain-packet-adapter.js', ['_buildPacket', '_scheduleRebuild']);
 loadWithCapture(ctx, 'assets/js/civilization/handoff-contract.js', ['_packetForLane']);
 vm.runInContext(A('assets/js/civilization/artifact-packet-builder.js'), ctx, { filename: 'artifact-packet-builder.js' });
 
@@ -103,5 +111,19 @@ ctx.window.LIMENDomains = {};
 const missing = cap._buildPacket('energy');
 const missingHandled = missing.sourceType === 'missing' && missing.auditFlags.indexOf('NO_LIVE_FEEDS') === -1;
 
-console.log(JSON.stringify({ readOnly: true, domains: rows.length, routed: routed.length, abstained: abstained.length, failed: failed.length, staleHandled, staleSourceType: stale.sourceType, staleFlags: stale.auditFlags, missingHandled, raceHandling: 'not-yet-tested', rows }, null, 2));
-if (failed.length || rows.length !== 20 || routed.some((r) => r.status !== 'PASS') || !staleHandled || !missingHandled) process.exitCode = 1;
+// Two near-simultaneous domain events must schedule one rebuild and consume the
+// newest shared slot. This is the race boundary; no event payload is merged.
+const latest = slotFor('energy');
+latest.brainDiagnoses[0].label = 'latest bridge state';
+ctx.window.LIMENDomains = { energy: latest };
+while (pendingTimers.length) pendingTimers.shift()();
+const beforeTimers = pendingTimers.length;
+cap._scheduleRebuild();
+cap._scheduleRebuild();
+const raceCoalesced = pendingTimers.length === beforeTimers + 1;
+if (pendingTimers.length > beforeTimers) pendingTimers[pendingTimers.length - 1]();
+const latestPacket = ctx.window.LIMENCivilizationAdapter.get('energy');
+const raceUsesLatest = !!(latestPacket && latestPacket.activeDiagnoses && latestPacket.activeDiagnoses[0] && latestPacket.activeDiagnoses[0].label === 'latest bridge state');
+
+console.log(JSON.stringify({ readOnly: true, domains: rows.length, routed: routed.length, abstained: abstained.length, failed: failed.length, staleHandled, staleSourceType: stale.sourceType, staleFlags: stale.auditFlags, missingHandled, raceCoalesced, raceUsesLatest, rows }, null, 2));
+if (failed.length || rows.length !== 20 || routed.some((r) => r.status !== 'PASS') || !staleHandled || !missingHandled || !raceCoalesced || !raceUsesLatest) process.exitCode = 1;
