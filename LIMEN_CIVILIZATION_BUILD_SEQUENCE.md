@@ -645,6 +645,24 @@ provider. The domain-selected handoff is now connected inside the read-only
 outcome stream from outside the originating domain observation, without confusing
 simulation with the world.
 
+### Job 5 sandbox outcome-source seam — measured 2026-08-23
+
+`brain-v2/core/sandbox-outcome-source.js` now supplies the rehearsal with a
+separate, preloaded `sandbox-world-fixture/v1` stream. Each row has its own
+`observationId`, `sourceStream`, variable, value, and observation time. The row
+is persisted before it is handed to the motor bridge, and it carries no
+`commandId`; the resulting outcome preserves the source observation identity.
+This prevents the 30-day harness from deriving an apparent result directly
+from the command or the originating domain packet.
+
+The updated rehearsal persists `300` external fixture observations, `300`
+commands, and `300` outcomes with `0` pending, `0` simulated spend, and `0`
+outward executions. The focused source test passes `11/11`, the existing motor
+bridge remains `18/18`, and the 30-day summary still passes its invariants. This
+closes the **sandbox independence seam only**. The source is synthetic and
+explicitly not a provider/world observation; the production outcome-producer
+gate measured above remains open.
+
 ### Job 5 subtask complete — domain packet into sandbox bridge
 
 `brain-v2/core/sandbox-domain-handoff.js` now performs that domain-selection seam

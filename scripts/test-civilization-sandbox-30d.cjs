@@ -9,6 +9,7 @@
 
 const BR = require('../brain-v2/core/sandbox-motor-bridge.js');
 const HANDOFF = require('../brain-v2/core/sandbox-domain-handoff.js');
+const SRC = require('../brain-v2/core/sandbox-outcome-source.js');
 
 const DOMAINS = [
   'economy','energy','environment','health','technology','research','supplyChain',
@@ -51,7 +52,25 @@ function handoff(domain, lane, day, at) {
 }
 
 const store = new Store();
+// The outcome stream is prepared independently of the domain packets and
+// command loop. It is synthetic fixture data, not a provider/world feed.
+const worldRows = [];
+for (let day = 0; day < DAYS; day++) {
+  for (const domain of DOMAINS) {
+    const lane = laneFor(domain);
+    if (!lane) continue;
+    worldRows.push({
+      observationId: 'world-' + domain + '-' + day,
+      sourceStream: 'sandbox-world-fixture/v1',
+      sourceType: 'sandbox-world-fixture',
+      variable: 'sandbox:world:' + lane + ':delta',
+      observedDelta: ((day % 5) - 2) * 0.1,
+      observedAt: START + day * DAY + 3600000
+    });
+  }
+}
 const bridge = BR.create({ store: store, trustN: 8 });
+const source = SRC.create({ store: store, rows: worldRows });
 const rows = [];
 for (let day = 0; day < DAYS; day++) {
   for (const domain of DOMAINS) {
@@ -62,13 +81,8 @@ for (let day = 0; day < DAYS; day++) {
     }
     const at = START + day * DAY;
     const cmd = BR.submit(bridge, handoff(domain, lane, day, at), at);
-    const result = BR.complete(bridge, cmd.commandId, {
-      outcomeId: 'sandbox-result-' + domain + '-' + day,
-      sourceType: 'sandbox-counterfactual',
-      independentOf: 'originating-domain-observation',
-      observedDelta: ((day % 5) - 2) * 0.1,
-      observedAt: at + 3600000
-    }, at + 3600000);
+    const sourceResult = SRC.observe(source, cmd, at + 3600000);
+    const result = BR.complete(bridge, cmd.commandId, sourceResult, at + 3600000);
     rows.push({ day, domain, lane, commandId: cmd.commandId, status: 'SIMULATED_COMPLETED', trustedReafference: result.outcome.reafference.trusted });
   }
 }
@@ -93,6 +107,8 @@ const output = {
   abstained: abstained.length,
   commandsPersisted: report.commands,
   outcomesPersisted: report.outcomes,
+  externalObservationsPersisted: SRC.report(source).consumed,
+  externalObservationPending: SRC.report(source).pending,
   pending: report.pending,
   trustedReafferenceCount: trusted,
   laneCounts,
@@ -106,6 +122,7 @@ const output = {
 };
 console.log(JSON.stringify(output, null, 2));
 if (output.routed !== 300 || output.abstained !== 300 || output.commandsPersisted !== 300 ||
-    output.outcomesPersisted !== 300 || output.pending !== 0 || output.trustedReafferenceCount === 0 ||
+    output.outcomesPersisted !== 300 || output.externalObservationsPersisted !== 300 ||
+    output.externalObservationPending !== 0 || output.pending !== 0 || output.trustedReafferenceCount === 0 ||
     output.simulatedSpendUsd !== 0 || output.outwardActionsExecuted !== 0 ||
     output.laneInventory.length !== 13 || output.laneInventory.some((l) => !l.status || !l.reason)) process.exitCode = 1;

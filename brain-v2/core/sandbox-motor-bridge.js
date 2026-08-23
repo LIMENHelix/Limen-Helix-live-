@@ -9,6 +9,7 @@
  * The bridge is a rehearsal boundary, not an activation path:
  *   versioned Civilization handoff
  *       -> persist command receipt
+ *       -> separately persisted sandbox-world observation
  *       -> simulated result (explicitly not a world observation)
  *       -> persist independent sandbox outcome
  *       -> supervised B14 update
@@ -133,6 +134,8 @@ function complete(bridge, commandId, result, now) {
     commandId: commandId,
     sourceType: result.sourceType,
     independentOf: result.independentOf,
+    sourceObservationId: result.sourceObservationId || null,
+    sourceStream: result.sourceStream || null,
     observedDelta: result.observedDelta,
     observedAt: result.observedAt,
     receivedAt: now
