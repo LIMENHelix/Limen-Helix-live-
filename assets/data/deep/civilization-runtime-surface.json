@@ -1,0 +1,134 @@
+{
+  "readOnly": true,
+  "generatedAt": "2026-08-23T16:31:57.735Z",
+  "endpoints": {
+    "domainSnapshot": {
+      "status": "available",
+      "snapshotId": "1787502717038-238"
+    },
+    "autofireLog": {
+      "status": "available",
+      "cyclesReturned": 20
+    },
+    "brainShadow": {
+      "status": "available"
+    }
+  },
+  "domainSurface": {
+    "domains": 20,
+    "sources": 276,
+    "liveCount": 238,
+    "fallbackCount": 32
+  },
+  "autofire": {
+    "totalCycles": 127,
+    "evaluated": 0,
+    "fired": 0,
+    "errors": 0,
+    "observedResults": 0,
+    "budget": {
+      "enabled": true,
+      "armed": true,
+      "spentTodayUsd": 0,
+      "remainingUsd": 20
+    }
+  },
+  "authenticatedShadow": {
+    "runtime": "brain-v2-shadow/0.1.0",
+    "installedCount": 20,
+    "totalDomains": 20,
+    "domainsOk": 20,
+    "domainsErrored": 0,
+    "ticks": 20,
+    "rowsApplied": 20,
+    "restoredCount": 20,
+    "stateValueBytesTotal": 63432766
+  },
+  "laneInventory": [
+    {
+      "lane": "research-papers",
+      "status": "blocked",
+      "reason": "no eligible result in the bounded public log"
+    },
+    {
+      "lane": "investments",
+      "status": "blocked",
+      "reason": "no eligible result in the bounded public log"
+    },
+    {
+      "lane": "publication",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "social",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "subscriber-email",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "automail",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "autopilot",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "hero-image",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "auction",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "homestead",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "crm",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "real-estate",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    },
+    {
+      "lane": "broker/order",
+      "status": "not-observable",
+      "reason": "no public result and lane is outside the current research/investment scope"
+    }
+  ],
+  "blockers": [
+    "research-papers:no eligible result in the bounded public log",
+    "investments:no eligible result in the bounded public log",
+    "publication:no public result and lane is outside the current research/investment scope",
+    "social:no public result and lane is outside the current research/investment scope",
+    "subscriber-email:no public result and lane is outside the current research/investment scope",
+    "automail:no public result and lane is outside the current research/investment scope",
+    "autopilot:no public result and lane is outside the current research/investment scope",
+    "hero-image:no public result and lane is outside the current research/investment scope",
+    "auction:no public result and lane is outside the current research/investment scope",
+    "homestead:no public result and lane is outside the current research/investment scope",
+    "crm:no public result and lane is outside the current research/investment scope",
+    "real-estate:no public result and lane is outside the current research/investment scope",
+    "broker/order:no public result and lane is outside the current research/investment scope"
+  ],
+  "endpointStatuses": {
+    "domainSnapshot": 200,
+    "autofireLog": 200,
+    "brainShadow": 200
+  }
+}

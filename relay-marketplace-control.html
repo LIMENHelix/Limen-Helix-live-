@@ -4,7 +4,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Relay Marketplace Control · LIMEN Helix</title>
-<script src="assets/js/auth-gate.js"></script>
 <style>
   :root {
     --bg: #f8f7f5;
@@ -221,14 +220,117 @@
     .grid-2 { grid-template-columns: 1fr; }
     header { flex-direction: column; gap: 12px; align-items: flex-start; }
   }
+
+  .login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .login-overlay.hidden { display: none; }
+
+  .login-panel {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 48px 40px;
+    max-width: 360px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+  .login-panel h1 {
+    font-size: 1.5rem;
+    margin: 0 0 8px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .login-panel .subtitle {
+    color: var(--soft);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+  .login-panel input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+  .login-panel input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  .login-panel button {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+  .login-error {
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(220, 38, 38, 0.05);
+    border-radius: 6px;
+    display: none;
+  }
+  .login-error.show { display: block; }
+
+  .header-auth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .admin-badge {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--green);
+    background: rgba(5, 150, 105, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .logout-btn {
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  .logout-btn:hover { background: var(--bg); }
 </style>
 </head>
 <body>
+
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-panel">
+    <h1>Admin Access</h1>
+    <p class="subtitle">Enter your admin key to access the control panel</p>
+    <div id="loginError" class="login-error"></div>
+    <input type="password" id="adminKey" placeholder="Admin key" />
+    <button onclick="handleLogin()">Login</button>
+    <div style="text-align: center; margin-top: 16px; font-size: 0.8rem; color: var(--soft);">
+      <span id="rememberHint"></span>
+    </div>
+  </div>
+</div>
 
 <header>
   <div class="branding">
     <div class="logo">Relay</div>
     <div class="byline">by LIMEN Helix</div>
+  </div>
+  <div id="headerAuth" class="header-auth" style="display: none;">
+    <span class="admin-badge" id="adminStatus">Admin Authenticated</span>
+    <button class="logout-btn" onclick="handleLogout()">Logout</button>
   </div>
 </header>
 
@@ -325,12 +427,97 @@
 <script>
 var MARKETPLACE_ID = '';
 var currentMarketplace = null;
+var adminKey = null;
 
-loadMarketplaces();
+// Auth management
+function initAuth() {
+  adminKey = sessionStorage.getItem('relay-admin-key');
+  const keyInput = document.getElementById('adminKey');
+
+  if (adminKey) {
+    verifyAdminKey(adminKey, function(valid) {
+      if (valid) {
+        showControlPanel();
+      } else {
+        sessionStorage.removeItem('relay-admin-key');
+        showLoginForm();
+      }
+    });
+  } else {
+    showLoginForm();
+  }
+}
+
+function showLoginForm() {
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('headerAuth').style.display = 'none';
+  document.getElementById('adminKey').focus();
+}
+
+function showControlPanel() {
+  document.getElementById('loginOverlay').classList.add('hidden');
+  document.getElementById('headerAuth').style.display = 'flex';
+  document.getElementById('adminKey').value = '';
+  loadMarketplaces();
+}
+
+function handleLogin() {
+  const key = document.getElementById('adminKey').value.trim();
+  if (!key) {
+    showLoginError('Admin key required');
+    return;
+  }
+
+  verifyAdminKey(key, function(valid) {
+    if (valid) {
+      sessionStorage.setItem('relay-admin-key', key);
+      adminKey = key;
+      showControlPanel();
+    } else {
+      showLoginError('Invalid admin key');
+      document.getElementById('adminKey').value = '';
+    }
+  });
+}
+
+function handleLogout() {
+  if (confirm('Logout from admin panel?')) {
+    sessionStorage.removeItem('relay-admin-key');
+    adminKey = null;
+    document.getElementById('marketplaceContent').style.display = 'none';
+    document.getElementById('marketplaceSelect').innerHTML = '<option>Select marketplace...</option>';
+    showLoginForm();
+  }
+}
+
+function showLoginError(msg) {
+  const err = document.getElementById('loginError');
+  err.textContent = msg;
+  err.classList.add('show');
+  setTimeout(function() {
+    err.classList.remove('show');
+  }, 3000);
+}
+
+function verifyAdminKey(key, callback) {
+  fetch('/api/relay-marketplace?action=verify-admin-key&key=' + encodeURIComponent(key))
+    .then(r => r.json())
+    .then(j => callback(j.ok === true))
+    .catch(() => callback(false));
+}
+
+// Allow Enter key to login
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('adminKey').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') handleLogin();
+  });
+  initAuth();
+});
 
 async function loadMarketplaces() {
+  if (!adminKey) return;
   try {
-    const r = await fetch('/api/relay-marketplace?action=list-marketplace&limit=50');
+    const r = await fetch('/api/relay-marketplace?action=list-marketplace&limit=50&key=' + encodeURIComponent(adminKey));
     const j = await r.json();
     if (j.ok && j.marketplaces && j.marketplaces.length > 0) {
       const sel = document.getElementById('marketplaceSelect');
@@ -347,10 +534,10 @@ async function loadMarketplaces() {
 
 async function loadMarketplace() {
   MARKETPLACE_ID = document.getElementById('marketplaceSelect').value;
-  if (!MARKETPLACE_ID) return;
+  if (!MARKETPLACE_ID || !adminKey) return;
 
   try {
-    const r = await fetch('/api/relay-marketplace?action=list-marketplace&id=' + encodeURIComponent(MARKETPLACE_ID));
+    const r = await fetch('/api/relay-marketplace?action=list-marketplace&id=' + encodeURIComponent(MARKETPLACE_ID) + '&key=' + encodeURIComponent(adminKey));
     const j = await r.json();
     if (j.ok && j.marketplaces && j.marketplaces[0]) {
       currentMarketplace = j.marketplaces[0];
@@ -374,9 +561,9 @@ function updateCommissionDisplay() {
 }
 
 async function loadStats() {
-  if (!MARKETPLACE_ID) return;
+  if (!MARKETPLACE_ID || !adminKey) return;
   try {
-    const r = await fetch('/api/relay-marketplace?action=marketplace-stats&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID));
+    const r = await fetch('/api/relay-marketplace?action=marketplace-stats&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID) + '&key=' + encodeURIComponent(adminKey));
     const j = await r.json();
     if (j.ok && j.stats) {
       const s = j.stats;
@@ -393,9 +580,9 @@ async function loadStats() {
 }
 
 async function loadPayouts() {
-  if (!MARKETPLACE_ID) return;
+  if (!MARKETPLACE_ID || !adminKey) return;
   try {
-    const r = await fetch('/api/relay-marketplace?action=list-payouts&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID));
+    const r = await fetch('/api/relay-marketplace?action=list-payouts&marketplaceId=' + encodeURIComponent(MARKETPLACE_ID) + '&key=' + encodeURIComponent(adminKey));
     const j = await r.json();
     if (j.ok && j.payouts) {
       const payouts = j.payouts;
@@ -429,6 +616,7 @@ async function loadPayouts() {
 }
 
 async function approvePayout(payoutId) {
+  if (!adminKey) return;
   try {
     const r = await fetch('/api/relay-marketplace', {
       method: 'POST',
@@ -436,7 +624,8 @@ async function approvePayout(payoutId) {
       body: JSON.stringify({
         action: 'update-payout',
         payoutId: payoutId,
-        status: 'approved'
+        status: 'approved',
+        key: adminKey
       })
     });
     const j = await r.json();

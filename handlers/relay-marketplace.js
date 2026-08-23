@@ -35,12 +35,29 @@ function readBody(req) {
   });
 }
 
+function checkAdminKey(q) {
+  const key = q.key || '';
+  const validKey = process.env.RELAY_ADMIN_KEY || 'relay-admin-demo';
+  return key === validKey && key.length > 0;
+}
+
 async function handleGET(req, res, q) {
   if (q.action === 'list-marketplace') {
-    const mkt = await marketplace.getMarketplace(q.marketplaceId);
-    if (!mkt) return sendJSON(res, 404, { ok: false, error: 'marketplace not found' });
-    const stats = await marketplace.marketplaceStats(q.marketplaceId);
-    return sendJSON(res, 200, { ok: true, marketplace: mkt, stats: stats });
+    if (!checkAdminKey(q)) {
+      return sendJSON(res, 401, { ok: false, error: 'unauthorized' });
+    }
+    const limit = parseInt(q.limit) || 50;
+    const id = q.id || q.marketplaceId;
+
+    if (id) {
+      const mkt = await marketplace.getMarketplace(id);
+      if (!mkt) return sendJSON(res, 404, { ok: false, error: 'marketplace not found' });
+      const stats = await marketplace.marketplaceStats(id);
+      return sendJSON(res, 200, { ok: true, marketplaces: [mkt], stats: stats });
+    } else {
+      const mktList = await marketplace.listMarketplaces();
+      return sendJSON(res, 200, { ok: true, marketplaces: mktList.slice(0, limit) });
+    }
   }
 
   if (q.action === 'list-listings') {
@@ -78,6 +95,30 @@ async function handleGET(req, res, q) {
     });
   }
 
+  if (q.action === 'marketplace-stats') {
+    if (!checkAdminKey(q)) {
+      return sendJSON(res, 401, { ok: false, error: 'unauthorized' });
+    }
+    const stats = await marketplace.marketplaceStats(q.marketplaceId);
+    return sendJSON(res, 200, { ok: true, stats: stats });
+  }
+
+  if (q.action === 'list-payouts') {
+    if (!checkAdminKey(q)) {
+      return sendJSON(res, 401, { ok: false, error: 'unauthorized' });
+    }
+    const allPayouts = await marketplace.payoutHistory();
+    const filtered = allPayouts.filter(function(p) { return p.marketplaceId === q.marketplaceId; });
+    return sendJSON(res, 200, { ok: true, payouts: filtered });
+  }
+
+  if (q.action === 'verify-admin-key') {
+    const key = q.key || '';
+    const validKey = process.env.RELAY_ADMIN_KEY || 'relay-admin-demo';
+    const isValid = key === validKey && key.length > 0;
+    return sendJSON(res, isValid ? 200 : 401, { ok: isValid });
+  }
+
   return sendJSON(res, 400, { ok: false, error: 'unknown action' });
 }
 
@@ -85,6 +126,9 @@ async function handlePOST(req, res, body) {
   const action = body.action || '';
 
   if (action === 'create-marketplace') {
+    if (!checkAdminKey({ key: body.key })) {
+      return sendJSON(res, 401, { ok: false, error: 'unauthorized' });
+    }
     const mkt = await marketplace.createMarketplace({
       name: body.name || 'Marketplace',
       commissionRate: body.commissionRate || 0.15,
@@ -178,6 +222,18 @@ async function handlePOST(req, res, body) {
       pendingPayoutsCount: pendingPayouts.length,
       pendingPayoutsAmount: Number(pendingPayouts.reduce(function(sum, p) { return sum + p.amount; }, 0).toFixed(2))
     });
+  }
+
+  if (action === 'update-payout') {
+    if (!checkAdminKey({ key: body.key })) {
+      return sendJSON(res, 401, { ok: false, error: 'unauthorized' });
+    }
+    const payoutId = body.payoutId || '';
+    const status = body.status || '';
+    if (!payoutId || !status) return sendJSON(res, 400, { ok: false, error: 'payoutId, status required' });
+
+    const updated = await marketplace.updatePayout(payoutId, { status: status });
+    return sendJSON(res, 200, { ok: true, payout: updated });
   }
 
   return sendJSON(res, 400, { ok: false, error: 'unknown action' });

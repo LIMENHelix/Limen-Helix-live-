@@ -44,6 +44,7 @@ console.log('total candidates:       ' + inbox.stats.totalCandidates);
 console.log('ready to fire:          ' + inbox.stats.readyToFire);
 console.log('inhibited:              ' + inbox.stats.inhibited);
 console.log('by lane (ready):        ' + JSON.stringify(inbox.stats.byLaneReady));
+console.log('autofire-ready pool:    ' + inbox.readyForAutofire.length);
 console.log();
 console.log('top priority cross-lane:');
 for (const t of inbox.topPriority.slice(0, 10)) {

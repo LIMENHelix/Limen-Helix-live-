@@ -32,6 +32,38 @@ var AUTOQUEUE_MAX = 200;                   // hold last N recommendations
 var AUTOQUEUE_TTL = 14 * 86400;            // 2 weeks
 var MASTER_SEED_PER_TICK = Math.max(1, Math.min(parseInt(process.env.MASTER_SEED_PER_TICK || '10', 10) || 10, 25));
 var ACTIVE_LANES = new Set(['investment', 'research']);
+var TERMINAL_QUEUE_STATUSES = new Set(['FIRED', 'FAILED', 'DISMISSED', 'EXPIRED']);
+
+function _queueSeedCapacity(queue) {
+  var terminal = 0;
+  for (var i = 0; i < queue.length; i++) {
+    if (TERMINAL_QUEUE_STATUSES.has(queue[i] && queue[i].status)) terminal++;
+  }
+  return Math.max(0, AUTOQUEUE_MAX - queue.length) + terminal;
+}
+
+// Preserve pending work. When the bounded queue is full, retire only the
+// oldest terminal records; those outcomes remain in the artifact/audit stores.
+function _trimQueue(queue) {
+  if (queue.length <= AUTOQUEUE_MAX) return { queue: queue, evicted: 0 };
+  var need = queue.length - AUTOQUEUE_MAX;
+  var kept = [];
+  var evicted = 0;
+  for (var i = queue.length - 1; i >= 0; i--) {
+    var item = queue[i];
+    if (need > 0 && TERMINAL_QUEUE_STATUSES.has(item && item.status)) {
+      need--;
+      evicted++;
+      continue;
+    }
+    kept.push(item);
+  }
+  kept.reverse();
+  // A queue containing more pending items than the hard cap is already in an
+  // invariant breach. Bound it without calling those items terminal.
+  if (kept.length > AUTOQUEUE_MAX) kept = kept.slice(0, AUTOQUEUE_MAX);
+  return { queue: kept, evicted: evicted };
+}
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -116,11 +148,16 @@ module.exports = async function handler(req, res) {
     // no path into the live queue. Seed only its capped topPriority surface,
     // preserve the exact gate inputs, and rate-limit queue admission. This does
     // not bypass autofire's spend cap, stage refusal, or 24h CIK/lane dedupe.
-    var masterTop = Array.isArray(masterInbox.topPriority) ? masterInbox.topPriority : [];
+    var presentationTopCount = Array.isArray(masterInbox.topPriority) ? masterInbox.topPriority.length : 0;
+    var masterTop = Array.isArray(masterInbox.readyForAutofire)
+      ? masterInbox.readyForAutofire
+      : (Array.isArray(masterInbox.topPriority) ? masterInbox.topPriority : []);
     var masterAdded = [];
     var masterDeduped = 0;
     var masterInvalid = 0;
-    for (var mi = 0; mi < masterTop.length && masterAdded.length < MASTER_SEED_PER_TICK; mi++) {
+    var seedCapacity = _queueSeedCapacity(queue);
+    var seedLimit = Math.min(MASTER_SEED_PER_TICK, seedCapacity);
+    for (var mi = 0; mi < masterTop.length && masterAdded.length < seedLimit; mi++) {
       var item = masterTop[mi];
       var lane = item && item.lane;
       var cik = String(item && item.portalCik || '').replace(/^0+/, '') || null;
@@ -174,11 +211,16 @@ module.exports = async function handler(req, res) {
       });
       await db.set(masterDedupeKey, { at: Date.now(), artifactRef: item.artifactRef }, DEDUPE_TTL);
     }
-    if (masterAdded.length) queue = masterAdded.concat(queue);
+    var terminalEvicted = 0;
+    if (masterAdded.length) {
+      var trimmed = _trimQueue(masterAdded.concat(queue));
+      queue = trimmed.queue;
+      terminalEvicted = trimmed.evicted;
+    }
     added += masterAdded.length;
 
     // 4. Cap queue size + persist
-    if (queue.length > AUTOQUEUE_MAX) queue = queue.slice(0, AUTOQUEUE_MAX);
+    if (queue.length > AUTOQUEUE_MAX) queue = _trimQueue(queue).queue;
     await db.set(AUTOQUEUE_KEY, queue, AUTOQUEUE_TTL);
 
     var elapsed = Date.now() - t0;
@@ -196,8 +238,11 @@ module.exports = async function handler(req, res) {
       masterInbox: {
         snapshotAt: masterInbox.generatedAt || null,
         readyTotal: masterInbox.stats && masterInbox.stats.readyToFire,
-        topPriorityExamined: masterTop.length,
+        topPriorityExamined: presentationTopCount,
         admitted: masterAdded.length,
+        readyPool: masterTop.length,
+        seedCapacity: seedCapacity,
+        terminalEvicted: terminalEvicted,
         deduped: masterDeduped,
         invalid: masterInvalid,
         perTickCap: MASTER_SEED_PER_TICK
@@ -217,3 +262,6 @@ module.exports = async function handler(req, res) {
     }));
   }
 };
+
+module.exports._queueSeedCapacity = _queueSeedCapacity;
+module.exports._trimQueue = _trimQueue;

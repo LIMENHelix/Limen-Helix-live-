@@ -2226,6 +2226,7 @@ async function fetchNOAAAlerts() {
     var stress = round(clamp(disturbanceIntensity * 0.6 + countPressure * 0.4, 0, 1));
 
     var label = count + ' active alert' + (count !== 1 ? 's' : '');
+    var sourceUpdatedAt = _noaaAlertsIdentity(data);
     trackHealth('NOAA Alerts', 'environment', 'live', null, count);
     return {
       value: count,
@@ -2234,7 +2235,7 @@ async function fetchNOAAAlerts() {
       signal: count > 0 ? count + ' weather alerts (avg severity ' + disturbanceIntensity + ')' : 'no active alerts',
       updated: now,
       fetchedAt: now,
-      sourceUpdatedAt: null,
+      sourceUpdatedAt: sourceUpdatedAt,
       activeAlerts: count,
       disturbanceCount: disturbanceCount,
       disturbanceIntensity: disturbanceIntensity,
@@ -2508,8 +2509,9 @@ async function fetchArXivCS() {
     var total = parseInt(match[1], 10);
     var daily = total / 365;
     var act = clamp(daily / 1500, 0, 1);
+    var sourceUpdatedAt = _arxivFeedIdentity(xml);
     trackHealth('arXiv CS', 'technology', 'live', null, total);
-    return { value: total, label: (total / 1000).toFixed(0) + 'K CS papers', activity: round(act), channel: 'activity', signal: 'CS research volume ' + daily.toFixed(0) + '/day', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: null };
+    return { value: total, label: (total / 1000).toFixed(0) + 'K CS papers', activity: round(act), channel: 'activity', signal: 'CS research volume ' + daily.toFixed(0) + '/day', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: sourceUpdatedAt };
   } catch (e) {
     trackHealth('arXiv CS', 'technology', 'fallback', e.message);
     return null;
@@ -2517,6 +2519,26 @@ async function fetchArXivCS() {
 }
 
 // ─── RESEARCH ───────────────────────────────────────────────────────────
+
+/* arXiv returns a publisher-side `feed.updated` for the exact query result.
+   This is the identity of the count snapshot, not our retrieval time. Keep the
+   source string only when it is a valid date; an absent/malformed field is an
+   explicit provenance abstention. */
+function _arxivFeedIdentity(xml) {
+  var match = String(xml || '').match(/<feed\b[^>]*>[\s\S]*?<updated>\s*([^<]+?)\s*<\/updated>/i);
+  if (!match) return null;
+  var value = match[1].trim();
+  return value && isFinite(Date.parse(value)) ? value : null;
+}
+
+/* weather.gov supplies a top-level `updated` for the active-alert collection.
+   It identifies this aggregate response; per-alert `sent`/`updated` values do
+   not substitute for the collection identity. */
+function _noaaAlertsIdentity(data) {
+  var value = data && data.updated;
+  if (typeof value !== 'string' || !value.trim() || !isFinite(Date.parse(value))) return null;
+  return value.trim();
+}
 
 async function fetchPubMed() {
   try {
@@ -2563,8 +2585,9 @@ async function fetchArXivAll() {
     }
     var total = parseInt(match[1], 10);
     var act = clamp((total / 365) / 2000, 0, 1);
+    var sourceUpdatedAt = _arxivFeedIdentity(xml);
     trackHealth('arXiv All', 'research', 'live', null, total);
-    return { value: total, label: (total / 1000000).toFixed(2) + 'M arXiv papers', activity: round(act), channel: 'activity', signal: 'arXiv volume ' + (total / 1000).toFixed(0) + 'K total', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: null };
+    return { value: total, label: (total / 1000000).toFixed(2) + 'M arXiv papers', activity: round(act), channel: 'activity', signal: 'arXiv volume ' + (total / 1000).toFixed(0) + 'K total', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: sourceUpdatedAt };
   } catch (e) {
     trackHealth('arXiv All', 'research', 'fallback', e.message);
     return null;
@@ -5571,7 +5594,12 @@ async function fetchMassiveCrudeOil() {
     // Stress: crude above $80 = elevated, above $100 = high
     var stress = clamp((price - 60) / 50, 0, 1);
     trackHealth('Massive Crude Oil', 'energy', 'live', null, price);
-    return { value: price, label: 'crude $' + price.toFixed(2), stress: round(stress), signal: 'crude oil $' + price.toFixed(2) + '/bbl', updated: Date.now(), fetchedAt: Date.now() };
+    // Polygon's aggregate timestamp is the publisher's observation window. Preserve it
+    // exactly as for Massive SPY; never substitute our fetch clock when it is absent.
+    var id = _polygonAggregateIdentity(r, 'CL');
+    var out = { value: price, label: 'crude $' + price.toFixed(2), stress: round(stress), signal: 'crude oil $' + price.toFixed(2) + '/bbl', updated: Date.now(), fetchedAt: Date.now() };
+    if (id) out.sourceUpdatedAt = id;
+    return out;
   } catch (e) { trackHealth('Massive Crude Oil', 'energy', 'fallback', e.message); return null; }
 }
 
@@ -6085,9 +6113,15 @@ module.exports._unPopulationIdentity = _unPopulationIdentity;
 module.exports._finnhubQuoteIdentity = _finnhubQuoteIdentity;
 module.exports._alphaVantageQuoteIdentity = _alphaVantageQuoteIdentity;
 module.exports._polygonAggregateIdentity = _polygonAggregateIdentity;
+module.exports._arxivFeedIdentity = _arxivFeedIdentity;
+module.exports._noaaAlertsIdentity = _noaaAlertsIdentity;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
 module.exports._fetchFinnhub = fetchFinnhub;
 module.exports._fetchAlphaVantage = fetchAlphaVantage;
+module.exports._fetchMassiveCrudeOil = fetchMassiveCrudeOil;
 module.exports._fetchMassiveSPY = fetchMassiveSPY;
+module.exports._fetchArXivCS = fetchArXivCS;
+module.exports._fetchArXivAll = fetchArXivAll;
+module.exports._fetchNOAAAlerts = fetchNOAAAlerts;

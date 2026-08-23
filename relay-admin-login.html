@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relay Admin Login</title>
+<style>
+  :root {
+    --bg: #f8f7f5;
+    --card: #ffffff;
+    --line: #e5e0d8;
+    --ink: #1a1512;
+    --soft: #6b6359;
+    --accent: #2563eb;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; }
+
+  .admin-login-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+  }
+
+  .admin-login-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+  }
+
+  .admin-login-btn:hover { background: #1d4ed8; }
+
+  .admin-login-btn.authenticated {
+    background: #059669;
+  }
+
+  .admin-login-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .admin-login-modal.open { display: flex; }
+
+  .admin-login-panel {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 48px 40px;
+    max-width: 360px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .admin-login-panel h2 {
+    font-size: 1.3rem;
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+
+  .admin-login-panel .subtitle {
+    color: var(--soft);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+
+  .admin-login-panel input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+
+  .admin-login-panel input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .admin-login-panel button {
+    width: 100%;
+    padding: 10px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  .admin-login-panel button:hover { background: #1d4ed8; }
+
+  .admin-login-error {
+    color: #dc2626;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  .admin-login-error.show { display: block; }
+
+  .admin-login-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .admin-login-actions button {
+    flex: 1;
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .admin-login-actions .logout-btn {
+    background: var(--card);
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  .admin-login-actions .logout-btn:hover {
+    background: var(--bg);
+  }
+
+  .admin-login-actions .link-btn {
+    background: var(--accent);
+    color: white;
+  }
+
+  .admin-login-actions .link-btn:hover {
+    background: #1d4ed8;
+  }
+</style>
+</head>
+<body>
+
+<div class="admin-login-container">
+  <button id="adminLoginBtn" class="admin-login-btn" onclick="toggleAdminLogin()">Admin</button>
+</div>
+
+<div id="adminLoginModal" class="admin-login-modal">
+  <div class="admin-login-panel">
+    <h2 id="loginTitle">Admin Access</h2>
+    <p class="subtitle" id="loginSubtitle">Enter your admin key</p>
+    <div id="loginContent">
+      <div id="loginError" class="admin-login-error"></div>
+      <input type="password" id="adminKeyInput" placeholder="Admin key" onkeypress="if(event.key==='Enter') authenticateAdmin()" />
+      <button onclick="authenticateAdmin()">Login</button>
+      <button onclick="closeAdminLogin()" style="margin-top: 8px; background: var(--card); color: var(--ink); border: 1px solid var(--line);">Close</button>
+    </div>
+    <div id="authContent" style="display: none;">
+      <p style="text-align: center; color: var(--soft); margin: 16px 0;">Authenticated as Admin</p>
+      <div class="admin-login-actions">
+        <a href="/relay-marketplace-control.html" class="link-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Go to Control Panel</a>
+        <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  function isAdminAuthenticated() {
+    return !!sessionStorage.getItem('relay-admin-key');
+  }
+
+  function updateAdminUI() {
+    const btn = document.getElementById('adminLoginBtn');
+    const content = document.getElementById('loginContent');
+    const authContent = document.getElementById('authContent');
+
+    if (isAdminAuthenticated()) {
+      btn.classList.add('authenticated');
+      btn.textContent = 'Admin ✓';
+      content.style.display = 'none';
+      authContent.style.display = 'block';
+      document.getElementById('loginTitle').textContent = 'Admin Panel';
+      document.getElementById('loginSubtitle').textContent = 'You are authenticated';
+    } else {
+      btn.classList.remove('authenticated');
+      btn.textContent = 'Admin';
+      content.style.display = 'block';
+      authContent.style.display = 'none';
+      document.getElementById('loginTitle').textContent = 'Admin Access';
+      document.getElementById('loginSubtitle').textContent = 'Enter your admin key';
+    }
+  }
+
+  window.toggleAdminLogin = function() {
+    const modal = document.getElementById('adminLoginModal');
+    modal.classList.toggle('open');
+    if (modal.classList.contains('open') && !isAdminAuthenticated()) {
+      document.getElementById('adminKeyInput').focus();
+    }
+  };
+
+  window.closeAdminLogin = function() {
+    document.getElementById('adminLoginModal').classList.remove('open');
+  };
+
+  window.authenticateAdmin = function() {
+    const key = document.getElementById('adminKeyInput').value.trim();
+    if (!key) {
+      showError('Admin key required');
+      return;
+    }
+
+    fetch('/api/relay-marketplace?action=verify-admin-key&key=' + encodeURIComponent(key))
+      .then(r => r.json())
+      .then(j => {
+        if (j.ok) {
+          sessionStorage.setItem('relay-admin-key', key);
+          updateAdminUI();
+          document.getElementById('adminKeyInput').value = '';
+        } else {
+          showError('Invalid admin key');
+          document.getElementById('adminKeyInput').value = '';
+        }
+      })
+      .catch(() => showError('Error verifying key'));
+  };
+
+  window.logoutAdmin = function() {
+    if (confirm('Logout from admin?')) {
+      sessionStorage.removeItem('relay-admin-key');
+      updateAdminUI();
+      closeAdminLogin();
+    }
+  };
+
+  function showError(msg) {
+    const err = document.getElementById('loginError');
+    err.textContent = msg;
+    err.classList.add('show');
+    setTimeout(() => err.classList.remove('show'), 3000);
+  }
+
+  // Initialize UI on page load
+  document.addEventListener('DOMContentLoaded', updateAdminUI);
+})();
+</script>
+
+</body>
+</html>

@@ -30,6 +30,7 @@ var ALL_DOMAINS = ['agriculture','communication','culture','defense','economy','
 // Run the browser IIFE against a stub window and read what it publishes.
 var sandbox = { window: {} };
 vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(ROOT, 'assets', 'js', 'phase-registry.js'), 'utf8'), sandbox, { filename: 'phase-registry.js' });
 vm.runInContext(fs.readFileSync(SRC, 'utf8'), sandbox, { filename: 'domain-offers.js' });
 
 var api = sandbox.window.LIMEN_DOMAIN_OFFERS;
