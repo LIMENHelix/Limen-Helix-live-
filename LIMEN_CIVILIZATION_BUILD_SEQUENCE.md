@@ -831,3 +831,19 @@ has occurred.
 The subsequent NOAA collection-identity repair is `63b2180e`; PubMed's missing
 publisher timestamp is recorded as an explicit abstention in `af771a72`. The
 full unit sweep after these additions is `94 passed, 1 skipped, 0 failed`.
+
+### Current execution checkpoint — queue pipeline review surface
+
+The all-domain queue pass is now represented by PR #86 and main commit
+`9255f06b`. Every queue item carries its checked-in source filename and measured
+`observed` fields: source URL count, source-array count, citation count,
+evidence-grade count, company count, treatment count, template ratio, and an
+explicit provenance state. These fields are observations for review, not
+approval. The three classifier `REAL` candidates are held as review tasks;
+`evidenceEligible.portals` remains empty in all 20 cortex indexes.
+
+The queue population gate is therefore complete, while Job 3 remains in
+progress. Source rehydration, independent ownership/syndication review,
+semantic title transport into diagnosis candidates, cadence/replay closure,
+and actual domain use of the queues remain outstanding. No queue item creates
+stress, a diagnosis, a pathway, a publication, or a broker action.

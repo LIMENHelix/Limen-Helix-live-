@@ -16,6 +16,8 @@ assert.strictEqual(r.quality.realPortalCount, 1);
 assert.strictEqual(r.quality.classificationTotals.REAL, 1);
 assert(r.quality.classificationTotals.NEEDS_AUTHORING >= 1 || r.quality.classificationTotals.SYNTHETIC >= 1);
 assert(r.queue.tasks.every(function (t) { return t.sourceHints === null && t.provenance.classifier === 'classifyPortalV2'; }));
+assert(r.queue.tasks.every(function (t) { return t.observed && typeof t.observed.sourceUrlCount === 'number' && typeof t.observed.templateRatio === 'number' && t.observed.sourceFile; }));
+assert(r.queue.tasks.some(function (t) { return t.observed.provenanceState === 'NO_VERIFIABLE_PROVENANCE'; }));
 assert.strictEqual(r.cortex.consumedByRuntime, false);
 assert.strictEqual(r.cortex.evidenceEligible.externalBundles.length, 0);
 assert(r.queue.tasks.every(function (t) { return t.authoringType !== 'execution-input'; }));
