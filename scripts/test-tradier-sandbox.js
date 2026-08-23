@@ -89,6 +89,32 @@ async function main() {
     assert('the returned probe is explicitly read-only', result.environment === 'sandbox' && result.readOnly === true);
     assert('the token never enters the returned object', JSON.stringify(result).indexOf('sandbox-test-token') === -1);
 
+    calls = [];
+    global.fetch = async function (url, options) {
+      calls.push({ url: String(url), options: options });
+      if (String(url).endsWith('/balances')) return response(200, { balances: { account_type: 'margin', total_equity: 100000, total_cash: 1000, pending_cash: 50, uncleared_funds: 25 } });
+      if (String(url).endsWith('/positions')) return response(200, { positions: { position: { symbol: 'SPY', quantity: 2 } } });
+      if (String(url).indexOf('/orders?includeTags=true') !== -1) return response(200, { orders: { order: { id: 9, symbol: 'SPY', side: 'sell', quantity: 1, remaining_quantity: 1, status: 'open', tag: 'limen-b14-test' } } });
+      if (String(url).endsWith('/orders/77?includeTags=true')) return response(200, { order: { id: 77, symbol: 'SPY', side: 'buy', quantity: 1, exec_quantity: 1, avg_fill_price: 499, status: 'filled', tag: 'limen-b14-order' } });
+      if (String(url).endsWith('/orders') && options.method === 'POST') {
+        var form = new URLSearchParams(options.body);
+        if (form.get('preview') === 'true') return response(200, { order: { status: 'ok', result: true, cost: 500, order_cost: 500 } });
+        return response(200, { order: { id: 77, status: 'ok' } });
+      }
+      throw new Error('unexpected URL ' + url);
+    };
+    var snap = await tradier.accountSnapshot();
+    assert('the account snapshot carries cash reservations and open orders', snap.pendingCash === 50 && snap.unclearedFunds === 25 && snap.orders[0].remainingQuantity === 1);
+    var p = await tradier.previewOrder({ class: 'equity', symbol: 'SPY', side: 'buy', quantity: '1', type: 'limit', duration: 'day', price: '500.00' });
+    assert('preview uses form encoding and preview=true', p.result === true && new URLSearchParams(calls[calls.length - 1].options.body).get('preview') === 'true');
+    var placed = await tradier.placeOrder({ class: 'equity', symbol: 'SPY', side: 'buy', quantity: '1', type: 'limit', duration: 'day', price: '500.00', tag: 'limen-b14-order' });
+    assert('placement omits the preview flag', placed.id === 77 && !new URLSearchParams(calls[calls.length - 1].options.body).has('preview'));
+    var order = await tradier.getOrder('77');
+    assert('order status exposes fill identity and quantity', order.id === '77' && order.executedQuantity === 1 && order.averageFillPrice === 499);
+    var tagged = await tradier.findOrderByTag('limen-b14-test');
+    assert('a missing receipt can be recovered by command tag', tagged && tagged.id === '9' && tagged.tag === 'limen-b14-test');
+    assert('every write-capable request remains pinned to sandbox', calls.every(function (call) { return call.url.indexOf('https://sandbox.tradier.com/v1/') === 0; }));
+
     global.fetch = async function (url) {
       if (String(url).endsWith('/user/profile')) {
         return response(200, { profile: { account: { account_number: 'VA00000000' } } });
