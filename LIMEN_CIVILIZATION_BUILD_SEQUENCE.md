@@ -327,6 +327,25 @@ The queue was refreshed from that exact endpoint and remains planning material;
 it does not derive timestamps or create any stress, diagnosis, pathway, or
 activation.
 
+### Job 3 subtask complete — RSS feed-build identity
+
+The 98 headline-item-only gaps were the Google News RSS surfaces. Each feed
+already supplies a channel-level `lastBuildDate`; `_fetchRSS` now preserves that
+exact token as `sourceUpdatedAt` when it parses as a date, and abstains when the
+channel omits or malforms it. Item `pubDate`, local fetch time, headline text,
+and publisher labels are not promoted to source identity. The token identifies
+the Google News aggregator snapshot only; it does not establish publisher or
+syndication independence.
+
+PR #74 (`78d1ce92`) added the real-path regression test (3/3), passed the full
+unit sweep (105 passed, 1 skipped, 0 failed), and was merged as
+`37449f43`. After the automatic deployment was not carrying the new field, the
+merged commit was redeployed and production was re-read at snapshot
+`1787509573380-240`: all 99 headline-bearing sources carried a non-null feed
+identity, with no changes to stress, thresholds, lanes, or activation. This
+closes the feed-level identity gap only; it does not make titles semantic
+diagnoses or create a candidate consumer.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
