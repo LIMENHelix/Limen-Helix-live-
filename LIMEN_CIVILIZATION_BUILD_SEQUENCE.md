@@ -296,7 +296,11 @@ identifier and redirect chain are retained. The result is explicitly
 claim, numeric value, independence verdict, diagnosis, stress, or runtime input
 is created. The next gate is human/source review of publisher identity, domain
 relevance, version/revision behavior, and syndication independence before any
-evidence admission.
+evidence admission. The resolution output also records reuse: `21/22` DOI
+identities are referenced by more than one sampled portal, and the repeated
+references are not independent corroboration. One Medicine DOI appears in a
+single sampled portal. This is a measured reuse warning, not a claim that every
+portal was generated from one wire source.
 
 ### Job 3 subtask complete — diagnosis-surface non-inflation audit
 
