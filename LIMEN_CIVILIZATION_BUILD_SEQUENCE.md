@@ -361,6 +361,23 @@ World Bank count belongs to other adapters not included in this slice. No
 timestamp was inferred from local clocks or values, and no stress or activation
 behavior changed.
 
+### Job 3 subtask complete — remaining live World Bank adapters
+
+PR #79 (`40afc8c4`, merged as `ff0f1680`) applies the same source-date rule to
+the live World Bank Infrastructure and World Bank Food Index fetchers. The
+shared helper now returns the selected upstream observation row, so the value
+and its date are taken from the same record; no local clock is used as source
+identity. The real-path identity test now covers 13 adapters and passes 13/13;
+the full unit sweep remains 106 passed, 1 skipped, 0 failed.
+
+After the production deployment, snapshot `1787511783402-237` measured 144
+open source-identity gaps, all classified as numeric-upstream identity missing.
+The two repaired live records carried upstream dates `2021` (Infrastructure)
+and `2022` (Food Index). This closes only these two adapter gaps; the remaining
+144 require adapter-specific measurement or an explicit abstention. Values,
+stress calculations, cadence declarations, and activation gates were not
+changed.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
