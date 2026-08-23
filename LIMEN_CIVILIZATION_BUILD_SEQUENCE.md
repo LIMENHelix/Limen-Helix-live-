@@ -707,6 +707,43 @@ domain-packet seam are complete, but their production/real-world outcome gate is
 open; B9 needs a useful independent second-domain edge. B13/B17 sandbox
 consumption is now wired, but its world-outcome gate remains open.
 
+### Job 5 outcome-producer audit — measured 2026-08-23
+
+`node scripts/audit-autofire-outcome-path.cjs --write` inventories the
+production source tree without treating tests or UI options as autonomous
+producers. The report is saved at
+`assets/data/deep/autofire-outcome-path-audit.json` and its regression check is
+`scripts/test-autofire-outcome-path.cjs` (9/9).
+
+The command side is present: `handlers/limen-worker-autofire.js` can create an
+efference command, and the Tradier B14 bridge can create/reconcile a sandbox
+broker command. The learning consumer is present in
+`handlers/limen-outcome.js`, which calls `autofireLearning.recordOutcome` after
+an authenticated learning event is accepted. The artifact viewer contains a
+manual outcome form.
+
+The missing side is decisive: the audit found **zero autonomous production
+posts** for each qualifying learning event:
+
+- `OUTCOME_INVESTMENT_PNL`: 0
+- `OUTCOME_RESEARCH_PUBLISHED`: 0
+- `OUTCOME_RESEARCH_EVALUATED`: 0
+
+The only production declarations are the event validator/learner and the
+manual UI. Existing cron schedules do not emit these event types. The generic
+engine-output status callbacks (`SUBMITTED`, `APPROVED`, etc.) feed the legacy
+outcome aggregator; they do not satisfy the explicit investment P&L or
+research-evaluation grading contracts. The synthetic sandbox outcome stream is
+kept separate and is not world evidence.
+
+Therefore B11/B14 is not closed: a command can be persisted and resolved, but
+no autonomous, independently grounded research or investment receipt currently
+returns to the learner. The next implementation must add read-only/sandbox
+observers for those two receipt classes, with source identity, observation time,
+terms, and persistence failure handling. It must not manufacture an outcome
+from a command receipt, article count, sentiment, or the originating domain
+observation.
+
 ## Job 6 — Run the full read-only civilization sandbox
 
 **Target window:** 2–4 weeks after Jobs 3–5  
@@ -848,8 +885,13 @@ Only after research and finance are reliable, add revenue/publication flows, com
 
 ## Execution rule
 
-The next active job is **Job 3**. Jobs 1 and 2 are recorded complete in this document. Job 3 begins with a read-only substrate audit;
-we do not authorize real-money activity until Jobs 1–7 are complete.
+The next active implementation is **Job 5**. Jobs 1 and 2 are recorded
+complete; the Job 3 queue-population and primary-identifier subtasks are
+complete, while source ownership/syndication review, semantic transport,
+cadence/replay, and actual queue consumption remain open. Job 4's browser
+handoff seam is complete but its persisted server-side consumer remains open.
+Job 5 therefore owns the current B11/B14 outcome-producer audit and the useful
+B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-23
 
@@ -859,15 +901,15 @@ and the completed bridge/sandbox subtasks. The latest committed rehearsal result
 outcomes, and `$0` spend. No production code has been activated by this checkpoint;
 push, PR, merge, and deploy remain separate owner decisions.
 
-The next active implementation queue is the remaining Job 3 substrate work (source
-identity/replayability and the 19 domain authoring admissions), followed by wiring
-the sandbox bridge to a real second-domain edge for B9 and the domain-to-B10
-release bridge now identified in production. Queue admission is deployed and
-measured; it must not be counted as firing or revenue. One source-identity repair
-(Massive Crude aggregate identity) is complete; the remaining gaps require
-adapter-specific measurements or explicit abstentions. This ordering is deliberate:
-the bridge can rehearse command/outcome mechanics, but it must not hide missing
-domain inputs or turn conceptual homology into an operational claim.
+The all-domain queue and primary-identifier review surfaces are deployed and
+measured; they must not be counted as evidence admission, firing, or revenue.
+The remaining substrate work requires source ownership/syndication review,
+semantic title-to-candidate transport, cadence/replay closure, and actual
+domain use of reviewed queues. Job 5 now has a measured B11/B14 blocker:
+commands and learners exist, but no autonomous producer emits the qualifying
+research or investment outcome events. The sandbox can rehearse command/outcome
+mechanics, but it must not hide missing domain inputs or turn conceptual
+homology into an operational claim.
 
 Latest substrate checkpoint: `ddc7d512` preserves Massive Crude's Polygon
 aggregate identity, `542a4b33` preserves arXiv query-result identity, and
