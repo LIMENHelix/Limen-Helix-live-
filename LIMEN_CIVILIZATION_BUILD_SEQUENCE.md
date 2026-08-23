@@ -283,6 +283,18 @@ bounded read returned 7,052 sets / 35,260 title items, and all 35,260 carried UR
 publication-time, and publisher fields. These are observed-at-cap counts, not total
 retention or proof that titles are already consumed by candidate creation or diagnosis.
 
+### Job 3 production substrate refresh — 2026-08-23
+
+The public `/api/domain-snapshot` was re-read at snapshot
+`1787501854789-237`. The refreshed source-identity queue contains 260 open
+tasks (162 numeric-upstream gaps and 98 headline-item-only gaps). This is a
+dynamic production observation, not a contradiction of the two adapter repairs
+above: those repairs are committed only on this isolated branch and have not
+been deployed, so production still reports Massive Crude and arXiv as gaps.
+The queue was refreshed from that exact endpoint and remains planning material;
+it does not derive timestamps or create any stress, diagnosis, pathway, or
+activation.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
