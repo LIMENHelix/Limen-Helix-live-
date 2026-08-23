@@ -255,6 +255,7 @@ async function handlerProof() {
   const killPath = path.join(ROOT, 'lib', 'ai-kill-switch.js');
   const efferenceStorePath = path.join(ROOT, 'lib', 'autofire-efference-store.js');
   const brainStorePath = path.join(ROOT, 'lib', 'brain-shadow-store.js');
+  const tradierSandboxPath = path.join(ROOT, 'lib', 'tradier-sandbox.js');
   mock(dbPath, fakeDb);
   mock(efferenceStorePath, fakeEfferenceStore);
   mock(brainStorePath, {
@@ -279,6 +280,19 @@ async function handlerProof() {
     async record() { return { spentUsd: 0.3 }; }
   });
   mock(killPath, { async spendDisabled() { return false; }, async setSpendPaused() {} });
+  const tradierCalls = [];
+  mock(tradierSandboxPath, {
+    async accountSnapshot() {
+      tradierCalls.push('account');
+      return { accountId: 'VA60523798', accountType: 'cash', totalCash: 1000,
+        pendingCash: 0, unclearedFunds: 0, totalEquity: 1000, positions: [], orders: [] };
+    },
+    async previewOrder(order) {
+      tradierCalls.push({ op: 'preview', order: order });
+      return { status: 'ok', result: true, cost: 501, commission: 1, fees: 0 };
+    },
+    async placeOrder() { throw new Error('worker must never place a Tradier order'); }
+  });
 
   const handlerPath = require.resolve(path.join(ROOT, 'handlers', 'limen-worker-autofire.js'));
   const previousHandler = require.cache[handlerPath];
@@ -330,12 +344,22 @@ async function handlerProof() {
       recommendedLane: 'investment', cik: '789019', portalSlug: 'microsoft',
       domain: 'technology',
       sourceArtifactRef: 'investment:microsoft:structural', sourcePatternSig: 'sig-msft',
+      tradeIntent: { symbol: 'SPY', side: 'buy', quantity: 1, limitPrice: 500,
+        maxNotionalUsd: 510, horizonDays: [30, 60, 90],
+        sourceArtifactId: 'investment:microsoft:structural' },
       masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
       salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
     }]);
     persistOutputId = null;
     network.length = 0;
+    process.env.TRADIER_SANDBOX_AUTONOMY_ENABLED = '1';
     const missingReceipt = await invoke(handler, request('GET', '/api/limen-worker-autofire'));
+    ok('Finance queue entry creates a sandbox preview before artifact dispatch',
+      missingReceipt.json.results[0].financeB14Preview.status === 'PREVIEWED' &&
+      tradierCalls.join(',').indexOf('account') >= 0 && tradierCalls.some(c => c && c.op === 'preview'));
+    ok('sandbox preview preserves the explicit trade identity',
+      missingReceipt.json.results[0].financeB14Preview.preview.intent.sourceArtifactId === 'investment:microsoft:structural' &&
+      /^sel_/.test(missingReceipt.json.results[0].financeB14Preview.preview.intent.selectionId));
     ok('missing outputId becomes a failed fire', missingReceipt.json.errors === 1 && missingReceipt.json.fired === 0 && missingReceipt.json.results[0].reason === 'persist-missing-receipt');
     ok('motor record refuses EXECUTED without the receipt identity', missingReceipt.json.results[0].motorStatus === 'FAILED');
     ok('queue remains retryable rather than falsely FIRED', fakeDb.values.get('autoqueue')[0].status === 'PENDING' && fakeDb.values.get('autoqueue')[0].autofireAttempts === 1);
@@ -348,6 +372,7 @@ async function handlerProof() {
     ok('strict-store outage makes no provider or persistence request', network.length === 0);
   } finally {
     global.fetch = oldFetch;
+    delete process.env.TRADIER_SANDBOX_AUTONOMY_ENABLED;
     if (oldMaster === undefined) delete process.env.ADMIN_MASTER; else process.env.ADMIN_MASTER = oldMaster;
     if (previousHandler) require.cache[handlerPath] = previousHandler; else delete require.cache[handlerPath];
     for (const [resolved, previous] of replacements) {
