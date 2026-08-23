@@ -244,6 +244,31 @@ retention or proof that titles are already consumed by candidate creation or dia
 **Owner:** domain-brain adapter, Civilization, Master Brain  
 **Change type:** runtime contract
 
+### Job 4 initial audit — current bridge and corrected probe boundary
+
+The repository already contains a substantial browser-side bridge:
+`assets/js/civilization/domain-packet-adapter.js` carries brain-preferred domain
+truth, treatments, opportunities, directives, phase, feed health, and recurrent
+model state into Civilization packets; `assets/js/civilization/handoff-contract.js`
+routes those packets into lane-specific handoffs; and
+`assets/js/civilization/artifact-packet-builder.js` carries the active packet into
+an artifact packet. The old probe was stale: it used the retired `patents` lane and
+the retired `handlers/expand-artifact.js` endpoint, so it reported a false bridge
+failure after patent/grant retirement.
+
+The active bridge now carries explicit version markers at the two handoff boundaries:
+
+- `civilization-domain-packet/1.0`
+- `civilization-handoff/1.0`
+
+The corrected read-only probes use the active `investments` lane and stop before any
+paid provider call. `scripts/_taxonomy-pilot/f0-survival-probe.cjs` and
+`scripts/_taxonomy-pilot/f1-schema-probe.cjs` now pass: recurrent energy state
+survives brain adapter → Civilization packet → versioned handoff → active artifact
+packet, and the six-diagnosis packet schema remains explicit. This is a measured
+single-domain bridge trace, not yet a 20-domain integration gate. The remaining Job 4
+work is a 20-domain field-survival test plus stale/missing/race-condition handling.
+
 ### Work
 
 Replace implicit shared-global assumptions with a versioned handoff carrying:

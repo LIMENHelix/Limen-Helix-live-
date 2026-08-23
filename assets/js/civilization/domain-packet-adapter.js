@@ -1767,6 +1767,7 @@
     };
 
     return {
+      schemaVersion: 'civilization-domain-packet/1.0',
       domainId:       domainId,
       domainLabel:    DOMAIN_LABELS[domainId] || domainId,
       timestamp:      Date.now(),

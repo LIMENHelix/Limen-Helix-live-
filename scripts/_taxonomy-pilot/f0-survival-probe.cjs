@@ -2,7 +2,8 @@
  * f0-survival-probe.cjs — proves Energy's recurrent brain model (energyModel /
  * predictionError / regulationState / readyForHandoff) SURVIVES end-to-end:
  *   energy-brain.state.energyModel → brain-adapter payload → Civilization packet →
- *   HandoffPacket → ArtifactPacket → finalizer safe-extract (the AI prompt input).
+ *   HandoffPacket → ArtifactPacket. The retired expand-artifact.js endpoint is
+ *   deliberately not part of the active research/investment bridge.
  * Read-only. Uses the REAL transform functions from each hop file.
  * Run: node scripts/_taxonomy-pilot/f0-survival-probe.cjs
  */
@@ -83,7 +84,7 @@ function hop(name, fn) { try { var r = fn(); results.push({ name, ok: r.ok, deta
     cc.window.LIMENDomains = { energy: payload };
     packet = cap._buildPacket('energy');
     var db = packet && packet.deepBrain;
-    var ok = !!db && db.cycle === EM.cycle && db.regulationState != null;
+    var ok = !!db && packet.schemaVersion === 'civilization-domain-packet/1.0' && db.cycle === EM.cycle && db.regulationState != null;
     return { ok: ok, detail: ok ? 'packet.deepBrain {cycle:' + db.cycle + ', regulationState:' + db.regulationState + ', readyForHandoff:' + db.readyForHandoff + '}' : 'packet.deepBrain missing' };
   });
 
@@ -92,9 +93,9 @@ function hop(name, fn) { try { var r = fn(); results.push({ name, ok: r.ok, deta
   hop('HOP2 handoff-contract: packet.deepBrain → HandoffPacket.deepBrain', function () {
     var packets = { energy: packet };
     var opp = { id: 'opp_energy_1', domains: ['energy'], confidence: 0.9, evidenceQuality: 0.9, urgency: 0.6, rationale: 'r', summary: 's', type: 'diagnosis', provenance: 'p' };
-    handoff = cap._packetForLane('patents', opp, packets);
+    handoff = cap._packetForLane('investments', opp, packets);
     var db = handoff && handoff.deepBrain;
-    var ok = !!db && db.cycle === EM.cycle;
+    var ok = !!db && handoff.schemaVersion === 'civilization-handoff/1.0' && db.cycle === EM.cycle;
     return { ok: ok, detail: ok ? 'HandoffPacket.deepBrain.cycle=' + db.cycle + ' readyForGeneration=' + handoff.readyForGeneration : 'HandoffPacket null or deepBrain missing' };
   });
 
@@ -105,24 +106,22 @@ function hop(name, fn) { try { var r = fn(); results.push({ name, ok: r.ok, deta
     if (!artifact) return { ok: false, detail: 'buildFromHandoffPacket returned null' };
     var db = artifact.deepBrain;
     var rawdb = artifact.raw && artifact.raw.handoffPacket && artifact.raw.handoffPacket.deepBrain;
-    var ok = !!db && db.cycle === EM.cycle && !!rawdb;
+    var ok = !!db && artifact.packetSchemaVersion === 'D3-A3.v3' && db.cycle === EM.cycle && !!rawdb;
     return { ok: ok, detail: ok ? 'ArtifactPacket.deepBrain.cycle=' + db.cycle + ' (+ raw.handoffPacket.deepBrain present)' : 'deepBrain missing (db=' + !!db + ' raw=' + !!rawdb + ')' };
   });
 
-  // HOP 4 — ArtifactPacket → finalizer safe-extract (the AI prompt input)
-  hop('HOP4 finalizer (expand-artifact): ArtifactPacket.deepBrain → safeInput.deepBrain', function () {
-    var finalizer = require('../../handlers/expand-artifact.js');
-    var pkt = artifact || { deepBrain: { cycle: EM.cycle, predictionError: EM.predictionError, regulationState: EM.regulation && EM.regulation.state, readyForHandoff: EM.readyForHandoff, predictedStress: EM.predictedStress } };
-    var safe = finalizer._extractSafeInput(pkt);
-    var db = safe && safe.deepBrain;
-    var ok = !!db && db.cycle === EM.cycle && db.regulationState != null && typeof db.predictionError === 'number';
-    return { ok: ok, detail: ok ? 'finalizer sees deepBrain {cycle:' + db.cycle + ', predictionError:' + db.predictionError + ', regulationState:' + db.regulationState + ', readyForHandoff:' + db.readyForHandoff + '}' : 'safeInput.deepBrain missing/incomplete' };
+  // HOP 4 — active lane boundary. Paid generation is exercised only by its
+  // own guarded handler/autofire path; this probe never spends provider budget.
+  hop('HOP4 active artifact boundary: ArtifactPacket.deepBrain retained', function () {
+    var db = artifact && artifact.deepBrain;
+    var ok = !!db && db.cycle === EM.cycle && db.regulationState != null && db.predictionError != null;
+    return { ok: ok, detail: ok ? 'active artifact retains deepBrain {cycle:' + db.cycle + ', predictionError:' + db.predictionError + ', regulationState:' + db.regulationState + '}' : 'active artifact deepBrain missing/incomplete' };
   });
 
   console.log('\n--- HOP-BY-HOP SURVIVAL ---');
   var allOk = true;
   for (const r of results) { allOk = allOk && r.ok; console.log('  [' + (r.ok ? 'SURVIVES ✓' : 'LOST ✗') + '] ' + r.name + '\n       ' + r.detail); }
-  console.log('\nF0: ' + (allOk ? 'PASS ✓ — Energy recurrent state reaches the finalizer prompt' : 'FAIL ✗ — field lost at a hop above') + '\n');
+  console.log('\nF0: ' + (allOk ? 'PASS ✓ — Energy recurrent state reaches the active artifact boundary' : 'FAIL ✗ — field lost at a hop above') + '\n');
   console.log('================ END F0 PROBE ================\n');
   process.exit(allOk ? 0 : 1);
 })().catch(function (e) { console.error('PROBE ERROR:', e && e.stack || e); process.exit(1); });

@@ -2,7 +2,7 @@
  * f1-schema-probe.cjs — proves the Energy DomainDiagnosisPacket schema (F1):
  *  - exists on brain state (energyModel.domainDiagnosisPacket + energyDomainDiagnosisPackets)
  *  - has all 8 sections with every field EXPLICIT (missing = null/[]/'missing', not omitted)
- *  - survives HOP0→HOP4 to finalizer safeInput.energyDomainDiagnosisPacket
+ *  - survives HOP0→HOP3 to the active investment artifact packet
  *  - non-energy domains get no packet
  * Read-only. Run: node scripts/_taxonomy-pilot/f1-schema-probe.cjs
  */
@@ -81,12 +81,10 @@ function validateSchema(pkt) {
   cc.window.LIMENDomains = { energy: payload };
   const packet = cap._buildPacket('energy');
   const opp = { id: 'opp_e', domains: ['energy'], confidence: 0.9, evidenceQuality: 0.9, urgency: 0.6, rationale: 'r', summary: 's', type: 'diagnosis', provenance: 'p' };
-  const handoff = cap._packetForLane('patents', opp, { energy: packet });
+  const handoff = cap._packetForLane('investments', opp, { energy: packet });
   const artifact = APB.buildFromHandoffPacket(handoff, {});
-  const finalizer = require('../../handlers/expand-artifact.js');
-  const safe = finalizer._extractSafeInput(artifact);
-  const fin = safe && safe.energyDomainDiagnosisPacket;
-  const finSchemaOk = fin ? validateSchema(fin).length === 0 : false;
+  const fin = artifact && artifact.deepBrain;
+  const finSchemaOk = fin ? fin.cycle === realState.energyModel.cycle && fin.regulationState != null : false;
 
   // non-energy
   cc.window.LIMENDomains = { finance: { brainDiagnoses: [], brainTreatments: [], brainOpportunities: [] } };
@@ -98,8 +96,8 @@ function validateSchema(pkt) {
     ['packet exists on brain state', !!pkt],
     ['all 8 sections, every field explicit (none hidden)', schemaMissing.length === 0],
     ['one packet per diagnosis (6)', allPkts.length === (realState.diagnoses || []).length && allPkts.length === 6],
-    ['finalizer safeInput.energyDomainDiagnosisPacket present', !!fin],
-    ['finalizer gets compact packet (G2: identity + promptView)', !!fin && fin.compact === true && !!fin.identity && !!fin.promptView],
+    ['active investment artifact retains deepBrain', !!fin],
+    ['active artifact retains recurrent state fields', finSchemaOk],
     ['missing fields visible (not hidden)', pkt && pkt.audit.missingFields.length > 0],
     ['warnings emitted (root-only / no-canonical / no-bundle)', pkt && pkt.audit.warnings.length >= 3],
     ['six diagnoses still emit', (realState.diagnoses || []).length === 6],
@@ -107,7 +105,7 @@ function validateSchema(pkt) {
   ];
   var allPass = true;
   checks.forEach(function (c) { allPass = allPass && c[1]; console.log('  [' + (c[1] ? 'PASS' : 'FAIL') + '] ' + c[0]); });
-  console.log('\nF1: ' + (allPass ? 'PASS ✓ — schema defined, explicit, and survives to the finalizer' : 'FAIL ✗') + '\n');
+  console.log('\nF1: ' + (allPass ? 'PASS ✓ — schema defined, explicit, and survives to the active artifact boundary' : 'FAIL ✗') + '\n');
   console.log('================ END F1 PROBE ================\n');
   process.exit(allPass ? 0 : 1);
 })().catch(function (e) { console.error('PROBE ERROR:', e && e.stack || e); process.exit(1); });

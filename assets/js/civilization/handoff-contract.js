@@ -1315,6 +1315,7 @@
     var diagnoses = _diagnosesFor(opp.domains || [], packets);
 
     return {
+      schemaVersion: 'civilization-handoff/1.0',
       opportunityId:    opp.id,
       lane:             lane,
       sourceDomains:    (opp.domains || []).slice(),
