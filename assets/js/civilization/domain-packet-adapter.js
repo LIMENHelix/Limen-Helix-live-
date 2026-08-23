@@ -252,7 +252,7 @@
     if (totalCount > 0 && liveCount === 0) warnings.push('NO_LIVE_FEEDS');
     if (totalCount > 0 && liveCount > 0 && (liveCount / totalCount) < 0.34) warnings.push('LOW_LIVE_FEED_COUNT');
     if (slot && slot.status === 'STALE') warnings.push('STALE_SNAPSHOT');
-    if (sourceType === 'domain-brain' && brainAge != null && brainAge > BRAIN_STALE_MS) warnings.push('STALE_BRAIN');
+    if (sourceType.indexOf('domain-brain') === 0 && brainAge != null && brainAge > BRAIN_STALE_MS) warnings.push('STALE_BRAIN');
     if (sourceType === 'domain-snapshot' && snapshotAge != null && snapshotAge > SNAPSHOT_STALE_MS) warnings.push('STALE_SNAPSHOT');
     if (slot && slot.cadence === 'fallback') warnings.push('HEURISTIC');
     if (sourceType === 'domain-brain' && (!slot.brainFeeds || slot.brainFeeds.length === 0)) warnings.push('BRAIN_NO_FEED_LIST');

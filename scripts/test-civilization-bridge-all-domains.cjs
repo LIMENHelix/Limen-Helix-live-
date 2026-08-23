@@ -94,5 +94,14 @@ for (const domain of DOMAINS) {
 const routed = rows.filter((r) => r.lane);
 const failed = rows.filter((r) => r.status === 'FAIL');
 const abstained = rows.filter((r) => !r.lane);
-console.log(JSON.stringify({ readOnly: true, domains: rows.length, routed: routed.length, abstained: abstained.length, failed: failed.length, rows }, null, 2));
-if (failed.length || rows.length !== 20 || routed.some((r) => r.status !== 'PASS')) process.exitCode = 1;
+
+// Missing/stale state must be represented, not silently substituted.
+ctx.window.LIMENDomains = { energy: Object.assign(slotFor('energy'), { brainUpdatedAt: 1750000000000 - 7 * 60 * 1000 }) };
+const stale = cap._buildPacket('energy');
+const staleHandled = stale.sourceType === 'domain-brain-stale' && stale.auditFlags.indexOf('STALE_BRAIN') >= 0;
+ctx.window.LIMENDomains = {};
+const missing = cap._buildPacket('energy');
+const missingHandled = missing.sourceType === 'missing' && missing.auditFlags.indexOf('NO_LIVE_FEEDS') === -1;
+
+console.log(JSON.stringify({ readOnly: true, domains: rows.length, routed: routed.length, abstained: abstained.length, failed: failed.length, staleHandled, staleSourceType: stale.sourceType, staleFlags: stale.auditFlags, missingHandled, raceHandling: 'not-yet-tested', rows }, null, 2));
+if (failed.length || rows.length !== 20 || routed.some((r) => r.status !== 'PASS') || !staleHandled || !missingHandled) process.exitCode = 1;
