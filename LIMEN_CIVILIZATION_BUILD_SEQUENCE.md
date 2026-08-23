@@ -174,6 +174,25 @@ task creates a value, diagnosis, stress, or activation. This is the correct next
 for Job 3; it must not be merged into the deep-authoring queues as though a missing
 recorded value were an authoring opportunity.
 
+### Job 3 subtask — deep-digest generation audit (blocked on metric reconciliation)
+
+The existing deep trees are not absent. Running the current generic
+`scripts/build-diagnosis-digest.mjs` in the worktree traversed all 20 domain trees and
+found 3,518 deduplicated diagnoses (Agriculture remains the smaller 98-diagnosis
+surface). It selected 4,565 treatment links under its two-per-diagnosis cap. The
+committed digest files already report the same 3,518 diagnoses but 91,883 raw
+`txCount` links. For example, Communication is 5,230 in the committed digest and 366
+under the current selected-link output.
+
+This is a metric/version mismatch, not proof that either number is the system's true
+opportunity count. Regenerating the digests would silently replace one definition with
+the other and shrink the operator surface. The often-mentioned 6,950 opportunity
+figure has no named artifact in this checkout yet, so it is not adopted as a measured
+baseline. Before any queue is populated from these digests, define and version the
+opportunity metric, reconcile the source treatment cardinality, and add a regression
+that refuses an unexplained count change. No digest rewrite was retained from this
+audit.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
