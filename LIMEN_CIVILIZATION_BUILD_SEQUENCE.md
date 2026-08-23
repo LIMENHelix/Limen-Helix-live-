@@ -782,9 +782,11 @@ Run a 30-day rehearsal across all domains and lanes. Record every proposed actio
 20-domain rehearsal through the versioned domain-packet adapter and sandbox
 bridge. Ten domains routed to the two
 active lanes and ten explicitly abstained: `300` simulated commands persisted,
-`300` sandbox outcomes persisted, `0` pending, and `284` commands reached trusted
-forward-model reafference after the eight-observation threshold. The rehearsal
-recorded `0` simulated spend and `0` outward executions. All 13 operating lanes
+`300` independently identified sandbox-world observations persisted, `300`
+sandbox outcomes persisted, `300` outcomes consumed by the B13/B17 learning
+bridge, one offline consolidation pass, `0` pending, and `284` commands reached
+trusted forward-model reafference after the eight-observation threshold. The
+rehearsal recorded `0` simulated spend and `0` outward executions. All 13 operating lanes
 are now classified in the report: research and investments are `simulated`, and
 the other 11 are explicitly `not-active` with `NO_SANDBOX_ADAPTER` blockers
 (`publication`, `social`, `subscriber-email`, `automail`, `autopilot`,
@@ -792,10 +794,11 @@ the other 11 are explicitly `not-active` with `NO_SANDBOX_ADAPTER` blockers
 They are not silently treated as active.
 
 This is a bridge rehearsal, not a full production-cron observation: it proves the
-ordering and labels of the sandbox path, not that current live queues contain work
-or that any provider would return the simulated outcomes. Lane classification is
-complete; the full Job 6 gate stays open until the real read-only runtime surface
-is included in the same bounded report.
+ordering, persistence, source separation, learning handoff, and labels of the
+sandbox path, not that current live queues contain work or that any provider
+would return the simulated outcomes. Lane classification and the sandbox
+learning seam are complete; the full Job 6 gate stays open until the real
+read-only runtime surface is included in the same bounded report.
 
 ### Job 6 live read-only surface — measured 2026-08-23
 
