@@ -69,6 +69,26 @@ var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
 var RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000;
 var MAX_ATTEMPTS_PER_ENTRY = 3;
 
+/* A critic hold is an expected default-deny outcome, not a failed provider
+ * attempt. Keep it out of the failure/retry path so the queue can be
+ * reconsidered when the owning domain emits stronger evidence. */
+function domainOutwardHoldResult(entry, receipt) {
+  return {
+    skipped: true,
+    ok: false,
+    billableAttempt: false,
+    cik: entry.cik,
+    lane: entry.recommendedLane,
+    reason: 'domain-outward-held',
+    detail: (receipt.reasons || []).join(','),
+    selectionId: receipt.id,
+    selectionReasons: receipt.reasons,
+    decisionKind: receipt.criticDecision && receipt.criticDecision.released
+      ? receipt.criticDecision.released.kind : null,
+    motorStatus: 'HELD'
+  };
+}
+
 // The deployment hostname can be protected even when the public custom domain
 // is intentionally open. Internal calls must use the public application origin;
 // otherwise Vercel returns its own 401 before x-limen-pass reaches the handler.
@@ -262,14 +282,7 @@ async function _fireOne(entry) {
     };
   }
   if (selected.receipt.status !== 'RELEASED') {
-    return {
-      skipped: false, ok: false, billableAttempt: false,
-      cik: entry.cik, lane: lane,
-      reason: 'domain-outward-held', detail: selected.receipt.reasons.join(','),
-      selectionId: selected.receipt.id,
-      selectionReasons: selected.receipt.reasons,
-      motorStatus: 'HELD'
-    };
+    return domainOutwardHoldResult(entry, selected.receipt);
   }
 
   // Optional Finance motor bridge. A queue entry must carry an explicit trade
@@ -821,3 +834,7 @@ module.exports = async function handler(req, res) {
     }));
   }
 };
+
+/* Exported only for the behavioral accounting test; Vercel still invokes the
+ * function itself. */
+module.exports.domainOutwardHoldResult = domainOutwardHoldResult;

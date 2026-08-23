@@ -590,6 +590,26 @@ pending entries, fired `0`, spent `$0`, and held the command with
 remaining motor-loop blocker is the domain-to-B10 release bridge, not feeder
 starvation.
 
+### Job 6 subtask complete — B10 hold accounting and release diagnosis
+
+An authenticated read-only comparison of the current queue and the owning
+domain cycle reproduced the production hold locally. For a pending investment
+candidate (`confidence=0.385`, `readiness=0.643`, `salience=0.594`), Finance
+reported `l3CurrentEvidenceComplete=true` and `outwardConnected=true`; the
+critic selected `no_action` (`criticValue=0.701`) over artifact generation
+(`criticValue=0.612`). This is an evidence hold, not a missing L3 or motor
+connection, and no provider call was made.
+
+The worker previously returned that expected default-deny result as
+`ok:false, skipped:false`, which counted it as an error and applied the
+six-hour failure backoff. It now records `skipped:true`, `motorStatus=HELD`,
+`decisionKind=no_action`, and `billableAttempt=false`; the pending candidate
+remains eligible for a later reconsideration when its owning domain emits
+stronger evidence. The B10 gate, thresholds, owner policy, and
+live-money/publication boundaries are unchanged. `scripts/test-autofire-held-
+classification.js` passes 6/6. This closes an accounting defect; it does not
+claim a released command, artifact, revenue, or pathway activation.
+
 ## Job 7 — Paper-operation pilot
 
 **Target window:** 1–3 months  
