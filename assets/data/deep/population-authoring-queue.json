@@ -1,18 +1,3112 @@
 {
-  "generatedAt": null,
-  "admission": "Honest empty stub — population deep-portal pipeline has NOT run yet. NOT energy content.",
+  "generatedAt": "2026-08-23T22:10:38.930Z",
   "builtFrom": [
-    "population tree"
+    "population-portal-quality-index.json",
+    "population-certified-cortex-index.json"
   ],
-  "note": "stub",
-  "totalTasks": 0,
-  "byType": {},
+  "note": "Records measured domain-specific authoring gaps. No candidate content or evidence is fabricated.",
+  "totalTasks": 141,
+  "byType": {
+    "provenance review needed": 1,
+    "treatment needs replacement": 128,
+    "domain relevance verification needed": 12
+  },
   "byDiagnosis": {},
   "priorityLegend": {
-    "P0": "blocking",
-    "P1": "high",
-    "P2": "normal",
-    "P3": "low"
+    "1": "thin portal requiring source authoring",
+    "2": "synthetic or authority-masquerading content requiring replacement",
+    "3": "domain relevance verification"
   },
-  "tasks": []
+  "tasks": [
+    {
+      "target": "population",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 0,
+      "authoringType": "provenance review needed",
+      "missingFields": [
+        "independent provenance review",
+        "domain relevance review"
+      ],
+      "existingContext": "classifier candidate: URL/company/non-template shape; not an evidence admission",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Review source ownership, provenance, domain relevance, and syndication before any evidence admission",
+      "priority": 1,
+      "whyItMatters": "classifier output is a candidate only; no portal may self-authorise as evidence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_caregiving",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_healthcare",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_housing",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_policy",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_retirement",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_social",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_technology",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging_workforce",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_art",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_birthedu",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_birthpolicy",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_fertility",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_maternal",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_neonatal",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_planning",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth_reproductive",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_accessblty",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_assisttech",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_disbldemo",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_disblemply",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_disblpol",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_disblres",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_disblrghts",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_disblserv",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_inclusedu",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability_univdesign",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_cultpresvn",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_diaspora",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_ethnconfl",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_ethndata",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_ethnidemo",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_ethninteg",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_indigenpop",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_minority",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_multicult",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ethnicity_racialeq",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_blendfam",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_childless",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_cohabit",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_divorce",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_extendfam",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_famformat",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_household",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_marriage",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_samesexfam",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_familystr_singlepar",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_cultural",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_education",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_equality",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_genderdata",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_genderpolicy",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_health",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_violence",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender_workforce",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_automation",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_employment",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_informal",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_laborpolicy",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_migration",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_skills",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_wages",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor_youth",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_agingpop",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_causedeath",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_deathreg",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_excessmort",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_infantmort",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_lifeexptd",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_longevity",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_maternmort",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_mortfcast",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_lifespan_mortineql",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_diaspora",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_immigration",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_integration",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_migdata",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_migrationpolicy",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_refugee",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_remittance",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration_trafficking",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_causes",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_inequality",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_infant",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_maternal",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_mortdata",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_pandemic",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_prevention",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality_trends",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_admindata",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_bigdatadmo",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_censusmeth",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_datalink",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_demosurvey",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_popproject",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_popreg",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_spatdemo",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_statinfra",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata_vitalreg",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_chronicdis",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_diseasebrd",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_healthdata",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_healthdemo",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_healthineq",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_healthsys",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_menthlpop",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_nutrition",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_reprohlth",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_pophealth_substabuse",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_agingpol",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_demodivid",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_famplan",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_immigpol",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_popdist",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_popethics",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_popgovern",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_popgrowth",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_pronatpol",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy_urbanpol",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poverty",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poverty_antipovpro",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poverty_childpov",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_refugees",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_ruralpop",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_youthpop",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_aging",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (24) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_birth",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (24) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_disability",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (2) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_gender",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (16) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_labor",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (18) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_migration",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (16) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_mortality",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (20) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_popdata",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (2) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_poppolicy",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (2) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_rural",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (26) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_urbanization",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (16) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "population_youth",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (19) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    }
+  ]
 }

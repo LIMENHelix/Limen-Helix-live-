@@ -1,161 +1,107 @@
 {
   "schemaVersion": "domain-authoring-reconciliation-queue/1.0",
-  "generatedAt": "2026-08-23T21:57:48.722Z",
+  "generatedAt": "2026-08-23T22:10:41.379Z",
   "readOnlyAdmission": true,
   "note": "Reconciliation admissions are not authored opportunities, evidence, diagnoses, or execution input. No candidate content is fabricated.",
   "domains": 20,
-  "existingAuthoringQueueDomains": 4,
-  "openReconciliationTasks": 16,
+  "existingAuthoringQueueDomains": 20,
+  "openReconciliationTasks": 0,
   "rows": [
     {
       "domain": "agriculture",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 21,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 98,
         "digestTreatmentTotal": 3213,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 21,
+        "qualityAuthoringCandidates": 14,
+        "cortexNeedsRehydration": 14,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "p2_agri-deep-directives.json",
-          "p2_agri-diagnosis-digest.json",
-          "agriculture-portal-quality-index.json",
-          "agriculture-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "communication",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 119,
       "measured": {
         "deepDirectiveCount": 507,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 5418,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 119,
+        "qualityAuthoringCandidates": 98,
+        "cortexNeedsRehydration": 98,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "communication-deep-directives.json",
-          "communication-diagnosis-digest.json",
-          "communication-portal-quality-index.json",
-          "communication-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "culture",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 138,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4882,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 138,
+        "qualityAuthoringCandidates": 122,
+        "cortexNeedsRehydration": 122,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "culture-deep-directives.json",
-          "culture-diagnosis-digest.json",
-          "culture-portal-quality-index.json",
-          "culture-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "defense",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 140,
       "measured": {
         "deepDirectiveCount": 505,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4584,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 140,
+        "qualityAuthoringCandidates": 129,
+        "cortexNeedsRehydration": 129,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "defense-deep-directives.json",
-          "defense-diagnosis-digest.json",
-          "defense-portal-quality-index.json",
-          "defense-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "economy",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 137,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4756,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 137,
+        "qualityAuthoringCandidates": 123,
+        "cortexNeedsRehydration": 123,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "economy-deep-directives.json",
-          "economy-diagnosis-digest.json",
-          "economy-portal-quality-index.json",
-          "economy-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "education",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 112,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 5553,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 112,
+        "qualityAuthoringCandidates": 93,
+        "cortexNeedsRehydration": 93,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "education-deep-directives.json",
-          "education-diagnosis-digest.json",
-          "education-portal-quality-index.json",
-          "education-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "energy",
@@ -175,28 +121,19 @@
     },
     {
       "domain": "environment",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 140,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4804,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 140,
+        "qualityAuthoringCandidates": 127,
+        "cortexNeedsRehydration": 127,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "environment-deep-directives.json",
-          "environment-diagnosis-digest.json",
-          "environment-portal-quality-index.json",
-          "environment-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "finance",
@@ -216,128 +153,83 @@
     },
     {
       "domain": "governance",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 141,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4558,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 141,
+        "qualityAuthoringCandidates": 129,
+        "cortexNeedsRehydration": 129,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "governance-deep-directives.json",
-          "governance-diagnosis-digest.json",
-          "governance-portal-quality-index.json",
-          "governance-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "industry",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 140,
       "measured": {
         "deepDirectiveCount": 505,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4688,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 140,
+        "qualityAuthoringCandidates": 125,
+        "cortexNeedsRehydration": 125,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "industry-deep-directives.json",
-          "industry-diagnosis-digest.json",
-          "industry-portal-quality-index.json",
-          "industry-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "infrastructure",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 140,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4688,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 140,
+        "qualityAuthoringCandidates": 126,
+        "cortexNeedsRehydration": 126,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "infrastructure-deep-directives.json",
-          "infrastructure-diagnosis-digest.json",
-          "infrastructure-portal-quality-index.json",
-          "infrastructure-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "intelligence",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 141,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4584,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 141,
+        "qualityAuthoringCandidates": 123,
+        "cortexNeedsRehydration": 123,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "intelligence-deep-directives.json",
-          "intelligence-diagnosis-digest.json",
-          "intelligence-portal-quality-index.json",
-          "intelligence-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "law",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 137,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 5046,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 137,
+        "qualityAuthoringCandidates": 118,
+        "cortexNeedsRehydration": 118,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "law-deep-directives.json",
-          "law-diagnosis-digest.json",
-          "law-portal-quality-index.json",
-          "law-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "medicine",
@@ -357,53 +249,35 @@
     },
     {
       "domain": "population",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 141,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 5870,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 141,
+        "qualityAuthoringCandidates": 128,
+        "cortexNeedsRehydration": 128,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "population-deep-directives.json",
-          "population-diagnosis-digest.json",
-          "population-portal-quality-index.json",
-          "population-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "religion",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 141,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4464,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 141,
+        "qualityAuthoringCandidates": 128,
+        "cortexNeedsRehydration": 128,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "religion-deep-directives.json",
-          "religion-diagnosis-digest.json",
-          "religion-portal-quality-index.json",
-          "religion-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "science",
@@ -423,327 +297,36 @@
     },
     {
       "domain": "technology",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 135,
       "measured": {
         "deepDirectiveCount": 504,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 5202,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 135,
+        "qualityAuthoringCandidates": 114,
+        "cortexNeedsRehydration": 114,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "technology-deep-directives.json",
-          "technology-diagnosis-digest.json",
-          "technology-portal-quality-index.json",
-          "technology-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     },
     {
       "domain": "trade",
-      "status": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "existingAuthoringTasks": 0,
+      "status": "EXISTING_AUTHORING_QUEUE",
+      "existingAuthoringTasks": 140,
       "measured": {
         "deepDirectiveCount": 500,
         "digestDiagnosisCount": 180,
         "digestTreatmentTotal": 4656,
-        "qualitySampled": 0,
-        "qualityAuthoringCandidates": 0,
-        "cortexNeedsRehydration": 0,
+        "qualitySampled": 140,
+        "qualityAuthoringCandidates": 120,
+        "cortexNeedsRehydration": 120,
         "cortexExternalBundles": 0,
         "consumedByRuntime": false
       },
-      "abstention": {
-        "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-        "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-        "sourceFiles": [
-          "trade-deep-directives.json",
-          "trade-diagnosis-digest.json",
-          "trade-portal-quality-index.json",
-          "trade-certified-cortex-index.json"
-        ]
-      }
+      "abstention": null
     }
   ],
-  "tasks": [
-    {
-      "taskId": "domain-authoring-reconcile-agriculture",
-      "domain": "agriculture",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "p2_agri-deep-directives.json",
-        "p2_agri-diagnosis-digest.json",
-        "agriculture-portal-quality-index.json",
-        "agriculture-certified-cortex-index.json"
-      ],
-      "createdOrder": 0
-    },
-    {
-      "taskId": "domain-authoring-reconcile-communication",
-      "domain": "communication",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "communication-deep-directives.json",
-        "communication-diagnosis-digest.json",
-        "communication-portal-quality-index.json",
-        "communication-certified-cortex-index.json"
-      ],
-      "createdOrder": 1
-    },
-    {
-      "taskId": "domain-authoring-reconcile-culture",
-      "domain": "culture",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "culture-deep-directives.json",
-        "culture-diagnosis-digest.json",
-        "culture-portal-quality-index.json",
-        "culture-certified-cortex-index.json"
-      ],
-      "createdOrder": 2
-    },
-    {
-      "taskId": "domain-authoring-reconcile-defense",
-      "domain": "defense",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "defense-deep-directives.json",
-        "defense-diagnosis-digest.json",
-        "defense-portal-quality-index.json",
-        "defense-certified-cortex-index.json"
-      ],
-      "createdOrder": 3
-    },
-    {
-      "taskId": "domain-authoring-reconcile-economy",
-      "domain": "economy",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "economy-deep-directives.json",
-        "economy-diagnosis-digest.json",
-        "economy-portal-quality-index.json",
-        "economy-certified-cortex-index.json"
-      ],
-      "createdOrder": 4
-    },
-    {
-      "taskId": "domain-authoring-reconcile-education",
-      "domain": "education",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "education-deep-directives.json",
-        "education-diagnosis-digest.json",
-        "education-portal-quality-index.json",
-        "education-certified-cortex-index.json"
-      ],
-      "createdOrder": 5
-    },
-    {
-      "taskId": "domain-authoring-reconcile-environment",
-      "domain": "environment",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "environment-deep-directives.json",
-        "environment-diagnosis-digest.json",
-        "environment-portal-quality-index.json",
-        "environment-certified-cortex-index.json"
-      ],
-      "createdOrder": 6
-    },
-    {
-      "taskId": "domain-authoring-reconcile-governance",
-      "domain": "governance",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "governance-deep-directives.json",
-        "governance-diagnosis-digest.json",
-        "governance-portal-quality-index.json",
-        "governance-certified-cortex-index.json"
-      ],
-      "createdOrder": 7
-    },
-    {
-      "taskId": "domain-authoring-reconcile-industry",
-      "domain": "industry",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "industry-deep-directives.json",
-        "industry-diagnosis-digest.json",
-        "industry-portal-quality-index.json",
-        "industry-certified-cortex-index.json"
-      ],
-      "createdOrder": 8
-    },
-    {
-      "taskId": "domain-authoring-reconcile-infrastructure",
-      "domain": "infrastructure",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "infrastructure-deep-directives.json",
-        "infrastructure-diagnosis-digest.json",
-        "infrastructure-portal-quality-index.json",
-        "infrastructure-certified-cortex-index.json"
-      ],
-      "createdOrder": 9
-    },
-    {
-      "taskId": "domain-authoring-reconcile-intelligence",
-      "domain": "intelligence",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "intelligence-deep-directives.json",
-        "intelligence-diagnosis-digest.json",
-        "intelligence-portal-quality-index.json",
-        "intelligence-certified-cortex-index.json"
-      ],
-      "createdOrder": 10
-    },
-    {
-      "taskId": "domain-authoring-reconcile-law",
-      "domain": "law",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "law-deep-directives.json",
-        "law-diagnosis-digest.json",
-        "law-portal-quality-index.json",
-        "law-certified-cortex-index.json"
-      ],
-      "createdOrder": 11
-    },
-    {
-      "taskId": "domain-authoring-reconcile-population",
-      "domain": "population",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "population-deep-directives.json",
-        "population-diagnosis-digest.json",
-        "population-portal-quality-index.json",
-        "population-certified-cortex-index.json"
-      ],
-      "createdOrder": 12
-    },
-    {
-      "taskId": "domain-authoring-reconcile-religion",
-      "domain": "religion",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "religion-deep-directives.json",
-        "religion-diagnosis-digest.json",
-        "religion-portal-quality-index.json",
-        "religion-certified-cortex-index.json"
-      ],
-      "createdOrder": 13
-    },
-    {
-      "taskId": "domain-authoring-reconcile-technology",
-      "domain": "technology",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "technology-deep-directives.json",
-        "technology-diagnosis-digest.json",
-        "technology-portal-quality-index.json",
-        "technology-certified-cortex-index.json"
-      ],
-      "createdOrder": 14
-    },
-    {
-      "taskId": "domain-authoring-reconcile-trade",
-      "domain": "trade",
-      "priority": 2,
-      "type": "domain-pipeline-admission",
-      "status": "OPEN",
-      "measuredStatus": "PIPELINE_NOT_RUN_OR_NO_ADMISSIBLE_GAPS",
-      "requiredAction": "run the domain-specific pipeline, then review its source and provenance admissions",
-      "reason": "no domain-specific authoring pipeline output is present; do not infer that the domain has no work",
-      "sourceFiles": [
-        "trade-deep-directives.json",
-        "trade-diagnosis-digest.json",
-        "trade-portal-quality-index.json",
-        "trade-certified-cortex-index.json"
-      ],
-      "createdOrder": 15
-    }
-  ]
+  "tasks": []
 }
