@@ -590,10 +590,19 @@ outcome requirement for B11/B14.
   bounded, reversible, and survive serialization. This closes the kernel-level
   mechanism subtask, not an all-domain operational claim.
 
+  `brain-v2/core/sandbox-learning-bridge.js` now consumes the persisted
+  `sandbox-counterfactual` outcome stream from the motor bridge. It encodes the
+  episode, links the independently labelled outcome, derives the B17 rate from
+  history strictly before the current error, and runs B13 consolidation only in
+  the explicit offline state. Its 24/24 test covers online refusal, measured
+  rate transition, durable learning/consolidation records, restart, and rollback
+  on a failed learning write. This is still sandbox-only: it does not consume
+  live provider or broker outcomes and cannot activate a domain pathway.
+
 Accordingly, Job 5 remains **in progress**: the B11/B14 sandbox bridge and
 domain-packet seam are complete, but their production/real-world outcome gate is
-open; B9 needs a useful independent second-domain edge, and B13/B17 need their
-outputs consumed by the same sandbox with independent outcome records.
+open; B9 needs a useful independent second-domain edge. B13/B17 sandbox
+consumption is now wired, but its world-outcome gate remains open.
 
 ## Job 6 — Run the full read-only civilization sandbox
 
