@@ -267,6 +267,12 @@ passes 5/5 on the real fetcher path with a mocked response. This is another
 provenance repair only; the production endpoint will continue to show the old
 gap until this branch is separately reviewed and deployed.
 
+The adjacent PubMed count was checked separately against the live E-utilities
+response: it returns only `<Count>` for this query and no publisher update or
+collection timestamp. PubMed therefore remains an explicit abstention for
+source-level identity; the adapter must not use the local year/day calculation,
+`updated`, or `fetchedAt` as a substitute.
+
 ### Job 3 subtask complete — domain authoring admissions
 
 The previous audit correctly found one populated external-bundle queue (Energy,
