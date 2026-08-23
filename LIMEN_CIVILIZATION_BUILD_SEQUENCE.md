@@ -629,3 +629,7 @@ aggregate identity, `542a4b33` preserves arXiv query-result identity, and
 `03e0de36` refreshes the production identity-gap queue. These commits are local
 to this isolated branch; no push, PR, merge, deploy, or production activation
 has occurred.
+
+The subsequent NOAA collection-identity repair is `63b2180e`; PubMed's missing
+publisher timestamp is recorded as an explicit abstention in `af771a72`. The
+full unit sweep after these additions is `94 passed, 1 skipped, 0 failed`.
