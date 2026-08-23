@@ -10,6 +10,7 @@
 const BR = require('../brain-v2/core/sandbox-motor-bridge.js');
 const HANDOFF = require('../brain-v2/core/sandbox-domain-handoff.js');
 const SRC = require('../brain-v2/core/sandbox-outcome-source.js');
+const LEARN = require('../brain-v2/core/sandbox-learning-bridge.js');
 
 const DOMAINS = [
   'economy','energy','environment','health','technology','research','supplyChain',
@@ -71,6 +72,7 @@ for (let day = 0; day < DAYS; day++) {
 }
 const bridge = BR.create({ store: store, trustN: 8 });
 const source = SRC.create({ store: store, rows: worldRows });
+const learning = LEARN.create({ motorBridge: bridge });
 const rows = [];
 for (let day = 0; day < DAYS; day++) {
   for (const domain of DOMAINS) {
@@ -83,10 +85,17 @@ for (let day = 0; day < DAYS; day++) {
     const cmd = BR.submit(bridge, handoff(domain, lane, day, at), at);
     const sourceResult = SRC.observe(source, cmd, at + 3600000);
     const result = BR.complete(bridge, cmd.commandId, sourceResult, at + 3600000);
+    // This evaluator is a second synthetic fixture stream. It is not derived
+    // from the domain packet and is not a claim about provider-world skill.
+    LEARN.consume(learning, result, {
+      hit: (day + domain.length) % 3 !== 0,
+      predictionError: ((day % 7) - 3) * 0.02
+    }, at + 3600000);
     rows.push({ day, domain, lane, commandId: cmd.commandId, status: 'SIMULATED_COMPLETED', trustedReafference: result.outcome.reafference.trusted });
   }
 }
 
+const consolidation = LEARN.consolidate(learning, START + DAYS * DAY, 'offline');
 const report = BR.report(bridge);
 const routed = rows.filter((r) => r.lane);
 const abstained = rows.filter((r) => !r.lane);
@@ -109,6 +118,9 @@ const output = {
   outcomesPersisted: report.outcomes,
   externalObservationsPersisted: SRC.report(source).consumed,
   externalObservationPending: SRC.report(source).pending,
+  learningOutcomesConsumed: LEARN.report(learning, START + DAYS * DAY).outcomesConsumed,
+  consolidationRan: consolidation.ran === true,
+  consolidationPasses: LEARN.report(learning, START + DAYS * DAY).consolidator.passes,
   pending: report.pending,
   trustedReafferenceCount: trusted,
   laneCounts,
@@ -123,6 +135,7 @@ const output = {
 console.log(JSON.stringify(output, null, 2));
 if (output.routed !== 300 || output.abstained !== 300 || output.commandsPersisted !== 300 ||
     output.outcomesPersisted !== 300 || output.externalObservationsPersisted !== 300 ||
-    output.externalObservationPending !== 0 || output.pending !== 0 || output.trustedReafferenceCount === 0 ||
+    output.externalObservationPending !== 0 || output.learningOutcomesConsumed !== 300 ||
+    !output.consolidationRan || output.consolidationPasses < 1 || output.pending !== 0 || output.trustedReafferenceCount === 0 ||
     output.simulatedSpendUsd !== 0 || output.outwardActionsExecuted !== 0 ||
     output.laneInventory.length !== 13 || output.laneInventory.some((l) => !l.status || !l.reason)) process.exitCode = 1;
