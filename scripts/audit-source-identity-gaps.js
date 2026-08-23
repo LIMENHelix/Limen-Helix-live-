@@ -14,7 +14,7 @@
  * into a snapshot, and its queue cannot create stress, diagnoses, or activation.
  *
  * Usage:
- *   node scripts/audit-source-identity-gaps.js --input=snapshot.json --write-queue
+ *   node scripts/audit-source-identity-gaps.js --input=snapshot.json --source-label=/api/domain-snapshot --write-queue
  */
 
 var fs = require('fs');
@@ -22,6 +22,8 @@ var path = require('path');
 
 var inputArg = process.argv.find(function (a) { return a.indexOf('--input=') === 0; });
 var inputPath = inputArg ? inputArg.slice('--input='.length) : null;
+var sourceArg = process.argv.find(function (a) { return a.indexOf('--source-label=') === 0; });
+var sourceLabel = sourceArg ? sourceArg.slice('--source-label='.length) : null;
 var writeQueue = process.argv.indexOf('--write-queue') !== -1;
 var DEFAULT_QUEUE = path.resolve(__dirname, '../assets/data/deep/source-identity-gap-queue.json');
 
@@ -80,7 +82,7 @@ var byKind = tasks.reduce(function (acc, task) {
 var result = {
   generatedAt: new Date().toISOString(),
   readOnlyAudit: true,
-  source: loaded.file,
+  source: sourceLabel || loaded.file,
   snapshotId: loaded.value && loaded.value.meta ? loaded.value.meta.snapshotId || null : null,
   note: 'Open identity tasks only. No timestamp is derived, and no task creates stress, diagnosis, pathway, or activation.',
   totalTasks: tasks.length,
