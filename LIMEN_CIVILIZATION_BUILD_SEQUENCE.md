@@ -483,9 +483,10 @@ outcome requirement for B11/B14.
   bounded, reversible, and survive serialization. This closes the kernel-level
   mechanism subtask, not an all-domain operational claim.
 
-Accordingly, Job 5 remains **in progress**: B11/B14 need the sandbox bridge wired
-into the rehearsal, B9 needs a real second-domain edge, and B13/B17 need their
-outputs consumed by that same sandbox with independent outcome records.
+Accordingly, Job 5 remains **in progress**: the B11/B14 sandbox bridge and
+domain-packet seam are complete, but their production/real-world outcome gate is
+open; B9 needs a useful independent second-domain edge, and B13/B17 need their
+outputs consumed by the same sandbox with independent outcome records.
 
 ## Job 6 — Run the full read-only civilization sandbox
 
@@ -518,9 +519,9 @@ They are not silently treated as active.
 
 This is a bridge rehearsal, not a full production-cron observation: it proves the
 ordering and labels of the sandbox path, not that current live queues contain work
-or that any provider would return the simulated outcomes. The full Job 6 gate stays
-open until the remaining lane inputs and the real read-only runtime surface are
-included in the same bounded report.
+or that any provider would return the simulated outcomes. Lane classification is
+complete; the full Job 6 gate stays open until the real read-only runtime surface
+is included in the same bounded report.
 
 ## Job 7 — Paper-operation pilot
 
