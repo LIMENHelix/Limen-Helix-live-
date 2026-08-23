@@ -629,6 +629,13 @@ live-money/publication boundaries are unchanged. `scripts/test-autofire-held-
 classification.js` passes 6/6. This closes an accounting defect; it does not
 claim a released command, artifact, revenue, or pathway activation.
 
+The first natural post-deploy cycle then ran at `1787509802536` and matched
+the intended classification: `evaluated:48`, `fired:0`, `skipped:1`,
+`errors:0`, `decisionKind:no_action`, `motorStatus:HELD`, and
+`billableAttempt:false`. No provider was called and no budget was spent. This
+is the expected default-deny hold represented as a hold rather than a failure;
+it is not a released command or a pathway activation.
+
 ## Job 7 — Paper-operation pilot
 
 **Target window:** 1–3 months  
