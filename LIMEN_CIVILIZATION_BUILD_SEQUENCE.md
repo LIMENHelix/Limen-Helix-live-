@@ -570,3 +570,9 @@ the sandbox bridge to a real second-domain edge for B9. One source-identity repa
 adapter-specific measurements or explicit abstentions. This ordering is deliberate:
 the bridge can rehearse command/outcome mechanics, but it must not hide missing
 domain inputs or turn conceptual homology into an operational claim.
+
+Latest substrate checkpoint: `ddc7d512` preserves Massive Crude's Polygon
+aggregate identity, `542a4b33` preserves arXiv query-result identity, and
+`03e0de36` refreshes the production identity-gap queue. These commits are local
+to this isolated branch; no push, PR, merge, deploy, or production activation
+has occurred.
