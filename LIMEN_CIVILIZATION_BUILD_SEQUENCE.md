@@ -411,6 +411,16 @@ actually linked without confusing simulation with the world.
   satisfied**. The real runtime has no second bound peer domain in the loop
   acceptance run, so cross-domain usefulness remains open; the test is mechanism
   evidence, not a civilization result.
+
+  A new read-only seam, `scripts/test-real-recorded-lateral-edge.js`, pairs 470
+  same-timestamp rows from the distinct Environment and Supply Chain binders on
+  their shared USGS Earthquakes channel. All 470 observations route, the two
+  binders agree on the recorded value in all 470 pairs, and the echo attempt is
+  refused. The receiver admits zero of the peer messages because the measured
+  precision budget is smaller than one full peer claim; that is a conservative
+  **no-substitution** result, not a useful cross-domain influence result. Both
+  domains read the same publisher, so independence is explicitly unestablished and
+  row 24 remains open.
 - **B13:** `node scripts/test-consolidator.js` passes 41/41. Consolidation is
   offline, propose-only, preserves write authority, downscales multiplicatively,
   and refuses promotion when skill or baseline is absent. This is a durable
