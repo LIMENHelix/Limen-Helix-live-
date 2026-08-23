@@ -242,6 +242,18 @@ that missing publisher identity is an explicit abstention. This closes one
 measured adapter gap; the remaining source-identity queue is not bulk-repaired
 by inference.
 
+### Job 3 subtask complete — arXiv query-result identity
+
+A live read of the arXiv API on 2026-08-23 returned a top-level
+`feed.updated` (`2026-08-23T15:28:31Z`) alongside the query's
+`opensearch:totalResults`. That publisher timestamp belongs to the returned
+count snapshot, so the CS and all-arXiv count adapters now preserve it as
+`sourceUpdatedAt`; missing or malformed `feed.updated` remains `null`. No
+publication-item timestamp or local fetch time is substituted. The real fetcher
+paths are exercised by `scripts/test-arxiv-source-identity.js` (6/6), including
+the missing-stamp reading-preserved case. This is provenance only and does not
+make article volume semantic evidence or activate any lane.
+
 ### Job 3 subtask complete — domain authoring admissions
 
 The previous audit correctly found one populated external-bundle queue (Energy,

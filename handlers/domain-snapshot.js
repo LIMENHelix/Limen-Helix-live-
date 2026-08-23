@@ -2508,8 +2508,9 @@ async function fetchArXivCS() {
     var total = parseInt(match[1], 10);
     var daily = total / 365;
     var act = clamp(daily / 1500, 0, 1);
+    var sourceUpdatedAt = _arxivFeedIdentity(xml);
     trackHealth('arXiv CS', 'technology', 'live', null, total);
-    return { value: total, label: (total / 1000).toFixed(0) + 'K CS papers', activity: round(act), channel: 'activity', signal: 'CS research volume ' + daily.toFixed(0) + '/day', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: null };
+    return { value: total, label: (total / 1000).toFixed(0) + 'K CS papers', activity: round(act), channel: 'activity', signal: 'CS research volume ' + daily.toFixed(0) + '/day', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: sourceUpdatedAt };
   } catch (e) {
     trackHealth('arXiv CS', 'technology', 'fallback', e.message);
     return null;
@@ -2517,6 +2518,17 @@ async function fetchArXivCS() {
 }
 
 // ─── RESEARCH ───────────────────────────────────────────────────────────
+
+/* arXiv returns a publisher-side `feed.updated` for the exact query result.
+   This is the identity of the count snapshot, not our retrieval time. Keep the
+   source string only when it is a valid date; an absent/malformed field is an
+   explicit provenance abstention. */
+function _arxivFeedIdentity(xml) {
+  var match = String(xml || '').match(/<feed\b[^>]*>[\s\S]*?<updated>\s*([^<]+?)\s*<\/updated>/i);
+  if (!match) return null;
+  var value = match[1].trim();
+  return value && isFinite(Date.parse(value)) ? value : null;
+}
 
 async function fetchPubMed() {
   try {
@@ -2563,8 +2575,9 @@ async function fetchArXivAll() {
     }
     var total = parseInt(match[1], 10);
     var act = clamp((total / 365) / 2000, 0, 1);
+    var sourceUpdatedAt = _arxivFeedIdentity(xml);
     trackHealth('arXiv All', 'research', 'live', null, total);
-    return { value: total, label: (total / 1000000).toFixed(2) + 'M arXiv papers', activity: round(act), channel: 'activity', signal: 'arXiv volume ' + (total / 1000).toFixed(0) + 'K total', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: null };
+    return { value: total, label: (total / 1000000).toFixed(2) + 'M arXiv papers', activity: round(act), channel: 'activity', signal: 'arXiv volume ' + (total / 1000).toFixed(0) + 'K total', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: sourceUpdatedAt };
   } catch (e) {
     trackHealth('arXiv All', 'research', 'fallback', e.message);
     return null;
@@ -6090,6 +6103,7 @@ module.exports._unPopulationIdentity = _unPopulationIdentity;
 module.exports._finnhubQuoteIdentity = _finnhubQuoteIdentity;
 module.exports._alphaVantageQuoteIdentity = _alphaVantageQuoteIdentity;
 module.exports._polygonAggregateIdentity = _polygonAggregateIdentity;
+module.exports._arxivFeedIdentity = _arxivFeedIdentity;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6097,3 +6111,5 @@ module.exports._fetchFinnhub = fetchFinnhub;
 module.exports._fetchAlphaVantage = fetchAlphaVantage;
 module.exports._fetchMassiveCrudeOil = fetchMassiveCrudeOil;
 module.exports._fetchMassiveSPY = fetchMassiveSPY;
+module.exports._fetchArXivCS = fetchArXivCS;
+module.exports._fetchArXivAll = fetchArXivAll;
