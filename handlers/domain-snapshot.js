@@ -2740,10 +2740,11 @@ async function fetchGDELTGovernance() {
 async function fetchWorldBankInfra() {
   try {
     var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/IS.RRS.TOTL.KM?format=json&date=2010:2024&per_page=10');
-    var val = _extractWorldBankValue(data);
+    var row = _extractWorldBankRow(data);
+    var val = row ? row.value : null;
     if (val === null) { trackHealth('World Bank Infrastructure', 'infrastructure', 'fallback', 'no non-null value'); return null; }
     trackHealth('World Bank Infrastructure', 'infrastructure', 'live', null, val);
-    return { value: val, label: 'rail km ' + val, activity: 0.3, channel: 'context', signal: 'infrastructure index', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: val, label: 'rail km ' + val, activity: 0.3, channel: 'context', signal: 'infrastructure index', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (row.date || null) };
   } catch (e) { trackHealth('World Bank Infrastructure', 'infrastructure', 'fallback', e.message); return null; }
 }
 
@@ -4461,7 +4462,7 @@ async function fetchWorldBankFoodIndex() {
     // Stress: large declines (production fell) AND large increases (oversupply) are both signals.
     var stress = clamp(Math.abs(pctChange) / 8, 0, 1);
     trackHealth('World Bank Food Index', 'agriculture', 'live', null, pctChange);
-    return { value: pctChange, label: 'Food production ' + (pctChange >= 0 ? '+' : '') + pctChange.toFixed(2) + '% YoY', stress: round(stress), signal: 'US food production index ' + (pctChange >= 0 ? 'up' : 'down') + ' ' + Math.abs(pctChange).toFixed(2) + '% YoY (level: ' + current.toFixed(1) + ')', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: pctChange, label: 'Food production ' + (pctChange >= 0 ? '+' : '') + pctChange.toFixed(2) + '% YoY', stress: round(stress), signal: 'US food production index ' + (pctChange >= 0 ? 'up' : 'down') + ' ' + Math.abs(pctChange).toFixed(2) + '% YoY (level: ' + current.toFixed(1) + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (rows[0].date || null) };
   } catch (e) { trackHealth('World Bank Food Index', 'agriculture', 'fallback', e.message); return null; }
 }
 
@@ -5185,17 +5186,23 @@ async function fetchTavily() {
 
 // ─── Shared helpers ─────────────────────────────────────────────────────
 
-/** Extract first non-null value from World Bank v2 response [meta, data[]] */
-function _extractWorldBankValue(data) {
+/** Extract the first non-null World Bank observation from [meta, data[]]. */
+function _extractWorldBankRow(data) {
   if (!data || !Array.isArray(data) || data.length < 2) return null;
   var arr = data[1];
   if (!Array.isArray(arr)) return null;
   for (var i = 0; i < arr.length; i++) {
     if (arr[i] && arr[i].value !== null && arr[i].value !== undefined) {
-      return arr[i].value;
+      return arr[i];
     }
   }
   return null;
+}
+
+/** Extract first non-null value from World Bank v2 response [meta, data[]]. */
+function _extractWorldBankValue(data) {
+  var row = _extractWorldBankRow(data);
+  return row ? row.value : null;
 }
 
 /**
@@ -6149,6 +6156,8 @@ module.exports._fetchWorldBankInflation = fetchWorldBankInflation;
 module.exports._fetchWorldBankFertility = fetchWorldBankFertility;
 module.exports._fetchWorldBankTertiary = fetchWorldBankTertiary;
 module.exports._fetchWorldBankRD = fetchWorldBankRD;
+module.exports._fetchWorldBankInfra = fetchWorldBankInfra;
+module.exports._fetchWorldBankFoodIndex = fetchWorldBankFoodIndex;
 module.exports._fetchArXivCS = fetchArXivCS;
 module.exports._fetchArXivAll = fetchArXivAll;
 module.exports._fetchNOAAAlerts = fetchNOAAAlerts;
