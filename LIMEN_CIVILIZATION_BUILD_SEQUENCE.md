@@ -663,6 +663,24 @@ closes the **sandbox independence seam only**. The source is synthetic and
 explicitly not a provider/world observation; the production outcome-producer
 gate measured above remains open.
 
+### Job 5 outcome-observer contract — measured 2026-08-24
+
+`lib/autofire-outcome-contract.js` is the strict input boundary for the
+observers that are still missing. It normalizes only source-identified
+research publication/evaluation observations and Tradier investment
+observations. It preserves observation IDs, source identity, retrieval time,
+raw terms, benchmark identity, contradictions, retractions, and all four
+research mappings. It rejects stress, score, sentiment, article-count,
+promotion, activation, and opaque composite fields. Live investment
+observations are refused unless a future caller explicitly enables them;
+paper observations remain the default.
+
+The contract is pure and has no network, cron, broker, storage, grading, or
+activation authority. `scripts/test-autofire-outcome-contract.js` passes
+`13/13`, and the full unit sweep passes `117` with one documented external-
+corpus skip. This closes the schema boundary, not the producer gate: no
+autonomous observer calls it yet.
+
 ### Job 5 subtask complete — domain packet into sandbox bridge
 
 `brain-v2/core/sandbox-domain-handoff.js` now performs that domain-selection seam
