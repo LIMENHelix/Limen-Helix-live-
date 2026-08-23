@@ -254,6 +254,19 @@ paths are exercised by `scripts/test-arxiv-source-identity.js` (6/6), including
 the missing-stamp reading-preserved case. This is provenance only and does not
 make article volume semantic evidence or activate any lane.
 
+### Job 3 subtask complete — NOAA alert collection identity
+
+A live read of `api.weather.gov/alerts/active?status=actual` on 2026-08-23
+returned 219 features and a publisher-supplied top-level `updated` value
+(`2026-08-23T16:32:56Z`); the response had no `Last-Modified` header. The NOAA
+adapter now preserves that collection timestamp as `sourceUpdatedAt`, while
+per-alert `sent`/`updated` fields remain item evidence and are not substituted
+for the collection key. Missing or malformed collection timestamps leave the
+reading intact with an explicit null identity. `scripts/test-noaa-alert-identity.js`
+passes 5/5 on the real fetcher path with a mocked response. This is another
+provenance repair only; the production endpoint will continue to show the old
+gap until this branch is separately reviewed and deployed.
+
 ### Job 3 subtask complete — domain authoring admissions
 
 The previous audit correctly found one populated external-bundle queue (Energy,

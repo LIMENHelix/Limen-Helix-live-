@@ -2226,6 +2226,7 @@ async function fetchNOAAAlerts() {
     var stress = round(clamp(disturbanceIntensity * 0.6 + countPressure * 0.4, 0, 1));
 
     var label = count + ' active alert' + (count !== 1 ? 's' : '');
+    var sourceUpdatedAt = _noaaAlertsIdentity(data);
     trackHealth('NOAA Alerts', 'environment', 'live', null, count);
     return {
       value: count,
@@ -2234,7 +2235,7 @@ async function fetchNOAAAlerts() {
       signal: count > 0 ? count + ' weather alerts (avg severity ' + disturbanceIntensity + ')' : 'no active alerts',
       updated: now,
       fetchedAt: now,
-      sourceUpdatedAt: null,
+      sourceUpdatedAt: sourceUpdatedAt,
       activeAlerts: count,
       disturbanceCount: disturbanceCount,
       disturbanceIntensity: disturbanceIntensity,
@@ -2528,6 +2529,15 @@ function _arxivFeedIdentity(xml) {
   if (!match) return null;
   var value = match[1].trim();
   return value && isFinite(Date.parse(value)) ? value : null;
+}
+
+/* weather.gov supplies a top-level `updated` for the active-alert collection.
+   It identifies this aggregate response; per-alert `sent`/`updated` values do
+   not substitute for the collection identity. */
+function _noaaAlertsIdentity(data) {
+  var value = data && data.updated;
+  if (typeof value !== 'string' || !value.trim() || !isFinite(Date.parse(value))) return null;
+  return value.trim();
 }
 
 async function fetchPubMed() {
@@ -6104,6 +6114,7 @@ module.exports._finnhubQuoteIdentity = _finnhubQuoteIdentity;
 module.exports._alphaVantageQuoteIdentity = _alphaVantageQuoteIdentity;
 module.exports._polygonAggregateIdentity = _polygonAggregateIdentity;
 module.exports._arxivFeedIdentity = _arxivFeedIdentity;
+module.exports._noaaAlertsIdentity = _noaaAlertsIdentity;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6113,3 +6124,4 @@ module.exports._fetchMassiveCrudeOil = fetchMassiveCrudeOil;
 module.exports._fetchMassiveSPY = fetchMassiveSPY;
 module.exports._fetchArXivCS = fetchArXivCS;
 module.exports._fetchArXivAll = fetchArXivAll;
+module.exports._fetchNOAAAlerts = fetchNOAAAlerts;
