@@ -118,8 +118,11 @@ that those domains have nothing to author; several explicitly say their deep-por
 is a domain-agnostic, read-only queue builder that derives tasks from each domain's own corpus and preserves an explicit abstention
 when a source or field is unavailable. The same audit counted 1,429 treatment entries across the 20 aggregate domain files, and all
 1,429 lack a direct citation/source field in those aggregate records; the treatment-discovery cube may carry separate provenance, so
-this is a reconciliation task, not permission to declare every treatment unsupported. Energy's queue schema will not be copied as if
-it were universal.
+this is a reconciliation task, not permission to declare every treatment unsupported. The follow-up
+`scripts/reconcile-treatment-provenance.js` pass found 1,421 unique aggregate treatment labels: 1,411 match the split discovery
+cells, and every matched label carries a citation or source-provenance record there. Ten labels remain unmatched (defense 2, finance 4,
+religion 2, technology 2) and are the first concrete provenance tasks. Energy's queue schema will not be copied as if it were
+universal.
 
 ### Gate
 
