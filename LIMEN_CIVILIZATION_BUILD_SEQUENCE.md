@@ -133,6 +133,47 @@ read-only rerun confirms 115 split-cell files, 1,411 cube treatment keys, and th
 the first provenance subtask; it does not close the full sensory-substrate job, because deep-portal generation, semantic transport,
 cadence/replay checks, and the remaining domain-specific inputs still need work.
 
+### Job 3 subtask complete — recorded-field replayability audit
+
+`node scripts/audit-recorded-field-coverage.js` joined every one of the twenty binders to
+its local recorder fixture. All 20 fixtures are readable by their matching binder, but
+readability is not complete coverage: the audit found 122 channels declared against
+`r7`, only 11 with an explicit legacy fallback (the Energy channels), and 111 with no
+fallback for rows from the earlier recorder era. It also found 101 other channels whose
+declared current field is absent in some matching rows. The result is 223 open,
+channel-level replayability tasks, not permission to substitute `v` or another value.
+
+| product | channels with current data | channels with any data | channels | r7 / fallback |
+|---|---:|---:|---:|---:|
+| economy | 15/15 | 15/15 | 15 | 0 / 0 |
+| energy | 5/18 | 16/18 | 18 | 11 / 11 |
+| environment | 9/10 | 9/10 | 10 | 5 / 0 |
+| medicine | 13/15 | 13/15 | 15 | 5 / 0 |
+| technology | 7/10 | 7/10 | 10 | 2 / 0 |
+| science | 14/15 | 14/15 | 15 | 4 / 0 |
+| trade | 13/13 | 13/13 | 13 | 1 / 0 |
+| governance | 7/12 | 7/12 | 12 | 7 / 0 |
+| infrastructure | 17/18 | 17/18 | 18 | 3 / 0 |
+| agriculture | 11/13 | 11/13 | 13 | 1 / 0 |
+| industry | 10/11 | 10/11 | 11 | 5 / 0 |
+| education | 10/10 | 10/10 | 10 | 5 / 0 |
+| communication | 6/11 | 6/11 | 11 | 7 / 0 |
+| culture | 15/16 | 15/16 | 16 | 15 / 0 |
+| defense | 11/15 | 11/15 | 15 | 8 / 0 |
+| religion | 15/15 | 15/15 | 15 | 15 / 0 |
+| population | 14/15 | 14/15 | 15 | 10 / 0 |
+| law | 12/15 | 12/15 | 15 | 8 / 0 |
+| finance | 12/13 | 12/13 | 13 | 0 / 0 |
+| intelligence | 14/15 | 14/15 | 15 | 10 / 0 |
+
+The audit writes the separate, explicit queue
+`assets/data/deep/recorded-field-coverage-queue.json` when run with `--write-queue`.
+Each task requires reopening the source/recorder contract and resolving it by repair,
+a separately reviewed fallback with units and cadence, or an explicit abstention. No
+task creates a value, diagnosis, stress, or activation. This is the correct next queue
+for Job 3; it must not be merged into the deep-authoring queues as though a missing
+recorded value were an authoring opportunity.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
