@@ -103,10 +103,28 @@ function buildDigest(pk) {
     j.issues.forEach(iss => {
       if (!iss || !iss.id) return;
       const circuits = iss.circuits || [];
-      // Collect this diagnosis's treatments via its circuit node ids.
+      // `circuits` is the canonical runtime representation and may contain only the
+      // resolved primary node. The authored circuit list is retained alongside it and
+      // carries the full set of functional nodes whose activation records own the
+      // treatments. Reading only `circuits` silently dropped most treatment links after
+      // canonicalisation (for example Communication's 5,230 opportunities collapsed
+      // to 366). Use the union for treatment lookup, but keep the canonical list in the
+      // digest so diagnosis identity remains stable.
+      const treatmentNodeIds = [];
+      const treatmentNodeSeen = new Set();
+      const addTreatmentNode = (c) => {
+        if (!c || !c.nodeId || treatmentNodeSeen.has(c.nodeId)) return;
+        treatmentNodeSeen.add(c.nodeId);
+        treatmentNodeIds.push(c.nodeId);
+      };
+      circuits.forEach(addTreatmentNode);
+      (iss._authored || []).forEach(addTreatmentNode);
+
+      // Collect this diagnosis's treatments via the union of canonical and authored
+      // circuit node ids.
       let tx = [];
-      circuits.forEach(c => {
-        (byNode[c.nodeId] || []).forEach(t => {
+      treatmentNodeIds.forEach(nodeId => {
+        (byNode[nodeId] || []).forEach(t => {
           if (t && t.label) tx.push({ l: t.label, t: t.type || '', e: t.evidence || '' });
         });
       });
