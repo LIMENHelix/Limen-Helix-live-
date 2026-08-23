@@ -202,13 +202,28 @@ authoring queue has reviewed work.” The 19 empty authoring queues remain expli
 admission/abstention stubs, not evidence that their deep trees are empty.
 
 A live read of `/api/domain-snapshot` on 2026-08-23 (snapshot
-`1787498917092-240`) found all 20 runtime keys present, 245 live sources, 30 reported
-fallbacks, and 99 sources carrying headline/text fields. It found 258 source entries
+`1787499160738-231`) found all 20 runtime keys present, 231 live sources, and 98
+headline/text-bearing sources. It found 258 source entries
 without `sourceUpdatedAt`; this is a provenance/freshness gap, not evidence that those
 sources are current. Economy, Technology, and Finance carried no headline/text fields
 in this read. `scripts/audit-runtime-source-surface.js` repeats this check from the
 public endpoint or a saved snapshot and keeps generated numeric `signal` strings out
-of the semantic-text count.
+of the semantic-text count. The source count is dynamic between reads, so this
+paragraph is a dated observation rather than a permanent inventory.
+
+The follow-up `scripts/audit-source-identity-gaps.js` pass classified all 258 missing
+identities without silently repairing them:
+
+| gap class | count | meaning | required next action |
+| --- | ---: | --- | --- |
+| `headline-item-identity-only` | 98 | headline feeds carry item-level publication dates, but the aggregate numeric reading has no reviewed source-level identity | review an aggregate identity contract; do not promote item dates or the title hash automatically |
+| `numeric-upstream-identity-missing` | 160 | numeric/no-headline sources expose no source-level observation key in the snapshot | trace the adapter to the publisher response and expose a source key, or record an explicit abstention |
+
+The resulting open tasks are preserved in
+`assets/data/deep/source-identity-gap-queue.json` (258 tasks, generated from the
+dated snapshot). The queue is read-only planning material: it derives no timestamp,
+stress, diagnosis, pathway, or activation. This closes the classification/abstention
+subtask, not the underlying adapter repairs.
 
 The read-only `scripts/audit-title-transport-production.js` sweep then queried
 `/api/feed-record?titles=<runtimeKey>&n=500` for all 20 keys. All endpoints returned
