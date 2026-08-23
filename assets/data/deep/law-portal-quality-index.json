@@ -1,14 +1,857 @@
 {
-  "generatedAt": null,
-  "admission": "Honest empty stub — law deep-portal pipeline has NOT run yet. NOT energy content.",
-  "classifier": "K2",
-  "sampledTotal": 0,
-  "sampleNote": "not sampled",
-  "byDepth": {},
-  "classificationTotals": {},
+  "generatedAt": "2026-08-23T22:10:38.709Z",
+  "classifier": "classifyPortalV2 (canonical)",
+  "domain": "law",
+  "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+  "sampledTotal": 137,
+  "sampleNote": "L0/L1 full; L2+ capped per depth; checked-in domain surface only",
+  "byDepth": {
+    "0": {
+      "MIXED_CONTEXT_ONLY": 1
+    },
+    "1": {
+      "MIXED_CONTEXT_ONLY": 16
+    },
+    "2": {
+      "DANGEROUS": 118,
+      "MIXED_CONTEXT_ONLY": 2
+    }
+  },
+  "classificationTotals": {
+    "MIXED_CONTEXT_ONLY": 19,
+    "DANGEROUS": 118
+  },
   "realPortalsFound": [],
   "realPortalCount": 0,
   "perDiagnosis": {},
-  "authoringCandidates": [],
-  "rules": "real = entity-bearing + citation-backed"
+  "authoringCandidates": [
+    {
+      "portalId": "law_administrative_adjudic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_adminproc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_agdisc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_delegauth",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_dueproc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_foia",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_judrev",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_regtaking",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_administrative_rulemaking",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_arbcost",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_arbinst",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_arbproc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_arbselect",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_commarb",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_constarb",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_emergarb",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_enforce",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_isds",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_arbitration_sportarb",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_arbitration",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_classaction",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_consumer",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_contracts",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_employment",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_family",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_property",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_civil_torts",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_amendment",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_execpower",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_federalism",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_interpretation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_judicialrev",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_legpower",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_rights",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_constitutional_separation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_appeals",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_defense",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_evidence",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_juvenile",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_procedure",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_prosecution",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_sentencing",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_criminal_whitecollar",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_bioethics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_hcreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_hipaa",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_hlthinslaw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_medmal",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_mentalhlw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_patrights",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_pharmalaw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_pubhlthlaw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_health_telemedlw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_criminal",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_dispute",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_envlaw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_humanitarian",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_humanrights",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_maritime",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_tradelaw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_intl_treaties",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_access",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_courtadmin",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_courts",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_courttech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_independence",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_judethics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_judges",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_judiciary_judreform",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_codification",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_comparative",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_customary",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_equity",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_harmonization",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_interpretation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_precedent",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_law_reform",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_aid",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_clinics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_education",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_ethics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_legalaccess",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_legalreform",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_legaltech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_practice",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legal_profession",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_blkchain",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_contract",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_courttech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_docmgmt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_ediscov",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_legalai",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_legalanlt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_legaldata",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_odr",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_legaltech_virtprac",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_cargoclm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_collision",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_marinsur",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_maritlien",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_marpoll",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_piracy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_portreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_salvage",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_maritime_shiplaw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_classinfo",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_cyberwar",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_defproc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_loac",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_milcomm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_milenv",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_natsurv",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_roe",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_ucmj",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_military_vetlaw",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_prosecution_charging",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_prosecution_cooperation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "law_prosecution_investigation",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    }
+  ],
+  "rules": "company names alone != real; evidence/cite without verifiable provenance = DANGEROUS; only REAL with provenance is evidence-eligible",
+  "admission": "NONE — classification only; authoring admission remains separate"
 }

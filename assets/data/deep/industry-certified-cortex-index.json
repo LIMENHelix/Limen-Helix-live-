@@ -1,22 +1,1023 @@
 {
-  "generatedAt": null,
-  "admission": "Honest empty stub at energy schema — industry deep-portal pipeline has NOT run yet. NOT energy content.",
+  "generatedAt": "2026-08-23T22:10:37.962Z",
   "builtFrom": [
-    "industry tree (not built)"
+    "industry checked-in domain surface",
+    "classifyPortalV2 (canonical)"
   ],
-  "rule": "K3 — evidence only from curated external bundles",
+  "rule": "Portal tree is navigation/context/authoring substrate only. No unreviewed portal is admitted as evidence.",
   "evidenceEligible": {
-    "externalBundles": []
+    "portals": [],
+    "externalBundles": [],
+    "portalNote": "empty by design; classifier REAL results remain provenance-review candidates"
   },
-  "contextOnly": [],
+  "reviewCandidates": [],
+  "contextOnly": [
+    {
+      "portalId": "industry",
+      "depth": 0,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (48) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_assembly",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (23) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_automation",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (2) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_design",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_industrial",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (18) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_packaging",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (3) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_plastics",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (2) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_quality",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (21) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_raw",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (20) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_robotics",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_safety",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (18) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_supply",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (16) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_sustainability",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (4) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_warehousing",
+      "depth": 1,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (27) but template treatments / no real provenance — context only"
+      ]
+    },
+    {
+      "portalId": "industry_defense_ind",
+      "depth": 2,
+      "classification": "MIXED_CONTEXT_ONLY",
+      "reasons": [
+        "real companies (43) but template treatments / no real provenance — context only"
+      ]
+    }
+  ],
   "blockedDangerous": {
-    "policy": "L2-L6 blocked",
-    "deepTreeTotal_L3toL6": 0,
+    "policy": "DANGEROUS/SYNTHETIC blocked from evidence and bundle build by default",
     "sampled": {
-      "DANGEROUS": 0
+      "MIXED_CONTEXT_ONLY": 15,
+      "DANGEROUS": 125
     }
   },
-  "needsRehydration": [],
+  "needsRehydration": [
+    {
+      "portalId": "industry_biotech",
+      "depth": 1,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy",
+      "depth": 1,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety",
+      "depth": 1,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics",
+      "depth": 1,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals",
+      "depth": 1,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt",
+      "depth": 1,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_aerospace",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_assemblyautom",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_assemblytesting",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_automotive",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_electronics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_ergonomics",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_lean",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_assembly_modular",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_autointgrt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_autosafety",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_ctrlntwrk",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_machvision",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_motionctrl",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_plcsystems",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_processaut",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_robassembl",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_robtweld",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_automation_scadaindst",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_agribtech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_bioproceng",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_biosimilar",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_biotechinv",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_biotechreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_clintrial",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_fermenttn",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_genethrapy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_indenzymes",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_biotech_pharmabt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_dfm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_electrical",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_industrialdes",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_materials",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_mechanical",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_prototyping",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_softwaredesign",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_design_systems",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_clusterdev",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_deindust",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_indcompete",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_indsubs",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_innovpol",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_mfgstratgy",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_sez",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_stateowned",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_techtransfr",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indpolicy_tradeprtcn",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_confspace",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_emergresp",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_fallprotct",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_hazcomm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_lockoutag",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_machguard",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_oshacomply",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_procsafety",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_safetrning",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_indsafety_safetycult",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_additive",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_chemical",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_coating",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_forming",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_machining",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_processcontrol",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_thermal",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_industrial_welding",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_coldchnlog",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_fleetmgmt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_freight",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_invcontrol",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_lastmile",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_logisplan",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_logistech",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_reverselogn",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_scvisibilt",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_logistics_warehouse",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_aluminium",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_coppermng",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_foundryops",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_metalfab",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_metalrecyc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_minerproc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_minesafety",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_precious",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_rareearth",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_metals_steelprod",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_foodpkg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_pharmapkg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_pkgdesign",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_pkgmachin",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_pkgmatrl",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_pkgreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_pkgtest",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_smartpkg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_sustpkg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_packaging_transpkg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_additivemf",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_bioplastic",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_blowmold",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_composite",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_extrusion",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_injection",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_plastrecyc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_plastreg",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_polymrchem",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_plastics_thermofrm",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_corrective",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_inspection",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_metrology",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_qualityaudit",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_qualitydoc",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_qualitysys",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_statistical",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_quality_supplierqual",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt_calibratn",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt_defecttrck",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt_inspectsys",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt_iso9001",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt_qualaudit",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt_qualplan",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    },
+    {
+      "portalId": "industry_qualitymgmt_sixsigma",
+      "depth": 2,
+      "classification": "DANGEROUS",
+      "action": "replace-fake-authority-with-sourced-content",
+      "reason": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])"
+    }
+  ],
   "perDiagnosis": {},
-  "consumedByRuntime": false
+  "consumedByRuntime": false,
+  "admission": "NONE applied — descriptive index only"
 }

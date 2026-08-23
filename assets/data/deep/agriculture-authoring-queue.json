@@ -1,18 +1,478 @@
 {
-  "generatedAt": null,
-  "admission": "Honest empty stub at energy schema — agriculture deep-portal pipeline has NOT run yet. NOT energy content.",
+  "generatedAt": "2026-08-23T22:10:35.480Z",
   "builtFrom": [
-    "agriculture tree"
+    "agriculture-portal-quality-index.json",
+    "agriculture-certified-cortex-index.json"
   ],
-  "note": "stub",
-  "totalTasks": 0,
-  "byType": {},
+  "note": "Records measured domain-specific authoring gaps. No candidate content or evidence is fabricated.",
+  "totalTasks": 21,
+  "byType": {
+    "provenance review needed": 1,
+    "treatment needs replacement": 14,
+    "domain relevance verification needed": 6
+  },
   "byDiagnosis": {},
   "priorityLegend": {
-    "P0": "blocking",
-    "P1": "high",
-    "P2": "normal",
-    "P3": "low"
+    "1": "thin portal requiring source authoring",
+    "2": "synthetic or authority-masquerading content requiring replacement",
+    "3": "domain relevance verification"
   },
-  "tasks": []
+  "tasks": [
+    {
+      "target": "p2_agri_water",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "provenance review needed",
+      "missingFields": [
+        "independent provenance review",
+        "domain relevance review"
+      ],
+      "existingContext": "classifier candidate: URL/company/non-template shape; not an evidence admission",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Review source ownership, provenance, domain relevance, and syndication before any evidence admission",
+      "priority": 1,
+      "whyItMatters": "classifier output is a candidate only; no portal may self-authorise as evidence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_climate",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_commodity",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_crop",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_foodproc",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_horticulture",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_landuse",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_machinery",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_postharvest",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_precisionag",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_protection",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_research",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_seeds",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_soil",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_supplychain",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "treatment needs replacement",
+      "missingFields": [
+        "real treatments",
+        "verifiable provenance"
+      ],
+      "existingContext": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "unusableTemplateContent": "evidence-graded/cited treatments with NO verifiable provenance (no source URL/sources[])",
+      "sourceHints": null,
+      "requiredHumanAction": "Replace templated or authority-masquerading content with sourced material, or demote the portal to context-only",
+      "priority": 2,
+      "whyItMatters": "portal content is not evidence until its own provenance and non-template content are reviewed",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 1,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (66) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_equipment",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (4) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_fertilizer",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (4) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_finance",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (6) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_livestock",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (5) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    },
+    {
+      "target": "p2_agri_policy",
+      "diagnosis": null,
+      "level": "portal",
+      "depth": 2,
+      "authoringType": "domain relevance verification needed",
+      "missingFields": [
+        "verified domain relevance"
+      ],
+      "existingContext": "real companies (30) but template treatments / no real provenance — context only",
+      "unusableTemplateContent": null,
+      "sourceHints": null,
+      "requiredHumanAction": "Verify the domain relevance from a primary source before treating the company-bearing portal as more than context",
+      "priority": 3,
+      "whyItMatters": "company labels do not establish domain relevance or evidence independence",
+      "provenance": {
+        "classifier": "classifyPortalV2",
+        "sourceRoot": "C:\\Users\\Chris\\wt-limen-master-plan\\assets\\data\\domains",
+        "sampled": true
+      }
+    }
+  ]
 }
