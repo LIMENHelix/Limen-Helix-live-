@@ -50,6 +50,9 @@ check('the Master Brain inbox exposes only research and investment', () => {
   assert.deepEqual(Object.keys(inbox.phaseInhibit).sort(), ACTIVE.slice().sort());
   assert.deepEqual(Object.keys(inbox.stats.byLaneReady).sort(), ACTIVE.slice().sort());
   assert.equal(inbox.topPriority.every(item => ACTIVE.includes(item.lane)), true);
+  assert.equal(Array.isArray(inbox.readyForAutofire), true);
+  assert.equal(inbox.readyForAutofire.length, inbox.stats.readyToFire);
+  assert.equal(inbox.readyForAutofire.every(item => ACTIVE.includes(item.lane)), true);
 });
 
 const policy = require('../lib/limen-policy.js');

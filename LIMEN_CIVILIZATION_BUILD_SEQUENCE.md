@@ -552,14 +552,25 @@ the latest bounded 20 showing `evaluated: 0`, `fired: 0`, `errors: 0`, and
 `observedResults: 0`. The public budget surface reported `enabled: true`,
 `armed: true`, `$0` spent, and `$20` remaining. An authenticated, read-only
 `/api/brain-shadow` read returned 20/20 domains `ok`, 0 errors, 20 ticks, 20
-rows applied, 20 restored, and `stateValueBytesTotal: 63,432,766`. Research and
-investment therefore remain **blocked for lack of eligible public queue
-results**, not reported as executed; the other 11 lanes remain explicitly
-not-observable by scope.
+rows applied, 20 restored, and `stateValueBytesTotal: 63,432,766`.
 
-The fixture summarizer passes 7/7. This closes the live-surface measurement
-subtask and identifies the remaining Job 6 blocker: eligible research/investment
-queue input, not a manual trigger and not a production mutation.
+The follow-up public GET `/api/limen-autoqueue?limit=200` found 25 active-lane
+records, all terminal (`20 FIRED`, `5 FAILED`, `0 PENDING`). The repository
+master inbox simultaneously reported 759 `READY_TO_FIRE` candidates, but its
+live feeder input was only the presentation `topPriority` slice of 25. This
+was the actual queue starvation: the first 25 were consumed and the remaining
+734 could never enter Redis. No provider or budget failure was needed to
+explain the zero-evaluated cycles.
+
+The fixture summarizer passes 7/7. The local repair keeps `topPriority` as a
+25-item presentation surface, exports a complete `readyForAutofire` pool, admits
+it under the existing 200-entry queue and 10-per-tick cap, and evicts only old
+terminal records when space is needed. Pending work is never evicted. The
+focused feeder suite passes 11/11 and the lane suite remains 8/8. This closes
+the queue-input diagnosis and local repair; the production Job 6 gate remains
+open until that branch is deployed and a read-only cycle shows new candidates
+being admitted and evaluated. No manual trigger or production mutation was
+used.
 
 ## Job 7 — Paper-operation pilot
 
@@ -618,7 +629,8 @@ push, PR, merge, and deploy remain separate owner decisions.
 
 The next active implementation queue is the remaining Job 3 substrate work (source
 identity/replayability and the 19 domain authoring admissions), followed by wiring
-the sandbox bridge to a real second-domain edge for B9. One source-identity repair
+the sandbox bridge to a real second-domain edge for B9. The queue-input starvation
+repair is now local and awaiting its normal review/deploy path. One source-identity repair
 (Massive Crude aggregate identity) is complete; the remaining gaps require
 adapter-specific measurements or explicit abstentions. This ordering is deliberate:
 the bridge can rehearse command/outcome mechanics, but it must not hide missing
