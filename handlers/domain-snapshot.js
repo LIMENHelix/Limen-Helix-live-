@@ -5382,6 +5382,21 @@ async function _fetchRSS(query, sourceName, domain, channel) {
     var xml = await resp.text();
     var count = (xml.match(/<item>/gi) || []).length;
 
+    /*
+     * Google News supplies a channel-level lastBuildDate.  Preserve that exact
+     * upstream token as the observation identity for this aggregator response.
+     * It is deliberately not derived from an item pubDate, our fetch clock, or
+     * the headline text; it also does not establish publisher or syndication
+     * independence.  If the channel omits or malforms it, abstain and leave the
+     * source identity absent rather than manufacturing one.
+     */
+    var _bm = xml.match(/<lastBuildDate(?:\s[^>]*)?>([\s\S]*?)<\/lastBuildDate>/i);
+    var _sourceUpdatedAt = null;
+    if (_bm) {
+      var _buildToken = _bm[1].replace(/<!\[CDATA\[|\]\]>/g, '').trim();
+      if (_buildToken && !isNaN(Date.parse(_buildToken))) _sourceUpdatedAt = _buildToken;
+    }
+
     // Capture the actual REAL headlines (not just a count) so the Signals dropdown shows
     // what's really going on in the world, and changes as the news changes (refreshed every
     // snapshot cron). Google News RSS item titles are "Headline - Publisher".
@@ -5504,10 +5519,10 @@ async function _fetchRSS(query, sourceName, domain, channel) {
       // supplyChain and agriculture; religion read 0.33 = 0.99 x 5/15. Every domain
       // with no RSS-stress sources sat at 0.70-0.83. Volume is well defined for these
       // feeds, so they now contribute it instead of a zero.
-      return { value: count, label: count + ' articles', stress: round(stress), activity: round(norm), channel: 'stress', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, headlinePublishedAt: headlinePublishedAt, headlinePublishers: headlinePublishers, updated: Date.now(), fetchedAt: Date.now(), _isRss: true, _meta: _meta };
+      return { value: count, label: count + ' articles', stress: round(stress), activity: round(norm), channel: 'stress', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, headlinePublishedAt: headlinePublishedAt, headlinePublishers: headlinePublishers, sourceUpdatedAt: _sourceUpdatedAt, updated: Date.now(), fetchedAt: Date.now(), _isRss: true, _meta: _meta };
     }
     // Activity indicator: volume only, does not drive stress
-    return { value: count, label: count + ' articles', activity: round(norm), channel: 'activity', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, headlinePublishedAt: headlinePublishedAt, headlinePublishers: headlinePublishers, updated: Date.now(), fetchedAt: Date.now(), _isRss: true, _meta: _meta };
+    return { value: count, label: count + ' articles', activity: round(norm), channel: 'activity', signal: _topSignal, signalUrl: _topUrl, headlines: headlines, headlineLinks: headlineLinks, headlinePublishedAt: headlinePublishedAt, headlinePublishers: headlinePublishers, sourceUpdatedAt: _sourceUpdatedAt, updated: Date.now(), fetchedAt: Date.now(), _isRss: true, _meta: _meta };
   } catch (e) {
     trackHealth(sourceName, domain, 'fallback', e.message || 'RSS fetch failed');
     return null;
@@ -6122,6 +6137,7 @@ module.exports._fetchFinnhub = fetchFinnhub;
 module.exports._fetchAlphaVantage = fetchAlphaVantage;
 module.exports._fetchMassiveCrudeOil = fetchMassiveCrudeOil;
 module.exports._fetchMassiveSPY = fetchMassiveSPY;
+module.exports._fetchRSS = _fetchRSS;
 module.exports._fetchArXivCS = fetchArXivCS;
 module.exports._fetchArXivAll = fetchArXivAll;
 module.exports._fetchNOAAAlerts = fetchNOAAAlerts;
