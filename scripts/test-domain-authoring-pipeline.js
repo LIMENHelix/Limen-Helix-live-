@@ -9,15 +9,17 @@ function write(name, value) { fs.writeFileSync(path.join(root, name), JSON.strin
 write('science_root.json', { activations: [{ treatments: [{ label: 'Measured observation', cite: 'https://example.test/source' }], companies: [{ ticker: 'SCI' }] }] });
 write('science_branch_thin.json', { activations: [{ treatments: [{ label: 'Assess progress' }] }] });
 write('science_branch_fake.json', { activations: [{ treatments: [{ label: 'Implement governance', evidence: 'A', cite: 'DOI 1' }] }] });
+write('science_branch_doi.json', { activations: [{ treatments: [{ label: 'Resolve a study', evidence: 'B', cite: '10.1234/example.1' }] }] });
 var r = PIPE.build('science', root, 120);
 assert.strictEqual(r.quality.domain, 'science');
-assert.strictEqual(r.quality.sampledTotal, 3);
+assert.strictEqual(r.quality.sampledTotal, 4);
 assert.strictEqual(r.quality.realPortalCount, 1);
 assert.strictEqual(r.quality.classificationTotals.REAL, 1);
 assert(r.quality.classificationTotals.NEEDS_AUTHORING >= 1 || r.quality.classificationTotals.SYNTHETIC >= 1);
 assert(r.queue.tasks.every(function (t) { return t.sourceHints === null && t.provenance.classifier === 'classifyPortalV2'; }));
 assert(r.queue.tasks.every(function (t) { return t.observed && typeof t.observed.sourceUrlCount === 'number' && typeof t.observed.templateRatio === 'number' && t.observed.sourceFile; }));
 assert(r.queue.tasks.some(function (t) { return t.observed.provenanceState === 'NO_VERIFIABLE_PROVENANCE'; }));
+assert(r.queue.tasks.some(function (t) { return t.observed.provenanceState === 'IDENTIFIER_PRESENT_UNRESOLVED' && t.observed.doiCount === 1; }));
 assert.strictEqual(r.cortex.consumedByRuntime, false);
 assert.strictEqual(r.cortex.evidenceEligible.externalBundles.length, 0);
 assert(r.queue.tasks.every(function (t) { return t.authoringType !== 'execution-input'; }));
