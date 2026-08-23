@@ -266,8 +266,13 @@ paid provider call. `scripts/_taxonomy-pilot/f0-survival-probe.cjs` and
 `scripts/_taxonomy-pilot/f1-schema-probe.cjs` now pass: recurrent energy state
 survives brain adapter → Civilization packet → versioned handoff → active artifact
 packet, and the six-diagnosis packet schema remains explicit. This is a measured
-single-domain bridge trace, not yet a 20-domain integration gate. The remaining Job 4
-work is a 20-domain field-survival test plus stale/missing/race-condition handling.
+single-domain bridge trace. `scripts/test-civilization-bridge-all-domains.cjs` then
+ran the same transforms for all 20 canonical domains: 10 routed to the active
+research/investment lanes preserved their diagnosis and treatment identity through
+the versioned handoff and `D3-A3.v3` artifact packet; the other 10 emitted explicit
+`ABSTAIN_NO_ACTIVE_LANE_AFFINITY` rows rather than being forced into an unrelated
+lane. This closes the field-survival subtask. Remaining Job 4 work is stale/missing
+field handling and race-condition tests around the browser event handoff.
 
 ### Work
 
