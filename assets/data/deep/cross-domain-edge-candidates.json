@@ -1,0 +1,1738 @@
+{
+  "schemaVersion": "cross-domain-edge-candidates/1.0",
+  "readOnly": true,
+  "note": "Declaration-only audit. No link, pathway, corroboration, or activation is created.",
+  "domains": 20,
+  "channels": 275,
+  "overlapPairs": 75,
+  "exactSourcePairs": 60,
+  "sharedProviderPairs": 75,
+  "distinctProviderCandidates": 0,
+  "pairs": [
+    {
+      "a": {
+        "domain": "agriculture",
+        "key": "fdaRecalls",
+        "name": "FDA Recalls",
+        "source": "FDA recalls RSS, item count (food)",
+        "providerFamily": "fda-recalls"
+      },
+      "b": {
+        "domain": "medicine",
+        "key": "fdaRecallFeed",
+        "name": "FDA Recalls",
+        "source": "FDA recalls RSS, item count (food; agriculture-tracked)",
+        "providerFamily": "fda-recalls"
+      },
+      "overlap": {
+        "sameKey": false,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "agriculture",
+        "key": "fedRegFda",
+        "name": "Fed Reg FDA",
+        "source": "federalregister.gov, FDA, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "medicine",
+        "key": "fedRegFda",
+        "name": "Fed Reg FDA",
+        "source": "federalregister.gov, FDA, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "agriculture",
+        "key": "fedRegEpa",
+        "name": "Fed Reg EPA",
+        "source": "federalregister.gov, EPA, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "environment",
+        "key": "fedRegEpa",
+        "name": "Fed Reg EPA",
+        "source": "federalregister.gov, EPA, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "communication",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "defense",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "communication",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "communication",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "communication",
+        "key": "fedRegFcc",
+        "name": "Fed Reg FCC",
+        "source": "federalregister.gov, FCC, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "fedRegFcc",
+        "name": "Fed Reg FCC",
+        "source": "federalregister.gov, FCC, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "communication",
+        "key": "fedRegFtc",
+        "name": "Fed Reg FTC",
+        "source": "federalregister.gov, FTC, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "fedRegFtc",
+        "name": "Fed Reg FTC",
+        "source": "federalregister.gov, FTC, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "energy",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "environment",
+        "key": "nwsAlerts",
+        "name": "NOAA Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": false,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "b": {
+        "domain": "environment",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "energy",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA KEV 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "governance",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "law",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "b": {
+        "domain": "law",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "defense",
+        "key": "fedRegDhs",
+        "name": "Fed Reg DHS",
+        "source": "federalregister.gov, DHS, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "fedRegDhs",
+        "name": "Fed Reg DHS",
+        "source": "federalregister.gov, DHS, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "education",
+        "key": "openAlex",
+        "name": "OpenAlex Institutions",
+        "source": "OpenAlex, works from top institutions",
+        "providerFamily": "openalex"
+      },
+      "b": {
+        "domain": "science",
+        "key": "openAlex",
+        "name": "OpenAlex Institutions",
+        "source": "OpenAlex, works from top institutions",
+        "providerFamily": "openalex"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "education",
+        "key": "fedRegEdu",
+        "name": "Fed Reg Education",
+        "source": "federalregister.gov, Education, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "science",
+        "key": "fedRegEdu",
+        "name": "Fed Reg Education",
+        "source": "federalregister.gov, Education, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "education",
+        "key": "fedRegNsf",
+        "name": "Fed Reg NSF",
+        "source": "federalregister.gov, NSF, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "science",
+        "key": "fedRegNsf",
+        "name": "Fed Reg NSF",
+        "source": "federalregister.gov, NSF, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "environment",
+        "key": "nwsAlerts",
+        "name": "NOAA Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": false,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA KEV 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "governance",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA KEV 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA KEV 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA KEV 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "law",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA KEV 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA KEV 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "energy",
+        "key": "fedRegDoe",
+        "name": "Fed Reg DOE",
+        "source": "federalregister.gov 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "science",
+        "key": "fedRegDoe",
+        "name": "Fed Reg DOE",
+        "source": "federalregister.gov, DOE, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "environment",
+        "key": "nwsAlerts",
+        "name": "NOAA Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": false,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "environment",
+        "key": "nwsAlerts",
+        "name": "NOAA Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": false,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "environment",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "environment",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "governance",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "governance",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "governance",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "law",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "governance",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "governance",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "industry",
+        "key": "phmsa",
+        "name": "PHMSA Incidents",
+        "source": "RSS keyword query, pipeline incidents",
+        "providerFamily": "rss keyword query"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "phmsa",
+        "name": "PHMSA Incidents",
+        "source": "RSS keyword query, pipeline incidents",
+        "providerFamily": "rss keyword query"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "industry",
+        "key": "uawStrikes",
+        "name": "UAW Strike Tracker",
+        "source": "RSS keyword query, UAW strikes",
+        "providerFamily": "uaw"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "uawStrikes",
+        "name": "UAW Strike Tracker",
+        "source": "RSS keyword query, UAW strikes",
+        "providerFamily": "uaw"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "industry",
+        "key": "fedRegOsha",
+        "name": "Fed Reg OSHA",
+        "source": "federalregister.gov, OSHA, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "fedRegOsha",
+        "name": "Fed Reg OSHA",
+        "source": "federalregister.gov, OSHA, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "industry",
+        "key": "fedRegDol",
+        "name": "Fed Reg DOL",
+        "source": "federalregister.gov, Labor, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "b": {
+        "domain": "infrastructure",
+        "key": "fedRegDol",
+        "name": "Fed Reg DOL",
+        "source": "federalregister.gov, Labor, 30d",
+        "providerFamily": "federalregister.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "logisticsIndex",
+        "name": "World Bank Logistics Index",
+        "source": "World Bank Logistics Performance Index",
+        "providerFamily": "world-bank"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "logisticsIndex",
+        "name": "World Bank Logistics Index",
+        "source": "World Bank Logistics Performance Index",
+        "providerFamily": "world-bank"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "nwsAlerts",
+        "name": "NOAA NWS Alerts",
+        "source": "api.weather.gov active alerts",
+        "providerFamily": "api.weather.gov"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "earthquakes",
+        "name": "USGS Earthquakes",
+        "source": "USGS feed, M4.5+ in 24h",
+        "providerFamily": "usgs"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "law",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "infrastructure",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "intelligence",
+        "key": "cisaAdvisories",
+        "name": "CISA Advisories",
+        "source": "RSS keyword query, CISA advisories",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "intelligence",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "law",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "intelligence",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "intelligence",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "intelligence",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "b": {
+        "domain": "law",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "intelligence",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "law",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "law",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "law",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "ofac",
+        "name": "OFAC Recent Actions",
+        "source": "OFAC feed keyword match",
+        "providerFamily": "ofac"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "medicine",
+        "key": "nihGrants",
+        "name": "NIH Grants",
+        "source": "RSS keyword query, NIH awards",
+        "providerFamily": "rss keyword query"
+      },
+      "b": {
+        "domain": "science",
+        "key": "nihGrants",
+        "name": "NIH Grants",
+        "source": "RSS keyword query, NIH awards",
+        "providerFamily": "rss keyword query"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "medicine",
+        "key": "retractions",
+        "name": "Retraction Watch",
+        "source": "RSS keyword query, retractions",
+        "providerFamily": "rss keyword query"
+      },
+      "b": {
+        "domain": "science",
+        "key": "retractions",
+        "name": "Retraction Watch",
+        "source": "RSS keyword query, retractions",
+        "providerFamily": "rss keyword query"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "medicine",
+        "key": "pubmed",
+        "name": "PubMed",
+        "source": "PubMed search, result total",
+        "providerFamily": "pubmed"
+      },
+      "b": {
+        "domain": "science",
+        "key": "pubmed",
+        "name": "PubMed",
+        "source": "PubMed search, cumulative result total",
+        "providerFamily": "pubmed"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "science",
+        "key": "arxivCs",
+        "name": "arXiv CS",
+        "source": "arXiv, cumulative CS paper count (a SUBSET of arXiv All)",
+        "providerFamily": "arxiv"
+      },
+      "b": {
+        "domain": "technology",
+        "key": "arxivCs",
+        "name": "arXiv CS",
+        "source": "arXiv, cumulative CS paper count",
+        "providerFamily": "arxiv"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": false
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    },
+    {
+      "a": {
+        "domain": "technology",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "b": {
+        "domain": "trade",
+        "key": "cisaKev",
+        "name": "CISA KEV",
+        "source": "CISA Known Exploited Vulnerabilities feed, entries added in 30d",
+        "providerFamily": "cisa"
+      },
+      "overlap": {
+        "sameKey": true,
+        "sameName": true,
+        "sameSource": true
+      },
+      "status": "REJECTED_SHARED_PROVIDER",
+      "reason": "both declarations resolve to the same upstream provider; this is not independent corroboration"
+    }
+  ]
+}

@@ -571,6 +571,15 @@ outcome requirement for B11/B14.
   **no-substitution** result, not a useful cross-domain influence result. Both
   domains read the same publisher, so independence is explicitly unestablished and
   row 24 remains open.
+
+  The declaration-only audit `scripts/audit-cross-domain-edge-candidates.js`
+  inventories all 275 binder channels. It finds 75 cross-domain overlap pairs:
+  60 exact source matches and 15 naming variants that still resolve to the same
+  provider families (NOAA, CISA, Federal Register, FDA, PubMed, or arXiv). It
+  finds **zero distinct-provider candidates**. The saved report
+  `assets/data/deep/cross-domain-edge-candidates.json` is therefore a rejection
+  inventory, not a link registry; its 9/9 regression test asserts that no shared
+  feed is relabeled as independent corroboration.
 - **B13:** `node scripts/test-consolidator.js` passes 41/41. Consolidation is
   offline, propose-only, preserves write authority, downscales multiplicatively,
   and refuses promotion when skill or baseline is absent. This is a durable
