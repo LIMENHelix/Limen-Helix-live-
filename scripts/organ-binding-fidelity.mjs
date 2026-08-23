@@ -9,7 +9,7 @@
  * marketSignals).
  *
  * For each binding, three checks:
- *   1. brainNodeId is in the canonical 124-node taxonomy
+ *   1. brainNodeId is in the canonical 123-node taxonomy
  *   2. brainNodeRole text is consistent with the node's role table in
  *      brain-node-business-mapping.json:domainBindings
  *   3. neuralRole label is consistent with the node's network

@@ -12,7 +12,7 @@
  *                     (portal.warningSignals, intelligenceCycle.diagnosis,
  *                      domain.activations[].diagnosticTriggers, .deep.json events)
  *   2. NODE         — which brain node + dysregulation state
- *                     (124-node taxonomy × {hyperactive|hypoactive|regulated|mixed|unknown})
+ *                     (123-node taxonomy × {hyperactive|hypoactive|regulated|mixed|unknown})
  *   3. DISORDER     — clinical condition(s) showing this node in this state
  *                     (PubMed-verified; from neuro-disorder-lookup.json)
  *   4. NEURO_TX     — treatments for the disorder
@@ -162,7 +162,7 @@ export const RESIDUAL_DIRECTIONS = Object.freeze([
 /**
  * @typedef {Object} DiscoveryCell
  * @property {string} cellId               `${brainNodeId}__${stateBucket}__${comparisonDomain}`
- * @property {string} brainNodeId          from 124-node taxonomy
+ * @property {string} brainNodeId          from 123-node taxonomy
  * @property {string} stateBucket          STATE_BUCKETS member
  * @property {string} comparisonDomain     COMPARISON_DOMAINS member
  *
