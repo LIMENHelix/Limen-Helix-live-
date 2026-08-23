@@ -47,6 +47,8 @@ assert.strictEqual(store.records[1].type, 'sandbox_outcome');
 assert.strictEqual(store.records[2].type, 'sandbox_forward_model_update');
 assert.strictEqual(outcome.learned.updated, true);
 assert.strictEqual(outcome.latency.updated, true);
+assert.strictEqual(outcome.outcome.reafference.trusted, false);
+assert.strictEqual(outcome.outcome.reafference.residualDelta, 0.8);
 assert.strictEqual(BR.report(bridge).commands, 1);
 assert.strictEqual(BR.report(bridge).outcomes, 1);
 assert.strictEqual(BR.report(bridge).pending, 0);

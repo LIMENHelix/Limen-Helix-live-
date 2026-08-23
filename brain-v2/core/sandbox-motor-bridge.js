@@ -137,6 +137,13 @@ function complete(bridge, commandId, result, now) {
     observedAt: result.observedAt,
     receivedAt: now
   };
+  var attribution = PRED.explainedByAction(bridge.forwardModel, command.efferenceCopy);
+  outcome.reafference = {
+    predictedDelta: attribution.value,
+    trusted: attribution.trusted,
+    residualDelta: result.observedDelta - attribution.value,
+    why: attribution.why
+  };
   // Persist the outcome before changing the in-memory model. A failed append
   // leaves the command retryable and cannot silently train B14.
   append(bridge, { type: 'sandbox_outcome', outcome: outcome });

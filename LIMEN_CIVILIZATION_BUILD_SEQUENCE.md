@@ -382,6 +382,28 @@ bridge inside the read-only 30-day sandbox and to record a separate outcome stre
 only then can the system measure whether a domain command and its later result are
 actually linked without confusing simulation with the world.
 
+### Job 5 measurement pass — B9, B13, and B17
+
+- **B9:** `node brain-v2/test/lateral.js` passes 44/44 adversarial assertions for
+  typed links, echo suppression, hop bounds, precision budgets, restart, and
+  default-deny. The file labels every peer synthetic and reports row 24 **not
+  satisfied**. The real runtime has no second bound peer domain in the loop
+  acceptance run, so cross-domain usefulness remains open; the test is mechanism
+  evidence, not a civilization result.
+- **B13:** `node scripts/test-consolidator.js` passes 41/41. Consolidation is
+  offline, propose-only, preserves write authority, downscales multiplicatively,
+  and refuses promotion when skill or baseline is absent. This is a durable
+  proposal mechanism; applying a learned rule to live domain behavior still needs
+  an explicitly reviewed consumer and outcome gate.
+- **B17:** self-model and metaplasticity are exercised in the 22/22 loop acceptance
+  run and the 65/65 metaplasticity suite. Learning rates are derived per model key,
+  bounded, reversible, and survive serialization. This closes the kernel-level
+  mechanism subtask, not an all-domain operational claim.
+
+Accordingly, Job 5 remains **in progress**: B11/B14 need the sandbox bridge wired
+into the rehearsal, B9 needs a real second-domain edge, and B13/B17 need their
+outputs consumed by that same sandbox with independent outcome records.
+
 ## Job 6 — Run the full read-only civilization sandbox
 
 **Target window:** 2–4 weeks after Jobs 3–5  
@@ -395,6 +417,24 @@ Run a 30-day rehearsal across all domains and lanes. Record every proposed actio
 - No lane is unclassified.
 - No simulated action is reported as executed.
 - No missing receipt, unexplained spend, persistence failure, or hidden manual intervention remains.
+
+### Job 6 subtask complete — 30-day motor-bridge rehearsal
+
+`node scripts/test-civilization-sandbox-30d.cjs` ran a deterministic 30-day,
+20-domain rehearsal through the sandbox bridge. Ten domains routed to the two
+active lanes and ten explicitly abstained: `300` simulated commands persisted,
+`300` sandbox outcomes persisted, `0` pending, and `284` commands reached trusted
+forward-model reafference after the eight-observation threshold. The rehearsal
+recorded `0` simulated spend and `0` outward executions. The other lanes were
+classified as non-active (`publication`, `social`, `subscriber-email`, `crm`,
+`real-estate`, `auction`, `homestead`, and `broker/order`) rather than silently
+treated as active.
+
+This is a bridge rehearsal, not a full production-cron observation: it proves the
+ordering and labels of the sandbox path, not that current live queues contain work
+or that any provider would return the simulated outcomes. The full Job 6 gate stays
+open until the remaining lane inputs and the real read-only runtime surface are
+included in the same bounded report.
 
 ## Job 7 — Paper-operation pilot
 
