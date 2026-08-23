@@ -193,6 +193,14 @@ all 20 digests are represented, and the opportunity index reconciles to the dige
 arrays (7/7 assertions). This closes the digest wiring subtask; the count is now a
 versioned generated result, not a hand-restated number.
 
+The separate deep-directive pool is also present for every domain. The read-only
+`scripts/audit-deep-directive-coverage.js` pass found 20/20 populated directive files,
+464,034 traversed portal files, 7,956,122 directives, 1,811,102 candidates, and 10,021
+retained render items. This does not certify provenance, portal quality, or runtime
+consumption; it explains the distinction between “the deep tree has content” and “the
+authoring queue has reviewed work.” The 19 empty authoring queues remain explicit
+admission/abstention stubs, not evidence that their deep trees are empty.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
