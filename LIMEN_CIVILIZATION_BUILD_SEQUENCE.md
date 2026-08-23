@@ -201,6 +201,19 @@ consumption; it explains the distinction between “the deep tree has content”
 authoring queue has reviewed work.” The 19 empty authoring queues remain explicit
 admission/abstention stubs, not evidence that their deep trees are empty.
 
+### Job 3 subtask complete — diagnosis-surface non-inflation audit
+
+The Agriculture count is now reconciled instead of compared to the other domains' cap as
+though `180` were a required target. `scripts/audit-diagnosis-surface.js` reports 106 issue
+entries across the `p2_agri` root and its 20 child files, collapsing to 98 unique diagnosis
+IDs across seven duplicate-ID groups (eight duplicate entries). The digest therefore remains
+below its 180-entry working-set cap for a measured source-surface reason. Its 500 retained deep
+directives are treatment-level candidates with citations, monitoring, and targets; they are not
+diagnosis records and are explicitly excluded from the diagnosis count. Nineteen other domains
+reach the cap, so their digest counts require a separate omitted-tail reconciliation rather than
+being used as an Agriculture completeness target. `scripts/test-diagnosis-surface.js` passes
+7/7. No task, diagnosis, treatment, stress, or activation is created by this audit.
+
 A live read of `/api/domain-snapshot` on 2026-08-23 (snapshot
 `1787499160738-231`) found all 20 runtime keys present, 231 live sources, and 98
 headline/text-bearing sources. It found 258 source entries
