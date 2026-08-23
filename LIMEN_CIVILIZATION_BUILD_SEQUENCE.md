@@ -482,3 +482,17 @@ Only after research and finance are reliable, add revenue/publication flows, com
 
 The next active job is **Job 3**. Jobs 1 and 2 are recorded complete in this document. Job 3 begins with a read-only substrate audit;
 we do not authorize real-money activity until Jobs 1–7 are complete.
+
+### Current execution checkpoint — 2026-08-23
+
+The branch `agent/limen-master-build-sequence` contains the authoritative sequence
+and the completed bridge/sandbox subtasks. The latest committed rehearsal result is
+`300` routed simulated commands, `300` explicit lane abstentions, `300` persisted
+outcomes, and `$0` spend. No production code has been activated by this checkpoint;
+push, PR, merge, and deploy remain separate owner decisions.
+
+The next active implementation queue is the remaining Job 3 substrate work (source
+identity/replayability and the 19 domain authoring admissions), followed by wiring
+the sandbox bridge to a real second-domain edge for B9. This ordering is deliberate:
+the bridge can rehearse command/outcome mechanics, but it must not hide missing
+domain inputs or turn conceptual homology into an operational claim.
