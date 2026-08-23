@@ -213,6 +213,7 @@ const HANDLERS = {
   'paper-trade': require('../handlers/paper-trade'),
   'tradier-sandbox': require('../handlers/tradier-sandbox'),
   'tradier-b14': require('../handlers/tradier-b14'),
+  'finance-b14': require('../handlers/finance-b14'),
   'pattern-proposal': require('../handlers/pattern-proposal'),
   'print-from-pattern': require('../handlers/print-from-pattern'),
   'redis-diag': require('../handlers/redis-diag'),

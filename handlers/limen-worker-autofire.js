@@ -41,6 +41,8 @@ var efferenceStore = require('../lib/autofire-efference-store');
 var domainBridge = require('../lib/autofire-domain-bridge');
 var autofireLearning = require('../lib/autofire-learning');
 var brainStore = require('../lib/brain-shadow-store');
+var financeB14Bridge = require('../lib/finance-b14-bridge');
+var tradierSandbox = require('../lib/tradier-sandbox');
 var fs = require('fs');
 var path = require('path');
 
@@ -270,6 +272,29 @@ async function _fireOne(entry) {
     };
   }
 
+  // Optional Finance motor bridge. A queue entry must carry an explicit trade
+  // intent; the worker never derives a ticker, side, quantity, price, or risk
+  // limit from the company, stress, headline, or kernel phase. With the
+  // sandbox autonomy switch off this records HELD and artifact generation keeps
+  // its existing behavior. With it on, a broker preview is created before the
+  // paid artifact call, but no order is submitted here.
+  var financeB14Preview = null;
+  if (lane === 'investment' && entry.tradeIntent) {
+    try {
+      financeB14Preview = await financeB14Bridge.preview(
+        efferenceStore, tradierSandbox, selected.receipt, entry.tradeIntent);
+    } catch (err) {
+      return {
+        skipped: false, ok: false, billableAttempt: false,
+        cik: entry.cik, lane: lane,
+        reason: 'finance-b14-preview-refused', detail: err.message,
+        errorCode: err.code || 'FINANCE_B14_PREVIEW_REFUSED',
+        selectionId: selected.receipt.id,
+        motorStatus: 'NOT_DISPATCHED'
+      };
+    }
+  }
+
   // B11 + B14, across the asynchronous actuator boundary. The command-time
   // prediction must be durable BEFORE the first provider request. If that write
   // fails, nothing is dispatched: an action without a copy cannot later
@@ -315,6 +340,7 @@ async function _fireOne(entry) {
   }
 
   async function finish(result) {
+    if (financeB14Preview) result.financeB14Preview = financeB14Preview;
     var motor = await autofireEfference.resolve(efferenceStore, efferenceCopy, result, Date.now());
     result.efferenceCopyId = efferenceCopy.id;
     result.actionId = efferenceCopy.actionId;
