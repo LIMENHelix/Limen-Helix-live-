@@ -497,10 +497,12 @@ Run a 30-day rehearsal across all domains and lanes. Record every proposed actio
 active lanes and ten explicitly abstained: `300` simulated commands persisted,
 `300` sandbox outcomes persisted, `0` pending, and `284` commands reached trusted
 forward-model reafference after the eight-observation threshold. The rehearsal
-recorded `0` simulated spend and `0` outward executions. The other lanes were
-classified as non-active (`publication`, `social`, `subscriber-email`, `crm`,
-`real-estate`, `auction`, `homestead`, and `broker/order`) rather than silently
-treated as active.
+recorded `0` simulated spend and `0` outward executions. All 13 operating lanes
+are now classified in the report: research and investments are `simulated`, and
+the other 11 are explicitly `not-active` with `NO_SANDBOX_ADAPTER` blockers
+(`publication`, `social`, `subscriber-email`, `automail`, `autopilot`,
+`hero-image`, `auction`, `homestead`, `crm`, `real-estate`, and `broker/order`).
+They are not silently treated as active.
 
 This is a bridge rehearsal, not a full production-cron observation: it proves the
 ordering and labels of the sandbox path, not that current live queues contain work

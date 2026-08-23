@@ -19,6 +19,10 @@ const RESEARCH = new Set(['research','health','medicine','science','education','
 const DAYS = 30;
 const DAY = 86400000;
 const START = 1798156800000; // deterministic 2027-01-01 UTC rehearsal origin
+const LANE_INVENTORY = [
+  'research-papers','investments','publication','social','subscriber-email',
+  'automail','autopilot','hero-image','auction','homestead','crm','real-estate','broker/order'
+];
 
 function Store() { this.records = []; }
 Store.prototype.append = function (r) { this.records.push(JSON.parse(JSON.stringify(r))); };
@@ -68,6 +72,13 @@ const routed = rows.filter((r) => r.lane);
 const abstained = rows.filter((r) => !r.lane);
 const trusted = routed.filter((r) => r.trustedReafference).length;
 const laneCounts = routed.reduce((m, r) => { m[r.lane] = (m[r.lane] || 0) + 1; return m; }, {});
+const laneInventory = LANE_INVENTORY.map((lane) => ({
+  lane,
+  status: (lane === 'research-papers' || lane === 'investments') ? 'simulated' : 'not-active',
+  reason: (lane === 'research-papers' || lane === 'investments')
+    ? 'sandbox bridge accepts this lane'
+    : 'no sandbox adapter; intentionally outside current research/investment scope'
+}));
 const output = {
   simulationOnly: true,
   days: DAYS,
@@ -79,14 +90,16 @@ const output = {
   pending: report.pending,
   trustedReafferenceCount: trusted,
   laneCounts,
+  laneInventory,
   simulatedSpendUsd: 0,
   outwardActionsExecuted: 0,
-  nonActiveLanes: ['publication','social','subscriber-email','crm','real-estate','auction','homestead','broker/order'],
-  blockers: [],
+  nonActiveLanes: laneInventory.filter((l) => l.status === 'not-active').map((l) => l.lane),
+  blockers: laneInventory.filter((l) => l.status === 'not-active').map((l) => l.lane + ':NO_SANDBOX_ADAPTER'),
   storeRecords: store.records.length,
   forwardModel: report.forwardModel
 };
 console.log(JSON.stringify(output, null, 2));
 if (output.routed !== 300 || output.abstained !== 300 || output.commandsPersisted !== 300 ||
     output.outcomesPersisted !== 300 || output.pending !== 0 || output.trustedReafferenceCount === 0 ||
-    output.simulatedSpendUsd !== 0 || output.outwardActionsExecuted !== 0) process.exitCode = 1;
+    output.simulatedSpendUsd !== 0 || output.outwardActionsExecuted !== 0 ||
+    output.laneInventory.length !== 13 || output.laneInventory.some((l) => !l.status || !l.reason)) process.exitCode = 1;
