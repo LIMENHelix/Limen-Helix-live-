@@ -101,7 +101,9 @@ async function main() {
   });
   assert('cash held for other orders is unavailable to a new buy', pendingCash.code === 'TRADIER_B14_CASH_EXCEEDED');
 
-  var wrong = await rejected(function () { return b14.submitApproved(store, api, { previewId: preview.previewId, confirmation: 'yes' }); });
+  var wrong = await rejected(function () {
+    return b14.submitApproved(store, api, { previewId: preview.previewId, confirmation: 'yes' }, Date.parse('2026-08-23T10:00:01Z'));
+  });
   assert('free-form approval is refused', wrong.code === 'TRADIER_B14_CONFIRMATION_MISMATCH');
   assert('a refused approval never reaches the broker', api.calls.indexOf('place') === -1);
 
@@ -124,7 +126,9 @@ async function main() {
   assert('production brokerage cannot be selected by the command', command.status === 'RECEIPT_PERSISTED' && command.receipt.orderId === '77');
   assert('predicted position effect is signed', command.efference.variables[0].predictedDelta === 1);
   assert('market price and return are never canceled', command.efference.neverCancel.length === 2 && command.efference.neverCancel[0].indexOf('.price') !== -1);
-  var duplicate = await rejected(function () { return b14.submitApproved(store, api, { previewId: preview.previewId, confirmation: preview.confirmationSummary }); });
+  var duplicate = await rejected(function () {
+    return b14.submitApproved(store, api, { previewId: preview.previewId, confirmation: preview.confirmationSummary }, Date.parse('2026-08-23T10:03:00Z'));
+  });
   assert('one preview cannot dispatch twice', duplicate.code === 'TRADIER_B14_ALREADY_SUBMITTED');
 
   var failingStore = memoryStore();
