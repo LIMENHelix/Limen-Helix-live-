@@ -26,11 +26,12 @@ global.fetch = async function (url) {
     ];
     var wb = [
       H._fetchWorldBankGDPGrowth, H._fetchWorldBankInflation,
-      H._fetchWorldBankFertility, H._fetchWorldBankTertiary, H._fetchWorldBankRD
+      H._fetchWorldBankFertility, H._fetchWorldBankTertiary, H._fetchWorldBankRD,
+      H._fetchWorldBankInfra, H._fetchWorldBankFoodIndex
     ];
     for (var i = 0; i < fred.length; i++) assert.equal((await fred[i]()).sourceUpdatedAt, '2026-08-01');
     for (var j = 0; j < wb.length; j++) assert.equal((await wb[j]()).sourceUpdatedAt, '2025');
-    console.log('11/11 passed');
+    console.log('13/13 passed');
   } finally {
     global.fetch = originalFetch;
     if (originalFred === undefined) delete process.env.FRED_API_KEY;
