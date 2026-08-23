@@ -346,6 +346,21 @@ identity, with no changes to stress, thresholds, lanes, or activation. This
 closes the feed-level identity gap only; it does not make titles semantic
 diagnoses or create a candidate consumer.
 
+### Job 3 subtask complete — dated FRED and World Bank adapters
+
+Six FRED adapters and five World Bank adapters now carry the observation date
+already present in their upstream payloads. The change preserves the date token
+and leaves all values, stress calculations, cadence declarations, and gates
+unchanged. `scripts/test-upstream-observation-identities.js` invokes all eleven
+fetcher paths with controlled upstream responses and passes 11/11.
+
+After merge as PR #77 (`6955aab3`) and its production deployment, the public
+snapshot `1787510835654-240` measured 146 open source-identity gaps, down from
+157: 146 numeric-upstream gaps and zero headline-item-only gaps. The remaining
+World Bank count belongs to other adapters not included in this slice. No
+timestamp was inferred from local clocks or values, and no stress or activation
+behavior changed.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
