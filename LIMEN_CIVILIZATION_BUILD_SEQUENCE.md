@@ -116,7 +116,10 @@ keeps conceptual homology separate from software behavior and names unresolved b
 Agriculture has 4 domain-prefixed deep files, Energy 10, and the other domains 9 each in this checkout. Empty queues are not evidence
 that those domains have nothing to author; several explicitly say their deep-portal pipeline has not run. The next implementation step
 is a domain-agnostic, read-only queue builder that derives tasks from each domain's own corpus and preserves an explicit abstention
-when a source or field is unavailable. Energy's queue schema will not be copied as if it were universal.
+when a source or field is unavailable. The same audit counted 1,429 treatment entries across the 20 aggregate domain files, and all
+1,429 lack a direct citation/source field in those aggregate records; the treatment-discovery cube may carry separate provenance, so
+this is a reconciliation task, not permission to declare every treatment unsupported. Energy's queue schema will not be copied as if
+it were universal.
 
 ### Gate
 

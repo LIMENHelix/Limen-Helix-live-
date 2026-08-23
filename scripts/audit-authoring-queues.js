@@ -25,6 +25,15 @@ var rows = DOMAINS.map(function (domain) {
   var queue = fs.existsSync(queueFile) ? readJson(queueFile) : null;
   var aggregateName = AGGREGATE[domain] || (domain + '.json');
   var aggregateFile = path.join(ROOT, 'assets', 'data', 'domains', aggregateName);
+  var aggregate = fs.existsSync(aggregateFile) ? readJson(aggregateFile) : null;
+  var activations = 0, treatments = 0, missingTreatmentProvenance = 0;
+  (aggregate && aggregate.activations || []).forEach(function (activation) {
+    activations++;
+    (activation.treatments || []).forEach(function (treatment) {
+      treatments++;
+      if (!treatment.citations && !treatment.sourceProvenance && !treatment.source && !treatment.url) missingTreatmentProvenance++;
+    });
+  });
   var deepFiles = fs.existsSync(DEEP)
     ? fs.readdirSync(DEEP).filter(function (name) { return name.indexOf(domain + '-') === 0 && name.endsWith('.json'); })
     : [];
@@ -34,6 +43,9 @@ var rows = DOMAINS.map(function (domain) {
     queueTasks: queue && typeof queue.totalTasks === 'number' ? queue.totalTasks : null,
     queueGeneratedAt: queue ? (queue.generatedAt || null) : null,
     aggregateExists: fs.existsSync(aggregateFile),
+    activations: activations,
+    treatments: treatments,
+    missingTreatmentProvenance: missingTreatmentProvenance,
     deepJsonFiles: deepFiles.length,
     admission: queue && queue.admission ? queue.admission : null
   };
