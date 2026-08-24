@@ -1867,3 +1867,58 @@ The next authorized gate is now a single small Preview-only Finance manager
 provider call, using the explicit operator AI switch and a bounded token
 budget. Until that authorization is exercised, the two candidates remain
 eligible for manager review only and no paper candidate or order exists.
+
+### Cross-domain company / HELIX topology inventory — measured 2026-08-24
+
+The company portal is not Finance-specific. A read-only repository inventory
+(`scripts/audit-domain-company-helix-consistency.cjs`) compared the generated
+company registry, the broader identity-file corpus, the connectome links, the
+entity registry, the twenty domain-brain modules, and the shared Company Portal
+and HELIX Report surfaces. It made no provider call, broker call, Redis write,
+runtime trigger, or deployment.
+
+The sources describe different scopes rather than one unified company list:
+
+- the generated company registry contains `767` portal entries and `545`
+  unique slugs;
+- `assets/data/companies/` contains `796` identity files, so `251` files are
+  outside the generated portal registry and must not be called missing or
+  orphaned without deciding which corpus is authoritative;
+- the civilization connectome contains `149` company links / `146` unique
+  slugs, with duplicate links for `costar_group`, `deere`, and `everbridge`;
+- the entity registry contains `102` company entities across `20` domains,
+  including entities with no CIK and CIKs not present in the generated company
+  registry;
+- the repository contains `3,284` topic portal HTML pages plus four shared
+  route surfaces (`company-portal.html`, `authority-portal.html`,
+  `provider-portal.html`, and `portal.html`).
+
+The shared company-to-HELIX handoff is structurally consistent: the Company
+Portal builds a HELIX link with the resolved CIK, posts the CIK to
+`/api/helix/helix-report/score`, and maps both `validated_signal` (Thing 1) and
+`phase_tracker_signal` (Thing 2). HELIX reads `?cik=`, runs its analysis, and
+labels Thing 2 interpretive and unvalidated. This proves shared wiring, not
+that every company identity resolves or that every portal's content is useful.
+
+Concrete topology blockers found:
+
+- the generated registry has ten missing identity files:
+  `shift4_payments`, `hubbell`, `idex`, `insight_timer`, `instructure`,
+  `itron`, `uipath`, `sounds_true`, `tyndale_house`, and `zscaler`;
+- eight connectome-linked slugs have no identity file:
+  `dover`, `eaton`, `insight_timer`, `parker_hannifin`, `sounds_true`,
+  `tyler_technologies`, `tyndale_house`, and `vertex_compliance`;
+- the company-registry domain vocabulary has four domains without a matching
+  domain-brain module (`contemplative`, `health`, `legal`, `supplyChain`). The
+  twenty brain modules do not have an extra domain absent from that registry;
+- the entity registry contains seven company entities without a CIK and
+  additional CIK-bearing entities not represented in the generated company
+  registry. These may be intentional private/non-SEC entities or stale
+  parallel data, so they are inventory findings, not automatic repair targets.
+
+This establishes the user's concern: the system has a shared portal/HELIX
+handoff, but its company, entity, connectome, topic-portal, and brain-domain
+registries are parallel scopes. The next implementation job is to define one
+authoritative identity/domain join and produce an explicit exception report;
+it is not to copy 796 files into one registry or to delete the additional
+portals blindly.
