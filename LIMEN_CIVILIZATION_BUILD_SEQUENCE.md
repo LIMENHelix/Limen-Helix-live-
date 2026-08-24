@@ -1022,9 +1022,54 @@ clean and contains the merged sequence updates from PRs #93–#105. CI and Verce
 passed on each exact head. Production snapshot `1787533941037-243` carries the
 NY Fed EFFR `effectiveDate` as `sourceUpdatedAt: 2026-08-20`, confirming PR #104
 at the live boundary. PR #106 records the corrected availability split; the
-source-identity slice changes no decision or activation gate.
+source-identity slice changes no decision or activation gate. PR #106 is now
+merged as `c68887a65d1b7e3ca4ea84b4e0595454be03288d`; `18cd5092` remains the
+historical checkpoint used for the earlier measurements.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
+
+### Outcome-path review audit — measured 2026-08-24
+
+The automated GitHub reviews on merged PRs #97, #98, #100, and #101 are not
+treated as proof merely because they are reviews. A direct read of the current
+source confirmed `22` non-outdated, unresolved threads: `8` on the outcome
+contract (#97), `1` on publication-outcome recording (#98), `12` on the paper
+investment observer (#100), and `1` on the research-input audit (#101). A
+thread's resolved state is GitHub conversation state; it does not change the
+code or establish that a finding was fixed.
+
+The current code confirms these load-bearing findings:
+
+- Tradier may omit `market_value`; without a named quote the paper observer must
+  not manufacture a position value, and the retained history must cover the
+  complete 90-day horizon.
+- Autonomous investment events must carry `commandId` through the outcome
+  handler so a paper result cannot bypass the B14 reconciliation lookup.
+- Preview commission/fee estimates are not realized execution fees; the
+  observer must abstain until actual fees are measured.
+- A snapshot from a different account cannot be attributed to an older command.
+- The capped B14 event log is insufficient command discovery for a 30/60/90-day
+  observer; a durable active-command index is required.
+- Malformed research evidence IDs, unsupported independence labels, malformed
+  contradiction/retraction fields, and unparseable timestamps must be refused.
+- Rejected learning writes must be reported as observer failures, and a Redis
+  source-read failure must not become an empty in-memory journal.
+
+The current hardening implements those boundaries: parseable timestamps and
+normalized identities in the versioned contract; explicit source-term checks for
+investment arithmetic; command/schema propagation through autonomous recording;
+strict Redis list reads; a durable Tradier active-command index; position-value
+derivation from a named quote when the broker omits `market_value`; chronological
+drawdown input; 90-day history retention; account-identity, terminal-fill, and
+intervening-trade guards; and explicit abstention for unmeasured realized fees.
+Focused suites pass
+`20/20`, `21/21`, `8/8`, `35/35`, `8/8`, `17/17`, and `11/11` respectively.
+
+These changes do not create a research evaluator, publish an article, submit an
+order, or enable live money. The remaining publication-identity seam and the
+research evaluator remain separate Job 5 blockers; the unresolved review on
+`audit-research-evaluation-input.cjs` is a test-quality follow-up, not evidence
+that an evaluator exists.
 
 Job 3 remains in progress for source ownership/syndication review, semantic
 title-to-candidate transport, cadence/replay closure, actual domain use of

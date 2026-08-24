@@ -122,6 +122,7 @@ async function main() {
   };
   var command = await b14.submitApproved(store, api, { previewId: preview.previewId, confirmation: preview.confirmationSummary }, Date.parse('2026-08-23T10:02:00Z'));
   assert('broker receipt is recorded after the command copy', command.efference && command.receipt && command.status === 'RECEIPT_PERSISTED');
+  assert('active command index is written before broker submission', store.logs.some(function (row) { return row && row.commandId === command.commandId && row.createdAt === command.emittedAt; }));
   assert('order carries a command-derived tag', api.orderRequest.tag === command.tag && /^limen-b14-/.test(command.tag));
   assert('production brokerage cannot be selected by the command', command.status === 'RECEIPT_PERSISTED' && command.receipt.orderId === '77');
   assert('predicted position effect is signed', command.efference.variables[0].predictedDelta === 1);

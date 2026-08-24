@@ -17,8 +17,11 @@ var observer = require('../lib/autofire-investment-observer');
 var outcome = require('./limen-outcome');
 
 var COMMAND_SCAN = 500;
-var HISTORY_CAP = 500;
+// One sample per hourly run.  Keep >90 days so a 90-day horizon cannot lose
+// its earliest drawdown before the outcome is due.
+var HISTORY_CAP = 3000;
 var HISTORY_KEY = 'tradier_investment_observation:';
+var ACTIVE_COMMAND_INDEX = 'tradier_b14_active_commands';
 
 function response(res, code, body) {
   res.statusCode = code;
@@ -45,7 +48,8 @@ module.exports = async function handler(req, res) {
   try {
     store.assertDurable();
     var log = await store.lrange('tradier_b14_log', 0, COMMAND_SCAN - 1);
-    var ids = commandIds(log);
+    var active = await store.lrange(ACTIVE_COMMAND_INDEX, 0, -1);
+    var ids = commandIds((Array.isArray(active) ? active : []).concat(log));
     var commands = [];
     var abstentions = [];
     for (var i = 0; i < ids.length; i++) {
@@ -62,9 +66,19 @@ module.exports = async function handler(req, res) {
     });
     var account = candidates.length ? await broker.accountSnapshot() : null;
     var quotes = Object.create(null);
+    var positionQuotes = Object.create(null);
+    var quoteErrors = Object.create(null);
     for (var q = 0; q < candidates.length; q++) {
-      var symbol = String(candidates[q].intent.benchmarkSymbol).toUpperCase();
-      if (!quotes[symbol]) quotes[symbol] = await broker.quote(symbol);
+      var benchmark = String(candidates[q].intent.benchmarkSymbol).toUpperCase();
+      if (!quotes[benchmark] && !quoteErrors[benchmark]) {
+        try { quotes[benchmark] = await broker.quote(benchmark); }
+        catch (quoteErr) { quoteErrors[benchmark] = String(quoteErr && quoteErr.code || quoteErr && quoteErr.message || quoteErr); }
+      }
+      var traded = String(candidates[q].intent.symbol || '').toUpperCase();
+      if (traded && !positionQuotes[traded] && !quoteErrors['position:' + traded]) {
+        try { positionQuotes[traded] = await broker.quote(traded); }
+        catch (quoteErr2) { quoteErrors['position:' + traded] = String(quoteErr2 && quoteErr2.code || quoteErr2 && quoteErr2.message || quoteErr2); }
+      }
     }
 
     var inspected = 0;
@@ -79,7 +93,15 @@ module.exports = async function handler(req, res) {
       inspected++;
       var currentQuote = current.intent && current.intent.benchmarkSymbol
         ? quotes[String(current.intent.benchmarkSymbol).toUpperCase()] : null;
-      var snap = observer.observationSnapshot(current, account, currentQuote, new Date(now).toISOString());
+      var benchmarkKey = current.intent && current.intent.benchmarkSymbol
+        ? String(current.intent.benchmarkSymbol).toUpperCase() : null;
+      if (benchmarkKey && quoteErrors[benchmarkKey]) {
+        abstentions.push({ commandId: current.commandId, reason: 'benchmark-quote-unavailable', detail: quoteErrors[benchmarkKey] });
+        continue;
+      }
+      var positionQuote = current.intent && current.intent.symbol
+        ? positionQuotes[String(current.intent.symbol).toUpperCase()] : null;
+      var snap = observer.observationSnapshot(current, account, currentQuote, new Date(now).toISOString(), positionQuote);
       var key = HISTORY_KEY + String(current.commandId);
       var history = await store.lrange(key, 0, HISTORY_CAP - 1);
       var priorSnapshot = history.some(function (row) { return row && row.snapshotId === snap.snapshotId; });
@@ -90,7 +112,7 @@ module.exports = async function handler(req, res) {
       }
       var result;
       try {
-        result = observer.inspectCommand(current, account, currentQuote, history, now);
+        result = observer.inspectCommand(current, account, currentQuote, history, now, positionQuote);
       } catch (err) {
         failures.push({ commandId: current.commandId, error: String(err && err.message || err) });
         continue;
@@ -101,7 +123,7 @@ module.exports = async function handler(req, res) {
         eligible += result.events.length;
         for (var e = 0; e < result.events.length; e++) {
           var recordedResult = await outcome.recordAutonomousOutcome(result.events[e]);
-          if (recordedResult && recordedResult.ok) {
+          if (recordedResult && recordedResult.ok && recordedResult.learningAccepted !== false) {
             if (recordedResult.duplicate) duplicates++;
             else recorded++;
           } else {

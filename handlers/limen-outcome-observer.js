@@ -34,14 +34,15 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    var articles = await db.lrange('site:articles', 0, 499);
+    var read = typeof db.lrangeStrict === 'function' ? db.lrangeStrict : db.lrange;
+    var articles = await read('site:articles', 0, 499);
     var inspected = observer.inspectArticles(articles, Date.now());
     var recorded = 0;
     var duplicates = 0;
     var failures = [];
     for (var i = 0; i < inspected.events.length; i++) {
       var result = await outcome.recordAutonomousOutcome(inspected.events[i]);
-      if (result && result.ok) {
+      if (result && result.ok && result.learningAccepted !== false) {
         if (result.duplicate) duplicates++;
         else recorded++;
       } else {
@@ -69,4 +70,3 @@ module.exports = async function handler(req, res) {
     return res.end(JSON.stringify({ ok: false, error: 'observer-failed', detail: String(err && err.message || err) }));
   }
 };
-
