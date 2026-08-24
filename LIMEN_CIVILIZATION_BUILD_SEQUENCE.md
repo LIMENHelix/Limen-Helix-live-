@@ -1988,3 +1988,55 @@ mapping do not. The next implementation gate is a versioned observational
 `homologyContext` carried from the domain/portal source into the server packet
 and case record. It must remain context and review material; it cannot turn a
 Thing 2 interpretation into Thing 1 validation or authorize an investment.
+
+### Homology context handoff — implemented 2026-08-24
+
+The next gate is now implemented as a bounded, observational contract in
+`lib/civilization-homology-context.js` (`civilization-homology-context/1.0`).
+`handlers/brain-cognition-refresh.js` supplies the packet builder with the
+domain-company join, company phase evidence when present, and any explicitly
+supplied bridge, regulation, recovery, or mapping fields. The server packet
+and case record preserve that context for both research and investment lanes.
+
+The context carries identity, P0-P10 phase plus source evidence, explicit
+regulated/dysregulated direction, brain-node records, all four
+homology/kernel mapping statuses, recovery evidence, provenance, and named
+abstentions. It never derives dysregulation from a stress scalar, never sets
+mapping coverage to true automatically, and remains `OBSERVATIONAL` and
+`contextOnly`.
+
+Verification:
+
+- `scripts/test-civilization-homology-context.js`: `5/5`;
+- civilization-focused unit run: `9 passed, 0 skipped, 0 failed`;
+- packet and case-record tests continue to pass (`12/12` and `3/3`);
+- syntax checks pass for the new module, packet, case record, and refresh
+  handler.
+
+The full repository check remains environment-blocked in this worktree because
+`node_modules` is absent and the repository checker requires `acorn`; this is a
+dependency setup issue, not a test failure in this change. The context is now
+preserved, but the legacy master artifact scorer still does not consume it.
+The next dependency is to make the manager read this context and abstain when
+the context needed for a lane is absent, without turning it into automatic
+authorization.
+
+### Homology source map and authority boundary — recorded 2026-08-24
+
+The direct neural-to-business design map is
+`LIMEN_Helix_Neuro_Business_CrossRef.html`, with its machine-readable subset
+in `assets/data/neuro-business-crossref.json`. The neural substrate reference
+is `LIMEN_Helix_Neurology_Reference.html`; the large running research library
+is `NEURO_LEARNING_REFERENCE.md`. P0-P10 recursion semantics are in
+`scripts/kernel-validation/LIMEN_RECURSION_ARC.md` and
+`scripts/kernel-validation/LIMEN_FOUR_LAYER.md`; the implementation ledger is
+`brain-v2/HOMOLOGY_LEDGER.md`.
+
+These sources are not interchangeable. The cross-reference distinguishes
+structural, partial, cosmetic, and missing mappings. The recursion arc states
+that P0-P10 is a developmental/generative state map, not a distress-severity
+scale; distress is being stuck or failing a transition. `DOCUMENT_AUTHORITY.md`
+also classifies the large scientific library as mixed source material and
+engineering hypothesis, not blanket owner-approved authority. The handoff must
+therefore preserve source provenance and claim class instead of treating any
+neural analogy as a business fact.

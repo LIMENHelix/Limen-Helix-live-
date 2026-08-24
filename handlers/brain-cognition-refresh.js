@@ -177,12 +177,25 @@ module.exports = async function handler(req, res) {
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
           try {
+            var _domainJoin = snap.domainCompanyJoin && snap.domainCompanyJoin[dom] || null;
+            var _phaseEvidence = _domainJoin && Array.isArray(_domainJoin.companies)
+              ? _domainJoin.companies.filter(function (co) { return co && co.scored === true && co.phase; }).slice(0, 32).map(function (co) {
+                return { source: 'company-phase-scorer', cik: co.cik || null, ticker: co.ticker || null, phase: co.phase, trajectory: co.trajectory || null, observedAt: co.timestamp || null };
+              }) : [];
+            var _packetExtras = {
+              companyDomainJoin: _domainJoin,
+              phaseEvidence: _phaseEvidence,
+              bridgePattern: _st.bridgePattern || _st.bridgeReadings || null,
+              regulation: _st.regulation || null,
+              recovery: _st.recovery || null,
+              mappings: _st.homologyMappings || null
+            };
+            if (dom === 'finance') {
+              _packetExtras.semanticEvidence = financeSemantic.observations;
+              _packetExtras.semanticEvidenceMeta = financeSemantic.meta;
+            }
             c.serverPacket = serverPacket.fromBrainState(
-              dom, _st, snap.meta, refreshId, new Date().toISOString(),
-              dom === 'finance' ? {
-                semanticEvidence: financeSemantic.observations,
-                semanticEvidenceMeta: financeSemantic.meta
-              } : null
+              dom, _st, snap.meta, refreshId, new Date().toISOString(), _packetExtras
             );
             c.serverPacketPersistence = await CIV_CONSUMER.consumePacket(c.serverPacket);
           } catch (packetErr) {
