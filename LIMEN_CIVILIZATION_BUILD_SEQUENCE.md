@@ -1698,3 +1698,19 @@ missing-ledger, malformed-response, and successful paper-candidate paths. No
 production provider call has been made. The remaining gate is an operator-
 authorized Preview invocation with a small Preview token budget and a real
 source-grounded ledger/candidate.
+
+### Finance ledger staging — circular dependency removed 2026-08-24
+
+The first ledger shape incorrectly required an already released investment
+candidate before the Finance manager could run. That made the missing-middle
+path circular: the manager needed a candidate while the producer needed the
+manager's proposal. `finance-input-ledger/1.0` now exposes two explicit ready
+states. A complete candidate-less ledger is `READY_FOR_MANAGER_REVIEW`; a
+ledger carrying an explicitly released paper candidate is
+`READY_FOR_PAPER_REVIEW`. The manager runner and producer accept both stages,
+while sandbox replay still requires the latter candidate state.
+
+The focused ledger, runner, producer, and composed-cycle tests remain green.
+This removes a code-level blocker; it does not create a Finance opportunity or
+authorize a provider call. Production still requires a real source-grounded
+ledger and the operator-controlled Preview AI gate.
