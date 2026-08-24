@@ -496,6 +496,25 @@ and `2022` (Food Index). This closes only these two adapter gaps; the remaining
 stress calculations, cadence declarations, and activation gates were not
 changed.
 
+### Job 3 subtask complete — Treasury observation identities
+
+The live snapshot `1787532429229-240` still had `141` numeric sources without
+`sourceUpdatedAt`; no headline-item identity gaps remained. Two of those gaps
+were safe to close from the exact upstream records already used for their
+values:
+
+- Treasury MTS now carries `best.record_date`, the record date on the selected
+  monthly deficit row.
+- Treasury operating cash now carries `tgaRow.record_date`, the record date on
+  the selected TGA opening-balance row.
+
+Neither repair uses the local fetch clock, a title date, a value-derived date,
+or a fallback constant. `scripts/test-upstream-observation-identities.js`
+exercises both real fetcher paths and now passes `15/15`; the remaining `139`
+numeric gaps remain open for adapter-specific measurement or explicit
+abstention. No source identity repair changes a value, stress calculation,
+cadence declaration, diagnosis, pathway, or activation decision.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
