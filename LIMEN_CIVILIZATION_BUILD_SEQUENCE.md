@@ -1576,3 +1576,19 @@ semantic-window tests pass; the next production observation is a natural
 `brain-cognition-refresh` cycle followed by an authenticated packet read. The
 Finance packet must then show the bounded semantic window while the empty
 opportunity list continues to abstain.
+
+### Finance packet semantic evidence — production observation 2026-08-24 15:40Z
+
+The first natural `brain-cognition-refresh` cycle after PR #124 produced a
+Finance packet at `2026-08-24T15:40:14.431Z` containing `30` semantic title
+observations. Its metadata reports `status: OBSERVED`, source key
+`feedtitles:finance`, `setsRead: 6`, `setReadLimit: 8`,
+`observationsRead: 30`, `observationLimit: 32`, `truncated: false`,
+`sourceAbstentions: []`, and `backend: redis`. This verifies the packet
+bridge at the deployed boundary, not merely in unit tests.
+
+The packet still has `0` Finance opportunities. The next gate is therefore a
+Finance manager/producer decision that is explicitly source-grounded and
+paper-only; semantic transport is no longer the blocker. No title, stress
+value, Thing 2 phase, master-inbox artifact, or confidence value may create an
+opportunity or order without that reviewed decision.
