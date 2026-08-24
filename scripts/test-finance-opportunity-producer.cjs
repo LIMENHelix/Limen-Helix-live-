@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict');
 const Producer = require('../lib/finance-opportunity-producer.js');
+const Replay = require('../lib/investment-sandbox-replay.js');
 
 const semanticId = 'finance:official-feed:h1:0';
 const baseLedger = {
@@ -44,6 +45,33 @@ const released = Producer.releaseForPaper(ready, {
 assert.equal(released.status, 'READY_TO_FIRE');
 assert.equal(released.release.mode, 'sandbox-paper');
 assert.equal(released.liveExecution, false);
+const replayCandidate = Producer.toReplayCandidate(released);
+assert.equal(replayCandidate.status, 'READY_TO_FIRE');
+assert.equal(replayCandidate.portalTicker, 'EX');
+assert.equal(replayCandidate.paperOnly, true);
+
+const replay = Replay.summarize({
+  snapshot: { domains: { finance: { sources: [{ name: 'Official feed' }, { name: 'Market feed' }] } } },
+  brainShadow: { cycles: { finance: { domain: 'finance', ok: true,
+    domainFunction: { evidence: { l3CurrentEvidenceComplete: true, outwardConnected: true } } } } },
+  handoff: { packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z',
+    truth: { opportunities: [replayCandidate], semanticEvidence: [{
+      sourceIdentity: { kind: 'publisher-item', value: semanticId }, recordedAt: '2026-08-24T15:59:00Z',
+      publisher: 'Official feed', feedName: 'Official feed', title: 'Example event', canonicalUrl: 'https://example.test/event'
+    }] } }] },
+  masterInbox: { readyForAutofire: [replayCandidate] },
+  semanticEvidence: [{ sourceIdentity: { kind: 'publisher-item', value: semanticId }, recordedAt: '2026-08-24T15:59:00Z',
+    publisher: 'Official feed', feedName: 'Official feed', title: 'Example event', canonicalUrl: 'https://example.test/event' }],
+  marketData: { asOf: '2026-08-24T16:00:00Z', sources: ['asset-quote/yahoo-chart'], quotes: [{
+    symbol: 'EX', price: 10, observedAt: '2026-08-24T16:00:00Z',
+    sourceIdentity: { kind: 'market-quote-handler', value: 'asset-quote/yahoo-chart' }
+  }] },
+  networkStress: { asOf: '2026-08-24T15:59:30Z', value: 0.1,
+    sourceIdentity: { kind: 'network-snapshot', value: 'limen-stress-slim' } }
+});
+assert.equal(replay.status, 'READY_FOR_PAPER_SIMULATION');
+assert.equal(replay.inputLedger.status, 'READY_FOR_PAPER_REVIEW');
+assert.equal(replay.brokerOrderSubmitted, false);
 
 function blocked(change, code) {
   const out = Producer.build({ ledger: baseLedger, proposal: Object.assign({}, proposal, change) });
@@ -63,4 +91,4 @@ assert.equal(noRelease.reason, 'paper_release_policy_required');
 const notReady = Producer.releaseForPaper(Object.assign({}, ready, { status: 'ABSTAINED' }), { mode: 'sandbox-paper', policyId: 'x', releasedAt: '2026-08-24T16:01:00Z' });
 assert.equal(notReady.status, 'ABSTAINED');
 
-console.log('finance opportunity producer: 23/23 passed');
+console.log('finance opportunity producer: 31/31 passed');

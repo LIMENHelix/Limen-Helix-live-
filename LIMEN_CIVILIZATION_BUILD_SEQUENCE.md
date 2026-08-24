@@ -1617,3 +1617,11 @@ JavaScript files and `4,955` JSON files (two documented size-cap skips), with
 semantic evidence is present, but no opportunity has been fabricated. Wiring
 an actual manager proposal source and passing its released candidate into the
 paper replay is the next job.
+
+The producer now also exposes a bounded adapter for a released paper candidate
+to the existing replay shape. A fixture joins that candidate to a packet,
+semantic observation, market quote, and fresh network row; the replay returns
+`READY_FOR_PAPER_SIMULATION` with `brokerOrderSubmitted: false`. The focused
+producer/replay test is `31/31`. This proves the local handoff contract only;
+the deployed Finance packet still has no released opportunity and therefore
+continues to abstain.
