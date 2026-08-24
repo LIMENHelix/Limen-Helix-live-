@@ -1576,3 +1576,61 @@ semantic-window tests pass; the next production observation is a natural
 `brain-cognition-refresh` cycle followed by an authenticated packet read. The
 Finance packet must then show the bounded semantic window while the empty
 opportunity list continues to abstain.
+
+### Authenticated Finance replay — measured 2026-08-24 20:55Z
+
+The authenticated, read-only replay was run against the current Production
+deployment using the operator header. All required GET surfaces returned `200`:
+domain snapshot, brain shadow, civilization handoff, Finance title store, market
+quote, and network-stress snapshot. The Finance cycle was healthy (`ok: true`,
+`13/13` live sources, `l3CurrentEvidenceComplete: true`, `outwardConnected: true`)
+but reported `0` active diagnoses and `0` opportunities. The persisted Finance
+packet carried `50` semantic observations with no semantic abstentions; the
+market adapter returned one quote. No model, broker, order, Redis write, cron
+trigger, or live endpoint was called by the audit.
+
+The replay correctly returned `simulationOnly: true`, `executionMode: paper`,
+`liveExecution: false`, and `brokerOrderSubmitted: false`. Its input ledger
+abstained on `network_evidence_0_stale_or_unidentified`, and the manager boundary
+abstained on `finance_packet_has_no_opportunity`. The local General Mills master-
+inbox artifact remains a presentation/legacy candidate and was not promoted into
+the Finance packet. This is the current external blocker: transport and ledger
+assembly are working, but no source-grounded Finance opportunity has been released
+by the owning domain.
+
+### Next implementation gate — source-grounded Finance opportunity release
+
+Do not manufacture an opportunity to make the paper replay pass. The next seam
+must make an existing Finance release explicit and traceable, or continue to
+abstain. A release is admissible only when the Finance cycle supplies a canonical
+`INVESTABLE` opportunity with source diagnosis/claim identity, citations or
+evidence IDs, current cycle identity, and the required company/instrument binding;
+the semantic title window, market quote, network evidence, and any company-specific
+Thing 1/Thing 2 applicability must remain separate observations in the ledger.
+The producer may package a released opportunity for paper review, but it may not
+derive a ticker, side, quantity, price, risk limit, or order from stress, title
+count, sentiment, phase, or confidence. If the Finance cycle has no released
+opportunity—as it does in the measured replay—the correct result remains
+`ABSTAINED` with the named blocker. A passing test must exercise both a fully
+source-grounded release and the no-opportunity refusal before any paper command
+is considered.
+
+### Finance opportunity release seam — implemented in the current checkout
+
+`lib/finance-opportunity-release.js` now provides that narrow boundary for the
+paper path. It accepts only a trusted Finance server packet containing an
+explicit canonical `investments` lane, company slug/ticker, source evidence
+identity, and a source diagnosis/claim identity. It emits a paper-review
+candidate with 30/60/90 terms and no order fields. It rejects a legacy
+master-inbox-shaped record, a missing opportunity, a mismatched packet cycle,
+and any opportunity without source identity. The replay now selects only this
+released packet candidate; the legacy master inbox can no longer supply a
+ticker or network/quote target. Focused release, replay, input-ledger,
+manager-context, packet, handoff, case-record, and semantic-packet tests pass.
+
+This is a local, uncommitted implementation at the current checkpoint. It does
+not create an opportunity when the Finance cycle emits none, does not call a
+model or broker, and does not close the paper-operation gate. The next required
+step is to review and implement the source-grounded Finance opportunity producer
+that can populate the packet without deriving a trade from stress, title count,
+phase, or confidence.

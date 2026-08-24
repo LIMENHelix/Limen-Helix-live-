@@ -29,6 +29,8 @@ assert.equal(missing.liveExecution, false);
 assert.equal(missing.brokerOrderSubmitted, false);
 assert(missing.blockers.includes('semantic_feed_evidence_not_carried_into_packet'));
 assert(missing.blockers.includes('market_data_snapshot_not_supplied'));
+assert(missing.blockers.includes('finance_packet_has_no_opportunity'));
+assert.equal(missing.finance.candidate, null, 'legacy master inbox must not become a Finance candidate');
 assert.equal(missing.finance.feedSourceCount, 2);
 assert.equal(missing.status, 'ABSTAINED');
 
