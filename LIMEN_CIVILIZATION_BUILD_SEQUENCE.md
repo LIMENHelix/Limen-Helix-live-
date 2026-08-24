@@ -2035,7 +2035,9 @@ is `NEURO_LEARNING_REFERENCE.md`. P0-P10 recursion semantics are in
 These sources are not interchangeable. The cross-reference distinguishes
 structural, partial, cosmetic, and missing mappings. The recursion arc states
 that P0-P10 is a developmental/generative state map, not a distress-severity
-scale; distress is being stuck or failing a transition. `DOCUMENT_AUTHORITY.md`
+scale; distress is a transition-regulation failure: either failing to transition
+(stuck/low-side) or transitioning without control (runaway/premature/high-side).
+`DOCUMENT_AUTHORITY.md`
 also classifies the large scientific library as mixed source material and
 engineering hypothesis, not blanket owner-approved authority. The handoff must
 therefore preserve source provenance and claim class instead of treating any
