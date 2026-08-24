@@ -986,8 +986,8 @@ B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
-Main is `fef9c904`; the authoritative branch is clean and contains the merged
-sequence updates from PRs #93–#98. CI and Vercel passed on each exact head.
+Main is `c39630dd`; the authoritative branch is clean and contains the merged
+sequence updates from PRs #93–#100. CI and Vercel passed on each exact head.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
@@ -1016,6 +1016,9 @@ Job 5's sandbox sequence is now explicit:
    a newly persisted research article carries its own output/action identity;
    it does not establish independent research progress, research evaluation, or
    investment P&L.
+7. PR #100 (`c39630dd`) added the read-only Tradier sandbox investment observer.
+   It can emit a paper P&L receipt only from explicit, attributable horizon
+   snapshots; it never submits an order and it does not create a live outcome.
 
 The current read-only 30-day rehearsal records `300` independent synthetic
 observations, `300` commands, `300` outcomes, `300` learning consumptions, one
@@ -1037,3 +1040,22 @@ graded. Independent research evaluation and live investment production remain
 missing. Job 7 remains pending until the required paper receipts can be
 observed and graded; no real-money activity is authorized before the Job 7
 gate is actually satisfied.
+
+### Research-evaluation input audit — measured 2026-08-24
+
+The production source tree contains the research-evaluation contract and
+learner, but no producer. The engine-output payload carries a citation list,
+but the owned-site adapter does not persist that list into the journal record;
+the journal carries title/body, publication identity, and provenance only. It
+also does not persist an evaluation progress label, an evidence-ID set, an
+established independence assessment, or the four required mapping decisions.
+The publication observer therefore correctly emits
+`OUTCOME_RESEARCH_PUBLISHED` only. A publication, article count, citation
+list, or originating domain signal cannot be promoted into
+`OUTCOME_RESEARCH_EVALUATED` by inference.
+
+This is a concrete external-input blocker, not a missing boolean: an evaluator
+must supply independently identified evidence and explicitly review
+`neurology_to_business_homology`, `business_to_neurology_homology`,
+`kernel_dynamics`, and `p0_p10_proof_and_effects`. Until that evidence exists,
+the correct behavior is an explicit abstention and Job 7 remains open.
