@@ -19,6 +19,9 @@
  *   T5  a changed set writes again
  *   T6  absent link / publication time / publisher record null, and never a neighbour's value
  *   T7  no record carries a score, stress, classification or candidate field
+ *   T8  a failed title write is retried on a later cycle
+ *   T9  a failed title write is retried within the same hour
+ *   T10 an over-long title is bounded with an explicit truncation marker
  */
 
 var handler = require('../handlers/feed-record');
@@ -233,7 +236,36 @@ function advanceOneHour() { clock += 3600 * 1000; Date.now = function () { retur
   var wSettled = await call('/api/feed-record');
   assert('once persisted it is not written again', wSettled.json.titlesWritten === 0, String(wSettled.json.titlesWritten));
 
-  console.log('T9: an over-long title is cut, and the cut is RECORDED');
+  console.log('T9 [regression]: a failed title write retries within the same hour');
+  /* Numeric idempotency and title persistence are separate contracts. If a title write
+     fails after the numeric row succeeds, a retry in the same hour must still reach the
+     title checkpoint even though the numeric row is skipped. */
+  advanceOneHour();
+  currentSnap = snapshot(
+    ['Same-hour retry - AP'],
+    ['https://news.google.com/rss/articles/HHH'],
+    [1786000999000],
+    ['AP']
+  );
+  var realLpush2 = db.lpush;
+  db.lpush = function (key) {
+    if (String(key).indexOf('feedtitles:') === 0) return Promise.reject(new Error('same-hour title failure'));
+    return realLpush2.apply(db, arguments);
+  };
+  var wSameFail = await call('/api/feed-record');
+  db.lpush = realLpush2;
+  assert('same-hour setup writes the numeric row', wSameFail.json.written === 1, String(wSameFail.json.written));
+  assert('same-hour setup reports title failure', wSameFail.json.titleErrors > 0, String(wSameFail.json.titleErrors));
+  var wSameRetry = await call('/api/feed-record');
+  assert('same-hour retry skips only the numeric row', wSameRetry.json.written === 0 && wSameRetry.json.skipped === 1,
+    JSON.stringify(wSameRetry.json));
+  assert('same-hour retry persists the title set', wSameRetry.json.titlesWritten === 1, String(wSameRetry.json.titlesWritten));
+  var sameHourSets = (await call('/api/feed-record?titles=testdom')).json.titles || [];
+  assert('same-hour title is present', sameHourSets.some(function (s3) {
+    return s3.items.some(function (x) { return /Same-hour retry/.test(x.ti); });
+  }), String(sameHourSets.length));
+
+  console.log('T10: an over-long title is cut, and the cut is RECORDED');
   advanceOneHour();
   var longTitle = 'X'.repeat(2500) + ' - Wire';
   currentSnap = snapshot([longTitle], ['https://news.google.com/rss/articles/GGG'], [1786000888000], ['Wire']);
