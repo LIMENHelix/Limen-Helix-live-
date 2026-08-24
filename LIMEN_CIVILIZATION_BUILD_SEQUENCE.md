@@ -1088,6 +1088,18 @@ historical checkpoint used for the earlier measurements.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
+### Current implementation checkpoint — PR #111 (authoritative)
+
+The strict Job 4 server consumer is merged on main as `b7accc606598277d1945175a4be5c0d96a7c19ca`
+(PR #111); main CI and the production deployment passed. The new
+`/api/limen-civilization-handoff` route is present and fails closed with `401`
+without the operator header. An authenticated production read returned `200`
+with `packets: 0` and `handoffs: 0`, so the consumer is deployed but no natural
+brain refresh has yet persisted a packet. This is an observed empty store, not
+evidence that the producer or a handoff lane has fired. The next gate is a
+natural `brain-cognition-refresh` cycle followed by an authenticated read of
+the packet persistence result; no manual trigger is authorized.
+
 ### Outcome-path review audit — measured 2026-08-24
 
 The automated GitHub reviews on merged PRs #97, #98, #100, and #101 are not
@@ -1135,8 +1147,8 @@ Job 3 remains in progress for source ownership/syndication review, semantic
 title-to-candidate transport, cadence/replay closure, actual domain use of
 reviewed queues, and the remaining `139` numeric source-identity tasks (`108`
 open identity readings and `31` provider-unavailable blockers). Job
-4's browser handoff seam is complete, but its persisted server-side consumer
-remains open.
+4's browser handoff seam and strict persisted server-side consumer are
+implemented; production observation of a first trusted packet remains open.
 
 Job 5's sandbox sequence is now explicit:
 
