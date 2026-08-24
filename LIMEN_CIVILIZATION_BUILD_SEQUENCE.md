@@ -1430,3 +1430,43 @@ can therefore retain Finance title sets for later paper evidence without
 turning article volume into meaning or treating a feed label as independent
 corroboration. This is transport only; no diagnosis, score, opportunity, or
 order is created by a title.
+
+### Kernel comparison and HELIX Report boundary — measured 2026-08-24
+
+The production pages are presentation and lookup surfaces, not the Finance
+manager's input ledger and not an order authority.
+
+`/kernel-comparison` loads the static `command-board-eligible.json` company
+dataset (301 rows in the deployed asset), excludes the FIRE envelope, and
+shows 200 rows under its default kernel-actionable filter. It refreshes
+domain-stress values from `/api/domain-snapshot`; it does not fetch
+`/api/brain-shadow`, `/api/limen/score`, or `/api/helix-report/score` to
+recompute each displayed company row. Its P0–P10 labels, composites, signal
+classification, severity, and portfolio seed are therefore a command-board
+rendering of the generated dataset plus client-side rules. The XOM portfolio
+row is a local paper-board item (`NOT TRACKED`), not a broker position. The
+Research and Investment badges are plan labels; the Investment tooltip
+explicitly says paper-trade thesis (Alpaca paper-before-live). Nothing on this
+surface proves an order, fill, or live-money actuation.
+
+The page also contains hard-coded `LIN:VALID` and `REC:LIVE` row badges. The
+expanded audit path applies a separate per-row `kid`/`vs` check before showing
+a validated Thing 1 verdict, while the row badges themselves do not come from
+a live per-row response. Treat those badges as a presentation-integrity item
+to reconcile before the board is used as operator authority.
+
+`/helix-report` currently renders a Phase 0 posture. Its own status says
+scoring is client-side, Thing 2 is interpretive and unvalidated, and
+server-side formula protection is not active in this deployment. `Run Phase
+Analysis` is the Thing 2 long-arc tracker. The separate `Fetch SEC EDGAR`
+path calls `/api/limen/score`, the protected Thing 1 endpoint, but a Thing 1
+result was not demonstrated by the page's initial production render. Thing 0
+is not a distinct rendered layer on this page; it remains an eligibility/input
+gate in the server-side design. The header's generic phrase “protected server
+kernel” must not be read as proof that the Phase 0 Thing 2 output is validated.
+
+Operational rule: neither page may be treated as a complete Finance input.
+Finance must consume the versioned ledger, source-supplied semantic evidence,
+market observations, network evidence, and explicit Thing 1/Thing 2
+applicability records. These pages may link to or display that work, but they
+do not replace it, and no page state may bypass the paper-only boundary.
