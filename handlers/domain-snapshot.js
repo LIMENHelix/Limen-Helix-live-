@@ -4597,7 +4597,7 @@ async function fetchNYFedEFFR() {
     // Stress increases as policy rate climbs (above 5% = restrictive).
     var stress = clamp((rate - 4.5) / 3, 0, 1);
     trackHealth('NY Fed EFFR', 'economy', 'live', null, rate);
-    return { value: rate, label: 'EFFR ' + rate.toFixed(2) + '%', stress: round(stress), signal: 'effective federal funds rate ' + rate.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: rate, label: 'EFFR ' + rate.toFixed(2) + '%', stress: round(stress), signal: 'effective federal funds rate ' + rate.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.refRates[0].effectiveDate || null };
   } catch (e) { trackHealth('NY Fed EFFR', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -6160,6 +6160,7 @@ module.exports._fetchWorldBankInfra = fetchWorldBankInfra;
 module.exports._fetchWorldBankFoodIndex = fetchWorldBankFoodIndex;
 module.exports._fetchTreasuryMTS = fetchTreasuryMTS;
 module.exports._fetchTreasuryOperatingCash = fetchTreasuryOperatingCash;
+module.exports._fetchNYFedEFFR = fetchNYFedEFFR;
 module.exports._fetchArXivCS = fetchArXivCS;
 module.exports._fetchArXivAll = fetchArXivAll;
 module.exports._fetchNOAAAlerts = fetchNOAAAlerts;

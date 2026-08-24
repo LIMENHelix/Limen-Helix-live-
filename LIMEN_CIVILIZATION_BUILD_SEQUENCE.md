@@ -518,6 +518,12 @@ MTS and `2026-08-20` for Treasury Cash Balance, confirming the repair at the
 live boundary. No source identity repair changes a value, stress calculation,
 cadence declaration, diagnosis, pathway, or activation decision.
 
+A follow-on repair adds the same source-row rule to NY Fed EFFR: the consumed
+rate object carries `effectiveDate`, so the adapter now preserves that token as
+`sourceUpdatedAt`. The focused identity test passes `16/16`; after this repair
+the remaining open numeric identity work is `138` sources, still requiring
+adapter-specific measurement or explicit abstention.
+
 ### Gate
 
 - Every domain has measurable input, provenance, freshness, replay behavior, and an explicit abstention state.
@@ -1008,8 +1014,10 @@ B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
-Main is `5d4f3692`; the authoritative branch is clean and contains the merged
-sequence updates from PRs #93–#102. CI and Vercel passed on each exact head.
+Main at the start of this checkpoint is `6465b1d6`; the authoritative branch is
+clean and contains the merged sequence updates from PRs #93–#103. CI and Vercel
+passed on each exact head. The current source-identity follow-on is tracked in
+PR #104 and changes no decision or activation gate.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
