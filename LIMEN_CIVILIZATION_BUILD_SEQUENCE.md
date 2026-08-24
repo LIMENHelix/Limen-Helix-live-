@@ -2099,3 +2099,22 @@ Focused Finance suites pass: `12` Finance test files, plus the civilization
 handoff tests. The full repository run was `143 passed, 1 skipped, 3 failed`
 because this worktree lacks the pre-existing `acorn` and `jsdom` dependencies;
 those failures are environment setup blockers, not failures in this handoff.
+
+### Finance Preview gate — current public-state measurement 2026-08-24
+
+The public read-only audit was re-run after the handoff merge. It found `8`
+title sets / `40` title observations, `2` exact identity candidates, `2`
+matching market quotes, and `552` network rows. The public surface does not
+expose the authenticated Finance shadow cycle or server packet, so the result
+is correctly `ABSTAINED` with `0` accepted candidates. Current blockers are:
+`finance_cycle_missing_or_not_ok`, `finance_l3_evidence_incomplete`,
+`finance_packet_missing_or_untrusted`, and `homology_context_required` (two
+candidate rows each).
+
+This is not evidence that the inputs are absent in production; it is evidence
+that the public audit cannot establish the protected portions. The next gate
+is an authenticated, read-only audit of `/api/brain-shadow` and the Finance
+server packet. Only after that bundle is assembled should an operator choose
+whether to authorize one bounded Preview-only manager provider call. No
+provider, Redis, paper-release, or broker operation was performed by this
+measurement.
