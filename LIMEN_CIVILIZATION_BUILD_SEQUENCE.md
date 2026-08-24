@@ -590,6 +590,23 @@ reviewed authenticated ingress, durable identity/idempotency contract, and
 independent consumer exist. This is a design/implementation blocker, not a
 reason to widen any live-money or publication lane.
 
+### Job 4 server-producer contract foundation — measured 2026-08-24
+
+`lib/civilization-server-packet.js` now defines the boundary a trusted cron
+producer must use. It requires `civilization-domain-packet/1.0`, the
+`server-cognition-refresh` source type, domain/cycle identity, refresh and
+snapshot provenance, parseable timestamps, bounded diagnosis/treatment/
+opportunity/directive arrays, and only the active `investments` and
+`research-papers` handoff lanes. It deterministically derives packet and
+handoff identities and refuses browser-origin packets, retired lanes, malformed
+timestamps, missing evidence arrays, and over-limit payloads. The contract is
+pure: it does not fetch, persist, spend, publish, activate, or claim that a
+producer exists. `scripts/test-civilization-server-packet.js` passes `11/11`.
+
+The next required step is to make `brain-cognition-refresh` emit this packet
+from its trusted server-side brain state. Until that producer exists, the
+consumer remains intentionally unimplemented.
+
 ### Work
 
 Replace implicit shared-global assumptions with a versioned handoff carrying:
