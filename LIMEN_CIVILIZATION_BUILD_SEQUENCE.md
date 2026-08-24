@@ -1014,10 +1014,11 @@ B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
-Main at the start of this checkpoint is `6465b1d6`; the authoritative branch is
-clean and contains the merged sequence updates from PRs #93–#103. CI and Vercel
-passed on each exact head. The current source-identity follow-on is tracked in
-PR #104 and changes no decision or activation gate.
+Main is now `d775afb1`; the authoritative branch is clean and contains the
+merged sequence updates from PRs #93–#104. CI and Vercel passed on each exact
+head. Production snapshot `1787533941037-243` carries the NY Fed EFFR
+`effectiveDate` as `sourceUpdatedAt: 2026-08-20`, confirming PR #104 at the live
+boundary. The source-identity slice changes no decision or activation gate.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
