@@ -1221,6 +1221,103 @@ missing. Job 7 remains pending until the required paper receipts can be
 observed and graded; no real-money activity is authorized before the Job 7
 gate is actually satisfied.
 
+### Investment input-path audit — measured 2026-08-24
+
+The current investment path is **not** an all-feed, all-domain, kernel-aware
+investment selector, and it must not be described as one.
+
+The live admission path is:
+
+1. `limen-worker-autoqueue` reads recent phase transitions, a fresh
+   `stress_slim` network map (only when its timestamp is less than one hour
+   old), and the generated `_master-inbox` bridge-artifact pool.
+2. `limen-worker-autofire` admits only HIGH or explicitly master-ready
+   research/investment entries, requires the Finance owner cycle for investment,
+   and passes that cycle through the outward-selection gate.
+3. A released selection creates an artifact-generation command. It does not
+   authorize a broker order. A trade preview is only possible when a queue
+   entry already carries an explicit `tradeIntent`; no ticker, side, quantity,
+   price, or risk limit is derived from stress, headlines, or a phase.
+
+The missing middle is load-bearing. In the current `_fireOne` path:
+
+- The owner cycle is used for the release/hold decision, but is not copied into
+  the Claude context packet.
+- The context packet contains two fixed illustrative citations, `news: []`,
+  financial metadata (`latestQuarter` and `historyQuarters`) rather than
+  measured financial values, and a static bundled network-stress node when one
+  exists.
+- The `kernelSnapshot` sent to the artifact drafter uses `entry.to`, a literal
+  `stress: 0.4`, and a direction-derived trajectory. It is not the current
+  Finance cycle's measured stress, phase, channels, findings, or relationship
+  evidence.
+- The master-inbox `patternId`, preview, and market-data valuation are not
+  expanded into the context packet; `sourcePatternSig` is carried as identity,
+  not as evidence.
+
+The production packet read confirms the distinction. Finance packets have
+recent source identities and `feedHealth` 13/13, but the observed packets show
+`phase: p0`, stress approximately `0.42–0.43`, confidence `0.78`, no active
+diagnoses, and no investment opportunities. The public autofire audit shows
+168 cycles, 4,000 evaluated candidates, 0 fired, 0 errors, and `$0` spent;
+both active lanes are blocked for lack of an eligible result. No investment
+order or live-money action has occurred.
+
+This is therefore an **AI artifact-drafting pipeline behind a domain release
+gate**, not yet an AI investment decision system that consumes the full feed,
+domain, and kernel state. The boundary is safer than silently claiming full
+context, but the missing context must be repaired before a paper result can be
+interpreted as a test of the intended investment model.
+
+### Sandbox-before-live gate — strengthened
+
+The existing 30-day rehearsal is a seam test, not an investment-quality test:
+it routes 300 synthetic commands (150 investments and 150 research), consumes
+300 synthetic independent observations, runs one consolidation pass, records
+284 trusted reafference results, spends `$0`, and executes zero outward
+actions. Its source is explicitly `sandbox-world-fixture/v1`; it does not use
+production feeds, Finance stress, kernel readings, market prices, or a broker.
+
+Before any live-money consideration, the next sandbox must be
+production-shaped and remain non-live. It must replay or ingest, with explicit
+identity and timestamps:
+
+- the Finance domain cycle and its measured channels/findings/relationships;
+- the source feed observations and any semantic title evidence admitted to the
+  candidate;
+- the kernel phase/state actually used for the decision;
+- bridge-pattern and market-data inputs used by the valuation;
+- network-stress inputs with their freshness and source provenance; and
+- an explicit paper-only Tradier command and its 30/60/90-day outcome record.
+
+The sandbox gate is not satisfied by an artifact draft, a stress score, an
+article count, or synthetic learning. It requires a complete input ledger,
+paper-only order/receipt identity, no live endpoint reachability, and
+reconciled 30/60/90 outcomes before Job 7 can advance. Until then, the live
+broker path remains unauthorized.
+
+The first production-shaped replay was run read-only on 2026-08-24. All three
+endpoints returned `200` (domain snapshot, authenticated brain shadow, and
+authenticated civilization handoff). It found a healthy Finance cycle with
+13/13 live sources, phase `p0`, stress `0.43`, confidence `0.78`, complete L3
+evidence, and one declared outward consumer. It also found zero active Finance
+diagnoses and zero Finance opportunities. The local master-inbox candidate
+(`general_mills/investment/0`, `GIS`, bridge pattern
+`AI_interoception_x_board_self_awareness_deficit`) was therefore not treated
+as a Finance opportunity.
+
+The replay result was `ABSTAINED`, with blockers:
+
+- `finance_packet_has_no_opportunity`;
+- `semantic_feed_evidence_not_carried_into_packet`; and
+- `market_data_snapshot_not_supplied`.
+
+The replay explicitly reported `simulationOnly: true`,
+`executionMode: paper`, `liveExecution: false`, and
+`brokerOrderSubmitted: false`. It made no model call, broker call, Redis write,
+cron trigger, or live endpoint request. This is the correct first result: the
+sandbox exposed the missing inputs instead of manufacturing an investment.
+
 ### Research-evaluation input audit — measured 2026-08-24
 
 The production source tree contains the research-evaluation contract and
