@@ -12,6 +12,13 @@
 const vm = require('vm');
 const { redisSet, redisGet } = require('../lib/redis-kv.js');
 const serverPacket = require('../lib/civilization-server-packet.js');
+const handoffStore = require('../lib/civilization-handoff-store.js');
+const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
+
+// The packet consumer is strict by design: unlike the cognition projection,
+// it never falls back to process memory when Redis is missing or fails.
+const CIV_STORE = handoffStore.createStore();
+const CIV_CONSUMER = handoffConsumer.createConsumer({ store: CIV_STORE });
 
 const PREFIX = 'limen:brain:cognition:';
 const TTL = 3 * 3600; // matches the feed handler
@@ -140,9 +147,11 @@ module.exports = async function handler(req, res) {
           c.phase = val(_st.phaseLabel || _st.phase);
           try {
             c.serverPacket = serverPacket.fromBrainState(dom, _st, snap.meta, refreshId, new Date().toISOString());
+            c.serverPacketPersistence = await CIV_CONSUMER.consumePacket(c.serverPacket);
           } catch (packetErr) {
             c.serverPacket = null;
             c.serverPacketAbstention = String(packetErr && packetErr.code || packetErr && packetErr.message || packetErr);
+            c.serverPacketPersistence = { ok: false, error: { code: packetErr && packetErr.code || 'PACKET_BUILD_FAILED', message: String(packetErr && packetErr.message || packetErr) } };
           }
           var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
           // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
