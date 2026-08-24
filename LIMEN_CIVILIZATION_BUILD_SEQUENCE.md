@@ -1654,3 +1654,13 @@ fully identified paper opportunity or abstain. The manager must not lower the
 domain diagnosis thresholds, reinterpret publication counts, or treat a title,
 phase, stress value, or confidence as an order instruction. PR #150 closes the
 admission boundary for that future release; it does not implement the manager.
+
+### Finance packet versus Finance opportunity — contract correction 2026-08-24
+
+Finance packet generation is an observation step and is not gated on Finance
+stress, an active diagnosis, or the presence of an opportunity. A healthy cycle
+must preserve its cycle identity, feed health, market/network observations, and
+bounded semantic evidence even when `stressScore` is `null`/low and
+`truth.opportunities` is empty. The later source-grounded opportunity release
+may abstain, but that abstention must not discard the packet. The producer
+regression test covers this exact low-stress/no-opportunity case.

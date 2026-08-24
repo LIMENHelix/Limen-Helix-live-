@@ -177,6 +177,10 @@ module.exports = async function handler(req, res) {
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
           try {
+            // Packet capture is an observation step, not an opportunity gate:
+            // Finance must still emit a packet when stress is null/low and the
+            // opportunity list is empty.  Opportunity release is a later,
+            // source-grounded boundary and may abstain independently.
             c.serverPacket = serverPacket.fromBrainState(
               dom, _st, snap.meta, refreshId, new Date().toISOString(),
               dom === 'finance' ? {
