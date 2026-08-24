@@ -17,7 +17,8 @@ function command(overrides) {
     accountBefore: { accountId: 'VA123', positions: [] },
     order: { id: 'order-1', status: 'filled', executedQuantity: 2, averageFillPrice: 100, transactionAt: new Date(base).toISOString() },
     reafference: { matchedSelfEffect: { executedQuantity: 2, averageFillPrice: 100 } },
-    dispatchCashGuard: { commission: 0, fees: 1 }
+    dispatchCashGuard: { commission: 0, fees: 1 },
+    reconciliation: { actualFees: 1, interveningTrades: 0 }
   }, overrides || {});
 }
 function account(value, qty) {
@@ -57,4 +58,29 @@ var late = O.inspectCommand(command(), account(230), quote(450), lateHistory, ba
 assert.ok(late.events.some(function (event) { return event.outcomeData.horizonDays === 30 && event.outcomeData.netPnl === 14; }));
 assert.ok(late.abstentions.some(function (x) { return x.horizonDays === 60 && x.reason === 'horizon-observation-missing'; }));
 assert.strictEqual(O.maxDrawdown([100, 90, 95, 80]), 20);
-console.log('autofire investment observer: 17/17 passed');
+var markedFromQuote = O.inspectCommand(command(), account(null), quote(440), [
+  { positionMarketValue: 200, observedAt: new Date(base + 10 * O.DAY_MS).toISOString() },
+  { positionMarketValue: 190, observedAt: new Date(base + 20 * O.DAY_MS).toISOString() }
+], due, { symbol: 'SPY', last: 110 });
+assert.strictEqual(markedFromQuote.status, 'ELIGIBLE');
+assert.strictEqual(markedFromQuote.events[0].outcomeData.sourceTerms.positionMarketValue, 220);
+var wrongAccount = account(220);
+wrongAccount.accountId = 'VA999';
+var wrongAccountResult = O.inspectCommand(command(), wrongAccount, quote(440), [
+  { positionMarketValue: 200, observedAt: new Date(base + 10 * O.DAY_MS).toISOString() },
+  { positionMarketValue: 190, observedAt: new Date(base + 20 * O.DAY_MS).toISOString() }
+], due);
+assert.ok(wrongAccountResult.abstentions.some(function (x) { return x.reason === 'account-identity-mismatch'; }));
+var noFees = O.inspectCommand(command({ reconciliation: { interveningTrades: 0 } }), account(220), quote(440), [
+  { positionMarketValue: 200, observedAt: new Date(base + 10 * O.DAY_MS).toISOString() },
+  { positionMarketValue: 190, observedAt: new Date(base + 20 * O.DAY_MS).toISOString() }
+], due);
+assert.ok(noFees.abstentions.some(function (x) { return x.reason === 'fees-unmeasured'; }));
+var noTradeHistory = O.inspectCommand(command({ reconciliation: { actualFees: 1 } }), account(220), quote(440), [
+  { positionMarketValue: 200, observedAt: new Date(base + 10 * O.DAY_MS).toISOString() },
+  { positionMarketValue: 190, observedAt: new Date(base + 20 * O.DAY_MS).toISOString() }
+], due);
+assert.ok(noTradeHistory.abstentions.some(function (x) { return x.reason === 'intervening-trade-history-unavailable'; }));
+var partial = O.inspectCommand(command({ order: Object.assign({}, command().order, { status: 'partially_filled' }) }), account(220), quote(440), [], due);
+assert.strictEqual(partial.reason, 'order-not-terminal-filled');
+console.log('autofire investment observer: 21/21 passed');

@@ -25,7 +25,8 @@ function command() {
     accountBefore: { accountId: 'VA123', positions: [] },
     order: { id: 'order-handler', status: 'filled', executedQuantity: 1, averageFillPrice: 100, transactionAt: new Date(t).toISOString() },
     reafference: { matchedSelfEffect: { executedQuantity: 1, averageFillPrice: 100 } },
-    dispatchCashGuard: { commission: 0, fees: 0 }
+    dispatchCashGuard: { commission: 0, fees: 0 },
+    reconciliation: { actualFees: 0, interveningTrades: 0 }
   };
 }
 async function invoke(handler, headers) {
@@ -40,6 +41,7 @@ async function invoke(handler, headers) {
   var replacements = [];
   var writes = [];
   var recorded = [];
+  var rejectLearning = false;
   mock(STORE, {
     assertDurable: function () {},
     lrange: async function (key) {
@@ -54,7 +56,10 @@ async function invoke(handler, headers) {
     accountSnapshot: async function () { return { accountId: 'VA123', positions: [{ symbol: 'SPY', quantity: 1, marketValue: 120 }] }; },
     quote: async function (symbol) { return { provider: 'tradier', symbol: symbol, last: 440 }; }
   }, replacements);
-  mock(OUTCOME, { recordAutonomousOutcome: async function (event) { recorded.push(event); return { ok: true, event: event }; } }, replacements);
+  mock(OUTCOME, { recordAutonomousOutcome: async function (event) {
+    recorded.push(event);
+    return rejectLearning ? { ok: true, learningAccepted: false, status: 503, event: event } : { ok: true, event: event };
+  } }, replacements);
   delete require.cache[require.resolve(HANDLER)];
   var handler = require(HANDLER);
   try {
@@ -65,7 +70,11 @@ async function invoke(handler, headers) {
     ok('one horizon is eligible', good.json.eligible === 1 && good.json.recorded === 1);
     ok('observer writes durable history', writes.some(function (x) { return x[0] === 'lpush' && String(x[1]).indexOf('tradier_investment_observation:') === 0; }));
     ok('paper outcome reaches durable outcome path', recorded.length === 1 && recorded[0].eventType === 'OUTCOME_INVESTMENT_PNL' && recorded[0].outcomeData.executionMode === 'paper');
+    ok('command identity reaches outcome path', recorded[0].commandId === 'tcmd-handler');
     ok('no live order is made', good.json.liveOrders === 0);
+    rejectLearning = true;
+    var learningFailure = await invoke(handler, { authorization: 'Bearer investment-observer-secret' });
+    ok('rejected investment learning write is surfaced', learningFailure.code === 503 && learningFailure.json.ok === false && learningFailure.json.failures.length === 1);
   } finally {
     if (oldSecret === undefined) delete process.env.CRON_SECRET; else process.env.CRON_SECRET = oldSecret;
     delete require.cache[require.resolve(HANDLER)];

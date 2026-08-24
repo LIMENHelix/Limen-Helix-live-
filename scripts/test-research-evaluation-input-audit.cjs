@@ -15,4 +15,5 @@ assert.strictEqual(report.publicationPath.persistsProvenance, true);
 assert.strictEqual(report.publicationPath.persistsEvaluationMetadata, false);
 assert.strictEqual(report.publicationPath.observerEmitsEvaluation, false);
 assert.strictEqual(report.outcomeEndpoint.autonomousProducer, false);
-console.log('research evaluation input audit: 11/11 passed');
+assert.deepStrictEqual(report.outcomeEndpoint.producerFiles, []);
+console.log('research evaluation input audit: 12/12 passed');

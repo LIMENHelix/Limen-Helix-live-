@@ -16,6 +16,18 @@ const OUT = path.join(ROOT, 'assets', 'data', 'deep', 'research-evaluation-input
 
 function read(rel) { return fs.readFileSync(path.join(ROOT, rel), 'utf8'); }
 function has(rel, re) { return re.test(read(rel)); }
+function walk(dir) {
+  const out = [];
+  for (const name of fs.readdirSync(dir)) {
+    if (['node_modules', '.git', '.next'].includes(name)) continue;
+    const full = path.join(dir, name);
+    const stat = fs.statSync(full);
+    if (stat.isDirectory()) out.push(...walk(full));
+    else if (/\.(?:js|cjs|mjs)$/.test(name)) out.push(full);
+  }
+  return out;
+}
+function relative(file) { return path.relative(ROOT, file).replace(/\\/g, '/'); }
 
 const contract = read('lib/autofire-outcome-contract.js');
 const learner = read('lib/autofire-learning.js');
@@ -23,6 +35,17 @@ const publicationAdapter = read('lib/post-adapters.js');
 const engineOutput = read('handlers/limen-worker-autofire.js');
 const publicationObserver = read('handlers/limen-outcome-observer.js');
 const outcomeHandler = read('handlers/limen-outcome.js');
+const productionFiles = walk(ROOT).filter(function (file) {
+  const rel = relative(file);
+  return !rel.startsWith('scripts/') && !/(^|\/)test(?:s)?\//.test(rel) &&
+    rel !== 'lib/autofire-outcome-contract.js' && rel !== 'lib/autofire-learning.js' &&
+    rel !== 'handlers/limen-outcome.js';
+});
+const researchEvaluationProducers = productionFiles.filter(function (file) {
+  const source = fs.readFileSync(file, 'utf8');
+  return /buildResearchEvaluation\s*\(/.test(source) ||
+    /eventType\s*[:=]\s*['"]OUTCOME_RESEARCH_EVALUATED['"]/.test(source);
+}).map(relative);
 const requiredMappings = [
   'neurology_to_business_homology',
   'business_to_neurology_homology',
@@ -54,8 +77,11 @@ const result = {
   },
   outcomeEndpoint: {
     acceptsEvaluation: /OUTCOME_RESEARCH_EVALUATED/.test(outcomeHandler),
-    autonomousProducer: false,
-    producerBasis: 'endpoint validation/learning consumer is not a source-grounded evaluator'
+    autonomousProducer: researchEvaluationProducers.length > 0,
+    producerFiles: researchEvaluationProducers,
+    producerBasis: researchEvaluationProducers.length
+      ? 'source-tree scan found an evaluator/producers outside the validator and learner'
+      : 'source-tree scan found no evaluator/producers outside the validator and learner'
   },
   requiredExternalInput: {
     independentEvidenceIds: true,
@@ -63,7 +89,9 @@ const result = {
     mappingCoverage: requiredMappings,
     progressDecision: ['PROGRESS', 'REGRESSION', 'NO_CHANGE']
   },
-  conclusion: 'The contract and learner exist, but the production publication path carries no evaluation metadata and no autonomous source-grounded evaluator exists. A publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED; the system must abstain until an independently identified evidence set and all four mapping decisions are supplied.'
+  conclusion: researchEvaluationProducers.length
+    ? 'A source-tree evaluator was found, but its evidence and mapping inputs still require the separate research gate.'
+    : 'The contract and learner exist, but the production publication path carries no evaluation metadata and no autonomous source-grounded evaluator exists. A publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED; the system must abstain until an independently identified evidence set and all four mapping decisions are supplied.'
 };
 
 if (process.argv.includes('--write')) {

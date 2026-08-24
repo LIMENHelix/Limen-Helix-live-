@@ -28,16 +28,26 @@ function mock(file, exports, replacements) {
   process.env.CRON_SECRET = 'observer-secret';
   var replacements = [];
   var calls = [];
+  var strictFailure = false;
   mock(DB, {
     getBackend: function () { return 'redis'; },
+    lrangeStrict: async function (key, start, stop) {
+      if (strictFailure) throw new Error('forced redis read failure');
+      calls.push(['lrange', key, start, stop]);
+      return [{ id: 'a1', lane: 'research', ownerDomain: 'research', outputId: 'eo1', actionId: 'act1', title: 'x', body: 'y', publishedAt: '2026-08-24T00:00:00Z' }, { id: 'a2', lane: 'investment' }];
+    },
     lrange: async function (key, start, stop) {
       calls.push(['lrange', key, start, stop]);
       return [{ id: 'a1', lane: 'research', ownerDomain: 'research', outputId: 'eo1', actionId: 'act1', title: 'x', body: 'y', publishedAt: '2026-08-24T00:00:00Z' }, { id: 'a2', lane: 'investment' }];
     }
   }, replacements);
   var recorded = [];
+  var rejectLearning = false;
   mock(OUTCOME, {
-    recordAutonomousOutcome: async function (event) { recorded.push(event); return { ok: true, event: event }; }
+    recordAutonomousOutcome: async function (event) {
+      recorded.push(event);
+      return rejectLearning ? { ok: true, learningAccepted: false, status: 503, event: event } : { ok: true, event: event };
+    }
   }, replacements);
   delete require.cache[require.resolve(HANDLER)];
   var handler = require(HANDLER);
@@ -54,6 +64,13 @@ function mock(file, exports, replacements) {
     ok('publication receipt is not evaluation', good.json.evaluated === 0 && recorded[0].eventType === 'OUTCOME_RESEARCH_PUBLISHED');
     ok('observer preserves command identity', recorded[0].outputId === 'eo1' && recorded[0].actionId === 'act1');
     ok('non-research lane is explicitly abstained', good.json.abstentions.some(function (x) { return x.reason === 'not-research-lane'; }));
+    rejectLearning = true;
+    var learningFailure = await invoke(handler, { authorization: 'Bearer observer-secret' });
+    ok('rejected learning write is surfaced as observer failure', learningFailure.code === 503 && learningFailure.json.ok === false && learningFailure.json.failures.length === 1);
+    rejectLearning = false;
+    strictFailure = true;
+    var sourceFailure = await invoke(handler, { authorization: 'Bearer observer-secret' });
+    ok('durable source read failure is not reported as empty success', sourceFailure.code === 503 && sourceFailure.json.ok === false && sourceFailure.json.error === 'observer-failed');
   } finally {
     if (oldCron === undefined) delete process.env.CRON_SECRET; else process.env.CRON_SECRET = oldCron;
     delete require.cache[require.resolve(HANDLER)];
@@ -64,4 +81,3 @@ function mock(file, exports, replacements) {
   }
   console.log('autofire outcome observer handler: ' + passed + '/' + passed + ' passed');
 })().catch(function (err) { console.error(err.stack || err); process.exit(1); });
-

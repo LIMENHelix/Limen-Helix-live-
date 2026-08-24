@@ -237,6 +237,7 @@ async function recordEvent(body) {
   const observedMs = body.observedAt && Number.isFinite(Date.parse(String(body.observedAt)))
     ? Date.parse(String(body.observedAt)) : null;
   const event = {
+    schemaVersion: body.schemaVersion || null,
     // Observer retries use observationId to get a stable identity. Legacy
     // manual posts retain their time-based identity because they have no
     // source observation identity.
@@ -554,12 +555,14 @@ module.exports.recordAutonomousOutcome = async function recordAutonomousOutcome(
   if (!event || typeof event !== 'object') return { ok: false, status: 400, error: 'event-not-object' };
   const body = {
     outputId: event.outputId,
+    commandId: event.commandId,
     actionId: event.actionId,
     eventType: event.eventType,
     lane: event.lane,
     ownerDomain: event.ownerDomain,
     observationId: event.observationId,
     observedAt: event.observedAt,
+    schemaVersion: event.schemaVersion,
     outcomeData: event.outcomeData,
     sourceIdentity: event.sourceIdentity
   };
