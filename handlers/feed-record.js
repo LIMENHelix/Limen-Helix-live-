@@ -304,24 +304,29 @@ module.exports = async function handler(req, res) {
     domainKeys.push(dk);
     var key = 'feedhist:' + dk;
 
-    // IDEMPOTENT PER HOUR: skip if newest row is already in this hour bucket
+    // IDEMPOTENT PER HOUR for the numeric row. Title evidence has its own
+    // checkpoint and must still run when the numeric row is already present:
+    // otherwise a failed title write cannot retry until a later numeric row.
+    var numericAlreadyRecorded = false;
     try {
       var head = await db.lrange(key, 0, 0);
       if (head && head[0] && head[0].t && Math.floor(head[0].t / HOUR_MS) === hourBucket) {
         skipped++;
-        continue;
+        numericAlreadyRecorded = true;
       }
     } catch (e) { /* if the peek fails, fall through and write */ }
 
-    var row = compactRow(t, domains[dk]);
-    var cov = identityCoverage(row);
-    coverage[dk] = cov;
-    covTotal += cov.sources; covWithId += cov.withSourceIdentity;
-    try {
-      await db.lpush(key, row);       // newest at head
-      await db.ltrim(key, 0, CAP - 1); // keep last ~90 days
-      written++;
-    } catch (e) { /* one domain failing must not abort the rest */ }
+    if (!numericAlreadyRecorded) {
+      var row = compactRow(t, domains[dk]);
+      var cov = identityCoverage(row);
+      coverage[dk] = cov;
+      covTotal += cov.sources; covWithId += cov.withSourceIdentity;
+      try {
+        await db.lpush(key, row);       // newest at head
+        await db.ltrim(key, 0, CAP - 1); // keep last ~90 days
+        written++;
+      } catch (e) { /* one domain failing must not abort the rest */ }
+    }
 
     /**
      * TITLE EVIDENCE — observational only, written to its OWN key, as WHOLE SETS.

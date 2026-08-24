@@ -1514,3 +1514,21 @@ the portal's report action posts that same CIK to the report endpoint. Entries
 without a CIK cannot manufacture one; they remain a company-portal or
 unresolved-identity case. Thing 2 is reached through the HELIX Report's phase
 analysis/report packet and must retain its interpretive/unvalidated label.
+
+### Title recorder retry boundary — corrected 2026-08-24
+
+The recorder's numeric history is idempotent per hour, but title evidence has
+its own per-source checkpoint and must remain independently retryable. The
+previous loop used `continue` when the numeric row already existed in the
+current hour, which also skipped the title checkpoint. A title write that
+failed after a successful numeric write could therefore not retry during that
+hour. The recorder now skips only the numeric write and still processes the
+title store; `scripts/test-title-transport.js` adds the same-hour failure and
+retry regression. The focused transport test passes `51/51`, and the full unit
+sweep passes `133` with one documented external-corpus skip when the shared
+`NODE_PATH` supplies the repository dependencies.
+
+This is still transport only. It does not classify titles, create a Finance
+opportunity, score stress, activate a pathway, or authorize a paper or live
+order. The post-deploy Finance title-store observation remains a separate
+production check.
