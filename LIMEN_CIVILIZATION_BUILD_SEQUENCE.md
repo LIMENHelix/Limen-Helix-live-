@@ -1372,6 +1372,23 @@ context now causes an explicit manager/ledger abstention rather than a silent
 translation or a guessed business meaning. Focused Finance coverage includes
 missing-context refusal and preservation of both regulation directions.
 
+### Homology interface classification — measured 2026-08-24
+
+The code check separates three possible uses. The current implementation is
+**not** a gain/confidence weight: no numeric precision, likelihood, score, or
+threshold reads a homology field. It is also **not** a content-dependent
+router: no handler, lane, or interpretation branch is selected from a phase,
+node, mapping, or regulation label. The field is load-bearing in two bounded
+ways: the ledger/context gate refuses missing or malformed context, and the
+provider prompt receives the validated observational record for semantic review.
+
+Therefore its current class is **interface-read / review context**, not a
+neural-equivalent precision signal. Removing it changes readiness and the
+provider input, so it is not write-only annotation. Any future behavior that
+routes, weights, or authorizes from these meanings must instead introduce a
+typed channel/port with its own evidence contract; it must not branch on a
+free-form homology label.
+
 The implementation sequence for Finance is now explicit:
 
 1. assemble and persist the complete input ledger in a production-shaped
