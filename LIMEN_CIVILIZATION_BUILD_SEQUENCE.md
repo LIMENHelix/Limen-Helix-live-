@@ -1447,9 +1447,9 @@ independence `unassessed`.
 
 This is a transport/ledger correction only. It does not classify headlines,
 create a Finance opportunity, score stress, or authorize a paper or live
-order. The next production observation is a post-deploy Finance title-store
-read followed by the replay audit; the ledger must still abstain when the
-Finance packet has no released candidate or other required input.
+order. The post-deploy observation is recorded below; the ledger still
+abstains when the Finance packet has no released candidate or other required
+input.
 
 ### Finance network-evidence adapter — implemented 2026-08-24
 
@@ -1464,9 +1464,8 @@ applies.
 The live replay now reports `networkStress: true` and a named network
 observation for the current candidate. This removes one missing-input blocker;
 it does not create an opportunity, interpret a network value as a trade signal,
-or change the paper-only boundary. The remaining observed blockers are the
-empty Finance opportunity list and missing semantic title evidence until the
-next post-deploy recorder cycle persists a Finance title set.
+or change the paper-only boundary. The Finance title-store observation is now
+complete; the remaining blocker is the empty Finance opportunity list.
 
 ### Kernel comparison and HELIX Report boundary — measured 2026-08-24
 
@@ -1530,5 +1529,32 @@ sweep passes `133` with one documented external-corpus skip when the shared
 
 This is still transport only. It does not classify titles, create a Finance
 opportunity, score stress, activate a pathway, or authorize a paper or live
-order. The post-deploy Finance title-store observation remains a separate
-production check.
+order.
+
+### Finance semantic transport — production observation 2026-08-24 15:13Z
+
+The authoritative `main` checkout is now `39ac0062` (PR #122 merged, CI
+successful).
+
+The first natural recorder cycle after PR #121 and PR #122 wrote Finance
+title evidence. A read-only `GET /api/feed-record?titles=finance&n=500`
+returned `count: 6` persisted whole title sets, and the semantic replay
+adapter admitted `30` observations with `0` abstentions. The newest numeric
+Finance row was recorded at `2026-08-24T15:12:33.880Z`. No cron was triggered
+manually.
+
+The production-shaped replay returned `inputLedger.status:
+READY_FOR_PAPER_REVIEW` with zero ledger blockers. It carried live Finance
+cycle state (`13/13` sources, `l3CurrentEvidenceComplete: true`,
+`outwardConnected: true`), market data, fresh network evidence, and the
+persisted semantic observations. The replay still returned `ABSTAINED` at the
+manager boundary because the Finance packet has `0` released opportunities;
+this is the remaining missing-middle contract, not a transport failure.
+
+The audit remained read-only: `simulationOnly: true`, `liveExecution: false`,
+`brokerOrderSubmitted: false`; no model call, broker call, Redis write, cron
+trigger, or live endpoint was used. The next implementation gate is a
+source-grounded Finance opportunity producer/manager that can release an
+explicit candidate only when the complete ledger is present. No title count,
+headline interpretation, stress value, or master-inbox artifact may bypass
+that gate.
