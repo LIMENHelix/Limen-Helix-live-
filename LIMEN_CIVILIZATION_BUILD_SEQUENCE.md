@@ -1661,3 +1661,22 @@ The prompt contract is not an AI call and does not enable billing. Its focused
 test passes `14/14`. The next external step is a Preview-only manager call with
 `LIMEN_AI_ENABLED=1`; until that operator-controlled switch is enabled, the
 production manager remains correctly abstained and no proposal is generated.
+
+### Finance manager-to-producer handoff — implemented 2026-08-24
+
+The two reviewed contracts are now joined by the pure
+`lib/finance-manager-producer-adapter.js` boundary. It accepts only an
+accepted `finance-manager-proposal/1.0`, converts it to the producer's
+`finance-opportunity-proposal/1.0`, preserves the manager response schema in
+provenance, and refuses incomplete, non-paper, independently-asserted, or
+live-execution proposals. It does not call a provider, release a candidate,
+write state, or submit an order.
+
+An integration test invokes the actual parser, adapter, producer,
+paper-release policy, replay adapter, and sandbox preflight in sequence. It
+passes `18/18` and ends at `READY_FOR_PAPER_SIMULATION` with
+`brokerOrderSubmitted: false`. This closes the local contract handoff; it is
+not a production manager observation. The remaining external gate is still a
+single operator-authorized Preview-only provider call with the AI switch and a
+small Preview token budget enabled. Until then the live packet remains
+abstained and no proposal is produced.
