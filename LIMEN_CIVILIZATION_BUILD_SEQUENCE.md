@@ -520,9 +520,12 @@ cadence declaration, diagnosis, pathway, or activation decision.
 
 A follow-on repair adds the same source-row rule to NY Fed EFFR: the consumed
 rate object carries `effectiveDate`, so the adapter now preserves that token as
-`sourceUpdatedAt`. The focused identity test passes `16/16`; after this repair
-the remaining open numeric identity work is `138` sources, still requiring
-adapter-specific measurement or explicit abstention.
+`sourceUpdatedAt`. The focused identity test passes `16/16`. A fresh production
+audit at snapshot `1787534325323-240` now separates the remaining `139` total
+numeric tasks into `108` readings present but missing publisher identity and
+`31` blocked sources with no reading because their upstream request failed.
+The latter are provider-availability blockers, not identity defects, and must
+not be “fixed” by inventing a timestamp or value.
 
 ### Gate
 
@@ -1014,17 +1017,19 @@ B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
-Main is now `d775afb1`; the authoritative branch is clean and contains the
-merged sequence updates from PRs #93–#104. CI and Vercel passed on each exact
-head. Production snapshot `1787533941037-243` carries the NY Fed EFFR
-`effectiveDate` as `sourceUpdatedAt: 2026-08-20`, confirming PR #104 at the live
-boundary. The source-identity slice changes no decision or activation gate.
+Main at the start of this audit is `18cd5092`; the authoritative branch is
+clean and contains the merged sequence updates from PRs #93–#105. CI and Vercel
+passed on each exact head. Production snapshot `1787533941037-243` carries the
+NY Fed EFFR `effectiveDate` as `sourceUpdatedAt: 2026-08-20`, confirming PR #104
+at the live boundary. PR #106 records the corrected availability split; the
+source-identity slice changes no decision or activation gate.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
 Job 3 remains in progress for source ownership/syndication review, semantic
 title-to-candidate transport, cadence/replay closure, actual domain use of
-reviewed queues, and the remaining `139` numeric source-identity tasks. Job
+reviewed queues, and the remaining `139` numeric source-identity tasks (`108`
+open identity readings and `31` provider-unavailable blockers). Job
 4's browser handoff seam is complete, but its persisted server-side consumer
 remains open.
 
