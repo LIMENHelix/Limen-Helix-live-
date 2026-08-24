@@ -11,14 +11,18 @@ assert.ok(report.commandProducers.includes('handlers/limen-worker-autofire.js'))
 assert.ok(report.commandProducers.includes('lib/tradier-b14.js'));
 assert.strictEqual(report.boundaries.researchPublicationReceipt, 'PRESENT_UNGRADED');
 assert.strictEqual(report.boundaries.independentResearchOutcome, 'MISSING_AUTONOMOUS_PRODUCER');
-assert.strictEqual(report.boundaries.independentInvestmentOutcome, 'MISSING_AUTONOMOUS_PRODUCER');
+assert.strictEqual(report.boundaries.paperInvestmentOutcome, 'PRESENT_PAPER_ONLY_PENDING_HORIZONS');
+assert.strictEqual(report.boundaries.independentInvestmentOutcome, 'MISSING_LIVE_PRODUCER');
 for (const row of report.events) {
   if (row.event === 'OUTCOME_RESEARCH_PUBLISHED') {
     assert.strictEqual(row.autonomousProducerCount, 1);
     assert.strictEqual(row.status, 'AUTONOMOUS_PUBLICATION_RECEIPT_UNGRADED');
+  } else if (row.event === 'OUTCOME_INVESTMENT_PNL') {
+    assert.strictEqual(row.autonomousProducerCount, 1);
+    assert.strictEqual(row.status, 'AUTONOMOUS_PAPER_OUTCOME_OBSERVER_PENDING_HORIZON');
   } else {
     assert.strictEqual(row.autonomousProducerCount, 0);
     assert.strictEqual(row.status, 'NO_AUTONOMOUS_PRODUCER_FOUND');
   }
 }
-console.log('13/13 passed');
+console.log('15/15 passed');

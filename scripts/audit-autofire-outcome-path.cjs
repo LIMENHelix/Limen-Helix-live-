@@ -56,6 +56,7 @@ function filesMatching(re, pool) {
 const declarations = filesMatching(/OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)/, production);
 const explicitEventPosts = filesMatching(/eventType\s*:\s*['"]OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)['"]/, production);
 const autonomousObserverFiles = filesMatching(/recordAutonomousOutcome\s*\(|inspectArticles\s*\(/, production);
+const investmentObserverFiles = filesMatching(/autofire-investment-observer|limen-investment-outcome-observer/, production);
 const learningConsumers = filesMatching(/(?:autofireLearning\.)?recordOutcome\s*\(/, production);
 const commandProducers = filesMatching(/autofireEfference\.command\s*\(|(?:createPreview|submitApproved)\s*\(/, production);
 const manualOutcomeUi = filesMatching(/fetch\(['"]\/api\/limen-outcome|eventType\s*[:=].*OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)/, [
@@ -76,11 +77,16 @@ const result = {
   events: EVENTS.map(event => {
     const publicationObserver = event === 'OUTCOME_RESEARCH_PUBLISHED' &&
       autonomousObserverFiles.some(file => /limen-outcome-observer|autofire-outcome-observer/.test(file));
+    const investmentObserver = event === 'OUTCOME_INVESTMENT_PNL' && investmentObserverFiles.length > 0;
     return {
       event,
       explicitProductionPosts: explicitEventPosts.filter(file => text.get(path.join(ROOT, file)).includes(event)),
-      autonomousProducerCount: publicationObserver ? 1 : 0,
-      status: publicationObserver ? 'AUTONOMOUS_PUBLICATION_RECEIPT_UNGRADED' : 'NO_AUTONOMOUS_PRODUCER_FOUND'
+      autonomousProducerCount: publicationObserver || investmentObserver ? 1 : 0,
+      status: publicationObserver
+        ? 'AUTONOMOUS_PUBLICATION_RECEIPT_UNGRADED'
+        : investmentObserver
+          ? 'AUTONOMOUS_PAPER_OUTCOME_OBSERVER_PENDING_HORIZON'
+          : 'NO_AUTONOMOUS_PRODUCER_FOUND'
     };
   }),
   productionDeclarations: declarations,
@@ -93,10 +99,11 @@ const result = {
     learningConsumer: learningConsumers.length > 0 ? 'PRESENT' : 'MISSING',
     researchPublicationReceipt: 'PRESENT_UNGRADED',
     independentResearchOutcome: 'MISSING_AUTONOMOUS_PRODUCER',
-    independentInvestmentOutcome: 'MISSING_AUTONOMOUS_PRODUCER',
+    paperInvestmentOutcome: investmentObserverFiles.length > 0 ? 'PRESENT_PAPER_ONLY_PENDING_HORIZONS' : 'MISSING_AUTONOMOUS_PRODUCER',
+    independentInvestmentOutcome: 'MISSING_LIVE_PRODUCER',
     syntheticSandboxOutcome: 'SEPARATE_AND_NOT_WORLD_EVIDENCE'
   },
-  conclusion: 'An autonomous owned-site publication observer now emits only an ungraded publication receipt. Independent research evaluation and investment P&L producers remain absent; publication is not progress and does not close the Job 7 gate.'
+  conclusion: 'An autonomous owned-site publication observer emits only an ungraded publication receipt, and a read-only Tradier sandbox observer can emit a paper P&L receipt only when explicit 30/60/90 terms, position attribution, benchmark data, risk limits, and durable history are present. Independent research evaluation and live investment producers remain absent; no observer creates real-money activity or closes the Job 7 gate by itself.'
 };
 
 if (process.argv.includes('--write')) {
