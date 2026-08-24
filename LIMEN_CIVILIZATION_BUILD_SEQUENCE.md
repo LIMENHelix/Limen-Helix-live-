@@ -1731,3 +1731,31 @@ company abstains. Focused universe and runner coverage passes `12/12` and
 `16/16`. This removes the requirement for a human to preselect one company,
 but it still requires a real source-grounded universe and the operator-
 controlled Preview AI gate; no automatic ranking or live action is introduced.
+
+### Finance candidate-universe readiness audit — measured 2026-08-24
+
+The production inputs are not yet sufficient to populate that universe without
+inventing company matches. A read-only capture of
+`/api/feed-record?titles=finance&n=8` returned 8 persisted title sets and 40
+title observations. All 40 carried a source URL and 35 carried a publication
+timestamp; only 5 carried a publisher label. These are usable semantic
+observations, but they are not yet a per-company universe by themselves.
+
+The public `/api/market-snapshot` returned only aggregate SPX, VIX, oil and
+10-year-yield fields. It did not return company-level quotes. The public
+`/api/limen-stress-slim` returned 552 company/network rows, but a network row
+is not a market observation and cannot substitute for one. The public
+`/api/limen-snapshot` showed Finance live sources and phase state, but not the
+per-cycle `domainFunction` evidence required by the Finance ledger; the
+operator `/api/brain-shadow` surface remains token-gated (401 without the
+operator token).
+
+Therefore the current status is an explicit abstention, not an empty result
+that may be filled by a heuristic: no real 12-company Finance candidate
+universe is claimed, no SEC title is assigned to a company without an
+identity match, aggregate market values are not copied to companies, and no
+Preview AI call or broker action is made. The next implementation input is a
+read-only assembler that joins exact CIK/ticker identity, per-company market
+quotes, source-preserved titles, network evidence, and the authorized Finance
+cycle record. Until all of those are present for a company, that company stays
+abstained and the manager cannot run.
