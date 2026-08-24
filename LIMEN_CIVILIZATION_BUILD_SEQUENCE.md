@@ -1793,3 +1793,23 @@ local manager handoff executable without making an accidental production AI
 call. `scripts/test-finance-preview-cycle.cjs` passes `12/12`, including
 provider omission, successful paper-candidate composition, and input
 abstention with no provider invocation.
+
+### Finance Preview production audit — read-only 2026-08-24
+
+`node scripts/audit-finance-preview-production.cjs` ran against the public
+production endpoints without an operator token. The live title store returned
+8 Finance sets / 40 title items. Exact CIK matching produced 2 company
+identities, and the public per-ticker quote endpoint returned 2 matching live
+quotes. The network endpoint exposed 795 company rows.
+
+The assembled result was nevertheless `ABSTAINED` with zero accepted
+candidates: the public audit intentionally had no Finance shadow cycle and no
+server packet, and both candidate rows were also refused for stale network
+evidence at the evaluation instant. The counted ledger blockers were:
+`finance_cycle_missing_or_not_ok` (2), `finance_l3_evidence_incomplete` (2),
+`finance_packet_missing_or_untrusted` (2), and
+`network_evidence_0_stale_or_unidentified` (2). The script reports
+`providerCalled: false` and `brokerTouched: false`. This is the first
+production-shaped execution of the new assembler; it confirms the remaining
+gate is real input freshness plus the token-gated Finance cycle/packet, not a
+missing title or quote join.
