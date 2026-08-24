@@ -2071,8 +2071,31 @@ is `NEURO_LEARNING_REFERENCE.md`. P0-P10 recursion semantics are in
 These sources are not interchangeable. The cross-reference distinguishes
 structural, partial, cosmetic, and missing mappings. The recursion arc states
 that P0-P10 is a developmental/generative state map, not a distress-severity
-scale; distress is being stuck or failing a transition. `DOCUMENT_AUTHORITY.md`
+scale; distress is a transition-regulation failure: low-side stuck/failure to
+transition or high-side runaway/premature transition without control.
+`DOCUMENT_AUTHORITY.md`
 also classifies the large scientific library as mixed source material and
 engineering hypothesis, not blanket owner-approved authority. The handoff must
 therefore preserve source provenance and claim class instead of treating any
 neural analogy as a business fact.
+
+### Finance homology consumer — implemented 2026-08-24
+
+The manager-side continuation is now implemented in the Finance contracts. The
+input ledger and manager context require a valid
+`civilization-homology-context/1.0`; missing or malformed context produces an
+explicit abstention. The provider request carries the context, including
+phase evidence, regulation direction, brain nodes, recovery, mapping status,
+provenance, and abstentions, and explicitly treats it as review context only.
+
+The code audit classifies the read precisely: no handler routing, weighting,
+score, or authorization branches on homology fields. The only runtime branch
+is the presence/validity gate; the semantic contents are supplied to the
+provider for review. This is an interface-read, not a precision signal. Any
+future behavioral use must be introduced as a typed channel/port with its own
+evidence contract rather than a branch on a free-form crosswalk label.
+
+Focused Finance suites pass: `12` Finance test files, plus the civilization
+handoff tests. The full repository run was `143 passed, 1 skipped, 3 failed`
+because this worktree lacks the pre-existing `acorn` and `jsdom` dependencies;
+those failures are environment setup blockers, not failures in this handoff.
