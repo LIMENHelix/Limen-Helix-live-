@@ -1,7 +1,7 @@
 # LIMEN — The Structure of Recursion (corrected grammar from Book I)
 
 **This supersedes the distress-lens phase mapping in `phase_kernels.py` / `LIMEN_FOUR_LAYER.md`.**
-Extracted from Book I (full read, 6 parallel agents, 2026-06-09). The P0–P10 arc is a **DEVELOPMENTAL / GENERATIVE life-cycle of recursion** — a system organizing itself from undifferentiated potential through emergence, structure, instability, reorganization, maturation, individuation, reflection, threshold, and renewal — then **re-entering at a higher level (a spiral, not a circle).** It is NOT a distress-severity scale. **Every phase is a necessary, equal stage.** Distress is not a phase; distress is a system getting *stuck* in a phase or *failing a transition*.
+Extracted from Book I (full read, 6 parallel agents, 2026-06-09). The P0–P10 arc is a **DEVELOPMENTAL / GENERATIVE life-cycle of recursion** — a system organizing itself from undifferentiated potential through emergence, structure, instability, reorganization, maturation, individuation, reflection, threshold, and renewal — then **re-entering at a higher level (a spiral, not a circle).** It is NOT a distress-severity scale. **Every phase is a necessary, equal stage.** Distress is not a phase; distress is a transition-regulation failure: either failing to transition (stuck/low-side) or transitioning without control (runaway/premature/high-side).
 
 ## The unifying spine
 - **Recursion operator R** (the operator algebra): each phase is a statement about what R is doing.
@@ -100,7 +100,7 @@ Extracted from Book I (full read, 6 parallel agents, 2026-06-09). The P0–P10 a
 ---
 
 ## What this corrects about the prior work
-1. **The arc is developmental, not a distress scale.** Every phase is a necessary, equal stage; distress = stuck-in-phase or failed-transition.
+1. **The arc is developmental, not a distress scale.** Every phase is a necessary, equal stage; distress = transition-regulation failure, either stuck-in-phase (low-side) or runaway/premature transition (high-side).
 2. **P1 was 180° wrong** (mapped as acute collapse/bankruptcy; it is emergence / first distinction / birth — a NEW BEGINNING). Re-derive its financial signature as *emergence*, not crash.
 3. **No phase is "the signal."** P3 (instability) and P7 (fork) are not more real than P1 (emergence), P6 (order), or P10 (renewal). The drift toward distress was the bankruptcy-label gravity; resist it.
 4. **The math is in the book** (or sketchable from named formalisms): symmetry breaking, bifurcation, Kuramoto order parameter (the spine), critical slowing down, free energy / predictive coding, integrated information Φ, near-decomposability, cusp catastrophe / precision-weighting fork, criticality, new-attractor renewal. The operator algebra (R transforms) is the discrete native form; the dynamical citations are the conceptual grounding.

@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict');
 const Context = require('../lib/finance-manager-context.js');
+const homology = require('./test-finance-homology.cjs')();
 
 const cycle = {
   domain: 'finance', ok: true,
@@ -21,6 +22,7 @@ const base = {
   marketData: { asOf: '2026-08-24T12:01:00Z', sources: ['paper-market-fixture'] },
   policyStatements: [{ sourceIdentity: { kind: 'official', value: 'statement:1' }, recordedAt: '2026-08-24T12:00:00Z', claim: 'policy statement' }],
   kernelContext: { applicable: false, reason: 'no-company-specific-kernel-mapping' }
+  ,homologyContext: homology
 };
 
 const ready = Context.build(base);
@@ -29,6 +31,21 @@ assert.equal(ready.status, 'READY_FOR_PAPER_REVIEW');
 assert.equal(ready.mode, 'sandbox-paper');
 assert.equal(ready.liveExecution, false);
 assert.equal(ready.blockers.length, 0);
+assert.equal(ready.homologyContext.contextOnly, true);
+assert.equal(ready.homologyContext.regulation.direction, 'unknown');
+
+const twoSided = Context.build(Object.assign({}, base, {
+  homologyContext: Object.assign({}, homology, {
+    regulation: { state: 'DYSREGULATED', direction: 'hyper', regulatedVariable: 'allocation-capacity', evidence: [], source: 'test' }
+  })
+}));
+assert.equal(twoSided.status, 'READY_FOR_PAPER_REVIEW');
+assert.equal(twoSided.homologyContext.regulation.direction, 'hyper');
+assert.equal(twoSided.homologyContext.regulation.state, 'DYSREGULATED');
+
+const noHomology = Context.build(Object.assign({}, base, { homologyContext: null }));
+assert.equal(noHomology.status, 'ABSTAINED');
+assert(noHomology.blockers.includes('homology_context_required'));
 
 const missing = Context.build(Object.assign({}, base, { observations: [], marketData: null }));
 assert.equal(missing.status, 'ABSTAINED');

@@ -29,14 +29,9 @@ async function getJson(url, headers) {
   const titleSets = titles.body && Array.isArray(titles.body.titles) ? titles.body.titles : [];
   const semantic = Semantic.assemble(titleSets, 'finance');
   const packet = Replay.financePacket(handoff.body);
-  const release = Replay.financeOpportunityRelease.build({
-    financeCycle: Replay.financeCycle(shadow.body),
-    financePacket: packet
-  });
-  const ticker = release.candidate && release.candidate.company && release.candidate.company.ticker
-    ? String(release.candidate.company.ticker).toUpperCase() : null;
-  const slug = release.candidate && release.candidate.company && release.candidate.company.slug
-    ? String(release.candidate.company.slug) : null;
+  const released = Replay.financeCandidates(packet)[0] || null;
+  const ticker = released && released.portalTicker ? String(released.portalTicker).toUpperCase() : null;
+  const slug = released && released.portalSlug ? String(released.portalSlug) : null;
   const [quote, network] = await Promise.all([
     ticker ? getJson(BASE + '/api/asset-quote?symbols=' + encodeURIComponent(ticker)) : Promise.resolve({ status: null, body: null }),
     slug ? getJson(BASE + '/api/limen-stress-slim') : Promise.resolve({ status: null, body: null })

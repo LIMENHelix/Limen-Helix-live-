@@ -1353,6 +1353,42 @@ manager therefore supplements the domain brain; it does not replace the feed
 record, Thing 2 is not promoted to validation, and neither Thing 1 nor Thing 2
 is copied into every company or domain.
 
+### Homology handoff into Finance — implemented 2026-08-24
+
+The remaining semantic edge is at the domain-brain → Finance manager interface,
+not in the predicate grammar. `civilization-homology-context/1.0` is now a
+required observational field of the Finance input ledger and manager context.
+It carries the domain/company identity, P0–P10 reading and evidence, explicit
+regulation direction (including both `hypo` and `hyper`), brain-node evidence,
+recovery evidence, mapping statuses, provenance, and named abstentions. The
+manager prompt receives that context as review material and is instructed to
+preserve its abstentions; it cannot use the context as a stress threshold,
+diagnosis, trade trigger, or authorization.
+
+This is an interface continuity repair, not a claim that the two vocabularies
+have become one ontology. The crosswalk remains scaffolding until the shared
+dynamic is represented natively in the domain component. Missing or malformed
+context now causes an explicit manager/ledger abstention rather than a silent
+translation or a guessed business meaning. Focused Finance coverage includes
+missing-context refusal and preservation of both regulation directions.
+
+### Homology interface classification — measured 2026-08-24
+
+The code check separates three possible uses. The current implementation is
+**not** a gain/confidence weight: no numeric precision, likelihood, score, or
+threshold reads a homology field. It is also **not** a content-dependent
+router: no handler, lane, or interpretation branch is selected from a phase,
+node, mapping, or regulation label. The field is load-bearing in two bounded
+ways: the ledger/context gate refuses missing or malformed context, and the
+provider prompt receives the validated observational record for semantic review.
+
+Therefore its current class is **interface-read / review context**, not a
+neural-equivalent precision signal. Removing it changes readiness and the
+provider input, so it is not write-only annotation. Any future behavior that
+routes, weights, or authorizes from these meanings must instead introduce a
+typed channel/port with its own evidence contract; it must not branch on a
+free-form homology label.
+
 The implementation sequence for Finance is now explicit:
 
 1. assemble and persist the complete input ledger in a production-shaped
@@ -1385,6 +1421,25 @@ must supply independently identified evidence and explicitly review
 `neurology_to_business_homology`, `business_to_neurology_homology`,
 `kernel_dynamics`, and `p0_p10_proof_and_effects`. Until that evidence exists,
 the correct behavior is an explicit abstention and Job 7 remains open.
+
+### Research evaluation input adapter — prepared 2026-08-24
+
+`lib/research-evaluation-input-adapter.js` provides the non-autonomous
+boundary for a separately supplied research evaluation. The outcome contract
+now accepts the explicit Science and Medicine owners (while retaining the
+legacy research/health aliases). The adapter requires a published source
+identity, independently
+identified evidence records with retrieval times and claims, an established
+independence assessment, an explicit `PROGRESS`/`REGRESSION`/`NO_CHANGE`
+decision, and all four required homology/kernel/P0–P10 mappings. It delegates
+the final event shape to `autofire-outcome-contract.js` and preserves the
+required provenance.
+
+Publication receipts, article counts, citations, or domain signals still do
+not create an evaluated outcome. The adapter is deliberately not wired to a
+cron or publication observer; without an external evaluator supplying those
+records, it returns `ABSTAINED`. Focused coverage is `19/19`, and the audit
+distinguishes this explicit input adapter from an autonomous evaluator.
 
 ### Production-shaped Finance input ledger — implemented 2026-08-24
 
@@ -1577,83 +1632,277 @@ semantic-window tests pass; the next production observation is a natural
 Finance packet must then show the bounded semantic window while the empty
 opportunity list continues to abstain.
 
-### Authenticated Finance replay — measured 2026-08-24 20:55Z
+### Finance packet semantic evidence — production observation 2026-08-24 15:40Z
 
-The authenticated, read-only replay was run against the current Production
-deployment using the operator header. All required GET surfaces returned `200`:
-domain snapshot, brain shadow, civilization handoff, Finance title store, market
-quote, and network-stress snapshot. The Finance cycle was healthy (`ok: true`,
-`13/13` live sources, `l3CurrentEvidenceComplete: true`, `outwardConnected: true`)
-but reported `0` active diagnoses and `0` opportunities. The persisted Finance
-packet carried `50` semantic observations with no semantic abstentions; the
-market adapter returned one quote. No model, broker, order, Redis write, cron
-trigger, or live endpoint was called by the audit.
+The first natural `brain-cognition-refresh` cycle after PR #124 produced a
+Finance packet at `2026-08-24T15:40:14.431Z` containing `30` semantic title
+observations. Its metadata reports `status: OBSERVED`, source key
+`feedtitles:finance`, `setsRead: 6`, `setReadLimit: 8`,
+`observationsRead: 30`, `observationLimit: 32`, `truncated: false`,
+`sourceAbstentions: []`, and `backend: redis`. This verifies the packet
+bridge at the deployed boundary, not merely in unit tests.
 
-The replay correctly returned `simulationOnly: true`, `executionMode: paper`,
-`liveExecution: false`, and `brokerOrderSubmitted: false`. Its input ledger
-abstained on `network_evidence_0_stale_or_unidentified`, and the manager boundary
-abstained on `finance_packet_has_no_opportunity`. The local General Mills master-
-inbox artifact remains a presentation/legacy candidate and was not promoted into
-the Finance packet. This is the current external blocker: transport and ledger
-assembly are working, but no source-grounded Finance opportunity has been released
-by the owning domain.
+The packet still has `0` Finance opportunities. The next gate is therefore a
+Finance manager/producer decision that is explicitly source-grounded and
+paper-only; semantic transport is no longer the blocker. No title, stress
+value, Thing 2 phase, master-inbox artifact, or confidence value may create an
+opportunity or order without that reviewed decision.
 
-### Next implementation gate — source-grounded Finance opportunity release
+### Finance source-grounded opportunity producer — implementation boundary 2026-08-24
 
-Do not manufacture an opportunity to make the paper replay pass. The next seam
-must make an existing Finance release explicit and traceable, or continue to
-abstain. A release is admissible only when the Finance cycle supplies a canonical
-`INVESTABLE` opportunity with source diagnosis/claim identity, citations or
-evidence IDs, current cycle identity, and the required company/instrument binding;
-the semantic title window, market quote, network evidence, and any company-specific
-Thing 1/Thing 2 applicability must remain separate observations in the ledger.
-The producer may package a released opportunity for paper review, but it may not
-derive a ticker, side, quantity, price, risk limit, or order from stress, title
-count, sentiment, phase, or confidence. If the Finance cycle has no released
-opportunity—as it does in the measured replay—the correct result remains
-`ABSTAINED` with the named blocker. A passing test must exercise both a fully
-source-grounded release and the no-opportunity refusal before any paper command
-is considered.
+The missing middle now has a pure contract in
+`lib/finance-opportunity-producer.js`. It accepts a complete
+`finance-input-ledger/1.0` plus a structured Finance-manager proposal. The
+proposal must identify the same company as the ledger, state a thesis and
+invalidation, include a 30/60/90-day horizon and at least two scenarios, and
+link evidence by exact source identity to all three required classes: semantic
+feed evidence, market data, and network evidence. Publisher independence stays
+explicitly `UNASSESSED` until a separate provenance review establishes it.
 
-### Finance opportunity release seam — implemented in the current checkout
+The producer emits only a `PAPER_CANDIDATE` with `simulationOnly: true` and
+`liveExecution: false`. A separate `releaseForPaper` step requires an explicit
+`sandbox-paper` policy and timestamp before the candidate can be marked
+`READY_TO_FIRE` for the paper replay. The contract rejects order fields,
+direct-stress/headline triggers, missing evidence links, non-paper mode, and
+unapproved release metadata. It does not call a model, broker, Redis, or cron.
 
-`lib/finance-opportunity-release.js` now provides that narrow boundary for the
-paper path. It accepts only a trusted Finance server packet containing an
-explicit canonical `investments` lane, company slug/ticker, source evidence
-identity, and a source diagnosis/claim identity. It emits a paper-review
-candidate with 30/60/90 terms and no order fields. It rejects a legacy
-master-inbox-shaped record, a missing opportunity, a mismatched packet cycle,
-and any opportunity without source identity. The replay now selects only this
-released packet candidate; the legacy master inbox can no longer supply a
-ticker or network/quote target. Focused release, replay, input-ledger,
-manager-context, packet, handoff, case-record, and semantic-packet tests pass.
+Focused producer tests pass `23/23`; the repository check parses `1,611`
+JavaScript files and `4,955` JSON files (two documented size-cap skips), with
+`123` canonical nodes. The production packet observation remains unchanged:
+semantic evidence is present, but no opportunity has been fabricated. Wiring
+an actual manager proposal source and passing its released candidate into the
+paper replay is the next job.
 
-This implementation is committed as `45d7521a` in draft PR #150 and is not yet
-merged or deployed. It does not create an opportunity when the Finance cycle
-emits none, does not call a model or broker, and does not close the
-paper-operation gate. The next required step is to review and implement the
-source-grounded Finance opportunity producer that can populate the packet
-without deriving a trade from stress, title count, phase, or confidence.
+The producer now also exposes a bounded adapter for a released paper candidate
+to the existing replay shape. A fixture joins that candidate to a packet,
+semantic observation, market quote, and fresh network row; the replay returns
+`READY_FOR_PAPER_SIMULATION` with `brokerOrderSubmitted: false`. The focused
+producer/replay test is `31/31`. This proves the local handoff contract only;
+the deployed Finance packet still has no released opportunity and therefore
+continues to abstain.
 
-### Finance generator audit — measured 2026-08-24
+### Finance manager prompt boundary — prepared 2026-08-24
 
-The current `assets/js/domain-brains/finance-brain.js` generator is not a
-general investment manager. Its direct opportunities require an active
-validated diagnosis; company opportunities require a validated per-company
-signal; cross-domain opportunities require an emission; lagging opportunities
-require stress at least `0.50` (with the near-diagnosis watchlist starting at
-`0.45`). The current public Finance snapshot reports `stress: 0.260896`,
-`uncappedStress: 0.46`, `stressBasis: measured`, `13/13` live sources, and no
-active diagnosis. Zero packet opportunities is therefore the expected output
-of the present generator, not evidence that the feeder is broken.
+`lib/finance-manager-prompt.js` now defines the provider-facing shape without
+making a provider call. It builds a bounded `finance-manager-request/1.0` from
+an already-ready manager context and requires a single JSON response in the
+`finance-manager-proposal/1.0` shape. The instructions explicitly keep the
+lane in `sandbox-paper`, require source-linked semantic/market/network evidence
+and an unassessed independence status, and prohibit order fields and direct
+stress/headline authorization. The parser refuses prose, malformed JSON,
+missing invalidation or scenarios, non-paper mode, asserted independence, and
+live-execution fields.
 
-The missing capability is separate: a Finance manager that can review the
-source-preserving semantic window, timestamped market observations, declared
-network evidence, and applicable company/kernel records and then either emit a
-fully identified paper opportunity or abstain. The manager must not lower the
-domain diagnosis thresholds, reinterpret publication counts, or treat a title,
-phase, stress value, or confidence as an order instruction. PR #150 closes the
-admission boundary for that future release; it does not implement the manager.
+The prompt contract is not an AI call and does not enable billing. Its focused
+test passes `14/14`. The next external step is a Preview-only manager call with
+`LIMEN_AI_ENABLED=1`; until that operator-controlled switch is enabled, the
+production manager remains correctly abstained and no proposal is generated.
+
+### Finance manager-to-producer handoff — implemented 2026-08-24
+
+The two reviewed contracts are now joined by the pure
+`lib/finance-manager-producer-adapter.js` boundary. It accepts only an
+accepted `finance-manager-proposal/1.0`, converts it to the producer's
+`finance-opportunity-proposal/1.0`, preserves the manager response schema in
+provenance, and refuses incomplete, non-paper, independently-asserted, or
+live-execution proposals. It does not call a provider, release a candidate,
+write state, or submit an order.
+
+An integration test invokes the actual parser, adapter, producer,
+paper-release policy, replay adapter, and sandbox preflight in sequence. It
+passes `18/18` and ends at `READY_FOR_PAPER_SIMULATION` with
+`brokerOrderSubmitted: false`. This closes the local contract handoff; it is
+not a production manager observation. The remaining external gate is still a
+single operator-authorized Preview-only provider call with the AI switch and a
+small Preview token budget enabled. Until then the live packet remains
+abstained and no proposal is produced.
+
+### Finance manager provider runner — implementation boundary 2026-08-24
+
+`lib/finance-manager-runner.js` is now the provider-gated callable seam for a
+single Preview manager proposal. It requires both an already-ready manager
+context and a complete `finance-input-ledger/1.0`, builds the strict manager
+request, delegates the provider call to the shared AI orchestrator (therefore
+retaining the environment kill switch and token budget), parses the response,
+adapts its schema, and validates the resulting proposal against exact ledger
+evidence. It stops at `PAPER_CANDIDATE`; release, persistence, broker access,
+and live execution remain separate boundaries.
+
+The runner's provider is injectable only for deterministic tests. Its focused
+test invokes the real runner and passes `12/12`, including disabled-provider,
+missing-ledger, malformed-response, and successful paper-candidate paths. No
+production provider call has been made. The remaining gate is an operator-
+authorized Preview invocation with a small Preview token budget and a real
+source-grounded ledger/candidate.
+
+### Finance ledger staging — circular dependency removed 2026-08-24
+
+The first ledger shape incorrectly required an already released investment
+candidate before the Finance manager could run. That made the missing-middle
+path circular: the manager needed a candidate while the producer needed the
+manager's proposal. `finance-input-ledger/1.0` now exposes two explicit ready
+states. A complete candidate-less ledger is `READY_FOR_MANAGER_REVIEW`; a
+ledger carrying an explicitly released paper candidate is
+`READY_FOR_PAPER_REVIEW`. The manager runner and producer accept both stages,
+while sandbox replay still requires the latter candidate state.
+
+The focused ledger, runner, producer, and composed-cycle tests remain green.
+This removes a code-level blocker; it does not create a Finance opportunity or
+authorize a provider call. Production still requires a real source-grounded
+ledger and the operator-controlled Preview AI gate.
+
+### Finance candidate-universe boundary — prepared 2026-08-24
+
+`lib/finance-candidate-universe.js` now supplies up to twelve company contexts
+whose own source ledger reaches `READY_FOR_MANAGER_REVIEW`. It preserves each
+company's semantic, market, network, Thing 1, and Thing 2 applicability inputs
+and records abstentions for incomplete identities or evidence. It does not
+rank companies, compute a score, infer stress, or turn a ticker into an
+opportunity.
+
+The manager runner can receive this universe and must return an exact supplied
+company identity. That company's ledger is then selected by exact slug+ticker
+match before the proposal reaches the producer. A response naming any other
+company abstains. Focused universe and runner coverage passes `12/12` and
+`16/16`. This removes the requirement for a human to preselect one company,
+but it still requires a real source-grounded universe and the operator-
+controlled Preview AI gate; no automatic ranking or live action is introduced.
+
+### Finance candidate-universe readiness audit — measured 2026-08-24
+
+The production inputs are not yet sufficient to populate that universe without
+inventing company matches. A read-only capture of
+`/api/feed-record?titles=finance&n=8` returned 8 persisted title sets and 40
+title observations. All 40 carried a source URL and 35 carried a publication
+timestamp; only 5 carried a publisher label. These are usable semantic
+observations, but they are not yet a per-company universe by themselves.
+
+The public `/api/market-snapshot` returned only aggregate SPX, VIX, oil and
+10-year-yield fields. It did not return company-level quotes. The public
+`/api/limen-stress-slim` returned 552 company/network rows, but a network row
+is not a market observation and cannot substitute for one. The public
+`/api/limen-snapshot` showed Finance live sources and phase state, but not the
+per-cycle `domainFunction` evidence required by the Finance ledger; the
+operator `/api/brain-shadow` surface remains token-gated (401 without the
+operator token).
+
+Therefore the current status is an explicit abstention, not an empty result
+that may be filled by a heuristic: no real 12-company Finance candidate
+universe is claimed, no SEC title is assigned to a company without an
+identity match, aggregate market values are not copied to companies, and no
+Preview AI call or broker action is made. The next implementation input is a
+read-only assembler that joins exact CIK/ticker identity, per-company market
+quotes, source-preserved titles, network evidence, and the authorized Finance
+cycle record. Until all of those are present for a company, that company stays
+abstained and the manager cannot run.
+
+### Finance source-universe adapter — implemented 2026-08-24
+
+The next input boundary is now implemented as pure adapters in
+`lib/finance-source-universe.js` and `lib/finance-preview-readiness.js`.
+They select only identities evidenced by persisted title records, extract a
+CIK from a source record URL, require that CIK to resolve to one unambiguous
+company identity, require a quote whose symbol exactly matches that company,
+and join network evidence by exact slug. Missing Finance cycle evidence,
+missing packets, stale or absent network rows, CIK collisions, unmapped title
+identities, and aggregate-market substitution remain explicit abstentions.
+
+The adapters do not rank the input companies, calculate a score, infer stress,
+call the manager provider, write Redis, release a candidate, or contact a
+broker. `scripts/test-finance-source-universe.cjs` passes `17/17` and
+`scripts/test-finance-preview-readiness.cjs` passes `18/18`. A route was
+deliberately not added: `brain-v2/test/shadow-runtime.js` enforces the
+existing single-consumer boundary for shadow cycle state, and introducing a
+second HTTP reader would require a separate reviewed architecture change.
+The remaining gate is therefore the operator-authorized Preview call after a
+complete per-company input bundle exists.
+
+### Finance Preview cycle composition — implemented 2026-08-24
+
+`lib/finance-preview-cycle.js` composes the readiness result with the strict
+manager runner. It refuses before the provider boundary when the source
+universe is not ready or when no provider function is explicitly supplied.
+With an injected fixture provider, the full path reaches `PAPER_CANDIDATE`
+for the exact supplied company and stops there; it does not call
+`releaseForPaper`, persist a candidate, or contact a broker. This makes the
+local manager handoff executable without making an accidental production AI
+call. `scripts/test-finance-preview-cycle.cjs` passes `12/12`, including
+provider omission, successful paper-candidate composition, and input
+abstention with no provider invocation.
+
+### Finance Preview production audit — read-only 2026-08-24
+
+`node scripts/audit-finance-preview-production.cjs` ran against the public
+production endpoints without an operator token. The live title store returned
+8 Finance sets / 40 title items. Exact CIK matching produced 2 company
+identities, and the public per-ticker quote endpoint returned 2 matching live
+quotes. The network endpoint exposed 795 company rows.
+
+The assembled result was nevertheless `ABSTAINED` with zero accepted
+candidates: the public audit intentionally had no Finance shadow cycle and no
+server packet, and both candidate rows were also refused for stale network
+evidence at the evaluation instant. The counted ledger blockers were:
+`finance_cycle_missing_or_not_ok` (2), `finance_l3_evidence_incomplete` (2),
+`finance_packet_missing_or_untrusted` (2), and
+`network_evidence_0_stale_or_unidentified` (2). The script reports
+`providerCalled: false` and `brokerTouched: false`. This is the first
+production-shaped execution of the new assembler; it confirms the remaining
+gate is real input freshness plus the token-gated Finance cycle/packet, not a
+missing title or quote join.
+
+### Finance handoff and Investment Artifacts reconciliation — measured 2026-08-24
+
+The public audit's packet-missing counts were a visibility limitation, not a
+claim that the cognition cron produced no packet. An authenticated,
+read-only `GET /api/limen-civilization-handoff?limit=100` found `3` Finance
+packets in the durable handoff store. The latest three Finance packets visible
+at this read were generated at `11:40:17Z`, `13:40:57Z`, and
+`14:10:20Z`; the newest carried `stressScore: 0.43`, `phase: p0`, and
+`feedHealth: 13/13`. It carried `0` opportunities and no semantic-evidence
+window. The authenticated `/api/brain-shadow` cycle independently showed
+Finance `ok:true`, `rowsApplied:1`, `restored:true`,
+`l3CurrentEvidenceComplete:true`, and `outwardConsumersDeclared:1`.
+
+The existing public `/helix-artifacts?lane=investment` page is a different,
+legacy artifact store. Its two lane reads returned `25` investment records
+(`9 READY_TO_SIGN`, `16 DRAFT_NEEDS_DATA`) and `9` research records
+(`2 READY_TO_SIGN`, `7 DRAFT_NEEDS_DATA`). The `READY_TO_SIGN` rows are not
+Finance Preview candidates: they do not carry the
+`finance-input-ledger/1.0`, an accepted manager proposal, source-linked
+semantic/market/network evidence, or an explicit `sandbox-paper` release.
+Across both lanes, `23` records remain `DRAFT_NEEDS_DATA`, with `1,252`
+declared data placeholders; `14` of the `34` records are older than 30 days
+at this measurement.
+The investment page and API therefore remain a display/legacy-producer
+surface, not an implicit input to the new Finance Preview cycle. The
+read-only measurement is reproducible with
+`scripts/audit-finance-artifact-surface-production.cjs`.
+
+This narrows the next gate: do not fabricate opportunities from the legacy
+artifact count. Reconcile a source-grounded Finance manager proposal into the
+new ledger, or explicitly retire/label the legacy display, before any Preview
+provider call or paper release.
+
+### Finance Preview authenticated readiness — measured 2026-08-24
+
+After the next natural `brain-cognition-refresh` cycle, the authenticated
+read-only audit `scripts/audit-finance-preview-authenticated.cjs` assembled
+the complete production-shaped input bundle. It found `8` title sets / `40`
+title observations, exact SEC identities for `Citigroup (C)` and
+`JPMorgan (JPM)`, matching quote records, `552` network rows, a Finance shadow
+cycle with `ok:true`, `rowsApplied:1`, `restored:true`, and
+`l3CurrentEvidenceComplete:true`, plus a persisted Finance packet containing
+`32` source-preserved semantic observations. The assembler returned
+`READY_FOR_MANAGER_REVIEW` with `2` accepted candidates and `0` ledger
+blockers. The packet still carried `0` opportunities; the manager proposal
+is therefore the next missing stage rather than something to infer from the
+packet.
+
+The audit made no provider call, Redis write, paper release, or broker call.
+The next authorized gate is now a single small Preview-only Finance manager
+provider call, using the explicit operator AI switch and a bounded token
+budget. Until that authorization is exercised, the two candidates remain
+eligible for manager review only and no paper candidate or order exists.
 
 ### Finance packet versus Finance opportunity — contract correction 2026-08-24
 
@@ -1661,6 +1910,223 @@ Finance packet generation is an observation step and is not gated on Finance
 stress, an active diagnosis, or the presence of an opportunity. A healthy cycle
 must preserve its cycle identity, feed health, market/network observations, and
 bounded semantic evidence even when `stressScore` is `null`/low and
-`truth.opportunities` is empty. The later source-grounded opportunity release
-may abstain, but that abstention must not discard the packet. The producer
+`truth.opportunities` is empty. The later source-grounded manager/release may
+abstain, but that abstention must not discard the packet. The producer
 regression test covers this exact low-stress/no-opportunity case.
+
+### Cross-domain company / HELIX topology inventory — measured 2026-08-24
+
+The company portal is not Finance-specific. A read-only repository inventory
+(`scripts/audit-domain-company-helix-consistency.cjs`) compared the generated
+company registry, the broader identity-file corpus, the connectome links, the
+entity registry, the twenty domain-brain modules, and the shared Company Portal
+and HELIX Report surfaces. It made no provider call, broker call, Redis write,
+runtime trigger, or deployment.
+
+The sources describe different scopes rather than one unified company list:
+
+- the generated company registry contains `767` portal entries and `545`
+  unique slugs;
+- `assets/data/companies/` contains `796` identity files, so `251` files are
+  outside the generated portal registry and must not be called missing or
+  orphaned without deciding which corpus is authoritative;
+- the civilization connectome contains `149` company links / `146` unique
+  slugs, with duplicate links for `costar_group`, `deere`, and `everbridge`;
+- the entity registry contains `102` company entities across `20` domains,
+  including entities with no CIK and CIKs not present in the generated company
+  registry;
+- the repository contains `3,284` topic portal HTML pages plus four shared
+  route surfaces (`company-portal.html`, `authority-portal.html`,
+  `provider-portal.html`, and `portal.html`).
+
+The shared company-to-HELIX handoff is structurally consistent: the Company
+Portal builds a HELIX link with the resolved CIK, posts the CIK to
+`/api/helix/helix-report/score`, and maps both `validated_signal` (Thing 1) and
+`phase_tracker_signal` (Thing 2). HELIX reads `?cik=`, runs its analysis, and
+labels Thing 2 interpretive and unvalidated. This proves shared wiring, not
+that every company identity resolves or that every portal's content is useful.
+
+Concrete topology blockers found:
+
+- the generated registry has ten missing identity files:
+  `shift4_payments`, `hubbell`, `idex`, `insight_timer`, `instructure`,
+  `itron`, `uipath`, `sounds_true`, `tyndale_house`, and `zscaler`;
+- eight connectome-linked slugs have no identity file:
+  `dover`, `eaton`, `insight_timer`, `parker_hannifin`, `sounds_true`,
+  `tyler_technologies`, `tyndale_house`, and `vertex_compliance`;
+- the company-registry vocabulary has four domains without a same-named
+  domain-brain module (`contemplative`, `health`, `legal`, `supplyChain`).
+  The brain side has `religion`, `medicine`, `law`, and `trade`, respectively,
+  so this is an alias/join decision to make explicit—not evidence that those
+  capabilities are absent. The twenty brain modules do not have an extra
+  domain absent from the registry;
+- the entity registry contains seven company entities without a CIK and
+  additional CIK-bearing entities not represented in the generated company
+  registry. These may be intentional private/non-SEC entities or stale
+  parallel data, so they are inventory findings, not automatic repair targets.
+
+This establishes the user's concern: the system has a shared portal/HELIX
+handoff, but its company, entity, connectome, topic-portal, and brain-domain
+registries are parallel scopes. The next implementation job is to define one
+authoritative identity/domain join and produce an explicit exception report;
+it is not to copy 796 files into one registry or to delete the additional
+portals blindly.
+
+### Canonical company/domain/CIK join — measured prototype 2026-08-24
+
+The pure join module `lib/company-domain-identity-join.js` now makes the
+parallel scopes explicit without becoming a runtime consumer. It joins the
+generated portal registry, the expanded company identity directory, and the
+current command-board snapshot by exact slug/CIK where possible, records
+alias-normalized domains, and refuses to hide conflicts.
+
+The current repository produces `799` joined rows:
+
+- `464` rows joined cleanly across sources;
+- `253` expanded-identity-only rows;
+- `10` registry entries whose exact identity file is missing;
+- `71` joined rows with domain-source conflicts;
+- `1` command-board-only row;
+- `232` rows without a CIK and `80` with more than one canonical domain after
+  aliases are applied.
+
+Examples show why a silent merge would be unsafe. `shift4_payments` is listed
+under Finance in the portal registry but under Trade in the command board and
+has an identity record under the different slug `four`. `hubbell`, `idex`,
+`instructure`, `itron`, `uipath`, and `zscaler` have similar slug aliases.
+These are now visible as exceptions rather than being treated as one company
+because a ticker happens to match.
+
+The join is covered by `scripts/test-company-domain-identity-join.cjs` (`10/10`)
+and is not yet wired into the domain brains, Thing 1, the manager, or any
+outward lane. The next dependency is therefore homology continuity: measure
+where P0–P10 phase, regulated/dysregulated state, brain-node mapping, and
+company/recovery context disappear between domain state and opportunity/case
+records before adding any consumer.
+
+### Homology continuity audit — measured 2026-08-24
+
+The static audit `scripts/audit-homology-continuity.cjs` located the loss. The
+legacy engine generator does consume a bridge pattern and a kernel phase, but
+the newer server cognition handoff is narrower:
+
+- `lib/civilization-server-packet.js` preserves stress, phase, active
+  diagnoses, treatments, directives, and opportunities;
+- that packet does **not** preserve company identity/context, brain-node or
+  functional-network mapping, regulated/dysregulated state, or explicit
+  recovery state;
+- `handlers/brain-cognition-refresh.js` builds that packet for every domain,
+  but adds source-preserved semantic evidence only for Finance and passes no
+  homology context or company context;
+- `lib/master-brain-consumer.js` scores legacy artifacts with confidence,
+  completeness, alert, and phase severity. It does not read brain-node,
+  regulated/dysregulated, or recovery state;
+- `lib/civilization-case-record.js` contains the four required mappings
+  (`neurology_to_business_homology`, `business_to_neurology_homology`,
+  `kernel_dynamics`, `p0_p10_proof_and_effects`) but initializes all four to
+  `false` and marks the homology checklist `MISSING` for every case.
+
+This is why the concept appears in the portal corpus and in some generated
+legacy prose but disappears from the current civilization handoff: phase and
+stress survive, while the business entity, node-level mechanism,
+dysregulation/regulation direction, recovery evidence, and explicit homology
+mapping do not. The next implementation gate is a versioned observational
+`homologyContext` carried from the domain/portal source into the server packet
+and case record. It must remain context and review material; it cannot turn a
+Thing 2 interpretation into Thing 1 validation or authorize an investment.
+This was the pre-implementation dependency; the completed handoff is recorded
+in the `Homology context handoff` section below.
+
+### Homology context handoff — implemented 2026-08-24
+
+The next gate is now implemented as a bounded, observational contract in
+`lib/civilization-homology-context.js` (`civilization-homology-context/1.0`).
+`handlers/brain-cognition-refresh.js` supplies the packet builder with the
+domain-company join, company phase evidence when present, and any explicitly
+supplied bridge, regulation, recovery, or mapping fields. The server packet
+and case record preserve that context for both research and investment lanes.
+
+The context carries identity, P0-P10 phase plus source evidence, explicit
+regulated/dysregulated direction, brain-node records, all four
+homology/kernel mapping statuses, recovery evidence, provenance, and named
+abstentions. It never derives dysregulation from a stress scalar, never sets
+mapping coverage to true automatically, and remains `OBSERVATIONAL` and
+`contextOnly`.
+
+Verification:
+
+- `scripts/test-civilization-homology-context.js`: `5/5`;
+- civilization-focused unit run: `9 passed, 0 skipped, 0 failed`;
+- packet and case-record tests continue to pass (`12/12` and `3/3`);
+- syntax checks pass for the new module, packet, case record, and refresh
+  handler.
+
+The full repository check remains environment-blocked in this worktree because
+`node_modules` is absent and the repository checker requires `acorn`; this is a
+dependency setup issue, not a test failure in this change. The context is now
+preserved, but the legacy master artifact scorer still does not consume it.
+The manager-read dependency described by this historical entry is now closed
+by the Finance homology consumer section below; the legacy master scorer
+remains intentionally separate.
+
+### Homology source map and authority boundary — recorded 2026-08-24
+
+The direct neural-to-business design map is
+`LIMEN_Helix_Neuro_Business_CrossRef.html`, with its machine-readable subset
+in `assets/data/neuro-business-crossref.json`. The neural substrate reference
+is `LIMEN_Helix_Neurology_Reference.html`; the large running research library
+is `NEURO_LEARNING_REFERENCE.md`. P0-P10 recursion semantics are in
+`scripts/kernel-validation/LIMEN_RECURSION_ARC.md` and
+`scripts/kernel-validation/LIMEN_FOUR_LAYER.md`; the implementation ledger is
+`brain-v2/HOMOLOGY_LEDGER.md`.
+
+These sources are not interchangeable. The cross-reference distinguishes
+structural, partial, cosmetic, and missing mappings. The recursion arc states
+that P0-P10 is a developmental/generative state map, not a distress-severity
+scale; distress is a transition-regulation failure: low-side stuck/failure to
+transition or high-side runaway/premature transition without control.
+`DOCUMENT_AUTHORITY.md`
+also classifies the large scientific library as mixed source material and
+engineering hypothesis, not blanket owner-approved authority. The handoff must
+therefore preserve source provenance and claim class instead of treating any
+neural analogy as a business fact.
+
+### Finance homology consumer — implemented 2026-08-24
+
+The manager-side continuation is now implemented in the Finance contracts. The
+input ledger and manager context require a valid
+`civilization-homology-context/1.0`; missing or malformed context produces an
+explicit abstention. The provider request carries the context, including
+phase evidence, regulation direction, brain nodes, recovery, mapping status,
+provenance, and abstentions, and explicitly treats it as review context only.
+
+The code audit classifies the read precisely: no handler routing, weighting,
+score, or authorization branches on homology fields. The only runtime branch
+is the presence/validity gate; the semantic contents are supplied to the
+provider for review. This is an interface-read, not a precision signal. Any
+future behavioral use must be introduced as a typed channel/port with its own
+evidence contract rather than a branch on a free-form crosswalk label.
+
+Focused Finance suites pass: `12` Finance test files, plus the civilization
+handoff tests. The full repository run was `143 passed, 1 skipped, 3 failed`
+because this worktree lacks the pre-existing `acorn` and `jsdom` dependencies;
+those failures are environment setup blockers, not failures in this handoff.
+
+### Finance Preview gate — current public-state measurement 2026-08-24
+
+The public read-only audit was re-run after the handoff merge. It found `8`
+title sets / `40` title observations, `2` exact identity candidates, `2`
+matching market quotes, and `552` network rows. The public surface does not
+expose the authenticated Finance shadow cycle or server packet, so the result
+is correctly `ABSTAINED` with `0` accepted candidates. Current blockers are:
+`finance_cycle_missing_or_not_ok`, `finance_l3_evidence_incomplete`,
+`finance_packet_missing_or_untrusted`, and `homology_context_required` (two
+candidate rows each).
+
+This is not evidence that the inputs are absent in production; it is evidence
+that the public audit cannot establish the protected portions. The next gate
+is an authenticated, read-only audit of `/api/brain-shadow` and the Finance
+server packet. Only after that bundle is assembled should an operator choose
+whether to authorize one bounded Preview-only manager provider call. No
+provider, Redis, paper-release, or broker operation was performed by this
+measurement.

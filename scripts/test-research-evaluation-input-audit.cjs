@@ -15,5 +15,7 @@ assert.strictEqual(report.publicationPath.persistsProvenance, true);
 assert.strictEqual(report.publicationPath.persistsEvaluationMetadata, false);
 assert.strictEqual(report.publicationPath.observerEmitsEvaluation, false);
 assert.strictEqual(report.outcomeEndpoint.autonomousProducer, false);
+assert.strictEqual(report.outcomeEndpoint.explicitInputAdapter, true);
+assert.deepStrictEqual(report.outcomeEndpoint.adapterFiles, ['lib/research-evaluation-input-adapter.js']);
 assert.deepStrictEqual(report.outcomeEndpoint.producerFiles, []);
 console.log('research evaluation input audit: 12/12 passed');
