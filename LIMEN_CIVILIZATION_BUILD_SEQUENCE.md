@@ -512,7 +512,10 @@ Neither repair uses the local fetch clock, a title date, a value-derived date,
 or a fallback constant. `scripts/test-upstream-observation-identities.js`
 exercises both real fetcher paths and now passes `15/15`; the remaining `139`
 numeric gaps remain open for adapter-specific measurement or explicit
-abstention. No source identity repair changes a value, stress calculation,
+abstention. PR #102 (`749c3dc4`) was merged as `5d4f3692` and deployed.
+Production snapshot `1787533143388-238` then carried `2026-07-31` for Treasury
+MTS and `2026-08-20` for Treasury Cash Balance, confirming the repair at the
+live boundary. No source identity repair changes a value, stress calculation,
 cadence declaration, diagnosis, pathway, or activation decision.
 
 ### Gate
@@ -1005,15 +1008,16 @@ B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
-Main is `c39630dd`; the authoritative branch is clean and contains the merged
-sequence updates from PRs #93–#100. CI and Vercel passed on each exact head.
+Main is `5d4f3692`; the authoritative branch is clean and contains the merged
+sequence updates from PRs #93–#102. CI and Vercel passed on each exact head.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
 Job 3 remains in progress for source ownership/syndication review, semantic
-title-to-candidate transport, cadence/replay closure, and actual domain use of
-reviewed queues. Job 4's browser handoff seam is complete, but its persisted
-server-side consumer remains open.
+title-to-candidate transport, cadence/replay closure, actual domain use of
+reviewed queues, and the remaining `139` numeric source-identity tasks. Job
+4's browser handoff seam is complete, but its persisted server-side consumer
+remains open.
 
 Job 5's sandbox sequence is now explicit:
 
