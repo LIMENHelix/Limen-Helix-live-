@@ -38,6 +38,10 @@ assert.equal(ready.simulationOnly, true);
 assert.equal(ready.liveExecution, false);
 assert.equal(ready.ledger.semanticEvidence.length, 1);
 
+const managerReady = Ledger.build(Object.assign(fixture(), { candidate: null }));
+assert.equal(managerReady.status, 'READY_FOR_MANAGER_REVIEW');
+assert.equal(managerReady.ledger.candidate, null);
+
 const missing = Ledger.build(Object.assign(fixture(), { semanticEvidence: [] }));
 assert.equal(missing.status, 'ABSTAINED');
 assert(missing.blockers.includes('semantic_feed_evidence_required'));
