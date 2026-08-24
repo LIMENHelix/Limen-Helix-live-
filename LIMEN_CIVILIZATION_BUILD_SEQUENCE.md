@@ -955,8 +955,8 @@ B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
-Main is `97da72f0`; the authoritative branch is clean and contains the merged
-sequence updates from PRs #93–#97. CI and Vercel passed on each exact head.
+Main is `fef9c904`; the authoritative branch is clean and contains the merged
+sequence updates from PRs #93–#98. CI and Vercel passed on each exact head.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
@@ -980,6 +980,11 @@ Job 5's sandbox sequence is now explicit:
 5. PR #97 (`97da72f0`) added the strict source-grounded outcome-observation
    contract. It closes the schema boundary only; it does not create an
    autonomous producer.
+6. PR #98 (`fef9c904`) added the Redis-backed, cron-driven owned-site research
+   publication observer. It creates only an ungraded publication receipt when
+   a newly persisted research article carries its own output/action identity;
+   it does not establish independent research progress, research evaluation, or
+   investment P&L.
 
 The current read-only 30-day rehearsal records `300` independent synthetic
 observations, `300` commands, `300` outcomes, `300` learning consumptions, one
@@ -993,10 +998,12 @@ lanes as blocked for lack of eligible outcomes; the other 11 are explicitly
 not-observable because they are outside the current research/investment scope.
 No simulated result is presented as an executed action.
 
-The active production blocker is unchanged: no autonomous producer currently
-returns a qualifying research publication/evaluation receipt or an investment
-30/60/90-day P&L receipt to the learner. The next implementation must add those
-observers with source identity, observation time, terms, persistence failure
-handling, and explicit abstention. Job 7 remains pending until those receipts
-can be observed and graded; no real-money activity is authorized before the
-Job 7 gate is actually satisfied.
+The active production blocker is narrowed but not removed: the owned-site
+publication receipt observer now exists, but its receipts are explicitly
+ungraded and are not independent research evidence. No autonomous producer
+currently returns a qualifying research evaluation receipt or an investment
+30/60/90-day P&L receipt to the learner. The next implementation must add
+those observers with source identity, observation time, terms, persistence
+failure handling, and explicit abstention. Job 7 remains pending until those
+receipts can be observed and graded; no real-money activity is authorized
+before the Job 7 gate is actually satisfied.
