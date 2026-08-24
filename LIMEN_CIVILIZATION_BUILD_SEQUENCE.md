@@ -1353,6 +1353,25 @@ manager therefore supplements the domain brain; it does not replace the feed
 record, Thing 2 is not promoted to validation, and neither Thing 1 nor Thing 2
 is copied into every company or domain.
 
+### Homology handoff into Finance — implemented 2026-08-24
+
+The remaining semantic edge is at the domain-brain → Finance manager interface,
+not in the predicate grammar. `civilization-homology-context/1.0` is now a
+required observational field of the Finance input ledger and manager context.
+It carries the domain/company identity, P0–P10 reading and evidence, explicit
+regulation direction (including both `hypo` and `hyper`), brain-node evidence,
+recovery evidence, mapping statuses, provenance, and named abstentions. The
+manager prompt receives that context as review material and is instructed to
+preserve its abstentions; it cannot use the context as a stress threshold,
+diagnosis, trade trigger, or authorization.
+
+This is an interface continuity repair, not a claim that the two vocabularies
+have become one ontology. The crosswalk remains scaffolding until the shared
+dynamic is represented natively in the domain component. Missing or malformed
+context now causes an explicit manager/ledger abstention rather than a silent
+translation or a guessed business meaning. Focused Finance coverage includes
+missing-context refusal and preservation of both regulation directions.
+
 The implementation sequence for Finance is now explicit:
 
 1. assemble and persist the complete input ledger in a production-shaped

@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict');
 const Source = require('../lib/finance-source-universe.js');
+const homology = require('./test-finance-homology.cjs')();
 
 const titleSets = [{
   t: '2026-08-24T16:00:00Z', d: 'finance', f: 'SEC EDGAR Filings', ck: 'headline_title', hh: 123,
@@ -17,7 +18,7 @@ const common = {
   now: '2026-08-24T16:04:00Z',
   companies: [{ cik: '00001234', slug: 'example_co', ticker: 'EX', name: 'Example Co' }],
   financeCycle: { domain: 'finance', ok: true, domainFunction: { evidence: { l3CurrentEvidenceComplete: true } } },
-  financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z' },
+  financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z', homologyContext: homology },
   marketDataByTicker: { EX: { asOf: '2026-08-24T16:00:00Z', sources: ['quote'], quotes: [{ symbol: 'EX', price: 10, observedAt: '2026-08-24T16:00:00Z', sourceIdentity: { kind: 'market', value: 'quote' } }] } },
   networkBySlug: { example_co: { asOf: '2026-08-24T16:00:00Z', value: 0.1, sourceIdentity: { kind: 'network', value: 'stress-slim' } } }
 };

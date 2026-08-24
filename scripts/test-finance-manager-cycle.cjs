@@ -7,6 +7,7 @@ const Prompt = require('../lib/finance-manager-prompt.js');
 const Adapter = require('../lib/finance-manager-producer-adapter.js');
 const Producer = require('../lib/finance-opportunity-producer.js');
 const Replay = require('../lib/investment-sandbox-replay.js');
+const homology = require('./test-finance-homology.cjs')();
 
 const semanticId = 'finance:official-feed:cycle-1';
 const marketId = 'quote:paper-provider:EX';
@@ -34,6 +35,7 @@ const context = Context.build({
   financeCycle, company: { slug: 'example_co', ticker: 'EX' },
   observations: semanticEvidence, marketData, networkEvidence,
   kernelContext: { applicable: false, reason: 'no-company-specific-kernel-mapping' }
+  ,homologyContext: homology
 });
 assert.equal(context.status, 'READY_FOR_PAPER_REVIEW');
 
@@ -77,7 +79,8 @@ const ledger = {
     company: { slug: 'example_co', ticker: 'EX' },
     semanticEvidence,
     marketData,
-    networkEvidence
+    networkEvidence,
+    homologyContext: homology
   }
 };
 const candidate = Producer.build({ ledger, proposal: adapted.proposal });
@@ -97,7 +100,7 @@ const replay = Replay.summarize({
   now: '2026-08-24T16:04:00Z',
   snapshot: { domains: { finance: { sources: [{ name: 'Official Finance Feed' }] } } },
   brainShadow: { cycles: { finance: financeCycle } },
-  handoff: { packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:01:00Z',
+  handoff: { packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:01:00Z', homologyContext: homology,
     truth: { opportunities: [replayCandidate], semanticEvidence } }] },
   masterInbox: { readyForAutofire: [replayCandidate] },
   semanticEvidence, marketData, networkStress: networkEvidence[0]

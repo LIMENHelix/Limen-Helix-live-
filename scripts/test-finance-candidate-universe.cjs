@@ -3,12 +3,13 @@
 
 const assert = require('node:assert/strict');
 const Universe = require('../lib/finance-candidate-universe.js');
+const homology = require('./test-finance-homology.cjs')();
 
 function row(slug, ticker, valid) {
   return {
     company: { slug, ticker },
     financeCycle: { domain: 'finance', ok: true, domainFunction: { evidence: { l3CurrentEvidenceComplete: true } } },
-    financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z' },
+    financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z', homologyContext: homology },
     semanticEvidence: valid ? [{ sourceIdentity: { kind: 'publisher-item', value: slug + ':item' }, recordedAt: '2026-08-24T15:59:00Z', publisher: 'Official feed', title: 'Named event', canonicalUrl: 'https://example.test/' + slug }] : [],
     marketData: valid ? { asOf: '2026-08-24T16:00:00Z', sources: ['paper-market'], quotes: [{ symbol: ticker, price: 10, observedAt: '2026-08-24T16:00:00Z', sourceIdentity: { kind: 'market', value: slug + ':quote' } }] } : null,
     networkEvidence: valid ? [{ asOf: '2026-08-24T15:59:30Z', value: 0.1, sourceIdentity: { kind: 'network', value: slug + ':network' } }] : [],

@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict');
 const Ledger = require('../lib/finance-input-ledger.js');
+const homology = require('./test-finance-homology.cjs')();
 
 function fixture() {
   return {
@@ -12,7 +13,7 @@ function fixture() {
       domainFunction: { evidence: { l3CurrentEvidenceComplete: true } },
       truth: { phase: 'p3', stressScore: 0.3 }
     },
-    financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T11:59:00Z' },
+    financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T11:59:00Z', homologyContext: homology },
     company: { slug: 'acme', ticker: 'ACME' },
     candidate: { lane: 'investment', status: 'READY_TO_FIRE', artifactRef: 'acme/investment/0' },
     semanticEvidence: [{
@@ -40,11 +41,14 @@ assert.equal(ready.ledger.semanticEvidence.length, 1);
 
 const managerReady = Ledger.build(Object.assign(fixture(), { candidate: null }));
 assert.equal(managerReady.status, 'READY_FOR_MANAGER_REVIEW');
+assert.equal(managerReady.ledger.homologyContext.contextOnly, true);
 assert.equal(managerReady.ledger.candidate, null);
 
 const missing = Ledger.build(Object.assign(fixture(), { semanticEvidence: [] }));
 assert.equal(missing.status, 'ABSTAINED');
 assert(missing.blockers.includes('semantic_feed_evidence_required'));
+const noHomology = Ledger.build(Object.assign({}, fixture(), { financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T11:59:00Z' } }));
+assert(noHomology.blockers.includes('homology_context_required'));
 
 const stale = Ledger.build(Object.assign(fixture(), {
   networkEvidence: [{ sourceIdentity: { kind: 'network', value: 'stress-slim' }, asOf: '2026-08-22T00:00:00Z', value: 0.1 }]

@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict');
 const Cycle = require('../lib/finance-preview-cycle.js');
+const homology = require('./test-finance-homology.cjs')();
 
 const registry = { byCik: { '1234': { slug: 'example_co', name: 'Example Co', ticker: 'EX' } } };
 const titleSets = [{ t: '2026-08-24T16:00:00Z', d: 'finance', f: 'SEC', hh: 1, ck: 'headline_title', items: [
@@ -11,7 +12,7 @@ const titleSets = [{ t: '2026-08-24T16:00:00Z', d: 'finance', f: 'SEC', hh: 1, c
 const common = {
   companyRegistry: registry, titleSets, now: '2026-08-24T16:04:00Z',
   financeCycle: { domain: 'finance', ok: true, domainFunction: { evidence: { l3CurrentEvidenceComplete: true } } },
-  packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z' }],
+  packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z', homologyContext: homology }],
   marketPayload: { updated: Date.parse('2026-08-24T16:01:00Z'), quotes: { EX: { live: true, price: 10, prevClose: 9.9 } } },
   networkPayload: { generatedAt: '2026-08-24T16:00:30Z', bySlug: { example_co: { total: 0.2, induced: 0.1, rank: 'MILD', hub: false, pushed: false } } }
 };

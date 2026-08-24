@@ -4,12 +4,14 @@
 const assert = require('node:assert/strict');
 const Producer = require('../lib/finance-opportunity-producer.js');
 const Replay = require('../lib/investment-sandbox-replay.js');
+const homology = require('./test-finance-homology.cjs')();
 
 const semanticId = 'finance:official-feed:h1:0';
 const baseLedger = {
   schemaVersion: 'finance-input-ledger/1.0', status: 'READY_FOR_PAPER_REVIEW',
   ledger: {
     company: { slug: 'example_co', ticker: 'EX' },
+    homologyContext: homology,
     semanticEvidence: [{ sourceIdentity: { kind: 'publisher-item', value: semanticId } }],
     marketData: { quotes: [{ sourceIdentity: { kind: 'market-quote-handler', value: 'asset-quote/yahoo-chart' } }] },
     networkEvidence: [{ sourceIdentity: { kind: 'network-snapshot', value: 'limen-stress-slim' } }]
@@ -55,7 +57,7 @@ const replay = Replay.summarize({
   snapshot: { domains: { finance: { sources: [{ name: 'Official feed' }, { name: 'Market feed' }] } } },
   brainShadow: { cycles: { finance: { domain: 'finance', ok: true,
     domainFunction: { evidence: { l3CurrentEvidenceComplete: true, outwardConnected: true } } } } },
-  handoff: { packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z',
+  handoff: { packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z', homologyContext: homology,
     truth: { opportunities: [replayCandidate], semanticEvidence: [{
       sourceIdentity: { kind: 'publisher-item', value: semanticId }, recordedAt: '2026-08-24T15:59:00Z',
       publisher: 'Official feed', feedName: 'Official feed', title: 'Example event', canonicalUrl: 'https://example.test/event'
