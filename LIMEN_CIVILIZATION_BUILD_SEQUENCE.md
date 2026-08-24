@@ -648,6 +648,20 @@ path values, emitting `lane: investments` or `lane: research-papers` with
 named vocabulary mapping, not title/stress inference. The next natural refresh
 must show persisted handoffs before this lane is considered production-observed.
 
+### Job 4 case-record expansion — implemented in the build worktree
+
+The handoff payload now carries `civilization-case-record/1.0`, not only a
+short opportunity envelope. Each record has document control, origin and
+accountable-owner fields, the source-backed claim and brain basis, citations
+and evidence IDs, an explicit independence state, contradiction/retraction
+slots, all four required homology/kernel mapping decisions, lane-specific
+research or paper-investment terms, a review checklist, and an abstained
+decision. Research records are accountable to Science or Medicine when the
+origin domain supports it and remain `NOT_EVALUATED`; investment records are
+Finance-accountable, `paper-only`, and carry the 30/60/90-day horizon terms.
+Missing facts remain null or named abstentions. This is a reviewable internal
+record, not a legal opinion, investment advice, order, or authorization.
+
 ### Work
 
 Replace implicit shared-global assumptions with a versioned handoff carrying:
