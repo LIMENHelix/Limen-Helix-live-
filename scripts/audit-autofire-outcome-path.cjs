@@ -55,6 +55,7 @@ function filesMatching(re, pool) {
 
 const declarations = filesMatching(/OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)/, production);
 const explicitEventPosts = filesMatching(/eventType\s*:\s*['"]OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)['"]/, production);
+const autonomousObserverFiles = filesMatching(/recordAutonomousOutcome\s*\(|inspectArticles\s*\(/, production);
 const learningConsumers = filesMatching(/(?:autofireLearning\.)?recordOutcome\s*\(/, production);
 const commandProducers = filesMatching(/autofireEfference\.command\s*\(|(?:createPreview|submitApproved)\s*\(/, production);
 const manualOutcomeUi = filesMatching(/fetch\(['"]\/api\/limen-outcome|eventType\s*[:=].*OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)/, [
@@ -72,12 +73,16 @@ const result = {
   generatedAt: new Date().toISOString(),
   readOnly: true,
   scope: 'B11/B14 autonomous research and investment outcome path',
-  events: EVENTS.map(event => ({
-    event,
-    explicitProductionPosts: explicitEventPosts.filter(file => text.get(path.join(ROOT, file)).includes(event)),
-    autonomousProducerCount: 0,
-    status: 'NO_AUTONOMOUS_PRODUCER_FOUND'
-  })),
+  events: EVENTS.map(event => {
+    const publicationObserver = event === 'OUTCOME_RESEARCH_PUBLISHED' &&
+      autonomousObserverFiles.some(file => /limen-outcome-observer|autofire-outcome-observer/.test(file));
+    return {
+      event,
+      explicitProductionPosts: explicitEventPosts.filter(file => text.get(path.join(ROOT, file)).includes(event)),
+      autonomousProducerCount: publicationObserver ? 1 : 0,
+      status: publicationObserver ? 'AUTONOMOUS_PUBLICATION_RECEIPT_UNGRADED' : 'NO_AUTONOMOUS_PRODUCER_FOUND'
+    };
+  }),
   productionDeclarations: declarations,
   productionLearningConsumers: learningConsumers,
   commandProducers,
@@ -86,11 +91,12 @@ const result = {
   boundaries: {
     commandReceipt: commandProducers.length > 0 ? 'PRESENT' : 'MISSING',
     learningConsumer: learningConsumers.length > 0 ? 'PRESENT' : 'MISSING',
+    researchPublicationReceipt: 'PRESENT_UNGRADED',
     independentResearchOutcome: 'MISSING_AUTONOMOUS_PRODUCER',
     independentInvestmentOutcome: 'MISSING_AUTONOMOUS_PRODUCER',
     syntheticSandboxOutcome: 'SEPARATE_AND_NOT_WORLD_EVIDENCE'
   },
-  conclusion: 'B11/B14 command and learning boundaries exist, but no autonomous production source emits the qualifying research or investment outcome events. Tests and manual UI references do not close that gate.'
+  conclusion: 'An autonomous owned-site publication observer now emits only an ungraded publication receipt. Independent research evaluation and investment P&L producers remain absent; publication is not progress and does not close the Job 7 gate.'
 };
 
 if (process.argv.includes('--write')) {

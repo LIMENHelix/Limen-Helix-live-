@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T23:45:35.084Z",
+  "generatedAt": "2026-08-24T00:06:31.331Z",
   "readOnly": true,
   "scope": "B11/B14 autonomous research and investment outcome path",
   "events": [
@@ -13,8 +13,8 @@
     {
       "event": "OUTCOME_RESEARCH_PUBLISHED",
       "explicitProductionPosts": [],
-      "autonomousProducerCount": 0,
-      "status": "NO_AUTONOMOUS_PRODUCER_FOUND"
+      "autonomousProducerCount": 1,
+      "status": "AUTONOMOUS_PUBLICATION_RECEIPT_UNGRADED"
     },
     {
       "event": "OUTCOME_RESEARCH_EVALUATED",
@@ -27,7 +27,8 @@
     "assets/js/limen/artifact-viewer-ui.js",
     "handlers/limen-outcome.js",
     "lib/autofire-learning.js",
-    "lib/autofire-outcome-contract.js"
+    "lib/autofire-outcome-contract.js",
+    "lib/autofire-outcome-observer.js"
   ],
   "productionLearningConsumers": [
     "assets/js/execution-closeout-flow.js",
@@ -70,14 +71,16 @@
     "/api/subscriber-digest",
     "/api/hero-image",
     "/api/orb-meeting-cron?run=1",
-    "/api/brain-shadow?run=1"
+    "/api/brain-shadow?run=1",
+    "/api/limen-outcome-observer"
   ],
   "boundaries": {
     "commandReceipt": "PRESENT",
     "learningConsumer": "PRESENT",
+    "researchPublicationReceipt": "PRESENT_UNGRADED",
     "independentResearchOutcome": "MISSING_AUTONOMOUS_PRODUCER",
     "independentInvestmentOutcome": "MISSING_AUTONOMOUS_PRODUCER",
     "syntheticSandboxOutcome": "SEPARATE_AND_NOT_WORLD_EVIDENCE"
   },
-  "conclusion": "B11/B14 command and learning boundaries exist, but no autonomous production source emits the qualifying research or investment outcome events. Tests and manual UI references do not close that gate."
+  "conclusion": "An autonomous owned-site publication observer now emits only an ungraded publication receipt. Independent research evaluation and investment P&L producers remain absent; publication is not progress and does not close the Job 7 gate."
 }
