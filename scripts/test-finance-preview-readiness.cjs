@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict');
 const Readiness = require('../lib/finance-preview-readiness.js');
+const homology = require('./test-finance-homology.cjs')();
 
 const registry = { byCik: {
   '1234': { slug: 'example_co', name: 'Example Co', ticker: 'EX' },
@@ -19,7 +20,7 @@ const networkPayload = { generatedAt: '2026-08-24T16:00:30Z', bySlug: {
   example_co: { total: 0.2, induced: 0.1, rank: 'MILD', hub: false, pushed: false }
 } };
 const cycle = { domain: 'finance', ok: true, domainFunction: { evidence: { l3CurrentEvidenceComplete: true } } };
-const packets = [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z' }];
+const packets = [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:00:00Z', homologyContext: homology }];
 
 const out = Readiness.build({ companyRegistry: registry, titleSets: titles, marketPayload, networkPayload, financeCycle: cycle, packets, now: '2026-08-24T16:02:00Z' });
 assert.equal(out.schemaVersion, Readiness.SCHEMA);

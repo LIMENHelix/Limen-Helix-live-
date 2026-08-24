@@ -1353,6 +1353,42 @@ manager therefore supplements the domain brain; it does not replace the feed
 record, Thing 2 is not promoted to validation, and neither Thing 1 nor Thing 2
 is copied into every company or domain.
 
+### Homology handoff into Finance — implemented 2026-08-24
+
+The remaining semantic edge is at the domain-brain → Finance manager interface,
+not in the predicate grammar. `civilization-homology-context/1.0` is now a
+required observational field of the Finance input ledger and manager context.
+It carries the domain/company identity, P0–P10 reading and evidence, explicit
+regulation direction (including both `hypo` and `hyper`), brain-node evidence,
+recovery evidence, mapping statuses, provenance, and named abstentions. The
+manager prompt receives that context as review material and is instructed to
+preserve its abstentions; it cannot use the context as a stress threshold,
+diagnosis, trade trigger, or authorization.
+
+This is an interface continuity repair, not a claim that the two vocabularies
+have become one ontology. The crosswalk remains scaffolding until the shared
+dynamic is represented natively in the domain component. Missing or malformed
+context now causes an explicit manager/ledger abstention rather than a silent
+translation or a guessed business meaning. Focused Finance coverage includes
+missing-context refusal and preservation of both regulation directions.
+
+### Homology interface classification — measured 2026-08-24
+
+The code check separates three possible uses. The current implementation is
+**not** a gain/confidence weight: no numeric precision, likelihood, score, or
+threshold reads a homology field. It is also **not** a content-dependent
+router: no handler, lane, or interpretation branch is selected from a phase,
+node, mapping, or regulation label. The field is load-bearing in two bounded
+ways: the ledger/context gate refuses missing or malformed context, and the
+provider prompt receives the validated observational record for semantic review.
+
+Therefore its current class is **interface-read / review context**, not a
+neural-equivalent precision signal. Removing it changes readiness and the
+provider input, so it is not write-only annotation. Any future behavior that
+routes, weights, or authorizes from these meanings must instead introduce a
+typed channel/port with its own evidence contract; it must not branch on a
+free-form homology label.
+
 The implementation sequence for Finance is now explicit:
 
 1. assemble and persist the complete input ledger in a production-shaped
@@ -2035,10 +2071,31 @@ is `NEURO_LEARNING_REFERENCE.md`. P0-P10 recursion semantics are in
 These sources are not interchangeable. The cross-reference distinguishes
 structural, partial, cosmetic, and missing mappings. The recursion arc states
 that P0-P10 is a developmental/generative state map, not a distress-severity
-scale; distress is a transition-regulation failure: either failing to transition
-(stuck/low-side) or transitioning without control (runaway/premature/high-side).
+scale; distress is a transition-regulation failure: low-side stuck/failure to
+transition or high-side runaway/premature transition without control.
 `DOCUMENT_AUTHORITY.md`
 also classifies the large scientific library as mixed source material and
 engineering hypothesis, not blanket owner-approved authority. The handoff must
 therefore preserve source provenance and claim class instead of treating any
 neural analogy as a business fact.
+
+### Finance homology consumer — implemented 2026-08-24
+
+The manager-side continuation is now implemented in the Finance contracts. The
+input ledger and manager context require a valid
+`civilization-homology-context/1.0`; missing or malformed context produces an
+explicit abstention. The provider request carries the context, including
+phase evidence, regulation direction, brain nodes, recovery, mapping status,
+provenance, and abstentions, and explicitly treats it as review context only.
+
+The code audit classifies the read precisely: no handler routing, weighting,
+score, or authorization branches on homology fields. The only runtime branch
+is the presence/validity gate; the semantic contents are supplied to the
+provider for review. This is an interface-read, not a precision signal. Any
+future behavioral use must be introduced as a typed channel/port with its own
+evidence contract rather than a branch on a free-form crosswalk label.
+
+Focused Finance suites pass: `12` Finance test files, plus the civilization
+handoff tests. The full repository run was `143 passed, 1 skipped, 3 failed`
+because this worktree lacks the pre-existing `acorn` and `jsdom` dependencies;
+those failures are environment setup blockers, not failures in this handoff.

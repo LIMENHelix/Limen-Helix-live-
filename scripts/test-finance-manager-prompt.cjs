@@ -3,6 +3,7 @@
 
 const assert = require('node:assert/strict');
 const Prompt = require('../lib/finance-manager-prompt.js');
+const homology = require('./test-finance-homology.cjs')();
 
 const context = {
   status: 'READY_FOR_PAPER_REVIEW',
@@ -13,6 +14,7 @@ const context = {
   networkEvidence: [{ sourceIdentity: { kind: 'network-snapshot', value: 'network:1' } }],
   thing1: { applicable: false, reason: 'no-company-specific-mapping' },
   thing2: { applicable: false, reason: 'no-company-specific-mapping' }
+  ,homologyContext: homology
 };
 
 const req = Prompt.buildRequest({ managerContext: context });
@@ -22,6 +24,8 @@ assert.equal(req.mode, 'sandbox-paper');
 assert(req.instructions.some((x) => x.includes('never an order')));
 assert.equal(req.context.observations.length, 1);
 assert.equal(req.outputSchema.paperOnly, true);
+assert.equal(req.context.homologyContext.contextOnly, true);
+assert(req.instructions.some((x) => x.includes('observational homology context')));
 
 const proposal = {
   schemaVersion: Prompt.RESPONSE_SCHEMA, id: 'proposal-1',
@@ -39,5 +43,6 @@ assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { paperOnly: false
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { liveExecution: false })).reason, 'manager_response_live_execution_forbidden');
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { independenceAssessment: { status: 'ASSESSED', reason: 'guess' } })).reason, 'manager_response_independence_must_be_unassessed');
 assert.equal(Prompt.buildRequest({ managerContext: { status: 'ABSTAINED' } }).reason, 'finance_manager_context_not_ready');
+assert.equal(Prompt.buildRequest({ managerContext: Object.assign({}, context, { homologyContext: null }) }).reason, 'finance_homology_context_not_ready');
 
 console.log('finance manager prompt: 14/14 passed');
