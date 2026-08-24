@@ -1813,3 +1813,35 @@ evidence at the evaluation instant. The counted ledger blockers were:
 production-shaped execution of the new assembler; it confirms the remaining
 gate is real input freshness plus the token-gated Finance cycle/packet, not a
 missing title or quote join.
+
+### Finance handoff and Investment Artifacts reconciliation — measured 2026-08-24
+
+The public audit's packet-missing counts were a visibility limitation, not a
+claim that the cognition cron produced no packet. An authenticated,
+read-only `GET /api/limen-civilization-handoff?limit=100` found `3` Finance
+packets in the durable handoff store. The newest Finance packet was generated
+at `2026-08-24T08:10:41Z`, carried `stressScore: 0.42`, `phase: p0`, and
+`feedHealth: 13/13`; it carried `0` opportunities and no semantic-evidence
+window. The authenticated `/api/brain-shadow` cycle independently showed
+Finance `ok:true`, `rowsApplied:1`, `restored:true`,
+`l3CurrentEvidenceComplete:true`, and `outwardConsumersDeclared:1`.
+
+The existing public `/helix-artifacts?lane=investment` page is a different,
+legacy artifact store. Its two lane reads returned `25` investment records
+(`9 READY_TO_SIGN`, `16 DRAFT_NEEDS_DATA`) and `9` research records
+(`2 READY_TO_SIGN`, `7 DRAFT_NEEDS_DATA`). The `READY_TO_SIGN` rows are not
+Finance Preview candidates: they do not carry the
+`finance-input-ledger/1.0`, an accepted manager proposal, source-linked
+semantic/market/network evidence, or an explicit `sandbox-paper` release.
+Across both lanes, `23` records remain `DRAFT_NEEDS_DATA`, with `1,252`
+declared data placeholders; `14` of the `34` records are older than 30 days
+at this measurement.
+The investment page and API therefore remain a display/legacy-producer
+surface, not an implicit input to the new Finance Preview cycle. The
+read-only measurement is reproducible with
+`scripts/audit-finance-artifact-surface-production.cjs`.
+
+This narrows the next gate: do not fabricate opportunities from the legacy
+artifact count. Reconcile a source-grounded Finance manager proposal into the
+new ledger, or explicitly retire/label the legacy display, before any Preview
+provider call or paper release.
