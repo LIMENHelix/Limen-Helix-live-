@@ -6,6 +6,7 @@ const Context = require('../lib/finance-manager-context.js');
 const Ledger = require('../lib/finance-input-ledger.js');
 const Prompt = require('../lib/finance-manager-prompt.js');
 const Runner = require('../lib/finance-manager-runner.js');
+const Universe = require('../lib/finance-candidate-universe.js');
 
 const semanticId = 'finance:runner:semantic';
 const marketId = 'finance:runner:market';
@@ -38,9 +39,23 @@ const proposal = { schemaVersion: Prompt.RESPONSE_SCHEMA, id: 'runner-proposal',
   assert.equal(noLedger.status, 'ABSTAINED');
   assert.equal(noLedger.reason, 'finance_input_ledger_not_ready');
 
-  const badResponse = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: true, text: 'not json' }; } });
-  assert.equal(badResponse.status, 'ABSTAINED');
-  assert.equal(badResponse.reason, 'manager_response_must_be_json');
+const badResponse = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: true, text: 'not json' }; } });
+assert.equal(badResponse.status, 'ABSTAINED');
+assert.equal(badResponse.reason, 'manager_response_must_be_json');
 
-  console.log('finance manager runner: 12/12 passed');
+const universe = Universe.build({ candidates: [{
+  company: { slug: 'example_co', ticker: 'EX' }, financeCycle: cycle,
+  financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:01:00Z' },
+  semanticEvidence: semantic, marketData: market, networkEvidence: network,
+  thing1: { applicable: false, reason: 'not-supplied' }, thing2: { applicable: false, reason: 'not-supplied' }, now: '2026-08-24T16:01:00Z'
+}] });
+const selected = await Runner.run({ candidateUniverse: universe }, { provider: async function (input) {
+  assert.equal(input.request.context.company, null);
+  assert.equal(input.request.context.companyCandidates.length, 1);
+  return { ok: true, provider: 'fixture', text: JSON.stringify(proposal) };
+} });
+assert.equal(selected.status, 'PAPER_CANDIDATE');
+assert.equal(selected.selectedCompany.slug, 'example_co');
+
+  console.log('finance manager runner: 16/16 passed');
 })().catch(function (e) { console.error(e && e.stack || e); process.exit(1); });

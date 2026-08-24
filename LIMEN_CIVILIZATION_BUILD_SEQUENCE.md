@@ -1714,3 +1714,20 @@ The focused ledger, runner, producer, and composed-cycle tests remain green.
 This removes a code-level blocker; it does not create a Finance opportunity or
 authorize a provider call. Production still requires a real source-grounded
 ledger and the operator-controlled Preview AI gate.
+
+### Finance candidate-universe boundary — prepared 2026-08-24
+
+`lib/finance-candidate-universe.js` now supplies up to twelve company contexts
+whose own source ledger reaches `READY_FOR_MANAGER_REVIEW`. It preserves each
+company's semantic, market, network, Thing 1, and Thing 2 applicability inputs
+and records abstentions for incomplete identities or evidence. It does not
+rank companies, compute a score, infer stress, or turn a ticker into an
+opportunity.
+
+The manager runner can receive this universe and must return an exact supplied
+company identity. That company's ledger is then selected by exact slug+ticker
+match before the proposal reaches the producer. A response naming any other
+company abstains. Focused universe and runner coverage passes `12/12` and
+`16/16`. This removes the requirement for a human to preselect one company,
+but it still requires a real source-grounded universe and the operator-
+controlled Preview AI gate; no automatic ranking or live action is introduced.
