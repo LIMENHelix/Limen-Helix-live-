@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-08-24T00:42:24.702Z",
+  "readOnly": true,
+  "scope": "production input boundary for OUTCOME_RESEARCH_EVALUATED",
+  "contract": {
+    "builderPresent": true,
+    "independenceRequired": true,
+    "evidenceIdsRequired": true,
+    "requiredMappings": [
+      "neurology_to_business_homology",
+      "business_to_neurology_homology",
+      "kernel_dynamics",
+      "p0_p10_proof_and_effects"
+    ]
+  },
+  "learner": {
+    "consumerPresent": true,
+    "gradingPresent": true
+  },
+  "publicationPath": {
+    "persistsCitations": false,
+    "engineOutputCarriesCitations": true,
+    "persistsProvenance": true,
+    "persistsEvaluationMetadata": false,
+    "observerEmitsEvaluation": false
+  },
+  "outcomeEndpoint": {
+    "acceptsEvaluation": true,
+    "autonomousProducer": false,
+    "producerBasis": "endpoint validation/learning consumer is not a source-grounded evaluator"
+  },
+  "requiredExternalInput": {
+    "independentEvidenceIds": true,
+    "establishedIndependenceAssessment": true,
+    "mappingCoverage": [
+      "neurology_to_business_homology",
+      "business_to_neurology_homology",
+      "kernel_dynamics",
+      "p0_p10_proof_and_effects"
+    ],
+    "progressDecision": [
+      "PROGRESS",
+      "REGRESSION",
+      "NO_CHANGE"
+    ]
+  },
+  "conclusion": "The contract and learner exist, but the production publication path carries no evaluation metadata and no autonomous source-grounded evaluator exists. A publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED; the system must abstain until an independently identified evidence set and all four mapping decisions are supplied."
+}
