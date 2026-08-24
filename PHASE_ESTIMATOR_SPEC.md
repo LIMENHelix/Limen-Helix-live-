@@ -5,7 +5,7 @@ Status: design spec, not built. Firewalled (repo/history only). 2026-07-19.
 ## 0. What this is, in one paragraph
 
 One estimator that infers a **latent LIMEN phase belief** (a distribution over P0–P10) and a
-**stuck/distress magnitude** from a bundle of noisy channels, fusing each channel by its **reliability
+**transition-regulation state** from a bundle of noisy channels, fusing each channel by its **reliability
 (precision = inverse variance = Kalman gain)**. The core knows nothing about brains or markets. Two
 thin adapters convert a substrate into the channel bundle the core consumes: **Adapter A (human
 sensory)** and **Adapter B (domain/market)**. Making the core rigorous once makes both substrates
@@ -19,8 +19,9 @@ skeptic can trace it. Nothing here is asserted as validated efficacy — see §7
 
 ## 1. The latent state (what we estimate)
 
-Phase is a **developmental cycle, every phase equal; distress is being STUCK in a transition, not a
-high phase number** `[src: memory bankruptcy-is-outcome-not-phase, corrected-recursion-grammar]`. So
+Phase is a **developmental cycle, every phase equal; distress is a transition-regulation failure,
+not a phase number**. The failure can be low-side (stuck in a transition) or high-side
+(runaway/premature transition without control) `[src: corrected-recursion-grammar]`. So
 the estimator never emits a bare label.
 
 Canonical human/clinical register (LIMEN Helix Brain Development doc), 11 states:
@@ -50,7 +51,7 @@ strength of the fusion rule launder confidence onto the state space it operates 
   belief:      float[11]      // posterior distribution over P0..P10, sums to 1  (predictive-coding: beliefs carry precision)
   phaseMAP:    int            // argmax(belief) — for display only, never the whole answer
   confidence:  float [0,1]    // total precision available this tick (low => the MAP is barely better than the prior)
-  stuck:       float [0,1]    // distress = failure-to-transition magnitude, ORTHOGONAL to phaseMAP
+  stuck:       float [0,1]    // current low-side component: failure-to-transition magnitude; NOT complete distress
   grounded:    bool           // false => abstained (thin coverage); belief == prior
   degraded:    {...}|null     // untransformed channels, no-history, unlabeled precision — surfaced, never hidden
   corrState:   {...}          // EWMA precision/correlation memory — caller persists and feeds back
@@ -170,9 +171,22 @@ non-comparable across vintages `[src: Creator 12.4 CISS; 12.3 Cleveland CFSI]`. 
 history points the value passes through untransformed and the channel is flagged `degraded` — an
 untransformed channel is on a different scale and pretending otherwise is how a stress index lies.
 
-### 2.5 Distress / stuck magnitude (orthogonal to phase)
+### 2.5 Transition-regulation failure (orthogonal to phase)
 
-Two signals, combined, both label-free:
+The existing `stuck` output is only the **low-side** component. It measures blockage or
+perseveration, not distress in both directions. A complete transition-regulation record must keep
+the two poles separate:
+
+- **low-side / stuck:** failing to transition, remaining in a state despite unresolved drive;
+- **high-side / runaway:** transitioning prematurely or without control, including uncontrolled
+  state changes.
+
+Both are distress, and neither is implied by the phase number. The current core implements only the
+low-side `stuck` component; a future high-side component must be added as an independently evidenced
+field rather than folded into an unsigned scalar. Until then, callers must not describe `stuck` as
+the complete distress state.
+
+The low-side component currently uses two signals, both label-free:
 
 1. **Transition blockage.** The system should move but doesn't: prediction wants to advance, evidence
    keeps re-confirming the same phase under rising unresolved drive. Measure = accumulated divergence
@@ -185,7 +199,7 @@ Two signals, combined, both label-free:
    `[src: Creator 12.4 CISS]`.
 
 ```
-stuck = clamp01( α · blockage + (1-α) · cissComposite )     // α STATED, ~0.5 [mark: prior]
+stuck = clamp01( α · blockage + (1-α) · cissComposite )     // low-side only; α STATED, ~0.5 [mark: prior]
 ```
 
 `stuck` is reported next to `belief`, never folded into the phase number. Constellation p0-RUPTURE is
