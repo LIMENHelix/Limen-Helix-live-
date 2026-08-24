@@ -4493,7 +4493,7 @@ async function fetchTreasuryMTS() {
     var deficitB = parseFloat(best.current_month_dfct_sur_amt) / 1e9;
     var stress = clamp(Math.max(0, deficitB) / 200, 0, 1);
     trackHealth('Treasury MTS', 'economy', 'live', null, deficitB);
-    return { value: deficitB, label: 'Fed deficit $' + deficitB.toFixed(1) + 'B (' + (best.classification_desc || '') + ')', stress: round(stress), signal: 'federal monthly deficit $' + deficitB.toFixed(1) + 'B for ' + (best.classification_desc || 'latest') + ' FY' + (best.record_fiscal_year || 'n/a'), updated: Date.now(), fetchedAt: Date.now() };
+    return { value: deficitB, label: 'Fed deficit $' + deficitB.toFixed(1) + 'B (' + (best.classification_desc || '') + ')', stress: round(stress), signal: 'federal monthly deficit $' + deficitB.toFixed(1) + 'B for ' + (best.classification_desc || 'latest') + ' FY' + (best.record_fiscal_year || 'n/a'), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: best.record_date || null };
   } catch (e) { trackHealth('Treasury MTS', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -4519,7 +4519,7 @@ async function fetchTreasuryOperatingCash() {
     var balanceB = balance / 1000; // values are in $M; convert to $B
     var stress = clamp((500 - balanceB) / 500, 0, 1);
     trackHealth('Treasury Cash Balance', 'economy', 'live', null, balanceB);
-    return { value: balanceB, label: 'TGA cash $' + balanceB.toFixed(1) + 'B', stress: round(stress), signal: 'Treasury operating cash balance $' + balanceB.toFixed(1) + 'B (record: ' + (tgaRow.record_date || 'n/a') + ')', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: balanceB, label: 'TGA cash $' + balanceB.toFixed(1) + 'B', stress: round(stress), signal: 'Treasury operating cash balance $' + balanceB.toFixed(1) + 'B (record: ' + (tgaRow.record_date || 'n/a') + ')', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: tgaRow.record_date || null };
   } catch (e) { trackHealth('Treasury Cash Balance', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -6158,6 +6158,8 @@ module.exports._fetchWorldBankTertiary = fetchWorldBankTertiary;
 module.exports._fetchWorldBankRD = fetchWorldBankRD;
 module.exports._fetchWorldBankInfra = fetchWorldBankInfra;
 module.exports._fetchWorldBankFoodIndex = fetchWorldBankFoodIndex;
+module.exports._fetchTreasuryMTS = fetchTreasuryMTS;
+module.exports._fetchTreasuryOperatingCash = fetchTreasuryOperatingCash;
 module.exports._fetchArXivCS = fetchArXivCS;
 module.exports._fetchArXivAll = fetchArXivAll;
 module.exports._fetchNOAAAlerts = fetchNOAAAlerts;
