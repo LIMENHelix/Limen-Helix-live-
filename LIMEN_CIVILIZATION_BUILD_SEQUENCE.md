@@ -1385,3 +1385,21 @@ must supply independently identified evidence and explicitly review
 `neurology_to_business_homology`, `business_to_neurology_homology`,
 `kernel_dynamics`, and `p0_p10_proof_and_effects`. Until that evidence exists,
 the correct behavior is an explicit abstention and Job 7 remains open.
+
+### Production-shaped Finance input ledger — implemented 2026-08-24
+
+The paper replay now has a strict `finance-input-ledger/1.0` boundary. It
+records the Finance cycle and packet, company identity, explicitly released
+candidate, semantic source observations, timestamped market quotes, fresh
+network evidence, and separate Thing 1 / Thing 2 applicability records. Each
+semantic and market observation requires source identity and time; network
+evidence is rejected when it is older than the one-hour freshness boundary.
+Thing 1 and Thing 2 are independently explicit: an inapplicable reading needs
+an abstention reason, and an applicable reading needs a mapping and provenance.
+
+The ledger has no composite score, model call, broker call, or live mode. Any
+missing, stale, malformed, or unreleased input returns `ABSTAINED`. The
+investment replay exposes the ledger status and blockers, so the existing
+production-shaped replay now reports the missing middle as a named contract
+rather than only a collection of ad-hoc booleans. This advances the paper
+boundary; it does not satisfy the paper-receipt gate or authorize live money.
