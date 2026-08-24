@@ -1,93 +1,18 @@
 {
-  "generatedAt": "2026-08-23T16:17:35.246Z",
+  "generatedAt": "2026-08-24T01:18:46.179Z",
   "readOnlyAudit": true,
-  "source": "https://limenhelix.com/api/domain-snapshot",
-  "snapshotId": "1787501854789-237",
+  "source": "/api/domain-snapshot-fresh",
+  "snapshotId": "1787534325323-240",
   "note": "Open identity tasks only. No timestamp is derived, and no task creates stress, diagnosis, pathway, or activation.",
-  "totalTasks": 260,
+  "totalTasks": 139,
   "byKind": {
-    "numeric-upstream-identity-missing": 162,
-    "headline-item-identity-only": 98
+    "numeric-upstream-identity-missing": 139
+  },
+  "byStatus": {
+    "open": 108,
+    "blocked-source-unavailable": 31
   },
   "tasks": [
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:BLS Employment",
-      "domain": "economy",
-      "source": "BLS Employment",
-      "sourceIndex": 1,
-      "kind": "numeric-upstream-identity-missing",
-      "live": false,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:FRED Gas Price",
-      "domain": "economy",
-      "source": "FRED Gas Price",
-      "sourceIndex": 2,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:FRED Food CPI",
-      "domain": "economy",
-      "source": "FRED Food CPI",
-      "sourceIndex": 3,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:FRED Consumer Sentiment",
-      "domain": "economy",
-      "source": "FRED Consumer Sentiment",
-      "sourceIndex": 4,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:Treasury MTS",
-      "domain": "economy",
-      "source": "Treasury MTS",
-      "sourceIndex": 5,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:Treasury Cash Balance",
-      "domain": "economy",
-      "source": "Treasury Cash Balance",
-      "sourceIndex": 6,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
     {
       "id": "SOURCE_IDENTITY_GAP:economy:Fed Monetary Press",
       "domain": "economy",
@@ -98,6 +23,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -107,10 +33,11 @@
       "source": "Fed Reg Fed Reserve",
       "sourceIndex": 9,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -120,10 +47,11 @@
       "source": "Fed Reg Treasury",
       "sourceIndex": 10,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -133,142 +61,13 @@
       "source": "Fed Reg IRS",
       "sourceIndex": 11,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:NY Fed EFFR",
-      "domain": "economy",
-      "source": "NY Fed EFFR",
-      "sourceIndex": 12,
-      "kind": "numeric-upstream-identity-missing",
       "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:World Bank GDP Growth",
-      "domain": "economy",
-      "source": "World Bank GDP Growth",
-      "sourceIndex": 13,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:economy:World Bank Inflation",
-      "domain": "economy",
-      "source": "World Bank Inflation",
-      "sourceIndex": 14,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:Massive Crude Oil",
-      "domain": "energy",
-      "source": "Massive Crude Oil",
-      "sourceIndex": 0,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:Grid Reliability (FERC/NERC)",
-      "domain": "energy",
-      "source": "Grid Reliability (FERC/NERC)",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:EIA Natural Gas Weekly",
-      "domain": "energy",
-      "source": "EIA Natural Gas Weekly",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:EIA Weekly Petroleum Status",
-      "domain": "energy",
-      "source": "EIA Weekly Petroleum Status",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:OPEC Reference Basket",
-      "domain": "energy",
-      "source": "OPEC Reference Basket",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:Nuclear Energy News",
-      "domain": "energy",
-      "source": "Nuclear Energy News",
-      "sourceIndex": 7,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:EIA Electricity Monthly",
-      "domain": "energy",
-      "source": "EIA Electricity Monthly",
-      "sourceIndex": 8,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:energy:NOAA NWS Alerts",
@@ -280,6 +79,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -293,6 +93,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -306,6 +107,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -319,73 +121,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:LNG Market News",
-      "domain": "energy",
-      "source": "LNG Market News",
-      "sourceIndex": 13,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:IEA Energy News",
-      "domain": "energy",
-      "source": "IEA Energy News",
-      "sourceIndex": 14,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:Solar Industry News",
-      "domain": "energy",
-      "source": "Solar Industry News",
-      "sourceIndex": 15,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:Wind Energy News",
-      "domain": "energy",
-      "source": "Wind Energy News",
-      "sourceIndex": 16,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:energy:Coal Transition News",
-      "domain": "energy",
-      "source": "Coal Transition News",
-      "sourceIndex": 17,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:environment:NOAA Climate",
@@ -397,86 +135,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:environment:NOAA Alerts",
-      "domain": "environment",
-      "source": "NOAA Alerts",
-      "sourceIndex": 1,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:environment:EPA News",
-      "domain": "environment",
-      "source": "EPA News",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:environment:USGS News",
-      "domain": "environment",
-      "source": "USGS News",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:environment:Global Forest Watch",
-      "domain": "environment",
-      "source": "Global Forest Watch",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:environment:IUCN Red List",
-      "domain": "environment",
-      "source": "IUCN Red List",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:environment:Inside Climate News",
-      "domain": "environment",
-      "source": "Inside Climate News",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:environment:USGS Earthquakes",
@@ -488,6 +149,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -501,6 +163,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -514,6 +177,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -527,6 +191,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -540,34 +205,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:health:WHO Disease Outbreak",
-      "domain": "health",
-      "source": "WHO Disease Outbreak",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:health:ClinicalTrials.gov",
-      "domain": "health",
-      "source": "ClinicalTrials.gov",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:health:PubMed",
@@ -579,21 +219,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:health:NIH Grants",
-      "domain": "health",
-      "source": "NIH Grants",
-      "sourceIndex": 7,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:health:Retraction Watch",
@@ -605,6 +233,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -618,6 +247,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -631,6 +261,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -644,6 +275,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -657,6 +289,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -670,6 +303,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -683,6 +317,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -696,21 +331,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:technology:arXiv CS",
-      "domain": "technology",
-      "source": "arXiv CS",
-      "sourceIndex": 1,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:technology:CISA KEV",
@@ -722,6 +345,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -735,6 +359,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -748,6 +373,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -761,6 +387,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -774,6 +401,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -783,12 +411,13 @@
       "source": "Fed Reg FCC",
       "sourceIndex": 7,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:technology:Fed Reg NIST",
@@ -796,12 +425,13 @@
       "source": "Fed Reg NIST",
       "sourceIndex": 8,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:technology:Fed Reg FTC",
@@ -813,8 +443,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:research:PubMed",
@@ -826,34 +457,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:research:arXiv All",
-      "domain": "research",
-      "source": "arXiv All",
-      "sourceIndex": 1,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:research:NSF Awards",
-      "domain": "research",
-      "source": "NSF Awards",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:research:Retraction Watch",
@@ -865,45 +471,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:research:NIH Grants",
-      "domain": "research",
-      "source": "NIH Grants",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:research:Nature / Science Press",
-      "domain": "research",
-      "source": "Nature / Science Press",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:research:arXiv CS",
-      "domain": "research",
-      "source": "arXiv CS",
-      "sourceIndex": 6,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -917,6 +485,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -930,8 +499,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:research:Fed Reg NSF",
@@ -939,12 +509,13 @@
       "source": "Fed Reg NSF",
       "sourceIndex": 9,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:research:Fed Reg Education",
@@ -952,12 +523,13 @@
       "source": "Fed Reg Education",
       "sourceIndex": 10,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:research:Fed Reg NASA",
@@ -969,6 +541,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -982,6 +555,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -995,47 +569,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:research:World Bank R&D",
-      "domain": "research",
-      "source": "World Bank R&D",
-      "sourceIndex": 14,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:supplyChain:BLS Freight PPI",
-      "domain": "supplyChain",
-      "source": "BLS Freight PPI",
-      "sourceIndex": 0,
-      "kind": "numeric-upstream-identity-missing",
-      "live": false,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:supplyChain:RSS Supply Chain",
-      "domain": "supplyChain",
-      "source": "RSS Supply Chain",
-      "sourceIndex": 1,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:supplyChain:NOAA NWS Alerts",
@@ -1047,6 +583,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1060,6 +597,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1073,6 +611,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1082,12 +621,13 @@
       "source": "Fed Reg CBP",
       "sourceIndex": 6,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:supplyChain:Fed Reg Coast Guard",
@@ -1095,12 +635,13 @@
       "source": "Fed Reg Coast Guard",
       "sourceIndex": 7,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:supplyChain:Fed Reg FAA",
@@ -1108,12 +649,13 @@
       "source": "Fed Reg FAA",
       "sourceIndex": 8,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:supplyChain:Fed Reg NHTSA",
@@ -1121,12 +663,13 @@
       "source": "Fed Reg NHTSA",
       "sourceIndex": 9,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:supplyChain:Fed Reg FMCSA",
@@ -1134,12 +677,13 @@
       "source": "Fed Reg FMCSA",
       "sourceIndex": 10,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:supplyChain:Fed Reg USTR",
@@ -1147,12 +691,13 @@
       "source": "Fed Reg USTR",
       "sourceIndex": 11,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:supplyChain:OFAC Recent Actions",
@@ -1164,6 +709,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1177,8 +723,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:governance:World Bank Gov Effectiveness",
@@ -1190,8 +737,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:governance:World Bank Rule of Law",
@@ -1203,8 +751,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:governance:GovTrack",
@@ -1216,6 +765,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1229,6 +779,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1242,6 +793,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1255,47 +807,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:governance:OMB Releases",
-      "domain": "governance",
-      "source": "OMB Releases",
-      "sourceIndex": 7,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:governance:Brennan Center",
-      "domain": "governance",
-      "source": "Brennan Center",
-      "sourceIndex": 8,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:governance:POGO",
-      "domain": "governance",
-      "source": "POGO",
-      "sourceIndex": 9,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:governance:Fed Reg EOP",
@@ -1307,6 +821,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1320,71 +835,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:infrastructure:FRED Construction Spending",
-      "domain": "infrastructure",
-      "source": "FRED Construction Spending",
-      "sourceIndex": 0,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:infrastructure:FRED Transportation Index",
-      "domain": "infrastructure",
-      "source": "FRED Transportation Index",
-      "sourceIndex": 1,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:infrastructure:PHMSA Incidents",
-      "domain": "infrastructure",
-      "source": "PHMSA Incidents",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:infrastructure:FRED Federal Investment",
-      "domain": "infrastructure",
-      "source": "FRED Federal Investment",
-      "sourceIndex": 3,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:infrastructure:World Bank Infrastructure",
-      "domain": "infrastructure",
-      "source": "World Bank Infrastructure",
-      "sourceIndex": 5,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1398,6 +849,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1411,6 +863,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1424,6 +877,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1437,21 +891,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:infrastructure:UAW Strike Tracker",
-      "domain": "infrastructure",
-      "source": "UAW Strike Tracker",
-      "sourceIndex": 10,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:infrastructure:Fed Reg OSHA",
@@ -1459,10 +901,11 @@
       "source": "Fed Reg OSHA",
       "sourceIndex": 11,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1472,10 +915,11 @@
       "source": "Fed Reg DOL",
       "sourceIndex": 12,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1485,10 +929,11 @@
       "source": "Fed Reg FERC",
       "sourceIndex": 13,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1498,10 +943,11 @@
       "source": "Fed Reg DHS",
       "sourceIndex": 14,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1511,10 +957,11 @@
       "source": "Fed Reg DOT",
       "sourceIndex": 15,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1524,10 +971,11 @@
       "source": "Fed Reg HUD",
       "sourceIndex": 16,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1537,10 +985,11 @@
       "source": "Fed Reg Army Corps",
       "sourceIndex": 17,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1554,21 +1003,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:agriculture:RSS Agriculture",
-      "domain": "agriculture",
-      "source": "RSS Agriculture",
-      "sourceIndex": 1,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:agriculture:FAO FAOSTAT",
@@ -1580,8 +1017,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:agriculture:USDA Drought Monitor",
@@ -1593,6 +1031,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1606,6 +1045,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1619,6 +1059,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1632,6 +1073,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1645,6 +1087,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1658,6 +1101,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1671,6 +1115,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1684,6 +1129,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1697,19 +1143,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:agriculture:World Bank Food Index",
-      "domain": "agriculture",
-      "source": "World Bank Food Index",
-      "sourceIndex": 12,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1719,25 +1153,13 @@
       "source": "BLS Manufacturing PPI",
       "sourceIndex": 0,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:industry:NHTSA Recalls",
-      "domain": "industry",
-      "source": "NHTSA Recalls",
-      "sourceIndex": 1,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:industry:World Bank Manufacturing",
@@ -1749,60 +1171,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:industry:CPSC Recalls",
-      "domain": "industry",
-      "source": "CPSC Recalls",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:industry:PHMSA Incidents",
-      "domain": "industry",
-      "source": "PHMSA Incidents",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:industry:CSB Investigations",
-      "domain": "industry",
-      "source": "CSB Investigations",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:industry:UAW Strike Tracker",
-      "domain": "industry",
-      "source": "UAW Strike Tracker",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:industry:Fed Reg OSHA",
@@ -1810,10 +1181,11 @@
       "source": "Fed Reg OSHA",
       "sourceIndex": 7,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1823,10 +1195,11 @@
       "source": "Fed Reg MSHA",
       "sourceIndex": 8,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1836,10 +1209,11 @@
       "source": "Fed Reg BIS",
       "sourceIndex": 9,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1849,10 +1223,11 @@
       "source": "Fed Reg DOL",
       "sourceIndex": 10,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -1866,73 +1241,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:education:ED.gov News",
-      "domain": "education",
-      "source": "ED.gov News",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:education:NCES News",
-      "domain": "education",
-      "source": "NCES News",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:education:EdWeek News",
-      "domain": "education",
-      "source": "EdWeek News",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:education:IES News",
-      "domain": "education",
-      "source": "IES News",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:education:Chronicle of Higher Ed",
-      "domain": "education",
-      "source": "Chronicle of Higher Ed",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:education:Fed Reg Education",
@@ -1940,12 +1251,13 @@
       "source": "Fed Reg Education",
       "sourceIndex": 7,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:education:Fed Reg NSF",
@@ -1953,25 +1265,13 @@
       "source": "Fed Reg NSF",
       "sourceIndex": 8,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:education:World Bank Tertiary",
-      "domain": "education",
-      "source": "World Bank Tertiary",
-      "sourceIndex": 9,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:communication:BBC World News",
@@ -1983,34 +1283,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:communication:RSS Media",
-      "domain": "communication",
-      "source": "RSS Media",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:communication:Reporters Without Borders",
-      "domain": "communication",
-      "source": "Reporters Without Borders",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:communication:CPJ Press Freedom",
@@ -2022,6 +1297,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2035,6 +1311,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2048,6 +1325,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2061,6 +1339,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2070,12 +1349,13 @@
       "source": "Fed Reg FCC",
       "sourceIndex": 8,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:communication:Fed Reg FTC",
@@ -2087,8 +1367,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:communication:CISA Advisories",
@@ -2100,6 +1381,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2113,203 +1395,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:RSS Culture",
-      "domain": "culture",
-      "source": "RSS Culture",
-      "sourceIndex": 1,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:NEA News",
-      "domain": "culture",
-      "source": "NEA News",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:NEH News",
-      "domain": "culture",
-      "source": "NEH News",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:UNESCO Culture",
-      "domain": "culture",
-      "source": "UNESCO Culture",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:PEN America",
-      "domain": "culture",
-      "source": "PEN America",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Art Newspaper",
-      "domain": "culture",
-      "source": "Art Newspaper",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Variety Entertainment",
-      "domain": "culture",
-      "source": "Variety Entertainment",
-      "sourceIndex": 7,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Hypebeast Trends",
-      "domain": "culture",
-      "source": "Hypebeast Trends",
-      "sourceIndex": 8,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Pitchfork Music",
-      "domain": "culture",
-      "source": "Pitchfork Music",
-      "sourceIndex": 9,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Spotify Streaming Charts",
-      "domain": "culture",
-      "source": "Spotify Streaming Charts",
-      "sourceIndex": 10,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Billboard Charts",
-      "domain": "culture",
-      "source": "Billboard Charts",
-      "sourceIndex": 11,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Genius Commentary",
-      "domain": "culture",
-      "source": "Genius Commentary",
-      "sourceIndex": 12,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Songkick Tours",
-      "domain": "culture",
-      "source": "Songkick Tours",
-      "sourceIndex": 13,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:SoundCloud Emerging",
-      "domain": "culture",
-      "source": "SoundCloud Emerging",
-      "sourceIndex": 14,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:culture:Music Scene Discourse",
-      "domain": "culture",
-      "source": "Music Scene Discourse",
-      "sourceIndex": 15,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:defense:Defense News",
@@ -2321,6 +1409,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2334,47 +1423,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:defense:ISW Daily Updates",
-      "domain": "defense",
-      "source": "ISW Daily Updates",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:defense:NATO News",
-      "domain": "defense",
-      "source": "NATO News",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:defense:SIPRI Arms Trade",
-      "domain": "defense",
-      "source": "SIPRI Arms Trade",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:defense:TASS (Russia)",
@@ -2386,6 +1437,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2399,6 +1451,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2412,6 +1465,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2425,6 +1479,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2434,10 +1489,11 @@
       "source": "Fed Reg DHS",
       "sourceIndex": 9,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2451,6 +1507,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2464,6 +1521,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2477,6 +1535,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2490,6 +1549,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2503,203 +1563,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:RSS Religion Events",
-      "domain": "religion",
-      "source": "RSS Religion Events",
-      "sourceIndex": 0,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:RSS Religion News",
-      "domain": "religion",
-      "source": "RSS Religion News",
-      "sourceIndex": 1,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Vatican News",
-      "domain": "religion",
-      "source": "Vatican News",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Al Jazeera Religion",
-      "domain": "religion",
-      "source": "Al Jazeera Religion",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Christianity Today",
-      "domain": "religion",
-      "source": "Christianity Today",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Religion News Service",
-      "domain": "religion",
-      "source": "Religion News Service",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:USCIRF",
-      "domain": "religion",
-      "source": "USCIRF",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Pew Religion",
-      "domain": "religion",
-      "source": "Pew Religion",
-      "sourceIndex": 7,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Times of Israel Religion",
-      "domain": "religion",
-      "source": "Times of Israel Religion",
-      "sourceIndex": 8,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Hindustan Times Religion",
-      "domain": "religion",
-      "source": "Hindustan Times Religion",
-      "sourceIndex": 9,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:BuddhistDoor Global",
-      "domain": "religion",
-      "source": "BuddhistDoor Global",
-      "sourceIndex": 10,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:SikhNet News",
-      "domain": "religion",
-      "source": "SikhNet News",
-      "sourceIndex": 11,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Orthodox Christianity",
-      "domain": "religion",
-      "source": "Orthodox Christianity",
-      "sourceIndex": 12,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:JTA Jewish News",
-      "domain": "religion",
-      "source": "JTA Jewish News",
-      "sourceIndex": 13,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:religion:Esoteric Spirituality",
-      "domain": "religion",
-      "source": "Esoteric Spirituality",
-      "sourceIndex": 14,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:population:UN Population",
@@ -2711,151 +1577,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:UNFPA",
-      "domain": "population",
-      "source": "UNFPA",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:CDC NCHS",
-      "domain": "population",
-      "source": "CDC NCHS",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:WHO GHO",
-      "domain": "population",
-      "source": "WHO GHO",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:UNHCR Displacement",
-      "domain": "population",
-      "source": "UNHCR Displacement",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:IOM Migration",
-      "domain": "population",
-      "source": "IOM Migration",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:IHME Population Health",
-      "domain": "population",
-      "source": "IHME Population Health",
-      "sourceIndex": 7,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:Guttmacher Institute",
-      "domain": "population",
-      "source": "Guttmacher Institute",
-      "sourceIndex": 8,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:Census Bureau",
-      "domain": "population",
-      "source": "Census Bureau",
-      "sourceIndex": 9,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:Our World in Data Pop",
-      "domain": "population",
-      "source": "Our World in Data Pop",
-      "sourceIndex": 10,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:Population Matters",
-      "domain": "population",
-      "source": "Population Matters",
-      "sourceIndex": 11,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:population:World Bank Fertility",
-      "domain": "population",
-      "source": "World Bank Fertility",
-      "sourceIndex": 12,
-      "kind": "numeric-upstream-identity-missing",
-      "live": true,
-      "headlineCount": 0,
-      "itemPublicationDatesPresent": false,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:population:Fed Reg Census",
@@ -2867,8 +1591,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:population:Fed Reg SSA",
@@ -2876,10 +1601,11 @@
       "source": "Fed Reg SSA",
       "sourceIndex": 14,
       "kind": "numeric-upstream-identity-missing",
-      "live": false,
+      "live": true,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2893,6 +1619,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -2906,47 +1633,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:law:CourtListener",
-      "domain": "law",
-      "source": "CourtListener",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:law:PACER Docket Activity",
-      "domain": "law",
-      "source": "PACER Docket Activity",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:law:DOJ Press Releases",
-      "domain": "law",
-      "source": "DOJ Press Releases",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:law:SEC Enforcement Actions",
@@ -2958,21 +1647,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:law:CFPB Enforcement",
-      "domain": "law",
-      "source": "CFPB Enforcement",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:law:U.S. Courts Federal Caseload",
@@ -2984,21 +1661,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:law:HHS AFCARS Family Court",
-      "domain": "law",
-      "source": "HHS AFCARS Family Court",
-      "sourceIndex": 8,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:law:Supreme Court Opinions",
@@ -3010,6 +1675,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3019,12 +1685,13 @@
       "source": "Fed Reg DOJ",
       "sourceIndex": 10,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:law:Fed Reg DEA",
@@ -3032,12 +1699,13 @@
       "source": "Fed Reg DEA",
       "sourceIndex": 11,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:law:Fed Reg BOP",
@@ -3045,12 +1713,13 @@
       "source": "Fed Reg BOP",
       "sourceIndex": 12,
       "kind": "numeric-upstream-identity-missing",
-      "live": true,
+      "live": false,
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
+      "availability": "no-reading",
+      "status": "blocked-source-unavailable",
+      "requiredAction": "Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:law:OFAC Recent Actions",
@@ -3062,6 +1731,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3075,6 +1745,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3088,6 +1759,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3101,6 +1773,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3114,6 +1787,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3127,6 +1801,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3140,6 +1815,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3153,6 +1829,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3166,6 +1843,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3179,6 +1857,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3192,21 +1871,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:RSS Intel Signals",
-      "domain": "intelligence",
-      "source": "RSS Intel Signals",
-      "sourceIndex": 0,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:intelligence:CISA Advisories",
@@ -3218,112 +1885,9 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:NSA Cybersecurity Advisories",
-      "domain": "intelligence",
-      "source": "NSA Cybersecurity Advisories",
-      "sourceIndex": 2,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:FBI Cyber Division",
-      "domain": "intelligence",
-      "source": "FBI Cyber Division",
-      "sourceIndex": 3,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:DNI Annual Threat",
-      "domain": "intelligence",
-      "source": "DNI Annual Threat",
-      "sourceIndex": 4,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:CyberScoop News",
-      "domain": "intelligence",
-      "source": "CyberScoop News",
-      "sourceIndex": 5,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:The Record",
-      "domain": "intelligence",
-      "source": "The Record",
-      "sourceIndex": 6,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:Lawfare NatSec",
-      "domain": "intelligence",
-      "source": "Lawfare NatSec",
-      "sourceIndex": 7,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:Bellingcat OSINT",
-      "domain": "intelligence",
-      "source": "Bellingcat OSINT",
-      "sourceIndex": 8,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
-    },
-    {
-      "id": "SOURCE_IDENTITY_GAP:intelligence:The Intercept NatSec",
-      "domain": "intelligence",
-      "source": "The Intercept NatSec",
-      "sourceIndex": 9,
-      "kind": "headline-item-identity-only",
-      "live": true,
-      "headlineCount": 5,
-      "itemPublicationDatesPresent": true,
-      "sourceUpdatedAt": null,
-      "status": "open",
-      "requiredAction": "Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule."
     },
     {
       "id": "SOURCE_IDENTITY_GAP:intelligence:CISA KEV",
@@ -3335,6 +1899,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3348,6 +1913,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3361,6 +1927,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3374,6 +1941,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     },
@@ -3387,6 +1955,7 @@
       "headlineCount": 0,
       "itemPublicationDatesPresent": false,
       "sourceUpdatedAt": null,
+      "availability": "reading-present",
       "status": "open",
       "requiredAction": "Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity."
     }

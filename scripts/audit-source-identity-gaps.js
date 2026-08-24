@@ -15,6 +15,7 @@
  *
  * Usage:
  *   node scripts/audit-source-identity-gaps.js --input=snapshot.json --source-label=/api/domain-snapshot --write-queue
+ *   curl ... | node scripts/audit-source-identity-gaps.js --stdin --source-label=/api/domain-snapshot
  */
 
 var fs = require('fs');
@@ -22,13 +23,18 @@ var path = require('path');
 
 var inputArg = process.argv.find(function (a) { return a.indexOf('--input=') === 0; });
 var inputPath = inputArg ? inputArg.slice('--input='.length) : null;
+var readStdin = process.argv.indexOf('--stdin') !== -1;
 var sourceArg = process.argv.find(function (a) { return a.indexOf('--source-label=') === 0; });
 var sourceLabel = sourceArg ? sourceArg.slice('--source-label='.length) : null;
 var writeQueue = process.argv.indexOf('--write-queue') !== -1;
 var DEFAULT_QUEUE = path.resolve(__dirname, '../assets/data/deep/source-identity-gap-queue.json');
 
 function loadSnapshot() {
-  if (!inputPath) throw new Error('--input=snapshot.json is required for this read-only audit');
+  if (readStdin) {
+    var stdinRaw = fs.readFileSync(0, 'utf8').replace(/^\uFEFF/, '');
+    return { file: '<stdin>', value: JSON.parse(stdinRaw) };
+  }
+  if (!inputPath) throw new Error('--input=snapshot.json or --stdin is required for this read-only audit');
   var file = path.resolve(inputPath);
   var raw = fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '');
   return { file: file, value: JSON.parse(raw) };
@@ -50,6 +56,8 @@ function sourceList(snapshot) {
       var published = Array.isArray(source.headlinePublishedAt) &&
         source.headlinePublishedAt.some(function (v) { return v !== null && v !== undefined && v !== ''; });
       var kind = headlines ? 'headline-item-identity-only' : 'numeric-upstream-identity-missing';
+      var hasValue = source.value !== null && source.value !== undefined;
+      var unavailable = !hasValue;
       out.push({
         id: 'SOURCE_IDENTITY_GAP:' + domain + ':' + (source.name || index),
         domain: domain,
@@ -60,8 +68,11 @@ function sourceList(snapshot) {
         headlineCount: headlines ? source.headlines.length : 0,
         itemPublicationDatesPresent: published,
         sourceUpdatedAt: null,
-        status: 'open',
-        requiredAction: headlines
+        availability: unavailable ? 'no-reading' : 'reading-present',
+        status: unavailable ? 'blocked-source-unavailable' : 'open',
+        requiredAction: unavailable
+          ? 'Resolve the upstream fetch/provider failure first; this row has no reading, so it is not yet an identity defect. Do not infer a value or timestamp.'
+          : headlines
           ? 'Review an aggregate observation-identity contract. Item publication times and title-set hashes remain observational evidence; do not promote either to sourceUpdatedAt without a reviewed rule.'
           : 'Trace the adapter to the publisher response. Expose a source-supplied observation key with units/semantics, or record an explicit abstention. Never use fetchedAt/updated or a fallback constant as identity.'
       });
@@ -70,31 +81,42 @@ function sourceList(snapshot) {
   return out;
 }
 
-var loaded;
-try { loaded = loadSnapshot(); }
-catch (e) { console.error('source-identity audit failed: ' + e.message); process.exit(1); }
+function main() {
+  var loaded;
+  try { loaded = loadSnapshot(); }
+  catch (e) { console.error('source-identity audit failed: ' + e.message); process.exit(1); }
 
-var tasks = sourceList(loaded.value);
-var byKind = tasks.reduce(function (acc, task) {
-  acc[task.kind] = (acc[task.kind] || 0) + 1;
-  return acc;
-}, {});
-var result = {
-  generatedAt: new Date().toISOString(),
-  readOnlyAudit: true,
-  source: sourceLabel || loaded.file,
-  snapshotId: loaded.value && loaded.value.meta ? loaded.value.meta.snapshotId || null : null,
-  note: 'Open identity tasks only. No timestamp is derived, and no task creates stress, diagnosis, pathway, or activation.',
-  totalTasks: tasks.length,
-  byKind: byKind,
-  tasks: tasks
-};
+  var tasks = sourceList(loaded.value);
+  var byKind = tasks.reduce(function (acc, task) {
+    acc[task.kind] = (acc[task.kind] || 0) + 1;
+    return acc;
+  }, {});
+  var byStatus = tasks.reduce(function (acc, task) {
+    acc[task.status] = (acc[task.status] || 0) + 1;
+    return acc;
+  }, {});
+  var result = {
+    generatedAt: new Date().toISOString(),
+    readOnlyAudit: true,
+    source: sourceLabel || loaded.file,
+    snapshotId: loaded.value && loaded.value.meta ? loaded.value.meta.snapshotId || null : null,
+    note: 'Open identity tasks only. No timestamp is derived, and no task creates stress, diagnosis, pathway, or activation.',
+    totalTasks: tasks.length,
+    byKind: byKind,
+    byStatus: byStatus,
+    tasks: tasks
+  };
 
-if (writeQueue) fs.writeFileSync(DEFAULT_QUEUE, JSON.stringify(result, null, 2) + '\n');
-console.log(JSON.stringify({
-  readOnly: true,
-  snapshotId: result.snapshotId,
-  totalTasks: result.totalTasks,
-  byKind: result.byKind,
-  queue: writeQueue ? DEFAULT_QUEUE : null
-}, null, 2));
+  if (writeQueue) fs.writeFileSync(DEFAULT_QUEUE, JSON.stringify(result, null, 2) + '\n');
+  console.log(JSON.stringify({
+    readOnly: true,
+    snapshotId: result.snapshotId,
+    totalTasks: result.totalTasks,
+    byKind: result.byKind,
+    byStatus: result.byStatus,
+    queue: writeQueue ? DEFAULT_QUEUE : null
+  }, null, 2));
+}
+
+if (require.main === module) main();
+module.exports = { sourceList: sourceList };
