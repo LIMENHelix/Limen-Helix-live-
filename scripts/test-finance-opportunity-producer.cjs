@@ -51,6 +51,7 @@ assert.equal(replayCandidate.portalTicker, 'EX');
 assert.equal(replayCandidate.paperOnly, true);
 
 const replay = Replay.summarize({
+  now: '2026-08-24T16:04:00Z',
   snapshot: { domains: { finance: { sources: [{ name: 'Official feed' }, { name: 'Market feed' }] } } },
   brainShadow: { cycles: { finance: { domain: 'finance', ok: true,
     domainFunction: { evidence: { l3CurrentEvidenceComplete: true, outwardConnected: true } } } } },

@@ -94,6 +94,7 @@ const replayCandidate = Producer.toReplayCandidate(released);
 assert.equal(replayCandidate.paperOnly, true);
 
 const replay = Replay.summarize({
+  now: '2026-08-24T16:04:00Z',
   snapshot: { domains: { finance: { sources: [{ name: 'Official Finance Feed' }] } } },
   brainShadow: { cycles: { finance: financeCycle } },
   handoff: { packets: [{ domainId: 'finance', sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:01:00Z',
