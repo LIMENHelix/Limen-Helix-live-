@@ -1759,3 +1759,24 @@ read-only assembler that joins exact CIK/ticker identity, per-company market
 quotes, source-preserved titles, network evidence, and the authorized Finance
 cycle record. Until all of those are present for a company, that company stays
 abstained and the manager cannot run.
+
+### Finance source-universe adapter — implemented 2026-08-24
+
+The next input boundary is now implemented as pure adapters in
+`lib/finance-source-universe.js` and `lib/finance-preview-readiness.js`.
+They select only identities evidenced by persisted title records, extract a
+CIK from a source record URL, require that CIK to resolve to one unambiguous
+company identity, require a quote whose symbol exactly matches that company,
+and join network evidence by exact slug. Missing Finance cycle evidence,
+missing packets, stale or absent network rows, CIK collisions, unmapped title
+identities, and aggregate-market substitution remain explicit abstentions.
+
+The adapters do not rank the input companies, calculate a score, infer stress,
+call the manager provider, write Redis, release a candidate, or contact a
+broker. `scripts/test-finance-source-universe.cjs` passes `17/17` and
+`scripts/test-finance-preview-readiness.cjs` passes `18/18`. A route was
+deliberately not added: `brain-v2/test/shadow-runtime.js` enforces the
+existing single-consumer boundary for shadow cycle state, and introducing a
+second HTTP reader would require a separate reviewed architecture change.
+The remaining gate is therefore the operator-authorized Preview call after a
+complete per-company input bundle exists.
