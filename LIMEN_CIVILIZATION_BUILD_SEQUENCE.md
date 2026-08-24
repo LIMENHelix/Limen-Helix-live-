@@ -2130,3 +2130,21 @@ server packet. Only after that bundle is assembled should an operator choose
 whether to authorize one bounded Preview-only manager provider call. No
 provider, Redis, paper-release, or broker operation was performed by this
 measurement.
+
+### Finance packet/replay boundary — merged and post-merge check 2026-08-24
+
+PR #150 merged as `e876ff43`. The merge contains the stress-independent packet
+capture regression, the unified source-grounded paper producer/replay path,
+and the refusal that prevents a legacy master-inbox record from supplying a
+Finance ticker or quote target. The exact-head checks were green and the full
+repository suite on the merged feature state completed with `146 passed, 1
+skipped, 0 failed`.
+
+Post-merge public probes returned HTTP `200` for the site root and the
+20-domain snapshot; unauthenticated `/api/brain-shadow` returned the expected
+`401`. The public Finance preview audit found title, identity, quote, and
+network inputs but correctly abstained because the protected Finance cycle,
+server packet, and homology context are not public. A read-only authenticated
+retry using the local `.env.local` token also returned `401`, so the deployed
+protected packet/replay state remains unverified until the Production token is
+refreshed. No provider, Redis write, paper release, or broker action was made.
