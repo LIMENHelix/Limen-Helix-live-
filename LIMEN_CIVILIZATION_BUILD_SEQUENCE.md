@@ -1625,3 +1625,20 @@ semantic observation, market quote, and fresh network row; the replay returns
 producer/replay test is `31/31`. This proves the local handoff contract only;
 the deployed Finance packet still has no released opportunity and therefore
 continues to abstain.
+
+### Finance manager prompt boundary — prepared 2026-08-24
+
+`lib/finance-manager-prompt.js` now defines the provider-facing shape without
+making a provider call. It builds a bounded `finance-manager-request/1.0` from
+an already-ready manager context and requires a single JSON response in the
+`finance-manager-proposal/1.0` shape. The instructions explicitly keep the
+lane in `sandbox-paper`, require source-linked semantic/market/network evidence
+and an unassessed independence status, and prohibit order fields and direct
+stress/headline authorization. The parser refuses prose, malformed JSON,
+missing invalidation or scenarios, non-paper mode, asserted independence, and
+live-execution fields.
+
+The prompt contract is not an AI call and does not enable billing. Its focused
+test passes `14/14`. The next external step is a Preview-only manager call with
+`LIMEN_AI_ENABLED=1`; until that operator-controlled switch is enabled, the
+production manager remains correctly abstained and no proposal is generated.
