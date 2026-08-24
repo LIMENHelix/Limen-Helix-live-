@@ -1904,6 +1904,16 @@ provider call, using the explicit operator AI switch and a bounded token
 budget. Until that authorization is exercised, the two candidates remain
 eligible for manager review only and no paper candidate or order exists.
 
+### Finance packet versus Finance opportunity — contract correction 2026-08-24
+
+Finance packet generation is an observation step and is not gated on Finance
+stress, an active diagnosis, or the presence of an opportunity. A healthy cycle
+must preserve its cycle identity, feed health, market/network observations, and
+bounded semantic evidence even when `stressScore` is `null`/low and
+`truth.opportunities` is empty. The later source-grounded manager/release may
+abstain, but that abstention must not discard the packet. The producer
+regression test covers this exact low-stress/no-opportunity case.
+
 ### Cross-domain company / HELIX topology inventory — measured 2026-08-24
 
 The company portal is not Finance-specific. A read-only repository inventory

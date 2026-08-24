@@ -43,7 +43,24 @@ ok('carries optional source-preserving semantic evidence', function () {
   assert.equal(withEvidence.truth.semanticEvidence.length, 1);
   assert.equal(withEvidence.truth.semanticEvidenceMeta.status, 'OBSERVED');
 });
+ok('Finance packet generation is independent of stress and opportunity release', function () {
+  var financeState = Object.assign({}, state, {
+    label: 'Finance',
+    stress: null,
+    diagnoses: [],
+    opportunities: []
+  });
+  var financePacket = packet.fromBrainState('finance', financeState, meta, 'refresh-finance-low-stress', '2026-08-24T02:00:00Z', {
+    semanticEvidence: [{ sourceIdentity: { kind: 'headline-title', value: 'finance:filing:1' }, title: 'Observed filing' }],
+    semanticEvidenceMeta: { status: 'OBSERVED', truncated: false }
+  });
+  assert.equal(financePacket.domainId, 'finance');
+  assert.equal(financePacket.truth.stressScore, null);
+  assert.deepEqual(financePacket.truth.opportunities, []);
+  assert.equal(financePacket.truth.semanticEvidence.length, 1);
+  assert.equal(financePacket.truth.semanticEvidenceMeta.status, 'OBSERVED');
+});
 rejects('abstains without snapshot identity', function () { packet.fromBrainState('science', state, {}, 'refresh-1', '2026-08-24T02:00:00Z'); }, 'REQUIRED_SNAPSHOTMETA.SNAPSHOTID');
 rejects('abstains without cognition cycle', function () { packet.fromBrainState('science', Object.assign({}, state, { cognition: {} }), meta, 'refresh-1', '2026-08-24T02:00:00Z'); }, 'CYCLE_ID_REQUIRED');
 rejects('abstains without refresh identity', function () { packet.fromBrainState('science', state, meta, '', '2026-08-24T02:00:00Z'); }, 'REQUIRED_REFRESHID');
-console.log(passed + '/7 passed');
+console.log(passed + '/8 passed');
