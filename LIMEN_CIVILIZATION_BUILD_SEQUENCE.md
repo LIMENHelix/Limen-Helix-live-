@@ -2020,3 +2020,23 @@ preserved, but the legacy master artifact scorer still does not consume it.
 The next dependency is to make the manager read this context and abstain when
 the context needed for a lane is absent, without turning it into automatic
 authorization.
+
+### Homology source map and authority boundary — recorded 2026-08-24
+
+The direct neural-to-business design map is
+`LIMEN_Helix_Neuro_Business_CrossRef.html`, with its machine-readable subset
+in `assets/data/neuro-business-crossref.json`. The neural substrate reference
+is `LIMEN_Helix_Neurology_Reference.html`; the large running research library
+is `NEURO_LEARNING_REFERENCE.md`. P0-P10 recursion semantics are in
+`scripts/kernel-validation/LIMEN_RECURSION_ARC.md` and
+`scripts/kernel-validation/LIMEN_FOUR_LAYER.md`; the implementation ledger is
+`brain-v2/HOMOLOGY_LEDGER.md`.
+
+These sources are not interchangeable. The cross-reference distinguishes
+structural, partial, cosmetic, and missing mappings. The recursion arc states
+that P0-P10 is a developmental/generative state map, not a distress-severity
+scale; distress is being stuck or failing a transition. `DOCUMENT_AUTHORITY.md`
+also classifies the large scientific library as mixed source material and
+engineering hypothesis, not blanket owner-approved authority. The handoff must
+therefore preserve source provenance and claim class instead of treating any
+neural analogy as a business fact.
