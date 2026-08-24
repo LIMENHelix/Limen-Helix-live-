@@ -215,6 +215,15 @@ async function recordEvent(body) {
   const commandIntent = command && command.intent || {};
   const outcomeData = body.outcomeData && typeof body.outcomeData === 'object'
     ? JSON.parse(JSON.stringify(body.outcomeData)) : null;
+  // Autonomous observers retry on a cron cadence. A source observation id is
+  // the idempotency key; do not append the same receipt or teach it twice.
+  if (HAS_REDIS && body.observationId) {
+    const prior = await redisLRange('limen:outcome_events:' + outputId, 0, LOG_MAX - 1);
+    const duplicate = prior.find(function (item) {
+      return item && item.observationId === String(body.observationId);
+    });
+    if (duplicate) return { ok: true, status: 200, duplicate: true, event: duplicate, storage: 'redis' };
+  }
   if (commandId && outcomeData) {
     if (outcomeData.executionMode !== 'paper') {
       return { ok: false, status: 400, error: 'tradier-command-outcome-must-be-paper' };
@@ -225,8 +234,19 @@ async function recordEvent(body) {
     outcomeData.brokerOrderId = String(command.receipt.orderId);
   }
   const now = Date.now();
+  const observedMs = body.observedAt && Number.isFinite(Date.parse(String(body.observedAt)))
+    ? Date.parse(String(body.observedAt)) : null;
   const event = {
-    eventId: 'evt_' + hash({ outputId: outputId, commandId: commandId, type: body.eventType, ts: now }),
+    // Observer retries use observationId to get a stable identity. Legacy
+    // manual posts retain their time-based identity because they have no
+    // source observation identity.
+    eventId: 'evt_' + hash({
+      outputId: outputId,
+      commandId: commandId,
+      type: body.eventType,
+      observationId: body.observationId || null,
+      ts: body.observationId ? (body.observedAt || null) : now
+    }),
     outputId: outputId,
     commandId: commandId,
     eventType: body.eventType,
@@ -234,8 +254,10 @@ async function recordEvent(body) {
     notes: body.notes || null,
     amount: typeof body.amount === 'number' ? body.amount : null,
     externalRefId: body.externalRefId || null,
-    ts: now,
-    tsISO: new Date(now).toISOString(),
+    ts: observedMs === null ? now : observedMs,
+    tsISO: new Date(observedMs === null ? now : observedMs).toISOString(),
+    observationId: body.observationId || null,
+    observedAt: body.observedAt || null,
     lane: buckets.lane,
     domain: buckets.domain,
     cik: buckets.cik,
@@ -523,4 +545,30 @@ module.exports = async function handler(req, res) {
     res.setHeader('content-type', 'application/json');
     return res.end(JSON.stringify({ ok: false, error: 'internal', detail: String(err && err.message || err) }));
   }
+};
+
+// Internal cron observers use the same durable event and learning path as the
+// authenticated endpoint. This is intentionally not reachable through HTTP;
+// the handler remains the only public boundary.
+module.exports.recordAutonomousOutcome = async function recordAutonomousOutcome(event) {
+  if (!event || typeof event !== 'object') return { ok: false, status: 400, error: 'event-not-object' };
+  const body = {
+    outputId: event.outputId,
+    actionId: event.actionId,
+    eventType: event.eventType,
+    lane: event.lane,
+    ownerDomain: event.ownerDomain,
+    observationId: event.observationId,
+    observedAt: event.observedAt,
+    outcomeData: event.outcomeData,
+    sourceIdentity: event.sourceIdentity
+  };
+  const result = await recordEvent(body);
+  if (result.ok && result.event && LEARNING_EVENT_TYPES.has(result.event.eventType)) {
+    result.learning = await autofireLearning.recordOutcome(efferenceStore, result.event);
+    result.learningAccepted = result.learning.ok === true || result.learning.queuedForRetry === true;
+    if (!result.learningAccepted) result.status = 503;
+    else if (!result.learning.ok) result.status = 202;
+  }
+  return result;
 };

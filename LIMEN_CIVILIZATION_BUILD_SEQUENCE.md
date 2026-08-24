@@ -749,7 +749,7 @@ consumption is now wired, but its world-outcome gate remains open.
 production source tree without treating tests or UI options as autonomous
 producers. The report is saved at
 `assets/data/deep/autofire-outcome-path-audit.json` and its regression check is
-`scripts/test-autofire-outcome-path.cjs` (9/9).
+`scripts/test-autofire-outcome-path.cjs` (13/13).
 
 The command side is present: `handlers/limen-worker-autofire.js` can create an
 efference command, and the Tradier B14 bridge can create/reconcile a sandbox
@@ -773,12 +773,30 @@ research-evaluation grading contracts. The synthetic sandbox outcome stream is
 kept separate and is not world evidence.
 
 Therefore B11/B14 is not closed: a command can be persisted and resolved, but
-no autonomous, independently grounded research or investment receipt currently
-returns to the learner. The next implementation must add read-only/sandbox
-observers for those two receipt classes, with source identity, observation time,
-terms, and persistence failure handling. It must not manufacture an outcome
-from a command receipt, article count, sentiment, or the originating domain
-observation.
+no autonomous, independently grounded research evaluation or investment receipt
+currently returns to the learner. The next implementation must add read-only /
+sandbox observers for those two receipt classes, with source identity,
+observation time, terms, and persistence failure handling. It must not
+manufacture an outcome from a command receipt, article count, sentiment, or the
+originating domain observation.
+
+### Job 5 subtask — owned-site publication observer — measured 2026-08-24
+
+`handlers/limen-outcome-observer.js` now runs hourly at
+`/api/limen-outcome-observer`. It reads the durable owned-journal list, admits
+only persisted `research` articles carrying `outputId` and `actionId`, and
+builds the versioned `OUTCOME_RESEARCH_PUBLISHED` contract event with a stable
+observation identity and content hash. The event is recorded through the same
+durable outcome and learning path as authenticated operator events. Redis is a
+hard prerequisite; a memory-backed source returns an explicit 503 rather than
+claiming a receipt.
+
+Publication remains an observation, not progress: the event is intentionally
+ungraded until an independent evaluation establishes the four required
+research mappings and evidence independence. `scripts/test-autofire-outcome-
+observer.js` passes 17/17 and the handler wiring test passes 9/9. The observer
+does not create `OUTCOME_RESEARCH_EVALUATED` or `OUTCOME_INVESTMENT_PNL`; both
+producer gates remain open.
 
 ## Job 6 — Run the full read-only civilization sandbox
 
@@ -937,8 +955,8 @@ B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
-Main is `c1fb3370`; the authoritative branch is clean and contains the merged
-sequence updates from PRs #93–#95. CI and Vercel passed on each exact head.
+Main is `97da72f0`; the authoritative branch is clean and contains the merged
+sequence updates from PRs #93–#97. CI and Vercel passed on each exact head.
 The all-domain queue and primary-identifier review surfaces are deployed and
 measured; they are review inputs, not evidence admission, firing, or revenue.
 
@@ -956,6 +974,12 @@ Job 5's sandbox sequence is now explicit:
    `sandbox-world-fixture/v1` observation stream before motor outcomes.
 3. PR #95 (`c1fb3370`) routed those outcomes through B13/B17 learning and one
    offline consolidation pass.
+4. PR #96 (`fbd9a226`) closed the read-only civilization rehearsal gate at its
+   stated classification boundary, without treating simulated results as world
+   outcomes.
+5. PR #97 (`97da72f0`) added the strict source-grounded outcome-observation
+   contract. It closes the schema boundary only; it does not create an
+   autonomous producer.
 
 The current read-only 30-day rehearsal records `300` independent synthetic
 observations, `300` commands, `300` outcomes, `300` learning consumptions, one
@@ -973,5 +997,6 @@ The active production blocker is unchanged: no autonomous producer currently
 returns a qualifying research publication/evaluation receipt or an investment
 30/60/90-day P&L receipt to the learner. The next implementation must add those
 observers with source identity, observation time, terms, persistence failure
-handling, and explicit abstention. No real-money activity is authorized until
-Jobs 1–7 are complete.
+handling, and explicit abstention. Job 7 remains pending until those receipts
+can be observed and graded; no real-money activity is authorized before the
+Job 7 gate is actually satisfied.
