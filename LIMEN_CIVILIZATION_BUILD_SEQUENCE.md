@@ -1592,3 +1592,28 @@ Finance manager/producer decision that is explicitly source-grounded and
 paper-only; semantic transport is no longer the blocker. No title, stress
 value, Thing 2 phase, master-inbox artifact, or confidence value may create an
 opportunity or order without that reviewed decision.
+
+### Finance source-grounded opportunity producer — implementation boundary 2026-08-24
+
+The missing middle now has a pure contract in
+`lib/finance-opportunity-producer.js`. It accepts a complete
+`finance-input-ledger/1.0` plus a structured Finance-manager proposal. The
+proposal must identify the same company as the ledger, state a thesis and
+invalidation, include a 30/60/90-day horizon and at least two scenarios, and
+link evidence by exact source identity to all three required classes: semantic
+feed evidence, market data, and network evidence. Publisher independence stays
+explicitly `UNASSESSED` until a separate provenance review establishes it.
+
+The producer emits only a `PAPER_CANDIDATE` with `simulationOnly: true` and
+`liveExecution: false`. A separate `releaseForPaper` step requires an explicit
+`sandbox-paper` policy and timestamp before the candidate can be marked
+`READY_TO_FIRE` for the paper replay. The contract rejects order fields,
+direct-stress/headline triggers, missing evidence links, non-paper mode, and
+unapproved release metadata. It does not call a model, broker, Redis, or cron.
+
+Focused producer tests pass `23/23`; the repository check parses `1,611`
+JavaScript files and `4,955` JSON files (two documented size-cap skips), with
+`123` canonical nodes. The production packet observation remains unchanged:
+semantic evidence is present, but no opportunity has been fabricated. Wiring
+an actual manager proposal source and passing its released candidate into the
+paper replay is the next job.
