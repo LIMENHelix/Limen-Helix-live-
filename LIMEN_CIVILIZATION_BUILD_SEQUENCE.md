@@ -1634,3 +1634,23 @@ emits none, does not call a model or broker, and does not close the
 paper-operation gate. The next required step is to review and implement the
 source-grounded Finance opportunity producer that can populate the packet
 without deriving a trade from stress, title count, phase, or confidence.
+
+### Finance generator audit — measured 2026-08-24
+
+The current `assets/js/domain-brains/finance-brain.js` generator is not a
+general investment manager. Its direct opportunities require an active
+validated diagnosis; company opportunities require a validated per-company
+signal; cross-domain opportunities require an emission; lagging opportunities
+require stress at least `0.50` (with the near-diagnosis watchlist starting at
+`0.45`). The current public Finance snapshot reports `stress: 0.260896`,
+`uncappedStress: 0.46`, `stressBasis: measured`, `13/13` live sources, and no
+active diagnosis. Zero packet opportunities is therefore the expected output
+of the present generator, not evidence that the feeder is broken.
+
+The missing capability is separate: a Finance manager that can review the
+source-preserving semantic window, timestamped market observations, declared
+network evidence, and applicable company/kernel records and then either emit a
+fully identified paper opportunity or abstain. The manager must not lower the
+domain diagnosis thresholds, reinterpret publication counts, or treat a title,
+phase, stress value, or confidence as an order instruction. PR #150 closes the
+admission boundary for that future release; it does not implement the manager.
