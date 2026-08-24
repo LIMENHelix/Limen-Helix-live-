@@ -1780,3 +1780,16 @@ existing single-consumer boundary for shadow cycle state, and introducing a
 second HTTP reader would require a separate reviewed architecture change.
 The remaining gate is therefore the operator-authorized Preview call after a
 complete per-company input bundle exists.
+
+### Finance Preview cycle composition — implemented 2026-08-24
+
+`lib/finance-preview-cycle.js` composes the readiness result with the strict
+manager runner. It refuses before the provider boundary when the source
+universe is not ready or when no provider function is explicitly supplied.
+With an injected fixture provider, the full path reaches `PAPER_CANDIDATE`
+for the exact supplied company and stops there; it does not call
+`releaseForPaper`, persist a candidate, or contact a broker. This makes the
+local manager handoff executable without making an accidental production AI
+call. `scripts/test-finance-preview-cycle.cjs` passes `12/12`, including
+provider omission, successful paper-candidate composition, and input
+abstention with no provider invocation.
