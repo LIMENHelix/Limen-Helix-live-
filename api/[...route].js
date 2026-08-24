@@ -197,6 +197,7 @@ const HANDLERS = {
   'limen-operator-calibration': require('../handlers/limen-operator-calibration'),
   'limen-outcome': require('../handlers/limen-outcome'),
   'limen-outcome-observer': require('../handlers/limen-outcome-observer'),
+  'limen-investment-outcome-observer': require('../handlers/limen-investment-outcome-observer'),
   'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
   'limen-reciprocity-prose-rewrite': require('../handlers/limen-reciprocity-prose-rewrite'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),

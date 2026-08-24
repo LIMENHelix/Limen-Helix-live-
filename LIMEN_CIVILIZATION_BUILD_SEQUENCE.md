@@ -795,8 +795,39 @@ Publication remains an observation, not progress: the event is intentionally
 ungraded until an independent evaluation establishes the four required
 research mappings and evidence independence. `scripts/test-autofire-outcome-
 observer.js` passes 17/17 and the handler wiring test passes 9/9. The observer
-does not create `OUTCOME_RESEARCH_EVALUATED` or `OUTCOME_INVESTMENT_PNL`; both
-producer gates remain open.
+does not create `OUTCOME_RESEARCH_EVALUATED` or investment outcomes; the
+research-evaluation producer gate remains open. The paper investment observer
+is documented separately below.
+
+### Job 5 subtask — Tradier sandbox investment observer — measured 2026-08-24
+
+`handlers/limen-investment-outcome-observer.js` now runs hourly at
+`/api/limen-investment-outcome-observer`. It is read-only and permanently uses
+the Tradier sandbox transport. It reads only durable B14 command records,
+account snapshots, explicit benchmark quotes, and its own durable sampled
+position history. It never previews, submits, or modifies a broker order.
+
+An investment receipt is emitted only for a reconciled filled buy command that
+has an explicit `actionId`, benchmark symbol and baseline, non-negative risk
+limit, attributable position quantity, finite fill/value/fee terms, and a due
+30/60/90-day horizon. Missing attribution, benchmark, risk, fill, or durable
+history is an abstention; the observer never substitutes zero P&L, a default
+benchmark, or a guessed drawdown. Position drawdown is labelled as sampled
+history, not continuous market history. Each emitted event is the versioned
+`OUTCOME_INVESTMENT_PNL` contract with `executionMode: paper` and a stable
+command/horizon observation identity, then uses the same durable outcome and
+learning path as the publication observer.
+
+The horizon matcher accepts the first durable account/benchmark snapshot from
+the requested horizon through a fixed 48-hour lag window; if that snapshot was
+not retained, the horizon abstains rather than using a later mark.
+
+The observer is a producer seam, not a result: the current queue does not
+establish that any command carries all of these explicit terms, and no paper
+receipt has been observed or graded yet. Live investment remains disabled.
+Focused tests pass 17/17 for the pure observer and 6/6 for handler wiring;
+the repository audit reports `PRESENT_PAPER_ONLY_PENDING_HORIZONS` while the
+independent live producer remains missing.
 
 ## Job 6 — Run the full read-only civilization sandbox
 
@@ -999,11 +1030,10 @@ not-observable because they are outside the current research/investment scope.
 No simulated result is presented as an executed action.
 
 The active production blocker is narrowed but not removed: the owned-site
-publication receipt observer now exists, but its receipts are explicitly
-ungraded and are not independent research evidence. No autonomous producer
-currently returns a qualifying research evaluation receipt or an investment
-30/60/90-day P&L receipt to the learner. The next implementation must add
-those observers with source identity, observation time, terms, persistence
-failure handling, and explicit abstention. Job 7 remains pending until those
-receipts can be observed and graded; no real-money activity is authorized
-before the Job 7 gate is actually satisfied.
+publication receipt observer exists, but its receipts are explicitly ungraded
+and are not independent research evidence; the Tradier observer exists in
+paper-only form, but no qualifying 30/60/90 receipt has yet been observed or
+graded. Independent research evaluation and live investment production remain
+missing. Job 7 remains pending until the required paper receipts can be
+observed and graded; no real-money activity is authorized before the Job 7
+gate is actually satisfied.
