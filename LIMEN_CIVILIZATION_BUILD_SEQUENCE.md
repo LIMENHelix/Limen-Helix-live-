@@ -1819,9 +1819,10 @@ missing title or quote join.
 The public audit's packet-missing counts were a visibility limitation, not a
 claim that the cognition cron produced no packet. An authenticated,
 read-only `GET /api/limen-civilization-handoff?limit=100` found `3` Finance
-packets in the durable handoff store. The newest Finance packet was generated
-at `2026-08-24T08:10:41Z`, carried `stressScore: 0.42`, `phase: p0`, and
-`feedHealth: 13/13`; it carried `0` opportunities and no semantic-evidence
+packets in the durable handoff store. The latest three Finance packets visible
+at this read were generated at `11:40:17Z`, `13:40:57Z`, and
+`14:10:20Z`; the newest carried `stressScore: 0.43`, `phase: p0`, and
+`feedHealth: 13/13`. It carried `0` opportunities and no semantic-evidence
 window. The authenticated `/api/brain-shadow` cycle independently showed
 Finance `ok:true`, `rowsApplied:1`, `restored:true`,
 `l3CurrentEvidenceComplete:true`, and `outwardConsumersDeclared:1`.
@@ -1845,3 +1846,24 @@ This narrows the next gate: do not fabricate opportunities from the legacy
 artifact count. Reconcile a source-grounded Finance manager proposal into the
 new ledger, or explicitly retire/label the legacy display, before any Preview
 provider call or paper release.
+
+### Finance Preview authenticated readiness — measured 2026-08-24
+
+After the next natural `brain-cognition-refresh` cycle, the authenticated
+read-only audit `scripts/audit-finance-preview-authenticated.cjs` assembled
+the complete production-shaped input bundle. It found `8` title sets / `40`
+title observations, exact SEC identities for `Citigroup (C)` and
+`JPMorgan (JPM)`, matching quote records, `552` network rows, a Finance shadow
+cycle with `ok:true`, `rowsApplied:1`, `restored:true`, and
+`l3CurrentEvidenceComplete:true`, plus a persisted Finance packet containing
+`32` source-preserved semantic observations. The assembler returned
+`READY_FOR_MANAGER_REVIEW` with `2` accepted candidates and `0` ledger
+blockers. The packet still carried `0` opportunities; the manager proposal
+is therefore the next missing stage rather than something to infer from the
+packet.
+
+The audit made no provider call, Redis write, paper release, or broker call.
+The next authorized gate is now a single small Preview-only Finance manager
+provider call, using the explicit operator AI switch and a bounded token
+budget. Until that authorization is exercised, the two candidates remain
+eligible for manager review only and no paper candidate or order exists.
