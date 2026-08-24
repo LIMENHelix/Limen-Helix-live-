@@ -1318,6 +1318,55 @@ The replay explicitly reported `simulationOnly: true`,
 cron trigger, or live endpoint request. This is the correct first result: the
 sandbox exposed the missing inputs instead of manufacturing an investment.
 
+### Finance manager boundary — owner direction 2026-08-24
+
+The kernel is not a universal investment formula and is not to be copied into
+every company or every domain. Its use is company-specific and sensitive to
+whether the relevant homology and observations are actually applicable. A
+company without that applicability record receives no kernel-derived claim;
+the system abstains rather than forcing a phase into the decision.
+
+Finance is a separate manager lane. Its intended decision context is a joined,
+source-identified record containing:
+
+- finance-domain channels, findings, relationships, calibration, and current
+  state;
+- semantic feed evidence, including dated source headlines/statements and
+  relevant official policy or public remarks (for example, a president's
+  statement), without treating a count or a single publisher as meaning;
+- company financials, market prices, liquidity, and valuation inputs with
+  observation timestamps;
+- cross-domain and network evidence where the relationship is declared and
+  its provenance is present; and
+- a Thing 1 validated-screen result only when the protected validation path has
+  actually produced one for that company;
+- a Thing 2 phase-tracker reading only as explicitly labelled interpretive,
+  unvalidated context or hypothesis when that company has an applicable
+  mapping.
+
+The finance AI may synthesize that record into a paper thesis, scenario tree,
+risk envelope, and 30/60/90-day paper plan. It may not turn a stress score,
+headline, president's statement, Thing 1 result, Thing 2 phase, or AI
+confidence into an order by itself. Missing, stale, contradictory, or
+non-independent inputs produce an abstention and an explanation. The finance
+manager therefore supplements the domain brain; it does not replace the feed
+record, Thing 2 is not promoted to validation, and neither Thing 1 nor Thing 2
+is copied into every company or domain.
+
+The implementation sequence for Finance is now explicit:
+
+1. assemble and persist the complete input ledger in a production-shaped
+   sandbox replay;
+2. have the Finance manager produce a paper recommendation only when the
+   ledger is complete and the candidate is explicitly released;
+3. if the operator enables the sandbox switch, use Tradier sandbox only and
+   retain the command, fill, account snapshot, and benchmark identity;
+4. reconcile the 30/60/90-day paper outcomes and learn from them; and
+5. consider any live-money pilot only after those paper outcomes and the
+   existing Job 7 gates are satisfied.
+
+No live-money path is authorized by this boundary.
+
 ### Research-evaluation input audit — measured 2026-08-24
 
 The production source tree contains the research-evaluation contract and
