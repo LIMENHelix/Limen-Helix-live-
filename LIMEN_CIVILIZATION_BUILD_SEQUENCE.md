@@ -1419,3 +1419,14 @@ packet with no released opportunity still abstains, and stale, missing, or
 unidentified records remain blockers. The next required observation is a
 complete paper candidate whose ledger passes and whose 30/60/90 sandbox
 receipts can be reconciled.
+
+### Finance semantic transport — implemented 2026-08-24
+
+The Finance institutional RSS/Atom adapters previously reduced SEC, Federal
+Reserve, FDIC, OCC, CFTC, and FINRA feeds to numeric counts. They now preserve
+the source-supplied title, link, publication time, and publisher tag alongside
+the unchanged numeric channel. Missing XML fields remain null. The recorder
+can therefore retain Finance title sets for later paper evidence without
+turning article volume into meaning or treating a feed label as independent
+corroboration. This is transport only; no diagnosis, score, opportunity, or
+order is created by a title.

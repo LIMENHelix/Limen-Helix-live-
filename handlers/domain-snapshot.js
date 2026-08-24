@@ -14,6 +14,7 @@
  */
 
 var db = require('../lib/limen-db');
+var rssEvidence = require('../lib/rss-evidence');
 
 var TIMEOUT = 5000;
 var RETRY_DELAY = 800;
@@ -4030,7 +4031,7 @@ async function fetchSECEDGARCurrent() {
     if (entries === 0) { trackHealth('SEC EDGAR Filings', 'finance', 'fallback', 'no entries'); return null; }
     var act = clamp(entries / 40, 0.05, 1.0);
     trackHealth('SEC EDGAR Filings', 'finance', 'live', null, entries);
-    return { value: entries, label: entries + ' EDGAR entries', activity: round(act), channel: 'activity', signal: entries + ' SEC filings in current window', updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: entries, label: entries + ' EDGAR entries', activity: round(act), channel: 'activity', signal: entries + ' SEC filings in current window', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('SEC EDGAR Filings', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4104,7 +4105,7 @@ async function fetchFedH41() {
     if (items === 0) { trackHealth('Fed H.4.1 Balance Sheet', 'finance', 'fallback', 'no items'); return null; }
     var act = clamp(items / 40, 0.05, 1.0);
     trackHealth('Fed H.4.1 Balance Sheet', 'finance', 'live', null, items);
-    return { value: items, label: items + ' Fed releases', activity: round(act), channel: 'activity', signal: 'Fed balance sheet release count: ' + items, updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: items, label: items + ' Fed releases', activity: round(act), channel: 'activity', signal: 'Fed balance sheet release count: ' + items, updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('Fed H.4.1 Balance Sheet', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4120,7 +4121,7 @@ async function fetchFDICBankFailures() {
     var failureMentions = (xml.match(/failure|failed|closing|closed bank|enforcement|consent order|civil money/gi) || []).length;
     var stress = clamp(failureMentions / 8, 0, 1);
     trackHealth('FDIC Bank Failures', 'finance', 'live', null, failureMentions);
-    return { value: failureMentions, label: failureMentions + ' FDIC distress signals', stress: round(stress), signal: failureMentions + ' FDIC enforcement / failure mentions', updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: failureMentions, label: failureMentions + ' FDIC distress signals', stress: round(stress), signal: failureMentions + ' FDIC enforcement / failure mentions', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('FDIC Bank Failures', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4136,7 +4137,7 @@ async function fetchOCCEnforcement() {
     var enforcement = (xml.match(/enforcement|cease|consent|civil money|prohibition|fine|penalty|order/gi) || []).length;
     var stress = clamp(enforcement / 10, 0, 1);
     trackHealth('OCC Enforcement', 'finance', 'live', null, enforcement);
-    return { value: enforcement, label: enforcement + ' OCC action signals', stress: round(stress), signal: enforcement + ' bank regulatory action mentions', updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: enforcement, label: enforcement + ' OCC action signals', stress: round(stress), signal: enforcement + ' bank regulatory action mentions', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('OCC Enforcement', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4158,7 +4159,7 @@ async function fetchCFTCPress() {
     var enforcement = (xml.match(/enforcement|fraud|manipulation|charged|penalty|order|insider|misappropriation/gi) || []).length;
     var stress = clamp(enforcement / 12, 0, 1);
     trackHealth('CFTC Press', 'finance', 'live', null, enforcement);
-    return { value: enforcement, label: enforcement + ' CFTC enforcement signals', stress: round(stress), signal: enforcement + ' derivatives enforcement mentions', updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: enforcement, label: enforcement + ' CFTC enforcement signals', stress: round(stress), signal: enforcement + ' derivatives enforcement mentions', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('CFTC Press', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4173,7 +4174,7 @@ async function fetchFINRADisciplinary() {
     if (items === 0) { trackHealth('FINRA Disciplinary', 'finance', 'fallback', 'no items'); return null; }
     var stress = clamp(items / 18, 0, 1);
     trackHealth('FINRA Disciplinary', 'finance', 'live', null, items);
-    return { value: items, label: items + ' FINRA actions', stress: round(stress), signal: items + ' broker-dealer disciplinary entries', updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: items, label: items + ' FINRA actions', stress: round(stress), signal: items + ' broker-dealer disciplinary entries', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('FINRA Disciplinary', 'finance', 'fallback', e.message); return null; }
 }
 
