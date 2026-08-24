@@ -61,6 +61,7 @@ const HANDLERS = {
   'brain-cognition': require('../handlers/brain-cognition'),
   'brain-shadow': require('../handlers/brain-shadow'),
   'brain-cognition-refresh': require('../handlers/brain-cognition-refresh'),
+  'limen-civilization-handoff': require('../handlers/limen-civilization-handoff'),
   'capital-engine': require('../handlers/capital-engine'),
   'critique-artifact': require('../handlers/critique-artifact'),
   'cron-rebuild-engine-outputs': require('../handlers/cron-rebuild-engine-outputs'),

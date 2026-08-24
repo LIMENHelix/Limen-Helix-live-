@@ -607,10 +607,34 @@ producer exists. `scripts/test-civilization-server-packet.js` passes `11/11`.
 brain state when snapshot identity and cognition-cycle identity are present;
 missing identity becomes an explicit packet abstention rather than a fabricated
 packet. `scripts/test-civilization-server-producer.js` passes `5/5` and the
-producer does not accept browser data. The remaining Job 4 step is the durable
-server consumer: strict Redis persistence, idempotent handoff identity, and an
-authenticated operator read. It remains separate so a producer can be observed
-before any consumer is allowed to route a lane.
+producer does not accept browser data.
+
+### Job 4 strict server consumer — implemented in the build worktree
+
+`lib/civilization-handoff-store.js` is a separate strict Upstash boundary. It
+refuses missing credentials, transport/HTTP/JSON/result errors, and malformed
+Redis values; it never falls back to process memory. Packets and handoffs use a
+versioned namespace, `SET NX` with 90-day retention, and idempotent `SADD`
+indexes. `lib/civilization-handoff-consumer.js` validates the trusted packet,
+persists it before examining opportunities, and creates only explicitly
+canonical `investments` or `research-papers` handoffs. It does not translate
+`INVESTABLE`, `RESEARCHABLE`, `path`, or other labels by guesswork; missing or
+multiple canonical lanes are recorded as named abstentions. Persistence errors
+are returned as failures rather than reported as delivery.
+
+`brain-cognition-refresh` invokes this consumer after packet construction and
+exposes `serverPacketPersistence` in the existing cognition projection. The
+read-only `/api/limen-civilization-handoff` operator route requires the same
+`BRAIN_SHADOW_TOKEN` header as the shadow read and returns bounded packet and
+handoff records; it has no POST path and no activation authority. The route is
+registered in the Hono catch-all. `scripts/test-civilization-handoff-consumer.js`
+passes its strict-store, idempotency, lane-abstention, and failure assertions.
+
+This closes the persisted Job 4 consumer seam only. It does not imply that a
+domain currently emits a canonical active lane, that any handoff has been
+created in production, or that research/investment providers, publication,
+broker activity, or activation are enabled. The remaining Job 4 gate is
+production observation of a trusted packet and authenticated operator read.
 
 ### Work
 
@@ -1042,13 +1066,14 @@ Only after research and finance are reliable, add revenue/publication flows, com
 
 ## Execution rule
 
-The next active implementation is **Job 5**. Jobs 1 and 2 are recorded
-complete; the Job 3 queue-population and primary-identifier subtasks are
-complete, while source ownership/syndication review, semantic transport,
-cadence/replay, and actual queue consumption remain open. Job 4's browser
-handoff seam is complete but its persisted server-side consumer remains open.
-Job 5 therefore owns the current B11/B14 outcome-producer audit and the useful
-B9 edge. We do not authorize real-money activity until Jobs 1–7 are complete.
+The next active implementation is **Job 5**. Jobs 1, 2, and the Job 4 server
+consumer seam are recorded complete; the Job 3 queue-population and
+primary-identifier subtasks are complete, while source ownership/syndication
+review, semantic transport, cadence/replay, and actual queue consumption remain
+open. Job 4's browser handoff seam and strict persisted consumer are implemented,
+with production observation still required. Job 5 therefore owns the current
+B11/B14 outcome-producer audit and the useful B9 edge. We do not authorize
+real-money activity until Jobs 1–7 are complete.
 
 ### Current execution checkpoint — 2026-08-24 (authoritative)
 
