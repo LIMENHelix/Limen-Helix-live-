@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-08-24T00:42:24.702Z",
+  "measuredAt": "2026-08-24T16:20:05.739Z",
   "readOnly": true,
   "scope": "production input boundary for OUTCOME_RESEARCH_EVALUATED",
   "contract": {
@@ -28,7 +28,12 @@
   "outcomeEndpoint": {
     "acceptsEvaluation": true,
     "autonomousProducer": false,
-    "producerBasis": "endpoint validation/learning consumer is not a source-grounded evaluator"
+    "producerFiles": [],
+    "explicitInputAdapter": true,
+    "adapterFiles": [
+      "lib/research-evaluation-input-adapter.js"
+    ],
+    "producerBasis": "an explicit evaluator-input adapter exists, but it requires separately supplied evidence and is not an autonomous producer"
   },
   "requiredExternalInput": {
     "independentEvidenceIds": true,
@@ -45,5 +50,5 @@
       "NO_CHANGE"
     ]
   },
-  "conclusion": "The contract and learner exist, but the production publication path carries no evaluation metadata and no autonomous source-grounded evaluator exists. A publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED; the system must abstain until an independently identified evidence set and all four mapping decisions are supplied."
+  "conclusion": "An explicit evaluator-input adapter exists, but it is not autonomous: a publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED. A separately supplied independently identified evidence set and all four mapping decisions are still required."
 }
