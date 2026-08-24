@@ -1,23 +1,23 @@
 {
   "schemaVersion": "vitals/2.0",
-  "generatedAt": "2026-08-23T08:35:42.473Z",
+  "generatedAt": "2026-08-24T08:54:08.975Z",
   "overall": {
     "score": 90,
     "status": "HEALTHY",
-    "summary": "14 organs · 16 attention items · feeds 77 · l1Nodes 100 · domains 100 · dataflow 100 · stress-promotion 98 · portalCorpus 94 · deadLinks 85 · kernel 68 · connectome 100 · civilization 100 · masterBrain 81 · propagator 100 · patternBus 100 · bridge 61"
+    "summary": "14 organs · 16 attention items · feeds 77 · l1Nodes 100 · domains 100 · dataflow 100 · stress-promotion 97 · portalCorpus 94 · deadLinks 85 · kernel 69 · connectome 100 · civilization 100 · masterBrain 76 · propagator 100 · patternBus 100 · bridge 61"
   },
   "scores": {
     "feeds": 77,
     "l1Nodes": 100,
     "domains": 100,
     "dataflow": 100,
-    "stress-promotion": 98,
+    "stress-promotion": 97,
     "portalCorpus": 94,
     "deadLinks": 85,
-    "kernel": 68,
+    "kernel": 69,
     "connectome": 100,
     "civilization": 100,
-    "masterBrain": 81,
+    "masterBrain": 76,
     "propagator": 100,
     "patternBus": 100,
     "bridge": 61
@@ -263,12 +263,12 @@
       "order": 35,
       "score": 100,
       "status": "HEALTHY",
-      "summary": "3/3 data-flow probes green · 493 companies · 469 live-scored · 15m old",
+      "summary": "3/3 data-flow probes green · 493 companies · 469 live-scored · 4m old",
       "metrics": {
         "totalCompanies": 493,
         "domainsWithCompanies": 20,
         "liveScored": 469,
-        "snapshotAgeSec": 887,
+        "snapshotAgeSec": 229,
         "probes": {
           "console-companies": 100,
           "live-scoring": 100,
@@ -281,9 +281,9 @@
       "id": "stress-promotion",
       "role": "grounded-stress PROMOTION probe (live market + feed + outcome-loop + phase fusion), for every promoted domain",
       "order": 36,
-      "score": 98,
+      "score": 97,
       "status": "HEALTHY",
-      "summary": "14 domain(s) promoted (economy, environment, health, technology, research, supplyChain, governance, infrastructure, agriculture, communication, culture, religion, population, intelligence) · 41/42 probes green",
+      "summary": "12 domain(s) promoted (economy, environment, health, technology, research, governance, infrastructure, communication, culture, religion, population, intelligence) · 35/36 probes green",
       "metrics": {
         "economy.feedFractal": {
           "itemCount": 0,
@@ -293,14 +293,14 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.56,
-          "stuck": 0.24
+          "stuck": 0.238
         },
         "economy.outcomeTrack": {
           "trackedForecasts": 0
         },
         "economy.stressPromotion": {
-          "stress": 0.17705498224206623,
-          "legacyFeedStress": 0.17705498224220872,
+          "stress": 0.17485498224112653,
+          "legacyFeedStress": 0.1748549822411265,
           "source": "node-market-feed-grounded"
         },
         "environment.feedFractal": {
@@ -310,15 +310,15 @@
         "environment.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.632,
-          "stuck": 0.173
+          "confidence": 0.634,
+          "stuck": 0.171
         },
         "environment.outcomeTrack": {
           "trackedForecasts": 0
         },
         "environment.stressPromotion": {
-          "stress": 0.06029522009327197,
-          "legacyFeedStress": 0.060295222549212435,
+          "stress": 0.05077063484811507,
+          "legacyFeedStress": 0.050770634848379584,
           "source": "node-market-feed-grounded"
         },
         "health.feedFractal": {
@@ -329,32 +329,32 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.643,
-          "stuck": 0.171
+          "stuck": 0.17
         },
         "health.outcomeTrack": {
           "trackedForecasts": 0
         },
         "health.stressPromotion": {
-          "stress": 0.05431596794113264,
-          "legacyFeedStress": 0.05431598339979875,
+          "stress": 0.04396279844072891,
+          "legacyFeedStress": 0.04396279844304709,
           "source": "node-market-feed-grounded"
         },
         "technology.feedFractal": {
-          "itemCount": 2,
+          "itemCount": 1,
           "channels": []
         },
         "technology.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.732,
-          "stuck": 0.166
+          "confidence": 0.671,
+          "stuck": 0.155
         },
         "technology.outcomeTrack": {
           "trackedForecasts": 0
         },
         "technology.stressPromotion": {
-          "stress": 0.11892563369786083,
-          "legacyFeedStress": 0.11963960509416345,
+          "stress": 0.08508816187356483,
+          "legacyFeedStress": 0.08508816187378242,
           "source": "node-market-feed-grounded"
         },
         "research.feedFractal": {
@@ -365,42 +365,18 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.641,
-          "stuck": 0.165
+          "stuck": 0.166
         },
         "research.outcomeTrack": {
           "trackedForecasts": 0
         },
         "research.stressPromotion": {
-          "stress": 0.05380939329482219,
-          "legacyFeedStress": 0.05380939329583709,
-          "source": "node-market-feed-grounded"
-        },
-        "supplyChain.feedFractal": {
-          "itemCount": 3,
-          "channels": [
-            {
-              "key": "feed_supply",
-              "value": 0.2591817793182821,
-              "typedItems": 2
-            }
-          ]
-        },
-        "supplyChain.phaseBelief": {
-          "grounded": true,
-          "phaseMAP": 3,
-          "confidence": 0.171,
-          "stuck": 0.348
-        },
-        "supplyChain.outcomeTrack": {
-          "trackedForecasts": 0
-        },
-        "supplyChain.stressPromotion": {
-          "stress": 0.5998008685733558,
-          "legacyFeedStress": 0.5993289426214914,
+          "stress": 0.05704039328350248,
+          "legacyFeedStress": 0.05704039328350274,
           "source": "node-market-feed-grounded"
         },
         "governance.feedFractal": {
-          "itemCount": 1,
+          "itemCount": 2,
           "channels": []
         },
         "governance.phaseBelief": {
@@ -413,50 +389,26 @@
           "trackedForecasts": 0
         },
         "governance.stressPromotion": {
-          "stress": 0.07904279576582426,
-          "legacyFeedStress": 0.079042998245642,
+          "stress": 0.07734030620825345,
+          "legacyFeedStress": 0.07734030630941342,
           "source": "node-market-feed-grounded"
         },
         "infrastructure.feedFractal": {
-          "itemCount": 2,
+          "itemCount": 1,
           "channels": []
         },
         "infrastructure.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.669,
-          "stuck": 0.171
+          "stuck": 0.169
         },
         "infrastructure.outcomeTrack": {
           "trackedForecasts": 0
         },
         "infrastructure.stressPromotion": {
-          "stress": 0.06436695867289033,
-          "legacyFeedStress": 0.06436707462262596,
-          "source": "node-market-feed-grounded"
-        },
-        "agriculture.feedFractal": {
-          "itemCount": 1,
-          "channels": [
-            {
-              "key": "feed_supply",
-              "value": 0.09516258196404037,
-              "typedItems": 1
-            }
-          ]
-        },
-        "agriculture.phaseBelief": {
-          "grounded": true,
-          "phaseMAP": 3,
-          "confidence": 0.19,
-          "stuck": 0.424
-        },
-        "agriculture.outcomeTrack": {
-          "trackedForecasts": 0
-        },
-        "agriculture.stressPromotion": {
-          "stress": 0.7116281677761889,
-          "legacyFeedStress": 0.7119669737041455,
+          "stress": 0.05311137323184796,
+          "legacyFeedStress": 0.053111373351798156,
           "source": "node-market-feed-grounded"
         },
         "communication.feedFractal": {
@@ -467,14 +419,14 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.663,
-          "stuck": 0.185
+          "stuck": 0.188
         },
         "communication.outcomeTrack": {
           "trackedForecasts": 0
         },
         "communication.stressPromotion": {
-          "stress": 0.08675893185871675,
-          "legacyFeedStress": 0.08675893185937866,
+          "stress": 0.09113993185127939,
+          "legacyFeedStress": 0.09113993185127955,
           "source": "node-market-feed-grounded"
         },
         "culture.feedFractal": {
@@ -484,15 +436,15 @@
         "culture.phaseBelief": {
           "grounded": true,
           "phaseMAP": 4,
-          "confidence": 0.657,
-          "stuck": 0.177
+          "confidence": 0.747,
+          "stuck": 0.16
         },
         "culture.outcomeTrack": {
           "trackedForecasts": 0
         },
         "culture.stressPromotion": {
-          "stress": 0.07535431515353933,
-          "legacyFeedStress": 0.07535430742370225,
+          "stress": 0.257506837448951,
+          "legacyFeedStress": 0.2436740490865696,
           "source": "node-market-feed-grounded"
         },
         "religion.feedFractal": {
@@ -521,14 +473,14 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.657,
-          "stuck": 0.192
+          "stuck": 0.19
         },
         "population.outcomeTrack": {
           "trackedForecasts": 0
         },
         "population.stressPromotion": {
-          "stress": 0.12158380647904077,
-          "legacyFeedStress": 0.12158380674274435,
+          "stress": 0.11952580349081061,
+          "legacyFeedStress": 0.11952580349088276,
           "source": "node-market-feed-grounded"
         },
         "intelligence.feedFractal": {
@@ -539,14 +491,14 @@
           "grounded": true,
           "phaseMAP": 4,
           "confidence": 0.67,
-          "stuck": 0.173
+          "stuck": 0.177
         },
         "intelligence.outcomeTrack": {
           "trackedForecasts": 0
         },
         "intelligence.stressPromotion": {
-          "stress": 0.07654302661868242,
-          "legacyFeedStress": 0.0765430262710732,
+          "stress": 0.08875303159878745,
+          "legacyFeedStress": 0.08875303159828307,
           "source": "node-market-feed-grounded"
         },
         "probes": {
@@ -565,18 +517,12 @@
           "research:feed-fractal": 100,
           "research:phase-belief": 100,
           "research:stress-promoted": 100,
-          "supplyChain:feed-fractal": 100,
-          "supplyChain:phase-belief": 100,
-          "supplyChain:stress-promoted": 100,
           "governance:feed-fractal": 100,
           "governance:phase-belief": 100,
           "governance:stress-promoted": 100,
           "infrastructure:feed-fractal": 100,
           "infrastructure:phase-belief": 100,
           "infrastructure:stress-promoted": 100,
-          "agriculture:feed-fractal": 100,
-          "agriculture:phase-belief": 100,
-          "agriculture:stress-promoted": 100,
           "communication:feed-fractal": 100,
           "communication:phase-belief": 100,
           "communication:stress-promoted": 100,
@@ -593,17 +539,15 @@
           "intelligence:phase-belief": 100,
           "intelligence:stress-promoted": 100
         },
-        "snapshotAgeSec": 887,
+        "snapshotAgeSec": 229,
         "promotedDomains": [
           "economy",
           "environment",
           "health",
           "technology",
           "research",
-          "supplyChain",
           "governance",
           "infrastructure",
-          "agriculture",
           "communication",
           "culture",
           "religion",
@@ -1289,26 +1233,26 @@
       "id": "kernel",
       "role": "kernel coverage (K1 financial validated · K2 polyvagal + K3 relational — reserved)",
       "order": 50,
-      "score": 68,
+      "score": 69,
       "status": "IN_PAIN",
-      "summary": "K1 539/796 (68%) · K2 0/796 (0%) · K3 0/796 (reserved) · any-kernel 539/796 (68%)",
+      "summary": "K1 547/796 (69%) · K2 0/796 (0%) · K3 0/796 (reserved) · any-kernel 547/796 (69%)",
       "metrics": {
         "total": 796,
         "coverage": {
-          "k1": 0.677,
+          "k1": 0.687,
           "k2": 0,
           "k3": 0,
-          "anyKernel": 0.677
+          "anyKernel": 0.687
         },
         "counts": {
-          "k1": 539,
+          "k1": 547,
           "k2": 0,
           "k3": 0,
-          "anyKernel": 539,
-          "blind": 257
+          "anyKernel": 547,
+          "blind": 249
         },
         "slotScores": {
-          "k1": 68,
+          "k1": 69,
           "k2": 0,
           "k3": 0
         },
@@ -1330,12 +1274,6 @@
             "name": "Adyen N.V.",
             "sector": "Services—Prepackaged Software",
             "domain": "finance"
-          },
-          {
-            "slug": "agilent_technologies",
-            "name": "Agilent Technologies Inc.",
-            "sector": "Laboratory Analytical Instruments",
-            "domain": "population"
           },
           {
             "slug": "air_liquide",
@@ -1462,6 +1400,12 @@
             "name": "Avantor, Inc.",
             "sector": "Pharmaceutical Preparations and Supplies",
             "domain": "science"
+          },
+          {
+            "slug": "axiom_space",
+            "name": "Axiom Space Inc.",
+            "sector": "Aircraft, Guided Missiles, and Parts Manufacturing",
+            "domain": "defense"
           }
         ],
         "worstSectors": [
@@ -1591,7 +1535,7 @@
         {
           "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
           "severity": "med",
-          "count": 257,
+          "count": 249,
           "action": "these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.",
           "organ": "kernel"
         },
@@ -1674,9 +1618,9 @@
       "id": "masterBrain",
       "role": "PFC / executive cortex (research + investment gates)",
       "order": 80,
-      "score": 81,
+      "score": 76,
       "status": "DEGRADED",
-      "summary": "2/2 active engine lanes · 8/9 markers · inbox 759/1040 ready (80.6h old)",
+      "summary": "2/2 active engine lanes · 8/9 markers · inbox 759/1040 ready (104.9h old)",
       "metrics": {
         "present": {
           "masterBrain": true,
@@ -1712,18 +1656,18 @@
             "research": 520
           }
         },
-        "inboxAgeHours": 80.595045,
+        "inboxAgeHours": 104.90241166666667,
         "scoreParts": {
           "lanes": 100,
           "structural": 89,
-          "freshness": 54
+          "freshness": 39
         }
       },
       "attention": [
         {
-          "issue": "Master Brain inbox stale (81h)",
+          "issue": "Master Brain inbox stale (105h)",
           "severity": "med",
-          "count": 81,
+          "count": 105,
           "action": "run scripts/build-master-inbox.mjs --apply. Beyond ~14 days this is not staleness, it is a pipeline that stopped: nothing has gated or prioritised engine outputs since then.",
           "organ": "masterBrain"
         }
@@ -1741,7 +1685,7 @@
           "propagator": true,
           "snapshot": true
         },
-        "ageHours": 0.001168560791015625,
+        "ageHours": 0.0012611907280815973,
         "nodeCount": 795,
         "edgeCount": 13016,
         "dampedCount": 354,
@@ -1975,9 +1919,9 @@
       },
       "attention": [
         {
-          "issue": "Bridge readings stale (23 DAYS)",
+          "issue": "Bridge readings stale (24 DAYS)",
           "severity": "high",
-          "count": 541,
+          "count": 566,
           "action": "run scripts/build-bridge-readings.mjs --apply. Beyond ~14 days the bridge layer is not being re-evaluated at all, so every derived angle downstream is built on a stale mapping.",
           "organ": "bridge"
         }
@@ -1986,9 +1930,9 @@
   },
   "operatorAttention": [
     {
-      "issue": "Bridge readings stale (23 DAYS)",
+      "issue": "Bridge readings stale (24 DAYS)",
       "severity": "high",
-      "count": 541,
+      "count": 566,
       "action": "run scripts/build-bridge-readings.mjs --apply. Beyond ~14 days the bridge layer is not being re-evaluated at all, so every derived angle downstream is built on a stale mapping.",
       "organ": "bridge"
     },
@@ -2023,7 +1967,7 @@
     {
       "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
       "severity": "med",
-      "count": 257,
+      "count": 249,
       "action": "these are where K3 needs to land. For now: ensure K2 fires post-relaxation. K3 design pending.",
       "organ": "kernel"
     },
@@ -2035,9 +1979,9 @@
       "organ": "portalCorpus"
     },
     {
-      "issue": "Master Brain inbox stale (81h)",
+      "issue": "Master Brain inbox stale (105h)",
       "severity": "med",
-      "count": 81,
+      "count": 105,
       "action": "run scripts/build-master-inbox.mjs --apply. Beyond ~14 days this is not staleness, it is a pipeline that stopped: nothing has gated or prioritised engine outputs since then.",
       "organ": "masterBrain"
     },
@@ -2099,136 +2043,6 @@
     }
   ],
   "lastHeals": [
-    {
-      "startedAt": "2026-08-04T09:02:53.768Z",
-      "finishedAt": "2026-08-04T09:02:56.247Z",
-      "preScore": 93,
-      "postScore": 93,
-      "heals": [
-        {
-          "name": "wire-eligible-cb",
-          "issue": "Eligible CB rows with broken portal links",
-          "countBefore": 2,
-          "ranAt": "2026-08-04T09:02:53.773Z",
-          "success": false,
-          "summary": "NO EFFECT — exited 0 but the count did not fall (2 → 2). completed",
-          "exitCode": 0,
-          "exitOk": true,
-          "countAfter": 2,
-          "resolved": false
-        }
-      ],
-      "skipped": [
-        {
-          "issue": "Portals claiming validationStatus \"validated\" with NO CIK — the kernel cannot have scored them",
-          "severity": "high",
-          "count": 111,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "religion dsum.stress equals the legacy feed-volume value — the grounded promotion is not active this tick",
-          "severity": "high",
-          "count": 1,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Name-fingerprint dup clusters",
-          "severity": "high",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Null kernel composite on ELIGIBLE-marked portals",
-          "severity": "high",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
-          "severity": "med",
-          "count": 515,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Eligible CB rows whose portal was never built",
-          "severity": "med",
-          "count": 170,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
-          "severity": "med",
-          "count": 146,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Master Brain inbox stale (86h)",
-          "severity": "med",
-          "count": 86,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Bridge readings stale (86h)",
-          "severity": "med",
-          "count": 86,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "path-C anomalies in propagator output (unbounded composites)",
-          "severity": "med",
-          "count": 11,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Domain mis-routing (pharma SIC on non-medicine domain)",
-          "severity": "med",
-          "count": 5,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
-          "severity": "low",
-          "count": 796,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Surfaces build company-portal links without an hp gate",
-          "severity": "low",
-          "count": 35,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
-          "severity": "low",
-          "count": 22,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Propagator drives no decisions — its consumer is PAUSED",
-          "severity": "low",
-          "count": 2,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Portals with brain-tagging below 90%",
-          "severity": "low",
-          "count": 1,
-          "reason": "operator-only (requires human judgment)"
-        },
-        {
-          "issue": "Segment breakouts sharing a parent CIK (intentional)",
-          "severity": "low",
-          "count": 1,
-          "reason": "no registered heal"
-        },
-        {
-          "issue": "Portal regen backlog — entities the body needs but has no portal for",
-          "severity": "med",
-          "count": 170,
-          "reason": "no registered heal"
-        }
-      ]
-    },
     {
       "startedAt": "2026-08-05T09:01:29.584Z",
       "finishedAt": "2026-08-05T09:01:32.134Z",
@@ -4647,6 +4461,124 @@
           "issue": "Master Brain inbox stale (81h)",
           "severity": "med",
           "count": 81,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "upstream path-C scores exceed the propagator input cap (cap remains enforced)",
+          "severity": "med",
+          "count": 8,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "CB rows pointing to a portal slug with NO file on disk (dead clicks waiting)",
+          "severity": "med",
+          "count": 7,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "K2 (Thing 2 polyvagal) reserved — not populated",
+          "severity": "low",
+          "count": 796,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Surfaces build company-portal links without an hp gate",
+          "severity": "low",
+          "count": 35,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Feed status-registry source count low (<30) — informational; real feeds live in domain-snapshot.js",
+          "severity": "low",
+          "count": 22,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portals with brain-tagging below 90%",
+          "severity": "low",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Segment breakouts sharing a parent CIK (intentional)",
+          "severity": "low",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Portal regen backlog — entities the body needs but has no portal for",
+          "severity": "med",
+          "count": 175,
+          "reason": "no registered heal"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-08-24T08:54:06.976Z",
+      "finishedAt": "2026-08-24T08:54:08.986Z",
+      "preScore": 90,
+      "postScore": 90,
+      "heals": [
+        {
+          "name": "wire-curated-cb",
+          "issue": "Curated CB rows with broken portal links",
+          "countBefore": 5,
+          "ranAt": "2026-08-24T08:54:06.980Z",
+          "success": false,
+          "summary": "NO EFFECT — exited 0 but the count did not fall (5 → 5). completed",
+          "exitCode": 0,
+          "exitOk": true,
+          "countAfter": 5,
+          "resolved": false
+        }
+      ],
+      "skipped": [
+        {
+          "issue": "Bridge readings stale (24 DAYS)",
+          "severity": "high",
+          "count": 566,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "religion dsum.stress equals the legacy feed-volume value — the grounded promotion is not active this tick",
+          "severity": "high",
+          "count": 1,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Name-fingerprint dup clusters",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Null kernel composite on ELIGIBLE-marked portals",
+          "severity": "high",
+          "count": 1,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Truncated prose in fn entries (ellipsis / fragment / empty)",
+          "severity": "med",
+          "count": 515,
+          "reason": "operator-only (requires human judgment)"
+        },
+        {
+          "issue": "Portals with NO kernel reading (K1/K2/K3 all empty) — K3 frontier",
+          "severity": "med",
+          "count": 249,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Eligible CB rows whose portal was never built",
+          "severity": "med",
+          "count": 170,
+          "reason": "no registered heal"
+        },
+        {
+          "issue": "Master Brain inbox stale (105h)",
+          "severity": "med",
+          "count": 105,
           "reason": "operator-only (requires human judgment)"
         },
         {
