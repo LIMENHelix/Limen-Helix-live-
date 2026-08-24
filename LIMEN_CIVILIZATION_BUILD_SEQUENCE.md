@@ -1431,6 +1431,43 @@ turning article volume into meaning or treating a feed label as independent
 corroboration. This is transport only; no diagnosis, score, opportunity, or
 order is created by a title.
 
+### Finance semantic timestamp boundary — corrected 2026-08-24
+
+The persisted title-set contract stores the recorder timestamp `t`, the set
+hash `hh`, and per-title publication time `pa` as numeric epoch milliseconds;
+RSS adapters may also legitimately omit `pa` and the publisher tag. The first
+Finance semantic adapter accepted only string timestamps and required a
+publisher date, which would have discarded production title sets as invalid
+when they arrived. It now normalizes numeric or parseable timestamps to ISO
+values, keeps a missing source publication time as explicit `null`, accepts
+the feed name as a label when the publisher tag is absent, and retains the
+numeric set hash as part of source identity. It still requires a title, URL,
+feed label, and recorder timestamp, and it continues to mark publisher
+independence `unassessed`.
+
+This is a transport/ledger correction only. It does not classify headlines,
+create a Finance opportunity, score stress, or authorize a paper or live
+order. The next production observation is a post-deploy Finance title-store
+read followed by the replay audit; the ledger must still abstain when the
+Finance packet has no released candidate or other required input.
+
+### Finance network-evidence adapter — implemented 2026-08-24
+
+The production-shaped replay now reads the public `limen-stress-slim` snapshot
+for the selected candidate's slug. It preserves the snapshot timestamp,
+source identity, total and induced values, rank, hub flag, and pushed flag as a
+network observation. Numeric or ISO snapshot timestamps are normalized, and a
+missing slug or malformed row returns no evidence rather than borrowing a
+different company's network state. The ledger's one-hour freshness rule still
+applies.
+
+The live replay now reports `networkStress: true` and a named network
+observation for the current candidate. This removes one missing-input blocker;
+it does not create an opportunity, interpret a network value as a trade signal,
+or change the paper-only boundary. The remaining observed blockers are the
+empty Finance opportunity list and missing semantic title evidence until the
+next post-deploy recorder cycle persists a Finance title set.
+
 ### Kernel comparison and HELIX Report boundary — measured 2026-08-24
 
 The production pages are presentation and lookup surfaces, not the Finance
@@ -1470,3 +1507,10 @@ Finance must consume the versioned ledger, source-supplied semantic evidence,
 market observations, network evidence, and explicit Thing 1/Thing 2
 applicability records. These pages may link to or display that work, but they
 do not replace it, and no page state may bypass the paper-only boundary.
+
+The company-portal handoff is a separate navigation path and remains
+intentional: a resolved company CIK is encoded into its HELIX Report link, and
+the portal's report action posts that same CIK to the report endpoint. Entries
+without a CIK cannot manufacture one; they remain a company-portal or
+unresolved-identity case. Thing 2 is reached through the HELIX Report's phase
+analysis/report packet and must retain its interpretive/unvalidated label.
