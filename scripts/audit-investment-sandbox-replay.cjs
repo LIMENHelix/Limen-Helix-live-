@@ -6,6 +6,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const Replay = require('../lib/investment-sandbox-replay.js');
+const Semantic = require('../lib/finance-semantic-evidence.js');
+const Market = require('../lib/finance-market-snapshot.js');
 
 const BASE = process.env.PUBLIC_BASE_URL || 'https://limenhelix.com';
 
@@ -16,6 +18,12 @@ async function getJson(url, headers) {
   return { status: response.status, body };
 }
 
+function candidateTicker(inbox) {
+  const rows = inbox && Array.isArray(inbox.readyForAutofire) ? inbox.readyForAutofire : [];
+  const item = rows.find((x) => x && x.status === 'READY_TO_FIRE' && x.lane === 'investment');
+  return item && item.portalTicker ? String(item.portalTicker).toUpperCase() : null;
+}
+
 function readMasterInbox() {
   const file = path.join(__dirname, '..', 'assets', 'data', '_master-inbox.json');
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -24,23 +32,36 @@ function readMasterInbox() {
 (async function main() {
   const token = process.env.BRAIN_SHADOW_TOKEN || '';
   const headers = token ? { 'x-brain-token': token } : {};
-  const [snapshot, shadow, handoff] = await Promise.all([
+  const inbox = readMasterInbox();
+  const ticker = candidateTicker(inbox);
+  const [snapshot, shadow, handoff, titles, quote] = await Promise.all([
     getJson(BASE + '/api/domain-snapshot'),
     getJson(BASE + '/api/brain-shadow', headers),
-    getJson(BASE + '/api/limen-civilization-handoff?limit=100', headers)
+    getJson(BASE + '/api/limen-civilization-handoff?limit=100', headers),
+    getJson(BASE + '/api/feed-record?titles=finance&n=500'),
+    ticker ? getJson(BASE + '/api/asset-quote?symbols=' + encodeURIComponent(ticker)) : Promise.resolve({ status: null, body: null })
   ]);
+  const titleSets = titles.body && Array.isArray(titles.body.titles) ? titles.body.titles : [];
+  const semantic = Semantic.assemble(titleSets, 'finance');
+  const marketData = ticker ? Market.assemble(quote.body, [ticker]) : null;
   const report = Replay.summarize({
     snapshot: snapshot.body,
     brainShadow: shadow.body,
     handoff: handoff.body,
-    masterInbox: readMasterInbox()
+    masterInbox: inbox,
+    semanticEvidence: semantic.observations,
+    marketData: marketData
   });
   report.readOnly = true;
   report.endpointStatus = {
     domainSnapshot: snapshot.status,
     brainShadow: shadow.status,
     civilizationHandoff: handoff.status
+    ,titleStore: titles.status,
+    marketQuote: quote.status
   };
+  report.semanticEvidence = { observed: semantic.observations.length, abstained: semantic.abstentions.length };
+  report.marketData = marketData ? { asOf: marketData.asOf, quotes: marketData.quotes.length, missing: marketData.missing } : null;
   report.note = 'No model, broker, order, Redis write, cron trigger, or live endpoint was called by this audit.';
   console.log(JSON.stringify(report, null, 2));
 })().catch(function (err) {

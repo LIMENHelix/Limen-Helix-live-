@@ -1403,3 +1403,19 @@ investment replay exposes the ledger status and blockers, so the existing
 production-shaped replay now reports the missing middle as a named contract
 rather than only a collection of ad-hoc booleans. This advances the paper
 boundary; it does not satisfy the paper-receipt gate or authorize live money.
+
+### Production read-only input adapters — implemented 2026-08-24
+
+The replay audit now reads the existing public title store for Finance and the
+existing read-only asset-quote endpoint for the selected paper candidate. The
+title adapter preserves feed name, publisher label, URL, publication time,
+recording time, title text, and set hash while marking publisher independence
+`unassessed`; it never interprets a label as corroboration. The quote adapter
+preserves handler/provider identity, quote time, symbol, price, and missing
+symbols. Neither adapter writes state or calls a broker.
+
+This closes transport into the ledger, not the investment gate. A Finance
+packet with no released opportunity still abstains, and stale, missing, or
+unidentified records remain blockers. The next required observation is a
+complete paper candidate whose ledger passes and whose 30/60/90 sandbox
+receipts can be reconciled.
