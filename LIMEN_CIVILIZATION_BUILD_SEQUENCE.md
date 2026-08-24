@@ -1680,3 +1680,21 @@ not a production manager observation. The remaining external gate is still a
 single operator-authorized Preview-only provider call with the AI switch and a
 small Preview token budget enabled. Until then the live packet remains
 abstained and no proposal is produced.
+
+### Finance manager provider runner — implementation boundary 2026-08-24
+
+`lib/finance-manager-runner.js` is now the provider-gated callable seam for a
+single Preview manager proposal. It requires both an already-ready manager
+context and a complete `finance-input-ledger/1.0`, builds the strict manager
+request, delegates the provider call to the shared AI orchestrator (therefore
+retaining the environment kill switch and token budget), parses the response,
+adapts its schema, and validates the resulting proposal against exact ledger
+evidence. It stops at `PAPER_CANDIDATE`; release, persistence, broker access,
+and live execution remain separate boundaries.
+
+The runner's provider is injectable only for deterministic tests. Its focused
+test invokes the real runner and passes `12/12`, including disabled-provider,
+missing-ledger, malformed-response, and successful paper-candidate paths. No
+production provider call has been made. The remaining gate is an operator-
+authorized Preview invocation with a small Preview token budget and a real
+source-grounded ledger/candidate.
