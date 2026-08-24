@@ -66,7 +66,8 @@ rejects('rejects missing source refresh identity', function () { contract.buildP
 rejects('rejects invalid timestamp', function () { contract.buildPacket(Object.assign({}, input, { generatedAt: 'later' })); }, 'INVALID_GENERATEDAT');
 rejects('rejects missing active diagnoses array', function () { contract.buildPacket(Object.assign({}, input, { truth: Object.assign({}, input.truth, { activeDiagnoses: null }) })); }, 'INVALID_TRUTH.ACTIVEDIAGNOSES');
 rejects('rejects bounded-array overflow', function () { contract.buildPacket(Object.assign({}, input, { truth: Object.assign({}, input.truth, { directives: new Array(contract.MAX_ITEMS + 1).fill({}) }) })); }, 'OVERFLOW_TRUTH.DIRECTIVES');
+rejects('rejects oversized packet', function () { contract.buildPacket(Object.assign({}, input, { truth: Object.assign({}, input.truth, { opportunities: [{ payload: 'x'.repeat(contract.MAX_PACKET_BYTES * 2) }] }) })); }, 'PACKET_TOO_LARGE');
 rejects('rejects retired lane', function () { contract.toHandoff(packet, 'patents', { id: 'x' }); }, 'LANE_UNSUPPORTED');
 rejects('rejects missing opportunity id', function () { contract.toHandoff(packet, 'research-papers', {}); }, 'REQUIRED_OPPORTUNITY.ID');
 
-console.log(passed + '/11 passed');
+console.log(passed + '/12 passed');
