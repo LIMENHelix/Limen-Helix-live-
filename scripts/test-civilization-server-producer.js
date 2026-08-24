@@ -14,7 +14,7 @@ var state = {
   phase: 'p2', phaseLabel: 'RHYTHM', updated: 1787537800000,
   cognition: { model: { cycle: 9 } },
   diagnoses: [{ id: 'active', active: true }, { id: 'inactive', active: false }],
-  treatments: [{ id: 't1' }], opportunities: [{ id: 'o1' }], directives: [],
+  treatments: [{ id: 't1' }], opportunities: [{ id: 'o1', path: 'RESEARCHABLE' }], directives: [],
   feeds: [{ live: true }, { live: false }]
 };
 var meta = { snapshotId: '1787537812473-242', fetchedAt: 1787537812473 };
@@ -27,6 +27,10 @@ ok('builds from trusted brain state', function () {
   assert.equal(out.truth.feedHealth.live, 1);
   assert.equal(out.sourceIdentity.snapshotId, meta.snapshotId);
 });
+ok('maps only the explicit research path to a canonical lane', function () {
+  assert.equal(out.truth.opportunities[0].lane, 'research-papers');
+  assert.equal(out.truth.opportunities[0].laneProvenance.schema, 'domain-opportunity-path-map/1.0');
+});
 ok('preserves a deterministic source packet identity', function () {
   assert.equal(out.packetId, 'science:9:1787537812473-242');
   assert.equal(out.sourceIdentity.refreshId, 'refresh-1');
@@ -34,4 +38,4 @@ ok('preserves a deterministic source packet identity', function () {
 rejects('abstains without snapshot identity', function () { packet.fromBrainState('science', state, {}, 'refresh-1', '2026-08-24T02:00:00Z'); }, 'REQUIRED_SNAPSHOTMETA.SNAPSHOTID');
 rejects('abstains without cognition cycle', function () { packet.fromBrainState('science', Object.assign({}, state, { cognition: {} }), meta, 'refresh-1', '2026-08-24T02:00:00Z'); }, 'CYCLE_ID_REQUIRED');
 rejects('abstains without refresh identity', function () { packet.fromBrainState('science', state, meta, '', '2026-08-24T02:00:00Z'); }, 'REQUIRED_REFRESHID');
-console.log(passed + '/5 passed');
+console.log(passed + '/6 passed');
