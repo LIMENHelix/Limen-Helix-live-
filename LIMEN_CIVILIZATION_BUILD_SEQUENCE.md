@@ -1386,6 +1386,25 @@ must supply independently identified evidence and explicitly review
 `kernel_dynamics`, and `p0_p10_proof_and_effects`. Until that evidence exists,
 the correct behavior is an explicit abstention and Job 7 remains open.
 
+### Research evaluation input adapter — prepared 2026-08-24
+
+`lib/research-evaluation-input-adapter.js` provides the non-autonomous
+boundary for a separately supplied research evaluation. The outcome contract
+now accepts the explicit Science and Medicine owners (while retaining the
+legacy research/health aliases). The adapter requires a published source
+identity, independently
+identified evidence records with retrieval times and claims, an established
+independence assessment, an explicit `PROGRESS`/`REGRESSION`/`NO_CHANGE`
+decision, and all four required homology/kernel/P0–P10 mappings. It delegates
+the final event shape to `autofire-outcome-contract.js` and preserves the
+required provenance.
+
+Publication receipts, article counts, citations, or domain signals still do
+not create an evaluated outcome. The adapter is deliberately not wired to a
+cron or publication observer; without an external evaluator supplying those
+records, it returns `ABSTAINED`. Focused coverage is `19/19`, and the audit
+distinguishes this explicit input adapter from an autonomous evaluator.
+
 ### Production-shaped Finance input ledger — implemented 2026-08-24
 
 The paper replay now has a strict `finance-input-ledger/1.0` boundary. It

@@ -25,6 +25,18 @@ var evalEvent = C.buildResearchEvaluation(Object.assign({}, base, {
 assert.strictEqual(evalEvent.eventType, 'OUTCOME_RESEARCH_EVALUATED');
 assert.deepStrictEqual(evalEvent.outcomeData.evidenceIds, ['doi:1']);
 assert.strictEqual(evalEvent.sourceIdentity.retrievedAt, '2026-08-24T00:00:00.000Z');
+var scienceEval = C.buildResearchEvaluation(Object.assign({}, base, {
+  ownerDomain: 'science', observationId: 'obs_science',
+  sourceIdentity: { kind: 'external-evaluation', value: 'eval_science', retrievedAt: '2026-08-24T00:00:00Z' },
+  outcomeData: { progress: 'NO_CHANGE', evidenceIds: ['doi:science'], independenceAssessment: { status: 'ESTABLISHED', method: 'review', basis: 'distinct records' }, mappingCoverage: { neurology_to_business_homology: true, business_to_neurology_homology: true, kernel_dynamics: true, p0_p10_proof_and_effects: true } }
+}));
+assert.strictEqual(scienceEval.ownerDomain, 'science');
+var medicineEval = C.buildResearchEvaluation(Object.assign({}, base, {
+  ownerDomain: 'medicine', observationId: 'obs_medicine',
+  sourceIdentity: { kind: 'external-evaluation', value: 'eval_medicine', retrievedAt: '2026-08-24T00:00:00Z' },
+  outcomeData: { progress: 'REGRESSION', evidenceIds: ['doi:medicine'], independenceAssessment: { status: 'ESTABLISHED', method: 'review', basis: 'distinct records' }, mappingCoverage: { neurology_to_business_homology: true, business_to_neurology_homology: true, kernel_dynamics: true, p0_p10_proof_and_effects: true } }
+}));
+assert.strictEqual(medicineEval.ownerDomain, 'medicine');
 
 var inv = C.buildInvestmentPnl({
   outputId: 'eo_investment_1', actionId: 'act_i', observationId: 'obs_i', observedAt: '2026-08-24T00:00:00Z', ownerDomain: 'finance',
@@ -47,4 +59,4 @@ assert.throws(function () { C.buildResearchEvaluation(Object.assign({}, base, { 
 assert.throws(function () { C.buildInvestmentPnl({ outputId: 'x', actionId: 'a', observationId: 'o', observedAt: '2026-08-24T00:00:00Z', ownerDomain: 'finance', sourceIdentity: { kind: 'x', value: 'y', provider: 'tradier', accountId: 'VA1', snapshotId: 's' }, benchmarkIdentity: { kind: 'x', value: 'b' }, benchmarkBaselineValue: 1, benchmarkObservedValue: 2, outcomeData: { horizonDays: 30, investedAmount: 1, netPnl: 1, returnPct: 1, benchmarkReturnPct: 1, maxDrawdownPct: 0, riskBreach: false, executionMode: 'live', brokerOrderId: '1' } }); }, /live investment outcome observer is disabled/);
 assert.throws(function () { C.buildInvestmentPnl({ outputId: 'x', actionId: 'a', observationId: 'o', observedAt: 't', ownerDomain: 'finance', sourceIdentity: { kind: 'x', value: 'y', provider: 'tradier', accountId: 'VA1', snapshotId: 's' }, benchmarkIdentity: { kind: 'x', value: 'b' }, benchmarkBaselineValue: 1, benchmarkObservedValue: 2, outcomeData: { horizonDays: 30, investedAmount: 1, netPnl: 1, returnPct: 1, benchmarkReturnPct: 1, maxDrawdownPct: 0, riskBreach: false, executionMode: 'paper', brokerOrderId: '1', headlineCount: 3 } }); }, /cannot create an outcome/);
 assert.throws(function () { C.buildInvestmentPnl({ outputId: 'x', actionId: 'a', observationId: 'o', observedAt: '2026-08-24T00:00:00Z', ownerDomain: 'finance', sourceIdentity: { kind: 'x', value: 'y', provider: 'tradier', accountId: 'VA1', snapshotId: 's', retrievedAt: '2026-08-24T00:00:00Z' }, benchmarkIdentity: { kind: 'x', value: 'b', retrievedAt: '2026-08-24T00:00:00Z' }, benchmarkBaselineValue: 1, benchmarkObservedValue: 2, sourceTerms: { executedQuantity: 1, averageFillPrice: 1, positionMarketValue: 2, fees: 0 }, outcomeData: { horizonDays: 30, investedAmount: 1, netPnl: 99, returnPct: 9900, benchmarkReturnPct: 100, maxDrawdownPct: 0, riskBreach: false, executionMode: 'paper', brokerOrderId: '1' } }); }, /netPnl does not match source terms/);
-console.log('autofire outcome contract: 20/20 passed');
+console.log('autofire outcome contract: 22/22 passed');
