@@ -606,7 +606,7 @@ producer exists. `scripts/test-civilization-server-packet.js` passes `11/11`.
 `brain-cognition-refresh` now emits the packet from its trusted server-side
 brain state when snapshot identity and cognition-cycle identity are present;
 missing identity becomes an explicit packet abstention rather than a fabricated
-packet. `scripts/test-civilization-server-producer.js` passes `5/5` and the
+packet. `scripts/test-civilization-server-producer.js` passes `6/6` and the
 producer does not accept browser data.
 
 ### Job 4 strict server consumer — implemented in the build worktree
@@ -635,6 +635,18 @@ domain currently emits a canonical active lane, that any handoff has been
 created in production, or that research/investment providers, publication,
 broker activity, or activation are enabled. The remaining Job 4 gate is
 production observation of a trusted packet and authenticated operator read.
+
+### Job 4 lane-vocabulary reconciliation — implemented in the build worktree
+
+The first natural production read persisted `100` trusted packets and `0`
+handoffs across `218` opportunities. The opportunities carried the domain
+brains' explicit `path` constants (`INVESTABLE`/`RESEARCHABLE`) but not the
+server handoff lane vocabulary. `civilization-server-packet` now applies the
+versioned allowlist `domain-opportunity-path-map/1.0` only to those two exact
+path values, emitting `lane: investments` or `lane: research-papers` with
+`laneProvenance`. Unknown, missing, or multiple lanes still abstain. This is a
+named vocabulary mapping, not title/stress inference. The next natural refresh
+must show persisted handoffs before this lane is considered production-observed.
 
 ### Work
 
