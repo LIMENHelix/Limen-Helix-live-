@@ -11,6 +11,8 @@
  */
 const vm = require('vm');
 const { redisSet, redisGet } = require('../lib/redis-kv.js');
+const limenDb = require('../lib/limen-db.js');
+const financeSemanticPacket = require('../lib/finance-semantic-packet.js');
 const serverPacket = require('../lib/civilization-server-packet.js');
 const handoffStore = require('../lib/civilization-handoff-store.js');
 const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
@@ -55,6 +57,34 @@ function compact(cog){
     conscience: { conscienceState: val(co.conscienceState), artifactReadinessDecision: val(co.artifactReadinessDecision), blockedClaims: arr(co.blockedClaims).slice(0,4) },
     intuition: { hunches: arr(it.hunches).slice(0,3) }
   };
+}
+
+/* Finance is the only active investment manager. Read only its durable title
+ * store and carry a bounded, source-preserving window into the server packet.
+ * A Redis failure is an explicit abstention; the ordinary limen-db memory
+ * fallback must never masquerade as production evidence here. */
+async function readFinanceSemanticEvidence() {
+  try {
+    var sets = await limenDb.lrangeStrict('feedtitles:finance', 0, financeSemanticPacket.MAX_SETS);
+    var built = financeSemanticPacket.build(sets, 'finance', Date.now());
+    built.meta.backend = 'redis';
+    return built;
+  } catch (e) {
+    return {
+      schemaVersion: financeSemanticPacket.SCHEMA,
+      observations: [],
+      meta: {
+        schemaVersion: financeSemanticPacket.SCHEMA,
+        status: 'ABSTAINED',
+        reason: 'finance-title-store-unavailable',
+        sourceKey: 'feedtitles:finance',
+        backend: 'redis-required',
+        errorCode: e && e.code ? String(e.code) : 'FINANCE_TITLE_STORE_READ_FAILED',
+        truncated: false,
+        retrievedAt: new Date().toISOString()
+      }
+    };
+  }
 }
 
 function buildSandbox(snap, BASE){
@@ -122,6 +152,7 @@ module.exports = async function handler(req, res) {
       try { vm.runInContext(sources[i].code, sb, { filename: sources[i].name }); } catch (e) {}
     }
 
+    var financeSemantic = await readFinanceSemanticEvidence();
     var ran = 0, stored = 0;
     var peSamples = [];   // for γ (system gain) — collected, never fed back this cycle
     for (var d = 0; d < DOMAINS.length; d++) {
@@ -146,7 +177,13 @@ module.exports = async function handler(req, res) {
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
           try {
-            c.serverPacket = serverPacket.fromBrainState(dom, _st, snap.meta, refreshId, new Date().toISOString());
+            c.serverPacket = serverPacket.fromBrainState(
+              dom, _st, snap.meta, refreshId, new Date().toISOString(),
+              dom === 'finance' ? {
+                semanticEvidence: financeSemantic.observations,
+                semanticEvidenceMeta: financeSemantic.meta
+              } : null
+            );
             c.serverPacketPersistence = await CIV_CONSUMER.consumePacket(c.serverPacket);
           } catch (packetErr) {
             c.serverPacket = null;

@@ -35,7 +35,15 @@ ok('preserves a deterministic source packet identity', function () {
   assert.equal(out.packetId, 'science:9:1787537812473-242');
   assert.equal(out.sourceIdentity.refreshId, 'refresh-1');
 });
+ok('carries optional source-preserving semantic evidence', function () {
+  var withEvidence = packet.fromBrainState('finance', state, meta, 'refresh-2', '2026-08-24T02:00:00Z', {
+    semanticEvidence: [{ sourceIdentity: { kind: 'headline-title', value: 'finance:1' }, title: 'Observed filing' }],
+    semanticEvidenceMeta: { status: 'OBSERVED', truncated: false }
+  });
+  assert.equal(withEvidence.truth.semanticEvidence.length, 1);
+  assert.equal(withEvidence.truth.semanticEvidenceMeta.status, 'OBSERVED');
+});
 rejects('abstains without snapshot identity', function () { packet.fromBrainState('science', state, {}, 'refresh-1', '2026-08-24T02:00:00Z'); }, 'REQUIRED_SNAPSHOTMETA.SNAPSHOTID');
 rejects('abstains without cognition cycle', function () { packet.fromBrainState('science', Object.assign({}, state, { cognition: {} }), meta, 'refresh-1', '2026-08-24T02:00:00Z'); }, 'CYCLE_ID_REQUIRED');
 rejects('abstains without refresh identity', function () { packet.fromBrainState('science', state, meta, '', '2026-08-24T02:00:00Z'); }, 'REQUIRED_REFRESHID');
-console.log(passed + '/6 passed');
+console.log(passed + '/7 passed');

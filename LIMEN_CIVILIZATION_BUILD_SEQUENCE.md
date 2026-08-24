@@ -1558,3 +1558,21 @@ source-grounded Finance opportunity producer/manager that can release an
 explicit candidate only when the complete ledger is present. No title count,
 headline interpretation, stress value, or master-inbox artifact may bypass
 that gate.
+
+### Finance packet semantic-evidence bridge — implemented 2026-08-24
+
+The Finance civilization packet now carries a bounded newest window from the
+durable `feedtitles:finance` list. `brain-cognition-refresh` reads that list
+through the strict Redis path, converts title sets with the existing
+source-preserving semantic adapter, and passes at most eight sets / thirty-two
+observations into the versioned packet. The packet records the source key,
+read limits, abstentions, retrieval time, and a `truncated` flag; a Redis read
+failure is an explicit abstention and cannot fall back to process memory.
+
+The bridge remains transport and context only. It does not interpret a title,
+turn a publisher label into independence, create a Finance opportunity, call a
+model, score stress, or submit a broker order. Focused packet, producer, and
+semantic-window tests pass; the next production observation is a natural
+`brain-cognition-refresh` cycle followed by an authenticated packet read. The
+Finance packet must then show the bounded semantic window while the empty
+opportunity list continues to abstain.

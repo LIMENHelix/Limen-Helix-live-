@@ -34,6 +34,8 @@ var input = {
     treatments: [{ id: 'tx-1', label: 'observe' }],
     opportunities: [{ id: 'opp-1', title: 'study' }],
     directives: [],
+    semanticEvidence: [{ sourceIdentity: { kind: 'headline-title', value: 'finance:1' }, title: 'Observed filing' }],
+    semanticEvidenceMeta: { status: 'OBSERVED', truncated: false },
     feedHealth: { live: 2, configured: 3 }
   },
   civAudit: { role: 'observer', sourceType: 'domain-brain' }
@@ -46,6 +48,8 @@ ok('builds a versioned server packet', function () {
   assert.equal(packet.packetId, 'science:cycle-17:snapshot-123');
   assert.equal(packet.sourceIdentity.refreshId, 'refresh-17');
   assert.equal(packet.truth.activeDiagnoses.length, 1);
+  assert.equal(packet.truth.semanticEvidence.length, 1);
+  assert.equal(packet.truth.semanticEvidenceMeta.status, 'OBSERVED');
 });
 
 ok('build is immutable with respect to source arrays', function () {
