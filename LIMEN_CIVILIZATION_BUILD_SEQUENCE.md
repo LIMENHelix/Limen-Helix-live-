@@ -577,6 +577,19 @@ coalesce to one timer and the rebuild consumes the latest shared slot, so the
 event-order/race subtask is now closed for this browser adapter. A server-side
 persisted handoff and independent outcome consumer are still later work.
 
+### Job 4 server-consumer audit — measured 2026-08-24
+
+The browser handoff is not a server handoff. A source-tree scan of `handlers/`,
+`lib/`, and `api/` on merged main `97206818` found no production consumer for
+`civilization-handoff/1.0`, `LIMENCivilizationPackets`, or the main-brain handoff
+event, and no server route that accepts and persists that packet. The matching
+references are browser assets and protected design documents only. Therefore the
+server-side Job 4 consumer is absent, not merely unverified. No packet should be
+treated as delivered to a server brain, outcome learner, or actuator until a
+reviewed authenticated ingress, durable identity/idempotency contract, and
+independent consumer exist. This is a design/implementation blocker, not a
+reason to widen any live-money or publication lane.
+
 ### Work
 
 Replace implicit shared-global assumptions with a versioned handoff carrying:
