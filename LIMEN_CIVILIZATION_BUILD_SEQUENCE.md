@@ -1925,3 +1925,66 @@ registries are parallel scopes. The next implementation job is to define one
 authoritative identity/domain join and produce an explicit exception report;
 it is not to copy 796 files into one registry or to delete the additional
 portals blindly.
+
+### Canonical company/domain/CIK join — measured prototype 2026-08-24
+
+The pure join module `lib/company-domain-identity-join.js` now makes the
+parallel scopes explicit without becoming a runtime consumer. It joins the
+generated portal registry, the expanded company identity directory, and the
+current command-board snapshot by exact slug/CIK where possible, records
+alias-normalized domains, and refuses to hide conflicts.
+
+The current repository produces `799` joined rows:
+
+- `464` rows joined cleanly across sources;
+- `253` expanded-identity-only rows;
+- `10` registry entries whose exact identity file is missing;
+- `71` joined rows with domain-source conflicts;
+- `1` command-board-only row;
+- `232` rows without a CIK and `80` with more than one canonical domain after
+  aliases are applied.
+
+Examples show why a silent merge would be unsafe. `shift4_payments` is listed
+under Finance in the portal registry but under Trade in the command board and
+has an identity record under the different slug `four`. `hubbell`, `idex`,
+`instructure`, `itron`, `uipath`, and `zscaler` have similar slug aliases.
+These are now visible as exceptions rather than being treated as one company
+because a ticker happens to match.
+
+The join is covered by `scripts/test-company-domain-identity-join.cjs` (`10/10`)
+and is not yet wired into the domain brains, Thing 1, the manager, or any
+outward lane. The next dependency is therefore homology continuity: measure
+where P0–P10 phase, regulated/dysregulated state, brain-node mapping, and
+company/recovery context disappear between domain state and opportunity/case
+records before adding any consumer.
+
+### Homology continuity audit — measured 2026-08-24
+
+The static audit `scripts/audit-homology-continuity.cjs` located the loss. The
+legacy engine generator does consume a bridge pattern and a kernel phase, but
+the newer server cognition handoff is narrower:
+
+- `lib/civilization-server-packet.js` preserves stress, phase, active
+  diagnoses, treatments, directives, and opportunities;
+- that packet does **not** preserve company identity/context, brain-node or
+  functional-network mapping, regulated/dysregulated state, or explicit
+  recovery state;
+- `handlers/brain-cognition-refresh.js` builds that packet for every domain,
+  but adds source-preserved semantic evidence only for Finance and passes no
+  homology context or company context;
+- `lib/master-brain-consumer.js` scores legacy artifacts with confidence,
+  completeness, alert, and phase severity. It does not read brain-node,
+  regulated/dysregulated, or recovery state;
+- `lib/civilization-case-record.js` contains the four required mappings
+  (`neurology_to_business_homology`, `business_to_neurology_homology`,
+  `kernel_dynamics`, `p0_p10_proof_and_effects`) but initializes all four to
+  `false` and marks the homology checklist `MISSING` for every case.
+
+This is why the concept appears in the portal corpus and in some generated
+legacy prose but disappears from the current civilization handoff: phase and
+stress survive, while the business entity, node-level mechanism,
+dysregulation/regulation direction, recovery evidence, and explicit homology
+mapping do not. The next implementation gate is a versioned observational
+`homologyContext` carried from the domain/portal source into the server packet
+and case record. It must remain context and review material; it cannot turn a
+Thing 2 interpretation into Thing 1 validation or authorize an investment.
