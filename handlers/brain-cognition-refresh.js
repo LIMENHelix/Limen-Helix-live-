@@ -11,6 +11,7 @@
  */
 const vm = require('vm');
 const { redisSet, redisGet } = require('../lib/redis-kv.js');
+const serverPacket = require('../lib/civilization-server-packet.js');
 
 const PREFIX = 'limen:brain:cognition:';
 const TTL = 3 * 3600; // matches the feed handler
@@ -96,6 +97,7 @@ function buildSandbox(snap, BASE){
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   var t0 = Date.now();
+  var refreshId = 'brain-cognition-refresh:' + String(t0);
   // PINNED trusted origin. Never derive from a request header: this base feeds fetch()+vm.runInContext,
   // so a header-controlled base was an SSRF -> RCE path (attacker JS executed in a non-isolating sandbox).
   var BASE = 'https://' + (process.env.SELF_ORIGIN || 'limenhelix.com');
@@ -136,6 +138,12 @@ module.exports = async function handler(req, res) {
           c.interoception = _it ? { salience: val(_it.salience), attend: val(_it.attend), divergence: num(_it.divergence), channelCount: num(_it.channelCount), integrated: num(_it.integrated) } : null;
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
+          try {
+            c.serverPacket = serverPacket.fromBrainState(dom, _st, snap.meta, refreshId, new Date().toISOString());
+          } catch (packetErr) {
+            c.serverPacket = null;
+            c.serverPacketAbstention = String(packetErr && packetErr.code || packetErr && packetErr.message || packetErr);
+          }
           var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
           // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
           // (compact() null'd it via num()). Read the scalar .total for γ.

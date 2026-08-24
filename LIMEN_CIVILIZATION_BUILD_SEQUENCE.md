@@ -603,9 +603,14 @@ timestamps, missing evidence arrays, and over-limit payloads. The contract is
 pure: it does not fetch, persist, spend, publish, activate, or claim that a
 producer exists. `scripts/test-civilization-server-packet.js` passes `11/11`.
 
-The next required step is to make `brain-cognition-refresh` emit this packet
-from its trusted server-side brain state. Until that producer exists, the
-consumer remains intentionally unimplemented.
+`brain-cognition-refresh` now emits the packet from its trusted server-side
+brain state when snapshot identity and cognition-cycle identity are present;
+missing identity becomes an explicit packet abstention rather than a fabricated
+packet. `scripts/test-civilization-server-producer.js` passes `5/5` and the
+producer does not accept browser data. The remaining Job 4 step is the durable
+server consumer: strict Redis persistence, idempotent handoff identity, and an
+authenticated operator read. It remains separate so a producer can be observed
+before any consumer is allowed to route a lane.
 
 ### Work
 
