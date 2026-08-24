@@ -49,4 +49,11 @@ ok('refuses a mismatched packet cycle', function () {
   assert(result.blockers.some((x) => x.code === 'finance_packet_cycle_mismatch'));
 });
 
-console.log(passed + '/5 passed');
+ok('requires packet cycle identity even when the opportunity is otherwise complete', function () {
+  const invalid = { ...packet, cycleId: null };
+  const result = Release.build({ financeCycle: cycle, financePacket: invalid });
+  assert.equal(result.status, 'ABSTAINED');
+  assert(result.blockers.some((x) => x.code === 'finance_packet_missing_or_untrusted'));
+});
+
+console.log(passed + '/6 passed');
