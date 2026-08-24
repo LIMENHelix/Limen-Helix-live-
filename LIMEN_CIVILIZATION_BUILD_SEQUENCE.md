@@ -1628,9 +1628,9 @@ released packet candidate; the legacy master inbox can no longer supply a
 ticker or network/quote target. Focused release, replay, input-ledger,
 manager-context, packet, handoff, case-record, and semantic-packet tests pass.
 
-This is a local, uncommitted implementation at the current checkpoint. It does
-not create an opportunity when the Finance cycle emits none, does not call a
-model or broker, and does not close the paper-operation gate. The next required
-step is to review and implement the source-grounded Finance opportunity producer
-that can populate the packet without deriving a trade from stress, title count,
-phase, or confidence.
+This implementation is committed as `45d7521a` in draft PR #150 and is not yet
+merged or deployed. It does not create an opportunity when the Finance cycle
+emits none, does not call a model or broker, and does not close the
+paper-operation gate. The next required step is to review and implement the
+source-grounded Finance opportunity producer that can populate the packet
+without deriving a trade from stress, title count, phase, or confidence.
