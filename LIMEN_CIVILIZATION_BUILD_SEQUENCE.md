@@ -2024,6 +2024,8 @@ mapping do not. The next implementation gate is a versioned observational
 `homologyContext` carried from the domain/portal source into the server packet
 and case record. It must remain context and review material; it cannot turn a
 Thing 2 interpretation into Thing 1 validation or authorize an investment.
+This was the pre-implementation dependency; the completed handoff is recorded
+in the `Homology context handoff` section below.
 
 ### Homology context handoff — implemented 2026-08-24
 
@@ -2053,9 +2055,9 @@ The full repository check remains environment-blocked in this worktree because
 `node_modules` is absent and the repository checker requires `acorn`; this is a
 dependency setup issue, not a test failure in this change. The context is now
 preserved, but the legacy master artifact scorer still does not consume it.
-The next dependency is to make the manager read this context and abstain when
-the context needed for a lane is absent, without turning it into automatic
-authorization.
+The manager-read dependency described by this historical entry is now closed
+by the Finance homology consumer section below; the legacy master scorer
+remains intentionally separate.
 
 ### Homology source map and authority boundary — recorded 2026-08-24
 
