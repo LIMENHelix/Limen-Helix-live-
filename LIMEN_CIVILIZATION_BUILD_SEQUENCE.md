@@ -1908,9 +1908,12 @@ Concrete topology blockers found:
 - eight connectome-linked slugs have no identity file:
   `dover`, `eaton`, `insight_timer`, `parker_hannifin`, `sounds_true`,
   `tyler_technologies`, `tyndale_house`, and `vertex_compliance`;
-- the company-registry domain vocabulary has four domains without a matching
-  domain-brain module (`contemplative`, `health`, `legal`, `supplyChain`). The
-  twenty brain modules do not have an extra domain absent from that registry;
+- the company-registry vocabulary has four domains without a same-named
+  domain-brain module (`contemplative`, `health`, `legal`, `supplyChain`).
+  The brain side has `religion`, `medicine`, `law`, and `trade`, respectively,
+  so this is an alias/join decision to make explicit—not evidence that those
+  capabilities are absent. The twenty brain modules do not have an extra
+  domain absent from the registry;
 - the entity registry contains seven company entities without a CIK and
   additional CIK-bearing entities not represented in the generated company
   registry. These may be intentional private/non-SEC entities or stale
