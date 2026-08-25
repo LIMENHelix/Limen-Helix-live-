@@ -3044,3 +3044,36 @@ centralizing state, but byte-identical Energy behavior and business autonomy are
 not claimed. The generated neurologist review queue covers the phase gates; the
 business execution queue covers each domain's separate lane, executor, outcome
 observer, rollback, and switch evidence.
+
+### All-domain business executor ledger — measured 2026-08-25
+
+`product-domain-business-executor-audit/1.0` now tests the distinction between a
+declared lane, a production surface, an exact domain-bound executor, an action
+receipt, an independent outcome observer, a domain-authorized rollback, and an
+enabled external loop. The audit is source-only and performs no network, Redis,
+provider, publishing, messaging, or broker action.
+
+The measured baseline is:
+
+- `20/20` brains declare separate decision, budget, receipt, independent-
+  outcome, and rollback contracts;
+- `6/20` have a production executor that imports the product-motor gate and
+  binds the exact owner/lane pair: Communication/social, Culture/hero-image,
+  Finance/broker-order, Intelligence/autopilot, Law/automail, and
+  Religion/subscriber-email;
+- `5/20` record some form of provider/broker action identity, but only Finance
+  has the durable idempotent B14 sandbox command receipt;
+- `1/20` has both an implemented independent outcome observer and a
+  domain-authorized rollback path: Finance paper/Tradier sandbox, still waiting
+  for an eligible command and its 30/60/90-day horizon evidence;
+- `0/20` have the executor/observer pair production-verified by the owning
+  brain; and
+- `0/20` are externally enabled or autonomously external-ready.
+
+Research, investment, publication, marketplace, homestead, CRM, and real-estate
+surfaces already exist in the repository, but where they are persistence,
+sensing, ingestion, a manual API, or a Finance-only paper component they are
+explicitly not counted as the missing domain-owned effector. This becomes the
+Job 5/Job 9 repair queue: add the smallest domain-local executor boundary first,
+then its durable receipt, independent observer, rollback, switch/budget proof,
+and only after production verification consider enabling that one lane.
