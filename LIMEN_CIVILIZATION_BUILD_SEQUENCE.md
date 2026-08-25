@@ -2573,3 +2573,33 @@ passed, 1 expected external-corpus skip, 0 failed**. Production observation of
 twenty naturally refreshed receipts remains required after deployment; this
 milestone does not verify an executor or independent outcome observer and does
 not enable an outward lane.
+
+### Existing outward-cron authority bypasses — repaired 2026-08-24
+
+A direct source audit found that three scheduled outward paths could act from
+cron/admin authentication without consulting the owning product brain:
+Bluesky social publication, subscriber email delivery, and paid hero-image
+generation. Their local pause/rate/spend controls remain useful but did not
+satisfy the per-domain resource and motor authority invariant.
+
+`lib/product-domain-motor-authorization.js` now requires a fresh, strict-store
+motor receipt before those effects. The receipt must match the expected product
+brain and lane, be within 45 minutes of the natural cognition cycle, carry
+`EXECUTOR_PENDING`, have both executor and independent-observer verification,
+expose `mayDispatchExternal: true`, contain no blockers, and preserve a clean
+pre-action safety state. Missing, stale, wrong-domain, wrong-lane, held,
+unverified, blocked, unsafe, or unreadable receipts fail closed.
+
+Communication owns the current `social` effector, Religion owns the current
+`subscriber-email` effector, and Culture owns the current `hero-image` effector.
+Subject content may concern another domain; that does not transfer effect
+authority. Preview/list/read-only behavior remains available, but provider,
+platform, email, and spend calls occur only after the owning brain gate.
+
+All three brains currently remain `SANDBOX_READY`, so the repaired scheduled
+paths return held/no-action rather than post, send, or spend. Focused tests prove
+gate ordering before Bluesky, Resend, and xAI effects and cover freshness,
+lane identity, executor verification, independent-observer verification, and
+pre-action safety. The full repository run is **163 passed, 1 expected external-
+corpus skip, 0 failed**. This makes declared inhibition operational; it does not
+verify or enable any production executor.

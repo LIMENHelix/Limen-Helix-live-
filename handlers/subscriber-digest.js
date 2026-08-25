@@ -20,6 +20,8 @@ var T = require('../lib/tool-fetch');
 var subs = require('../lib/subscriptions');
 var digest = require('../lib/digest');
 var crm = require('../lib/crm-send');
+var motorStore = require('../lib/autofire-efference-store');
+var motorAuthorization = require('../lib/product-domain-motor-authorization');
 
 function cronHit(req) {
   var h = req.headers || {};
@@ -54,6 +56,25 @@ module.exports = async function handler(req, res) {
 
     // The scheduler sends for real; a manual call must ask for it.
     var reallySend = auth.cron || q.send === '1';
+
+    // Subscriber delivery is the Religion brain's declared direct-message
+    // effector in the current civilization map. Authentication alone never
+    // substitutes for its fresh restored motor/resource release.
+    if (reallySend) {
+      var motorGate = await motorAuthorization.authorize(motorStore, 'religion', 'subscriber-email', Date.now());
+      if (!motorGate.authorized) {
+        return T.send(res, {
+          ok: true,
+          acted: false,
+          mode: 'held',
+          sent: 0,
+          motorHeld: true,
+          reason: motorGate.reason,
+          motorReceiptId: motorGate.receiptId,
+          motorBlockers: motorGate.blockers
+        });
+      }
+    }
 
     var active = await subs.activeList();
     if (active === null) {
