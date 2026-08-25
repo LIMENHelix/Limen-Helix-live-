@@ -2724,3 +2724,51 @@ read-only cognition surface still returned all twenty domains, and Finance's
 natural `broker/order` motor receipt remained restored and `HELD` with
 `externalEffectExecuted:false`, `providerCalled:false`, `brokerTouched:false`,
 and `spendUsd:0`. No paper or live order was created by deployment verification.
+
+### Production operator-token binding refresh — measured 2026-08-25
+
+The operator token itself was not treated as rotated. The clipboard value was
+rechecked against the current public deployment and initially received `401`
+from both header forms. The public domain was confirmed to alias the newest
+Production deployment, while the Vercel `BRAIN_SHADOW_TOKEN` entry predated that
+deployment. Re-saving the unchanged operator value into the Production
+environment and rebuilding the exact prior deployment refreshed the runtime
+binding. No repository code, provider call, Redis write, candidate release,
+broker request, order, or live-money action was part of that correction.
+
+After the refresh, authenticated read-only `GET` requests to both
+`/api/brain-shadow` and `/api/finance-preview` returned `200` through
+`limenhelix.com`. The required Finance audit returned packet
+`finance:3:1787656255409-240`, cycle `ok:true`, `rowsApplied:1`,
+`restored:true`, complete current L3 evidence, `32` semantic observations, one
+packet opportunity, four accepted identity/quote candidates, readiness
+`READY_FOR_MANAGER_REVIEW`, `providerCalled:false`, and `brokerTouched:false`.
+The packet persistence abstained from a handoff because the RKLB proposal has
+no assigned lane. This verifies the operator read boundary only; it does not
+authorize another Preview call or any outward action.
+
+### Shared official-feed collection identities — implemented 2026-08-25
+
+The current Job 3 production audit measured 20/20 domain surfaces, 246 live
+sources, and 138 source-level observation-identity gaps: 108 live readings with
+no upstream identity and 30 unavailable sources. This supersedes the earlier
+139/31 count; one previously unavailable source is now live.
+
+The first current repair slice preserves the existing civilization/domain feed
+labels and adds publisher collection identity to three official receptors that
+are reused by otherwise independent product brains:
+
+- `CISA KEV`: catalog version, release time, and reconciled catalog count;
+- `NOAA NWS Alerts`: the publisher's top-level collection `updated` value; and
+- `USGS Earthquakes`: the publisher's generated collection stamp and reconciled
+  feature count.
+
+No retrieval time, headline time, constant, or inferred timestamp is accepted
+as identity. Missing or malformed publisher metadata preserves the reading but
+leaves its identity absent. Domain labels, values, stress routing, brain state,
+authority, budgets, and effectors are unchanged. The expected production effect
+is to close 16 live identity gaps across the reuse graph (8 CISA, 4 NOAA, and 4
+USGS), reducing the live open queue from 108 to 92 after deployment. Focused
+identity tests and the complete repository verification pass: **166 passed, 1
+expected external-corpus skip, 0 failed**. Production remeasurement remains the
+gate before that reduction is recorded as observed.

@@ -2541,6 +2541,38 @@ function _noaaAlertsIdentity(data) {
   return value.trim();
 }
 
+/* CISA publishes a catalog version, release time, and catalog count alongside the
+   vulnerability array. Together they identify the exact KEV collection used by every
+   domain that reuses this receptor; our retrieval clock is deliberately absent. */
+function _cisaKevIdentity(data) {
+  var version = data && data.catalogVersion;
+  var released = data && data.dateReleased;
+  var count = data && data.count;
+  if (typeof version !== 'string' || !version.trim()) return null;
+  if (typeof released !== 'string' || !released.trim() || !isFinite(Date.parse(released))) return null;
+  if (!Number.isInteger(count) || count < 0) return null;
+  if (!Array.isArray(data.vulnerabilities) || data.vulnerabilities.length !== count) return null;
+  return compositeIdentity([
+    ['cisa-kev-version', version.trim()],
+    ['released', released.trim()],
+    ['count', count]
+  ]);
+}
+
+/* USGS stamps each GeoJSON collection with metadata.generated and metadata.count.
+   Require the count to reconcile to the returned feature set so a partial payload is
+   never assigned the identity of a complete publisher collection. */
+function _usgsEarthquakeIdentity(data) {
+  var meta = data && data.metadata;
+  if (!meta || typeof meta.generated !== 'number' || !isFinite(meta.generated) || meta.generated <= 0) return null;
+  if (!Number.isInteger(meta.count) || meta.count < 0) return null;
+  if (!Array.isArray(data.features) || data.features.length !== meta.count) return null;
+  return compositeIdentity([
+    ['usgs-generated', Math.floor(meta.generated)],
+    ['count', meta.count]
+  ]);
+}
+
 async function fetchPubMed() {
   try {
     var year = new Date().getFullYear();
@@ -4256,7 +4288,7 @@ async function fetchNOAANWSAlerts() {
     }
     var stress = clamp((severe / 100) + (tropical / 5) + (marine / 30), 0, 1);
     trackHealth('NOAA NWS Alerts', 'supplyChain', 'live', null, alerts);
-    return { value: alerts, label: alerts + ' NWS alerts (' + severe + ' severe)', stress: round(stress), signal: alerts + ' active weather alerts (' + severe + ' severe, ' + tropical + ' tropical, ' + marine + ' marine)', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: alerts, label: alerts + ' NWS alerts (' + severe + ' severe)', stress: round(stress), signal: alerts + ' active weather alerts (' + severe + ' severe, ' + tropical + ' tropical, ' + marine + ' marine)', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _noaaAlertsIdentity(data) };
   } catch (e) { trackHealth('NOAA NWS Alerts', 'supplyChain', 'fallback', e.message); return null; }
 }
 
@@ -4277,7 +4309,7 @@ async function fetchUSGSEarthquakes() {
     }
     var stress = clamp((quakes / 25) + (sigCount * 0.2) + Math.max(0, maxMag - 5) * 0.15, 0, 1);
     trackHealth('USGS Earthquakes', 'supplyChain', 'live', null, quakes);
-    return { value: quakes, label: quakes + ' M4.5+ quakes (max M' + maxMag.toFixed(1) + ')', stress: round(stress), signal: quakes + ' earthquakes M4.5+ in 24h, ' + sigCount + ' M6+, peak M' + maxMag.toFixed(1), updated: Date.now(), fetchedAt: Date.now() };
+    return { value: quakes, label: quakes + ' M4.5+ quakes (max M' + maxMag.toFixed(1) + ')', stress: round(stress), signal: quakes + ' earthquakes M4.5+ in 24h, ' + sigCount + ' M6+, peak M' + maxMag.toFixed(1), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _usgsEarthquakeIdentity(data) };
   } catch (e) { trackHealth('USGS Earthquakes', 'supplyChain', 'fallback', e.message); return null; }
 }
 
@@ -4299,7 +4331,7 @@ async function fetchCISAKEV() {
     }
     var stress = clamp((recent / 25) + (ransomware / 600), 0, 1);
     trackHealth('CISA KEV', 'supplyChain', 'live', null, recent);
-    return { value: recent, label: recent + ' new KEVs (30d)', stress: round(stress), signal: recent + ' newly-exploited CVEs in 30d, ' + ransomware + ' ransomware-active of ' + total + ' total', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' new KEVs (30d)', stress: round(stress), signal: recent + ' newly-exploited CVEs in 30d, ' + ransomware + ' ransomware-active of ' + total + ' total', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _cisaKevIdentity(data) };
   } catch (e) { trackHealth('CISA KEV', 'supplyChain', 'fallback', e.message); return null; }
 }
 
@@ -6138,6 +6170,8 @@ module.exports._alphaVantageQuoteIdentity = _alphaVantageQuoteIdentity;
 module.exports._polygonAggregateIdentity = _polygonAggregateIdentity;
 module.exports._arxivFeedIdentity = _arxivFeedIdentity;
 module.exports._noaaAlertsIdentity = _noaaAlertsIdentity;
+module.exports._cisaKevIdentity = _cisaKevIdentity;
+module.exports._usgsEarthquakeIdentity = _usgsEarthquakeIdentity;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6165,3 +6199,6 @@ module.exports._fetchNYFedEFFR = fetchNYFedEFFR;
 module.exports._fetchArXivCS = fetchArXivCS;
 module.exports._fetchArXivAll = fetchArXivAll;
 module.exports._fetchNOAAAlerts = fetchNOAAAlerts;
+module.exports._fetchNOAANWSAlerts = fetchNOAANWSAlerts;
+module.exports._fetchUSGSEarthquakes = fetchUSGSEarthquakes;
+module.exports._fetchCISAKEV = fetchCISAKEV;
