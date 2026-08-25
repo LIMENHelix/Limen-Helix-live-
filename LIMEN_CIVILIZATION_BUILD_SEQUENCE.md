@@ -3243,3 +3243,23 @@ arithmetic, ordering, selected-rank agreement, or the positive-margin floor
 fails, the Preview receipt preserves the rejected projected-margin ledger and
 selected identity alongside the abstention reason. This makes the brake
 auditable without permitting a retry or retaining raw provider text.
+
+### Autonomous Finance paper packet loop — implemented 2026-08-25
+
+The remaining manual hop between a fresh Finance cognition packet and its
+paper-only motor path is now an explicit cron worker. Six minutes after each
+natural cognition refresh, `/api/finance-paper-cycle` reads the current packet
+and advances it through the existing manager Preview, paper admission, sandbox
+trade decision, independent product-motor authorization, B14 broker preview,
+and one-shot Tradier sandbox executor. Every stage reuses its durable
+packet-keyed receipt, so a repeated cron invocation observes prior state rather
+than calling a provider or broker twice.
+
+The worker fails closed behind the exact Vercel cron bearer, the existing
+Preview and trade-decision switches, configured provider and Tradier sandbox
+inputs, the positive projected-margin gate, and both explicit sandbox autonomy
+switches. Any malformed evidence, manager abstention, non-positive ranking,
+actor abstention, broker rejection, missing motor proof, or unresolved command
+stops the cycle at that stage. The transport remains hardcoded to Tradier
+sandbox and reports `liveMoney:false`; this does not authorize Job 8 or any
+production brokerage account.

@@ -221,6 +221,7 @@ const HANDLERS = {
   'finance-b14': require('../handlers/finance-b14'),
   'finance-motor-capability': require('../handlers/finance-motor-capability'),
   'finance-paper-executor': require('../handlers/finance-paper-executor'),
+  'finance-paper-cycle': require('../handlers/finance-paper-cycle'),
   'finance-trade-decision': require('../handlers/finance-trade-decision'),
   'pattern-proposal': require('../handlers/pattern-proposal'),
   'print-from-pattern': require('../handlers/print-from-pattern'),
