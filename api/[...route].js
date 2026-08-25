@@ -61,6 +61,7 @@ const HANDLERS = {
   'brain-cognition': require('../handlers/brain-cognition'),
   'brain-shadow': require('../handlers/brain-shadow'),
   'finance-preview': require('../handlers/finance-preview'),
+  'finance-paper-admission': require('../handlers/finance-paper-admission'),
   'brain-cognition-refresh': require('../handlers/brain-cognition-refresh'),
   'limen-civilization-handoff': require('../handlers/limen-civilization-handoff'),
   'capital-engine': require('../handlers/capital-engine'),

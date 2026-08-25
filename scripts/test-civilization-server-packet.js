@@ -64,6 +64,27 @@ ok('builds only active investment handoff', function () {
   assert.equal(handoff.sourceIdentity.snapshotId, 'snapshot-123');
 });
 
+ok('carries only a complete admitted paper opportunity from extras', function () {
+  var released = contract.fromBrainState('finance', {
+    cognition: { model: { cycle: 3 } }, stress: 0.2, confidence: 0.8,
+    diagnoses: [], treatments: [], opportunities: [], directives: [], feeds: []
+  }, { snapshotId: 'snap-released', fetchedAt: Date.parse('2026-08-25T01:00:00Z') },
+  'refresh-released', '2026-08-25T01:01:00Z', { releasedOpportunities: [{
+    id: 'paper-1', status: 'READY_TO_FIRE', lane: 'investment', artifactRef: 'paper-1',
+    portalSlug: 'salesforce', portalTicker: 'CRM', paperOnly: true, liveExecution: false,
+    sourceIdentity: { kind: 'headline-title', value: 'finance:sec:1' }
+  }] });
+  assert.equal(released.truth.opportunities.length, 1);
+  assert.equal(released.truth.opportunities[0].artifactRef, 'paper-1');
+});
+
+rejects('rejects malformed released opportunities', function () {
+  contract.fromBrainState('finance', {
+    cognition: { model: { cycle: 3 } }, diagnoses: [], treatments: [], opportunities: [], directives: [], feeds: []
+  }, { snapshotId: 'snap-bad-release', fetchedAt: Date.parse('2026-08-25T01:00:00Z') },
+  'refresh-bad-release', '2026-08-25T01:01:00Z', { releasedOpportunities: [{ id: 'paper-1' }] });
+}, 'RELEASED_OPPORTUNITY_INVALID');
+
 rejects('rejects wrong packet schema', function () { contract.buildPacket(Object.assign({}, input, { schemaVersion: '1' })); }, 'SCHEMA_REQUIRED');
 rejects('rejects browser source type', function () { contract.buildPacket(Object.assign({}, input, { sourceType: 'browser' })); }, 'SOURCE_TYPE_REQUIRED');
 rejects('rejects missing source refresh identity', function () { contract.buildPacket(Object.assign({}, input, { sourceIdentity: Object.assign({}, input.sourceIdentity, { refreshId: '' }) })); }, 'REQUIRED_SOURCEIDENTITY.REFRESHID');
@@ -74,4 +95,4 @@ rejects('rejects oversized packet', function () { contract.buildPacket(Object.as
 rejects('rejects retired lane', function () { contract.toHandoff(packet, 'patents', { id: 'x' }); }, 'LANE_UNSUPPORTED');
 rejects('rejects missing opportunity id', function () { contract.toHandoff(packet, 'research-papers', {}); }, 'REQUIRED_OPPORTUNITY.ID');
 
-console.log(passed + '/12 passed');
+console.log(passed + '/14 passed');
