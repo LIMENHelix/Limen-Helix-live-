@@ -15,6 +15,7 @@ function FakeStore() { this.values = Object.create(null); this.lists = Object.cr
 FakeStore.prototype.assertDurable = function () { return true; };
 FakeStore.prototype.get = async function (k) { return this.values[k] === undefined ? null : JSON.parse(JSON.stringify(this.values[k])); };
 FakeStore.prototype.set = async function (k, v) { this.values[k] = JSON.parse(JSON.stringify(v)); return true; };
+FakeStore.prototype.setIfAbsent = async function (k, v) { if (this.values[k] !== undefined) return false; this.values[k] = JSON.parse(JSON.stringify(v)); return true; };
 FakeStore.prototype.del = async function (k) { delete this.values[k]; return 1; };
 FakeStore.prototype.lpush = async function (k, v) { if (!this.lists[k]) this.lists[k] = []; this.lists[k].unshift(JSON.parse(JSON.stringify(v))); return this.lists[k].length; };
 FakeStore.prototype.ltrim = async function (k, s, e) { this.lists[k] = (this.lists[k] || []).slice(s, e + 1); return true; };
@@ -116,6 +117,9 @@ async function main() {
   assert('command created one episode', health.memory.episodic.length === 1);
   assert('episode carries action identity', health.memory.episodic[0].actionId === copy('research', 1).actionId);
   assert('episode carries efference identity', health.memory.episodic[0].efferenceCopyId === copy('research', 1).id);
+  assert('command causal identity is archived outside the capped state list', store.values[LEARN.causeKey(copy('research', 1).actionId)].actionId === copy('research', 1).actionId);
+  health.commands = [];
+  await store.set(LEARN.stateKey('health'), health);
 
   var pub = await LEARN.recordOutcome(store, {
     eventId: 'evt_pub', eventType: 'OUTCOME_RESEARCH_PUBLISHED', lane: 'research', ownerDomain: 'health',
@@ -141,6 +145,13 @@ async function main() {
   assert('absolute loss is failure even if benchmark was worse', loss.outcome === 'FAILURE' && loss.reward === -1);
   var breach = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: investmentData(90, 5, 5, 2, true) });
   assert('risk breach is failure despite profit', breach.outcome === 'FAILURE');
+  var cohortRows = [0, 1, 2, 3, 4].map(function (n) {
+    return { actionId: 'cohort-' + n, horizonDays: 30, netPnl: 5, excessReturnPct: 3, maxDrawdownPct: 2, riskBreach: false };
+  });
+  assert('four resolutions cannot update policy', LEARN.gradeInvestmentCohort(cohortRows.slice(0, 4)).graded === false);
+  assert('five risk-adjusted resolutions can update policy', LEARN.gradeInvestmentCohort(cohortRows).reward === 1);
+  cohortRows[4].riskBreach = true;
+  assert('one risk breach inhibits the five-resolution cohort', LEARN.gradeInvestmentCohort(cohortRows).reward === -1);
 
   // Five independent command/outcome episodes cross the existing B13 evidence floor.
   for (var i = 10; i < 15; i++) {
@@ -156,21 +167,18 @@ async function main() {
     assert('investment command ' + i + ' recorded', cr.ok === true);
     var er = await LEARN.recordOutcome(store, {
       eventId: 'evt_inv_' + i, eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'finance',
-      actionId: cp.actionId, ts: 4000 + i, outcomeData: investmentData(i < 12 ? 30 : (i < 14 ? 60 : 90), 5, 5, 2, false)
+      actionId: cp.actionId, ts: 4000 + i, outcomeData: investmentData(30, 5, 5, 2, false)
     });
-    assert('investment outcome ' + i + ' updates B12', er.ok && er.b12Updated === true);
+    assert('investment outcome ' + i + ' is retained while cohort gating controls B12', er.ok && er.b12Updated === (i === 14));
   }
   var finance = await LEARN._load(store, 'finance');
-  assert('five real rewards entered B12 history', finance.modulators.rewardHistory.length === 5);
+  assert('five distinct resolutions create one risk-adjusted B12 update', finance.modulators.rewardHistory.length === 1);
   assert('five commands and five returned outcomes remain episodic before consolidation', finance.memory.episodic.length === 10);
 
   var consolidated = await LEARN.consolidateDomain(store, 'finance', 9999);
   assert('B13 ran in offline state', consolidated.result.ran === true);
   finance = await LEARN._load(store, 'finance');
-  assert('B13 promoted repeated successful investment procedure', Object.keys(finance.memory.procedural).length === 1);
-  var policy = finance.memory.procedural[Object.keys(finance.memory.procedural)[0]];
-  assert('promoted policy remains internally scoped', policy.permissions.length === 1 && policy.permissions[0] === 'internal:attention');
-  assert('promotion did not authorize trading', policy.permissions.indexOf('trade') < 0);
+  assert('one five-trade cohort cannot yet promote a procedure', Object.keys(finance.memory.procedural).length === 0);
 
   var observationCount = finance.memory.candidates[0].observations.length;
   await LEARN.consolidateDomain(store, 'finance', 19999);
@@ -179,7 +187,7 @@ async function main() {
     finance.memory.candidates[0].observations.length === observationCount,
     String(finance.memory.candidates[0].observations.length));
   assert('resolved outcomes reached the same persistent B10 critic used on the next command',
-    finance.outwardGate.outcomeHistory.generate_investment_artifact.n === 5,
+    finance.outwardGate.outcomeHistory.generate_investment_artifact.n === 1,
     JSON.stringify(finance.outwardGate.outcomeHistory));
 
   var swept = await LEARN.sweepOutcomes(store, 100);

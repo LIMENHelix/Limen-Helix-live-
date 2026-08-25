@@ -3157,3 +3157,47 @@ exactly one semantic, one market, and one network role before the producer can
 construct a paper candidate. This follows the provider's documented pattern:
 use its supported schema subset for constrained JSON generation and preserve
 the full business/neurological gate contract in application validation.
+
+### Revenue anatomy and Finance developmental authority — ruling 2026-08-25
+
+Documents are cortical planning records, not revenue. External transactions are
+the motor act; processor/broker/bank receipts and independently read outcomes
+are reafference. An outcome observer must read the external adjudicator
+(Tradier account/order/quote records, or a domain's bank/payment-processor
+records), never grade success from LIMEN's own execution log. Internal logs are
+efference copies and cannot serve as independent outcome evidence.
+
+Finance has two permanent peer-domain functions: sense finance-specific evidence
+and operate its own separately authorized investment business. A third function,
+allocating capital to sibling domains, is bootstrap-only. It retires
+irreversibly after at least three non-Finance domains each show externally
+reconciled positive surplus in their own account for three consecutive monthly
+closes. Thereafter, provisioning is rule-bound peer lending between separately
+owned domain accounts and coalitions; Finance has no banker-nucleus authority to
+override another domain's decision gate, budget, receipt, rollback, or switch.
+
+The paper-to-live boundary is a hard human route. Paper results cannot directly
+authorize live trading because paper fills omit slippage, liquidity, and
+execution adversity. A live pilot remains inhibited until an externally
+measured execution-adversity haircut is declared, applied to paper-derived size
+and return expectations, and the operator separately approves the live account,
+notional cap, kill switch, and exact pilot. No standing autonomy grant crosses
+that boundary.
+
+### Delayed investment credit and noisy-outcome repair — implemented 2026-08-25
+
+The B14 command record and hourly Tradier history already outlive the 90-day
+horizon, but the shared learner retained only 512 hot command links and applied
+a modulator after every individual graded trade. That could sever high-volume
+90-day attribution and teach from market noise.
+
+Each released command now also receives a no-expiry, action-keyed causal record.
+Outcome resolution falls back to that record if the hot list has compacted, so
+the event → action → efference copy → selection → episode chain survives the
+full horizon. Valid external outcomes are still recorded immediately, but an
+investment policy update requires five distinct command resolutions at the same
+precommitted 30, 60, or 90-day horizon. One command cannot count multiple times
+inside or across cohorts at that horizon. Cohort reward uses mean benchmark-relative return minus mean
+absolute drawdown; any risk breach is inhibitory. Raw P&L alone never rewards
+the learner, four resolutions cannot update B12, and one five-trade cohort is
+still insufficient for B13 procedural promotion.

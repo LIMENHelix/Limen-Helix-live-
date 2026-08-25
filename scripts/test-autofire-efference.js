@@ -32,6 +32,12 @@ function strictStoreDouble() {
       values.set(key, value);
       return true;
     },
+    async setIfAbsent(key, value) {
+      operations.push({ op: 'setIfAbsent', key, status: value && value.status });
+      if (values.has(key)) return false;
+      values.set(key, value);
+      return true;
+    },
     async del(key) {
       operations.push({ op: 'del', key });
       values.delete(key);
