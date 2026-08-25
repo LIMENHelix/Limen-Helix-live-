@@ -2250,3 +2250,27 @@ and `value`) instead of accepting a matching value under a substituted kind.
 Focused Finance tests and the full repository suite pass (`149` passed, `1`
 external-corpus skip, `0` failed). This is another producer-contract repair for
 a future packet; it does not reopen the third receipt or advance Job 7 by itself.
+
+### Finance Preview → paper admission seam — prepared 2026-08-24
+
+A separate authenticated `finance-paper-admission/1.0` boundary now consumes
+only a durable Preview receipt whose status and embedded candidate are both
+`PAPER_CANDIDATE`. The Preview safety record must still prove that no candidate
+was previously released, no broker was touched, no order was placed, and no
+live money was used. The paper-admission switch is independent of the paid
+Preview switch. Admission uses `SET NX` on the packet identity, retains its own
+policy receipt, and is permanently idempotent.
+
+An admitted candidate is converted to the existing source-identified
+`READY_TO_FIRE` replay contract and remains `paperOnly:true` and
+`liveExecution:false`. The next natural Finance cognition refresh reads only
+these strict admission receipts and may carry the bounded replay candidate into
+the trusted server packet. A Preview proposal or receipt without the distinct
+admission record cannot enter packet opportunities. Malformed released
+opportunities fail the packet build rather than being silently transported.
+
+This seam supplies paper admission and packet transport only. It does not choose
+a trade direction, infer quantity or price, call Tradier, create a B14 preview,
+submit a sandbox order, or authorize live money. Those remain later and separate
+motor gates after a future company-grounded Preview result actually reaches
+`PAPER_CANDIDATE`.

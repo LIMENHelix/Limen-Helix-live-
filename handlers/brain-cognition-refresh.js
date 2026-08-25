@@ -16,6 +16,8 @@ const financeSemanticPacket = require('../lib/finance-semantic-packet.js');
 const serverPacket = require('../lib/civilization-server-packet.js');
 const handoffStore = require('../lib/civilization-handoff-store.js');
 const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
+const efferenceStore = require('../lib/autofire-efference-store.js');
+const financePaperAdmission = require('../lib/finance-paper-admission.js');
 
 // The packet consumer is strict by design: unlike the cognition projection,
 // it never falls back to process memory when Redis is missing or fails.
@@ -87,6 +89,32 @@ async function readFinanceSemanticEvidence() {
   }
 }
 
+/* Read only fully admitted paper candidates from the strict actuator store.
+ * A Preview receipt alone is not permission to enter the trusted packet. */
+async function readFinancePaperAdmissions() {
+  try {
+    efferenceStore.assertDurable();
+    var log = await efferenceStore.lrange(financePaperAdmission.LOG_KEY, 0, 19);
+    var opportunities = [], seen = Object.create(null);
+    for (var i = 0; i < log.length && opportunities.length < 8; i++) {
+      var packetId = log[i] && log[i].packetId;
+      if (!packetId || seen[packetId]) continue;
+      seen[packetId] = true;
+      var receipt = await efferenceStore.get(financePaperAdmission.admissionKey(packetId));
+      var replay = receipt && receipt.replayCandidate;
+      if (!receipt || receipt.status !== 'ADMITTED_TO_PAPER' ||
+          !receipt.safety || receipt.safety.paperOnly !== true ||
+          receipt.safety.brokerTouched !== false || receipt.safety.orderPlaced !== false ||
+          receipt.safety.liveMoney !== false || !replay) continue;
+      opportunities.push(replay);
+    }
+    return { opportunities: opportunities, status: 'OBSERVED', source: financePaperAdmission.LOG_KEY };
+  } catch (e) {
+    return { opportunities: [], status: 'ABSTAINED', source: financePaperAdmission.LOG_KEY,
+      errorCode: e && e.code ? String(e.code) : 'FINANCE_PAPER_ADMISSION_READ_FAILED' };
+  }
+}
+
 function buildSandbox(snap, BASE){
   var noop = function(){};
   var sb = {};
@@ -153,6 +181,7 @@ module.exports = async function handler(req, res) {
     }
 
     var financeSemantic = await readFinanceSemanticEvidence();
+    var financeAdmissions = await readFinancePaperAdmissions();
     var ran = 0, stored = 0;
     var peSamples = [];   // for γ (system gain) — collected, never fed back this cycle
     for (var d = 0; d < DOMAINS.length; d++) {
@@ -193,6 +222,7 @@ module.exports = async function handler(req, res) {
             if (dom === 'finance') {
               _packetExtras.semanticEvidence = financeSemantic.observations;
               _packetExtras.semanticEvidenceMeta = financeSemantic.meta;
+              _packetExtras.releasedOpportunities = financeAdmissions.opportunities;
             }
             // Packet capture is an observation step, not an opportunity gate:
             // Finance must still emit a packet when stress is null/low and the
