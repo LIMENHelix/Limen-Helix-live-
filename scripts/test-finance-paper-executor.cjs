@@ -44,6 +44,11 @@ function bridge(options) {
 function motor(authorized, reason) {
   return { async authorize() { return { authorized: authorized, reason: reason || null, receiptId: authorized ? 'motor-1' : null }; } };
 }
+function developmental(authorized) {
+  return { async authorize() { return authorized
+    ? { authorized: true, receiptId: 'developmental-1', authorizationMode: 'developmental-paper-commissioning' }
+    : { authorized: false, reason: 'zero-effect-sandbox-rollback-proof-missing' }; } };
+}
 function b14() {
   return { async submitApproved(_store, _broker, input) { assert.deepEqual(input, { previewId: 'preview-1', confirmation: 'APPROVE EXACT' }); return { commandId: 'command-1', receipt: { orderId: 'order-1' }, rollback: { status: 'AVAILABLE' } }; } };
 }
@@ -74,10 +79,15 @@ function b14() {
   store = storeWith(selectedDecision());
   const motorHeldBridge = bridge();
   motorHeldBridge.previewDecision = async function () { calls++; };
-  result = await Executor.execute({ store, broker: {}, packetId: 'packet-1', env, bridge: motorHeldBridge, b14: b14(), motorAuthorization: motor(false, 'domain-executor-capability-missing'), now: 1000 });
+  result = await Executor.execute({ store, broker: {}, packetId: 'packet-1', env, bridge: motorHeldBridge, b14: b14(), motorAuthorization: motor(false, 'domain-executor-capability-missing'), developmentalAuthorization: developmental(false), now: 1000 });
   assert.equal(result.status, 'HELD');
   assert.equal(result.reason, 'domain-executor-capability-missing');
   assert.equal(store.values.has(Executor.claimKey('packet-1')), false);
+
+  store = storeWith(selectedDecision());
+  result = await Executor.execute({ store, broker: {}, packetId: 'packet-1', env, bridge: bridge(), b14: b14(), motorAuthorization: motor(false, 'domain-executor-capability-missing'), developmentalAuthorization: developmental(true), now: 1000 });
+  assert.equal(result.status, 'COMMAND_RECEIPTED');
+  assert.equal(result.claim.authorizationMode, 'developmental-paper-commissioning');
 
   store = storeWith(selectedDecision());
   result = await Executor.execute({ store, broker: {}, packetId: 'packet-1', env, bridge: bridge(), b14: b14(), motorAuthorization: motor(true), now: 1000 });
