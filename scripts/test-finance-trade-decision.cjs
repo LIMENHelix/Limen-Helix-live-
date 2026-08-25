@@ -106,6 +106,10 @@ async function seeded() {
   assert.equal(result.receipt.selection.status, 'RELEASED');
   assert.equal(result.receipt.selection.command, 'prepare_tradier_sandbox_order');
   assert.equal(result.receipt.tradeIntent.symbol, 'RKLB');
+  assert.equal(result.receipt.resourceMetabolism.beforeProvider.ownerDomain, 'finance');
+  assert.equal(result.receipt.resourceMetabolism.beforeProvider.state, 'AVAILABLE');
+  assert.equal(result.receipt.resourceMetabolism.afterProvider.state, 'INHIBITED');
+  assert(result.receipt.resourceMetabolism.afterProvider.blockers.includes('finance_resource_provider_refractory'));
   assert.equal(result.receipt.safety.orderPreviewed, false);
   assert.equal(result.receipt.safety.orderPlaced, false);
   assert.equal(providerCalls, 1);
@@ -123,6 +127,23 @@ async function seeded() {
   assert.equal(abstained.receipt.status, 'ABSTAINED');
   assert.equal(abstained.receipt.tradeIntent, null);
   assert.equal(abstained.receipt.selection, null);
+
+  const inhibitedStore = await seeded();
+  const inhibitedBroker = broker(0);
+  let inhibitedProviderCalls = 0;
+  const inhibited = await Decision.execute(inhibitedStore, inhibitedBroker, { approve: true, packetId }, {
+    env: { LIMEN_FINANCE_SANDBOX_RESERVE_USD: '2000' },
+    provider: async () => { inhibitedProviderCalls++; throw new Error('metabolic inhibition must precede provider use'); }
+  });
+  assert.equal(inhibited.ok, true);
+  assert.equal(inhibited.receipt.status, 'ABSTAINED');
+  assert.equal(inhibited.receipt.reason, 'finance_resource_no_uncommitted_cash');
+  assert.equal(inhibited.receipt.providerCalled, false);
+  assert.equal(inhibited.receipt.resourceMetabolism.beforeProvider.state, 'INHIBITED');
+  assert.equal(inhibited.receipt.tradeIntent, null);
+  assert.equal(inhibited.receipt.selection, null);
+  assert.equal(inhibitedProviderCalls, 0);
+  assert.deepEqual(inhibitedBroker.calls, ['quote', 'account']);
 
   console.log('finance trade decision: passed');
 })().catch(err => { console.error(err && err.stack || err); process.exit(1); });
