@@ -15,7 +15,7 @@
   function CommunicationBrain() {
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'communication', label: 'Communication', snapshotKey: 'communication', cycleInterval: 30000 });
-    this.resourceAuthority = { ownerDomain: 'communication', policyId: 'communication-resource/1', lanes: ['publication', 'social', 'email'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'communication', policyId: 'communication-resource/1', sandboxLane: 'social', lanes: ['publication', 'social', 'email'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
   CommunicationBrain.prototype = Object.create(Base.prototype);
   CommunicationBrain.prototype.constructor = CommunicationBrain;

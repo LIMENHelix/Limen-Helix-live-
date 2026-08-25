@@ -37,7 +37,7 @@
       portalKey: 'trade',
       cycleInterval: 30000
     });
-    this.resourceAuthority = { ownerDomain: 'supplyChain', policyId: 'trade-resource/1', lanes: ['commerce', 'vendor-operations', 'inter-domain-banking'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'supplyChain', policyId: 'trade-resource/1', sandboxLane: 'auction', lanes: ['commerce', 'vendor-operations', 'inter-domain-banking'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
 
     // ══════════════════════════════════════════════════════════════════════
     // ACTUATION FLAGS — per-actuation VALIDITY GATE (honest, not a clone). Each flag is ON

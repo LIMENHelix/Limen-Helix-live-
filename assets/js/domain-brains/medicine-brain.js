@@ -37,7 +37,7 @@
       cycleInterval: 30000,
       groundedOnly: true          // circularity cut 2026-07-24: no condition may come from own stress
     });
-    this.resourceAuthority = { ownerDomain: 'health', policyId: 'medicine-resource/1', lanes: ['research', 'publication', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'health', policyId: 'medicine-resource/1', sandboxLane: 'research-papers', lanes: ['research', 'publication', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   MedicineBrain.prototype = Object.create(Base.prototype);

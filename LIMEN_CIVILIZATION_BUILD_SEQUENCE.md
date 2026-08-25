@@ -745,14 +745,14 @@ originating domain observation.
 
 `brain-v2/core/sandbox-motor-bridge.js` and
 `brain-v2/test/sandbox-motor-bridge.js` now provide that rehearsal boundary. The
-bridge accepts only the versioned Civilization handoff and the two active lanes
-(`investments`, `research-papers`); it persists a command receipt before returning
+bridge initially accepted the versioned Civilization handoff and the two active
+lanes (`investments`, `research-papers`); it persists a command receipt before returning
 the command, requires an explicitly labelled `sandbox-counterfactual` result, and
 persists the outcome before applying a supervised B14 update. Its injected store
 lets the test force a write failure, prove that no command exists after a failed
 receipt, reject a non-independent result, and round-trip the command/outcome/model
-state across restore. The test passes 18/18 assertions and the repository unit
-suite passes 87 tests with one documented external-corpus skip.
+state across restore. That initial two-lane measurement was later superseded by
+the all-lane rehearsal below; the persistence and ordering boundary is unchanged.
 
 This closes the **sandbox bridge subtask**, not the full B11/B14 gate. The module is
 not called by a cron, domain binder, production shadow runtime, broker, or paid
@@ -771,10 +771,11 @@ is persisted before it is handed to the motor bridge, and it carries no
 This prevents the 30-day harness from deriving an apparent result directly
 from the command or the originating domain packet.
 
-The updated rehearsal persists `300` external fixture observations, `300`
-commands, and `300` outcomes with `0` pending, `0` simulated spend, and `0`
-outward executions. The focused source test passes `11/11`, the existing motor
-bridge remains `18/18`, and the 30-day summary still passes its invariants. This
+The current rehearsal persists `600` external fixture observations, `600`
+commands, and `600` outcomes with `0` pending, `0` simulated spend, and `0`
+outward executions across all thirteen declared sandbox lanes. The original
+focused source test remains valid and the 30-day summary passes its expanded
+invariants. This
 closes the **sandbox independence seam only**. The source is synthetic and
 explicitly not a provider/world observation; the production outcome-producer
 gate measured above remains open.
@@ -963,18 +964,19 @@ Run a 30-day rehearsal across all domains and lanes. Record every proposed actio
 
 `node scripts/test-civilization-sandbox-30d.cjs` ran a deterministic 30-day,
 20-domain rehearsal through the versioned domain-packet adapter and sandbox
-bridge. Ten domains routed to the two
-active lanes and ten explicitly abstained: `300` simulated commands persisted,
-`300` independently identified sandbox-world observations persisted, `300`
-sandbox outcomes persisted, `300` outcomes consumed by the B13/B17 learning
-bridge, one offline consolidation pass, `0` pending, and `284` commands reached
+bridge. All twenty product brains now declare a domain-owned sandbox lane, and
+the combined declarations cover all thirteen lane contracts. The rehearsal
+persists `600` simulated commands, `600` independently identified sandbox-world
+observations, `600` sandbox outcomes, and `600` B13/B17 learning consumptions,
+runs one offline consolidation pass, leaves `0` pending, and records `496`
+commands reaching
 trusted forward-model reafference after the eight-observation threshold. The
-rehearsal recorded `0` simulated spend and `0` outward executions. All 13 operating lanes
-are now classified in the report: research and investments are `simulated`, and
-the other 11 are explicitly `not-active` with `NO_SANDBOX_ADAPTER` blockers
-(`publication`, `social`, `subscriber-email`, `automail`, `autopilot`,
-`hero-image`, `auction`, `homestead`, `crm`, `real-estate`, and `broker/order`).
-They are not silently treated as active.
+rehearsal records `0` simulated spend and `0` outward executions. All thirteen
+operating lanes are `simulated`: research papers, investments, publication,
+social, subscriber email, automail, autopilot, hero image, auction, homestead,
+CRM, real estate, and broker/order. Every command also carries the lane's
+nonterminal contract: next action, required receipt, independent outcome class,
+and rollback class.
 
 This is a bridge rehearsal, not a production-cron observation: it proves the
 ordering, persistence, source separation, learning handoff, and labels of the
@@ -1200,16 +1202,16 @@ Job 5's sandbox sequence is now explicit:
    It can emit a paper P&L receipt only from explicit, attributable horizon
    snapshots; it never submits an order and it does not create a live outcome.
 
-The current read-only 30-day rehearsal records `300` independent synthetic
-observations, `300` commands, `300` outcomes, `300` learning consumptions, one
+The current read-only 30-day rehearsal records `600` independent synthetic
+observations, `600` commands, `600` outcomes, `600` learning consumptions, one
 consolidation pass, `0` pending, `$0` simulated spend, and `0` outward
 executions. This closes the sandbox source-separation and learning seams only;
 the synthetic stream is not provider/world evidence.
 
 Job 6 is now complete at its stated read-only classification gate. The live
-surface report classifies all 13 operating lanes and records the two active
-lanes as blocked for lack of eligible outcomes; the other 11 are explicitly
-not-observable because they are outside the current research/investment scope.
+surface report classifies all thirteen operating lanes as sandbox-simulated.
+Production observability remains distinct: a simulated lane contract is not a
+live executor, provider receipt, customer response, sale, filing, or broker fill.
 No simulated result is presented as an executed action.
 
 The active production blocker is narrowed but not removed: the owned-site
@@ -1272,9 +1274,9 @@ interpreted as a test of the intended investment model.
 ### Sandbox-before-live gate — strengthened
 
 The existing 30-day rehearsal is a seam test, not an investment-quality test:
-it routes 300 synthetic commands (150 investments and 150 research), consumes
-300 synthetic independent observations, runs one consolidation pass, records
-284 trusted reafference results, spends `$0`, and executes zero outward
+it routes 600 synthetic commands across all twenty domain-owned lane
+declarations, consumes 600 synthetic independent observations, runs one
+consolidation pass, records 496 trusted reafference results, spends `$0`, and executes zero outward
 actions. Its source is explicitly `sandbox-world-fixture/v1`; it does not use
 production feeds, Finance stress, kernel readings, market prices, or a broker.
 

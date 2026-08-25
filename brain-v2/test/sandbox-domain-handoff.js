@@ -26,11 +26,14 @@ assert('carries the source domain', out.sourceDomains.length === 1 && out.source
 assert('carries diagnosis identity', out.sourceDiagnoses[0].id === 'DX_RESEARCH');
 assert('carries treatment identity', out.sourceTreatments[0].treatment.id === 'TX_RESEARCH');
 assert('carries the motor claim', out.motorClaim.variable === 'sandbox:research:delta' && out.motorClaim.magnitude === 1);
+assert('carries the nonterminal sandbox lane contract', out.laneContract.lane === 'research-papers' && out.laneContract.externalEffectAuthorized === false && !!out.laneContract.nextAction && !!out.laneContract.outcome);
 assert('records packet provenance', out.sourcePacketSchema === H.PACKET_SCHEMA && out.packetSourceType === 'domain-brain');
 
 function refuses(fn, label) { var ok = false; try { fn(); } catch (e) { ok = String(e.message).indexOf('sandbox-domain-handoff') >= 0; } assert(label, ok); }
 refuses(function () { H.fromPacket({}, opportunity(), 'research-papers', 1000); }, 'rejects an unversioned packet');
-refuses(function () { H.fromPacket(packet(), opportunity(), 'publication', 1000); }, 'rejects an inactive lane');
+var publication = H.fromPacket(packet(), opportunity(), 'publication', 1000);
+assert('accepts a declared non-Finance civilization sandbox lane', publication.laneContract.lane === 'publication' && publication.laneContract.sandboxOnly === true);
+refuses(function () { H.fromPacket(packet(), opportunity(), 'systemic-risk', 1000); }, 'rejects an undeclared operational lane');
 refuses(function () { H.fromPacket(Object.assign(packet(), { activeDiagnoses: [] }), opportunity(), 'research-papers', 1000); }, 'rejects a packet with no diagnoses');
 refuses(function () { H.fromPacket(Object.assign(packet(), { treatments: [] }), opportunity(), 'research-papers', 1000); }, 'rejects a packet with no treatments');
 refuses(function () { H.fromPacket(packet(), { id: 'opp-1' }, 'research-papers', 1000); }, 'rejects a missing motor claim');

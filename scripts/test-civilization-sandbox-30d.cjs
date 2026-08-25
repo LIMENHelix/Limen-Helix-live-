@@ -11,28 +11,26 @@ const BR = require('../brain-v2/core/sandbox-motor-bridge.js');
 const HANDOFF = require('../brain-v2/core/sandbox-domain-handoff.js');
 const SRC = require('../brain-v2/core/sandbox-outcome-source.js');
 const LEARN = require('../brain-v2/core/sandbox-learning-bridge.js');
+const LANE = require('../brain-v2/core/sandbox-lane-contract.js');
+const PRODUCT = require('../lib/product-domain-brain-audit.js');
 
 const DOMAINS = [
   'economy','energy','environment','health','technology','research','supplyChain',
   'governance','infrastructure','agriculture','industry','education','communication',
   'culture','defense','religion','population','law','finance','intelligence'
 ];
-const INVESTMENT = new Set(['finance','economy','technology','energy','infrastructure']);
-const RESEARCH = new Set(['research','health','medicine','science','education','population','environment']);
 const DAYS = 30;
 const DAY = 86400000;
 const START = 1798156800000; // deterministic 2027-01-01 UTC rehearsal origin
-const LANE_INVENTORY = [
-  'research-papers','investments','publication','social','subscriber-email',
-  'automail','autopilot','hero-image','auction','homestead','crm','real-estate','broker/order'
-];
+const LANE_INVENTORY = LANE.list();
+const LANE_BY_DOMAIN = Object.fromEntries(PRODUCT.audit().domains.map((row) => [row.runtime, row.resourceAuthority.sandboxLane]));
 
 function Store() { this.records = []; }
 Store.prototype.append = function (r) { this.records.push(JSON.parse(JSON.stringify(r))); };
 Store.prototype.read = function () { return this.records.slice(); };
 
 function laneFor(domain) {
-  return INVESTMENT.has(domain) ? 'investments' : RESEARCH.has(domain) ? 'research-papers' : null;
+  return LANE_BY_DOMAIN[domain] || null;
 }
 
 function domainPacket(domain) {
@@ -103,10 +101,10 @@ const trusted = routed.filter((r) => r.trustedReafference).length;
 const laneCounts = routed.reduce((m, r) => { m[r.lane] = (m[r.lane] || 0) + 1; return m; }, {});
 const laneInventory = LANE_INVENTORY.map((lane) => ({
   lane,
-  status: (lane === 'research-papers' || lane === 'investments') ? 'simulated' : 'not-active',
-  reason: (lane === 'research-papers' || lane === 'investments')
-    ? 'sandbox bridge accepts this lane'
-    : 'no sandbox adapter; intentionally outside current research/investment scope'
+  status: laneCounts[lane] > 0 ? 'simulated' : 'not-active',
+  reason: laneCounts[lane] > 0
+    ? 'domain-owned sandbox lane reached command, receipt, B14 prediction, independent fixture outcome, and learning'
+    : 'no product brain declared this sandbox lane'
 }));
 const output = {
   simulationOnly: true,
@@ -133,9 +131,9 @@ const output = {
   forwardModel: report.forwardModel
 };
 console.log(JSON.stringify(output, null, 2));
-if (output.routed !== 300 || output.abstained !== 300 || output.commandsPersisted !== 300 ||
-    output.outcomesPersisted !== 300 || output.externalObservationsPersisted !== 300 ||
-    output.externalObservationPending !== 0 || output.learningOutcomesConsumed !== 300 ||
+if (output.routed !== 600 || output.abstained !== 0 || output.commandsPersisted !== 600 ||
+    output.outcomesPersisted !== 600 || output.externalObservationsPersisted !== 600 ||
+    output.externalObservationPending !== 0 || output.learningOutcomesConsumed !== 600 ||
     !output.consolidationRan || output.consolidationPasses < 1 || output.pending !== 0 || output.trustedReafferenceCount === 0 ||
     output.simulatedSpendUsd !== 0 || output.outwardActionsExecuted !== 0 ||
-    output.laneInventory.length !== 13 || output.laneInventory.some((l) => !l.status || !l.reason)) process.exitCode = 1;
+    output.laneInventory.length !== 13 || output.laneInventory.some((l) => l.status !== 'simulated' || !l.reason)) process.exitCode = 1;
