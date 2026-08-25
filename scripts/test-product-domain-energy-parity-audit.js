@@ -6,19 +6,20 @@ var fs = require('node:fs');
 var path = require('node:path');
 var report = require('../lib/product-domain-energy-parity-audit.js').audit();
 
-assert.equal(report.schemaVersion, 'product-domain-energy-parity-audit/1.1');
+assert.equal(report.schemaVersion, 'product-domain-energy-parity-audit/1.2');
 assert.equal(report.summary.separateBrains, 20);
 assert.equal(report.summary.commonPhysiologyImplemented, 20);
 assert.equal(report.summary.brainV2LocalSpineComplete, 20);
-assert.equal(report.summary.domainLocalDepthComplete, 1);
+assert.equal(report.summary.domainLocalDepthComplete, 20);
 assert.equal(report.summary.energyCustomImplementations, 1);
-assert.equal(report.summary.genericPortImplementations, 19);
+assert.equal(report.summary.domainLocalExtensionImplementations, 19);
+assert.equal(report.summary.genericPortImplementations, 0);
 assert.equal(report.summary.phaseActuationEnabled, 9);
 assert.equal(report.summary.phasePerceptArmed, 1);
 assert.equal(report.summary.plasticityArmed, 20);
 assert.equal(report.summary.externalAutonomyReady, 0);
 assert.equal(report.businessExecutionQueue.length, 20);
-assert.equal(report.domainLocalRepairQueue.length, 19);
+assert.equal(report.domainLocalRepairQueue.length, 0);
 assert(report.neurologistReviewQueue.length > 0);
 
 var energy = report.domains.find(function (d) { return d.productDomain === 'energy'; });
@@ -27,14 +28,15 @@ var medicine = report.domains.find(function (d) { return d.productDomain === 'me
 assert.equal(energy.implementationMode, 'energy-custom-reference');
 assert.equal(energy.domainLocalDepthComplete, true);
 assert.equal(energy.brainV2LocalSpineComplete, true);
-assert.equal(finance.implementationMode, 'generic-port-plus-domain-specialization');
-assert.equal(finance.domainLocalDepthComplete, false);
-assert(finance.domainLocalDepthGaps.includes('domain-local-interoception-missing'));
+assert.equal(finance.implementationMode, 'domain-local-extension');
+assert.equal(finance.domainLocalDepthComplete, true);
+assert.deepEqual(finance.domainLocalDepthGaps, []);
 assert.equal(finance.activation.phaseActuation, true);
 assert.equal(finance.activation.phasePerceptArmed, false);
 assert.equal(medicine.runtimeOwner, 'health');
 assert(medicine.outwardGaps.includes('production-executor-unverified'));
 assert(report.domains.every(function (d) { return d.brainV2LocalSpineGaps.length === 0; }));
+assert(report.domains.every(function (d) { return d.domainLocalDepthGaps.length === 0; }));
 assert.equal(report.referencePosture.activeInference, 'SHADOW_ADVISORY_NO_LIVE_CONSUMER');
 assert.equal(report.referencePosture.outcome, 'NEXT-CYCLE_SELF_CONSISTENCY_NOT_AN_INDEPENDENT_BUSINESS_OUTCOME');
 assert(report.domains.every(function (d) {
