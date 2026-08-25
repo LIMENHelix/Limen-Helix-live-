@@ -35,10 +35,18 @@ const proposal = { schemaVersion: Prompt.RESPONSE_SCHEMA, id: 'runner-proposal',
   assert.equal(result.provider.name, 'fixture');
   assert.equal(result.provider.model, 'fixture');
 
-  const disabled = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: false, disabled: true }; } });
+const disabled = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: false, disabled: true }; } });
   assert.equal(disabled.status, 'ABSTAINED');
   assert.equal(disabled.reason, 'finance_manager_ai_disabled');
-  assert.equal(disabled.providerCalled, true);
+assert.equal(disabled.providerCalled, true);
+
+const refused = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: false, provider: 'fixture', stopReason: 'refusal' }; } });
+assert.equal(refused.reason, 'finance_manager_provider_refused');
+assert.equal(refused.providerCalled, true);
+
+const truncated = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: false, provider: 'fixture', stopReason: 'max_tokens' }; } });
+assert.equal(truncated.reason, 'finance_manager_provider_truncated');
+assert.equal(truncated.providerCalled, true);
 
   const noLedger = await Runner.run({ managerContext, ledger: { schemaVersion: Ledger.SCHEMA, status: 'ABSTAINED' } }, { provider: async function () { throw new Error('must not call'); } });
   assert.equal(noLedger.status, 'ABSTAINED');

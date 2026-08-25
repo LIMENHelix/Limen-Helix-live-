@@ -3077,3 +3077,30 @@ explicitly not counted as the missing domain-owned effector. This becomes the
 Job 5/Job 9 repair queue: add the smallest domain-local executor boundary first,
 then its durable receipt, independent observer, rollback, switch/budget proof,
 and only after production verification consider enabling that one lane.
+
+### Finance Preview live format finding — measured 2026-08-25
+
+A fresh authenticated audit found Finance cycle state healthy and restored,
+L3 evidence complete, one declared outward consumer, and packet
+`finance:3:1787670644566-265` durably present with 32 semantic observations and
+one opportunity. The source universe joined one exact public-company identity,
+NextEra Energy (`NEE`, CIK `0000753308`), to current market and network records.
+Readiness was `READY_FOR_MANAGER_REVIEW`; the one-shot gate was enabled and no
+receipt existed.
+
+The already-authorized bounded Preview called the manager provider exactly once
+and then correctly abstained with `manager_response_must_be_json`. Its durable
+receipt records 11,704 input tokens, 839 output tokens, no selected company, no
+candidate, no broker contact, no order, and no live money. The packet-keyed
+receipt now inhibits any repeat call for that packet. The provider response body
+was not retained, so the exact malformed text is not inferred after the fact.
+
+The repair is at the transport boundary for future packets: Claude Sonnet 4.6
+supports `output_config.format` with a JSON Schema, while prompt-only JSON
+instructions do not guarantee parseable output. The Preview provider now sends
+the exact `finance-manager-proposal/1.0` schema, including one supplied company,
+one 30/60/90 horizon, exactly three source-identity references, paper-only
+authority, and no additional properties. Explicit refusal and token-truncation
+stop reasons remain abstentions. The strict downstream company, evidence,
+provenance, and producer validation is unchanged; no parser scraping or retry
+bypass was added.
