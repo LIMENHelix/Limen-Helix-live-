@@ -3020,3 +3020,27 @@ trigger. The handler now fails closed through the shared `CRON_SECRET` gate
 before its first production fetch or Redis write, accepts no caller-supplied
 Vercel-header fallback, and marks responses `no-store`. This is a safety repair
 to the natural 20-brain cycle; it does not change any domain's authority.
+
+### Energy-reference parity ledger — measured 2026-08-25
+
+The phrase “all domains match Energy” is now split into three independently
+auditable claims by `product-domain-energy-parity-audit/1.0`:
+
+1. **Implementation:** all 20 separate product brains have the required
+   physiology. Energy uses its custom reference organs; the other 19 inherit
+   the generic ports for recurrent plasticity, active inference,
+   interoception, phase perception, resource metabolism, motor readiness,
+   emission queueing, and autonomous internal research emission.
+2. **Activation:** plasticity/recency/metaplasticity are arm-eligible across all
+   20, but domain phase actuation is enabled in only 9 and phase perception is
+   explicitly armed only in Energy. These are neurological review items, not
+   permission to mechanically flip flags.
+3. **External authority:** `0/20` brains are externally autonomous. Every domain
+   still lacks the verified executor/independent-observer pair and has both its
+   resource and motor external switches off.
+
+Thus the common Brain-v2/product-brain physiology is implemented without
+centralizing state, but byte-identical Energy behavior and business autonomy are
+not claimed. The generated neurologist review queue covers the phase gates; the
+business execution queue covers each domain's separate lane, executor, outcome
+observer, rollback, and switch evidence.
