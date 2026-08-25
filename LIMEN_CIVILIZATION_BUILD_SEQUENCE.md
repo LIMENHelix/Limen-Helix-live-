@@ -2670,3 +2670,26 @@ twenty current brains therefore remain held. This closes the declared-versus-
 verified authorization seam, not the actual executor or observer blockers.
 Full repository verification is **164 passed, 1 expected external-corpus skip,
 0 failed**.
+
+### Finance paper rollback seam — implemented 2026-08-24
+
+The Finance brain declares `cancel-or-exit-under-risk-policy`, but the Tradier
+sandbox transport previously exposed no cancellation path. The paper B14 layer
+now supports canceling the unfilled remainder of an exact persisted sandbox
+command. Production brokerage remains unreachable because the transport stays
+hard-pinned to `sandbox.tradier.com`.
+
+Cancellation requires the master credential and an exact command-derived
+confirmation string. B14 reads and matches the broker order identity, refuses a
+terminal or mismatched order, persists the rollback intent before the broker
+DELETE request, persists the cancel receipt afterward, and leaves final status
+to the existing independent order/account reconciliation read. Partial fills
+are preserved and reconciled; cancellation never erases an executed self-effect
+or invents a world outcome.
+
+This supplies the missing rollback implementation needed to test a future
+Finance paper executor capability. It does not verify that capability, submit an
+order autonomously, enable the Finance motor/resource/capital switches, or
+authorize live money. Focused Tradier transport and B14 tests pass `24/24` and
+`44/44`; full repository verification is **164 passed, 1 expected external-
+corpus skip, 0 failed**.

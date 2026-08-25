@@ -51,6 +51,7 @@ function broker(opts) {
     accountSnapshot: async function () { calls.push('snapshot'); return this.after && calls.indexOf('order') !== -1 ? this.after : (this.before || opts.before || snapshot(1000, 0)); },
     previewOrder: async function (order) { calls.push('preview'); this.previewRequest = order; return opts.preview || { status: 'ok', result: true, cost: 501, order_cost: 500, commission: 1, fees: 0 }; },
     placeOrder: async function (order) { calls.push('place'); this.orderRequest = order; if (this.onPlace) this.onPlace(); if (opts.placeError) throw opts.placeError; return opts.receipt || { id: 77, status: 'ok', partner_id: 'p1' }; },
+    cancelOrder: async function (orderId) { calls.push('cancel'); this.cancelOrderId = String(orderId); if (this.onCancel) this.onCancel(); if (opts.cancelError) throw opts.cancelError; return opts.cancelReceipt || { id: orderId, status: 'ok' }; },
     getOrder: async function () { calls.push('order'); return this.order || opts.order || { id: '77', symbol: 'SPY', side: 'buy', quantity: 1, status: 'filled', averageFillPrice: 499, executedQuantity: 1, remainingQuantity: 0, tag: this.orderRequest.tag }; },
     findOrderByTag: async function () { calls.push('findByTag'); return this.recovered || opts.recovered || null; }
   };
@@ -131,6 +132,50 @@ async function main() {
     return b14.submitApproved(store, api, { previewId: preview.previewId, confirmation: preview.confirmationSummary }, Date.parse('2026-08-23T10:03:00Z'));
   });
   assert('one preview cannot dispatch twice', duplicate.code === 'TRADIER_B14_ALREADY_SUBMITTED');
+
+  var cancelStore = memoryStore();
+  var cancelBroker = broker();
+  var cancelPreview = await b14.createPreview(cancelStore, cancelBroker, normalized, Date.parse('2026-08-23T11:00:00Z'));
+  var cancelCommand = await b14.submitApproved(cancelStore, cancelBroker, { previewId: cancelPreview.previewId, confirmation: cancelPreview.confirmationSummary }, Date.parse('2026-08-23T11:01:00Z'));
+  cancelBroker.order = { id: '77', symbol: 'SPY', side: 'buy', quantity: 1, status: 'open', averageFillPrice: null, executedQuantity: 0, remainingQuantity: 1, tag: cancelCommand.tag };
+  var badCancel = await rejected(function () { return b14.cancelApproved(cancelStore, cancelBroker, { commandId: cancelCommand.commandId, confirmation: 'cancel it' }); });
+  assert('free-form rollback approval is refused before broker cancellation', badCancel.code === 'TRADIER_B14_CANCEL_CONFIRMATION_MISMATCH' && cancelBroker.calls.indexOf('cancel') === -1);
+  cancelBroker.order.symbol = 'QQQ';
+  var wrongCancelOrder = await rejected(function () { return b14.cancelApproved(cancelStore, cancelBroker, { commandId: cancelCommand.commandId, confirmation: cancelCommand.rollback.confirmationSummary }); });
+  assert('rollback refuses a broker order that does not match the command', wrongCancelOrder.code === 'TRADIER_B14_ORDER_IDENTITY_MISMATCH' && cancelBroker.calls.indexOf('cancel') === -1);
+  cancelBroker.order.symbol = 'SPY';
+  cancelBroker.onCancel = function () {
+    var persisted = cancelStore.values.get('tradier_b14_command:' + cancelCommand.commandId);
+    assert('rollback intent is durable before the broker cancel request begins', persisted && persisted.status === 'CANCEL_PERSISTED' && persisted.rollback.confirmationHash);
+  };
+  var canceled = await b14.cancelApproved(cancelStore, cancelBroker, { commandId: cancelCommand.commandId, confirmation: cancelCommand.rollback.confirmationSummary }, Date.parse('2026-08-23T11:02:00Z'));
+  assert('sandbox cancel receipt is durably bound to the exact command order', canceled.status === 'CANCEL_RECEIPT_PERSISTED' && canceled.rollback.receipt.orderId === '77' && cancelBroker.cancelOrderId === '77');
+  var duplicateCancel = await rejected(function () { return b14.cancelApproved(cancelStore, cancelBroker, { commandId: cancelCommand.commandId, confirmation: cancelCommand.rollback.confirmationSummary }); });
+  assert('a persisted cancellation cannot dispatch twice before reconciliation', duplicateCancel.code === 'TRADIER_B14_CANCEL_ALREADY_REQUESTED' && cancelBroker.calls.filter(function (c) { return c === 'cancel'; }).length === 1);
+  cancelBroker.order.status = 'canceled';
+  var canceledReconciled = await b14.reconcile(cancelStore, cancelBroker, cancelCommand.commandId, Date.parse('2026-08-23T11:03:00Z'));
+  assert('independent order read confirms canceled rollback as terminal', canceledReconciled.status === 'RECONCILED_TERMINAL' && canceledReconciled.reafference.orderStatus === 'canceled');
+
+  var terminalCancel = await rejected(function () { return b14.cancelApproved(cancelStore, cancelBroker, { commandId: cancelCommand.commandId, confirmation: cancelCommand.rollback.confirmationSummary }); });
+  assert('terminal orders cannot be canceled again', terminalCancel.code === 'TRADIER_B14_CANCEL_TERMINAL');
+
+  var cancelDurabilityStore = memoryStore();
+  var cancelDurabilityBroker = broker();
+  var cancelDurabilityPreview = await b14.createPreview(cancelDurabilityStore, cancelDurabilityBroker, normalized);
+  var cancelDurabilityCommand = await b14.submitApproved(cancelDurabilityStore, cancelDurabilityBroker, { previewId: cancelDurabilityPreview.previewId, confirmation: cancelDurabilityPreview.confirmationSummary });
+  cancelDurabilityBroker.order = { id: '77', symbol: 'SPY', side: 'buy', status: 'open', executedQuantity: 0, remainingQuantity: 1, tag: cancelDurabilityCommand.tag };
+  cancelDurabilityStore.failSetPrefix = 'tradier_b14_command:';
+  var cancelDurability = await rejected(function () { return b14.cancelApproved(cancelDurabilityStore, cancelDurabilityBroker, { commandId: cancelDurabilityCommand.commandId, confirmation: cancelDurabilityCommand.rollback.confirmationSummary }); });
+  assert('rollback durability failure aborts before broker cancellation', cancelDurability && cancelDurabilityBroker.calls.indexOf('cancel') === -1);
+
+  var mismatchStore = memoryStore();
+  var mismatchBroker = broker({ cancelReceipt: { id: 999, status: 'ok' } });
+  var mismatchPreview = await b14.createPreview(mismatchStore, mismatchBroker, normalized);
+  var mismatchCancelCommand = await b14.submitApproved(mismatchStore, mismatchBroker, { previewId: mismatchPreview.previewId, confirmation: mismatchPreview.confirmationSummary });
+  mismatchBroker.order = { id: '77', symbol: 'SPY', side: 'buy', status: 'open', executedQuantity: 0, remainingQuantity: 1, tag: mismatchCancelCommand.tag };
+  var badCancelReceipt = await rejected(function () { return b14.cancelApproved(mismatchStore, mismatchBroker, { commandId: mismatchCancelCommand.commandId, confirmation: mismatchCancelCommand.rollback.confirmationSummary }); });
+  var unresolvedCancel = await mismatchStore.get('tradier_b14_command:' + mismatchCancelCommand.commandId);
+  assert('a mismatched cancel receipt remains durably unresolved', badCancelReceipt.code === 'TRADIER_B14_CANCEL_RECEIPT_MISMATCH' && unresolvedCancel.status === 'CANCEL_UNRESOLVED');
 
   var failingStore = memoryStore();
   var failingBroker = broker();

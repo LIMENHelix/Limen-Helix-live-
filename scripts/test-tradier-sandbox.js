@@ -96,6 +96,7 @@ async function main() {
       if (String(url).endsWith('/positions')) return response(200, { positions: { position: { symbol: 'SPY', quantity: 2 } } });
       if (String(url).indexOf('/orders?includeTags=true') !== -1) return response(200, { orders: { order: { id: 9, symbol: 'SPY', side: 'sell', quantity: 1, remaining_quantity: 1, status: 'open', tag: 'limen-b14-test' } } });
       if (String(url).endsWith('/orders/77?includeTags=true')) return response(200, { order: { id: 77, symbol: 'SPY', side: 'buy', quantity: 1, exec_quantity: 1, avg_fill_price: 499, status: 'filled', tag: 'limen-b14-order' } });
+      if (String(url).endsWith('/orders/77') && options.method === 'DELETE') return response(200, { order: { id: 77, status: 'ok' } });
       if (String(url).endsWith('/orders') && options.method === 'POST') {
         var form = new URLSearchParams(options.body);
         if (form.get('preview') === 'true') return response(200, { order: { status: 'ok', result: true, cost: 500, order_cost: 500 } });
@@ -111,6 +112,9 @@ async function main() {
     assert('placement omits the preview flag', placed.id === 77 && !new URLSearchParams(calls[calls.length - 1].options.body).has('preview'));
     var order = await tradier.getOrder('77');
     assert('order status exposes fill identity and quantity', order.id === '77' && order.executedQuantity === 1 && order.averageFillPrice === 499);
+    var canceled = await tradier.cancelOrder('77');
+    var cancelCall = calls[calls.length - 1];
+    assert('cancel uses DELETE with no body against the sandbox order id', canceled.id === 77 && cancelCall.options.method === 'DELETE' && !cancelCall.options.body && /\/orders\/77$/.test(cancelCall.url));
     var tagged = await tradier.findOrderByTag('limen-b14-test');
     assert('a missing receipt can be recovered by command tag', tagged && tagged.id === '9' && tagged.tag === 'limen-b14-test');
     assert('every write-capable request remains pinned to sandbox', calls.every(function (call) { return call.url.indexOf('https://sandbox.tradier.com/v1/') === 0; }));
