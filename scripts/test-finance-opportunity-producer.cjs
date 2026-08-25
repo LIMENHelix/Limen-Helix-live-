@@ -23,6 +23,11 @@ const proposal = {
   thesis: 'A source-identified event warrants a bounded paper scenario review.',
   invalidation: 'Invalidate if the named event is corrected or the market observation reverses the stated condition.',
   scenarios: [{ name: 'base', condition: 'event persists', impact: 'monitor' }, { name: 'downside', condition: 'event reverses', impact: 'abstain' }],
+  projectedMarginRanking: {
+    schemaVersion: 'finance-projected-margin-ranking/1.0',
+    methodology: 'expectedReturnPct - abs(min(downsideReturnPct, 0)) * (1 - confidence)',
+    entries: [{ company: { slug: 'example_co', ticker: 'EX' }, side: 'SHORT', expectedReturnPct: 4.8, downsideReturnPct: -6.5, confidence: 0.52, riskAdjustedMarginPct: 1.68 }]
+  },
   horizonDays: 30, paperOnly: true,
   independenceAssessment: { status: 'UNASSESSED', reason: 'Ownership and syndication have not been independently established.' },
   evidenceRefs: [
@@ -39,6 +44,7 @@ assert.equal(ready.simulationOnly, true);
 assert.equal(ready.liveExecution, false);
 assert.equal(ready.company.ticker, 'EX');
 assert.equal(ready.evidenceRefs.length, 3);
+assert.equal(ready.projectedMarginRanking.entries[0].side, 'SHORT');
 assert.equal(ready.blockers.length, 0);
 
 const released = Producer.releaseForPaper(ready, {
@@ -86,6 +92,7 @@ blocked({ paperOnly: false }, 'proposal_must_be_paper_only');
 blocked({ horizonDays: 15 }, 'proposal_horizon_must_be_30_60_or_90_days');
 blocked({ independenceAssessment: { status: 'ASSESSED', reason: 'guess' } }, 'publisher_independence_must_remain_explicitly_unassessed');
 blocked({ tradeIntent: { side: 'buy' } }, 'proposal_forbidden_field_tradeIntent');
+blocked({ side: 'SHORT' }, 'proposal_forbidden_field_side');
 blocked({ evidenceRefs: [{ role: 'semantic', sourceIdentity: { kind: 'publisher-item', value: 'missing' } }, proposal.evidenceRefs[1], proposal.evidenceRefs[2]] }, 'proposal_evidence_ref_0_not_in_ledger');
 blocked({ evidenceRefs: [{ role: 'semantic', sourceIdentity: { kind: 'wrong-kind', value: semanticId } }, proposal.evidenceRefs[1], proposal.evidenceRefs[2]] }, 'proposal_evidence_ref_0_not_in_ledger');
 
