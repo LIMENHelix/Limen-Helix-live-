@@ -87,6 +87,7 @@ blocked({ horizonDays: 15 }, 'proposal_horizon_must_be_30_60_or_90_days');
 blocked({ independenceAssessment: { status: 'ASSESSED', reason: 'guess' } }, 'publisher_independence_must_remain_explicitly_unassessed');
 blocked({ tradeIntent: { side: 'buy' } }, 'proposal_forbidden_field_tradeIntent');
 blocked({ evidenceRefs: [{ role: 'semantic', sourceIdentity: { kind: 'publisher-item', value: 'missing' } }, proposal.evidenceRefs[1], proposal.evidenceRefs[2]] }, 'proposal_evidence_ref_0_not_in_ledger');
+blocked({ evidenceRefs: [{ role: 'semantic', sourceIdentity: { kind: 'wrong-kind', value: semanticId } }, proposal.evidenceRefs[1], proposal.evidenceRefs[2]] }, 'proposal_evidence_ref_0_not_in_ledger');
 
 const noRelease = Producer.releaseForPaper(ready, { mode: 'sandbox-paper', policyId: 'x' });
 assert.equal(noRelease.status, 'ABSTAINED');
@@ -94,4 +95,4 @@ assert.equal(noRelease.reason, 'paper_release_policy_required');
 const notReady = Producer.releaseForPaper(Object.assign({}, ready, { status: 'ABSTAINED' }), { mode: 'sandbox-paper', policyId: 'x', releasedAt: '2026-08-24T16:01:00Z' });
 assert.equal(notReady.status, 'ABSTAINED');
 
-console.log('finance opportunity producer: 31/31 passed');
+console.log('finance opportunity producer: 32/32 passed');
