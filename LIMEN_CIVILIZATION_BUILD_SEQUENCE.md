@@ -3114,3 +3114,29 @@ TTL commentary specify a half-hour cadence. This created an avoidable roughly
 to `0,30 * * * *` and extends the TTL to 90 minutes, so one missed half-hour run
 does not expose stale fallback data. Finance's one-hour network-evidence limit
 is unchanged; cadence is repaired rather than trust being loosened.
+
+### Finance Preview structured-schema rejection — measured 2026-08-25
+
+After the cadence repair restored fresh Redis-backed network evidence, packet
+`finance:3:1787672446151-265` reached `READY_FOR_MANAGER_REVIEW` with one
+accepted candidate and no readiness blockers. One standing-authority Preview
+invocation acquired that packet's durable receipt and called the provider once.
+It abstained as `finance_manager_provider_no_response`, with no token usage,
+selected company, candidate, broker contact, order, or live-money effect. The
+receipt correctly inhibits retry for that packet.
+
+The failure occurred before generation. Anthropic's current structured-output
+contract supports `output_config.format` and Claude Sonnet 4.6, but explicitly
+lists `minLength` among constraints that must be removed from the schema sent to
+the API and enforced after receipt. The deployed schema contained eleven such
+constraints. The transport schema now replaces them with descriptions while
+the existing Finance parser and producer continue to enforce non-empty values,
+exact company/evidence identities, valid timestamps, scenario bounds, and
+paper-only authority.
+
+The same repair closes the observability loss that collapsed provider HTTP and
+transport failures into `provider_no_response`. Future receipts retain only a
+bounded provider status, error type/message, and stop reason; they never retain
+the API key, prompt, or raw model output. Safe structured runtime logging records
+the same bounded rejection metadata. No retry, candidate release, broker call,
+order, Redis mutation outside the receipt, or live-money action is introduced.

@@ -36,6 +36,7 @@ const Provider = require('../lib/finance-preview-provider.js');
   assert.equal(sent.body.output_config.format.schema.additionalProperties, false);
   assert.equal(sent.body.output_config.format.schema.properties.horizonDays.enum.join(','), '30,60,90');
   assert.equal(sent.body.output_config.format.schema.properties.paperOnly.const, true);
+  assert.equal(JSON.stringify(sent.body.output_config.format.schema).includes('minLength'), false);
   assert.equal(sent.options.headers['x-api-key'], 'test-only');
   assert.equal(result.ok, true);
   assert.equal(result.text, '{"paperOnly":true}');
@@ -62,5 +63,28 @@ const Provider = require('../lib/finance-preview-provider.js');
   assert.equal(refusedResult.ok, false);
   assert.equal(refusedResult.stopReason, 'refusal');
 
-  console.log('finance preview provider: structured JSON, one-shot, refusal, and truncation guards passed');
+  const rejected = Provider.create({
+    env: { LIMEN_FINANCE_PREVIEW_ENABLED: '1', ANTHROPIC_API_KEY: 'test-only' },
+    fetch: async () => ({
+      ok: false,
+      status: 400,
+      text: async () => JSON.stringify({ type: 'error', error: { type: 'invalid_request_error', message: 'Unsupported schema keyword: minLength' } })
+    })
+  });
+  const rejectedResult = await rejected({ system: 'system', prompt: 'prompt' });
+  assert.equal(rejectedResult.ok, false);
+  assert.equal(rejectedResult.httpStatus, 400);
+  assert.equal(rejectedResult.errorType, 'invalid_request_error');
+  assert.equal(rejectedResult.error, 'Unsupported schema keyword: minLength');
+
+  const transportFailed = Provider.create({
+    env: { LIMEN_FINANCE_PREVIEW_ENABLED: '1', ANTHROPIC_API_KEY: 'test-only' },
+    fetch: async () => { throw new Error('connection reset'); }
+  });
+  const transportResult = await transportFailed({ system: 'system', prompt: 'prompt' });
+  assert.equal(transportResult.ok, false);
+  assert.equal(transportResult.errorType, 'transport_error');
+  assert.equal(transportResult.error, 'connection reset');
+
+  console.log('finance preview provider: structured JSON, one-shot, refusal, truncation, and bounded diagnostics passed');
 }()).catch(e => { console.error(e); process.exitCode = 1; });
