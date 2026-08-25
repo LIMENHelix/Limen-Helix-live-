@@ -261,6 +261,7 @@ async function handlerProof() {
   const killPath = path.join(ROOT, 'lib', 'ai-kill-switch.js');
   const efferenceStorePath = path.join(ROOT, 'lib', 'autofire-efference-store.js');
   const brainStorePath = path.join(ROOT, 'lib', 'brain-shadow-store.js');
+  const motorAuthorizationPath = path.join(ROOT, 'lib', 'product-domain-motor-authorization.js');
   const tradierSandboxPath = path.join(ROOT, 'lib', 'tradier-sandbox.js');
   mock(dbPath, fakeDb);
   mock(efferenceStorePath, fakeEfferenceStore);
@@ -270,6 +271,16 @@ async function handlerProof() {
       relationshipEvidence: null,
       domainFunction: { evidence: { l3CurrentEvidenceComplete: true, outwardConnected: true }, outwardConsumersDeclared: 1 }
     }; }
+  });
+  const productMotorCalls = [];
+  let productMotorAuthorized = true;
+  mock(motorAuthorizationPath, {
+    async authorize(_store, productDomain, lane) {
+      productMotorCalls.push({ productDomain, lane });
+      return productMotorAuthorized
+        ? { ok: true, authorized: true, status: 'AUTHORIZED', receiptId: 'pdmr_' + productDomain }
+        : { ok: true, authorized: false, status: 'HELD', reason: 'domain-motor-not-external-ready', receiptId: 'pdmr_' + productDomain };
+    }
   });
   mock(stagePath, {
     classifyStage() { return { stage: 'mature-operating' }; },
@@ -336,13 +347,38 @@ async function handlerProof() {
       response.json.efferenceSweep.retired === 1 &&
       fakeEfferenceStore.values.get(EFFERENCE.recordKey(stale.copy.id)).status === 'UNRESOLVED');
     ok('actual handler completes one bounded research fire', response.code === 200 && response.json.fired === 1 && response.json.errors === 0, response.body);
+    ok('Medicine product motor authorizes the Health-owned research call before dispatch',
+      productMotorCalls.length === 1 && productMotorCalls[0].productDomain === 'medicine' && productMotorCalls[0].lane === 'research-papers');
     ok('actual handler made exactly expand then persist calls', network.length === 2 && /expand-artifact/.test(network[0].url) && /limen-engine-output/.test(network[1].url));
     ok('persisted artifact carries the same command identity', network[1].body.payload.autofire.efferenceCopyId === response.json.results[0].efferenceCopyId);
+    ok('artifact and result retain the exact product motor receipt',
+      network[1].body.payload.autofire.productDomain === 'medicine' &&
+      network[1].body.payload.autofire.productMotorReceiptId === 'pdmr_medicine' &&
+      response.json.results[0].productMotorReceiptId === 'pdmr_medicine');
     const effKey = EFFERENCE.recordKey(response.json.results[0].efferenceCopyId);
     const eff = fakeEfferenceStore.values.get(effKey);
     ok('actual handler closes the copy from the persistence receipt', eff.status === 'EXECUTED' && eff.receipt.outputId === 'eo_research_apple_1');
     ok('audit result exposes motor and model state', response.json.results[0].motorStatus === 'EXECUTED' && response.json.results[0].forwardModel.modelN === 1);
     ok('queue is FIRED only after the actuator receipt', fakeDb.values.get('autoqueue')[0].status === 'FIRED' && fakeDb.values.get('autoqueue')[0].autofireOutputId === 'eo_research_apple_1');
+
+    console.log('\nT5a: owning product motor inhibition prevents every research side effect');
+    fakeDb.values.set('autoqueue', [{
+      status: 'PENDING', source: 'master-inbox', autofireEligible: true,
+      recommendedLane: 'research', cik: '320194', portalSlug: 'apple',
+      domain: 'science', sourceArtifactRef: 'research:science:held', sourcePatternSig: 'sig-held',
+      masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
+      salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
+    }]);
+    productMotorAuthorized = false;
+    network.length = 0;
+    const commandCountBeforeHold = Array.from(fakeEfferenceStore.values.keys()).filter(k => k.startsWith('autofire_efference:')).length;
+    const heldResearch = await invoke(handler, request('GET', '/api/limen-worker-autofire'));
+    const commandCountAfterHold = Array.from(fakeEfferenceStore.values.keys()).filter(k => k.startsWith('autofire_efference:')).length;
+    ok('Science motor hold is classified as an expected non-billable skip',
+      heldResearch.json.skipped === 1 && heldResearch.json.results[0].reason === 'product-domain-research-motor-held' && heldResearch.json.results[0].billableAttempt === false);
+    ok('Science motor hold occurs before B14 command persistence', commandCountAfterHold === commandCountBeforeHold);
+    ok('Science motor hold makes no provider or artifact request', network.length === 0);
+    productMotorAuthorized = true;
 
     console.log('\nT5b: an ok response without outputId is not an actuator receipt');
     fakeDb.values.set('autoqueue', [{

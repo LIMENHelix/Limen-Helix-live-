@@ -41,6 +41,7 @@ var efferenceStore = require('../lib/autofire-efference-store');
 var domainBridge = require('../lib/autofire-domain-bridge');
 var autofireLearning = require('../lib/autofire-learning');
 var brainStore = require('../lib/brain-shadow-store');
+var motorAuthorization = require('../lib/product-domain-motor-authorization');
 var financeB14Bridge = require('../lib/finance-b14-bridge');
 var tradierSandbox = require('../lib/tradier-sandbox');
 var fs = require('fs');
@@ -85,6 +86,33 @@ function domainOutwardHoldResult(entry, receipt) {
     selectionReasons: receipt.reasons,
     decisionKind: receipt.criticDecision && receipt.criticDecision.released
       ? receipt.criticDecision.released.kind : null,
+    motorStatus: 'HELD'
+  };
+}
+
+/* Runtime owner names differ from product-brain names for the two research
+ * owners. Keep the join explicit: a research release from `research` belongs
+ * to the Science product brain; a release from `health` belongs to Medicine.
+ * No other domain may borrow this lane or receipt. */
+function researchMotorIdentity(ownerDomain) {
+  if (ownerDomain === 'research') return { productDomain: 'science', ownerDomain: 'research', lane: 'research-papers' };
+  if (ownerDomain === 'health') return { productDomain: 'medicine', ownerDomain: 'health', lane: 'research-papers' };
+  return null;
+}
+
+function researchMotorHoldResult(entry, selection, authorization, identity) {
+  return {
+    skipped: true,
+    ok: false,
+    billableAttempt: false,
+    cik: entry.cik,
+    lane: entry.recommendedLane,
+    reason: 'product-domain-research-motor-held',
+    detail: authorization && authorization.reason || 'research-motor-identity-missing',
+    selectionId: selection && selection.id || null,
+    productDomain: identity && identity.productDomain || null,
+    ownerDomain: identity && identity.ownerDomain || null,
+    productMotorReceiptId: authorization && authorization.receiptId || null,
     motorStatus: 'HELD'
   };
 }
@@ -285,6 +313,24 @@ async function _fireOne(entry) {
     return domainOutwardHoldResult(entry, selected.receipt);
   }
 
+  // A paid research provider call is an external motor effect even though the
+  // resulting artifact stays internal. B10 release is therefore necessary but
+  // not sufficient: the exact Science/Medicine product brain must also have a
+  // fresh, restored motor receipt plus independent executor/observer capability
+  // evidence. This check is read-only and happens before the B14 command write,
+  // provider request, budget charge, or artifact persistence.
+  var productMotor = null;
+  var productMotorAuthorization = null;
+  if (lane === 'research') {
+    productMotor = researchMotorIdentity(selected.receipt.ownerDomain);
+    if (!productMotor) return researchMotorHoldResult(entry, selected.receipt, null, null);
+    productMotorAuthorization = await motorAuthorization.authorize(
+      efferenceStore, productMotor.productDomain, productMotor.lane, Date.now());
+    if (!productMotorAuthorization.authorized) {
+      return researchMotorHoldResult(entry, selected.receipt, productMotorAuthorization, productMotor);
+    }
+  }
+
   // Optional Finance motor bridge. A queue entry must carry an explicit trade
   // intent; the worker never derives a ticker, side, quantity, price, or risk
   // limit from the company, stress, headline, or kernel phase. With the
@@ -354,6 +400,10 @@ async function _fireOne(entry) {
 
   async function finish(result) {
     if (financeB14Preview) result.financeB14Preview = financeB14Preview;
+    if (productMotorAuthorization) {
+      result.productDomain = productMotor.productDomain;
+      result.productMotorReceiptId = productMotorAuthorization.receiptId;
+    }
     var motor = await autofireEfference.resolve(efferenceStore, efferenceCopy, result, Date.now());
     result.efferenceCopyId = efferenceCopy.id;
     result.actionId = efferenceCopy.actionId;
@@ -462,6 +512,8 @@ async function _fireOne(entry) {
             triggeredAt: Date.now(),
             selectionId: selected.receipt.id,
             ownerDomain: selected.receipt.ownerDomain,
+            productDomain: productMotor ? productMotor.productDomain : null,
+            productMotorReceiptId: productMotorAuthorization ? productMotorAuthorization.receiptId : null,
             efferenceCopyId: efferenceCopy.id,
             actionId: efferenceCopy.actionId
           }
@@ -838,7 +890,11 @@ module.exports = async function handler(req, res) {
 /* Exported only for the behavioral accounting test; Vercel still invokes the
  * function itself. */
 module.exports.domainOutwardHoldResult = domainOutwardHoldResult;
+module.exports.researchMotorIdentity = researchMotorIdentity;
+module.exports.researchMotorHoldResult = researchMotorHoldResult;
 
 var autofireHandler = module.exports;
 module.exports = require('../lib/heartbeat').wrap('limen-worker-autofire', autofireHandler);
 module.exports.domainOutwardHoldResult = autofireHandler.domainOutwardHoldResult;
+module.exports.researchMotorIdentity = autofireHandler.researchMotorIdentity;
+module.exports.researchMotorHoldResult = autofireHandler.researchMotorHoldResult;

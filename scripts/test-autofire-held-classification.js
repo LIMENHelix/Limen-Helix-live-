@@ -24,6 +24,21 @@ check('critic hold preserves selection identity', result.selectionId === 'sel_ho
 check('critic hold records the selected no-action kind', result.decisionKind === 'no_action');
 check('critic hold remains a motor hold', result.motorStatus === 'HELD');
 
+var science = worker.researchMotorIdentity('research');
+var medicine = worker.researchMotorIdentity('health');
+check('research runtime owner maps only to the Science product motor', science.productDomain === 'science' && science.lane === 'research-papers');
+check('health runtime owner maps only to the Medicine product motor', medicine.productDomain === 'medicine' && medicine.lane === 'research-papers');
+check('another owner cannot borrow the research product motor', worker.researchMotorIdentity('finance') === null);
+
+var motorHold = worker.researchMotorHoldResult(
+  { cik: '456', recommendedLane: 'research' },
+  { id: 'sel_research', ownerDomain: 'research' },
+  { authorized: false, reason: 'domain-motor-not-external-ready', receiptId: 'pdmr_science' },
+  science
+);
+check('product motor hold is non-billable and non-dispatching', motorHold.skipped === true && motorHold.billableAttempt === false && motorHold.motorStatus === 'HELD');
+check('product motor hold preserves exact owner and receipt identities', motorHold.productDomain === 'science' && motorHold.ownerDomain === 'research' && motorHold.productMotorReceiptId === 'pdmr_science');
+
 if (failures.length) { console.error('\n' + failures.length + ' failed: ' + failures.join('; ')); process.exitCode = 1; }
-else console.log('\n6/6 passed');
+else console.log('\n11/11 passed');
 
