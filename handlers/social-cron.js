@@ -22,6 +22,8 @@ var T = require('../lib/tool-fetch');
 var db = require('../lib/limen-db');
 var gen = require('../lib/social-generator');
 var social = require('../lib/social-post');
+var motorStore = require('../lib/autofire-efference-store');
+var motorAuthorization = require('../lib/product-domain-motor-authorization');
 
 var LAST_KEY = 'social:lastDomain:v1';
 
@@ -98,6 +100,19 @@ module.exports = async function handler(req, res) {
     if (!wantPost) {
       preview.published = false;
       preview.note = 'Preview only. Add &post=1 to publish. Publishing is never the default.';
+      return T.send(res, preview);
+    }
+
+    // Cron/admin identity can request evaluation, but only the Communication
+    // brain owns the public social effector. Its fresh restored motor receipt
+    // must independently release this lane before Bluesky authentication.
+    var motorGate = await motorAuthorization.authorize(motorStore, 'communication', 'social', Date.now());
+    if (!motorGate.authorized) {
+      preview.published = false;
+      preview.motorHeld = true;
+      preview.reason = motorGate.reason;
+      preview.motorReceiptId = motorGate.receiptId;
+      preview.motorBlockers = motorGate.blockers;
       return T.send(res, preview);
     }
 

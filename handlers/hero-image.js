@@ -41,6 +41,8 @@ var T = require('../lib/tool-fetch');
 var db = require('../lib/limen-db');
 var ks = require('../lib/ai-kill-switch');
 var meter = require('../lib/spend-meter');
+var motorStore = require('../lib/autofire-efference-store');
+var motorAuthorization = require('../lib/product-domain-motor-authorization');
 
 var ENDPOINT = 'https://api.x.ai/v1/images/generations';
 var MODEL = process.env.XAI_IMAGE_MODEL || 'grok-imagine-image-quality';
@@ -212,6 +214,22 @@ module.exports = async function handler(req, res) {
     var isKeyed = keyed(req);
     if (!isCron && !isKeyed) {
       return T.send(res, { ok: false, error: 'Generation is restricted. Add ?list=1 to read results without a key.' }, 401);
+    }
+
+    // Culture owns the current media-artifact effector. Cron/admin identity can
+    // request a generation cycle, but no provider or spend gate is touched until
+    // the Culture brain's restored motor receipt releases hero-image.
+    var motorGate = await motorAuthorization.authorize(motorStore, 'culture', 'hero-image', Date.now());
+    if (!motorGate.authorized) {
+      return T.send(res, {
+        ok: true,
+        acted: false,
+        generated: false,
+        motorHeld: true,
+        reason: motorGate.reason,
+        motorReceiptId: motorGate.receiptId,
+        motorBlockers: motorGate.blockers
+      });
     }
 
     // ── SPEND CAP. Fails CLOSED: an unreadable counter refuses to generate. ──
