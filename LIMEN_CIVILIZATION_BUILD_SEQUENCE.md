@@ -3263,3 +3263,23 @@ actor abstention, broker rejection, missing motor proof, or unresolved command
 stops the cycle at that stage. The transport remains hardcoded to Tradier
 sandbox and reports `liveMoney:false`; this does not authorize Job 8 or any
 production brokerage account.
+
+### Finance developmental motor commissioning — implemented 2026-08-25
+
+The mature Finance motor gate cannot require a 30-day external outcome before
+the first sandbox command that creates that outcome. That circular dependency
+is now separated into two bounded developmental stages. First, a protected
+one-shot commissioning action submits one deliberately non-marketable Tradier
+sandbox limit order, immediately persists and dispatches its cancellation, and
+accepts proof only after an independent broker read reports terminal `canceled`
+with zero executed shares. The command, order, tag, cancellation receipt, and
+reafference identities must all survive in the existing B14 ledger.
+
+After that zero-effect rollback proof, developmental authority may release at
+most one source-ranked Finance paper position through the ordinary decision,
+risk, preview, receipt, and sandbox-order path. The single durable slot is
+claimed by packet id before dispatch and cannot be reused for another packet.
+Its purpose is to create the first genuine 30-day independent outcome needed by
+the mature verifier; it is not a substitute for that verifier. The commissioning
+switch, both sandbox autonomy switches, the positive projected-margin gate, and
+all one-share/$500 limits remain mandatory. Live brokerage remains unreachable.
