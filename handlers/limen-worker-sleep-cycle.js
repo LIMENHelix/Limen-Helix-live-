@@ -229,3 +229,5 @@ module.exports = async function handler(req, res) {
     }));
   }
 };
+
+module.exports = require('../lib/heartbeat').wrap('limen-worker-sleep-cycle', module.exports);

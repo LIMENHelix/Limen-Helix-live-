@@ -269,3 +269,7 @@ module.exports = async function handler(req, res) {
 
 // Narrow test seam: exposes authentication only, never persistence or brain state.
 module.exports._authorizeWrite = authorizeWrite;
+
+var brainWeightsCronHandler = module.exports;
+module.exports = require('../lib/heartbeat').wrap('brain-weights-cron', brainWeightsCronHandler);
+module.exports._authorizeWrite = brainWeightsCronHandler._authorizeWrite;

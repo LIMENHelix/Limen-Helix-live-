@@ -838,3 +838,7 @@ module.exports = async function handler(req, res) {
 /* Exported only for the behavioral accounting test; Vercel still invokes the
  * function itself. */
 module.exports.domainOutwardHoldResult = domainOutwardHoldResult;
+
+var autofireHandler = module.exports;
+module.exports = require('../lib/heartbeat').wrap('limen-worker-autofire', autofireHandler);
+module.exports.domainOutwardHoldResult = autofireHandler.domainOutwardHoldResult;
