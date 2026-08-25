@@ -30,6 +30,20 @@ assert.equal(selected.status, 'SELECTED');
 assert.equal(selected.candidate.company.slug, 'alpha_co');
 assert.equal(Universe.select(universe, { slug: 'other', ticker: 'OTH' }).reason, 'manager_company_not_in_candidate_universe');
 assert.equal(Universe.managerContext(universe).companyCandidates.length, 1);
+const rankedProposal = {
+  company: { slug: 'alpha_co', ticker: 'ALP' },
+  projectedMarginRanking: {
+    metric: 'risk-adjusted-expected-total-return-pct',
+    methodology: 'expectedReturnPct - abs(min(downsideReturnPct, 0)) * (1 - confidence)',
+    entries: [{ company: { slug: 'alpha_co', ticker: 'ALP' }, expectedReturnPct: 12, downsideReturnPct: -10, confidence: 0.8, riskAdjustedMarginPct: 10 }]
+  }
+};
+assert.equal(Universe.validateProjectedMarginRanking(universe, rankedProposal).status, 'RANKED');
+assert.equal(Universe.validateProjectedMarginRanking(universe, { company: rankedProposal.company }).reason, 'projected_margin_ranking_required');
+const arithmetic = JSON.parse(JSON.stringify(rankedProposal)); arithmetic.projectedMarginRanking.entries[0].riskAdjustedMarginPct = 11;
+assert.equal(Universe.validateProjectedMarginRanking(universe, arithmetic).reason, 'projected_margin_ranking_arithmetic_invalid');
+const negative = JSON.parse(JSON.stringify(rankedProposal)); negative.projectedMarginRanking.entries[0] = { company: rankedProposal.company, expectedReturnPct: -1, downsideReturnPct: -10, confidence: 0.8, riskAdjustedMarginPct: -3 };
+assert.equal(Universe.validateProjectedMarginRanking(universe, negative).reason, 'projected_margin_not_positive');
 assert.equal(Universe.build({ candidates: [row('none', 'NON', false)] }).status, 'ABSTAINED');
 const thirteen = Array.from({ length: 13 }, function (_, i) { return row('co' + i, 'C' + i, true); });
 assert.equal(Universe.build({ candidates: thirteen }).truncated, true);

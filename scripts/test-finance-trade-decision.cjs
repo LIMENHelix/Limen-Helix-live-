@@ -54,6 +54,9 @@ function proposal(action, confidence) {
     evidenceRefs
   };
 }
+function buildIntent(candidate, actorProposal, quote, account, risk) {
+  return Decision.buildIntent(candidate, actorProposal, quote, account, risk, { symbol: 'SPY', last: 500 });
+}
 function broker(position) {
   const calls = [];
   return {
@@ -73,8 +76,9 @@ async function seeded() {
 }
 
 (async () => {
-  assert.equal(Decision.policy({}).maxGrossNotionalUsd, 100);
-  assert.equal(Decision.policy({ LIMEN_FINANCE_SANDBOX_MAX_NOTIONAL_USD: '250' }).maxGrossNotionalUsd, 100, 'configured cap cannot raise the hard cap');
+  assert.equal(Decision.policy({}).maxGrossNotionalUsd, 500);
+  assert.equal(Decision.policy({ LIMEN_FINANCE_SANDBOX_MAX_NOTIONAL_USD: '750' }).maxGrossNotionalUsd, 500, 'configured cap cannot raise the hard cap');
+  assert.equal(Decision.policy({ LIMEN_FINANCE_SANDBOX_MAX_NOTIONAL_USD: '250' }).maxGrossNotionalUsd, 250);
   assert.equal(Decision.policy({ LIMEN_FINANCE_SANDBOX_MAX_NOTIONAL_USD: '50' }).maxGrossNotionalUsd, 50);
 
   assert.equal(Decision.parseProposal(JSON.stringify(proposal('BUY', 0.8)), admission().candidate).ok, true);
@@ -85,14 +89,24 @@ async function seeded() {
   const mismatched = proposal('BUY', 0.8); mismatched.evidenceRefs = mismatched.evidenceRefs.slice(0, 2);
   assert(Decision.parseProposal(JSON.stringify(mismatched), admission().candidate).blockers.includes('trade_decision_evidence_refs_must_match_candidate'));
 
-  const buy = Decision.buildIntent(admission().candidate, proposal('BUY', 0.8), { last: 68.28, ask: 68.3 }, { totalCash: 1000, positions: [] }, Decision.policy({}));
+  const buy = buildIntent(admission().candidate, proposal('BUY', 0.8), { last: 68.28, ask: 68.3 }, { totalCash: 1000, positions: [] }, Decision.policy({}));
   assert.equal(buy.status, 'INTENT_READY');
   assert.equal(buy.tradeIntent.quantity, 1);
   assert.equal(buy.tradeIntent.side, 'buy');
-  assert(buy.tradeIntent.limitPrice <= 100);
-  assert.equal(Decision.buildIntent(admission().candidate, proposal('BUY', 0.7), { last: 68.28 }, { totalCash: 1000, positions: [] }, Decision.policy({})).reason, 'trade_decision_confidence_below_policy_floor');
-  assert.equal(Decision.buildIntent(admission().candidate, proposal('BUY', 0.8), { last: 68.28 }, { totalCash: 1000, positions: [{ symbol: 'RKLB', quantity: 1 }] }, Decision.policy({})).reason, 'policy_forbids_automatic_averaging');
-  assert.equal(Decision.buildIntent(admission().candidate, proposal('SELL', 0.8), { last: 68.28 }, { totalCash: 1000, positions: [] }, Decision.policy({})).reason, 'long_position_required_for_sell');
+  assert(buy.tradeIntent.limitPrice <= 500);
+  const expensive = buildIntent(admission().candidate, proposal('BUY', 0.8), { last: 215.45, ask: 215.58 }, { totalCash: 1000, positions: [] }, Decision.policy({}));
+  assert.equal(expensive.status, 'INTENT_READY', 'one whole MS-priced share fits the raised paper cap');
+  assert.equal(buildIntent(admission().candidate, proposal('BUY', 0.7), { last: 68.28 }, { totalCash: 1000, positions: [] }, Decision.policy({})).reason, 'trade_decision_confidence_below_policy_floor');
+  assert.equal(buildIntent(admission().candidate, proposal('BUY', 0.8), { last: 68.28 }, { totalCash: 1000, positions: [{ symbol: 'RKLB', quantity: 1 }] }, Decision.policy({})).reason, 'policy_forbids_automatic_averaging');
+  assert.equal(buildIntent(admission().candidate, proposal('SELL', 0.8), { last: 68.28 }, { totalCash: 1000, positions: [] }, Decision.policy({})).reason, 'long_position_required_for_sell');
+  const shortCandidate = admission().candidate;
+  shortCandidate.projectedMarginRanking = { entries: [{ company: { slug: 'rklb', ticker: 'RKLB' }, side: 'SHORT' }] };
+  const short = buildIntent(shortCandidate, proposal('SHORT', 0.8), { last: 68.28, bid: 68.2 }, { accountType: 'margin', totalCash: 1000, positions: [] }, Decision.policy({}));
+  assert.equal(short.status, 'INTENT_READY');
+  assert.equal(short.tradeIntent.side, 'sell_short');
+  assert.equal(buildIntent(shortCandidate, proposal('BUY', 0.8), { last: 68.28, ask: 68.3 }, { accountType: 'margin', totalCash: 1000, positions: [] }, Decision.policy({})).reason, 'action_conflicts_with_projected_margin_side');
+  const cover = buildIntent(shortCandidate, proposal('COVER', 0.8), { last: 68.28, ask: 68.3 }, { accountType: 'margin', totalCash: 1000, positions: [{ symbol: 'RKLB', quantity: -1 }] }, Decision.policy({}));
+  assert.equal(cover.tradeIntent.side, 'buy_to_cover');
 
   const s = await seeded();
   const b = broker(0);
@@ -113,12 +127,12 @@ async function seeded() {
   assert.equal(result.receipt.safety.orderPreviewed, false);
   assert.equal(result.receipt.safety.orderPlaced, false);
   assert.equal(providerCalls, 1);
-  assert.deepEqual(b.calls, ['quote', 'account']);
+  assert.deepEqual(b.calls, ['quote', 'quote', 'account']);
 
   const again = await Decision.execute(s, b, { approve: true, packetId }, { provider: async () => { throw new Error('must not repeat'); } });
   assert.equal(again.idempotent, true);
   assert.equal(providerCalls, 1);
-  assert.deepEqual(b.calls, ['quote', 'account']);
+  assert.deepEqual(b.calls, ['quote', 'quote', 'account']);
 
   const abstainStore = await seeded();
   const abstained = await Decision.execute(abstainStore, broker(0), { approve: true, packetId }, {
@@ -143,7 +157,7 @@ async function seeded() {
   assert.equal(inhibited.receipt.tradeIntent, null);
   assert.equal(inhibited.receipt.selection, null);
   assert.equal(inhibitedProviderCalls, 0);
-  assert.deepEqual(inhibitedBroker.calls, ['quote', 'account']);
+  assert.deepEqual(inhibitedBroker.calls, ['quote', 'quote', 'account']);
 
   console.log('finance trade decision: passed');
 })().catch(err => { console.error(err && err.stack || err); process.exit(1); });
