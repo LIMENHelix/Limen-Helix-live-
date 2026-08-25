@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-08-24T16:20:05.739Z",
+  "measuredAt": "2026-08-25T23:35:40.979Z",
   "readOnly": true,
   "scope": "production input boundary for OUTCOME_RESEARCH_EVALUATED",
   "contract": {
@@ -27,13 +27,17 @@
   },
   "outcomeEndpoint": {
     "acceptsEvaluation": true,
-    "autonomousProducer": false,
-    "producerFiles": [],
+    "autonomousProducer": true,
+    "autonomousSourceProducer": false,
+    "inputGated": true,
+    "producerFiles": [
+      "handlers/limen-research-evaluation-observer.js"
+    ],
     "explicitInputAdapter": true,
     "adapterFiles": [
       "lib/research-evaluation-input-adapter.js"
     ],
-    "producerBasis": "an explicit evaluator-input adapter exists, but it requires separately supplied evidence and is not an autonomous producer"
+    "producerBasis": "a cron return producer consumes only separately admitted external evaluation records; it does not generate their evidence or mapping decisions"
   },
   "requiredExternalInput": {
     "independentEvidenceIds": true,
@@ -50,5 +54,5 @@
       "NO_CHANGE"
     ]
   },
-  "conclusion": "An explicit evaluator-input adapter exists, but it is not autonomous: a publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED. A separately supplied independently identified evidence set and all four mapping decisions are still required."
+  "conclusion": "A scheduled return producer now consumes durably admitted evaluations, but sourcing remains external and input-gated: two distinct evidence identities and all four mapping decisions must be supplied before the observer can emit an outcome."
 }

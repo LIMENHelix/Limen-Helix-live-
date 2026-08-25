@@ -201,6 +201,8 @@ const HANDLERS = {
   'limen-outcome': require('../handlers/limen-outcome'),
   'limen-outcome-observer': require('../handlers/limen-outcome-observer'),
   'limen-investment-outcome-observer': require('../handlers/limen-investment-outcome-observer'),
+  'research-evaluation-intake': require('../handlers/research-evaluation-intake'),
+  'limen-research-evaluation-observer': require('../handlers/limen-research-evaluation-observer'),
   'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
   'limen-reciprocity-prose-rewrite': require('../handlers/limen-reciprocity-prose-rewrite'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),

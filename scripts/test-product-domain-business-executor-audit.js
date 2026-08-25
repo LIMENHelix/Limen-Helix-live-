@@ -19,7 +19,7 @@ assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(),
 ]);
 assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
 assert.equal(report.summary.actionReceiptsImplemented, 7);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 1);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 3);
 assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 1);
 assert.equal(report.summary.sourceChainsComplete, 1);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
@@ -43,8 +43,10 @@ assert.equal(science.domainBoundExecutorImplemented, true);
 assert.equal(medicine.domainBoundExecutorImplemented, true);
 assert.equal(science.actionReceiptStrength, 'DURABLE_B14_COMMAND_AND_ARTIFACT_READBACK_RECEIPT');
 assert.equal(medicine.actionReceiptStrength, 'DURABLE_B14_COMMAND_AND_ARTIFACT_READBACK_RECEIPT');
-assert.equal(science.independentOutcomeObserverImplemented, false);
-assert.equal(medicine.independentOutcomeObserverImplemented, false);
+assert.equal(science.independentOutcomeObserverImplemented, true);
+assert.equal(medicine.independentOutcomeObserverImplemented, true);
+assert.equal(science.observerScope, 'EXTERNAL_EVALUATION_INPUT_GATED');
+assert.equal(medicine.observerScope, 'EXTERNAL_EVALUATION_INPUT_GATED');
 
 var agriculture = report.domains.find(function (row) { return row.productDomain === 'agriculture'; });
 assert.equal(agriculture.lane, 'homestead');

@@ -45,7 +45,9 @@ const researchEvaluationAdapters = productionFiles.filter(function (file) {
   return relative(file) === 'lib/research-evaluation-input-adapter.js';
 }).map(relative);
 const researchEvaluationProducers = productionFiles.filter(function (file) {
-  if (relative(file) === 'lib/research-evaluation-input-adapter.js') return false;
+  const rel = relative(file);
+  if (rel === 'lib/research-evaluation-input-adapter.js') return false;
+  if (rel === 'handlers/limen-research-evaluation-observer.js') return true;
   const source = fs.readFileSync(file, 'utf8');
   return /buildResearchEvaluation\s*\(/.test(source) ||
     /eventType\s*[:=]\s*['"]OUTCOME_RESEARCH_EVALUATED['"]/.test(source);
@@ -82,11 +84,13 @@ const result = {
   outcomeEndpoint: {
     acceptsEvaluation: /OUTCOME_RESEARCH_EVALUATED/.test(outcomeHandler),
     autonomousProducer: researchEvaluationProducers.length > 0,
+    autonomousSourceProducer: false,
+    inputGated: true,
     producerFiles: researchEvaluationProducers,
     explicitInputAdapter: researchEvaluationAdapters.length > 0,
     adapterFiles: researchEvaluationAdapters,
     producerBasis: researchEvaluationProducers.length
-      ? 'source-tree scan found an evaluator/producers outside the validator and learner'
+      ? 'a cron return producer consumes only separately admitted external evaluation records; it does not generate their evidence or mapping decisions'
       : researchEvaluationAdapters.length
         ? 'an explicit evaluator-input adapter exists, but it requires separately supplied evidence and is not an autonomous producer'
         : 'source-tree scan found no evaluator/producers outside the validator and learner'
@@ -98,7 +102,7 @@ const result = {
     progressDecision: ['PROGRESS', 'REGRESSION', 'NO_CHANGE']
   },
   conclusion: researchEvaluationProducers.length
-    ? 'A source-tree evaluator was found, but its evidence and mapping inputs still require the separate research gate.'
+    ? 'A scheduled return producer now consumes durably admitted evaluations, but sourcing remains external and input-gated: two distinct evidence identities and all four mapping decisions must be supplied before the observer can emit an outcome.'
     : researchEvaluationAdapters.length
       ? 'An explicit evaluator-input adapter exists, but it is not autonomous: a publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED. A separately supplied independently identified evidence set and all four mapping decisions are still required.'
       : 'The contract and learner exist, but the production publication path carries no evaluation metadata and no autonomous source-grounded evaluator exists. A publication, citation list, article count, or originating domain signal cannot create OUTCOME_RESEARCH_EVALUATED; the system must abstain until an independently identified evidence set and all four mapping decisions are supplied.'
