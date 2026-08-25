@@ -1,6 +1,7 @@
 'use strict';
 
 var bridge = require('../lib/finance-b14-bridge');
+var Decision = require('../lib/finance-trade-decision');
 
 var checks = 0;
 function assert(name, condition) {
@@ -45,6 +46,17 @@ function release(overrides) {
 
 var intent = { symbol: 'SPY', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510, horizonDays: [30, 60, 90] };
 
+function decisionReceipt(packetId, overrides) {
+  return Object.assign({
+    schemaVersion: Decision.RECEIPT_SCHEMA,
+    packetId: packetId,
+    status: 'TRADE_INTENT_SELECTED',
+    selection: release({ command: 'prepare_tradier_sandbox_order' }),
+    tradeIntent: intent,
+    safety: { brokerReadOnly: true, orderPreviewed: false, orderPlaced: false, paperOnly: true, liveMoney: false }
+  }, overrides || {});
+}
+
 async function rejected(fn) {
   try { await fn(); return null; } catch (err) { return err; }
 }
@@ -80,6 +92,20 @@ async function main() {
   assert('order switch alone cannot bypass release authority', noAuthority.ready === false && noAuthority.reasons.indexOf('selection-does-not-authorize-sandbox-order-automation') >= 0);
   var authorized = bridge.executionReadiness(release({ authority: { tradierSandboxOrderAutomation: true } }), { TRADIER_SANDBOX_ORDER_AUTONOMY_ENABLED: '1' });
   assert('the readiness contract reports when both explicit gates are present', authorized.ready === true && authorized.reasons.length === 0);
+
+  var receiptStore = store();
+  var receiptBroker = broker();
+  var missing = await bridge.previewDecision(receiptStore, receiptBroker, 'packet-missing', { TRADIER_SANDBOX_AUTONOMY_ENABLED: '1' });
+  assert('a missing durable Finance decision holds before broker access', missing.status === 'HELD' && missing.reason === 'finance-decision-receipt-missing' && receiptBroker.calls.length === 0);
+
+  await receiptStore.set(Decision.key('packet-abstain'), decisionReceipt('packet-abstain', { status: 'ABSTAINED', selection: null, tradeIntent: null }));
+  var abstained = await bridge.previewDecision(receiptStore, receiptBroker, 'packet-abstain', { TRADIER_SANDBOX_AUTONOMY_ENABLED: '1' });
+  assert('an abstained Finance decision cannot be converted into a B14 preview', abstained.status === 'HELD' && abstained.reason === 'finance-decision-abstained' && receiptBroker.calls.length === 0);
+
+  await receiptStore.set(Decision.key('packet-selected'), decisionReceipt('packet-selected'));
+  var fromReceipt = await bridge.previewDecision(receiptStore, receiptBroker, 'packet-selected', { TRADIER_SANDBOX_AUTONOMY_ENABLED: '1' }, 2000);
+  assert('B14 preview reads the durable B10 selection and intent by packet identity', fromReceipt.status === 'PREVIEWED' && fromReceipt.packetId === 'packet-selected' && fromReceipt.preview.intent.selectionId === 'sel_finance_1');
+  assert('receipt-backed preview still touches only account and broker preview', receiptBroker.calls.join(',') === 'account,preview');
 
   console.log('\n' + checks + '/' + checks + ' passed');
 }

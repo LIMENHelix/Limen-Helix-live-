@@ -2468,3 +2468,26 @@ and verifies that every external-action switch remains inhibited. Existing
 autonomous-emission tests were updated to pass through the gate rather than
 bypass it. Full repository verification after this change is **157 passed, 1
 expected external-corpus skip, 0 failed**.
+
+### Finance durable decision → B14 preview authority — measured 2026-08-24
+
+The authenticated Finance B14 endpoint no longer accepts caller-supplied B10
+selections or trade intents. A caller may provide only the Finance packet ID.
+The bridge reads `finance-trade-decision-receipt/1.0` from the durable store and
+validates packet identity, terminal decision status, the stored B10 release,
+the deterministic trade intent, and the decision receipt's paper-only safety
+boundary before a sandbox broker preview can be considered.
+
+The current RKLB receipt is `ABSTAINED`, so it now returns `HELD` before any
+Tradier access even if the preview switch were enabled. A missing, malformed,
+nonterminal, wrong-packet, or unsafe decision receipt also holds. Only a future
+durable `TRADE_INTENT_SELECTED` receipt can enter B14, and the independent
+preview-autonomy switch remains an additional fail-closed gate. The endpoint
+still cannot submit an order; dispatch remains behind the separate exact
+confirmation and order-autonomy boundary.
+
+Focused tests prove that fabricated client selection/intent fields are refused,
+an abstained decision produces zero broker calls, and a valid stored selection
+preserves its Finance/B10 identity into the read-only B14 preview. Full
+repository verification is **158 passed, 1 expected external-corpus skip, 0
+failed**.
