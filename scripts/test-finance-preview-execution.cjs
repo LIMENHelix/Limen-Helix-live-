@@ -116,10 +116,23 @@ function fakeStore() {
   assert.equal(invalid.receipt.provider.model, 'fixture-model');
   assert.equal(invalid.receipt.provider.tokensOut, 9);
 
+  const producerPacket = Object.assign({}, packet, { packetId: 'finance:3:producer-abstention' });
+  const producerBundle = { packet: producerPacket, companies: bundle.companies, input: Object.assign({}, input, { packets: [producerPacket] }) };
+  const wrongEvidence = JSON.parse(JSON.stringify(proposal));
+  wrongEvidence.evidenceRefs[0].sourceIdentity.value = 'not-in-ledger';
+  const producerBlocked = await Execution.execute(fakeStore(), producerBundle, { approve: true, packetId: producerPacket.packetId }, {
+    provider: async () => ({ ok: true, provider: 'fixture', model: 'fixture-model', text: JSON.stringify(wrongEvidence) })
+  });
+  assert.equal(producerBlocked.receipt.status, 'ABSTAINED');
+  assert.equal(producerBlocked.receipt.reason, 'proposal_evidence_ref_0_not_in_ledger');
+  assert(producerBlocked.receipt.blockers.includes('proposal_evidence_ref_0_not_in_ledger'));
+  assert.equal(producerBlocked.receipt.candidate.status, 'ABSTAINED');
+  assert.equal(producerBlocked.receipt.selectedCompany.slug, 'example_co');
+
   const notReady = { input: Object.assign({}, input, { financeCycle: null }), packet, companies: bundle.companies };
   result = await Execution.execute(fakeStore(), notReady, { approve: true, packetId: packet.packetId }, { provider });
   assert.equal(result.reason, 'finance_preview_inputs_not_ready');
   assert.equal(calls, 1);
 
-  console.log('finance preview execution: 38/38 passed');
+  console.log('finance preview execution: 43/43 passed');
 }()).catch(e => { console.error(e); process.exitCode = 1; });

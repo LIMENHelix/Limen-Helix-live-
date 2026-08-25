@@ -62,6 +62,16 @@ const failedProvider = await Runner.run({ managerContext, ledger }, { provider: 
 assert.equal(failedProvider.reason, 'finance_manager_provider_failed');
 assert.equal(failedProvider.providerCalled, true);
 
+const producerAbstention = await Runner.run({ managerContext, ledger }, { provider: async function () {
+  const wrong = JSON.parse(JSON.stringify(proposal));
+  wrong.evidenceRefs[0].sourceIdentity.value = 'not-in-ledger';
+  return { ok: true, provider: 'fixture', model: 'fixture-model', text: JSON.stringify(wrong) };
+} });
+assert.equal(producerAbstention.status, 'ABSTAINED');
+assert.equal(producerAbstention.reason, 'proposal_evidence_ref_0_not_in_ledger');
+assert(producerAbstention.blockers.includes('proposal_evidence_ref_0_not_in_ledger'));
+assert.equal(producerAbstention.candidate.status, 'ABSTAINED');
+
 const universe = Universe.build({ candidates: [{
   company: { slug: 'example_co', ticker: 'EX' }, financeCycle: cycle,
   financePacket: { sourceType: 'server-cognition-refresh', generatedAt: '2026-08-24T16:01:00Z', homologyContext: homology },
@@ -76,5 +86,5 @@ const selected = await Runner.run({ candidateUniverse: universe }, { provider: a
 assert.equal(selected.status, 'PAPER_CANDIDATE');
 assert.equal(selected.selectedCompany.slug, 'example_co');
 
-  console.log('finance manager runner: 28/28 passed');
+  console.log('finance manager runner: 32/32 passed');
 })().catch(function (e) { console.error(e && e.stack || e); process.exit(1); });

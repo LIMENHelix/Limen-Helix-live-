@@ -2192,3 +2192,31 @@ completed receipt, and it does not advance Job 7 to paper release. The next
 dependency remains a fresh packet and a separately receipted Preview result;
 after a contract-valid paper candidate exists, it must enter the B14/outcome
 path rather than bypassing Job 5.
+
+### Finance Preview second fresh-packet execution — measured 2026-08-24
+
+The horizon/receipt repair merged as `95e45111`. The system did not reopen the
+first packet. It waited for the natural `brain-cognition-refresh` cron to
+produce the distinct packet `finance:3:1787618449626-242` at
+`2026-08-25T00:40:50.451Z`. That packet independently reached
+`READY_FOR_MANAGER_REVIEW` with four accepted candidates and no receipt, so it
+received its own durable command and one provider invocation.
+
+The model returned a 30-day, paper-only Salesforce proposal and the improved
+receipt preserved Anthropic, `claude-sonnet-4-6`, `43,830` input tokens, and
+`1,838` output tokens. The deterministic producer still abstained. Exact
+inspection showed why: all five `evidenceRefs[].sourceIdentity` values were
+strings, while the ledger contract requires the original structured
+`{kind,value}` identity object. The model-level parser had admitted that
+ambiguous shape, then the producer correctly refused it. The runner collapsed
+the producer's specific blockers into `finance_manager_abstained` and omitted
+the producer's abstention candidate from the receipt. Candidate release,
+broker access, orders, and live money again remained `false`; the second packet
+is also permanently non-retryable.
+
+The next-packet repair now makes each evidence reference shape explicit in the
+prompt and validates it before the producer. The manager must copy the exact
+source identity object and use one of the semantic/market/network roles. The
+runner now preserves the producer's first reason, full blocker list, selected
+company, and abstention candidate in the durable receipt. This remains a
+contract/observability repair, not a candidate release or a Job 7 completion.
