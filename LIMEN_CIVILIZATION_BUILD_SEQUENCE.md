@@ -2717,3 +2717,10 @@ adds the bounded future paper effector needed by Job 7; it does not alter the
 current abstained RKLB decision, place an order, or authorize live money.
 Focused executor tests and full repository verification pass: **165 passed, 1
 expected external-corpus skip, 0 failed**.
+
+Production deployment of merge `3de396b8` became Ready. The public root returned
+`200`; an unauthenticated executor POST returned `403` before execution. The
+read-only cognition surface still returned all twenty domains, and Finance's
+natural `broker/order` motor receipt remained restored and `HELD` with
+`externalEffectExecuted:false`, `providerCalled:false`, `brokerTouched:false`,
+and `spendUsd:0`. No paper or live order was created by deployment verification.
