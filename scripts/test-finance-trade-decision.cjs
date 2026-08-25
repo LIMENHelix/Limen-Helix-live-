@@ -4,6 +4,7 @@
 const assert = require('node:assert/strict');
 const Decision = require('../lib/finance-trade-decision.js');
 const Admission = require('../lib/finance-paper-admission.js');
+const FeedConfirmation = require('../lib/finance-feed-confirmation.js');
 
 function clone(v) { return JSON.parse(JSON.stringify(v)); }
 function store() {
@@ -52,6 +53,21 @@ function proposal(action, confidence) {
     rationale: 'The supplied candidate and current quote support a bounded sandbox decision.',
     invalidation: 'New contradictory evidence or the stated candidate invalidation.',
     evidenceRefs
+  };
+}
+function confirmation(at) {
+  return {
+    schemaVersion: FeedConfirmation.SCHEMA,
+    status: 'CONFIRMED_FOR_TRADE_DECISION',
+    packetId,
+    company: clone(admission().candidate.company),
+    confirmedAt: at || '2026-08-25T02:00:00Z',
+    context: {
+      semanticEvidence: [{ sourceIdentity: evidenceRefs[0].sourceIdentity, recordedAt: '2026-08-25T01:59:00Z', title: 'Issuer update' }],
+      marketData: { quotes: [] },
+      networkEvidence: [],
+      interpretationBoundary: { directionalClaim: false, sentimentClassified: false, thing2Used: false }
+    }
   };
 }
 function buildIntent(candidate, actorProposal, quote, account, risk) {
@@ -113,6 +129,7 @@ async function seeded() {
   let providerCalls = 0;
   const result = await Decision.execute(s, b, { approve: true, packetId }, {
     env: {}, now: '2026-08-25T02:00:00Z', completedAt: '2026-08-25T02:00:01Z',
+    feedConfirmation: confirmation(),
     provider: async () => { providerCalls++; return { ok: true, provider: 'test', model: 'fixture', text: JSON.stringify(proposal('BUY', 0.9)), tokensIn: 1, tokensOut: 1 }; }
   });
   assert.equal(result.ok, true);
@@ -126,6 +143,7 @@ async function seeded() {
   assert(result.receipt.resourceMetabolism.afterProvider.blockers.includes('finance_resource_provider_refractory'));
   assert.equal(result.receipt.safety.orderPreviewed, false);
   assert.equal(result.receipt.safety.orderPlaced, false);
+  assert.equal(result.receipt.feedConfirmation.context.interpretationBoundary.thing2Used, false);
   assert.equal(providerCalls, 1);
   assert.deepEqual(b.calls, ['quote', 'quote', 'account']);
 
@@ -136,7 +154,8 @@ async function seeded() {
 
   const abstainStore = await seeded();
   const abstained = await Decision.execute(abstainStore, broker(0), { approve: true, packetId }, {
-    env: {}, provider: async () => ({ ok: true, provider: 'test', model: 'fixture', text: JSON.stringify(proposal('ABSTAIN', 0.9)) })
+    env: {}, feedConfirmation: confirmation(new Date().toISOString()),
+    provider: async () => ({ ok: true, provider: 'test', model: 'fixture', text: JSON.stringify(proposal('ABSTAIN', 0.9)) })
   });
   assert.equal(abstained.receipt.status, 'ABSTAINED');
   assert.equal(abstained.receipt.tradeIntent, null);
@@ -147,6 +166,7 @@ async function seeded() {
   let inhibitedProviderCalls = 0;
   const inhibited = await Decision.execute(inhibitedStore, inhibitedBroker, { approve: true, packetId }, {
     env: { LIMEN_FINANCE_SANDBOX_RESERVE_USD: '2000' },
+    feedConfirmation: confirmation(new Date().toISOString()),
     provider: async () => { inhibitedProviderCalls++; throw new Error('metabolic inhibition must precede provider use'); }
   });
   assert.equal(inhibited.ok, true);
@@ -158,6 +178,16 @@ async function seeded() {
   assert.equal(inhibited.receipt.selection, null);
   assert.equal(inhibitedProviderCalls, 0);
   assert.deepEqual(inhibitedBroker.calls, ['quote', 'quote', 'account']);
+
+  const unconfirmedStore = await seeded();
+  const unconfirmedBroker = broker(0);
+  const unconfirmed = await Decision.execute(unconfirmedStore, unconfirmedBroker, { approve: true, packetId }, {
+    env: {}, provider: async () => { throw new Error('feed confirmation must precede provider use'); }
+  });
+  assert.equal(unconfirmed.receipt.status, 'ABSTAINED');
+  assert.equal(unconfirmed.receipt.reason, 'finance_feed_confirmation_required');
+  assert.equal(unconfirmed.receipt.providerCalled, false);
+  assert.deepEqual(unconfirmedBroker.calls, []);
 
   console.log('finance trade decision: passed');
 })().catch(err => { console.error(err && err.stack || err); process.exit(1); });
