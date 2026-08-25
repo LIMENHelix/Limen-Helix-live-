@@ -2866,3 +2866,19 @@ Bank schema drift is repaired at the publisher boundary: WGI indicators now use
 the current `GOV_WGI_*` IDs under source 3, manufacturing uses
 `NV.IND.MANF.ZS`, and each adapter carries the date of the actual selected
 non-null row rather than the first response slot.
+
+PR #175 merged as `e7aa6fe3`; production verified all 59 Federal Register rows
+live with no 429 exceptions. The three WGI readings were live at publisher year
+2024 and the manufacturing reading at its latest non-null year, 2021. The
+blocked queue fell from 27 to seven: six credential-gated sources and one
+retired FAOSTAT route.
+
+FAO now publishes a keyless official bulk catalog. The FAOSTAT receptor reads
+the QCL crop/livestock dataset entry from that catalog and reports its publisher
+record count and release date as context; it no longer labels dead API output as
+wheat tonnage and does not download the 33 MB archive during a snapshot.
+Regulations.gov also documents a public `DEMO_KEY`; the receptor uses an
+operator key when supplied and otherwise uses that rate-limited public path.
+Its replay identity includes the UTC posted-date query, publisher total, and
+complete returned document records. Both changes retain the existing domain
+feed names and authority boundaries while making the sensed semantics explicit.

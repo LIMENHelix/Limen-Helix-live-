@@ -200,6 +200,34 @@ function _nvdRecentIdentity(data) {
     crypto.createHash('sha256').update(JSON.stringify(rows), 'utf8').digest('hex');
 }
 
+function _selectFaostatDataset(data, datasetCode) {
+  var code = String(datasetCode || '').trim();
+  var rows = data && data.Datasets && data.Datasets.Dataset;
+  if (!code || !Array.isArray(rows)) return null;
+  for (var i = 0; i < rows.length; i++) {
+    if (rows[i] && rows[i].DatasetCode === code &&
+        typeof rows[i].DateUpdate === 'string' && Number.isFinite(Date.parse(rows[i].DateUpdate)) &&
+        Number.isInteger(Number(rows[i].FileRows)) && Number(rows[i].FileRows) >= 0 &&
+        typeof rows[i].FileLocation === 'string' && /^https:\/\/bulks-faostat\.fao\.org\//.test(rows[i].FileLocation)) {
+      return rows[i];
+    }
+  }
+  return null;
+}
+
+function _regulationsGovIdentity(data, postedDate) {
+  var date = String(postedDate || '').trim();
+  var rows = data && data.data;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Array.isArray(rows)) return null;
+  var total = data && data.meta ? Number(data.meta.totalElements) : rows.length;
+  if (!Number.isInteger(total) || total < 0) return null;
+  for (var i = 0; i < rows.length; i++) {
+    if (!rows[i] || typeof rows[i].id !== 'string' || !rows[i].id) return null;
+  }
+  return 'regulations-set-v1:date:' + date + '|total:' + total + '|sha256:' +
+    crypto.createHash('sha256').update(JSON.stringify(rows), 'utf8').digest('hex');
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=25, stale-while-revalidate=10');
@@ -3037,21 +3065,12 @@ async function fetchUSDA() {
 
 async function fetchFAO() {
   try {
-    var yr = new Date().getFullYear() - 2;
-    var data = await timedJSON('https://www.fao.org/faostat/api/v1/en/data/QCL?area_code=231&element_code=5510&item_code=15&year_code=' + yr);
-    if (!data || (!data.data && !data.value)) {
-      // Try alternate response shapes
-      if (Array.isArray(data) && data.length > 0) {
-        var val = data[0].Value || data[0].value || 0;
-        trackHealth('FAO FAOSTAT', 'agriculture', 'live', null, val);
-        return { value: val, label: 'wheat ' + val, activity: 0.3, channel: 'context', signal: 'wheat output indexed', updated: Date.now(), fetchedAt: Date.now() };
-      }
-      trackHealth('FAO FAOSTAT', 'agriculture', 'fallback', 'unexpected response shape');
-      return null;
-    }
-    var val2 = (data.data && data.data[0]) ? (data.data[0].Value || data.data[0].value || 0) : (data.value || 0);
-    trackHealth('FAO FAOSTAT', 'agriculture', 'live', null, val2);
-    return { value: val2, label: 'wheat production ' + val2, activity: 0.3, channel: 'context', signal: 'global wheat output indexed', updated: Date.now(), fetchedAt: Date.now() };
+    var data = await timedJSON('https://bulks-faostat.fao.org/production/datasets_E.json');
+    var dataset = _selectFaostatDataset(data, 'QCL');
+    if (!dataset) { trackHealth('FAO FAOSTAT', 'agriculture', 'fallback', 'QCL dataset metadata unavailable'); return null; }
+    var rows = Number(dataset.FileRows);
+    trackHealth('FAO FAOSTAT', 'agriculture', 'live', null, rows);
+    return { value: rows, label: (rows / 1000000).toFixed(2) + 'M FAOSTAT crop/livestock records', activity: 0.3, channel: 'context', signal: 'FAOSTAT QCL crop/livestock corpus updated ' + dataset.DateUpdate.slice(0, 10), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: dataset.DateUpdate };
   } catch (e) { trackHealth('FAO FAOSTAT', 'agriculture', 'fallback', e.message); return null; }
 }
 
@@ -3471,15 +3490,15 @@ async function fetchFederalRegister() {
 }
 
 async function fetchRegulationsGov() {
-  var key = process.env.REGULATIONS_GOV_API_KEY;
-  if (!key) { trackHealth('Regulations.gov', 'law', 'fallback', 'REGULATIONS_GOV_API_KEY not set'); return null; }
+  var key = process.env.REGULATIONS_GOV_API_KEY || 'DEMO_KEY';
   try {
-    var data = await timedJSON('https://api.regulations.gov/v4/documents?api_key=' + key + '&filter[postedDate]=' + new Date().toISOString().slice(0, 10) + '&page[size]=5');
+    var postedDate = new Date().toISOString().slice(0, 10);
+    var data = await timedJSON('https://api.regulations.gov/v4/documents?api_key=' + key + '&filter[postedDate]=' + postedDate + '&page[size]=5');
     if (!data || !data.data) { trackHealth('Regulations.gov', 'law', 'fallback', 'empty response'); return null; }
     var count = data.meta ? data.meta.totalElements || data.data.length : data.data.length;
     var act = clamp(count / 150, 0.05, 1.0);
     trackHealth('Regulations.gov', 'law', 'live', null, count);
-    return { value: count, label: count + ' regs today', activity: round(act), channel: 'activity', signal: count + ' regulations posted', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: count, label: count + ' regs today', activity: round(act), channel: 'activity', signal: count + ' regulations posted', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _regulationsGovIdentity(data, postedDate) };
   } catch (e) { trackHealth('Regulations.gov', 'law', 'fallback', e.message); return null; }
 }
 
@@ -6355,6 +6374,8 @@ module.exports._ofacRecentActionsIdentity = _ofacRecentActionsIdentity;
 module.exports._htmlMetaUpdatedIdentity = _htmlMetaUpdatedIdentity;
 module.exports._htmlSectionIdentity = _htmlSectionIdentity;
 module.exports._nvdRecentIdentity = _nvdRecentIdentity;
+module.exports._selectFaostatDataset = _selectFaostatDataset;
+module.exports._regulationsGovIdentity = _regulationsGovIdentity;
 module.exports._resetFederalRegisterRequestState = _resetFederalRegisterRequestState;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
@@ -6381,6 +6402,8 @@ module.exports._fetchWorldBankGovernance = fetchWorldBankGovernance;
 module.exports._fetchWBGovEffectiveness = fetchWBGovEffectiveness;
 module.exports._fetchWBRuleOfLaw = fetchWBRuleOfLaw;
 module.exports._fetchWBManufacturing = fetchWBManufacturing;
+module.exports._fetchFAO = fetchFAO;
+module.exports._fetchRegulationsGov = fetchRegulationsGov;
 module.exports._fetchTreasuryMTS = fetchTreasuryMTS;
 module.exports._fetchTreasuryOperatingCash = fetchTreasuryOperatingCash;
 module.exports._fetchNYFedEFFR = fetchNYFedEFFR;
