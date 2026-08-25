@@ -2220,3 +2220,33 @@ source identity object and use one of the semantic/market/network roles. The
 runner now preserves the producer's first reason, full blocker list, selected
 company, and abstention candidate in the durable receipt. This remains a
 contract/observability repair, not a candidate release or a Job 7 completion.
+
+### Finance Preview third fresh-packet execution — measured 2026-08-24
+
+PR #154 merged as `054610fb` and reached Production before the next natural
+`brain-cognition-refresh` cycle. The scheduled `01:10Z` refresh returned `200`
+and produced the distinct packet `finance:3:1787620213695-240`, generated at
+`2026-08-25T01:10:14.393Z`. Its authenticated read-only audit reported four
+accepted candidates, 32 semantic-evidence rows, durable storage, Preview switch
+and provider configured, `READY_FOR_MANAGER_REVIEW`, and no prior receipt.
+
+One standing-authority Preview invocation acquired that packet's durable
+one-shot receipt before calling the provider. Anthropic returned a 60-day,
+paper-only Salesforce proposal with structured `{kind,value}` identities, so
+the PR #154 shape repair was exercised successfully. The deterministic producer
+still abstained because semantic evidence references 2 and 3 belonged to other
+company ledgers rather than the selected Salesforce ledger. The receipt
+preserved the exact blockers `proposal_evidence_ref_2_not_in_ledger` and
+`proposal_evidence_ref_3_not_in_ledger`, provider/model and token metadata, the
+selected company, proposal, and abstention candidate. Candidate release, broker
+access, order placement, and live money all remained `false`; the packet is
+permanently non-retryable.
+
+The next-packet repair makes each candidate context carry an explicit
+`allowedEvidenceRefs` projection and instructs the manager to return exactly
+one semantic, one market, and one network identity from the selected company's
+own allowlist. The producer now compares the complete source identity (`kind`
+and `value`) instead of accepting a matching value under a substituted kind.
+Focused Finance tests and the full repository suite pass (`149` passed, `1`
+external-corpus skip, `0` failed). This is another producer-contract repair for
+a future packet; it does not reopen the third receipt or advance Job 7 by itself.

@@ -29,6 +29,28 @@ assert(req.instructions.some((x) => x.includes('horizonDays') && x.includes('nev
 assert.equal(req.context.homologyContext.contextOnly, true);
 assert(req.instructions.some((x) => x.includes('observational homology context')));
 
+const candidateContext = {
+  status: 'READY_FOR_PAPER_REVIEW',
+  homologyContexts: [{ company: { slug: 'example_co', ticker: 'EX' }, context: homology }],
+  companyCandidates: [{
+    company: { slug: 'example_co', ticker: 'EX' },
+    ledger: { ledger: {
+      semanticEvidence: [{ sourceIdentity: { kind: 'publisher-item', value: 'semantic:1' } }],
+      marketData: { quotes: [{ sourceIdentity: { kind: 'market-quote', value: 'market:1' } }] },
+      networkEvidence: [{ sourceIdentity: { kind: 'network-snapshot', value: 'network:1' } }]
+    } }
+  }]
+};
+const candidateReq = Prompt.buildRequest({ managerContext: candidateContext });
+assert.equal(candidateReq.ok, true);
+assert.deepEqual(candidateReq.context.companyCandidates[0].allowedEvidenceRefs, [
+  { role: 'semantic', sourceIdentity: { kind: 'publisher-item', value: 'semantic:1' } },
+  { role: 'market', sourceIdentity: { kind: 'market-quote', value: 'market:1' } },
+  { role: 'network', sourceIdentity: { kind: 'network-snapshot', value: 'network:1' } }
+]);
+assert(candidateReq.instructions.some((x) => x.includes('same companyCandidates entry')));
+assert(candidateReq.instructions.some((x) => x.includes('exactly three evidenceRefs')));
+
 const proposal = {
   schemaVersion: Prompt.RESPONSE_SCHEMA, id: 'proposal-1',
   company: { slug: 'example_co', ticker: 'EX' },
@@ -48,4 +70,4 @@ assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { evidenceRefs: [{
 assert.equal(Prompt.buildRequest({ managerContext: { status: 'ABSTAINED' } }).reason, 'finance_manager_context_not_ready');
 assert.equal(Prompt.buildRequest({ managerContext: Object.assign({}, context, { homologyContext: null }) }).reason, 'finance_homology_context_not_ready');
 
-console.log('finance manager prompt: 17/17 passed');
+console.log('finance manager prompt: 21/21 passed');
