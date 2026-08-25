@@ -2916,3 +2916,78 @@ and direct read-only calls to all four public publisher surfaces returned
 source-identified readings on 2026-08-25. Production deployment and a fresh
 snapshot remain the gates before the expected five-to-one queue reduction is
 recorded as observed.
+
+PR #177 merged as `304beee3`; its exact main deployment became Ready and a
+fresh cache-bypassing snapshot (`1787666542819-266`) returned all 20 domain
+brains, 275 available readings, and source identity on all 275. The four new
+same-publisher fallbacks were live with the reviewed semantics and replay keys.
+The only unavailable row was Culture's optional commercial `Event Registry`
+source (`EVENT_REGISTRY_API_KEY not set`); Culture itself retained other live,
+identified receptors. Job 3 is therefore complete at its required sensory
+substrate gate with one explicit operator-credential exception, not a hidden
+fallback or unlabeled feed. The feed label remains visible in both the owning
+domain and civilization views; state and authority remain domain-local.
+
+### Job 4 production closeout — measured 2026-08-25
+
+The encrypted Vercel Production value could not be exported by `vercel env
+pull` (encrypted values are emitted blank), while the protected local
+64-character value was rejected by the live runtime. This established a
+Production binding mismatch rather than a token-rotation requirement. The same
+token was re-saved without rotation and the exact current-main deployment was
+rebuilt from Vercel's stored artifact. Authentication then returned `200` on
+both the immutable deployment URL and `https://limenhelix.com`.
+
+An authenticated, read-only `/api/limen-civilization-handoff?limit=100` audit
+returned 100 durable packets spanning all 20 product-domain brains and 100
+durable handoffs, with zero missing store records. The sampled records carried:
+
+- `civilization-domain-packet/1.0` with complete packet, cycle, refresh, and
+  snapshot identities;
+- `civilization-handoff/1.0` with complete source-packet and opportunity joins;
+- `civilization-case-record/1.0`; and
+- current `civilization-homology-context/1.0` context.
+
+Both canonical lanes were present (`investments` and `research-papers`). All
+100 sampled case records remained `NOT_AUTHORIZED`, `liveExecution:false`, and
+`ABSTAINED`; this observation did not call a provider, publish, spend, or place
+an order. The all-domain bridge test already proves stale/missing/race handling,
+and production now proves trusted packet persistence and authenticated readback.
+Job 4 is complete at its stated bridge gate. Job 5 is the next active dependency:
+trusted B11/B14 command-to-independent-outcome-to-reafference closure before any
+new outward lane is enabled.
+
+### Job 5 Finance capability verifier — implemented 2026-08-25
+
+The first production-capability verifier now exists for Finance's own
+`broker/order` motor. `lib/finance-motor-capability-verifier.js` is a reader of
+already-durable evidence, not an executor and not a source of self-attestation.
+It requires two different proofs before it can write the short-lived capability
+pair consumed by `product-domain-motor-authorization`:
+
+1. **Executor/rollback proof:** a real Tradier sandbox B14 command whose order
+   reached terminal `canceled`, executed zero shares, retained matching command,
+   order, and tag identity, persisted the cancellation receipt, and completed
+   independent B14 reconciliation. This establishes rollback with zero position
+   effect and zero spend; a preview, code declaration, or open order does not.
+2. **Independent outcome-observer proof:** a separately identified Tradier
+   account/benchmark observation at an allowed 30/60/90-day horizon, attached to
+   a reconciled Finance command, recorded as paper P&L, and present in the
+   durable learner's processed outcome ids. The executor command receipt cannot
+   substitute for this evidence.
+
+The two receipts use distinct capability, adapter, verifier, and evidence ids,
+expire after six hours, and are validated plus read back through the existing
+strict capability contract. The operator HTTP path is authenticated by the
+brain read token and remains read-only. Only the Vercel cron credential can ask
+the verifier to persist, and it returns `HELD` with no write when either proof is
+absent. The verifier cannot preview, submit, cancel, reconcile, synthesize an
+outcome, or use live money.
+
+The focused verifier, capability, authorization, route, and configuration tests
+passed. The full repository suite measured **170 passed, 1 expected external-
+corpus skip, 0 failed**. This closes the missing verifier/writer foundation but
+does not close Job 5: production must still supply the genuine zero-effect
+sandbox rollback receipt and later independent outcome receipt. Until then the
+Finance motor remains `HELD`, and all other domain motors remain separately
+inhibited behind their own authority and evidence contracts.
