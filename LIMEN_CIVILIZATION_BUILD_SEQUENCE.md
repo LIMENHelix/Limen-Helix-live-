@@ -2693,3 +2693,27 @@ order autonomously, enable the Finance motor/resource/capital switches, or
 authorize live money. Focused Tradier transport and B14 tests pass `24/24` and
 `44/44`; full repository verification is **164 passed, 1 expected external-
 corpus skip, 0 failed**.
+
+### Finance one-shot paper executor — implemented 2026-08-24
+
+The Finance paper execution path now has a non-selecting orchestrator that
+accepts only a durable Finance packet identity. It re-reads the stored trade-
+decision receipt, requires both Tradier sandbox autonomy switches, requires the
+selection's paper-order authority, and then requires the current Finance
+product-motor authorization—including the separate executor and independent-
+observer capability receipts—before contacting the broker.
+
+After every gate passes, the executor durably claims the packet before the
+first broker preview. The claim is one-shot: a repeated request returns the
+existing claim rather than previewing or submitting again. Only then may it
+create a sandbox preview and turn that exact preview confirmation into one B14
+sandbox command. A failure after claim remains `EXECUTION_UNRESOLVED` and is not
+automatically retried. The master-only endpoint is not scheduled as a cron.
+
+Current Finance product receipts are `HELD`, both independently verified
+capability receipts are absent, and the Finance motor/resource/capital switches
+remain off. Therefore this executor returns before any broker call today. It
+adds the bounded future paper effector needed by Job 7; it does not alter the
+current abstained RKLB decision, place an order, or authorize live money.
+Focused executor tests and full repository verification pass: **165 passed, 1
+expected external-corpus skip, 0 failed**.
