@@ -60,6 +60,7 @@ const HANDLERS = {
   'biosensor-state': require('../handlers/biosensor-state'),
   'brain-cognition': require('../handlers/brain-cognition'),
   'brain-shadow': require('../handlers/brain-shadow'),
+  'finance-preview': require('../handlers/finance-preview'),
   'brain-cognition-refresh': require('../handlers/brain-cognition-refresh'),
   'limen-civilization-handoff': require('../handlers/limen-civilization-handoff'),
   'capital-engine': require('../handlers/capital-engine'),

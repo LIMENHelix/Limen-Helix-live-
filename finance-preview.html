@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LIMEN Finance Preview Gate</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07100d;--panel:#101b17;--line:#294038;--ink:#ecf7f1;--muted:#9bb0a7;--good:#72e6ad;--warn:#ffd17a;--bad:#ff8d8d}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#163228 0,transparent 38%),var(--bg);color:var(--ink);font:15px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}
+    main{max-width:980px;margin:0 auto;padding:48px 20px 80px}h1{font-size:clamp(26px,5vw,48px);letter-spacing:-.05em;margin:0 0 8px}h2{font-size:15px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}p{max-width:78ch}.panel{border:1px solid var(--line);background:rgba(16,27,23,.9);border-radius:14px;padding:20px;margin-top:18px;box-shadow:0 18px 60px #0005}.row{display:flex;gap:10px;flex-wrap:wrap}.grow{flex:1;min-width:260px}input,button{font:inherit;border-radius:8px;border:1px solid var(--line);padding:11px 13px}input{width:100%;background:#08120f;color:var(--ink)}button{background:#193c2e;color:var(--ink);cursor:pointer}button:hover{border-color:var(--good)}button:disabled{opacity:.45;cursor:not-allowed}.approve{background:#2b694f}dl{display:grid;grid-template-columns:minmax(180px,1fr) 2fr;gap:7px 18px}dt{color:var(--muted)}dd{margin:0;overflow-wrap:anywhere}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}pre{white-space:pre-wrap;word-break:break-word;background:#07100d;border:1px solid var(--line);padding:14px;border-radius:9px;max-height:520px;overflow:auto}.scope{color:var(--warn);font-weight:700}
+  </style>
+</head>
+<body><main>
+  <h1>Finance Preview Gate</h1>
+  <p>Authenticated, packet-keyed, one-call operator boundary. It can produce and durably receipt one paper candidate. It cannot release a candidate, touch a broker, place an order, deploy, or use live money.</p>
+  <section class="panel">
+    <h2>1 · Authenticate and remeasure</h2>
+    <div class="row"><label class="grow">BRAIN_SHADOW_TOKEN<input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="Paste the refreshed token"></label><button id="audit">Run live audit</button></div>
+    <p id="message" class="warn">No cached result is used. Approval remains disabled until a fresh audit passes.</p>
+  </section>
+  <section class="panel">
+    <h2>2 · Current production packet</h2>
+    <dl id="facts"><dt>Status</dt><dd>Not measured</dd></dl>
+  </section>
+  <section class="panel">
+    <h2>3 · One bounded action</h2>
+    <p class="scope">Authorizes exactly one manager-provider Preview call for the displayed packet. All outward scopes remain inhibited.</p>
+    <button id="approve" class="approve" disabled>Approve one Preview call</button>
+    <pre id="receipt">No receipt.</pre>
+  </section>
+</main>
+<script>
+(() => {
+  const token = document.querySelector('#token'), auditButton = document.querySelector('#audit');
+  const approve = document.querySelector('#approve'), message = document.querySelector('#message');
+  const facts = document.querySelector('#facts'), receipt = document.querySelector('#receipt');
+  let measured = null;
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const headers = () => ({'content-type':'application/json','x-brain-token':token.value});
+  function render(data) {
+    const a = data.audit || {}, g = data.gate || {};
+    const rows = [
+      ['Readiness', a.status], ['Packet', a.packetId], ['Generated', a.packetGeneratedAt],
+      ['Accepted candidates', a.acceptedCandidates], ['Semantic evidence', a.semanticEvidence],
+      ['Packet opportunities', a.opportunities], ['Companies', (a.companies || []).map(x => x.ticker + ' / CIK ' + x.cik).join(', ')],
+      ['Durable store', g.durableStore], ['Preview switch', g.previewSwitchEnabled], ['Provider configured', g.providerConfigured],
+      ['Candidate release', g.candidateRelease], ['Broker', g.broker], ['Live money', g.liveMoney]
+    ];
+    facts.innerHTML = rows.map(([k,v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');
+    if (data.receipt) receipt.textContent = JSON.stringify(data.receipt, null, 2);
+    const ready = data.ok && a.status === 'READY_FOR_MANAGER_REVIEW' && a.packetId && g.durableStore && g.previewSwitchEnabled && g.providerConfigured && !data.receipt;
+    approve.disabled = !ready;
+    message.className = ready ? 'good' : (data.receipt ? 'warn' : 'bad');
+    message.textContent = data.receipt ? 'This packet already has a durable receipt; another call is inhibited.' : ready ? 'Fresh gate passes. Review the packet facts, then approve exactly one call.' : 'Gate is not ready. No provider call is authorized.';
+  }
+  auditButton.onclick = async () => {
+    approve.disabled = true; measured = null; message.className = 'warn'; message.textContent = 'Measuring current production state…';
+    try { const r = await fetch('/api/finance-preview', {headers:headers(),cache:'no-store'}); const data = await r.json(); if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`); measured = data; render(data); }
+    catch (e) { message.className = 'bad'; message.textContent = e.message; }
+  };
+  approve.onclick = async () => {
+    if (!measured?.audit?.packetId || !confirm(`Authorize one Preview provider call for packet ${measured.audit.packetId}?`)) return;
+    approve.disabled = true; message.className = 'warn'; message.textContent = 'Command receipt acquiring; do not repeat…';
+    try {
+      const r = await fetch('/api/finance-preview', {method:'POST',headers:headers(),body:JSON.stringify({approve:true,packetId:measured.audit.packetId})});
+      const data = await r.json(); receipt.textContent = JSON.stringify(data.receipt || data, null, 2);
+      if (!r.ok || !data.ok) throw new Error(data.error || data.reason || `HTTP ${r.status}`);
+      message.className = 'good'; message.textContent = data.idempotent ? 'Existing durable receipt returned; no repeat call occurred.' : 'Preview completed and durably receipted. No candidate was released and no broker was touched.';
+    } catch (e) { message.className = 'bad'; message.textContent = e.message + ' Approval remains inhibited pending receipt inspection.'; }
+  };
+})();
+</script></body></html>
