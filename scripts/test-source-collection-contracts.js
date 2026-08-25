@@ -29,6 +29,30 @@ assert.equal(H._openAlexInstitutionIdentity(openAlex),
   'openalex:https://openalex.org/I27837315|updated:2026-08-25T05:59:34|works:991844');
 assert.equal(H._openAlexInstitutionIdentity({ results: [{ id: 'I1', works_count: 4 }] }), null);
 
+var metaHtml = '<html><head><meta content="2026-08-24T13:52:10-0400" ' +
+  'property="og:updated_time" /></head><body></body></html>';
+assert.equal(H._htmlMetaUpdatedIdentity(metaHtml, 'og:updated_time'), '2026-08-24T13:52:10-0400');
+assert.equal(H._htmlMetaUpdatedIdentity(metaHtml.replace('2026-08-24T13:52:10-0400', 'not-a-date'),
+  'og:updated_time'), null);
+
+var cpcHtml = '<nav>outside chrome</nav><!-- Begin content area -->' +
+  '<p>Drought persistence and improvement assessment.</p><!-- End content area --><footer>outside</footer>';
+var cpcIdentity = H._htmlSectionIdentity(cpcHtml, 'noaa-cpc-drought',
+  '<!-- Begin content area -->', '<!-- End content area -->');
+assert.match(cpcIdentity, /^html-section-v1:noaa-cpc-drought\|sha256:[a-f0-9]{64}$/);
+assert.equal(cpcIdentity, H._htmlSectionIdentity(cpcHtml.replace('outside chrome', 'new chrome'),
+  'noaa-cpc-drought', '<!-- Begin content area -->', '<!-- End content area -->'));
+
+var nvd = { totalResults: 1, vulnerabilities: [{ cve: {
+  id: 'CVE-2026-1000', metrics: { cvssMetricV31: [{ cvssData: { baseScore: 9.8 } }] }
+} }] };
+var nvdIdentity = H._nvdRecentIdentity(nvd);
+assert.match(nvdIdentity, /^nvd-set-v1:total:1\|items:1\|sha256:[a-f0-9]{64}$/);
+assert.notEqual(nvdIdentity, H._nvdRecentIdentity({ totalResults: 1, vulnerabilities: [{ cve: {
+  id: 'CVE-2026-1000', metrics: { cvssMetricV31: [{ cvssData: { baseScore: 8.8 } }] }
+} }] }));
+assert.equal(H._nvdRecentIdentity({ totalResults: 1, vulnerabilities: [{}] }), null);
+
 var item = '<item><title>Publisher item</title><guid>item-1</guid>' +
   '<pubDate>Tue, 25 Aug 2026 12:00:00 GMT</pubDate><description>' +
   'official source text '.repeat(20) + '</description></item>';
@@ -120,7 +144,31 @@ function jsonResponse(body) {
     var alertReading = await H._fetchNOAANWSAgAlerts();
     assert.equal(alertReading.sourceUpdatedAt, alerts.updated);
 
-    console.log('source collection contracts: 23/23 passed');
+    global.fetch = function () { return Promise.resolve(textResponse(rss)); };
+    var govTrackReading = await H._fetchGovTrack();
+    assert.match(govTrackReading.sourceUpdatedAt,
+      /^rss-set-v1:govtrack-active-bills\|items:1\|sha256:[a-f0-9]{64}$/);
+
+    var ncuaHtml = metaHtml.replace('</body>',
+      '<article class="press-release">credit union conservatorship action</article>' +
+      '<p>' + 'official NCUA release '.repeat(20) + '</p></body>');
+    global.fetch = function () { return Promise.resolve(textResponse(ncuaHtml)); };
+    var ncuaReading = await H._fetchNCUACreditUnion();
+    assert.equal(ncuaReading.sourceUpdatedAt, '2026-08-24T13:52:10-0400');
+
+    var cpcRuntimeHtml = '<html>' + 'official '.repeat(30) + '<!-- Begin content area -->' +
+      '<p>Drought persistence will expand while other areas improve.</p>' +
+      '<!-- End content area --></html>';
+    global.fetch = function () { return Promise.resolve(textResponse(cpcRuntimeHtml)); };
+    var cpcReading = await H._fetchNOAACPCDrought();
+    assert.equal(cpcReading.sourceUpdatedAt, H._htmlSectionIdentity(cpcRuntimeHtml,
+      'noaa-cpc-drought', '<!-- Begin content area -->', '<!-- End content area -->'));
+
+    global.fetch = function () { return Promise.resolve(jsonResponse(nvd)); };
+    var nvdReading = await H._fetchNVDRecent();
+    assert.equal(nvdReading.sourceUpdatedAt, nvdIdentity);
+
+    console.log('source collection contracts: 34/34 passed');
   } finally {
     global.fetch = realFetch;
   }
