@@ -37,6 +37,7 @@
       snapshotKey: 'finance',
       cycleInterval: 30000
     });
+    this.resourceAuthority = { ownerDomain: 'finance', policyId: 'finance-resource/1', lanes: ['investment', 'capital-allocation', 'inter-domain-banking'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   FinanceBrain.prototype = Object.create(Base.prototype);

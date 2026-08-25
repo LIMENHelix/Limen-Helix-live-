@@ -12,7 +12,9 @@
   var Base = window.LIMENDomainBrainBase;
 
   function ScienceBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
-       domainId: 'research', label: 'Research', snapshotKey: 'research', portalKey: 'science', cycleInterval: 30000 }); }
+       domainId: 'research', label: 'Research', snapshotKey: 'research', portalKey: 'science', cycleInterval: 30000 });
+    this.resourceAuthority = { ownerDomain: 'research', policyId: 'science-resource/1', lanes: ['research', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+  }
   ScienceBrain.prototype = Object.create(Base.prototype);
   ScienceBrain.prototype.constructor = ScienceBrain;
 

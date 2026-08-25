@@ -33,6 +33,7 @@
       snapshotKey: 'religion',
       cycleInterval: 30000
     });
+    this.resourceAuthority = { ownerDomain: 'religion', policyId: 'religion-resource/1', lanes: ['publication', 'social', 'email'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   ReligionBrain.prototype = Object.create(Base.prototype);

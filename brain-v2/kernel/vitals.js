@@ -46,7 +46,18 @@ var DEFAULTS = {
     openPredictions:   { target: 4,    band: 6,    max: 64 },
     overdueProspective:{ target: 0,    band: 2,    max: 16 },
     errorRate:         { target: 0,    band: 0.15, max: 0.5 },
-    blindFraction:     { target: 0,    band: 0.4,  max: 0.85 }
+    blindFraction:     { target: 0,    band: 0.4,  max: 0.85 },
+    recursionDepth:    { target: 0,    band: 1,    max: 8 },
+    eventLoopLagMs:    { target: 0,    band: 100,  max: 1000 },
+    memoryBytes:       { target: 0,    band: 4 * 1024 * 1024, max: 16 * 1024 * 1024 },
+    computeUnits:      { target: 0,    band: 256,  max: 1024 },
+    contradictionLoad:{ target: 0,    band: 2,    max: 16 },
+    confidenceDrift:   { target: 0,    band: 0.25, max: 0.60 },
+    actionFrequency:   { target: 0,    band: 0.25, max: 0.75 },
+    staleStateLoad:    { target: 0,    band: 4,    max: 16 },
+    sourceFailureRate: { target: 0,    band: 0.40, max: 0.85 },
+    crossDomainPropagationVolume: { target: 0, band: 32, max: 128 },
+    learningUpdateVolume: { target: 0, band: 8, max: 64 }
   },
   // INV-4 / INV-15: these must be separated by the stated ratio.
   learningPeriodMs:    3600000,          // T3 tier: weights move at ~1h
@@ -60,6 +71,7 @@ function create(opts) {
   o.setPoints = Object.assign({}, DEFAULTS.setPoints, (opts && opts.setPoints) || {});
   return {
     opts: o,
+    ownerDomain: o.ownerDomain || null,
     arousal: AROUSAL.WAKE,
     arousalSince: null,
     consecutiveOutOfRange: 0,
@@ -67,7 +79,51 @@ function create(opts) {
     degradedReason: null,
     setPointHistory: [],
     lastSetPointRevision: null,
+    lastConfidence: null,
     version: 0
+  };
+}
+
+/* MASTER_PROMPT §8.16. These names are an acceptance contract, not narration. */
+var RESOURCE_REQUIREMENTS = [
+  'queueDepth', 'recursionDepth', 'eventLoopLagMs', 'memoryBytes', 'computeUnits',
+  'errorRate', 'contradictionLoad', 'amplification', 'confidenceDrift',
+  'actionFrequency', 'staleStateLoad', 'sourceFailureRate',
+  'crossDomainPropagationVolume', 'learningUpdateVolume'
+];
+
+var RESOURCE_UNITS = {
+  queueDepth: 'packets', recursionDepth: 'frames', eventLoopLagMs: 'ms',
+  memoryBytes: 'bytes', computeUnits: 'bounded-work-units', errorRate: 'fraction',
+  contradictionLoad: 'open-claims', amplification: 'ratio', confidenceDrift: 'absolute-delta',
+  actionFrequency: 'executions/tick', staleStateLoad: 'items', sourceFailureRate: 'fraction',
+  crossDomainPropagationVolume: 'packets/tick', learningUpdateVolume: 'updates/tick'
+};
+
+function resourceState(measurements, basis, ownerDomain) {
+  measurements = measurements || {};
+  basis = basis || {};
+  var rows = RESOURCE_REQUIREMENTS.map(function (name) {
+    var value = measurements[name];
+    var measured = typeof value === 'number' && isFinite(value);
+    return {
+      name: name,
+      status: measured ? 'MEASURED' : 'UNMEASURED',
+      value: measured ? value : null,
+      unit: RESOURCE_UNITS[name],
+      basis: basis[name] || null
+    };
+  });
+  var measured = rows.filter(function (row) { return row.status === 'MEASURED'; }).length;
+  return {
+    schemaVersion: 'brain-v2-resource-state/1.0',
+    ownerDomain: ownerDomain || null,
+    policyId: ownerDomain ? 'brain-v2-resource-policy/1:' + ownerDomain : 'brain-v2-resource-policy/1:unowned',
+    required: rows.length,
+    measured: measured,
+    complete: measured === rows.length,
+    missing: rows.filter(function (row) { return row.status !== 'MEASURED'; }).map(function (row) { return row.name; }),
+    variables: rows
   };
 }
 
@@ -277,7 +333,11 @@ function selfModel(v, ctx) {
   var now = ctx.now;
   var inv = channelInventory(ctx.sensors, now);
   var conf = confidence(inv, ctx.internalConsistency);
-  var homeo = evaluate(v, ctx.measurements || {});
+  var measurements = Object.assign({}, ctx.measurements || {});
+  measurements.confidenceDrift = v.lastConfidence === null ? 0 : Math.abs(conf.value - v.lastConfidence);
+  v.lastConfidence = conf.value;
+  var resources = resourceState(measurements, ctx.measurementBasis || {}, v.ownerDomain);
+  var homeo = evaluate(v, measurements);
   var ts = timescaleCheck(v);
 
   return {
@@ -285,6 +345,7 @@ function selfModel(v, ctx) {
     arousal: { state: v.arousal, since: v.arousalSince, mayEncode: mayEncode(v).allowed, mayConsolidate: mayConsolidate(v).allowed },
     channelInventory: inv,
     confidence: conf,
+    resourceState: resources,
     // What the system cannot currently sense. The named list, not a count.
     blindSpots: inv.detail.dead.map(function (c) { return { channel: c.key, why: 'constant across its liveness window — dead, not calm' }; })
       .concat(inv.detail.absent.map(function (c) { return { channel: c.key, why: 'no reading' }; }))
@@ -301,9 +362,9 @@ function selfModel(v, ctx) {
     permissions: (ctx.permissions || []).slice(),
     // Stated capabilities the system does NOT have. §8.17 requires this explicitly.
     capabilitiesAbsent: [
-      'no external action of any kind: no network, no repository writes, no deploys',
-      'no authority to change its own permissions, thresholds, or code',
-      'no validated cross-domain model: this build binds ONE domain',
+      'this kernel loop has no external actuator: no network, repository writes, or deploys',
+      'this kernel loop has no authority to change its own permissions, thresholds, or code',
+      'no validated cross-domain causal model; each runtime loop binds one owning domain',
       'no calibrated confidence until n>=20 resolved predictions (see predict.calibration)'
     ],
     generatedFrom: 'live runtime structures passed into selfModel(); no field is narrated'
@@ -323,6 +384,17 @@ function regulate(v, homeo, now) {
       if (b.variable === 'amplification') actions.push({ action: 'increase_inhibition', why: 'amplification ' + b.value.toFixed(2) + ' > ' + b.max });
       if (b.variable === 'errorRate') actions.push({ action: 'lower_learning_rate', why: 'error rate ' + b.value.toFixed(3) + ' > ' + b.max });
       if (b.variable === 'blindFraction') actions.push({ action: 'observation_only', why: 'blind fraction ' + b.value.toFixed(3) + ' > ' + b.max + ' — too little sensorium to act on' });
+      if (b.variable === 'recursionDepth') actions.push({ action: 'stop_recursive_processing', why: 'recursion depth ' + b.value + ' > ' + b.max });
+      if (b.variable === 'eventLoopLagMs') actions.push({ action: 'defer_nonurgent_processing', why: 'event-loop lag ' + b.value.toFixed(1) + 'ms > ' + b.max + 'ms' });
+      if (b.variable === 'memoryBytes') actions.push({ action: 'compact_memory', why: 'memory pressure ' + b.value + ' bytes > ' + b.max });
+      if (b.variable === 'computeUnits') actions.push({ action: 'reduce_compute', why: 'compute work ' + b.value + ' units > ' + b.max });
+      if (b.variable === 'contradictionLoad') actions.push({ action: 'collect_contradiction_evidence', why: 'open contradiction load ' + b.value + ' > ' + b.max });
+      if (b.variable === 'confidenceDrift') actions.push({ action: 'observation_only', why: 'confidence drift ' + b.value.toFixed(3) + ' > ' + b.max });
+      if (b.variable === 'actionFrequency') actions.push({ action: 'increase_inhibition', why: 'action frequency ' + b.value.toFixed(3) + ' > ' + b.max });
+      if (b.variable === 'staleStateLoad') actions.push({ action: 'isolate_stale_state', why: 'stale-state load ' + b.value + ' > ' + b.max });
+      if (b.variable === 'sourceFailureRate') actions.push({ action: 'observation_only', why: 'source failure rate ' + b.value.toFixed(3) + ' > ' + b.max });
+      if (b.variable === 'crossDomainPropagationVolume') actions.push({ action: 'reduce_propagation', why: 'cross-domain propagation ' + b.value + ' > ' + b.max });
+      if (b.variable === 'learningUpdateVolume') actions.push({ action: 'lower_learning_rate', why: 'learning-update volume ' + b.value + ' > ' + b.max });
     });
     if (v.consecutiveOutOfRange >= v.opts.degradeAfterConsecutive && !v.degraded) {
       v.degraded = true;
@@ -346,10 +418,11 @@ function clamp01(x) { return clamp(x, 0, 1); }
 function clamp(x, lo, hi) { return (typeof x !== 'number' || !isFinite(x)) ? lo : (x < lo ? lo : (x > hi ? hi : x)); }
 function numOr(x, d) { return (typeof x === 'number' && isFinite(x)) ? x : d; }
 
-function serialize(v) { return { opts: v.opts, arousal: v.arousal, arousalSince: v.arousalSince, consecutiveOutOfRange: v.consecutiveOutOfRange, degraded: v.degraded, degradedReason: v.degradedReason, setPointHistory: v.setPointHistory.slice(-32), lastSetPointRevision: v.lastSetPointRevision, version: v.version }; }
+function serialize(v) { return { opts: v.opts, ownerDomain: v.ownerDomain, arousal: v.arousal, arousalSince: v.arousalSince, consecutiveOutOfRange: v.consecutiveOutOfRange, degraded: v.degraded, degradedReason: v.degradedReason, setPointHistory: v.setPointHistory.slice(-32), lastSetPointRevision: v.lastSetPointRevision, lastConfidence: v.lastConfidence, version: v.version }; }
 function deserialize(o) {
   var v = create(o && o.opts);
   if (!o) return v;
+  v.ownerDomain = o.ownerDomain || (o.opts && o.opts.ownerDomain) || null;
   v.arousal = o.arousal || AROUSAL.WAKE;
   v.arousalSince = o.arousalSince || null;
   v.consecutiveOutOfRange = o.consecutiveOutOfRange || 0;
@@ -357,6 +430,7 @@ function deserialize(o) {
   v.degradedReason = o.degradedReason || null;
   v.setPointHistory = o.setPointHistory || [];
   v.lastSetPointRevision = o.lastSetPointRevision || null;
+  v.lastConfidence = typeof o.lastConfidence === 'number' && isFinite(o.lastConfidence) ? o.lastConfidence : null;
   v.version = o.version || 0;
   return v;
 }
@@ -364,6 +438,8 @@ function deserialize(o) {
 module.exports = {
   AROUSAL: AROUSAL,
   DEFAULTS: DEFAULTS,
+  RESOURCE_REQUIREMENTS: RESOURCE_REQUIREMENTS.slice(),
+  resourceState: resourceState,
   create: create,
   setArousal: setArousal,
   mayEncode: mayEncode,

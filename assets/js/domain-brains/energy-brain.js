@@ -60,6 +60,7 @@
       snapshotKey: 'energy',
       cycleInterval: 30000
     });
+    this.resourceAuthority = { ownerDomain: 'energy', policyId: 'energy-resource/1', lanes: ['research', 'investment-advisory', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   // Inherit from base
@@ -3592,6 +3593,7 @@
     var on = (typeof window !== 'undefined' && typeof window.LIMEN_ENERGY_AUTONOMY !== 'undefined') ? !!window.LIMEN_ENERGY_AUTONOMY : true;
     var emitted = [], staged = [], holdReason = null;
     if (!on) holdReason = 'autonomy-off';
+    else if (!s.resourceMetabolism || !s.resourceMetabolism.gates || !s.resourceMetabolism.gates.mayEmitInternal) holdReason = 'resource-metabolism-inhibited';
     else if (!brake || brake.level !== 'clear') holdReason = 'brake-' + (brake ? brake.level : 'absent');   // FAIL-SAFE
     var q = (s.energyEmissionQueue && s.energyEmissionQueue.packages) || [];
     if (!holdReason) {

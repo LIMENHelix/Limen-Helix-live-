@@ -21,6 +21,7 @@
   function PopulationBrain() {
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'population', label: 'Population', snapshotKey: 'population', cycleInterval: 30000 });
+    this.resourceAuthority = { ownerDomain: 'population', policyId: 'population-resource/1', lanes: ['research', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
   PopulationBrain.prototype = Object.create(Base.prototype);
   PopulationBrain.prototype.constructor = PopulationBrain;

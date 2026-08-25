@@ -59,6 +59,7 @@
       snapshotKey: 'infrastructure',
       cycleInterval: 30000
     });
+    this.resourceAuthority = { ownerDomain: 'infrastructure', policyId: 'infrastructure-resource/1', lanes: ['vendor-operations', 'real-estate', 'investment-advisory'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   // Inherit from base

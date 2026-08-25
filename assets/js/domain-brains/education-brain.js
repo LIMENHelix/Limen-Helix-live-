@@ -15,6 +15,7 @@
   function EducationBrain() {
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'education', label: 'Education', snapshotKey: 'education', cycleInterval: 30000 });
+    this.resourceAuthority = { ownerDomain: 'education', policyId: 'education-resource/1', lanes: ['publication', 'email', 'commerce'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
   EducationBrain.prototype = Object.create(Base.prototype);
   EducationBrain.prototype.constructor = EducationBrain;

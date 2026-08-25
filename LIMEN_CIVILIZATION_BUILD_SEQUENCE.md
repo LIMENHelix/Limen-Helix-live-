@@ -2338,3 +2338,133 @@ decision for the admitted RKLB packet, and—only if B10 releases an actionable
 intent—pass the durable selection into the existing B14 sandbox preview. Order
 submission remains separately inhibited by the sandbox-order switch and must
 persist the B14 command/efference copy before Tradier receives anything.
+
+### First production sandbox motor decision — measured 2026-08-24
+
+PR #157 (`a6eb0510`) deployed the decision boundary. Authenticated production
+read-back found the exact admitted RKLB packet ready, with no prior decision
+receipt, the provider and Tradier sandbox read-only inputs configured, and the
+decision switch enabled. B14 preview autonomy and sandbox-order autonomy
+remained off.
+
+The packet-keyed actor ran exactly once and durably returned `ABSTAIN` with
+confidence `0.82`. It cited the candidate's exact semantic, market, and network
+evidence identities. Its rationale was that two recent Form 144 observations
+and a roughly 5.91% decline from prior close were unresolved bearish evidence;
+MILD/non-hub network stress showed contained systemic exposure but did not
+justify a long entry; and the fully abstained homology context supplied no
+additional directional evidence. The fresh Tradier sandbox quote was
+`68.28` last, `68.21` bid, and `68.27` ask; the sandbox account had no RKLB
+position. The actor preserved explicit conditions for later reassessment,
+including resolved filing activity and price recovery or new source-grounded
+positive evidence.
+
+The durable receipt status is `ABSTAINED`; provider use is receipted and cannot
+be repeated for this packet. No B10 motor action was proposed after the actor's
+abstention, so there is no selection and no trade intent. The receipt proves
+`orderPreviewed:false`, `orderPlaced:false`, `paperOnly:true`, and
+`liveMoney:false`. Therefore the correct next Finance behavior is to wait for a
+fresh admitted packet with actionable evidence, not to manufacture a trade for
+the sake of activity. The all-domain metabolic/energy-loop audit can proceed in
+parallel with that evidence wait; the B14 Tradier preview remains the next
+Finance motor dependency once a future decision is actually selected.
+
+## Correction: product domain brains and shadow kernels are different layers — measured 2026-08-24
+
+The completed per-domain Brain v2 implementation lives under
+`assets/js/domain-brains/`; it is not the later `brain-v2/kernel/` shadow-runtime
+program. Conflating those layers produced an incorrect statement that the
+domains were only sensing shells. That statement is withdrawn.
+
+The product layer contains exactly twenty separate `<domain>-brain.js` files,
+one for every canonical domain. Each is a large domain-owned cognitive engine
+(approximately 144–285 KB), extends `DomainBrainBase`, constructs its own state,
+overrides its own cycle, owns domain diagnoses and emission rules, and registers
+as its own brain. All twenty separately implement or invoke:
+
+1. the domain cognitive cycle;
+2. diagnosis and treatment/opportunity interpretation;
+3. cross-domain emission rules;
+4. homeostasis and domain neuro layers;
+5. afference, attention, and inhibition;
+6. a domain-specific business builder and opportunity/economics layer; and
+7. a separately named cortex-retrieval and refresh controller.
+
+Therefore the architectural invariant is not “build Brain v2 again.” It is:
+**preserve the same functional brain contract in all twenty separately owned
+domain brains while assigning different authorities to each domain.** Shared
+base primitives are permitted, but authority, state, inputs, budgets, effectors,
+receipts, and outcomes remain domain-owned. A function that a domain is not
+authorized to exercise must still exist and report `INHIBITED` or
+`UNAUTHORIZED`; the brain part must not be absent, and authority cannot flow
+through a generic master funnel.
+
+Energy remains the deepest reference implementation. The read-only audit at
+`scripts/audit-product-domain-brains.js` now measures the real product brain
+files and distinguishes functional anatomy from authority. It verifies 20/20
+separate brain files against the common core: independent identity and cycle,
+diagnoses, emissions, homeostasis, neuro layers, afference, attention,
+inhibition, business layer, cortex retrieval, and refresh controller. It also
+verifies 20/20 authority surfaces: an authority-dependent part must either have
+an implementation or be explicitly inhibited. Method names are not treated as
+the architecture; equivalent implementations and explicit inhibition are
+checked instead. `scripts/test-product-domain-brain-audit.js` enforces the same
+contract in the repository suite.
+
+The `brain-v2/kernel/` binder counts remain relevant only to the separate shadow
+sensing/replay program and must not be used as the completion count for the
+twenty product domain brains. The shared shadow physiology instrumentation
+measures runtime resource pressure independently and does not replace the
+per-domain energy/business metabolism requested here.
+
+Finance remains the immediate operational priority. Its Tradier decision path,
+capital/resource gate, receipts, and later outcome loop are Finance authority;
+they do not enable another domain. The same-authority invariant will be enforced
+for each later domain before that domain receives accounts, publishing rights,
+selling authority, or inter-domain capital.
+
+`lib/finance-resource-metabolism.js` now supplies that Finance-owned server-side
+capital/resource gate. Before a fresh decision may call the provider it measures
+the Tradier sandbox account, quote, uncommitted cash, configured reserve,
+candidate position, open candidate orders, motor-policy restrictions, and the
+one-call refractory budget. An inhibited state is durably receipted before any
+provider use. A successful call persists both the pre-call available state and
+the post-call refractory state. This operational Finance gate is separate from
+both the product Brain v2 files and the shadow kernel.
+
+The adversarial test proves that a reserve larger than available cash yields a
+durable `ABSTAINED` receipt, zero provider calls, no trade intent, and no order
+preview or submission. After correcting the layer distinction, the full suite is
+156 passed, 1 external-corpus skip, and 0 failed.
+
+### Product-brain resource metabolism — measured 2026-08-24
+
+The same resource/energy organ now runs in the actual product Brain v2 cycle for
+all twenty domains. `DomainBrainBase` supplies the common physiology, while
+every `<domain>-brain.js` owns an explicit `resourceAuthority` with its runtime
+identity, policy identity, lanes, budget ceiling, queue capacity, and switches.
+This preserves one functional brain contract without merging domain authority
+or state into a master funnel.
+
+The organ measures work pressure, queue pressure, and (when supplied) the
+domain's own treasury. It exposes separate gates for internal cycling, internal
+emission, external action, spending, and capital commitment. Missing or
+wrong-owner authority fails closed. Overload moves only that brain into
+`CONSERVE`, suppresses its internal emission, and names recovery steps; it does
+not mutate or inhibit another domain brain.
+
+All twenty domain policies currently permit internal cycles and internal
+emissions only. External action, spending, and capital are explicitly `false`
+for 20/20 domains, so this milestone does not arm publication, messaging,
+selling, brokerage, or money movement. The present `512` work-unit and `64`
+queue ceilings are conservative engineering defaults, not per-domain calibrated
+constants; each must be measured or replaced before its domain receives outward
+authority.
+
+`scripts/test-product-domain-resource-metabolism.js` proves separate Finance and
+Energy state, overload isolation, conservation behavior, and fail-closed owner
+identity. The product-brain audit now also requires 20 unique policy identities
+and verifies that every external-action switch remains inhibited. Existing
+autonomous-emission tests were updated to pass through the gate rather than
+bypass it. Full repository verification after this change is **157 passed, 1
+expected external-corpus skip, 0 failed**.

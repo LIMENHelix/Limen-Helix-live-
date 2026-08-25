@@ -81,7 +81,7 @@ function create(spec) {
     memory: MEM.create(),
     consolidator: CON.create(spec.consolidateOpts),
     modulators: MOD.create(spec.modulatorOpts),
-    vitals: VIT.create(spec.vitalsOpts),
+    vitals: VIT.create(Object.assign({}, spec.vitalsOpts || {}, { ownerDomain: spec.domain })),
     ablations: Object.create(null),
     // Attention state: the thing actions actually move. channelKey -> {rBase, multiplier}
     attention: Object.create(null),
@@ -275,7 +275,7 @@ function traceFor(loop, now, readings) {
 // ONE TICK
 // ─────────────────────────────────────────────────────────────────────────────────────────
 
-function tick(loop, readings, now) {
+function tick(loop, readings, now, runtimeMeasurements) {
   var traceId = traceFor(loop, now, readings);
   var rep = { traceId: traceId, at: now, tick: loop.ticks + 1, domain: loop.domain, steps: [] };
   var records = [];
@@ -292,7 +292,7 @@ function tick(loop, readings, now) {
   if (!enc.allowed) {
     step('arousal', { allowed: false, state: enc.state, why: 'encoding is not permitted in state "' + enc.state + '"' });
     rep.halted = 'arousal';
-    return finish(loop, rep, records, now);
+    return finish(loop, rep, records, now, null, null, runtimeMeasurements);
   }
   step('arousal', { allowed: true, state: enc.state });
 
@@ -853,10 +853,10 @@ function tick(loop, readings, now) {
   loop.ticks++;
   loop.lastTickAt = now;
   ACT.tick(loop.motor, now);
-  return finish(loop, rep, records, now, cycle, modulation);
+  return finish(loop, rep, records, now, cycle, modulation, runtimeMeasurements);
 }
 
-function finish(loop, rep, records, now, cycle, modulation) {
+function finish(loop, rep, records, now, cycle, modulation, runtimeMeasurements) {
   var written = 0, dupes = 0;
   if (loop.store) {
     records.forEach(function (r) {
@@ -873,17 +873,62 @@ function finish(loop, rep, records, now, cycle, modulation) {
 
   var mem = MEM.report(loop.memory, now);
   var cxm = CX.snapshotMetrics(loop.connectome);
+  runtimeMeasurements = runtimeMeasurements || {};
+  var sensors = cycle && Array.isArray(cycle.sensors) ? cycle.sensors : [];
+  var failedSources = sensors.filter(function (s) { return s.state === 'dead' || s.state === 'absent'; }).length;
+  var staleSensors = sensors.filter(function (s) { return s.state === 'absent' || (s.state === 'measured' && !s.fusable); }).length;
+  var divergenceReport = cycle && cycle.divergence && cycle.divergence.outcomes || null;
+  var actuate = rep.steps.filter(function (s) { return s.step === 'actuate'; })[0] || null;
+  var learningUpdates = records.filter(function (r) {
+    return r.type === 'noise_derived' || r.type === 'forward_model_update' || r.type === 'topology_transition';
+  }).length;
+  var memoryBytes = 0;
+  try { memoryBytes = Buffer.byteLength(JSON.stringify(loop.memory), 'utf8'); }
+  catch (_) { memoryBytes = NaN; }
+  var computeUnits = records.length + rep.steps.length +
+    rep.steps.reduce(function (n, s) { return n + (s.step === 'barrier' ? Number(s.admitted || 0) + Number(s.rejected || 0) : 0); }, 0);
+  var measurements = {
+    queueDepth: cxm.queueDepth,
+    recursionDepth: Number.isFinite(runtimeMeasurements.recursionDepth) ? runtimeMeasurements.recursionDepth : 0,
+    eventLoopLagMs: Number.isFinite(runtimeMeasurements.eventLoopLagMs) ? runtimeMeasurements.eventLoopLagMs : null,
+    memoryBytes: memoryBytes,
+    computeUnits: computeUnits,
+    amplification: cxm.amplification.ratio === null ? 1 : cxm.amplification.ratio,
+    openPredictions: loop.registry.order.filter(function (id) { return loop.registry.predictions[id].status === PRED.STATUS.OPEN; }).length,
+    overdueProspective: mem.prospective.overdue,
+    errorRate: loop.ticks ? loop.errors.length / loop.ticks : 0,
+    blindFraction: sensors.length ? (sensors.length - sensors.filter(function (s) { return s.fusable; }).length) / sensors.length : 1,
+    contradictionLoad: divergenceReport && Number.isFinite(divergenceReport.open) ? divergenceReport.open : 0,
+    actionFrequency: actuate && actuate.status === 'executed' ? 1 : 0,
+    staleStateLoad: staleSensors + mem.prospective.overdue,
+    sourceFailureRate: sensors.length ? failedSources / sensors.length : 1,
+    crossDomainPropagationVolume: Number.isFinite(runtimeMeasurements.crossDomainPropagationVolume)
+      ? runtimeMeasurements.crossDomainPropagationVolume : 0,
+    learningUpdateVolume: learningUpdates
+  };
   var self = VIT.selfModel(loop.vitals, {
     now: now,
     sensors: cycle ? cycle.sensors : [],
     internalConsistency: cycle && cycle.state && !cycle.state.abstained ? clamp01(1 - Math.abs(cycle.state.departure) / 4) : 0,
-    measurements: {
-      queueDepth: cxm.queueDepth,
-      amplification: cxm.amplification.ratio === null ? 1 : cxm.amplification.ratio,
-      openPredictions: loop.registry.order.filter(function (id) { return loop.registry.predictions[id].status === PRED.STATUS.OPEN; }).length,
-      overdueProspective: mem.prospective.overdue,
-      errorRate: loop.ticks ? loop.errors.length / loop.ticks : 0,
-      blindFraction: cycle && cycle.sensors && cycle.sensors.length ? (cycle.sensors.length - cycle.sensors.filter(function (s) { return s.fusable; }).length) / cycle.sensors.length : 1
+    measurements: measurements,
+    measurementBasis: {
+      queueDepth: 'connectome queue length at tick completion',
+      recursionDepth: Number.isFinite(runtimeMeasurements.recursionDepth)
+        ? 'outer runtime measurement' : 'kernel tick is synchronous and non-recursive',
+      eventLoopLagMs: Number.isFinite(runtimeMeasurements.eventLoopLagMs)
+        ? 'outer runtime setImmediate scheduling probe' : 'outer runtime measurement not supplied',
+      memoryBytes: 'serialized in-memory episodic/semantic/prospective state bytes',
+      computeUnits: 'bounded count of tick steps, records, and barrier decisions',
+      errorRate: 'kernel errors divided by completed ticks',
+      contradictionLoad: 'open claims in the domain divergence ledger',
+      amplification: 'connectome output/input ratio',
+      confidenceDrift: 'absolute change from the previous persisted self-model confidence',
+      actionFrequency: 'executed motor actions in this tick',
+      staleStateLoad: 'absent/non-fusable measured sensors plus overdue prospective checks',
+      sourceFailureRate: 'dead or absent sensors divided by declared sensors',
+      crossDomainPropagationVolume: Number.isFinite(runtimeMeasurements.crossDomainPropagationVolume)
+        ? 'outer runtime foreign-packet count' : 'no foreign packet input exists on this kernel call',
+      learningUpdateVolume: 'noise, forward-model, and topology updates recorded this tick'
     },
     modulesAvailable: ABLATABLE.filter(function (m) { return !isAblated(loop, m); }),
     modulesUnavailable: ABLATABLE.filter(function (m) { return isAblated(loop, m); }),
@@ -1225,6 +1270,7 @@ function restore(spec, snap) {
   loop.consolidator = CON.deserialize(snap.consolidator);
   loop.modulators = MOD.deserialize(snap.modulators || {});
   loop.vitals = VIT.deserialize(snap.vitals);
+  if (!loop.vitals.ownerDomain) loop.vitals.ownerDomain = loop.domain;
   loop.attention = snap.attention || Object.create(null);
   /* A snapshot written before row 25 has no topology; the freshly-wired one from
      create() stands, which is correct for that data — there was nothing to restore. */
