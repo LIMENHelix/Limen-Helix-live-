@@ -3140,3 +3140,20 @@ bounded provider status, error type/message, and stop reason; they never retain
 the API key, prompt, or raw model output. Safe structured runtime logging records
 the same bounded rejection metadata. No retry, candidate release, broker call,
 order, Redis mutation outside the receipt, or live-money action is introduced.
+
+The first post-deploy packet, `finance:3:1787674267844-255`, independently
+confirmed that diagnosis and exposed the next transport constraint without
+ambiguity. Its one authorized call received Anthropic HTTP `400`, error type
+`invalid_request_error`: structured-output arrays accept `minItems` only as
+`0` or `1`, while the transport schema requested higher minima. The durable
+receipt records `finance_manager_provider_rejected_request`, no token usage,
+no selected company or candidate, and every broker/order/live-money safety flag
+false; it inhibits retry for that packet.
+
+For future packets, array cardinality is therefore removed from the provider
+schema and retained as a downstream trust check. The parser already enforces
+two-to-four scenarios and now requires exactly three evidence references with
+exactly one semantic, one market, and one network role before the producer can
+construct a paper candidate. This follows the provider's documented pattern:
+use its supported schema subset for constrained JSON generation and preserve
+the full business/neurological gate contract in application validation.
