@@ -1335,9 +1335,14 @@
   // Reversible: empty GP_PERSIST_DOMAINS ⇒ compute-only, exactly as before.
   // ENERGY-PARITY ROLLOUT (operator-directed 2026-07-22): widened from finance-only to ALL 20
   // domains, so every domain's learned plasticity persists (energy keeps its own path). Trim to revert.
+  // Keys are runtime domain ids because the gate reads this.domainId. The three
+  // canonical/runtime aliases must therefore be health, research, supplyChain
+  // here (not medicine, science, trade), matching the durable Redis keys and
+  // brain-weights cron.
   var GP_PERSIST_DOMAINS = { agriculture: 1, communication: 1, culture: 1, defense: 1, economy: 1,
-    education: 1, energy: 1, environment: 1, finance: 1, governance: 1, industry: 1, infrastructure: 1,
-    intelligence: 1, law: 1, medicine: 1, population: 1, religion: 1, science: 1, technology: 1, trade: 1 };
+    education: 1, energy: 1, environment: 1, finance: 1, governance: 1, health: 1, industry: 1,
+    infrastructure: 1, intelligence: 1, law: 1, population: 1, religion: 1, research: 1,
+    supplyChain: 1, technology: 1 };
   var GP_PERSIST_EVERY = 10;                          // cycles between snapshots (~5 min at 30s), matches energy
   var GP_PERSIST_TOKEN_KEY = 'limen:brainwts:token';  // operator-set localStorage key; absent = compute-only (honest, not an error)
   var GP_EMIT_MAXCONCURRENT = 3;  // capital-fit packaging: few decision-ready calls per domain (mirrors energy EK_EMIT_MAXCONCURRENT)

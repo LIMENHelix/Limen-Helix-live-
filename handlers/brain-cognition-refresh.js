@@ -42,6 +42,13 @@ const BRAIN_GLOBAL = {
 };
 const FILES = [
   'assets/js/domain-identity.js',
+  // Deterministic organ dependencies must exist in the VM before any brain
+  // constructor runs. Without them plasticity and active inference silently
+  // report mode:off in the autonomous server cycle even though browser source
+  // audits pass. Phase/Thing 2 remains intentionally out of this activation.
+  'assets/js/limen-k4-selfconsistency.js',
+  'assets/js/limen-plasticity.js',
+  'assets/js/limen-active-inference.js',
   'assets/js/domain-brains/domain-brain-base.js',
   'assets/js/domain-brains/portal-content-resolver.js',
   'assets/js/domain-brains/inter-brain-bus.js',
@@ -237,6 +244,29 @@ module.exports = async function handler(req, res) {
           else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;
           c.interoception = _it ? { salience: val(_it.salience), attend: val(_it.attend), divergence: num(_it.divergence), channelCount: num(_it.channelCount), integrated: num(_it.integrated) } : null;
+          // Runtime proof for the later Energy-reference organs. These are
+          // observation fields only; they grant no provider, broker, posting,
+          // spending, or other external authority.
+          var _pl = _st.domainPlasticity || _st.energyPlasticity || null;
+          var _ai = _st.domainActiveInference || _st.energyActiveInference || null;
+          var _eq = _st.domainEmissionQueue || _st.energyEmissionQueue || null;
+          var _ae = _st.domainAutoEmission || _st.energyAutoEmission || null;
+          var _rm = _st.resourceMetabolism || null;
+          c.brainOrgans = {
+            plasticity: _pl ? {
+              mode: val(_pl.mode), rewardActive: _pl.rewardActive === true,
+              liveLayers: arr(_pl.liveLayers).slice(0, 8),
+              persistenceEnabled: !!(_pl.persistence && (_pl.persistence.enabled || _pl.persistence.persistEnabled)),
+              hydrated: !!(_pl.persistence && _pl.persistence.hydrated)
+            } : null,
+            activeInference: _ai ? { mode: val(_ai.mode), selected: val(_ai.selected), agreement: val(_ai.agreement) } : null,
+            emissionQueue: _eq ? { queued: num(_eq.queued), poolSize: num(_eq.poolSize), domain: val(_eq.domain) } : null,
+            autonomousInternalEmission: _ae ? {
+              holdReason: val(_ae.holdReason), emittedCount: num(_ae.emittedCount), stagedCount: num(_ae.stagedCount),
+              outwardAuthority: false
+            } : null,
+            resourceMetabolism: _rm ? { ownerDomain: val(_rm.ownerDomain), state: val(_rm.state), gates: val(_rm.gates) } : null
+          };
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
           try {

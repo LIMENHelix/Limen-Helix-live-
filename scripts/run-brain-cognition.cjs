@@ -92,6 +92,9 @@ function buildSandbox(snap){
 
   const files = [
     'assets/js/domain-identity.js',
+    'assets/js/limen-k4-selfconsistency.js',
+    'assets/js/limen-plasticity.js',
+    'assets/js/limen-active-inference.js',
     'assets/js/domain-brains/domain-brain-base.js',
     'assets/js/domain-brains/portal-content-resolver.js',
     'assets/js/domain-brains/inter-brain-bus.js',
