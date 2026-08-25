@@ -3011,3 +3011,12 @@ facts. The overlay has no switch, budget, spend, provider, broker, or effector
 authority, so verified capability cannot by itself release an action. This
 closes the evidence-to-owning-brain reflection seam without centralizing the 20
 brains or turning shared feed labels into shared authority.
+
+The same review found that `/api/brain-cognition-refresh` was described and
+scheduled as a cron but did not enforce cron authentication inside the handler.
+Because that cycle writes cognition projections, civilization packets/handoffs,
+motor receipts, and system gain, public reachability was an unauthorized write
+trigger. The handler now fails closed through the shared `CRON_SECRET` gate
+before its first production fetch or Redis write, accepts no caller-supplied
+Vercel-header fallback, and marks responses `no-store`. This is a safety repair
+to the natural 20-brain cycle; it does not change any domain's authority.

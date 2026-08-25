@@ -20,6 +20,7 @@ const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
+const cronAuth = require('../lib/cron-auth.js');
 
 // The packet consumer is strict by design: unlike the cognition projection,
 // it never falls back to process memory when Redis is missing or fails.
@@ -163,6 +164,11 @@ function buildSandbox(snap, BASE){
 
 module.exports = async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
+  res.setHeader('cache-control', 'no-store');
+  // This cycle writes cognition, packet/handoff, motor-receipt and system-gain
+  // state. It is a cron actuator even though its HTTP method is GET, so request
+  // reachability must never be mistaken for authority.
+  if (!cronAuth.enforce(req, res)) return;
   var t0 = Date.now();
   var refreshId = 'brain-cognition-refresh:' + String(t0);
   // PINNED trusted origin. Never derive from a request header: this base feeds fetch()+vm.runInContext,
