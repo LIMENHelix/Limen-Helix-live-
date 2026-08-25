@@ -7,12 +7,14 @@ var report = AUDIT.audit();
 console.log('PRODUCT DOMAIN BRAINS — ' + report.measuredAt);
 console.log('Layer: ' + report.layer + ' (not brain-v2/kernel)');
 console.log('');
-console.log('DOMAIN\tRUNTIME\tSANDBOX LANE\tBYTES\tCORE\tAUTHORITY\tMISSING');
+console.log('DOMAIN\tRUNTIME\tSANDBOX LANE\tMOTOR CONTRACT\tMOTOR EXTERNAL\tBYTES\tCORE\tAUTHORITY\tMISSING');
 report.domains.forEach(function (row) {
   console.log([
     row.product,
     row.runtime || '-',
     row.resourceAuthority.sandboxLane || '-',
+    row.motorAuthority.contractId || '-',
+    row.motorAuthority.external ? 'ENABLED' : 'INHIBITED',
     row.bytes,
     row.coreComplete ? 'PASS' : 'GAP',
     row.authorityGaps.length ? 'GAP:' + row.authorityGaps.join(',') : 'PASS',

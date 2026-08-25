@@ -16,6 +16,7 @@
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'communication', label: 'Communication', snapshotKey: 'communication', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'communication', policyId: 'communication-resource/1', sandboxLane: 'social', lanes: ['publication', 'social', 'email'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.motorAuthority = { ownerDomain: 'communication', contractId: 'communication-motor/1', lane: 'social', decisionContract: 'public-message-decision/1', budgetId: 'communication-social-budget/1', receiptClass: 'platform-post-receipt', outcomeClass: 'engagement-or-conversion', rollbackClass: 'delete-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   CommunicationBrain.prototype = Object.create(Base.prototype);
   CommunicationBrain.prototype.constructor = CommunicationBrain;

@@ -18,6 +18,13 @@ assert(report.domains.every(function (row) {
     row.parts.resourceMetabolism && row.resourceAuthority.externalAction === false;
 }));
 assert.equal(new Set(report.domains.map(function (row) { return row.resourceAuthority.policyId; })).size, 20);
+assert.equal(new Set(report.domains.map(function (row) { return row.motorAuthority.contractId; })).size, 20);
+assert.equal(new Set(report.domains.map(function (row) { return row.motorAuthority.budgetId; })).size, 20);
+assert(report.domains.every(function (row) {
+  return row.parts.motorReadiness && row.motorAuthority.lane === row.resourceAuthority.sandboxLane &&
+    row.motorAuthority.external === false && row.motorAuthority.executorVerified === false &&
+    row.motorAuthority.outcomeObserverVerified === false;
+}));
 assert.deepEqual(Array.from(new Set(report.domains.map(function (row) {
   return row.resourceAuthority.sandboxLane;
 }))).sort(), LaneContract.list().sort());

@@ -38,6 +38,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'finance', policyId: 'finance-resource/1', sandboxLane: 'broker/order', lanes: ['investment', 'capital-allocation', 'inter-domain-banking'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.motorAuthority = { ownerDomain: 'finance', contractId: 'finance-motor/1', lane: 'broker/order', decisionContract: 'broker-order-decision/1', budgetId: 'finance-broker-budget/1', receiptClass: 'broker-order-receipt', outcomeClass: 'fill-and-independent-pnl', rollbackClass: 'cancel-or-exit-under-risk-policy', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   FinanceBrain.prototype = Object.create(Base.prototype);

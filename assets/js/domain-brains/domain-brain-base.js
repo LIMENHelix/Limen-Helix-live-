@@ -341,6 +341,7 @@
         try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
         try { self._computeDomainPlasticity(); } catch (e) {} // GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain (energy self-skips)
         try { self._computeResourceMetabolism(); } catch (e) {} // per-instance energy/resource gate; policy is owned by each domain file
+        try { self._computeMotorReadiness(); } catch (e) {} // domain-owned decision/receipt/outcome/rollback gate; never dispatches an external effect
         try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
         try { self._computeGenericEmissionQueue(); } catch (e) {}   // STEP 5 (energy self-skips): capital-fit packaging of opportunities
         try { self._runGenericAutonomousEmission(); } catch (e) {}  // STEP 6 (energy self-skips): autonomous emission — INTERNAL stream only + brake fail-safe + capital staged
@@ -433,6 +434,73 @@
       measuredAt: Date.now()
     };
     s.resourceMetabolism = out;
+    return out;
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // DOMAIN MOTOR READINESS — same physiology, twenty separate authorities.
+  //
+  // Every product brain declares `motorAuthority` in its own domain file.
+  // This organ only proves that the owning brain has named its decision,
+  // budget, receipt, independent outcome, and rollback contracts. It never
+  // calls a provider or executor. External dispatch additionally requires the
+  // domain's resource switch, motor switch, verified executor, and verified
+  // independent observer; all are separate co-requirements.
+  // ══════════════════════════════════════════════════════════════════════
+  DomainBrainBase.prototype._computeMotorReadiness = function () {
+    var s = this.state;
+    var a = this.motorAuthority;
+    var blocked = [];
+    if (!a || a.ownerDomain !== this.domainId) blocked.push('motor_authority_missing_or_wrong_owner');
+    a = a || {};
+    var required = ['contractId', 'lane', 'decisionContract', 'budgetId', 'receiptClass', 'outcomeClass', 'rollbackClass'];
+    for (var i = 0; i < required.length; i++) {
+      if (typeof a[required[i]] !== 'string' || !a[required[i]]) blocked.push('motor_' + required[i] + '_missing');
+    }
+    var switches = a.switches || {};
+    var resource = s.resourceMetabolism;
+    var resourceOwned = resource && resource.ownerDomain === this.domainId;
+    var resourceCycle = !!(resourceOwned && resource.gates && resource.gates.mayRunInternalCycle);
+    var resourceExternal = !!(resourceOwned && resource.gates && resource.gates.mayActExternally);
+    if (!resourceOwned) blocked.push('resource_metabolism_unavailable');
+    if (a.executorVerified !== true) blocked.push('production_executor_unverified');
+    if (a.outcomeObserverVerified !== true) blocked.push('independent_outcome_observer_unverified');
+    if (switches.external !== true) blocked.push('domain_external_motor_switch_off');
+
+    var contractComplete = blocked.filter(function (reason) {
+      return reason.indexOf('motor_') === 0 || reason === 'resource_metabolism_unavailable';
+    }).length === 0;
+    var mayPrepare = switches.prepare === true && contractComplete && resourceCycle;
+    var maySimulate = switches.simulate === true && mayPrepare;
+    var mayDispatchExternal = mayPrepare && resourceExternal && switches.external === true &&
+      a.executorVerified === true && a.outcomeObserverVerified === true;
+    var state = mayDispatchExternal ? 'EXTERNAL_READY' : (maySimulate ? 'SANDBOX_READY' : 'INHIBITED');
+    var out = {
+      schemaVersion: 'product-domain-motor-readiness/1.0',
+      ownerDomain: this.domainId,
+      contractId: a.contractId || null,
+      lane: a.lane || null,
+      contracts: {
+        decision: a.decisionContract || null,
+        budget: a.budgetId || null,
+        receipt: a.receiptClass || null,
+        independentOutcome: a.outcomeClass || null,
+        rollback: a.rollbackClass || null
+      },
+      verification: {
+        executorVerified: a.executorVerified === true,
+        independentOutcomeObserverVerified: a.outcomeObserverVerified === true
+      },
+      state: state,
+      gates: {
+        mayPrepare: mayPrepare,
+        maySimulate: maySimulate,
+        mayDispatchExternal: mayDispatchExternal
+      },
+      blockers: blocked,
+      measuredAt: Date.now()
+    };
+    s.motorReadiness = out;
     return out;
   };
 

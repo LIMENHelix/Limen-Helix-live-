@@ -14,6 +14,7 @@
   function ScienceBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'research', label: 'Research', snapshotKey: 'research', portalKey: 'science', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'research', policyId: 'science-resource/1', sandboxLane: 'research-papers', lanes: ['research', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.motorAuthority = { ownerDomain: 'research', contractId: 'science-motor/1', lane: 'research-papers', decisionContract: 'research-artifact-decision/1', budgetId: 'science-research-budget/1', receiptClass: 'artifact-receipt', outcomeClass: 'citation-use-or-falsification', rollbackClass: 'withdraw-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   ScienceBrain.prototype = Object.create(Base.prototype);
   ScienceBrain.prototype.constructor = ScienceBrain;

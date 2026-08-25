@@ -37,6 +37,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'law', policyId: 'law-resource/1', sandboxLane: 'automail', lanes: ['research', 'publication', 'crm'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.motorAuthority = { ownerDomain: 'law', contractId: 'law-motor/1', lane: 'automail', decisionContract: 'physical-message-decision/1', budgetId: 'law-automail-budget/1', receiptClass: 'mail-provider-receipt', outcomeClass: 'delivery-or-response', rollbackClass: 'cancel-before-tender-or-suppress', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   LawBrain.prototype = Object.create(Base.prototype);

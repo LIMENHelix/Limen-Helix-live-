@@ -22,6 +22,7 @@
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'intelligence', label: 'Intelligence', snapshotKey: 'intelligence', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'intelligence', policyId: 'intelligence-resource/1', sandboxLane: 'autopilot', lanes: ['research', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.motorAuthority = { ownerDomain: 'intelligence', contractId: 'intelligence-motor/1', lane: 'autopilot', decisionContract: 'bounded-command-decision/1', budgetId: 'intelligence-autopilot-budget/1', receiptClass: 'command-receipt', outcomeClass: 'independent-world-measurement', rollbackClass: 'kill-and-compensate', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   IntelligenceBrain.prototype = Object.create(Base.prototype);
   IntelligenceBrain.prototype.constructor = IntelligenceBrain;

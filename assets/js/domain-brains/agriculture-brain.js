@@ -53,6 +53,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'agriculture', policyId: 'agriculture-resource/1', sandboxLane: 'homestead', lanes: ['research', 'vendor-operations', 'commerce'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.motorAuthority = { ownerDomain: 'agriculture', contractId: 'agriculture-motor/1', lane: 'homestead', decisionContract: 'property-operation-decision/1', budgetId: 'agriculture-homestead-budget/1', receiptClass: 'property-action-receipt', outcomeClass: 'counterparty-or-service-response', rollbackClass: 'withdraw-or-remediate', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
 
     // ── ACTUATION GATE (2026-07-13) — per-actuation VALIDITY, mirroring energy-brain ─────────────
     // Ported to Energy's actuation depth, but validity-gated HONESTLY per agriculture:
