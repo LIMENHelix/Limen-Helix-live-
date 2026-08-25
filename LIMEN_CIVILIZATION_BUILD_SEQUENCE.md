@@ -3283,3 +3283,12 @@ Its purpose is to create the first genuine 30-day independent outcome needed by
 the mature verifier; it is not a substitute for that verifier. The commissioning
 switch, both sandbox autonomy switches, the positive projected-margin gate, and
 all one-share/$500 limits remain mandatory. Live brokerage remains unreachable.
+
+The first autonomous post-deploy packet exposed a schema-path collision before
+paper admission: the recursive order-envelope brake correctly forbids a motor
+`side`, but also rejected the non-executable LONG/SHORT `side` inside the new
+projected-margin ledger. The producer now exempts only
+`projectedMarginRanking.entries[*].side`; top-level, trade-intent, order, and
+all other nested side fields remain forbidden. The affected packet is not
+retried because its abstention receipt is durable; the repair applies to future
+packets only.
