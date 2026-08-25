@@ -15,6 +15,7 @@
 
 var db = require('../lib/limen-db');
 var rssEvidence = require('../lib/rss-evidence');
+var crypto = require('crypto');
 
 var TIMEOUT = 5000;
 var RETRY_DELAY = 800;
@@ -86,6 +87,32 @@ function compositeIdentity(parts) {
     out.push(label + ':' + String(value));
   }
   return out.join('|');
+}
+
+/* Replay key for the existing Federal Register rolling-window receptors.
+   The value is derived from publication dates in the returned record set and a
+   30-day UTC window. Both are therefore included in the hash. Retrieval time is
+   not: polls within the same UTC day over the same publisher records retain one
+   identity, while a new document or a window-boundary change produces another. */
+function _federalRegisterIdentity(data, agencySlug, nowMs) {
+  var slug = String(agencySlug || '').trim();
+  var now = Number(nowMs);
+  var rows = data && data.results;
+  if (!slug || !isFinite(now) || !Array.isArray(rows) || !rows.length) return null;
+  var records = [];
+  for (var i = 0; i < rows.length; i++) {
+    var number = rows[i] && rows[i].document_number;
+    var published = rows[i] && rows[i].publication_date;
+    if (typeof number !== 'string' || !number.trim()) return null;
+    if (typeof published !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(published) ||
+        !isFinite(Date.parse(published + 'T00:00:00Z'))) return null;
+    records.push(number.trim() + '@' + published);
+  }
+  var windowEnd = new Date(now).toISOString().slice(0, 10);
+  var windowStart = new Date(now - 30 * 86400000).toISOString().slice(0, 10);
+  var material = ['agency=' + slug, 'from=' + windowStart, 'to=' + windowEnd]
+    .concat(records).join('\n');
+  return 'fr1:' + crypto.createHash('sha256').update(material, 'utf8').digest('hex');
 }
 
 module.exports = async function handler(req, res) {
@@ -4264,7 +4291,7 @@ async function _fetchFedRegAgency(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'supplyChain', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'supplyChain', 'fallback', e.message); return null; }
 }
 
@@ -4468,7 +4495,7 @@ async function _fetchFedRegAgencyAg(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'agriculture', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'agriculture', 'fallback', e.message); return null; }
 }
 
@@ -4610,7 +4637,7 @@ async function _fetchFedRegAgencyEcon(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'economy', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'economy', 'fallback', e.message); return null; }
 }
 
@@ -4690,7 +4717,7 @@ async function _fetchFedRegAgencyInd(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'industry', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'industry', 'fallback', e.message); return null; }
 }
 
@@ -4719,7 +4746,7 @@ async function _fetchFedRegAgencyInfra(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'infrastructure', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'infrastructure', 'fallback', e.message); return null; }
 }
 
@@ -4749,7 +4776,7 @@ async function _fetchFedRegAgencyEnergy(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'energy', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'energy', 'fallback', e.message); return null; }
 }
 
@@ -4776,7 +4803,7 @@ async function _fetchFedRegAgencyDef(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'defense', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'defense', 'fallback', e.message); return null; }
 }
 
@@ -4803,7 +4830,7 @@ async function _fetchFedRegAgencyIntel(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'intelligence', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'intelligence', 'fallback', e.message); return null; }
 }
 
@@ -4830,7 +4857,7 @@ async function _fetchFedRegAgencyGov(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'governance', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'governance', 'fallback', e.message); return null; }
 }
 
@@ -4855,7 +4882,7 @@ async function _fetchFedRegAgencyEnv(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'environment', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'environment', 'fallback', e.message); return null; }
 }
 
@@ -4882,7 +4909,7 @@ async function _fetchFedRegAgencyHealth(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'health', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'health', 'fallback', e.message); return null; }
 }
 
@@ -4912,7 +4939,7 @@ async function _fetchFedRegAgencyResearch(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'research', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'research', 'fallback', e.message); return null; }
 }
 
@@ -4941,7 +4968,7 @@ async function _fetchFedRegAgencyTech(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'technology', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'technology', 'fallback', e.message); return null; }
 }
 
@@ -4972,7 +4999,7 @@ async function _fetchFedRegAgencyPop(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'population', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'population', 'fallback', e.message); return null; }
 }
 
@@ -4999,7 +5026,7 @@ async function _fetchFedRegAgencyLaw(label, slug) {
     var stress = clamp(recent / 12, 0, 1);
     trackHealth(label, 'law', 'live', null, recent);
     var shortLabel = label.replace('Fed Reg ', '');
-    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: recent, label: recent + ' ' + shortLabel + ' docs (30d)', stress: round(stress), signal: recent + ' Federal Register documents from ' + shortLabel + ' in past 30d', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterIdentity(data, slug, Date.now()) };
   } catch (e) { trackHealth(label, 'law', 'fallback', e.message); return null; }
 }
 
@@ -6172,6 +6199,7 @@ module.exports._arxivFeedIdentity = _arxivFeedIdentity;
 module.exports._noaaAlertsIdentity = _noaaAlertsIdentity;
 module.exports._cisaKevIdentity = _cisaKevIdentity;
 module.exports._usgsEarthquakeIdentity = _usgsEarthquakeIdentity;
+module.exports._federalRegisterIdentity = _federalRegisterIdentity;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6204,3 +6232,4 @@ module.exports._fetchUSGSEarthquakes = fetchUSGSEarthquakes;
 module.exports._fetchCISAKEV = fetchCISAKEV;
 module.exports._fetchCISAAdvisories = fetchCISAAdvisories;
 module.exports._fetchFDARecalls = fetchFDARecalls;
+module.exports._fetchFedRegAgencyResearch = _fetchFedRegAgencyResearch;
