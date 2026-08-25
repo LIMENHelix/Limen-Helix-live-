@@ -44,7 +44,8 @@ assert.equal(Prompt.parseResponse('{bad').reason, 'manager_response_must_be_json
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { paperOnly: false })).reason, 'manager_response_must_be_paper_only');
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { liveExecution: false })).reason, 'manager_response_live_execution_forbidden');
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { independenceAssessment: { status: 'ASSESSED', reason: 'guess' } })).reason, 'manager_response_independence_must_be_unassessed');
+assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { evidenceRefs: [{ role: 'semantic', sourceIdentity: 'semantic:1' }] })).reason, 'manager_response_evidence_refs_invalid');
 assert.equal(Prompt.buildRequest({ managerContext: { status: 'ABSTAINED' } }).reason, 'finance_manager_context_not_ready');
 assert.equal(Prompt.buildRequest({ managerContext: Object.assign({}, context, { homologyContext: null }) }).reason, 'finance_homology_context_not_ready');
 
-console.log('finance manager prompt: 16/16 passed');
+console.log('finance manager prompt: 17/17 passed');
