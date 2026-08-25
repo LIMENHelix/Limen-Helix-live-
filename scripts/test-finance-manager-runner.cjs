@@ -48,6 +48,21 @@ const truncated = await Runner.run({ managerContext, ledger }, { provider: async
 assert.equal(truncated.reason, 'finance_manager_provider_truncated');
 assert.equal(truncated.providerCalled, true);
 
+const rejectedRequest = await Runner.run({ managerContext, ledger }, { provider: async function () {
+  return { ok: false, provider: 'fixture', model: 'fixture-model', httpStatus: 400,
+    errorType: 'invalid_request_error', error: 'Unsupported schema keyword: minLength' };
+} });
+assert.equal(rejectedRequest.reason, 'finance_manager_provider_rejected_request');
+assert.equal(rejectedRequest.provider.httpStatus, 400);
+assert.equal(rejectedRequest.provider.errorType, 'invalid_request_error');
+assert.equal(rejectedRequest.provider.error, 'Unsupported schema keyword: minLength');
+
+const transportFailure = await Runner.run({ managerContext, ledger }, { provider: async function () {
+  return { ok: false, provider: 'fixture', errorType: 'transport_error', error: 'connection reset' };
+} });
+assert.equal(transportFailure.reason, 'finance_manager_provider_transport_failed');
+assert.equal(transportFailure.provider.errorType, 'transport_error');
+
   const noLedger = await Runner.run({ managerContext, ledger: { schemaVersion: Ledger.SCHEMA, status: 'ABSTAINED' } }, { provider: async function () { throw new Error('must not call'); } });
   assert.equal(noLedger.status, 'ABSTAINED');
   assert.equal(noLedger.reason, 'finance_input_ledger_not_ready');
