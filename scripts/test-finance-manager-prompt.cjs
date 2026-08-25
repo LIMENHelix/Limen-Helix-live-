@@ -56,7 +56,11 @@ const proposal = {
   company: { slug: 'example_co', ticker: 'EX' },
   thesis: 'Bounded paper thesis.', invalidation: 'Invalidate on correction.', horizonDays: 30,
   scenarios: [{ name: 'base' }, { name: 'downside' }],
-  evidenceRefs: [{ role: 'semantic', sourceIdentity: { kind: 'publisher-item', value: 'semantic:1' } }],
+  evidenceRefs: [
+    { role: 'semantic', sourceIdentity: { kind: 'publisher-item', value: 'semantic:1' } },
+    { role: 'market', sourceIdentity: { kind: 'market-quote', value: 'market:1' } },
+    { role: 'network', sourceIdentity: { kind: 'network-snapshot', value: 'network:1' } }
+  ],
   independenceAssessment: { status: 'UNASSESSED', reason: 'Not assessed.' }, paperOnly: true,
   provenance: { producer: 'finance-manager/test', generatedAt: '2026-08-24T16:00:00Z' }
 };
@@ -66,8 +70,16 @@ assert.equal(Prompt.parseResponse('{bad').reason, 'manager_response_must_be_json
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { paperOnly: false })).reason, 'manager_response_must_be_paper_only');
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { liveExecution: false })).reason, 'manager_response_live_execution_forbidden');
 assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { independenceAssessment: { status: 'ASSESSED', reason: 'guess' } })).reason, 'manager_response_independence_must_be_unassessed');
-assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { evidenceRefs: [{ role: 'semantic', sourceIdentity: 'semantic:1' }] })).reason, 'manager_response_evidence_refs_invalid');
+assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { evidenceRefs: [
+  { role: 'semantic', sourceIdentity: 'semantic:1' }, proposal.evidenceRefs[1], proposal.evidenceRefs[2]
+] })).reason, 'manager_response_evidence_refs_invalid');
+assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { evidenceRefs: [
+  proposal.evidenceRefs[0], proposal.evidenceRefs[0], proposal.evidenceRefs[2]
+] })).reason, 'manager_response_evidence_refs_invalid');
+assert.equal(Prompt.parseResponse(Object.assign({}, proposal, {
+  evidenceRefs: proposal.evidenceRefs.concat(proposal.evidenceRefs[0])
+})).reason, 'manager_response_evidence_refs_required');
 assert.equal(Prompt.buildRequest({ managerContext: { status: 'ABSTAINED' } }).reason, 'finance_manager_context_not_ready');
 assert.equal(Prompt.buildRequest({ managerContext: Object.assign({}, context, { homologyContext: null }) }).reason, 'finance_homology_context_not_ready');
 
-console.log('finance manager prompt: 21/21 passed');
+console.log('finance manager prompt: 23/23 passed');

@@ -37,6 +37,8 @@ const Provider = require('../lib/finance-preview-provider.js');
   assert.equal(sent.body.output_config.format.schema.properties.horizonDays.enum.join(','), '30,60,90');
   assert.equal(sent.body.output_config.format.schema.properties.paperOnly.const, true);
   assert.equal(JSON.stringify(sent.body.output_config.format.schema).includes('minLength'), false);
+  assert.equal(JSON.stringify(sent.body.output_config.format.schema).includes('minItems'), false);
+  assert.equal(JSON.stringify(sent.body.output_config.format.schema).includes('maxItems'), false);
   assert.equal(sent.options.headers['x-api-key'], 'test-only');
   assert.equal(result.ok, true);
   assert.equal(result.text, '{"paperOnly":true}');
