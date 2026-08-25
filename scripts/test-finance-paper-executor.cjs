@@ -100,13 +100,18 @@ function b14() {
   let executed = 0;
   const handler = Handler.createHandler({
     adminGate: { reqKey(req) { return req.key; }, isMaster(pass) { return pass === 'master'; }, deny(res) { return res.status(403).json({ ok: false }); } },
-    executor: { async execute() { executed++; return { ok: true, status: 'HELD' }; } }, store: {}, broker: {}, env
+    executor: { async execute() { executed++; return { ok: true, status: 'HELD' }; } }, store: {}, broker: {},
+    env: Object.assign({ BRAIN_SHADOW_TOKEN: 'brain-secret' }, env)
   });
   function res() { return { code: 200, setHeader() {}, status(code) { this.code = code; return this; }, json(body) { this.body = body; return this; } }; }
   let response = res(); await handler({ method: 'POST', key: 'wrong', body: { action: 'execute', packetId: 'packet-1' } }, response);
   assert.equal(response.code, 403); assert.equal(executed, 0);
   response = res(); await handler({ method: 'POST', key: 'master', body: { action: 'execute', packetId: 'packet-1' } }, response);
-  assert.equal(response.code, 200); assert.equal(executed, 1);
+  assert.equal(response.code, 200); assert.equal(response.body.authMode, 'master'); assert.equal(executed, 1);
+  response = res(); await handler({ method: 'POST', key: 'wrong', headers: { 'x-brain-token': 'brain-secret' }, body: { action: 'execute', packetId: 'packet-1' } }, response);
+  assert.equal(response.code, 200); assert.equal(response.body.authMode, 'finance-brain-token'); assert.equal(executed, 2);
+  response = res(); await handler({ method: 'POST', key: 'wrong', headers: { 'x-brain-token': 'wrong' }, body: { action: 'execute', packetId: 'packet-1' } }, response);
+  assert.equal(response.code, 403); assert.equal(executed, 2);
 
   console.log('finance paper executor: decision, switches, independent motor proof, one-shot claim, sandbox receipt, and handler auth passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
