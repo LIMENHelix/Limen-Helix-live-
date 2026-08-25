@@ -19,6 +19,7 @@ const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
 const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
+const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
 
 // The packet consumer is strict by design: unlike the cognition projection,
 // it never falls back to process memory when Redis is missing or fails.
@@ -198,6 +199,13 @@ module.exports = async function handler(req, res) {
           try { await Promise.resolve(b.cycle()); } catch (e) {}
         }
         ran++;
+        // Import only this product brain's independently persisted executor +
+        // observer evidence. The overlay cannot alter external switches, spend,
+        // capital authority, or another domain's state. Missing/stale evidence
+        // actively clears both booleans before the readiness receipt is built.
+        var _motorCapability = await productDomainMotorCapabilityOverlay.apply(
+          efferenceStore, dom, b, refreshId, Date.now()
+        );
         var c = compact(b.state && b.state.cognition);
         if (c) {
           // Augment with the multimodal interoception read + headline stress/phase (server feed
@@ -218,6 +226,7 @@ module.exports = async function handler(req, res) {
             blockers: _motorReceipt.receipt.blockers,
             safety: _motorReceipt.receipt.safety
           } : _motorReceipt;
+          c.motorCapabilityEvidence = _motorCapability;
           if (_motorReceipt.ok) motorReceiptsStored++;
           else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;
