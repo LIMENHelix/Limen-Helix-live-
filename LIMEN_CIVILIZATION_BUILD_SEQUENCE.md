@@ -2436,3 +2436,35 @@ The adversarial test proves that a reserve larger than available cash yields a
 durable `ABSTAINED` receipt, zero provider calls, no trade intent, and no order
 preview or submission. After correcting the layer distinction, the full suite is
 156 passed, 1 external-corpus skip, and 0 failed.
+
+### Product-brain resource metabolism — measured 2026-08-24
+
+The same resource/energy organ now runs in the actual product Brain v2 cycle for
+all twenty domains. `DomainBrainBase` supplies the common physiology, while
+every `<domain>-brain.js` owns an explicit `resourceAuthority` with its runtime
+identity, policy identity, lanes, budget ceiling, queue capacity, and switches.
+This preserves one functional brain contract without merging domain authority
+or state into a master funnel.
+
+The organ measures work pressure, queue pressure, and (when supplied) the
+domain's own treasury. It exposes separate gates for internal cycling, internal
+emission, external action, spending, and capital commitment. Missing or
+wrong-owner authority fails closed. Overload moves only that brain into
+`CONSERVE`, suppresses its internal emission, and names recovery steps; it does
+not mutate or inhibit another domain brain.
+
+All twenty domain policies currently permit internal cycles and internal
+emissions only. External action, spending, and capital are explicitly `false`
+for 20/20 domains, so this milestone does not arm publication, messaging,
+selling, brokerage, or money movement. The present `512` work-unit and `64`
+queue ceilings are conservative engineering defaults, not per-domain calibrated
+constants; each must be measured or replaced before its domain receives outward
+authority.
+
+`scripts/test-product-domain-resource-metabolism.js` proves separate Finance and
+Energy state, overload isolation, conservation behavior, and fail-closed owner
+identity. The product-brain audit now also requires 20 unique policy identities
+and verifies that every external-action switch remains inhibited. Existing
+autonomous-emission tests were updated to pass through the gate rather than
+bypass it. Full repository verification after this change is **157 passed, 1
+expected external-corpus skip, 0 failed**.

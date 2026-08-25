@@ -268,6 +268,7 @@
       companies: [],
       convergence: null,
       crossDomainEmissions: [],
+      resourceMetabolism: null,
       biosensor: null,        // always null — biosensor modulation removed 2026-06-18
       memory: {
         stressHistory: [],    // [{ stress, timestamp }] last 200
@@ -339,6 +340,7 @@
         try { self._applyRequestSteer(); } catch (e) {}       // re-apply operator steer each cycle (no-op if none)
         try { self._computeGenericKStack(); } catch (e) {}    // generic K-stack -> cognition.neuro (energy self-skips)
         try { self._computeDomainPlasticity(); } catch (e) {} // GENERIC PLASTICITY (shadow, ported from energy): learnable K-stack weights per domain (energy self-skips)
+        try { self._computeResourceMetabolism(); } catch (e) {} // per-instance energy/resource gate; policy is owned by each domain file
         try { self._applyGenericBrakeGate(); } catch (e) {}   // closed loop: brake gates emitted opportunities
         try { self._computeGenericEmissionQueue(); } catch (e) {}   // STEP 5 (energy self-skips): capital-fit packaging of opportunities
         try { self._runGenericAutonomousEmission(); } catch (e) {}  // STEP 6 (energy self-skips): autonomous emission — INTERNAL stream only + brake fail-safe + capital staged
@@ -351,6 +353,87 @@
       .catch(function (e) {
         console.warn('[DomainBrain:' + self.domainId + '] Cycle error:', e.message);
       });
+  };
+
+  // ══════════════════════════════════════════════════════════════════════
+  // DOMAIN RESOURCE METABOLISM — same functioning organ, separate authority.
+  //
+  // The algorithm is reusable physiology. Every product brain declares its own
+  // `resourceAuthority` in its own <domain>-brain.js file. State lives only on
+  // that brain instance; there is no shared queue, treasury, switch, or budget.
+  // Missing authority fails closed. External action, spend, and capital require
+  // their own domain switch and measured treasury; this function grants none.
+  // ══════════════════════════════════════════════════════════════════════
+  DomainBrainBase.prototype._computeResourceMetabolism = function () {
+    var s = this.state;
+    var a = this.resourceAuthority;
+    var blocked = [];
+    if (!a || a.ownerDomain !== this.domainId) blocked.push('resource_authority_missing_or_wrong_owner');
+    a = a || {};
+    var budgets = a.budgets || {};
+    var switches = a.switches || {};
+    var count = function (value) { return Array.isArray(value) ? value.length : 0; };
+    var workUnits = count(s.feeds) + count(s.signals) + (2 * count(s.diagnoses)) +
+      count(s.treatments) + (2 * count(s.opportunities)) + count(s.crossDomainEmissions);
+    var computeBudget = Number(budgets.computeUnitsPerCycle);
+    var queueCapacity = Number(budgets.queueCapacity);
+    if (!(Number.isFinite(computeBudget) && computeBudget > 0)) blocked.push('compute_budget_unmeasured');
+    if (!(Number.isFinite(queueCapacity) && queueCapacity > 0)) blocked.push('queue_capacity_unmeasured');
+    var queueDepth = count(s.opportunities) + count(s.crossDomainEmissions);
+    var overloaded = (Number.isFinite(computeBudget) && workUnits > computeBudget) ||
+      (Number.isFinite(queueCapacity) && queueDepth > queueCapacity);
+    if (overloaded) blocked.push('domain_resource_pressure_high');
+
+    var treasury = s.treasury && typeof s.treasury === 'object' ? s.treasury : null;
+    var cash = treasury && Number(treasury.cashUsd);
+    var revenue = treasury && Number(treasury.revenueUsd);
+    var costs = treasury && Number(treasury.costUsd);
+    var treasuryMeasured = Number.isFinite(cash) && Number.isFinite(revenue) && Number.isFinite(costs);
+    var internalCycle = switches.internalCycle === true && blocked.indexOf('resource_authority_missing_or_wrong_owner') < 0;
+    var internalEmission = switches.internalEmission === true && internalCycle && !overloaded;
+    var externalAction = switches.externalAction === true && internalCycle && !overloaded;
+    var maySpend = externalAction && switches.spend === true && treasuryMeasured && cash > 0;
+    var mayCommitCapital = externalAction && switches.capital === true && treasuryMeasured && cash > 0;
+    var state = !internalCycle ? 'INHIBITED' : (overloaded ? 'CONSERVE' : 'AVAILABLE');
+
+    var out = {
+      schemaVersion: 'product-domain-resource-metabolism/1.0',
+      ownerDomain: this.domainId,
+      policyId: a.policyId || null,
+      state: state,
+      lanes: Array.isArray(a.lanes) ? a.lanes.slice() : [],
+      measurements: {
+        workUnits: workUnits,
+        computeBudgetUnits: Number.isFinite(computeBudget) ? computeBudget : null,
+        computeUtilization: Number.isFinite(computeBudget) && computeBudget > 0 ? Math.round((workUnits / computeBudget) * 1000) / 1000 : null,
+        queueDepth: queueDepth,
+        queueCapacity: Number.isFinite(queueCapacity) ? queueCapacity : null,
+        treasuryMeasured: treasuryMeasured,
+        cashUsd: treasuryMeasured ? cash : null,
+        revenueUsd: treasuryMeasured ? revenue : null,
+        costUsd: treasuryMeasured ? costs : null,
+        netRevenueUsd: treasuryMeasured ? revenue - costs : null
+      },
+      authority: {
+        internalCycle: switches.internalCycle === true,
+        internalEmission: switches.internalEmission === true,
+        externalAction: switches.externalAction === true,
+        spend: switches.spend === true,
+        capital: switches.capital === true
+      },
+      gates: {
+        mayRunInternalCycle: internalCycle,
+        mayEmitInternal: internalEmission,
+        mayActExternally: externalAction,
+        maySpend: maySpend,
+        mayCommitCapital: mayCommitCapital
+      },
+      blockers: blocked,
+      recovery: overloaded ? ['drain_domain_queue', 'reduce_nonurgent_work', 'recompute_before_emission'] : [],
+      measuredAt: Date.now()
+    };
+    s.resourceMetabolism = out;
+    return out;
   };
 
   // ══════════════════════════════════════════════════════════════════════
@@ -1565,6 +1648,7 @@
     if (this._actuation && this._actuation.autonomousEmission === false) on = false;   // per-domain off switch (reversible)
     var emitted = [], staged = [], holdReason = null;
     if (!on) holdReason = 'autonomy-off';
+    else if (!s.resourceMetabolism || !s.resourceMetabolism.gates || !s.resourceMetabolism.gates.mayEmitInternal) holdReason = 'resource-metabolism-inhibited';
     else if (!brake || brake.level !== 'clear') holdReason = 'brake-' + (brake ? brake.level : 'absent');   // FAIL-SAFE
     var q = (s.domainEmissionQueue && s.domainEmissionQueue.packages) || [];
     if (!holdReason) {

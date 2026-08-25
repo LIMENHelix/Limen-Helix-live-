@@ -37,6 +37,7 @@
       snapshotKey: 'environment',
       cycleInterval: 30000
     });
+    this.resourceAuthority = { ownerDomain: 'environment', policyId: 'environment-resource/1', lanes: ['research', 'publication', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   EnvironmentBrain.prototype = Object.create(Base.prototype);

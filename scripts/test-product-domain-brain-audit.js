@@ -13,8 +13,10 @@ assert.equal(report.coreComplete, 20, JSON.stringify(report.domains.filter(funct
 assert.equal(report.authorityParityComplete, 20,
   JSON.stringify(report.domains.filter(function (row) { return row.authorityGaps.length; })));
 assert(report.domains.every(function (row) {
-  return row.bytes > 100000 && row.constructor && row.identityMatches && row.parts.authoritySurface;
+  return row.bytes > 100000 && row.constructor && row.identityMatches && row.parts.authoritySurface &&
+    row.parts.resourceMetabolism && row.resourceAuthority.externalAction === false;
 }));
+assert.equal(new Set(report.domains.map(function (row) { return row.resourceAuthority.policyId; })).size, 20);
 
 var aliases = Object.fromEntries(report.domains.filter(function (row) {
   return ['medicine', 'science', 'trade'].indexOf(row.product) >= 0;

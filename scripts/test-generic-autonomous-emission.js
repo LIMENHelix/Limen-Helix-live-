@@ -29,6 +29,16 @@ assert('base loaded', !!Base);
 
 function mkBrain(domainId) {
   var b = new Base({ domainId: domainId, label: domainId, snapshotKey: domainId, cycleInterval: 30000 });
+  // Product brains declare this policy in their own domain file. This focused
+  // base-class fixture must do the same so the fail-closed resource gate is
+  // exercised rather than bypassed.
+  b.resourceAuthority = {
+    ownerDomain: domainId,
+    policyId: domainId + '-resource-policy/test',
+    lanes: ['research', 'investment'],
+    budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 },
+    switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false }
+  };
   b.state.opportunities = [
     { id: 'r1', title: 'Research call A', path: 'RESEARCHABLE', confidence: 70, whyNow: 'signal A' },
     { id: 'i1', title: 'Invest call B', path: 'INVESTABLE', confidence: 60, whyNow: 'signal B', companies: ['ACME'] },
@@ -36,6 +46,7 @@ function mkBrain(domainId) {
     { id: 'h1', title: 'Held call', path: 'RESEARCHABLE', confidence: 90, held: true }   // held ⇒ excluded
   ];
   b.state.domainNeuro = { brake: { level: 'clear' }, forecast: { direction: 'rising', projectedStress: 0.6, horizonPeriods: 6, falsifier: 'x', confidence: 0.5 } };
+  b._computeResourceMetabolism();
   return b;
 }
 
