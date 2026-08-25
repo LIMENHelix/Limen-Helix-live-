@@ -162,6 +162,44 @@ function _ofacRecentActionsIdentity(html) {
     crypto.createHash('sha256').update(rows.join('\n'), 'utf8').digest('hex');
 }
 
+function _htmlMetaUpdatedIdentity(html, property) {
+  var key = String(property || '').trim();
+  var text = String(html || '');
+  if (!key || !text) return null;
+  var tags = text.match(/<meta\b[^>]*>/gi) || [];
+  for (var i = 0; i < tags.length; i++) {
+    var prop = tags[i].match(/\bproperty=["']([^"']+)["']/i);
+    if (!prop || prop[1] !== key) continue;
+    var content = tags[i].match(/\bcontent=["']([^"']+)["']/i);
+    if (!content || !Number.isFinite(Date.parse(content[1]))) return null;
+    return content[1];
+  }
+  return null;
+}
+
+function _htmlSectionIdentity(html, sourceKey, startMarker, endMarker) {
+  var key = String(sourceKey || '').trim();
+  var text = String(html || '');
+  var start = text.indexOf(String(startMarker || ''));
+  var end = text.indexOf(String(endMarker || ''), start + String(startMarker || '').length);
+  if (!key || start < 0 || end <= start) return null;
+  var section = text.slice(start, end).replace(/\s+/g, ' ').trim();
+  if (!section) return null;
+  return 'html-section-v1:' + key + '|sha256:' +
+    crypto.createHash('sha256').update(section, 'utf8').digest('hex');
+}
+
+function _nvdRecentIdentity(data) {
+  var rows = data && data.vulnerabilities;
+  var total = data && Number(data.totalResults);
+  if (!Number.isInteger(total) || total < 0 || !Array.isArray(rows)) return null;
+  for (var i = 0; i < rows.length; i++) {
+    if (!rows[i] || !rows[i].cve || typeof rows[i].cve.id !== 'string' || !rows[i].cve.id) return null;
+  }
+  return 'nvd-set-v1:total:' + total + '|items:' + rows.length + '|sha256:' +
+    crypto.createHash('sha256').update(JSON.stringify(rows), 'utf8').digest('hex');
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=25, stale-while-revalidate=10');
@@ -3665,7 +3703,7 @@ async function fetchNVDRecent() {
     }
     var act = clamp(total / 300, 0.1, 1.0);
     trackHealth('NVD Recent CVEs', 'technology', 'live', null, total);
-    return { value: total, label: total + ' CVEs (7d), ' + critical + ' critical', activity: round(act), channel: 'activity', signal: total + ' new CVEs in last 7 days, ' + critical + ' critical', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: total, label: total + ' CVEs (7d), ' + critical + ' critical', activity: round(act), channel: 'activity', signal: total + ' new CVEs in last 7 days, ' + critical + ' critical', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _nvdRecentIdentity(data) };
   } catch (e) {
     trackHealth('NVD Recent CVEs', 'technology', 'fallback', e.message);
     return null;
@@ -4312,7 +4350,7 @@ async function fetchNCUACreditUnion() {
     var distress = (html.match(/conservatorship|liquidation|merger|cease|enforcement|prohibition|civil money/gi) || []).length;
     var stress = clamp(distress / 6, 0, 1);
     trackHealth('NCUA Credit Unions', 'finance', 'live', null, distress);
-    return { value: distress, label: distress + ' credit union actions', stress: round(stress), signal: distress + ' credit union distress mentions', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: distress, label: distress + ' credit union actions', stress: round(stress), signal: distress + ' credit union distress mentions', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _htmlMetaUpdatedIdentity(html, 'og:updated_time') };
   } catch (e) { trackHealth('NCUA Credit Unions', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4480,7 +4518,7 @@ async function fetchNOAACPCDrought() {
     var net = intensify - improve;
     var stress = clamp(net / 25, 0, 1);
     trackHealth('NOAA CPC Drought', 'agriculture', 'live', null, net);
-    return { value: net, label: 'CPC net drought intensification ' + net, stress: round(stress), signal: 'CPC seasonal outlook: ' + intensify + ' intensification mentions, ' + improve + ' improvement mentions', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: net, label: 'CPC net drought intensification ' + net, stress: round(stress), signal: 'CPC seasonal outlook: ' + intensify + ' intensification mentions, ' + improve + ' improvement mentions', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _htmlSectionIdentity(html, 'noaa-cpc-drought', '<!-- Begin content area -->', '<!-- End content area -->') };
   } catch (e) { trackHealth('NOAA CPC Drought', 'agriculture', 'fallback', e.message); return null; }
 }
 
@@ -5875,7 +5913,7 @@ async function fetchGovTrack() {
     if (count > 0) {
       var act = clamp(count / 30, 0.05, 1.0);
       trackHealth('GovTrack', 'governance', 'live', null, count);
-      return { value: count, label: count + ' GovTrack legislative events', activity: round(act), channel: 'activity', signal: count + ' GovTrack legislative events', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' GovTrack legislative events', activity: round(act), channel: 'activity', signal: count + ' GovTrack legislative events', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'govtrack-active-bills') };
     }
     throw new Error('empty GovTrack RSS');
   } catch (e) {
@@ -6251,6 +6289,9 @@ module.exports._federalRegisterIdentity = _federalRegisterIdentity;
 module.exports._federalRegisterResultIdentity = _federalRegisterResultIdentity;
 module.exports._openAlexInstitutionIdentity = _openAlexInstitutionIdentity;
 module.exports._ofacRecentActionsIdentity = _ofacRecentActionsIdentity;
+module.exports._htmlMetaUpdatedIdentity = _htmlMetaUpdatedIdentity;
+module.exports._htmlSectionIdentity = _htmlSectionIdentity;
+module.exports._nvdRecentIdentity = _nvdRecentIdentity;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6298,3 +6339,7 @@ module.exports._fetchTreasuryDebt = fetchTreasuryDebt;
 module.exports._fetchNYFedSOFR = fetchNYFedSOFR;
 module.exports._fetchUSDADroughtMonitor = fetchUSDADroughtMonitor;
 module.exports._fetchNOAANWSAgAlerts = fetchNOAANWSAgAlerts;
+module.exports._fetchGovTrack = fetchGovTrack;
+module.exports._fetchNCUACreditUnion = fetchNCUACreditUnion;
+module.exports._fetchNOAACPCDrought = fetchNOAACPCDrought;
+module.exports._fetchNVDRecent = fetchNVDRecent;

@@ -2831,3 +2831,20 @@ returned institution record/update/count, and the general Federal Register
 rules receptor identifies publisher count plus returned document records. None
 of these additions changes feed labels, stress/activity math, diagnoses,
 decisions, or motor authority.
+
+PR #173 merged as `27e0ae08`; its production deployment became Ready and a
+fresh public audit found all 20 domain brains present, 247 live source rows,
+and only 22 identity tasks: four live/open and 18 upstream-unavailable. This is
+down from 75 total / 46 open immediately before that repair. The only available
+readings still lacking identity were GovTrack, NCUA Credit Unions, NOAA CPC
+Drought, and NVD Recent CVEs.
+
+Those last four live gaps each expose a source-native observation boundary.
+GovTrack uses the complete RSS item set. NCUA publishes an `og:updated_time`
+for its press-release listing. NOAA CPC identity covers only the publisher's
+bounded seasonal-assessment content section, excluding navigation and footer
+chrome. NVD identity covers `totalResults` and the complete returned CVE records
+whose metrics drive both the seven-day count and critical count. Retrieval time
+is excluded from every identity. If production confirms these four contracts,
+the remaining identity queue is an upstream-availability queue rather than an
+open provenance defect queue.
