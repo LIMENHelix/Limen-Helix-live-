@@ -20,8 +20,19 @@ var DecisionProvider = require('../lib/finance-trade-decision-provider.js');
 var Broker = require('../lib/tradier-sandbox.js');
 var Executor = require('../lib/finance-paper-executor.js');
 var Commissioning = require('../lib/finance-sandbox-commissioning.js');
+var FeedConfirmation = require('../lib/finance-feed-confirmation.js');
 
 function send(res, status, body) {
+  if (body && body.paperOnly === true) {
+    console.log('[FINANCE_PAPER_CYCLE] ' + JSON.stringify({
+      stage: body.stage || null,
+      status: body.status || null,
+      reason: body.reason || null,
+      packetId: body.packetId || null,
+      orderPlaced: body.orderPlaced === true,
+      liveMoney: false
+    }));
+  }
   res.statusCode = status;
   res.setHeader('content-type', 'application/json');
   res.setHeader('cache-control', 'no-store');
@@ -52,6 +63,7 @@ function createHandler(deps) {
   var broker = deps.broker || Broker;
   var executor = deps.executor || Executor;
   var commissioning = deps.commissioning || Commissioning;
+  var feedConfirmation = deps.feedConfirmation || FeedConfirmation;
   var env = deps.env || process.env;
   var fetchFn = deps.fetch || global.fetch;
 
@@ -126,6 +138,21 @@ function createHandler(deps) {
         }));
       }
 
+      var confirmation = feedConfirmation.build({
+        bundle: bundle,
+        packetId: packetId,
+        candidate: previewReceipt.candidate,
+        now: new Date().toISOString()
+      });
+      if (!confirmation || confirmation.status !== 'CONFIRMED_FOR_TRADE_DECISION') {
+        return send(res, 200, summary('feed-confirmation', packetId, confirmation, {
+          status: 'HELD',
+          reason: confirmation && confirmation.blockers && confirmation.blockers[0] || 'finance-feed-confirmation-incomplete',
+          blockers: confirmation && confirmation.blockers || [],
+          orderPlaced: false
+        }));
+      }
+
       var admissionResult = await admission.execute(store, { approve: true, packetId: packetId });
       var admissionReceipt = admissionResult && admissionResult.receipt;
       if (!admissionReceipt || admissionReceipt.status !== 'ADMITTED_TO_PAPER') {
@@ -133,7 +160,7 @@ function createHandler(deps) {
       }
 
       var decisionResult = await decision.execute(store, broker, { approve: true, packetId: packetId }, {
-        env: env, fetch: fetchFn
+        env: env, fetch: fetchFn, feedConfirmation: confirmation
       });
       var decisionReceipt = decisionResult && decisionResult.receipt;
       if (!decisionReceipt || decisionReceipt.status !== 'TRADE_INTENT_SELECTED') {
