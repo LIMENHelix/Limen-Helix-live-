@@ -8,6 +8,8 @@ function source(path) { return fs.readFileSync(path, 'utf8'); }
 var social = source('handlers/social-cron.js');
 var subscriber = source('handlers/subscriber-digest.js');
 var image = source('handlers/hero-image.js');
+var autopilot = source('handlers/autopilot.js');
+var automail = source('handlers/homestead-automail.js');
 
 [
   [social, "authorize(motorStore, 'communication', 'social'", 'postToBluesky'],
@@ -23,3 +25,14 @@ var image = source('handlers/hero-image.js');
 });
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
+
+assert(autopilot.includes("authorize(motorStore, 'intelligence', 'autopilot'"));
+assert(autopilot.includes('motorGate && motorGate.authorized === true && cfg.mode'));
+assert(autopilot.indexOf('motorGate && motorGate.authorized === true && cfg.mode') < autopilot.indexOf('send.sendToLead'));
+assert(automail.includes("authorize(motorStore, 'law', 'automail'"));
+var mailGateAt = automail.indexOf("authorize(motorStore, 'law', 'automail'");
+var lobEffectAt = automail.indexOf('await lobSend(d, LOB', mailGateAt);
+assert(lobEffectAt > mailGateAt);
+assert(automail.slice(mailGateAt, lobEffectAt).includes('if (!motorGate.authorized) live = false'));
+
+console.log('outward domain motor gates: autopilot and automail also inhibit execution while preserving plan/dry-run behavior');

@@ -11,6 +11,8 @@
  * Admin-only (LEAD_ADMIN_KEY). LOB key never leaves the server.
  */
 var db = require('../lib/limen-db');
+var motorStore = require('../lib/autofire-efference-store');
+var motorAuthorization = require('../lib/product-domain-motor-authorization');
 var STATE = 'homestead:automail', MAILED = 'homestead:mailed', MCFG = 'homestead:mailconfig';
 var CFG_FIELDS = ['fromName', 'fromLine1', 'fromCity', 'fromState', 'fromZip', 'contactPhone', 'contactName'];
 
@@ -115,6 +117,11 @@ module.exports = async function handler(req, res) {
     var LOB = process.env.LOB_API_KEY || '', FROM = fromCfg(), PHONE = CPHONE, NAME = CNAME;
     if (!st.armed) return j(res, 200, { ok: true, mode: 'disarmed', count: 0 });
     var live = !!(LOB && FROM.line1);
+    // Law owns the current physical-message effector. The armed flag selects
+    // candidates; a fresh restored Law motor receipt separately controls whether
+    // Lob may receive them. A held receipt automatically downgrades to dry-run.
+    var motorGate = await motorAuthorization.authorize(motorStore, 'law', 'automail', Date.now());
+    if (!motorGate.authorized) live = false;
     var deals = (await db.get('realauction:deals')) || [];
     var mailed = (await db.get(MAILED)) || {};
     var enabled = (st.states && st.states.length) ? st.states : ['FL'];
@@ -188,6 +195,9 @@ module.exports = async function handler(req, res) {
     return j(res, 200, {
       ok: true, mode: live ? 'sent' : 'dry-run', count: sent.length, candidates: picks.length,
       fails: fails, needReturnAddress: !FROM.line1, hasLobKey: !!LOB,
+      motorHeld: !motorGate.authorized,
+      motorReason: motorGate.reason || null,
+      motorReceiptId: motorGate.receiptId || null,
       // Reported, never silent. "0 sent" with 40 skipped for lead time is a
       // working filter; "0 sent" with nothing skipped is an empty pipeline. The
       // operator cannot tell those apart without these counts.
