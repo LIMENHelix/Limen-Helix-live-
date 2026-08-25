@@ -114,5 +114,23 @@ var outGhost = ghost._computeDomainPlasticity();
 assert('non-allowlisted id made zero brain-weights calls (no hydrate, no persist)', brainWeightsCalls().length === 0, JSON.stringify(brainWeightsCalls().map(function (c) { return c.method + ' ' + c.url; })));
 assert('non-allowlisted id readout reports persistence disabled', outGhost && outGhost.persistence && outGhost.persistence.enabled === false, JSON.stringify(outGhost && outGhost.persistence));
 
+// ── T5 — every real RUNTIME owner is allowlisted, including the three
+// canonical/runtime aliases (medicine->health, science->research,
+// trade->supplyChain). The gate reads brain.domainId, so testing canonical
+// product names would miss the production bug this protects against. ──
+console.log('T5: all 20 runtime domain ids hydrate through their own key');
+var runtimeDomains = ['agriculture','communication','culture','defense','economy','education','energy','environment','finance','governance','health','industry','infrastructure','intelligence','law','population','religion','research','supplyChain','technology'];
+for (var di = 0; di < runtimeDomains.length; di++) {
+  var runtimeId = runtimeDomains[di];
+  if (runtimeId === 'energy') continue; // Energy owns its separate persistence implementation.
+  fetchCalls = [];
+  var runtimeBrain = mkBrain(runtimeId);
+  var runtimeOut = runtimeBrain._computeDomainPlasticity();
+  var hydrateCalls = brainWeightsCalls().filter(function (c) { return c.method === 'GET'; });
+  assert(runtimeId + ' persistence enabled + hydrate requested',
+    !!(runtimeOut && runtimeOut.persistence && runtimeOut.persistence.enabled && hydrateCalls.length === 1 && hydrateCalls[0].url.indexOf('domain=' + encodeURIComponent(runtimeId)) >= 0),
+    JSON.stringify({ persistence: runtimeOut && runtimeOut.persistence, calls: hydrateCalls }));
+}
+
 console.log('\n' + (tests - failures) + '/' + tests + ' passed');
 process.exit(failures ? 1 : 0);
