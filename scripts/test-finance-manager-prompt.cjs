@@ -24,6 +24,8 @@ assert.equal(req.mode, 'sandbox-paper');
 assert(req.instructions.some((x) => x.includes('never an order')));
 assert.equal(req.context.observations.length, 1);
 assert.equal(req.outputSchema.paperOnly, true);
+assert.match(req.outputSchema.horizonDays, /exactly one/);
+assert(req.instructions.some((x) => x.includes('horizonDays') && x.includes('never be an array')));
 assert.equal(req.context.homologyContext.contextOnly, true);
 assert(req.instructions.some((x) => x.includes('observational homology context')));
 
@@ -45,4 +47,4 @@ assert.equal(Prompt.parseResponse(Object.assign({}, proposal, { independenceAsse
 assert.equal(Prompt.buildRequest({ managerContext: { status: 'ABSTAINED' } }).reason, 'finance_manager_context_not_ready');
 assert.equal(Prompt.buildRequest({ managerContext: Object.assign({}, context, { homologyContext: null }) }).reason, 'finance_homology_context_not_ready');
 
-console.log('finance manager prompt: 14/14 passed');
+console.log('finance manager prompt: 16/16 passed');

@@ -31,10 +31,14 @@ const proposal = { schemaVersion: Prompt.RESPONSE_SCHEMA, id: 'runner-proposal',
   assert.equal(result.candidate.liveExecution, false);
   assert.equal(result.candidate.blockers.length, 0);
   assert.equal(result.proposal.provenance.managerResponseSchema, Prompt.RESPONSE_SCHEMA);
+  assert.equal(result.providerCalled, true);
+  assert.equal(result.provider.name, 'fixture');
+  assert.equal(result.provider.model, 'fixture');
 
   const disabled = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: false, disabled: true }; } });
   assert.equal(disabled.status, 'ABSTAINED');
   assert.equal(disabled.reason, 'finance_manager_ai_disabled');
+  assert.equal(disabled.providerCalled, true);
 
   const noLedger = await Runner.run({ managerContext, ledger: { schemaVersion: Ledger.SCHEMA, status: 'ABSTAINED' } }, { provider: async function () { throw new Error('must not call'); } });
   assert.equal(noLedger.status, 'ABSTAINED');
@@ -43,6 +47,20 @@ const proposal = { schemaVersion: Prompt.RESPONSE_SCHEMA, id: 'runner-proposal',
 const badResponse = await Runner.run({ managerContext, ledger }, { provider: async function () { return { ok: true, text: 'not json' }; } });
 assert.equal(badResponse.status, 'ABSTAINED');
 assert.equal(badResponse.reason, 'manager_response_must_be_json');
+assert.equal(badResponse.providerCalled, true);
+
+const badHorizon = await Runner.run({ managerContext, ledger }, { provider: async function () {
+  return { ok: true, provider: 'fixture', model: 'fixture-model', tokensIn: 10, tokensOut: 20,
+    text: JSON.stringify(Object.assign({}, proposal, { horizonDays: [30, 60, 90] })) };
+} });
+assert.equal(badHorizon.reason, 'manager_response_horizon_required');
+assert.equal(badHorizon.providerCalled, true);
+assert.equal(badHorizon.provider.model, 'fixture-model');
+assert.equal(badHorizon.provider.tokensOut, 20);
+
+const failedProvider = await Runner.run({ managerContext, ledger }, { provider: async function () { throw new Error('transport failed'); } });
+assert.equal(failedProvider.reason, 'finance_manager_provider_failed');
+assert.equal(failedProvider.providerCalled, true);
 
 const universe = Universe.build({ candidates: [{
   company: { slug: 'example_co', ticker: 'EX' }, financeCycle: cycle,
@@ -58,5 +76,5 @@ const selected = await Runner.run({ candidateUniverse: universe }, { provider: a
 assert.equal(selected.status, 'PAPER_CANDIDATE');
 assert.equal(selected.selectedCompany.slug, 'example_co');
 
-  console.log('finance manager runner: 16/16 passed');
+  console.log('finance manager runner: 28/28 passed');
 })().catch(function (e) { console.error(e && e.stack || e); process.exit(1); });

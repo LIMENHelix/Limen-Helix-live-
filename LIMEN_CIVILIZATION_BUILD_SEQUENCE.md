@@ -2148,3 +2148,47 @@ server packet, and homology context are not public. A read-only authenticated
 retry using the local `.env.local` token also returned `401`, so the deployed
 protected packet/replay state remains unverified until the Production token is
 refreshed. No provider, Redis write, paper release, or broker action was made.
+
+### Finance Preview authenticated production execution — measured 2026-08-24
+
+PR #152 merged as `c91c5d19` and deployed to Production. The new
+`/finance-preview` operator surface returned `200`; its API returned `401`
+without the refreshed `BRAIN_SHADOW_TOKEN` and `200` with it. The production
+Finance cycle was healthy (`ok:true`, `rowsApplied:1`, `restored:true`, L3
+current evidence complete, and one outward consumer declared). `restored:true`
+continues to mean that prior state was read and consumed by the loop, not that
+the current write was read back. The outward-consumer value remains a binder
+declaration, not listener-receipt proof.
+
+The current source-grounded packet was
+`finance:3:1787616612300-240`, generated `2026-08-25T00:10:12.300Z`, with 32
+semantic-evidence rows and zero packet opportunities. The authenticated gate
+assembled four exact candidates: JPMorgan Chase (`JPM`, CIK `0000019617`),
+Bank of America (`BAC`, CIK `0000070858`), Citigroup (`C`, CIK
+`0000831001`), and Salesforce (`CRM`, CIK `0001108524`). Readiness was
+`READY_FOR_MANAGER_REVIEW`; Redis durability, the narrow Preview switch, and
+the Anthropic provider were present. There was no prior packet receipt.
+
+The packet's `civilization-homology-context/1.0` remained observational and
+`contextOnly:true`. It carried P0/SOURCE as interpretation with no phase
+evidence, an `UNOBSERVED` company join, zero brain nodes, unobserved regulation
+and recovery, all four mappings `UNESTABLISHED`, and six explicit abstentions.
+It therefore supplied quarantined context and did not act as a precision,
+selection, or authorization signal.
+
+One operator-authorized Preview POST then acquired the durable packet-keyed
+`SET NX` command receipt and called Anthropic exactly once. It safely returned
+`ABSTAINED` with `manager_response_horizon_required`: the response did not
+satisfy the contract requiring one 30/60/90-day horizon. Receipt readback
+confirmed `providerCalled:true`; candidate release, broker access, order
+placement, and live money all remained `false`. The packet receipt now
+inhibits every retry for that packet.
+
+The follow-up contract repair makes `horizonDays` unambiguous as one integer,
+not an array or range, and preserves provider/model/token metadata plus all
+schema blockers on future abstention receipts without persisting raw model
+text. This repair is for a future packet only. It does not reopen or mutate the
+completed receipt, and it does not advance Job 7 to paper release. The next
+dependency remains a fresh packet and a separately receipted Preview result;
+after a contract-valid paper candidate exists, it must enter the B14/outcome
+path rather than bypassing Job 5.
