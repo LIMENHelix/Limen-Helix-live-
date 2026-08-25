@@ -2882,3 +2882,37 @@ operator key when supplied and otherwise uses that rate-limited public path.
 Its replay identity includes the UTC posted-date query, publisher total, and
 complete returned document records. Both changes retain the existing domain
 feed names and authority boundaries while making the sensed semantics explicit.
+
+PR #176 merged as `13c6cd6f`; its production deployment became Ready. A fresh
+cache-bypassing civilization snapshot contained all 20 domain brains and 249
+available readings, all 249 with source identity. FAOSTAT reported the official
+QCL corpus (`4,209,110` records, publisher update `2025-12-31`) and
+Regulations.gov reported 96 documents through its public path. The remaining
+provider queue fell from seven to five, all explicitly credential-gated:
+NOAA CDO, USPTO ODP, USDA Quick Stats API, Event Registry, and the UN Population
+Data Portal API. This is an availability queue, not an unlabeled-feed or
+provenance queue.
+
+The next repair preserves the same feed labels in both the owning domain and
+the civilization view while keeping brain state, authority, budgets, and
+effectors domain-local. Four credentialed publishers also expose official,
+keyless read surfaces, so their production receptor can remain available
+without impersonating the missing API:
+
+- `NOAA Climate` falls back to Climate at a Glance's global monthly land/ocean
+  departure and records period, declared baseline, and value in its replay key;
+- `USPTO Patents` falls back to the publisher's current weekly Patent Official
+  Gazette issue and reports it as context, not as an application count;
+- `USDA NASS` falls back to the weekday-stamped Quick Stats crops bulk-corpus
+  release and reports corpus size/context, not a fabricated corn yield; and
+- `UN Population` falls back to the WPP `TotalPopulationBySex` bulk-catalog
+  artifact and its HEAD metadata, reporting corpus availability rather than a
+  population value.
+
+Configured credentials continue to select the detailed APIs. The Event
+Registry row remains an honest commercial-credential requirement because no
+same-publisher public equivalent was found. Offline contract tests pass 35/35,
+and direct read-only calls to all four public publisher surfaces returned
+source-identified readings on 2026-08-25. Production deployment and a fresh
+snapshot remain the gates before the expected five-to-one queue reduction is
+recorded as observed.
