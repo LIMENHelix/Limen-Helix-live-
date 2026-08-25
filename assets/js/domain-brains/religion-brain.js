@@ -34,6 +34,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'religion', policyId: 'religion-resource/1', sandboxLane: 'subscriber-email', lanes: ['publication', 'social', 'email'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.motorAuthority = { ownerDomain: 'religion', contractId: 'religion-motor/1', lane: 'subscriber-email', decisionContract: 'direct-message-decision/1', budgetId: 'religion-email-budget/1', receiptClass: 'delivery-provider-receipt', outcomeClass: 'delivery-click-reply-or-unsubscribe', rollbackClass: 'suppress-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   ReligionBrain.prototype = Object.create(Base.prototype);

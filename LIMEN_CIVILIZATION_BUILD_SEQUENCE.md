@@ -2493,3 +2493,56 @@ an abstained decision produces zero broker calls, and a valid stored selection
 preserves its Finance/B10 identity into the read-only B14 preview. Full
 repository verification is **158 passed, 1 expected external-corpus skip, 0
 failed**.
+
+### All-domain sandbox motor lanes — measured 2026-08-24
+
+PR #160 (`ccbbe8e2`) closes the missing sandbox-adapter gap without widening
+production authority. Every product brain now owns a canonical primary sandbox
+lane, and the twenty declarations collectively cover all thirteen civilization
+motor lanes. The shared sandbox bridge carries a lane-specific nonterminal
+contract naming the next action, required receipt, independent outcome class,
+and rollback class. No contract authorizes an external effect.
+
+The deterministic 30-day rehearsal now runs 600 domain cycles across all twenty
+brains and all thirteen lanes. It persists 600 commands, 600 separately
+identified synthetic fixture observations, 600 outcomes, and 600 learning
+consumptions; 496 commands cross the sandbox B14 trust threshold. It leaves zero
+pending commands, spends $0, and performs zero outward actions. Repository CI
+and the Vercel preview passed before merge. The production deployment became
+Ready, the public root returned 200, and direct reads of the public Finance,
+Communication, Trade, and Agriculture brain assets confirmed separate
+`broker/order`, `social`, `auction`, and `homestead` ownership while each
+continued to expose `externalAction: false`.
+
+This is complete sandbox physiology, not live-world proof. Email, post, mail,
+CRM, marketplace, property, publication, and broker listeners still require
+their own durable production executor, provider receipt, independent observer,
+rollback implementation, measured budget, and per-domain switch.
+
+### Product-brain motor readiness organ — measured 2026-08-24
+
+The actual product Brain v2 cycle now computes motor readiness immediately after
+that same brain's resource metabolism. `DomainBrainBase` provides the common
+gate logic, while each of the twenty `<domain>-brain.js` files owns a separate
+`motorAuthority`: owner identity, unique motor-contract identity, primary lane,
+decision contract, unique budget identity, receipt class, independent outcome
+class, rollback class, executor verification, observer verification, and motor
+switches. This is the intended same-function/different-authority pattern; it is
+not a master motor funnel.
+
+All twenty brains currently permit preparation and simulation only. External
+motor switches are false, production executors are unverified, independent
+outcome observers are unverified, and the pre-existing per-domain resource
+external-action switches remain false. Consequently the measured state is
+20/20 `SANDBOX_READY` and 0/20 externally enabled. A negative test proves that
+turning on a motor switch alone cannot bypass executor/observer verification,
+and even complete motor verification cannot bypass the same domain's resource
+gate. Wrong-owner authority is `INHIBITED`, and one brain's state remains
+separate from another's.
+
+The product-brain audit now treats motor readiness as required anatomy and
+requires twenty unique motor-contract and budget identities. Focused product
+audit, resource-metabolism, and motor-readiness checks pass. The full repository
+run is **159 passed, 1 expected external-corpus skip, 0 failed**. This closes the
+all-domain declaration and anti-bypass seam; it does not satisfy the Job 5
+independent production-outcome gate or arm Job 9 lanes.
