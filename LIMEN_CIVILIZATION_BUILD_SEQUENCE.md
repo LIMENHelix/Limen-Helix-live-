@@ -2991,3 +2991,23 @@ does not close Job 5: production must still supply the genuine zero-effect
 sandbox rollback receipt and later independent outcome receipt. Until then the
 Finance motor remains `HELD`, and all other domain motors remain separately
 inhibited behind their own authority and evidence contracts.
+
+Production deployment `b61a4d3f` then returned `Ready`. An authenticated
+operator read of `/api/finance-motor-capability` found the current Finance motor
+receipt present and identity-matched, and the Tradier sandbox account/profile
+probe passed read-only. It found zero B14 commands and zero learned outcomes, so
+the executor proof remained `zero-effect-sandbox-rollback-proof-missing`, the
+observer proof remained `learned-independent-30-60-90-day-outcome-missing`, and
+`mayPersistCapabilities:false`. No capability receipt was written. This is the
+measured Job 5 production baseline; the old Preview receipt does not satisfy
+either motor proof.
+
+The cognition refresh now also has a domain-local capability overlay. On every
+cycle it checks only the current product domain's short-lived executor/observer
+pair, copies those two verified facts into that brain instance, recomputes that
+brain's motor readiness, and only then persists its receipt. Missing, expired,
+wrong-owner, wrong-lane, wrong-contract, or unreadable evidence clears both
+facts. The overlay has no switch, budget, spend, provider, broker, or effector
+authority, so verified capability cannot by itself release an action. This
+closes the evidence-to-owning-brain reflection seam without centralizing the 20
+brains or turning shared feed labels into shared authority.
