@@ -3237,3 +3237,9 @@ receipt chain. Each opening decision binds a fresh read-only SPY baseline and a
 20% paper risk limit into the B14 intent; those terms survive into the command
 instead of being reconstructed after the outcome. This authorizes long/short experiments only in the sandbox; live
 shorting remains outside the separately authorized real-money pilot.
+
+Ranking inhibition is itself a durable decision record. If identity coverage,
+arithmetic, ordering, selected-rank agreement, or the positive-margin floor
+fails, the Preview receipt preserves the rejected projected-margin ledger and
+selected identity alongside the abstention reason. This makes the brake
+auditable without permitting a retry or retaining raw provider text.

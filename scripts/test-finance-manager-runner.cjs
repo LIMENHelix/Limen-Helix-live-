@@ -109,5 +109,18 @@ const selected = await Runner.run({ candidateUniverse: universe }, { provider: a
 assert.equal(selected.status, 'PAPER_CANDIDATE');
 assert.equal(selected.selectedCompany.slug, 'example_co');
 
+const negativeRanking = JSON.parse(JSON.stringify(proposal));
+negativeRanking.projectedMarginRanking.entries[0] = {
+  company: { slug: 'example_co', ticker: 'EX' }, side: 'SHORT',
+  expectedReturnPct: -1, downsideReturnPct: -10, confidence: 0.8, riskAdjustedMarginPct: -3
+};
+const inhibitedRanking = await Runner.run({ candidateUniverse: universe }, { provider: async function () {
+  return { ok: true, provider: 'fixture', text: JSON.stringify(negativeRanking) };
+} });
+assert.equal(inhibitedRanking.status, 'ABSTAINED');
+assert.equal(inhibitedRanking.reason, 'projected_margin_not_positive');
+assert.equal(inhibitedRanking.projectedMarginRanking.entries[0].side, 'SHORT');
+assert.equal(inhibitedRanking.selectedCompany.ticker, 'EX');
+
   console.log('finance manager runner: 32/32 passed');
 })().catch(function (e) { console.error(e && e.stack || e); process.exit(1); });
