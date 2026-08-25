@@ -2274,3 +2274,67 @@ a trade direction, infer quantity or price, call Tradier, create a B14 preview,
 submit a sandbox order, or authorize live money. Those remain later and separate
 motor gates after a future company-grounded Preview result actually reaches
 `PAPER_CANDIDATE`.
+
+### Finance Preview fourth fresh packet and durable paper admission — measured 2026-08-24
+
+The authenticated production cycle generated packet
+`finance:3:1787622061530-238` at `2026-08-25T01:41:02.292Z`. Its source ledger
+contained 32 semantic evidence rows, four accepted company candidates (`BAC`,
+`C`, `CRM`, and `RKLB`), quotes for all four requested tickers, no packet
+opportunities, and no readiness blockers. The bounded Preview gate called the
+provider exactly once and completed at `2026-08-25T01:44:31.267Z` with durable
+status `PAPER_CANDIDATE`, selecting Rocket Lab USA Inc. (`RKLB`).
+
+The producer accepted exactly three company-grounded evidence references: one
+RKLB SEC semantic identity, the market-quote handler, and the network snapshot.
+The candidate preserves a 30-day review horizon, explicit invalidation criteria,
+base/downside scenarios, and `UNASSESSED` publisher independence. All missing
+homology context remains explicitly abstained and does not contribute to the
+thesis. The Preview receipt records `brokerTouched:false`, `orderPlaced:false`,
+and `liveMoney:false`.
+
+The distinct production paper-admission gate then admitted that exact packet at
+`2026-08-25T01:45:16.191Z`. Its durable status is `ADMITTED_TO_PAPER`; the replay
+candidate is `READY_TO_FIRE`, `paperOnly:true`, `liveExecution:false`, and is
+bound to `sourcePacketId: finance:3:1787622061530-238`. A read-back reports
+`ALREADY_ADMITTED`, proving the packet-keyed refractory/idempotency gate. No
+second provider call is permitted for this packet.
+
+This closes the current Preview and paper-admission dependency. It does not yet
+constitute an investment decision or trade. The next dependency is a separate
+Finance motor-decision contract that must choose or abstain on direction,
+quantity, price/order type, budget, and invalidation under explicit risk policy;
+persist its B10 command and pre-action B14 prediction; and only then exercise a
+Tradier sandbox preview/order plus independent 30/60/90-day outcome observation.
+
+### Finance paper candidate → sandbox motor-decision seam — prepared 2026-08-24
+
+The next boundary is now implemented as `finance-trade-decision/1.0`. It consumes
+only the latest durable `ADMITTED_TO_PAPER` receipt and obtains a fresh read-only
+Tradier sandbox quote and account snapshot. Its AI actor may return exactly
+`BUY`, `SELL`, or `ABSTAIN` for the admitted ticker and must echo the complete
+source-evidence identities. It cannot choose quantity, price, order type,
+broker, leverage, options, shorting, or live execution.
+
+A deterministic policy supplies the execution envelope: sandbox and paper only,
+cash and long positions only, no averaging, no options, no margin, no shorting,
+at most one share, at most `$100` gross notional (a configured value may lower
+but never raise that cap), at most 20 basis points of quote allowance, and an
+actor-confidence floor of `0.75`. `no_action` competes with the proposed motor
+action in the Brain v2 B10 selector. Only a direct-pathway release produces a
+`prepare_tradier_sandbox_order` selection and normalized trade intent.
+
+The provider command is packet-keyed and acquired with `SET NX` before the
+one allowed provider call. Its durable receipt includes the admitted candidate,
+fresh market/account measurements, deterministic policy, actor proposal, B10
+critic decision, selection, and trade intent or explicit abstention. This seam
+does not call the B14 preview, submit an order, or use live money. The paid actor
+switch is independent (`LIMEN_FINANCE_TRADE_DECISION_ENABLED`). The repository
+suite passes with this boundary (`153` passed, `1` external-corpus skip, `0`
+failed).
+
+The remaining immediate dependency is to deploy this seam, exercise exactly one
+decision for the admitted RKLB packet, and—only if B10 releases an actionable
+intent—pass the durable selection into the existing B14 sandbox preview. Order
+submission remains separately inhibited by the sandbox-order switch and must
+persist the B14 command/efference copy before Tradier receives anything.

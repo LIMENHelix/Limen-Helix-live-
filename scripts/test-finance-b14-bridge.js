@@ -56,6 +56,7 @@ async function main() {
   assert('a non-Finance release cannot enter the investment bridge', (await rejected(function () { return bridge.releaseIdentity(release({ ownerDomain: 'economy' })); })).code === 'FINANCE_B14_NOT_FINANCE_RELEASE');
   assert('stress cannot directly authorize a trade', (await rejected(function () { return bridge.releaseIdentity(release({ authority: { stressDirectlyTriggered: true } })); })).code === 'FINANCE_B14_UNSUPPORTED_TRIGGER');
   assert('source identity is mandatory', (await rejected(function () { return bridge.releaseIdentity(release({ candidate: {} })); })).code === 'FINANCE_B14_MISSING_SOURCE_IDENTITY');
+  assert('a B10-selected sandbox motor decision may enter the preview bridge', bridge.releaseIdentity(release({ command: 'prepare_tradier_sandbox_order' })).selectionId === 'sel_finance_1');
 
   var built = bridge.intentFor(release(), intent);
   assert('intent preserves the released selection identity', built.selectionId === 'sel_finance_1' && built.sourceArtifactId === 'investment:apple:artifact-1');
