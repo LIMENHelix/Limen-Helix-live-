@@ -2809,3 +2809,25 @@ input: the same records on the same UTC day retain one identity, while a new
 document or a cadence-window transition changes it. This preserves the current
 values, labels, stress normalization, and per-domain routing while making the
 observation boundary explicit.
+
+PR #172 merged as `49cc0528` and its production deployment became Ready. A
+fresh public snapshot found 59 labeled Federal Register rows: every one of the
+39 available readings carried an `fr1:` identity, while the other 20 remained
+explicitly unavailable and unstamped. Shared publisher records (including DOE,
+FDA, EPA, OSHA, DOL, and DHS) yielded matching identities wherever multiple
+domain brains received the same feed; receiving authority and state remained
+domain-local. The full source-identity queue measured 75 rows in that sample:
+46 open readings and 29 upstream-unavailable rows, down from 116 total before
+the Federal Register repair family.
+
+The next sensory repair distinguishes two more source families. OFAC Recent
+Actions supplies no HTTP update token, so its observation identity hashes the
+publisher's dated action URLs and displayed titles, excluding retrieval time
+and page chrome; the resulting shared perception is reused by four independent
+domain brains. Direct RSS/Atom adapters use the previously reviewed full
+publisher item-set hash. Numeric APIs remain source-specific: PubMed identifies
+the queried publication year and returned count, OpenAlex identifies the
+returned institution record/update/count, and the general Federal Register
+rules receptor identifies publisher count plus returned document records. None
+of these additions changes feed labels, stress/activity math, diagnoses,
+decisions, or motor authority.

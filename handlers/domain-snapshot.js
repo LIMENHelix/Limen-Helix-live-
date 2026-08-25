@@ -115,6 +115,53 @@ function _federalRegisterIdentity(data, agencySlug, nowMs) {
   return 'fr1:' + crypto.createHash('sha256').update(material, 'utf8').digest('hex');
 }
 
+function _federalRegisterResultIdentity(data, resultSet) {
+  var key = String(resultSet || '').trim();
+  var rows = data && data.results;
+  var count = data && Number(data.count);
+  if (!key || !Number.isInteger(count) || count < 0 || !Array.isArray(rows) || !rows.length) return null;
+  var records = [];
+  for (var i = 0; i < rows.length; i++) {
+    var number = rows[i] && rows[i].document_number;
+    var published = rows[i] && rows[i].publication_date;
+    if (typeof number !== 'string' || !number.trim() ||
+        typeof published !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(published)) return null;
+    records.push(number.trim() + '@' + published);
+  }
+  var material = ['set=' + key, 'count=' + count].concat(records).join('\n');
+  return 'fr-set-v1:' + crypto.createHash('sha256').update(material, 'utf8').digest('hex');
+}
+
+function _openAlexInstitutionIdentity(data) {
+  var row = data && Array.isArray(data.results) ? data.results[0] : null;
+  if (!row || typeof row.id !== 'string' || !row.id.trim() ||
+      typeof row.updated_date !== 'string' || !row.updated_date.trim() ||
+      !Number.isInteger(row.works_count) || row.works_count < 0) return null;
+  return compositeIdentity([
+    ['openalex', row.id.trim()],
+    ['updated', row.updated_date.trim()],
+    ['works', row.works_count]
+  ]);
+}
+
+/* OFAC does not publish an ETag or Last-Modified token on Recent Actions. Use
+   the publisher action records themselves: dated action URL plus displayed
+   title, in publisher order. Page chrome and retrieval time are excluded. */
+function _ofacRecentActionsIdentity(html) {
+  var text = String(html || '');
+  var pattern = /<a\s+[^>]*href=["'](\/recent-actions\/\d{8})["'][^>]*>([\s\S]*?)<\/a>/gi;
+  var rows = [];
+  var match;
+  while ((match = pattern.exec(text)) !== null) {
+    var title = match[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!title) return null;
+    rows.push(match[1] + '|' + title);
+  }
+  if (!rows.length) return null;
+  return 'ofac-set-v1:items:' + rows.length + '|sha256:' +
+    crypto.createHash('sha256').update(rows.join('\n'), 'utf8').digest('hex');
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=25, stale-while-revalidate=10');
@@ -2327,7 +2374,7 @@ async function fetchCDCMMWR() {
     if (count > 0) {
       var act = clamp(count / 30, 0.05, 1.0);
       trackHealth('CDC MMWR', 'health', 'live', null, count);
-      return { value: count, label: count + ' MMWR items', activity: round(act), channel: 'activity', signal: count + ' CDC public health items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' MMWR items', activity: round(act), channel: 'activity', signal: count + ' CDC public health items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'cdc-mmwr') };
     }
     throw new Error('empty MMWR RSS');
   } catch (e) {
@@ -2618,7 +2665,7 @@ async function fetchPubMed() {
     var daily = total / dayOfYear;
     var act = clamp(daily / 8000, 0, 1);
     trackHealth('PubMed', 'research', 'live', null, total);
-    return { value: total, label: (total / 1000000).toFixed(2) + 'M PubMed articles', activity: round(act), channel: 'activity', signal: 'publication rate ~' + daily.toFixed(0) + '/day', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: null };
+    return { value: total, label: (total / 1000000).toFixed(2) + 'M PubMed articles', activity: round(act), channel: 'activity', signal: 'publication rate ~' + daily.toFixed(0) + '/day', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: compositeIdentity([['pubmed-year', year], ['count', total]]) };
   } catch (e) {
     trackHealth('PubMed', 'research', 'fallback', e.message);
     return null;
@@ -2929,11 +2976,12 @@ async function fetchBLSManufacturing() {
     var body = blsBody(['PCUOMFG--OMFG--'], new Date().getFullYear() - 1, new Date().getFullYear());
     var data = await timedJSON('https://api.bls.gov/publicAPI/v2/timeseries/data/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body });
     if (!data || data.status !== 'REQUEST_SUCCEEDED' || !data.Results || !data.Results.series || !data.Results.series[0] || !data.Results.series[0].data || !data.Results.series[0].data[0]) { trackHealth('BLS Manufacturing PPI', 'industry', 'fallback', 'BLS status: ' + (data ? data.status : 'null') + (data && data.message ? ' — ' + data.message[0] : '')); return null; }
-    var val = parseFloat(data.Results.series[0].data[0].value);
+    var latest = data.Results.series[0].data[0];
+    var val = parseFloat(latest.value);
     if (isNaN(val)) { trackHealth('BLS Manufacturing PPI', 'industry', 'fallback', 'non-numeric'); return null; }
     var stress = clamp((val - 120) / 40, 0, 1);
     trackHealth('BLS Manufacturing PPI', 'industry', 'live', null, val);
-    return { value: val, label: 'mfg PPI ' + val.toFixed(1), stress: round(stress), signal: 'manufacturing PPI ' + val.toFixed(0), updated: Date.now(), fetchedAt: Date.now() };
+    return { value: val, label: 'mfg PPI ' + val.toFixed(1), stress: round(stress), signal: 'manufacturing PPI ' + val.toFixed(0), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: compositeIdentity([['bls-series', 'PCUOMFG--OMFG--'], ['year', latest.year], ['period', latest.period]]) };
   } catch (e) { trackHealth('BLS Manufacturing PPI', 'industry', 'fallback', e.message); return null; }
 }
 
@@ -2956,7 +3004,7 @@ async function fetchOpenAlex() {
     if (!data || !data.results || !data.results[0]) { trackHealth('OpenAlex Institutions', 'education', 'fallback', 'empty response'); return null; }
     var val = data.results[0].works_count || 0;
     trackHealth('OpenAlex Institutions', 'education', 'live', null, val);
-    return { value: val, label: 'top inst. works ' + (val/1000000).toFixed(1) + 'M', activity: 0.2, channel: 'context', signal: 'research institution output indexed', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: val, label: 'top inst. works ' + (val/1000000).toFixed(1) + 'M', activity: 0.2, channel: 'context', signal: 'research institution output indexed', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _openAlexInstitutionIdentity(data) };
   } catch (e) { trackHealth('OpenAlex Institutions', 'education', 'fallback', e.message); return null; }
 }
 
@@ -3317,7 +3365,7 @@ async function fetchFederalRegister() {
     var recentCount = data.results.length;
     var act = clamp(recentCount / 10, 0.1, 1.0);
     trackHealth('Federal Register', 'law', 'live', null, total);
-    return { value: total, label: total + ' recent rules', activity: round(act), channel: 'activity', signal: total + ' federal rules published', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: total, label: total + ' recent rules', activity: round(act), channel: 'activity', signal: total + ' federal rules published', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _federalRegisterResultIdentity(data, 'rules-newest') };
   } catch (e) { trackHealth('Federal Register', 'law', 'fallback', e.message); return null; }
 }
 
@@ -3385,7 +3433,7 @@ async function fetchSECEnforcement() {
       var count = Math.max(enforcementMatches, items);
       var act = clamp(count / 60, 0.05, 1.0);
       trackHealth('SEC Enforcement Actions', 'law', 'live', null, count);
-      return { value: count, label: count + ' SEC press release items', activity: round(act), channel: 'activity', signal: count + ' SEC enforcement signals', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' SEC press release items', activity: round(act), channel: 'activity', signal: count + ' SEC enforcement signals', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'sec-press-releases') };
     }
     throw new Error('empty SEC RSS');
   } catch (e) {
@@ -3405,7 +3453,7 @@ async function fetchUSCourtsFederalCaseload() {
     if (count > 0) {
       var act = clamp(count / 20, 0.05, 1.0);
       trackHealth('U.S. Courts Federal Caseload', 'law', 'live', null, count);
-      return { value: count, label: count + ' uscourts.gov news items', activity: round(act), channel: 'activity', signal: count + ' federal court news items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' uscourts.gov news items', activity: round(act), channel: 'activity', signal: count + ' federal court news items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'us-courts-news') };
     }
     throw new Error('empty RSS');
   } catch (e) {
@@ -3425,7 +3473,7 @@ async function fetchSCOTUSOpinions() {
     if (count > 0) {
       var act = clamp(count / 20, 0.05, 1.0);
       trackHealth('Supreme Court Opinions', 'law', 'live', null, count);
-      return { value: count, label: count + ' SCOTUSblog items', activity: round(act), channel: 'activity', signal: count + ' Supreme Court items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' SCOTUSblog items', activity: round(act), channel: 'activity', signal: count + ' Supreme Court items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'scotusblog') };
     }
     throw new Error('empty RSS');
   } catch (e) {
@@ -3461,7 +3509,7 @@ async function fetchRetractionWatch() {
     if (count > 0) {
       var act = clamp(count / 25, 0.05, 1.0);
       trackHealth('Retraction Watch', 'research', 'live', null, count);
-      return { value: count, label: count + ' Retraction Watch posts', activity: round(act), channel: 'activity', signal: count + ' research integrity / retraction items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Retraction Watch posts', activity: round(act), channel: 'activity', signal: count + ' research integrity / retraction items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'retraction-watch') };
     }
     throw new Error('empty RSS');
   } catch (e) {
@@ -3631,7 +3679,7 @@ async function fetchKrebsSecurity() {
     if (count > 0) {
       var act = clamp(count / 20, 0.05, 1.0);
       trackHealth('Krebs Security', 'technology', 'live', null, count);
-      return { value: count, label: count + ' Krebs posts', activity: round(act), channel: 'activity', signal: count + ' Krebs on Security investigations', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Krebs posts', activity: round(act), channel: 'activity', signal: count + ' Krebs on Security investigations', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'krebs-security') };
     }
     throw new Error('empty Krebs RSS');
   } catch (e) {
@@ -3646,7 +3694,7 @@ async function fetchHackerNews() {
     var total = ids.length;
     var act = clamp(total / 500, 0.1, 1.0);
     trackHealth('Hacker News', 'technology', 'live', null, total);
-    return { value: total, label: total + ' top stories', activity: round(act), channel: 'activity', signal: total + ' Hacker News top stories (tech discourse intensity)', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: total, label: total + ' top stories', activity: round(act), channel: 'activity', signal: total + ' Hacker News top stories (tech discourse intensity)', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: 'hn-top-v1:' + crypto.createHash('sha256').update(ids.join(','), 'utf8').digest('hex') };
   } catch (e) {
     trackHealth('Hacker News', 'technology', 'fallback', e.message);
     return null;
@@ -3660,7 +3708,7 @@ async function fetchGitHubSecurityAdvisories() {
     if (count > 0) {
       var act = clamp(count / 15, 0.05, 1.0);
       trackHealth('GitHub Security Advisories', 'technology', 'live', null, count);
-      return { value: count, label: count + ' GitHub security posts', activity: round(act), channel: 'activity', signal: count + ' GitHub security advisories / posts', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' GitHub security posts', activity: round(act), channel: 'activity', signal: count + ' GitHub security advisories / posts', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'github-security') };
     }
     throw new Error('empty GitHub security RSS');
   } catch (e) {
@@ -3692,7 +3740,7 @@ async function fetchCPJ() {
     if (count > 0) {
       var act = clamp(count / 15, 0.05, 1.0);
       trackHealth('CPJ Press Freedom', 'communication', 'live', null, count);
-      return { value: count, label: count + ' CPJ alerts', activity: round(act), channel: 'activity', signal: count + ' Committee to Protect Journalists alerts', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' CPJ alerts', activity: round(act), channel: 'activity', signal: count + ' Committee to Protect Journalists alerts', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'cpj') };
     }
     throw new Error('empty CPJ RSS');
   } catch (e) {
@@ -3707,7 +3755,7 @@ async function fetchSnopes() {
     if (count > 0) {
       var act = clamp(count / 20, 0.05, 1.0);
       trackHealth('Snopes Fact Checks', 'communication', 'live', null, count);
-      return { value: count, label: count + ' Snopes fact checks', activity: round(act), channel: 'activity', signal: count + ' Snopes fact-check articles', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Snopes fact checks', activity: round(act), channel: 'activity', signal: count + ' Snopes fact-check articles', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'snopes') };
     }
     throw new Error('empty Snopes RSS');
   } catch (e) {
@@ -3722,7 +3770,7 @@ async function fetchPoynter() {
     if (count > 0) {
       var act = clamp(count / 20, 0.05, 1.0);
       trackHealth('Poynter Media News', 'communication', 'live', null, count);
-      return { value: count, label: count + ' Poynter items', activity: round(act), channel: 'activity', signal: count + ' Poynter Institute media industry items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Poynter items', activity: round(act), channel: 'activity', signal: count + ' Poynter Institute media industry items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'poynter') };
     }
     throw new Error('empty Poynter RSS');
   } catch (e) {
@@ -3737,7 +3785,7 @@ async function fetchNiemanLab() {
     if (count > 0) {
       var act = clamp(count / 15, 0.05, 1.0);
       trackHealth('Nieman Lab', 'communication', 'live', null, count);
-      return { value: count, label: count + ' Nieman Lab posts', activity: round(act), channel: 'activity', signal: count + ' Nieman Lab journalism research / industry items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Nieman Lab posts', activity: round(act), channel: 'activity', signal: count + ' Nieman Lab journalism research / industry items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'nieman-lab') };
     }
     throw new Error('empty Nieman Lab RSS');
   } catch (e) {
@@ -3754,7 +3802,7 @@ async function fetchDefenseNews() {
     if (count > 0) {
       var act = clamp(count / 25, 0.05, 1.0);
       trackHealth('Defense News', 'defense', 'live', null, count);
-      return { value: count, label: count + ' Defense News items', activity: round(act), channel: 'activity', signal: count + ' Defense News industry items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Defense News items', activity: round(act), channel: 'activity', signal: count + ' Defense News industry items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'defense-news') };
     }
     throw new Error('empty Defense News RSS');
   } catch (e) {
@@ -3769,7 +3817,7 @@ async function fetchBreakingDefense() {
     if (count > 0) {
       var act = clamp(count / 25, 0.05, 1.0);
       trackHealth('Breaking Defense', 'defense', 'live', null, count);
-      return { value: count, label: count + ' Breaking Defense items', activity: round(act), channel: 'activity', signal: count + ' Breaking Defense industry items', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Breaking Defense items', activity: round(act), channel: 'activity', signal: count + ' Breaking Defense industry items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'breaking-defense') };
     }
     throw new Error('empty Breaking Defense RSS');
   } catch (e) {
@@ -3894,7 +3942,7 @@ async function fetchTASS() {
     if (count > 0) {
       var act = clamp(count / 30, 0.05, 1.0);
       trackHealth('TASS (Russia)', 'defense', 'live', null, count);
-      return { value: count, label: count + ' TASS items', activity: round(act), channel: 'activity', signal: count + ' TASS Russian state news items (adversary perspective)', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' TASS items', activity: round(act), channel: 'activity', signal: count + ' TASS Russian state news items (adversary perspective)', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'tass-all') };
     }
     throw new Error('empty TASS RSS');
   } catch (e) {
@@ -3909,7 +3957,7 @@ async function fetchXinhua() {
     if (count > 0) {
       var act = clamp(count / 30, 0.05, 1.0);
       trackHealth('Xinhua (China)', 'defense', 'live', null, count);
-      return { value: count, label: count + ' Xinhua items', activity: round(act), channel: 'activity', signal: count + ' Xinhua Chinese state news items (adversary perspective)', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Xinhua items', activity: round(act), channel: 'activity', signal: count + ' Xinhua Chinese state news items (adversary perspective)', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'xinhua-world') };
     }
     throw new Error('empty Xinhua RSS');
   } catch (e) {
@@ -4090,7 +4138,7 @@ async function fetchSECEDGARCurrent() {
     if (entries === 0) { trackHealth('SEC EDGAR Filings', 'finance', 'fallback', 'no entries'); return null; }
     var act = clamp(entries / 40, 0.05, 1.0);
     trackHealth('SEC EDGAR Filings', 'finance', 'live', null, entries);
-    return Object.assign({ value: entries, label: entries + ' EDGAR entries', activity: round(act), channel: 'activity', signal: entries + ' SEC filings in current window', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
+    return Object.assign({ value: entries, label: entries + ' EDGAR entries', activity: round(act), channel: 'activity', signal: entries + ' SEC filings in current window', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'sec-edgar-current') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('SEC EDGAR Filings', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4148,7 +4196,7 @@ async function fetchTreasuryDebt() {
     var debtT = totalDebt / 1e12;
     var stress = clamp((debtT - 30) / 15, 0, 1);
     trackHealth('Treasury Debt', 'finance', 'live', null, debtT);
-    return { value: debtT, label: 'US debt $' + debtT.toFixed(2) + 'T', stress: round(stress), signal: 'sovereign debt at $' + debtT.toFixed(2) + 'T', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: debtT, label: 'US debt $' + debtT.toFixed(2) + 'T', stress: round(stress), signal: 'sovereign debt at $' + debtT.toFixed(2) + 'T', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rec.record_date || null };
   } catch (e) { trackHealth('Treasury Debt', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4164,7 +4212,7 @@ async function fetchFedH41() {
     if (items === 0) { trackHealth('Fed H.4.1 Balance Sheet', 'finance', 'fallback', 'no items'); return null; }
     var act = clamp(items / 40, 0.05, 1.0);
     trackHealth('Fed H.4.1 Balance Sheet', 'finance', 'live', null, items);
-    return Object.assign({ value: items, label: items + ' Fed releases', activity: round(act), channel: 'activity', signal: 'Fed balance sheet release count: ' + items, updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
+    return Object.assign({ value: items, label: items + ' Fed releases', activity: round(act), channel: 'activity', signal: 'Fed balance sheet release count: ' + items, updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'fed-h41') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('Fed H.4.1 Balance Sheet', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4180,7 +4228,7 @@ async function fetchFDICBankFailures() {
     var failureMentions = (xml.match(/failure|failed|closing|closed bank|enforcement|consent order|civil money/gi) || []).length;
     var stress = clamp(failureMentions / 8, 0, 1);
     trackHealth('FDIC Bank Failures', 'finance', 'live', null, failureMentions);
-    return Object.assign({ value: failureMentions, label: failureMentions + ' FDIC distress signals', stress: round(stress), signal: failureMentions + ' FDIC enforcement / failure mentions', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
+    return Object.assign({ value: failureMentions, label: failureMentions + ' FDIC distress signals', stress: round(stress), signal: failureMentions + ' FDIC enforcement / failure mentions', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'fdic-bank-failures') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('FDIC Bank Failures', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4196,7 +4244,7 @@ async function fetchOCCEnforcement() {
     var enforcement = (xml.match(/enforcement|cease|consent|civil money|prohibition|fine|penalty|order/gi) || []).length;
     var stress = clamp(enforcement / 10, 0, 1);
     trackHealth('OCC Enforcement', 'finance', 'live', null, enforcement);
-    return Object.assign({ value: enforcement, label: enforcement + ' OCC action signals', stress: round(stress), signal: enforcement + ' bank regulatory action mentions', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
+    return Object.assign({ value: enforcement, label: enforcement + ' OCC action signals', stress: round(stress), signal: enforcement + ' bank regulatory action mentions', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'occ-enforcement') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('OCC Enforcement', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4218,7 +4266,7 @@ async function fetchCFTCPress() {
     var enforcement = (xml.match(/enforcement|fraud|manipulation|charged|penalty|order|insider|misappropriation/gi) || []).length;
     var stress = clamp(enforcement / 12, 0, 1);
     trackHealth('CFTC Press', 'finance', 'live', null, enforcement);
-    return Object.assign({ value: enforcement, label: enforcement + ' CFTC enforcement signals', stress: round(stress), signal: enforcement + ' derivatives enforcement mentions', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
+    return Object.assign({ value: enforcement, label: enforcement + ' CFTC enforcement signals', stress: round(stress), signal: enforcement + ' derivatives enforcement mentions', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'cftc-press') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('CFTC Press', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4233,7 +4281,7 @@ async function fetchFINRADisciplinary() {
     if (items === 0) { trackHealth('FINRA Disciplinary', 'finance', 'fallback', 'no items'); return null; }
     var stress = clamp(items / 18, 0, 1);
     trackHealth('FINRA Disciplinary', 'finance', 'live', null, items);
-    return Object.assign({ value: items, label: items + ' FINRA actions', stress: round(stress), signal: items + ' broker-dealer disciplinary entries', updated: Date.now(), fetchedAt: Date.now() }, rssEvidence.extract(xml));
+    return Object.assign({ value: items, label: items + ' FINRA actions', stress: round(stress), signal: items + ' broker-dealer disciplinary entries', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'finra-disciplinary') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('FINRA Disciplinary', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4248,7 +4296,7 @@ async function fetchNYFedSOFR() {
     if (isNaN(rate)) { trackHealth('NY Fed SOFR', 'finance', 'fallback', 'non-numeric'); return null; }
     var stress = clamp((rate - 4.5) / 3, 0, 1);
     trackHealth('NY Fed SOFR', 'finance', 'live', null, rate);
-    return { value: rate, label: 'SOFR ' + rate.toFixed(2) + '%', stress: round(stress), signal: 'overnight repo rate ' + rate.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: rate, label: 'SOFR ' + rate.toFixed(2) + '%', stress: round(stress), signal: 'overnight repo rate ' + rate.toFixed(2) + '%', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.refRates[0].effectiveDate || null };
   } catch (e) { trackHealth('NY Fed SOFR', 'finance', 'fallback', e.message); return null; }
 }
 
@@ -4381,7 +4429,7 @@ async function fetchOFACRecentActions() {
     var sanctions = (html.match(/sanction|sdn|designation|prohibited|added to the|blocked|secondary sanctions/gi) || []).length;
     var stress = clamp(sanctions / 30, 0, 1);
     trackHealth('OFAC Recent Actions', 'supplyChain', 'live', null, sanctions);
-    return { value: sanctions, label: sanctions + ' OFAC action signals', stress: round(stress), signal: sanctions + ' sanctions / SDN designations referenced in recent actions', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: sanctions, label: sanctions + ' OFAC action signals', stress: round(stress), signal: sanctions + ' sanctions / SDN designations referenced in recent actions', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _ofacRecentActionsIdentity(html) };
   } catch (e) { trackHealth('OFAC Recent Actions', 'supplyChain', 'fallback', e.message); return null; }
 }
 
@@ -4415,7 +4463,7 @@ async function fetchUSDADroughtMonitor() {
     if (isNaN(d2plus)) { trackHealth('USDA Drought Monitor', 'agriculture', 'fallback', 'non-numeric D2'); return null; }
     var stress = clamp(d2plus / 50, 0, 1);
     trackHealth('USDA Drought Monitor', 'agriculture', 'live', null, d2plus);
-    return { value: d2plus, label: d2plus.toFixed(1) + '% CONUS in D2+ drought', stress: round(stress), signal: d2plus.toFixed(1) + '% of CONUS in D2-D4 drought, ' + d3plus.toFixed(1) + '% in D3-D4', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: d2plus, label: d2plus.toFixed(1) + '% CONUS in D2+ drought', stress: round(stress), signal: d2plus.toFixed(1) + '% of CONUS in D2-D4 drought, ' + d3plus.toFixed(1) + '% in D3-D4', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: latestRow[0] || null };
   } catch (e) { trackHealth('USDA Drought Monitor', 'agriculture', 'fallback', e.message); return null; }
 }
 
@@ -4457,7 +4505,7 @@ async function fetchNOAANWSAgAlerts() {
     var agTotal = frost + flood + fire + severe + drought;
     var stress = clamp((frost / 20) + (flood / 30) + (fire / 15) + (severe / 50) + (drought / 5), 0, 1);
     trackHealth('NOAA NWS Ag Alerts', 'agriculture', 'live', null, agTotal);
-    return { value: agTotal, label: agTotal + ' ag-impact alerts', stress: round(stress), signal: agTotal + ' agriculture-impact alerts: ' + frost + ' frost/freeze, ' + flood + ' flood, ' + fire + ' fire, ' + severe + ' severe, ' + drought + ' drought', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: agTotal, label: agTotal + ' ag-impact alerts', stress: round(stress), signal: agTotal + ' agriculture-impact alerts: ' + frost + ' frost/freeze, ' + flood + ' flood, ' + fire + ' fire, ' + severe + ' severe, ' + drought + ' drought', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: _noaaAlertsIdentity(data) };
   } catch (e) { trackHealth('NOAA NWS Ag Alerts', 'agriculture', 'fallback', e.message); return null; }
 }
 
@@ -4616,7 +4664,7 @@ async function fetchFedMonetaryPress() {
     var net = tightening - easing;
     var stress = clamp(Math.abs(net) / 10, 0, 1);
     trackHealth('Fed Monetary Press', 'economy', 'live', null, net);
-    return { value: net, label: 'Fed bias ' + (net > 0 ? 'hawkish ' : net < 0 ? 'dovish ' : 'neutral ') + net, stress: round(stress), signal: items + ' Fed monetary releases (' + tightening + ' hawkish, ' + easing + ' dovish)', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: net, label: 'Fed bias ' + (net > 0 ? 'hawkish ' : net < 0 ? 'dovish ' : 'neutral ') + net, stress: round(stress), signal: items + ' Fed monetary releases (' + tightening + ' hawkish, ' + easing + ' dovish)', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'fed-monetary-press') };
   } catch (e) { trackHealth('Fed Monetary Press', 'economy', 'fallback', e.message); return null; }
 }
 
@@ -5055,7 +5103,7 @@ async function fetchBBCWorldNews() {
     if (items === 0) { trackHealth('BBC World News', 'communication', 'fallback', 'no items'); return null; }
     var stress = clamp(items / 30, 0.05, 0.85);
     trackHealth('BBC World News', 'communication', 'live', null, items);
-    return { value: items, label: items + ' BBC World items', stress: round(stress), signal: items + ' BBC World News items', updated: Date.now(), fetchedAt: Date.now() };
+    return { value: items, label: items + ' BBC World items', stress: round(stress), signal: items + ' BBC World News items', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'bbc-world') };
   } catch (e) { trackHealth('BBC World News', 'communication', 'fallback', e.message); return null; }
 }
 
@@ -5842,7 +5890,7 @@ async function fetchCongressGov() {
     if (count > 0) {
       var act = clamp(count / 25, 0.05, 1.0);
       trackHealth('Congress.gov', 'governance', 'live', null, count);
-      return { value: count, label: count + ' Congress.gov bills', activity: round(act), channel: 'activity', signal: count + ' Congress.gov most-viewed bills', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' Congress.gov bills', activity: round(act), channel: 'activity', signal: count + ' Congress.gov most-viewed bills', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'congress-most-viewed') };
     }
     throw new Error('empty Congress.gov RSS');
   } catch (e) {
@@ -5857,7 +5905,7 @@ async function fetchGAOReports() {
     if (count > 0) {
       var act = clamp(count / 20, 0.05, 1.0);
       trackHealth('GAO Reports', 'governance', 'live', null, count);
-      return { value: count, label: count + ' GAO reports', activity: round(act), channel: 'activity', signal: count + ' Government Accountability Office reports', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' GAO reports', activity: round(act), channel: 'activity', signal: count + ' Government Accountability Office reports', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'gao-reports') };
     }
     throw new Error('empty GAO RSS');
   } catch (e) {
@@ -5872,7 +5920,7 @@ async function fetchCBOPublications() {
     if (count > 0) {
       var act = clamp(count / 15, 0.05, 1.0);
       trackHealth('CBO Publications', 'governance', 'live', null, count);
-      return { value: count, label: count + ' CBO publications', activity: round(act), channel: 'activity', signal: count + ' Congressional Budget Office publications', updated: Date.now(), fetchedAt: Date.now() };
+      return { value: count, label: count + ' CBO publications', activity: round(act), channel: 'activity', signal: count + ' Congressional Budget Office publications', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'cbo-publications') };
     }
     throw new Error('empty CBO RSS');
   } catch (e) {
@@ -6200,6 +6248,9 @@ module.exports._noaaAlertsIdentity = _noaaAlertsIdentity;
 module.exports._cisaKevIdentity = _cisaKevIdentity;
 module.exports._usgsEarthquakeIdentity = _usgsEarthquakeIdentity;
 module.exports._federalRegisterIdentity = _federalRegisterIdentity;
+module.exports._federalRegisterResultIdentity = _federalRegisterResultIdentity;
+module.exports._openAlexInstitutionIdentity = _openAlexInstitutionIdentity;
+module.exports._ofacRecentActionsIdentity = _ofacRecentActionsIdentity;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6233,3 +6284,17 @@ module.exports._fetchCISAKEV = fetchCISAKEV;
 module.exports._fetchCISAAdvisories = fetchCISAAdvisories;
 module.exports._fetchFDARecalls = fetchFDARecalls;
 module.exports._fetchFedRegAgencyResearch = _fetchFedRegAgencyResearch;
+module.exports._fetchOFACRecentActions = fetchOFACRecentActions;
+module.exports._fetchBBCWorldNews = fetchBBCWorldNews;
+module.exports._fetchCFTCPress = fetchCFTCPress;
+module.exports._fetchPubMed = fetchPubMed;
+module.exports._fetchOpenAlex = fetchOpenAlex;
+module.exports._fetchFederalRegister = fetchFederalRegister;
+module.exports._fetchSECEnforcement = fetchSECEnforcement;
+module.exports._fetchSECEDGARCurrent = fetchSECEDGARCurrent;
+module.exports._fetchBLSManufacturing = fetchBLSManufacturing;
+module.exports._fetchHackerNews = fetchHackerNews;
+module.exports._fetchTreasuryDebt = fetchTreasuryDebt;
+module.exports._fetchNYFedSOFR = fetchNYFedSOFR;
+module.exports._fetchUSDADroughtMonitor = fetchUSDADroughtMonitor;
+module.exports._fetchNOAANWSAgAlerts = fetchNOAANWSAgAlerts;
