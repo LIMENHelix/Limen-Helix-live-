@@ -2349,8 +2349,7 @@ async function fetchFREDEnergy() {
 async function fetchNOAAClimate() {
   var token = process.env.NOAA_TOKEN;
   if (!token) {
-    trackHealth('NOAA Climate', 'environment', 'fallback', 'NOAA_TOKEN not set');
-    return null;
+    return _fetchNOAAClimateAtAGlance();
   }
   try {
     var end = new Date().toISOString().slice(0, 10);
@@ -2375,6 +2374,63 @@ async function fetchNOAAClimate() {
     var stress = clamp(Math.abs(anomaly) * 0.7, 0, 1);
     trackHealth('NOAA Climate', 'environment', 'live', null, round(anomaly));
     return { value: round(anomaly), label: 'temp anomaly ' + anomaly.toFixed(2) + '\u00B0', stress: round(stress), signal: 'temperature deviation detected', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data.results[0].date || null };
+  } catch (e) {
+    trackHealth('NOAA Climate', 'environment', 'fallback', e.message);
+    return null;
+  }
+}
+
+/* NOAA's token-gated CDO API is not the only official publisher surface. Climate at a
+   Glance publishes keyless global monthly departures with a declared baseline. Use a
+   45-day lag so the requested month is complete and has passed NOAA's normal release
+   window. This is an explicit source fallback, not a relabelled third-party estimate. */
+function _noaaClimateAtAGlancePeriod(now) {
+  var d = (now instanceof Date) ? new Date(now.getTime()) : new Date(now || Date.now());
+  if (!isFinite(d.getTime())) d = new Date();
+  d.setUTCDate(d.getUTCDate() - 45);
+  return { year: d.getUTCFullYear(), month: d.getUTCMonth() + 1 };
+}
+
+function _selectNOAAClimateAtAGlance(data, period) {
+  var year = period && Number(period.year);
+  var month = period && Number(period.month);
+  var row = data && data.data && data.data[String(year)];
+  var departure = row && Number(row.departure);
+  var base = data && data.description && String(data.description.base_period || '').trim();
+  if (!Number.isInteger(year) || !Number.isInteger(month) || month < 1 || month > 12 ||
+      !row || !isFinite(departure) || !/^\d{4}-\d{4}$/.test(base)) return null;
+  var periodKey = year + '-' + String(month).padStart(2, '0');
+  return {
+    departure: departure,
+    base: base,
+    period: periodKey,
+    identity: compositeIdentity([
+      ['noaa-cag-global', 'v1'], ['period', periodKey], ['base', base], ['departure-c', departure]
+    ])
+  };
+}
+
+async function _fetchNOAAClimateAtAGlance() {
+  try {
+    var period = _noaaClimateAtAGlancePeriod(new Date());
+    var month = String(period.month);
+    var url = 'https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/global/time-series/' +
+      'globe/land_ocean/1/' + month + '/' + (period.year - 2) + '-' + period.year +
+      '.json?base_prd=true&begbaseyear=1991&endbaseyear=2020';
+    var selected = _selectNOAAClimateAtAGlance(await timedJSON(url), period);
+    if (!selected) {
+      trackHealth('NOAA Climate', 'environment', 'fallback', 'Climate at a Glance row unavailable');
+      return null;
+    }
+    var stress = clamp(Math.abs(selected.departure) / 2.5, 0, 1);
+    trackHealth('NOAA Climate', 'environment', 'live', null, selected.departure);
+    return {
+      value: round(selected.departure),
+      label: 'global temp ' + (selected.departure >= 0 ? '+' : '') + selected.departure.toFixed(2) + '\u00B0C',
+      stress: round(stress),
+      signal: 'NOAA global temperature departure for ' + selected.period + ' vs ' + selected.base,
+      updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: selected.identity
+    };
   } catch (e) {
     trackHealth('NOAA Climate', 'environment', 'fallback', e.message);
     return null;
@@ -2560,8 +2616,7 @@ async function fetchClinicalTrials() {
 async function fetchPatents() {
   var key = process.env.USPTO_API_KEY;
   if (!key) {
-    trackHealth('USPTO Patents', 'technology', 'fallback', 'USPTO_API_KEY not set');
-    return null;
+    return _fetchUSPTOOfficialGazette();
   }
   try {
     // USPTO Patent Applications Search — primary patent feed
@@ -2681,6 +2736,43 @@ async function fetchPatents() {
         domainsHit: Object.keys(domainsHit),
         domainCounts: domainCounts
       }
+    };
+  } catch (e) {
+    trackHealth('USPTO Patents', 'technology', 'fallback', e.message);
+    return null;
+  }
+}
+
+function _selectUSPTOGazetteIssue(html) {
+  var text = String(html || '');
+  var match = text.match(/<tbody>\s*<tr>\s*<td>\s*<a\s+href=["']https:\/\/patentsgazette\.uspto\.gov\/week(\d+)\/?["'][^>]*>([^<]+)<\/a>\s*<\/td>\s*<td>\s*(\d+)\s*<\/td>\s*<td>\s*([\d-]+)\s*<\/td>/i);
+  if (!match || match[1] !== match[3]) return null;
+  var stamp = Date.parse(match[2] + ' UTC');
+  if (!isFinite(stamp)) return null;
+  var date = new Date(stamp).toISOString().slice(0, 10);
+  return {
+    week: Number(match[1]), date: date, number: match[4],
+    identity: compositeIdentity([
+      ['uspto-gazette', 'v1'], ['date', date], ['week', match[1]], ['issue', match[4]]
+    ])
+  };
+}
+
+async function _fetchUSPTOOfficialGazette() {
+  try {
+    var html = await timedText('https://www.uspto.gov/learning-and-resources/official-gazette/official-gazette-patents');
+    var issue = _selectUSPTOGazetteIssue(html);
+    if (!issue) {
+      trackHealth('USPTO Patents', 'technology', 'fallback', 'Official Gazette issue unavailable');
+      return null;
+    }
+    trackHealth('USPTO Patents', 'technology', 'live', null, issue.week);
+    return {
+      value: issue.week,
+      label: 'USPTO Gazette ' + issue.number + ' (' + issue.date + ')',
+      activity: 0.3, channel: 'context',
+      signal: 'USPTO weekly patent issue ' + issue.number + ' published ' + issue.date,
+      updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: issue.identity
     };
   } catch (e) {
     trackHealth('USPTO Patents', 'technology', 'fallback', e.message);
@@ -3051,7 +3143,7 @@ async function fetchFREDFederalInvestment() {
 
 async function fetchUSDA() {
   var key = process.env.USDA_API_KEY;
-  if (!key) { trackHealth('USDA NASS', 'agriculture', 'fallback', 'USDA_API_KEY not set'); return null; }
+  if (!key) return _fetchUSDAQuickStatsCatalog();
   try {
     var data = await timedJSON('https://quickstats.nass.usda.gov/api/api_GET/?key=' + key + '&commodity_desc=CORN&statisticcat_desc=YIELD&year__GE=' + (new Date().getFullYear() - 1) + '&agg_level_desc=NATIONAL&format=JSON');
     if (!data || !data.data || !data.data[0]) { trackHealth('USDA NASS', 'agriculture', 'fallback', 'empty response'); return null; }
@@ -3061,6 +3153,47 @@ async function fetchUSDA() {
     trackHealth('USDA NASS', 'agriculture', 'live', null, val);
     return { value: val, label: 'corn yield ' + val + ' bu/ac', stress: round(stress), signal: 'crop yield ' + val + ' bu/acre', updated: Date.now(), fetchedAt: Date.now() };
   } catch (e) { trackHealth('USDA NASS', 'agriculture', 'fallback', e.message); return null; }
+}
+
+function _selectUSDAQuickStatsCrops(html) {
+  var text = String(html || '');
+  var match = text.match(/href=["']([^"']*\/datasets\/(qs\.crops_(\d{8})\.txt\.gz))["'][\s\S]{0,900}?<span\s+class=["']bold["']>Size:<\/span>\s*([\d.]+)\s*<span[^>]*>(KB|MB|GB)<\/span>[\s\S]{0,500}?<span\s+class=["']bold["']>Last modified:<\/span>\s*([^<]+)/i);
+  if (!match) return null;
+  var rawDate = match[3];
+  var release = rawDate.slice(0, 4) + '-' + rawDate.slice(4, 6) + '-' + rawDate.slice(6, 8);
+  var size = Number(match[4]);
+  var unit = match[5].toUpperCase();
+  if (!isFinite(size) || size <= 0) return null;
+  var mb = unit === 'GB' ? size * 1024 : (unit === 'KB' ? size / 1024 : size);
+  var modified = match[6].replace(/\s+/g, ' ').trim();
+  return {
+    path: match[1], file: match[2], release: release, size: size, unit: unit, mb: mb, modified: modified,
+    identity: compositeIdentity([
+      ['usda-quickstats-crops', 'v1'], ['release', release], ['file', match[2]],
+      ['size', size + unit], ['modified', modified]
+    ])
+  };
+}
+
+async function _fetchUSDAQuickStatsCatalog() {
+  try {
+    var dataset = _selectUSDAQuickStatsCrops(await timedText('https://www.nass.usda.gov/datasets/'));
+    if (!dataset) {
+      trackHealth('USDA NASS', 'agriculture', 'fallback', 'Quick Stats crops release unavailable');
+      return null;
+    }
+    trackHealth('USDA NASS', 'agriculture', 'live', null, round(dataset.mb));
+    return {
+      value: round(dataset.mb),
+      label: 'Quick Stats crops ' + dataset.size.toFixed(2) + ' ' + dataset.unit,
+      activity: 0.3, channel: 'context',
+      signal: 'USDA NASS crop corpus release ' + dataset.release,
+      updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: dataset.identity
+    };
+  } catch (e) {
+    trackHealth('USDA NASS', 'agriculture', 'fallback', e.message);
+    return null;
+  }
 }
 
 async function fetchFAO() {
@@ -3444,7 +3577,7 @@ function _unPopulationIdentity(picked) {
 
 async function fetchUNPopulation() {
   var key = process.env.UN_POPULATION_API_KEY;
-  if (!key) { trackHealth('UN Population', 'population', 'fallback', 'UN_POPULATION_API_KEY not set'); return null; }
+  if (!key) return _fetchUNPopulationBulkCatalog();
   try {
     var headers = { 'Authorization': 'Bearer ' + key };
     /* FULL PAGE over a ROLLING completed-year window. The endpoint reports by sex across
@@ -3473,6 +3606,65 @@ async function fetchUNPopulation() {
       sourceUpdatedAt: _unPopulationIdentity(picked)
     };
   } catch (e) { trackHealth('UN Population', 'population', 'fallback', e.message); return null; }
+}
+
+function _selectUNWPPPopulationDataset(data) {
+  var target = 'WPP2024_TotalPopulationBySex.csv.gz';
+  var found = [];
+  function walk(value) {
+    if (!value || typeof value !== 'object') return;
+    if (!Array.isArray(value) && typeof value.Path === 'string' && value.Path.endsWith(target)) {
+      found.push({ path: value.Path, title: String(value.Title || '').trim(), type: String(value.type || '').trim() });
+    }
+    if (Array.isArray(value)) {
+      for (var i = 0; i < value.length; i++) walk(value[i]);
+    } else {
+      Object.keys(value).forEach(function (key) { walk(value[key]); });
+    }
+  }
+  walk(data);
+  return found.length === 1 ? found[0] : null;
+}
+
+function _responseHeader(resp, name) {
+  return resp && resp.headers && typeof resp.headers.get === 'function' ? resp.headers.get(name) : null;
+}
+
+async function _fetchUNPopulationBulkCatalog() {
+  try {
+    var catalog = await timedJSON('https://population.un.org/wpp/assets/downloads.json');
+    var dataset = _selectUNWPPPopulationDataset(catalog);
+    if (!dataset) {
+      trackHealth('UN Population', 'population', 'fallback', 'WPP population bulk dataset unavailable');
+      return null;
+    }
+    var url = encodeURI('https://population.un.org/wpp/' + dataset.path);
+    var head = await fetchWithRetry(url, { method: 'HEAD' });
+    if (!head.ok) throw new Error('WPP bulk HEAD HTTP ' + head.status);
+    var length = Number(_responseHeader(head, 'content-length'));
+    var modified = _responseHeader(head, 'last-modified');
+    var etag = _responseHeader(head, 'etag');
+    if (!Number.isInteger(length) || length <= 0 || !modified || !isFinite(Date.parse(modified))) {
+      trackHealth('UN Population', 'population', 'fallback', 'WPP bulk metadata incomplete');
+      return null;
+    }
+    var identityParts = [
+      ['un-wpp-population', 'v1'], ['path', dataset.path], ['bytes', length], ['modified', modified]
+    ];
+    if (etag) identityParts.push(['etag', etag]);
+    var identity = compositeIdentity(identityParts);
+    var mb = length / (1024 * 1024);
+    trackHealth('UN Population', 'population', 'live', null, round(mb));
+    return {
+      value: round(mb), label: 'WPP total-population corpus ' + mb.toFixed(1) + ' MB',
+      activity: 0.2, channel: 'context',
+      signal: 'UN WPP total population by sex bulk dataset available',
+      updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: identity
+    };
+  } catch (e) {
+    trackHealth('UN Population', 'population', 'fallback', e.message);
+    return null;
+  }
 }
 
 // ─── LAW ────────────────────────────────────────────────────────────────
@@ -6376,6 +6568,11 @@ module.exports._htmlSectionIdentity = _htmlSectionIdentity;
 module.exports._nvdRecentIdentity = _nvdRecentIdentity;
 module.exports._selectFaostatDataset = _selectFaostatDataset;
 module.exports._regulationsGovIdentity = _regulationsGovIdentity;
+module.exports._noaaClimateAtAGlancePeriod = _noaaClimateAtAGlancePeriod;
+module.exports._selectNOAAClimateAtAGlance = _selectNOAAClimateAtAGlance;
+module.exports._selectUSPTOGazetteIssue = _selectUSPTOGazetteIssue;
+module.exports._selectUSDAQuickStatsCrops = _selectUSDAQuickStatsCrops;
+module.exports._selectUNWPPPopulationDataset = _selectUNWPPPopulationDataset;
 module.exports._resetFederalRegisterRequestState = _resetFederalRegisterRequestState;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
@@ -6404,6 +6601,10 @@ module.exports._fetchWBRuleOfLaw = fetchWBRuleOfLaw;
 module.exports._fetchWBManufacturing = fetchWBManufacturing;
 module.exports._fetchFAO = fetchFAO;
 module.exports._fetchRegulationsGov = fetchRegulationsGov;
+module.exports._fetchNOAAClimate = fetchNOAAClimate;
+module.exports._fetchPatents = fetchPatents;
+module.exports._fetchUSDA = fetchUSDA;
+module.exports._fetchUNPopulation = fetchUNPopulation;
 module.exports._fetchTreasuryMTS = fetchTreasuryMTS;
 module.exports._fetchTreasuryOperatingCash = fetchTreasuryOperatingCash;
 module.exports._fetchNYFedEFFR = fetchNYFedEFFR;
