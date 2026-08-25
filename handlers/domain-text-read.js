@@ -200,3 +200,5 @@ module.exports = async function handler(req, res) {
   }
   return res.status(200).json(Object.assign({ ok: true, mode: dry ? 'dry-run' : 'run' }, payload));
 };
+
+module.exports = require('../lib/heartbeat').wrap('domain-text-read', module.exports);

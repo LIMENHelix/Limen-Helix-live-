@@ -140,3 +140,5 @@ function witnessFor(id, hist) {
     why: frozen ? 'channel is flat across its whole series' : undefined
   };
 }
+
+module.exports = require('../lib/heartbeat').wrap('orb-meeting-cron', module.exports);

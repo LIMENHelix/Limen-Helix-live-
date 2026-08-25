@@ -167,5 +167,5 @@ function createHandler(deps) {
 }
 
 var handler = createHandler();
-handler.createHandler = createHandler;
-module.exports = handler;
+module.exports = require('../lib/heartbeat').guard('finance-paper-cycle', handler);
+module.exports.createHandler = createHandler;

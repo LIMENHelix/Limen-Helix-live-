@@ -281,3 +281,8 @@ module.exports = async function handler(req, res) {
 
 module.exports._queueSeedCapacity = _queueSeedCapacity;
 module.exports._trimQueue = _trimQueue;
+
+var autoqueueHandler = module.exports;
+module.exports = require('../lib/heartbeat').wrap('limen-worker-autoqueue', autoqueueHandler);
+module.exports._queueSeedCapacity = autoqueueHandler._queueSeedCapacity;
+module.exports._trimQueue = autoqueueHandler._trimQueue;

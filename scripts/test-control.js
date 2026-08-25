@@ -12,7 +12,7 @@
  *                     a shut valve reads OFF, a paused pause reads OFF.
  *   3. LYING ON WRITE A rejected write must spring the lever back and say so,
  *                     not leave the optimistic position on screen.
- *   4. FAKE HANDLES   Only the six real controls may be levers. Email, Bluesky
+ *   4. FAKE HANDLES   Only the seven real controls may be levers. Email, Bluesky
  *                     and leads have no on/off and must NOT render one.
  *
  * Runs the real control.html and assets/js/control.js under jsdom. Network stubbed.
@@ -51,7 +51,10 @@ var board = {
       observed: { at: null, neverObserved: true }, valve: { open: true } },
     { job: 'social-cron', cost: { cost: 'free' },
       declared: { schedule: '0 0,2 * * *', kind: 'outward', role: 'motor' },
-      observed: { at: NOW - 3600000, ok: false }, valve: { open: true } }
+      observed: { at: NOW - 3600000, ok: false }, valve: { open: true } },
+    { job: 'finance-paper-cycle', cost: { cost: 'paid' },
+      declared: { schedule: '16,46 * * * *', kind: 'outward', role: 'motor' },
+      observed: { at: NOW - 900000, ok: true }, valve: { open: true } }
   ],
   spikes: [], coverage: { declared: 18, observed: 4, neverObserved: 14 }
 };
@@ -123,7 +126,7 @@ function run() {
     ok(doc.getElementById('gate').classList.contains('hide'), 'gate did not close');
 
     var ls = levers();
-    ok(ls.length === 6, 'expected 6 levers, got ' + ls.length);
+    ok(ls.length === 7, 'expected 7 levers, got ' + ls.length);
 
     // Kai frames the board — his mandate ends "I open a human gate; I never walk
     // through it", and the levers are that gate. He must speak the REAL system
@@ -167,6 +170,10 @@ function run() {
     var automail = leverBy('Auto-mail');
     ok(automail && /\bon\b/.test(automail.className),
        'the automail valve is OPEN but the lever does not read ON');
+
+    var financePaper = leverBy('Finance paper cycle');
+    ok(financePaper && /\bon\b/.test(financePaper.className),
+       'the Finance paper valve is OPEN but the lever does not read ON');
 
     // The AI lever must state the environment boundary rather than implying the
     // operator can open spend from here.
@@ -268,7 +275,7 @@ function run() {
 
         console.log('[control] desks: ' + desks.length + ' · worst-of-jobs honoured · ' +
           els.length + ' unreachable properties listed, none as switches');
-        console.log('[control] measured: 6 levers · 3 capabilities · 3 unbuilt · ' +
+        console.log('[control] measured: 7 levers · 3 capabilities · 3 unbuilt · ' +
           sts.length + ' operators (1 at the gate, sorted first) · ' +
           'rejected write sprang back · accepted write re-read');
         return null;

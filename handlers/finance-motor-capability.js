@@ -57,5 +57,5 @@ function createHandler(deps) {
 }
 
 var handler = createHandler();
-handler.createHandler = createHandler;
-module.exports = handler;
+module.exports = require('../lib/heartbeat').wrap('finance-motor-capability', handler);
+module.exports.createHandler = createHandler;
