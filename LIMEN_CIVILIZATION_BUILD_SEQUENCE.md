@@ -2792,3 +2792,20 @@ not. The first consumers are the existing shared `CISA Advisories` and `FDA
 Recalls` labels, representing six domain/source rows. This remains a sensory
 replay repair only; it does not alter stress math, domain ownership, decisions,
 or outward authority.
+
+Production deployment of PR #171 (`428978fb`) became Ready. A fresh public
+snapshot verified the identical `rss-set-v1` CISA identity on all four domain
+uses and the identical FDA identity on both domain uses; both labels also
+carried five source-preserved headlines. The moving queue measured 85 live
+identity gaps and 31 unavailable rows in that sample. All six targeted rows
+closed; unrelated provider transitions account for the larger net movement.
+
+The next common contract addresses the Federal Register family, which currently
+accounts for roughly half of the remaining live gaps. Each existing receptor
+derives a 30-day count from the publisher's returned document records. Its
+replay key now hashes the exact agency slug, UTC rolling-window boundary, and
+every returned publisher document number/publication date. Poll time is not an
+input: the same records on the same UTC day retain one identity, while a new
+document or a cadence-window transition changes it. This preserves the current
+values, labels, stress normalization, and per-domain routing while making the
+observation boundary explicit.
