@@ -19,6 +19,7 @@ var Decision = require('../lib/finance-trade-decision.js');
 var DecisionProvider = require('../lib/finance-trade-decision-provider.js');
 var Broker = require('../lib/tradier-sandbox.js');
 var Executor = require('../lib/finance-paper-executor.js');
+var Commissioning = require('../lib/finance-sandbox-commissioning.js');
 
 function send(res, status, body) {
   res.statusCode = status;
@@ -50,6 +51,7 @@ function createHandler(deps) {
   var decisionProvider = deps.decisionProvider || DecisionProvider;
   var broker = deps.broker || Broker;
   var executor = deps.executor || Executor;
+  var commissioning = deps.commissioning || Commissioning;
   var env = deps.env || process.env;
   var fetchFn = deps.fetch || global.fetch;
 
@@ -74,6 +76,26 @@ function createHandler(deps) {
           reason: !env.ANTHROPIC_API_KEY ? 'finance-provider-unconfigured' : 'tradier-sandbox-unconfigured',
           orderPlaced: false
         }));
+      }
+
+      // Autonomous bootstrap: when the explicit commissioning switch is on,
+      // prove the sandbox executor + rollback before spending provider tokens
+      // or attempting a developmental paper order. The commissioning module is
+      // one-shot, durable, idempotent, sandbox-only, and must reconcile a
+      // canceled order with zero executed quantity. A held/incomplete proof
+      // stops the cycle; no manual operator endpoint is required.
+      if (commissioning.enabled(env)) {
+        var commissioningResult = await commissioning.execute({
+          store: store, broker: broker, env: env
+        });
+        if (!commissioningResult || commissioningResult.status !== 'VERIFIED_ZERO_EFFECT_ROLLBACK') {
+          return send(res, 200, summary('sandbox-commissioning', null, commissioningResult, {
+            status: commissioningResult && commissioningResult.status || 'HELD',
+            reason: commissioningResult && commissioningResult.reason || 'zero-effect-sandbox-rollback-proof-incomplete',
+            orderPlaced: commissioningResult && commissioningResult.orderPlaced === true,
+            effectExecuted: false
+          }));
+        }
       }
 
       var bundle = await preview.productionInput({
