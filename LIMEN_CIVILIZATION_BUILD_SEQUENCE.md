@@ -2848,3 +2848,21 @@ whose metrics drive both the seven-day count and critical count. Retrieval time
 is excluded from every identity. If production confirms these four contracts,
 the remaining identity queue is an upstream-availability queue rather than an
 open provenance defect queue.
+
+PR #174 merged as `4926b3c7`; its production deployment became Ready. A fresh
+public snapshot contained all 20 domain brains and 249 available source
+readings, and all 249 carried source identity. The classified queue had zero
+open provenance tasks. Its 27 remaining tasks were all `no-reading` provider
+exceptions and stayed correctly unstamped.
+
+Provider diagnosis then separated transient overload from actual credentials.
+The Federal Register exceptions were HTTP 429 responses caused by dozens of
+agency calls starting together, including duplicate agencies reused across
+domain brains. Federal Register JSON requests now pass through one bounded
+four-request scheduler with same-URL promise deduplication and a 30-second
+cadence cache. This preserves every labeled domain receptor while preventing a
+shared sensory source from self-denying under burst load. Separately, World
+Bank schema drift is repaired at the publisher boundary: WGI indicators now use
+the current `GOV_WGI_*` IDs under source 3, manufacturing uses
+`NV.IND.MANF.ZS`, and each adapter carries the date of the actual selected
+non-null row rather than the first response slot.

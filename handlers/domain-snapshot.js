@@ -2066,7 +2066,66 @@ function blsBody(seriesIds, startYear, endYear) {
   return JSON.stringify(b);
 }
 
+var FEDERAL_REGISTER_MAX_CONCURRENCY = 4;
+var FEDERAL_REGISTER_CACHE_MS = 30000;
+var _federalRegisterActive = 0;
+var _federalRegisterPending = [];
+var _federalRegisterRequestCache = Object.create(null);
+
+function _drainFederalRegisterRequests() {
+  while (_federalRegisterActive < FEDERAL_REGISTER_MAX_CONCURRENCY &&
+      _federalRegisterPending.length) {
+    var item = _federalRegisterPending.shift();
+    _federalRegisterActive++;
+    Promise.resolve().then(item.run).then(item.resolve, item.reject).then(function () {
+      _federalRegisterActive--;
+      _drainFederalRegisterRequests();
+    });
+  }
+}
+
+function _directTimedJSON(url, opts) {
+  return fetchWithRetry(url, opts).then(function (resp) {
+    if (!resp.ok) {
+      var err = new Error('HTTP ' + resp.status);
+      err.statusCode = resp.status;
+      throw err;
+    }
+    return resp.json();
+  });
+}
+
+function _queuedFederalRegisterJSON(url, opts) {
+  var now = Date.now();
+  var cached = _federalRegisterRequestCache[url];
+  if (cached && now - cached.createdAt < FEDERAL_REGISTER_CACHE_MS) return cached.promise;
+  var promise = new Promise(function (resolve, reject) {
+    _federalRegisterPending.push({
+      run: function () { return _directTimedJSON(url, opts); },
+      resolve: resolve,
+      reject: reject
+    });
+    _drainFederalRegisterRequests();
+  });
+  _federalRegisterRequestCache[url] = { createdAt: now, promise: promise };
+  promise.catch(function () {
+    if (_federalRegisterRequestCache[url] && _federalRegisterRequestCache[url].promise === promise) {
+      delete _federalRegisterRequestCache[url];
+    }
+  });
+  return promise;
+}
+
+function _resetFederalRegisterRequestState() {
+  _federalRegisterActive = 0;
+  _federalRegisterPending = [];
+  _federalRegisterRequestCache = Object.create(null);
+}
+
 async function timedJSON(url, opts) {
+  if (/^https:\/\/www\.federalregister\.gov\/api\//i.test(String(url || ''))) {
+    return _queuedFederalRegisterJSON(url, opts);
+  }
   var resp = await fetchWithRetry(url, opts);
   if (!resp.ok) {
     var err = new Error('HTTP ' + resp.status);
@@ -2809,13 +2868,14 @@ async function fetchEIASupply() {
 
 async function fetchWorldBankGovernance() {
   try {
-    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/CC.EST?format=json&date=2015:2024&per_page=5');
-    var val = _extractWorldBankValue(data);
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_CC.EST?source=3&format=json&per_page=100');
+    var row = _extractWorldBankRow(data);
+    var val = row ? row.value : null;
     if (val === null) { trackHealth('World Bank Governance', 'governance', 'fallback', 'no non-null value in response'); return null; }
     // CC.EST ranges roughly -2.5 to 2.5; higher = better control of corruption. Invert for stress.
     var stress = clamp((1.5 - val) / 3, 0, 1);
     trackHealth('World Bank Governance', 'governance', 'live', null, val);
-    return { value: round(val), label: 'governance score ' + val.toFixed(2), stress: round(stress), signal: 'control of corruption index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: data[1][0].date || null };
+    return { value: round(val), label: 'governance score ' + val.toFixed(2), stress: round(stress), signal: 'control of corruption index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: row.date || null };
   } catch (e) { trackHealth('World Bank Governance', 'governance', 'fallback', e.message); return null; }
 }
 
@@ -2823,23 +2883,25 @@ async function fetchWorldBankGovernance() {
 //    lifts them out of the 0-real-driver LOW_SIGNAL cap). All keyless. ──
 async function fetchWBGovEffectiveness() {
   try {
-    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/GE.EST?format=json&date=2015:2024&per_page=5');
-    var val = _extractWorldBankValue(data);
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_GE.EST?source=3&format=json&per_page=100');
+    var row = _extractWorldBankRow(data);
+    var val = row ? row.value : null;
     if (val === null) { trackHealth('World Bank Gov Effectiveness', 'governance', 'fallback', 'no non-null value'); return null; }
     var stress = clamp((1.5 - val) / 3, 0, 1); // GE.EST ~ -2.5..2.5, higher=better → invert
     trackHealth('World Bank Gov Effectiveness', 'governance', 'live', null, val);
-    return { value: round(val), label: 'gov effectiveness ' + val.toFixed(2), stress: round(stress), signal: 'government effectiveness index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+    return { value: round(val), label: 'gov effectiveness ' + val.toFixed(2), stress: round(stress), signal: 'government effectiveness index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: row.date || null };
   } catch (e) { trackHealth('World Bank Gov Effectiveness', 'governance', 'fallback', e.message); return null; }
 }
 
 async function fetchWBRuleOfLaw() {
   try {
-    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/RL.EST?format=json&date=2015:2024&per_page=5');
-    var val = _extractWorldBankValue(data);
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/GOV_WGI_RL.EST?source=3&format=json&per_page=100');
+    var row = _extractWorldBankRow(data);
+    var val = row ? row.value : null;
     if (val === null) { trackHealth('World Bank Rule of Law', 'governance', 'fallback', 'no non-null value'); return null; }
     var stress = clamp((1.5 - val) / 3, 0, 1); // RL.EST ~ -2.5..2.5, higher=better → invert
     trackHealth('World Bank Rule of Law', 'governance', 'live', null, val);
-    return { value: round(val), label: 'rule of law ' + val.toFixed(2), stress: round(stress), signal: 'rule of law index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+    return { value: round(val), label: 'rule of law ' + val.toFixed(2), stress: round(stress), signal: 'rule of law index ' + val.toFixed(2), updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: row.date || null };
   } catch (e) { trackHealth('World Bank Rule of Law', 'governance', 'fallback', e.message); return null; }
 }
 
@@ -2867,12 +2929,13 @@ async function fetchWBLogisticsLPI() {
 
 async function fetchWBManufacturing() {
   try {
-    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/NV.MNF.TOTL.ZS?format=json&date=2012:2024&per_page=12');
-    var val = _extractWorldBankValue(data);
+    var data = await timedJSON('https://api.worldbank.org/v2/country/USA/indicator/NV.IND.MANF.ZS?format=json&per_page=100');
+    var row = _extractWorldBankRow(data);
+    var val = row ? row.value : null;
     if (val === null) { trackHealth('World Bank Manufacturing', 'industry', 'fallback', 'no non-null value'); return null; }
     var stress = clamp((18 - val) / 18, 0, 1); // manufacturing %GDP, lower share = higher structural stress
     trackHealth('World Bank Manufacturing', 'industry', 'live', null, val);
-    return { value: round(val), label: 'manufacturing ' + val.toFixed(1) + '% GDP', stress: round(stress), signal: 'manufacturing value added ' + val.toFixed(1) + '% of GDP', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: (data[1] && data[1][0] && data[1][0].date) || null };
+    return { value: round(val), label: 'manufacturing ' + val.toFixed(1) + '% GDP', stress: round(stress), signal: 'manufacturing value added ' + val.toFixed(1) + '% of GDP', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: row.date || null };
   } catch (e) { trackHealth('World Bank Manufacturing', 'industry', 'fallback', e.message); return null; }
 }
 
@@ -6292,6 +6355,7 @@ module.exports._ofacRecentActionsIdentity = _ofacRecentActionsIdentity;
 module.exports._htmlMetaUpdatedIdentity = _htmlMetaUpdatedIdentity;
 module.exports._htmlSectionIdentity = _htmlSectionIdentity;
 module.exports._nvdRecentIdentity = _nvdRecentIdentity;
+module.exports._resetFederalRegisterRequestState = _resetFederalRegisterRequestState;
 /* The three SPY fetchers themselves, so a test can exercise the REAL path — helper plus
    wiring — against a stubbed `fetch`. Testing only the helper would leave the three lines
    that actually attach `sourceUpdatedAt` unproven, which is where the defect lived. */
@@ -6313,6 +6377,10 @@ module.exports._fetchWorldBankTertiary = fetchWorldBankTertiary;
 module.exports._fetchWorldBankRD = fetchWorldBankRD;
 module.exports._fetchWorldBankInfra = fetchWorldBankInfra;
 module.exports._fetchWorldBankFoodIndex = fetchWorldBankFoodIndex;
+module.exports._fetchWorldBankGovernance = fetchWorldBankGovernance;
+module.exports._fetchWBGovEffectiveness = fetchWBGovEffectiveness;
+module.exports._fetchWBRuleOfLaw = fetchWBRuleOfLaw;
+module.exports._fetchWBManufacturing = fetchWBManufacturing;
 module.exports._fetchTreasuryMTS = fetchTreasuryMTS;
 module.exports._fetchTreasuryOperatingCash = fetchTreasuryOperatingCash;
 module.exports._fetchNYFedEFFR = fetchNYFedEFFR;
