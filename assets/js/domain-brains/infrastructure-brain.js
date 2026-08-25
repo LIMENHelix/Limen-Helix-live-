@@ -2555,6 +2555,25 @@
   // ── INFRASTRUCTURE-LOCAL FIVE-ORGAN EXTENSION ─────────────────────────────
   // The base schedules these organs; Infrastructure owns their implementation, state and
   // authority here. Thing 2 is not consumed and external action remains inhibited.
+  InfrastructureBrain.prototype._refreshInfrastructureActionOutcome = function () {
+    if (typeof fetch !== 'function') return null;
+    var cycle = this._cycleCount || 0;
+    if (this._lastInfrastructureActionOutcomeCycle && cycle - this._lastInfrastructureActionOutcomeCycle < 12) return this._infrastructureActionOutcome || null;
+    this._lastInfrastructureActionOutcomeCycle = cycle;
+    var self = this;
+    try {
+      fetch('/api/product-domain-learning-state?domain=' + encodeURIComponent(this.domainId))
+        .then(function (response) { return response.json(); })
+        .then(function (result) {
+          if (!result || result.ok !== true || result.domain !== self.domainId || result.schemaVersion !== 'product-domain-external-learning/1.0') return;
+          self._infrastructureActionOutcome = result;
+          self.state[self.domainId + 'ActionLearning'] = result;
+          self.state.domainActionLearning = result;
+        }).catch(function () {});
+    } catch (e) {}
+    return this._infrastructureActionOutcome || null;
+  };
+
   InfrastructureBrain.prototype._computeInfrastructurePlasticity = function () {
     var s = this.state;
     if (this._plasticity === undefined) {
@@ -2566,15 +2585,21 @@
       return null;
     }
     try { this._refreshDomainExternalOutcome(); } catch (e) {}
+    try { this._refreshInfrastructureActionOutcome(); } catch (e) {}
     var n = (s.cognition && s.cognition.neuro) || s.domainNeuro || {};
     var gc = n.gainControl || {}, at = n.attention || {}, sm = n.slowModel || {}, hm = n.homeostasis || {}, led = n.outcomeLedger || {};
     var pe = (s.cognition && s.cognition.model && ((s.cognition.model.predictionError && s.cognition.model.predictionError.total) || s.cognition.model.predictionError)) || 0;
     var dx = (s.diagnoses || []).filter(function (d) { return d.active; });
     var relevance = dx.length ? dx.reduce(function (sum, d) { return sum + (d.relevance || 0); }, 0) / dx.length : 0;
-    var ext = this._externalOutcome, k4api = typeof window !== 'undefined' ? window.LIMENK4 : null;
-    var eligible = !!(k4api && k4api.externalRewardEligible && k4api.externalRewardEligible(this.domainId));
+    var actionOutcome = this._infrastructureActionOutcome;
+    var actionReady = !!(actionOutcome && actionOutcome.status === 'ELIGIBLE' && actionOutcome.signal && actionOutcome.learningGate && actionOutcome.learningGate.ready === true &&
+      actionOutcome.signal.sourceKind === 'independent-action-outcome' && typeof actionOutcome.signal.normalizedCredit === 'number');
+    var ext = actionReady ? { hit: actionOutcome.signal.normalizedCredit, resolvedCount: actionOutcome.resolvedCount, sourceKind: 'independent-action-outcome' } : this._externalOutcome;
+    var sourceKind = actionReady ? 'independent-action-outcome' : 'feed-resolution';
+    var k4api = typeof window !== 'undefined' ? window.LIMENK4 : null;
+    var eligible = !!(k4api && k4api.externalRewardEligible && k4api.externalRewardEligible(this.domainId, sourceKind));
     var resolved = ext && ext.resolvedCount || 0;
-    var externalOutcome = eligible && typeof (ext && ext.hit) === 'number' && resolved >= 5 ? { hit: ext.hit } : null;
+    var externalOutcome = eligible && typeof (ext && ext.hit) === 'number' && resolved >= 5 ? { hit: ext.hit, sourceKind: sourceKind } : null;
     var credit = k4api && k4api.credit ? k4api.credit({
       domain: this.domainId, externalOutcome: externalOutcome,
       callHitRate: typeof led.hitRate === 'number' ? led.hitRate : null, callSamples: led.samples || 0,
@@ -2603,7 +2628,7 @@
       version: 2, domain: this.domainId, localOwner: true, mode: live.length ? 'armed' : 'shadow',
       liveLayers: live, rewardActive: !!this._plasticityRewardActive,
       creditSource: credit && credit.creditSource || 'none', creditTier: credit && credit.tier || 0,
-      externalOutcome: externalOutcome ? { hit: externalOutcome.hit, resolvedCount: resolved, source: 'independent resolver' }
+      externalOutcome: externalOutcome ? { hit: externalOutcome.hit, resolvedCount: resolved, source: sourceKind }
         : { active: false, resolvedCount: resolved, note: 'abstaining until five eligible independent outcomes resolve' },
       layers: layers, convergence: { allStable: stable },
       persistence: { hydrated: pl.hydrated, enabled: pl.persistEnabled, failures: pl.persistFailures },

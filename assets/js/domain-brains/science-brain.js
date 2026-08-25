@@ -55,7 +55,8 @@
     //   phase   = TRUE  — P0-P10 is the same substrate Energy couples on. Coherence router couples
     //                     to co-phased stressed peers; the phase-TRANSITION credit is self-consistency
     //                     calibration (interpretive) — a P3/P7-family transition hit is NOT an external
-    //                     ground-truth reward (science is not externalRewardEligible). The central
+    //                     ground-truth reward through this self-consistency path. Independently
+    //                     evaluated action outcomes use the Science-local feedback seam. The central
     //                     window.LIMENK4 gate owns the tiering; here the effector is credit-source into
     //                     the model's effective learning rate.
     //   refractory = FALSE (ADVISORY) — no honest effector. This brain has NO autonomous
@@ -731,7 +732,8 @@
 
     // K4 CREDIT ASSIGNMENT — routed through the ONE honest reward gate (window.LIMENK4).
     // THE RULE (owned centrally so it cannot be re-overclaimed): isReward is TRUE only when a REAL
-    // external realized outcome is supplied. Science is NOT externalRewardEligible — it has no
+    // external realized outcome is supplied here. Science's feed-resolution path is not reward-eligible;
+    // independently evaluated action outcomes are consumed by the local five-organ feedback seam, not here.
     // external ground-truth outcome — so externalOutcome is ALWAYS null and its credit is
     // SELF-CONSISTENCY CALIBRATION (interpretive) only, NEVER reward. A P3/P7-family phase-transition
     // HIT is self-consistency calibration (interpretive), NEVER a ground-truth/dopaminergic reward.
@@ -1257,7 +1259,8 @@
   //      is this brain's OWN forward read (researchModel.predictedStress vs current stress). The hit is
   //      self-consistency calibration (interpretive) — the P3/P7-family gate (validated) selects the
   //      phase-consistency tier in the central window.LIMENK4 gate; it is NEVER an external reward
-  //      (science is not externalRewardEligible). Consumed by the K4 credit hook via LIMENK4.credit.
+  //      (this phase/self-consistency path is not externally reward-eligible). Independently evaluated
+  //      action outcomes enter through the Science-local feedback seam.
   // THING2 KERNEL PHASE SOURCE. Push the domain's primary scalar (state.stress = STRESS, up=bad
   // -> positive:false) into a persistent rolling window (cap 60, persisted to localStorage) and
   // run the REAL Thing2 recursive phase kernel over it. Pure math (no network, no AI): the 30s
@@ -1984,6 +1987,25 @@
   // ── SCIENCE-LOCAL FIVE-ORGAN EXTENSION ─────────────────────────────
   // The base schedules these organs; Science owns their implementation, state and
   // authority here. Thing 2 is not consumed and external action remains inhibited.
+  ScienceBrain.prototype._refreshScienceActionOutcome = function () {
+    if (typeof fetch !== 'function') return null;
+    var cycle = this._cycleCount || 0;
+    if (this._lastScienceActionOutcomeCycle && cycle - this._lastScienceActionOutcomeCycle < 12) return this._scienceActionOutcome || null;
+    this._lastScienceActionOutcomeCycle = cycle;
+    var self = this;
+    try {
+      fetch('/api/product-domain-learning-state?domain=' + encodeURIComponent(this.domainId))
+        .then(function (response) { return response.json(); })
+        .then(function (result) {
+          if (!result || result.ok !== true || result.domain !== self.domainId || result.schemaVersion !== 'product-domain-external-learning/1.0') return;
+          self._scienceActionOutcome = result;
+          self.state[self.domainId + 'ActionLearning'] = result;
+          self.state.domainActionLearning = result;
+        }).catch(function () {});
+    } catch (e) {}
+    return this._scienceActionOutcome || null;
+  };
+
   ScienceBrain.prototype._computeSciencePlasticity = function () {
     var s = this.state;
     if (this._plasticity === undefined) {
@@ -1995,15 +2017,21 @@
       return null;
     }
     try { this._refreshDomainExternalOutcome(); } catch (e) {}
+    try { this._refreshScienceActionOutcome(); } catch (e) {}
     var n = (s.cognition && s.cognition.neuro) || s.domainNeuro || {};
     var gc = n.gainControl || {}, at = n.attention || {}, sm = n.slowModel || {}, hm = n.homeostasis || {}, led = n.outcomeLedger || {};
     var pe = (s.cognition && s.cognition.model && ((s.cognition.model.predictionError && s.cognition.model.predictionError.total) || s.cognition.model.predictionError)) || 0;
     var dx = (s.diagnoses || []).filter(function (d) { return d.active; });
     var relevance = dx.length ? dx.reduce(function (sum, d) { return sum + (d.relevance || 0); }, 0) / dx.length : 0;
-    var ext = this._externalOutcome, k4api = typeof window !== 'undefined' ? window.LIMENK4 : null;
-    var eligible = !!(k4api && k4api.externalRewardEligible && k4api.externalRewardEligible(this.domainId));
+    var actionOutcome = this._scienceActionOutcome;
+    var actionReady = !!(actionOutcome && actionOutcome.status === 'ELIGIBLE' && actionOutcome.signal && actionOutcome.learningGate && actionOutcome.learningGate.ready === true &&
+      actionOutcome.signal.sourceKind === 'independent-action-outcome' && typeof actionOutcome.signal.normalizedCredit === 'number');
+    var ext = actionReady ? { hit: actionOutcome.signal.normalizedCredit, resolvedCount: actionOutcome.resolvedCount, sourceKind: 'independent-action-outcome' } : this._externalOutcome;
+    var sourceKind = actionReady ? 'independent-action-outcome' : 'feed-resolution';
+    var k4api = typeof window !== 'undefined' ? window.LIMENK4 : null;
+    var eligible = !!(k4api && k4api.externalRewardEligible && k4api.externalRewardEligible(this.domainId, sourceKind));
     var resolved = ext && ext.resolvedCount || 0;
-    var externalOutcome = eligible && typeof (ext && ext.hit) === 'number' && resolved >= 5 ? { hit: ext.hit } : null;
+    var externalOutcome = eligible && typeof (ext && ext.hit) === 'number' && resolved >= 5 ? { hit: ext.hit, sourceKind: sourceKind } : null;
     var credit = k4api && k4api.credit ? k4api.credit({
       domain: this.domainId, externalOutcome: externalOutcome,
       callHitRate: typeof led.hitRate === 'number' ? led.hitRate : null, callSamples: led.samples || 0,
@@ -2032,7 +2060,7 @@
       version: 2, domain: this.domainId, localOwner: true, mode: live.length ? 'armed' : 'shadow',
       liveLayers: live, rewardActive: !!this._plasticityRewardActive,
       creditSource: credit && credit.creditSource || 'none', creditTier: credit && credit.tier || 0,
-      externalOutcome: externalOutcome ? { hit: externalOutcome.hit, resolvedCount: resolved, source: 'independent resolver' }
+      externalOutcome: externalOutcome ? { hit: externalOutcome.hit, resolvedCount: resolved, source: sourceKind }
         : { active: false, resolvedCount: resolved, note: 'abstaining until five eligible independent outcomes resolve' },
       layers: layers, convergence: { allStable: stable },
       persistence: { hydrated: pl.hydrated, enabled: pl.persistEnabled, failures: pl.persistFailures },

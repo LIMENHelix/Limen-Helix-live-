@@ -22,7 +22,8 @@
  *
  * IT CANNOT REINTRODUCE THE BAD REWARD. Credit comes from the same two gates the brains use:
  *   - eligibility: limen-k4-selfconsistency.credit() is passed `domain` and fails closed, so
- *     only finance and energy can ever reach tier 4.
+ *     only finance and energy can reach tier 4 through this feed-resolution path.
+ *     Research/health action outcomes use the separate domain-owned learning seam.
  *   - skill: reward is withheld unless the resolver reports skill > 0, and the magnitude is the
  *     normalized skill score (hit - base)/(1 - base), so a flat series that scores 1.0 by calling
  *     "stable" forever earns nothing. That is the defect this system spent a day removing; it is

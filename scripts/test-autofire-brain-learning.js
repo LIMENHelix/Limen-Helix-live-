@@ -135,6 +135,16 @@ async function main() {
   var goodResearch = LEARN.grade({ eventType: 'OUTCOME_RESEARCH_EVALUATED', lane: 'research', outcomeData: fullResearchData('PROGRESS') });
   assert('fully evidenced research progress is graded', goodResearch.graded === true);
   assert('research progress reward is explicit +1', goodResearch.reward === 1);
+  var learnedResearch = await LEARN.recordOutcome(store, {
+    eventId: 'evt_eval', eventType: 'OUTCOME_RESEARCH_EVALUATED', lane: 'research', ownerDomain: 'health',
+    actionId: copy('research', 1).actionId, ts: 2100, outcomeData: fullResearchData('PROGRESS'),
+    sourceIdentity: { kind: 'external-evaluator', value: 'panel:health:1' }
+  });
+  assert('graded research evaluation creates a domain-owned external learning signal',
+    learnedResearch.ok && learnedResearch.externalLearningSignal && learnedResearch.externalLearningSignal.normalizedCredit === 1);
+  health = await LEARN._load(store, 'health');
+  assert('health keeps its learning signal in its own durable state',
+    health.externalLearning.resolvedCount === 1 && health.externalLearning.signals[0].ownerDomain === 'health');
 
   var missingInvestment = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: { netPnl: 1 } });
   assert('incomplete investment terms are ungraded', missingInvestment.graded === false);
@@ -167,12 +177,15 @@ async function main() {
     assert('investment command ' + i + ' recorded', cr.ok === true);
     var er = await LEARN.recordOutcome(store, {
       eventId: 'evt_inv_' + i, eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'finance',
-      actionId: cp.actionId, ts: 4000 + i, outcomeData: investmentData(30, 5, 5, 2, false)
+      actionId: cp.actionId, ts: 4000 + i, outcomeData: investmentData(30, 5, 5, 2, false),
+      sourceIdentity: { kind: 'tradier-sandbox-account', value: 'snapshot:' + i }
     });
     assert('investment outcome ' + i + ' is retained while cohort gating controls B12', er.ok && er.b12Updated === (i === 14));
   }
   var finance = await LEARN._load(store, 'finance');
   assert('five distinct resolutions create one risk-adjusted B12 update', finance.modulators.rewardHistory.length === 1);
+  assert('the five-trade cohort creates one Finance external learning signal, not five self-reports',
+    finance.externalLearning.resolvedCount === 1 && finance.externalLearning.signals.length === 1);
   assert('five commands and five returned outcomes remain episodic before consolidation', finance.memory.episodic.length === 10);
 
   var consolidated = await LEARN.consolidateDomain(store, 'finance', 9999);
