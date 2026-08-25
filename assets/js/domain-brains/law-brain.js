@@ -36,7 +36,7 @@
       snapshotKey: 'law',
       cycleInterval: 30000
     });
-    this.resourceAuthority = { ownerDomain: 'law', policyId: 'law-resource/1', lanes: ['research', 'publication', 'crm'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'law', policyId: 'law-resource/1', sandboxLane: 'automail', lanes: ['research', 'publication', 'crm'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   LawBrain.prototype = Object.create(Base.prototype);

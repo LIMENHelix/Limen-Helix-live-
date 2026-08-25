@@ -14,7 +14,7 @@
 
   function CultureBrain() {
     Base.call(this, { domainId: 'culture', label: 'Culture', snapshotKey: 'culture', cycleInterval: 30000, groundedOnly: true });
-    this.resourceAuthority = { ownerDomain: 'culture', policyId: 'culture-resource/1', lanes: ['publication', 'social', 'commerce'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'culture', policyId: 'culture-resource/1', sandboxLane: 'hero-image', lanes: ['publication', 'social', 'commerce'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
   CultureBrain.prototype = Object.create(Base.prototype);
   CultureBrain.prototype.constructor = CultureBrain;

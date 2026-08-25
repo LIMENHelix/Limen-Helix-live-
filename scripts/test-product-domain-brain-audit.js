@@ -3,6 +3,7 @@
 
 var assert = require('node:assert/strict');
 var AUDIT = require('../lib/product-domain-brain-audit.js');
+var LaneContract = require('../brain-v2/core/sandbox-lane-contract.js');
 var report = AUDIT.audit();
 
 assert.equal(report.layer, 'assets/js/domain-brains');
@@ -17,6 +18,9 @@ assert(report.domains.every(function (row) {
     row.parts.resourceMetabolism && row.resourceAuthority.externalAction === false;
 }));
 assert.equal(new Set(report.domains.map(function (row) { return row.resourceAuthority.policyId; })).size, 20);
+assert.deepEqual(Array.from(new Set(report.domains.map(function (row) {
+  return row.resourceAuthority.sandboxLane;
+}))).sort(), LaneContract.list().sort());
 
 var aliases = Object.fromEntries(report.domains.filter(function (row) {
   return ['medicine', 'science', 'trade'].indexOf(row.product) >= 0;

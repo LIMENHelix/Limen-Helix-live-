@@ -1,7 +1,7 @@
 /**
  * brain-v2/core/sandbox-motor-bridge.js
  *
- * Sandbox-only B11/B14 bridge for the active research and investment lanes.
+ * Sandbox-only B11/B14 bridge for every declared civilization motor lane.
  * This module deliberately has no network client, broker client, cron hook, or
  * production store. The caller injects a tiny append/read store so tests can
  * force persistence failures and prove ordering.
@@ -22,11 +22,12 @@
 
 var crypto = require('crypto');
 var PRED = require('../kernel/predict.js');
+var LaneContract = require('./sandbox-lane-contract.js');
 
 var MODULE_ID = 'brain-v2/core/sandbox-motor-bridge';
 var SCHEMA_VERSION = 'sandbox-motor-bridge/1.0';
 var HANDOFF_SCHEMA = 'civilization-handoff/1.0';
-var ACTIVE_LANES = ['investments', 'research-papers'];
+var ACTIVE_LANES = LaneContract.list();
 
 function clone(v) { return JSON.parse(JSON.stringify(v)); }
 
@@ -45,7 +46,7 @@ function validateStore(store) {
 function validateHandoff(handoff) {
   if (!handoff || handoff.schemaVersion !== HANDOFF_SCHEMA) fail('handoff schema must be ' + HANDOFF_SCHEMA);
   if (ACTIVE_LANES.indexOf(handoff.lane) < 0) {
-    fail('lane "' + handoff.lane + '" is not an active research/investment sandbox lane');
+    fail('lane "' + handoff.lane + '" is not an active civilization sandbox lane');
   }
   if (typeof handoff.opportunityId !== 'string' || !handoff.opportunityId) fail('handoff opportunityId is required');
   if (!Array.isArray(handoff.sourceDomains) || !handoff.sourceDomains.length) fail('handoff sourceDomains is required');
@@ -99,6 +100,7 @@ function submit(bridge, handoff, now) {
     lane: handoff.lane,
     opportunityId: handoff.opportunityId,
     sourceDomains: handoff.sourceDomains.slice(),
+    laneContract: clone(handoff.laneContract || LaneContract.get(handoff.lane)),
     variable: handoff.motorClaim.variable,
     efferenceCopy: efference,
     issuedAt: now,

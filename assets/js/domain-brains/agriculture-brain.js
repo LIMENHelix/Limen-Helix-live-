@@ -52,7 +52,7 @@
       portalKey: 'p2_agri',
       cycleInterval: 30000
     });
-    this.resourceAuthority = { ownerDomain: 'agriculture', policyId: 'agriculture-resource/1', lanes: ['research', 'vendor-operations', 'commerce'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'agriculture', policyId: 'agriculture-resource/1', sandboxLane: 'homestead', lanes: ['research', 'vendor-operations', 'commerce'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
 
     // ── ACTUATION GATE (2026-07-13) — per-actuation VALIDITY, mirroring energy-brain ─────────────
     // Ported to Energy's actuation depth, but validity-gated HONESTLY per agriculture:

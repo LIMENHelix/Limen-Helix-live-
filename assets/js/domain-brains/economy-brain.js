@@ -45,7 +45,7 @@
       snapshotKey: 'economy',
       cycleInterval: 30000
     });
-    this.resourceAuthority = { ownerDomain: 'economy', policyId: 'economy-resource/1', lanes: ['research', 'investment-advisory'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'economy', policyId: 'economy-resource/1', sandboxLane: 'investments', lanes: ['research', 'investment-advisory'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   EconomyBrain.prototype = Object.create(Base.prototype);

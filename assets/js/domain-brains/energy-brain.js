@@ -60,7 +60,7 @@
       snapshotKey: 'energy',
       cycleInterval: 30000
     });
-    this.resourceAuthority = { ownerDomain: 'energy', policyId: 'energy-resource/1', lanes: ['research', 'investment-advisory', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'energy', policyId: 'energy-resource/1', sandboxLane: 'investments', lanes: ['research', 'investment-advisory', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
 
   // Inherit from base

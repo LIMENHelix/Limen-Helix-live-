@@ -33,6 +33,7 @@ assert.strictEqual(command.status, 'RECEIPT_PERSISTED');
 assert.strictEqual(store.records.length, 1);
 assert.strictEqual(store.records[0].type, 'sandbox_command_receipt');
 assert.strictEqual(store.records[0].command.commandId, command.commandId);
+assert.strictEqual(command.laneContract.externalEffectAuthorized, false);
 assert.strictEqual(command.resultProduced, false);
 
 var outcome = BR.complete(bridge, command.commandId, {
@@ -78,4 +79,4 @@ assert.strictEqual(BR.report(restored).commands, BR.report(bridge).commands);
 assert.strictEqual(BR.report(restored).outcomes, BR.report(bridge).outcomes);
 assert.strictEqual(BR.report(restored).forwardModel.updates, BR.report(bridge).forwardModel.updates);
 
-console.log('sandbox motor bridge: 18/18 passed');
+console.log('sandbox motor bridge: 19/19 passed');

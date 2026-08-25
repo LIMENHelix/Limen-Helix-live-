@@ -14,7 +14,7 @@
 
   function TechnologyBrain() {
     Base.call(this, { domainId: 'technology', label: 'Technology', snapshotKey: 'technology', cycleInterval: 30000, groundedOnly: true });
-    this.resourceAuthority = { ownerDomain: 'technology', policyId: 'technology-resource/1', lanes: ['vendor-operations', 'commerce', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
+    this.resourceAuthority = { ownerDomain: 'technology', policyId: 'technology-resource/1', sandboxLane: 'investments', lanes: ['vendor-operations', 'commerce', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
   }
   TechnologyBrain.prototype = Object.create(Base.prototype);
   TechnologyBrain.prototype.constructor = TechnologyBrain;
