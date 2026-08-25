@@ -8,8 +8,9 @@ const Metabolism = require('../lib/finance-resource-metabolism.js');
 
 const motorPolicy = {
   environment: 'sandbox', paperOnly: true, liveExecution: false,
-  cashOnly: true, longOnly: true, marginAllowed: false,
-  optionsAllowed: false, shortingAllowed: false, maxGrossNotionalUsd: 100
+  cashOnly: true, longOnly: false, marginAllowed: false,
+  optionsAllowed: false, shortingAllowed: true,
+  shortCollateralPolicy: 'tradier-sandbox-preview-required', maxGrossNotionalUsd: 100
 };
 const quote = { symbol: 'RKLB', last: 68.28, bid: 68.2, ask: 68.3 };
 const account = { totalCash: 1000, totalEquity: 1000, positions: [], orders: [] };
@@ -23,6 +24,8 @@ assert.equal(available.ownerDomain, 'finance');
 assert.equal(available.state, 'AVAILABLE');
 assert.equal(available.allowsProviderCall, true);
 assert.equal(available.measurements.availableNotionalUsd, 100);
+assert.equal(Metabolism.policy({}).maxGrossNotionalUsd, 500);
+assert.equal(Metabolism.policy({ LIMEN_FINANCE_SANDBOX_MAX_NOTIONAL_USD: '750' }).maxGrossNotionalUsd, 500);
 assert.equal(available.measurements.providerCallsRemaining, 1);
 
 const reserved = Metabolism.evaluate({

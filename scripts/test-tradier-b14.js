@@ -66,7 +66,8 @@ async function main() {
   assert('intent is normalized to a day limit equity order', normalized.symbol === 'SPY' && normalized.type === 'limit' && normalized.duration === 'day');
   assert('30/60/90 outcome horizons are explicit defaults', JSON.stringify(normalized.horizonDays) === '[30,60,90]');
   assert('fractional shares are refused', (await rejected(function () { return b14.normalizeIntent({ symbol: 'SPY', side: 'buy', quantity: 1.5, limitPrice: 500, maxNotionalUsd: 510 }); })).code === 'TRADIER_B14_INVALID_QUANTITY');
-  assert('shorting is refused', (await rejected(function () { return b14.normalizeIntent({ symbol: 'SPY', side: 'sell_short', quantity: 1, limitPrice: 500, maxNotionalUsd: 510 }); })).code === 'TRADIER_B14_INVALID_SIDE');
+  var shortIntent = b14.normalizeIntent({ symbol: 'SPY', side: 'sell_short', quantity: 1, limitPrice: 500, maxNotionalUsd: 510 });
+  assert('paper shorting preserves the explicit Tradier side', shortIntent.side === 'sell_short');
 
   var store = memoryStore();
   var api = broker();
@@ -89,6 +90,18 @@ async function main() {
     return b14.createPreview(memoryStore(), broker(), { symbol: 'SPY', side: 'sell', quantity: 1, limitPrice: 500, maxNotionalUsd: 510 });
   });
   assert('a sell cannot create a short position', nakedSell.code === 'TRADIER_B14_SHORTING_FORBIDDEN');
+  var shortPreview = await b14.createPreview(memoryStore(), broker(), shortIntent);
+  assert('one-share paper short reaches the broker preview only', shortPreview.intent.side === 'sell_short' && shortPreview.readOnly === true);
+  var cashShort = await rejected(function () {
+    var cash = snapshot(1000, 0); cash.accountType = 'cash';
+    return b14.createPreview(memoryStore(), broker({ before: cash }), shortIntent);
+  });
+  assert('paper shorting requires a margin-type sandbox account', cashShort.code === 'TRADIER_B14_SHORT_ACCOUNT_REQUIRED');
+  var coverIntent = { symbol: 'SPY', side: 'buy_to_cover', quantity: 1, limitPrice: 500, maxNotionalUsd: 510 };
+  var coverPreview = await b14.createPreview(memoryStore(), broker({ before: snapshot(1000, -1) }), coverIntent);
+  assert('a measured paper short can be previewed for cover', coverPreview.intent.side === 'buy_to_cover');
+  var nakedCover = await rejected(function () { return b14.createPreview(memoryStore(), broker(), coverIntent); });
+  assert('covering requires a measured short position', nakedCover.code === 'TRADIER_B14_COVER_POSITION_REQUIRED');
   var reserved = snapshot(1000, 2);
   reserved.orders = [{ symbol: 'SPY', side: 'sell', status: 'open', quantity: 2, remainingQuantity: 2 }];
   var doubleSell = await rejected(function () {

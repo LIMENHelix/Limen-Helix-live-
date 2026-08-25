@@ -3201,3 +3201,39 @@ inside or across cohorts at that horizon. Cohort reward uses mean benchmark-rela
 absolute drawdown; any risk breach is inhibitory. Raw P&L alone never rewards
 the learner, four resolutions cannot update B12, and one five-trade cohort is
 still insufficient for B13 procedural promotion.
+
+### Finance projected-margin selection and whole-share ceiling — implemented 2026-08-25
+
+Tradier's published equity-order contract requires whole-number share
+quantities. Finance therefore continues to reject fractional quantities rather
+than advertising a broker capability that is not available. The sandbox-only
+motor ceiling is raised from $100 to $500 while retaining one share per
+decision, cash-only long purchases, no automatic averaging or position
+stacking, the fresh-account check, the separate B14 preview, the paper/live
+boundary, and every existing options, leveraged-long, and live-execution
+inhibition. Production has no environment override for this ceiling, so the
+code-level sandbox bound is effective after deployment.
+
+Manager proposal schema `finance-manager-proposal/1.1` now carries a complete
+LONG-or-SHORT projected-margin ranking for the supplied company universe. The metric is a
+Finance-manager estimate of risk-adjusted expected total return over the chosen
+30/60/90-day horizon, not a reported accounting margin, stress score, homology
+score, or observed fact. The deterministic boundary recomputes
+`expectedReturnPct - abs(min(downsideReturnPct, 0)) * (1 - confidence)`, requires
+exactly one entry for every supplied identity, rejects duplicate or substituted
+companies, requires descending order, requires the selected company to be rank
+one, and abstains when the best score is not positive. The accepted estimate
+ledger is preserved through `finance-opportunity-proposal/1.1` and the durable
+paper candidate so later 30/60/90-day external outcomes can calibrate it.
+
+Paper shorting uses Tradier's explicit `sell_short` and `buy_to_cover` equity
+sides and is never synthesized from an ordinary sell. A short requires a
+margin-type sandbox account, no existing position in that symbol, one whole
+share within the same notional ceiling, and a successful Tradier preview (which
+is the broker's authoritative borrow/eligibility check). The independent
+Tradier observer now attributes signed short quantities, liability value,
+short P&L, inverse benchmark return, and drawdown through the same 30/60/90-day
+receipt chain. Each opening decision binds a fresh read-only SPY baseline and a
+20% paper risk limit into the B14 intent; those terms survive into the command
+instead of being reconstructed after the outcome. This authorizes long/short experiments only in the sandbox; live
+shorting remains outside the separately authorized real-money pilot.

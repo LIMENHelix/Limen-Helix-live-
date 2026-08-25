@@ -44,6 +44,20 @@ assert.strictEqual(result.events[0].outcomeData.riskBreach, false);
 assert.strictEqual(result.events[0].outcomeData.executionMode, 'paper');
 assert.ok(result.events[0].sourceIdentity.snapshotId);
 
+var shortCommand = command({
+  commandId: 'tcmd_short-1',
+  intent: Object.assign({}, command().intent, { side: 'sell_short', actionId: 'act-short-1' })
+});
+var shortResult = O.inspectCommand(shortCommand, account(-180, -2), quote(440), [
+  { positionMarketValue: -200, observedAt: new Date(base + 10 * O.DAY_MS).toISOString() },
+  { positionMarketValue: -190, observedAt: new Date(base + 20 * O.DAY_MS).toISOString() }
+], due);
+assert.strictEqual(shortResult.status, 'ELIGIBLE');
+assert.strictEqual(shortResult.events[0].outcomeData.netPnl, 19);
+assert.strictEqual(shortResult.events[0].outcomeData.returnPct, 9.5);
+assert.strictEqual(shortResult.events[0].outcomeData.benchmarkReturnPct, -10);
+assert.strictEqual(shortResult.events[0].outcomeData.sourceTerms.side, 'sell_short');
+
 assert.strictEqual(O.inspectCommand(command(), account(220), quote(440), [], base + 5 * O.DAY_MS).status, 'WAITING');
 assert.ok(O.inspectCommand(command({ intent: Object.assign({}, command().intent, { benchmarkSymbol: null }) }), account(220), null, [], due).abstentions.some(function (x) { return x.reason === 'benchmark-symbol-missing'; }));
 assert.ok(O.inspectCommand(command({ intent: Object.assign({}, command().intent, { riskLimitPct: null }) }), account(220), quote(440), [], due).abstentions.some(function (x) { return x.reason === 'risk-limit-missing'; }));
