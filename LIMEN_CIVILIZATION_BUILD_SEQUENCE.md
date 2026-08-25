@@ -2644,3 +2644,29 @@ external-corpus skip, 0 failed**. All five repaired outward families remain
 production-held because their product brains still lack verified executors and
 independent production outcome observers; this work closes bypasses but does not
 claim Job 5 completion or arm any Job 9 lane.
+
+### Independent executor/observer capability gate — implemented 2026-08-24
+
+The future-positive authorization path no longer trusts verification booleans
+copied from a product brain's own motor receipt as sufficient evidence. The
+strict store now admits separate per-product-domain capability namespaces for
+an executor and an independent outcome observer. Authorization requires both
+records and matches them to the exact product identity, runtime owner, lane,
+motor contract, executor-receipt contract, and independent-outcome contract in
+the current motor receipt.
+
+Both capability records must be production-scoped, time-bounded, verified, and
+backed by distinct evidence receipts and distinct verifiers. The executor must
+carry verified rollback and a zero-effect, zero-spend verification state. The
+observer must name the executor adapter it is independent from and attest an
+independently sourced observation path. Missing, stale, self-attested,
+wrong-domain, wrong-lane, wrong-contract, shared-verifier, unsafe, or
+non-independent evidence fails closed.
+
+`lib/product-domain-motor-capability.js` intentionally has no writer and no
+actuator. A future lane-specific verifier must create each capability receipt
+from measured production evidence; declarations cannot manufacture it. All
+twenty current brains therefore remain held. This closes the declared-versus-
+verified authorization seam, not the actual executor or observer blockers.
+Full repository verification is **164 passed, 1 expected external-corpus skip,
+0 failed**.
