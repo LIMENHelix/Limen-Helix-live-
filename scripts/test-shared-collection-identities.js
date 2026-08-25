@@ -31,6 +31,9 @@ var realFetch = global.fetch;
 function response(body) {
   return { ok: true, status: 200, json: function () { return Promise.resolve(body); } };
 }
+function textResponse(body) {
+  return { ok: true, status: 200, text: function () { return Promise.resolve(body); } };
+}
 
 (async function () {
   try {
@@ -54,7 +57,21 @@ function response(body) {
     assert.equal(unstamped.value, 1);
     assert.equal(unstamped.sourceUpdatedAt, null);
 
-    console.log('shared collection identities: 11/11 passed');
+    var cisaRss = '<rss><channel><description>' + 'official '.repeat(20) + '</description><item><title>CISA alert</title><guid>/node/1</guid>' +
+      '<pubDate>Mon, 24 Aug 2026 12:00:00 GMT</pubDate><description>critical ICS exploit</description></item></channel></rss>';
+    global.fetch = function () { return Promise.resolve(textResponse(cisaRss)); };
+    var advisoryReading = await H._fetchCISAAdvisories();
+    assert.match(advisoryReading.sourceUpdatedAt,
+      /^rss-set-v1:cisa-advisories\|items:1\|sha256:[a-f0-9]{64}$/);
+
+    var fdaRss = '<rss><channel><description>' + 'official '.repeat(20) + '</description><item><title>FDA recall</title><guid>recall/1</guid>' +
+      '<pubDate>Sat, 22 Aug 2026 00:00:00 EDT</pubDate><description>salmonella Class I</description></item></channel></rss>';
+    global.fetch = function () { return Promise.resolve(textResponse(fdaRss)); };
+    var recallReading = await H._fetchFDARecalls();
+    assert.match(recallReading.sourceUpdatedAt,
+      /^rss-set-v1:fda-recalls\|items:1\|sha256:[a-f0-9]{64}$/);
+
+    console.log('shared collection identities: 13/13 passed');
   } finally {
     global.fetch = realFetch;
   }

@@ -20,4 +20,13 @@ assert.equal(atom.headlines[0], 'SEC filing');
 assert.equal(atom.headlineLinks[0], 'https://sec.test/1');
 assert.equal(atom.headlinePublishedAt[0], Date.parse('2026-08-24T12:00:00Z'));
 
-console.log('rss evidence: 8/8 passed');
+const identityA = RSS.collectionIdentity(xml, 'official-feed');
+const identityAWhitespace = RSS.collectionIdentity(xml.replace(/><item/g, '>\n  <item'), 'official-feed');
+const identityB = RSS.collectionIdentity(xml.replace('Second', 'Corrected second'), 'official-feed');
+assert.match(identityA, /^rss-set-v1:official-feed\|items:2\|sha256:[a-f0-9]{64}$/);
+assert.equal(identityAWhitespace, identityA);
+assert.notEqual(identityB, identityA);
+assert.equal(RSS.collectionIdentity('<rss><channel/></rss>', 'official-feed'), null);
+assert.equal(RSS.collectionIdentity(xml, ''), null);
+
+console.log('rss evidence: 13/13 passed');

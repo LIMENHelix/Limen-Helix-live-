@@ -2772,3 +2772,23 @@ USGS), reducing the live open queue from 108 to 92 after deployment. Focused
 identity tests and the complete repository verification pass: **166 passed, 1
 expected external-corpus skip, 0 failed**. Production remeasurement remains the
 gate before that reduction is recorded as observed.
+
+Production deployment of PR #170 (`eacfe367`) became Ready and was sampled
+through the custom domain with a cache-bypassing read. All sixteen targeted
+domain/source rows carried the expected publisher collection identity under
+their unchanged labels. The moving production queue measured `123` total gaps:
+`96` live readings and `27` unavailable sources. The live count did not equal
+the frozen-baseline projection of `92` because four other providers recovered
+during the deployment window and exposed their own previously hidden identity
+gaps; source availability is therefore remeasured rather than arithmetically
+decremented. The target slice itself closed 16/16.
+
+The next reviewed identity contract covers official RSS/Atom collections whose
+publisher supplies no channel-level update token. `lib/rss-evidence.js` now
+derives a versioned SHA-256 identity from the complete source-returned item set,
+including item content. Retrieval time and local clocks are excluded, and a
+publisher correction changes the identity even if GUID and publication date do
+not. The first consumers are the existing shared `CISA Advisories` and `FDA
+Recalls` labels, representing six domain/source rows. This remains a sensory
+replay repair only; it does not alter stress math, domain ownership, decisions,
+or outward authority.
