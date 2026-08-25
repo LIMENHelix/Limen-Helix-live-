@@ -34,9 +34,9 @@ var { loadPortal, listSlugs } = require('../lib/portal-loader');
 
 var SLIM_KEY = 'stress_slim';
 var META_KEY = 'stress_meta';
-// 45 min TTL > the 30-min cron interval, so one skipped/failed run never
-// leaves the hot key expired before the next run repopulates it.
-var TTL = 2700;
+// 90 min TTL spans three scheduled half-hour slots. One skipped/failed run
+// therefore cannot expose the older file fallback before the next run.
+var TTL = 5400;
 
 var PORTAL_DIRS = [
   path.join(__dirname, '..', 'assets', 'data', 'companies'),

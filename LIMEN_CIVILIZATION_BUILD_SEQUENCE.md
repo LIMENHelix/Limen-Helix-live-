@@ -3104,3 +3104,13 @@ authority, and no additional properties. Explicit refusal and token-truncation
 stop reasons remain abstentions. The strict downstream company, evidence,
 provenance, and producer validation is unchanged; no parser scraping or retry
 bypass was added.
+
+The next cognition packet then abstained only because its network snapshot was
+stale. Production logs showed successful stress-refresh requests at the top of
+each hour, but the hot Redis key expired after 45 minutes. `vercel.json` had
+drifted to an hourly schedule even though the producer, propagator organ, and
+TTL commentary specify a half-hour cadence. This created an avoidable roughly
+15-minute file-fallback interval every hour. The repair restores the producer
+to `0,30 * * * *` and extends the TTL to 90 minutes, so one missed half-hour run
+does not expose stale fallback data. Finance's one-hour network-evidence limit
+is unchanged; cadence is repaired rather than trust being loosened.
