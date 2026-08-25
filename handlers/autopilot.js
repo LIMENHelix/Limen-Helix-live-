@@ -8,12 +8,12 @@
  * and the close itself). It advances leads on outcomes, so the funnel runs
  * itself from lead-gen to referral.
  *
- * DOMAIN-READY, NOT DOMAIN-WIRED: `domainGate(state)` is a pass-through hook.
- * When you wire domain signals (elsewhere), gate the machine there — this engine
- * does not touch any domain.
+ * DOMAIN AUTHORITY: lead-level `domainGate(state)` remains a future routing hook,
+ * while the Intelligence product brain's fresh restored `autopilot` motor receipt
+ * is required immediately before any automatic email execution.
  *
  * TWO-SPEED AUTONOMY: config.mode 'recommend' = queue only (nothing fires).
- * 'control' = auto-send email (guarded: verified domain + suppression + kill).
+ * 'control' = auto-send email (guarded: domain motor receipt + suppression).
  * armed=false = fully idle. The cron only acts when armed. Nothing else auto-
  * executes — calls/texts/mailers/closes are always queued for a human.
  *
@@ -27,6 +27,8 @@
 var db = require('../lib/limen-db');
 var E = require('../lib/sales-engine');
 var send = require('../lib/crm-send');
+var motorStore = require('../lib/autofire-efference-store');
+var motorAuthorization = require('../lib/product-domain-motor-authorization');
 var kill;
 try { kill = require('../lib/ai-kill-switch'); } catch (e) { kill = null; }
 
@@ -173,7 +175,7 @@ async function mirror(transitionId, from, to, unit, won, cost, dealSize, trigger
   try { var meta = (await db.get(K.salesMeta)) || {}; meta.realEvents = (meta.realEvents || 0) + 1; meta.dataMode = (meta.simEvents > 0) ? 'mixed' : 'real'; await db.set(K.salesMeta, meta); } catch (e) {}
 }
 
-async function runTick(cfg) {
+async function runTick(cfg, motorGate) {
   var ids = (await db.get(K.worklist)) || [];
   var cadence = await loadCadence();
   var plays = (await db.get(K.plays)) || [];
@@ -193,7 +195,7 @@ async function runTick(cfg) {
     if (!domainGate(state).allow) continue;
     var action = nextAction(state, cadence, plays, now);
     if (!action || !action.due) continue;
-    var canAuto = cfg.mode === 'control' && cfg.autoEmail && action.autoExecutable && action.channel && /email/.test(action.channel) && emailReady && state.email;
+    var canAuto = motorGate && motorGate.authorized === true && cfg.mode === 'control' && cfg.autoEmail && action.autoExecutable && action.channel && /email/.test(action.channel) && emailReady && state.email;
     if (canAuto) {
       var mail = emailFor(action, state);
       var sent = await send.sendToLead(state.email, mail.subject, mail.body);
@@ -207,6 +209,10 @@ async function runTick(cfg) {
       action.blocked = sent.error || 'send failed';
       if (sent.suppressed) { errors++; continue; }
     }
+    if (!canAuto && cfg.mode === 'control' && action.autoExecutable && action.channel && /email/.test(action.channel) &&
+        (!motorGate || motorGate.authorized !== true)) {
+      action.blocked = 'domain motor held: ' + (motorGate && motorGate.reason || 'authorization unavailable');
+    }
     queue.push({
       leadId: state.leadId, name: state.name, email: state.email, phone: state.phone,
       company: state.company, domain: state.domain, status: state.status,
@@ -216,7 +222,11 @@ async function runTick(cfg) {
     });
     queued++;
   }
-  var lastrun = { ts: new Date().toISOString(), scanned: scanned, executed: executed, queued: queued, errors: errors, emailReady: emailReady, mode: cfg.mode };
+  var lastrun = {
+    ts: new Date().toISOString(), scanned: scanned, executed: executed, queued: queued,
+    errors: errors, emailReady: emailReady, mode: cfg.mode,
+    motorGate: motorGate ? { authorized: motorGate.authorized === true, reason: motorGate.reason || null, receiptId: motorGate.receiptId || null } : null
+  };
   await db.set(K.queue, queue.slice(0, 300));
   await db.set(K.lastrun, lastrun);
   return lastrun;
@@ -251,7 +261,8 @@ module.exports = async function handler(req, res) {
     if (!isCron && (!ADMIN || key !== ADMIN)) return j(res, 403, { ok: false, error: 'cron or admin key required' });
     var cfgT = await loadConfig();
     if (!cfgT.armed) { await db.set(K.lastrun, { ts: new Date().toISOString(), scanned: 0, executed: 0, queued: 0, disarmed: true }); return j(res, 200, { ok: true, ran: false, reason: 'disarmed' }); }
-    var lr = await runTick(cfgT);
+    var motorGateT = await motorAuthorization.authorize(motorStore, 'intelligence', 'autopilot', Date.now());
+    var lr = await runTick(cfgT, motorGateT);
     return j(res, 200, { ok: true, ran: true, result: lr });
   }
 
@@ -300,7 +311,8 @@ module.exports = async function handler(req, res) {
     if (method === 'POST' && action === 'run') {
       var cfgR = await loadConfig();
       if (!cfgR.armed) return j(res, 200, { ok: true, ran: false, reason: 'disarmed — arm first' });
-      var lrR = await runTick(cfgR);
+      var motorGateR = await motorAuthorization.authorize(motorStore, 'intelligence', 'autopilot', Date.now());
+      var lrR = await runTick(cfgR, motorGateR);
       return j(res, 200, { ok: true, ran: true, result: lrR });
     }
 

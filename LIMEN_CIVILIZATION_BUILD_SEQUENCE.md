@@ -2603,3 +2603,27 @@ lane identity, executor verification, independent-observer verification, and
 pre-action safety. The full repository run is **163 passed, 1 expected external-
 corpus skip, 0 failed**. This makes declared inhibition operational; it does not
 verify or enable any production executor.
+
+### Autopilot and automail authority bypasses — repaired 2026-08-24
+
+The remaining known automatic email and physical-mail effectors now consult the
+same strict, domain-owned motor receipt before delivery. Intelligence owns the
+`autopilot` email lane and Law owns the `automail` physical-message lane. This
+does not make either brain a central controller: each authorization requires the
+exact product owner and lane named by that brain's own current receipt.
+
+Autopilot may continue to calculate and queue due CRM actions while held, but it
+cannot call the email sender or advance a lead as executed. Its run receipt now
+records the motor authorization result and the blocking reason. Homestead
+automail may continue candidate selection and dry-run lead-time analysis while
+held, but it is downgraded before any Lob request and reports the motor receipt
+and reason. Deliberate administrator `test` and `mailone` commands remain manual
+operator actions rather than being mislabeled as autonomous domain execution.
+
+Source-order tests prove both gates precede their external effects, the existing
+automail arrival-time tests still pass, and the strict authorization adversarial
+tests remain clean. Full repository verification is **163 passed, 1 expected
+external-corpus skip, 0 failed**. All five repaired outward families remain
+production-held because their product brains still lack verified executors and
+independent production outcome observers; this work closes bypasses but does not
+claim Job 5 completion or arm any Job 9 lane.
