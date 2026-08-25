@@ -2574,6 +2574,23 @@ twenty naturally refreshed receipts remains required after deployment; this
 milestone does not verify an executor or independent outcome observer and does
 not enable an outward lane.
 
+The first eligible natural production cycle after deployment ran at the
+scheduled 2026-08-24 23:10 CDT boundary without a manual trigger. The public
+read-only cognition surface changed from a measured pre-cycle baseline of
+`0/20` motor receipts to `20/20`; all twenty receipts reported `ok:true` and
+`restored:true`. They carry twenty unique receipt identities and twenty unique
+motor-contract identities. Runtime aliases remain explicit (`medicine` owned by
+`health`, `science` by `research`, and `trade` by `supplyChain`) rather than
+merging product domains.
+
+All twenty natural receipts are `HELD`, with zero external effects, zero
+provider calls, zero broker touches, and `$0` total spend. Each independently
+reports the current blockers: `production_executor_unverified`,
+`independent_outcome_observer_unverified`, and
+`domain_external_motor_switch_off`. This closes production observation of the
+per-domain readiness-receipt persistence seam only; it does not close any of
+those blockers or authorize an outward action.
+
 ### Existing outward-cron authority bypasses — repaired 2026-08-24
 
 A direct source audit found that three scheduled outward paths could act from
