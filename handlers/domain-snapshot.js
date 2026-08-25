@@ -4447,7 +4447,7 @@ async function fetchFDARecalls() {
     var classI   = (xml.match(/class\s+i(?!i)|class i \(/gi) || []).length;
     var stress = clamp((items / 20) + (foodborne / 8) + (classI / 5), 0, 1);
     trackHealth('FDA Recalls', 'agriculture', 'live', null, items);
-    return { value: items, label: items + ' FDA recalls', stress: round(stress), signal: items + ' FDA recalls (' + foodborne + ' foodborne pathogen, ' + classI + ' Class I)', updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: items, label: items + ' FDA recalls', stress: round(stress), signal: items + ' FDA recalls (' + foodborne + ' foodborne pathogen, ' + classI + ' Class I)', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'fda-recalls') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('FDA Recalls', 'agriculture', 'fallback', e.message); return null; }
 }
 
@@ -5194,7 +5194,7 @@ async function fetchCISAAdvisories() {
     var critical = (xml.match(/critical|severe|emergency|exploit|active exploitation|ransomware/gi) || []).length;
     var stress = clamp((items / 60) + (ics / 15) + (critical / 30), 0, 1);
     trackHealth('CISA Advisories', 'infrastructure', 'live', null, items);
-    return { value: items, label: items + ' CISA advisories (' + ics + ' ICS/OT)', stress: round(stress), signal: items + ' CISA cybersecurity advisories total, ' + ics + ' ICS/SCADA/OT-specific, ' + critical + ' critical-severity mentions', updated: Date.now(), fetchedAt: Date.now() };
+    return Object.assign({ value: items, label: items + ' CISA advisories (' + ics + ' ICS/OT)', stress: round(stress), signal: items + ' CISA cybersecurity advisories total, ' + ics + ' ICS/SCADA/OT-specific, ' + critical + ' critical-severity mentions', updated: Date.now(), fetchedAt: Date.now(), sourceUpdatedAt: rssEvidence.collectionIdentity(xml, 'cisa-advisories') }, rssEvidence.extract(xml));
   } catch (e) { trackHealth('CISA Advisories', 'infrastructure', 'fallback', e.message); return null; }
 }
 
@@ -6202,3 +6202,5 @@ module.exports._fetchNOAAAlerts = fetchNOAAAlerts;
 module.exports._fetchNOAANWSAlerts = fetchNOAANWSAlerts;
 module.exports._fetchUSGSEarthquakes = fetchUSGSEarthquakes;
 module.exports._fetchCISAKEV = fetchCISAKEV;
+module.exports._fetchCISAAdvisories = fetchCISAAdvisories;
+module.exports._fetchFDARecalls = fetchFDARecalls;
