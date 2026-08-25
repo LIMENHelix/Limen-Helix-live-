@@ -2546,3 +2546,30 @@ audit, resource-metabolism, and motor-readiness checks pass. The full repository
 run is **159 passed, 1 expected external-corpus skip, 0 failed**. This closes the
 all-domain declaration and anti-bypass seam; it does not satisfy the Job 5
 independent production-outcome gate or arm Job 9 lanes.
+
+### Durable per-domain motor-state receipts — measured 2026-08-24
+
+The existing server-side `brain-cognition-refresh` cycle now persists a strict,
+read-back-verified motor-state receipt for each product brain after that brain
+runs. `lib/product-domain-motor-receipt.js` preserves the product identity,
+runtime owner, unique motor contract and budget, primary lane, decision,
+required executor receipt, independent outcome, rollback, gates, verification,
+and blockers. Each product domain has its own Redis key; the shared module is
+persistence physiology and has no selection or execution authority.
+
+The receipt is deliberately non-executing. A held brain records `HELD`; even a
+future brain whose gates reach external readiness records `EXECUTOR_PENDING`,
+never executed. Every receipt fixes `externalEffectExecuted: false`,
+`providerCalled: false`, `brokerTouched: false`, and `spendUsd: 0`. A separate
+executor receipt remains mandatory. The strict store writes, reads the exact
+receipt back, and only then appends the bounded discovery log. A read-back
+failure cannot create a discovery entry, wrong-owner state is refused, and the
+existing 30-minute cognition cron is reused rather than adding a central motor
+cron.
+
+Focused contract and wiring tests pass, including strict read-back failure,
+owner mismatch, and anti-execution behavior. The full repository run is **161
+passed, 1 expected external-corpus skip, 0 failed**. Production observation of
+twenty naturally refreshed receipts remains required after deployment; this
+milestone does not verify an executor or independent outcome observer and does
+not enable an outward lane.

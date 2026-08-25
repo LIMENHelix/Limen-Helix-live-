@@ -18,6 +18,7 @@ const handoffStore = require('../lib/civilization-handoff-store.js');
 const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
 const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
+const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 
 // The packet consumer is strict by design: unlike the cognition projection,
 // it never falls back to process memory when Redis is missing or fails.
@@ -182,7 +183,8 @@ module.exports = async function handler(req, res) {
 
     var financeSemantic = await readFinanceSemanticEvidence();
     var financeAdmissions = await readFinancePaperAdmissions();
-    var ran = 0, stored = 0;
+    var ran = 0, stored = 0, motorReceiptsStored = 0;
+    var motorReceiptFailures = [];
     var peSamples = [];   // for γ (system gain) — collected, never fed back this cycle
     for (var d = 0; d < DOMAINS.length; d++) {
       var dom = DOMAINS[d];
@@ -201,6 +203,23 @@ module.exports = async function handler(req, res) {
           // Augment with the multimodal interoception read + headline stress/phase (server feed
           // parity with the client adapter) so lightweight consumers see them without live brains.
           var _st = b.state || {};
+          var _motorReceipt = await productDomainMotorReceipt.persist(
+            efferenceStore, dom, _st, refreshId, Date.now()
+          );
+          c.motorReceiptPersistence = _motorReceipt.ok ? {
+            ok: true,
+            restored: _motorReceipt.restored === true,
+            key: _motorReceipt.key,
+            receiptId: _motorReceipt.receipt.receiptId,
+            ownerDomain: _motorReceipt.receipt.ownerDomain,
+            contractId: _motorReceipt.receipt.contractId,
+            lane: _motorReceipt.receipt.lane,
+            status: _motorReceipt.receipt.status,
+            blockers: _motorReceipt.receipt.blockers,
+            safety: _motorReceipt.receipt.safety
+          } : _motorReceipt;
+          if (_motorReceipt.ok) motorReceiptsStored++;
+          else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;
           c.interoception = _it ? { salience: val(_it.salience), attend: val(_it.attend), divergence: num(_it.divergence), channelCount: num(_it.channelCount), integrated: num(_it.integrated) } : null;
           c.stress = num(_st.stress);
@@ -288,7 +307,18 @@ module.exports = async function handler(req, res) {
     } catch (e) {}
 
     res.statusCode = 200;
-    return res.end(JSON.stringify({ ok: true, ran: ran, stored: stored, gamma: gammaRecord, ms: Date.now() - t0 }));
+    return res.end(JSON.stringify({
+      ok: true,
+      ran: ran,
+      stored: stored,
+      motorReceipts: {
+        attempted: ran,
+        storedAndRestored: motorReceiptsStored,
+        failures: motorReceiptFailures
+      },
+      gamma: gammaRecord,
+      ms: Date.now() - t0
+    }));
   } catch (e) {
     res.statusCode = 200;
     return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e), ms: Date.now() - t0 }));
