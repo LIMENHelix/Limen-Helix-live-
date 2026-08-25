@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-24T00:30:10.633Z",
+  "generatedAt": "2026-08-25T23:35:38.853Z",
   "readOnly": true,
   "scope": "B11/B14 autonomous research and investment outcome path",
   "events": [
@@ -19,8 +19,8 @@
     {
       "event": "OUTCOME_RESEARCH_EVALUATED",
       "explicitProductionPosts": [],
-      "autonomousProducerCount": 0,
-      "status": "NO_AUTONOMOUS_PRODUCER_FOUND"
+      "autonomousProducerCount": 1,
+      "status": "AUTONOMOUS_EXTERNAL_EVALUATION_INTAKE_OBSERVER"
     }
   ],
   "productionDeclarations": [
@@ -28,7 +28,10 @@
     "handlers/limen-outcome.js",
     "lib/autofire-learning.js",
     "lib/autofire-outcome-contract.js",
-    "lib/autofire-outcome-observer.js"
+    "lib/autofire-outcome-observer.js",
+    "lib/finance-motor-capability-verifier.js",
+    "lib/research-evaluation-input-adapter.js",
+    "lib/research-evaluation-observer.js"
   ],
   "productionLearningConsumers": [
     "assets/js/execution-closeout-flow.js",
@@ -48,6 +51,8 @@
     "handlers/limen-worker-autofire.js",
     "handlers/tradier-b14.js",
     "lib/finance-b14-bridge.js",
+    "lib/finance-paper-executor.js",
+    "lib/finance-sandbox-commissioning.js",
     "lib/tradier-b14.js"
   ],
   "manualOutcomeUi": [
@@ -62,6 +67,7 @@
     "/api/limen-worker-autofire",
     "/api/limen-worker-sleep-cycle",
     "/api/brain-cognition-refresh",
+    "/api/finance-paper-cycle",
     "/api/autopilot",
     "/api/feed-record",
     "/api/feed-resolve?emit=1",
@@ -73,16 +79,18 @@
     "/api/orb-meeting-cron?run=1",
     "/api/brain-shadow?run=1",
     "/api/limen-outcome-observer",
-    "/api/limen-investment-outcome-observer"
+    "/api/limen-investment-outcome-observer",
+    "/api/limen-research-evaluation-observer",
+    "/api/finance-motor-capability"
   ],
   "boundaries": {
     "commandReceipt": "PRESENT",
     "learningConsumer": "PRESENT",
     "researchPublicationReceipt": "PRESENT_UNGRADED",
-    "independentResearchOutcome": "MISSING_AUTONOMOUS_PRODUCER",
+    "independentResearchOutcome": "PRESENT_INPUT_GATED_PENDING_EVALUATION_RECORDS",
     "paperInvestmentOutcome": "PRESENT_PAPER_ONLY_PENDING_HORIZONS",
     "independentInvestmentOutcome": "MISSING_LIVE_PRODUCER",
     "syntheticSandboxOutcome": "SEPARATE_AND_NOT_WORLD_EVIDENCE"
   },
-  "conclusion": "An autonomous owned-site publication observer emits only an ungraded publication receipt, and a read-only Tradier sandbox observer can emit a paper P&L receipt only when explicit 30/60/90 terms, position attribution, benchmark data, risk limits, and durable history are present. Independent research evaluation and live investment producers remain absent; no observer creates real-money activity or closes the Job 7 gate by itself."
+  "conclusion": "The research return path now autonomously consumes only durably admitted Science/Medicine evaluations with two source-separated identities and all four mapping decisions. It does not create or infer those evaluations from publication count, citations, feeds, or originating claims, so the path remains input-gated pending genuine external records. The paper investment observer remains horizon-gated and live investment remains absent."
 }
