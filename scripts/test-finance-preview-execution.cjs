@@ -103,10 +103,23 @@ function fakeStore() {
   assert.equal(failed.receipt.providerCalled, true);
   assert.equal(failed.receipt.reason, 'finance_manager_provider_failed');
 
+  const invalidPacket = Object.assign({}, packet, { packetId: 'finance:3:invalid-response' });
+  const invalidBundle = { packet: invalidPacket, companies: bundle.companies, input: Object.assign({}, input, { packets: [invalidPacket] }) };
+  const invalid = await Execution.execute(fakeStore(), invalidBundle, { approve: true, packetId: invalidPacket.packetId }, {
+    provider: async () => ({ ok: true, provider: 'fixture', model: 'fixture-model', tokensIn: 8, tokensOut: 9,
+      text: JSON.stringify(Object.assign({}, proposal, { horizonDays: [30, 60, 90] })) })
+  });
+  assert.equal(invalid.receipt.status, 'ABSTAINED');
+  assert.equal(invalid.receipt.reason, 'manager_response_horizon_required');
+  assert(invalid.receipt.blockers.includes('manager_response_horizon_required'));
+  assert.equal(invalid.receipt.provider.name, 'fixture');
+  assert.equal(invalid.receipt.provider.model, 'fixture-model');
+  assert.equal(invalid.receipt.provider.tokensOut, 9);
+
   const notReady = { input: Object.assign({}, input, { financeCycle: null }), packet, companies: bundle.companies };
   result = await Execution.execute(fakeStore(), notReady, { approve: true, packetId: packet.packetId }, { provider });
   assert.equal(result.reason, 'finance_preview_inputs_not_ready');
   assert.equal(calls, 1);
 
-  console.log('finance preview execution: 32/32 passed');
+  console.log('finance preview execution: 38/38 passed');
 }()).catch(e => { console.error(e); process.exitCode = 1; });
