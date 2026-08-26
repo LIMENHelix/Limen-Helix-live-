@@ -18,6 +18,7 @@ var defenseLearning = require('../lib/defense-publication-learning.js');
 var governanceLearning = require('../lib/governance-publication-learning.js');
 var infrastructureLearning = require('../lib/infrastructure-real-estate-learning.js');
 var populationLearning = require('../lib/population-real-estate-learning.js');
+var tradeLearning = require('../lib/trade-auction-learning.js');
 
 var DOMAINS = [
   'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -49,6 +50,7 @@ async function read(domain) {
   if (domain === 'governance') return governanceLearning.readForBrain(store);
   if (domain === 'infrastructure') return infrastructureLearning.readForBrain(store);
   if (domain === 'population') return populationLearning.readForBrain(store);
+  if (domain === 'supplyChain') return tradeLearning.readForBrain(store);
   if (domain === 'agriculture') return agricultureLearning.readForBrain(store);
   if (domain === 'industry') return industryLearning.readForBrain(store);
   if (domain === 'religion') return religionLearning.readForBrain(store);
