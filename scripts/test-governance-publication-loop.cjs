@@ -3,13 +3,13 @@
 
 var assert = require('node:assert/strict');
 var fs = require('node:fs');
-var Source = require('../lib/defense-publication-source.js');
-var Decision = require('../lib/defense-publication-decision.js');
-var Executor = require('../lib/defense-publication-executor.js');
-var Publisher = require('../lib/defense-publication-publisher.js');
-var Observer = require('../lib/defense-publication-observer.js');
-var Learning = require('../lib/defense-publication-learning.js');
-var Recovery = require('../lib/defense-publication-recovery.js');
+var Source = require('../lib/governance-publication-source.js');
+var Decision = require('../lib/governance-publication-decision.js');
+var Executor = require('../lib/governance-publication-executor.js');
+var Publisher = require('../lib/governance-publication-publisher.js');
+var Observer = require('../lib/governance-publication-observer.js');
+var Learning = require('../lib/governance-publication-learning.js');
+var Recovery = require('../lib/governance-publication-recovery.js');
 
 function memory() {
   var data = new Map(), lists = new Map();
@@ -28,13 +28,13 @@ function memory() {
 
 function titleSets(now) {
   return [
-    { t: now - 1000, d: 'defense', f: 'CISA', hh: 11, items: [
-      { i: 0, ti: 'CISA publishes a new public advisory', au: 'https://example.test/cisa-1', pa: now - 2000, pl: 'CISA' },
-      { i: 1, ti: 'A second public cyber record', au: 'https://example.test/cisa-2', pa: now - 2500, pl: 'CISA' }
+    { t: now - 1000, d: 'governance', f: 'Congress.gov', hh: 11, items: [
+      { i: 0, ti: 'Congress publishes a new bill record', au: 'https://example.test/congress-1', pa: now - 2000, pl: 'Congress.gov' },
+      { i: 1, ti: 'A committee action record is posted', au: 'https://example.test/congress-2', pa: now - 2500, pl: 'Congress.gov' }
     ] },
-    { t: now - 2000, d: 'defense', f: 'NATO', hh: 22, items: [
-      { i: 0, ti: 'NATO posts a readiness update', au: 'https://example.test/nato-1', pa: now - 3000, pl: 'NATO' },
-      { i: 1, ti: 'An alliance exercise record', au: 'https://example.test/nato-2', pa: now - 3500, pl: 'NATO' }
+    { t: now - 2000, d: 'governance', f: 'GAO Reports', hh: 22, items: [
+      { i: 0, ti: 'GAO publishes an oversight report', au: 'https://example.test/gao-1', pa: now - 3000, pl: 'GAO' },
+      { i: 1, ti: 'A public recommendation record is posted', au: 'https://example.test/gao-2', pa: now - 3500, pl: 'GAO' }
     ] }
   ];
 }
@@ -43,7 +43,7 @@ function cognition(now) {
   return {
     ts: now,
     c: {
-      domain: 'defense',
+      domain: 'governance',
       immune: { immuneState: 'clear' },
       awareness: { humanReviewRequired: false },
       brainOrgans: {
@@ -51,12 +51,12 @@ function cognition(now) {
         resourceMetabolism: { state: 'AVAILABLE', gates: { mayRunInternalCycle: true } }
       },
       serverPacket: {
-        schemaVersion: 'civilization-domain-packet/1.0', domainId: 'defense', packetId: 'defense:7:snapshot-1',
+        schemaVersion: 'civilization-domain-packet/1.0', domainId: 'governance', packetId: 'governance:7:snapshot-1',
         generatedAt: new Date(now).toISOString(), sourceIdentity: { producer: 'brain-cognition-refresh/1' },
         truth: {
           stressScore: 0.42, phase: 'WATCH', feedHealth: { live: 6 },
-          activeDiagnoses: [{ id: 'CYBER_ATTACK', label: 'Cyber attack', relevance: 0.7 }],
-          opportunities: [{ id: 'def-research-1', title: 'Review cyber readiness sources', path: 'RESEARCHABLE', held: false }]
+          activeDiagnoses: [{ id: 'POLICY_FAILURE', label: 'Policy failure', relevance: 0.7 }],
+          opportunities: [{ id: 'gov-research-1', title: 'Review public policy and oversight sources', path: 'RESEARCHABLE', held: false }]
         }
       }
     }
@@ -66,14 +66,14 @@ function cognition(now) {
 (async function () {
   var now = Date.now(), store = memory(), brain = cognition(now);
   assert.equal(Source.build([titleSets(now)[0]], brain, now), null, 'one feed cannot author the brief');
-  var wrongDomain = titleSets(now); wrongDomain[1].d = 'governance';
-  assert.equal(Source.build(wrongDomain, brain, now), null, 'a record under the wrong domain identity cannot author Defense');
+  var wrongDomain = titleSets(now); wrongDomain[1].d = 'defense';
+  assert.equal(Source.build(wrongDomain, brain, now), null, 'a record under the wrong domain identity cannot author Governance');
   var candidate = Source.build(titleSets(now), brain, now);
   assert(Source.validate(candidate));
   assert.equal(candidate.sources.length, 4);
-  assert.match(candidate.disclaimer, /does not independently verify events/);
-  assert.equal(candidate.brainSelection.id, 'def-research-1');
-  var changedSource = titleSets(now); changedSource[1].items[1].au = 'https://example.test/nato-revised';
+  assert.match(candidate.disclaimer, /does not independently verify policy claims/);
+  assert.equal(candidate.brainSelection.id, 'gov-research-1');
+  var changedSource = titleSets(now); changedSource[1].items[1].au = 'https://example.test/gao-revised';
   assert.notEqual(Source.build(changedSource, brain, now).sourceFingerprint, candidate.sourceFingerprint,
     'source identity must change when the underlying source URL changes');
 
@@ -83,10 +83,10 @@ function cognition(now) {
     motorAuthorization: { authorize: async function () { throw new Error('cost gate must precede motor'); } },
     dailyBudgetUsd: 0, dailyPublicationCap: 1 });
   assert.equal(held.status, 'HELD');
-  assert.equal(held.reason, 'defense-publication-operation-cost-not-configured');
+  assert.equal(held.reason, 'governance-publication-operation-cost-not-configured');
 
   var motorNumber = 0;
-  var motor = { authorize: async function () { return { authorized: true, receiptId: 'def_motor_' + (++motorNumber) }; } };
+  var motor = { authorize: async function () { return { authorized: true, receiptId: 'gov_motor_' + (++motorNumber) }; } };
   var command = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 2,
     motorAuthorization: motor, operationCostUsd: 0, dailyBudgetUsd: 0, dailyPublicationCap: 1 });
   assert.equal(command.status, 'PUBLISHED');
@@ -102,7 +102,7 @@ function cognition(now) {
   assert.equal((await Publisher.listPublic(store, 20)).length, 1, 'same source fingerprint must not publish twice');
 
   var presence = await Observer.observePresence(store, command, async function (url, options) {
-    assert.match(url, /defense-publication-public\?id=/);
+    assert.match(url, /governance-publication-public\?id=/);
     assert.equal(options.method, 'GET');
     return { ok: true, status: 200, json: async function () { return { ok: true, article: { articleId: command.articleId, contentHash: command.contentHash } }; } };
   }, 'https://limenhelix.test');
@@ -121,7 +121,7 @@ function cognition(now) {
   assert.equal(bot.event.trafficClassification, 'non-eligible-automated-or-unverified-request');
   var byAction = {}; byAction[command.actionId] = command;
   var botObservation = await Observer.observeEngagement(store, bot.event, byAction);
-  assert.equal((await Learning.recordObservation(store, botObservation)).ok, false, 'bot-like clicks must not train Defense');
+  assert.equal((await Learning.recordObservation(store, botObservation)).ok, false, 'bot-like clicks must not train Governance');
 
   var click = await Observer.recordSourceClick(store, article, 1, 'visitor-human', {
     'user-agent': 'Mozilla/5.0 (Test Browser)', accept: 'text/html,application/xhtml+xml',
@@ -150,15 +150,15 @@ function cognition(now) {
   assert.equal(attempts, 1, 'ambiguous public writes must not be retried blindly');
 
   var recovery = await Recovery.recover({ store: store, command: command, observation: presence,
-    trigger: { type: 'defense-publication-policy', id: 'policy-test' }, now: now + 6, motorAuthorization: motor,
+    trigger: { type: 'governance-publication-policy', id: 'policy-test' }, now: now + 6, motorAuthorization: motor,
     observePublicAbsence: async function (articleId) { assert.equal(articleId, command.articleId); return true; } });
   assert.equal(recovery.status, 'UNPUBLISHED_VERIFIED');
   assert.equal(recovery.independentPublicAbsenceVerified, true);
   assert.equal(await Publisher.getPublic(store, command.articleId), null);
 
-  var page = fs.readFileSync('defense-briefs.html', 'utf8');
-  assert.match(page, /defense-publication-public/);
-  assert.match(page, /defense-publication-engagement/);
-  assert.match(page, /do not independently verify events/);
-  console.log('defense publication: sovereign evidence, B10/B14 public receipt, independent human-like click learning, and verified unpublish passed');
+  var page = fs.readFileSync('governance-briefs.html', 'utf8');
+  assert.match(page, /governance-publication-public/);
+  assert.match(page, /governance-publication-engagement/);
+  assert.match(page, /do not independently verify policy claims/);
+  console.log('governance publication: sovereign evidence, B10/B14 public receipt, independent human-like click learning, and verified unpublish passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

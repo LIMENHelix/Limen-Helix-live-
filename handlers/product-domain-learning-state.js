@@ -15,6 +15,7 @@ var intelligenceLearning = require('../lib/intelligence-autopilot-learning.js');
 var agricultureLearning = require('../lib/agriculture-homestead-learning.js');
 var industryLearning = require('../lib/industry-crm-learning.js');
 var defenseLearning = require('../lib/defense-publication-learning.js');
+var governanceLearning = require('../lib/governance-publication-learning.js');
 
 var DOMAINS = [
   'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -43,6 +44,7 @@ function abstained(domain, reason, resolvedCount) {
 async function read(domain) {
   store.assertDurable();
   if (domain === 'defense') return defenseLearning.readForBrain(store);
+  if (domain === 'governance') return governanceLearning.readForBrain(store);
   if (domain === 'agriculture') return agricultureLearning.readForBrain(store);
   if (domain === 'industry') return industryLearning.readForBrain(store);
   if (domain === 'religion') return religionLearning.readForBrain(store);

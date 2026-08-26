@@ -107,6 +107,14 @@
       "schedule": "23 * * * *"
     },
     {
+      "path": "/api/governance-publication-cycle",
+      "schedule": "17 15 * * *"
+    },
+    {
+      "path": "/api/governance-publication-outcome-observer",
+      "schedule": "33 * * * *"
+    },
+    {
       "path": "/api/hero-image",
       "schedule": "*/5 * * * *"
     },
@@ -162,6 +170,10 @@
     {
       "source": "/defense-briefs",
       "destination": "/defense-briefs.html"
+    },
+    {
+      "source": "/governance-briefs",
+      "destination": "/governance-briefs.html"
     },
     {
       "source": "/kernel-comparison",

@@ -15,13 +15,13 @@ assert(report.laneSurfaces.every(function (row) { return row.filesPresent; }));
 
 var bound = report.domains.filter(function (row) { return row.domainBoundExecutorImplemented; });
 assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(), [
-  'agriculture', 'communication', 'culture', 'defense', 'finance', 'industry', 'intelligence', 'law', 'medicine', 'religion', 'science'
+  'agriculture', 'communication', 'culture', 'defense', 'finance', 'governance', 'industry', 'intelligence', 'law', 'medicine', 'religion', 'science'
 ]);
-assert.equal(report.summary.domainBoundExecutorsImplemented, 11);
-assert.equal(report.summary.actionReceiptsImplemented, 11);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 11);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 11);
-assert.equal(report.summary.sourceChainsComplete, 11);
+assert.equal(report.summary.domainBoundExecutorsImplemented, 12);
+assert.equal(report.summary.actionReceiptsImplemented, 12);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 12);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 12);
+assert.equal(report.summary.sourceChainsComplete, 12);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -109,4 +109,11 @@ assert.equal(defense.observerScope, 'PUBLIC_ARTICLE_PRESENCE_AND_ANONYMOUS_SOURC
 assert.equal(defense.sourceChainComplete, true);
 assert.equal(defense.externalEnabled, false);
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 11/20, closed source chain 11/20, externally ready 0/20');
+var governance = report.domains.find(function (row) { return row.productDomain === 'governance'; });
+assert.equal(governance.lane, 'publication');
+assert.equal(governance.actionReceiptStrength, 'DURABLE_B10_B14_OWNED_PUBLIC_ARTICLE_RECEIPT');
+assert.equal(governance.observerScope, 'PUBLIC_ARTICLE_PRESENCE_AND_ANONYMOUS_SOURCE_LINK_ENGAGEMENT');
+assert.equal(governance.sourceChainComplete, true);
+assert.equal(governance.externalEnabled, false);
+
+console.log('product domain business executor audit: contracts 20/20, bound executors 12/20, closed source chain 12/20, externally ready 0/20');
