@@ -46,9 +46,11 @@ const outputBridges = {
   masterReadsRecovery: /recovery/.test(consumer)
 };
 
+const allDomainSemanticEvidence = refresh.includes('domainSemantic[dom]') && refresh.includes('_packetExtras.semanticEvidence');
 const refreshBoundary = {
   buildsServerPacket: refresh.includes('serverPacket.fromBrainState'),
-  financeOnlySemanticEvidence: refresh.includes("dom === 'finance'") && refresh.includes('semanticEvidence'),
+  financeOnlySemanticEvidence: !allDomainSemanticEvidence && refresh.includes("dom === 'finance'") && refresh.includes('semanticEvidence'),
+  allDomainSemanticEvidence,
   passesHomologyContext: /homologyContext|brainNodes|functionalNetwork|companies\s*:/.test(refresh),
   passesCompanyContext: /companies\s*:/.test(refresh)
 };
@@ -72,7 +74,8 @@ const out = {
     outputBridges.masterReadsBrainNode ? null : 'master lane scoring does not read brain-node mapping',
     outputBridges.masterReadsDysregulation ? null : 'master lane scoring does not read regulated/dysregulated state',
     outputBridges.masterReadsRecovery ? null : 'master lane scoring does not read recovery state',
-    refreshBoundary.financeOnlySemanticEvidence ? 'server refresh adds semantic evidence only for Finance' : null,
+    refreshBoundary.financeOnlySemanticEvidence && !refreshBoundary.allDomainSemanticEvidence ? 'server refresh adds semantic evidence only for Finance' : null,
+    refreshBoundary.allDomainSemanticEvidence ? null : 'server refresh does not carry semantic evidence into every domain packet',
     refreshBoundary.passesHomologyContext ? null : 'brain-cognition-refresh does not pass homology context into server packets'
   ].filter(Boolean)
 };

@@ -13,6 +13,7 @@ const vm = require('vm');
 const { redisSet, redisGet } = require('../lib/redis-kv.js');
 const limenDb = require('../lib/limen-db.js');
 const financeSemanticPacket = require('../lib/finance-semantic-packet.js');
+const domainSemanticPacket = require('../lib/domain-semantic-packet.js');
 const serverPacket = require('../lib/civilization-server-packet.js');
 const handoffStore = require('../lib/civilization-handoff-store.js');
 const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
@@ -62,29 +63,36 @@ const FILES = [
   'assets/js/domain-brains/domain-change-log.js'
 ].concat(DOMAINS.map(function (d) { return 'assets/js/domain-brains/' + d + '-brain.js'; }));
 
-/* Finance is the only active investment manager. Read only its durable title
- * store and carry a bounded, source-preserving window into the server packet.
- * A Redis failure is an explicit abstention; the ordinary limen-db memory
- * fallback must never masquerade as production evidence here. */
-async function readFinanceSemanticEvidence() {
+/* Read one owning domain's durable title store and carry a bounded,
+ * source-preserving window into that domain's server packet. The adapter does
+ * no classification or selection. A Redis failure is an explicit abstention;
+ * the process-memory fallback must never masquerade as production evidence. */
+async function readDomainSemanticEvidence(domain) {
+  var sourceDomain = domainSemanticPacket.sourceDomainFor(domain);
+  var builder = domain === 'finance' ? financeSemanticPacket : domainSemanticPacket;
   try {
-    var sets = await limenDb.lrangeStrict('feedtitles:finance', 0, financeSemanticPacket.MAX_SETS);
-    var built = financeSemanticPacket.build(sets, 'finance', Date.now());
+    var sets = await limenDb.lrangeStrict('feedtitles:' + sourceDomain, 0, builder.MAX_SETS - 1);
+    var built = builder.build(sets, sourceDomain, Date.now());
     built.meta.backend = 'redis';
+    built.meta.ownerDomain = domain;
+    built.meta.sourceDomain = sourceDomain;
     return built;
   } catch (e) {
     return {
-      schemaVersion: financeSemanticPacket.SCHEMA,
+      schemaVersion: builder.SCHEMA,
       observations: [],
       meta: {
-        schemaVersion: financeSemanticPacket.SCHEMA,
+        schemaVersion: builder.SCHEMA,
         status: 'ABSTAINED',
-        reason: 'finance-title-store-unavailable',
-        sourceKey: 'feedtitles:finance',
+        reason: 'domain-title-store-unavailable',
+        sourceKey: 'feedtitles:' + sourceDomain,
+        ownerDomain: domain,
+        sourceDomain: sourceDomain,
         backend: 'redis-required',
-        errorCode: e && e.code ? String(e.code) : 'FINANCE_TITLE_STORE_READ_FAILED',
+        errorCode: e && e.code ? String(e.code) : 'DOMAIN_TITLE_STORE_READ_FAILED',
         truncated: false,
-        retrievedAt: new Date().toISOString()
+        retrievedAt: new Date().toISOString(),
+        authority: 'observation-only'
       }
     };
   }
@@ -219,7 +227,10 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    var financeSemantic = await readFinanceSemanticEvidence();
+    var domainSemantic = Object.create(null);
+    await Promise.all(DOMAINS.map(async function (domain) {
+      domainSemantic[domain] = await readDomainSemanticEvidence(domain);
+    }));
     var financeAdmissions = await readFinancePaperAdmissions();
     var ran = 0, stored = 0, motorReceiptsStored = 0;
     var motorReceiptFailures = [];
@@ -326,9 +337,13 @@ module.exports = async function handler(req, res) {
               recovery: _st.recovery || null,
               mappings: _st.homologyMappings || null
             };
+            var _semantic = domainSemantic[dom];
+            _packetExtras.semanticEvidence = _semantic && _semantic.observations || [];
+            _packetExtras.semanticEvidenceMeta = _semantic && _semantic.meta || {
+              status: 'ABSTAINED', reason: 'domain-semantic-read-missing', ownerDomain: dom,
+              authority: 'observation-only'
+            };
             if (dom === 'finance') {
-              _packetExtras.semanticEvidence = financeSemantic.observations;
-              _packetExtras.semanticEvidenceMeta = financeSemantic.meta;
               _packetExtras.releasedOpportunities = financeAdmissions.opportunities;
             }
             // Packet capture is an observation step, not an opportunity gate:
