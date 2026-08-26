@@ -24,6 +24,7 @@ var gen = require('../lib/social-generator');
 var social = require('../lib/social-post');
 var motorStore = require('../lib/autofire-efference-store');
 var socialExecutor = require('../lib/communication-social-executor');
+var socialDecision = require('../lib/communication-social-decision');
 
 var LAST_KEY = 'social:lastDomain:v1';
 
@@ -106,9 +107,21 @@ module.exports = async function handler(req, res) {
     // Cron/admin identity can request evaluation, but only the Communication
     // brain owns the public social effector. Its fresh restored motor receipt
     // must independently release this lane before Bluesky authentication.
+    var decision = await socialDecision.decide(motorStore, {
+      subjectDomain: post.domain,
+      text: post.text,
+      sourceIdentity: post.sourceIdentity
+    }, Date.now());
+    if (!decision || decision.status !== 'RELEASED') {
+      preview.published = false;
+      preview.brainHeld = true;
+      preview.reason = decision && decision.reason || 'communication-b10-held';
+      preview.decisionBlockers = decision && decision.blockers || [];
+      return T.send(res, preview);
+    }
     var r = await socialExecutor.execute({
       store: motorStore,
-      spec: { subjectDomain: post.domain, text: post.text },
+      spec: { subjectDomain: post.domain, text: post.text, decisionReceipt: decision },
       now: Date.now()
     });
     if (!r || r.status === 'HELD') {

@@ -3412,6 +3412,17 @@ permanent developmental slot remained `NOT_CLAIMED`, proving that the bootstrap
 cannot bypass B10. Medicine's first natural owner turn remains due at `21:30`
 Central and is not yet evidence.
 
+### Complete Job-7 owner-fair natural hold proof — measured 2026-08-25
+
+The first complete three-owner rotation selected, in order, Finance investment,
+Science research, and Medicine research. Each selected owner reached its own B10
+and returned `no_action`; all three cycles completed with `fired:0`, one held
+candidate, zero errors, zero provider attempts, and `$0` daily spend. Science
+and Medicine developmental slots both remained `NOT_CLAIMED`. This closes the
+scheduler-fairness proof and demonstrates that the one-attempt bootstrap cannot
+bypass B10. It does not prove an artifact, investment, or external action; those
+remain gated on a future genuine owning-brain release.
+
 ### Reversible domain commissioning and Communication outcome observer — implemented 2026-08-25
 
 PR #207 merged as `d594e503` and was deployed from that exact merge commit as
@@ -3474,3 +3485,28 @@ across `193` files. No test posted, deleted, called an AI provider, or used live
 money. The already deployed read-only Communication observer's natural cron
 request returned HTTP `200` in production on deployment
 `dpl_CVyGNRv86FbaUNBoThpvvCTy3Ucw`.
+
+### Communication action-specific B10 boundary — implemented 2026-08-25
+
+The Communication audit found that a product motor receipt establishes lane
+readiness but does not by itself select an exact public message. The social cron
+therefore could not be called brain-directed merely because its platform gate
+was sound. Communication now owns a separate `public-message-decision/1` B10
+contract before its executor.
+
+Every generated candidate carries the exact live LIMEN tool endpoint, subject
+domain, retrieval time, and source-response hash. B10 separately requires fresh
+Communication and subject-domain server packets, live feeds on both sides, a
+salient subject-brain condition, no Communication immune/review veto, no local
+brake, and an actual Communication autonomous-emission selection. Both
+`RELEASED` and `NO_ACTION` decisions are persisted and read back in strict Redis.
+Only an unexpired `RELEASED` receipt matching the exact subject and content hash
+can enter the domain-local executor; cron/admin identity and motor readiness
+cannot substitute for that decision.
+
+A sanitized public status route exposes recent decision state, packet IDs,
+blockers, and timestamps without content/source hashes, provider access, or
+writes. Current production evidence before deployment showed Communication at
+`brake-dampen` with zero emitted actions; the corrected boundary therefore
+predicts `NO_ACTION`, not a forced post. Commissioning remains downstream of a
+genuine B10 release.
