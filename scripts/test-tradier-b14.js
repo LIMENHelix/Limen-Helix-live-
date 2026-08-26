@@ -65,6 +65,9 @@ async function main() {
   var normalized = b14.normalizeIntent({ symbol: 'spy', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510 });
   assert('intent is normalized to a day limit equity order', normalized.symbol === 'SPY' && normalized.type === 'limit' && normalized.duration === 'day');
   assert('30/60/90 outcome horizons are explicit defaults', JSON.stringify(normalized.horizonDays) === '[30,60,90]');
+  var multiscale = b14.normalizeIntent({ symbol: 'SPY', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510, horizonDays: [1, 3, 7, 14, 30, 60, 90] });
+  assert('Finance multiscale regulation and consolidation horizons are accepted', JSON.stringify(multiscale.horizonDays) === '[1,3,7,14,30,60,90]');
+  assert('unsupported two-day horizon is refused', (await rejected(function () { return b14.normalizeIntent({ symbol: 'SPY', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510, horizonDays: [2] }); })).code === 'TRADIER_B14_INVALID_HORIZONS');
   assert('fractional shares are refused', (await rejected(function () { return b14.normalizeIntent({ symbol: 'SPY', side: 'buy', quantity: 1.5, limitPrice: 500, maxNotionalUsd: 510 }); })).code === 'TRADIER_B14_INVALID_QUANTITY');
   var shortIntent = b14.normalizeIntent({ symbol: 'SPY', side: 'sell_short', quantity: 1, limitPrice: 500, maxNotionalUsd: 510 });
   assert('paper shorting preserves the explicit Tradier side', shortIntent.side === 'sell_short');

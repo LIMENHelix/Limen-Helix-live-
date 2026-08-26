@@ -74,7 +74,8 @@ async function main() {
   assert('intent preserves the released selection identity', built.selectionId === 'sel_finance_1' && built.sourceArtifactId === 'investment:apple:artifact-1');
   assert('intent carries the critic action identity and Finance owner', built.actionId === 'cand-action-1' && built.ownerDomain === 'finance');
   assert('intent preserves decision context without inventing market fields', built.decisionContext.sourceIdentity.value === 'investment:apple:artifact-1' && built.decisionContext.authority.liveTradingAuthorized === false);
-  assert('arbitrary horizons are rejected', (await rejected(function () { return bridge.intentFor(release(), Object.assign({}, intent, { horizonDays: [7] })); })).code === 'TRADIER_B14_INVALID_HORIZONS');
+  assert('supported short horizons are accepted', bridge.intentFor(release(), Object.assign({}, intent, { horizonDays: [1, 3, 7, 14, 30, 60, 90] })).horizonDays[0] === 1);
+  assert('arbitrary horizons are rejected', (await rejected(function () { return bridge.intentFor(release(), Object.assign({}, intent, { horizonDays: [2] })); })).code === 'TRADIER_B14_INVALID_HORIZONS');
 
   var offStore = store();
   var offBroker = broker();
