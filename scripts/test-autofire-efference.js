@@ -173,6 +173,15 @@ async function moduleProofs() {
   const duplicate = await EFFERENCE.resolve(db, r.copy.id, { ok: true, outputId: 'eo_research_100' }, 1700);
   ok('same efference copy cannot teach twice', duplicate.duplicate === true && db.values.get(EFFERENCE.modelKey('research')).n === 1);
 
+  const subjectCommand = await EFFERENCE.command(db, {
+    lane: 'research', subjectId: 'science:evidence-synthesis:one',
+    sourceIdentity: { kind: 'domain-packet-evidence', value: 'science:packet:window' },
+    emittedAt: 1800
+  });
+  ok('a non-company research subject enters B14 with subject identity instead of a fake CIK',
+    subjectCommand.ok && subjectCommand.copy.cik === null &&
+    subjectCommand.copy.subjectId === 'science:evidence-synthesis:one');
+
   console.log('\nT3: failure is an observed consequence, not silence');
   const failedCommand = await EFFERENCE.command(db, {
     lane: 'investment', cik: '200',
@@ -233,18 +242,43 @@ async function handlerProof() {
   console.log('\nT5: real autofire handler emits the copy before either network dispatch');
   const fakeDb = strictStoreDouble();
   const fakeEfferenceStore = strictStoreDouble();
+  function researchEntry(domain, suffix) {
+    const productDomain = domain === 'medicine' ? 'medicine' : 'science';
+    const ownerDomain = productDomain === 'medicine' ? 'health' : 'research';
+    const news = Array.from({ length: 4 }, (_, i) => ({
+      date: new Date(1800000000000 - i * 1000).toISOString(),
+      source: productDomain + ' feed ' + i,
+      feedName: productDomain + ' feed ' + i,
+      url: 'https://' + productDomain + '.example.test/' + suffix + '/' + i,
+      headline: 'Observed ' + productDomain + ' item ' + i,
+      sourceIdentity: { kind: 'headline-title', value: productDomain + ':' + suffix + ':' + i },
+      publisherIndependence: 'unassessed'
+    }));
+    return {
+      status: 'PENDING', source: 'domain-packet-research', autofireEligible: true,
+      recommendedLane: 'research', cik: null,
+      subjectId: productDomain + ':evidence-synthesis:' + suffix, domain: productDomain,
+      sourceArtifactRef: productDomain + ':evidence-synthesis:' + suffix + ':window',
+      sourcePatternSig: productDomain + ':' + suffix + ':0',
+      sourcePacketId: productDomain + ':3:' + suffix,
+      topicEvidenceRefs: news.map((row) => row.sourceIdentity),
+      masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
+      researchContext: {
+        subject: {
+          subjectId: productDomain + ':evidence-synthesis:' + suffix,
+          productDomain, ownerDomain, entityName: productDomain + ' evidence stream',
+          proposedScope: { title: 'Evidence synthesis', description: 'Bounded.', problemStatement: 'What is established?', proposedApproach: 'Separate evidence.' }
+        },
+        evidence: { citations: [], news, priorArt: [], sourceBoundary: { publisherIndependence: 'UNASSESSED' } }
+      },
+      salience: 'DOMAIN_EVIDENCE_READY', from: 'P0', to: 'P0', direction: 'evidence-synthesis'
+    };
+  }
   const stale = await EFFERENCE.command(fakeEfferenceStore, {
     lane: 'research', cik: 'stale-handler-proof',
     sourceIdentity: { kind: 'test', value: 'never-retried' }, emittedAt: 1
   });
-  fakeDb.values.set('autoqueue', [{
-    status: 'PENDING', source: 'master-inbox', autofireEligible: true,
-    recommendedLane: 'research', cik: '320193', portalSlug: 'apple',
-    domain: 'medicine',
-    sourceArtifactRef: 'research:apple:structural', sourcePatternSig: 'sig-apple',
-    masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
-    salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
-  }]);
+  fakeDb.values.set('autoqueue', [researchEntry('medicine', 'initial')]);
 
   const replacements = new Map();
   function mock(file, exports) {
@@ -387,13 +421,7 @@ async function handlerProof() {
     ok('queue is FIRED only after the actuator receipt', fakeDb.values.get('autoqueue')[0].status === 'FIRED' && fakeDb.values.get('autoqueue')[0].autofireOutputId === 'eo_research_apple_1');
 
     console.log('\nT5a: owning product motor inhibition prevents every research side effect');
-    fakeDb.values.set('autoqueue', [{
-      status: 'PENDING', source: 'master-inbox', autofireEligible: true,
-      recommendedLane: 'research', cik: '320194', portalSlug: 'apple',
-      domain: 'science', sourceArtifactRef: 'research:science:held', sourcePatternSig: 'sig-held',
-      masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
-      salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
-    }]);
+    fakeDb.values.set('autoqueue', [researchEntry('science', 'held')]);
     productMotorAuthorized = false;
     network.length = 0;
     const commandCountBeforeHold = Array.from(fakeEfferenceStore.values.keys()).filter(k => k.startsWith('autofire_efference:')).length;
@@ -405,13 +433,7 @@ async function handlerProof() {
     ok('Science motor hold makes no provider or artifact request', network.length === 0);
 
     console.log('\nT5a2: separate developmental authority releases one internal Science artifact');
-    fakeDb.values.set('autoqueue', [{
-      status: 'PENDING', source: 'master-inbox', autofireEligible: true,
-      recommendedLane: 'research', cik: '320195', portalSlug: 'apple',
-      domain: 'science', sourceArtifactRef: 'research:science:developmental', sourcePatternSig: 'sig-developmental',
-      masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
-      salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
-    }]);
+    fakeDb.values.set('autoqueue', [researchEntry('science', 'developmental')]);
     researchDevelopmentalAuthorized = true;
     persistOutputId = 'eo_research_science_dev_1';
     network.length = 0;
@@ -433,6 +455,52 @@ async function handlerProof() {
       /expand-artifact/.test(network[0].url) && /limen-engine-output/.test(network[1].url));
     researchDevelopmentalAuthorized = false;
     productMotorAuthorized = true;
+
+    console.log('\nT5a3: source-owned Science evidence reaches the worker without a company portal');
+    const domainNews = Array.from({ length: 4 }, (_, i) => ({
+      date: new Date(1800000000000 - i * 1000).toISOString(),
+      source: 'Science Feed ' + i,
+      feedName: 'Science Feed ' + i,
+      url: 'https://science.example.test/item/' + i,
+      headline: 'Observed science item ' + i,
+      sourceIdentity: { kind: 'headline-title', value: 'research:feed:' + i },
+      publisherIndependence: 'unassessed'
+    }));
+    fakeDb.values.set('autoqueue', [{
+      status: 'PENDING', source: 'domain-packet-research', autofireEligible: true,
+      recommendedLane: 'research', cik: null,
+      subjectId: 'science:evidence-synthesis:one', domain: 'science',
+      sourceArtifactRef: 'science:evidence-synthesis:one:window',
+      sourcePatternSig: 'research:feed:0', sourcePacketId: 'science:3:packet',
+      topicEvidenceRefs: domainNews.map((row) => row.sourceIdentity),
+      masterGate: {
+        confidence: 0.54, evidenceQuality: 0.75, uncertainty: 0.46,
+        readiness: 0.72, salience: 0.44, completeness: 1
+      },
+      researchContext: {
+        subject: {
+          subjectId: 'science:evidence-synthesis:one', productDomain: 'science', ownerDomain: 'research',
+          entityName: 'Science evidence stream',
+          proposedScope: { title: 'Science evidence synthesis', description: 'Bounded.', problemStatement: 'What is established?', proposedApproach: 'Separate evidence.' }
+        },
+        evidence: { citations: [], news: domainNews, priorArt: [], sourceBoundary: { publisherIndependence: 'UNASSESSED' } }
+      },
+      salience: 'DOMAIN_EVIDENCE_READY', from: 'P0', to: 'P0', direction: 'evidence-synthesis'
+    }]);
+    persistOutputId = 'eo_research_noccik_domain_1';
+    network.length = 0;
+    const domainResearch = await invoke(handler, request('GET', '/api/limen-worker-autofire'));
+    ok('domain evidence candidate completes one bounded research artifact',
+      domainResearch.json.fired === 1 && domainResearch.json.results[0].subjectId === 'science:evidence-synthesis:one');
+    ok('provider receives only the source-owned research context rather than generic company citations',
+      network[0].body.contextPacket.evidence.citations.length === 0 &&
+      network[0].body.contextPacket.evidence.news.length === 4 &&
+      network[0].body.kernelSnapshot.thing2 === null);
+    ok('B14 and the persisted receipt retain subject and packet identity without a fake CIK',
+      network[1].body.cik == null && network[1].body.slug == null &&
+      network[1].body.payload.autofire.subjectId === 'science:evidence-synthesis:one' &&
+      network[1].body.payload.autofire.sourcePacketId === 'science:3:packet' &&
+      domainResearch.json.results[0].cik == null);
 
     console.log('\nT5b: an ok response without outputId is not an actuator receipt');
     fakeDb.values.set('autoqueue', [{

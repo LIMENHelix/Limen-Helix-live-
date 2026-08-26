@@ -108,6 +108,32 @@ async function main() {
   assert('release is artifact-only', released.authority.artifactGenerationOnly === true);
   assert('release never authorizes live trading', released.authority.liveTradingAuthorized === false);
   assert('stress did not directly trigger', released.authority.stressDirectlyTriggered === false);
+
+  var domainPacketCandidate = {
+    cik: null, subjectId: 'science:evidence-synthesis:one', domain: 'science',
+    source: 'domain-packet-research', sourceArtifactRef: 'science:evidence-synthesis:one:window',
+    sourcePacketId: 'science:3:packet', sourcePatternSig: 'research:feed:item',
+    topicEvidenceRefs: [{ kind: 'headline-title', value: 'research:feed:item' }],
+    _estimatedCostUsd: 0.30,
+    masterGate: {
+      confidence: 0.54, evidenceQuality: 0.75, uncertainty: 0.46,
+      readiness: 0.72, salience: 0.44, completeness: 1
+    }
+  };
+  var domainPacketReleased = POLICY.select({
+    lane: 'research', candidate: domainPacketCandidate, domainCycle: cycle('research'),
+    gate: SELECT.createGate(), modulation: {}, at: 3
+  });
+  assert('source-owned research can release without pretending to have a company CIK',
+    domainPacketReleased.status === 'RELEASED', domainPacketReleased.reasons.join(','));
+  assert('research evidence coverage stays distinct from conclusion confidence',
+    domainPacketReleased.criticDecision.released.candidate.parameters.measuredEvidenceQuality === 0.75 &&
+    domainPacketReleased.criticDecision.released.candidate.parameters.measuredUncertainty === 0.46);
+  assert('domain packet identity and bounded evidence references survive the selection receipt',
+    domainPacketReleased.candidate.subjectId === domainPacketCandidate.subjectId &&
+    domainPacketReleased.candidate.sourcePacketId === domainPacketCandidate.sourcePacketId &&
+    domainPacketReleased.candidate.sourceIdentity.kind === 'domain-packet-evidence' &&
+    domainPacketReleased.candidate.topicEvidenceRefs.length === 1);
   assert('headline did not directly trigger', released.authority.headlineDirectlyTriggered === false);
 
   var noL3 = POLICY.select({
