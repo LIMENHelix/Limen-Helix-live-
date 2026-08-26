@@ -60,7 +60,8 @@ assert.equal(new Set(at5.map(function (r) { return r.id; })).size, candidates.le
 
 var domainResearch = {
   subjectId: 'science:evidence-synthesis:one', sourceArtifactRef: 'science:packet:window',
-  source: 'domain-packet-research', recommendedLane: 'research', domain: 'science'
+  source: 'domain-packet-research', recommendedLane: 'research', domain: 'science',
+  sourceSnapshotAt: new Date().toISOString()
 };
 assert.equal(worker.candidateIdentity(domainResearch), 'subject:science:evidence-synthesis:one');
 assert.ok(worker.laneDedupeKey(domainResearch).startsWith('autofire_cik_lane_dedupe_'));
@@ -71,6 +72,10 @@ assert.ok(!worker.isEligibleCandidate({
   status: 'PENDING', source: 'master-inbox', autofireEligible: true,
   recommendedLane: 'research', domain: 'science', cik: '1'
 }, Date.now()), 'ungrounded company research cannot enter the paid worker');
+assert.ok(!worker.isEligibleCandidate(Object.assign({}, domainResearch, {
+  status: 'PENDING', autofireEligible: true,
+  sourceSnapshotAt: new Date(Date.now() - 46 * 60 * 1000).toISOString()
+}), Date.now()), 'stale domain research cannot enter the paid worker');
 
 var withoutScience = candidates.filter(function (r) { return worker.schedulerGroup(r) !== 'research:science'; });
 assert.equal(worker.fairCandidateOrder(withoutScience, tick)[0].id, 'medicine-a');

@@ -5,6 +5,7 @@ const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..');
 const now = Date.parse('2026-08-26T18:10:00Z');
+let packetNow = now;
 
 function observation(domain, i) {
   return {
@@ -25,7 +26,7 @@ function cognition(domain, sourceDomain) {
     c: {
       serverPacket: {
         sourceType: 'server-cognition-refresh', domainId: domain,
-        packetId: domain + ':3:packet', generatedAt: new Date(now).toISOString(),
+        packetId: domain + ':3:' + packetNow, generatedAt: new Date(packetNow).toISOString(),
         truth: {
           stressScore: 0.3, confidence: 0.54, phase: 'p0',
           semanticEvidence: Array.from({ length: 8 }, (_, i) => observation(sourceDomain, i)),
@@ -65,7 +66,7 @@ mock(path.join(ROOT, 'lib', 'redis-kv.js'), {
 mock(path.join(ROOT, 'lib', 'cron-auth.js'), { enforce() { return true; } });
 
 const realNow = Date.now;
-Date.now = () => now;
+Date.now = () => packetNow;
 
 function invoke(handler) {
   let body = '';
@@ -93,6 +94,17 @@ function invoke(handler) {
     assert.equal(queue.some((row) => row.sourceArtifactRef === 'old-research-two'), false);
     assert.ok(queue.filter((row) => row.source === 'domain-packet-research')
       .every((row) => row.researchContext.evidence.news.length === 8 && row.cik == null));
+    const firstPacketIds = queue.filter((row) => row.source === 'domain-packet-research')
+      .map((row) => row.sourcePacketId).sort();
+    packetNow += 30 * 60 * 1000;
+    const refreshedResponse = await invoke(handler);
+    const refreshedQueue = values.get('autoqueue');
+    const refreshedRows = refreshedQueue.filter((row) => row.source === 'domain-packet-research');
+    assert.equal(refreshedResponse.json.domainResearch.refreshed, 2);
+    assert.equal(refreshedResponse.json.domainResearch.admitted, 0);
+    assert.equal(refreshedQueue.length, 200);
+    assert.ok(refreshedRows.every((row) => row.sourcePacketId.endsWith(String(packetNow))));
+    assert.ok(refreshedRows.every((row) => firstPacketIds.includes(row.refreshedFromPacketId)));
     console.log('domain research autoqueue: two source-owned brains replaced two unjoined company-research schedule rows');
   } finally {
     Date.now = realNow;
