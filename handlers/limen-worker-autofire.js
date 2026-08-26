@@ -71,7 +71,7 @@ var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
 var RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000;
 var MAX_ATTEMPTS_PER_ENTRY = 3;
 var SCHEDULER_TICK_MS = 30 * 60 * 1000;
-var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medicine', 'research:education'];
+var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medicine', 'research:education', 'research:environment'];
 
 /*
  * Candidate availability is not motor priority.  The queue may contain many
@@ -87,6 +87,7 @@ function schedulerGroup(entry) {
   if (entry && entry.recommendedLane === 'research' && owner === 'research') return 'research:science';
   if (entry && entry.recommendedLane === 'research' && owner === 'health') return 'research:medicine';
   if (entry && entry.recommendedLane === 'research' && owner === 'education') return 'research:education';
+  if (entry && entry.recommendedLane === 'research' && owner === 'environment') return 'research:environment';
   return 'unowned';
 }
 
@@ -151,6 +152,7 @@ function researchMotorIdentity(ownerDomain) {
   if (ownerDomain === 'research') return { productDomain: 'science', ownerDomain: 'research', lane: 'research-papers' };
   if (ownerDomain === 'health') return { productDomain: 'medicine', ownerDomain: 'health', lane: 'research-papers' };
   if (ownerDomain === 'education') return { productDomain: 'education', ownerDomain: 'education', lane: 'research-papers' };
+  if (ownerDomain === 'environment') return { productDomain: 'environment', ownerDomain: 'environment', lane: 'research-papers' };
   return null;
 }
 

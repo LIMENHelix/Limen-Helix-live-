@@ -26,7 +26,7 @@ var LANE_POLICY = {
   },
   research: {
     command: 'generate_research_artifact',
-    owners: ['research', 'health', 'education'],
+    owners: ['research', 'health', 'education', 'environment'],
     externalExecution: 'publication_evidence_only',
     requiredMappings: [
       'neurology_to_business_homology',
@@ -43,6 +43,7 @@ var DOMAIN_ALIASES = {
   medicine: 'health',
   health: 'health',
   education: 'education',
+  environment: 'environment',
   finance: 'finance'
 };
 
@@ -54,7 +55,7 @@ function ownerFor(lane, subjectDomain) {
   if (lane === 'investment') return 'finance';
   if (lane !== 'research') return null;
   var d = canonicalDomain(subjectDomain);
-  return d === 'research' || d === 'health' || d === 'education' ? d : null;
+  return d === 'research' || d === 'health' || d === 'education' || d === 'environment' ? d : null;
 }
 
 function sourceIdentity(candidate) {

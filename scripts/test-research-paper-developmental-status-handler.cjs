@@ -57,7 +57,7 @@ function record(domain) {
   var handler = Handler.createHandler({ store: store });
   var res = await invoke(handler, 'GET');
   assert.equal(res.statusCode, 200);
-  assert.equal(res.body.domains.length, 3);
+  assert.equal(res.body.domains.length, 4);
   assert.equal(res.body.domains[0].productDomain, 'science');
   assert.equal(res.body.domains[0].status, 'ARTIFACT_PERSISTED');
   assert.equal(res.body.domains[0].viewerUrl, 'https://limenhelix.com/helix-artifact?id=eo_science_1');
@@ -68,7 +68,10 @@ function record(domain) {
   assert.equal(res.body.domains[2].productDomain, 'education');
   assert.equal(res.body.domains[2].ownerDomain, 'education');
   assert.equal(res.body.domains[2].status, 'NOT_CLAIMED');
-  assert.equal(reads, 3);
+  assert.equal(res.body.domains[3].productDomain, 'environment');
+  assert.equal(res.body.domains[3].ownerDomain, 'environment');
+  assert.equal(res.body.domains[3].status, 'NOT_CLAIMED');
+  assert.equal(reads, 4);
   assert.equal(writes, 0);
   ['receiptId', 'selectionId', 'sourceIdentity', 'productMotorReceiptId', 'contractId', 'budgetId'].forEach(function (name) {
     assert.equal(Object.prototype.hasOwnProperty.call(res.body.domains[0], name), false);
@@ -76,7 +79,7 @@ function record(domain) {
 
   var post = await invoke(handler, 'POST');
   assert.equal(post.statusCode, 405);
-  assert.equal(reads, 3);
+  assert.equal(reads, 4);
   assert.equal(writes, 0);
 
   values.set(Developmental.slotKey('science'), Object.assign(record('science'), { publicationAuthorized: true }));
@@ -92,7 +95,7 @@ function record(domain) {
   assert.equal(failed.statusCode, 503);
   assert.equal(failed.body.liveMoney, false);
 
-  console.log('research developmental status: public sanitized read-only Science/Medicine/Education audit passed');
+  console.log('research developmental status: public sanitized read-only Science/Medicine/Education/Environment audit passed');
 })().catch(function (error) {
   console.error(error && error.stack || error);
   process.exit(1);

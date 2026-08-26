@@ -79,6 +79,7 @@ async function main() {
   assert('science canonicalizes to research', POLICY.ownerFor('research', 'science') === 'research');
   assert('medicine canonicalizes to health', POLICY.ownerFor('research', 'medicine') === 'health');
   assert('education retains its sovereign research owner', POLICY.ownerFor('research', 'education') === 'education');
+  assert('environment retains its sovereign research owner', POLICY.ownerFor('research', 'environment') === 'environment');
   assert('trade cannot own research', POLICY.ownerFor('research', 'trade') === null);
 
   var held = POLICY.select({ lane: 'research', candidate: candidate('trade', 0), domainCycle: null, at: 1 });
@@ -90,6 +91,11 @@ async function main() {
     gate: SELECT.createGate(), modulation: {}, at: 2
   });
   assert('education research releases only with its own current brain evidence', educationReleased.status === 'RELEASED', educationReleased.reasons.join(','));
+  var environmentReleased = POLICY.select({
+    lane: 'research', candidate: candidate('environment', 12), domainCycle: cycle('environment'),
+    gate: SELECT.createGate(), modulation: {}, at: 2
+  });
+  assert('environment research releases only with its own current brain evidence', environmentReleased.status === 'RELEASED', environmentReleased.reasons.join(','));
 
   var released = POLICY.select({
     lane: 'research', candidate: candidate('medicine', 1), domainCycle: cycle('health'),

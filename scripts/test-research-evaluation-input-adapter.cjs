@@ -39,6 +39,9 @@ blocked({ publication: Object.assign({}, publication, { ownerDomain: 'finance' }
 const education = Adapter.build({ publication: Object.assign({}, publication, { ownerDomain: 'education', observationId: 'education-observation-1' }), evaluation });
 assert.equal(education.status, 'EVALUATED');
 assert.equal(education.event.ownerDomain, 'education');
+const environment = Adapter.build({ publication: Object.assign({}, publication, { ownerDomain: 'environment', observationId: 'environment-observation-1' }), evaluation });
+assert.equal(environment.status, 'EVALUATED');
+assert.equal(environment.event.ownerDomain, 'environment');
 blocked({ publication, evaluation: Object.assign({}, evaluation, { independenceAssessment: { status: 'UNESTABLISHED', reason: 'unknown' } }) }, 'established_independence_assessment_required');
 blocked({ publication, evaluation: Object.assign({}, evaluation, { mappingCoverage: {} }) }, 'mapping_neurology_to_business_homology_required');
 blocked({ publication, evaluation: Object.assign({}, evaluation, { evidenceRecords: [{ id: 'x', claim: 'no identity' }] }) }, 'evidence_record_0_identity_time_claim_required');
