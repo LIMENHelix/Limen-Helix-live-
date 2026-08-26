@@ -27,10 +27,12 @@ check('critic hold remains a motor hold', result.motorStatus === 'HELD');
 var science = worker.researchMotorIdentity('research');
 var medicine = worker.researchMotorIdentity('health');
 var education = worker.researchMotorIdentity('education');
+var environment = worker.researchMotorIdentity('environment');
 check('research runtime owner maps only to the Science product motor', science.productDomain === 'science' && science.lane === 'research-papers');
 check('health runtime owner maps only to the Medicine product motor', medicine.productDomain === 'medicine' && medicine.lane === 'research-papers');
 check('another owner cannot borrow the research product motor', worker.researchMotorIdentity('finance') === null);
 check('Education has its own exact research product motor identity', education.productDomain === 'education' && education.ownerDomain === 'education' && education.lane === 'research-papers');
+check('Environment has its own exact research product motor identity', environment.productDomain === 'environment' && environment.ownerDomain === 'environment' && environment.lane === 'research-papers');
 
 var motorHold = worker.researchMotorHoldResult(
   { cik: '456', recommendedLane: 'research' },

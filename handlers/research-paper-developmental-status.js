@@ -82,7 +82,7 @@ function createHandler(deps) {
     }
     try {
       store.assertDurable();
-      var rows = await Promise.all(['science', 'medicine', 'education'].map(async function (domain) {
+      var rows = await Promise.all(['science', 'medicine', 'education', 'environment'].map(async function (domain) {
         return publicStatus(domain, await store.get(Developmental.slotKey(domain)));
       }));
       res.statusCode = 200;
