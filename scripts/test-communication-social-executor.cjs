@@ -6,6 +6,7 @@ var crypto = require('node:crypto');
 var Executor = require('../lib/communication-social-executor.js');
 var Decision = require('../lib/communication-social-decision.js');
 var Strict = require('../lib/autofire-efference-store.js');
+var Learning = require('../lib/communication-social-learning.js');
 
 function Store() { this.map = new Map(); this.log = []; }
 Store.prototype.assertDurable = function () { return true; };
@@ -46,6 +47,7 @@ function spec(subjectDomain, body, now) { return { subjectDomain: subjectDomain,
   assert.equal(differentContent.reason, 'communication-social-motor-receipt-already-consumed');
   assert.equal(platformCalls, 1);
   var command = await store.get(Executor.commandKey(first.commandId));
+  assert(await store.get(Learning.causeKey(first.commandId)));
   assert.equal(command.receipt.readbackVerified, true);
   assert.equal(command.contentHash.length, 64);
   assert.equal(command.liveMoney, false);

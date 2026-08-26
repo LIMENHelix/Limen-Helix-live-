@@ -5,11 +5,13 @@ var assert = require('node:assert/strict');
 var Observer = require('../lib/communication-social-outcome-observer.js');
 var Handler = require('../handlers/communication-social-outcome-observer.js');
 var Strict = require('../lib/autofire-efference-store.js');
+var Learning = require('../lib/communication-social-learning.js');
 
 function Store() { this.map = new Map(); this.log = []; }
 Store.prototype.assertDurable = function () { return true; };
 Store.prototype.get = async function (key) { return this.map.get(key) || null; };
 Store.prototype.set = async function (key, value) { this.map.set(key, JSON.parse(JSON.stringify(value))); return true; };
+Store.prototype.setIfAbsent = async function (key, value) { if (this.map.has(key)) return false; return this.set(key, value); };
 Store.prototype.lpush = async function (key, value) { this.log.unshift({ key: key, value: JSON.parse(JSON.stringify(value)) }); return this.log.length; };
 Store.prototype.ltrim = async function () { return true; };
 Store.prototype.lrange = async function (key, start, stop) { return this.log.filter(function (row) { return row.key === key; }).slice(start, stop + 1).map(function (row) { return row.value; }); };
@@ -55,6 +57,11 @@ function response() {
   assert.equal(first.receipt.engagementDelta, 10);
   assert.equal(first.receipt.sourceIdentity.endpointHost, 'public.api.bsky.app');
   assert.equal(first.receipt.sourceIdentity.independentOfAdapterId, 'bluesky-pds-write-adapter/1');
+  var learningCommand = { ownerDomain: 'communication', lane: 'social', commandId: 'command-learning-1', decisionReceiptId: 'decision-learning-1',
+    subjectDomain: 'finance', contentHash: 'content-hash', predictedOutcome: { measurable: 'engagement-or-conversion' }, commandedAt: 900 };
+  assert.equal((await Learning.recordCommand(store, learningCommand)).ok, true);
+  assert.equal((await Learning.recordObservation(store, learningCommand, first.receipt)).ok, true);
+  assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
   var second = await Observer.observeOne(store, post, 2000, { fetch: responsePost(5) });
   assert.equal(second.receipt.metrics.total, 12);
   assert.equal(second.receipt.engagementDelta, 2);

@@ -1,6 +1,7 @@
 'use strict';
 var assert = require('node:assert/strict'); var Decision = require('../lib/law-automail-decision.js');
 var Executor = require('../lib/law-automail-executor.js'); var Observer = require('../lib/law-automail-outcome-observer.js'); var Recovery = require('../lib/law-automail-recovery.js');
+var Learning = require('../lib/law-automail-learning.js');
 function Store() { this.values = new Map(); this.lists = new Map(); } Store.prototype.assertDurable = function () { return true; };
 Store.prototype.get = async function (k) { return this.values.has(k) ? structuredClone(this.values.get(k)) : null; };
 Store.prototype.set = async function (k, v) { this.values.set(k, structuredClone(v)); return true; };
@@ -26,12 +27,14 @@ function motor(id) { return { authorize: async function () { return { authorized
       sawCommand = Array.from(store.values.values()).some(function (v) { return v && v.status === 'DISPATCHING' && v.commandId; });
       return { ok: true, id: 'ltr_abc123', providerCalled: true }; } } });
   assert.equal(command.status, 'ACCEPTED'); assert.equal(command.accepted, 1); assert.equal(calls, 1); assert.equal(sawCommand, true); assert.equal(idem, 'law-automail/' + decision.actionId);
+  assert(await store.get(Learning.causeKey(decision.actionId)));
   var replay = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now, letterCostUsd: 1, dailyBudgetUsd: 2, dailyLetterCap: 2,
     motorAuthorization: motor('law-motor-2'), provider: { create: async function () { calls++; } } });
   assert.equal(replay.replayed, true); assert.equal(calls, 1);
   var observation = await Observer.observe(store, command, { apiKey: 'read-key', fetch: async function (_url, options) { assert.equal(options.method, 'GET');
     return { ok: true, status: 200, json: async function () { return { id: 'ltr_abc123', status: 'rendered', expected_delivery_date: '2026-09-01', date_created: new Date(now).toISOString(), date_modified: new Date(now).toISOString() }; } }; } });
   assert.equal(observation.status, 'PROVIDER_STATE_OBSERVED'); assert.equal(observation.independentOfCreateResponse, true);
+  assert.equal((await Learning.recordObservation(store, observation)).ok, true); assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
   var canceled = 0, reads = 0, recovery = await Recovery.recover({ store: store, command: command, observation: observation,
     trigger: { type: 'law-automail-cancel', id: 'operator-cancel-1' }, now: now + 1, motorAuthorization: motor('law-motor-3'),
     provider: { cancel: async function (id) { canceled++; assert.equal(id, 'ltr_abc123'); return { ok: true, deleted: true }; },

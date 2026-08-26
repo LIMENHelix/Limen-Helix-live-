@@ -5,6 +5,7 @@ var Decision = require('../lib/culture-hero-decision.js');
 var Executor = require('../lib/culture-hero-executor.js');
 var Observer = require('../lib/culture-hero-outcome-observer.js');
 var Recovery = require('../lib/culture-hero-recovery.js');
+var Learning = require('../lib/culture-hero-learning.js');
 
 function Store() { this.values = new Map(); this.lists = new Map(); }
 Store.prototype.assertDurable = function () { return true; };
@@ -49,6 +50,7 @@ function motor(receipt) { return { authorize: async function () { return { autho
   assert.equal(executed.status, 'GENERATED');
   assert.equal(executed.readbackVerified, true);
   assert.equal(sawCommandBeforeCall, true);
+  assert(await store.get(Learning.causeKey(executed.commandId)));
   var replay = await Executor.execute({ store: store, candidate: candidate, decision: released, now: now,
     motorAuthorization: motor('culture-motor-1'), provider: { generate: async function () { calls++; } } });
   assert.equal(replay.replayed, true); assert.equal(calls, 1);
@@ -59,6 +61,8 @@ function motor(receipt) { return { authorize: async function () { return { autho
   assert.equal(observed.status, 'OBSERVED_PRESENT');
   assert.equal(observed.independentReadPath, true);
   assert.equal(observed.generationEndpointCalled, false);
+  assert.equal((await Learning.recordObservation(store, observed)).ok, true);
+  assert.equal((await Learning.readForBrain(store)).status, 'ELIGIBLE');
 
   var recovered = await Recovery.recover({ store: store, command: executed, observation: observed,
     trigger: { type: 'culture-policy', id: 'policy-event-1' }, motorAuthorization: motor('culture-motor-2'), now: now + 1,
