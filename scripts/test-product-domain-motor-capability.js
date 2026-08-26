@@ -33,6 +33,22 @@ var observer = {
 assert.equal(CAP.validate(executor, CAP.EXECUTOR, motor, 2000).ok, true);
 assert.equal(CAP.validate(observer, CAP.OBSERVER, motor, 2000).ok, true);
 assert.equal(CAP.validate(Object.assign({}, executor, { rollbackVerified: false }), CAP.EXECUTOR, motor, 2000).reason, 'domain-executor-capability-unsafe');
+var reversible = Object.assign({}, executor, {
+  capabilityId: 'publication-executor-cap',
+  evidenceReceiptId: 'create-proof-1',
+  verificationEffectExecuted: true,
+  commissioningOnly: true,
+  liveMoney: false,
+  zeroResidualEffectVerified: true,
+  rollbackReceiptId: 'withdraw-proof-1',
+  residualObserverReceiptId: 'absent-readback-proof-1',
+  exposureDurationMs: 1200
+});
+assert.equal(CAP.reversibleCommissioningVerified(reversible), true);
+assert.equal(CAP.validate(reversible, CAP.EXECUTOR, motor, 2000).ok, true);
+assert.equal(CAP.validate(Object.assign({}, reversible, { zeroResidualEffectVerified: false }), CAP.EXECUTOR, motor, 2000).reason, 'domain-executor-capability-unsafe');
+assert.equal(CAP.validate(Object.assign({}, reversible, { exposureDurationMs: CAP.MAX_REVERSIBLE_COMMISSIONING_EXPOSURE_MS + 1 }), CAP.EXECUTOR, motor, 2000).reason, 'domain-executor-capability-unsafe');
+assert.equal(CAP.validate(Object.assign({}, reversible, { rollbackReceiptId: 'create-proof-1' }), CAP.EXECUTOR, motor, 2000).reason, 'domain-executor-capability-unsafe');
 assert.equal(CAP.validate(Object.assign({}, observer, { independentSourceVerified: false }), CAP.OBSERVER, motor, 2000).reason, 'domain-outcome-observer-not-independent');
 assert.equal(CAP.validate(Object.assign({}, observer, { productDomain: 'economy' }), CAP.OBSERVER, motor, 2000).reason, 'domain-capability-identity-mismatch');
 
