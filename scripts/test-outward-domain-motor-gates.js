@@ -15,6 +15,8 @@ var image = source('handlers/hero-image.js');
 var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
 var automail = source('handlers/homestead-automail.js');
+var lawExecutor = source('lib/law-automail-executor.js');
+var automailRunner = source('scripts/automail-run.js');
 
 [
   [socialExecutor, "authorize.authorize(store, 'communication', 'social'", 'platform.postToBluesky', 'if (!authorization || authorization.authorized !== true)'],
@@ -60,10 +62,14 @@ console.log('outward domain motor gates: social, subscriber email, and hero imag
 assert(autopilot.includes("authorize(motorStore, 'intelligence', 'autopilot'"));
 assert(autopilot.includes('motorGate && motorGate.authorized === true && cfg.mode'));
 assert(autopilot.indexOf('motorGate && motorGate.authorized === true && cfg.mode') < autopilot.indexOf('send.sendToLead'));
-assert(automail.includes("authorize(motorStore, 'law', 'automail'"));
-var mailGateAt = automail.indexOf("authorize(motorStore, 'law', 'automail'");
-var lobEffectAt = automail.indexOf('await lobSend(d, LOB', mailGateAt);
-assert(lobEffectAt > mailGateAt);
-assert(automail.slice(mailGateAt, lobEffectAt).includes('if (!motorGate.authorized) live = false'));
+assert(automail.includes("require('../lib/law-automail-decision')"));
+assert(automail.includes("require('../lib/law-automail-executor')"));
+assert(automail.indexOf('lawDecision.decide(motorStore, candidate') < automail.indexOf('lawExecutor.execute({'));
+var mailGateAt = lawExecutor.indexOf("authorize(store, 'law', 'automail'");
+var lobEffectAt = lawExecutor.indexOf('input.provider.create(candidate, idempotencyKey)', mailGateAt);
+assert(mailGateAt >= 0 && lobEffectAt > mailGateAt);
+assert(lawExecutor.slice(mailGateAt, lobEffectAt).includes('if (!motor || !motor.authorized)'));
+assert(!automailRunner.includes('api.lob.com'));
+assert(automailRunner.includes("action: 'send'"));
 
 console.log('outward domain motor gates: autopilot and automail also inhibit execution while preserving plan/dry-run behavior');
