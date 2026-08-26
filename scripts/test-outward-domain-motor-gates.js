@@ -26,6 +26,11 @@ var automail = source('handlers/homestead-automail.js');
 });
 
 assert(social.includes("require('../lib/communication-social-executor')"));
+assert(social.includes("require('../lib/communication-social-decision')"));
+var socialDecisionAt = social.indexOf('socialDecision.decide(motorStore');
+var socialExecutorAt = social.indexOf('socialExecutor.execute({');
+assert(socialDecisionAt >= 0 && socialExecutorAt > socialDecisionAt);
+assert(social.slice(socialDecisionAt, socialExecutorAt).includes("decision.status !== 'RELEASED'"));
 assert(social.indexOf('socialExecutor.execute({') < social.indexOf('preview.published = true'));
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
