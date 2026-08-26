@@ -19,7 +19,7 @@ assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(),
 ]);
 assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
 assert.equal(report.summary.actionReceiptsImplemented, 7);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 3);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 4);
 assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 3);
 assert.equal(report.summary.sourceChainsComplete, 3);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
@@ -30,12 +30,13 @@ assert.equal(finance.sourceChainComplete, true);
 assert.equal(finance.actionReceiptStrength, 'DURABLE_IDEMPOTENT_SANDBOX_COMMAND_RECEIPT');
 assert.equal(finance.observerScope, 'PAPER_30_60_90_PENDING_ELIGIBLE_COMMAND_AND_HORIZON');
 assert.equal(finance.productionVerifiedByDomain, false);
+var communication = report.domains.filter(function (row) { return row.productDomain === 'communication'; })[0];
+assert.equal(communication.independentOutcomeObserverImplemented, true);
+assert.equal(communication.observerScope, 'PUBLIC_APPVIEW_ENGAGEMENT_SNAPSHOT');
+assert.equal(communication.domainAuthorizedRollbackImplemented, false);
 assert.equal(finance.externalEnabled, false);
 
-var communication = report.domains.find(function (row) { return row.productDomain === 'communication'; });
 assert.equal(communication.domainBoundExecutorImplemented, true);
-assert.equal(communication.domainAuthorizedRollbackImplemented, false);
-assert.equal(communication.independentOutcomeObserverImplemented, false);
 
 var science = report.domains.find(function (row) { return row.productDomain === 'science'; });
 var medicine = report.domains.find(function (row) { return row.productDomain === 'medicine'; });
