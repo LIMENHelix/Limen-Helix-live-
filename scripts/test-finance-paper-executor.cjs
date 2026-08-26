@@ -24,8 +24,8 @@ function selectedDecision() {
     schemaVersion: Decision.RECEIPT_SCHEMA,
     packetId: 'packet-1',
     status: 'TRADE_INTENT_SELECTED',
-    selection: { id: 'selection-1', status: 'RELEASED', lane: 'investment', ownerDomain: 'finance', command: 'prepare_tradier_sandbox_order', candidate: { sourceIdentity: { value: 'artifact-1' } }, authority: { tradierSandboxOrderAutomation: true } },
-    tradeIntent: { symbol: 'SPY', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510, sourceArtifactId: 'artifact-1', horizonDays: [30, 60, 90] },
+    selection: { id: 'selection-1', status: 'RELEASED', lane: 'investment', ownerDomain: 'finance', command: 'prepare_tradier_sandbox_order', candidate: { cik: '320193', ticker: 'AAPL', sourceIdentity: { value: 'artifact-1' } }, authority: { tradierSandboxOrderAutomation: true } },
+    tradeIntent: { symbol: 'AAPL', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510, sourceArtifactId: 'artifact-1', actionId: 'finance-action-1', horizonDays: [30, 60, 90] },
     safety: { brokerReadOnly: true, orderPreviewed: false, orderPlaced: false, paperOnly: true, liveMoney: false }
   };
 }
@@ -95,6 +95,7 @@ function b14() {
   assert.equal(result.orderPlaced, true);
   assert.equal(result.liveMoney, false);
   assert.equal(result.claim.orderId, 'order-1');
+  assert.equal(store.values.has('autofire_learning_cause:finance-action-1'), true, 'Finance action cause must persist before paper dispatch');
   assert.equal(store.logs[0].type, 'COMMAND_RECEIPTED');
 
   const priorLogs = store.logs.length;

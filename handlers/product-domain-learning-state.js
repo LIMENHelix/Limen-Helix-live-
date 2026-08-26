@@ -44,6 +44,27 @@ function abstained(domain, reason, resolvedCount) {
   };
 }
 
+function compactCompanyPatterns(state) {
+  return Object.keys(state && state.companyPatterns || {}).map(function (key) {
+    var row = state.companyPatterns[key] || {};
+    return {
+      schemaVersion: row.schemaVersion || null,
+      companyId: row.companyId || key,
+      cik: row.cik || null,
+      ticker: row.ticker || null,
+      resolvedCount: Number(row.resolvedCount || 0),
+      outcomes: row.outcomes || null,
+      horizons: row.horizons || null,
+      means: row.means || null,
+      failureModes: row.failureModes || null,
+      recommendation: row.recommendation || null,
+      lastResolvedAt: row.lastResolvedAt || null
+    };
+  }).sort(function (a, b) {
+    return Number(b.lastResolvedAt || 0) - Number(a.lastResolvedAt || 0);
+  }).slice(0, 50);
+}
+
 async function read(domain) {
   store.assertDurable();
   if (domain === 'defense') return defenseLearning.readForBrain(store);
@@ -62,7 +83,10 @@ async function read(domain) {
   var state = await learning._load(store, domain);
   var external = state.externalLearning;
   var signal = external.signals.length ? external.signals[external.signals.length - 1] : null;
-  if (!signal) return abstained(domain, 'domain-has-no-graded-external-action-outcome', external.resolvedCount);
+  if (!signal) return Object.assign(
+    abstained(domain, 'domain-has-no-graded-external-action-outcome', external.resolvedCount),
+    { companyPatterns: compactCompanyPatterns(state) }
+  );
   if (signal.schemaVersion !== learning.EXTERNAL_LEARNING_SCHEMA || signal.ownerDomain !== domain ||
       signal.sourceKind !== 'independent-action-outcome' || !validSource(signal.sourceIdentity) ||
       typeof signal.normalizedCredit !== 'number' || signal.normalizedCredit < 0 || signal.normalizedCredit > 1 ||
@@ -100,7 +124,8 @@ async function read(domain) {
       normalizedCredit: signal.normalizedCredit,
       sourceKind: signal.sourceKind,
       sourceIdentity: signal.sourceIdentity
-    }
+    },
+    companyPatterns: compactCompanyPatterns(state)
   };
 }
 
@@ -130,3 +155,4 @@ module.exports = async function handler(req, res) {
 
 module.exports.read = read;
 module.exports.DOMAINS = DOMAINS.slice();
+module.exports.compactCompanyPatterns = compactCompanyPatterns;

@@ -20,6 +20,7 @@ const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
+const productDomainLearningState = require('./product-domain-learning-state.js');
 const cronAuth = require('../lib/cron-auth.js');
 const cognitionProjection = require('../lib/brain-cognition-compact.js');
 const compactCognition = cognitionProjection.compact;
@@ -45,6 +46,7 @@ const BRAIN_GLOBAL = {
   education:'LIMENEducationBrain', population:'LIMENPopulationBrain', science:'LIMENResearchBrain',
   law:'LIMENLawBrain', religion:'LIMENReligionBrain'
 };
+const LEARNING_DOMAIN = { medicine: 'health', science: 'research', trade: 'supplyChain' };
 const FILES = [
   'assets/js/domain-identity.js',
   // Deterministic organ dependencies must exist in the VM before any brain
@@ -114,7 +116,7 @@ async function readFinancePaperAdmissions() {
   }
 }
 
-function buildSandbox(snap, BASE){
+function buildSandbox(snap, BASE, domainLearning){
   var noop = function(){};
   var sb = {};
   sb.window = sb; sb.globalThis = sb; sb.self = sb;
@@ -140,7 +142,22 @@ function buildSandbox(snap, BASE){
   sb.window.addEventListener = noop; sb.window.removeEventListener = noop; sb.window.dispatchEvent = noop;
   sb.window.location = { href: BASE + '/', pathname:'/', search:'', origin: BASE };
   sb.navigator = { userAgent:'cron-refresh' };
-  sb.fetch = function(){ return Promise.resolve({ ok:false, status:404, json:function(){ return Promise.resolve({}); }, text:function(){ return Promise.resolve(''); } }); };
+  // The hosted runner supplies the same owning-domain learning endpoint that
+  // browser brains call. The substrate returns memory and performs no ranking,
+  // filtering, plasticity, or selection on the brain's behalf.
+  sb.fetch = function(input){
+    var target;
+    try { target = new URL(String(input), BASE); } catch (_) { target = null; }
+    if (target && target.pathname === '/api/product-domain-learning-state') {
+      var requested = target.searchParams.get('domain');
+      var value = domainLearning && domainLearning[requested];
+      if (value) {
+        var body = JSON.parse(JSON.stringify(Object.assign({ ok: true }, value)));
+        return Promise.resolve({ ok:true, status:200, json:function(){ return Promise.resolve(body); }, text:function(){ return Promise.resolve(JSON.stringify(body)); } });
+      }
+    }
+    return Promise.resolve({ ok:false, status:404, json:function(){ return Promise.resolve({}); }, text:function(){ return Promise.resolve(''); } });
+  };
   sb.window.LIMENDomains = JSON.parse(JSON.stringify(snap.domains));
   sb.window.LIMENSharedSnapshot = {
     getSnapshot: function(){ return { domains: sb.window.LIMENDomains, meta: snap.meta }; },
@@ -180,7 +197,16 @@ module.exports = async function handler(req, res) {
     var sourceFailures = [];
     var domainFailures = [];
     var storageFailures = [];
-    var sb = buildSandbox(snap, BASE);
+    var learningFailures = [];
+    var domainLearning = Object.create(null);
+    await Promise.all(DOMAINS.map(async function (domain) {
+      var owner = LEARNING_DOMAIN[domain] || domain;
+      try { domainLearning[owner] = await productDomainLearningState.read(owner); }
+      catch (e) {
+        learningFailures.push({ domain: domain, ownerDomain: owner, stage: 'domain-learning-read', error: String(e && e.message || e).slice(0, 240) });
+      }
+    }));
+    var sb = buildSandbox(snap, BASE, domainLearning);
     vm.createContext(sb);
     for (var i = 0; i < sources.length; i++) {
       if (!sources[i].code) {
@@ -262,6 +288,7 @@ module.exports = async function handler(req, res) {
           var _eq = _st.domainEmissionQueue || _st.energyEmissionQueue || null;
           var _ae = _st.domainAutoEmission || _st.energyAutoEmission || null;
           var _rm = _st.resourceMetabolism || null;
+          var _dl = _st.domainActionLearning || null;
           c.brainOrgans = {
             plasticity: _pl ? {
               mode: val(_pl.mode), rewardActive: _pl.rewardActive === true,
@@ -275,7 +302,13 @@ module.exports = async function handler(req, res) {
               holdReason: val(_ae.holdReason), emittedCount: num(_ae.emittedCount), stagedCount: num(_ae.stagedCount),
               outwardAuthority: false
             } : null,
-            resourceMetabolism: _rm ? { ownerDomain: val(_rm.ownerDomain), state: val(_rm.state), gates: val(_rm.gates) } : null
+            resourceMetabolism: _rm ? { ownerDomain: val(_rm.ownerDomain), state: val(_rm.state), gates: val(_rm.gates) } : null,
+            externalActionLearning: _dl ? {
+              status: val(_dl.status), resolvedCount: num(_dl.resolvedCount),
+              learningGate: val(_dl.learningGate),
+              latestSignalId: val(_dl.signal && _dl.signal.signalId),
+              companyPatternCount: arr(_dl.companyPatterns).length
+            } : null
           };
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
@@ -373,7 +406,8 @@ module.exports = async function handler(req, res) {
 
     var complete = ran === DOMAINS.length && stored === DOMAINS.length &&
       motorReceiptsStored === DOMAINS.length && sourceFailures.length === 0 &&
-      domainFailures.length === 0 && storageFailures.length === 0 && !gammaFailure;
+      domainFailures.length === 0 && storageFailures.length === 0 &&
+      learningFailures.length === 0 && !gammaFailure;
     var summary = {
       ok: complete,
       ran: ran,
@@ -382,6 +416,7 @@ module.exports = async function handler(req, res) {
       sourceFailures: sourceFailures,
       domainFailures: domainFailures,
       storageFailures: storageFailures,
+      learningFailures: learningFailures,
       motorReceipts: {
         attempted: ran,
         storedAndRestored: motorReceiptsStored,
@@ -399,6 +434,7 @@ module.exports = async function handler(req, res) {
       sourceFailures: sourceFailures.length,
       domainFailures: domainFailures.length,
       storageFailures: storageFailures.length,
+      learningFailures: learningFailures.length,
       motorReceiptFailures: motorReceiptFailures.length,
       gammaFailure: !!gammaFailure,
       ms: summary.ms
