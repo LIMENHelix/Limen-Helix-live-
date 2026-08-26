@@ -21,7 +21,15 @@ var subs = require('../lib/subscriptions');
 var digest = require('../lib/digest');
 var crm = require('../lib/crm-send');
 var motorStore = require('../lib/autofire-efference-store');
-var motorAuthorization = require('../lib/product-domain-motor-authorization');
+var subscriberDecision = require('../lib/religion-subscriber-decision');
+var subscriberExecutor = require('../lib/religion-subscriber-executor');
+
+function maxSends() {
+  var n = parseInt(process.env.SUBSCRIBER_DIGEST_MAX_SENDS, 10);
+  if (!isFinite(n)) n = 5;
+  return Math.max(0, Math.min(subscriberExecutor.HARD_MAX_SENDS, n));
+}
+function numericEnv(name, fallback) { var n = parseFloat(process.env[name]); return isFinite(n) && n >= 0 ? n : fallback; }
 
 function cronHit(req) {
   var h = req.headers || {};
@@ -57,26 +65,7 @@ module.exports = async function handler(req, res) {
     // The scheduler sends for real; a manual call must ask for it.
     var reallySend = auth.cron || q.send === '1';
 
-    // Subscriber delivery is the Religion brain's declared direct-message
-    // effector in the current civilization map. Authentication alone never
-    // substitutes for its fresh restored motor/resource release.
-    if (reallySend) {
-      var motorGate = await motorAuthorization.authorize(motorStore, 'religion', 'subscriber-email', Date.now());
-      if (!motorGate.authorized) {
-        return T.send(res, {
-          ok: true,
-          acted: false,
-          mode: 'held',
-          sent: 0,
-          motorHeld: true,
-          reason: motorGate.reason,
-          motorReceiptId: motorGate.receiptId,
-          motorBlockers: motorGate.blockers
-        });
-      }
-    }
-
-    var active = await subs.activeList();
+    var active = reallySend ? await subs.activeListStrict() : await subs.activeList();
     if (active === null) {
       return T.send(res, { ok: false, error: 'Subscriber store unreachable. Sending nothing rather than assuming there are no subscribers.' }, 503);
     }
@@ -84,7 +73,7 @@ module.exports = async function handler(req, res) {
       return T.send(res, { ok: true, sent: 0, skipped: 0, subscribers: 0, note: 'No active subscribers yet.' });
     }
 
-    var results = [];
+    var results = [], executable = [];
     var sent = 0, skipped = 0, failed = 0;
 
     for (var i = 0; i < active.length; i++) {
@@ -108,14 +97,43 @@ module.exports = async function handler(req, res) {
         results.push(row); continue;
       }
 
-      try {
-        var r = await crm.sendToLead(s.email, d.subject, d.body);
-        if (r && r.ok === false) { row.action = 'send-failed'; row.error = r.reason || r.error; failed++; }
-        else { await subs.markSent(s.email, d.key); row.action = 'sent'; sent++; }
-      } catch (e) {
-        row.action = 'send-failed'; row.error = e.message; failed++;
+      var candidate = subscriberDecision.candidate(s, d);
+      var decision = await subscriberDecision.decide(motorStore, candidate, Date.now());
+      row.decisionStatus = decision.status;
+      row.decisionReceiptId = decision.decisionReceiptId || null;
+      if (decision.status !== 'RELEASED') {
+        row.action = 'brain-held'; row.blockers = decision.blockers || []; skipped++; results.push(row); continue;
       }
+      row.action = 'released-pending-motor';
+      executable.push({ subscriber: s, digest: d, candidate: candidate, decision: decision, row: row });
       results.push(row);
+    }
+
+    var batch = null;
+    if (reallySend && executable.length) {
+      batch = await subscriberExecutor.execute({
+        store: motorStore, now: Date.now(), maxSends: maxSends(),
+        emailCostUsd: numericEnv('RELIGION_SUBSCRIBER_EMAIL_USD', null),
+        dailyBudgetUsd: numericEnv('RELIGION_SUBSCRIBER_DAILY_BUDGET_USD', null),
+        dailySendCap: numericEnv('RELIGION_SUBSCRIBER_DAILY_SEND_CAP', 5),
+        specs: executable.map(function (x) { return { candidate: x.candidate, decision: x.decision }; }),
+        transport: { send: function (email, subject, body, options) { return crm.sendToLead(email, subject, body, options); } }
+      });
+      var byAction = {};
+      (batch.items || []).forEach(function (item) { byAction[item.actionId] = item; });
+      for (var x = 0; x < executable.length; x++) {
+        var execution = executable[x], item = byAction[execution.decision.actionId];
+        if (!item) { execution.row.action = batch && batch.status === 'HELD' ? 'batch-held' : 'send-cap-held'; execution.row.error = batch && batch.reason || null; skipped++; continue; }
+        execution.row.commandId = batch.commandId || null;
+        execution.row.providerEmailId = item.providerEmailId || null;
+        if (item.status === 'ACCEPTED') {
+          var marked = await subs.markSentStrict(execution.subscriber.email, execution.digest.key);
+          execution.row.action = marked ? 'sent-receipt-persisted' : 'accepted-mark-sent-pending';
+          sent++;
+        } else if (item.status === 'BUDGET_HELD') { execution.row.action = 'budget-held'; execution.row.error = item.failure; skipped++; }
+        else if (item.status === 'FAILED') { execution.row.action = 'send-failed'; execution.row.error = item.failure; failed++; }
+        else { execution.row.action = 'send-ambiguous-no-retry'; execution.row.error = item.failure; failed++; }
+      }
     }
 
     return T.send(res, {
@@ -124,6 +142,9 @@ module.exports = async function handler(req, res) {
       note: reallySend ? null : 'Dry run. Add &send=1 to actually email subscribers.',
       subscribers: active.length,
       sent: sent, skipped: skipped, failed: failed,
+      maxSends: maxSends(),
+      batchStatus: batch && batch.status || (reallySend ? 'NO_RELEASED_ACTIONS' : null),
+      providerCalls: batch && batch.providerCalls || 0,
       personalisedDomains: digest.PERSONAL_DOMAINS,
       results: results
     });

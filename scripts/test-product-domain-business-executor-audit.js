@@ -19,9 +19,9 @@ assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(),
 ]);
 assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
 assert.equal(report.summary.actionReceiptsImplemented, 7);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 5);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 5);
-assert.equal(report.summary.sourceChainsComplete, 5);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 6);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 6);
+assert.equal(report.summary.sourceChainsComplete, 6);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -46,6 +46,15 @@ assert.equal(culture.domainAuthorizedRollbackImplemented, true);
 assert.equal(culture.sourceChainComplete, true);
 assert.equal(culture.externalEnabled, false);
 
+var religion = report.domains.find(function (row) { return row.productDomain === 'religion'; });
+assert.equal(religion.actionReceiptStrength, 'DURABLE_CAPPED_IDEMPOTENT_EMAIL_ACCEPTANCE_RECEIPT');
+assert.equal(religion.observerScope, 'RESEND_READ_API_MAIL_SERVER_LAST_EVENT');
+assert.equal(religion.independentOutcomeObserverImplemented, true);
+assert.equal(religion.domainAuthorizedRollbackImplemented, true);
+assert.equal(religion.switchAndBudgetEnforcedInExecutor, true);
+assert.equal(religion.sourceChainComplete, true);
+assert.equal(religion.externalEnabled, false);
+
 assert.equal(communication.domainBoundExecutorImplemented, true);
 
 var science = report.domains.find(function (row) { return row.productDomain === 'science'; });
@@ -68,4 +77,4 @@ assert.equal(agriculture.lane, 'homestead');
 assert.equal(agriculture.domainBoundExecutorImplemented, false);
 assert(agriculture.gaps.includes('domain-bound-production-executor-missing'));
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 5/20, externally ready 0/20');
+console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 6/20, externally ready 0/20');
