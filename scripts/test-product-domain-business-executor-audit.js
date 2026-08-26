@@ -15,13 +15,13 @@ assert(report.laneSurfaces.every(function (row) { return row.filesPresent; }));
 
 var bound = report.domains.filter(function (row) { return row.domainBoundExecutorImplemented; });
 assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(), [
-  'agriculture', 'communication', 'culture', 'defense', 'education', 'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law', 'medicine', 'population', 'religion', 'science', 'trade'
+  'agriculture', 'communication', 'culture', 'defense', 'economy', 'education', 'environment', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law', 'medicine', 'population', 'religion', 'science', 'trade'
 ]);
-assert.equal(report.summary.domainBoundExecutorsImplemented, 17);
-assert.equal(report.summary.actionReceiptsImplemented, 17);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 17);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 17);
-assert.equal(report.summary.sourceChainsComplete, 17);
+assert.equal(report.summary.domainBoundExecutorsImplemented, 18);
+assert.equal(report.summary.actionReceiptsImplemented, 18);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 18);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 18);
+assert.equal(report.summary.sourceChainsComplete, 18);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -30,6 +30,13 @@ assert.equal(finance.sourceChainComplete, true);
 assert.equal(finance.actionReceiptStrength, 'DURABLE_IDEMPOTENT_SANDBOX_COMMAND_RECEIPT');
 assert.equal(finance.observerScope, 'PAPER_30_60_90_PENDING_ELIGIBLE_COMMAND_AND_HORIZON');
 assert.equal(finance.productionVerifiedByDomain, false);
+var economy = report.domains.find(function (row) { return row.productDomain === 'economy'; });
+assert.equal(economy.domainBoundExecutorImplemented, true);
+assert.equal(economy.actionReceiptStrength, 'DURABLE_B10_B14_DOMAIN_OWNED_PAPER_BROKER_RECEIPT');
+assert.equal(economy.observerScope, 'ECONOMY_PAPER_30_60_90_INDEPENDENT_ACCOUNT_AND_MARKET_RESOLUTION');
+assert.equal(economy.domainAuthorizedRollbackImplemented, true);
+assert.equal(economy.sourceChainComplete, true);
+assert.equal(economy.externalEnabled, false);
 var communication = report.domains.filter(function (row) { return row.productDomain === 'communication'; })[0];
 assert.equal(communication.independentOutcomeObserverImplemented, true);
 assert.equal(communication.observerScope, 'PUBLIC_APPVIEW_ENGAGEMENT_SNAPSHOT');
@@ -155,4 +162,4 @@ assert.equal(trade.observerScope, 'PUBLIC_OWNED_MARKETPLACE_LISTING_PRESENCE_ZER
 assert.equal(trade.sourceChainComplete, true);
 assert.equal(trade.externalEnabled, false);
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 17/20, closed source chain 17/20, externally ready 0/20');
+console.log('product domain business executor audit: contracts 20/20, bound executors 18/20, closed source chain 18/20, externally ready 0/20');
