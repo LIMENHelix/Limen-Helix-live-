@@ -99,6 +99,14 @@
       "schedule": "57 14 * * *"
     },
     {
+      "path": "/api/defense-publication-cycle",
+      "schedule": "7 15 * * *"
+    },
+    {
+      "path": "/api/defense-publication-outcome-observer",
+      "schedule": "23 * * * *"
+    },
+    {
       "path": "/api/hero-image",
       "schedule": "*/5 * * * *"
     },
@@ -150,6 +158,10 @@
     {
       "source": "/civilization",
       "destination": "/civilization.html"
+    },
+    {
+      "source": "/defense-briefs",
+      "destination": "/defense-briefs.html"
     },
     {
       "source": "/kernel-comparison",
