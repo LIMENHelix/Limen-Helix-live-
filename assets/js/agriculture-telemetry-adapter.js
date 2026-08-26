@@ -52,21 +52,24 @@
     var conditions = bs._activeConditions || [];
     var activeTriggers = Array.from(new Set([].concat(conditions, activeDx)));
 
-    // --- expand activeTriggers via the grounded alias table so extinction matches the
-    //     activations' free-text diagnosticTriggers instead of retiring everything ---
-    var al = inp.aliases;
-    if (al) {
-      var expanded = new Set(activeTriggers);
-      conditions.forEach(function (c) {
-        var e = al.conditionCodes && al.conditionCodes[c];
-        if (e && e.diagnosticTriggers) e.diagnosticTriggers.forEach(function (t) { expanded.add(t); });
+    // --- expand active diagnoses through Agriculture's OWN p2_agri anatomy ---
+    // No second alias dataset is needed. The local brain has already classified
+    // conditions into active diagnosis ids; each id names a p2_agri issue whose
+    // circuit names local activations, and those activations carry the free-text
+    // diagnosticTriggers consumed by extinction.
+    var expanded = new Set(activeTriggers);
+    var activeNodes = new Set();
+    (agriculture.issues || []).forEach(function (issue) {
+      if (!issue || activeDx.indexOf(issue.id) === -1) return;
+      (issue._authored || issue.circuits || []).forEach(function (circuit) {
+        if (circuit && circuit.nodeId) activeNodes.add(circuit.nodeId);
       });
-      activeDx.forEach(function (id) {
-        var e = al.diagnoses && al.diagnoses[id];
-        if (e && e.diagnosticTriggers) e.diagnosticTriggers.forEach(function (t) { expanded.add(t); });
-      });
-      activeTriggers = Array.from(expanded);
-    }
+    });
+    (agriculture.activations || []).forEach(function (activation) {
+      if (!activation || !activeNodes.has(activation.brainNodeId)) return;
+      (activation.diagnosticTriggers || []).forEach(function (trigger) { expanded.add(trigger); });
+    });
+    activeTriggers = Array.from(expanded);
 
     // --- issue.lastFiredAt: active diagnosis fired now; others carried forward ---
     var issuesOverlay = {};
@@ -107,8 +110,8 @@
       timestamp: now,
       activations: actsOverlay,
       issues: issuesOverlay,
-      _bound: ['volatility', 'activeTriggers', 'issue.lastFiredAt', 'activation.lastFiredAt', 'activation.lastActiveAt'],
-      _unbound: { 'activation.load': 'no pulse source', 'activation.capacity': 'no pulse source', 'activeTriggers->diagnosticTriggers match': 'condition-code vocabulary != activation.diagnosticTriggers free-text; needs an alias table before extinction can match (authoring item, not guessed)' }
+      _bound: ['volatility', 'activeTriggers', 'activeDiagnosis->p2_agri.circuit->diagnosticTriggers', 'issue.lastFiredAt', 'activation.lastFiredAt', 'activation.lastActiveAt'],
+      _unbound: { 'activation.load': 'no pulse source', 'activation.capacity': 'no pulse source' }
     };
   }
 
@@ -150,11 +153,8 @@
   function fromLiveCached(brainState, priorOverlay) {
     var P = (typeof window !== 'undefined' && window.LIMENAgriculturePulse) ? window.LIMENAgriculturePulse : null;
     if (!P) return Promise.resolve(null);
-    return Promise.all([
-      _load('/assets/data/domains/p2_agri.json', 'agriculture'),
-      _load('/assets/data/agriculture-condition-trigger-aliases.json', 'aliases').catch(function () { return null; }) // best-effort
-    ]).then(function (res) {
-      return fromPulse({ agriculture: res[0], aliases: res[1], brainState: brainState, pulseState: P.getPulse(), history: (typeof P.getHistory === 'function') ? P.getHistory() : [], priorOverlay: priorOverlay });
+    return _load('/assets/data/domains/p2_agri.json', 'agriculture').then(function (agriculture) {
+      return fromPulse({ agriculture: agriculture, brainState: brainState, pulseState: P.getPulse(), history: (typeof P.getHistory === 'function') ? P.getHistory() : [], priorOverlay: priorOverlay });
     });
   }
 
