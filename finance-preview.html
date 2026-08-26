@@ -28,12 +28,18 @@
     <button id="approve" class="approve" disabled>Approve one Preview call</button>
     <pre id="receipt">No receipt.</pre>
   </section>
+  <section class="panel">
+    <h2>4 · Autonomous paper decision</h2>
+    <p>This is a read-only view of the durable downstream Finance actor receipt for the same packet. Reading it cannot call a provider, admit a candidate, preview an order, or touch a broker.</p>
+    <pre id="decision">Authenticate and run the live audit to read the current decision.</pre>
+  </section>
 </main>
 <script>
 (() => {
   const token = document.querySelector('#token'), auditButton = document.querySelector('#audit');
   const approve = document.querySelector('#approve'), message = document.querySelector('#message');
   const facts = document.querySelector('#facts'), receipt = document.querySelector('#receipt');
+  const decision = document.querySelector('#decision');
   let measured = null;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const headers = () => ({'content-type':'application/json','x-brain-token':token.value});
@@ -55,8 +61,22 @@
   }
   auditButton.onclick = async () => {
     approve.disabled = true; measured = null; message.className = 'warn'; message.textContent = 'Measuring current production state…';
-    try { const r = await fetch('/api/finance-preview', {headers:headers(),cache:'no-store'}); const data = await r.json(); if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`); measured = data; render(data); }
-    catch (e) { message.className = 'bad'; message.textContent = e.message; }
+    decision.textContent = 'Reading the durable autonomous paper decision…';
+    try {
+      const r = await fetch('/api/finance-preview', {headers:headers(),cache:'no-store'});
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+      measured = data; render(data);
+      if (!data.audit?.packetId) {
+        decision.textContent = 'No current Finance packet is available.';
+        return;
+      }
+      const dr = await fetch('/api/finance-trade-decision?packetId=' + encodeURIComponent(data.audit.packetId), {headers:headers(),cache:'no-store'});
+      const downstream = await dr.json();
+      if (!dr.ok) throw new Error(downstream.error || `Decision audit HTTP ${dr.status}`);
+      decision.textContent = JSON.stringify(downstream.audit?.receipt || downstream.audit || downstream, null, 2);
+    }
+    catch (e) { message.className = 'bad'; message.textContent = e.message; decision.textContent = 'Decision audit unavailable: ' + e.message; }
   };
   approve.onclick = async () => {
     if (!measured?.audit?.packetId || !confirm(`Authorize one Preview provider call for packet ${measured.audit.packetId}?`)) return;
