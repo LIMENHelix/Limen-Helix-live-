@@ -78,11 +78,18 @@ async function main() {
   assert('investment owner is finance', POLICY.ownerFor('investment', 'technology') === 'finance');
   assert('science canonicalizes to research', POLICY.ownerFor('research', 'science') === 'research');
   assert('medicine canonicalizes to health', POLICY.ownerFor('research', 'medicine') === 'health');
+  assert('education retains its sovereign research owner', POLICY.ownerFor('research', 'education') === 'education');
   assert('trade cannot own research', POLICY.ownerFor('research', 'trade') === null);
 
   var held = POLICY.select({ lane: 'research', candidate: candidate('trade', 0), domainCycle: null, at: 1 });
   assert('non-science research is held', held.status === 'HELD');
-  assert('hold names domain mismatch', held.reasons.indexOf('research_subject_not_science_or_medicine') >= 0);
+  assert('hold names domain mismatch', held.reasons.indexOf('research_subject_has_no_registered_research_owner') >= 0);
+
+  var educationReleased = POLICY.select({
+    lane: 'research', candidate: candidate('education', 11), domainCycle: cycle('education'),
+    gate: SELECT.createGate(), modulation: {}, at: 2
+  });
+  assert('education research releases only with its own current brain evidence', educationReleased.status === 'RELEASED', educationReleased.reasons.join(','));
 
   var released = POLICY.select({
     lane: 'research', candidate: candidate('medicine', 1), domainCycle: cycle('health'),

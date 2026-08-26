@@ -71,7 +71,7 @@ var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
 var RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000;
 var MAX_ATTEMPTS_PER_ENTRY = 3;
 var SCHEDULER_TICK_MS = 30 * 60 * 1000;
-var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medicine'];
+var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medicine', 'research:education'];
 
 /*
  * Candidate availability is not motor priority.  The queue may contain many
@@ -86,6 +86,7 @@ function schedulerGroup(entry) {
   if (entry && entry.recommendedLane === 'investment' && owner === 'finance') return 'investment:finance';
   if (entry && entry.recommendedLane === 'research' && owner === 'research') return 'research:science';
   if (entry && entry.recommendedLane === 'research' && owner === 'health') return 'research:medicine';
+  if (entry && entry.recommendedLane === 'research' && owner === 'education') return 'research:education';
   return 'unowned';
 }
 
@@ -143,13 +144,13 @@ function domainOutwardHoldResult(entry, receipt) {
   };
 }
 
-/* Runtime owner names differ from product-brain names for the two research
- * owners. Keep the join explicit: a research release from `research` belongs
- * to the Science product brain; a release from `health` belongs to Medicine.
+/* Runtime owner names can differ from product-brain names. Keep every join
+ * explicit so a research release can only consume its own product receipt.
  * No other domain may borrow this lane or receipt. */
 function researchMotorIdentity(ownerDomain) {
   if (ownerDomain === 'research') return { productDomain: 'science', ownerDomain: 'research', lane: 'research-papers' };
   if (ownerDomain === 'health') return { productDomain: 'medicine', ownerDomain: 'health', lane: 'research-papers' };
+  if (ownerDomain === 'education') return { productDomain: 'education', ownerDomain: 'education', lane: 'research-papers' };
   return null;
 }
 
@@ -230,8 +231,8 @@ var SCOPE_TEMPLATES = {
     proposedApproach: 'Three-horizon scenario tree with probability-weighted IRR per scenario. Position sizing keyed to Kelly criterion under quoted scenario probabilities, capped at portfolio-concentration limits. Kill criteria specified ex-ante across phase transition triggers, leverage/liquidity covenants, and reflexive market events.'
   },
   research: {
-    title: 'Science/medicine evidence synthesis — {company}',
-    description: 'Ongoing evidence synthesis for a Science or Medicine subject. Tracks published studies, replication, convergence, contradiction, retraction, and the effects claimed across the neurological/business homology and P0-P10 kernel arc.',
+    title: 'Research evidence synthesis — {company}',
+    description: 'Ongoing evidence synthesis for an authorized research-domain subject. Tracks published studies, replication, convergence, contradiction, retraction, and the effects claimed across the neurological/business homology and P0-P10 kernel arc.',
     problemStatement: 'A published study is an observation, not proof of progress. The research lane must preserve evidence identity and independence, distinguish convergence from repetition, and show exactly how any claim maps neurology to business, business to neurology, kernel dynamics, and P0-P10 proof and effects.',
     proposedApproach: 'Evidence ledger with four explicit mappings: neurology-to-business homology, business-to-neurology homology, kernel dynamics, and P0-P10 proof/effects. Preserve supporting, constructive, contradicting and retracting evidence separately. Abstain on progress until independence and the mapping are established.'
   }
