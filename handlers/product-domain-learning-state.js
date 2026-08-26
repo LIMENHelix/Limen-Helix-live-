@@ -19,6 +19,9 @@ var governanceLearning = require('../lib/governance-publication-learning.js');
 var infrastructureLearning = require('../lib/infrastructure-real-estate-learning.js');
 var populationLearning = require('../lib/population-real-estate-learning.js');
 var tradeLearning = require('../lib/trade-auction-learning.js');
+var communicationLearning = require('../lib/communication-social-learning.js');
+var cultureLearning = require('../lib/culture-hero-learning.js');
+var lawLearning = require('../lib/law-automail-learning.js');
 
 var DOMAINS = [
   'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -76,6 +79,9 @@ async function read(domain) {
   if (domain === 'industry') return industryLearning.readForBrain(store);
   if (domain === 'religion') return religionLearning.readForBrain(store);
   if (domain === 'intelligence') return intelligenceLearning.readForBrain(store);
+  if (domain === 'communication') return communicationLearning.readForBrain(store);
+  if (domain === 'culture') return cultureLearning.readForBrain(store);
+  if (domain === 'law') return lawLearning.readForBrain(store);
   /* Use the learner's strict compatibility loader. States written before the
      external-learning seam are still valid durable brain state; the loader
      supplies an empty externalLearning block in memory without writing Redis.

@@ -6,6 +6,7 @@ var CronAuth = require('../lib/cron-auth.js');
 var Store = require('../lib/autofire-efference-store.js');
 var Social = require('../lib/social-post.js');
 var Observer = require('../lib/communication-social-outcome-observer.js');
+var Learning = require('../lib/communication-social-learning.js');
 
 function createHandler(deps) {
   deps = deps || {};
@@ -31,6 +32,19 @@ function createHandler(deps) {
         if (!posts.some(function (post) { return post && post.uri === receipt.uri; })) posts.unshift(receipt);
       });
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
+      var commands = await store.lrange('communication_social_command_log', 0, 999);
+      var learned = 0, learningFailures = [];
+      for (var i = 0; i < result.results.length; i++) {
+        var receipt = result.results[i] && result.results[i].receipt;
+        if (!receipt || receipt.status !== 'OBSERVED') continue;
+        var command = commands.find(function (row) { return row && row.receipt && row.receipt.uri === receipt.postReceipt.uri && row.receipt.cid === receipt.postReceipt.cid; });
+        if (!command) continue;
+        var learnedResult = await Learning.recordObservation(store, command, receipt);
+        if (learnedResult && learnedResult.ok) { if (!learnedResult.duplicate) learned++; }
+        else learningFailures.push({ observationId: receipt.observationId, reason: learnedResult && learnedResult.reason || 'communication-learning-failed' });
+      }
+      result.learning = { recorded: learned, failures: learningFailures };
+      if (learningFailures.length) result.ok = false;
       result.reconciliation = reconciliation;
       res.statusCode = result.ok ? 200 : 207;
       return res.end(JSON.stringify(result));

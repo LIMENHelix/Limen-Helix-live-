@@ -4,6 +4,7 @@ var assert = require('node:assert/strict');
 var Decision = require('../lib/technology-investment-decision.js');
 var Executor = require('../lib/technology-investment-executor.js');
 var Recovery = require('../lib/technology-investment-recovery.js');
+var Learning = require('../lib/autofire-learning.js');
 var StrictStore = require('../lib/autofire-efference-store.js');
 
 function memory() { var values = new Map(), lists = new Map(); return { values: values, lists: lists, assertDurable: function () {},
@@ -33,12 +34,14 @@ function cognition(now) { return { ts: now, c: { domain: 'technology', immune: {
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets, maxNotionalUsd: 150 });
   assert.equal(decision.status, 'RELEASED');
   var b14 = { createPreview: async function (_s, _b, intent) { assert.equal(intent.ownerDomain, 'technology'); return { previewId: 'epv1', confirmationSummary: 'confirm' }; },
-    submitApproved: async function () { return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
+    submitApproved: async function () { assert(await store.get(Learning.causeKey(decision.actionId))); return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
   var broker = { quote: async function (s) { return { symbol: s, last: s === 'SPY' ? 500 : 10, bid: s === 'SPY' ? 499 : 9.99, ask: s === 'SPY' ? 501 : 10.01 }; }, accountSnapshot: async function () { return { totalCash: 1000 }; } };
   var authorization = { authorize: async function () { return { authorized: true, receiptId: 'technology-motor-receipt-1' }; } };
   var result = await Executor.execute({ store: store, candidate: candidate, decision: decision, broker: broker, b14: b14, motorAuthorization: authorization,
     env: { TECHNOLOGY_INVESTMENT_PAPER_ORDER_ENABLED: '1', TECHNOLOGY_INVESTMENT_RECOVERY_ENABLED: '1' }, maxNotionalUsd: 150, dailyNotionalBudgetUsd: 200, dailyOrderCap: 2, now: now + 1 });
   assert.equal(result.status, 'COMMAND_RECEIPTED'); assert.equal(result.ownerDomain, 'technology'); assert.equal(result.liveMoney, false);
+  assert.equal(result.learningCauseDurable, true); assert(result.learningEpisodeId);
+  assert.equal((await Learning._load(store, 'technology')).commands[0].ticker, 'ACME');
   var recoveryB14 = { reconcile: async function () { return { commandId: 'broker-command-1', order: { status: 'open', executedQuantity: 0 }, rollback: { confirmationSummary: 'cancel' } }; },
     cancelApproved: async function () { return { commandId: 'broker-command-1', rollback: { receipt: { orderId: 'paper-order-1', status: 'canceled' } } }; } };
   var recovered = await Recovery.recover({ store: store, command: result, trigger: { type: 'technology-investment-kill', id: 'kill-1' }, broker: broker, b14: recoveryB14,
