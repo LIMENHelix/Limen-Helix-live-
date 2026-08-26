@@ -15,13 +15,13 @@ assert(report.laneSurfaces.every(function (row) { return row.filesPresent; }));
 
 var bound = report.domains.filter(function (row) { return row.domainBoundExecutorImplemented; });
 assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(), [
-  'agriculture', 'communication', 'culture', 'defense', 'finance', 'governance', 'industry', 'intelligence', 'law', 'medicine', 'religion', 'science'
+  'agriculture', 'communication', 'culture', 'defense', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law', 'medicine', 'religion', 'science'
 ]);
-assert.equal(report.summary.domainBoundExecutorsImplemented, 12);
-assert.equal(report.summary.actionReceiptsImplemented, 12);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 12);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 12);
-assert.equal(report.summary.sourceChainsComplete, 12);
+assert.equal(report.summary.domainBoundExecutorsImplemented, 13);
+assert.equal(report.summary.actionReceiptsImplemented, 13);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 13);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 13);
+assert.equal(report.summary.sourceChainsComplete, 13);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -116,4 +116,11 @@ assert.equal(governance.observerScope, 'PUBLIC_ARTICLE_PRESENCE_AND_ANONYMOUS_SO
 assert.equal(governance.sourceChainComplete, true);
 assert.equal(governance.externalEnabled, false);
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 12/20, closed source chain 12/20, externally ready 0/20');
+var infrastructure = report.domains.find(function (row) { return row.productDomain === 'infrastructure'; });
+assert.equal(infrastructure.lane, 'real-estate');
+assert.equal(infrastructure.actionReceiptStrength, 'DURABLE_B10_B14_NON_BINDING_PROPERTY_INQUIRY_RECEIPT');
+assert.equal(infrastructure.observerScope, 'RESEND_SIGNED_INBOUND_COUNTERPARTY_RESPONSE_UNCLASSIFIED_ZERO_CREDIT');
+assert.equal(infrastructure.sourceChainComplete, true);
+assert.equal(infrastructure.externalEnabled, false);
+
+console.log('product domain business executor audit: contracts 20/20, bound executors 13/20, closed source chain 13/20, externally ready 0/20');
