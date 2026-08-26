@@ -99,7 +99,7 @@
     <div class="panel">
       <h2>Worklist <span class="muted" id="wlCount"></span></h2>
       <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
-        <select id="fStatus"><option value="">all statuses</option><option>new</option><option>working</option><option>appointment</option><option>unresponsive</option><option>dead</option></select>
+        <select id="fStatus"><option value="">all statuses</option><option>new</option><option>working</option><option>appointment</option><option>showed</option><option>no-show</option><option>cancelled</option><option>enrolled</option><option>referred</option><option>lost</option><option>unresponsive</option><option>dead</option></select>
         <select id="fCompany"><option value="">all ventures</option></select>
         <button class="sm" onclick="loadAll()">↻</button>
       </div>
@@ -161,6 +161,8 @@ function renderMetrics(m){
     {k:'In CRM',v:m.inWorklist||0,c:''},
     {k:'Working',v:p.working||0,c:''},
     {k:'Appointments',v:p.appointment||0,c:'appt'},
+    {k:'Enrolled',v:p.enrolled||0,c:'pos'},
+    {k:'Referred',v:p.referred||0,c:'pos'},
     {k:'Dead',v:p.dead||0,c:'dead'},
     {k:'Lead→Appt',v:l2a?(l2a.conv*100).toFixed(0)+'%':'—',c:'pos'},
     {k:'Touches/appt',v:m.touchesPerAppt!=null?m.touchesPerAppt:'—',c:''},

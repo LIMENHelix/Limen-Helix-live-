@@ -91,6 +91,7 @@ async function loadState(id) { return await db.get(K.state + id); }
 // Next cadence step for a state: first step whose index is past the count of
 // completed touches (simple sequential progression).
 function nextStep(state, cadence) {
+  if (state.status !== 'new' && state.status !== 'working') return null;
   var done = (state.touches || []).length;
   if (done >= cadence.length) return null;
   return cadence[done];
@@ -212,7 +213,8 @@ module.exports = async function handler(req, res) {
       var limit = Math.min(parseInt(u.searchParams.get('limit') || '100', 10) || 100, 300);
       var ids = await loadWorklist();
       var cadence = await loadCadence();
-      var rows = [], counts = { new: 0, working: 0, appointment: 0, unresponsive: 0, dead: 0 };
+      var rows = [], counts = {};
+      STATUSES.forEach(function (status) { counts[status] = 0; });
       for (var i = 0; i < ids.length; i++) {
         var st = await loadState(ids[i]);
         if (!st) continue;
@@ -286,7 +288,8 @@ module.exports = async function handler(req, res) {
       var funnel = E.computeFunnel((await db.get(K.salesAgg)) || E.emptyAgg());
       var l2a = (funnel.transitions || []).filter(function (t) { return t.id === 'leads>appointments'; })[0] || null;
       var ids2 = await loadWorklist();
-      var pc = { new: 0, working: 0, appointment: 0, unresponsive: 0, dead: 0 };
+      var pc = {};
+      STATUSES.forEach(function (status) { pc[status] = 0; });
       var touchTotal = 0;
       for (var m = 0; m < ids2.length; m++) { var s2 = await loadState(ids2[m]); if (!s2) continue; if (s2.status in pc) pc[s2.status]++; touchTotal += (s2.touches || []).length; }
       var appts = pc.appointment;

@@ -17,8 +17,9 @@ function store() {
 }
 
 (async function () {
-  assert.equal(Registry.LINES.length, 20, 'one line per product brain');
-  assert.equal(new Set(Registry.LINES.map(x => x.id)).size, 20, 'valve identities are unique');
+  assert.equal(Registry.LINES.length, 21, 'each external lane has its own line; Finance currently has broker and subscriber lanes');
+  assert.equal(new Set(Registry.LINES.map(x => x.id)).size, 21, 'valve identities are unique');
+  assert.equal(Registry.get('finance:subscriber-email').ownerDomain, 'finance');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'science' }), 'science:research-papers');
   assert.equal(Registry.forCandidate({ recommendedLane: 'research', domain: 'medicine' }), 'medicine:research-papers');
   assert.equal(Registry.forCandidate({ recommendedLane: 'investment', domain: 'finance' }), 'finance:broker-order');
@@ -58,10 +59,10 @@ function store() {
     LIMEN_AUTONOMY_ENABLED: '1', LIMEN_AI_ENABLED: '1',
     LIMEN_SCIENCE_RESEARCH_DEVELOPMENTAL_ENABLED: '1'
   }, s);
-  assert.equal(snap.lines.length, 20);
-  assert.equal(snap.buildSummary.sourceChainsImplemented, 20);
+  assert.equal(snap.lines.length, 21);
+  assert.equal(snap.buildSummary.sourceChainsImplemented, 21);
   assert.equal(snap.buildSummary.currentJob7Pilots, 3);
-  assert.equal(snap.buildSummary.sequencedAfterJobs7And8, 17);
+  assert.equal(snap.buildSummary.sequencedAfterJobs7And8, 18);
   assert.equal(snap.buildSummary.externallyAutonomous, 0);
   assert.equal(snap.lines.find(x => x.productDomain === 'science').effectiveEligibilityOpen, true);
   assert.equal(snap.lines.find(x => x.productDomain === 'science').build.sequence, 'JOB_7_CURRENT');
@@ -75,5 +76,5 @@ function store() {
   const failed = await Control.authorize('science:research-papers', { assertDurable() { throw new Error('down'); } });
   assert.equal(failed.allowed, false);
   assert.equal(failed.reason, 'valve-control-unavailable-fail-closed');
-  console.log('civilization valve control: 20 separate lines, verified receipts, emergency inhibition, and fail-closed dispatch passed');
+  console.log('civilization valve control: 21 separate lane lines across 20 brains, verified receipts, emergency inhibition, and fail-closed dispatch passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

@@ -28,6 +28,7 @@ var db = require('../lib/limen-db');
 var catalog = require('../lib/offer-catalog');
 var motorStore = require('../lib/autofire-efference-store');
 var religionFulfillment = require('../lib/religion-revenue-fulfillment');
+var leadPipeline = require('../lib/lead-pipeline-bridge');
 
 var SEEN_KEY = 'stripe:events:seen:v1';
 var SEEN_CAP = 400;
@@ -74,15 +75,18 @@ async function markHandled(id) {
   } catch (e) {}
 }
 
-/** Book the sale into the 5-stage funnel as an enrollment, matching handlers/sales.js keys. */
-async function recordEnrollment(domain, cents) {
+/**
+ * Book subscription cash into the Sales engine. The initial checkout is one
+ * enrollment; later invoices add revenue without pretending the same person
+ * enrolled again.
+ */
+async function recordSubscriptionRevenue(domain, cents, isNewEnrollment) {
   try {
     var agg = await db.get('sales:agg');
     if (!agg || typeof agg !== 'object') agg = {};
     var t = agg['shows>enrollments'] || (agg['shows>enrollments'] = {});
     var u = t['subscriptions'] || (t['subscriptions'] = { attempts: 0, wins: 0, costCents: 0 });
-    u.attempts += 1;
-    u.wins += 1;
+    if (isNewEnrollment) { u.attempts += 1; u.wins += 1; }
     u.revenueCents = (u.revenueCents || 0) + (cents || 0);
     await db.set('sales:agg', agg);
 
@@ -90,7 +94,7 @@ async function recordEnrollment(domain, cents) {
       var bd = await db.get('sales:leads:by-domain');
       if (!bd || typeof bd !== 'object') bd = {};
       var d = bd[domain] || (bd[domain] = { leads: 0, byChannel: {} });
-      d.enrollments = (d.enrollments || 0) + 1;
+      if (isNewEnrollment) d.enrollments = (d.enrollments || 0) + 1;
       d.revenueCents = (d.revenueCents || 0) + (cents || 0);
       await db.set('sales:leads:by-domain', bd);
     }
@@ -202,7 +206,11 @@ module.exports = async function handler(req, res) {
         if (!act.ok) out.activateError = act.reason;
 
         if (act.ok) {
-          await recordEnrollment(meta.domain, obj.amount_total || 0);
+          await recordSubscriptionRevenue(meta.domain, obj.amount_total || 0, true);
+          var pipeline = await leadPipeline.enroll({ eventId: evt.id, name: obj.customer_details && obj.customer_details.name,
+            email: email, domain: meta.domain, rung: meta.rung, revenueCents: obj.amount_total || 0,
+            subscriptionId: obj.subscription, source: 'stripe-checkout-completed' });
+          out.leadId = pipeline.leadId || null; out.pipelineEnrolled = pipeline.ok === true;
           // Persist before attempting. Religion's own B10/B14 motor may send now or its
           // fulfillment cron will retry the held task after the domain releases it.
           var welcome = await religionFulfillment.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'welcome',
@@ -231,7 +239,7 @@ module.exports = async function handler(req, res) {
             message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
           out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
           out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;
-          await recordEnrollment(who.domain, obj.amount_paid || 0);
+          await recordSubscriptionRevenue(who.domain, obj.amount_paid || 0, false);
         } else {
           out.receiptSent = false;
           out.note = 'No active subscriber matched this invoice, so no receipt was sent.';
