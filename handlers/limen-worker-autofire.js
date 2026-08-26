@@ -45,6 +45,7 @@ var motorAuthorization = require('../lib/product-domain-motor-authorization');
 var researchDevelopmentalAuthority = require('../lib/research-paper-developmental-authority');
 var financeB14Bridge = require('../lib/finance-b14-bridge');
 var tradierSandbox = require('../lib/tradier-sandbox');
+var crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
 
@@ -125,15 +126,60 @@ function fairCandidateOrder(candidates, now) {
   return ordered.concat(grouped.unowned);
 }
 
+function candidateIdentity(entry) {
+  if (!entry || typeof entry !== 'object') return null;
+  if (entry.cik) return 'cik:' + String(entry.cik);
+  if (entry.subjectId) return 'subject:' + String(entry.subjectId);
+  if (entry.sourceArtifactRef) return 'artifact:' + String(entry.sourceArtifactRef);
+  return null;
+}
+
+function laneDedupeKey(entry) {
+  if (entry && entry.cik) {
+    return CIK_DEDUPE_PREFIX + entry.cik + '_' + String(entry.recommendedLane || '');
+  }
+  var identity = candidateIdentity(entry);
+  if (!identity) return null;
+  return CIK_DEDUPE_PREFIX + crypto.createHash('sha256')
+    .update(identity + '|' + String(entry.recommendedLane || ''))
+    .digest('hex').slice(0, 28);
+}
+
+function sameCandidate(left, right) {
+  if (!left || !right || left.recommendedLane !== right.recommendedLane) return false;
+  if (left.sourceArtifactRef || right.sourceArtifactRef) {
+    return !!left.sourceArtifactRef && left.sourceArtifactRef === right.sourceArtifactRef;
+  }
+  var leftId = candidateIdentity(left);
+  return !!leftId && leftId === candidateIdentity(right);
+}
+
+function resultIdentity(entry) {
+  return {
+    cik: entry && entry.cik || null,
+    subjectId: entry && entry.subjectId || null,
+    sourcePacketId: entry && entry.sourcePacketId || null
+  };
+}
+
+function isEligibleCandidate(entry, now) {
+  if (!entry || entry.status !== 'PENDING' || (entry.retryAfter || 0) > now ||
+      !SINGLE_CALL_LANES.has(entry.recommendedLane)) return false;
+  if (entry.recommendedLane === 'research') {
+    return entry.source === 'domain-packet-research' && entry.autofireEligible === true;
+  }
+  return entry.salience === 'HIGH' ||
+    (entry.source === 'master-inbox' && entry.autofireEligible === true);
+}
+
 /* A critic hold is an expected default-deny outcome, not a failed provider
  * attempt. Keep it out of the failure/retry path so the queue can be
  * reconsidered when the owning domain emits stronger evidence. */
 function domainOutwardHoldResult(entry, receipt) {
-  return {
+  return Object.assign(resultIdentity(entry), {
     skipped: true,
     ok: false,
     billableAttempt: false,
-    cik: entry.cik,
     lane: entry.recommendedLane,
     reason: 'domain-outward-held',
     detail: (receipt.reasons || []).join(','),
@@ -142,7 +188,7 @@ function domainOutwardHoldResult(entry, receipt) {
     decisionKind: receipt.criticDecision && receipt.criticDecision.released
       ? receipt.criticDecision.released.kind : null,
     motorStatus: 'HELD'
-  };
+  });
 }
 
 /* Runtime owner names can differ from product-brain names. Keep every join
@@ -157,11 +203,10 @@ function researchMotorIdentity(ownerDomain) {
 }
 
 function researchMotorHoldResult(entry, selection, authorization, identity) {
-  return {
+  return Object.assign(resultIdentity(entry), {
     skipped: true,
     ok: false,
     billableAttempt: false,
-    cik: entry.cik,
     lane: entry.recommendedLane,
     reason: 'product-domain-research-motor-held',
     detail: authorization && authorization.reason || 'research-motor-identity-missing',
@@ -170,7 +215,7 @@ function researchMotorHoldResult(entry, selection, authorization, identity) {
     ownerDomain: identity && identity.ownerDomain || null,
     productMotorReceiptId: authorization && authorization.receiptId || null,
     motorStatus: 'HELD'
-  };
+  });
 }
 
 // The deployment hostname can be protected even when the public custom domain
@@ -322,18 +367,35 @@ function _buildContextPacket(portal, lane) {
 }
 
 async function _fireOne(entry) {
-  var slug = entry.portalSlug || _slugForCik(entry.cik);
-  if (!slug) {
-    return { skipped: true, reason: 'no-portal-for-cik', cik: entry.cik };
-  }
-  var portal = await _loadPortal(slug);
-  if (!portal) {
-    return { skipped: true, reason: 'portal-load-failed', cik: entry.cik };
-  }
-
   var lane = entry.recommendedLane;
-  var packet = _buildContextPacket(portal, lane);
-  var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + entry.cik + '-' + Date.now());
+  var isDomainResearch = lane === 'research' && entry.source === 'domain-packet-research';
+  var slug = null;
+  var portal = null;
+  var packet = null;
+  if (isDomainResearch) {
+    if (!entry.subjectId || !entry.sourcePacketId || !entry.researchContext ||
+        !entry.researchContext.subject || !entry.researchContext.evidence ||
+        !Array.isArray(entry.researchContext.evidence.news) ||
+        entry.researchContext.evidence.news.length < 4) {
+      return Object.assign(resultIdentity(entry), {
+        skipped: true, reason: 'domain-research-context-invalid', lane: lane
+      });
+    }
+    packet = entry.researchContext;
+    slug = entry.subjectId;
+  } else {
+    slug = entry.portalSlug || _slugForCik(entry.cik);
+    if (!slug) {
+      return Object.assign(resultIdentity(entry), { skipped: true, reason: 'no-portal-for-cik', lane: lane });
+    }
+    portal = await _loadPortal(slug);
+    if (!portal) {
+      return Object.assign(resultIdentity(entry), { skipped: true, reason: 'portal-load-failed', lane: lane });
+    }
+    packet = _buildContextPacket(portal, lane);
+  }
+  var subjectKey = candidateIdentity(entry);
+  var sig = entry.sourcePatternSig || ('autofire-' + lane + '-' + subjectKey + '-' + Date.now());
 
   // B11 owner-domain release. The candidate exists before this gate; the gate
   // cannot manufacture one from stress, headlines, or a finding. It can only
@@ -444,9 +506,8 @@ async function _fireOne(entry) {
   var commanded = await autofireEfference.command(efferenceStore, {
     lane: lane,
     cik: entry.cik,
-    sourceIdentity: entry.sourceArtifactRef
-      ? { kind: 'master-inbox-artifact', value: entry.sourceArtifactRef }
-      : { kind: 'phase-transition-pattern', value: sig },
+    subjectId: entry.subjectId || null,
+    sourceIdentity: selected.receipt.candidate.sourceIdentity,
     emittedAt: commandAt,
     attempt: Number.isInteger(entry.autofireAttempts) ? entry.autofireAttempts : 0
   });
@@ -483,6 +544,7 @@ async function _fireOne(entry) {
   }
 
   async function finish(result) {
+    Object.assign(result, resultIdentity(entry));
     if (financeB14Preview) result.financeB14Preview = financeB14Preview;
     if (productMotorAuthorization) {
       result.productDomain = productMotor.productDomain;
@@ -517,10 +579,15 @@ async function _fireOne(entry) {
       body: JSON.stringify({
         lane: lane,
         cik: entry.cik,
+        subjectId: entry.subjectId || null,
         sourcePatternSig: sig,
         readiness: 0.62,
         contextPacket: packet,
-        kernelSnapshot: {
+        kernelSnapshot: isDomainResearch ? {
+          thing2: null,
+          interpretation: 'Thing 2 was not supplied and has no decision authority in this evidence synthesis.',
+          ts: Date.now()
+        } : {
           thing2: {
             dominantPhase: entry.to,
             stress: 0.4,
@@ -560,15 +627,20 @@ async function _fireOne(entry) {
       headers: _internalHeaders(),
       body: JSON.stringify({
         cik: entry.cik,
-        slug: slug,
+        slug: isDomainResearch ? null : slug,
         engineId: 'engine-' + lane,
         lane: lane,
         sourcePatternSig: sig,
         readiness: 0.62,
         operator: 'autofire-worker',
-        kernelSnapshot: { thing2: { dominantPhase: entry.to, stress: 0.4, trajectory: entry.direction === 'deteriorating' ? 'ESCALATING' : 'STABILIZING' }, ts: Date.now() },
+        kernelSnapshot: isDomainResearch ? {
+          thing2: null,
+          interpretation: 'Thing 2 was not supplied and has no decision authority in this evidence synthesis.',
+          ts: Date.now()
+        } : { thing2: { dominantPhase: entry.to, stress: 0.4, trajectory: entry.direction === 'deteriorating' ? 'ESCALATING' : 'STABILIZING' }, ts: Date.now() },
         payload: {
-          title: inner.title || (lane.toUpperCase() + ' — ' + (portal.name || slug)),
+          title: inner.title || (lane.toUpperCase() + ' — ' +
+            ((portal && portal.name) || entry.entity_name || entry.subjectId || slug)),
           lane: lane,
           agency_or_office: inner.agency_or_office,
           format_standard: inner.format_standard,
@@ -597,6 +669,9 @@ async function _fireOne(entry) {
             triggeredAt: Date.now(),
             selectionId: selected.receipt.id,
             ownerDomain: selected.receipt.ownerDomain,
+            subjectId: entry.subjectId || null,
+            sourcePacketId: entry.sourcePacketId || null,
+            topicEvidenceRefs: Array.isArray(entry.topicEvidenceRefs) ? entry.topicEvidenceRefs.slice(0, 8) : [],
             productDomain: productMotor ? productMotor.productDomain : null,
             productMotorReceiptId: productMotorAuthorization ? productMotorAuthorization.receiptId : null,
             productMotorAuthorizationMode: productMotorAuthorization
@@ -741,12 +816,8 @@ module.exports = async function handler(req, res) {
     // 2. Read autoqueue, filter HIGH-salience PENDING single-call lanes
     var queue = await db.get(AUTOQUEUE_KEY);
     if (!Array.isArray(queue)) queue = [];
-    var candidates = queue.filter(function (q) {
-      return q.status === 'PENDING'
-          && (q.retryAfter || 0) <= Date.now()
-          && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
-          && SINGLE_CALL_LANES.has(q.recommendedLane);
-    });
+    var eligibilityAt = Date.now();
+    var candidates = queue.filter(function (q) { return isEligibleCandidate(q, eligibilityAt); });
     var schedulerAt = Date.now();
     var orderedCandidates = fairCandidateOrder(candidates, schedulerAt);
 
@@ -757,7 +828,8 @@ module.exports = async function handler(req, res) {
     var budgetRefusal = null;
     for (var i = 0; i < orderedCandidates.length && toFire.length < MAX_FIRES_PER_TICK; i++) {
       var c = orderedCandidates[i];
-      var dedupeKey = CIK_DEDUPE_PREFIX + c.cik + '_' + c.recommendedLane;
+      var dedupeKey = laneDedupeKey(c);
+      if (!dedupeKey) { dedupedCount++; continue; }
       var recentFire = await db.get(dedupeKey);
       if (recentFire) { dedupedCount++; continue; }
 
@@ -765,7 +837,7 @@ module.exports = async function handler(req, res) {
       // matrix. Pre-revenue applicants shouldn't get SBA / Franchise
       // even on single-call paths; same applies to investment lane
       // mid-stage equity if the entity has no operating history.
-      var slugForStage = c.portalSlug || _slugForCik(c.cik);
+      var slugForStage = c.cik ? (c.portalSlug || _slugForCik(c.cik)) : null;
       if (slugForStage) {
         var portalForStage = await _loadPortal(slugForStage);
         if (portalForStage) {
@@ -776,7 +848,7 @@ module.exports = async function handler(req, res) {
             var q2s = await db.get(AUTOQUEUE_KEY);
             if (Array.isArray(q2s)) {
               for (var k0 = 0; k0 < q2s.length; k0++) {
-                if (q2s[k0].cik === c.cik && q2s[k0].recommendedLane === c.recommendedLane && q2s[k0].status === 'PENDING') {
+                if (sameCandidate(q2s[k0], c) && q2s[k0].status === 'PENDING') {
                   q2s[k0].status = 'DISMISSED';
                   q2s[k0].actionedAt = Date.now();
                   q2s[k0].actionedBy = 'autofire-stage-router';
@@ -858,7 +930,7 @@ module.exports = async function handler(req, res) {
           var q2 = await db.get(AUTOQUEUE_KEY);
           if (Array.isArray(q2)) {
             for (var k = 0; k < q2.length; k++) {
-              if (q2[k].cik === entry.cik && q2[k].recommendedLane === entry.recommendedLane && q2[k].status === 'PENDING') {
+              if (sameCandidate(q2[k], entry) && q2[k].status === 'PENDING') {
                 q2[k].status = 'FIRED';
                 q2[k].actionedAt = Date.now();
                 q2[k].actionedBy = 'autofire-worker';
@@ -868,7 +940,7 @@ module.exports = async function handler(req, res) {
             }
             await db.set(AUTOQUEUE_KEY, q2, 14 * 86400);
           }
-          await db.set(CIK_DEDUPE_PREFIX + entry.cik + '_' + entry.recommendedLane, { at: Date.now() }, CIK_DEDUPE_TTL);
+          await db.set(laneDedupeKey(entry), { at: Date.now() }, CIK_DEDUPE_TTL);
         } catch (_) { /* state-write errors must not poison the result */ }
       } else if (!result.skipped) {
         // A failed paid attempt must not hammer the same candidate every 30
@@ -878,10 +950,7 @@ module.exports = async function handler(req, res) {
           var qFail = await db.get(AUTOQUEUE_KEY);
           if (Array.isArray(qFail)) {
             for (var qfi = 0; qfi < qFail.length; qfi++) {
-              var sameArtifact = entry.sourceArtifactRef && qFail[qfi].sourceArtifactRef === entry.sourceArtifactRef;
-              var sameLegacy = !entry.sourceArtifactRef && qFail[qfi].cik === entry.cik
-                && qFail[qfi].recommendedLane === entry.recommendedLane;
-              if ((sameArtifact || sameLegacy) && qFail[qfi].status === 'PENDING') {
+              if (sameCandidate(qFail[qfi], entry) && qFail[qfi].status === 'PENDING') {
                 qFail[qfi].autofireAttempts = (qFail[qfi].autofireAttempts || 0) + 1;
                 qFail[qfi].lastAttemptAt = Date.now();
                 qFail[qfi].lastAttemptError = result.reason || 'unknown';
@@ -906,7 +975,8 @@ module.exports = async function handler(req, res) {
         try {
           await autonomyBudget.record(entry._estimatedCostUsd || (COST_PER_CALL_USD[entry.recommendedLane] || 0.50), {
             streamId: 'autofire:' + entry.recommendedLane + (result.productDomain ? ':' + result.productDomain : ''),
-            note: 'conservative estimated cost for autonomous ' + entry.recommendedLane + ' artifact attempt for CIK ' + entry.cik
+            note: 'conservative estimated cost for autonomous ' + entry.recommendedLane +
+              ' artifact attempt for ' + candidateIdentity(entry)
           });
         } catch (budgetErr) {
           // Losing the budget ledger must stop the next paid invocation. The
@@ -1000,3 +1070,7 @@ module.exports.researchMotorHoldResult = autofireHandler.researchMotorHoldResult
 module.exports.schedulerGroup = schedulerGroup;
 module.exports.fairCandidateOrder = fairCandidateOrder;
 module.exports.SCHEDULER_TICK_MS = SCHEDULER_TICK_MS;
+module.exports.candidateIdentity = candidateIdentity;
+module.exports.laneDedupeKey = laneDedupeKey;
+module.exports.sameCandidate = sameCandidate;
+module.exports.isEligibleCandidate = isEligibleCandidate;

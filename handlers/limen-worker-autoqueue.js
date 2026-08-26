@@ -21,6 +21,8 @@
 var db = require('../lib/limen-db');
 var policy = require('../lib/limen-policy');
 var cronAuth = require('../lib/cron-auth');
+var redisGet = require('../lib/redis-kv').redisGet;
+var domainResearchCandidate = require('../lib/domain-research-candidate');
 var masterInbox = require('../assets/data/_master-inbox.json');
 var outwardPolicy = require('../brain-v2/core/outward-action-policy.js');
 
@@ -63,6 +65,21 @@ function _trimQueue(queue) {
   // invariant breach. Bound it without calling those items terminal.
   if (kept.length > AUTOQUEUE_MAX) kept = kept.slice(0, AUTOQUEUE_MAX);
   return { queue: kept, evicted: evicted };
+}
+
+/* The old company-portal Research pool has no identity join to current
+ * Science/Medicine feed observations. When the bounded queue is full, a
+ * source-owned domain research candidate may replace one oldest still-pending
+ * company Research row. The retired row remains in the immutable master inbox;
+ * this changes only scheduled work and reports the retirement explicitly. */
+function _retireMismatchedResearch(queue) {
+  for (var i = queue.length - 1; i >= 0; i--) {
+    var row = queue[i];
+    if (row && row.status === 'PENDING' && row.source === 'master-inbox' && row.recommendedLane === 'research') {
+      return queue.splice(i, 1)[0];
+    }
+  }
+  return null;
 }
 
 module.exports = async function handler(req, res) {
@@ -143,7 +160,61 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // 3b. The reconciled master inbox is the existing research/investment
+    // 3b. Science and Medicine research candidates originate from the owning
+    // product brain's current durable packet, not from a company portal whose
+    // identity is absent from those feeds. Only the bounded actor candidate is
+    // queued here; B10 still competes it against no_action in autofire.
+    var domainResearch = { examined: 2, ready: 0, admitted: 0, deduped: 0, abstentions: [], retiredMismatched: [] };
+    var researchRecords = await Promise.all(['science', 'medicine'].map(function (domain) {
+      return redisGet('limen:brain:cognition:' + domain).then(function (record) {
+        return { domain: domain, record: record };
+      });
+    }));
+    for (var dri = 0; dri < researchRecords.length; dri++) {
+      var builtResearch = domainResearchCandidate.build(
+        researchRecords[dri].record, researchRecords[dri].domain, Date.now());
+      if (builtResearch.status !== 'READY_FOR_B10' || !builtResearch.candidate) {
+        domainResearch.abstentions.push({ domain: researchRecords[dri].domain, reason: builtResearch.reason });
+        continue;
+      }
+      domainResearch.ready++;
+      var researchEntry = builtResearch.candidate;
+      var researchAlreadyPending = queue.some(function (q) {
+        return q.sourceArtifactRef === researchEntry.sourceArtifactRef && q.status === 'PENDING';
+      });
+      var researchDedupeKey = DEDUPE_PREFIX + 'domain_research_' +
+        researchEntry.sourceArtifactRef.replace(/[^A-Za-z0-9_.-]/g, '_');
+      if (researchAlreadyPending || await db.get(researchDedupeKey)) {
+        domainResearch.deduped++;
+        continue;
+      }
+      if (_queueSeedCapacity(queue) < 1) {
+        var retired = _retireMismatchedResearch(queue);
+        if (!retired) {
+          domainResearch.abstentions.push({ domain: researchRecords[dri].domain, reason: 'autoqueue-full-no-replaceable-company-research-row' });
+          continue;
+        }
+        domainResearch.retiredMismatched.push({
+          sourceArtifactRef: retired.sourceArtifactRef || null,
+          cik: retired.cik || null,
+          domain: retired.domain || null
+        });
+      }
+      researchEntry.queuedAt = Date.now();
+      queue.unshift(researchEntry);
+      await db.set(researchDedupeKey, {
+        at: Date.now(), sourcePacketId: researchEntry.sourcePacketId,
+        sourceArtifactRef: researchEntry.sourceArtifactRef
+      }, DEDUPE_TTL);
+      domainResearch.admitted++;
+      added++;
+      if (sampleAdded.length < 5) sampleAdded.push({
+        subjectId: researchEntry.subjectId, domain: researchEntry.domain,
+        lane: researchEntry.recommendedLane, salience: researchEntry.salience
+      });
+    }
+
+    // 3c. The reconciled master inbox is the existing research/investment
     // prioritizer. It used to be repo-only, so 759 READY_TO_FIRE candidates had
     // no path into the live queue. Seed only its capped topPriority surface,
     // preserve the exact gate inputs, and rate-limit queue admission. This does
@@ -155,6 +226,7 @@ module.exports = async function handler(req, res) {
     var masterAdded = [];
     var masterDeduped = 0;
     var masterInvalid = 0;
+    var masterResearchHeld = 0;
     var seedCapacity = _queueSeedCapacity(queue);
     var seedLimit = Math.min(MASTER_SEED_PER_TICK, seedCapacity);
     for (var mi = 0; mi < masterTop.length && masterAdded.length < seedLimit; mi++) {
@@ -163,6 +235,10 @@ module.exports = async function handler(req, res) {
       var cik = String(item && item.portalCik || '').replace(/^0+/, '') || null;
       if (!item || item.status !== 'READY_TO_FIRE' || !ACTIVE_LANES.has(lane) || !cik || !item.artifactRef) {
         masterInvalid++;
+        continue;
+      }
+      if (lane === 'research') {
+        masterResearchHeld++;
         continue;
       }
       if (!outwardPolicy.ownerFor(lane, item.portalDomain)) {
@@ -235,9 +311,11 @@ module.exports = async function handler(req, res) {
       admitted: masterAdded.length,
       deduped: masterDeduped,
       invalid: masterInvalid,
+      ungroundedResearchHeld: masterResearchHeld,
       terminalEvicted: terminalEvicted,
       queueSize: queue.length
     }));
+    console.log('[AUTOQUEUE] domain-research-seed', JSON.stringify(domainResearch));
 
     var elapsed = Date.now() - t0;
     res.setHeader('content-type', 'application/json');
@@ -261,8 +339,10 @@ module.exports = async function handler(req, res) {
         terminalEvicted: terminalEvicted,
         deduped: masterDeduped,
         invalid: masterInvalid,
+        ungroundedResearchHeld: masterResearchHeld,
         perTickCap: MASTER_SEED_PER_TICK
       },
+      domainResearch: domainResearch,
       queueSize: queue.length,
       sampleAdded: sampleAdded,
       elapsedMs: elapsed
@@ -281,8 +361,10 @@ module.exports = async function handler(req, res) {
 
 module.exports._queueSeedCapacity = _queueSeedCapacity;
 module.exports._trimQueue = _trimQueue;
+module.exports._retireMismatchedResearch = _retireMismatchedResearch;
 
 var autoqueueHandler = module.exports;
 module.exports = require('../lib/heartbeat').wrap('limen-worker-autoqueue', autoqueueHandler);
 module.exports._queueSeedCapacity = autoqueueHandler._queueSeedCapacity;
 module.exports._trimQueue = autoqueueHandler._trimQueue;
+module.exports._retireMismatchedResearch = autoqueueHandler._retireMismatchedResearch;

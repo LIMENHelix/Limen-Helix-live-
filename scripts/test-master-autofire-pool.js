@@ -28,4 +28,13 @@ const blocked = autoqueue._trimQueue(pending(201));
 assert.equal(blocked.queue.length, 200, 'pending overflow is still bounded');
 assert.equal(blocked.evicted, 0, 'pending work is never mislabeled as terminal eviction');
 
-console.log('11/11 master-autofire-pool assertions passed');
+const replacementQueue = pending(198).concat([
+  { status: 'PENDING', source: 'master-inbox', recommendedLane: 'research', sourceArtifactRef: 'old-research' },
+  { status: 'PENDING', source: 'master-inbox', recommendedLane: 'investment', sourceArtifactRef: 'keep-investment' }
+]);
+const retired = autoqueue._retireMismatchedResearch(replacementQueue);
+assert.equal(retired.sourceArtifactRef, 'old-research', 'source-owned research may retire one mismatched company-research schedule row');
+assert.equal(replacementQueue.length, 199);
+assert.ok(replacementQueue.some((row) => row.sourceArtifactRef === 'keep-investment'), 'investment work is never retired by the research replacement');
+
+console.log('14/14 master-autofire-pool assertions passed');
