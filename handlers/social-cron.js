@@ -23,7 +23,7 @@ var db = require('../lib/limen-db');
 var gen = require('../lib/social-generator');
 var social = require('../lib/social-post');
 var motorStore = require('../lib/autofire-efference-store');
-var motorAuthorization = require('../lib/product-domain-motor-authorization');
+var socialExecutor = require('../lib/communication-social-executor');
 
 var LAST_KEY = 'social:lastDomain:v1';
 
@@ -106,17 +106,19 @@ module.exports = async function handler(req, res) {
     // Cron/admin identity can request evaluation, but only the Communication
     // brain owns the public social effector. Its fresh restored motor receipt
     // must independently release this lane before Bluesky authentication.
-    var motorGate = await motorAuthorization.authorize(motorStore, 'communication', 'social', Date.now());
-    if (!motorGate.authorized) {
+    var r = await socialExecutor.execute({
+      store: motorStore,
+      spec: { subjectDomain: post.domain, text: post.text },
+      now: Date.now()
+    });
+    if (!r || r.status === 'HELD') {
       preview.published = false;
       preview.motorHeld = true;
-      preview.reason = motorGate.reason;
-      preview.motorReceiptId = motorGate.receiptId;
-      preview.motorBlockers = motorGate.blockers;
+      preview.reason = r && r.reason || 'communication-social-motor-held';
+      preview.motorReceiptId = r && r.motorReceiptId || null;
+      preview.motorBlockers = r && r.motorBlockers || [];
       return T.send(res, preview);
     }
-
-    var r = await social.postToBluesky(post.text);
     if (!r.ok) {
       preview.published = false;
       preview.reason = r.reason;
@@ -128,6 +130,7 @@ module.exports = async function handler(req, res) {
     try { await db.set(LAST_KEY, { domain: post.domain, at: new Date().toISOString(), uri: r.uri }); } catch (e) {}
 
     preview.published = true;
+    preview.commandId = r.commandId;
     preview.url = r.url;
     preview.uri = r.uri;   // keep this: it is what deleteBlueskyPost needs to undo the post
     preview.rate = { usedToday: r.used, capPerDay: r.cap, remaining: Math.max(0, r.cap - r.used) };
