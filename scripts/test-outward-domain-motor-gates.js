@@ -9,13 +9,14 @@ var social = source('handlers/social-cron.js');
 var socialExecutor = source('lib/communication-social-executor.js');
 var subscriber = source('handlers/subscriber-digest.js');
 var image = source('handlers/hero-image.js');
+var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
 var automail = source('handlers/homestead-automail.js');
 
 [
   [socialExecutor, "authorize.authorize(store, 'communication', 'social'", 'platform.postToBluesky', 'if (!authorization || authorization.authorized !== true)'],
   [subscriber, "authorize(motorStore, 'religion', 'subscriber-email'", 'sendToLead', 'if (!motorGate.authorized)'],
-  [image, "authorize(motorStore, 'culture', 'hero-image'", 'generate(domain', 'if (!motorGate.authorized)']
+  [imageExecutor, "authorize.authorize(store, 'culture', 'hero-image'", 'provider.generate(candidate)', 'if (!motor || !motor.authorized)']
 ].forEach(function (row) {
   assert(row[0].includes('product-domain-motor-authorization'));
   var gateAt = row[0].indexOf(row[1]);
@@ -32,6 +33,12 @@ var socialExecutorAt = social.indexOf('socialExecutor.execute({');
 assert(socialDecisionAt >= 0 && socialExecutorAt > socialDecisionAt);
 assert(social.slice(socialDecisionAt, socialExecutorAt).includes("decision.status !== 'RELEASED'"));
 assert(social.indexOf('socialExecutor.execute({') < social.indexOf('preview.published = true'));
+assert(image.includes("require('../lib/culture-hero-decision')"));
+assert(image.includes("require('../lib/culture-hero-executor')"));
+var imageDecisionAt = image.indexOf('heroDecision.decide(motorStore, candidate');
+var imageExecutorAt = image.indexOf('heroExecutor.execute({');
+assert(imageDecisionAt >= 0 && imageExecutorAt > imageDecisionAt);
+assert(image.slice(imageDecisionAt, imageExecutorAt).includes("decision.status !== 'RELEASED'"));
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
 
