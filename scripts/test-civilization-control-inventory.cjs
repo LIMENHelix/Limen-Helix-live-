@@ -5,8 +5,11 @@ const fs = require('node:fs');
 const cp = require('node:child_process');
 const path = require('node:path');
 const Inventory = require('../lib/civilization-control-inventory.js');
+const Cadences = require('../lib/civilization-cadence-manifest.js');
+const VercelCrons = require('../vercel.json').crons;
 
 const snap = Inventory.snapshot({});
+assert.deepEqual(Cadences, VercelCrons, 'runtime cadence manifest must match vercel.json exactly');
 assert.equal(snap.summary.runtimeMotorValves, 21, '20 local trunks plus one global emergency valve');
 assert.equal(snap.summary.cadencePumps, 47, 'every declared Vercel cadence is visible');
 assert.equal(snap.summary.automaticConditionTriggers, 358);
