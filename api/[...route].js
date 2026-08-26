@@ -116,6 +116,7 @@ const HANDLERS = {
   'trade-tools': require('../handlers/trade-tools'),
   'social-status': require('../handlers/social-status'),
   'social-cron': require('../handlers/social-cron'),
+  'communication-social-outcome-observer': require('../handlers/communication-social-outcome-observer'),
   'checkout': require('../handlers/checkout'),
   'stripe-webhook': require('../handlers/stripe-webhook'),
   'subscriber-digest': require('../handlers/subscriber-digest'),
