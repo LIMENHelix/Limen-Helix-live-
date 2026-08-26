@@ -38,7 +38,7 @@ function release(overrides) {
     id: 'sel_finance_1', status: 'RELEASED', lane: 'investment', ownerDomain: 'finance',
     command: 'generate_investment_artifact', at: 100,
     candidate: { sourceIdentity: { kind: 'master-inbox-artifact', value: 'investment:apple:artifact-1' } },
-    criticDecision: { released: { id: 'cand-action-1' } },
+    criticDecision: { released: { candidateId: 'cand-action-1', candidate: { id: 'cand-action-1' } } },
     evidence: { domainFunction: { evidence: { l3CurrentEvidenceComplete: true } } },
     authority: { artifactGenerationOnly: true, liveTradingAuthorized: false, stressDirectlyTriggered: false, headlineDirectlyTriggered: false }
   }, overrides || {});

@@ -4,7 +4,7 @@
  * Status: extraction commit. This file's content is identical to the inline
  * <script> block that previously lived in kernel-comparison.html between
  * lines 150-965 (pre-extraction). No behavior change here — the verdict
- * painters (_classifyAction returning AVOID / WHY INVEST / WATCH per row,
+ * painters (_classifyAction returning context-only audit labels per row,
  * _buildExpandContent painting them into the expand drawer, renderStats,
  * renderDomainPanel, renderTable) work exactly as they did inline.
  *
@@ -36,30 +36,7 @@ var _CMD_LABELS = {energy:'Energy',defense:'Defense',trade:'Supply Chain',financ
 // CIKs the validated kernel can score per Operating Envelope §4.1–§4.4).
 // Built by scripts/build-command-board.js from kernel-eligibility-frontier.json.
 // Falls back to legacy command-board-data.json if eligible feed isn't built yet.
-// LONG / investment-primed membership comes from the valuation pass
-// (scripts/build-valuation-longs.mjs -> kernel-watchlist.json investmentPrimed):
-// RECOVERED trajectory AND undervalued (>=25% below its own 5y median multiple).
-// Keyed by normalized CIK. Null until the watchlist loads; _kernelSide falls back
-// to the phase heuristic only if the file is unavailable.
-var LONG_CIKS = null;
 function _normCik(c) { return String(c == null ? '' : c).replace(/^0+/, ''); }
-function _loadWatchlist(done) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'assets/data/kernel-watchlist.json', true);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      try {
-        var wl = JSON.parse(xhr.responseText);
-        LONG_CIKS = {};
-        (wl.investmentPrimed || []).forEach(function(c) { LONG_CIKS[_normCik(c.cik)] = c; });
-        console.log('[CommandBoard] LONG set: ' + Object.keys(LONG_CIKS).length + ' investment-primed (recovered+undervalued)');
-      } catch (e) { console.warn('[CommandBoard] watchlist parse failed; LONG falls back to phase', e); }
-    } else { console.warn('[CommandBoard] kernel-watchlist.json missing (' + xhr.status + '); LONG falls back to phase'); }
-    done();
-  };
-  xhr.onerror = function() { console.warn('[CommandBoard] watchlist fetch error; LONG falls back to phase'); done(); };
-  xhr.send();
-}
 
 (function() {
   var primary = 'assets/data/command-board-eligible.json';
@@ -98,7 +75,7 @@ function _loadWatchlist(done) {
     };
     xhr.send();
   }
-  _loadWatchlist(function() { loadFrom(primary, true); });
+  loadFrom(primary, true);
 })();
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -205,8 +182,8 @@ function _isValidatedAlert(d) {
 // RETIRED across the whole system (standing lane-purge decision) — never re-introduce them.
 // Color shifts with alert state — alert rows surface "rescue" framing; no-alert "expansion".
 var ENGINE_DEFS = [
-  { id: 'R', name: 'Research',   tip: 'Evidence packet — kernel verdict + sector context, board-ready PDF' },
-  { id: 'I', name: 'Investment', tip: 'Paper-trade thesis (Alpaca paper-before-live) + acquirer outreach' }
+  { id: 'R', name: 'Research', tip: 'Evidence context for a separately governed research decision' },
+  { id: 'F', name: 'Finance', tip: 'Evidence context for Finance review; this page emits no position verdict' }
 ];
 function _planBadges(d) {
   var alerted = _isValidatedAlert(d);
@@ -337,7 +314,7 @@ function renderDomainPanel() {
 // TASK 3 — SORT / FILTER ENGINE
 // ═══════════════════════════════════════════════════════════════════════
 
-var _currentFilter = 'kernel';   // default: only kernel-actionable companies (SHORT + LONG)
+var _currentFilter = 'kernel';   // default: companies fully qualified by Thing 0
 var _currentSort = 'severity';
 var _currentPage = 1;
 var _pageSize = 50;
@@ -351,12 +328,12 @@ function applyFilterSort() {
   var filtered = DATA;
 
   // Filter
-  if (_currentFilter === 'kernel') {           // the only companies that matter
-    filtered = DATA.filter(function(d) { return d._matters; });
-  } else if (_currentFilter === 'short') {     // kernel1 bankruptcy-call
-    filtered = DATA.filter(function(d) { return d._side === 'SHORT'; });
-  } else if (_currentFilter === 'long') {      // investment-primed (kernel2 phase)
-    filtered = DATA.filter(function(d) { return d._side === 'LONG'; });
+  if (_currentFilter === 'kernel') {
+    filtered = DATA.filter(function(d) { return d._thing0Status === 'QUALIFIED'; });
+  } else if (_currentFilter === 'thing1-alert') {
+    filtered = DATA.filter(function(d) { return d._thing1Result === 'ALERT'; });
+  } else if (_currentFilter === 'partial') {
+    filtered = DATA.filter(function(d) { return d._thing0Status === 'PARTIALLY_QUALIFIED'; });
   } else if (_currentFilter === 'high-stress') {
     filtered = DATA.filter(function(d) { return d.ds >= 0.70; });
   } else if (_currentFilter === 'watchlist') {
@@ -446,8 +423,10 @@ function renderTable(rows, startOffset) {
     // Source badges
     var srcData = d.p === 'ERROR' ? 'ERR' : (d.ds > 0 ? 'OK' : 'PART');
     var srcDataClass = d.p === 'ERROR' ? 'src-dat-err' : (d.ds > 0 ? 'src-dat-ok' : 'src-dat-part');
-    var srcBadges = '<span class="src-badge src-lin">LIN:VALID</span>' +
-      '<span class="src-badge src-rec">REC:LIVE</span>' +
+    var t0Class = d._thing0Status === 'QUALIFIED' ? 'src-dat-ok' : (d._thing0Status === 'PARTIALLY_QUALIFIED' ? 'src-dat-part' : 'src-dat-err');
+    var srcBadges = '<span class="src-badge ' + t0Class + '">T0:' + d._thing0Status.replace('_QUALIFIED', '') + '</span>' +
+      '<span class="src-badge src-lin">T1:' + (d._thing1Result || (d.vs || 'NONE').toUpperCase()) + '</span>' +
+      '<span class="src-badge src-rec">T2:MASK CHECK</span>' +
       '<span class="src-badge ' + srcDataClass + '">DAT:' + srcData + '</span>';
 
     // Main row
@@ -456,7 +435,7 @@ function renderTable(rows, startOffset) {
     tr.setAttribute('data-company-idx', i);
     tr.innerHTML =
       '<td style="color:#555"><span class="wl-star' + (isWatched ? ' active' : '') + '" onclick="_toggleStar(\'' + d.t + '\',event)">' + (isWatched ? '★' : '☆') + '</span>' + (startOffset + i + 1) + '</td>' +
-      '<td>' + (d._side ? '<span style="font-size:0.55em;padding:1px 4px;border-radius:2px;margin-right:5px;' + (d._side === 'SHORT' ? 'background:rgba(232,84,84,0.15);color:#e85454' : 'background:rgba(90,181,160,0.15);color:#5ab5a0') + '">' + (d._side === 'SHORT' ? '▼ SHORT' : '▲ LONG') + '</span>' : '') + '<span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
+      '<td>' + (d._thing1Result === 'ALERT' ? '<span style="font-size:0.55em;padding:1px 4px;border-radius:2px;margin-right:5px;background:rgba(232,84,84,0.15);color:#e85454">T1 ALERT</span>' : '') + '<span style="color:rgba(201,169,78,0.5)">' + d.n + '</span></td>' +
       '<td style="color:#C9A94E">' + d.t + '</td>' +
       '<td><span class="phase" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + (PHASE_LABELS[d.p] || d.p.toUpperCase()) + '</span></td>' +
       '<td style="color:' + tc + '">' + d.tr.replace(/_/g, ' ') + '</td>' +
@@ -540,60 +519,16 @@ function _buildExpandContent(d) {
 
   h += '</div>'; // grid
 
-  // Operator interpretation: WHY INVEST / WATCH / AVOID — gated.
-  //
-  // Gate B #47 — only validated Thing 1 rows render the full position
-  // verdict (AVOID / WHY INVEST / WATCH headline + reason + whatNow).
-  // All other rows render a suppressed banner; the raw classifier
-  // output is preserved only inside a collapsed audit drawer.
-  //
-  // Doctrine:
-  //   A candidate signal may be shown. A suppressed directive may be
-  //   audited. But the action word cannot remain the headline.
-  //   (See feedback_execution_evidence_not_entity_specific in operator
-  //    memory; same shape as the company-portal v0.2 suppression.)
-  //
-  // The classifier still runs unconditionally — `interp.label`,
-  // `interp.reason`, `interp.whatNow` are computed for all rows — but
-  // for non-validated rows none of those strings reach the operator
-  // surface; only `interp.label` appears inside the collapsed audit
-  // <details> below.
+  // Context-only interpretation. This surface never emits a position verdict:
+  // Thing 0 qualifies the company for Thing 1, Thing 1 reports alert/no-alert,
+  // and Thing 2 checks whether its current snapshot aligns or may be masking
+  // the Thing 1 result. Thing 2 has zero trade authority.
   var interp = _classifyAction(d);
-  var isValidatedThing1 = (d.vs === 'validated' && d.kid === 'limen_backtest.py');
-
-  if (isValidatedThing1) {
-    // Full position verdict — render unchanged.
-    h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid ' + interp.color + ';background:rgba(0,0,0,0.12)">';
-    h += '<div style="font-size:0.4rem;letter-spacing:2px;color:' + interp.color + ';margin-bottom:3px">' + interp.label + '</div>';
-    h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.6);line-height:1.5">' + interp.reason + '</div>';
-    h += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-top:3px">' + interp.whatNow + '</div>';
-    h += '</div>';
-  } else {
-    // Non-validated row — verdict suppressed.
-    var rowVs = d.vs || d.validation_status || 'unknown';
-    var rowKid = d.kid || d.kernel_id || 'phase_engine.py';
-    var isUnsupported = (rowVs === 'unsupported');
-    var suppressedLabel = isUnsupported
-      ? 'UNSUPPORTED SIGNAL — VERDICT SUPPRESSED'
-      : 'CANDIDATE SIGNAL — NOT A POSITION VERDICT';
-    var suppressedReason = isUnsupported
-      ? 'Row carries an unsupported kernel/validation status. No position verdict is rendered.'
-      : 'Row was not scored by the validated Thing 1 kernel. No position verdict is rendered.';
-    var bannerColor = isUnsupported ? '#e85454' : '#C9A94E';
-
-    h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid ' + bannerColor + '59;background:rgba(0,0,0,0.12)">';
-    h += '<div style="font-size:0.4rem;letter-spacing:2px;color:' + bannerColor + ';margin-bottom:3px">' + suppressedLabel + '</div>';
-    h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.5);line-height:1.5">' + suppressedReason + '</div>';
-    h += '<div style="font-size:0.32rem;color:rgba(200,195,184,0.3);margin-top:3px">authority state: <code style="color:#C9A94E">EXECUTION_EVIDENCE_PRESENT_CONTENT_UNVERIFIED</code> · kernel: <code>' + rowKid + '</code> · validation: <code>' + rowVs + '</code></div>';
-    // Audit drawer — closed by default. Exposes raw classifier output
-    // for audit ONLY; the action word never reaches the operator above
-    // this <details> element.
-    h += '<details style="margin-top:6px;padding:4px 8px;border:1px dashed rgba(232,84,84,0.2);border-radius:2px">';
-    h += '<summary style="cursor:pointer;font-size:0.3rem;letter-spacing:2px;color:rgba(232,180,180,0.5);text-transform:uppercase;outline:none">audit · suppressed raw classifier output</summary>';
-    h += '<div style="margin-top:4px;font-size:0.32rem;color:rgba(200,195,184,0.45);line-height:1.5">Suppressed raw classifier output: <code style="color:rgba(220,215,200,0.6)">' + interp.label + '</code><br>Suppression reason: not validated Thing 1 (kid=<code>' + rowKid + '</code>, vs=<code>' + rowVs + '</code>)</div>';
-    h += '</details>';
-    h += '</div>';
-  }
+  h += '<div style="margin-top:8px;padding:6px 10px;border-left:3px solid ' + interp.color + ';background:rgba(0,0,0,0.12)">';
+  h += '<div style="font-size:0.4rem;letter-spacing:2px;color:' + interp.color + ';margin-bottom:3px">' + interp.label + '</div>';
+  h += '<div style="font-size:0.36rem;color:rgba(220,215,200,0.6);line-height:1.5">' + interp.reason + '</div>';
+  h += '<div style="font-size:0.34rem;color:rgba(200,195,184,0.35);margin-top:3px">' + interp.whatNow + '</div>';
+  h += '</div>';
 
   // Source authority badges — kernel/validation badge is conditional.
   // The snapshot file (command-board-data.json) is generated offline. Each row
@@ -634,40 +569,18 @@ function _buildExpandContent(d) {
   return h;
 }
 
-// WHY INVEST / WATCH / AVOID — deterministic from row data
+// Context-only classification. Never returns BUY/SELL/LONG/SHORT guidance.
 function _classifyAction(d) {
-  var stablePhases = ['p4','p5','p6','p0','p10'];
-  var isStable = stablePhases.indexOf(d.p) !== -1;
-
-  // AVOID conditions
   if (d._signal === 'DATA_ERROR') {
-    return { label: 'AVOID', color: '#e85454', reason: 'Data error detected. Phase scoring may be unreliable due to extraction or API failure.', whatNow: 'Do not act. Check Helix Report for this CIK to verify data quality.' };
+    return { label: 'DATA REVIEW REQUIRED', color: '#e85454', reason: 'The snapshot has an extraction or consistency error, so neither Thing 0 nor Thing 1 should be inferred from this row.', whatNow: 'Run the protected Helix Report before using this company in research.' };
   }
-  if (d.a) {
-    return { label: 'AVOID', color: '#e85454', reason: 'Snapshot row flagged. Composite ' + d.co.toFixed(2) + ' · trajectory ' + d.tr.replace(/_/g, ' ') + '. This decision predates the two-kernel architecture and is not a Thing 1 validated alert. Re-run /api/helix-report/score for a current safe-packet verdict.', whatNow: 'Investigate via Helix Report before any position.' };
+  if (d._thing0Status !== 'QUALIFIED') {
+    return { label: 'THING 0 · ' + d._thing0Status.replace(/_/g, ' '), color: '#C9A94E', reason: 'This company is not fully inside the validated Thing 1 operating envelope on the retained row data.', whatNow: 'It may still be researched or invested through Finance using company news and market performance; no Thing 1 claim is permitted.' };
   }
-  if (d.p === 'p7a' || d.p === 'p9') {
-    return { label: 'AVOID', color: '#e85454', reason: 'Terminal or collapse phase detected. ' + d.p.toUpperCase() + ' indicates structural distress.', whatNow: 'Do not enter. If holding, review exit conditions.' };
+  if (d._thing1Result === 'ALERT') {
+    return { label: 'VALIDATED THING 1 ALERT PRESENT', color: '#e85454', reason: 'Thing 0 qualifies the company and the retained validated Thing 1 row carries an alert.', whatNow: 'This is distress evidence, not an automatic trade. Finance must independently assess current feeds, history, risk, and account state.' };
   }
-
-  // INVEST conditions
-  if (isStable && d.ds >= 0.60 && d.co < 0.8 && !d.a && d._signal !== 'DATA_ERROR') {
-    return { label: 'WHY INVEST', color: '#5ab5a0', reason: 'Company financially stable (' + d.p.toUpperCase() + ') while its sector (' + d.d + ') is under ' + Math.round(d.ds * 100) + '% stress. Stress creates demand that stable operators can capture.', whatNow: 'Check company portal for kernel phase detail. Set watchlist or open position.' };
-  }
-  if (isStable && d.ds >= 0.40 && d.co < 0.5) {
-    return { label: 'WHY INVEST', color: '#5ab5a0', reason: 'Stable company (' + d.p.toUpperCase() + ', composite ' + d.co.toFixed(2) + ') in moderately stressed sector. Low composite suggests healthy fundamentals.', whatNow: 'Monitor domain stress trend. Consider entry if stress persists.' };
-  }
-
-  // WATCH conditions
-  if (isStable && d.ds >= 0.30) {
-    return { label: 'WATCH', color: '#C9A94E', reason: 'Company stable but sector shows moderate pressure (' + Math.round(d.ds * 100) + '%). Context is mixed — not enough signal to act.', whatNow: 'Add to watchlist. Re-evaluate if domain stress rises above 50%.' };
-  }
-  if (d.p === 'p7b' || d.p === 'p8') {
-    return { label: 'WATCH', color: '#C9A94E', reason: 'Company in transition phase (' + d.p.toUpperCase() + '). May be restructuring or pivoting. Outcome uncertain.', whatNow: 'Monitor via Helix Report. Do not enter until phase resolves.' };
-  }
-
-  // DEFAULT: nominal
-  return { label: 'WATCH', color: '#888', reason: 'Both layers show nominal conditions. No strong signal in either direction.', whatNow: 'No action needed. Re-check on next refresh cycle.' };
+  return { label: 'NO VALIDATED THING 1 ALERT', color: '#5ab5a0', reason: 'Thing 0 qualifies the company, but the retained Thing 1 result does not carry an alert. Thing 2 only checks whether its current snapshot lines up or diverges; it cannot change the result.', whatNow: 'No position verdict is produced here. Finance may independently evaluate the company from current feeds and market performance.' };
 }
 
 // Row click handler for expansion
@@ -895,36 +808,29 @@ function _addPortfolioPrompt() {
 // ═══════════════════════════════════════════════════════════════════════
 
 // Board init — called after DATA loads from JSON
-// Kernel-watchlist classification (operator directive 2026-07-11): the kernel is
-// validated for a small % of companies where it calls bankruptcy ~12-20mo out;
-// only those (SHORT) + investment-primed (LONG) matter. Same logic as
-// scripts/build-kernel-watchlist.mjs. PHASE_FACTOR>=1 phases (lib/valuation.js):
-// p0 STABLE 1.05 / p6 EXPANSION 1.20 / p10 RESURRECTION 1.25.
-var LONG_PHASES = { p0: 1, p6: 1, p10: 1 };
 function _isFIRE(d) { var s = parseInt(String(d.sic || d.SIC || '').slice(0, 4), 10); return !isNaN(s) && s >= 6000 && s <= 6799; }
-function _kernelSide(d) {
-  if ((d.vs || d.validation_status) !== 'validated') return null;   // out of validated envelope
-  if (_isFIRE(d)) return null;                                       // kernel invalid on FIRE
-  if (d.a) return 'SHORT';                                           // kernel1 bankruptcy-call
-  if (LONG_CIKS) {                                                   // valuation pass loaded: strict membership
-    return LONG_CIKS[_normCik(d.c || d.cik)] ? 'LONG' : null;        // RECOVERED + undervalued only
-  }
-  if (LONG_PHASES[String(d.p || '').toLowerCase()]) return 'LONG';   // fallback: kernel2 phase (watchlist unavailable)
-  return null;                                                       // in-scope but no actionable signal
+function _thing0Status(d) {
+  var history = Number(d.hist || d.history_quarters || 0);
+  var validation = d.vs || d.validation_status || 'unsupported';
+  if (!d || !d.t || d.p === 'ERROR' || validation === 'error' || _isFIRE(d)) return 'NOT_QUALIFIED';
+  if (validation === 'validated' && history >= 8) return 'QUALIFIED';
+  if (history >= 4) return 'PARTIALLY_QUALIFIED';
+  return 'NOT_QUALIFIED';
+}
+function _thing1Result(d) {
+  if (d._thing0Status !== 'QUALIFIED') return null;
+  return d.a === true ? 'ALERT' : 'NO_ALERT';
 }
 
 function _initBoard() {
-  // STRUCTURAL EXCLUSION: drop Finance/Insurance/Real-Estate (SIC 6000-6799) — the
-  // kernel is invalid on FIRE (deposits/borrowings read as debt -> pathC artifacts,
-  // e.g. a community bank showing composite 38). Out of envelope; never a kernel row.
-  DATA = DATA.filter(function(d) { return !_isFIRE(d); });
-  // Enrich DATA with signal + severity + kernel-watchlist side
+  // Enrich every row. FIRE companies remain visible as Thing 0 NOT_QUALIFIED;
+  // they are not silently erased and may still be researched outside Thing 1.
   DATA.forEach(function(d) {
     d._signal = classifySignal(d);
     d._severity = computeSeverity(d);
-    d._side = _kernelSide(d);        // 'SHORT' | 'LONG' | null
-    d._matters = d._side !== null;   // on the kernel watchlist = the only companies that matter
-    if (d._side === 'LONG' && LONG_CIKS) d._val = LONG_CIKS[_normCik(d.c || d.cik)];  // upside/discount detail
+    d._thing0Status = _thing0Status(d);
+    d._thing1Result = _thing1Result(d);
+    d._matters = d._thing0Status === 'QUALIFIED';
   });
   _updateTimestamp();
   _seedPortfolio();
