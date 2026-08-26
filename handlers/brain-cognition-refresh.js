@@ -21,7 +21,11 @@ const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
 const cronAuth = require('../lib/cron-auth.js');
-const compactCognition = require('../lib/brain-cognition-compact.js').compact;
+const cognitionProjection = require('../lib/brain-cognition-compact.js');
+const compactCognition = cognitionProjection.compact;
+const num = cognitionProjection.num;
+const arr = cognitionProjection.arr;
+const val = cognitionProjection.val;
 
 // The packet consumer is strict by design: unlike the cognition projection,
 // it never falls back to process memory when Redis is missing or fails.
@@ -173,11 +177,20 @@ module.exports = async function handler(req, res) {
       return fetch(BASE + '/' + f).then(function (r) { return r.ok ? r.text() : ''; }).then(function (code) { return { name: f, code: code }; }).catch(function () { return { name: f, code: '' }; });
     }));
 
+    var sourceFailures = [];
+    var domainFailures = [];
+    var storageFailures = [];
     var sb = buildSandbox(snap, BASE);
     vm.createContext(sb);
     for (var i = 0; i < sources.length; i++) {
-      if (!sources[i].code) continue;
-      try { vm.runInContext(sources[i].code, sb, { filename: sources[i].name }); } catch (e) {}
+      if (!sources[i].code) {
+        sourceFailures.push({ source: sources[i].name, stage: 'source-fetch', error: 'SOURCE_EMPTY_OR_UNAVAILABLE' });
+        continue;
+      }
+      try { vm.runInContext(sources[i].code, sb, { filename: sources[i].name }); }
+      catch (e) {
+        sourceFailures.push({ source: sources[i].name, stage: 'source-evaluate', error: String(e && e.message || e).slice(0, 240) });
+      }
     }
 
     var financeSemantic = await readFinanceSemanticEvidence();
@@ -189,12 +202,24 @@ module.exports = async function handler(req, res) {
       var dom = DOMAINS[d];
       var ref = sb.window[BRAIN_GLOBAL[dom]];
       var b = (typeof ref === 'function') ? null : (ref && typeof ref === 'object' ? ref : null);
-      if (typeof ref === 'function') { try { b = new ref(); } catch (e) {} }
-      if (!b) continue;
+      if (typeof ref === 'function') {
+        try { b = new ref(); }
+        catch (e) {
+          domainFailures.push({ domain: dom, stage: 'brain-instantiate', error: String(e && e.message || e).slice(0, 240) });
+        }
+      }
+      if (!b) {
+        if (!domainFailures.some(function (failure) { return failure.domain === dom && failure.stage === 'brain-instantiate'; })) {
+          domainFailures.push({ domain: dom, stage: 'brain-reference', error: 'BRAIN_GLOBAL_UNAVAILABLE' });
+        }
+        continue;
+      }
       try {
         if (typeof b.cycle === 'function') {
-          try { await Promise.resolve(b.cycle()); } catch (e) {}
-          try { await Promise.resolve(b.cycle()); } catch (e) {}
+          try { await Promise.resolve(b.cycle()); }
+          catch (e) { domainFailures.push({ domain: dom, stage: 'brain-cycle-1', error: String(e && e.message || e).slice(0, 240) }); }
+          try { await Promise.resolve(b.cycle()); }
+          catch (e) { domainFailures.push({ domain: dom, stage: 'brain-cycle-2', error: String(e && e.message || e).slice(0, 240) }); }
         }
         ran++;
         // Import only this product brain's independently persisted executor +
@@ -286,7 +311,9 @@ module.exports = async function handler(req, res) {
             c.serverPacketAbstention = String(packetErr && packetErr.code || packetErr && packetErr.message || packetErr);
             c.serverPacketPersistence = { ok: false, error: { code: packetErr && packetErr.code || 'PACKET_BUILD_FAILED', message: String(packetErr && packetErr.message || packetErr) } };
           }
-          var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
+          var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL);
+          if (r && r.ok) stored++;
+          else storageFailures.push({ domain: dom, stage: 'cognition-store', status: r && r.status || null, error: String(r && r.error || 'REDIS_SET_FAILED').slice(0, 240) });
           // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
           // (compactCognition() null'd it via num()). Read the scalar .total for γ.
           var _cog = b.state && b.state.cognition;
@@ -294,7 +321,9 @@ module.exports = async function handler(req, res) {
           var _pe = (_peObj && typeof _peObj === 'object') ? _peObj.total : (typeof _peObj === 'number' ? _peObj : null);
           if (typeof _pe === 'number') peSamples.push({ domain: dom, pe: _pe });
         }
-      } catch (e) {}
+      } catch (e) {
+        domainFailures.push({ domain: dom, stage: 'domain-refresh', error: String(e && e.message || e).slice(0, 240) });
+      }
     }
 
     // ── γ (SYSTEM GAIN) — READ-ONLY collective-surprise signal. MODULATES NOTHING. ──
@@ -304,6 +333,7 @@ module.exports = async function handler(req, res) {
     // "does collective surprise across domains mean anything." We compute, store, and WATCH.
     // It feeds back into no brain. Removing this block changes zero behavior.
     var gammaRecord = null;
+    var gammaFailure = null;
     try {
       // Threshold calibrated by mechanism test (gamma-mech probe): a domain's total
       // prediction-error sits ~0.15 at baseline and reaches ~0.35 under a near-maximal
@@ -333,24 +363,51 @@ module.exports = async function handler(req, res) {
       var hist = (prev && Array.isArray(prev.history)) ? prev.history : [];
       hist.push({ g: gammaRecord.gamma, m: gammaRecord.meanPredictionError, n: gammaRecord.surprisedCount, ts: gammaRecord.ts });
       if (hist.length > 96) hist = hist.slice(hist.length - 96);   // ~2 days at 30-min cadence
-      await redisSet('limen:system_gain', { current: gammaRecord, history: hist }, 7 * 24 * 3600);
-    } catch (e) {}
+      var gammaWrite = await redisSet('limen:system_gain', { current: gammaRecord, history: hist }, 7 * 24 * 3600);
+      if (!gammaWrite || !gammaWrite.ok) {
+        gammaFailure = { stage: 'system-gain-store', status: gammaWrite && gammaWrite.status || null, error: String(gammaWrite && gammaWrite.error || 'REDIS_SET_FAILED').slice(0, 240) };
+      }
+    } catch (e) {
+      gammaFailure = { stage: 'system-gain', error: String(e && e.message || e).slice(0, 240) };
+    }
 
-    res.statusCode = 200;
-    return res.end(JSON.stringify({
-      ok: true,
+    var complete = ran === DOMAINS.length && stored === DOMAINS.length &&
+      motorReceiptsStored === DOMAINS.length && sourceFailures.length === 0 &&
+      domainFailures.length === 0 && storageFailures.length === 0 && !gammaFailure;
+    var summary = {
+      ok: complete,
       ran: ran,
       stored: stored,
+      expected: DOMAINS.length,
+      sourceFailures: sourceFailures,
+      domainFailures: domainFailures,
+      storageFailures: storageFailures,
       motorReceipts: {
         attempted: ran,
         storedAndRestored: motorReceiptsStored,
         failures: motorReceiptFailures
       },
       gamma: gammaRecord,
+      gammaFailure: gammaFailure,
       ms: Date.now() - t0
+    };
+    console.log('[BRAIN_COGNITION_REFRESH] ' + JSON.stringify({
+      ok: summary.ok,
+      ran: summary.ran,
+      stored: summary.stored,
+      expected: summary.expected,
+      sourceFailures: sourceFailures.length,
+      domainFailures: domainFailures.length,
+      storageFailures: storageFailures.length,
+      motorReceiptFailures: motorReceiptFailures.length,
+      gammaFailure: !!gammaFailure,
+      ms: summary.ms
     }));
+    res.statusCode = complete ? 200 : 503;
+    return res.end(JSON.stringify(summary));
   } catch (e) {
-    res.statusCode = 200;
+    console.error('[BRAIN_COGNITION_REFRESH] ' + JSON.stringify({ ok: false, fatal: true, error: String(e && e.message || e).slice(0, 240), ms: Date.now() - t0 }));
+    res.statusCode = 500;
     return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e), ms: Date.now() - t0 }));
   }
 };
