@@ -19,9 +19,9 @@ assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(),
 ]);
 assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
 assert.equal(report.summary.actionReceiptsImplemented, 7);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 4);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 4);
-assert.equal(report.summary.sourceChainsComplete, 4);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 5);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 5);
+assert.equal(report.summary.sourceChainsComplete, 5);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -37,6 +37,14 @@ assert.equal(communication.actionReceiptStrength, 'DURABLE_IDEMPOTENT_PLATFORM_C
 assert.equal(communication.domainAuthorizedRollbackImplemented, true);
 assert.equal(communication.sourceChainComplete, true);
 assert.equal(finance.externalEnabled, false);
+
+var culture = report.domains.find(function (row) { return row.productDomain === 'culture'; });
+assert.equal(culture.actionReceiptStrength, 'DURABLE_B10_B14_ONE_SHOT_ASSET_RECEIPT');
+assert.equal(culture.observerScope, 'PUBLIC_ASSET_BYTES_CONTENT_TYPE_AND_HASH');
+assert.equal(culture.independentOutcomeObserverImplemented, true);
+assert.equal(culture.domainAuthorizedRollbackImplemented, true);
+assert.equal(culture.sourceChainComplete, true);
+assert.equal(culture.externalEnabled, false);
 
 assert.equal(communication.domainBoundExecutorImplemented, true);
 
@@ -60,4 +68,4 @@ assert.equal(agriculture.lane, 'homestead');
 assert.equal(agriculture.domainBoundExecutorImplemented, false);
 assert(agriculture.gaps.includes('domain-bound-production-executor-missing'));
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 4/20, externally ready 0/20');
+console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 5/20, externally ready 0/20');
