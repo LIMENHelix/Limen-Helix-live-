@@ -20,8 +20,8 @@ assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(),
 assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
 assert.equal(report.summary.actionReceiptsImplemented, 7);
 assert.equal(report.summary.independentOutcomeObserversImplemented, 3);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 1);
-assert.equal(report.summary.sourceChainsComplete, 1);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 3);
+assert.equal(report.summary.sourceChainsComplete, 3);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -45,6 +45,10 @@ assert.equal(science.actionReceiptStrength, 'DURABLE_B14_COMMAND_AND_ARTIFACT_RE
 assert.equal(medicine.actionReceiptStrength, 'DURABLE_B14_COMMAND_AND_ARTIFACT_READBACK_RECEIPT');
 assert.equal(science.independentOutcomeObserverImplemented, true);
 assert.equal(medicine.independentOutcomeObserverImplemented, true);
+assert.equal(science.domainAuthorizedRollbackImplemented, true);
+assert.equal(medicine.domainAuthorizedRollbackImplemented, true);
+assert.equal(science.sourceChainComplete, true);
+assert.equal(medicine.sourceChainComplete, true);
 assert.equal(science.observerScope, 'EXTERNAL_EVALUATION_INPUT_GATED');
 assert.equal(medicine.observerScope, 'EXTERNAL_EVALUATION_INPUT_GATED');
 
@@ -53,4 +57,4 @@ assert.equal(agriculture.lane, 'homestead');
 assert.equal(agriculture.domainBoundExecutorImplemented, false);
 assert(agriculture.gaps.includes('domain-bound-production-executor-missing'));
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 1/20, externally ready 0/20');
+console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 3/20, externally ready 0/20');
