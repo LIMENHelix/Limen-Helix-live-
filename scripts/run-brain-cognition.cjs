@@ -13,7 +13,7 @@ const path = require('path');
 const compact = require('../lib/brain-cognition-compact.js').compact;
 
 const BASE = process.env.LIMEN_BASE || 'https://limenhelix.com';
-const TOKEN = process.env.BRAIN_COGNITION_TOKEN || 'limen-brain-209913';
+const TOKEN = process.env.BRAIN_COGNITION_TOKEN || '';
 const ROOT = path.resolve(__dirname, '..');
 
 const DOMAINS = ['energy','infrastructure','culture','finance','economy','technology','defense','intelligence','trade','industry','environment','governance','agriculture','communication','medicine','education','population','science','law','religion'];
@@ -67,6 +67,7 @@ function buildSandbox(snap){
 }
 
 (async function main(){
+  if (!TOKEN) throw new Error('BRAIN_COGNITION_TOKEN is required; the cognition harness fails closed');
   console.log('[harness] fetching live snapshot…');
   const snap = await fetch(BASE + '/api/domain-snapshot').then(r => r.json());
   console.log('[harness] snapshot: ' + Object.keys(snap.domains||{}).length + ' domains');
