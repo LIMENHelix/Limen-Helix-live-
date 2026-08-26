@@ -22,7 +22,7 @@ var LANE_POLICY = {
     command: 'generate_investment_artifact',
     owners: ['finance'],
     externalExecution: 'proposal_only',
-    horizonsDays: [30, 60, 90]
+    horizonsDays: [1, 3, 7, 14, 30, 60, 90]
   },
   research: {
     command: 'generate_research_artifact',

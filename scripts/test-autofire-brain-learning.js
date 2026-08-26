@@ -161,7 +161,9 @@ async function main() {
 
   var missingInvestment = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: { netPnl: 1 } });
   assert('incomplete investment terms are ungraded', missingInvestment.graded === false);
-  assert('missing horizon is named', missingInvestment.reasons.indexOf('horizonDays_must_be_30_60_or_90') >= 0);
+  assert('missing horizon is named', missingInvestment.reasons.indexOf('horizonDays_must_be_multiscale_investment_horizon') >= 0);
+  var fastWin = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: investmentData(1, 1, 1, 0, false) });
+  assert('one-day independently measured outperformance is a valid fast learning signal', fastWin.outcome === 'SUCCESS');
   var win = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: investmentData(30, 5, 5, 2, false) });
   assert('profit plus outperformance is success', win.outcome === 'SUCCESS' && win.reward === 1);
   var loss = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: investmentData(60, -1, -1, -3, false) });
