@@ -3318,3 +3318,27 @@ arm. Finance remains paper-only and cohort/horizon gated. The other seventeen
 business owners still need their executor, receipt, observer, and rollback chain;
 no switch, provider, broker, posting lane, Thing 2 consumer, or live-money path was
 enabled by this work.
+
+### Job 5 Science/Medicine artifact recovery seam — implemented 2026-08-25
+
+The research evaluator and the recovery actuator are now separate. An ordinary
+negative result, contradiction, `REGRESSION`, or non-empty prose field cannot
+withdraw an artifact. Only an admitted `OUTCOME_RESEARCH_EVALUATED` record with
+explicit structured publisher-retraction evidence, established source separation,
+causal timestamp ordering, and a `REGRESSION` classification can enter recovery.
+
+Before changing an artifact, the recovery path requires the current owning
+product-brain authorization for the exact Science→Research or Medicine→Health
+`research-papers` lane. It then verifies the original action, B14 efference copy,
+artifact output ID, original product-motor receipt, runtime owner, and product
+owner. A durable recovery command and prediction are written before the status
+transition. The artifact body and content hash are never deleted or rewritten;
+the path appends one `WITHDRAWN` history transition, verifies strict Redis
+readback, and persists an identity-bound resolution receipt. Duplicate observer
+runs return the prior receipt rather than appending another transition.
+
+This raises the source-audited domain-authorized rollback count from `1/20` to
+`3/20` and the complete implemented executor→receipt→observer→rollback→budget
+chains from `1/20` to `3/20` (Finance, Science, Medicine). It does not establish
+production verification, enable either research lane, call a provider, publish
+or delete a document, activate Thing 2, or authorize live money.
