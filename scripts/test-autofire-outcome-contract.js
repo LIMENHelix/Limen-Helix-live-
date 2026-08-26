@@ -50,6 +50,14 @@ assert.strictEqual(inv.outcomeData.executionMode, 'paper');
 assert.strictEqual(inv.outcomeData.brokerOrderId, '77');
 assert.strictEqual(inv.commandId, undefined);
 assert.strictEqual(inv.outcomeData.sourceTerms.fees, 1);
+var economyInv = C.buildInvestmentPnl(Object.assign({}, {
+  outputId: 'eo_economy_1', actionId: 'act_economy', observationId: 'obs_economy', observedAt: '2026-08-24T00:00:00Z', ownerDomain: 'economy',
+  sourceIdentity: { kind: 'broker-account-snapshot', value: 'tradier:order:88', provider: 'tradier', accountId: 'VA123', snapshotId: 'snap_2', retrievedAt: '2026-08-24T00:00:00Z' },
+  benchmarkIdentity: { kind: 'benchmark-series', value: 'SPY:2026-08-24', retrievedAt: '2026-08-24T00:00:00Z' }, benchmarkBaselineValue: 500, benchmarkObservedValue: 505,
+  sourceTerms: { executedQuantity: 1, averageFillPrice: 100, positionMarketValue: 105, fees: 1 },
+  outcomeData: { horizonDays: 30, investedAmount: 100, netPnl: 4, returnPct: 4, benchmarkReturnPct: 1, maxDrawdownPct: 2, riskBreach: false, executionMode: 'paper', brokerOrderId: '88' }
+}));
+assert.strictEqual(economyInv.ownerDomain, 'economy');
 
 assert.throws(function () { C.buildResearchPublication(Object.assign({}, base, { stress: 1 })); }, /cannot create an outcome/);
 assert.throws(function () { C.buildResearchEvaluation(Object.assign({}, base, { sourceIdentity: { kind: 'x', value: 'y', retrievedAt: '2026-08-24T00:00:00Z' }, outcomeData: { progress: 'PROGRESS', evidenceIds: ['x'], independenceAssessment: { status: 'ESTABLISHED', method: 'x', basis: 'y' }, mappingCoverage: {} } })); }, /must be true/);
@@ -59,4 +67,4 @@ assert.throws(function () { C.buildResearchEvaluation(Object.assign({}, base, { 
 assert.throws(function () { C.buildInvestmentPnl({ outputId: 'x', actionId: 'a', observationId: 'o', observedAt: '2026-08-24T00:00:00Z', ownerDomain: 'finance', sourceIdentity: { kind: 'x', value: 'y', provider: 'tradier', accountId: 'VA1', snapshotId: 's' }, benchmarkIdentity: { kind: 'x', value: 'b' }, benchmarkBaselineValue: 1, benchmarkObservedValue: 2, outcomeData: { horizonDays: 30, investedAmount: 1, netPnl: 1, returnPct: 1, benchmarkReturnPct: 1, maxDrawdownPct: 0, riskBreach: false, executionMode: 'live', brokerOrderId: '1' } }); }, /live investment outcome observer is disabled/);
 assert.throws(function () { C.buildInvestmentPnl({ outputId: 'x', actionId: 'a', observationId: 'o', observedAt: 't', ownerDomain: 'finance', sourceIdentity: { kind: 'x', value: 'y', provider: 'tradier', accountId: 'VA1', snapshotId: 's' }, benchmarkIdentity: { kind: 'x', value: 'b' }, benchmarkBaselineValue: 1, benchmarkObservedValue: 2, outcomeData: { horizonDays: 30, investedAmount: 1, netPnl: 1, returnPct: 1, benchmarkReturnPct: 1, maxDrawdownPct: 0, riskBreach: false, executionMode: 'paper', brokerOrderId: '1', headlineCount: 3 } }); }, /cannot create an outcome/);
 assert.throws(function () { C.buildInvestmentPnl({ outputId: 'x', actionId: 'a', observationId: 'o', observedAt: '2026-08-24T00:00:00Z', ownerDomain: 'finance', sourceIdentity: { kind: 'x', value: 'y', provider: 'tradier', accountId: 'VA1', snapshotId: 's', retrievedAt: '2026-08-24T00:00:00Z' }, benchmarkIdentity: { kind: 'x', value: 'b', retrievedAt: '2026-08-24T00:00:00Z' }, benchmarkBaselineValue: 1, benchmarkObservedValue: 2, sourceTerms: { executedQuantity: 1, averageFillPrice: 1, positionMarketValue: 2, fees: 0 }, outcomeData: { horizonDays: 30, investedAmount: 1, netPnl: 99, returnPct: 9900, benchmarkReturnPct: 100, maxDrawdownPct: 0, riskBreach: false, executionMode: 'paper', brokerOrderId: '1' } }); }, /netPnl does not match source terms/);
-console.log('autofire outcome contract: 22/22 passed');
+console.log('autofire outcome contract: 23/23 passed');
