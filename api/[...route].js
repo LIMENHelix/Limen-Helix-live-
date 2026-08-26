@@ -204,6 +204,7 @@ const HANDLERS = {
   'research-evaluation-intake': require('../handlers/research-evaluation-intake'),
   'limen-research-evaluation-observer': require('../handlers/limen-research-evaluation-observer'),
   'product-domain-learning-state': require('../handlers/product-domain-learning-state'),
+  'research-paper-developmental-status': require('../handlers/research-paper-developmental-status'),
   'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
   'limen-reciprocity-prose-rewrite': require('../handlers/limen-reciprocity-prose-rewrite'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),

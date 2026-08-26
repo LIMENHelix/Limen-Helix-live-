@@ -3372,3 +3372,31 @@ from time alone and adds no shared authority or scheduler write. It changes no
 B10 threshold, product-motor receipt, provider cap, daily budget, publication
 gate, broker gate, or live-money boundary. The one-provider-call-per-tick bound
 remains intact.
+
+### Science and Medicine developmental paper authority — implemented 2026-08-25
+
+The mature product-motor gate requires production executor and independent-
+observer receipts, which cannot exist before the first internal research
+artifact exists. Science and Medicine now have separate one-attempt bootstrap
+contracts rather than a shared research switch. Each product domain has its own
+environment arm, permanent strict-Redis slot, runtime owner, motor contract,
+budget identity, source identity, and receipt. A slot is claimed and read back
+before the B14 command or paid provider call; a claimed slot cannot dispatch a
+second attempt after retry, race, restart, success, or failure.
+
+Developmental authority still requires a current B10 release from that exact
+owning brain, a fresh product-motor receipt with internal preparation and
+simulation gates open, the correct domain-specific budget contract, the global
+AI kill switch, and the existing daily budget check. It permits at most one
+estimated `$0.30` generation attempt and one internal artifact per brain.
+Publication, sale, messaging, broker access, and live money remain explicitly
+unauthorized. The result is resolved from the artifact/B14 receipt and read back
+durably; failure consumes the bounded slot rather than looping.
+
+`GET /api/research-paper-developmental-status` exposes only sanitized read-only
+Science and Medicine state plus an artifact review link when one exists. It
+cannot claim a slot, call the provider, write Redis, publish, or expose source,
+selection, motor-receipt, prompt, or secret identities. This opens only the
+bounded Job-7 paper bootstrap needed to create genuine artifacts for later
+independent evaluation; it does not satisfy or loosen the mature production
+capability gate.

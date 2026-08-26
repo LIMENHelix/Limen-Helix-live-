@@ -262,6 +262,7 @@ async function handlerProof() {
   const efferenceStorePath = path.join(ROOT, 'lib', 'autofire-efference-store.js');
   const brainStorePath = path.join(ROOT, 'lib', 'brain-shadow-store.js');
   const motorAuthorizationPath = path.join(ROOT, 'lib', 'product-domain-motor-authorization.js');
+  const researchDevelopmentalPath = path.join(ROOT, 'lib', 'research-paper-developmental-authority.js');
   const tradierSandboxPath = path.join(ROOT, 'lib', 'tradier-sandbox.js');
   mock(dbPath, fakeDb);
   mock(efferenceStorePath, fakeEfferenceStore);
@@ -280,6 +281,30 @@ async function handlerProof() {
       return productMotorAuthorized
         ? { ok: true, authorized: true, status: 'AUTHORIZED', receiptId: 'pdmr_' + productDomain }
         : { ok: true, authorized: false, status: 'HELD', reason: 'domain-motor-not-external-ready', receiptId: 'pdmr_' + productDomain };
+    }
+  });
+  const developmentalCalls = [];
+  const developmentalResolutions = [];
+  let researchDevelopmentalAuthorized = false;
+  mock(researchDevelopmentalPath, {
+    async authorize(_store, productDomain, selection) {
+      developmentalCalls.push({ productDomain, selectionId: selection && selection.id });
+      return researchDevelopmentalAuthorized
+        ? {
+            ok: true, authorized: true, status: 'AUTHORIZED_DEVELOPMENTAL_PAPER',
+            authorizationMode: 'developmental-research-paper',
+            receiptId: 'research_dev_' + productDomain, productDomain,
+            ownerDomain: productDomain === 'science' ? 'research' : 'health',
+            slot: { selectionId: selection.id }
+          }
+        : { ok: true, authorized: false, status: 'HELD', reason: 'research-developmental-switch-off' };
+    },
+    async resolve(_store, authorization, result, motor) {
+      developmentalResolutions.push({ authorization, result: Object.assign({}, result), motor });
+      return {
+        receiptId: authorization.receiptId,
+        status: result.ok && result.outputId ? 'ARTIFACT_PERSISTED' : 'ATTEMPT_RESOLVED_NO_ARTIFACT'
+      };
     }
   });
   mock(stagePath, {
@@ -378,6 +403,35 @@ async function handlerProof() {
       heldResearch.json.skipped === 1 && heldResearch.json.results[0].reason === 'product-domain-research-motor-held' && heldResearch.json.results[0].billableAttempt === false);
     ok('Science motor hold occurs before B14 command persistence', commandCountAfterHold === commandCountBeforeHold);
     ok('Science motor hold makes no provider or artifact request', network.length === 0);
+
+    console.log('\nT5a2: separate developmental authority releases one internal Science artifact');
+    fakeDb.values.set('autoqueue', [{
+      status: 'PENDING', source: 'master-inbox', autofireEligible: true,
+      recommendedLane: 'research', cik: '320195', portalSlug: 'apple',
+      domain: 'science', sourceArtifactRef: 'research:science:developmental', sourcePatternSig: 'sig-developmental',
+      masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
+      salience: 'HIGH', from: 'P5', to: 'P6', direction: 'stabilizing'
+    }]);
+    researchDevelopmentalAuthorized = true;
+    persistOutputId = 'eo_research_science_dev_1';
+    network.length = 0;
+    const developmentalResearch = await invoke(handler, request('GET', '/api/limen-worker-autofire'));
+    ok('developmental Science fire still needs a released B10 selection and completes one artifact',
+      developmentalResearch.json.fired === 1 && developmentalResearch.json.results[0].outputId === 'eo_research_science_dev_1');
+    ok('developmental claim occurs before dispatch and is exact to Science',
+      developmentalCalls.length >= 2 && developmentalCalls[developmentalCalls.length - 1].productDomain === 'science' && network.length === 2);
+    ok('artifact and audit carry the developmental authorization identity',
+      network[1].body.payload.autofire.productDomain === 'science' &&
+      network[1].body.payload.autofire.productMotorAuthorizationMode === 'developmental-research-paper' &&
+      developmentalResearch.json.results[0].productMotorReceiptId === 'research_dev_science' &&
+      developmentalResearch.json.results[0].productMotorAuthorizationMode === 'developmental-research-paper');
+    ok('developmental result is closed from the B14/artifact receipt',
+      developmentalResolutions.length === 1 &&
+      developmentalResolutions[0].result.outputId === 'eo_research_science_dev_1' &&
+      developmentalResearch.json.results[0].researchDevelopmentalStatus === 'ARTIFACT_PERSISTED');
+    ok('developmental path remains artifact-only and makes exactly expand then persist calls',
+      /expand-artifact/.test(network[0].url) && /limen-engine-output/.test(network[1].url));
+    researchDevelopmentalAuthorized = false;
     productMotorAuthorized = true;
 
     console.log('\nT5b: an ok response without outputId is not an actuator receipt');
