@@ -18,6 +18,8 @@
  * + one line in HANDLERS.
  */
 const { RegExpRouter } = require('hono/router/reg-exp-router');
+const CivilizationValve = require('../lib/civilization-valve-control');
+const CivilizationValveRegistry = require('../lib/civilization-valve-registry');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
@@ -46,6 +48,7 @@ const HANDLERS = {
   'playbook': require('../handlers/playbook'),
   'ventures': require('../handlers/ventures'),
   'ai-switch': require('../handlers/ai-switch'),
+  'civilization-valves': require('../handlers/civilization-valves'),
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),
@@ -301,6 +304,30 @@ for (const name of Object.keys(HANDLERS)) router.add('ALL', '/api/' + name, name
 // CJS handlers export the function directly; an ESM-authored one would land on .default.
 function resolve(h) { return (h && typeof h !== 'function' && h.default) ? h.default : h; }
 
+// These exact POST contracts only validate and durably enqueue an owned work
+// item. Their GET/cron side performs the outward effect. No other mapped POST
+// receives this preparation exception: Autopilot and Law mail, for example,
+// can execute externally from POST and must cross the valve.
+const PREPARATION_POST_ROUTES = new Set([
+  'agriculture-homestead-cycle', 'economy-investment-cycle',
+  'energy-investment-cycle', 'infrastructure-real-estate-cycle',
+  'population-real-estate-cycle', 'technology-investment-cycle',
+  'trade-auction-cycle'
+]);
+
+function runtimeValveHold(name, req) {
+  const valveId = CivilizationValveRegistry.forRoute(name);
+  if (!valveId) return null;
+  const method = String(req.method || 'GET').toUpperCase();
+  // POST on these exact cycle routes only queues exact work; it does not create
+  // the outward effect. Keep preparation available while the efferent valve is
+  // closed. Every other method/route combination remains inhibited.
+  if (method === 'POST' && PREPARATION_POST_ROUTES.has(name)) return null;
+  return CivilizationValve.authorize(valveId).then(function (result) {
+    return result.allowed ? null : result;
+  });
+}
+
 module.exports = async function honoEntry(req, res) {
   let pathname = req.url || '';
   try { pathname = new URL(req.url, 'http://h').pathname; } catch (e) {}
@@ -317,6 +344,27 @@ module.exports = async function honoEntry(req, res) {
     res.statusCode = 404;
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ error: 'route not handled by Hono entry', path: pathname, build: BUILD }));
+  }
+  const heldCheck = runtimeValveHold(name, req);
+  // Preserve synchronous dispatch for every route outside the efferent valve
+  // topology. Only a mapped outward-effect route crosses the durable async gate.
+  const held = heldCheck && typeof heldCheck.then === 'function'
+    ? await heldCheck
+    : heldCheck;
+  if (held) {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-store');
+    return res.end(JSON.stringify({
+      ok: true,
+      status: 'HELD',
+      reason: held.reason,
+      valveId: held.valveId,
+      valveReceiptId: held.receipt && held.receipt.receiptId || null,
+      externalEffectExecuted: false,
+      observersRemainOpen: true,
+      recoveryRemainsOpen: true
+    }));
   }
   return resolve(handler)(req, res);
 };

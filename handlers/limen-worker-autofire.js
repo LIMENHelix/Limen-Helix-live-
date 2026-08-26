@@ -43,6 +43,8 @@ var autofireLearning = require('../lib/autofire-learning');
 var brainStore = require('../lib/brain-shadow-store');
 var motorAuthorization = require('../lib/product-domain-motor-authorization');
 var researchDevelopmentalAuthority = require('../lib/research-paper-developmental-authority');
+var civilizationValve = require('../lib/civilization-valve-control');
+var civilizationValveRegistry = require('../lib/civilization-valve-registry');
 var financeB14Bridge = require('../lib/finance-b14-bridge');
 var tradierSandbox = require('../lib/tradier-sandbox');
 var domainResearchCandidate = require('../lib/domain-research-candidate');
@@ -433,6 +435,26 @@ async function _fireOne(entry) {
   }
   if (selected.receipt.status !== 'RELEASED') {
     return domainOutwardHoldResult(entry, selected.receipt);
+  }
+
+  // Operator valve is an additional efferent inhibitor. It cannot release B10,
+  // override a hard switch, or create an action; observers and recovery remain
+  // reachable while new dispatch is held.
+  var runtimeValveId = civilizationValveRegistry.forCandidate(entry);
+  var runtimeValve = await civilizationValve.authorize(runtimeValveId, efferenceStore);
+  if (!runtimeValve.allowed) {
+    return Object.assign(resultIdentity(entry), {
+      skipped: true, ok: false, billableAttempt: false, lane: lane,
+      reason: runtimeValve.reason,
+      valveId: runtimeValveId,
+      valveReceiptId: runtimeValve.receipt && runtimeValve.receipt.receiptId || null,
+      selectionId: selected.receipt.id,
+      decisionKind: 'no_action',
+      motorStatus: 'HELD',
+      externalEffectExecuted: false,
+      observersRemainOpen: true,
+      recoveryRemainsOpen: true
+    });
   }
 
   // A paid research provider call is an external motor effect even though the
