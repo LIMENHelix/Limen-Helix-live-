@@ -15,13 +15,13 @@ assert(report.laneSurfaces.every(function (row) { return row.filesPresent; }));
 
 var bound = report.domains.filter(function (row) { return row.domainBoundExecutorImplemented; });
 assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(), [
-  'communication', 'culture', 'finance', 'intelligence', 'law', 'medicine', 'religion', 'science'
+  'agriculture', 'communication', 'culture', 'finance', 'intelligence', 'law', 'medicine', 'religion', 'science'
 ]);
-assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
-assert.equal(report.summary.actionReceiptsImplemented, 8);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 8);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 8);
-assert.equal(report.summary.sourceChainsComplete, 8);
+assert.equal(report.summary.domainBoundExecutorsImplemented, 9);
+assert.equal(report.summary.actionReceiptsImplemented, 9);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 9);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 9);
+assert.equal(report.summary.sourceChainsComplete, 9);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -89,7 +89,10 @@ assert.equal(medicine.observerScope, 'EXTERNAL_EVALUATION_INPUT_GATED');
 
 var agriculture = report.domains.find(function (row) { return row.productDomain === 'agriculture'; });
 assert.equal(agriculture.lane, 'homestead');
-assert.equal(agriculture.domainBoundExecutorImplemented, false);
-assert(agriculture.gaps.includes('domain-bound-production-executor-missing'));
+assert.equal(agriculture.domainBoundExecutorImplemented, true);
+assert.equal(agriculture.actionReceiptStrength, 'DURABLE_B10_B14_IDEMPOTENT_SERVICE_REQUEST_RECEIPT');
+assert.equal(agriculture.observerScope, 'RESEND_SIGNED_INBOUND_COUNTERPARTY_RESPONSE');
+assert.equal(agriculture.sourceChainComplete, true);
+assert.equal(agriculture.externalEnabled, false);
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 8/20, externally ready 0/20');
+console.log('product domain business executor audit: contracts 20/20, bound executors 9/20, closed source chain 9/20, externally ready 0/20');
