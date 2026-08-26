@@ -10,6 +10,10 @@ const path = require('path');
 
 const BASE = 'https://limenhelix.com';
 const LANES = ['research-papers','investments','publication','social','subscriber-email','automail','autopilot','hero-image','auction','homestead','crm','real-estate','broker/order'];
+// Inventory labels are operator-facing; runtime receipts use the singular
+// motor-lane IDs below. Keep this as an explicit identity join so a real held,
+// abstained, or fired result is observable without renaming either contract.
+const RESULT_LANE = { 'research-papers': 'research', investments: 'investment' };
 
 async function getJson(url, headers) {
   const response = await fetch(url, { headers: headers || {} });
@@ -25,9 +29,10 @@ function summarize(snapshot, autofire, shadow) {
   const cycles = autofire && Array.isArray(autofire.cycles) ? autofire.cycles : [];
   const observedResults = cycles.reduce((n, c) => n + (Array.isArray(c.results) ? c.results.length : 0), 0);
   const laneInventory = LANES.map((lane) => {
-    const hasResult = cycles.some((c) => Array.isArray(c.results) && c.results.some((r) => r && r.lane === lane));
+    const runtimeLane = RESULT_LANE[lane] || lane;
+    const hasResult = cycles.some((c) => Array.isArray(c.results) && c.results.some((r) => r && r.lane === runtimeLane));
     if (lane === 'research-papers' || lane === 'investments') {
-      return { lane, status: hasResult ? 'live-observed' : 'blocked', reason: hasResult ? 'a public autofire result carried this lane' : 'no eligible result in the bounded public log' };
+      return { lane, runtimeLane, status: hasResult ? 'live-observed' : 'blocked', reason: hasResult ? 'a public autofire result carried this lane' : 'no eligible result in the bounded public log' };
     }
     return { lane, status: 'not-observable', reason: 'no public result and lane is outside the current research/investment scope' };
   });
@@ -89,4 +94,4 @@ if (require.main === module) {
   run(arg ? arg.slice('--out='.length) : null).catch((err) => { console.error('runtime surface audit failed: ' + err.message); process.exitCode = 1; });
 }
 
-module.exports = { summarize, LANES };
+module.exports = { summarize, LANES, RESULT_LANE };
