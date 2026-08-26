@@ -12,6 +12,7 @@ var store = require('../lib/autofire-efference-store.js');
 var learning = require('../lib/autofire-learning.js');
 var religionLearning = require('../lib/religion-subscriber-learning.js');
 var intelligenceLearning = require('../lib/intelligence-autopilot-learning.js');
+var agricultureLearning = require('../lib/agriculture-homestead-learning.js');
 
 var DOMAINS = [
   'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -39,6 +40,7 @@ function abstained(domain, reason, resolvedCount) {
 
 async function read(domain) {
   store.assertDurable();
+  if (domain === 'agriculture') return agricultureLearning.readForBrain(store);
   if (domain === 'religion') return religionLearning.readForBrain(store);
   if (domain === 'intelligence') return intelligenceLearning.readForBrain(store);
   /* Use the learner's strict compatibility loader. States written before the
