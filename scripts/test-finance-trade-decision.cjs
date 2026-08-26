@@ -56,10 +56,6 @@ function proposal(action, confidence) {
     confidence,
     rationale: 'The supplied candidate and current quote support a bounded sandbox decision.',
     invalidation: 'New contradictory evidence or the stated candidate invalidation.',
-    thing2Observed: false,
-    thing2DecisionWeight: 0,
-    thing2Role: 'alignment_and_masking_reconciliation_only',
-    thing2ReconciliationStatus: 'unassessed',
     factorAssessment,
     evidenceRefs
   };
@@ -110,7 +106,7 @@ async function seeded() {
   assert.equal(Decision.parseProposal(JSON.stringify(proposal('BUY', 0.8)), admission().candidate).ok, true);
   const wrongThing2Observation = proposal('BUY', 0.8);
   wrongThing2Observation.thing2Observed = true;
-  assert(Decision.parseProposal(JSON.stringify(wrongThing2Observation), admission().candidate).blockers.includes('trade_decision_thing2_observation_acknowledgement_required'));
+  assert(Decision.parseProposal(JSON.stringify(wrongThing2Observation), admission().candidate).blockers.includes('trade_decision_forbidden_field_thing2Observed'));
   const forbidden = proposal('BUY', 0.8); forbidden.quantity = 1;
   assert(Decision.parseProposal(JSON.stringify(forbidden), admission().candidate).blockers.includes('trade_decision_forbidden_field_quantity'));
   const nestedForbidden = proposal('BUY', 0.8); nestedForbidden.metadata = { order: { side: 'buy' } };
@@ -144,7 +140,14 @@ async function seeded() {
     env: {}, now: '2026-08-25T02:00:00Z', completedAt: '2026-08-25T02:00:01Z',
     feedConfirmation: confirmation(),
     helixReport: null,
-    provider: async () => { providerCalls++; return { ok: true, provider: 'test', model: 'fixture', text: JSON.stringify(proposal('BUY', 0.9)), tokensIn: 1, tokensOut: 1 }; }
+    provider: async (input) => {
+      providerCalls++;
+      const request = JSON.parse(input.prompt);
+      assert.equal(Object.prototype.hasOwnProperty.call(request.decisionEvidence.helixReport, 'thing2'), false);
+      assert.equal(request.decisionEvidence.interpretationBoundary.postDecisionMaskingReconciliationDeferred, true);
+      assert.equal(Object.prototype.hasOwnProperty.call(request.responseSchema, 'thing2Observed'), false);
+      return { ok: true, provider: 'test', model: 'fixture', text: JSON.stringify(proposal('BUY', 0.9)), tokensIn: 1, tokensOut: 1 };
+    }
   });
   assert.equal(result.ok, true);
   assert.equal(result.receipt.status, 'TRADE_INTENT_SELECTED');
@@ -159,6 +162,9 @@ async function seeded() {
   assert.equal(result.receipt.safety.orderPlaced, false);
   assert.equal(result.receipt.feedConfirmation.context.interpretationBoundary.thing2Used, false);
   assert.equal(result.receipt.decisionEvidence.interpretationBoundary.thing2DecisionWeight, 0);
+  assert.equal(result.receipt.postDecisionReconciliation.sequence, 'thing1_result_then_thing2_snapshot');
+  assert.equal(result.receipt.postDecisionReconciliation.decisionWeight, 0);
+  assert.equal(result.receipt.postDecisionReconciliation.appliedAfterProposal, true);
   assert.equal(result.receipt.decisionEvidence.marketPerformance.target.observations, 2);
   assert(result.receipt.decisionEvidence.gaps.includes('protected_helix_report_unavailable'));
   assert.equal(providerCalls, 1);

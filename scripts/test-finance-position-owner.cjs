@@ -42,17 +42,15 @@ function proposal(action) {
     schemaVersion: Owner.PROPOSAL_SCHEMA, action, symbol: 'MS', confidence: 0.95,
     rationale: 'Combined actionable evidence supports this bounded paper response.',
     invalidation: 'Contradictory issuer or market evidence changes the response.',
-    thing2Observed: true, thing2DecisionWeight: 0,
-    thing2Role: 'alignment_and_masking_reconciliation_only',
-    thing2ReconciliationStatus: 'unassessed', factorAssessment
+    factorAssessment
   };
 }
 
 (async function () {
   const ctx = context();
   assert.equal(Owner.parseProposal(JSON.stringify(proposal('SELL')), ctx).ok, true);
-  const contaminated = proposal('SELL'); contaminated.thing2DecisionWeight = 0.1;
-  assert.equal(Owner.parseProposal(JSON.stringify(contaminated), ctx).reason, 'position_owner_thing2_decision_weight_must_be_zero');
+  const contaminated = proposal('SELL'); contaminated.thing2DecisionWeight = 0;
+  assert.equal(Owner.parseProposal(JSON.stringify(contaminated), ctx).reason, 'position_owner_thing2_decision_field_forbidden');
   assert.equal(Owner.buildExitIntent(ctx, proposal('SELL')).intent.side, 'sell');
 
   const env = {
@@ -63,7 +61,13 @@ function proposal(action) {
   let s = store();
   let result = await Owner.execute({
     store: s, broker: {}, account: { orders: [] }, input: { status: 'READY_FOR_POSITION_REVIEW', context: ctx }, env, now: Date.parse('2026-08-26T16:00:00Z'),
-    provider: async () => ({ ok: true, provider: 'fixture', model: 'fixture', text: JSON.stringify(proposal('HOLD')) })
+    provider: async (input) => {
+      const request = JSON.parse(input.prompt);
+      assert.equal(Object.prototype.hasOwnProperty.call(request.context.helixReport, 'thing2'), false);
+      assert.equal(request.context.interpretationBoundary.postDecisionMaskingReconciliationDeferred, true);
+      assert.equal(Object.prototype.hasOwnProperty.call(request.responseSchema, 'thing2Observed'), false);
+      return { ok: true, provider: 'fixture', model: 'fixture', text: JSON.stringify(proposal('HOLD')) };
+    }
   });
   assert.equal(result.status, 'HELD');
   assert.equal(result.receipt.reason, 'finance_position_owner_held');
@@ -90,6 +94,8 @@ function proposal(action) {
   assert.equal(result.orderPlaced, true);
   assert.equal(result.receipt.orderId, 'paper-order-1');
   assert.equal(result.receipt.selection.authority.thing2DecisionWeight, 0);
+  assert.equal(result.receipt.postDecisionReconciliation.sequence, 'thing1_result_then_thing2_snapshot');
+  assert.equal(result.receipt.postDecisionReconciliation.decisionWeight, 0);
   assert.equal(s.values.has('autofire_learning_cause:' + result.receipt.selection.criticDecision.released.candidateId), true);
 
   const again = await Owner.execute({ store: s, broker: {}, account: { orders: [] }, input: { status: 'READY_FOR_POSITION_REVIEW', context: ctx }, env, now: Date.parse('2026-08-26T17:10:00Z'), provider: async () => { throw new Error('must not repeat'); } });
