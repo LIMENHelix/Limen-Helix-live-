@@ -61,6 +61,7 @@ assert('energy-brain.js loads + self-instantiates against stubs', loaded && !!wi
 if (!loaded || !win.LIMENEnergyBrain) { console.error('\ncannot continue'); process.exit(1); }
 
 var brain = win.LIMENEnergyBrain;
+assert('Energy owns an action-outcome memory afferent', typeof brain._refreshEnergyActionOutcome === 'function');
 
 // ── fixture state (the fields the wiring actually reads) ────────────
 function fixture(resolvedSamples, hitRate) {
@@ -99,10 +100,17 @@ assert('K5 seeded from the live static constants', String(brain._plasticity.laye
 // T2 — one shadow cycle
 console.log('T2: shadow cycle through the real wiring + real LIMENK4 gate');
 fixture(4, 0.75);
+brain._energyActionOutcome = {
+  ok: true, schemaVersion: 'product-domain-external-learning/1.0', domain: 'energy',
+  status: 'ELIGIBLE', resolvedCount: 5, learningGate: { ready: true },
+  signal: { normalizedCredit: 0.8, sourceKind: 'independent-action-outcome' }
+};
 var out = brain._computeEnergyPlasticity();
 assert('shadow readout produced', !!out && out.mode === 'shadow');
 assert('modulator used the honest gate (call-consistency tier 2)', out.creditSource === 'call-consistency' && out.creditTier === 2, out.creditSource + '/' + out.creditTier);
 assert('isReward honestly false for energy', out.isReward === false);
+assert('Energy reads its investment outcome as advisory memory without expanding K4 authority',
+  out.actionOutcome && out.actionOutcome.status === 'ELIGIBLE' && out.actionOutcome.plasticityAuthority === false && out.creditSource === 'call-consistency');
 assert('all 8 layers report shadow vs static output', expected.every(function (k) {
   var L = out.layers[k]; return L && typeof L.shadowOutput === 'number' && typeof L.staticOutput === 'number';
 }));
