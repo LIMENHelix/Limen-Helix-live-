@@ -15,13 +15,13 @@ assert(report.laneSurfaces.every(function (row) { return row.filesPresent; }));
 
 var bound = report.domains.filter(function (row) { return row.domainBoundExecutorImplemented; });
 assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(), [
-  'agriculture', 'communication', 'culture', 'defense', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law', 'medicine', 'religion', 'science'
+  'agriculture', 'communication', 'culture', 'defense', 'finance', 'governance', 'industry', 'infrastructure', 'intelligence', 'law', 'medicine', 'population', 'religion', 'science'
 ]);
-assert.equal(report.summary.domainBoundExecutorsImplemented, 13);
-assert.equal(report.summary.actionReceiptsImplemented, 13);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 13);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 13);
-assert.equal(report.summary.sourceChainsComplete, 13);
+assert.equal(report.summary.domainBoundExecutorsImplemented, 14);
+assert.equal(report.summary.actionReceiptsImplemented, 14);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 14);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 14);
+assert.equal(report.summary.sourceChainsComplete, 14);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -123,4 +123,11 @@ assert.equal(infrastructure.observerScope, 'RESEND_SIGNED_INBOUND_COUNTERPARTY_R
 assert.equal(infrastructure.sourceChainComplete, true);
 assert.equal(infrastructure.externalEnabled, false);
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 13/20, closed source chain 13/20, externally ready 0/20');
+var population = report.domains.find(function (row) { return row.productDomain === 'population'; });
+assert.equal(population.lane, 'real-estate');
+assert.equal(population.actionReceiptStrength, 'DURABLE_B10_B14_NON_BINDING_PROPERTY_INQUIRY_RECEIPT');
+assert.equal(population.observerScope, 'RESEND_SIGNED_INBOUND_COUNTERPARTY_RESPONSE_UNCLASSIFIED_ZERO_CREDIT');
+assert.equal(population.sourceChainComplete, true);
+assert.equal(population.externalEnabled, false);
+
+console.log('product domain business executor audit: contracts 20/20, bound executors 14/20, closed source chain 14/20, externally ready 0/20');
