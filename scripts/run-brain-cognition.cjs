@@ -10,6 +10,7 @@
 const fs = require('fs');
 const vm = require('vm');
 const path = require('path');
+const compact = require('../lib/brain-cognition-compact.js').compact;
 
 const BASE = process.env.LIMEN_BASE || 'https://limenhelix.com';
 const TOKEN = process.env.BRAIN_COGNITION_TOKEN || 'limen-brain-209913';
@@ -25,23 +26,6 @@ const BRAIN_GLOBAL = {
   education:'LIMENEducationBrain', population:'LIMENPopulationBrain', science:'LIMENResearchBrain',
   law:'LIMENLawBrain', religion:'LIMENReligionBrain'
 };
-
-function num(v){ return typeof v === 'number' ? v : null; }
-function arr(v){ return Array.isArray(v) ? v : []; }
-function val(v){ return v != null ? v : null; }
-// mirror of the adapter's _compactCognition
-function compact(cog){
-  if (!cog || typeof cog !== 'object') return null;
-  var m = cog.model||{}, im = cog.immune||{}, aw = cog.awareness||{}, co = cog.conscience||{}, it = cog.intuition||{};
-  return {
-    domain: cog.domain || null,
-    model: { cycle: num(m.cycle), predictionError: num(m.predictionError), predictedStress: num(m.predictedStress), regulation: val((m.regulation && typeof m.regulation === 'object') ? m.regulation.state : m.regulation) },
-    immune: { immuneState: val(im.immuneState), severity: num(im.severity), antigenCount: arr(im.antigens).length, quarantines: val(im.quarantines), blockedFromTraversal: val(im.blockedFromTraversal) },
-    awareness: { selfNarrative: val(aw.selfNarrative), humanReviewRequired: !!aw.humanReviewRequired },
-    conscience: { conscienceState: val(co.conscienceState), artifactReadinessDecision: val(co.artifactReadinessDecision), blockedClaims: arr(co.blockedClaims).slice(0,4) },
-    intuition: { hunches: arr(it.hunches).slice(0,3) }
-  };
-}
 
 function buildSandbox(snap){
   const noop = function(){};
