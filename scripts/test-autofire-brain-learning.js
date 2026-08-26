@@ -201,6 +201,24 @@ async function main() {
     finance.externalLearning.resolvedCount === 1 && finance.externalLearning.signals.length === 1);
   assert('five commands and five returned outcomes remain episodic before consolidation', finance.memory.episodic.length === 10);
 
+  var companyAction = copy('investment', 10).actionId;
+  var company60 = await LEARN.recordOutcome(store, {
+    eventId: 'evt_inv_10_60', eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'finance',
+    actionId: companyAction, ts: 5000, outcomeData: investmentData(60, 5, 5, 2, true),
+    sourceIdentity: { kind: 'tradier-sandbox-account', value: 'snapshot:10:60' }
+  });
+  var company90 = await LEARN.recordOutcome(store, {
+    eventId: 'evt_inv_10_90', eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'finance',
+    actionId: companyAction, ts: 6000, outcomeData: investmentData(90, 5, 5, 2, false),
+    sourceIdentity: { kind: 'tradier-sandbox-account', value: 'snapshot:10:90' }
+  });
+  assert('each resolved company outcome updates only its compact company pattern',
+    company60.companyPattern && company90.companyPattern && company90.companyPattern.companyId === 'cik:1010' && company90.companyPattern.resolvedCount === 3);
+  assert('a company risk breach produces an advisory repair rather than trade authority',
+    company90.companyPattern.recommendation.status === 'TIGHTEN_RISK_LIMIT_OR_ABSTAIN' && company90.companyPattern.recommendation.advisoryOnly === true);
+  finance = await LEARN._load(store, 'finance');
+  assert('Finance owns its durable per-company pattern separately', finance.companyPatterns['cik:1010'].episodes.length === 3);
+
   var consolidated = await LEARN.consolidateDomain(store, 'finance', 9999);
   assert('B13 ran in offline state', consolidated.result.ran === true);
   finance = await LEARN._load(store, 'finance');

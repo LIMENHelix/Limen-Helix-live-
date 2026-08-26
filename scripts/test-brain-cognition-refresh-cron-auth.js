@@ -21,6 +21,9 @@ assert(source.includes('const arr = cognitionProjection.arr;'), 'refresh must im
 assert(source.includes('const val = cognitionProjection.val;'), 'refresh must import the nullable-value projection helper it calls');
 assert(source.includes("stage: 'domain-refresh'"), 'domain refresh failures must be reported instead of swallowed');
 assert(source.includes("stage: 'cognition-store'"), 'cognition persistence failures must be reported');
+assert(source.includes("stage: 'domain-learning-read'"), 'the hosted brain must report failures reading its own resolved-outcome memory');
+assert(source.includes("target.pathname === '/api/product-domain-learning-state'"), 'the hosted brain sandbox must expose the same domain-owned learning afferent as the browser brain');
+assert(source.includes('externalActionLearning:'), 'the compact cognition record must prove whether resolved-outcome memory reached the brain organ');
 assert(source.includes('res.statusCode = complete ? 200 : 503;'), 'an incomplete 20-brain refresh must fail its HTTP health signal');
 assert(!source.includes('catch (e) {}'), 'refresh must not silently discard named failures');
 
