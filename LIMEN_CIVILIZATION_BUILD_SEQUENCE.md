@@ -3342,3 +3342,13 @@ This raises the source-audited domain-authorized rollback count from `1/20` to
 chains from `1/20` to `3/20` (Finance, Science, Medicine). It does not establish
 production verification, enable either research lane, call a provider, publish
 or delete a document, activate Thing 2, or authorize live money.
+
+### Finance commissioning observability — implemented 2026-08-25
+
+`GET /api/finance-sandbox-commissioning` is a public, read-only view of the
+durable one-shot sandbox commissioning state. It reads strict Redis and returns
+only status, verification booleans, bounded timestamps, and the permanent
+`paperOnly:true` / `liveMoney:false` boundary. It does not call Tradier, mutate
+state, or expose the symbol, account, token, preview, command, or order identity.
+The existing `POST` remains Brain-token authenticated and is still the only
+operator route that can request the zero-effect sandbox order/cancel proof.
