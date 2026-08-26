@@ -125,6 +125,7 @@ const HANDLERS = {
   'religion-subscriber-decision-status': require('../handlers/religion-subscriber-decision-status'),
   'religion-subscriber-outcome-observer': require('../handlers/religion-subscriber-outcome-observer'),
   'religion-subscriber-recovery': require('../handlers/religion-subscriber-recovery'),
+  'religion-revenue-fulfillment': require('../handlers/religion-revenue-fulfillment'),
   'subscribers': require('../handlers/subscribers'),
   'hero-image': require('../handlers/hero-image'),
   'culture-hero-decision-status': require('../handlers/culture-hero-decision-status'),
