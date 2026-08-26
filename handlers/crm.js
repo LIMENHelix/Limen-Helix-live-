@@ -1,5 +1,6 @@
 /**
- * crm.js — /api/crm — the outreach CRM (LEADS → APPOINTMENTS).
+ * crm.js — /api/crm — the identity-bound sales cycle
+ * (LEADS → APPOINTMENTS → SHOWS → ENROLLMENTS → REFERRALS → LEADS).
  *
  * LASER is the flow; this is where a lead is actually WORKED into an appointment
  * via mail / email / text / call. It tracks every touch, its outcome and cost,
@@ -8,9 +9,9 @@
  * mirrored into the sales funnel (leads>appointments) so the hub + optimizer
  * learn from real activity.
  *
- * GUARDRAIL: this LOGS outreach you performed and TRACKS outcomes. It does NOT
- * itself send mail/email/text/calls — sending stays a deliberate action (rep, or
- * a future Twilio/Resend/mail integration). Nothing here contacts anyone.
+ * GUARDRAIL: this tracks real transitions and refuses out-of-order outcomes.
+ * Email can be sent only through the explicit, confirmed send-email action;
+ * text/call/mail remain logged external actions. No later stage is fabricated.
  *
  * Storage (Redis via limen-db):
  *   crm:worklist          array of leadIds currently in the CRM
@@ -413,6 +414,7 @@ module.exports = async function handler(req, res) {
       var cfid = clip(body.leadId, 80);
       var stC = await loadState(cfid);
       if (!stC) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stC.status !== 'appointment') return j(res, 409, { ok: false, error: 'confirmation requires a current appointment', status: stC.status });
       var cch = CONFIRM_CHANNELS.indexOf(body.channel) !== -1 ? body.channel : CONFIRM_CHANNELS[0];
       var ccost = CONFIRM_COST[cch] || 0;
       stC.confirmations = stC.confirmations || [];
@@ -429,6 +431,7 @@ module.exports = async function handler(req, res) {
       var soid = clip(body.leadId, 80);
       var stO = await loadState(soid);
       if (!stO) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stO.status !== 'appointment') return j(res, 409, { ok: false, error: 'show outcome requires a current appointment', status: stO.status });
       var outcome = SHOW_OUTCOMES.indexOf(body.outcome) !== -1 ? body.outcome : 'showed';
       var lastC = (stO.confirmations || []).slice(-1)[0];
       var unit = CONFIRM_CHANNELS.indexOf(body.channel) !== -1 ? body.channel : ((lastC && lastC.channel) || 'other');
@@ -447,6 +450,7 @@ module.exports = async function handler(req, res) {
       var rsid = clip(body.leadId, 80);
       var stR = await loadState(rsid);
       if (!stR) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (['appointment', 'no-show', 'cancelled'].indexOf(stR.status) === -1) return j(res, 409, { ok: false, error: 'reschedule requires an appointment, no-show, or cancellation', status: stR.status });
       stR.apptAt = clip(body.apptAt, 40); stR.status = 'appointment'; stR.showOutcome = null; stR.showMirrored = false;
       stR.updatedTs = new Date().toISOString();
       await db.set(K.state + rsid, stR);
@@ -458,6 +462,7 @@ module.exports = async function handler(req, res) {
       var clid = clip(body.leadId, 80);
       var stCl = await loadState(clid);
       if (!stCl) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stCl.status !== 'showed') return j(res, 409, { ok: false, error: 'enrollment outcome requires a recorded show', status: stCl.status });
       var won = body.won !== false;
       var dealSize = DEAL_SIZES.indexOf(body.dealSize) !== -1 ? body.dealSize : 'medium';
       var lever = CLOSE_LEVERS.indexOf(body.lever) !== -1 ? body.lever : 'closing';
@@ -474,6 +479,7 @@ module.exports = async function handler(req, res) {
       var rfid = clip(body.leadId, 80);
       var stRf = await loadState(rfid);
       if (!stRf) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stRf.status !== 'enrolled' && stRf.status !== 'referred') return j(res, 409, { ok: false, error: 'referral outcome requires an enrollment', status: stRf.status });
       var rchannel = CHANNELS.indexOf(body.channel) !== -1 ? body.channel : 'text';
       var refs = Array.isArray(body.referrals) ? body.referrals.slice(0, 20) : [];
       var wonR = refs.length > 0 || body.won === true;

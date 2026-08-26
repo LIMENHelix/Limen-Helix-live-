@@ -1717,16 +1717,16 @@ function captureOpp(ev, rung, intent) {
   if (!host) host = ev.currentTarget.parentNode;
   if (host.querySelector('.oppcap')) { var ex = host.querySelector('.oppcap input'); if (ex && !ex.disabled) { ex.focus(); } return; }
   var box = document.createElement('div'); box.className = 'oppcap';
-  box.innerHTML = '<input type="email" placeholder="you@email.com" /><button class="oppbtn" type="button">Send</button><div class="oppcap-note"></div>';
+  box.innerHTML = '<input class="opp-name" type="text" placeholder="your name" autocomplete="name" /><input class="opp-email" type="email" placeholder="you@email.com" autocomplete="email" /><button class="oppbtn" type="button">Send</button><div class="oppcap-note"></div>';
   host.appendChild(box);
-  var inp = box.querySelector('input'), btn = box.querySelector('button'), note = box.querySelector('.oppcap-note');
-  try { inp.focus(); } catch (e) {}
+  var nameInp = box.querySelector('.opp-name'), inp = box.querySelector('.opp-email'), btn = box.querySelector('button'), note = box.querySelector('.oppcap-note');
+  try { nameInp.focus(); } catch (e) {}
   btn.onclick = function () {
     var em = (inp.value || '').trim();
     note.style.color = '';
     if (!/.+@.+\..+/.test(em)) { note.style.color = '#e88'; note.textContent = 'Enter a valid email.'; return; }
     btn.disabled = true; note.textContent = 'Saving…';
-    fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: em, consent: true, interest: C.name + ' rung ' + rung + ': ' + intent, sourcePage: '/' + DID, message: 'ZIP ' + (_popZip || 'n/a') + ' · rung ' + rung + ' · ' + intent }) })
+    fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: (nameInp.value || '').trim(), email: em, consent: true, interest: C.name + ' rung ' + rung + ': ' + intent, sourcePage: '/' + DID, domain: DID, tier: 'p' + rung, utm: ATTRIB, referrer: ATTRIB.referrer, message: 'ZIP ' + (_popZip || 'n/a') + ' · rung ' + rung + ' · ' + intent }) })
       .then(function (r) { return r.json().then(function (jd) { return { httpOk: r.ok, jd: jd }; }); })
       .then(function (res) {
         if (!res.httpOk || !res.jd || !res.jd.ok) { note.style.color = '#e88'; note.textContent = (res.jd && res.jd.error) || 'Could not save that. Please try again.'; btn.disabled = false; return; }
@@ -1904,6 +1904,7 @@ function submitLead(payload, els, successText) {
   if (note) { note.textContent = ''; note.style.color = ''; }
 
   var body = {
+    name: payload.name || '',
     email: payload.email,
     consent: true,                      // the form's own copy is the consent notice
     interest: payload.interest,
@@ -1938,7 +1939,7 @@ function earlyAccess(e) {
   e.preventDefault();
   var email = EL('eaEmail').value.trim(); if (!email) return false;
   submitLead(
-    { email: email, interest: C.name + ' add-ons (early access)', tier: 'early-access' },
+    { name: EL('eaName').value.trim(), email: email, interest: C.name + ' add-ons (early access)', tier: 'early-access' },
     { btn: 'eaBtn', note: 'eaNote', form: 'eaForm' },
     '✓ You’re on the early-access list. We’ll reach out as these open up.'
   );
@@ -1951,7 +1952,7 @@ function subscribe(e) {
   var email = EL('capEmail').value.trim();
   if (!email) return false;
   submitLead(
-    { email: email, interest: C.name, tier: 'watchlist' },
+    { name: EL('capName').value.trim(), email: email, interest: C.name, tier: 'watchlist' },
     { btn: 'capBtn', note: 'capNote', form: 'capForm' },
     '✓ You’re on the ' + C.name + ' watchlist.'
   );
