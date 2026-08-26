@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Defense Source Watch · LIMEN Helix</title>
+  <meta name="description" content="Source-linked Defense watch briefs produced by the sovereign LIMEN Defense domain.">
+  <style>
+    :root{color-scheme:dark;--bg:#071019;--panel:#0d1924;--text:#e8f0f6;--muted:#9fb0bd;--line:#203444;--accent:#86c5da}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#071019,#0a131d);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+    main{width:min(920px,92vw);margin:0 auto;padding:56px 0 80px}header{margin-bottom:32px}.eyebrow{color:var(--accent);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase}
+    h1{font-size:clamp(2rem,6vw,4rem);line-height:1.05;margin:.35rem 0 1rem}header p{max-width:720px;color:var(--muted)}
+    article{background:rgba(13,25,36,.9);border:1px solid var(--line);padding:clamp(22px,5vw,42px);margin:0 0 26px;border-radius:16px}h2{line-height:1.2;margin:.2rem 0 .5rem}
+    .meta,.summary,.notice{color:var(--muted)}.body{white-space:pre-wrap;margin:24px 0}.notice{border-left:3px solid var(--accent);padding-left:14px}
+    ol{padding-left:1.25rem}li{margin:12px 0}a{color:#a9dded}.empty{border:1px dashed var(--line);padding:24px;color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">LIMEN Helix · Defense Domain</div>
+    <h1>Defense Source Watch</h1>
+    <p>Autonomous, source-linked briefs from the sovereign Defense brain. These pages preserve observed public headlines and LIMEN model state; they do not independently verify events or recommend action.</p>
+  </header>
+  <section id="briefs" aria-live="polite"><div class="empty">Loading published briefs…</div></section>
+</main>
+<script>
+(function(){
+  var root=document.getElementById('briefs');
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function render(article){
+    var sources=(article.sources||[]).map(function(source,index){
+      var href='/api/defense-publication-engagement?id='+encodeURIComponent(article.articleId)+'&source='+index;
+      return '<li><a href="'+href+'" rel="noopener noreferrer">'+esc(source.title)+'</a><br><span class="meta">'+esc(source.publisher||source.feedName||'Public feed')+(source.sourcePublishedAt?' · '+esc(source.sourcePublishedAt.slice(0,10)):'')+'</span></li>';
+    }).join('');
+    return '<article id="'+esc(article.articleId)+'"><div class="eyebrow">Published '+esc((article.publishedAt||'').slice(0,10))+'</div><h2>'+esc(article.title)+'</h2><p class="summary">'+esc(article.summary)+'</p><div class="body">'+esc(article.body)+'</div><p class="notice">'+esc(article.disclaimer)+'</p><h3>Original source records</h3><ol>'+sources+'</ol></article>';
+  }
+  var id=new URLSearchParams(location.search).get('id');
+  fetch('/api/defense-publication-public'+(id?'?id='+encodeURIComponent(id):''),{headers:{accept:'application/json'}})
+    .then(function(response){if(!response.ok)throw new Error('not available');return response.json();})
+    .then(function(body){var rows=id?(body.article?[body.article]:[]):(body.articles||[]);root.innerHTML=rows.length?rows.map(render).join(''):'<div class="empty">No Defense briefs are published yet.</div>';})
+    .catch(function(){root.innerHTML='<div class="empty">Defense briefs are unavailable right now.</div>';});
+})();
+</script>
+</body>
+</html>
