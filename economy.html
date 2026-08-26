@@ -73,6 +73,7 @@ void main(){
       <h1 id="title">Domain Watch</h1>
       <p class="lead" id="lead">A free, plain-language watch on this domain.</p>
       <form class="capture" id="capForm" onsubmit="return subscribe(event)">
+        <input type="text" id="capName" placeholder="your name" autocomplete="name" />
         <input type="email" id="capEmail" placeholder="you@email.com" required />
         <button type="submit" id="capBtn">Watch this</button>
       </form>
@@ -279,6 +280,7 @@ void main(){
         <div class="sub">The live read is free. Everything past it follows the same P0 to P10 cycle LIMEN uses to read the world, each layer one step deeper into this domain. These are coming as we grow; add your email for early access.</div>
         <div class="ladder" id="phaseLadder"></div>
         <form class="capture" id="eaForm" style="margin:20px auto 0" onsubmit="return earlyAccess(event)">
+          <input type="text" id="eaName" placeholder="your name" autocomplete="name" />
           <input type="email" id="eaEmail" placeholder="you@email.com" required />
           <button type="submit" id="eaBtn">Get early access</button>
         </form>

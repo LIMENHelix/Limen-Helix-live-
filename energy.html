@@ -253,6 +253,19 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     </div>
   </div>
 
+  <!-- PUBLIC IDENTITY CAPTURE → LEADS → CRM SALES CYCLE -->
+  <div class="card">
+    <h2>Get Energy signals</h2>
+    <div class="sub">Join the public Energy watch. Your identity enters the Leads ledger and stays attached to any later appointment, enrollment, or referral outcome.</div>
+    <div class="grid">
+      <div><label>Name</label><input id="energyLeadName" autocomplete="name" placeholder="your name"></div>
+      <div><label>Email</label><input id="energyLeadEmail" type="email" autocomplete="email" placeholder="you@email.com"></div>
+    </div>
+    <button class="btn btn-primary" id="energyLeadBtn">Watch Energy →</button>
+    <div class="err" id="energyLeadStatus"></div>
+    <div class="sub" style="margin-top:8px">By joining, you agree to receive Energy Watch email. No spam; unsubscribe anytime.</div>
+  </div>
+
   <div class="foot">
     Powered by <a href="/">LIMEN Helix</a> · Energy Watch &nbsp;·&nbsp; <a href="/energy_portal" style="color:var(--gold)">⚙ The engine behind this →</a><div class="pp">
     Informational only — not legal, financial, or professional advice. Your readings are stored in your browser; shared readings are anonymized to region (3-digit ZIP).</div>
@@ -635,6 +648,23 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
       document.getElementById('news').style.display='block';
     }).catch(function(){});
   })();
+
+  // Public Energy subscriber identity. Success is shown only after /api/lead
+  // confirms durable capture; the server bridges this identity into Leads + CRM.
+  $('energyLeadBtn').addEventListener('click', function () {
+    var btn = $('energyLeadBtn'), status = $('energyLeadStatus');
+    var name = $('energyLeadName').value.trim(), email = $('energyLeadEmail').value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { status.textContent = 'Enter a valid email.'; return; }
+    btn.disabled = true; status.textContent = 'Saving…';
+    fetch('/api/lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
+      name: name, email: email, consent: true, interest: 'Energy Watch', sourcePage: '/energy', domain: 'energy', tier: 'watchlist'
+    }) }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+      .then(function (r) {
+        if (!r.ok || !r.body || r.body.ok !== true) throw new Error((r.body && r.body.error) || 'Could not save.');
+        $('energyLeadName').value = ''; $('energyLeadEmail').value = ''; status.style.color = 'var(--emerald)'; status.textContent = '✓ You’re on the Energy watchlist.';
+      }).catch(function (e) { status.style.color = 'var(--red)'; status.textContent = e.message || 'Could not save — try again.'; })
+      .finally(function () { btn.disabled = false; });
+  });
 
   prefillWeather();
   renderHistory();

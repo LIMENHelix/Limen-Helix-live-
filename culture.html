@@ -174,6 +174,7 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
     <h2>Get culture signals early</h2>
     <div class="sub">What's shifting in the creative economy, before it's obvious. Free, no account, unsubscribe anytime.</div>
     <div class="grid">
+      <div class="full"><label>Name</label><input type="text" id="cap-name" placeholder="your name" maxlength="200" autocomplete="name"></div>
       <div class="full"><label>Email</label><input type="email" id="cap-email" placeholder="you@example.com" maxlength="200"></div>
     </div>
     <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:12.5px;color:var(--dim);text-transform:none;letter-spacing:0"><input type="checkbox" id="cap-consent" checked style="width:auto;margin-top:3px"> I agree to be contacted about LIMEN Culture Watch.</label>
@@ -290,16 +291,16 @@ input:focus,select:focus{border-color:rgba(201,169,78,0.5)}
 
   // lead capture
   (function(){
-    var em=$('cap-email'),cs=$('cap-consent'),btn=$('cap-btn'),st=$('capstat');
+    var nm=$('cap-name'),em=$('cap-email'),cs=$('cap-consent'),btn=$('cap-btn'),st=$('capstat');
     btn.addEventListener('click',function(){
       var email=(em.value||'').trim();
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.style.color='var(--red)';st.textContent='Enter a valid email.';return;}
       if(!cs.checked){st.style.color='var(--red)';st.textContent='Please agree to be contacted.';return;}
       st.style.color='var(--gold)';st.textContent='Saving…';btn.disabled=true;
       fetch('/api/lead',{method:'POST',headers:{'content-type':'application/json'},
-        body:JSON.stringify({email:email,consent:true,interest:'culture-watch',sourcePage:'/culture'})})
+        body:JSON.stringify({name:(nm.value||'').trim(),email:email,consent:true,interest:'culture-watch',sourcePage:'/culture',domain:'culture',tier:'watchlist'})})
         .then(function(r){return r.json();}).then(function(j){
-          if(j&&j.ok){st.style.color='var(--emerald)';st.textContent='You’re on the list — thank you.';em.value='';}
+          if(j&&j.ok){st.style.color='var(--emerald)';st.textContent='You’re on the list — thank you.';nm.value='';em.value='';}
           else{st.style.color='var(--red)';st.textContent=(j&&j.error)||'Could not save — try again.';}
         }).catch(function(){st.style.color='var(--red)';st.textContent='Network error — try again.';})
         .finally(function(){btn.disabled=false;});
