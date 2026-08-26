@@ -44,6 +44,16 @@ function store() {
   assert.equal(gate.receipt.recoveryRemainsOpen, true);
 
   await Control.set(Control.GLOBAL_ID, 'OPEN', 'test-master', s, Date.parse('2026-08-26T19:13:00Z'));
+  s.values.set('research_paper_developmental_slot:science', {
+    schemaVersion: 'research-paper-developmental-authority/1.0', productDomain: 'science', ownerDomain: 'research',
+    status: 'ARTIFACT_PERSISTED', paperOnly: true, liveMoney: false, artifactGenerationOnly: true,
+    publicationAuthorized: false, outputId: 'science-artifact', resolvedAt: '2026-08-26T19:05:48.084Z'
+  });
+  s.values.set('finance_sandbox_commissioning', {
+    schemaVersion: 'finance-sandbox-commissioning/1.0', status: 'VERIFIED_ZERO_EFFECT_ROLLBACK',
+    paperOnly: true, liveMoney: false, effectExecuted: false, executedQuantity: 0,
+    verifiedAt: '2026-08-25T18:56:31.865Z'
+  });
   const snap = await Control.snapshot({
     LIMEN_AUTONOMY_ENABLED: '1', LIMEN_AI_ENABLED: '1',
     LIMEN_SCIENCE_RESEARCH_DEVELOPMENTAL_ENABLED: '1'
@@ -55,6 +65,9 @@ function store() {
   assert.equal(snap.buildSummary.externallyAutonomous, 0);
   assert.equal(snap.lines.find(x => x.productDomain === 'science').effectiveEligibilityOpen, true);
   assert.equal(snap.lines.find(x => x.productDomain === 'science').build.sequence, 'JOB_7_CURRENT');
+  assert.equal(snap.lines.find(x => x.productDomain === 'science').build.durableProof.artifactPersisted, true);
+  assert.equal(snap.lines.find(x => x.productDomain === 'medicine').build.durableProof.status, 'NOT_CLAIMED');
+  assert.equal(snap.lines.find(x => x.productDomain === 'finance').build.durableProof.verified, true);
   assert.equal(snap.lines.find(x => x.productDomain === 'religion').build.sequence, 'JOB_9_AFTER_JOBS_7_8');
   assert.equal(snap.lines.find(x => x.productDomain === 'medicine').effectiveEligibilityOpen, false);
   assert.equal(JSON.stringify(snap).includes('secret-value'), false, 'snapshot exposes gate booleans, never values');
