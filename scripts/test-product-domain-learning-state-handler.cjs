@@ -54,6 +54,17 @@ async function invoke(handler, url, method) {
       memory: {},
       consolidator: {},
       outwardGate: {}
+    },
+    'religion_subscriber_learning_state': {
+      schemaVersion: 'religion-subscriber-learning/1.0', domain: 'religion', lane: 'subscriber-email', resolvedCount: 5,
+      processedObservationIds: ['o1', 'o2', 'o3', 'o4', 'o5'], lastOutcomeAt: 1000,
+      signals: [1, 2, 3, 4, 5].map(function (n) { return {
+        schemaVersion: 'product-domain-external-learning/1.0', signalId: 'religion-signal-' + n,
+        eventId: 'religion-observation-' + n, actionId: 'religion-action-' + n, ownerDomain: 'religion',
+        lane: 'subscriber-email', eventType: 'OUTCOME_SUBSCRIBER_DELIVERED', observedAt: 995 + n,
+        outcome: 'delivered', normalizedCredit: 0.5, sourceKind: 'independent-action-outcome',
+        sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'email-' + n }
+      }; })
     }
   };
   require.cache[require.resolve(STORE)] = { id: require.resolve(STORE), filename: require.resolve(STORE), loaded: true, exports: {
@@ -83,6 +94,13 @@ async function invoke(handler, url, method) {
     assert.equal(legacy.body.status, 'ABSTAINED');
     assert.equal(legacy.body.reason, 'domain-has-no-graded-external-action-outcome');
     assert.equal(legacy.body.signal, null);
+
+    var religion = await invoke(handler, '/api/product-domain-learning-state?domain=religion');
+    assert.equal(religion.code, 200);
+    assert.equal(religion.body.status, 'ELIGIBLE');
+    assert.equal(religion.body.learningGate.ready, true);
+    assert.equal(religion.body.signal.lane, 'subscriber-email');
+    assert.equal(religion.body.signal.normalizedCredit, 0.5);
 
     var malformed = await invoke(handler, '/api/product-domain-learning-state?domain=finance');
     assert.equal(malformed.code, 503);

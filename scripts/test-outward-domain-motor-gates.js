@@ -8,6 +8,7 @@ function source(path) { return fs.readFileSync(path, 'utf8'); }
 var social = source('handlers/social-cron.js');
 var socialExecutor = source('lib/communication-social-executor.js');
 var subscriber = source('handlers/subscriber-digest.js');
+var subscriberExecutor = source('lib/religion-subscriber-executor.js');
 var image = source('handlers/hero-image.js');
 var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
@@ -15,7 +16,7 @@ var automail = source('handlers/homestead-automail.js');
 
 [
   [socialExecutor, "authorize.authorize(store, 'communication', 'social'", 'platform.postToBluesky', 'if (!authorization || authorization.authorized !== true)'],
-  [subscriber, "authorize(motorStore, 'religion', 'subscriber-email'", 'sendToLead', 'if (!motorGate.authorized)'],
+  [subscriberExecutor, "authorize.authorize(store, 'religion', 'subscriber-email'", 'transport.send(spec.candidate.email', 'if (!motor || !motor.authorized)'],
   [imageExecutor, "authorize.authorize(store, 'culture', 'hero-image'", 'provider.generate(candidate)', 'if (!motor || !motor.authorized)']
 ].forEach(function (row) {
   assert(row[0].includes('product-domain-motor-authorization'));
@@ -39,6 +40,11 @@ var imageDecisionAt = image.indexOf('heroDecision.decide(motorStore, candidate')
 var imageExecutorAt = image.indexOf('heroExecutor.execute({');
 assert(imageDecisionAt >= 0 && imageExecutorAt > imageDecisionAt);
 assert(image.slice(imageDecisionAt, imageExecutorAt).includes("decision.status !== 'RELEASED'"));
+assert(subscriber.includes("require('../lib/religion-subscriber-decision')"));
+assert(subscriber.includes("require('../lib/religion-subscriber-executor')"));
+var subscriberDecisionAt = subscriber.indexOf('subscriberDecision.decide(motorStore, candidate');
+var subscriberExecutorAt = subscriber.indexOf('subscriberExecutor.execute({');
+assert(subscriberDecisionAt >= 0 && subscriberExecutorAt > subscriberDecisionAt);
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
 

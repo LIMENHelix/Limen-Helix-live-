@@ -10,6 +10,7 @@
 
 var store = require('../lib/autofire-efference-store.js');
 var learning = require('../lib/autofire-learning.js');
+var religionLearning = require('../lib/religion-subscriber-learning.js');
 
 var DOMAINS = [
   'agriculture', 'communication', 'culture', 'defense', 'economy', 'education',
@@ -37,6 +38,7 @@ function abstained(domain, reason, resolvedCount) {
 
 async function read(domain) {
   store.assertDurable();
+  if (domain === 'religion') return religionLearning.readForBrain(store);
   /* Use the learner's strict compatibility loader. States written before the
      external-learning seam are still valid durable brain state; the loader
      supplies an empty externalLearning block in memory without writing Redis.
