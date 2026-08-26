@@ -147,6 +147,7 @@ const HANDLERS = {
   'religion-subscriber-outcome-observer': require('../handlers/religion-subscriber-outcome-observer'),
   'religion-subscriber-recovery': require('../handlers/religion-subscriber-recovery'),
   'religion-revenue-fulfillment': require('../handlers/religion-revenue-fulfillment'),
+  'finance-revenue-fulfillment': require('../handlers/finance-revenue-fulfillment'),
   'law-automail-decision-status': require('../handlers/law-automail-decision-status'),
   'law-automail-outcome-observer': require('../handlers/law-automail-outcome-observer'),
   'law-automail-recovery': require('../handlers/law-automail-recovery'),

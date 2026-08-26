@@ -28,11 +28,16 @@ var db = require('../lib/limen-db');
 var catalog = require('../lib/offer-catalog');
 var motorStore = require('../lib/autofire-efference-store');
 var religionFulfillment = require('../lib/religion-revenue-fulfillment');
+var financeFulfillment = require('../lib/finance-revenue-fulfillment');
 var leadPipeline = require('../lib/lead-pipeline-bridge');
 
 var SEEN_KEY = 'stripe:events:seen:v1';
 var SEEN_CAP = 400;
 var SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
+
+function fulfillmentFor(domain) {
+  return String(domain || '').toLowerCase() === 'finance' ? financeFulfillment : religionFulfillment;
+}
 
 function send(res, obj, code) {
   res.statusCode = code || 200;
@@ -211,9 +216,10 @@ module.exports = async function handler(req, res) {
             email: email, domain: meta.domain, rung: meta.rung, revenueCents: obj.amount_total || 0,
             subscriptionId: obj.subscription, source: 'stripe-checkout-completed' });
           out.leadId = pipeline.leadId || null; out.pipelineEnrolled = pipeline.ok === true;
-          // Persist before attempting. Religion's own B10/B14 motor may send now or its
-          // fulfillment cron will retry the held task after the domain releases it.
-          var welcome = await religionFulfillment.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'welcome',
+          // Persist before attempting. The subscriber's own domain B10/B14 motor may
+          // send now, or its local fulfillment cron retries after that domain releases it.
+          var welcomeMotor = fulfillmentFor(act.subscriber.domain);
+          var welcome = await welcomeMotor.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'welcome',
             subscriber: act.subscriber, message: welcomeEmail(act.subscriber, offer, obj.amount_total), now: Date.now() });
           out.welcomeSent = welcome.status === 'COMPLETED'; out.welcomeStatus = welcome.status;
           out.welcomeTaskId = welcome.taskId || null; out.welcomeReason = welcome.reason || null;
@@ -235,7 +241,8 @@ module.exports = async function handler(req, res) {
           if (email) who = await subs.getStrict(email, motorStore);
         } catch (e) {}
         if (who && who.active) {
-          var renewal = await religionFulfillment.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'renewal', subscriber: who,
+          var renewalMotor = fulfillmentFor(who.domain);
+          var renewal = await renewalMotor.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'renewal', subscriber: who,
             message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
           out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
           out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;

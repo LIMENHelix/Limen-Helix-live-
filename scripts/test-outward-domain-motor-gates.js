@@ -12,6 +12,7 @@ var subscriberExecutor = source('lib/religion-subscriber-executor.js');
 var financeSubscriberExecutor = source('lib/finance-subscriber-executor.js');
 var stripeWebhook = source('handlers/stripe-webhook.js');
 var religionRevenue = source('lib/religion-revenue-fulfillment.js');
+var financeRevenue = source('lib/finance-revenue-fulfillment.js');
 var image = source('handlers/hero-image.js');
 var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
@@ -58,13 +59,18 @@ var financeSubscriberEffectAt = financeSubscriberExecutor.indexOf('transport.sen
 assert(financeSubscriberExecutor.includes("require('./finance-subscriber-motor-authorization.js')"));
 assert(financeSubscriberGateAt >= 0 && financeSubscriberEffectAt > financeSubscriberGateAt);
 assert(financeSubscriberExecutor.slice(financeSubscriberGateAt, financeSubscriberEffectAt).includes('if (!motor || !motor.authorized)'));
-assert(stripeWebhook.includes('religionFulfillment.enqueueAndAttempt({'));
+assert(stripeWebhook.includes("String(domain || '').toLowerCase() === 'finance' ? financeFulfillment : religionFulfillment"));
+assert(stripeWebhook.includes('welcomeMotor.enqueueAndAttempt({'));
+assert(stripeWebhook.includes('renewalMotor.enqueueAndAttempt({'));
 assert(stripeWebhook.includes('subs.activateStrict({'));
 assert(stripeWebhook.includes('subs.deactivateStrict('));
 assert(!stripeWebhook.includes('crm.sendToLead'));
 assert(religionRevenue.includes('Decision.decide(store, candidate'));
 assert(religionRevenue.includes('Executor.execute({'));
 assert(religionRevenue.indexOf('Decision.decide(store, candidate') < religionRevenue.indexOf('Executor.execute({'));
+assert(financeRevenue.includes("require('./finance-subscriber-decision.js')"));
+assert(financeRevenue.includes("require('./finance-subscriber-executor.js')"));
+assert(financeRevenue.indexOf('Decision.decide(store, candidate') < financeRevenue.indexOf('Executor.execute({'));
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
 
