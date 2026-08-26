@@ -164,7 +164,7 @@ module.exports = async function handler(req, res) {
     // product brain's current durable packet, not from a company portal whose
     // identity is absent from those feeds. Only the bounded actor candidate is
     // queued here; B10 still competes it against no_action in autofire.
-    var domainResearch = { examined: 2, ready: 0, admitted: 0, deduped: 0, abstentions: [], retiredMismatched: [] };
+    var domainResearch = { examined: 2, ready: 0, admitted: 0, refreshed: 0, deduped: 0, abstentions: [], retiredMismatched: [] };
     var researchRecords = await Promise.all(['science', 'medicine'].map(function (domain) {
       return redisGet('limen:brain:cognition:' + domain).then(function (record) {
         return { domain: domain, record: record };
@@ -179,12 +179,24 @@ module.exports = async function handler(req, res) {
       }
       domainResearch.ready++;
       var researchEntry = builtResearch.candidate;
-      var researchAlreadyPending = queue.some(function (q) {
+      var pendingResearchIndex = queue.findIndex(function (q) {
         return q.sourceArtifactRef === researchEntry.sourceArtifactRef && q.status === 'PENDING';
       });
       var researchDedupeKey = DEDUPE_PREFIX + 'domain_research_' +
         researchEntry.sourceArtifactRef.replace(/[^A-Za-z0-9_.-]/g, '_');
-      if (researchAlreadyPending || await db.get(researchDedupeKey)) {
+      if (pendingResearchIndex >= 0 &&
+          queue[pendingResearchIndex].sourcePacketId !== researchEntry.sourcePacketId) {
+        researchEntry.queuedAt = Date.now();
+        researchEntry.refreshedFromPacketId = queue[pendingResearchIndex].sourcePacketId || null;
+        queue[pendingResearchIndex] = researchEntry;
+        await db.set(researchDedupeKey, {
+          at: Date.now(), sourcePacketId: researchEntry.sourcePacketId,
+          sourceArtifactRef: researchEntry.sourceArtifactRef
+        }, DEDUPE_TTL);
+        domainResearch.refreshed++;
+        continue;
+      }
+      if (pendingResearchIndex >= 0 || await db.get(researchDedupeKey)) {
         domainResearch.deduped++;
         continue;
       }

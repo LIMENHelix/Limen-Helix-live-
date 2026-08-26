@@ -261,6 +261,7 @@ async function handlerProof() {
       sourceArtifactRef: productDomain + ':evidence-synthesis:' + suffix + ':window',
       sourcePatternSig: productDomain + ':' + suffix + ':0',
       sourcePacketId: productDomain + ':3:' + suffix,
+      sourceSnapshotAt: new Date().toISOString(),
       topicEvidenceRefs: news.map((row) => row.sourceIdentity),
       masterGate: { confidence: 0.95, readiness: 0.95, salience: 0.90, completeness: 1 },
       researchContext: {
@@ -472,6 +473,7 @@ async function handlerProof() {
       subjectId: 'science:evidence-synthesis:one', domain: 'science',
       sourceArtifactRef: 'science:evidence-synthesis:one:window',
       sourcePatternSig: 'research:feed:0', sourcePacketId: 'science:3:packet',
+      sourceSnapshotAt: new Date().toISOString(),
       topicEvidenceRefs: domainNews.map((row) => row.sourceIdentity),
       masterGate: {
         confidence: 0.54, evidenceQuality: 0.75, uncertainty: 0.46,

@@ -45,6 +45,7 @@ var motorAuthorization = require('../lib/product-domain-motor-authorization');
 var researchDevelopmentalAuthority = require('../lib/research-paper-developmental-authority');
 var financeB14Bridge = require('../lib/finance-b14-bridge');
 var tradierSandbox = require('../lib/tradier-sandbox');
+var domainResearchCandidate = require('../lib/domain-research-candidate');
 var crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
@@ -166,7 +167,10 @@ function isEligibleCandidate(entry, now) {
   if (!entry || entry.status !== 'PENDING' || (entry.retryAfter || 0) > now ||
       !SINGLE_CALL_LANES.has(entry.recommendedLane)) return false;
   if (entry.recommendedLane === 'research') {
-    return entry.source === 'domain-packet-research' && entry.autofireEligible === true;
+    var sourceAt = Date.parse(entry.sourceSnapshotAt);
+    return entry.source === 'domain-packet-research' && entry.autofireEligible === true &&
+      Number.isFinite(sourceAt) && now >= sourceAt &&
+      now - sourceAt <= domainResearchCandidate.MAX_PACKET_AGE_MS;
   }
   return entry.salience === 'HIGH' ||
     (entry.source === 'master-inbox' && entry.autofireEligible === true);
