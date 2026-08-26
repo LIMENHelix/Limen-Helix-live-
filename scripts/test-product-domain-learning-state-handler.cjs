@@ -20,7 +20,13 @@ async function invoke(handler, url, method) {
   var fail = false;
   var values = {
     'autofire_learning_state:research': {
+      stateVersion: 1,
       domain: 'research',
+      lane: 'research',
+      modulators: {},
+      memory: {},
+      consolidator: {},
+      outwardGate: {},
       externalLearning: {
         schemaVersion: 'product-domain-external-learning/1.0', resolvedCount: 5,
         signals: [1, 2, 3, 4, 5].map(function (n) { return {
@@ -30,6 +36,24 @@ async function invoke(handler, url, method) {
           sourceIdentity: { kind: 'external-evaluator', value: n < 5 ? 'panel:a' : 'panel:b' }
         }; })
       }
+    },
+    'autofire_learning_state:health': {
+      stateVersion: 1,
+      domain: 'health',
+      lane: 'research',
+      modulators: {},
+      memory: {},
+      consolidator: {},
+      outwardGate: {}
+    },
+    'autofire_learning_state:finance': {
+      stateVersion: 999,
+      domain: 'finance',
+      lane: 'investment',
+      modulators: {},
+      memory: {},
+      consolidator: {},
+      outwardGate: {}
     }
   };
   require.cache[require.resolve(STORE)] = { id: require.resolve(STORE), filename: require.resolve(STORE), loaded: true, exports: {
@@ -53,6 +77,16 @@ async function invoke(handler, url, method) {
     assert.equal(absent.code, 200);
     assert.equal(absent.body.status, 'ABSTAINED');
     assert.equal(absent.body.signal, null);
+
+    var legacy = await invoke(handler, '/api/product-domain-learning-state?domain=health');
+    assert.equal(legacy.code, 200);
+    assert.equal(legacy.body.status, 'ABSTAINED');
+    assert.equal(legacy.body.reason, 'domain-has-no-graded-external-action-outcome');
+    assert.equal(legacy.body.signal, null);
+
+    var malformed = await invoke(handler, '/api/product-domain-learning-state?domain=finance');
+    assert.equal(malformed.code, 503);
+    assert.equal(malformed.body.detail, 'malformed autofire learning state for finance');
 
     var unknown = await invoke(handler, '/api/product-domain-learning-state?domain=unknown');
     assert.equal(unknown.code, 400);

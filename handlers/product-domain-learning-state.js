@@ -37,13 +37,11 @@ function abstained(domain, reason, resolvedCount) {
 
 async function read(domain) {
   store.assertDurable();
-  var state = await store.get(learning.stateKey(domain));
-  if (!state) return abstained(domain, 'domain-has-no-durable-action-outcome-state', 0);
-  if (state.domain !== domain || !state.externalLearning ||
-      state.externalLearning.schemaVersion !== learning.EXTERNAL_LEARNING_SCHEMA ||
-      !Array.isArray(state.externalLearning.signals)) {
-    throw new Error('domain-action-learning-state-invalid');
-  }
+  /* Use the learner's strict compatibility loader. States written before the
+     external-learning seam are still valid durable brain state; the loader
+     supplies an empty externalLearning block in memory without writing Redis.
+     Truly malformed owner/lane/kernel state continues to fail closed. */
+  var state = await learning._load(store, domain);
   var external = state.externalLearning;
   var signal = external.signals.length ? external.signals[external.signals.length - 1] : null;
   if (!signal) return abstained(domain, 'domain-has-no-graded-external-action-outcome', external.resolvedCount);
