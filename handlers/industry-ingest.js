@@ -7,6 +7,8 @@
  * GET  ?key= -> current deals + meta
  */
 var db = require('../lib/limen-db');
+var motorStore = require('../lib/autofire-efference-store');
+var crmQueue = require('../lib/industry-crm-queue');
 var TTL = 60 * 60 * 24 * 10; // WARN notices are dated events; 10-day freshness with a daily cron
 
 function j(res, c, o) { res.statusCode = c; res.setHeader('content-type', 'application/json'); res.setHeader('Cache-Control', 'private, no-store'); res.end(JSON.stringify(o)); }
@@ -28,7 +30,12 @@ module.exports = async function handler(req, res) {
     var meta = body.meta || { updatedMs: Date.now() }; meta.total = body.deals.length;
     await db.set('warn:deals', body.deals, TTL);
     await db.set('warn:meta', meta, TTL);
-    return j(res, 200, { ok: true, stored: body.deals.length });
+    var queue = { ok: false, reason: 'strict-industry-crm-queue-unavailable' };
+    try {
+      var sourceIdentity = 'warn-ingest:' + String(meta.updatedMs || Date.now()) + ':' + String(meta.total);
+      queue = Object.assign({ ok: true }, await crmQueue.enqueueFromWarn(motorStore, body.deals, { identity: sourceIdentity }));
+    } catch (error) { queue.detail = String(error && error.message || error); }
+    return j(res, 200, { ok: true, stored: body.deals.length, industryCrmQueue: queue });
   }
   return j(res, 405, { ok: false, error: 'method not allowed' });
 };

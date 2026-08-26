@@ -21,6 +21,7 @@ const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
 const cronAuth = require('../lib/cron-auth.js');
+const compactCognition = require('../lib/brain-cognition-compact.js').compact;
 
 // The packet consumer is strict by design: unlike the cognition projection,
 // it never falls back to process memory when Redis is missing or fails.
@@ -54,22 +55,6 @@ const FILES = [
   'assets/js/domain-brains/inter-brain-bus.js',
   'assets/js/domain-brains/domain-change-log.js'
 ].concat(DOMAINS.map(function (d) { return 'assets/js/domain-brains/' + d + '-brain.js'; }));
-
-function num(v){ return typeof v === 'number' ? v : null; }
-function arr(v){ return Array.isArray(v) ? v : []; }
-function val(v){ return v != null ? v : null; }
-function compact(cog){
-  if (!cog || typeof cog !== 'object') return null;
-  var m = cog.model||{}, im = cog.immune||{}, aw = cog.awareness||{}, co = cog.conscience||{}, it = cog.intuition||{};
-  return {
-    domain: cog.domain || null,
-    model: { cycle: num(m.cycle), predictionError: num(m.predictionError), predictedStress: num(m.predictedStress), regulation: val((m.regulation && typeof m.regulation === 'object') ? m.regulation.state : m.regulation) },
-    immune: { immuneState: val(im.immuneState), severity: num(im.severity), antigenCount: arr(im.antigens).length, quarantines: val(im.quarantines), blockedFromTraversal: val(im.blockedFromTraversal) },
-    awareness: { selfNarrative: val(aw.selfNarrative), humanReviewRequired: !!aw.humanReviewRequired },
-    conscience: { conscienceState: val(co.conscienceState), artifactReadinessDecision: val(co.artifactReadinessDecision), blockedClaims: arr(co.blockedClaims).slice(0,4) },
-    intuition: { hunches: arr(it.hunches).slice(0,3) }
-  };
-}
 
 /* Finance is the only active investment manager. Read only its durable title
  * store and carry a bounded, source-preserving window into the server packet.
@@ -219,7 +204,7 @@ module.exports = async function handler(req, res) {
         var _motorCapability = await productDomainMotorCapabilityOverlay.apply(
           efferenceStore, dom, b, refreshId, Date.now()
         );
-        var c = compact(b.state && b.state.cognition);
+        var c = compactCognition(b.state && b.state.cognition);
         if (c) {
           // Augment with the multimodal interoception read + headline stress/phase (server feed
           // parity with the client adapter) so lightweight consumers see them without live brains.
@@ -303,7 +288,7 @@ module.exports = async function handler(req, res) {
           }
           var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
           // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
-          // (compact() null'd it via num()). Read the scalar .total for γ.
+          // (compactCognition() null'd it via num()). Read the scalar .total for γ.
           var _cog = b.state && b.state.cognition;
           var _peObj = _cog && _cog.model && _cog.model.predictionError;
           var _pe = (_peObj && typeof _peObj === 'object') ? _peObj.total : (typeof _peObj === 'number' ? _peObj : null);
