@@ -95,6 +95,16 @@ domains.forEach(function (row) {
   };
   state.cognition = { domain: brain.domainId, model: { predictionError: { total: 0.1 } }, immune: { immuneState: 'clear' }, neuro: state.domainNeuro };
 
+  var localRefresh = Object.keys(Object.getPrototypeOf(brain)).filter(function (name) { return /^_refresh.+ActionOutcome$/.test(name); });
+  assert.equal(localRefresh.length, 1, row[0] + ' must own one action-outcome refresh method');
+  var actionSlot = '_' + row[0] + 'ActionOutcome';
+  brain[actionSlot] = {
+    ok: true, schemaVersion: 'product-domain-external-learning/1.0', domain: brain.domainId,
+    status: 'ELIGIBLE', resolvedCount: 5,
+    learningGate: { ready: true, minimumResolved: 5, distinctSources: 2, minimumDistinctSources: 2 },
+    signal: { normalizedCredit: 0.8, sourceKind: 'independent-action-outcome' }
+  };
+
   var plasticity = brain._computeDomainPlasticity();
   var queue = brain._computeGenericEmissionQueue();
   var emission = brain._runGenericAutonomousEmission();
@@ -115,6 +125,9 @@ domains.forEach(function (row) {
   assert.equal(activeInference.liveConsumer, false);
   assert.equal(activeInference.thing2Consumed, false);
   assert(queue.packages.some(function (p) { return p.requiresSignoff === true; }));
+  var actionAuthorized = brain.domainId === 'finance' || brain.domainId === 'research' || brain.domainId === 'health';
+  assert.equal(plasticity.rewardActive, actionAuthorized, row[0] + ' action-outcome reward authority must match its domain');
+  if (actionAuthorized) assert.equal(plasticity.externalOutcome.source, 'independent-action-outcome');
 });
 
 console.log('19 domain-local five-organ implementations execute with separate state and inhibited external authority');

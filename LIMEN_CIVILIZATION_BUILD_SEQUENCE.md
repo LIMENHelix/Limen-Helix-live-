@@ -3292,3 +3292,29 @@ projected-margin ledger. The producer now exempts only
 all other nested side fields remain forbidden. The affected packet is not
 retried because its abstention receipt is durable; the repair applies to future
 packets only.
+
+### Job 5 all-domain action-outcome feedback seam — implemented 2026-08-25
+
+The product-brain audit found that all twenty files owned their local physiology,
+but independently observed business outcomes stopped in the server-side learner
+instead of returning to each product brain's own B13/B17 state. The nineteen
+non-Energy brain files now each contain a named local action-outcome refresh and
+selection method. Energy retains its own recorded-feed resolver. No domain
+inherits this organ from the shared base.
+
+`/api/product-domain-learning-state` is a read-only, strict-Redis boundary that
+exposes only the owning domain's latest graded signal and its source identity;
+commands, prompts, account details, and full episodic memory remain private. A
+domain cannot treat the signal as reward until at least five graded outcomes from
+at least two distinct source identities exist. K4 now checks both domain authority
+and outcome class: Finance accepts its qualified paper-action cohorts and its
+existing feed resolution; Science/Medicine accept independently evaluated
+research outcomes; Energy accepts only its existing feed resolution. Every other
+domain explicitly abstains until it has its own independent observer.
+
+This closes the common local feedback *seam*, not Job 5. Science/Medicine still
+need five genuine, source-separated evaluation returns before learned weights can
+arm. Finance remains paper-only and cohort/horizon gated. The other seventeen
+business owners still need their executor, receipt, observer, and rollback chain;
+no switch, provider, broker, posting lane, Thing 2 consumer, or live-money path was
+enabled by this work.

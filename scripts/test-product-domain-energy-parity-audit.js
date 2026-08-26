@@ -6,7 +6,7 @@ var fs = require('node:fs');
 var path = require('node:path');
 var report = require('../lib/product-domain-energy-parity-audit.js').audit();
 
-assert.equal(report.schemaVersion, 'product-domain-energy-parity-audit/1.2');
+assert.equal(report.schemaVersion, 'product-domain-energy-parity-audit/1.3');
 assert.equal(report.summary.separateBrains, 20);
 assert.equal(report.summary.commonPhysiologyImplemented, 20);
 assert.equal(report.summary.brainV2LocalSpineComplete, 20);
@@ -38,7 +38,7 @@ assert(medicine.outwardGaps.includes('production-executor-unverified'));
 assert(report.domains.every(function (d) { return d.brainV2LocalSpineGaps.length === 0; }));
 assert(report.domains.every(function (d) { return d.domainLocalDepthGaps.length === 0; }));
 assert.equal(report.referencePosture.activeInference, 'SHADOW_ADVISORY_NO_LIVE_CONSUMER');
-assert.equal(report.referencePosture.outcome, 'NEXT-CYCLE_SELF_CONSISTENCY_NOT_AN_INDEPENDENT_BUSINESS_OUTCOME');
+assert.equal(report.referencePosture.outcome, 'DOMAIN_LOCAL_ACTION_OUTCOME_INPUT_PRESENT; SOURCE_ELIGIBILITY_REMAINS_DOMAIN_SPECIFIC');
 assert(report.domains.every(function (d) {
   return d.commonPhysiologyImplemented && d.separateBrainFile && d.outwardGaps.length === 4;
 }));
