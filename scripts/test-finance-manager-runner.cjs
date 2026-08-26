@@ -108,6 +108,16 @@ const selected = await Runner.run({ candidateUniverse: universe }, { provider: a
 } });
 assert.equal(selected.status, 'PAPER_CANDIDATE');
 assert.equal(selected.selectedCompany.slug, 'example_co');
+assert.equal(selected.candidate.projectedMarginRanking.entries[0].riskAdjustedMarginPct, 10);
+
+const arithmeticNormalized = JSON.parse(JSON.stringify(proposal));
+arithmeticNormalized.projectedMarginRanking.entries[0].riskAdjustedMarginPct = 999;
+const normalized = await Runner.run({ candidateUniverse: universe }, { provider: async function () {
+  return { ok: true, provider: 'fixture', text: JSON.stringify(arithmeticNormalized) };
+} });
+assert.equal(normalized.status, 'PAPER_CANDIDATE');
+assert.equal(normalized.projectedMarginRanking.entries[0].riskAdjustedMarginPct, 10);
+assert.equal(normalized.candidate.projectedMarginRanking.entries[0].riskAdjustedMarginPct, 10);
 
 const negativeRanking = JSON.parse(JSON.stringify(proposal));
 negativeRanking.projectedMarginRanking.entries[0] = {
