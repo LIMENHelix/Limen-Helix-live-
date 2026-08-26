@@ -69,6 +69,58 @@ var SINGLE_CALL_LANES = new Set(['investment', 'research']);
 var COST_PER_CALL_USD = { investment: 0.40, research: 0.30 };
 var RETRY_BACKOFF_MS = 6 * 60 * 60 * 1000;
 var MAX_ATTEMPTS_PER_ENTRY = 3;
+var SCHEDULER_TICK_MS = 30 * 60 * 1000;
+var SCHEDULER_GROUPS = ['investment:finance', 'research:science', 'research:medicine'];
+
+/*
+ * Candidate availability is not motor priority.  The queue may contain many
+ * Finance rows before any Science or Medicine row, and a held first row must
+ * not monopolize every cron tick.  Rotate first across the three Job-7 owner
+ * brains, then within each owner's own candidates.  The ordering is derived
+ * from the 30-minute cron epoch, so it is deterministic, restart-safe, and
+ * requires no shared scheduler state or new write authority.
+ */
+function schedulerGroup(entry) {
+  var owner = autofireLearning.ownerFor(entry && entry.recommendedLane, entry && entry.domain);
+  if (entry && entry.recommendedLane === 'investment' && owner === 'finance') return 'investment:finance';
+  if (entry && entry.recommendedLane === 'research' && owner === 'research') return 'research:science';
+  if (entry && entry.recommendedLane === 'research' && owner === 'health') return 'research:medicine';
+  return 'unowned';
+}
+
+function rotate(rows, offset) {
+  if (!rows.length) return [];
+  var at = ((offset % rows.length) + rows.length) % rows.length;
+  return rows.slice(at).concat(rows.slice(0, at));
+}
+
+function fairCandidateOrder(candidates, now) {
+  var rows = Array.isArray(candidates) ? candidates.slice() : [];
+  var tick = Math.floor((Number.isFinite(Number(now)) ? Number(now) : Date.now()) / SCHEDULER_TICK_MS);
+  var grouped = {};
+  SCHEDULER_GROUPS.concat(['unowned']).forEach(function (group) { grouped[group] = []; });
+  rows.forEach(function (entry) { grouped[schedulerGroup(entry)].push(entry); });
+
+  var startGroup = tick % SCHEDULER_GROUPS.length;
+  var ownerOrder = rotate(SCHEDULER_GROUPS, startGroup);
+  var withinOwnerOffset = Math.floor(tick / SCHEDULER_GROUPS.length);
+  ownerOrder.forEach(function (group) {
+    grouped[group] = rotate(grouped[group], withinOwnerOffset);
+  });
+
+  var ordered = [], depth = 0, remaining = true;
+  while (remaining) {
+    remaining = false;
+    ownerOrder.forEach(function (group) {
+      if (depth < grouped[group].length) {
+        ordered.push(grouped[group][depth]);
+        remaining = true;
+      }
+    });
+    depth++;
+  }
+  return ordered.concat(grouped.unowned);
+}
 
 /* A critic hold is an expected default-deny outcome, not a failed provider
  * attempt. Keep it out of the failure/retry path so the queue can be
@@ -660,14 +712,16 @@ module.exports = async function handler(req, res) {
           && (q.salience === 'HIGH' || (q.source === 'master-inbox' && q.autofireEligible === true))
           && SINGLE_CALL_LANES.has(q.recommendedLane);
     });
+    var schedulerAt = Date.now();
+    var orderedCandidates = fairCandidateOrder(candidates, schedulerAt);
 
     // 3. Per-CIK dedupe + stage-aware routing + bound to MAX_FIRES_PER_TICK
     var toFire = [];
     var dedupedCount = 0;
     var stageRefused = [];
     var budgetRefusal = null;
-    for (var i = 0; i < candidates.length && toFire.length < MAX_FIRES_PER_TICK; i++) {
-      var c = candidates[i];
+    for (var i = 0; i < orderedCandidates.length && toFire.length < MAX_FIRES_PER_TICK; i++) {
+      var c = orderedCandidates[i];
       var dedupeKey = CIK_DEDUPE_PREFIX + c.cik + '_' + c.recommendedLane;
       var recentFire = await db.get(dedupeKey);
       if (recentFire) { dedupedCount++; continue; }
@@ -726,6 +780,11 @@ module.exports = async function handler(req, res) {
       at: cycleStartAt,
       status: 'IN_FLIGHT',
       evaluated: candidates.length,
+      scheduler: {
+        policy: 'job7-owner-round-robin/1.0',
+        tick: Math.floor(schedulerAt / SCHEDULER_TICK_MS),
+        selectedGroups: toFire.map(schedulerGroup)
+      },
       fired: 0, skipped: 0, errors: 0,
       dedupedCount: dedupedCount,
       results: []
@@ -835,6 +894,11 @@ module.exports = async function handler(req, res) {
       completedAt: Date.now(),
       status: 'COMPLETE',
       evaluated: candidates.length,
+      scheduler: {
+        policy: 'job7-owner-round-robin/1.0',
+        tick: Math.floor(schedulerAt / SCHEDULER_TICK_MS),
+        selectedGroups: toFire.map(schedulerGroup)
+      },
       fired: results.filter(function (r) { return r.ok; }).length,
       skipped: results.filter(function (r) { return r.skipped; }).length,
       errors: results.filter(function (r) { return !r.skipped && !r.ok; }).length,
@@ -898,3 +962,6 @@ module.exports = require('../lib/heartbeat').wrap('limen-worker-autofire', autof
 module.exports.domainOutwardHoldResult = autofireHandler.domainOutwardHoldResult;
 module.exports.researchMotorIdentity = autofireHandler.researchMotorIdentity;
 module.exports.researchMotorHoldResult = autofireHandler.researchMotorHoldResult;
+module.exports.schedulerGroup = schedulerGroup;
+module.exports.fairCandidateOrder = fairCandidateOrder;
+module.exports.SCHEDULER_TICK_MS = SCHEDULER_TICK_MS;
