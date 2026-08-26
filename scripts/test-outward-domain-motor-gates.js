@@ -9,6 +9,8 @@ var social = source('handlers/social-cron.js');
 var socialExecutor = source('lib/communication-social-executor.js');
 var subscriber = source('handlers/subscriber-digest.js');
 var subscriberExecutor = source('lib/religion-subscriber-executor.js');
+var stripeWebhook = source('handlers/stripe-webhook.js');
+var religionRevenue = source('lib/religion-revenue-fulfillment.js');
 var image = source('handlers/hero-image.js');
 var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
@@ -45,6 +47,13 @@ assert(subscriber.includes("require('../lib/religion-subscriber-executor')"));
 var subscriberDecisionAt = subscriber.indexOf('subscriberDecision.decide(motorStore, candidate');
 var subscriberExecutorAt = subscriber.indexOf('subscriberExecutor.execute({');
 assert(subscriberDecisionAt >= 0 && subscriberExecutorAt > subscriberDecisionAt);
+assert(stripeWebhook.includes('religionFulfillment.enqueueAndAttempt({'));
+assert(stripeWebhook.includes('subs.activateStrict({'));
+assert(stripeWebhook.includes('subs.deactivateStrict('));
+assert(!stripeWebhook.includes('crm.sendToLead'));
+assert(religionRevenue.includes('Decision.decide(store, candidate'));
+assert(religionRevenue.includes('Executor.execute({'));
+assert(religionRevenue.indexOf('Decision.decide(store, candidate') < religionRevenue.indexOf('Executor.execute({'));
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
 

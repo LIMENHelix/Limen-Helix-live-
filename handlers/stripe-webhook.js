@@ -26,7 +26,8 @@ var stripe = require('../lib/stripe-rail');
 var subs = require('../lib/subscriptions');
 var db = require('../lib/limen-db');
 var catalog = require('../lib/offer-catalog');
-var crm = require('../lib/crm-send');
+var motorStore = require('../lib/autofire-efference-store');
+var religionFulfillment = require('../lib/religion-revenue-fulfillment');
 
 var SEEN_KEY = 'stripe:events:seen:v1';
 var SEEN_CAP = 400;
@@ -188,26 +189,26 @@ module.exports = async function handler(req, res) {
       if (meta.limen === '1' && obj.mode === 'subscription') {
         var email = (obj.customer_details && obj.customer_details.email) || obj.customer_email || null;
         var offer = catalog.lookup(meta.domain, meta.rung);
-        var act = await subs.activate({
+        var act = await subs.activateStrict({
           email: email,
           domain: meta.domain, rung: meta.rung, offer: meta.offer,
           watch: customField(obj, 'watch'),
           priceCents: obj.amount_total != null ? obj.amount_total : (offer ? offer.priceCents : null),
           subscriptionId: obj.subscription || null,
           customerId: obj.customer || null
-        });
+        }, motorStore);
         out.handled = true;
         out.activated = act.ok;
         if (!act.ok) out.activateError = act.reason;
 
         if (act.ok) {
           await recordEnrollment(meta.domain, obj.amount_total || 0);
-          // Deliver immediately: they paid, so they should hear from us now, not on the cron.
-          try {
-            var mail = welcomeEmail(act.subscriber, offer, obj.amount_total);
-            await crm.sendToLead(act.subscriber.email, mail.subject, mail.body);
-            out.welcomeSent = true;
-          } catch (e) { out.welcomeSent = false; out.welcomeError = e.message; }
+          // Persist before attempting. Religion's own B10/B14 motor may send now or its
+          // fulfillment cron will retry the held task after the domain releases it.
+          var welcome = await religionFulfillment.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'welcome',
+            subscriber: act.subscriber, message: welcomeEmail(act.subscriber, offer, obj.amount_total), now: Date.now() });
+          out.welcomeSent = welcome.status === 'COMPLETED'; out.welcomeStatus = welcome.status;
+          out.welcomeTaskId = welcome.taskId || null; out.welcomeReason = welcome.reason || null;
         }
       }
       // Book the income to the finance ledger regardless of which product it was.
@@ -223,14 +224,13 @@ module.exports = async function handler(req, res) {
         var who = null;
         try {
           var email = obj.customer_email || (obj.customer_details && obj.customer_details.email) || null;
-          if (email) who = await subs.get(email);
+          if (email) who = await subs.getStrict(email, motorStore);
         } catch (e) {}
         if (who && who.active) {
-          try {
-            var rc = renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url);
-            await crm.sendToLead(who.email, rc.subject, rc.body);
-            out.receiptSent = true;
-          } catch (e) { out.receiptSent = false; out.receiptError = e.message; }
+          var renewal = await religionFulfillment.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'renewal', subscriber: who,
+            message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
+          out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
+          out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;
           await recordEnrollment(who.domain, obj.amount_paid || 0);
         } else {
           out.receiptSent = false;
@@ -241,12 +241,12 @@ module.exports = async function handler(req, res) {
     }
 
     else if (evt.type === 'customer.subscription.deleted') {
-      var d = await subs.deactivate({ subscriptionId: obj.id, customerId: obj.customer }, 'cancelled');
+      var d = await subs.deactivateStrict({ subscriptionId: obj.id, customerId: obj.customer }, 'cancelled', motorStore);
       out.handled = true; out.deactivated = d.changed || 0;
     }
 
     else if (evt.type === 'invoice.payment_failed') {
-      var f = await subs.deactivate({ subscriptionId: obj.subscription, customerId: obj.customer }, 'payment-failed');
+      var f = await subs.deactivateStrict({ subscriptionId: obj.subscription, customerId: obj.customer }, 'payment-failed', motorStore);
       out.handled = true; out.deactivated = f.changed || 0;
     }
 
@@ -254,7 +254,7 @@ module.exports = async function handler(req, res) {
       // Follow Stripe's status rather than guessing: anything not active/trialing stops delivery.
       var st = String(obj.status || '');
       if (st && ['active', 'trialing'].indexOf(st) === -1) {
-        var u = await subs.deactivate({ subscriptionId: obj.id, customerId: obj.customer }, 'status:' + st);
+        var u = await subs.deactivateStrict({ subscriptionId: obj.id, customerId: obj.customer }, 'status:' + st, motorStore);
         out.handled = true; out.deactivated = u.changed || 0;
       }
       out.status = st;
