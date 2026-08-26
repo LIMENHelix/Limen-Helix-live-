@@ -83,12 +83,20 @@
       "schedule": "6 * * * *"
     },
     {
-      "path": "/api/subscriber-digest",
+      "path": "/api/subscriber-digest?motorDomain=legacy",
       "schedule": "30 13 * * *"
+    },
+    {
+      "path": "/api/finance-subscriber-cycle",
+      "schedule": "34 13 * * *"
     },
     {
       "path": "/api/religion-subscriber-outcome-observer",
       "schedule": "41 13 * * *"
+    },
+    {
+      "path": "/api/finance-subscriber-outcome-observer",
+      "schedule": "46 13 * * *"
     },
     {
       "path": "/api/religion-revenue-fulfillment",

@@ -11,8 +11,8 @@ const VercelCrons = require('../vercel.json').crons;
 
 const snap = Inventory.snapshot({});
 assert.deepEqual(Cadences, VercelCrons, 'runtime cadence manifest must match vercel.json exactly');
-assert.equal(snap.summary.runtimeMotorValves, 21, '20 local trunks plus one global emergency valve');
-assert.equal(snap.summary.cadencePumps, 47, 'every declared Vercel cadence is visible');
+assert.equal(snap.summary.runtimeMotorValves, 22, '21 local lane valves across 20 brains plus one global emergency valve');
+assert.equal(snap.summary.cadencePumps, 49, 'every declared Vercel cadence is visible');
 assert.equal(snap.summary.automaticConditionTriggers, 385);
 assert.equal(snap.summary.diagnosisGates, 111);
 assert.deepEqual(snap.summary.missingDomainTriggerMaps, [], 'all 20 grounded trigger pathways are inventoried');
@@ -70,4 +70,4 @@ const registered = new Set(snap.envControls.map(x => x.name));
 const missing = Array.from(found).filter(operational).filter(name => !registered.has(name)).sort();
 assert.deepEqual(missing, [], 'operational controls missing from inventory: ' + missing.join(', '));
 
-console.log('civilization control inventory: 21 runtime valves, all env controls, 47 cadences, 385 triggers, 111 diagnoses, B0-B17 and P0-P10 visible');
+console.log('civilization control inventory: 22 runtime valves, all env controls, 49 cadences, 385 triggers, 111 diagnoses, B0-B17 and P0-P10 visible');
