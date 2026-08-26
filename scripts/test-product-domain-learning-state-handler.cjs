@@ -65,6 +65,17 @@ async function invoke(handler, url, method) {
         outcome: 'delivered', normalizedCredit: 0.5, sourceKind: 'independent-action-outcome',
         sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'email-' + n }
       }; })
+    },
+    'intelligence_autopilot_learning_state': {
+      schemaVersion: 'intelligence-autopilot-learning/1.0', domain: 'intelligence', lane: 'autopilot', resolvedCount: 5,
+      processedObservationIds: ['i1', 'i2', 'i3', 'i4', 'i5'],
+      signals: [1, 2, 3, 4, 5].map(function (n) { return {
+        schemaVersion: 'product-domain-external-learning/1.0', signalId: 'intelligence-signal-' + n,
+        eventId: 'intelligence-observation-' + n, actionId: 'intelligence-action-' + n, ownerDomain: 'intelligence',
+        lane: 'autopilot', eventType: 'OUTCOME_AUTOPILOT_DELIVERED', observedAt: 995 + n,
+        outcome: 'delivered', normalizedCredit: 0.5, sourceKind: 'independent-action-outcome',
+        sourceIdentity: { kind: 'resend-read-api-mail-server-event', value: 'intelligence-email-' + n }
+      }; })
     }
   };
   require.cache[require.resolve(STORE)] = { id: require.resolve(STORE), filename: require.resolve(STORE), loaded: true, exports: {
@@ -101,6 +112,12 @@ async function invoke(handler, url, method) {
     assert.equal(religion.body.learningGate.ready, true);
     assert.equal(religion.body.signal.lane, 'subscriber-email');
     assert.equal(religion.body.signal.normalizedCredit, 0.5);
+
+    var intelligence = await invoke(handler, '/api/product-domain-learning-state?domain=intelligence');
+    assert.equal(intelligence.code, 200);
+    assert.equal(intelligence.body.status, 'ELIGIBLE');
+    assert.equal(intelligence.body.learningGate.ready, true);
+    assert.equal(intelligence.body.signal.lane, 'autopilot');
 
     var malformed = await invoke(handler, '/api/product-domain-learning-state?domain=finance');
     assert.equal(malformed.code, 503);

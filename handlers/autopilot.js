@@ -28,7 +28,8 @@ var db = require('../lib/limen-db');
 var E = require('../lib/sales-engine');
 var send = require('../lib/crm-send');
 var motorStore = require('../lib/autofire-efference-store');
-var motorAuthorization = require('../lib/product-domain-motor-authorization');
+var intelligenceDecision = require('../lib/intelligence-autopilot-decision');
+var intelligenceExecutor = require('../lib/intelligence-autopilot-executor');
 var kill;
 try { kill = require('../lib/ai-kill-switch'); } catch (e) { kill = null; }
 
@@ -152,13 +153,13 @@ function emailFor(action, state) {
 }
 
 // Apply an executed email to the lead state + mirror the funnel.
-async function applyExecutedEmail(state, action) {
-  var cost = CH_COST[action.channel] || 2;
+async function applyExecutedEmail(state, action, stateKey) {
+  var cost = CH_COST[action.channel] || 2, mirrorArgs = null;
   if (action.kind === 'outreach') {
     state.touches = state.touches || [];
     state.touches.push({ ts: new Date().toISOString(), channel: 'email', outcome: 'sent', note: '✉ autopilot', costCents: cost, auto: true });
     if (state.status === 'new') state.status = 'working';
-    await mirror('leads>appointments', 'leads', 'appointments', 'email', false, cost, state.dealSize, state.trigger);
+    mirrorArgs = ['leads>appointments', 'leads', 'appointments', 'email', false, cost, state.dealSize, state.trigger];
   } else if (action.kind === 'confirm') {
     state.confirmations = state.confirmations || [];
     state.confirmations.push({ ts: new Date().toISOString(), channel: 'confirm-email', note: 'autopilot', costCents: cost, auto: true });
@@ -167,6 +168,9 @@ async function applyExecutedEmail(state, action) {
     state.referAsked = true;
   }
   state.updatedTs = new Date().toISOString();
+  await motorStore.set(stateKey, state); var restored = await motorStore.get(stateKey);
+  if (!restored || restored.leadId !== state.leadId || restored.updatedTs !== state.updatedTs) throw new Error('autopilot strict CRM state readback invalid');
+  if (mirrorArgs) await mirror.apply(null, mirrorArgs);
 }
 async function mirror(transitionId, from, to, unit, won, cost, dealSize, trigger) {
   var agg = (await db.get(K.salesAgg)) || E.emptyAgg();
@@ -175,8 +179,9 @@ async function mirror(transitionId, from, to, unit, won, cost, dealSize, trigger
   try { var meta = (await db.get(K.salesMeta)) || {}; meta.realEvents = (meta.realEvents || 0) + 1; meta.dataMode = (meta.simEvents > 0) ? 'mixed' : 'real'; await db.set(K.salesMeta, meta); } catch (e) {}
 }
 
-async function runTick(cfg, motorGate) {
-  var ids = (await db.get(K.worklist)) || [];
+async function runTick(cfg) {
+  motorStore.assertDurable();
+  var ids = (await motorStore.get(K.worklist)) || [];
   var cadence = await loadCadence();
   var plays = (await db.get(K.plays)) || [];
   var now = nowMs();
@@ -188,30 +193,31 @@ async function runTick(cfg, motorGate) {
   var queue = [];
   var cap = Math.max(1, Math.min(cfg.maxPerTick || 25, 200));
   for (var i = 0; i < ids.length && scanned < cap; i++) {
-    var state = await db.get(K.state + ids[i]);
+    var stateKey = K.state + ids[i], state = await motorStore.get(stateKey);
     if (!state) continue;
     if (TERMINAL[state.status]) continue;
     scanned++;
     if (!domainGate(state).allow) continue;
     var action = nextAction(state, cadence, plays, now);
     if (!action || !action.due) continue;
-    var canAuto = motorGate && motorGate.authorized === true && cfg.mode === 'control' && cfg.autoEmail && action.autoExecutable && action.channel && /email/.test(action.channel) && emailReady && state.email;
+    var canAuto = cfg.mode === 'control' && cfg.autoEmail && action.autoExecutable && action.channel && /email/.test(action.channel) && emailReady && state.email;
     if (canAuto) {
       var mail = emailFor(action, state);
-      var sent = await send.sendToLead(state.email, mail.subject, mail.body);
-      if (sent.ok) {
-        await applyExecutedEmail(state, action);
-        await db.set(K.state + ids[i], state);
+      var candidate = intelligenceDecision.candidate(state, action, mail);
+      var decision = await intelligenceDecision.decide(motorStore, candidate, Date.now());
+      var execution = decision.status === 'RELEASED' ? await intelligenceExecutor.execute({ store: motorStore, candidate: candidate, decision: decision, now: Date.now(),
+        emailCostUsd: num(process.env.INTELLIGENCE_AUTOPILOT_EMAIL_USD, null), dailyBudgetUsd: num(process.env.INTELLIGENCE_AUTOPILOT_DAILY_BUDGET_USD, null),
+        dailyEmailCap: num(process.env.INTELLIGENCE_AUTOPILOT_DAILY_EMAIL_CAP, cfg.maxPerTick || 25),
+        transport: { send: function (email, subject, body, options) { return send.sendToLead(email, subject, body, options); } } })
+        : { status: 'HELD', reason: decision.reason, blockers: decision.blockers || [], providerCalls: 0 };
+      if (execution.status === 'ACCEPTED' || (execution.replayed && execution.accepted === 1)) {
+        await applyExecutedEmail(state, action, stateKey);
         executed++;
         continue;
       }
-      // could not send (suppressed / not ready / error) → fall through to queue with reason
-      action.blocked = sent.error || 'send failed';
-      if (sent.suppressed) { errors++; continue; }
-    }
-    if (!canAuto && cfg.mode === 'control' && action.autoExecutable && action.channel && /email/.test(action.channel) &&
-        (!motorGate || motorGate.authorized !== true)) {
-      action.blocked = 'domain motor held: ' + (motorGate && motorGate.reason || 'authorization unavailable');
+      action.blocked = execution.reason || execution.failure || execution.status || 'send held';
+      action.decisionReceiptId = decision.decisionReceiptId || null;
+      if (execution.status === 'FAILED' || execution.status === 'AMBIGUOUS') errors++;
     }
     queue.push({
       leadId: state.leadId, name: state.name, email: state.email, phone: state.phone,
@@ -225,7 +231,7 @@ async function runTick(cfg, motorGate) {
   var lastrun = {
     ts: new Date().toISOString(), scanned: scanned, executed: executed, queued: queued,
     errors: errors, emailReady: emailReady, mode: cfg.mode,
-    motorGate: motorGate ? { authorized: motorGate.authorized === true, reason: motorGate.reason || null, receiptId: motorGate.receiptId || null } : null
+    domainAuthority: 'intelligence/autopilot action-specific B10+B14'
   };
   await db.set(K.queue, queue.slice(0, 300));
   await db.set(K.lastrun, lastrun);
@@ -261,8 +267,7 @@ module.exports = async function handler(req, res) {
     if (!isCron && (!ADMIN || key !== ADMIN)) return j(res, 403, { ok: false, error: 'cron or admin key required' });
     var cfgT = await loadConfig();
     if (!cfgT.armed) { await db.set(K.lastrun, { ts: new Date().toISOString(), scanned: 0, executed: 0, queued: 0, disarmed: true }); return j(res, 200, { ok: true, ran: false, reason: 'disarmed' }); }
-    var motorGateT = await motorAuthorization.authorize(motorStore, 'intelligence', 'autopilot', Date.now());
-    var lr = await runTick(cfgT, motorGateT);
+    var lr = await runTick(cfgT);
     return j(res, 200, { ok: true, ran: true, result: lr });
   }
 
@@ -311,8 +316,7 @@ module.exports = async function handler(req, res) {
     if (method === 'POST' && action === 'run') {
       var cfgR = await loadConfig();
       if (!cfgR.armed) return j(res, 200, { ok: true, ran: false, reason: 'disarmed — arm first' });
-      var motorGateR = await motorAuthorization.authorize(motorStore, 'intelligence', 'autopilot', Date.now());
-      var lrR = await runTick(cfgR, motorGateR);
+      var lrR = await runTick(cfgR);
       return j(res, 200, { ok: true, ran: true, result: lrR });
     }
 
