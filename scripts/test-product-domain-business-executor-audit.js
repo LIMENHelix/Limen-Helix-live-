@@ -20,8 +20,8 @@ assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(),
 assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
 assert.equal(report.summary.actionReceiptsImplemented, 7);
 assert.equal(report.summary.independentOutcomeObserversImplemented, 4);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 3);
-assert.equal(report.summary.sourceChainsComplete, 3);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 4);
+assert.equal(report.summary.sourceChainsComplete, 4);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -33,7 +33,9 @@ assert.equal(finance.productionVerifiedByDomain, false);
 var communication = report.domains.filter(function (row) { return row.productDomain === 'communication'; })[0];
 assert.equal(communication.independentOutcomeObserverImplemented, true);
 assert.equal(communication.observerScope, 'PUBLIC_APPVIEW_ENGAGEMENT_SNAPSHOT');
-assert.equal(communication.domainAuthorizedRollbackImplemented, false);
+assert.equal(communication.actionReceiptStrength, 'DURABLE_IDEMPOTENT_PLATFORM_COMMAND_RECEIPT');
+assert.equal(communication.domainAuthorizedRollbackImplemented, true);
+assert.equal(communication.sourceChainComplete, true);
 assert.equal(finance.externalEnabled, false);
 
 assert.equal(communication.domainBoundExecutorImplemented, true);
@@ -58,4 +60,4 @@ assert.equal(agriculture.lane, 'homestead');
 assert.equal(agriculture.domainBoundExecutorImplemented, false);
 assert(agriculture.gaps.includes('domain-bound-production-executor-missing'));
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 3/20, externally ready 0/20');
+console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 4/20, externally ready 0/20');

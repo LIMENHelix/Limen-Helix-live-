@@ -24,8 +24,14 @@ function createHandler(deps) {
     if (!cronAuth.enforce(req, res)) return;
     try {
       store.assertDurable();
+      var pending = await store.lrange('communication_social_pending_log', 0, 99);
+      var reconciliation = await observer.reconcilePending(store, pending, process.env.BLUESKY_HANDLE, Date.now(), { fetch: deps.fetch || global.fetch });
       var posts = await social.recentPosts(20);
+      reconciliation.receipts.forEach(function (receipt) {
+        if (!posts.some(function (post) { return post && post.uri === receipt.uri; })) posts.unshift(receipt);
+      });
       var result = await observer.observeRecent(store, posts, Date.now(), { fetch: deps.fetch || global.fetch });
+      result.reconciliation = reconciliation;
       res.statusCode = result.ok ? 200 : 207;
       return res.end(JSON.stringify(result));
     } catch (error) {

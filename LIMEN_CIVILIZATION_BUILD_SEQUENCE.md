@@ -3400,3 +3400,77 @@ selection, motor-receipt, prompt, or secret identities. This opens only the
 bounded Job-7 paper bootstrap needed to create genuine artifacts for later
 independent evaluation; it does not satisfy or loosen the mature production
 capability gate.
+
+### Owner-fair natural production evidence — measured 2026-08-25
+
+The first two post-repair natural cron turns prove that the queue no longer
+starves later owners. The `20:30` Central cycle selected only
+`investment:finance`; the `21:00` cycle selected only `research:science`.
+Both owning B10 gates returned `no_action`, so both cycles held with zero
+provider attempts, zero budget debit, and zero external effect. Science's
+permanent developmental slot remained `NOT_CLAIMED`, proving that the bootstrap
+cannot bypass B10. Medicine's first natural owner turn remains due at `21:30`
+Central and is not yet evidence.
+
+### Reversible domain commissioning and Communication outcome observer — implemented 2026-08-25
+
+PR #207 merged as `d594e503` and was deployed from that exact merge commit as
+`dpl_CVyGNRv86FbaUNBoThpvvCTy3Ucw`. The capability constitution still accepts
+Finance's zero-effect preview/cancel proof unchanged. For effectors that cannot
+be tested without briefly creating the effect—publication, social, mail, CRM,
+and listings—it now also accepts a reversible commissioning receipt only when
+the effect is explicitly commissioning-only, uses no live money and `$0` spend,
+is exposed for at most five minutes, carries distinct create, rollback, and
+residual-observer receipts, and an independent read verifies zero residual
+effect. This rule grants no authority and turns on no lane by itself.
+
+Communication now has a separate production outcome-observer path. Its existing
+executor writes through the authenticated Bluesky PDS adapter; the new observer
+reads public post identity and engagement counters from the unauthenticated
+Bluesky AppView host, verifies the exact AT URI and CID, computes successive
+engagement deltas, and persists its own strict-Redis readback receipt. The
+observer is cron-authenticated and performs no post, delete, AI call, or monetary
+action. Production credentials authenticated successfully and five prior public
+post receipts were visible; a direct public AppView read independently matched
+the newest post's URI and CID.
+
+This raises the source-audited independent-observer implementation count from
+`3/20` to `4/20`. Communication still lacks its domain-authorized rollback
+command and a completed bounded commissioning proof, so complete source chains
+remain `3/20`, production-verified brains remain `0/20`, and externally autonomous
+brains remain `0/20`. The next Communication step is one labeled, bounded
+create→public-read→delete→absent-read commissioning cycle after its own B10/motor
+authority releases it; no ordinary social post is forced for verification.
+
+### Communication domain-local executor and rollback — implemented 2026-08-25
+
+Communication's social effector now owns a strict, domain-local command path
+rather than allowing the cron handler to call the platform adapter directly.
+A fresh restored `communication/social` motor receipt is consumed by exactly
+one durable claim, the command is read back before authentication, and an
+ambiguous provider result is never automatically retried. The exact Bluesky
+URI/CID and strict receipt readback are retained as the action identity. This
+includes a strict pre-dispatch pending index: the independent AppView observer
+can resolve an accepted-but-unreceipted post by exact content hash and creation
+window without repeating the outward action.
+This does not centralize the domain brain: Communication owns this implementation;
+the shared code remains limited to constitutional motor contracts and transport.
+
+The matching Communication-local rollback requires the original strict post
+command, an independent AppView presence observation with the same URI/CID, a
+structured recovery trigger, and a separate fresh Communication motor receipt.
+It durably claims one delete before contacting the PDS, never retries an
+ambiguous delete, and independently verifies public absence through AppView.
+Deletion acceptance without observed absence remains pending and can only be
+reconciled by another read; it is not falsely called recovery.
+
+The source audit is now `8/20` domain-bound executors, `7/20` action receipts,
+`4/20` independent observers, `4/20` domain-authorized rollback paths, and
+`4/20` complete source chains. Production verification and external autonomy
+remain `0/20`; those counts require a bounded real create→observe→delete→absent
+commissioning receipt and the owning switches, not source presence. The full
+suite measured `192` passed, `1` expected external-corpus skip, and `0` failed
+across `193` files. No test posted, deleted, called an AI provider, or used live
+money. The already deployed read-only Communication observer's natural cron
+request returned HTTP `200` in production on deployment
+`dpl_CVyGNRv86FbaUNBoThpvvCTy3Ucw`.
