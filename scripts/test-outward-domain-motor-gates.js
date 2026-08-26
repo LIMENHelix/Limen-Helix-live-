@@ -14,6 +14,7 @@ var religionRevenue = source('lib/religion-revenue-fulfillment.js');
 var image = source('handlers/hero-image.js');
 var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
+var intelligenceExecutor = source('lib/intelligence-autopilot-executor.js');
 var automail = source('handlers/homestead-automail.js');
 var lawExecutor = source('lib/law-automail-executor.js');
 var automailRunner = source('scripts/automail-run.js');
@@ -59,9 +60,13 @@ assert(religionRevenue.indexOf('Decision.decide(store, candidate') < religionRev
 
 console.log('outward domain motor gates: social, subscriber email, and hero image fail closed before effects');
 
-assert(autopilot.includes("authorize(motorStore, 'intelligence', 'autopilot'"));
-assert(autopilot.includes('motorGate && motorGate.authorized === true && cfg.mode'));
-assert(autopilot.indexOf('motorGate && motorGate.authorized === true && cfg.mode') < autopilot.indexOf('send.sendToLead'));
+assert(autopilot.includes("require('../lib/intelligence-autopilot-decision')"));
+assert(autopilot.includes("require('../lib/intelligence-autopilot-executor')"));
+assert(autopilot.indexOf('intelligenceDecision.decide(motorStore, candidate') < autopilot.indexOf('intelligenceExecutor.execute({'));
+var intelligenceGateAt = intelligenceExecutor.indexOf("authorize(store, 'intelligence', 'autopilot'");
+var intelligenceEffectAt = intelligenceExecutor.indexOf('input.transport.send(v.email', intelligenceGateAt);
+assert(intelligenceGateAt >= 0 && intelligenceEffectAt > intelligenceGateAt);
+assert(intelligenceExecutor.slice(intelligenceGateAt, intelligenceEffectAt).includes('if (!auth || !auth.authorized)'));
 assert(automail.includes("require('../lib/law-automail-decision')"));
 assert(automail.includes("require('../lib/law-automail-executor')"));
 assert(automail.indexOf('lawDecision.decide(motorStore, candidate') < automail.indexOf('lawExecutor.execute({'));

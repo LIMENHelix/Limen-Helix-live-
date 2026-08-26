@@ -18,10 +18,10 @@ assert.deepEqual(bound.map(function (row) { return row.productDomain; }).sort(),
   'communication', 'culture', 'finance', 'intelligence', 'law', 'medicine', 'religion', 'science'
 ]);
 assert.equal(report.summary.domainBoundExecutorsImplemented, 8);
-assert.equal(report.summary.actionReceiptsImplemented, 7);
-assert.equal(report.summary.independentOutcomeObserversImplemented, 7);
-assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 7);
-assert.equal(report.summary.sourceChainsComplete, 7);
+assert.equal(report.summary.actionReceiptsImplemented, 8);
+assert.equal(report.summary.independentOutcomeObserversImplemented, 8);
+assert.equal(report.summary.domainAuthorizedRollbacksImplemented, 8);
+assert.equal(report.summary.sourceChainsComplete, 8);
 assert.equal(report.summary.productionVerifiedByDomain, 0);
 assert.equal(report.summary.autonomousExternalReady, 0);
 
@@ -64,6 +64,12 @@ assert.equal(law.switchAndBudgetEnforcedInExecutor, true);
 assert.equal(law.sourceChainComplete, true);
 assert.equal(law.externalEnabled, false);
 
+var intelligence = report.domains.find(function (row) { return row.productDomain === 'intelligence'; });
+assert.equal(intelligence.actionReceiptStrength, 'DURABLE_B10_B14_IDEMPOTENT_EMAIL_ACCEPTANCE_RECEIPT');
+assert.equal(intelligence.observerScope, 'RESEND_READ_API_MAIL_SERVER_LAST_EVENT');
+assert.equal(intelligence.sourceChainComplete, true);
+assert.equal(intelligence.externalEnabled, false);
+
 assert.equal(communication.domainBoundExecutorImplemented, true);
 
 var science = report.domains.find(function (row) { return row.productDomain === 'science'; });
@@ -86,4 +92,4 @@ assert.equal(agriculture.lane, 'homestead');
 assert.equal(agriculture.domainBoundExecutorImplemented, false);
 assert(agriculture.gaps.includes('domain-bound-production-executor-missing'));
 
-console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 7/20, externally ready 0/20');
+console.log('product domain business executor audit: contracts 20/20, bound executors 8/20, closed source chain 8/20, externally ready 0/20');
