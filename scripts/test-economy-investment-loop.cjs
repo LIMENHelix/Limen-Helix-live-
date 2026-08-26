@@ -4,6 +4,7 @@ var assert = require('node:assert/strict');
 var Decision = require('../lib/economy-investment-decision.js');
 var Executor = require('../lib/economy-investment-executor.js');
 var Recovery = require('../lib/economy-investment-recovery.js');
+var StrictStore = require('../lib/autofire-efference-store.js');
 
 function memory() { var values = new Map(), lists = new Map(); return { values: values, lists: lists, assertDurable: function () {},
   get: async function (k) { return values.get(k) || null; }, set: async function (k, v) { values.set(k, JSON.parse(JSON.stringify(v))); return true; },
@@ -17,6 +18,10 @@ function cognition(now) { return { ts: now, c: { domain: 'economy', immune: { im
     sourceIdentity: { producer: 'brain-cognition-refresh/1' }, truth: { feedHealth: { live: 4 }, opportunities: [{ id: 'econ-invest-1', path: 'INVESTABLE', held: false }] } } } }; }
 
 (async function () {
+  ['economy_investment_worklist', 'economy_investment_decision_log', 'economy_investment_command_log', 'economy_investment_recovery_log',
+    'economy_investment_task:test', 'economy_investment_decision:test', 'economy_investment_command:test', 'economy_investment_action:test',
+    'economy_investment_motor_claim:test', 'economy_investment_budget_slot:test', 'economy_investment_observation:test',
+    'economy_investment_recovery:test', 'economy_investment_developmental_slot:test'].forEach(function (key) { assert.equal(StrictStore.assertKey(key), key); });
   var store = memory(), now = Date.now(), evidence = [
     { title: 'Acme demand improves', url: 'https://one.example/acme', feedName: 'economy-one', recordedAt: new Date(now).toISOString() },
     { title: 'Acme margins stabilize', url: 'https://two.example/acme', feedName: 'economy-two', recordedAt: new Date(now).toISOString() }
