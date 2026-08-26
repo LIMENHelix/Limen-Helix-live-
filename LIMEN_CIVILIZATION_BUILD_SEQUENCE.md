@@ -3352,3 +3352,23 @@ only status, verification booleans, bounded timestamps, and the permanent
 state, or expose the symbol, account, token, preview, command, or order identity.
 The existing `POST` remains Brain-token authenticated and is still the only
 operator route that can request the zero-effect sandbox order/cancel proof.
+
+### Job 7 owner-fair paper scheduler — implemented 2026-08-25
+
+The live autofire audit exposed a queue-starvation defect rather than a missing
+feed or missing brain. Each 30-minute cycle saw `200` eligible paper candidates,
+but the one-call bound was applied before the owning B10 decision. The first
+queue row was therefore reconsidered every cycle; because it was an investment
+hold, Finance occupied the scheduler while Science and Medicine were never
+reached. The hold itself was healthy, but the ordering was not civilization-
+fair.
+
+The worker now derives a deterministic 30-minute schedule across three distinct
+Job-7 owners: Finance investment, Science research, and Medicine research. It
+rotates first across owners and then within each owner's own candidate rows.
+Missing owner groups are skipped, unknown research owners remain ineligible at
+the tail, and the full candidate set is preserved. The schedule is replayable
+from time alone and adds no shared authority or scheduler write. It changes no
+B10 threshold, product-motor receipt, provider cap, daily budget, publication
+gate, broker gate, or live-money boundary. The one-provider-call-per-tick bound
+remains intact.
