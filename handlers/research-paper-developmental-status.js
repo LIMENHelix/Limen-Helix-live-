@@ -1,6 +1,6 @@
 'use strict';
 
-/** Public, sanitized, read-only status for the two developmental research slots. */
+/** Public, sanitized, read-only status for registered developmental research slots. */
 
 var Store = require('../lib/autofire-efference-store.js');
 var Developmental = require('../lib/research-paper-developmental-authority.js');
@@ -82,7 +82,7 @@ function createHandler(deps) {
     }
     try {
       store.assertDurable();
-      var rows = await Promise.all(['science', 'medicine'].map(async function (domain) {
+      var rows = await Promise.all(['science', 'medicine', 'education'].map(async function (domain) {
         return publicStatus(domain, await store.get(Developmental.slotKey(domain)));
       }));
       res.statusCode = 200;

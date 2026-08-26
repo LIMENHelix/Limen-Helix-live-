@@ -6,7 +6,7 @@
  * The owning domain then either releases that candidate to the artifact actuator
  * or holds it with explicit reasons.
  *
- * Research is owned only by Science (`research`) or Medicine (`health`).
+ * Research is owned only by an explicitly registered research product brain.
  * Investment is owned only by Finance. Other domains may contribute context but
  * cannot own the command.
  */
@@ -26,7 +26,7 @@ var LANE_POLICY = {
   },
   research: {
     command: 'generate_research_artifact',
-    owners: ['research', 'health'],
+    owners: ['research', 'health', 'education'],
     externalExecution: 'publication_evidence_only',
     requiredMappings: [
       'neurology_to_business_homology',
@@ -42,6 +42,7 @@ var DOMAIN_ALIASES = {
   research: 'research',
   medicine: 'health',
   health: 'health',
+  education: 'education',
   finance: 'finance'
 };
 
@@ -53,7 +54,7 @@ function ownerFor(lane, subjectDomain) {
   if (lane === 'investment') return 'finance';
   if (lane !== 'research') return null;
   var d = canonicalDomain(subjectDomain);
-  return d === 'research' || d === 'health' ? d : null;
+  return d === 'research' || d === 'health' || d === 'education' ? d : null;
 }
 
 function sourceIdentity(candidate) {
@@ -130,7 +131,7 @@ function select(spec) {
   if (!policy) reasons.push('lane_not_research_or_investment');
   if (!owner) {
     reasons.push(lane === 'research'
-      ? 'research_subject_not_science_or_medicine'
+      ? 'research_subject_has_no_registered_research_owner'
       : 'no_declared_owner_for_lane');
   }
   if (!source) reasons.push('candidate_has_no_source_supplied_identity');

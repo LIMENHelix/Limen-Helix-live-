@@ -35,7 +35,10 @@ function blocked(change, code) {
   assert(got.blockers.includes(code), code);
 }
 blocked({ publication, evaluation: {} }, 'at_least_two_independent_evidence_records_required');
-blocked({ publication: Object.assign({}, publication, { ownerDomain: 'finance' }), evaluation }, 'research_owner_must_be_science_or_medicine');
+blocked({ publication: Object.assign({}, publication, { ownerDomain: 'finance' }), evaluation }, 'research_owner_must_be_registered_product_domain');
+const education = Adapter.build({ publication: Object.assign({}, publication, { ownerDomain: 'education', observationId: 'education-observation-1' }), evaluation });
+assert.equal(education.status, 'EVALUATED');
+assert.equal(education.event.ownerDomain, 'education');
 blocked({ publication, evaluation: Object.assign({}, evaluation, { independenceAssessment: { status: 'UNESTABLISHED', reason: 'unknown' } }) }, 'established_independence_assessment_required');
 blocked({ publication, evaluation: Object.assign({}, evaluation, { mappingCoverage: {} }) }, 'mapping_neurology_to_business_homology_required');
 blocked({ publication, evaluation: Object.assign({}, evaluation, { evidenceRecords: [{ id: 'x', claim: 'no identity' }] }) }, 'evidence_record_0_identity_time_claim_required');

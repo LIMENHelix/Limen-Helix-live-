@@ -62,6 +62,7 @@ function selection(productDomain, id) {
   var store = storeDouble();
   store.values.set(MotorReceipt.receiptKey('science'), motor('science', now));
   store.values.set(MotorReceipt.receiptKey('medicine'), motor('medicine', now));
+  store.values.set(MotorReceipt.receiptKey('education'), motor('education', now));
 
   var off = await Developmental.authorize(store, 'science', selection('science', 'sel-off'), {}, now);
   assert.equal(off.authorized, false);
@@ -132,6 +133,17 @@ function selection(productDomain, id) {
   assert.equal(medicineResolved.providerCalled, false);
   assert.equal(medicineResolved.budgetDebitEstimateUsd, 0);
 
+  var educationEnv = { LIMEN_EDUCATION_RESEARCH_DEVELOPMENTAL_ENABLED: '1' };
+  var education = await Developmental.authorize(store, 'education', selection('education', 'sel-education-1'), educationEnv, now);
+  assert.equal(education.authorized, true);
+  assert.equal(education.productDomain, 'education');
+  assert.equal(education.ownerDomain, 'education');
+  assert.notEqual(education.receiptId, science.receiptId);
+  assert.notEqual(Developmental.slotKey('education'), Developmental.slotKey('science'));
+  assert.equal(education.slot.publicationAuthorized, false);
+  assert.equal(education.slot.saleAuthorized, false);
+  assert.equal(education.slot.liveMoney, false);
+
   var unreadable = storeDouble();
   unreadable.values.set(MotorReceipt.receiptKey('science'), motor('science', now));
   unreadable.setIfAbsent = async function () { return true; };
@@ -139,8 +151,8 @@ function selection(productDomain, id) {
   assert.equal(failedReadback.authorized, false);
   assert.equal(failedReadback.reason, 'research-developmental-claim-readback-failed');
 
-  assert.equal(store.logs.filter(function (row) { return row.key === Developmental.LOG_KEY; }).length, 4);
-  console.log('research developmental authority: separate one-attempt Science/Medicine claims, strict readback, resolution, and no publication passed');
+  assert.equal(store.logs.filter(function (row) { return row.key === Developmental.LOG_KEY; }).length, 5);
+  console.log('research developmental authority: separate one-attempt Science/Medicine/Education claims, strict readback, resolution, and no publication passed');
 })().catch(function (error) {
   console.error(error && error.stack || error);
   process.exit(1);
