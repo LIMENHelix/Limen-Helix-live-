@@ -42,6 +42,7 @@ var domainBridge = require('../lib/autofire-domain-bridge');
 var autofireLearning = require('../lib/autofire-learning');
 var brainStore = require('../lib/brain-shadow-store');
 var motorAuthorization = require('../lib/product-domain-motor-authorization');
+var researchDevelopmentalAuthority = require('../lib/research-paper-developmental-authority');
 var financeB14Bridge = require('../lib/finance-b14-bridge');
 var tradierSandbox = require('../lib/tradier-sandbox');
 var fs = require('fs');
@@ -373,13 +374,39 @@ async function _fireOne(entry) {
   // provider request, budget charge, or artifact persistence.
   var productMotor = null;
   var productMotorAuthorization = null;
+  var researchDevelopmentalAuthorization = null;
   if (lane === 'research') {
     productMotor = researchMotorIdentity(selected.receipt.ownerDomain);
     if (!productMotor) return researchMotorHoldResult(entry, selected.receipt, null, null);
     productMotorAuthorization = await motorAuthorization.authorize(
       efferenceStore, productMotor.productDomain, productMotor.lane, Date.now());
     if (!productMotorAuthorization.authorized) {
-      return researchMotorHoldResult(entry, selected.receipt, productMotorAuthorization, productMotor);
+      researchDevelopmentalAuthorization = await researchDevelopmentalAuthority.authorize(
+        efferenceStore, productMotor.productDomain, selected.receipt, process.env, Date.now());
+      if (!researchDevelopmentalAuthorization.authorized) {
+        var heldResearch = researchMotorHoldResult(entry, selected.receipt, productMotorAuthorization, productMotor);
+        heldResearch.developmentalAuthorization = researchDevelopmentalAuthorization;
+        return heldResearch;
+      }
+      productMotorAuthorization = researchDevelopmentalAuthorization;
+    }
+  }
+
+  async function resolveResearchDevelopmental(result, motor) {
+    if (!researchDevelopmentalAuthorization) return result;
+    try {
+      var receipt = await researchDevelopmentalAuthority.resolve(
+        efferenceStore, researchDevelopmentalAuthorization, result, motor || null);
+      result.researchDevelopmentalReceiptId = receipt.receiptId;
+      result.researchDevelopmentalStatus = receipt.status;
+      return result;
+    } catch (error) {
+      result.ok = false;
+      result.skipped = false;
+      result.reason = 'research-developmental-receipt-not-durable';
+      result.detail = String(error && error.message || error);
+      result.researchDevelopmentalReceiptError = true;
+      return result;
     }
   }
 
@@ -421,13 +448,13 @@ async function _fireOne(entry) {
     attempt: Number.isInteger(entry.autofireAttempts) ? entry.autofireAttempts : 0
   });
   if (!commanded.ok) {
-    return {
+    return resolveResearchDevelopmental({
       skipped: false, ok: false, billableAttempt: false,
       cik: entry.cik, lane: lane,
       reason: 'efference-command-refused',
       detail: commanded.error,
       motorStatus: 'NOT_DISPATCHED'
-    };
+    }, null);
   }
   var efferenceCopy = commanded.copy;
 
@@ -438,16 +465,18 @@ async function _fireOne(entry) {
     efferenceCopy: efferenceCopy
   });
   if (!commandLearning.ok) {
-    await autofireEfference.resolve(efferenceStore, efferenceCopy, {
+    var commandLearningMotor = await autofireEfference.resolve(efferenceStore, efferenceCopy, {
       ok: false, skipped: false, reason: 'command-learning-not-durable'
     }, Date.now());
-    return {
+    return resolveResearchDevelopmental({
       skipped: false, ok: false, billableAttempt: false,
       cik: entry.cik, lane: lane,
       reason: 'command-learning-not-durable', detail: commandLearning.detail || commandLearning.error,
+      actionId: efferenceCopy.actionId,
+      efferenceCopyId: efferenceCopy.id,
       selectionId: selected.receipt.id,
       motorStatus: 'NOT_DISPATCHED'
-    };
+    }, commandLearningMotor);
   }
 
   async function finish(result) {
@@ -455,6 +484,7 @@ async function _fireOne(entry) {
     if (productMotorAuthorization) {
       result.productDomain = productMotor.productDomain;
       result.productMotorReceiptId = productMotorAuthorization.receiptId;
+      result.productMotorAuthorizationMode = productMotorAuthorization.authorizationMode || 'mature-production-capability';
     }
     var motor = await autofireEfference.resolve(efferenceStore, efferenceCopy, result, Date.now());
     result.efferenceCopyId = efferenceCopy.id;
@@ -472,7 +502,7 @@ async function _fireOne(entry) {
     };
     result.externalOutcomePending = true;
     if (!motor.ok) result.efferenceResolutionError = motor.error || 'unknown';
-    return result;
+    return resolveResearchDevelopmental(result, motor);
   }
 
   // Call expand-artifact-claude (single-call only — investment / research)
@@ -566,6 +596,8 @@ async function _fireOne(entry) {
             ownerDomain: selected.receipt.ownerDomain,
             productDomain: productMotor ? productMotor.productDomain : null,
             productMotorReceiptId: productMotorAuthorization ? productMotorAuthorization.receiptId : null,
+            productMotorAuthorizationMode: productMotorAuthorization
+              ? (productMotorAuthorization.authorizationMode || 'mature-production-capability') : null,
             efferenceCopyId: efferenceCopy.id,
             actionId: efferenceCopy.actionId
           }
@@ -870,7 +902,7 @@ module.exports = async function handler(req, res) {
       if (result.billableAttempt) {
         try {
           await autonomyBudget.record(entry._estimatedCostUsd || (COST_PER_CALL_USD[entry.recommendedLane] || 0.50), {
-            streamId: 'autofire:' + entry.recommendedLane,
+            streamId: 'autofire:' + entry.recommendedLane + (result.productDomain ? ':' + result.productDomain : ''),
             note: 'conservative estimated cost for autonomous ' + entry.recommendedLane + ' artifact attempt for CIK ' + entry.cik
           });
         } catch (budgetErr) {
