@@ -1039,6 +1039,9 @@ function _wrapPhase0Result(secFacts, kernelResult, cik) {
     reconciliation: {
       primacy: 'thing1',
       agree: 'indeterminate',
+      masking_assessment: 'unassessed',
+      thing2_role: 'alignment_and_masking_reconciliation_only',
+      thing2_trade_weight: 0,
       summary: 'Validated distress scorer unavailable. Client-side Thing 2 phase tracker is interpretive only and cannot substitute for validated assessment.',
       action_authority: 'none',
       language_constraints: [
@@ -1307,6 +1310,9 @@ function _packServerResult(t1) {
     reconciliation: {
       primacy: 'thing1',
       agree: 'indeterminate',
+      masking_assessment: 'unassessed',
+      thing2_role: 'alignment_and_masking_reconciliation_only',
+      thing2_trade_weight: 0,
       summary: t1.alert
         ? ('Validated kernel fired alert via Path ' + (t1.pathway || '?') + '. Composite score ' + (t1.composite_score != null ? t1.composite_score.toFixed(3) : 'n/a') + '.')
         : 'Validated kernel reports no alert.',
@@ -1376,6 +1382,7 @@ function _filterForbidden(arr, allowTerminal) {
 // remain null.
 function _adapt(packet) {
   packet = packet || {};
+  var t0 = packet.thing0_eligibility || {};
   var t1 = packet.validated_signal || {};
   var t2 = packet.phase_tracker_signal || {};
   var rec = packet.reconciliation || {};
@@ -1408,6 +1415,21 @@ function _adapt(packet) {
     confidence_status: packet.confidence_status || 'unsupported',
     input_presence: packet.input_presence || {},
     formula_visibility: packet.formula_visibility || 'server_only',
+
+    t0: {
+      available: !!packet.thing0_eligibility,
+      kernel_id: t0.kernel_id || null,
+      qualification_status: t0.qualification_status || 'unavailable',
+      thing1_execution_status: t0.thing1_execution_status || 'unavailable',
+      permits_thing1_use: t0.permits_thing1_use === true,
+      history_requirement: t0.history_requirement || 'unknown',
+      required_input_presence: t0.required_input_presence || {},
+      required_inputs_present: Number(t0.required_inputs_present || 0),
+      required_inputs_total: Number(t0.required_inputs_total || 0),
+      reasons: t0.reasons || [],
+      action_authority: 'none',
+      note: t0.note || 'Thing 0 eligibility was not returned by this report runtime.'
+    },
 
     // \u2500\u2500 Section 1: Thing 1 \u2500\u2500
     t1: {
@@ -1467,6 +1489,9 @@ function _adapt(packet) {
     reconciliation: {
       primacy: 'thing1',                 // hard string; renderer cannot change
       agree: rec.agree === true ? true : (rec.agree === false ? false : 'indeterminate'),
+      masking_assessment: rec.masking_assessment || 'unassessed',
+      thing2_role: 'alignment_and_masking_reconciliation_only',
+      thing2_trade_weight: 0,
       summary: rec.summary || '',
       action_authority: rec.action_authority || 'none',
       language_constraints: rec.language_constraints || [],
@@ -1582,6 +1607,29 @@ function _esc(s) {
   return String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Thing 0 — explicit operating-envelope qualifier for Thing 1.
+function _renderThing0Section(data) {
+  var t0 = data.t0 || {};
+  var status = t0.qualification_status || 'unavailable';
+  var color = status === 'qualified' ? 'var(--hypo)'
+            : status === 'partially_qualified' ? 'var(--altered)'
+            : 'var(--text-ghost)';
+  var h = '<div class="diag-section" style="border:1px solid ' + color + ';padding:10px 12px;background:rgba(0,0,0,0.14);margin-top:10px">';
+  h += '<div class="diag-label" style="color:' + color + '">THING 0 · THING 1 OPERATING-ENVELOPE QUALIFIER</div>';
+  h += '<div class="diag-value" style="color:' + color + '">' + _esc(status.toUpperCase().replace(/_/g, ' ')) + '</div>';
+  h += '<div style="font-size:0.42rem;color:var(--text-ghost);line-height:1.55;margin-top:5px">';
+  h += 'Thing 1 execution: <b>' + _esc(t0.thing1_execution_status) + '</b> · ';
+  h += 'required inputs: <b>' + t0.required_inputs_present + '/' + t0.required_inputs_total + '</b> · ';
+  h += 'history: <b>' + _esc(t0.history_requirement) + '</b> · ';
+  h += 'permits Thing 1 use: <b>' + (t0.permits_thing1_use ? 'yes' : 'no') + '</b></div>';
+  (t0.reasons || []).forEach(function(reason) {
+    h += '<div style="font-size:0.42rem;color:var(--text-ghost);margin-top:3px">· ' + _esc(reason) + '</div>';
+  });
+  h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px;font-style:italic">' + _esc(t0.note) + '</div>';
+  h += '</div>';
+  return h;
 }
 
 // Section 1 \u2014 Validated financial distress (Thing 1) banner.
@@ -1771,8 +1819,10 @@ function _renderReconciliation(data) {
   h += '<div class="diag-value" style="color:' + color + '">'
      + (rec.agree === true ? 'AGREE' : rec.agree === false ? 'DIVERGE' : 'INDETERMINATE') + '</div>';
   h += '<div style="font-size:0.46rem;color:var(--text-dim);margin-top:6px;line-height:1.55">' + _esc(rec.summary || '') + '</div>';
+  h += '<div style="font-size:0.4rem;color:' + color + ';margin-top:6px;line-height:1.5">masking/alignment check: <b>'
+     + _esc((rec.masking_assessment || 'unassessed').replace(/_/g, ' ')) + '</b></div>';
   h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px;line-height:1.5">'
-     + 'primacy: <b>thing1</b> \u00b7 action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
+     + 'primacy: <b>thing1</b> \u00b7 Thing 2 trade weight: <b>0</b> \u00b7 action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
   h += '</div>';
   return h;
 }
@@ -1843,7 +1893,8 @@ function renderDiagnosis(data) {
   // v4.0 phase hero \u2014 first thing visible after entity in Diagnosis tab.
   h += _renderPhaseHero(data);
 
-  // Three sections in order: Thing 1, Thing 2, Reconciliation
+  // Four sections in order: Thing 0, Thing 1, Thing 2, Reconciliation
+  h += _renderThing0Section(data);
   h += _renderThing1Section(data);
   h += _renderThing2Section(data);
   h += _renderReconciliation(data);
@@ -1985,6 +2036,7 @@ function renderSignals(data) {
 
   // Provenance \u2014 both kernels
   h += '<div style="margin-top:14px;padding-top:8px;border-top:1px solid var(--border);font-size:0.38rem;color:var(--text-ghost);letter-spacing:1px;line-height:1.6">';
+  h += 'Thing 0: ' + _esc(data.t0.qualification_status) + ' \u00b7 Thing 1 use ' + (data.t0.permits_thing1_use ? 'permitted' : 'not permitted') + '<br>';
   h += 'Thing 1: ' + _esc(data.t1.kernel_id || 'none') + ' \u00b7 ' + _esc(data.t1.validation_status) + '<br>';
   h += 'Thing 2: ' + _esc(t2.kernel_id || 'none') + ' \u00b7 ' + _esc(t2.validation_status) + '<br>';
   h += 'Formula visibility: ' + _esc(data.formula_visibility || 'server_only') + '<br>';
@@ -2482,6 +2534,8 @@ function renderReport(data) {
   }
 
   // ── Section 1: VALIDATED FINANCIAL DISTRESS — Thing 1 ──
+  h += _renderThing0Section(data);
+
   var t1Color = alertActive ? 'var(--hyper)'
               : t1.validation_status === 'bank_adapter_required' ? 'var(--altered)'
               : t1.validation_status === 'unvalidated_after_modification' ? 'var(--hyper)'
@@ -2548,8 +2602,10 @@ function renderReport(data) {
   h += '<div class="rpt-trajectory" style="color:' + recColor + '">'
      + (rec.agree === true ? 'AGREE' : rec.agree === false ? 'DIVERGE' : 'INDETERMINATE') + '</div>';
   h += '<div style="font-size:0.5rem;color:var(--text-dim);margin-top:6px;line-height:1.55">' + _esc(rec.summary || '') + '</div>';
+  h += '<div style="font-size:0.4rem;color:' + recColor + ';margin-top:6px">masking/alignment check: <b>'
+     + _esc((rec.masking_assessment || 'unassessed').replace(/_/g, ' ')) + '</b></div>';
   h += '<div style="font-size:0.4rem;color:var(--text-ghost);margin-top:6px">'
-     + 'primacy: <b>thing1</b> · action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
+     + 'primacy: <b>thing1</b> · Thing 2 trade weight: <b>0</b> · action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
   h += '</div>';
 
   // ── Input presence — color-coded so data gaps are visible at a glance.
@@ -2719,6 +2775,17 @@ function printReport() {
      + ' · history: ' + (data.history_quarters || 0) + 'Q (' + _esc(data.history_sufficiency)
      + ') · confidence: ' + _esc(data.confidence_status) + '</div>';
 
+  // Section 0
+  h += '<div class="section-t2">';
+  h += '<h2 style="border:0;padding:0;margin:0 0 4px">THING 0 · THING 1 OPERATING-ENVELOPE QUALIFIER</h2>';
+  h += '<div class="field"><b>' + _esc((data.t0.qualification_status || 'unavailable').toUpperCase().replace(/_/g, ' ')) + '</b></div>';
+  h += '<div class="field" style="font-size:11px;color:#666">Thing 1 execution: ' + _esc(data.t0.thing1_execution_status)
+     + ' · required inputs: ' + data.t0.required_inputs_present + '/' + data.t0.required_inputs_total
+     + ' · history: ' + _esc(data.t0.history_requirement)
+     + ' · permits Thing 1 use: ' + (data.t0.permits_thing1_use ? 'yes' : 'no') + '</div>';
+  (data.t0.reasons || []).forEach(function(r) { h += '<div class="field" style="font-size:11px">· ' + _esc(r) + '</div>'; });
+  h += '</div>';
+
   // Section 1
   h += '<div class="section-t1' + (alertActive ? ' alert-on' : '') + '">';
   h += '<h2 style="border:0;padding:0;margin:0 0 4px">VALIDATED FINANCIAL DISTRESS — Thing 1</h2>';
@@ -2760,7 +2827,8 @@ function printReport() {
   h += '<h2 style="border:0;padding:0;margin:0 0 4px">RECONCILIATION</h2>';
   h += '<div class="field"><b>' + (rec.agree === true ? 'AGREE' : rec.agree === false ? 'DIVERGE' : 'INDETERMINATE') + '</b></div>';
   h += '<div class="field" style="font-size:11px">' + _esc(rec.summary || '') + '</div>';
-  h += '<div class="field" style="font-size:10px;color:#666">primacy: <b>thing1</b> · action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
+  h += '<div class="field" style="font-size:10px;color:#666">masking/alignment check: <b>' + _esc((rec.masking_assessment || 'unassessed').replace(/_/g, ' ')) + '</b></div>';
+  h += '<div class="field" style="font-size:10px;color:#666">primacy: <b>thing1</b> · Thing 2 trade weight: <b>0</b> · action authority: <b>' + _esc(rec.action_authority) + '</b></div>';
   h += '</div>';
 
   // Input presence

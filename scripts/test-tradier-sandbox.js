@@ -97,6 +97,7 @@ async function main() {
       if (String(url).indexOf('/orders?includeTags=true') !== -1) return response(200, { orders: { order: { id: 9, symbol: 'SPY', side: 'sell', quantity: 1, remaining_quantity: 1, status: 'open', tag: 'limen-b14-test' } } });
       if (String(url).endsWith('/orders/77?includeTags=true')) return response(200, { order: { id: 77, symbol: 'SPY', side: 'buy', quantity: 1, exec_quantity: 1, avg_fill_price: 499, status: 'filled', tag: 'limen-b14-order' } });
       if (String(url).endsWith('/orders/77') && options.method === 'DELETE') return response(200, { order: { id: 77, status: 'ok' } });
+      if (String(url).indexOf('/markets/history?') !== -1) return response(200, { history: { day: [{ date: '2026-08-24', open: 490, high: 501, low: 489, close: 500, volume: 10 }] } });
       if (String(url).endsWith('/orders') && options.method === 'POST') {
         var form = new URLSearchParams(options.body);
         if (form.get('preview') === 'true') return response(200, { order: { status: 'ok', result: true, cost: 500, order_cost: 500 } });
@@ -117,6 +118,8 @@ async function main() {
     assert('cancel uses DELETE with no body against the sandbox order id', canceled.id === 77 && cancelCall.options.method === 'DELETE' && !cancelCall.options.body && /\/orders\/77$/.test(cancelCall.url));
     var tagged = await tradier.findOrderByTag('limen-b14-test');
     assert('a missing receipt can be recovered by command tag', tagged && tagged.id === '9' && tagged.tag === 'limen-b14-test');
+    var historical = await tradier.history('SPY', { interval: 'daily', start: '2026-08-01', end: '2026-08-26' });
+    assert('official historical prices normalize with source identity and bounded dates', historical.provider === 'tradier' && historical.symbol === 'SPY' && historical.rows[0].close === 500 && /symbol=SPY/.test(calls[calls.length - 1].url));
     assert('every write-capable request remains pinned to sandbox', calls.every(function (call) { return call.url.indexOf('https://sandbox.tradier.com/v1/') === 0; }));
 
     global.fetch = async function (url) {

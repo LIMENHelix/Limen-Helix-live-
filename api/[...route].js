@@ -288,6 +288,7 @@ const HANDLERS = {
   'finance-sandbox-commissioning': require('../handlers/finance-sandbox-commissioning'),
   'finance-paper-cycle': require('../handlers/finance-paper-cycle'),
   'finance-trade-decision': require('../handlers/finance-trade-decision'),
+  'finance-position-owner': require('../handlers/finance-position-owner'),
   'pattern-proposal': require('../handlers/pattern-proposal'),
   'print-from-pattern': require('../handlers/print-from-pattern'),
   'redis-diag': require('../handlers/redis-diag'),
