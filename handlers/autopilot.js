@@ -197,7 +197,7 @@ async function runTick(cfg) {
   // NOTE: no AI kill-switch gate here — the autopilot sends TEMPLATE emails, not
   // AI output. The autopilot's own armed/mode/disarm switches are its stop. (If
   // AI-drafted copy is added later, gate that AI call, not the send.)
-  var scanned = 0, executed = 0, queued = 0, errors = 0;
+  var scanned = 0, executed = 0, queued = 0, errors = 0, authorityReady = 0, authorityHeld = 0, byDomain = {};
   var queue = [];
   var cap = Math.max(1, Math.min(cfg.maxPerTick || 25, 200));
   for (var i = 0; i < ids.length && scanned < cap; i++) {
@@ -206,6 +206,9 @@ async function runTick(cfg) {
     if (TERMINAL[state.status]) continue;
     scanned++;
     var gate = domainGate(state);
+    var measuredDomain = String(state.domain || 'unassigned').toLowerCase();
+    byDomain[measuredDomain] = (byDomain[measuredDomain] || 0) + 1;
+    if (gate.allow) authorityReady++; else authorityHeld++;
     var action = nextAction(state, cadence, plays, now);
     if (!action || !action.due) continue;
     var canAuto = gate.allow && cfg.mode === 'control' && cfg.autoEmail && action.autoExecutable && action.channel && /email/.test(action.channel) && emailReady && state.email;
@@ -240,6 +243,7 @@ async function runTick(cfg) {
   var lastrun = {
     ts: new Date().toISOString(), scanned: scanned, executed: executed, queued: queued,
     errors: errors, emailReady: emailReady, mode: cfg.mode,
+    authorityReady: authorityReady, authorityHeld: authorityHeld, byDomain: byDomain,
     domainAuthority: 'intelligence/autopilot action-specific B10+B14'
   };
   await db.set(K.queue, queue.slice(0, 300));
