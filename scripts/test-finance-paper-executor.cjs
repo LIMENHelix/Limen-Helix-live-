@@ -48,7 +48,7 @@ function bridge(options) {
         preview: {
           previewId: 'preview-1',
           confirmationSummary: 'APPROVE EXACT',
-          intent: { actionId: options.previewActionId || 'cand_finance_open_sandbox_long' }
+          intent: { actionId: options.previewActionId || 'selection-1' }
         }
       };
     }
@@ -108,7 +108,7 @@ function b14() {
   assert.equal(result.orderPlaced, true);
   assert.equal(result.liveMoney, false);
   assert.equal(result.claim.orderId, 'order-1');
-  assert.equal(store.values.has('autofire_learning_cause:cand_finance_open_sandbox_long'), true, 'Finance action cause must persist before paper dispatch');
+  assert.equal(store.values.has('autofire_learning_cause:selection-1'), true, 'Finance action cause must persist before paper dispatch');
   assert.equal(store.logs[0].type, 'COMMAND_RECEIPTED');
 
   const priorLogs = store.logs.length;
