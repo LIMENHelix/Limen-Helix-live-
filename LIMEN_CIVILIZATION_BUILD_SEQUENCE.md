@@ -3756,3 +3756,16 @@ capitalization, contribution, sale, levy, expense, transfer, refund, dispute,
 and reconciliation adjustment requires an idempotent durable receipt. Outbound
 money movement remains downstream of the appropriate domain budget, reserve,
 risk, observer, recovery, and account-backing checks.
+
+Implementation tranche 1 on 2026-08-27 adds a strict-durable, USD-only,
+double-entry treasury substrate with twenty separate product-domain projections.
+Its typed receipt geometries cover contribution, capitalization, captured and
+settled sale, expense, inter-domain transfer, reserve, commitment, refund,
+dispute, and explicit reconciliation adjustment. It rejects idempotency
+conflicts and postings that would overdraw a protected domain cash or obligation
+bucket. A protected GET-only operator route can read all projections or one
+named domain; it exposes no mutation surface. The contract hard-codes
+`outboundMoneyAuthorized:false`. Stripe balance reconciliation, atomic spend
+reservation, and an authorized outbound payment adapter remain explicit
+blockers. No webhook has been connected to this ledger and no external balance
+or money movement is claimed by this tranche.
