@@ -45,6 +45,7 @@ var motorAuthorization = require('../lib/product-domain-motor-authorization');
 var researchDevelopmentalAuthority = require('../lib/research-paper-developmental-authority');
 var civilizationValve = require('../lib/civilization-valve-control');
 var civilizationValveRegistry = require('../lib/civilization-valve-registry');
+var civilizationAdapterGuard = require('../lib/civilization-adapter-guard');
 var financeB14Bridge = require('../lib/finance-b14-bridge');
 var tradierSandbox = require('../lib/tradier-sandbox');
 var domainResearchCandidate = require('../lib/domain-research-candidate');
@@ -599,6 +600,8 @@ async function _fireOne(entry) {
   // Call expand-artifact-claude (single-call only — investment / research)
   var expandResp;
   try {
+    var adapterCheckpoint = await civilizationAdapterGuard.checkpoint(
+      efferenceStore, runtimeValveId, 'paid-artifact-generation-provider');
     var r = await fetch(BASE + '/api/expand-artifact-claude', {
       method: 'POST',
       headers: _internalHeaders(),
@@ -629,7 +632,10 @@ async function _fireOne(entry) {
     expandResp = await r.json();
   } catch (e) {
     var errorCode = e.cause && e.cause.code ? e.cause.code : 'unknown';
-    return finish({ skipped: false, ok: false, billableAttempt: true, cik: entry.cik, lane: lane, reason: 'expand-error', detail: String(e.message), errorCode: errorCode });
+    var inhibited = e && e.code === civilizationAdapterGuard.INHIBITED;
+    return finish({ skipped: false, ok: false, billableAttempt: !inhibited, providerCalled: !inhibited,
+      cik: entry.cik, lane: lane, reason: inhibited ? 'external-adapter-inhibited' : 'expand-error',
+      detail: String(e.message), errorCode: inhibited ? e.code : errorCode });
   }
 
   if (!expandResp || !expandResp.ok) {
@@ -702,6 +708,7 @@ async function _fireOne(entry) {
             productMotorReceiptId: productMotorAuthorization ? productMotorAuthorization.receiptId : null,
             productMotorAuthorizationMode: productMotorAuthorization
               ? (productMotorAuthorization.authorizationMode || 'mature-production-capability') : null,
+            adapterCheckpoint: adapterCheckpoint,
             efferenceCopyId: efferenceCopy.id,
             actionId: efferenceCopy.actionId
           }
@@ -726,6 +733,7 @@ async function _fireOne(entry) {
   return finish({
     skipped: false, ok: true, billableAttempt: true, cik: entry.cik, lane: lane,
     outputId: persistResp.outputId,
+    adapterCheckpoint: adapterCheckpoint,
     wordCount: wordCount,
     viewerUrl: 'https://limenhelix.com/helix-artifact?id=' + persistResp.outputId
   });
