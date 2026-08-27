@@ -63,7 +63,16 @@ function developmental(authorized) {
     : { authorized: false, reason: 'zero-effect-sandbox-rollback-proof-missing' }; } };
 }
 function b14() {
-  return { async submitApproved(_store, _broker, input) { assert.deepEqual(input, { previewId: 'preview-1', confirmation: 'APPROVE EXACT' }); return { commandId: 'command-1', receipt: { orderId: 'order-1' }, rollback: { status: 'AVAILABLE' } }; } };
+  return { async submitApproved(_store, _broker, input) {
+    assert.equal(input.previewId, 'preview-1'); assert.equal(input.confirmation, 'APPROVE EXACT');
+    assert.equal(input.approval.mode, 'domain-autonomous'); assert.equal(input.approval.actor, 'finance-brain');
+    assert.equal(input.approval.ownerDomain, 'finance');
+    const expectedMode = input.approval.authorizationReceiptId === 'developmental-1'
+      ? 'developmental-paper-commissioning' : 'mature-production-capability';
+    assert.ok(input.approval.authorizationReceiptId === 'developmental-1' || input.approval.authorizationReceiptId === 'motor-1');
+    assert.equal(input.approval.authorizationMode, expectedMode);
+    return { commandId: 'command-1', receipt: { orderId: 'order-1' }, rollback: { status: 'AVAILABLE' } };
+  } };
 }
 
 (async function () {

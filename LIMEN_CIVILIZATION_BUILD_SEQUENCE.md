@@ -3577,3 +3577,27 @@ Thing 2 remains excluded from selection and zero-weight in post-decision
 reconciliation. This makes resolved Finance outcomes causally available to
 future entry thresholding instead of merely storing learning beside a bypassed
 selector.
+
+### Sovereign B14 authority provenance — implemented 2026-08-26
+
+The Tradier sandbox transport previously labeled every durable command as
+approved by an operator even when a separately authorized Finance, Energy,
+Economy, or Technology brain had dispatched the action. That was false
+provenance and made domain sovereignty impossible to audit.
+
+Every B14 submit and cancellation now requires an explicit authority envelope
+before account remeasurement or broker contact. The envelope records the mode
+(`operator`, `domain-autonomous`, `commissioning`, or `recovery`), actor, owning
+domain, durable authorization receipt ID, and authorization mode. Its owner must
+match the owner persisted in the exact intent. Missing authority or cross-domain
+authority fails closed before dispatch. Finance entries/exits, the three other
+investment brains, their recovery paths, and Finance zero-effect commissioning
+all supply their own receipts; the authenticated administrative route identifies
+its authority as human/operator rather than impersonating a domain brain.
+
+Focused transport verification measured `53/53` checks, including absence and
+owner-mismatch refusal without a broker call, pre-dispatch authority readback,
+and recovery authority persistence before cancellation. The affected Finance,
+Energy, Economy, and Technology integration tests also pass. This fixes receipt
+truthfulness; it does not switch on live money or grant one domain authority over
+another.
