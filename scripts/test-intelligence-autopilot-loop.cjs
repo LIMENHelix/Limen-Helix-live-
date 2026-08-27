@@ -8,6 +8,9 @@ function motor(id) { return { authorize: async function () { return { authorized
   assert.equal(Autopilot.domainGate({ domain: 'intelligence', consent: true }).allow, true);
   assert.equal(Autopilot.domainGate({ domain: 'energy', consent: true }).reason, 'owning-domain-autonomous-outreach-not-commissioned');
   assert.equal(Autopilot.domainGate({ domain: 'intelligence', consent: false }).reason, 'explicit-contact-consent-required');
+  var commissioningAction = Autopilot.nextAction({ rung: 'commissioning', domain: 'intelligence', consent: true, status: 'new' }, [], [], now);
+  assert.equal(commissioningAction.kind, 'commissioning'); assert.equal(commissioningAction.autoExecutable, true);
+  assert.match(Autopilot.emailFor(commissioningAction, {}).body, /No prospect outreach/);
   assert.equal(Decision.candidate({ leadId: 'no-consent', email: 'lead@example.com', domain: 'intelligence' }, action, mail), null);
   assert.equal(Decision.candidate({ leadId: 'wrong-owner', email: 'lead@example.com', domain: 'energy', consent: true }, action, mail), null);
   var state = { leadId: 'lead-secret', email: 'lead@example.com', domain: 'intelligence', consent: true };

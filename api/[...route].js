@@ -153,6 +153,7 @@ const HANDLERS = {
   'law-automail-recovery': require('../handlers/law-automail-recovery'),
   'intelligence-autopilot-decision-status': require('../handlers/intelligence-autopilot-decision-status'),
   'intelligence-autopilot-outcome-observer': require('../handlers/intelligence-autopilot-outcome-observer'),
+  'intelligence-autopilot-capability': require('../handlers/intelligence-autopilot-capability'),
   'intelligence-autopilot-recovery': require('../handlers/intelligence-autopilot-recovery'),
   'subscribers': require('../handlers/subscribers'),
   'hero-image': require('../handlers/hero-image'),

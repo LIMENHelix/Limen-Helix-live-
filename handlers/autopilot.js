@@ -94,6 +94,13 @@ function bestPlay(plays, transitionId, dealSize, trigger) {
 function nextAction(state, cadence, plays, now) {
   var st = state.status || 'new';
   if (TERMINAL[st]) return null;
+  // An internally owned commissioning identity exercises the motor itself; it
+  // is not a prospect and must not be forced through a fabricated sales stage
+  // or wait twelve days for the ordinary outreach cadence to reach email.
+  if ((state.tier === 'commissioning' || state.rung === 'commissioning') && state.domain === 'intelligence' && state.consent === true) {
+    return { kind: 'commissioning', stage: 'motor-proof', transition: 'internal>motor-proof', channel: 'email',
+      label: 'Owned-destination Intelligence motor commissioning', due: true, autoExecutable: true, play: null };
+  }
   var seg = { dealSize: state.dealSize || 'medium', trigger: state.trigger || 'trust' };
   var start = Date.parse(state.createdTs || state.ts || 0) || now;
 
@@ -150,6 +157,9 @@ function nextAction(state, cadence, plays, now) {
 function emailFor(action, state) {
   var first = String(state.name || '').trim().split(/\s+/)[0] || 'there';
   var c = (action.play && action.play.copy) || {};
+  if (action.kind === 'commissioning') {
+    return { subject: 'LIMEN Intelligence motor commissioning', body: 'Internal LIMEN owned-destination commissioning. No prospect outreach, offer, or sales-stage transition is authorized by this message.' };
+  }
   if (action.kind === 'confirm') {
     return { subject: 'Confirming our appointment', body: 'Hi ' + first + ',\n\nJust confirming our upcoming appointment. Reply here if you need to adjust the time.\n\nTalk soon.' };
   }
@@ -197,7 +207,7 @@ async function runTick(cfg) {
   // NOTE: no AI kill-switch gate here — the autopilot sends TEMPLATE emails, not
   // AI output. The autopilot's own armed/mode/disarm switches are its stop. (If
   // AI-drafted copy is added later, gate that AI call, not the send.)
-  var scanned = 0, executed = 0, queued = 0, errors = 0, authorityReady = 0, authorityHeld = 0, byDomain = {};
+  var scanned = 0, executed = 0, commissioningExecuted = 0, queued = 0, errors = 0, authorityReady = 0, authorityHeld = 0, byDomain = {};
   var queue = [];
   var cap = Math.max(1, Math.min(cfg.maxPerTick || 25, 200));
   for (var i = 0; i < ids.length && scanned < cap; i++) {
@@ -223,7 +233,10 @@ async function runTick(cfg) {
         transport: { send: function (email, subject, body, options) { return send.sendToLead(email, subject, body, options); } } })
         : { status: 'HELD', reason: decision.reason, blockers: decision.blockers || [], providerCalls: 0 };
       if (execution.status === 'ACCEPTED' || (execution.replayed && execution.accepted === 1)) {
-        await applyExecutedEmail(state, action, stateKey);
+        // Commissioning proves the motor against an owned destination. It must
+        // not fabricate a prospect touch or advance the sales funnel.
+        if (execution.commissioningOnly === true) commissioningExecuted++;
+        else await applyExecutedEmail(state, action, stateKey);
         executed++;
         continue;
       }
@@ -242,7 +255,7 @@ async function runTick(cfg) {
   }
   var lastrun = {
     ts: new Date().toISOString(), scanned: scanned, executed: executed, queued: queued,
-    errors: errors, emailReady: emailReady, mode: cfg.mode,
+    errors: errors, emailReady: emailReady, mode: cfg.mode, commissioningExecuted: commissioningExecuted,
     authorityReady: authorityReady, authorityHeld: authorityHeld, byDomain: byDomain,
     domainAuthority: 'intelligence/autopilot action-specific B10+B14'
   };
@@ -347,3 +360,5 @@ module.exports = async function handler(req, res) {
 // it without this handler being changed or redeployed.
 module.exports = require('../lib/heartbeat').guard('autopilot', module.exports);
 module.exports.domainGate = domainGate;
+module.exports.nextAction = nextAction;
+module.exports.emailFor = emailFor;
