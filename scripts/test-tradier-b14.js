@@ -1,6 +1,7 @@
 'use strict';
 
 var b14 = require('../lib/tradier-b14');
+var ValveControl = require('../lib/civilization-valve-control.js');
 
 var checks = 0;
 function assert(name, condition) {
@@ -175,6 +176,20 @@ async function main() {
     return b14.submitApproved(authorityStore, authorityBroker, wrongOwner);
   });
   assert('a different domain cannot authorize the persisted Finance intent', mismatchedAuthority.code === 'TRADIER_B14_APPROVAL_OWNER_MISMATCH' && authorityBroker.calls.indexOf('place') === -1);
+
+  var inhibitedStore = memoryStore();
+  var inhibitedBroker = broker();
+  var inhibitedPreview = await b14.createPreview(inhibitedStore, inhibitedBroker, normalized);
+  await ValveControl.set(ValveControl.GLOBAL_ID, 'CLOSED', 'test-operator', inhibitedStore);
+  var inhibited = await rejected(function () {
+    return b14.submitApproved(inhibitedStore, inhibitedBroker, approved(inhibitedPreview));
+  });
+  var inhibitedCommand = Array.from(inhibitedStore.values.entries()).find(function (entry) {
+    return entry[0].indexOf('tradier_b14_command:') === 0;
+  });
+  assert('NUKE closing after preview inhibits the last-moment broker adapter',
+    inhibited.code === 'CIVILIZATION_ADAPTER_INHIBITED' && inhibitedBroker.calls.indexOf('place') === -1 &&
+    inhibitedCommand && inhibitedCommand[1].status === 'DISPATCH_INHIBITED' && inhibitedCommand[1].providerCalled === false);
 
   api.onPlace = function () {
     var persisted = Array.from(store.values.entries()).find(function (entry) { return entry[0].indexOf('tradier_b14_command:') === 0; });

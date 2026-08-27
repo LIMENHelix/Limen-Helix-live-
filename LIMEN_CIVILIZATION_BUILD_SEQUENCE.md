@@ -1,10 +1,14 @@
 # LIMEN Civilization Build Sequence
 
 **Status:** authoritative execution plan  
-**Scope:** conceptual P0–P10 phase language, neurology↔business homology, brain-v2, Civilization/Master Brain wiring, research/investment autonomy, and later domain expansion  
+**Scope:** conceptual P0–P10 phase language, neurology↔business homology, brain-v2, reciprocal Civilization/connectome wiring, research/investment autonomy, and later domain expansion
 **Created:** 2026-08-23  
 
 This document is the leading source for sequencing the work. Jobs are completed in order. A later job may not silently bypass an earlier gate.
+
+## Architectural clarification — no homunculus
+
+The owner-authoritative [`CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md`](CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md) governs the Civilization surface and bridge architecture. There is no causal “Master Brain” processing tier above the connectome. The 20 sovereign domain brains and connectome form a reciprocal system; memory is a continuously read/written lateral substrate; and the Civilization Briefing/observer is a side-channel operator readout, not a selector or executor. Older “Master Brain” names are compatibility or historical language only and grant no authority. A revised render is not considered verified until it passes the four visual acceptance checks in that contract.
 
 ## Operating rule
 
@@ -15,7 +19,7 @@ Evidence gates apply to a different layer: software behavior, source provenance,
 ## Source hierarchy
 
 1. **Runtime/code truth:** current repository behavior and production measurements.
-2. **Engineering specification:** [`brain-v2/SPEC.md`](brain-v2/SPEC.md), [`brain-v2/MASTER_PROMPT.md`](brain-v2/MASTER_PROMPT.md), tests, and deployment invariants.
+2. **Engineering specification:** [`CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md`](CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md), [`brain-v2/SPEC.md`](brain-v2/SPEC.md), [`brain-v2/MASTER_PROMPT.md`](brain-v2/MASTER_PROMPT.md), tests, and deployment invariants. The no-homunculus contract supersedes stale central-controller wording in older specifications.
 3. **Conceptual neuroscience spine:** [Verified Studies P0–P10](https://docs.google.com/document/d/1Q_isRhFJZ42l-Jjk01rHhTn-sRBD5Xz3jMe0qR2w9vI/edit) and [Neurology Reference](https://docs.google.com/document/d/17tRsmvxU5tavA6W6nfwQua3SnY9W2RN0W4XNDfPvafo/edit).
 4. **Business and product intent:** [LIMEN Helix Business Overview](https://docs.google.com/document/d/1X9LBk7LtftaEGpBUXu6TrGoZKU9djqAS/edit).
 5. **Integration findings:** [Civilization→Master Brain Bridge Audit](https://docs.google.com/document/d/18YqepeHJHxFiI_9B723y2bf2mIRK03MhxwluK3872hU/edit) and the [System Integration Audit](https://docs.google.com/document/d/1t1t5M7jwiuv4Oi_s-KKsqx4fpf0rrl6I9ppMvnUtYcA/edit).
