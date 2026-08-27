@@ -16,6 +16,7 @@ var financeRevenue = source('lib/finance-revenue-fulfillment.js');
 var image = source('handlers/hero-image.js');
 var imageExecutor = source('lib/culture-hero-executor.js');
 var autopilot = source('handlers/autopilot.js');
+var intelligenceDecision = source('lib/intelligence-autopilot-decision.js');
 var intelligenceExecutor = source('lib/intelligence-autopilot-executor.js');
 var automail = source('handlers/homestead-automail.js');
 var lawExecutor = source('lib/law-automail-executor.js');
@@ -76,6 +77,10 @@ console.log('outward domain motor gates: social, subscriber email, and hero imag
 
 assert(autopilot.includes("require('../lib/intelligence-autopilot-decision')"));
 assert(autopilot.includes("require('../lib/intelligence-autopilot-executor')"));
+assert(autopilot.includes("String(state.domain || '').toLowerCase() !== 'intelligence'"));
+assert(autopilot.includes("state.consent !== true"));
+assert(intelligenceDecision.includes("domain !== 'intelligence'"));
+assert(intelligenceDecision.includes('state.consent !== true'));
 assert(autopilot.indexOf('intelligenceDecision.decide(motorStore, candidate') < autopilot.indexOf('intelligenceExecutor.execute({'));
 var intelligenceGateAt = intelligenceExecutor.indexOf("authorize(store, 'intelligence', 'autopilot'");
 var intelligenceEffectAt = intelligenceExecutor.indexOf('input.transport.send(v.email', intelligenceGateAt);

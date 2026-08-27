@@ -3601,3 +3601,28 @@ and recovery authority persistence before cancellation. The affected Finance,
 Energy, Economy, and Technology integration tests also pass. This fixes receipt
 truthfulness; it does not switch on live money or grant one domain authority over
 another.
+
+### CRM autonomous-task commissioning boundary — measured and repaired 2026-08-26
+
+A live production read found the sales autopilot armed in `recommend` mode. Its
+latest natural tick scanned 25 of 98 CRM worklist identities, selected and
+queued 25 next actions, executed zero outward actions, and recorded zero errors.
+This proves a live autonomous sensing/selection/queue cycle, not autonomous
+external outreach.
+
+The trial also exposed two blockers that must precede `control` mode. Public
+capture persisted consent on the canonical Lead but did not carry it into the
+CRM motor state, and the generic autopilot's domain gate was a pass-through even
+though its only commissioned B10/executor/observer/recovery chain belongs to the
+Intelligence product brain. Enabling that path globally would let Intelligence
+borrow another domain's authority and could contact an identity without durable
+consent evidence.
+
+New captures and CRM loads now carry explicit consent into the identity-bound
+motor state. The commissioned executor can construct a send candidate only for
+an explicitly consenting Intelligence-domain lead. Other domains remain visible
+in recommendations, but outward email is marked authority-held until that
+domain receives its own local outreach decision, executor, observer, recovery,
+budget, and switch. Existing states with absent consent remain inhibited. This
+does not send an email or fabricate a sales-stage transition; it establishes the
+safe boundary for a one-lead Intelligence commissioning trial.

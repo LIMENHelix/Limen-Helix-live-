@@ -14,7 +14,7 @@ DB.prototype.set = async function (k, v) { this.map.set(k, structuredClone(v)); 
   var lead = await db.get('leadgen:lead:' + captured.leadId);
   assert.equal(lead.email, 'alex@example.org'); assert.equal(lead.domain, 'finance'); assert(lead.offers.includes('finance:p2'));
   var state = await db.get('crm:state:' + captured.leadId);
-  assert.equal(state.status, 'new'); assert.equal(state.name, 'Alex Buyer');
+  assert.equal(state.status, 'new'); assert.equal(state.name, 'Alex Buyer'); assert.equal(state.consent, true);
   assert.deepEqual(await db.get('crm:worklist'), [captured.leadId]);
   assert.equal(await db.get('sales:agg'), null);
 
