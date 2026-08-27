@@ -24,7 +24,11 @@ function context() {
     currentQuote: { symbol: 'MS', last: 215, bid: 214.9, ask: 215.1 },
     marketPerformance: { target: { returnsPct: { oneSession: 1 } }, benchmark: {}, targetMinusBenchmarkPct: {} },
     entry: { openingCommandId: 'open-1', decision: { candidateId: 'candidate-1' } },
-    currentIssuerEvidence: [], currentReportingEvidence: [], companyNetworkStress: { value: 0.4 },
+    currentIssuerEvidence: [{
+      title: 'Morgan Stanley current issuer update', publisher: 'SEC', feedName: 'SEC EDGAR',
+      sourceUpdatedAt: '2026-08-26T16:30:00Z', recordedAt: '2026-08-26T16:31:00Z',
+      sourceIdentity: { kind: 'headline-title', value: 'finance:SEC:MS:1' }
+    }], currentReportingEvidence: [], companyNetworkStress: { value: 0.4 },
     financeBrain: { packetId: 'finance:1' }, kernelContext: { status: 'UNESTABLISHED', usedAsContext: false },
     helixReport: {
       thing0Eligibility: { qualifiedForValidatedThing1: false },
@@ -100,7 +104,10 @@ function proposal(action) {
   assert.equal(result.orderPlaced, true);
   assert.equal(result.receipt.orderId, 'paper-order-1');
   assert.equal(result.receipt.selection.authority.thing2DecisionWeight, 0);
-  assert.equal(result.receipt.postDecisionReconciliation.sequence, 'thing1_result_then_thing2_snapshot');
+  assert.equal(result.receipt.postDecisionReconciliation.sequence, 'current_exact_issuer_news_then_thing1_result_then_thing2_snapshot');
+  assert.equal(result.receipt.postDecisionReconciliation.currentNewsFirst.status, 'CURRENT_EXACT_ISSUER_NEWS_PRESENT');
+  assert.equal(result.receipt.postDecisionReconciliation.currentNewsFirst.observations[0].title, 'Morgan Stanley current issuer update');
+  assert.equal(result.receipt.postDecisionReconciliation.maskingConfirmation, 'NO_POSSIBLE_MASKING_FLAG_TO_CONFIRM');
   assert.equal(result.receipt.postDecisionReconciliation.decisionWeight, 0);
   assert.equal(previewIntent.actionId, result.receipt.selection.id);
   assert.equal(previewIntent.decisionContext.criticCandidateId, result.receipt.selection.criticDecision.released.candidateId);

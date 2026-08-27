@@ -38,6 +38,11 @@ assert.deepEqual(confirmed.context.sourceDiversity.feedLabels, ['SEC EDGAR']);
 assert.equal(confirmed.context.sourceDiversity.publisherIndependence, 'UNASSESSED');
 assert.equal(confirmed.context.interpretationBoundary.directionalClaim, false);
 assert.equal(confirmed.context.interpretationBoundary.thing2Used, false);
+assert.equal(confirmed.context.currentNewsFirst.status, 'CURRENT_EXACT_ISSUER_NEWS_PRESENT');
+assert.equal(confirmed.context.currentNewsFirst.company.ticker, 'EX');
+assert.equal(confirmed.context.currentNewsFirst.observations[0].title, 'Example issuer material filing');
+assert.equal(confirmed.context.currentNewsFirst.sequence, 'CURRENT_EXACT_ISSUER_NEWS_BEFORE_THING2_MASKING_CONTEXT');
+assert.equal(confirmed.context.currentNewsFirst.thing2MaskingConfirmation, 'DEFERRED_UNTIL_AFTER_ZERO_WEIGHT_THING2_RECONCILIATION');
 assert.equal(Confirmation.validate(confirmed, packetId, candidate.company, now).ok, true);
 
 const missingRef = JSON.parse(JSON.stringify(candidate));

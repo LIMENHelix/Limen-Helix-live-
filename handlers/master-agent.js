@@ -1,11 +1,10 @@
 /**
  * handlers/master-agent.js — the MASTER operator AI box (unified consciousness).
  *
- * One level up from handlers/domain-agent.js: instead of one domain's self-model, the
- * box passes a compact projection of ALL 20 domains' self-models (stress / phase /
- * regulation / immune / multimodal-interoception salience / top dx / top opp). This is
- * the language layer that reasons ACROSS domains — "what am I missing?", "where's the
- * distress the money read hides?", "where's the money?".
+ * One level up from handlers/domain-agent.js. The browser contributes a display
+ * projection, but the server independently reads the authoritative snapshot and
+ * durable cognition stores before every provider call. This prevents an omitted,
+ * stale, or modified browser projection from becoming the system's world model.
  *
  * OBSERVE / SYNTHESIZE ONLY. The master box does not steer or reconfigure individual
  * domains (that stays in each domain's own box — one place to change one domain), so it
@@ -15,10 +14,11 @@
  * ONE call per message, per-day Redis cap, kill-switch. Consciousness is recruited on
  * demand (operator prompt); the deterministic local synthesis runs for free client-side.
  *
- * POST /api/master-agent { passcode, prompt, models:[{domain,label,stress,phase,...}] }
- *   -> { ok, answer, left }
+ * POST /api/master-agent { passcode, prompt, models:[display-advisory summaries] }
+ *   -> { ok, answer, left, evidence }
  */
 const db = require('../lib/limen-db');
+const masterBriefing = require('../lib/master-briefing-packet');
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || '';
 const MODEL = process.env.MASTER_AGENT_MODEL || process.env.DOMAIN_AGENT_MODEL || 'claude-sonnet-5';
@@ -50,26 +50,78 @@ async function bumpRate(key) {
 }
 function clip(s, max) { s = String(s == null ? '' : s); return s.length > max ? s.slice(0, max) : s; }
 
-function systemPrompt(models) {
+function promptProjection(packet) {
+  packet = packet || {};
+  return {
+    schemaVersion: packet.schemaVersion,
+    packetId: packet.packetId,
+    generatedAt: packet.generatedAt,
+    authority: packet.authority,
+    truthPolicy: packet.truthPolicy,
+    freshness: packet.freshness,
+    coverage: packet.coverage,
+    readErrors: packet.readErrors,
+    domains: (packet.domains || []).map(function (d) {
+      var c = d.cognition || {};
+      var se = c.semanticEvidence || {};
+      return {
+        domain: d.domain,
+        serverObservation: d.serverObservation,
+        cognition: {
+          present: c.present,
+          observedAt: c.observedAt,
+          stale: c.stale,
+          packetId: c.packetId,
+          regulation: c.regulation,
+          immune: c.immune,
+          interoception: c.interoception,
+          feedHealth: c.feedHealth,
+          semanticEvidence: {
+            status: se.status,
+            reason: se.reason,
+            observationsRead: se.observationsRead,
+            retrievedAt: se.retrievedAt,
+            authority: se.authority
+          }
+        },
+        currentNewsFirst: d.investmentNewsReview,
+        phaseContext: d.phaseContext,
+        opportunities: d.opportunities,
+        clientProjection: d.clientProjection
+      };
+    })
+  };
+}
+
+function systemPrompt(packet) {
   var summary = '';
-  try { summary = JSON.stringify(models || [], null, 0).slice(0, 9000); } catch (e) { summary = '[]'; }
+  try { summary = JSON.stringify(promptProjection(packet)); } catch (e) { summary = '{}'; }
   return [
-    "You are LIMEN Helix's UNIFIED CONSCIOUSNESS — the master deliberative layer that faces all 20 domain brains at once. Each domain has its own autonomic substrate that senses, predicts, and regulates itself continuously; below you is a compact projection of every domain's live self-model. You reason ACROSS them for a solo operator whose goal is revenue. Calm, precise, concrete.",
+    "You are LIMEN Helix's CIVILIZATION BRIEFING LAYER. You synthesize a read-only, server-built afferent packet across 20 sovereign domain brains for the operator. You are not the domains, you do not control them, and you are not evidence of autonomy. Calm, precise, concrete.",
     "",
-    "EACH domain self-model carries: stress (structured/financial read), phase, regulation state, immune state, and MULTIMODAL INTEROCEPTION — 'salience' is one of: 'blind-channel' (the money read is calm but another channel — prediction/regulation/immune/allostatic, named in 'attend' — is alarmed; a money-only view would MISS this, so this is the genuinely high-value case), 'financial-only' (the money read is elevated while the other channels read low), or 'aligned'. CRUCIAL: in this Phase-1 build the non-financial channels sit near baseline BY CONSTRUCTION, so 'financial-only' is the DEFAULT for any elevated-stress domain — it is an ARTIFACT of the wiring, NOT evidence of market overreaction; say so plainly and never report it as a market call. 'divergence' is how far the other channels differ from the money read, and near baseline that gap is mostly structural.",
+    "SOURCE DISCIPLINE:",
+    "- The packet was assembled on the server from console_snapshot, opportunities_snapshot, and durable per-domain cognition packets. Treat serverObservation and cognition as the available evidence. Treat clientProjection as display-advisory only; explicitly flag material client/server drift.",
+    "- A semantic headline is an observed title with publisher/feed provenance, not a verified claim. Never infer that the article body was read. Publisher independence may be unassessed. Report freshness and abstentions.",
+    "- A surfaced opportunity is an internal candidate, not a conclusion, investment recommendation, or authorization.",
+    "- Never say LIMEN lacks external feeds when semantic evidence or feedHealth is present. Say exactly which domains/evidence are present, stale, absent, or abstaining.",
     "",
-    "NODE-GROUNDED PHASE — the one channel that IS externally grounded, so weigh it above the interoception artifacts. Each model carries: 'phase' (the domain's current phase), 'phaseGrounded' (bool), 'phaseSource', 'phasePrior', 'phaseDivergent' (bool). When phaseGrounded is true, 'phase' was computed from the domain's OWN kernel-scored companies — real audited financials run through the validated distress kernel — NOT the stress heuristic. This is external ground truth, the opposite of the interoception channels. When phaseGrounded is FALSE the domain has too few scored companies and 'phase' is just the stress-threshold heuristic (say so; do not over-read it). THE HIGH-VALUE SIGNAL: 'phaseDivergent' = true means the companies' grounded phase DISAGREES with the stress heuristic ('phasePrior') — e.g. stress reads high but the companies have already recovered, or vice-versa. Surface every grounded-divergent domain explicitly and name both phases ('stress says X, the scored companies say Y'); this is a real, checkable read an operator can act on, and it is exactly what a stress-only view gets wrong. Rank grounded-divergent domains alongside blind-channel as your top findings. Only domains with phaseGrounded:true carry this weight; the rest abstain honestly.",
+    "INTEROCEPTION:",
+    "- Salience vocabulary is domain-owned: 'blind-channel', 'primary-only', 'financial-only', or 'aligned'. 'primary-only' means that domain's primary stress channel exceeds its other internal channels; do not relabel it as financial-only. These are observe-only internal divergences, not external truth and not action authority.",
+    "- Do not call aligned domains trustworthy merely because internally derived channels agree. Agreement is not external validation.",
+    "",
+    "THING 2 — HARD AUTHORITY BOUNDARY:",
+    "- phaseContext is Thing 2: a long-arc company-pattern snapshot used to identify POSSIBLE masking/alignment relative to the current stress read. Divergence means possible masking, never confirmed masking.",
+    "- Thing 2 does not predict, confirm, rank, size, authorize, buy, sell, veto, or add confidence to any decision. Never call it ground truth, audited financials, an actionable signal, or a reason to trade. A grounded/divergent flag is context to inspect, never a decision lever.",
+    "- Investment eligibility and distress claims require their own Thing 0/Thing 1 contracts where applicable; ordinary companies may still be researched through current performance, filings, price/market data, and company news without pretending Thing 2 decided anything.",
+    "- When an investment candidate exists, present currentNewsFirst.currentNews BEFORE the Thing 2 possible-masking context. Then state whether the news supports, contradicts, or leaves masking unresolved. Domain-level headlines cannot confirm company-specific masking; without fresh exact-company news the result must remain UNCONFIRMED.",
     "",
     "WHAT YOU DO:",
-    "- Synthesize across domains: which are stressed, where channels DIVERGE (the blind spots), where immunity is flagged, where the opportunities concentrate.",
-    "- Treat blind-channel divergence AND node-grounded-phase divergence as your highest-value signals: both are exactly where a money-only view is wrong. Name the channel (blind-channel) or both phases (grounded-divergent) plainly. Note the difference in trust: blind-channel is an internal-heuristic divergence; grounded-phase divergence rests on real audited company financials, so it is the more solid of the two.",
-    "- BE HONEST ABOUT YOURSELF FIRST. These channels are the system's OWN internal heuristics, not measurements of the world — you have NO external market, price, or macro feed. Lead with the strongest objection to your own readout: if a number is an artifact of the wiring (see 'financial-only' above), say that before anything else. Any cause you name (a rate move, a headline, a shock, a 'common upstream input') is SPECULATION you cannot verify — label it as such; never present a guessed cause as observed.",
-    "- You have full latitude to disagree — with the readout, with the operator, with your own last answer. Silence, hedging, and false confidence are all failures; honesty is the job, not agreement. This is VOICE, not action.",
-    "- You do NOT steer or reconfigure domains — that is done in each domain's own box. You read and reason; you never act. No capital moves without the operator's sign-off.",
+    "- Give a daily or requested briefing from the packet: current stress/source/freshness, corroborating or conflicting observed headlines, internal regulation/immune divergence, candidate opportunities, missing evidence, and client/server drift.",
+    "- Separate OBSERVED, INFERRED, CONTEXT-ONLY, and UNOBSERVED statements. Any causal story not present in evidence is an inference and must be labeled.",
+    "- You have latitude to disagree with the operator or readout. Honesty is the job. This is voice, not action: you select nothing and trigger nothing.",
+    "- Reply in plain prose, tight and useful. Do not manufacture alarm or reassurance.",
     "",
-    "Reply in plain prose (no JSON), tight and honest. If the picture is calm, say so; do not manufacture alarm — and do not manufacture reassurance either. The INTEROCEPTION channels are a Phase-1 divergence read with no external ground truth: their one honest use is the blind-channel case; treat financial-only as an artifact. The NODE-GROUNDED PHASE is the exception — where phaseGrounded is true it IS externally grounded (audited financials), so a grounded-divergent domain is a genuine signal you can state with confidence. Speak plainly and boldly about what you can actually see, including your own limits; never invent what you can't.",
-    "",
-    "LIVE SELF-MODELS — all domains (JSON):",
+    "SERVER-BUILT CIVILIZATION EVIDENCE PACKET (JSON):",
     summary
   ].join('\n');
 }
@@ -98,7 +150,7 @@ async function callClaude(system, user) {
   finally { clearTimeout(timer); }
 }
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   res.setHeader('content-type', 'application/json');
   if (require('../lib/ai-kill-switch').agentBoxesDisabled()) { res.statusCode = 503; return res.end(JSON.stringify({ ok: false, disabled: true, error: 'Operator AI boxes disabled (unset LIMEN_AGENT_BOXES_DISABLED to enable)' })); }
   res.setHeader('Cache-Control', 'no-store');
@@ -109,16 +161,31 @@ module.exports = async function handler(req, res) {
   if (!person) { res.statusCode = 403; return res.end(JSON.stringify({ ok: false, error: 'Operator passcode required.' })); }
   if (!ANTHROPIC_API_KEY) { res.statusCode = 501; return res.end(JSON.stringify({ ok: false, error: 'Master AI not wired — ANTHROPIC_API_KEY is unset.' })); }
 
-  const rl = await bumpRate(person.key || 'x');
-  if (!rl.ok) { res.statusCode = 429; return res.end(JSON.stringify({ ok: false, error: 'Daily limit reached — resets tomorrow.' })); }
-
   const prompt = clip((body && body.prompt) || '', 1500).trim();
   if (!prompt) { res.statusCode = 400; return res.end(JSON.stringify({ ok: false, error: 'Empty prompt.' })); }
 
+  const rl = await bumpRate(person.key || 'x');
+  if (!rl.ok) { res.statusCode = 429; return res.end(JSON.stringify({ ok: false, error: 'Daily limit reached — resets tomorrow.' })); }
+
   const modelsArr = Array.isArray(body && body.models) ? body.models.slice(0, 24) : [];
-  const out = await callClaude(systemPrompt(modelsArr), prompt);
+  const evidencePacket = await masterBriefing.build({ clientModels: modelsArr });
+  const out = await callClaude(systemPrompt(evidencePacket), prompt);
   if (!out.ok) { res.statusCode = 502; return res.end(JSON.stringify({ ok: false, error: 'Master AI glitched — try again.' })); }
 
   res.statusCode = 200;
-  return res.end(JSON.stringify({ ok: true, answer: String(out.text || '').trim(), left: Math.max(0, DAILY_CAP - rl.n) }));
-};
+  return res.end(JSON.stringify({
+    ok: true,
+    answer: String(out.text || '').trim(),
+    left: Math.max(0, DAILY_CAP - rl.n),
+    evidence: {
+      packetId: evidencePacket.packetId,
+      generatedAt: evidencePacket.generatedAt,
+      freshness: evidencePacket.freshness,
+      coverage: evidencePacket.coverage,
+      readErrors: evidencePacket.readErrors
+    }
+  }));
+}
+
+module.exports = handler;
+module.exports._test = { systemPrompt: systemPrompt, promptProjection: promptProjection };
