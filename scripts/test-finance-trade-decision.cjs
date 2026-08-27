@@ -69,6 +69,13 @@ function confirmation(at) {
     confirmedAt: at || '2026-08-25T02:00:00Z',
     context: {
       semanticEvidence: [{ sourceIdentity: evidenceRefs[0].sourceIdentity, recordedAt: '2026-08-25T01:59:00Z', title: 'Issuer update' }],
+      currentNewsFirst: {
+        status: 'CURRENT_EXACT_ISSUER_NEWS_PRESENT',
+        company: clone(admission().candidate.company),
+        observations: [{ sourceIdentity: evidenceRefs[0].sourceIdentity, recordedAt: '2026-08-25T01:59:00Z', title: 'Issuer update' }],
+        sequence: 'CURRENT_EXACT_ISSUER_NEWS_BEFORE_THING2_MASKING_CONTEXT',
+        thing2MaskingConfirmation: 'DEFERRED_UNTIL_AFTER_ZERO_WEIGHT_THING2_RECONCILIATION'
+      },
       marketData: { quotes: [] },
       networkEvidence: [],
       interpretationBoundary: { directionalClaim: false, sentimentClassified: false, thing2Used: false }
@@ -176,7 +183,10 @@ async function seeded() {
   assert.equal(result.receipt.safety.orderPlaced, false);
   assert.equal(result.receipt.feedConfirmation.context.interpretationBoundary.thing2Used, false);
   assert.equal(result.receipt.decisionEvidence.interpretationBoundary.thing2DecisionWeight, 0);
-  assert.equal(result.receipt.postDecisionReconciliation.sequence, 'thing1_result_then_thing2_snapshot');
+  assert.equal(result.receipt.postDecisionReconciliation.sequence, 'current_exact_issuer_news_then_thing1_result_then_thing2_snapshot');
+  assert.equal(result.receipt.postDecisionReconciliation.currentNewsFirst.status, 'CURRENT_EXACT_ISSUER_NEWS_PRESENT');
+  assert.equal(result.receipt.postDecisionReconciliation.currentNewsFirst.observations[0].title, 'Issuer update');
+  assert.equal(result.receipt.postDecisionReconciliation.maskingConfirmation, 'NO_POSSIBLE_MASKING_FLAG_TO_CONFIRM');
   assert.equal(result.receipt.postDecisionReconciliation.decisionWeight, 0);
   assert.equal(result.receipt.postDecisionReconciliation.appliedAfterProposal, true);
   assert.equal(result.receipt.decisionEvidence.marketPerformance.target.observations, 2);
