@@ -61,7 +61,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'energy', policyId: 'energy-resource/1', sandboxLane: 'investments', lanes: ['research', 'investment-advisory', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'energy', contractId: 'energy-motor/1', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'energy-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'energy', contractId: 'energy-motor/1', externalValveId: 'energy:investments', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'energy-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   // Inherit from base

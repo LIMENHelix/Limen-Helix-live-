@@ -31,7 +31,7 @@
   function IndustryBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'industry', label: 'Industry', snapshotKey: 'industry', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'industry', policyId: 'industry-resource/1', sandboxLane: 'crm', lanes: ['vendor-operations', 'commerce', 'investment-advisory'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'industry', contractId: 'industry-motor/1', lane: 'crm', decisionContract: 'relationship-operation-decision/1', budgetId: 'industry-crm-budget/1', receiptClass: 'crm-receipt', outcomeClass: 'stage-transition-or-revenue', rollbackClass: 'revert-close-or-suppress', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'industry', contractId: 'industry-motor/1', externalValveId: 'industry:crm', lane: 'crm', decisionContract: 'relationship-operation-decision/1', budgetId: 'industry-crm-budget/1', receiptClass: 'crm-receipt', outcomeClass: 'stage-transition-or-revenue', rollbackClass: 'revert-close-or-suppress', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   IndustryBrain.prototype = Object.create(Base.prototype);
   IndustryBrain.prototype.constructor = IndustryBrain;

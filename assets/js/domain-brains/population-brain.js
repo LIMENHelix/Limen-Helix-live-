@@ -22,7 +22,7 @@
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'population', label: 'Population', snapshotKey: 'population', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'population', policyId: 'population-resource/1', sandboxLane: 'real-estate', lanes: ['research', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'population', contractId: 'population-motor/1', lane: 'real-estate', decisionContract: 'property-transaction-decision/1', budgetId: 'population-real-estate-budget/1', receiptClass: 'counterparty-receipt', outcomeClass: 'accept-decline-or-close', rollbackClass: 'withdraw-or-terminate-under-policy', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'population', contractId: 'population-motor/1', externalValveId: 'population:real-estate', lane: 'real-estate', decisionContract: 'property-transaction-decision/1', budgetId: 'population-real-estate-budget/1', receiptClass: 'counterparty-receipt', outcomeClass: 'accept-decline-or-close', rollbackClass: 'withdraw-or-terminate-under-policy', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   PopulationBrain.prototype = Object.create(Base.prototype);
   PopulationBrain.prototype.constructor = PopulationBrain;

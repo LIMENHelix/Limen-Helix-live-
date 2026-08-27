@@ -3658,3 +3658,97 @@ one-shot authority, a measured cost capped at one cent, no business transition, 
 suppression rather than falsely claiming zero residual effect. Ordinary mature
 autonomy remains held until this production proof exists and the Intelligence
 brain's separate external resource and motor valves are explicitly opened.
+
+### Continuous civilization metabolism and sovereign circuit breakers — owner direction 2026-08-27
+
+External operation is not intended to require the operator to manage twenty
+routine on/off switches. Sensing, cognition, learning, internal planning, and
+resource measurement remain continuously active in every product brain. Once a
+lane is commissioned, its external eligibility is derived automatically from
+that brain's own declared physical line, provider and budget gates, fresh
+executor and independent-observer evidence, and the runtime circuit breakers.
+Insufficient resources cause scaling or abstention rather than turning the
+whole domain off.
+
+Each of the twenty sovereign brain source files now declares its own exact
+`externalValveId`. The server-side external-valve overlay can only lift the
+resource `externalAction` and motor `external` inhibitors for that same owning
+brain when the declaration matches the civilization line registry and all
+existing hard gates and runtime valves are open. It clears both switches before
+every read, so stale positive authority cannot survive a missing store, closed
+gate, owner/lane mismatch, or circuit-breaker event. It cannot grant spend or
+capital, select an action, call a provider, or move money. Normal control is
+metabolic/allostatic adjustment, not stopping. The single global control is
+named **NUKE** and is explicitly outside the organism: it is an exceptional
+operator-administered inhibitor with no claimed healthy internal neural homolog,
+closest in topology to medically induced burst suppression. No domain can
+invoke it against another. NUKE stops new sensing-adapter work, cognition,
+selection, learning writes, motor dispatch, retries, and observers while
+preserving weights, ledgers, receipts, decision traces, and every other durable
+byte for diagnosis. External operator diagnostic reads remain possible; they
+are not activity by the frozen civilization. A provider effect already accepted
+before NUKE cannot be recalled, but no new attempt may begin.
+
+NUKE never self-releases and cannot transition directly back to ordinary
+operation. Recovery is manual and ordered: `NUKED` →
+`DIAGNOSTIC_READ_ONLY` → `SENSING_ONLY` → `INTERNAL_COGNITION` →
+`SANDBOX_MOTOR` → `DOMAIN_RECOMMISSION` → `OPEN`. In the recommission stage,
+an outward lane must receive a fresh local OPEN receipt after the NUKE event;
+its prior eligibility cannot simply survive the incident. Destructive erasure
+is not part of NUKE. Individual lane isolation remains available for ordinary
+local fault containment and maintenance.
+
+Implementation status on 2026-08-27: the durable NUKE state machine, ordered
+transition enforcement, protected operator surface, post-incident local-valve
+recommission requirement, and catch-all API/cron admission gate are implemented.
+That gate suppresses every newly entering mapped request. A serverless invocation
+already running cannot be killed by a different invocation after it has crossed
+its last control read. Therefore full “in-flight halted” proof remains open until
+every external provider, broker, posting, payment, and mail adapter performs a
+co-timed NUKE checkpoint immediately before its irreversible call and records
+the result. This limitation is explicit and must not be mislabeled as complete
+burst suppression.
+
+The 2026-08-27 owned-destination Intelligence email is accepted as
+operator-reported commissioning evidence because the owner confirmed receipt.
+At the operator scale the received message is B14 reafference: the external
+effect returned and was observed. No duplicate email is required or authorized.
+This statement is not a claim of machine-verified provider readback and does not
+broaden any other lane.
+
+### Finance treasury, domain accounts, and Stripe reconciliation — owner direction 2026-08-27
+
+Finance is the civilization treasury and capital allocator, not the owner of
+the other nineteen brains' decisions. Every product brain requires a separate
+economic account projection containing available and pending cash, committed
+and reserved cash, recognized revenue, costs, and obligations. A domain may use
+only its own available allocation. Finance may capitalize a domain according to
+a recorded policy and receipt; the operator may also contribute directly to a
+named domain account.
+
+Stripe is an external payment rail and reconciliation source, not the internal
+source of domain ownership. The physical Stripe platform balance must never be
+copied into all twenty brains as if every domain could spend the same dollars.
+A durable double-entry civilization ledger partitions external cash among the
+twenty domain accounts. Stripe webhook events must retain the selling domain's
+identity; each sale credits that domain, records Stripe fees and statutory tax
+liabilities separately, and applies any declared internal civilization levy as
+a domain-to-Finance entry. “Civilization levy” is the internal funding term;
+government sales, income, payroll, or other tax is a separate legal liability
+and must not be fabricated or conflated with it.
+
+The resource-allocation side has a neurological metabolic/allostatic homology:
+continuous local energy sensing, graceful contraction under scarcity, and
+demand-responsive allocation. The civilization levy does **not** claim a clean
+neural homolog. It is an economic/civilization-scale mechanism for ownership
+and funding and is labeled accordingly rather than forced into the neurology
+ledger.
+
+Finance may read the platform's Stripe pending and available balances. A domain
+may read a Stripe connected-account balance only when a legitimate connected
+account has been configured for it; otherwise it reads its own internal ledger
+allocation plus the bounded Stripe receipts attributed to its sales. Every
+capitalization, contribution, sale, levy, expense, transfer, refund, dispute,
+and reconciliation adjustment requires an idempotent durable receipt. Outbound
+money movement remains downstream of the appropriate domain budget, reserve,
+risk, observer, recovery, and account-backing checks.

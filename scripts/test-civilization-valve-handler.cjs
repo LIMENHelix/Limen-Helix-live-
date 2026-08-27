@@ -12,10 +12,13 @@ function request(method, body, key) {
 
 (async function () {
   let writes = 0;
+  let advances = 0;
   const topology = { schemaVersion: 'civilization-valve-snapshot/1.0', lines: new Array(20).fill({}) };
   const control = {
     async snapshot() { return topology; },
-    async set(id, mode) { writes++; return { receiptId: 'valve-1', valveId: id, runtimeMode: mode, observersRemainOpen: true, recoveryRemainsOpen: true }; }
+    GLOBAL_ID: 'global:emergency',
+    async set(id, mode) { writes++; return { receiptId: 'valve-1', valveId: id, runtimeMode: mode, observersRemainOpen: true, recoveryRemainsOpen: true }; },
+    async advanceNuke(stage) { advances++; return { receiptId: 'nuke-2', valveId: 'global:emergency', runtimeMode: 'CLOSED', nukeStage: stage }; }
   };
   const gate = {
     reqKey(req) { return req.headers['x-limen-pass']; },
@@ -41,7 +44,13 @@ function request(method, body, key) {
   assert.equal(res.body.receipt.runtimeMode, 'CLOSED');
   assert.equal(res.body.receipt.observersRemainOpen, true);
   assert.equal(writes, 1);
+  assert.equal(advances, 0);
   assert.equal(JSON.stringify(res.body).includes('master'), false, 'master secret is never returned');
+
+  res = response();
+  await handler(request('POST', { nukeStage: 'DIAGNOSTIC_READ_ONLY' }, 'master'), res);
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.receipt.nukeStage, 'DIAGNOSTIC_READ_ONLY');
+  assert.equal(advances, 1);
   console.log('civilization valve handler: master-only read/write, no secret reflection, and safe receipt response passed');
 })().catch(function (error) { console.error(error); process.exit(1); });
-
