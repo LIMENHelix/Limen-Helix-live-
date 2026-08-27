@@ -3550,3 +3550,18 @@ failures across `238` files. This removes the observed Job-7 transport defect
 for the next natural packet; it does not itself prove a selected trade, broker
 preview, fill, independent market outcome, B14 reafference, or live-money
 authority.
+
+Production deployed the structured boundary from exact merge `a06eae64` as
+`dpl_GXgbbjju4uRCgyd5tWsFii9Lddeo`. The first post-deployment natural cycle
+admitted CMPS and completed with a schema-valid actor `ABSTAIN` rather than the
+prior JSON interface failure. No execution receipt or order was created.
+
+The subsequent executor audit found a separate causal-identity mismatch before
+it could affect a selected trade: B14 derives the B10 candidate action identity
+into its durable preview, while the executor was reading the earlier uncomposed
+trade intent. The executor now requires the durable preview action identity and
+verifies it exactly against the released B10 candidate before recording command
+learning or dispatching a sandbox order. Missing or mismatched identities leave
+the claimed execution unresolved and cannot contact the order endpoint. This
+closes the static B10 → B14 → B11 identity path; natural selected-intent and
+fill evidence remain outstanding.
