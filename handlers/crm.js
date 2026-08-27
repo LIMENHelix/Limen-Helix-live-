@@ -228,7 +228,7 @@ module.exports = async function handler(req, res) {
           rows.push({
             leadId: st.leadId, name: st.name, email: st.email, phone: st.phone,
             company: st.company, domain: st.domain, source: st.source, score: st.score,
-            status: st.status, touchCount: (st.touches || []).length, lastTouch: (st.touches || []).slice(-1)[0] || null,
+            consent: st.consent === true, status: st.status, touchCount: (st.touches || []).length, lastTouch: (st.touches || []).slice(-1)[0] || null,
             apptAt: st.apptAt || null, nextStep: ns, notes: st.notes || ''
           });
         }
@@ -331,7 +331,7 @@ module.exports = async function handler(req, res) {
         var state = {
           leadId: lgId, name: lead.name || '', email: lead.email || '', phone: lead.phone || '',
           company: lead.company || '', domain: lead.domain || '', source: lead.source || '', score: lead.score || 0,
-          notes: lead.notes || '', status: 'new', touches: [], apptAt: null, nextAt: null,
+          notes: lead.notes || '', consent: lead.consent === true, status: 'new', touches: [], apptAt: null, nextAt: null,
           createdTs: new Date().toISOString(), updatedTs: new Date().toISOString()
         };
         await db.set(K.state + lgId, state);

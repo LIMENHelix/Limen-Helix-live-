@@ -69,8 +69,16 @@ var DEFAULT_CADENCE = [
   { step: 8, day: 14, channel: 'call', label: 'Call 4 — final attempt' }
 ];
 
-// Pass-through domain gate — where per-domain/cell signal plugs in later.
-function domainGate(state) { return { allow: true }; }
+// The commissioned executor belongs to Intelligence. It may act only on a
+// consenting Intelligence-owned lead. Other domain actions stay visible in the
+// queue until that domain has its own decision/executor/observer/recovery chain.
+function domainGate(state) {
+  if (!state || String(state.domain || '').toLowerCase() !== 'intelligence') {
+    return { allow: false, reason: 'owning-domain-autonomous-outreach-not-commissioned' };
+  }
+  if (state.consent !== true) return { allow: false, reason: 'explicit-contact-consent-required' };
+  return { allow: true, ownerDomain: 'intelligence' };
+}
 
 // Pick the top optimizer play for a transition+segment (FITT/SET/FBA content).
 function bestPlay(plays, transitionId, dealSize, trigger) {
@@ -197,10 +205,11 @@ async function runTick(cfg) {
     if (!state) continue;
     if (TERMINAL[state.status]) continue;
     scanned++;
-    if (!domainGate(state).allow) continue;
+    var gate = domainGate(state);
     var action = nextAction(state, cadence, plays, now);
     if (!action || !action.due) continue;
-    var canAuto = cfg.mode === 'control' && cfg.autoEmail && action.autoExecutable && action.channel && /email/.test(action.channel) && emailReady && state.email;
+    var canAuto = gate.allow && cfg.mode === 'control' && cfg.autoEmail && action.autoExecutable && action.channel && /email/.test(action.channel) && emailReady && state.email;
+    if (action.autoExecutable && !gate.allow) action.blocked = gate.reason;
     if (canAuto) {
       var mail = emailFor(action, state);
       var candidate = intelligenceDecision.candidate(state, action, mail);
@@ -223,7 +232,7 @@ async function runTick(cfg) {
       leadId: state.leadId, name: state.name, email: state.email, phone: state.phone,
       company: state.company, domain: state.domain, status: state.status,
       stage: action.stage, kind: action.kind, channel: action.channel, label: action.label,
-      autoExecutable: !!action.autoExecutable, blocked: action.blocked || null,
+      autoExecutable: !!action.autoExecutable, authorityReady: gate.allow, blocked: action.blocked || null,
       play: action.play ? { unit: action.play.unit, notation: action.play.notation } : null
     });
     queued++;
@@ -285,14 +294,17 @@ module.exports = async function handler(req, res) {
       for (var i = 0; i < ids.length; i++) {
         var s = await db.get(K.state + ids[i]); if (!s || TERMINAL[s.status]) continue;
         scannedP++;
+        var gateP = domainGate(s);
         var a = nextAction(s, cadence, plays, now); if (!a || !a.due) continue;
         totalDue++;
         stages[a.stage] = (stages[a.stage] || 0) + 1;
-        if (a.autoExecutable) autoCount++;
+        if (a.autoExecutable && gateP.allow) autoCount++;
         if (plan.length < 300) plan.push({
           leadId: s.leadId, name: s.name, email: s.email, phone: s.phone, company: s.company, domain: s.domain,
           status: s.status, stage: a.stage, kind: a.kind, channel: a.channel, label: a.label,
-          autoExecutable: !!a.autoExecutable, play: a.play ? { unit: a.play.unit, notation: a.play.notation } : null
+          autoExecutable: !!a.autoExecutable, authorityReady: gateP.allow,
+          blocked: a.autoExecutable && !gateP.allow ? gateP.reason : null,
+          play: a.play ? { unit: a.play.unit, notation: a.play.notation } : null
         });
       }
       stages._auto = autoCount;
@@ -330,3 +342,4 @@ module.exports = async function handler(req, res) {
 // run AND consults the veto first, which is a separate structure that can cancel
 // it without this handler being changed or redeployed.
 module.exports = require('../lib/heartbeat').guard('autopilot', module.exports);
+module.exports.domainGate = domainGate;
