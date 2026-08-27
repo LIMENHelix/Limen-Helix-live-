@@ -3556,11 +3556,14 @@ Production deployed the structured boundary from exact merge `a06eae64` as
 admitted CMPS and completed with a schema-valid actor `ABSTAIN` rather than the
 prior JSON interface failure. No execution receipt or order was created.
 
-The subsequent executor audit found a separate causal-identity mismatch before
-it could affect a selected trade: B14 derives the B10 candidate action identity
-into its durable preview, while the executor was reading the earlier uncomposed
-trade intent. The executor now requires the durable preview action identity and
-verifies it exactly against the released B10 candidate before recording command
+The subsequent executor audit found separate causal-identity defects before
+they could affect a selected trade: B14 derives the causal action identity into
+its durable preview, while the executor was reading the earlier uncomposed trade
+intent, and the reusable critic candidate ID would have collided across repeated
+BUY/SHORT episodes. B14 now preserves that candidate as the learning kind but
+uses the packet-specific released selection ID as the causal episode identity.
+The executor requires that preview identity and verifies it exactly against the
+released B10 selection before recording command
 learning or dispatching a sandbox order. Missing or mismatched identities leave
 the claimed execution unresolved and cannot contact the order endpoint. This
 closes the static B10 → B14 → B11 identity path; natural selected-intent and

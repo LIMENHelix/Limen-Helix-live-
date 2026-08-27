@@ -74,8 +74,10 @@ function proposal(action) {
   assert.equal(result.orderPlaced, false);
 
   s = store();
+  let previewIntent;
   const b14 = {
     async createPreview(_store, _broker, intent) {
+      previewIntent = intent;
       assert.equal(intent.side, 'sell');
       assert.equal(intent.decisionContext.thing2DecisionWeight, 0);
       return { previewId: 'preview-1', confirmationSummary: 'APPROVE EXIT' };
@@ -96,7 +98,9 @@ function proposal(action) {
   assert.equal(result.receipt.selection.authority.thing2DecisionWeight, 0);
   assert.equal(result.receipt.postDecisionReconciliation.sequence, 'thing1_result_then_thing2_snapshot');
   assert.equal(result.receipt.postDecisionReconciliation.decisionWeight, 0);
-  assert.equal(s.values.has('autofire_learning_cause:' + result.receipt.selection.criticDecision.released.candidateId), true);
+  assert.equal(previewIntent.actionId, result.receipt.selection.id);
+  assert.equal(previewIntent.decisionContext.criticCandidateId, result.receipt.selection.criticDecision.released.candidateId);
+  assert.equal(s.values.has('autofire_learning_cause:' + result.receipt.selection.id), true);
 
   const again = await Owner.execute({ store: s, broker: {}, account: { orders: [] }, input: { status: 'READY_FOR_POSITION_REVIEW', context: ctx }, env, now: Date.parse('2026-08-26T17:10:00Z'), provider: async () => { throw new Error('must not repeat'); } });
   assert.equal(again.idempotent, true);
