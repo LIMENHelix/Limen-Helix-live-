@@ -3626,3 +3626,35 @@ domain receives its own local outreach decision, executor, observer, recovery,
 budget, and switch. Existing states with absent consent remain inhibited. This
 does not send an email or fabricate a sales-stage transition; it establishes the
 safe boundary for a one-lead Intelligence commissioning trial.
+
+The first natural post-repair production tick ran at
+`2026-08-27T01:37:23.385Z`. It scanned `25`, queued `25`, executed `0`, and
+reported `0` errors. The internally owned, consented Intelligence identity was
+the single `authorityReady` task; all `24` Finance-domain tasks were
+`authorityHeld`. This proves that the autonomous selector can separate one
+eligible local task from foreign-domain work without borrowing Finance
+authority. It remains a sensing/selection/queue proof, not an email execution
+proof.
+
+### Intelligence owned-destination motor bootstrap — implemented 2026-08-26
+
+The first bounded outward commissioning path is intentionally narrower than
+ordinary CRM control mode. It can release only one permanent developmental slot
+for the exact consented Intelligence candidate whose normalized recipient equals
+the explicitly configured LIMEN-owned commissioning address. A fresh exact B10
+decision and current simulation-ready Intelligence motor receipt remain
+mandatory. The bootstrap authorizes no other lead, domain, message, AI call,
+money, or sales-stage transition.
+
+The executor persists and reads back its command before the Resend call, consumes
+the permanent slot, and durably suppresses future sends to the commissioning
+address after provider acceptance. The handler does not record a prospect touch
+or advance the funnel for this internal proof. A separate Resend GET observer
+must then match provider ID, command, action, and hashed recipient before a
+separate capability verifier may persist the executor and observer receipts.
+Because an accepted email cannot honestly be recalled, the capability contract
+records the effect as irreversible and requires owned destination, consent,
+one-shot authority, zero spend, no business transition, and verified future
+suppression rather than falsely claiming zero residual effect. Ordinary mature
+autonomy remains held until this production proof exists and the Intelligence
+brain's separate external resource and motor valves are explicitly opened.
