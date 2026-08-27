@@ -59,6 +59,8 @@ var irreversible = Object.assign({}, executor, {
 });
 assert.equal(CAP.boundedIrreversibleCommissioningVerified(irreversible), true);
 assert.equal(CAP.validate(irreversible, CAP.EXECUTOR, motor, 2000).ok, true);
+assert.equal(CAP.validate(Object.assign({}, irreversible, { verificationSpendUsd: 0.001 }), CAP.EXECUTOR, motor, 2000).ok, true);
+assert.equal(CAP.validate(Object.assign({}, irreversible, { verificationSpendUsd: 0.011 }), CAP.EXECUTOR, motor, 2000).reason, 'domain-executor-capability-unsafe');
 assert.equal(CAP.validate(Object.assign({}, irreversible, { businessStateTransitionSuppressed: false }), CAP.EXECUTOR, motor, 2000).reason, 'domain-executor-capability-unsafe');
 assert.equal(CAP.validate(Object.assign({}, irreversible, { futureSuppressionRecoveryVerified: false }), CAP.EXECUTOR, motor, 2000).reason, 'domain-executor-capability-unsafe');
 assert.equal(CAP.validate(Object.assign({}, observer, { independentSourceVerified: false }), CAP.OBSERVER, motor, 2000).reason, 'domain-outcome-observer-not-independent');

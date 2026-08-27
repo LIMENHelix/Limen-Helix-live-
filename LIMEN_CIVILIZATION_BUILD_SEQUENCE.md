@@ -3654,7 +3654,7 @@ must then match provider ID, command, action, and hashed recipient before a
 separate capability verifier may persist the executor and observer receipts.
 Because an accepted email cannot honestly be recalled, the capability contract
 records the effect as irreversible and requires owned destination, consent,
-one-shot authority, zero spend, no business transition, and verified future
+one-shot authority, a measured cost capped at one cent, no business transition, and verified future
 suppression rather than falsely claiming zero residual effect. Ordinary mature
 autonomy remains held until this production proof exists and the Intelligence
 brain's separate external resource and motor valves are explicitly opened.

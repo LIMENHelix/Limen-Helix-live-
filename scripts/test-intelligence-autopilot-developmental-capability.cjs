@@ -36,12 +36,12 @@ function heldMotor() { return { authorize: async function () { return { authoriz
   assert.equal(decision.status, 'RELEASED');
   var env = { INTELLIGENCE_AUTOPILOT_DEVELOPMENTAL_ENABLED: '1', INTELLIGENCE_AUTOPILOT_COMMISSIONING_EMAIL: email };
   var calls = 0, command = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now,
-    emailCostUsd: 0, dailyBudgetUsd: 0, dailyEmailCap: 1, env: env, motorAuthorization: heldMotor(),
+    emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyEmailCap: 1, env: env, motorAuthorization: heldMotor(),
     transport: { send: async function () { calls++; return { ok: true, id: 'resend-owned-1', providerCalled: true }; } } });
   assert.equal(command.status, 'ACCEPTED'); assert.equal(command.commissioningOnly, true); assert.equal(command.businessStateTransitionSuppressed, true);
   assert.equal(command.futureSuppressionRecoveryVerified, true); assert.equal(calls, 1);
   var replay = await Executor.execute({ store: store, candidate: candidate, decision: decision, now: now + 1,
-    emailCostUsd: 0, dailyBudgetUsd: 0, dailyEmailCap: 1, env: env, motorAuthorization: heldMotor(), transport: { send: async function () { calls++; } } });
+    emailCostUsd: 0.001, dailyBudgetUsd: 0.01, dailyEmailCap: 1, env: env, motorAuthorization: heldMotor(), transport: { send: async function () { calls++; } } });
   assert.equal(replay.status, 'HELD'); assert.equal(replay.reason, 'intelligence-autopilot-recipient-suppressed'); assert.equal(calls, 1);
   var observation = await Observer.observe(store, command, { apiKey: 'read', fetch: async function () { return { ok: true, status: 200,
     json: async function () { return { id: 'resend-owned-1', last_event: 'delivered', created_at: new Date(now).toISOString() }; } }; } });
