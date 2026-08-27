@@ -3769,3 +3769,19 @@ named domain; it exposes no mutation surface. The contract hard-codes
 reservation, and an authorized outbound payment adapter remain explicit
 blockers. No webhook has been connected to this ledger and no external balance
 or money movement is claimed by this tranche.
+
+Implementation tranche 2 adds an on-demand, read-only Stripe balance afferent to
+the protected treasury route. The normal design uses one shared LIMEN Stripe
+platform account plus twenty separately attributed internal domain subledgers;
+domains do not require twenty separate Stripe accounts. Finance may observe the
+platform's USD available, pending, and instant-available balances. A non-Finance
+domain normally makes no Stripe balance call and receives `INTERNAL_LEDGER_ONLY`,
+using domain identity preserved on its checkout and webhook receipts. Only if a
+domain later becomes a genuinely separate legal/payout entity should its exact
+`LIMEN_STRIPE_CONNECTED_ACCOUNT_<DOMAIN>` identifier be configured; if it is,
+the request carries Stripe's connected-account header and the observation is
+scoped only to that domain. The secret and full connected-account identifier are
+never returned. The all-domain response keeps the platform observation in a
+separate Finance-only field rather than copying it into twenty accounts. This is
+sensing, not reconciliation: it performs no ledger write and grants no outbound
+money authority.
