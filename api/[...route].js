@@ -49,6 +49,7 @@ const HANDLERS = {
   'ventures': require('../handlers/ventures'),
   'ai-switch': require('../handlers/ai-switch'),
   'civilization-valves': require('../handlers/civilization-valves'),
+  'civilization-treasury': require('../handlers/civilization-treasury'),
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),
