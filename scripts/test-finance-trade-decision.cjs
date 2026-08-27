@@ -104,6 +104,20 @@ async function seeded() {
   assert.equal(Decision.policy({ LIMEN_FINANCE_SANDBOX_MAX_NOTIONAL_USD: '50' }).maxGrossNotionalUsd, 50);
 
   assert.equal(Decision.parseProposal(JSON.stringify(proposal('BUY', 0.8)), admission().candidate).ok, true);
+  assert.equal(Decision.parseProposal('```json\n' + JSON.stringify(proposal('BUY', 0.8)) + '\n```', admission().candidate).ok, true,
+    'one fenced object is an unambiguous transport wrapper');
+  assert.equal(Decision.parseProposal('Decision follows: ' + JSON.stringify(proposal('BUY', 0.8)) + ' End.', admission().candidate).ok, true,
+    'one prose-wrapped object is an unambiguous transport wrapper');
+  const bracedReason = proposal('BUY', 0.8);
+  bracedReason.rationale = 'The supplied {issuer} evidence remains mixed but bounded.';
+  assert.equal(Decision.parseProposal(JSON.stringify(bracedReason), admission().candidate).ok, true,
+    'braces inside JSON strings do not create false objects');
+  assert.equal(Decision.parseProposal(JSON.stringify(proposal('BUY', 0.8)) + JSON.stringify(proposal('ABSTAIN', 0.8)), admission().candidate).reason,
+    'trade_decision_json_ambiguous');
+  assert.equal(Decision.parseProposal('{"schemaVersion":', admission().candidate).reason, 'trade_decision_json_invalid');
+  assert.equal(Decision.parseProposal('not json', admission().candidate).reason, 'trade_decision_json_required');
+  assert.equal(Decision.parseProposal('x'.repeat(Decision.MAX_PROVIDER_RESPONSE_CHARS + 1), admission().candidate).reason,
+    'trade_decision_json_too_large');
   const wrongThing2Observation = proposal('BUY', 0.8);
   wrongThing2Observation.thing2Observed = true;
   assert(Decision.parseProposal(JSON.stringify(wrongThing2Observation), admission().candidate).blockers.includes('trade_decision_forbidden_field_thing2Observed'));
@@ -183,6 +197,29 @@ async function seeded() {
   assert.equal(abstained.receipt.status, 'ABSTAINED');
   assert.equal(abstained.receipt.tradeIntent, null);
   assert.equal(abstained.receipt.selection, null);
+
+  const truncatedStore = await seeded();
+  const truncated = await Decision.execute(truncatedStore, broker(0), { approve: true, packetId }, {
+    env: {}, feedConfirmation: confirmation(new Date().toISOString()), helixReport: null,
+    provider: async () => ({
+      ok: false,
+      provider: 'test',
+      model: 'fixture',
+      structuredOutput: true,
+      stopReason: 'max_tokens',
+      errorType: 'structured_output_truncated',
+      tokensIn: 120,
+      tokensOut: 3000
+    })
+  });
+  assert.equal(truncated.receipt.status, 'ABSTAINED');
+  assert.equal(truncated.receipt.reason, 'trade_decision_output_truncated');
+  assert.equal(truncated.receipt.provider.structuredOutput, true);
+  assert.equal(truncated.receipt.provider.stopReason, 'max_tokens');
+  assert.equal(truncated.receipt.provider.errorType, 'structured_output_truncated');
+  assert.deepEqual(truncated.receipt.proposalParse, { objectCount: 0, responseChars: 0 });
+  assert.equal(truncated.receipt.proposal, null);
+  assert.equal(truncated.receipt.tradeIntent, null);
 
   const inhibitedStore = await seeded();
   const inhibitedBroker = broker(0);

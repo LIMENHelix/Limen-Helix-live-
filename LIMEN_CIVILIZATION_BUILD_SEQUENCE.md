@@ -3510,3 +3510,43 @@ writes. Current production evidence before deployment showed Communication at
 `brake-dampen` with zero emitted actions; the corrected boundary therefore
 predicts `NO_ACTION`, not a forced post. Commissioning remains downstream of a
 genuine B10 release.
+
+### Finance revenue sovereignty and public sales cycle — implemented 2026-08-26
+
+PRs #247–#249 keep Finance subscriber fulfillment inside the Finance brain and
+join every public domain-front identity capture to the canonical sales record.
+Optional name plus required email now enter Leads with domain, tier, referrer,
+and campaign attribution. The CRM surface exposes the honest cycle Leads →
+Appointments → Shows → Enrollments → Referrals → Leads, while direct self-serve
+checkout remains explicitly appointment-free. Server-side transitions reject
+confirmation without an appointment, show outcomes without an appointment,
+close/enrollment without a show, and referral capture without enrollment.
+
+This connects public sensing to the business memory and revenue loop; it does
+not fabricate appointments or authorize unsolicited mail. Finance and Religion
+retain separate domain-owned subscriber fulfillment paths. The exact production
+merge for PR #249 is `7147ada2`; the full suite measured `236` passed, one known
+external-corpus skip, and zero failures before production verification.
+
+### Finance second-stage structured decision boundary — implemented 2026-08-26
+
+The first naturally admitted Finance paper candidate reached the second actor
+and then abstained with `trade_decision_json_invalid`. That is an interface
+failure, not an investment judgment. The durable BAC receipt remains immutable
+and is not replayed.
+
+The second Finance provider boundary now uses the same native JSON-schema
+constrained output already proven at Preview, raises its bounded response budget
+from 1,800 to 3,000 tokens, and records the provider stop reason, structured-
+output flag, bounded parse diagnostics, and truncation/refusal class without
+storing raw provider text. Only an exact `end_turn` can proceed. The parser may
+unwrap one unambiguous JSON object, but it rejects malformed, oversized,
+truncated, schema-invalid, forbidden-field, evidence-mismatched, or multi-object
+responses. It remains one-shot, paper-only, broker-read-only at this stage, and
+cannot preview or place an order.
+
+The full suite measured `237` passed, one known external-corpus skip, and zero
+failures across `238` files. This removes the observed Job-7 transport defect
+for the next natural packet; it does not itself prove a selected trade, broker
+preview, fill, independent market outcome, B14 reafference, or live-money
+authority.
