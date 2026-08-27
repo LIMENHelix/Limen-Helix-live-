@@ -3568,3 +3568,12 @@ learning or dispatching a sandbox order. Missing or mismatched identities leave
 the claimed execution unresolved and cannot contact the order endpoint. This
 closes the static B10 → B14 → B11 identity path; natural selected-intent and
 fill evidence remain outstanding.
+
+The same audit found that Finance position exits already consumed the persisted
+Finance Brain-v2 selection gate and modulatory state, while entry decisions
+created a fresh B10 gate for each packet. Entries now load and persist the same
+domain-owned learning gate before constructing the durable decision receipt.
+Thing 2 remains excluded from selection and zero-weight in post-decision
+reconciliation. This makes resolved Finance outcomes causally available to
+future entry thresholding instead of merely storing learning beside a bypassed
+selector.

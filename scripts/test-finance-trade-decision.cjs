@@ -181,6 +181,9 @@ async function seeded() {
   assert.equal(result.receipt.postDecisionReconciliation.appliedAfterProposal, true);
   assert.equal(result.receipt.decisionEvidence.marketPerformance.target.observations, 2);
   assert(result.receipt.decisionEvidence.gaps.includes('protected_helix_report_unavailable'));
+  const learningState = s.values.get('autofire_learning_state:finance');
+  assert.equal(learningState.domain, 'finance');
+  assert.equal(learningState.outwardGate.version, 1, 'the Finance entry B10 must persist its owning learned gate');
   assert.equal(providerCalls, 1);
   assert.deepEqual(b.calls, ['quote', 'quote', 'account', 'history:RKLB', 'history:SPY']);
 
