@@ -34,7 +34,7 @@ function cognition(now) { return { ts: now, c: { domain: 'economy', immune: { im
   var decision = await Decision.decide(store, candidate, now, { cognition: cognition(now), titleSets: titleSets, maxNotionalUsd: 150 });
   assert.equal(decision.status, 'RELEASED');
   var b14 = { createPreview: async function (_s, _b, intent) { assert.equal(intent.ownerDomain, 'economy'); return { previewId: 'epv1', confirmationSummary: 'confirm' }; },
-    submitApproved: async function () { assert(await store.get(Learning.causeKey(decision.actionId))); return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
+    submitApproved: async function (_s, _b, input) { assert.deepEqual(input.approval, { mode: 'domain-autonomous', actor: 'economy-brain', ownerDomain: 'economy', authorizationReceiptId: 'economy-motor-receipt-1', authorizationMode: 'mature-production-capability' }); assert(await store.get(Learning.causeKey(decision.actionId))); return { commandId: 'broker-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { confirmationSummary: 'cancel' } }; } };
   var broker = { quote: async function (s) { return { symbol: s, last: s === 'SPY' ? 500 : 10, bid: s === 'SPY' ? 499 : 9.99, ask: s === 'SPY' ? 501 : 10.01 }; }, accountSnapshot: async function () { return { totalCash: 1000 }; } };
   var authorization = { authorize: async function () { return { authorized: true, receiptId: 'economy-motor-receipt-1' }; } };
   var result = await Executor.execute({ store: store, candidate: candidate, decision: decision, broker: broker, b14: b14, motorAuthorization: authorization,
@@ -43,7 +43,7 @@ function cognition(now) { return { ts: now, c: { domain: 'economy', immune: { im
   assert.equal(result.learningCauseDurable, true); assert(result.learningEpisodeId);
   assert.equal((await Learning._load(store, 'economy')).commands[0].ticker, 'ACME');
   var recoveryB14 = { reconcile: async function () { return { commandId: 'broker-command-1', order: { status: 'open', executedQuantity: 0 }, rollback: { confirmationSummary: 'cancel' } }; },
-    cancelApproved: async function () { return { commandId: 'broker-command-1', rollback: { receipt: { orderId: 'paper-order-1', status: 'canceled' } } }; } };
+    cancelApproved: async function (_s, _b, input) { assert.deepEqual(input.approval, { mode: 'recovery', actor: 'economy-brain-recovery', ownerDomain: 'economy', authorizationReceiptId: 'economy-motor-receipt-1', authorizationMode: 'mature-production-capability' }); return { commandId: 'broker-command-1', rollback: { receipt: { orderId: 'paper-order-1', status: 'canceled' } } }; } };
   var recovered = await Recovery.recover({ store: store, command: result, trigger: { type: 'economy-investment-kill', id: 'kill-1' }, broker: broker, b14: recoveryB14,
     motorAuthorization: authorization, env: { ECONOMY_INVESTMENT_RECOVERY_ENABLED: '1' }, now: now + 2 });
   assert.equal(recovered.status, 'CANCEL_RECEIPT_PERSISTED'); assert.equal(recovered.rollbackReadbackVerified, true);

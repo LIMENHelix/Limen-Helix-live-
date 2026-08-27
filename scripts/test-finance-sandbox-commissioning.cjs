@@ -26,9 +26,15 @@ function b14() {
   let command = null;
   return {
     async createPreview(_store, _broker, intent) { assert.equal(intent.limitPrice, 249.5); return { previewId: 'pv1', confirmationSummary: 'confirm' }; },
-    async submitApproved() { command = { commandId: 'cmd1', status: 'RECEIPT_PERSISTED', receipt: { orderId: 'ord1' }, rollback: { confirmationSummary: 'cancel', status: 'AVAILABLE' } }; return command; },
+    async submitApproved(_store, _broker, input) { assert.deepEqual(input.approval, {
+      mode: 'commissioning', actor: 'finance-commissioning', ownerDomain: 'finance',
+      authorizationReceiptId: Commissioning.KEY, authorizationMode: 'zero-effect-rollback-proof'
+    }); command = { commandId: 'cmd1', status: 'RECEIPT_PERSISTED', receipt: { orderId: 'ord1' }, rollback: { confirmationSummary: 'cancel', status: 'AVAILABLE' } }; return command; },
     async read() { return command; },
-    async cancelApproved() { command.status = 'CANCEL_RECEIPT_PERSISTED'; command.rollback = { status: 'CANCEL_RECEIPT_PERSISTED', receipt: { orderId: 'ord1' } }; return command; },
+    async cancelApproved(_store, _broker, input) { assert.deepEqual(input.approval, {
+      mode: 'commissioning', actor: 'finance-commissioning', ownerDomain: 'finance',
+      authorizationReceiptId: Commissioning.KEY, authorizationMode: 'zero-effect-rollback-proof'
+    }); command.status = 'CANCEL_RECEIPT_PERSISTED'; command.rollback = { status: 'CANCEL_RECEIPT_PERSISTED', receipt: { orderId: 'ord1' } }; return command; },
     async reconcile() { command.status = 'RECONCILED_TERMINAL'; command.order = { status: 'canceled', executedQuantity: 0 }; command.reafference = { terminal: true }; return command; }
   };
 }

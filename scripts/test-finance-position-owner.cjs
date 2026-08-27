@@ -83,7 +83,11 @@ function proposal(action) {
       return { previewId: 'preview-1', confirmationSummary: 'APPROVE EXIT' };
     },
     async submitApproved(_store, _broker, input) {
-      assert.deepEqual(input, { previewId: 'preview-1', confirmation: 'APPROVE EXIT' });
+      assert.deepEqual(input, {
+        previewId: 'preview-1', confirmation: 'APPROVE EXIT',
+        approval: { mode: 'domain-autonomous', actor: 'finance-brain', ownerDomain: 'finance',
+          authorizationReceiptId: 'motor-1', authorizationMode: 'mature-production-capability' }
+      });
       return { commandId: 'exit-command-1', receipt: { orderId: 'paper-order-1' }, rollback: { status: 'AVAILABLE' } };
     }
   };

@@ -50,7 +50,12 @@ module.exports = async function handler(req, res) {
     }
     if (body.action === 'submit') {
       if (!adminGate.isMaster(pass)) return adminGate.deny(res);
-      var command = await b14.submitApproved(store, broker, body);
+      var command = await b14.submitApproved(store, broker, Object.assign({}, body, {
+        approval: {
+          mode: 'operator', actor: 'human-operator', ownerDomain: 'finance',
+          authorizationReceiptId: 'admin-master', authorizationMode: 'master-credential'
+        }
+      }));
       return res.status(200).json({ ok: true, broker: 'tradier', environment: 'sandbox', paper: true, command: command });
     }
     if (body.action === 'reconcile') {
@@ -59,13 +64,18 @@ module.exports = async function handler(req, res) {
     }
     if (body.action === 'cancel') {
       if (!adminGate.isMaster(pass)) return adminGate.deny(res);
-      var canceled = await b14.cancelApproved(store, broker, body);
+      var canceled = await b14.cancelApproved(store, broker, Object.assign({}, body, {
+        approval: {
+          mode: 'operator', actor: 'human-operator', ownerDomain: 'finance',
+          authorizationReceiptId: 'admin-master', authorizationMode: 'master-credential'
+        }
+      }));
       return res.status(200).json({ ok: true, broker: 'tradier', environment: 'sandbox', paper: true, command: canceled });
     }
     return res.status(400).json({ ok: false, error: 'action must be preview, submit, reconcile, or cancel' });
   } catch (err) {
     var code = err && err.code || '';
-    var status = /^TRADIER_B14_(INVALID|CONFIRMATION|CANCEL_|MAX_|CASH_|SHORTING|PREVIEW_)/.test(code) ? 400
+    var status = /^TRADIER_B14_(INVALID|APPROVAL_|CONFIRMATION|CANCEL_|MAX_|CASH_|SHORTING|PREVIEW_)/.test(code) ? 400
       : code === 'TRADIER_B14_ALREADY_SUBMITTED' || code === 'TRADIER_B14_COMMAND_UNRESOLVED' ? 409
       : code === 'TRADIER_B14_COMMAND_NOT_FOUND' ? 404
       : 503;
