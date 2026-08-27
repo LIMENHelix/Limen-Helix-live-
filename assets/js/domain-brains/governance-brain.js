@@ -16,7 +16,7 @@
     Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'governance', label: 'Governance', snapshotKey: 'governance', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'governance', policyId: 'governance-resource/1', sandboxLane: 'publication', lanes: ['research', 'publication', 'crm'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'governance', contractId: 'governance-motor/1', lane: 'publication', decisionContract: 'public-artifact-decision/1', budgetId: 'governance-publication-budget/1', receiptClass: 'publication-receipt', outcomeClass: 'reach-engagement-or-conversion', rollbackClass: 'unpublish-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'governance', contractId: 'governance-motor/1', externalValveId: 'governance:publication', lane: 'publication', decisionContract: 'public-artifact-decision/1', budgetId: 'governance-publication-budget/1', receiptClass: 'publication-receipt', outcomeClass: 'reach-engagement-or-conversion', rollbackClass: 'unpublish-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   GovernanceBrain.prototype = Object.create(Base.prototype);
   GovernanceBrain.prototype.constructor = GovernanceBrain;

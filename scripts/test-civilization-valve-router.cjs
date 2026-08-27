@@ -34,6 +34,13 @@ function response() {
 (async function () {
   const calls = { handlers: [], valves: [] };
   const originalAuthorize = Control.authorize;
+  const originalAuthorizeActivity = Control.authorizeActivity;
+  let nuked = false;
+  Control.authorizeActivity = async function () {
+    return nuked
+      ? { ok: true, allowed: false, nukeStage: 'NUKED', reason: 'nuke-stage-activity-suppressed', receipt: { receiptId: 'nuke-test' } }
+      : { ok: true, allowed: true, nukeStage: 'OPEN' };
+  };
   Control.authorize = async function (id) {
     calls.valves.push(id);
     return { ok: true, allowed: false, valveId: id, reason: 'domain-runtime-valve-closed', receipt: { receiptId: 'test-receipt' } };
@@ -75,8 +82,16 @@ function response() {
     out = await hit('/api/brain-shadow', 'GET');
     assert.deepEqual(out.valves, [], 'the brain runtime is outside the motor valve');
     assert.deepEqual(out.handlers, ['brain-shadow']);
+
+    nuked = true;
+    out = await hit('/api/brain-shadow', 'GET');
+    assert.deepEqual(out.valves, [], 'NUKE suppresses before local motor-valve evaluation');
+    assert.deepEqual(out.handlers, []);
+    assert.equal(out.res.statusCode, 423);
+    assert.equal(JSON.parse(out.res.body).nukeStage, 'NUKED');
   } finally {
     Control.authorize = originalAuthorize;
+    Control.authorizeActivity = originalAuthorizeActivity;
   }
-  console.log('civilization valve router: effect methods held, queue intake open, observers/recovery/brain open');
+  console.log('civilization valve router: NUKE precedes local valves; normal local effect, preparation, observer, and recovery routing passed');
 })().catch(function (error) { console.error(error); process.exit(1); });

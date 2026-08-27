@@ -38,7 +38,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'supplyChain', policyId: 'trade-resource/1', sandboxLane: 'auction', lanes: ['commerce', 'vendor-operations', 'inter-domain-banking'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'supplyChain', contractId: 'trade-motor/1', lane: 'auction', decisionContract: 'marketplace-command-decision/1', budgetId: 'trade-auction-budget/1', receiptClass: 'marketplace-receipt', outcomeClass: 'win-loss-or-sale', rollbackClass: 'retract-or-close-within-policy', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'supplyChain', contractId: 'trade-motor/1', externalValveId: 'trade:auction', lane: 'auction', decisionContract: 'marketplace-command-decision/1', budgetId: 'trade-auction-budget/1', receiptClass: 'marketplace-receipt', outcomeClass: 'win-loss-or-sale', rollbackClass: 'retract-or-close-within-policy', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
 
     // ══════════════════════════════════════════════════════════════════════
     // ACTUATION FLAGS — per-actuation VALIDITY GATE (honest, not a clone). Each flag is ON

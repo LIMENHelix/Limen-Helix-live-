@@ -15,7 +15,7 @@
   function TechnologyBrain() {
     Base.call(this, { domainId: 'technology', label: 'Technology', snapshotKey: 'technology', cycleInterval: 30000, groundedOnly: true });
     this.resourceAuthority = { ownerDomain: 'technology', policyId: 'technology-resource/1', sandboxLane: 'investments', lanes: ['vendor-operations', 'commerce', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'technology', contractId: 'technology-motor/1', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'technology-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'technology', contractId: 'technology-motor/1', externalValveId: 'technology:investments', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'technology-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   TechnologyBrain.prototype = Object.create(Base.prototype);
   TechnologyBrain.prototype.constructor = TechnologyBrain;

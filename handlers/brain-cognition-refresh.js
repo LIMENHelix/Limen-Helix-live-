@@ -21,6 +21,7 @@ const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
+const productDomainExternalValveOverlay = require('../lib/product-domain-external-valve-overlay.js');
 const productDomainLearningState = require('./product-domain-learning-state.js');
 const cronAuth = require('../lib/cron-auth.js');
 const cognitionProjection = require('../lib/brain-cognition-compact.js');
@@ -252,6 +253,13 @@ module.exports = async function handler(req, res) {
         continue;
       }
       try {
+        // This reads only the owning brain's declared valve and the control
+        // plane. It does not select or execute an action. Commissioned lanes
+        // stay metabolically available while budgets/providers are healthy;
+        // any missing evidence or circuit-breaker event clears both switches.
+        var _externalValve = await productDomainExternalValveOverlay.apply(
+          efferenceStore, dom, b, process.env
+        );
         if (typeof b.cycle === 'function') {
           try { await Promise.resolve(b.cycle()); }
           catch (e) { domainFailures.push({ domain: dom, stage: 'brain-cycle-1', error: String(e && e.message || e).slice(0, 240) }); }
@@ -287,6 +295,7 @@ module.exports = async function handler(req, res) {
             safety: _motorReceipt.receipt.safety
           } : _motorReceipt;
           c.motorCapabilityEvidence = _motorCapability;
+          c.externalValveEvidence = _externalValve;
           if (_motorReceipt.ok) motorReceiptsStored++;
           else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;

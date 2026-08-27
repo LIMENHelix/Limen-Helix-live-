@@ -261,6 +261,13 @@ function dispatchProbe(src, routeName) {
   var origLoad = Module._load;
   var served = { name: null, code: null };
   Module._load = function (request, parent, isMain) {
+    if (request === '../lib/civilization-valve-control') {
+      return {
+        GLOBAL_ID: 'global:emergency',
+        authorizeActivity: function () { return { allowed: true, nukeStage: 'OPEN' }; },
+        authorize: function () { return { allowed: true }; }
+      };
+    }
     var m = /^\.\.\/handlers\/(.+)$/.exec(String(request));
     if (m) {
       var who = m[1];

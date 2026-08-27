@@ -350,6 +350,28 @@ module.exports = async function honoEntry(req, res) {
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ error: 'route not handled by Hono entry', path: pathname, build: BUILD }));
   }
+  // NUKE is the exceptional whole-civilization burst-suppression boundary.
+  // It runs before every local efferent valve, including cron/cognition routes.
+  // Diagnostic reads and staged re-entry are explicitly classified by the
+  // control contract; an unavailable control store fails closed.
+  const activityCheck = CivilizationValve.authorizeActivity(name, req.method || 'GET');
+  const activity = activityCheck && typeof activityCheck.then === 'function'
+    ? await activityCheck
+    : activityCheck;
+  if (!activity.allowed) {
+    res.statusCode = 423;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-store');
+    return res.end(JSON.stringify({
+      ok: true,
+      status: 'NUKED',
+      reason: activity.reason,
+      nukeStage: activity.nukeStage,
+      nukeReceiptId: activity.receipt && activity.receipt.receiptId || null,
+      activityExecuted: false,
+      statePreserved: true
+    }));
+  }
   const heldCheck = runtimeValveHold(name, req);
   // Preserve synchronous dispatch for every route outside the efferent valve
   // topology. Only a mapped outward-effect route crosses the durable async gate.
@@ -367,8 +389,8 @@ module.exports = async function honoEntry(req, res) {
       valveId: held.valveId,
       valveReceiptId: held.receipt && held.receipt.receiptId || null,
       externalEffectExecuted: false,
-      observersRemainOpen: true,
-      recoveryRemainsOpen: true
+      observersRemainOpen: held.receipt && held.receipt.valveId === CivilizationValve.GLOBAL_ID ? false : true,
+      recoveryRemainsOpen: held.receipt && held.receipt.valveId === CivilizationValve.GLOBAL_ID ? false : true
     }));
   }
   return resolve(handler)(req, res);

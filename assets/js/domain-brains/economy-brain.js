@@ -46,7 +46,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'economy', policyId: 'economy-resource/1', sandboxLane: 'investments', lanes: ['research', 'investment-advisory'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'economy', contractId: 'economy-motor/1', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'economy-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'economy', contractId: 'economy-motor/1', externalValveId: 'economy:investments', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'economy-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   EconomyBrain.prototype = Object.create(Base.prototype);

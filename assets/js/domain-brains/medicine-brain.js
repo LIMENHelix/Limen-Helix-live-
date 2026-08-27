@@ -38,7 +38,7 @@
       groundedOnly: true          // circularity cut 2026-07-24: no condition may come from own stress
     });
     this.resourceAuthority = { ownerDomain: 'health', policyId: 'medicine-resource/1', sandboxLane: 'research-papers', lanes: ['research', 'publication', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'health', contractId: 'medicine-motor/1', lane: 'research-papers', decisionContract: 'research-artifact-decision/1', budgetId: 'medicine-research-budget/1', receiptClass: 'artifact-receipt', outcomeClass: 'citation-use-or-falsification', rollbackClass: 'withdraw-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'health', contractId: 'medicine-motor/1', externalValveId: 'medicine:research-papers', lane: 'research-papers', decisionContract: 'research-artifact-decision/1', budgetId: 'medicine-research-budget/1', receiptClass: 'artifact-receipt', outcomeClass: 'citation-use-or-falsification', rollbackClass: 'withdraw-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   MedicineBrain.prototype = Object.create(Base.prototype);

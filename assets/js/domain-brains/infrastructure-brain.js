@@ -60,7 +60,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'infrastructure', policyId: 'infrastructure-resource/1', sandboxLane: 'real-estate', lanes: ['vendor-operations', 'real-estate', 'investment-advisory'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'infrastructure', contractId: 'infrastructure-motor/1', lane: 'real-estate', decisionContract: 'property-transaction-decision/1', budgetId: 'infrastructure-real-estate-budget/1', receiptClass: 'counterparty-receipt', outcomeClass: 'accept-decline-or-close', rollbackClass: 'withdraw-or-terminate-under-policy', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'infrastructure', contractId: 'infrastructure-motor/1', externalValveId: 'infrastructure:real-estate', lane: 'real-estate', decisionContract: 'property-transaction-decision/1', budgetId: 'infrastructure-real-estate-budget/1', receiptClass: 'counterparty-receipt', outcomeClass: 'accept-decline-or-close', rollbackClass: 'withdraw-or-terminate-under-policy', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   // Inherit from base

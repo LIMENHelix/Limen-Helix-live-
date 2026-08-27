@@ -12,7 +12,7 @@
   function DefenseBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'defense', label: 'Defense', snapshotKey: 'defense', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'defense', policyId: 'defense-resource/1', sandboxLane: 'publication', lanes: ['research', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'defense', contractId: 'defense-motor/1', lane: 'publication', decisionContract: 'public-artifact-decision/1', budgetId: 'defense-publication-budget/1', receiptClass: 'publication-receipt', outcomeClass: 'reach-engagement-or-conversion', rollbackClass: 'unpublish-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'defense', contractId: 'defense-motor/1', externalValveId: 'defense:publication', lane: 'publication', decisionContract: 'public-artifact-decision/1', budgetId: 'defense-publication-budget/1', receiptClass: 'publication-receipt', outcomeClass: 'reach-engagement-or-conversion', rollbackClass: 'unpublish-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   DefenseBrain.prototype = Object.create(Base.prototype);
   DefenseBrain.prototype.constructor = DefenseBrain;

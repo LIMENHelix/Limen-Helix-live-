@@ -38,7 +38,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'environment', policyId: 'environment-resource/1', sandboxLane: 'research-papers', lanes: ['research', 'publication', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'environment', contractId: 'environment-motor/1', lane: 'research-papers', decisionContract: 'research-artifact-decision/1', budgetId: 'environment-research-budget/1', receiptClass: 'artifact-receipt', outcomeClass: 'citation-use-or-falsification', rollbackClass: 'withdraw-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'environment', contractId: 'environment-motor/1', externalValveId: 'environment:research-papers', lane: 'research-papers', decisionContract: 'research-artifact-decision/1', budgetId: 'environment-research-budget/1', receiptClass: 'artifact-receipt', outcomeClass: 'citation-use-or-falsification', rollbackClass: 'withdraw-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   EnvironmentBrain.prototype = Object.create(Base.prototype);

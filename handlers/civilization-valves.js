@@ -36,6 +36,18 @@ function createHandler(deps) {
       }
       if (method !== 'POST') return send(res, 405, { ok: false, error: 'GET or POST required' });
       var body = await readBody(req);
+      if (body.nukeStage) {
+        var advanced = await control.advanceNuke(String(body.nukeStage), 'master-operator', store, deps.now);
+        return send(res, 200, {
+          ok: true,
+          changed: true,
+          receipt: advanced,
+          topology: await control.snapshot(env, store),
+          note: advanced.nukeStage === 'OPEN'
+            ? 'Staged NUKE recovery is complete. Ordinary domain gates still bind.'
+            : 'NUKE recovery advanced to ' + advanced.nukeStage + '. Broader activity remains suppressed.'
+        });
+      }
       var valveId = String(body.valveId || '');
       var mode = String(body.mode || '').toUpperCase();
       var receipt = await control.set(valveId, mode, 'master-operator', store, deps.now);
@@ -44,8 +56,10 @@ function createHandler(deps) {
         changed: true,
         receipt: receipt,
         topology: await control.snapshot(env, store),
-        note: mode === 'CLOSED'
-          ? 'New efferent dispatch is inhibited. Observers and recovery remain open.'
+        note: valveId === control.GLOBAL_ID && mode === 'CLOSED'
+          ? 'NUKE active. New civilization activity is suppressed and persisted state is preserved.'
+          : mode === 'CLOSED'
+          ? 'New efferent dispatch is inhibited. Local observers and recovery remain open.'
           : 'Eligibility is restored. No action was selected or executed; all domain gates still bind.'
       });
     } catch (error) {
@@ -57,4 +71,3 @@ function createHandler(deps) {
 var handler = createHandler();
 module.exports = handler;
 module.exports.createHandler = createHandler;
-
