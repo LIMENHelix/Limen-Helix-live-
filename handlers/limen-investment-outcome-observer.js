@@ -159,3 +159,7 @@ module.exports = async function handler(req, res) {
 };
 
 module.exports._commandIds = commandIds;
+
+var investmentOutcomeObserverHandler = module.exports;
+module.exports = require('../lib/heartbeat').wrap('limen-investment-outcome-observer', investmentOutcomeObserverHandler);
+module.exports._commandIds = investmentOutcomeObserverHandler._commandIds;

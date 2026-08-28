@@ -37,12 +37,16 @@ module.exports = async function handler(req, res) {
     var body = await readBody(req);
     if (typeof body.paused === 'undefined') return j(res, 400, { ok: false, error: 'body needs { paused: true|false }' });
     var paused = !!body.paused;
-    await ks.setSpendPaused(paused);
-    var s = await state();
-    return j(res, 200, { ok: true, changed: true, state: s,
-      note: paused ? 'Autonomous AI spend PAUSED (runtime, no redeploy). Resume any time.'
-                   : (s.envEnabled ? 'Autonomous AI spend RESUMED (bounded by LIMEN_AI_TOKENS_PER_TICK).'
-                                   : 'Runtime pause cleared, but env kill switch (LIMEN_AI_ENABLED) still holds spend OFF.') });
+    try {
+      await ks.setSpendPaused(paused);
+      var s = await state();
+      return j(res, 200, { ok: true, changed: true, state: s,
+        note: paused ? 'Autonomous AI spend PAUSED (runtime, no redeploy). Resume any time.'
+                     : (s.envEnabled ? 'Autonomous AI spend RESUMED (bounded by LIMEN_AI_TOKENS_PER_TICK).'
+                                     : 'Runtime pause cleared, but env kill switch (LIMEN_AI_ENABLED) still holds spend OFF.') });
+    } catch (error) {
+      return j(res, 503, { ok: false, changed: false, error: 'AI runtime interlock unavailable; paid dispatch remains fail-closed.' });
+    }
   }
 
   return j(res, 200, { ok: true, state: await state() });

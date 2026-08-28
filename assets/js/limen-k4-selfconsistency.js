@@ -52,7 +52,7 @@
      * keep working unchanged; every caller that supplies a real outcome passes it.
      */
     if (ext && typeof ext.hit === 'number') {
-      if (sig.domain != null && !externalRewardEligible(sig.domain)) {
+      if (sig.domain != null && !externalRewardEligible(sig.domain, ext.sourceKind)) {
         ext = null;   // ineligible: refuse reward, fall through to self-consistency
       } else {
         return { credit: clamp01(ext.hit), creditSource: 'external-reward', isReward: true, tier: 4,
@@ -85,18 +85,27 @@
     return clamp01(1 - Math.abs(p - r));
   }
 
-  // Which domains may EVER supply an external reward (have a real external realized-outcome label).
-  // Conservative + honest:
-  //   finance: Thing1's validated distress outcome.
-  //   energy:  the RESOLVER (/api/feed-resolve) grades the brain's forecast against RECORDED realized
-  //            feed values (forward-only, independent of the trained weights) — a genuine external
-  //            outcome, though external CALIBRATION (feed truth), not a "validated" distress event.
-  // Everything else = self-consistency only. A domain not in this set MUST pass externalOutcome:null.
-  var EXTERNAL_REWARD_DOMAINS = { finance: true, energy: true };
-  function externalRewardEligible(domain) { return !!EXTERNAL_REWARD_DOMAINS[String(domain || '').toLowerCase()]; }
+  // External reward is authorized by BOTH the owning domain and the outcome
+  // class. Feed-resolution remains limited to Finance/Energy. Independently
+  // observed action outcomes are additionally authorized for Research/Health,
+  // whose evaluation contracts establish source identity before this layer.
+  // No other domain can become reward-eligible merely by supplying a number.
+  var EXTERNAL_REWARD_AUTHORITIES = {
+    finance: { 'feed-resolution': true, 'independent-action-outcome': true },
+    energy: { 'feed-resolution': true },
+    research: { 'independent-action-outcome': true },
+    health: { 'independent-action-outcome': true }
+  };
+  var EXTERNAL_REWARD_DOMAINS = { finance: true, energy: true, research: true, health: true };
+  function externalRewardEligible(domain, sourceKind) {
+    var d = String(domain || '').toLowerCase();
+    var kind = sourceKind || 'feed-resolution'; // backward-compatible existing callers
+    return !!(EXTERNAL_REWARD_AUTHORITIES[d] && EXTERNAL_REWARD_AUTHORITIES[d][kind]);
+  }
 
   var API = { credit: credit, stressConsistency: stressConsistency,
-    externalRewardEligible: externalRewardEligible, EXTERNAL_REWARD_DOMAINS: EXTERNAL_REWARD_DOMAINS, version: 1 };
+    externalRewardEligible: externalRewardEligible, EXTERNAL_REWARD_DOMAINS: EXTERNAL_REWARD_DOMAINS,
+    EXTERNAL_REWARD_AUTHORITIES: EXTERNAL_REWARD_AUTHORITIES, version: 2 };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   if (root) root.LIMENK4 = API;
 })(typeof window !== 'undefined' ? window : this);

@@ -21,6 +21,7 @@
  * persists the form payload for the operator to read.
  */
 var db = require('../lib/limen-db');
+var leadPipeline = require('../lib/lead-pipeline-bridge');
 
 function readBody(req) {
   return new Promise(function (resolve) {
@@ -201,6 +202,13 @@ module.exports = async function handler(req, res) {
       // Test submissions are excluded so probes never inflate the numbers. Never blocks the
       // capture: a funnel write failing must not lose the lead.
       if (!isTest) { try { await recordFunnelLead(lead); } catch (e) {} }
+      if (!isTest) {
+        try {
+          await leadPipeline.capture({ eventId: 'public-lead:' + id, name: lead.name, email: lead.email,
+            domain: lead.domain, rung: lead.tier, source: 'public-domain-form', consent: true,
+            note: lead.interest || lead.message, recordAcquisition: false });
+        } catch (e) {}
+      }
 
       // Forward to the LIMEN inbox (inert unless a notify channel is set; never blocks capture).
       var notifyRes = { sent: false };

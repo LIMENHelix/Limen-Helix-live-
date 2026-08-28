@@ -39,6 +39,22 @@
       "schedule": "16,46 * * * *"
     },
     {
+      "path": "/api/finance-position-owner",
+      "schedule": "26 * * * *"
+    },
+    {
+      "path": "/api/economy-investment-cycle",
+      "schedule": "19,49 * * * *"
+    },
+    {
+      "path": "/api/energy-investment-cycle",
+      "schedule": "22,52 * * * *"
+    },
+    {
+      "path": "/api/technology-investment-cycle",
+      "schedule": "25,55 * * * *"
+    },
+    {
       "path": "/api/autopilot",
       "schedule": "7,37 * * * *"
     },
@@ -63,12 +79,96 @@
       "schedule": "0 0,2,12,14,16,18,20,22 * * *"
     },
     {
-      "path": "/api/subscriber-digest",
+      "path": "/api/communication-social-outcome-observer",
+      "schedule": "6 * * * *"
+    },
+    {
+      "path": "/api/subscriber-digest?motorDomain=legacy",
       "schedule": "30 13 * * *"
+    },
+    {
+      "path": "/api/finance-subscriber-cycle",
+      "schedule": "34 13 * * *"
+    },
+    {
+      "path": "/api/religion-subscriber-outcome-observer",
+      "schedule": "41 13 * * *"
+    },
+    {
+      "path": "/api/finance-subscriber-outcome-observer",
+      "schedule": "46 13 * * *"
+    },
+    {
+      "path": "/api/religion-revenue-fulfillment",
+      "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/finance-revenue-fulfillment",
+      "schedule": "5,15,25,35,45,55 * * * *"
+    },
+    {
+      "path": "/api/law-automail-outcome-observer",
+      "schedule": "17 14 * * *"
+    },
+    {
+      "path": "/api/intelligence-autopilot-outcome-observer",
+      "schedule": "12,42 * * * *"
+    },
+    {
+      "path": "/api/intelligence-autopilot-capability",
+      "schedule": "15,45 * * * *"
+    },
+    {
+      "path": "/api/agriculture-homestead-cycle",
+      "schedule": "37 14 * * *"
+    },
+    {
+      "path": "/api/industry-crm-cycle",
+      "schedule": "47 14 * * *"
+    },
+    {
+      "path": "/api/industry-crm-outcome-observer",
+      "schedule": "57 14 * * *"
+    },
+    {
+      "path": "/api/defense-publication-cycle",
+      "schedule": "7 15 * * *"
+    },
+    {
+      "path": "/api/defense-publication-outcome-observer",
+      "schedule": "23 * * * *"
+    },
+    {
+      "path": "/api/governance-publication-cycle",
+      "schedule": "17 15 * * *"
+    },
+    {
+      "path": "/api/governance-publication-outcome-observer",
+      "schedule": "33 * * * *"
+    },
+    {
+      "path": "/api/infrastructure-real-estate-cycle",
+      "schedule": "27 15 * * *"
+    },
+    {
+      "path": "/api/population-real-estate-cycle",
+      "schedule": "37 15 * * *"
+    },
+    {
+      "path": "/api/trade-auction-cycle",
+      "schedule": "47 15 * * *"
+    },
+    {
+      "path": "/api/trade-auction-outcome-observer",
+      "schedule": "53 * * * *"
     },
     {
       "path": "/api/hero-image",
       "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/culture-hero-outcome-observer",
+      "schedule": "11 * * * *"
     },
     {
       "path": "/api/orb-meeting-cron?run=1",
@@ -85,6 +185,22 @@
     {
       "path": "/api/limen-investment-outcome-observer",
       "schedule": "57 * * * *"
+    },
+    {
+      "path": "/api/economy-investment-outcome-observer",
+      "schedule": "2 * * * *"
+    },
+    {
+      "path": "/api/energy-investment-outcome-observer",
+      "schedule": "5 * * * *"
+    },
+    {
+      "path": "/api/technology-investment-outcome-observer",
+      "schedule": "8 * * * *"
+    },
+    {
+      "path": "/api/limen-research-evaluation-observer",
+      "schedule": "56 * * * *"
     },
     {
       "path": "/api/finance-motor-capability",
@@ -114,6 +230,14 @@
     {
       "source": "/civilization",
       "destination": "/civilization.html"
+    },
+    {
+      "source": "/defense-briefs",
+      "destination": "/defense-briefs.html"
+    },
+    {
+      "source": "/governance-briefs",
+      "destination": "/governance-briefs.html"
     },
     {
       "source": "/kernel-comparison",

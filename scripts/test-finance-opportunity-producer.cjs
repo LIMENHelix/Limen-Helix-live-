@@ -89,7 +89,7 @@ function blocked(change, code) {
 }
 blocked({ evidenceRefs: proposal.evidenceRefs.slice(0, 2) }, 'proposal_network_evidence_required');
 blocked({ paperOnly: false }, 'proposal_must_be_paper_only');
-blocked({ horizonDays: 15 }, 'proposal_horizon_must_be_30_60_or_90_days');
+blocked({ horizonDays: 15 }, 'proposal_horizon_must_be_supported_multiscale_days');
 blocked({ independenceAssessment: { status: 'ASSESSED', reason: 'guess' } }, 'publisher_independence_must_remain_explicitly_unassessed');
 blocked({ tradeIntent: { side: 'buy' } }, 'proposal_forbidden_field_tradeIntent');
 blocked({ side: 'SHORT' }, 'proposal_forbidden_field_side');

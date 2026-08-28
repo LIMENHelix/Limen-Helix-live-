@@ -1,5 +1,6 @@
 /**
- * crm.js — /api/crm — the outreach CRM (LEADS → APPOINTMENTS).
+ * crm.js — /api/crm — the identity-bound sales cycle
+ * (LEADS → APPOINTMENTS → SHOWS → ENROLLMENTS → REFERRALS → LEADS).
  *
  * LASER is the flow; this is where a lead is actually WORKED into an appointment
  * via mail / email / text / call. It tracks every touch, its outcome and cost,
@@ -8,9 +9,9 @@
  * mirrored into the sales funnel (leads>appointments) so the hub + optimizer
  * learn from real activity.
  *
- * GUARDRAIL: this LOGS outreach you performed and TRACKS outcomes. It does NOT
- * itself send mail/email/text/calls — sending stays a deliberate action (rep, or
- * a future Twilio/Resend/mail integration). Nothing here contacts anyone.
+ * GUARDRAIL: this tracks real transitions and refuses out-of-order outcomes.
+ * Email can be sent only through the explicit, confirmed send-email action;
+ * text/call/mail remain logged external actions. No later stage is fabricated.
  *
  * Storage (Redis via limen-db):
  *   crm:worklist          array of leadIds currently in the CRM
@@ -91,6 +92,7 @@ async function loadState(id) { return await db.get(K.state + id); }
 // Next cadence step for a state: first step whose index is past the count of
 // completed touches (simple sequential progression).
 function nextStep(state, cadence) {
+  if (state.status !== 'new' && state.status !== 'working') return null;
   var done = (state.touches || []).length;
   if (done >= cadence.length) return null;
   return cadence[done];
@@ -212,7 +214,8 @@ module.exports = async function handler(req, res) {
       var limit = Math.min(parseInt(u.searchParams.get('limit') || '100', 10) || 100, 300);
       var ids = await loadWorklist();
       var cadence = await loadCadence();
-      var rows = [], counts = { new: 0, working: 0, appointment: 0, unresponsive: 0, dead: 0 };
+      var rows = [], counts = {};
+      STATUSES.forEach(function (status) { counts[status] = 0; });
       for (var i = 0; i < ids.length; i++) {
         var st = await loadState(ids[i]);
         if (!st) continue;
@@ -225,7 +228,7 @@ module.exports = async function handler(req, res) {
           rows.push({
             leadId: st.leadId, name: st.name, email: st.email, phone: st.phone,
             company: st.company, domain: st.domain, source: st.source, score: st.score,
-            status: st.status, touchCount: (st.touches || []).length, lastTouch: (st.touches || []).slice(-1)[0] || null,
+            consent: st.consent === true, status: st.status, touchCount: (st.touches || []).length, lastTouch: (st.touches || []).slice(-1)[0] || null,
             apptAt: st.apptAt || null, nextStep: ns, notes: st.notes || ''
           });
         }
@@ -286,7 +289,8 @@ module.exports = async function handler(req, res) {
       var funnel = E.computeFunnel((await db.get(K.salesAgg)) || E.emptyAgg());
       var l2a = (funnel.transitions || []).filter(function (t) { return t.id === 'leads>appointments'; })[0] || null;
       var ids2 = await loadWorklist();
-      var pc = { new: 0, working: 0, appointment: 0, unresponsive: 0, dead: 0 };
+      var pc = {};
+      STATUSES.forEach(function (status) { pc[status] = 0; });
       var touchTotal = 0;
       for (var m = 0; m < ids2.length; m++) { var s2 = await loadState(ids2[m]); if (!s2) continue; if (s2.status in pc) pc[s2.status]++; touchTotal += (s2.touches || []).length; }
       var appts = pc.appointment;
@@ -327,7 +331,7 @@ module.exports = async function handler(req, res) {
         var state = {
           leadId: lgId, name: lead.name || '', email: lead.email || '', phone: lead.phone || '',
           company: lead.company || '', domain: lead.domain || '', source: lead.source || '', score: lead.score || 0,
-          notes: lead.notes || '', status: 'new', touches: [], apptAt: null, nextAt: null,
+          notes: lead.notes || '', consent: lead.consent === true, status: 'new', touches: [], apptAt: null, nextAt: null,
           createdTs: new Date().toISOString(), updatedTs: new Date().toISOString()
         };
         await db.set(K.state + lgId, state);
@@ -410,6 +414,7 @@ module.exports = async function handler(req, res) {
       var cfid = clip(body.leadId, 80);
       var stC = await loadState(cfid);
       if (!stC) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stC.status !== 'appointment') return j(res, 409, { ok: false, error: 'confirmation requires a current appointment', status: stC.status });
       var cch = CONFIRM_CHANNELS.indexOf(body.channel) !== -1 ? body.channel : CONFIRM_CHANNELS[0];
       var ccost = CONFIRM_COST[cch] || 0;
       stC.confirmations = stC.confirmations || [];
@@ -426,6 +431,7 @@ module.exports = async function handler(req, res) {
       var soid = clip(body.leadId, 80);
       var stO = await loadState(soid);
       if (!stO) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stO.status !== 'appointment') return j(res, 409, { ok: false, error: 'show outcome requires a current appointment', status: stO.status });
       var outcome = SHOW_OUTCOMES.indexOf(body.outcome) !== -1 ? body.outcome : 'showed';
       var lastC = (stO.confirmations || []).slice(-1)[0];
       var unit = CONFIRM_CHANNELS.indexOf(body.channel) !== -1 ? body.channel : ((lastC && lastC.channel) || 'other');
@@ -444,6 +450,7 @@ module.exports = async function handler(req, res) {
       var rsid = clip(body.leadId, 80);
       var stR = await loadState(rsid);
       if (!stR) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (['appointment', 'no-show', 'cancelled'].indexOf(stR.status) === -1) return j(res, 409, { ok: false, error: 'reschedule requires an appointment, no-show, or cancellation', status: stR.status });
       stR.apptAt = clip(body.apptAt, 40); stR.status = 'appointment'; stR.showOutcome = null; stR.showMirrored = false;
       stR.updatedTs = new Date().toISOString();
       await db.set(K.state + rsid, stR);
@@ -455,6 +462,7 @@ module.exports = async function handler(req, res) {
       var clid = clip(body.leadId, 80);
       var stCl = await loadState(clid);
       if (!stCl) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stCl.status !== 'showed') return j(res, 409, { ok: false, error: 'enrollment outcome requires a recorded show', status: stCl.status });
       var won = body.won !== false;
       var dealSize = DEAL_SIZES.indexOf(body.dealSize) !== -1 ? body.dealSize : 'medium';
       var lever = CLOSE_LEVERS.indexOf(body.lever) !== -1 ? body.lever : 'closing';
@@ -471,6 +479,7 @@ module.exports = async function handler(req, res) {
       var rfid = clip(body.leadId, 80);
       var stRf = await loadState(rfid);
       if (!stRf) return j(res, 404, { ok: false, error: 'lead not in CRM' });
+      if (stRf.status !== 'enrolled' && stRf.status !== 'referred') return j(res, 409, { ok: false, error: 'referral outcome requires an enrollment', status: stRf.status });
       var rchannel = CHANNELS.indexOf(body.channel) !== -1 ? body.channel : 'text';
       var refs = Array.isArray(body.referrals) ? body.referrals.slice(0, 20) : [];
       var wonR = refs.length > 0 || body.won === true;

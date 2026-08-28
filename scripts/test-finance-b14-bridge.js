@@ -38,7 +38,7 @@ function release(overrides) {
     id: 'sel_finance_1', status: 'RELEASED', lane: 'investment', ownerDomain: 'finance',
     command: 'generate_investment_artifact', at: 100,
     candidate: { sourceIdentity: { kind: 'master-inbox-artifact', value: 'investment:apple:artifact-1' } },
-    criticDecision: { released: { id: 'cand-action-1' } },
+    criticDecision: { released: { candidateId: 'cand-action-1', candidate: { id: 'cand-action-1' } } },
     evidence: { domainFunction: { evidence: { l3CurrentEvidenceComplete: true } } },
     authority: { artifactGenerationOnly: true, liveTradingAuthorized: false, stressDirectlyTriggered: false, headlineDirectlyTriggered: false }
   }, overrides || {});
@@ -72,9 +72,13 @@ async function main() {
 
   var built = bridge.intentFor(release(), intent);
   assert('intent preserves the released selection identity', built.selectionId === 'sel_finance_1' && built.sourceArtifactId === 'investment:apple:artifact-1');
-  assert('intent carries the critic action identity and Finance owner', built.actionId === 'cand-action-1' && built.ownerDomain === 'finance');
+  assert('intent uses the unique released selection as the causal action identity', built.actionId === 'sel_finance_1' && built.ownerDomain === 'finance');
+  assert('intent preserves the reusable critic candidate separately from the episode identity', built.decisionContext.criticCandidateId === 'cand-action-1');
   assert('intent preserves decision context without inventing market fields', built.decisionContext.sourceIdentity.value === 'investment:apple:artifact-1' && built.decisionContext.authority.liveTradingAuthorized === false);
-  assert('arbitrary horizons are rejected', (await rejected(function () { return bridge.intentFor(release(), Object.assign({}, intent, { horizonDays: [7] })); })).code === 'TRADIER_B14_INVALID_HORIZONS');
+  var repeatedKind = bridge.intentFor(release({ id: 'sel_finance_2' }), intent);
+  assert('two releases of one action kind receive distinct causal episode identities', repeatedKind.actionId === 'sel_finance_2' && repeatedKind.decisionContext.criticCandidateId === built.decisionContext.criticCandidateId && repeatedKind.actionId !== built.actionId);
+  assert('supported short horizons are accepted', bridge.intentFor(release(), Object.assign({}, intent, { horizonDays: [1, 3, 7, 14, 30, 60, 90] })).horizonDays[0] === 1);
+  assert('arbitrary horizons are rejected', (await rejected(function () { return bridge.intentFor(release(), Object.assign({}, intent, { horizonDays: [2] })); })).code === 'TRADIER_B14_INVALID_HORIZONS');
 
   var offStore = store();
   var offBroker = broker();
@@ -85,7 +89,7 @@ async function main() {
   var onBroker = broker();
   var preview = await bridge.preview(onStore, onBroker, release(), intent, { TRADIER_SANDBOX_AUTONOMY_ENABLED: '1' }, 1000);
   assert('switch on creates a broker preview but no order', preview.status === 'PREVIEWED' && preview.orderPlaced === false && onBroker.calls.join(',') === 'account,preview');
-  assert('preview carries Finance release provenance into B14', preview.preview.intent.selectionId === 'sel_finance_1' && preview.preview.intent.actionId === 'cand-action-1' && preview.preview.intent.ownerDomain === 'finance');
+  assert('preview carries Finance release provenance into B14', preview.preview.intent.selectionId === 'sel_finance_1' && preview.preview.intent.actionId === 'sel_finance_1' && preview.preview.intent.ownerDomain === 'finance');
   assert('preview retains source artifact identity', preview.preview.intent.sourceArtifactId === 'investment:apple:artifact-1');
 
   var noAuthority = bridge.executionReadiness(release(), { TRADIER_SANDBOX_ORDER_AUTONOMY_ENABLED: '1' });

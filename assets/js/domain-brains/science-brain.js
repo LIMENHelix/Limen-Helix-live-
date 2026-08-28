@@ -14,7 +14,7 @@
   function ScienceBrain() { Base.call(this, { groundedOnly: true,   // circularity cut 2026-07-24
        domainId: 'research', label: 'Research', snapshotKey: 'research', portalKey: 'science', cycleInterval: 30000 });
     this.resourceAuthority = { ownerDomain: 'research', policyId: 'science-resource/1', sandboxLane: 'research-papers', lanes: ['research', 'publication'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'research', contractId: 'science-motor/1', lane: 'research-papers', decisionContract: 'research-artifact-decision/1', budgetId: 'science-research-budget/1', receiptClass: 'artifact-receipt', outcomeClass: 'citation-use-or-falsification', rollbackClass: 'withdraw-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'research', contractId: 'science-motor/1', externalValveId: 'science:research-papers', lane: 'research-papers', decisionContract: 'research-artifact-decision/1', budgetId: 'science-research-budget/1', receiptClass: 'artifact-receipt', outcomeClass: 'citation-use-or-falsification', rollbackClass: 'withdraw-or-correct', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
   ScienceBrain.prototype = Object.create(Base.prototype);
   ScienceBrain.prototype.constructor = ScienceBrain;
@@ -55,7 +55,8 @@
     //   phase   = TRUE  — P0-P10 is the same substrate Energy couples on. Coherence router couples
     //                     to co-phased stressed peers; the phase-TRANSITION credit is self-consistency
     //                     calibration (interpretive) — a P3/P7-family transition hit is NOT an external
-    //                     ground-truth reward (science is not externalRewardEligible). The central
+    //                     ground-truth reward through this self-consistency path. Independently
+    //                     evaluated action outcomes use the Science-local feedback seam. The central
     //                     window.LIMENK4 gate owns the tiering; here the effector is credit-source into
     //                     the model's effective learning rate.
     //   refractory = FALSE (ADVISORY) — no honest effector. This brain has NO autonomous
@@ -731,7 +732,8 @@
 
     // K4 CREDIT ASSIGNMENT — routed through the ONE honest reward gate (window.LIMENK4).
     // THE RULE (owned centrally so it cannot be re-overclaimed): isReward is TRUE only when a REAL
-    // external realized outcome is supplied. Science is NOT externalRewardEligible — it has no
+    // external realized outcome is supplied here. Science's feed-resolution path is not reward-eligible;
+    // independently evaluated action outcomes are consumed by the local five-organ feedback seam, not here.
     // external ground-truth outcome — so externalOutcome is ALWAYS null and its credit is
     // SELF-CONSISTENCY CALIBRATION (interpretive) only, NEVER reward. A P3/P7-family phase-transition
     // HIT is self-consistency calibration (interpretive), NEVER a ground-truth/dopaminergic reward.
@@ -1257,7 +1259,8 @@
   //      is this brain's OWN forward read (researchModel.predictedStress vs current stress). The hit is
   //      self-consistency calibration (interpretive) — the P3/P7-family gate (validated) selects the
   //      phase-consistency tier in the central window.LIMENK4 gate; it is NEVER an external reward
-  //      (science is not externalRewardEligible). Consumed by the K4 credit hook via LIMENK4.credit.
+  //      (this phase/self-consistency path is not externally reward-eligible). Independently evaluated
+  //      action outcomes enter through the Science-local feedback seam.
   // THING2 KERNEL PHASE SOURCE. Push the domain's primary scalar (state.stress = STRESS, up=bad
   // -> positive:false) into a persistent rolling window (cap 60, persisted to localStorage) and
   // run the REAL Thing2 recursive phase kernel over it. Pure math (no network, no AI): the 30s
@@ -1980,6 +1983,206 @@
       }
     };
   };
+
+  // ── SCIENCE-LOCAL FIVE-ORGAN EXTENSION ─────────────────────────────
+  // The base schedules these organs; Science owns their implementation, state and
+  // authority here. Thing 2 is not consumed and external action remains inhibited.
+  ScienceBrain.prototype._refreshScienceActionOutcome = function () {
+    if (typeof fetch !== 'function') return null;
+    var cycle = this._cycleCount || 0;
+    if (this._lastScienceActionOutcomeCycle && cycle - this._lastScienceActionOutcomeCycle < 12) return this._scienceActionOutcome || null;
+    this._lastScienceActionOutcomeCycle = cycle;
+    var self = this;
+    try {
+      fetch('/api/product-domain-learning-state?domain=' + encodeURIComponent(this.domainId))
+        .then(function (response) { return response.json(); })
+        .then(function (result) {
+          if (!result || result.ok !== true || result.domain !== self.domainId || result.schemaVersion !== 'product-domain-external-learning/1.0') return;
+          self._scienceActionOutcome = result;
+          self.state[self.domainId + 'ActionLearning'] = result;
+          self.state.domainActionLearning = result;
+        }).catch(function () {});
+    } catch (e) {}
+    return this._scienceActionOutcome || null;
+  };
+
+  ScienceBrain.prototype._computeSciencePlasticity = function () {
+    var s = this.state;
+    if (this._plasticity === undefined) {
+      try { this._initDomainPlasticity(); } catch (e) { this._plasticity = null; }
+    }
+    var pl = this._plasticity;
+    if (!pl || !pl.P) {
+      s.researchPlasticity = s.domainPlasticity = { version: 2, domain: this.domainId, localOwner: true, mode: 'off', note: 'plasticity primitive unavailable' };
+      return null;
+    }
+    try { this._refreshDomainExternalOutcome(); } catch (e) {}
+    try { this._refreshScienceActionOutcome(); } catch (e) {}
+    var n = (s.cognition && s.cognition.neuro) || s.domainNeuro || {};
+    var gc = n.gainControl || {}, at = n.attention || {}, sm = n.slowModel || {}, hm = n.homeostasis || {}, led = n.outcomeLedger || {};
+    var pe = (s.cognition && s.cognition.model && ((s.cognition.model.predictionError && s.cognition.model.predictionError.total) || s.cognition.model.predictionError)) || 0;
+    var dx = (s.diagnoses || []).filter(function (d) { return d.active; });
+    var relevance = dx.length ? dx.reduce(function (sum, d) { return sum + (d.relevance || 0); }, 0) / dx.length : 0;
+    var actionOutcome = this._scienceActionOutcome;
+    var actionReady = !!(actionOutcome && actionOutcome.status === 'ELIGIBLE' && actionOutcome.signal && actionOutcome.learningGate && actionOutcome.learningGate.ready === true &&
+      actionOutcome.signal.sourceKind === 'independent-action-outcome' && typeof actionOutcome.signal.normalizedCredit === 'number');
+    var ext = actionReady ? { hit: actionOutcome.signal.normalizedCredit, resolvedCount: actionOutcome.resolvedCount, sourceKind: 'independent-action-outcome' } : this._externalOutcome;
+    var sourceKind = actionReady ? 'independent-action-outcome' : 'feed-resolution';
+    var k4api = typeof window !== 'undefined' ? window.LIMENK4 : null;
+    var eligible = !!(k4api && k4api.externalRewardEligible && k4api.externalRewardEligible(this.domainId, sourceKind));
+    var resolved = ext && ext.resolvedCount || 0;
+    var externalOutcome = eligible && typeof (ext && ext.hit) === 'number' && resolved >= 5 ? { hit: ext.hit, sourceKind: sourceKind } : null;
+    var credit = k4api && k4api.credit ? k4api.credit({
+      domain: this.domainId, externalOutcome: externalOutcome,
+      callHitRate: typeof led.hitRate === 'number' ? led.hitRate : null, callSamples: led.samples || 0,
+      stressSelfPred: typeof led.hitRate === 'number' ? led.hitRate : null, stressSamples: led.samples || 0
+    }) : null;
+    this._plasticityRewardActive = !!(credit && credit.isReward);
+    var mod = pl.P.readModulator(pl.mod, credit, typeof led.resolvedTotal === 'number' ? led.resolvedTotal : (led.samples || 0));
+    var feeds = {
+      K_gain: { pre: [gc.inhibition || 0], post: 1 - (typeof gc.outputScale === 'number' ? gc.outputScale : 1) },
+      K_attention: { pre: [dx.length ? 1 : 0, relevance, pe], post: (at.focus && at.focus[0] && at.focus[0].salience) || 0 },
+      K_slow: { pre: [Math.abs((s.stress || 0) - (sm.expectedStress == null ? 0.5 : sm.expectedStress))], post: sm.fastSlowDivergence || 0 },
+      K_homeo: { pre: [hm.baseline == null ? 0.5 : hm.baseline], post: hm.adaptiveThreshold || 0.1 }
+    };
+    var layers = {}, live = [], stable = true;
+    Object.keys(pl.layers).forEach(function (key) {
+      var layer = pl.layers[key], f = feeds[key];
+      pl.P.tick(layer, f.pre, f.post);
+      if (mod.fresh && mod.rpe !== null) pl.P.applyModulator(layer, mod.rpe, { metaplasticity: !!(this._actuation && this._actuation.metaplasticityLive) });
+      this._learnedVec(key, layer.seed);
+      var blend = typeof layer._blend === 'number' ? layer._blend : 0;
+      if (blend > 0) live.push(key);
+      layers[key] = { w: layer.w.slice(), labels: layer.labels, updates: layer.updates, shadowOutput: pl.P.shadowSum(layer, f.pre), live: blend > 0, blend: blend, diag: layer.diag };
+      if (!layer.diag.stable) stable = false;
+    }, this);
+    var out = {
+      version: 2, domain: this.domainId, localOwner: true, mode: live.length ? 'armed' : 'shadow',
+      liveLayers: live, rewardActive: !!this._plasticityRewardActive,
+      creditSource: credit && credit.creditSource || 'none', creditTier: credit && credit.tier || 0,
+      externalOutcome: externalOutcome ? { hit: externalOutcome.hit, resolvedCount: resolved, source: sourceKind }
+        : { active: false, resolvedCount: resolved, note: 'abstaining until five eligible independent outcomes resolve' },
+      layers: layers, convergence: { allStable: stable },
+      persistence: { hydrated: pl.hydrated, enabled: pl.persistEnabled, failures: pl.persistFailures },
+      note: 'Science-local three-factor plasticity; outcome-gated and fail-toward-seed.'
+    };
+    s.researchPlasticity = s.domainPlasticity = out;
+    if (s.cognition) s.cognition.plasticity = out;
+    if ((this._cycleCount || 0) - (pl.lastPersistCycle || 0) >= 10) {
+      pl.lastPersistCycle = this._cycleCount || 0;
+      try { this._persistDomainPlasticity(false); } catch (e) {}
+    }
+    return out;
+  };
+
+  ScienceBrain.prototype._computeScienceEmissionQueue = function () {
+    var s = this.state, n = s.domainNeuro || {}, brake = n.brake || {}, forecast = n.forecast || null;
+    var pool = (s.opportunities || []).filter(function (o) { return o && !o.held && (o.path === 'INVESTABLE' || o.path === 'RESEARCHABLE'); });
+    var packages = pool.slice(0, 3).map(function (o) {
+      var capital = o.path === 'INVESTABLE';
+      return { id: o.id, title: o.title, lane: o.path, confidence: o.confidence,
+        thesis: o.whyNow || o.title, moneyChain: o.moneyChain || null,
+        instrument: (o.companies && o.companies.length) ? o.companies : (o.examples || []),
+        forecast: forecast ? { direction: forecast.direction, projectedStress: forecast.projectedStress, horizonPeriods: forecast.horizonPeriods, falsifier: forecast.falsifier, confidence: forecast.confidence } : null,
+        requiresSignoff: capital, decision: capital ? 'capital sign-off required' : 'internal research eligible',
+        brakeLevel: brake.level || 'clear' };
+    });
+    var out = { version: 2, domain: this.domainId, localOwner: true, maxConcurrent: 3,
+      poolSize: pool.length, queued: packages.length, prunedOut: Math.max(0, pool.length - packages.length),
+      packages: packages, lastQueueAt: Date.now(), note: 'Science-local queue; research internal-only, capital staged.' };
+    s.researchEmissionQueue = s.domainEmissionQueue = out;
+    return out;
+  };
+
+  ScienceBrain.prototype._runScienceAutonomousEmission = function () {
+    var s = this.state, brake = s.domainNeuro && s.domainNeuro.brake;
+    var globalOn = typeof window !== 'undefined' && window.LIMEN_DOMAIN_AUTONOMY !== undefined ? !!window.LIMEN_DOMAIN_AUTONOMY : true;
+    var localOn = !!(this.resourceAuthority && this.resourceAuthority.switches && this.resourceAuthority.switches.internalEmission);
+    var hold = !globalOn || !localOn ? 'domain-internal-autonomy-off'
+      : (!s.resourceMetabolism || !s.resourceMetabolism.gates || !s.resourceMetabolism.gates.mayEmitInternal) ? 'resource-metabolism-inhibited'
+      : (!brake || brake.level !== 'clear') ? 'brake-' + (brake ? brake.level : 'absent') : null;
+    var emitted = [], staged = [], queue = (s.researchEmissionQueue && s.researchEmissionQueue.packages) || [];
+    queue.forEach(function (p) {
+      if (hold) { p.status = 'held'; staged.push(p); }
+      else if (p.requiresSignoff) { p.status = 'staged-for-signoff'; staged.push(p); }
+      else { p.status = 'emitted-internal'; emitted.push(p); }
+    });
+    if (emitted.length) {
+      var stream = s.researchEmitted = s.researchEmitted || [];
+      emitted.forEach(function (p) { stream.push({ at: Date.now(), title: p.title, lane: p.lane, forecast: p.forecast }); });
+      if (stream.length > 50) s.researchEmitted = stream.slice(-50);
+    }
+    var out = { version: 2, domain: this.domainId, localOwner: true, autonomy: globalOn && localOn,
+      holdReason: hold, emittedCount: emitted.length, stagedCount: staged.length, emitted: emitted, staged: staged,
+      externalEffects: 0, lastEmissionAt: Date.now(), note: hold ? 'held fail-safe' : 'Science-local internal research emission; capital staged.' };
+    s.researchAutoEmission = s.domainAutoEmission = out;
+    return out;
+  };
+
+  ScienceBrain.prototype._computeScienceInteroception = function () {
+    var s = this.state, cog = s.cognition;
+    if (!cog) return null;
+    var model = cog.model || {}, n = s.domainNeuro || cog.neuro || {};
+    var clamp = function (x) { return Math.max(0, Math.min(1, x)); }, r = function (x) { return Math.round(x * 1000) / 1000; };
+    var channels = [{ name: 'domain-stress', alarm: r(clamp(s.stress || 0)), confidence: 0.9, weight: 1, provenance: 'Science structured stress' }];
+    var pe = model.predictionError && typeof model.predictionError === 'object' ? model.predictionError.total : model.predictionError;
+    if (typeof pe === 'number') channels.push({ name: 'prediction', alarm: r(clamp(pe)), confidence: 0.7, weight: 0.85, provenance: 'Science prediction error' });
+    var ledger = n.outcomeLedger || {};
+    if (typeof ledger.hitRate === 'number' && ledger.samples >= 3) channels.push({ name: 'metacognitive', alarm: r(clamp(1 - ledger.hitRate)), confidence: ledger.samples >= 5 ? 0.7 : 0.4, weight: 0.75, provenance: 'Science outcomes' });
+    var immune = cog.immune || {}, ia = { clear: 0, watch: 0.34, active: 0.4, alert: 1 };
+    if (immune.immuneState) channels.push({ name: 'immune', alarm: ia[immune.immuneState] == null ? 0.34 : ia[immune.immuneState], confidence: 0.6, weight: 0.6, provenance: 'Science immune state' });
+    var forecast = n.forecast;
+    if (forecast && typeof forecast.projectedStress === 'number') channels.push({ name: 'allostatic', alarm: r(clamp((forecast.projectedStress - (s.stress || 0)) * 3)), confidence: typeof forecast.confidence === 'number' ? clamp(forecast.confidence) : 0.4, weight: 0.6, provenance: 'Science forecast' });
+    var weighted = function (list) { var a = 0, b = 0; list.forEach(function (c) { var w = c.weight * c.confidence; a += c.alarm * w; b += w; }); return b ? a / b : 0; };
+    var primary = channels[0], others = channels.slice(1), other = others.length ? weighted(others) : 0, divergence = other - primary.alarm;
+    var loudest = others.slice().sort(function (a, b) { return b.alarm * b.confidence - a.alarm * a.confidence; })[0];
+    var salience = divergence >= 0.22 && primary.alarm < 0.5 && loudest && loudest.alarm >= 0.4 ? 'blind-channel'
+      : primary.alarm - other >= 0.22 && primary.alarm >= 0.5 ? 'primary-only' : 'aligned';
+    var alarms = channels.map(function (c) { return c.alarm; });
+    var out = { version: 2, domain: this.domainId, localOwner: true, method: 'domain-local-weighted-divergence',
+      observeOnly: true, channels: channels, channelCount: channels.length,
+      primary: 'domain-stress', primaryAlarm: primary.alarm, consensusOther: r(other),
+      integrated: r(weighted(channels)), divergence: r(divergence),
+      uncertainty: r(Math.max.apply(null, alarms) - Math.min.apply(null, alarms)), salience: salience,
+      attend: salience === 'blind-channel' ? loudest.name : null, note: 'Science-local interoception; observe-only.' };
+    s.researchInteroception = s.domainInteroception = s.interoception = out;
+    cog.interoception = out;
+    return out;
+  };
+
+  ScienceBrain.prototype._computeScienceActiveInference = function () {
+    var s = this.state, cog = s.cognition;
+    if (!cog) return null;
+    if (this._activeInference === undefined) {
+      try { this._initDomainActiveInference(); } catch (e) { this._activeInference = null; }
+    }
+    var box = this._activeInference;
+    if (!box || !box.A) {
+      s.researchActiveInference = s.domainActiveInference = { version: 2, domain: this.domainId, localOwner: true, mode: 'off', note: 'active-inference primitive unavailable' };
+      return null;
+    }
+    var n = s.domainNeuro || cog.neuro || {}, ledger = n.outcomeLedger || {};
+    box.A.updateBeliefs(box.ai, typeof s.stress === 'number' ? s.stress : null);
+    var selection = box.A.selectAction(box.ai, { setpoint: n.homeostasis && typeof n.homeostasis.adaptiveThreshold === 'number' ? n.homeostasis.adaptiveThreshold : 0.35,
+      callHitRate: typeof ledger.hitRate === 'number' ? ledger.hitRate : null, brakeActive: !!(n.brake && n.brake.level === 'halt') });
+    var queued = (s.researchEmissionQueue && s.researchEmissionQueue.packages || []).length;
+    var actual = n.brake && n.brake.level === 'halt' ? 'hold-emission' : queued ? 'emit-call' : n.attention && n.attention.driver === 'novelty-driven' ? 'broaden-attention' : 'observe';
+    var out = { version: 2, domain: this.domainId, localOwner: true, mode: 'shadow',
+      selected: selection.selected, selectedMaps: selection.selectedMaps, actualBehavior: actual,
+      agreement: selection.selected === actual, actions: selection.actions, beliefs: selection.beliefs,
+      preference: selection.preference, liveConsumer: false, thing2Consumed: false,
+      note: 'Science-local belief update and expected-free-energy advisory; no live consumer.' };
+    s.researchActiveInference = s.domainActiveInference = out;
+    cog.activeInference = out;
+    return out;
+  };
+
+  ScienceBrain.prototype._computeDomainPlasticity = ScienceBrain.prototype._computeSciencePlasticity;
+  ScienceBrain.prototype._computeGenericEmissionQueue = ScienceBrain.prototype._computeScienceEmissionQueue;
+  ScienceBrain.prototype._runGenericAutonomousEmission = ScienceBrain.prototype._runScienceAutonomousEmission;
+  ScienceBrain.prototype._computeGenericInteroception = ScienceBrain.prototype._computeScienceInteroception;
+  ScienceBrain.prototype._computeGenericActiveInference = ScienceBrain.prototype._computeScienceActiveInference;
+
 
   var brain = new ScienceBrain(); brain.init(); brain.start();
   window.LIMENResearchBrain = brain;

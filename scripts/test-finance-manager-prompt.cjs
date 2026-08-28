@@ -23,6 +23,8 @@ assert.equal(req.schemaVersion, Prompt.REQUEST_SCHEMA);
 assert.equal(req.mode, 'sandbox-paper');
 assert(req.instructions.some((x) => x.includes('never an order')));
 assert.equal(req.context.observations.length, 1);
+assert.equal(Object.prototype.hasOwnProperty.call(req.context, 'thing2'), false);
+assert.equal(req.context.postDecisionMaskingReconciliationDeferred, true);
 assert.equal(req.outputSchema.paperOnly, true);
 assert.match(req.outputSchema.horizonDays, /exactly one/);
 assert(req.instructions.some((x) => x.includes('horizonDays') && x.includes('never be an array')));
@@ -48,6 +50,7 @@ assert.deepEqual(candidateReq.context.companyCandidates[0].allowedEvidenceRefs, 
   { role: 'market', sourceIdentity: { kind: 'market-quote', value: 'market:1' } },
   { role: 'network', sourceIdentity: { kind: 'network-snapshot', value: 'network:1' } }
 ]);
+assert.equal(Object.prototype.hasOwnProperty.call(candidateReq.context.companyCandidates[0].ledger.ledger, 'thing2'), false);
 assert(candidateReq.instructions.some((x) => x.includes('same companyCandidates entry')));
 assert(candidateReq.instructions.some((x) => x.includes('exactly three evidenceRefs')));
 

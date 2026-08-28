@@ -70,3 +70,5 @@ module.exports = async function handler(req, res) {
     return res.end(JSON.stringify({ ok: false, error: 'observer-failed', detail: String(err && err.message || err) }));
   }
 };
+
+module.exports = require('../lib/heartbeat').wrap('limen-outcome-observer', module.exports);

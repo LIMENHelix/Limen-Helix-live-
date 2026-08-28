@@ -14,8 +14,9 @@
  *
  *   AI spend        a runtime pause in Redis          (lib/ai-kill-switch)
  *   Social posting  a runtime pause in Redis          (lib/social-post)
- *   4 valves        autopilot, automail,              (lib/heartbeat.setValve)
- *                   subscriber-digest, social-cron
+ *   5 valves        autopilot, automail,              (lib/heartbeat.setValve)
+ *                   subscriber-digest, social-cron,
+ *                   finance-paper-cycle
  *
  * Email, Bluesky and lead capture are CAPABILITIES, not toggles — they have no
  * on/off of their own, they are exercised by the jobs above. Drawing them as
@@ -85,7 +86,8 @@
     { id: 'autopilot', valve: 'autopilot', nm: 'Autopilot', sub: 'Valve · 7,37 * * * *' },
     { id: 'automail', valve: 'automail', nm: 'Auto-mail', sub: 'Valve · 45 11 * * *' },
     { id: 'digest', valve: 'subscriber-digest', nm: 'Subscriber digest', sub: 'Valve · 30 13 * * *' },
-    { id: 'socialcron', valve: 'social-cron', nm: 'Social cron', sub: 'Valve · 8× a day' }
+    { id: 'socialcron', valve: 'social-cron', nm: 'Social cron', sub: 'Valve · 8× a day' },
+    { id: 'financepaper', valve: 'finance-paper-cycle', nm: 'Finance paper cycle', sub: 'Valve · Tradier sandbox only · 16,46 * * * *' }
   ];
 
   // Wired and working, but not a toggle. Each names the lever that governs it, so

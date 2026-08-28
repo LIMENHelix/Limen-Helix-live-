@@ -1,5 +1,5 @@
 /**
- * master-consciousness-box.js — the MASTER operator AI box (the unified consciousness).
+ * master-consciousness-box.js — the MASTER operator civilization briefing box.
  *
  * Each domain has its own "Ask X" box (domain-agent-box.js) that faces ONE domain's
  * self-model. This is the one level up: a single conversational surface that faces
@@ -10,7 +10,9 @@
  *
  * Mounts only on the civilization page (all 20 brains loaded, no ?domain=). The
  * deterministic master-brain readout (unified-consciousness-panel.js) shows the
- * observe-only arbiter; THIS box is the language layer the operator talks to.
+ * observe-only arbiter; THIS box is the language layer the operator talks to. The
+ * provider handler independently joins authoritative server evidence; this browser
+ * projection is display-advisory only.
  *
  * TWO MODES, auto-selected (mirrors the per-domain box):
  *  - AI (Sonnet 5): passcode entered AND billing on -> POST /api/master-agent.
@@ -54,13 +56,17 @@
     for (var i = 0; i < ms.length; i++) { var it = intero(ms[i]); if (it && it.salience === 'blind-channel') out.push({ label: ms[i]._label, attend: it.attend, divergence: it.divergence }); }
     return out.sort(function (a, b) { return (b.divergence || 0) - (a.divergence || 0); });
   }
-  function financialOnly(ms) {
+  function primaryOnly(ms) {
     var out = [];
-    for (var i = 0; i < ms.length; i++) { var it = intero(ms[i]); if (it && it.salience === 'financial-only') out.push({ label: ms[i]._label, divergence: it.divergence }); }
+    for (var i = 0; i < ms.length; i++) {
+      var it = intero(ms[i]);
+      if (it && (it.salience === 'financial-only' || it.salience === 'primary-only')) out.push({ label: ms[i]._label, salience: it.salience, divergence: it.divergence });
+    }
     return out;
   }
-  // NODE-GROUNDED PHASE divergence: the domain's own kernel-scored companies disagree with its
-  // stress-heuristic phase. A real, checkable signal (audited financials), NOT the wiring artifact.
+  // Thing 2 context: the domain's company-pattern snapshot differs from its current
+  // stress heuristic. This can reveal possible masking/alignment to inspect, but has
+  // no prediction, selection, sizing, or decision authority.
   function groundedDivergent(ms) {
     var out = [];
     for (var i = 0; i < ms.length; i++) { var m = ms[i]; if (m && m.phaseGrounded && m.phaseDivergent) out.push({ label: m._label, prior: m.phasePrior, grounded: m.phaseLabel || m.phase, stress: num(m.stress) }); }
@@ -100,7 +106,7 @@
     if (blind.length) lines.push('BLIND-CHANNEL divergence (calm on money, alarmed elsewhere) in ' + blind.length + ': ' + blind.slice(0, 4).map(function (b) { return b.label + '→' + b.attend; }).join(', ') + '. These are where the single financial read would miss the distress.');
     else lines.push('No blind-channel divergence right now — financial reads agree with the other channels.');
     var gdiv = groundedDivergent(ms);
-    if (gdiv.length) lines.push('NODE-GROUNDED PHASE divergence in ' + gdiv.length + ': ' + gdiv.slice(0, 4).map(function (g) { return g.label + ' companies read ' + g.grounded + ' vs stress-heuristic ' + g.prior; }).join(', ') + '. The domain\'s own kernel-scored companies disagree with its stress read — a real, checkable signal (audited financials), not the financial-only wiring artifact.');
+    if (gdiv.length) lines.push('THING 2 CONTEXT divergence in ' + gdiv.length + ': ' + gdiv.slice(0, 4).map(function (g) { return g.label + ' company-pattern snapshot ' + g.grounded + ' vs current stress heuristic ' + g.prior; }).join(', ') + '. Context-only masking/alignment comparison; it does not confirm, predict, or authorize a decision.');
     if (imm.length) lines.push('Immune: ' + imm.map(function (x) { return x.label + ' ' + x.immune; }).join(', ') + '.');
     var opp = allOpportunities(ms);
     lines.push(opp.length + ' opportunities surfaced across domains' + (opp.length ? '; top: ' + opp[0].label + ' — ' + opp[0].title : '') + '.');
@@ -112,11 +118,11 @@
     if (!ms.length) return overview(ms);
 
     if (/(blind|diverg|missing|ignor|interocep|channel|aware|alexithy|what.*miss)/.test(p)) {
-      var blind = blindChannels(ms), fin = financialOnly(ms);
+      var blind = blindChannels(ms), fin = primaryOnly(ms);
       if (!blind.length && !fin.length) return 'No channel divergence across the 20 domains right now — every domain\'s financial read agrees with its prediction/regulation/immune/allostatic channels.';
       var out = [];
       if (blind.length) out.push('BLIND CHANNEL (financial calm, another channel alarmed — the single-channel read would miss this): ' + blind.map(function (b) { return b.label + ' → ' + b.attend + ' (divergence ' + pct(b.divergence) + ')'; }).join('; ') + '.');
-      if (fin.length) out.push('FINANCIAL-ONLY (money alarmed, other channels calm — possible overreaction): ' + fin.map(function (b) { return b.label; }).join(', ') + '.');
+      if (fin.length) out.push('PRIMARY-ONLY internal divergence (the domain primary stress channel is louder than its other internal channels; observe-only, not evidence of market overreaction): ' + fin.map(function (b) { return b.label + ' [' + b.salience + ']'; }).join(', ') + '.');
       return out.join('\n');
     }
     if (/(stress|hot|worst|most.*(stress|distress)|risk|pressure|tension)/.test(p)) {
@@ -186,7 +192,7 @@
     var toggle = document.createElement('div'); toggle.id = 'mcb-toggle'; toggle.textContent = 'Ask the System';
     var panel = document.createElement('div'); panel.id = 'mcb';
     panel.innerHTML =
-      '<div class="mcb-h"><span><b>UNIFIED CONSCIOUSNESS</b> · all 20 domains</span><span class="mcb-x">CLOSE</span></div>' +
+      '<div class="mcb-h"><span><b>CIVILIZATION BRIEFING</b> · all 20 domains</span><span class="mcb-x">CLOSE</span></div>' +
       '<div class="mcb-log" id="mcb-log"></div>' +
       '<div class="mcb-key"><label>optional: operator passcode for AI mode (blank = free local synthesis)</label><input id="mcb-key" type="password" placeholder="passcode (optional)"></div>' +
       '<div class="mcb-in"><textarea id="mcb-t" placeholder="Ask across all domains: what am I missing? · most stressed? · where\'s the money? · immune alerts?"></textarea><button class="mcb-send" id="mcb-send">Send</button></div>';
@@ -201,9 +207,14 @@
     toggle.onclick = function () { panel.classList.toggle('open'); if (panel.classList.contains('open')) ta.focus(); };
     panel.querySelector('.mcb-x').onclick = function () { panel.classList.remove('open'); };
     function add(html) { var d = document.createElement('div'); d.className = 'mcb-msg'; d.innerHTML = html; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
-    function stamp(mode, ms, left) { return (mode || '') + (typeof left === 'number' ? ' · ' + left + ' AI left today' : '') + ' · reading ' + ms.length + '/20 self-models · ' + (blindChannels(ms).length) + ' blind-channel'; }
-    function renderResult(pending, answer, mode, ms, left) {
-      pending.innerHTML = '<span class="mcb-ai">' + esc(answer || '') + '</span><div class="mcb-stamp">' + esc(stamp(mode, ms, left)) + '</div>';
+    function stamp(mode, ms, left, evidence) {
+      var out = (mode || '') + (typeof left === 'number' ? ' · ' + left + ' AI left today' : '') + ' · display ' + ms.length + '/20 self-models · ' + (blindChannels(ms).length) + ' blind-channel';
+      var cov = evidence && evidence.coverage;
+      if (cov) out += ' · server ' + (cov.serverObservedDomains || 0) + '/20 · semantic ' + (cov.semanticObservedDomains || 0) + '/20 · ' + (cov.evidenceHeadlinesIncluded || 0) + ' headlines';
+      return out;
+    }
+    function renderResult(pending, answer, mode, ms, left, evidence) {
+      pending.innerHTML = '<span class="mcb-ai">' + esc(answer || '') + '</span><div class="mcb-stamp">' + esc(stamp(mode, ms, left, evidence)) + '</div>';
       log.scrollTop = log.scrollHeight;
     }
 
@@ -215,7 +226,7 @@
       var ms = models();
       var localAns = answerLocal(prompt, ms);
       var passcode = (keyInput.value || '').trim();
-      if (!passcode) { renderResult(pending, localAns, 'local (free)', ms, null); return; }
+      if (!passcode) { renderResult(pending, localAns, 'local display synthesis (no server evidence bundle)', ms, null, null); return; }
       try { localStorage.setItem(LS_KEY, passcode); } catch (e) {}
       // Compact per-domain projection for the model (keep the payload small).
       var compact = ms.map(function (m) { var it = intero(m); return { domain: m._domain, label: m._label, stress: m.stress, phase: m.phaseLabel || m.phase, phaseGrounded: !!m.phaseGrounded, phaseDivergent: !!m.phaseDivergent, phasePrior: m.phasePrior || null, phaseSource: m.phaseSource || null, regulation: m.regulation, immune: m.immune, salience: it && it.salience, attend: it && it.attend, divergence: it && it.divergence, topDx: (m.activeDiagnoses || [])[0] && (m.activeDiagnoses[0].id), topOpp: (m.topOpportunities || [])[0] && (m.topOpportunities[0].title) }; });
@@ -223,13 +234,13 @@
         method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ passcode: passcode, prompt: prompt, models: compact })
       }).then(function (r) { return r.json(); }).then(function (j) {
-        if (j && j.ok) renderResult(pending, j.answer, 'AI', ms, j.left);
-        else renderResult(pending, localAns, 'local (AI off: ' + esc((j && j.error) || 'unavailable') + ')', ms, null);
-      }).catch(function () { renderResult(pending, localAns, 'local (AI unreachable)', ms, null); });
+        if (j && j.ok) renderResult(pending, j.answer, 'AI + server evidence', ms, j.left, j.evidence);
+        else renderResult(pending, localAns, 'local display synthesis (AI off: ' + esc((j && j.error) || 'unavailable') + ')', ms, null, null);
+      }).catch(function () { renderResult(pending, localAns, 'local display synthesis (AI unreachable)', ms, null, null); });
     }
     panel.querySelector('#mcb-send').onclick = send;
     ta.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
 
-    add('<span class="mcb-ai">Unified consciousness online (free local synthesis). I read all 20 domains\' self-models at once — stress, immunity, and the multimodal interoception channels — and reason across them. Ask: "what am I missing?", "most stressed?", "where\'s the money?", "immune alerts?", or name a domain. I synthesize; to steer one domain, open its own box. Add a passcode for conversational AI once billing is on.</span>');
+    add('<span class="mcb-ai">Civilization briefing online. Without a passcode I synthesize the 20 browser display summaries locally. With a passcode, the server independently joins current snapshots, durable cognition packets, feed evidence, provenance, and freshness before the AI answers. This surface observes and explains; it does not steer a domain or authorize an action.</span>');
   });
 })();

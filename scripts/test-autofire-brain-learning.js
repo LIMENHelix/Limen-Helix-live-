@@ -78,11 +78,24 @@ async function main() {
   assert('investment owner is finance', POLICY.ownerFor('investment', 'technology') === 'finance');
   assert('science canonicalizes to research', POLICY.ownerFor('research', 'science') === 'research');
   assert('medicine canonicalizes to health', POLICY.ownerFor('research', 'medicine') === 'health');
+  assert('education retains its sovereign research owner', POLICY.ownerFor('research', 'education') === 'education');
+  assert('environment retains its sovereign research owner', POLICY.ownerFor('research', 'environment') === 'environment');
   assert('trade cannot own research', POLICY.ownerFor('research', 'trade') === null);
 
   var held = POLICY.select({ lane: 'research', candidate: candidate('trade', 0), domainCycle: null, at: 1 });
   assert('non-science research is held', held.status === 'HELD');
-  assert('hold names domain mismatch', held.reasons.indexOf('research_subject_not_science_or_medicine') >= 0);
+  assert('hold names domain mismatch', held.reasons.indexOf('research_subject_has_no_registered_research_owner') >= 0);
+
+  var educationReleased = POLICY.select({
+    lane: 'research', candidate: candidate('education', 11), domainCycle: cycle('education'),
+    gate: SELECT.createGate(), modulation: {}, at: 2
+  });
+  assert('education research releases only with its own current brain evidence', educationReleased.status === 'RELEASED', educationReleased.reasons.join(','));
+  var environmentReleased = POLICY.select({
+    lane: 'research', candidate: candidate('environment', 12), domainCycle: cycle('environment'),
+    gate: SELECT.createGate(), modulation: {}, at: 2
+  });
+  assert('environment research releases only with its own current brain evidence', environmentReleased.status === 'RELEASED', environmentReleased.reasons.join(','));
 
   var released = POLICY.select({
     lane: 'research', candidate: candidate('medicine', 1), domainCycle: cycle('health'),
@@ -95,6 +108,32 @@ async function main() {
   assert('release is artifact-only', released.authority.artifactGenerationOnly === true);
   assert('release never authorizes live trading', released.authority.liveTradingAuthorized === false);
   assert('stress did not directly trigger', released.authority.stressDirectlyTriggered === false);
+
+  var domainPacketCandidate = {
+    cik: null, subjectId: 'science:evidence-synthesis:one', domain: 'science',
+    source: 'domain-packet-research', sourceArtifactRef: 'science:evidence-synthesis:one:window',
+    sourcePacketId: 'science:3:packet', sourcePatternSig: 'research:feed:item',
+    topicEvidenceRefs: [{ kind: 'headline-title', value: 'research:feed:item' }],
+    _estimatedCostUsd: 0.30,
+    masterGate: {
+      confidence: 0.54, evidenceQuality: 0.75, uncertainty: 0.46,
+      readiness: 0.72, salience: 0.44, completeness: 1
+    }
+  };
+  var domainPacketReleased = POLICY.select({
+    lane: 'research', candidate: domainPacketCandidate, domainCycle: cycle('research'),
+    gate: SELECT.createGate(), modulation: {}, at: 3
+  });
+  assert('source-owned research can release without pretending to have a company CIK',
+    domainPacketReleased.status === 'RELEASED', domainPacketReleased.reasons.join(','));
+  assert('research evidence coverage stays distinct from conclusion confidence',
+    domainPacketReleased.criticDecision.released.candidate.parameters.measuredEvidenceQuality === 0.75 &&
+    domainPacketReleased.criticDecision.released.candidate.parameters.measuredUncertainty === 0.46);
+  assert('domain packet identity and bounded evidence references survive the selection receipt',
+    domainPacketReleased.candidate.subjectId === domainPacketCandidate.subjectId &&
+    domainPacketReleased.candidate.sourcePacketId === domainPacketCandidate.sourcePacketId &&
+    domainPacketReleased.candidate.sourceIdentity.kind === 'domain-packet-evidence' &&
+    domainPacketReleased.candidate.topicEvidenceRefs.length === 1);
   assert('headline did not directly trigger', released.authority.headlineDirectlyTriggered === false);
 
   var noL3 = POLICY.select({
@@ -135,10 +174,22 @@ async function main() {
   var goodResearch = LEARN.grade({ eventType: 'OUTCOME_RESEARCH_EVALUATED', lane: 'research', outcomeData: fullResearchData('PROGRESS') });
   assert('fully evidenced research progress is graded', goodResearch.graded === true);
   assert('research progress reward is explicit +1', goodResearch.reward === 1);
+  var learnedResearch = await LEARN.recordOutcome(store, {
+    eventId: 'evt_eval', eventType: 'OUTCOME_RESEARCH_EVALUATED', lane: 'research', ownerDomain: 'health',
+    actionId: copy('research', 1).actionId, ts: 2100, outcomeData: fullResearchData('PROGRESS'),
+    sourceIdentity: { kind: 'external-evaluator', value: 'panel:health:1' }
+  });
+  assert('graded research evaluation creates a domain-owned external learning signal',
+    learnedResearch.ok && learnedResearch.externalLearningSignal && learnedResearch.externalLearningSignal.normalizedCredit === 1);
+  health = await LEARN._load(store, 'health');
+  assert('health keeps its learning signal in its own durable state',
+    health.externalLearning.resolvedCount === 1 && health.externalLearning.signals[0].ownerDomain === 'health');
 
   var missingInvestment = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: { netPnl: 1 } });
   assert('incomplete investment terms are ungraded', missingInvestment.graded === false);
-  assert('missing horizon is named', missingInvestment.reasons.indexOf('horizonDays_must_be_30_60_or_90') >= 0);
+  assert('missing horizon is named', missingInvestment.reasons.indexOf('horizonDays_must_be_multiscale_investment_horizon') >= 0);
+  var fastWin = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: investmentData(1, 1, 1, 0, false) });
+  assert('one-day independently measured outperformance is a valid fast learning signal', fastWin.outcome === 'SUCCESS');
   var win = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: investmentData(30, 5, 5, 2, false) });
   assert('profit plus outperformance is success', win.outcome === 'SUCCESS' && win.reward === 1);
   var loss = LEARN.grade({ eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', outcomeData: investmentData(60, -1, -1, -3, false) });
@@ -167,13 +218,34 @@ async function main() {
     assert('investment command ' + i + ' recorded', cr.ok === true);
     var er = await LEARN.recordOutcome(store, {
       eventId: 'evt_inv_' + i, eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'finance',
-      actionId: cp.actionId, ts: 4000 + i, outcomeData: investmentData(30, 5, 5, 2, false)
+      actionId: cp.actionId, ts: 4000 + i, outcomeData: investmentData(30, 5, 5, 2, false),
+      sourceIdentity: { kind: 'tradier-sandbox-account', value: 'snapshot:' + i }
     });
     assert('investment outcome ' + i + ' is retained while cohort gating controls B12', er.ok && er.b12Updated === (i === 14));
   }
   var finance = await LEARN._load(store, 'finance');
   assert('five distinct resolutions create one risk-adjusted B12 update', finance.modulators.rewardHistory.length === 1);
+  assert('the five-trade cohort creates one Finance external learning signal, not five self-reports',
+    finance.externalLearning.resolvedCount === 1 && finance.externalLearning.signals.length === 1);
   assert('five commands and five returned outcomes remain episodic before consolidation', finance.memory.episodic.length === 10);
+
+  var companyAction = copy('investment', 10).actionId;
+  var company60 = await LEARN.recordOutcome(store, {
+    eventId: 'evt_inv_10_60', eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'finance',
+    actionId: companyAction, ts: 5000, outcomeData: investmentData(60, 5, 5, 2, true),
+    sourceIdentity: { kind: 'tradier-sandbox-account', value: 'snapshot:10:60' }
+  });
+  var company90 = await LEARN.recordOutcome(store, {
+    eventId: 'evt_inv_10_90', eventType: 'OUTCOME_INVESTMENT_PNL', lane: 'investment', ownerDomain: 'finance',
+    actionId: companyAction, ts: 6000, outcomeData: investmentData(90, 5, 5, 2, false),
+    sourceIdentity: { kind: 'tradier-sandbox-account', value: 'snapshot:10:90' }
+  });
+  assert('each resolved company outcome updates only its compact company pattern',
+    company60.companyPattern && company90.companyPattern && company90.companyPattern.companyId === 'cik:1010' && company90.companyPattern.resolvedCount === 3);
+  assert('a company risk breach produces an advisory repair rather than trade authority',
+    company90.companyPattern.recommendation.status === 'TIGHTEN_RISK_LIMIT_OR_ABSTAIN' && company90.companyPattern.recommendation.advisoryOnly === true);
+  finance = await LEARN._load(store, 'finance');
+  assert('Finance owns its durable per-company pattern separately', finance.companyPatterns['cik:1010'].episodes.length === 3);
 
   var consolidated = await LEARN.consolidateDomain(store, 'finance', 9999);
   assert('B13 ran in offline state', consolidated.result.ran === true);

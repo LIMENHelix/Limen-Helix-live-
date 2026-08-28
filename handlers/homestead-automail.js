@@ -12,7 +12,8 @@
  */
 var db = require('../lib/limen-db');
 var motorStore = require('../lib/autofire-efference-store');
-var motorAuthorization = require('../lib/product-domain-motor-authorization');
+var lawDecision = require('../lib/law-automail-decision');
+var lawExecutor = require('../lib/law-automail-executor');
 var STATE = 'homestead:automail', MAILED = 'homestead:mailed', MCFG = 'homestead:mailconfig';
 var CFG_FIELDS = ['fromName', 'fromLine1', 'fromCity', 'fromState', 'fromZip', 'contactPhone', 'contactName'];
 
@@ -57,6 +58,21 @@ async function lobSend(o, LOB, FROM, PHONE, NAME) {
   try { var r = await fetch('https://api.lob.com/v1/letters', { method: 'POST', headers: { Authorization: au, 'Content-Type': 'application/x-www-form-urlencoded' }, body: f.toString() }); var jr = await r.json(); return { ok: r.ok, id: jr.id, err: jr.error }; }
   catch (e) { return { ok: false, err: String(e && e.message || e) }; }
 }
+async function lobCreate(candidate, LOB, FROM, idempotencyKey) {
+  var au = 'Basic ' + Buffer.from(LOB + ':').toString('base64'), a = candidate.address, f = new URLSearchParams();
+  f.set('description', 'Homestead ' + candidate.parcelHash.slice(0, 16));
+  f.set('to[name]', a.name); f.set('to[address_line1]', a.line1); f.set('to[address_city]', a.city);
+  f.set('to[address_state]', a.state); f.set('to[address_zip]', a.zip);
+  f.set('from[name]', FROM.name); f.set('from[address_line1]', FROM.line1); f.set('from[address_city]', FROM.city);
+  f.set('from[address_state]', FROM.state); f.set('from[address_zip]', FROM.zip);
+  f.set('file', candidate.html); f.set('color', 'false'); f.set('use_type', 'marketing');
+  try { var r = await fetch('https://api.lob.com/v1/letters', { method: 'POST', headers: { Authorization: au,
+      'Content-Type': 'application/x-www-form-urlencoded', 'Idempotency-Key': idempotencyKey, 'Lob-Version': '2024-01-01', 'User-Agent': 'limen-helix/1.0' }, body: f.toString() });
+    var jr = await r.json().catch(function () { return {}; }); return { ok: r.ok, id: jr.id, error: jr.error && (jr.error.message || jr.error),
+      providerCalled: true, definitiveFailure: r.status >= 400 && r.status < 500 && r.status !== 409, ambiguous: r.status === 409 }; }
+  catch (e) { return { ok: false, error: String(e && e.message || e), providerCalled: true, definitiveFailure: false, ambiguous: true }; }
+}
+function numericEnv(name, fallback) { var n = parseFloat(process.env[name]); return isFinite(n) && n >= 0 ? n : fallback; }
 
 module.exports = async function handler(req, res) {
   var ADMIN = process.env.LEAD_ADMIN_KEY || '';
@@ -117,11 +133,6 @@ module.exports = async function handler(req, res) {
     var LOB = process.env.LOB_API_KEY || '', FROM = fromCfg(), PHONE = CPHONE, NAME = CNAME;
     if (!st.armed) return j(res, 200, { ok: true, mode: 'disarmed', count: 0 });
     var live = !!(LOB && FROM.line1);
-    // Law owns the current physical-message effector. The armed flag selects
-    // candidates; a fresh restored Law motor receipt separately controls whether
-    // Lob may receive them. A held receipt automatically downgrades to dry-run.
-    var motorGate = await motorAuthorization.authorize(motorStore, 'law', 'automail', Date.now());
-    if (!motorGate.authorized) live = false;
     var deals = (await db.get('realauction:deals')) || [];
     var mailed = (await db.get(MAILED)) || {};
     var enabled = (st.states && st.states.length) ? st.states : ['FL'];
@@ -178,11 +189,21 @@ module.exports = async function handler(req, res) {
                ((b.priority || 0) - (a.priority || 0));
       })
       .slice(0, st.cap || 20);
-    var sent = [], fails = 0;
+    var sent = [], fails = 0, held = 0, decisions = [];
     for (var i = 0; i < picks.length; i++) {
       var d = picks[i], k = d.parcel || d.caseNumber;
-      if (live) { var r = await lobSend(d, LOB, FROM, PHONE, NAME); if (r.ok) sent.push(k); else fails++; }
-      else sent.push(k);
+      if (live) {
+        var candidate = lawDecision.candidate(d, letterHTML(d, PHONE, NAME), MIN_LEAD_DAYS);
+        var decision = await lawDecision.decide(motorStore, candidate, Date.now());
+        decisions.push({ dealKey: k, status: decision.status, decisionReceiptId: decision.decisionReceiptId || null, blockers: decision.blockers || [] });
+        if (decision.status !== 'RELEASED') { held++; continue; }
+        var result = await lawExecutor.execute({ store: motorStore, candidate: candidate, decision: decision, now: Date.now(),
+          letterCostUsd: numericEnv('LAW_AUTOMAIL_LETTER_USD', null), dailyBudgetUsd: numericEnv('LAW_AUTOMAIL_DAILY_BUDGET_USD', null),
+          dailyLetterCap: numericEnv('LAW_AUTOMAIL_DAILY_LETTER_CAP', st.cap || 20),
+          liveMoney: /^live_/.test(LOB),
+          provider: { create: function (exactCandidate, idempotencyKey) { return lobCreate(exactCandidate, LOB, FROM, idempotencyKey); } } });
+        if (result.status === 'ACCEPTED') sent.push(k); else if (result.status === 'HELD' || result.status === 'HELD_BUDGET') held++; else fails++;
+      } else sent.push(k);
     }
     // Persist the skip counts even on a dry run and even when nothing was sent —
     // especially then. A run that mails nothing because forty deals were inside
@@ -193,11 +214,9 @@ module.exports = async function handler(req, res) {
     if (live && sent.length) { sent.forEach(function (k) { mailed[k] = Date.now(); }); await db.set(MAILED, mailed); st.mailedTotal = (st.mailedTotal || 0) + sent.length; }
     await db.set(STATE, st);
     return j(res, 200, {
-      ok: true, mode: live ? 'sent' : 'dry-run', count: sent.length, candidates: picks.length,
+      ok: true, mode: live ? (sent.length ? 'sent' : 'held') : 'dry-run', count: sent.length, candidates: picks.length,
       fails: fails, needReturnAddress: !FROM.line1, hasLobKey: !!LOB,
-      motorHeld: !motorGate.authorized,
-      motorReason: motorGate.reason || null,
-      motorReceiptId: motorGate.receiptId || null,
+      held: held, decisions: decisions,
       // Reported, never silent. "0 sent" with 40 skipped for lead time is a
       // working filter; "0 sent" with nothing skipped is an empty pipeline. The
       // operator cannot tell those apart without these counts.

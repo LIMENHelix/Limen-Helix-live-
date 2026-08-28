@@ -20,12 +20,18 @@ function storeWith(decision) {
   };
 }
 function selectedDecision() {
+  const actionId = 'cand_finance_open_sandbox_long';
   return {
     schemaVersion: Decision.RECEIPT_SCHEMA,
     packetId: 'packet-1',
     status: 'TRADE_INTENT_SELECTED',
-    selection: { id: 'selection-1', status: 'RELEASED', lane: 'investment', ownerDomain: 'finance', command: 'prepare_tradier_sandbox_order', candidate: { sourceIdentity: { value: 'artifact-1' } }, authority: { tradierSandboxOrderAutomation: true } },
-    tradeIntent: { symbol: 'SPY', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510, sourceArtifactId: 'artifact-1', horizonDays: [30, 60, 90] },
+    selection: {
+      id: 'selection-1', status: 'RELEASED', lane: 'investment', ownerDomain: 'finance', command: 'prepare_tradier_sandbox_order',
+      candidate: { cik: '320193', ticker: 'AAPL', sourceIdentity: { value: 'artifact-1' } },
+      criticDecision: { outcome: 'released', released: { candidateId: actionId } },
+      authority: { tradierSandboxOrderAutomation: true }
+    },
+    tradeIntent: { symbol: 'AAPL', side: 'buy', quantity: 1, limitPrice: 500, maxNotionalUsd: 510, sourceArtifactId: 'artifact-1', horizonDays: [30, 60, 90] },
     safety: { brokerReadOnly: true, orderPreviewed: false, orderPlaced: false, paperOnly: true, liveMoney: false }
   };
 }
@@ -37,7 +43,14 @@ function bridge(options) {
     async previewDecision(store) {
       assert.equal(store.values.has(Executor.claimKey('packet-1')), true, 'packet must be claimed before broker preview');
       if (options.previewError) throw options.previewError;
-      return { status: 'PREVIEWED', preview: { previewId: 'preview-1', confirmationSummary: 'APPROVE EXACT' } };
+      return {
+        status: 'PREVIEWED',
+        preview: {
+          previewId: 'preview-1',
+          confirmationSummary: 'APPROVE EXACT',
+          intent: { actionId: options.previewActionId || 'selection-1' }
+        }
+      };
     }
   };
 }
@@ -50,7 +63,16 @@ function developmental(authorized) {
     : { authorized: false, reason: 'zero-effect-sandbox-rollback-proof-missing' }; } };
 }
 function b14() {
-  return { async submitApproved(_store, _broker, input) { assert.deepEqual(input, { previewId: 'preview-1', confirmation: 'APPROVE EXACT' }); return { commandId: 'command-1', receipt: { orderId: 'order-1' }, rollback: { status: 'AVAILABLE' } }; } };
+  return { async submitApproved(_store, _broker, input) {
+    assert.equal(input.previewId, 'preview-1'); assert.equal(input.confirmation, 'APPROVE EXACT');
+    assert.equal(input.approval.mode, 'domain-autonomous'); assert.equal(input.approval.actor, 'finance-brain');
+    assert.equal(input.approval.ownerDomain, 'finance');
+    const expectedMode = input.approval.authorizationReceiptId === 'developmental-1'
+      ? 'developmental-paper-commissioning' : 'mature-production-capability';
+    assert.ok(input.approval.authorizationReceiptId === 'developmental-1' || input.approval.authorizationReceiptId === 'motor-1');
+    assert.equal(input.approval.authorizationMode, expectedMode);
+    return { commandId: 'command-1', receipt: { orderId: 'order-1' }, rollback: { status: 'AVAILABLE' } };
+  } };
 }
 
 (async function () {
@@ -95,12 +117,23 @@ function b14() {
   assert.equal(result.orderPlaced, true);
   assert.equal(result.liveMoney, false);
   assert.equal(result.claim.orderId, 'order-1');
+  assert.equal(store.values.has('autofire_learning_cause:selection-1'), true, 'Finance action cause must persist before paper dispatch');
   assert.equal(store.logs[0].type, 'COMMAND_RECEIPTED');
 
   const priorLogs = store.logs.length;
   result = await Executor.execute({ store, broker: {}, packetId: 'packet-1', env, bridge: bridge(), b14: b14(), motorAuthorization: motor(true), now: 2000 });
   assert.equal(result.idempotent, true);
   assert.equal(store.logs.length, priorLogs);
+
+  store = storeWith(selectedDecision());
+  await assert.rejects(function () {
+    return Executor.execute({
+      store, broker: {}, packetId: 'packet-1', env,
+      bridge: bridge({ previewActionId: 'wrong-action' }), b14: b14(),
+      motorAuthorization: motor(true), now: 1000
+    });
+  }, function (error) { return error && error.code === 'FINANCE_PAPER_PREVIEW_ACTION_ID_MISMATCH'; });
+  assert.equal(store.values.get(Executor.claimKey('packet-1')).status, 'EXECUTION_UNRESOLVED');
 
   store = storeWith(selectedDecision());
   const previewError = new Error('preview failed'); previewError.code = 'PREVIEW_FAILED';

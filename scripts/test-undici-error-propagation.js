@@ -50,7 +50,9 @@ console.log('Test 3: Autofire reads errorCode from handler response...');
   const code = fs.readFileSync(autoFirePath, 'utf8');
 
   // Verify expand-error branch reads errorCode
-  assert(code.includes("reason: 'expand-error'") && code.includes('errorCode: errorCode'), 'expand-error missing errorCode');
+  assert(code.includes("inhibited ? 'external-adapter-inhibited' : 'expand-error'") &&
+    code.includes('errorCode: inhibited ? e.code : errorCode'),
+  'expand-error missing Undici errorCode after the last-moment inhibition branch');
 
   // Verify expand-not-ok branch reads errorCode from response
   assert(code.includes("reason: 'expand-not-ok'") && code.includes('errorCode: (expandResp && expandResp.errorCode)'), 'expand-not-ok missing errorCode from response');

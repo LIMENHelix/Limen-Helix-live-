@@ -10,9 +10,10 @@
 const fs = require('fs');
 const vm = require('vm');
 const path = require('path');
+const compact = require('../lib/brain-cognition-compact.js').compact;
 
 const BASE = process.env.LIMEN_BASE || 'https://limenhelix.com';
-const TOKEN = process.env.BRAIN_COGNITION_TOKEN || 'limen-brain-209913';
+const TOKEN = process.env.BRAIN_COGNITION_TOKEN || '';
 const ROOT = path.resolve(__dirname, '..');
 
 const DOMAINS = ['energy','infrastructure','culture','finance','economy','technology','defense','intelligence','trade','industry','environment','governance','agriculture','communication','medicine','education','population','science','law','religion'];
@@ -25,23 +26,6 @@ const BRAIN_GLOBAL = {
   education:'LIMENEducationBrain', population:'LIMENPopulationBrain', science:'LIMENResearchBrain',
   law:'LIMENLawBrain', religion:'LIMENReligionBrain'
 };
-
-function num(v){ return typeof v === 'number' ? v : null; }
-function arr(v){ return Array.isArray(v) ? v : []; }
-function val(v){ return v != null ? v : null; }
-// mirror of the adapter's _compactCognition
-function compact(cog){
-  if (!cog || typeof cog !== 'object') return null;
-  var m = cog.model||{}, im = cog.immune||{}, aw = cog.awareness||{}, co = cog.conscience||{}, it = cog.intuition||{};
-  return {
-    domain: cog.domain || null,
-    model: { cycle: num(m.cycle), predictionError: num(m.predictionError), predictedStress: num(m.predictedStress), regulation: val((m.regulation && typeof m.regulation === 'object') ? m.regulation.state : m.regulation) },
-    immune: { immuneState: val(im.immuneState), severity: num(im.severity), antigenCount: arr(im.antigens).length, quarantines: val(im.quarantines), blockedFromTraversal: val(im.blockedFromTraversal) },
-    awareness: { selfNarrative: val(aw.selfNarrative), humanReviewRequired: !!aw.humanReviewRequired },
-    conscience: { conscienceState: val(co.conscienceState), artifactReadinessDecision: val(co.artifactReadinessDecision), blockedClaims: arr(co.blockedClaims).slice(0,4) },
-    intuition: { hunches: arr(it.hunches).slice(0,3) }
-  };
-}
 
 function buildSandbox(snap){
   const noop = function(){};
@@ -83,6 +67,7 @@ function buildSandbox(snap){
 }
 
 (async function main(){
+  if (!TOKEN) throw new Error('BRAIN_COGNITION_TOKEN is required; the cognition harness fails closed');
   console.log('[harness] fetching live snapshot…');
   const snap = await fetch(BASE + '/api/domain-snapshot').then(r => r.json());
   console.log('[harness] snapshot: ' + Object.keys(snap.domains||{}).length + ' domains');
@@ -92,6 +77,9 @@ function buildSandbox(snap){
 
   const files = [
     'assets/js/domain-identity.js',
+    'assets/js/limen-k4-selfconsistency.js',
+    'assets/js/limen-plasticity.js',
+    'assets/js/limen-active-inference.js',
     'assets/js/domain-brains/domain-brain-base.js',
     'assets/js/domain-brains/portal-content-resolver.js',
     'assets/js/domain-brains/inter-brain-bus.js',

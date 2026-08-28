@@ -197,6 +197,11 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       h+='<div class="rung'+(act?' active':'')+'"><span class="pn">'+p.toUpperCase()+'</span><span class="bar"><span class="fill" style="width:'+pct+'%"></span></span><span style="font-size:9px;color:var(--dim);min-width:62px">'+(PLAB[p]||'')+'</span></div>';}
     h+='</div></div>';
 
+    // ── real Finance investment motor (scheduled, read-only projection) ──
+    h+='<div class="panel"><h2>Investment Motor · operational truth</h2>';
+    h+='<div class="telem" id="investmentcells"><div class="tcell"><div class="tl">loading scheduled chain…</div></div></div>';
+    h+='<div class="note">This is the actual feed → manager → admission → B10 trade decision → Tradier sandbox command → position-owner → outcome chain. It is not inferred from the revenue-stream catalogue. Live money remains unreachable.</div></div>';
+
     h+='<div class="panel"><h2>Capital Flow · financial reality</h2>';
     h+='<div class="flowrow in"><span class="l">Inflow (streams live)</span><span class="v">'+live+' active</span></div>';
     h+='<div class="flowrow out"><span class="l">Outflow → peer domains</span><span class="v">'+((DATA.capitalRouting&&DATA.capitalRouting.proposedRoutes||[]).length)+' proposed</span></div>';
@@ -286,6 +291,7 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
     for(var t=0;t<ths.length;t++){ths[t].addEventListener('click',function(){var k=this.getAttribute('data-k');if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=1;}render();});}
     // wire ledger + tick + queue
     loadLedger();
+    loadInvestment();
     loadQueue();
     var prb=document.getElementById('produce-btn');
     if(prb)prb.addEventListener('click',function(){
@@ -349,6 +355,25 @@ footer{border-top:1px solid var(--line);margin-top:24px;padding:14px 0;font-size
       var hh='';for(var i=0;i<cells.length;i++){hh+='<div class="tcell"><div class="tl">'+cells[i].l+'</div><div class="tv '+cells[i].c+'">'+cells[i].v+'</div></div>';}
       el.innerHTML=hh;
     }).catch(function(e){el.innerHTML='<div class="tcell"><div class="tl">ledger offline</div></div>';});
+  }
+
+  function loadInvestment(){
+    var el=document.getElementById('investmentcells');if(!el)return;
+    fetch('/api/finance-paper-status').then(function(r){return r.json();}).then(function(j){
+      if(!j.ok){el.innerHTML='<div class="tcell"><div class="tl">investment motor</div><div class="tv miss">status unavailable</div></div>';return;}
+      var c=j.chain||{}, rows=[
+        {l:'Current packet',v:j.packetId?j.packetId.slice(0,28):'none',c:j.packetId?'ok':'miss'},
+        {l:'Commissioning',v:c.commissioning&&c.commissioning.status||'not observed',c:c.commissioning&&/^VERIFIED/.test(c.commissioning.status)?'ok':''},
+        {l:'Manager preview',v:c.preview&&c.preview.status||'not run',c:c.preview&&c.preview.status==='PAPER_CANDIDATE'?'ok':''},
+        {l:'Paper admission',v:c.admission&&c.admission.status||'not run',c:c.admission&&c.admission.status==='ADMITTED_TO_PAPER'?'ok':''},
+        {l:'Trade decision',v:c.decision&&((c.decision.action?c.decision.action+' · ':'')+c.decision.status)||'not run',c:c.decision&&c.decision.status==='TRADE_INTENT_SELECTED'?'ok':''},
+        {l:'Broker execution',v:c.execution&&c.execution.status||'not run',c:c.execution&&c.execution.orderPlaced?'ok':''},
+        {l:'Position owner',v:c.positionOwner&&c.positionOwner.status||'awaiting a filled position',c:c.positionOwner&&c.positionOwner.orderPlaced?'ok':''},
+        {l:'Active commands',v:String(c.activeBrokerCommands||0),c:(c.activeBrokerCommands||0)>0?'ok':''}
+      ];
+      var out='';for(var i=0;i<rows.length;i++)out+='<div class="tcell"><div class="tl">'+rows[i].l+'</div><div class="tv '+rows[i].c+'">'+rows[i].v+'</div></div>';
+      el.innerHTML=out;
+    }).catch(function(){el.innerHTML='<div class="tcell"><div class="tl">investment motor</div><div class="tv miss">status request failed</div></div>';});
   }
 
   function loadQueue(){

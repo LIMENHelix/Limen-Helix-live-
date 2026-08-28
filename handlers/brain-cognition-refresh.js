@@ -13,6 +13,7 @@ const vm = require('vm');
 const { redisSet, redisGet } = require('../lib/redis-kv.js');
 const limenDb = require('../lib/limen-db.js');
 const financeSemanticPacket = require('../lib/finance-semantic-packet.js');
+const domainSemanticPacket = require('../lib/domain-semantic-packet.js');
 const serverPacket = require('../lib/civilization-server-packet.js');
 const handoffStore = require('../lib/civilization-handoff-store.js');
 const handoffConsumer = require('../lib/civilization-handoff-consumer.js');
@@ -20,7 +21,14 @@ const efferenceStore = require('../lib/autofire-efference-store.js');
 const financePaperAdmission = require('../lib/finance-paper-admission.js');
 const productDomainMotorReceipt = require('../lib/product-domain-motor-receipt.js');
 const productDomainMotorCapabilityOverlay = require('../lib/product-domain-motor-capability-overlay.js');
+const productDomainExternalValveOverlay = require('../lib/product-domain-external-valve-overlay.js');
+const productDomainLearningState = require('./product-domain-learning-state.js');
 const cronAuth = require('../lib/cron-auth.js');
+const cognitionProjection = require('../lib/brain-cognition-compact.js');
+const compactCognition = cognitionProjection.compact;
+const num = cognitionProjection.num;
+const arr = cognitionProjection.arr;
+const val = cognitionProjection.val;
 
 // The packet consumer is strict by design: unlike the cognition projection,
 // it never falls back to process memory when Redis is missing or fails.
@@ -40,53 +48,52 @@ const BRAIN_GLOBAL = {
   education:'LIMENEducationBrain', population:'LIMENPopulationBrain', science:'LIMENResearchBrain',
   law:'LIMENLawBrain', religion:'LIMENReligionBrain'
 };
+const LEARNING_DOMAIN = { medicine: 'health', science: 'research', trade: 'supplyChain' };
 const FILES = [
   'assets/js/domain-identity.js',
+  // Deterministic organ dependencies must exist in the VM before any brain
+  // constructor runs. Without them plasticity and active inference silently
+  // report mode:off in the autonomous server cycle even though browser source
+  // audits pass. Phase/Thing 2 remains intentionally out of this activation.
+  'assets/js/limen-k4-selfconsistency.js',
+  'assets/js/limen-plasticity.js',
+  'assets/js/limen-active-inference.js',
   'assets/js/domain-brains/domain-brain-base.js',
   'assets/js/domain-brains/portal-content-resolver.js',
   'assets/js/domain-brains/inter-brain-bus.js',
   'assets/js/domain-brains/domain-change-log.js'
 ].concat(DOMAINS.map(function (d) { return 'assets/js/domain-brains/' + d + '-brain.js'; }));
 
-function num(v){ return typeof v === 'number' ? v : null; }
-function arr(v){ return Array.isArray(v) ? v : []; }
-function val(v){ return v != null ? v : null; }
-function compact(cog){
-  if (!cog || typeof cog !== 'object') return null;
-  var m = cog.model||{}, im = cog.immune||{}, aw = cog.awareness||{}, co = cog.conscience||{}, it = cog.intuition||{};
-  return {
-    domain: cog.domain || null,
-    model: { cycle: num(m.cycle), predictionError: num(m.predictionError), predictedStress: num(m.predictedStress), regulation: val((m.regulation && typeof m.regulation === 'object') ? m.regulation.state : m.regulation) },
-    immune: { immuneState: val(im.immuneState), severity: num(im.severity), antigenCount: arr(im.antigens).length, quarantines: val(im.quarantines), blockedFromTraversal: val(im.blockedFromTraversal) },
-    awareness: { selfNarrative: val(aw.selfNarrative), humanReviewRequired: !!aw.humanReviewRequired },
-    conscience: { conscienceState: val(co.conscienceState), artifactReadinessDecision: val(co.artifactReadinessDecision), blockedClaims: arr(co.blockedClaims).slice(0,4) },
-    intuition: { hunches: arr(it.hunches).slice(0,3) }
-  };
-}
-
-/* Finance is the only active investment manager. Read only its durable title
- * store and carry a bounded, source-preserving window into the server packet.
- * A Redis failure is an explicit abstention; the ordinary limen-db memory
- * fallback must never masquerade as production evidence here. */
-async function readFinanceSemanticEvidence() {
+/* Read one owning domain's durable title store and carry a bounded,
+ * source-preserving window into that domain's server packet. The adapter does
+ * no classification or selection. A Redis failure is an explicit abstention;
+ * the process-memory fallback must never masquerade as production evidence. */
+async function readDomainSemanticEvidence(domain) {
+  var sourceDomain = domainSemanticPacket.sourceDomainFor(domain);
+  var builder = domain === 'finance' ? financeSemanticPacket : domainSemanticPacket;
   try {
-    var sets = await limenDb.lrangeStrict('feedtitles:finance', 0, financeSemanticPacket.MAX_SETS);
-    var built = financeSemanticPacket.build(sets, 'finance', Date.now());
+    var sets = await limenDb.lrangeStrict('feedtitles:' + sourceDomain, 0, builder.MAX_SETS - 1);
+    var built = builder.build(sets, sourceDomain, Date.now());
     built.meta.backend = 'redis';
+    built.meta.ownerDomain = domain;
+    built.meta.sourceDomain = sourceDomain;
     return built;
   } catch (e) {
     return {
-      schemaVersion: financeSemanticPacket.SCHEMA,
+      schemaVersion: builder.SCHEMA,
       observations: [],
       meta: {
-        schemaVersion: financeSemanticPacket.SCHEMA,
+        schemaVersion: builder.SCHEMA,
         status: 'ABSTAINED',
-        reason: 'finance-title-store-unavailable',
-        sourceKey: 'feedtitles:finance',
+        reason: 'domain-title-store-unavailable',
+        sourceKey: 'feedtitles:' + sourceDomain,
+        ownerDomain: domain,
+        sourceDomain: sourceDomain,
         backend: 'redis-required',
-        errorCode: e && e.code ? String(e.code) : 'FINANCE_TITLE_STORE_READ_FAILED',
+        errorCode: e && e.code ? String(e.code) : 'DOMAIN_TITLE_STORE_READ_FAILED',
         truncated: false,
-        retrievedAt: new Date().toISOString()
+        retrievedAt: new Date().toISOString(),
+        authority: 'observation-only'
       }
     };
   }
@@ -118,7 +125,7 @@ async function readFinancePaperAdmissions() {
   }
 }
 
-function buildSandbox(snap, BASE){
+function buildSandbox(snap, BASE, domainLearning){
   var noop = function(){};
   var sb = {};
   sb.window = sb; sb.globalThis = sb; sb.self = sb;
@@ -144,7 +151,22 @@ function buildSandbox(snap, BASE){
   sb.window.addEventListener = noop; sb.window.removeEventListener = noop; sb.window.dispatchEvent = noop;
   sb.window.location = { href: BASE + '/', pathname:'/', search:'', origin: BASE };
   sb.navigator = { userAgent:'cron-refresh' };
-  sb.fetch = function(){ return Promise.resolve({ ok:false, status:404, json:function(){ return Promise.resolve({}); }, text:function(){ return Promise.resolve(''); } }); };
+  // The hosted runner supplies the same owning-domain learning endpoint that
+  // browser brains call. The substrate returns memory and performs no ranking,
+  // filtering, plasticity, or selection on the brain's behalf.
+  sb.fetch = function(input){
+    var target;
+    try { target = new URL(String(input), BASE); } catch (_) { target = null; }
+    if (target && target.pathname === '/api/product-domain-learning-state') {
+      var requested = target.searchParams.get('domain');
+      var value = domainLearning && domainLearning[requested];
+      if (value) {
+        var body = JSON.parse(JSON.stringify(Object.assign({ ok: true }, value)));
+        return Promise.resolve({ ok:true, status:200, json:function(){ return Promise.resolve(body); }, text:function(){ return Promise.resolve(JSON.stringify(body)); } });
+      }
+    }
+    return Promise.resolve({ ok:false, status:404, json:function(){ return Promise.resolve({}); }, text:function(){ return Promise.resolve(''); } });
+  };
   sb.window.LIMENDomains = JSON.parse(JSON.stringify(snap.domains));
   sb.window.LIMENSharedSnapshot = {
     getSnapshot: function(){ return { domains: sb.window.LIMENDomains, meta: snap.meta }; },
@@ -181,14 +203,35 @@ module.exports = async function handler(req, res) {
       return fetch(BASE + '/' + f).then(function (r) { return r.ok ? r.text() : ''; }).then(function (code) { return { name: f, code: code }; }).catch(function () { return { name: f, code: '' }; });
     }));
 
-    var sb = buildSandbox(snap, BASE);
+    var sourceFailures = [];
+    var domainFailures = [];
+    var storageFailures = [];
+    var learningFailures = [];
+    var domainLearning = Object.create(null);
+    await Promise.all(DOMAINS.map(async function (domain) {
+      var owner = LEARNING_DOMAIN[domain] || domain;
+      try { domainLearning[owner] = await productDomainLearningState.read(owner); }
+      catch (e) {
+        learningFailures.push({ domain: domain, ownerDomain: owner, stage: 'domain-learning-read', error: String(e && e.message || e).slice(0, 240) });
+      }
+    }));
+    var sb = buildSandbox(snap, BASE, domainLearning);
     vm.createContext(sb);
     for (var i = 0; i < sources.length; i++) {
-      if (!sources[i].code) continue;
-      try { vm.runInContext(sources[i].code, sb, { filename: sources[i].name }); } catch (e) {}
+      if (!sources[i].code) {
+        sourceFailures.push({ source: sources[i].name, stage: 'source-fetch', error: 'SOURCE_EMPTY_OR_UNAVAILABLE' });
+        continue;
+      }
+      try { vm.runInContext(sources[i].code, sb, { filename: sources[i].name }); }
+      catch (e) {
+        sourceFailures.push({ source: sources[i].name, stage: 'source-evaluate', error: String(e && e.message || e).slice(0, 240) });
+      }
     }
 
-    var financeSemantic = await readFinanceSemanticEvidence();
+    var domainSemantic = Object.create(null);
+    await Promise.all(DOMAINS.map(async function (domain) {
+      domainSemantic[domain] = await readDomainSemanticEvidence(domain);
+    }));
     var financeAdmissions = await readFinancePaperAdmissions();
     var ran = 0, stored = 0, motorReceiptsStored = 0;
     var motorReceiptFailures = [];
@@ -197,12 +240,31 @@ module.exports = async function handler(req, res) {
       var dom = DOMAINS[d];
       var ref = sb.window[BRAIN_GLOBAL[dom]];
       var b = (typeof ref === 'function') ? null : (ref && typeof ref === 'object' ? ref : null);
-      if (typeof ref === 'function') { try { b = new ref(); } catch (e) {} }
-      if (!b) continue;
+      if (typeof ref === 'function') {
+        try { b = new ref(); }
+        catch (e) {
+          domainFailures.push({ domain: dom, stage: 'brain-instantiate', error: String(e && e.message || e).slice(0, 240) });
+        }
+      }
+      if (!b) {
+        if (!domainFailures.some(function (failure) { return failure.domain === dom && failure.stage === 'brain-instantiate'; })) {
+          domainFailures.push({ domain: dom, stage: 'brain-reference', error: 'BRAIN_GLOBAL_UNAVAILABLE' });
+        }
+        continue;
+      }
       try {
+        // This reads only the owning brain's declared valve and the control
+        // plane. It does not select or execute an action. Commissioned lanes
+        // stay metabolically available while budgets/providers are healthy;
+        // any missing evidence or circuit-breaker event clears both switches.
+        var _externalValve = await productDomainExternalValveOverlay.apply(
+          efferenceStore, dom, b, process.env
+        );
         if (typeof b.cycle === 'function') {
-          try { await Promise.resolve(b.cycle()); } catch (e) {}
-          try { await Promise.resolve(b.cycle()); } catch (e) {}
+          try { await Promise.resolve(b.cycle()); }
+          catch (e) { domainFailures.push({ domain: dom, stage: 'brain-cycle-1', error: String(e && e.message || e).slice(0, 240) }); }
+          try { await Promise.resolve(b.cycle()); }
+          catch (e) { domainFailures.push({ domain: dom, stage: 'brain-cycle-2', error: String(e && e.message || e).slice(0, 240) }); }
         }
         ran++;
         // Import only this product brain's independently persisted executor +
@@ -212,7 +274,7 @@ module.exports = async function handler(req, res) {
         var _motorCapability = await productDomainMotorCapabilityOverlay.apply(
           efferenceStore, dom, b, refreshId, Date.now()
         );
-        var c = compact(b.state && b.state.cognition);
+        var c = compactCognition(b.state && b.state.cognition);
         if (c) {
           // Augment with the multimodal interoception read + headline stress/phase (server feed
           // parity with the client adapter) so lightweight consumers see them without live brains.
@@ -233,10 +295,41 @@ module.exports = async function handler(req, res) {
             safety: _motorReceipt.receipt.safety
           } : _motorReceipt;
           c.motorCapabilityEvidence = _motorCapability;
+          c.externalValveEvidence = _externalValve;
           if (_motorReceipt.ok) motorReceiptsStored++;
           else motorReceiptFailures.push({ domain: dom, error: _motorReceipt.error, detail: _motorReceipt.detail });
           var _it = (_st.interoception && typeof _st.interoception === 'object') ? _st.interoception : (_st.cognition && _st.cognition.interoception) || null;
           c.interoception = _it ? { salience: val(_it.salience), attend: val(_it.attend), divergence: num(_it.divergence), channelCount: num(_it.channelCount), integrated: num(_it.integrated) } : null;
+          // Runtime proof for the later Energy-reference organs. These are
+          // observation fields only; they grant no provider, broker, posting,
+          // spending, or other external authority.
+          var _pl = _st.domainPlasticity || _st.energyPlasticity || null;
+          var _ai = _st.domainActiveInference || _st.energyActiveInference || null;
+          var _eq = _st.domainEmissionQueue || _st.energyEmissionQueue || null;
+          var _ae = _st.domainAutoEmission || _st.energyAutoEmission || null;
+          var _rm = _st.resourceMetabolism || null;
+          var _dl = _st.domainActionLearning || null;
+          c.brainOrgans = {
+            plasticity: _pl ? {
+              mode: val(_pl.mode), rewardActive: _pl.rewardActive === true,
+              liveLayers: arr(_pl.liveLayers).slice(0, 8),
+              persistenceEnabled: !!(_pl.persistence && (_pl.persistence.enabled || _pl.persistence.persistEnabled)),
+              hydrated: !!(_pl.persistence && _pl.persistence.hydrated)
+            } : null,
+            activeInference: _ai ? { mode: val(_ai.mode), selected: val(_ai.selected), agreement: val(_ai.agreement) } : null,
+            emissionQueue: _eq ? { queued: num(_eq.queued), poolSize: num(_eq.poolSize), domain: val(_eq.domain) } : null,
+            autonomousInternalEmission: _ae ? {
+              holdReason: val(_ae.holdReason), emittedCount: num(_ae.emittedCount), stagedCount: num(_ae.stagedCount),
+              outwardAuthority: false
+            } : null,
+            resourceMetabolism: _rm ? { ownerDomain: val(_rm.ownerDomain), state: val(_rm.state), gates: val(_rm.gates) } : null,
+            externalActionLearning: _dl ? {
+              status: val(_dl.status), resolvedCount: num(_dl.resolvedCount),
+              learningGate: val(_dl.learningGate),
+              latestSignalId: val(_dl.signal && _dl.signal.signalId),
+              companyPatternCount: arr(_dl.companyPatterns).length
+            } : null
+          };
           c.stress = num(_st.stress);
           c.phase = val(_st.phaseLabel || _st.phase);
           try {
@@ -253,9 +346,13 @@ module.exports = async function handler(req, res) {
               recovery: _st.recovery || null,
               mappings: _st.homologyMappings || null
             };
+            var _semantic = domainSemantic[dom];
+            _packetExtras.semanticEvidence = _semantic && _semantic.observations || [];
+            _packetExtras.semanticEvidenceMeta = _semantic && _semantic.meta || {
+              status: 'ABSTAINED', reason: 'domain-semantic-read-missing', ownerDomain: dom,
+              authority: 'observation-only'
+            };
             if (dom === 'finance') {
-              _packetExtras.semanticEvidence = financeSemantic.observations;
-              _packetExtras.semanticEvidenceMeta = financeSemantic.meta;
               _packetExtras.releasedOpportunities = financeAdmissions.opportunities;
             }
             // Packet capture is an observation step, not an opportunity gate:
@@ -271,15 +368,19 @@ module.exports = async function handler(req, res) {
             c.serverPacketAbstention = String(packetErr && packetErr.code || packetErr && packetErr.message || packetErr);
             c.serverPacketPersistence = { ok: false, error: { code: packetErr && packetErr.code || 'PACKET_BUILD_FAILED', message: String(packetErr && packetErr.message || packetErr) } };
           }
-          var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL); if (r && r.ok) stored++;
+          var r = await redisSet(PREFIX + dom, { c: c, ts: Date.now() }, TTL);
+          if (r && r.ok) stored++;
+          else storageFailures.push({ domain: dom, stage: 'cognition-store', status: r && r.status || null, error: String(r && r.error || 'REDIS_SET_FAILED').slice(0, 240) });
           // predictionError is an OBJECT {total, novelty, stressError, ...} on the raw cognition
-          // (compact() null'd it via num()). Read the scalar .total for γ.
+          // (compactCognition() null'd it via num()). Read the scalar .total for γ.
           var _cog = b.state && b.state.cognition;
           var _peObj = _cog && _cog.model && _cog.model.predictionError;
           var _pe = (_peObj && typeof _peObj === 'object') ? _peObj.total : (typeof _peObj === 'number' ? _peObj : null);
           if (typeof _pe === 'number') peSamples.push({ domain: dom, pe: _pe });
         }
-      } catch (e) {}
+      } catch (e) {
+        domainFailures.push({ domain: dom, stage: 'domain-refresh', error: String(e && e.message || e).slice(0, 240) });
+      }
     }
 
     // ── γ (SYSTEM GAIN) — READ-ONLY collective-surprise signal. MODULATES NOTHING. ──
@@ -289,6 +390,7 @@ module.exports = async function handler(req, res) {
     // "does collective surprise across domains mean anything." We compute, store, and WATCH.
     // It feeds back into no brain. Removing this block changes zero behavior.
     var gammaRecord = null;
+    var gammaFailure = null;
     try {
       // Threshold calibrated by mechanism test (gamma-mech probe): a domain's total
       // prediction-error sits ~0.15 at baseline and reaches ~0.35 under a near-maximal
@@ -318,24 +420,54 @@ module.exports = async function handler(req, res) {
       var hist = (prev && Array.isArray(prev.history)) ? prev.history : [];
       hist.push({ g: gammaRecord.gamma, m: gammaRecord.meanPredictionError, n: gammaRecord.surprisedCount, ts: gammaRecord.ts });
       if (hist.length > 96) hist = hist.slice(hist.length - 96);   // ~2 days at 30-min cadence
-      await redisSet('limen:system_gain', { current: gammaRecord, history: hist }, 7 * 24 * 3600);
-    } catch (e) {}
+      var gammaWrite = await redisSet('limen:system_gain', { current: gammaRecord, history: hist }, 7 * 24 * 3600);
+      if (!gammaWrite || !gammaWrite.ok) {
+        gammaFailure = { stage: 'system-gain-store', status: gammaWrite && gammaWrite.status || null, error: String(gammaWrite && gammaWrite.error || 'REDIS_SET_FAILED').slice(0, 240) };
+      }
+    } catch (e) {
+      gammaFailure = { stage: 'system-gain', error: String(e && e.message || e).slice(0, 240) };
+    }
 
-    res.statusCode = 200;
-    return res.end(JSON.stringify({
-      ok: true,
+    var complete = ran === DOMAINS.length && stored === DOMAINS.length &&
+      motorReceiptsStored === DOMAINS.length && sourceFailures.length === 0 &&
+      domainFailures.length === 0 && storageFailures.length === 0 &&
+      learningFailures.length === 0 && !gammaFailure;
+    var summary = {
+      ok: complete,
       ran: ran,
       stored: stored,
+      expected: DOMAINS.length,
+      sourceFailures: sourceFailures,
+      domainFailures: domainFailures,
+      storageFailures: storageFailures,
+      learningFailures: learningFailures,
       motorReceipts: {
         attempted: ran,
         storedAndRestored: motorReceiptsStored,
         failures: motorReceiptFailures
       },
       gamma: gammaRecord,
+      gammaFailure: gammaFailure,
       ms: Date.now() - t0
+    };
+    console.log('[BRAIN_COGNITION_REFRESH] ' + JSON.stringify({
+      ok: summary.ok,
+      ran: summary.ran,
+      stored: summary.stored,
+      expected: summary.expected,
+      sourceFailures: sourceFailures.length,
+      domainFailures: domainFailures.length,
+      storageFailures: storageFailures.length,
+      learningFailures: learningFailures.length,
+      motorReceiptFailures: motorReceiptFailures.length,
+      gammaFailure: !!gammaFailure,
+      ms: summary.ms
     }));
+    res.statusCode = complete ? 200 : 503;
+    return res.end(JSON.stringify(summary));
   } catch (e) {
-    res.statusCode = 200;
+    console.error('[BRAIN_COGNITION_REFRESH] ' + JSON.stringify({ ok: false, fatal: true, error: String(e && e.message || e).slice(0, 240), ms: Date.now() - t0 }));
+    res.statusCode = 500;
     return res.end(JSON.stringify({ ok: false, error: String(e && e.message || e), ms: Date.now() - t0 }));
   }
 };

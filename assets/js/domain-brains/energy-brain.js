@@ -61,7 +61,7 @@
       cycleInterval: 30000
     });
     this.resourceAuthority = { ownerDomain: 'energy', policyId: 'energy-resource/1', sandboxLane: 'investments', lanes: ['research', 'investment-advisory', 'vendor-operations'], budgets: { computeUnitsPerCycle: 512, queueCapacity: 64 }, switches: { internalCycle: true, internalEmission: true, externalAction: false, spend: false, capital: false } };
-    this.motorAuthority = { ownerDomain: 'energy', contractId: 'energy-motor/1', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'energy-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
+    this.motorAuthority = { ownerDomain: 'energy', contractId: 'energy-motor/1', externalValveId: 'energy:investments', lane: 'investments', decisionContract: 'capital-decision/1', budgetId: 'energy-investment-budget/1', receiptClass: 'position-command-receipt', outcomeClass: 'independent-market-resolution', rollbackClass: 'cancel-or-close', executorVerified: false, outcomeObserverVerified: false, switches: { prepare: true, simulate: true, external: false } };
   }
 
   // Inherit from base
@@ -2735,11 +2735,31 @@
     } catch (e) { return seed; }
   };
 
+  EnergyBrain.prototype._refreshEnergyActionOutcome = function () {
+    if (typeof fetch !== 'function') return null;
+    var cycle = this._cycleCount || 0;
+    if (this._lastEnergyActionOutcomeCycle && cycle - this._lastEnergyActionOutcomeCycle < 12) return this._energyActionOutcome || null;
+    this._lastEnergyActionOutcomeCycle = cycle;
+    var self = this;
+    try {
+      fetch('/api/product-domain-learning-state?domain=energy')
+        .then(function (response) { return response.json(); })
+        .then(function (result) {
+          if (!result || result.ok !== true || result.domain !== 'energy' || result.schemaVersion !== 'product-domain-external-learning/1.0') return;
+          self._energyActionOutcome = result;
+          self.state.energyActionLearning = result;
+          self.state.domainActionLearning = result;
+        }).catch(function () {});
+    } catch (e) {}
+    return this._energyActionOutcome || null;
+  };
+
   EnergyBrain.prototype._computeEnergyPlasticity = function () {
     var pl = this._plasticity;
     var s = this.state, em = s.energyModel || {};
     if (!pl || !pl.P) { s.energyPlasticity = { version: 1, mode: 'off', note: 'limen-plasticity.js not loaded on this page' }; return null; }
     try { this._refreshExternalOutcome(); } catch (e) {}
+    try { this._refreshEnergyActionOutcome(); } catch (e) {}
     var P = pl.P, L = pl.layers;
     var obs = em.observation || {}, pe = em.predictionError || {};
     var reg = em.regulation || {};
@@ -2858,6 +2878,14 @@
       creditTier: (k4 && k4.tier) || 0,
       externalOutcome: extOutcome ? { hit: extOutcome.hit, resolvedCount: (extO && extO.resolvedCount) || 0, source: 'resolver (forecast-vs-recorded-feed-truth, forward-only)' }
         : { active: false, resolvedCount: (extO && extO.resolvedCount) || 0, note: 'ABSTAINING: <' + MIN_EXT_RESOLVED + ' resolved forecasts — modulator falls back to self-consistency until the resolver accrues' },
+      actionOutcome: this._energyActionOutcome ? {
+        status: this._energyActionOutcome.status,
+        resolvedCount: this._energyActionOutcome.resolvedCount || 0,
+        learningGate: this._energyActionOutcome.learningGate || null,
+        advisoryOnly: true,
+        plasticityAuthority: false,
+        note: 'Energy reads its own independent investment outcomes, but current K4 authority permits Energy reward only from feed-resolution.'
+      } : { status: 'UNOBSERVED', resolvedCount: 0, advisoryOnly: true, plasticityAuthority: false },
       modulator: { fresh: modRead.fresh, rpe: modRead.rpe, credit: credit, baseline: pl.mod.baseline, events: pl.mod.events,
         latencyNote: 'truth-brake calls resolve 3-20 cycles after emission; eligibility traces bridge the gap' },
       layers: layersOut,

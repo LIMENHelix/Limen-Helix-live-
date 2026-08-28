@@ -185,7 +185,7 @@
     if (dx) parts.push('Watching ' + human(dx.id) + (dx.blocked ? ' (blocked)' : '') + '.');
     var it = m.interoception;
     if (it && it.salience === 'blind-channel') parts.push('⚠ Looks calm on the money read, but its ' + it.attend + ' signal is alarmed - worth a look.');
-    else if (it && it.salience === 'financial-only') parts.push('Money read is stressed while its other signals are calm - possible overreaction.');
+    else if (it && (it.salience === 'financial-only' || it.salience === 'primary-only')) parts.push('The domain primary stress channel is louder than its other internal channels. Observe-only; this does not establish market overreaction.');
     if (m.immune === 'alert') parts.push('Immune system on ALERT.');
     else if (m.immune === 'active') parts.push('Immune system active.');
     var oppN = (m.topOpportunities||[]).length;

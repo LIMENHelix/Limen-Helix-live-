@@ -816,6 +816,93 @@ def _history_sufficiency(history_quarters: int) -> str:
     return "insufficient"
 
 
+def _build_thing0_section(
+    is_financial: bool,
+    facts: dict,
+    company_data: dict,
+    history_quarters: int,
+    validated_signal: dict,
+) -> dict:
+    """Explicit Thing 0 company-envelope assessment for Thing 1.
+
+    Thing 0 does not score distress and never authorizes an action. It states
+    whether this company's identity, sector, history, and required SEC series
+    fully qualify, partially qualify, or do not qualify for the validated
+    Thing 1 operating envelope. Runtime/kernel readiness is reported
+    separately so a deploy problem is not mislabelled as a company defect.
+    """
+    presence = _input_presence(company_data) if company_data else _input_presence({})
+    required = {
+        "revenue": presence.get("revenue_quarters", 0) > 0,
+        "ocf": presence.get("ocf_quarters", 0) > 0,
+        "cash": presence.get("cash_quarters", 0) > 0,
+        "debt": presence.get("debt_quarters", 0) > 0,
+    }
+    present_count = sum(1 for value in required.values() if value)
+    reasons: list[str] = []
+
+    validated_available = (
+        validated_signal.get("available") is True
+        and validated_signal.get("validation_status") == "validated"
+    )
+
+    if is_financial:
+        qualification = "not_qualified"
+        reasons.append("financial_institution_requires_regime_2_adapter")
+    elif validated_available:
+        qualification = "qualified"
+        reasons.append("validated_thing1_success_confirms_full_envelope")
+    elif not facts or present_count == 0:
+        qualification = "not_qualified"
+        reasons.append("sec_company_facts_or_required_series_unavailable")
+    elif present_count == len(required) and history_quarters >= 8:
+        qualification = "qualified"
+        reasons.append("non_financial_required_series_and_history_present")
+    else:
+        qualification = "partially_qualified"
+        if present_count < len(required):
+            reasons.append("one_or_more_required_series_incomplete")
+        if history_quarters < 8:
+            reasons.append("quarterly_history_below_full_envelope")
+
+    validation_status = validated_signal.get("validation_status") or "unavailable"
+    permits_use = (
+        qualification == "qualified"
+        and validated_available
+    )
+    if permits_use:
+        execution_status = "ready"
+    elif qualification == "partially_qualified":
+        execution_status = "blocked_by_company_data"
+    elif qualification == "not_qualified":
+        execution_status = "not_applicable"
+    else:
+        execution_status = "blocked_by_thing1_runtime"
+
+    return {
+        "kernel_id": "thing0-company-envelope/1.0",
+        "qualification_status": qualification,
+        "thing1_execution_status": execution_status,
+        "permits_thing1_use": permits_use,
+        "is_financial": bool(is_financial),
+        "history_requirement": (
+            "met" if validated_available or history_quarters >= 8
+            else "partial" if history_quarters >= 4
+            else "not_met"
+        ),
+        "required_input_presence": required,
+        "required_inputs_present": present_count,
+        "required_inputs_total": len(required),
+        "thing1_validation_status": validation_status,
+        "reasons": reasons,
+        "action_authority": "none",
+        "note": (
+            "Thing 0 is an operating-envelope qualifier for Thing 1 only. "
+            "Partial qualification does not permit a validated Thing 1 claim."
+        ),
+    }
+
+
 def _confidence_status(history_sufficiency: str, validation_status: str) -> str:
     """Confidence is a function of history sufficiency AND validation status."""
     if validation_status != "validated":
@@ -1080,6 +1167,27 @@ def _build_reconciliation(
     }
 
 
+def _masking_assessment(validated_signal: dict, phase_tracker_signal: dict) -> str:
+    """Describe Thing 2's reconciliation role without creating authority."""
+    if validated_signal.get("available") is not True or validated_signal.get("validation_status") != "validated":
+        return "unassessed"
+    if phase_tracker_signal.get("available") is not True:
+        return "unassessed"
+    alert = validated_signal.get("alert") is True
+    phase = phase_tracker_signal.get("dominant_phase")
+    distress_side = phase in _DISTRESS_PHASE_SET
+    stable_side = phase in _STABLE_PHASE_SET
+    if alert and distress_side:
+        return "aligned_with_thing1_alert"
+    if alert and not distress_side:
+        return "possible_masking_or_snapshot_divergence"
+    if not alert and distress_side:
+        return "snapshot_diverges_from_thing1_non_alert"
+    if not alert and stable_side:
+        return "aligned_with_thing1_non_alert"
+    return "indeterminate"
+
+
 def _language_constraints(alert_active: bool) -> list[str]:
     """The renderer must enforce these. They are duplicated client-side as
     defense in depth, but the server-side filter on narrative_safe[] is the
@@ -1116,7 +1224,7 @@ def _build_safe_packet(
     requested_report_type: str,
     request_id: str | None = None,
 ) -> dict:
-    """Sectioned safe packet: validated_signal + phase_tracker_signal + reconciliation + warnings.
+    """Sectioned safe packet: Thing 0 + Thing 1 + Thing 2 + reconciliation + warnings.
 
     Server-only fields (formulas, constants, raw rows, accumulator math) never
     appear here. The browser only sees labels, bands, counts, and curated
@@ -1151,6 +1259,15 @@ def _build_safe_packet(
                 "extraction_error: SEC EDGAR fetch failed."
             )
 
+    # ── Section 0: Thing 0 (Thing 1 operating-envelope qualifier) ──
+    thing0_eligibility = _build_thing0_section(
+        is_financial=is_financial,
+        facts=facts,
+        company_data=company_data,
+        history_quarters=history_quarters,
+        validated_signal=validated_signal,
+    )
+
     # ── Section 2: Thing 2 (long-arc recursive phase tracker) ──
     phase_tracker_signal = _build_thing2_section(
         is_financial=is_financial,
@@ -1162,6 +1279,11 @@ def _build_safe_packet(
 
     # ── Section 3: Reconciliation ──────────────────────────────
     reconciliation = _build_reconciliation(validated_signal, phase_tracker_signal)
+    reconciliation["masking_assessment"] = _masking_assessment(
+        validated_signal, phase_tracker_signal
+    )
+    reconciliation["thing2_role"] = "alignment_and_masking_reconciliation_only"
+    reconciliation["thing2_trade_weight"] = 0
 
     # ── Forbidden-phrase filter ────────────────────────────────
     # Thing 1 narrative is only allowed terminal language when alert is True.
@@ -1208,6 +1330,8 @@ def _build_safe_packet(
         "input_presence": _input_presence(company_data) if company_data else _input_presence({}),
         "formula_visibility": "server_only",
 
+        # ── Section 0 ──
+        "thing0_eligibility": thing0_eligibility,
         # ── Section 1 ──
         "validated_signal": validated_signal,
         # ── Section 2 ──

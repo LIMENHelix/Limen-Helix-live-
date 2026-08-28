@@ -2,11 +2,11 @@
  * api/brain-cognition.js — server-backed feed for the 20 domain brains' self-models.
  *
  * Each domain brain assembles state.cognition (immune/awareness/conscience/intuition + the
- * recurrent model) every cycle. The domain-brain-adapter POSTs a COMPACT projection here
- * (throttled); the System Vitals page GETs the whole map so the self-models render live and
- * cross-device (no need to have the cockpit open in this browser).
+ * recurrent model) every cycle. The authenticated server cognition scheduler writes a
+ * COMPACT projection here; the System Vitals page GETs the whole map so the self-models
+ * render live and cross-device (no need to have the cockpit open in this browser).
  *
- *   POST /api/brain-cognition   body { domain, cognition, token } → store one domain (TTL 3h). Token-gated.
+ *   POST /api/brain-cognition   body { domain, cognition, token } → privileged harness write. Token-gated.
  *   GET  /api/brain-cognition   → { ok, cognition: { domain: { c, ts } }, count }
  *
  * Storage: per-domain Redis keys 'limen:brain:cognition:<domain>' (mget on read) — avoids the

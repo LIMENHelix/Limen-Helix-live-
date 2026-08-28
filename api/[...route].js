@@ -18,6 +18,8 @@
  * + one line in HANDLERS.
  */
 const { RegExpRouter } = require('hono/router/reg-exp-router');
+const CivilizationValve = require('../lib/civilization-valve-control');
+const CivilizationValveRegistry = require('../lib/civilization-valve-registry');
 
 // Bumped each migration commit so a deploy is probeable: any unknown /api/* path
 // returns this in the miss JSON (curl /api/__probe__ | grep the tag).
@@ -48,6 +50,8 @@ const HANDLERS = {
   'playbook': require('../handlers/playbook'),
   'ventures': require('../handlers/ventures'),
   'ai-switch': require('../handlers/ai-switch'),
+  'civilization-valves': require('../handlers/civilization-valves'),
+  'civilization-treasury': require('../handlers/civilization-treasury'),
   'civil-radar': require('../handlers/civil-radar'),
   'civil-rfps': require('../handlers/civil-rfps'),
   'infra-entry': require('../handlers/infra-entry'),
@@ -106,9 +110,25 @@ const HANDLERS = {
   'governance-markets': require('../handlers/governance-markets'),
   'agriculture-markets': require('../handlers/agriculture-markets'),
   'agriculture-tools': require('../handlers/agriculture-tools'),
+  'agriculture-homestead-cycle': require('../handlers/agriculture-homestead-cycle'),
+  'agriculture-homestead-inbound': require('../handlers/agriculture-homestead-inbound'),
+  'agriculture-homestead-status': require('../handlers/agriculture-homestead-status'),
+  'agriculture-homestead-recovery': require('../handlers/agriculture-homestead-recovery'),
   'medicine-tools': require('../handlers/medicine-tools'),
   'environment-tools': require('../handlers/environment-tools'),
   'economy-tools': require('../handlers/economy-tools'),
+  'economy-investment-cycle': require('../handlers/economy-investment-cycle'),
+  'economy-investment-outcome-observer': require('../handlers/economy-investment-outcome-observer'),
+  'economy-investment-recovery': require('../handlers/economy-investment-recovery'),
+  'economy-investment-status': require('../handlers/economy-investment-status'),
+  'energy-investment-cycle': require('../handlers/energy-investment-cycle'),
+  'energy-investment-outcome-observer': require('../handlers/energy-investment-outcome-observer'),
+  'energy-investment-recovery': require('../handlers/energy-investment-recovery'),
+  'energy-investment-status': require('../handlers/energy-investment-status'),
+  'technology-investment-cycle': require('../handlers/technology-investment-cycle'),
+  'technology-investment-outcome-observer': require('../handlers/technology-investment-outcome-observer'),
+  'technology-investment-recovery': require('../handlers/technology-investment-recovery'),
+  'technology-investment-status': require('../handlers/technology-investment-status'),
   'education-tools': require('../handlers/education-tools'),
   'governance-tools': require('../handlers/governance-tools'),
   'defense-tools': require('../handlers/defense-tools'),
@@ -118,11 +138,31 @@ const HANDLERS = {
   'trade-tools': require('../handlers/trade-tools'),
   'social-status': require('../handlers/social-status'),
   'social-cron': require('../handlers/social-cron'),
+  'communication-social-decision-status': require('../handlers/communication-social-decision-status'),
+  'communication-social-outcome-observer': require('../handlers/communication-social-outcome-observer'),
+  'communication-social-recovery': require('../handlers/communication-social-recovery'),
   'checkout': require('../handlers/checkout'),
   'stripe-webhook': require('../handlers/stripe-webhook'),
   'subscriber-digest': require('../handlers/subscriber-digest'),
+  'finance-subscriber-cycle': require('../handlers/finance-subscriber-cycle'),
+  'finance-subscriber-outcome-observer': require('../handlers/finance-subscriber-outcome-observer'),
+  'religion-subscriber-decision-status': require('../handlers/religion-subscriber-decision-status'),
+  'religion-subscriber-outcome-observer': require('../handlers/religion-subscriber-outcome-observer'),
+  'religion-subscriber-recovery': require('../handlers/religion-subscriber-recovery'),
+  'religion-revenue-fulfillment': require('../handlers/religion-revenue-fulfillment'),
+  'finance-revenue-fulfillment': require('../handlers/finance-revenue-fulfillment'),
+  'law-automail-decision-status': require('../handlers/law-automail-decision-status'),
+  'law-automail-outcome-observer': require('../handlers/law-automail-outcome-observer'),
+  'law-automail-recovery': require('../handlers/law-automail-recovery'),
+  'intelligence-autopilot-decision-status': require('../handlers/intelligence-autopilot-decision-status'),
+  'intelligence-autopilot-outcome-observer': require('../handlers/intelligence-autopilot-outcome-observer'),
+  'intelligence-autopilot-capability': require('../handlers/intelligence-autopilot-capability'),
+  'intelligence-autopilot-recovery': require('../handlers/intelligence-autopilot-recovery'),
   'subscribers': require('../handlers/subscribers'),
   'hero-image': require('../handlers/hero-image'),
+  'culture-hero-decision-status': require('../handlers/culture-hero-decision-status'),
+  'culture-hero-outcome-observer': require('../handlers/culture-hero-outcome-observer'),
+  'culture-hero-recovery': require('../handlers/culture-hero-recovery'),
   'harness': require('../handlers/harness'),
   'finance-tools': require('../handlers/finance-tools'),
   'technology-tools': require('../handlers/technology-tools'),
@@ -168,6 +208,34 @@ const HANDLERS = {
   'industry': require('../handlers/industry'),
   'industry-ingest': require('../handlers/industry-ingest'),
   'industry-status': require('../handlers/industry-status'),
+  'industry-crm-cycle': require('../handlers/industry-crm-cycle'),
+  'industry-crm-outcome-observer': require('../handlers/industry-crm-outcome-observer'),
+  'industry-crm-status': require('../handlers/industry-crm-status'),
+  'industry-crm-recovery': require('../handlers/industry-crm-recovery'),
+  'defense-publication-cycle': require('../handlers/defense-publication-cycle'),
+  'defense-publication-public': require('../handlers/defense-publication-public'),
+  'defense-publication-engagement': require('../handlers/defense-publication-engagement'),
+  'defense-publication-outcome-observer': require('../handlers/defense-publication-outcome-observer'),
+  'defense-publication-recovery': require('../handlers/defense-publication-recovery'),
+  'defense-publication-status': require('../handlers/defense-publication-status'),
+  'governance-publication-cycle': require('../handlers/governance-publication-cycle'),
+  'governance-publication-public': require('../handlers/governance-publication-public'),
+  'governance-publication-engagement': require('../handlers/governance-publication-engagement'),
+  'governance-publication-outcome-observer': require('../handlers/governance-publication-outcome-observer'),
+  'governance-publication-recovery': require('../handlers/governance-publication-recovery'),
+  'governance-publication-status': require('../handlers/governance-publication-status'),
+  'infrastructure-real-estate-cycle': require('../handlers/infrastructure-real-estate-cycle'),
+  'infrastructure-real-estate-inbound': require('../handlers/infrastructure-real-estate-inbound'),
+  'infrastructure-real-estate-recovery': require('../handlers/infrastructure-real-estate-recovery'),
+  'infrastructure-real-estate-status': require('../handlers/infrastructure-real-estate-status'),
+  'population-real-estate-cycle': require('../handlers/population-real-estate-cycle'),
+  'population-real-estate-inbound': require('../handlers/population-real-estate-inbound'),
+  'population-real-estate-recovery': require('../handlers/population-real-estate-recovery'),
+  'population-real-estate-status': require('../handlers/population-real-estate-status'),
+  'trade-auction-cycle': require('../handlers/trade-auction-cycle'),
+  'trade-auction-outcome-observer': require('../handlers/trade-auction-outcome-observer'),
+  'trade-auction-recovery': require('../handlers/trade-auction-recovery'),
+  'trade-auction-status': require('../handlers/trade-auction-status'),
   'finance-distress': require('../handlers/finance-distress'),
   'finance-distress-ingest': require('../handlers/finance-distress-ingest'),
   'finance-distress-status': require('../handlers/finance-distress-status'),
@@ -203,6 +271,10 @@ const HANDLERS = {
   'limen-outcome': require('../handlers/limen-outcome'),
   'limen-outcome-observer': require('../handlers/limen-outcome-observer'),
   'limen-investment-outcome-observer': require('../handlers/limen-investment-outcome-observer'),
+  'research-evaluation-intake': require('../handlers/research-evaluation-intake'),
+  'limen-research-evaluation-observer': require('../handlers/limen-research-evaluation-observer'),
+  'product-domain-learning-state': require('../handlers/product-domain-learning-state'),
+  'research-paper-developmental-status': require('../handlers/research-paper-developmental-status'),
   'limen-phase-transitions': require('../handlers/limen-phase-transitions'),
   'limen-reciprocity-prose-rewrite': require('../handlers/limen-reciprocity-prose-rewrite'),
   'limen-self-pulse': require('../handlers/limen-self-pulse'),
@@ -225,7 +297,9 @@ const HANDLERS = {
   'finance-paper-executor': require('../handlers/finance-paper-executor'),
   'finance-sandbox-commissioning': require('../handlers/finance-sandbox-commissioning'),
   'finance-paper-cycle': require('../handlers/finance-paper-cycle'),
+  'finance-paper-status': require('../handlers/finance-paper-status'),
   'finance-trade-decision': require('../handlers/finance-trade-decision'),
+  'finance-position-owner': require('../handlers/finance-position-owner'),
   'pattern-proposal': require('../handlers/pattern-proposal'),
   'print-from-pattern': require('../handlers/print-from-pattern'),
   'redis-diag': require('../handlers/redis-diag'),
@@ -237,6 +311,30 @@ for (const name of Object.keys(HANDLERS)) router.add('ALL', '/api/' + name, name
 
 // CJS handlers export the function directly; an ESM-authored one would land on .default.
 function resolve(h) { return (h && typeof h !== 'function' && h.default) ? h.default : h; }
+
+// These exact POST contracts only validate and durably enqueue an owned work
+// item. Their GET/cron side performs the outward effect. No other mapped POST
+// receives this preparation exception: Autopilot and Law mail, for example,
+// can execute externally from POST and must cross the valve.
+const PREPARATION_POST_ROUTES = new Set([
+  'agriculture-homestead-cycle', 'economy-investment-cycle',
+  'energy-investment-cycle', 'infrastructure-real-estate-cycle',
+  'population-real-estate-cycle', 'technology-investment-cycle',
+  'trade-auction-cycle'
+]);
+
+function runtimeValveHold(name, req) {
+  const valveId = CivilizationValveRegistry.forRoute(name);
+  if (!valveId) return null;
+  const method = String(req.method || 'GET').toUpperCase();
+  // POST on these exact cycle routes only queues exact work; it does not create
+  // the outward effect. Keep preparation available while the efferent valve is
+  // closed. Every other method/route combination remains inhibited.
+  if (method === 'POST' && PREPARATION_POST_ROUTES.has(name)) return null;
+  return CivilizationValve.authorize(valveId).then(function (result) {
+    return result.allowed ? null : result;
+  });
+}
 
 module.exports = async function honoEntry(req, res) {
   let pathname = req.url || '';
@@ -254,6 +352,49 @@ module.exports = async function honoEntry(req, res) {
     res.statusCode = 404;
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ error: 'route not handled by Hono entry', path: pathname, build: BUILD }));
+  }
+  // NUKE is the exceptional whole-civilization burst-suppression boundary.
+  // It runs before every local efferent valve, including cron/cognition routes.
+  // Diagnostic reads and staged re-entry are explicitly classified by the
+  // control contract; an unavailable control store fails closed.
+  const activityCheck = CivilizationValve.authorizeActivity(name, req.method || 'GET');
+  const activity = activityCheck && typeof activityCheck.then === 'function'
+    ? await activityCheck
+    : activityCheck;
+  if (!activity.allowed) {
+    res.statusCode = 423;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-store');
+    return res.end(JSON.stringify({
+      ok: true,
+      status: 'NUKED',
+      reason: activity.reason,
+      nukeStage: activity.nukeStage,
+      nukeReceiptId: activity.receipt && activity.receipt.receiptId || null,
+      activityExecuted: false,
+      statePreserved: true
+    }));
+  }
+  const heldCheck = runtimeValveHold(name, req);
+  // Preserve synchronous dispatch for every route outside the efferent valve
+  // topology. Only a mapped outward-effect route crosses the durable async gate.
+  const held = heldCheck && typeof heldCheck.then === 'function'
+    ? await heldCheck
+    : heldCheck;
+  if (held) {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-store');
+    return res.end(JSON.stringify({
+      ok: true,
+      status: 'HELD',
+      reason: held.reason,
+      valveId: held.valveId,
+      valveReceiptId: held.receipt && held.receipt.receiptId || null,
+      externalEffectExecuted: false,
+      observersRemainOpen: held.receipt && held.receipt.valveId === CivilizationValve.GLOBAL_ID ? false : true,
+      recoveryRemainsOpen: held.receipt && held.receipt.valveId === CivilizationValve.GLOBAL_ID ? false : true
+    }));
   }
   return resolve(handler)(req, res);
 };

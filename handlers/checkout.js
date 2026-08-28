@@ -19,6 +19,7 @@
 var catalog = require('../lib/offer-catalog');
 var stripe = require('../lib/stripe-rail');
 var db = require('../lib/limen-db');
+var leadPipeline = require('../lib/lead-pipeline-bridge');
 
 var SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
 var INTENT_KEY = 'subs:intents:v1';
@@ -148,6 +149,14 @@ module.exports = async function handler(req, res) {
       priceCents: offer.priceCents, sessionId: session.sessionId,
       utm: body.utm || null, referrer: (body.referrer || '').slice(0, 300) || null
     });
+
+    if (email && body.consent === true) {
+      try {
+        await leadPipeline.capture({ eventId: 'checkout-session:' + session.sessionId, name: body.name,
+          email: email, domain: domain, rung: rung, source: 'stripe-checkout-start', consent: body.consent === true,
+          note: offer.name, recordAcquisition: true });
+      } catch (e) {}
+    }
 
     return send(res, { ok: true, url: session.url, priceCents: offer.priceCents, name: offer.name });
   } catch (e) {

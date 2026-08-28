@@ -42,7 +42,10 @@ var db = require('../lib/limen-db');
 var ks = require('../lib/ai-kill-switch');
 var meter = require('../lib/spend-meter');
 var motorStore = require('../lib/autofire-efference-store');
-var motorAuthorization = require('../lib/product-domain-motor-authorization');
+var heroPolicy = require('../lib/culture-hero-policy');
+var heroDecision = require('../lib/culture-hero-decision');
+var heroExecutor = require('../lib/culture-hero-executor');
+var heroRecovery = require('../lib/culture-hero-recovery');
 
 var ENDPOINT = 'https://api.x.ai/v1/images/generations';
 var MODEL = process.env.XAI_IMAGE_MODEL || 'grok-imagine-image-quality';
@@ -75,33 +78,8 @@ function cap() {
 // Deliberately abstract. A hero sits behind white headline text, so these ask for dark,
 // low-contrast, wide compositions with the subject CENTRED: the hero box is landscape on
 // desktop and PORTRAIT on a phone, where cover crops hard to the middle and discards the sides.
-var SUBJECT = {
-  agriculture:  'vast farmland under low dramatic light, irrigation lines receding to the horizon',
-  communication: 'communication towers and dish arrays silhouetted against a dark dusk sky',
-  culture:      'an empty concert hall in low light, seats and stage in deep shadow',
-  defense:      'a shipyard at night, cranes and hulls in silhouette under sodium light',
-  economy:      'a dense financial district at dusk seen from above, lights beginning to show',
-  education:    'a university library interior at night, long shelves receding into shadow',
-  energy:       'high-voltage transmission towers marching across dark open country at dusk',
-  environment:  'old-growth forest in heavy mist, deep greens, light falling in shafts',
-  finance:      'a bank vault door and marble hall in low dramatic light',
-  governance:   'neoclassical government architecture at dusk, columns in deep shadow',
-  industry:     'a heavy manufacturing floor at night, steel structure and machinery in silhouette, sparks and low amber light',
-  infrastructure: 'a long suspension bridge in fog at blue hour, cables receding',
-  intelligence: 'a dark operations room, wall of dim screens, no readable text',
-  law:          'a courtroom interior in low light, empty bench and gallery, deep shadow',
-  medicine:     'a hospital corridor at night, low clinical light receding into darkness',
-  population:   'an aerial view of dense housing at dusk, warm window lights in a grid',
-  religion:     'a cathedral interior in near darkness, one shaft of light through high windows',
-  science:      'a large research instrument in a darkened laboratory, cool blue light',
-  technology:   'a server hall in low light, rows receding, cool blue and deep shadow',
-  trade:        'a container port at night, stacked containers and gantry cranes under floodlight'
-};
-
-var STYLE = 'Cinematic wide landscape photograph, 16:9, muted desaturated palette, deep shadows, ' +
-            'dark overall exposure suitable as a background behind white text, subject centred, ' +
-            'no text, no words, no lettering, no watermark, no people in the foreground, ' +
-            'no logos, photographic realism, shallow contrast.';
+var SUBJECT = heroPolicy.SUBJECT;
+var STYLE = heroPolicy.STYLE;
 
 function cronHit(req) {
   var h = req.headers || {};
@@ -125,7 +103,8 @@ async function loadStore() {
 
 async function generate(domain, promptOverride) {
   var key = process.env.XAI_API_KEY || process.env.GROK_API_KEY;
-  if (!key) return { ok: false, error: 'XAI_API_KEY is not set on this deployment.' };
+  if (!key) return { ok: false, definitiveFailure: true, ambiguous: false, providerCalled: false, spentUsd: 0,
+    error: 'XAI_API_KEY is not set on this deployment.' };
 
   // ── the kill switch ──────────────────────────────────────────────────────
   // This handler spent money for months without consulting it. It was the only
@@ -133,7 +112,7 @@ async function generate(domain, promptOverride) {
   // never strictly true while this cron ran every five minutes. The hard
   // counter below is a cap, not a switch: it cannot be turned off, only used up.
   if (await ks.spendDisabled()) {
-    return { ok: false, disabled: true,
+    return { ok: false, disabled: true, definitiveFailure: true, ambiguous: false, providerCalled: false, spentUsd: 0,
       error: 'AI spend is disabled (LIMEN_AI_ENABLED, or the operator pause). No image generated.' };
   }
 
@@ -145,33 +124,39 @@ async function generate(domain, promptOverride) {
     label: 'hero-image:' + (domain || 'manual') + ':' + MODEL
   });
   if (!rsv.ok) {
-    return { ok: false, budgetBlocked: true, error: rsv.reason || 'spend refused by the budget meter' };
+    return { ok: false, budgetBlocked: true, definitiveFailure: true, ambiguous: false, providerCalled: false, spentUsd: 0,
+      error: rsv.reason || 'spend refused by the budget meter' };
   }
 
   var prompt = promptOverride ? String(promptOverride).slice(0, 900) : (SUBJECT[domain] + '. ' + STYLE);
   var body = { model: MODEL, prompt: prompt, n: 1, aspect_ratio: '16:9' };
 
   async function call(b) {
-    var r = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
-      body: JSON.stringify(b)
-    });
-    var j = await r.json().catch(function () { return null; });
-    return { ok: r.ok, status: r.status, j: j };
+    try {
+      var r = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+        body: JSON.stringify(b)
+      });
+      var j = await r.json().catch(function () { return null; });
+      return { ok: r.ok, status: r.status, j: j };
+    } catch (error) {
+      return { ok: false, status: null, j: null, ambiguous: true, error: String(error && error.message || error) };
+    }
   }
 
   var res = await call(body);
-  // aspect_ratio is not a pinned parameter name in the docs; retry once without it rather than
-  // failing the whole request on an unknown field.
-  if (!res.ok) { delete body.aspect_ratio; res = await call(body); }
+  // One command is one firing. An uncertain response is never retried because
+  // the first call may have been accepted even when its response was lost.
   // Settle every path, or the reservation sits against the budget until it ages
   // out and blocks generations that should have been allowed.
   // A rejected request produced no image, so it settles at zero. A successful
   // one settles at the reserved estimate, since images are fixed-price.
   if (!res.ok || !res.j) {
-    await meter.settle(rsv.id, { costUsd: 0 });
-    return { ok: false, error: 'xAI returned ' + res.status, detail: res.j && (res.j.error && res.j.error.message || JSON.stringify(res.j).slice(0, 240)) };
+    var failedCharge = await meter.settle(rsv.id, res.ambiguous === true ? {} : { costUsd: 0 });
+    return { ok: false, ambiguous: res.ambiguous === true, definitiveFailure: res.status != null, providerCalled: true,
+      error: res.error || ('xAI returned ' + res.status), detail: res.j && (res.j.error && res.j.error.message || JSON.stringify(res.j).slice(0, 240)),
+      spentUsd: failedCharge && failedCharge.chargedUsd != null ? failedCharge.chargedUsd : (res.ambiguous === true ? imageUsd() : 0) };
   }
 
   var item = (res.j.data && res.j.data[0]) || res.j;
@@ -180,11 +165,13 @@ async function generate(domain, promptOverride) {
   if (!url && !b64) {
     // A 2xx that carried no image. The call was accepted, so assume it billed.
     await meter.settle(rsv.id, {});
-    return { ok: false, error: 'xAI response carried no image' };
+    return { ok: false, ambiguous: true, definitiveFailure: false, providerCalled: true,
+      error: 'xAI response carried no image', spentUsd: imageUsd() };
   }
 
   var charged = await meter.settle(rsv.id, {});
-  return { ok: true, url: url, hasBase64: !!b64, b64: b64, prompt: prompt,
+  return { ok: true, providerCalled: true, url: url, requestId: res.j && (res.j.id || res.j.request_id) || null,
+           hasBase64: !!b64, b64: b64, prompt: prompt,
            revised: item.revised_prompt || null,
            spentUsd: (charged && charged.chargedUsd != null) ? charged.chargedUsd : null };
 }
@@ -195,6 +182,12 @@ module.exports = async function handler(req, res) {
     // ── PUBLIC: what has been generated. No key, no cost, nothing sensitive. ──
     if (q.list === '1') {
       var store = await loadStore();
+      var suppression = null;
+      var suppressionStateKnown = false;
+      try { suppression = await motorStore.get(heroRecovery.CATALOG_KEY); suppressionStateKnown = true; } catch (_) {}
+      if (suppression && typeof suppression === 'object') Object.keys(suppression).forEach(function (d) {
+        if (suppression[d] && suppression[d].suppressed) delete store[d];
+      });
       var done = Object.keys(store);
       var count = 0;
       try { count = parseInt(await db.get(COUNT_KEY), 10) || 0; } catch (e) {}
@@ -206,6 +199,7 @@ module.exports = async function handler(req, res) {
         capImages: cap(),
         pending: Object.keys(SUBJECT).filter(function (d) { return !store[d]; }),
         images: store,
+        suppressionStateKnown: suppressionStateKnown,
         note: 'URLs come from xAI and may expire. Fetch and commit them to assets/img/<domain>.jpg.'
       });
     }
@@ -216,31 +210,18 @@ module.exports = async function handler(req, res) {
       return T.send(res, { ok: false, error: 'Generation is restricted. Add ?list=1 to read results without a key.' }, 401);
     }
 
-    // Culture owns the current media-artifact effector. Cron/admin identity can
-    // request a generation cycle, but no provider or spend gate is touched until
-    // the Culture brain's restored motor receipt releases hero-image.
-    var motorGate = await motorAuthorization.authorize(motorStore, 'culture', 'hero-image', Date.now());
-    if (!motorGate.authorized) {
-      return T.send(res, {
-        ok: true,
-        acted: false,
-        generated: false,
-        motorHeld: true,
-        reason: motorGate.reason,
-        motorReceiptId: motorGate.receiptId,
-        motorBlockers: motorGate.blockers
-      });
-    }
-
     // ── SPEND CAP. Fails CLOSED: an unreadable counter refuses to generate. ──
     var used;
-    try { used = parseInt(await db.get(COUNT_KEY), 10) || 0; }
+    try { used = parseInt(await motorStore.get(COUNT_KEY), 10) || 0; }
     catch (e) { return T.send(res, { ok: false, error: 'Spend counter unreachable; refusing to generate.' }, 503); }
     if (used >= cap()) {
       return T.send(res, { ok: false, error: 'Image cap reached: ' + used + ' of ' + cap() + '. Raise HERO_IMAGE_CAP to continue.', spentImages: used }, 429);
     }
 
-    var store2 = await loadStore();
+    var store2;
+    try { store2 = await motorStore.get(STORE_KEY); }
+    catch (e) { return T.send(res, { ok: false, error: 'Durable asset catalog unreachable; refusing to generate.' }, 503); }
+    if (!store2 || typeof store2 !== 'object') store2 = {};
 
     // A cron run picks the FIRST domain with no stored image and stops when there are none.
     var domain = String(q.domain || '').toLowerCase().trim();
@@ -250,26 +231,44 @@ module.exports = async function handler(req, res) {
         return T.send(res, { ok: true, done: true, generated: Object.keys(store2).length, note: 'Every domain already has an image. Nothing generated, nothing spent.' });
       }
     }
-    if (!q.prompt && !SUBJECT[domain]) {
+    if (q.prompt) {
+      return T.send(res, { ok: false, error: 'Custom prompts are not autonomous Culture decisions; only the canonical Culture-local policy can enter this effector.' }, 400);
+    }
+    if (!SUBJECT[domain]) {
       return T.send(res, { ok: false, error: 'Unknown domain.', domains: Object.keys(SUBJECT) }, 400);
     }
     // Never silently regenerate and re-charge for something already done.
-    if (isCron && store2[domain]) {
+    if (store2[domain]) {
       return T.send(res, { ok: true, skipped: domain, note: 'Already generated; not regenerating.' });
     }
 
-    var g = await generate(domain, q.prompt);
-    if (!g.ok) return T.send(res, { ok: false, domain: domain, error: g.error, detail: g.detail }, 502);
+    var candidate = heroPolicy.candidate(domain, MODEL, 'missing-public-hero');
+    var decision = await heroDecision.decide(motorStore, candidate, Date.now());
+    if (!decision || decision.status !== 'RELEASED') return T.send(res, {
+      ok: true, acted: false, generated: false, brainHeld: true,
+      reason: decision && decision.reason || 'culture-b10-held', blockers: decision && decision.blockers || [],
+      decisionReceiptId: decision && decision.decisionReceiptId || null, providerCalled: false, spentUsd: 0
+    });
+    var g = await heroExecutor.execute({
+      store: motorStore, candidate: candidate, decision: decision, now: Date.now(),
+      provider: { generate: function (exact) { return generate(exact.assetDomain, exact.prompt); } }
+    });
+    if (!g.ok) return T.send(res, { ok: false, domain: domain, status: g.status, error: g.reason || 'generation unresolved',
+      detail: g.detail, commandId: g.commandId || null, decisionReceiptId: decision.decisionReceiptId,
+      providerCalled: g.providerCalled === true, spentUsd: g.spentUsd == null ? null : g.spentUsd }, g.status === 'HELD' ? 200 : 502);
 
-    try { await db.set(COUNT_KEY, used + 1); } catch (e) {}
-    store2[domain] = { url: g.url, prompt: g.prompt, revised: g.revised, at: new Date().toISOString(), model: MODEL };
-    try { await db.set(STORE_KEY, store2); } catch (e) {}
+    await motorStore.set(COUNT_KEY, used + 1);
+    if (parseInt(await motorStore.get(COUNT_KEY), 10) !== used + 1) throw new Error('strict image counter readback invalid');
+    store2[domain] = { url: g.receipt.url, prompt: candidate.prompt, revised: null, at: new Date().toISOString(), model: MODEL,
+      commandId: g.commandId, decisionReceiptId: decision.decisionReceiptId, motorReceiptId: g.productMotorReceiptId };
+    await motorStore.set(STORE_KEY, store2);
+    var restoredStore = await motorStore.get(STORE_KEY);
+    if (!restoredStore || !restoredStore[domain] || restoredStore[domain].commandId !== g.commandId) throw new Error('strict image catalog readback invalid');
 
-    if (q.raw === '1' && (g.b64 || g.url)) {
+    if (q.raw === '1' && g.receipt && g.receipt.url) {
       var buf;
-      if (g.b64) buf = Buffer.from(g.b64, 'base64');
-      else {
-        var img = await fetch(g.url);
+      {
+        var img = await fetch(g.receipt.url);
         if (!img.ok) return T.send(res, { ok: false, error: 'could not fetch the generated image (' + img.status + ')' }, 502);
         buf = Buffer.from(await img.arrayBuffer());
       }
@@ -281,7 +280,8 @@ module.exports = async function handler(req, res) {
     }
 
     return T.send(res, {
-      ok: true, domain: domain, model: MODEL, url: g.url, prompt: g.prompt,
+      ok: true, domain: domain, model: MODEL, url: g.receipt.url, prompt: candidate.prompt,
+      commandId: g.commandId, decisionReceiptId: decision.decisionReceiptId, motorReceiptId: g.productMotorReceiptId,
       spentImages: used + 1, capImages: cap(),
       remaining: Object.keys(SUBJECT).filter(function (d) { return !store2[d]; }),
       note: 'Decorative only: nothing here is data. Read all results with ?list=1, no key needed.'

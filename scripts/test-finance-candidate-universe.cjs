@@ -41,7 +41,7 @@ const rankedProposal = {
 assert.equal(Universe.validateProjectedMarginRanking(universe, rankedProposal).status, 'RANKED');
 assert.equal(Universe.validateProjectedMarginRanking(universe, { company: rankedProposal.company }).reason, 'projected_margin_ranking_required');
 const arithmetic = JSON.parse(JSON.stringify(rankedProposal)); arithmetic.projectedMarginRanking.entries[0].riskAdjustedMarginPct = 11;
-assert.equal(Universe.validateProjectedMarginRanking(universe, arithmetic).reason, 'projected_margin_ranking_arithmetic_invalid');
+assert.equal(Universe.validateProjectedMarginRanking(universe, arithmetic).ranking.entries[0].riskAdjustedMarginPct, 10);
 const negative = JSON.parse(JSON.stringify(rankedProposal)); negative.projectedMarginRanking.entries[0] = { company: rankedProposal.company, expectedReturnPct: -1, downsideReturnPct: -10, confidence: 0.8, riskAdjustedMarginPct: -3 };
 assert.equal(Universe.validateProjectedMarginRanking(universe, negative).reason, 'projected_margin_not_positive');
 assert.equal(Universe.build({ candidates: [row('none', 'NON', false)] }).status, 'ABSTAINED');

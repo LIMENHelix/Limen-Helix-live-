@@ -225,3 +225,5 @@ module.exports = async function handler(req, res) {
     return send(res, 500, { ok: false, error: (e && e.message) || String(e) });
   }
 };
+
+module.exports = require('../lib/heartbeat').wrap('brain-shadow', module.exports);

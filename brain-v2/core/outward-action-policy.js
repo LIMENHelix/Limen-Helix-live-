@@ -6,7 +6,7 @@
  * The owning domain then either releases that candidate to the artifact actuator
  * or holds it with explicit reasons.
  *
- * Research is owned only by Science (`research`) or Medicine (`health`).
+ * Research is owned only by an explicitly registered research product brain.
  * Investment is owned only by Finance. Other domains may contribute context but
  * cannot own the command.
  */
@@ -22,11 +22,11 @@ var LANE_POLICY = {
     command: 'generate_investment_artifact',
     owners: ['finance'],
     externalExecution: 'proposal_only',
-    horizonsDays: [30, 60, 90]
+    horizonsDays: [1, 3, 7, 14, 30, 60, 90]
   },
   research: {
     command: 'generate_research_artifact',
-    owners: ['research', 'health'],
+    owners: ['research', 'health', 'education', 'environment'],
     externalExecution: 'publication_evidence_only',
     requiredMappings: [
       'neurology_to_business_homology',
@@ -42,6 +42,8 @@ var DOMAIN_ALIASES = {
   research: 'research',
   medicine: 'health',
   health: 'health',
+  education: 'education',
+  environment: 'environment',
   finance: 'finance'
 };
 
@@ -53,11 +55,14 @@ function ownerFor(lane, subjectDomain) {
   if (lane === 'investment') return 'finance';
   if (lane !== 'research') return null;
   var d = canonicalDomain(subjectDomain);
-  return d === 'research' || d === 'health' ? d : null;
+  return d === 'research' || d === 'health' || d === 'education' || d === 'environment' ? d : null;
 }
 
 function sourceIdentity(candidate) {
   if (!candidate || typeof candidate !== 'object') return null;
+  if (candidate.source === 'domain-packet-research' && candidate.sourceArtifactRef) {
+    return { kind: 'domain-packet-evidence', value: candidate.sourceArtifactRef };
+  }
   if (candidate.sourceArtifactRef) return { kind: 'master-inbox-artifact', value: candidate.sourceArtifactRef };
   if (candidate.sourcePatternSig) return { kind: 'phase-transition-pattern', value: candidate.sourcePatternSig };
   if (candidate.source && candidate.sourceTransitionAt) {
@@ -73,6 +78,14 @@ function criticCandidates(policy, candidate, source) {
       throw new Error('outward candidate needs masterGate.' + k + ' in [0,1]');
     }
   });
+  ['evidenceQuality', 'uncertainty'].forEach(function (k) {
+    if (gate[k] !== undefined &&
+        (typeof gate[k] !== 'number' || !isFinite(gate[k]) || gate[k] < 0 || gate[k] > 1)) {
+      throw new Error('outward candidate needs optional masterGate.' + k + ' in [0,1]');
+    }
+  });
+  var measuredEvidenceQuality = gate.evidenceQuality === undefined ? gate.confidence : gate.evidenceQuality;
+  var measuredUncertainty = gate.uncertainty === undefined ? 1 - gate.confidence : gate.uncertainty;
   var cost = typeof candidate._estimatedCostUsd === 'number' && isFinite(candidate._estimatedCostUsd)
     ? candidate._estimatedCostUsd : 0;
   if (cost < 0) throw new Error('estimated cost cannot be negative');
@@ -83,12 +96,17 @@ function criticCandidates(policy, candidate, source) {
     id: 'cand_outward_' + policy.command,
     kind: policy.command,
     target: source.value,
-    parameters: { candidateIdentity: source, artifactOnly: true },
+    parameters: {
+      candidateIdentity: source,
+      artifactOnly: true,
+      measuredEvidenceQuality: measuredEvidenceQuality,
+      measuredUncertainty: measuredUncertainty
+    },
     rationale: 'a provenance-bearing candidate passed the existing master-inbox gate',
     expectedBenefits: ['a reviewable artifact', 'a command/outcome episode with durable identity'],
     expectedHarms: ['paid model cost', 'an evidence-incomplete draft may sound plausible'],
-    evidenceQuality: gate.confidence,
-    uncertainty: 1 - gate.confidence,
+    evidenceQuality: measuredEvidenceQuality,
+    uncertainty: measuredUncertainty,
     urgency: gate.salience,
     addressesState: gate.readiness,
     reversibility: 'full',
@@ -130,7 +148,7 @@ function select(spec) {
   if (!policy) reasons.push('lane_not_research_or_investment');
   if (!owner) {
     reasons.push(lane === 'research'
-      ? 'research_subject_not_science_or_medicine'
+      ? 'research_subject_has_no_registered_research_owner'
       : 'no_declared_owner_for_lane');
   }
   if (!source) reasons.push('candidate_has_no_source_supplied_identity');
@@ -172,6 +190,7 @@ function select(spec) {
     lane: lane,
     ownerDomain: owner,
     cik: candidate.cik || null,
+    subjectId: candidate.subjectId || null,
     sourceIdentity: source,
     cycleStartedAt: cycle && cycle.startedAt,
     cursorAfter: cycle && cycle.cursorAfter
@@ -188,9 +207,19 @@ function select(spec) {
     subjectDomain: canonicalDomain(candidate.domain),
     candidate: {
       cik: candidate.cik || null,
+      subjectId: candidate.subjectId || null,
       ticker: candidate.ticker || null,
       sourceIdentity: source,
-      source: candidate.source || null
+      source: candidate.source || null,
+      sourcePacketId: candidate.sourcePacketId || null,
+      sourceArtifactRef: candidate.sourceArtifactRef || null,
+      sourcePatternSig: candidate.sourcePatternSig || null,
+      evidenceQuality: candidate.masterGate && candidate.masterGate.evidenceQuality !== undefined
+        ? candidate.masterGate.evidenceQuality : null,
+      uncertainty: candidate.masterGate && candidate.masterGate.uncertainty !== undefined
+        ? candidate.masterGate.uncertainty : null,
+      topicEvidenceRefs: Array.isArray(candidate.topicEvidenceRefs)
+        ? candidate.topicEvidenceRefs.slice(0, 8) : []
     },
     evidence: cycle ? {
       cycleStartedAt: cycle.startedAt || null,

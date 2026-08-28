@@ -174,7 +174,8 @@ function restoreEnv() {
     autofireSource.includes("qFail[qfi].status = 'FAILED'"));
   assert('autofire lanes remain exactly research and investment', /new Set\(\['investment', 'research'\]\)/.test(autofireSource));
   assert('master-inbox readiness is explicit rather than relabelled HIGH',
-    autofireSource.includes("q.source === 'master-inbox' && q.autofireEligible === true"));
+    autofireSource.includes("entry.source === 'domain-packet-research'") &&
+    autofireSource.includes("entry.source === 'master-inbox' && entry.autofireEligible === true"));
 
   const logSource = fs.readFileSync(path.join(ROOT, 'handlers', 'limen-autofire-log.js'), 'utf8');
   assert('autofire log reports the shared autonomy budget', logSource.includes("require('../lib/autonomy-budget')"));

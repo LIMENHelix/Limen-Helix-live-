@@ -44,6 +44,17 @@ assert.strictEqual(result.events[0].outcomeData.riskBreach, false);
 assert.strictEqual(result.events[0].outcomeData.executionMode, 'paper');
 assert.ok(result.events[0].sourceIdentity.snapshotId);
 
+var fastCommand = command({
+  commandId: 'tcmd_fast-1',
+  intent: Object.assign({}, command().intent, { actionId: 'act-fast-1', horizonDays: [1, 3, 7, 14, 30, 60, 90] })
+});
+var fast = O.inspectCommand(fastCommand, account(202), quote(404), [
+  { positionMarketValue: 200, observedAt: new Date(base + O.DAY_MS / 2).toISOString() }
+], base + O.DAY_MS + 1000);
+assert.strictEqual(fast.status, 'ELIGIBLE');
+assert.strictEqual(fast.events[0].outcomeData.horizonDays, 1);
+assert.deepStrictEqual(O.configuredHorizons(fastCommand), [1, 3, 7, 14, 30, 60, 90]);
+
 var shortCommand = command({
   commandId: 'tcmd_short-1',
   intent: Object.assign({}, command().intent, { side: 'sell_short', actionId: 'act-short-1' })
@@ -97,4 +108,4 @@ var noTradeHistory = O.inspectCommand(command({ reconciliation: { actualFees: 1 
 assert.ok(noTradeHistory.abstentions.some(function (x) { return x.reason === 'intervening-trade-history-unavailable'; }));
 var partial = O.inspectCommand(command({ order: Object.assign({}, command().order, { status: 'partially_filled' }) }), account(220), quote(440), [], due);
 assert.strictEqual(partial.reason, 'order-not-terminal-filled');
-console.log('autofire investment observer: 21/21 passed');
+console.log('autofire investment observer: 24/24 passed');

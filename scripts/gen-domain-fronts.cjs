@@ -40,12 +40,12 @@ if (!styleM) throw new Error('no <style> block found');
 const css = styleM[1];
 
 // the app script is the only inline <script> with no src and no type
-const appM = html.match(/\n<script>\n([\s\S]*?)\n<\/script>\n<\/body>/);
+const appM = html.match(/\r?\n<script>\r?\n([\s\S]*?)\r?\n<\/script>\r?\n<\/body>/);
 if (!appM) throw new Error('no trailing inline <script> found');
 const appJs = appM[1];
 
 // everything between <body> and the app script: shader block, external scripts, markup
-const bodyM = html.match(/<body>([\s\S]*?)\n<script>\n[\s\S]*?<\/script>\n<\/body>/);
+const bodyM = html.match(/<body>([\s\S]*?)\r?\n<script>\r?\n[\s\S]*?<\/script>\r?\n<\/body>/);
 if (!bodyM) throw new Error('could not isolate body markup');
 const bodyMarkup = bodyM[1];
 

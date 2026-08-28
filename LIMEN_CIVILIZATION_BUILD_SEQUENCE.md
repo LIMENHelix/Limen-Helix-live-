@@ -1,10 +1,14 @@
 # LIMEN Civilization Build Sequence
 
 **Status:** authoritative execution plan  
-**Scope:** conceptual P0–P10 phase language, neurology↔business homology, brain-v2, Civilization/Master Brain wiring, research/investment autonomy, and later domain expansion  
+**Scope:** conceptual P0–P10 phase language, neurology↔business homology, brain-v2, reciprocal Civilization/connectome wiring, research/investment autonomy, and later domain expansion
 **Created:** 2026-08-23  
 
 This document is the leading source for sequencing the work. Jobs are completed in order. A later job may not silently bypass an earlier gate.
+
+## Architectural clarification — no homunculus
+
+The owner-authoritative [`CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md`](CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md) governs the Civilization surface and bridge architecture. There is no causal “Master Brain” processing tier above the connectome. The 20 sovereign domain brains and connectome form a reciprocal system; memory is a continuously read/written lateral substrate; and the Civilization Briefing/observer is a side-channel operator readout, not a selector or executor. Older “Master Brain” names are compatibility or historical language only and grant no authority. A revised render is not considered verified until it passes the four visual acceptance checks in that contract.
 
 ## Operating rule
 
@@ -15,7 +19,7 @@ Evidence gates apply to a different layer: software behavior, source provenance,
 ## Source hierarchy
 
 1. **Runtime/code truth:** current repository behavior and production measurements.
-2. **Engineering specification:** [`brain-v2/SPEC.md`](brain-v2/SPEC.md), [`brain-v2/MASTER_PROMPT.md`](brain-v2/MASTER_PROMPT.md), tests, and deployment invariants.
+2. **Engineering specification:** [`CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md`](CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md), [`brain-v2/SPEC.md`](brain-v2/SPEC.md), [`brain-v2/MASTER_PROMPT.md`](brain-v2/MASTER_PROMPT.md), tests, and deployment invariants. The no-homunculus contract supersedes stale central-controller wording in older specifications.
 3. **Conceptual neuroscience spine:** [Verified Studies P0–P10](https://docs.google.com/document/d/1Q_isRhFJZ42l-Jjk01rHhTn-sRBD5Xz3jMe0qR2w9vI/edit) and [Neurology Reference](https://docs.google.com/document/d/17tRsmvxU5tavA6W6nfwQua3SnY9W2RN0W4XNDfPvafo/edit).
 4. **Business and product intent:** [LIMEN Helix Business Overview](https://docs.google.com/document/d/1X9LBk7LtftaEGpBUXu6TrGoZKU9djqAS/edit).
 5. **Integration findings:** [Civilization→Master Brain Bridge Audit](https://docs.google.com/document/d/18YqepeHJHxFiI_9B723y2bf2mIRK03MhxwluK3872hU/edit) and the [System Integration Audit](https://docs.google.com/document/d/1t1t5M7jwiuv4Oi_s-KKsqx4fpf0rrl6I9ppMvnUtYcA/edit).
@@ -3292,3 +3296,476 @@ projected-margin ledger. The producer now exempts only
 all other nested side fields remain forbidden. The affected packet is not
 retried because its abstention receipt is durable; the repair applies to future
 packets only.
+
+### Job 5 all-domain action-outcome feedback seam — implemented 2026-08-25
+
+The product-brain audit found that all twenty files owned their local physiology,
+but independently observed business outcomes stopped in the server-side learner
+instead of returning to each product brain's own B13/B17 state. The nineteen
+non-Energy brain files now each contain a named local action-outcome refresh and
+selection method. Energy retains its own recorded-feed resolver. No domain
+inherits this organ from the shared base.
+
+`/api/product-domain-learning-state` is a read-only, strict-Redis boundary that
+exposes only the owning domain's latest graded signal and its source identity;
+commands, prompts, account details, and full episodic memory remain private. A
+domain cannot treat the signal as reward until at least five graded outcomes from
+at least two distinct source identities exist. K4 now checks both domain authority
+and outcome class: Finance accepts its qualified paper-action cohorts and its
+existing feed resolution; Science/Medicine accept independently evaluated
+research outcomes; Energy accepts only its existing feed resolution. Every other
+domain explicitly abstains until it has its own independent observer.
+
+This closes the common local feedback *seam*, not Job 5. Science/Medicine still
+need five genuine, source-separated evaluation returns before learned weights can
+arm. Finance remains paper-only and cohort/horizon gated. The other seventeen
+business owners still need their executor, receipt, observer, and rollback chain;
+no switch, provider, broker, posting lane, Thing 2 consumer, or live-money path was
+enabled by this work.
+
+### Job 5 Science/Medicine artifact recovery seam — implemented 2026-08-25
+
+The research evaluator and the recovery actuator are now separate. An ordinary
+negative result, contradiction, `REGRESSION`, or non-empty prose field cannot
+withdraw an artifact. Only an admitted `OUTCOME_RESEARCH_EVALUATED` record with
+explicit structured publisher-retraction evidence, established source separation,
+causal timestamp ordering, and a `REGRESSION` classification can enter recovery.
+
+Before changing an artifact, the recovery path requires the current owning
+product-brain authorization for the exact Science→Research or Medicine→Health
+`research-papers` lane. It then verifies the original action, B14 efference copy,
+artifact output ID, original product-motor receipt, runtime owner, and product
+owner. A durable recovery command and prediction are written before the status
+transition. The artifact body and content hash are never deleted or rewritten;
+the path appends one `WITHDRAWN` history transition, verifies strict Redis
+readback, and persists an identity-bound resolution receipt. Duplicate observer
+runs return the prior receipt rather than appending another transition.
+
+This raises the source-audited domain-authorized rollback count from `1/20` to
+`3/20` and the complete implemented executor→receipt→observer→rollback→budget
+chains from `1/20` to `3/20` (Finance, Science, Medicine). It does not establish
+production verification, enable either research lane, call a provider, publish
+or delete a document, activate Thing 2, or authorize live money.
+
+### Finance commissioning observability — implemented 2026-08-25
+
+`GET /api/finance-sandbox-commissioning` is a public, read-only view of the
+durable one-shot sandbox commissioning state. It reads strict Redis and returns
+only status, verification booleans, bounded timestamps, and the permanent
+`paperOnly:true` / `liveMoney:false` boundary. It does not call Tradier, mutate
+state, or expose the symbol, account, token, preview, command, or order identity.
+The existing `POST` remains Brain-token authenticated and is still the only
+operator route that can request the zero-effect sandbox order/cancel proof.
+
+### Job 7 owner-fair paper scheduler — implemented 2026-08-25
+
+The live autofire audit exposed a queue-starvation defect rather than a missing
+feed or missing brain. Each 30-minute cycle saw `200` eligible paper candidates,
+but the one-call bound was applied before the owning B10 decision. The first
+queue row was therefore reconsidered every cycle; because it was an investment
+hold, Finance occupied the scheduler while Science and Medicine were never
+reached. The hold itself was healthy, but the ordering was not civilization-
+fair.
+
+The worker now derives a deterministic 30-minute schedule across three distinct
+Job-7 owners: Finance investment, Science research, and Medicine research. It
+rotates first across owners and then within each owner's own candidate rows.
+Missing owner groups are skipped, unknown research owners remain ineligible at
+the tail, and the full candidate set is preserved. The schedule is replayable
+from time alone and adds no shared authority or scheduler write. It changes no
+B10 threshold, product-motor receipt, provider cap, daily budget, publication
+gate, broker gate, or live-money boundary. The one-provider-call-per-tick bound
+remains intact.
+
+### Science and Medicine developmental paper authority — implemented 2026-08-25
+
+The mature product-motor gate requires production executor and independent-
+observer receipts, which cannot exist before the first internal research
+artifact exists. Science and Medicine now have separate one-attempt bootstrap
+contracts rather than a shared research switch. Each product domain has its own
+environment arm, permanent strict-Redis slot, runtime owner, motor contract,
+budget identity, source identity, and receipt. A slot is claimed and read back
+before the B14 command or paid provider call; a claimed slot cannot dispatch a
+second attempt after retry, race, restart, success, or failure.
+
+Developmental authority still requires a current B10 release from that exact
+owning brain, a fresh product-motor receipt with internal preparation and
+simulation gates open, the correct domain-specific budget contract, the global
+AI kill switch, and the existing daily budget check. It permits at most one
+estimated `$0.30` generation attempt and one internal artifact per brain.
+Publication, sale, messaging, broker access, and live money remain explicitly
+unauthorized. The result is resolved from the artifact/B14 receipt and read back
+durably; failure consumes the bounded slot rather than looping.
+
+`GET /api/research-paper-developmental-status` exposes only sanitized read-only
+Science and Medicine state plus an artifact review link when one exists. It
+cannot claim a slot, call the provider, write Redis, publish, or expose source,
+selection, motor-receipt, prompt, or secret identities. This opens only the
+bounded Job-7 paper bootstrap needed to create genuine artifacts for later
+independent evaluation; it does not satisfy or loosen the mature production
+capability gate.
+
+### Owner-fair natural production evidence — measured 2026-08-25
+
+The first two post-repair natural cron turns prove that the queue no longer
+starves later owners. The `20:30` Central cycle selected only
+`investment:finance`; the `21:00` cycle selected only `research:science`.
+Both owning B10 gates returned `no_action`, so both cycles held with zero
+provider attempts, zero budget debit, and zero external effect. Science's
+permanent developmental slot remained `NOT_CLAIMED`, proving that the bootstrap
+cannot bypass B10. Medicine's first natural owner turn remains due at `21:30`
+Central and is not yet evidence.
+
+### Complete Job-7 owner-fair natural hold proof — measured 2026-08-25
+
+The first complete three-owner rotation selected, in order, Finance investment,
+Science research, and Medicine research. Each selected owner reached its own B10
+and returned `no_action`; all three cycles completed with `fired:0`, one held
+candidate, zero errors, zero provider attempts, and `$0` daily spend. Science
+and Medicine developmental slots both remained `NOT_CLAIMED`. This closes the
+scheduler-fairness proof and demonstrates that the one-attempt bootstrap cannot
+bypass B10. It does not prove an artifact, investment, or external action; those
+remain gated on a future genuine owning-brain release.
+
+### Reversible domain commissioning and Communication outcome observer — implemented 2026-08-25
+
+PR #207 merged as `d594e503` and was deployed from that exact merge commit as
+`dpl_CVyGNRv86FbaUNBoThpvvCTy3Ucw`. The capability constitution still accepts
+Finance's zero-effect preview/cancel proof unchanged. For effectors that cannot
+be tested without briefly creating the effect—publication, social, mail, CRM,
+and listings—it now also accepts a reversible commissioning receipt only when
+the effect is explicitly commissioning-only, uses no live money and `$0` spend,
+is exposed for at most five minutes, carries distinct create, rollback, and
+residual-observer receipts, and an independent read verifies zero residual
+effect. This rule grants no authority and turns on no lane by itself.
+
+Communication now has a separate production outcome-observer path. Its existing
+executor writes through the authenticated Bluesky PDS adapter; the new observer
+reads public post identity and engagement counters from the unauthenticated
+Bluesky AppView host, verifies the exact AT URI and CID, computes successive
+engagement deltas, and persists its own strict-Redis readback receipt. The
+observer is cron-authenticated and performs no post, delete, AI call, or monetary
+action. Production credentials authenticated successfully and five prior public
+post receipts were visible; a direct public AppView read independently matched
+the newest post's URI and CID.
+
+This raises the source-audited independent-observer implementation count from
+`3/20` to `4/20`. Communication still lacks its domain-authorized rollback
+command and a completed bounded commissioning proof, so complete source chains
+remain `3/20`, production-verified brains remain `0/20`, and externally autonomous
+brains remain `0/20`. The next Communication step is one labeled, bounded
+create→public-read→delete→absent-read commissioning cycle after its own B10/motor
+authority releases it; no ordinary social post is forced for verification.
+
+### Communication domain-local executor and rollback — implemented 2026-08-25
+
+Communication's social effector now owns a strict, domain-local command path
+rather than allowing the cron handler to call the platform adapter directly.
+A fresh restored `communication/social` motor receipt is consumed by exactly
+one durable claim, the command is read back before authentication, and an
+ambiguous provider result is never automatically retried. The exact Bluesky
+URI/CID and strict receipt readback are retained as the action identity. This
+includes a strict pre-dispatch pending index: the independent AppView observer
+can resolve an accepted-but-unreceipted post by exact content hash and creation
+window without repeating the outward action.
+This does not centralize the domain brain: Communication owns this implementation;
+the shared code remains limited to constitutional motor contracts and transport.
+
+The matching Communication-local rollback requires the original strict post
+command, an independent AppView presence observation with the same URI/CID, a
+structured recovery trigger, and a separate fresh Communication motor receipt.
+It durably claims one delete before contacting the PDS, never retries an
+ambiguous delete, and independently verifies public absence through AppView.
+Deletion acceptance without observed absence remains pending and can only be
+reconciled by another read; it is not falsely called recovery.
+
+The source audit is now `8/20` domain-bound executors, `7/20` action receipts,
+`4/20` independent observers, `4/20` domain-authorized rollback paths, and
+`4/20` complete source chains. Production verification and external autonomy
+remain `0/20`; those counts require a bounded real create→observe→delete→absent
+commissioning receipt and the owning switches, not source presence. The full
+suite measured `192` passed, `1` expected external-corpus skip, and `0` failed
+across `193` files. No test posted, deleted, called an AI provider, or used live
+money. The already deployed read-only Communication observer's natural cron
+request returned HTTP `200` in production on deployment
+`dpl_CVyGNRv86FbaUNBoThpvvCTy3Ucw`.
+
+### Communication action-specific B10 boundary — implemented 2026-08-25
+
+The Communication audit found that a product motor receipt establishes lane
+readiness but does not by itself select an exact public message. The social cron
+therefore could not be called brain-directed merely because its platform gate
+was sound. Communication now owns a separate `public-message-decision/1` B10
+contract before its executor.
+
+Every generated candidate carries the exact live LIMEN tool endpoint, subject
+domain, retrieval time, and source-response hash. B10 separately requires fresh
+Communication and subject-domain server packets, live feeds on both sides, a
+salient subject-brain condition, no Communication immune/review veto, no local
+brake, and an actual Communication autonomous-emission selection. Both
+`RELEASED` and `NO_ACTION` decisions are persisted and read back in strict Redis.
+Only an unexpired `RELEASED` receipt matching the exact subject and content hash
+can enter the domain-local executor; cron/admin identity and motor readiness
+cannot substitute for that decision.
+
+A sanitized public status route exposes recent decision state, packet IDs,
+blockers, and timestamps without content/source hashes, provider access, or
+writes. Current production evidence before deployment showed Communication at
+`brake-dampen` with zero emitted actions; the corrected boundary therefore
+predicts `NO_ACTION`, not a forced post. Commissioning remains downstream of a
+genuine B10 release.
+
+### Finance revenue sovereignty and public sales cycle — implemented 2026-08-26
+
+PRs #247–#249 keep Finance subscriber fulfillment inside the Finance brain and
+join every public domain-front identity capture to the canonical sales record.
+Optional name plus required email now enter Leads with domain, tier, referrer,
+and campaign attribution. The CRM surface exposes the honest cycle Leads →
+Appointments → Shows → Enrollments → Referrals → Leads, while direct self-serve
+checkout remains explicitly appointment-free. Server-side transitions reject
+confirmation without an appointment, show outcomes without an appointment,
+close/enrollment without a show, and referral capture without enrollment.
+
+This connects public sensing to the business memory and revenue loop; it does
+not fabricate appointments or authorize unsolicited mail. Finance and Religion
+retain separate domain-owned subscriber fulfillment paths. The exact production
+merge for PR #249 is `7147ada2`; the full suite measured `236` passed, one known
+external-corpus skip, and zero failures before production verification.
+
+### Finance second-stage structured decision boundary — implemented 2026-08-26
+
+The first naturally admitted Finance paper candidate reached the second actor
+and then abstained with `trade_decision_json_invalid`. That is an interface
+failure, not an investment judgment. The durable BAC receipt remains immutable
+and is not replayed.
+
+The second Finance provider boundary now uses the same native JSON-schema
+constrained output already proven at Preview, raises its bounded response budget
+from 1,800 to 3,000 tokens, and records the provider stop reason, structured-
+output flag, bounded parse diagnostics, and truncation/refusal class without
+storing raw provider text. Only an exact `end_turn` can proceed. The parser may
+unwrap one unambiguous JSON object, but it rejects malformed, oversized,
+truncated, schema-invalid, forbidden-field, evidence-mismatched, or multi-object
+responses. It remains one-shot, paper-only, broker-read-only at this stage, and
+cannot preview or place an order.
+
+The full suite measured `237` passed, one known external-corpus skip, and zero
+failures across `238` files. This removes the observed Job-7 transport defect
+for the next natural packet; it does not itself prove a selected trade, broker
+preview, fill, independent market outcome, B14 reafference, or live-money
+authority.
+
+Production deployed the structured boundary from exact merge `a06eae64` as
+`dpl_GXgbbjju4uRCgyd5tWsFii9Lddeo`. The first post-deployment natural cycle
+admitted CMPS and completed with a schema-valid actor `ABSTAIN` rather than the
+prior JSON interface failure. No execution receipt or order was created.
+
+The subsequent executor audit found separate causal-identity defects before
+they could affect a selected trade: B14 derives the causal action identity into
+its durable preview, while the executor was reading the earlier uncomposed trade
+intent, and the reusable critic candidate ID would have collided across repeated
+BUY/SHORT episodes. B14 now preserves that candidate as the learning kind but
+uses the packet-specific released selection ID as the causal episode identity.
+The executor requires that preview identity and verifies it exactly against the
+released B10 selection before recording command
+learning or dispatching a sandbox order. Missing or mismatched identities leave
+the claimed execution unresolved and cannot contact the order endpoint. This
+closes the static B10 → B14 → B11 identity path; natural selected-intent and
+fill evidence remain outstanding.
+
+The same audit found that Finance position exits already consumed the persisted
+Finance Brain-v2 selection gate and modulatory state, while entry decisions
+created a fresh B10 gate for each packet. Entries now load and persist the same
+domain-owned learning gate before constructing the durable decision receipt.
+Thing 2 remains excluded from selection and zero-weight in post-decision
+reconciliation. This makes resolved Finance outcomes causally available to
+future entry thresholding instead of merely storing learning beside a bypassed
+selector.
+
+### Sovereign B14 authority provenance — implemented 2026-08-26
+
+The Tradier sandbox transport previously labeled every durable command as
+approved by an operator even when a separately authorized Finance, Energy,
+Economy, or Technology brain had dispatched the action. That was false
+provenance and made domain sovereignty impossible to audit.
+
+Every B14 submit and cancellation now requires an explicit authority envelope
+before account remeasurement or broker contact. The envelope records the mode
+(`operator`, `domain-autonomous`, `commissioning`, or `recovery`), actor, owning
+domain, durable authorization receipt ID, and authorization mode. Its owner must
+match the owner persisted in the exact intent. Missing authority or cross-domain
+authority fails closed before dispatch. Finance entries/exits, the three other
+investment brains, their recovery paths, and Finance zero-effect commissioning
+all supply their own receipts; the authenticated administrative route identifies
+its authority as human/operator rather than impersonating a domain brain.
+
+Focused transport verification measured `53/53` checks, including absence and
+owner-mismatch refusal without a broker call, pre-dispatch authority readback,
+and recovery authority persistence before cancellation. The affected Finance,
+Energy, Economy, and Technology integration tests also pass. This fixes receipt
+truthfulness; it does not switch on live money or grant one domain authority over
+another.
+
+### CRM autonomous-task commissioning boundary — measured and repaired 2026-08-26
+
+A live production read found the sales autopilot armed in `recommend` mode. Its
+latest natural tick scanned 25 of 98 CRM worklist identities, selected and
+queued 25 next actions, executed zero outward actions, and recorded zero errors.
+This proves a live autonomous sensing/selection/queue cycle, not autonomous
+external outreach.
+
+The trial also exposed two blockers that must precede `control` mode. Public
+capture persisted consent on the canonical Lead but did not carry it into the
+CRM motor state, and the generic autopilot's domain gate was a pass-through even
+though its only commissioned B10/executor/observer/recovery chain belongs to the
+Intelligence product brain. Enabling that path globally would let Intelligence
+borrow another domain's authority and could contact an identity without durable
+consent evidence.
+
+New captures and CRM loads now carry explicit consent into the identity-bound
+motor state. The commissioned executor can construct a send candidate only for
+an explicitly consenting Intelligence-domain lead. Other domains remain visible
+in recommendations, but outward email is marked authority-held until that
+domain receives its own local outreach decision, executor, observer, recovery,
+budget, and switch. Existing states with absent consent remain inhibited. This
+does not send an email or fabricate a sales-stage transition; it establishes the
+safe boundary for a one-lead Intelligence commissioning trial.
+
+The first natural post-repair production tick ran at
+`2026-08-27T01:37:23.385Z`. It scanned `25`, queued `25`, executed `0`, and
+reported `0` errors. The internally owned, consented Intelligence identity was
+the single `authorityReady` task; all `24` Finance-domain tasks were
+`authorityHeld`. This proves that the autonomous selector can separate one
+eligible local task from foreign-domain work without borrowing Finance
+authority. It remains a sensing/selection/queue proof, not an email execution
+proof.
+
+### Intelligence owned-destination motor bootstrap — implemented 2026-08-26
+
+The first bounded outward commissioning path is intentionally narrower than
+ordinary CRM control mode. It can release only one permanent developmental slot
+for the exact consented Intelligence candidate whose normalized recipient equals
+the explicitly configured LIMEN-owned commissioning address. A fresh exact B10
+decision and current simulation-ready Intelligence motor receipt remain
+mandatory. The bootstrap authorizes no other lead, domain, message, AI call,
+money, or sales-stage transition.
+
+The executor persists and reads back its command before the Resend call, consumes
+the permanent slot, and durably suppresses future sends to the commissioning
+address after provider acceptance. The handler does not record a prospect touch
+or advance the funnel for this internal proof. A separate Resend GET observer
+must then match provider ID, command, action, and hashed recipient before a
+separate capability verifier may persist the executor and observer receipts.
+Because an accepted email cannot honestly be recalled, the capability contract
+records the effect as irreversible and requires owned destination, consent,
+one-shot authority, a measured cost capped at one cent, no business transition, and verified future
+suppression rather than falsely claiming zero residual effect. Ordinary mature
+autonomy remains held until this production proof exists and the Intelligence
+brain's separate external resource and motor valves are explicitly opened.
+
+### Continuous civilization metabolism and sovereign circuit breakers — owner direction 2026-08-27
+
+External operation is not intended to require the operator to manage twenty
+routine on/off switches. Sensing, cognition, learning, internal planning, and
+resource measurement remain continuously active in every product brain. Once a
+lane is commissioned, its external eligibility is derived automatically from
+that brain's own declared physical line, provider and budget gates, fresh
+executor and independent-observer evidence, and the runtime circuit breakers.
+Insufficient resources cause scaling or abstention rather than turning the
+whole domain off.
+
+Each of the twenty sovereign brain source files now declares its own exact
+`externalValveId`. The server-side external-valve overlay can only lift the
+resource `externalAction` and motor `external` inhibitors for that same owning
+brain when the declaration matches the civilization line registry and all
+existing hard gates and runtime valves are open. It clears both switches before
+every read, so stale positive authority cannot survive a missing store, closed
+gate, owner/lane mismatch, or circuit-breaker event. It cannot grant spend or
+capital, select an action, call a provider, or move money. Normal control is
+metabolic/allostatic adjustment, not stopping. The single global control is
+named **NUKE** and is explicitly outside the organism: it is an exceptional
+operator-administered inhibitor with no claimed healthy internal neural homolog,
+closest in topology to medically induced burst suppression. No domain can
+invoke it against another. NUKE stops new sensing-adapter work, cognition,
+selection, learning writes, motor dispatch, retries, and observers while
+preserving weights, ledgers, receipts, decision traces, and every other durable
+byte for diagnosis. External operator diagnostic reads remain possible; they
+are not activity by the frozen civilization. A provider effect already accepted
+before NUKE cannot be recalled, but no new attempt may begin.
+
+NUKE never self-releases and cannot transition directly back to ordinary
+operation. Recovery is manual and ordered: `NUKED` →
+`DIAGNOSTIC_READ_ONLY` → `SENSING_ONLY` → `INTERNAL_COGNITION` →
+`SANDBOX_MOTOR` → `DOMAIN_RECOMMISSION` → `OPEN`. In the recommission stage,
+an outward lane must receive a fresh local OPEN receipt after the NUKE event;
+its prior eligibility cannot simply survive the incident. Destructive erasure
+is not part of NUKE. Individual lane isolation remains available for ordinary
+local fault containment and maintenance.
+
+Implementation status on 2026-08-27: the durable NUKE state machine, ordered
+transition enforcement, protected operator surface, post-incident local-valve
+recommission requirement, and catch-all API/cron admission gate are implemented.
+That gate suppresses every newly entering mapped request. A serverless invocation
+already running cannot be killed by a different invocation after it has crossed
+its last control read. Therefore full “in-flight halted” proof remains open until
+every external provider, broker, posting, payment, and mail adapter performs a
+co-timed NUKE checkpoint immediately before its irreversible call and records
+the result. This limitation is explicit and must not be mislabeled as complete
+burst suppression.
+
+The 2026-08-27 owned-destination Intelligence email is accepted as
+operator-reported commissioning evidence because the owner confirmed receipt.
+At the operator scale the received message is B14 reafference: the external
+effect returned and was observed. No duplicate email is required or authorized.
+This statement is not a claim of machine-verified provider readback and does not
+broaden any other lane.
+
+### Finance treasury, domain accounts, and Stripe reconciliation — owner direction 2026-08-27
+
+Finance is the civilization treasury and capital allocator, not the owner of
+the other nineteen brains' decisions. Every product brain requires a separate
+economic account projection containing available and pending cash, committed
+and reserved cash, recognized revenue, costs, and obligations. A domain may use
+only its own available allocation. Finance may capitalize a domain according to
+a recorded policy and receipt; the operator may also contribute directly to a
+named domain account.
+
+Stripe is an external payment rail and reconciliation source, not the internal
+source of domain ownership. The physical Stripe platform balance must never be
+copied into all twenty brains as if every domain could spend the same dollars.
+A durable double-entry civilization ledger partitions external cash among the
+twenty domain accounts. Stripe webhook events must retain the selling domain's
+identity; each sale credits that domain, records Stripe fees and statutory tax
+liabilities separately, and applies any declared internal civilization levy as
+a domain-to-Finance entry. “Civilization levy” is the internal funding term;
+government sales, income, payroll, or other tax is a separate legal liability
+and must not be fabricated or conflated with it.
+
+The resource-allocation side has a neurological metabolic/allostatic homology:
+continuous local energy sensing, graceful contraction under scarcity, and
+demand-responsive allocation. The civilization levy does **not** claim a clean
+neural homolog. It is an economic/civilization-scale mechanism for ownership
+and funding and is labeled accordingly rather than forced into the neurology
+ledger.
+
+Finance may read the platform's Stripe pending and available balances. A domain
+may read a Stripe connected-account balance only when a legitimate connected
+account has been configured for it; otherwise it reads its own internal ledger
+allocation plus the bounded Stripe receipts attributed to its sales. Every
+capitalization, contribution, sale, levy, expense, transfer, refund, dispute,
+and reconciliation adjustment requires an idempotent durable receipt. Outbound
+money movement remains downstream of the appropriate domain budget, reserve,
+risk, observer, recovery, and account-backing checks.
+
+Implementation tranche 1 on 2026-08-27 adds a strict-durable, USD-only,
+double-entry treasury substrate with twenty separate product-domain projections.
+Its typed receipt geometries cover contribution, capitalization, captured and
+settled sale, expense, inter-domain transfer, reserve, commitment, refund,
+dispute, and explicit reconciliation adjustment. It rejects idempotency
+conflicts and postings that would overdraw a protected domain cash or obligation
+bucket. A protected GET-only operator route can read all projections or one
+named domain; it exposes no mutation surface. The contract hard-codes
+`outboundMoneyAuthorized:false`. Stripe balance reconciliation, atomic spend
+reservation, and an authorized outbound payment adapter remain explicit
+blockers. No webhook has been connected to this ledger and no external balance
+or money movement is claimed by this tranche.

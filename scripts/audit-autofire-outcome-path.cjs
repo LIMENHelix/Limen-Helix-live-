@@ -57,8 +57,10 @@ const declarations = filesMatching(/OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED
 const explicitEventPosts = filesMatching(/eventType\s*:\s*['"]OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)['"]/, production);
 const autonomousObserverFiles = filesMatching(/recordAutonomousOutcome\s*\(|inspectArticles\s*\(/, production);
 const investmentObserverFiles = filesMatching(/autofire-investment-observer|limen-investment-outcome-observer/, production);
+const researchEvaluationObserverFiles = filesMatching(/limen-research-evaluation-observer|research-evaluation-observer/, production);
 const learningConsumers = filesMatching(/(?:autofireLearning\.)?recordOutcome\s*\(/, production);
-const commandProducers = filesMatching(/autofireEfference\.command\s*\(|(?:createPreview|submitApproved)\s*\(/, production);
+const commandProducers = filesMatching(/autofireEfference\.command\s*\(|(?:createPreview|submitApproved)\s*\(/, production)
+  .filter(file => file.indexOf('audit') < 0);
 const manualOutcomeUi = filesMatching(/fetch\(['"]\/api\/limen-outcome|eventType\s*[:=].*OUTCOME_(?:INVESTMENT_PNL|RESEARCH_PUBLISHED|RESEARCH_EVALUATED)/, [
   ...production.filter(file => relative(file).startsWith('assets/'))
 ]);
@@ -78,14 +80,17 @@ const result = {
     const publicationObserver = event === 'OUTCOME_RESEARCH_PUBLISHED' &&
       autonomousObserverFiles.some(file => /limen-outcome-observer|autofire-outcome-observer/.test(file));
     const investmentObserver = event === 'OUTCOME_INVESTMENT_PNL' && investmentObserverFiles.length > 0;
+    const researchEvaluationObserver = event === 'OUTCOME_RESEARCH_EVALUATED' && researchEvaluationObserverFiles.length > 0;
     return {
       event,
       explicitProductionPosts: explicitEventPosts.filter(file => text.get(path.join(ROOT, file)).includes(event)),
-      autonomousProducerCount: publicationObserver || investmentObserver ? 1 : 0,
+      autonomousProducerCount: publicationObserver || investmentObserver || researchEvaluationObserver ? 1 : 0,
       status: publicationObserver
         ? 'AUTONOMOUS_PUBLICATION_RECEIPT_UNGRADED'
         : investmentObserver
           ? 'AUTONOMOUS_PAPER_OUTCOME_OBSERVER_PENDING_HORIZON'
+          : researchEvaluationObserver
+            ? 'AUTONOMOUS_EXTERNAL_EVALUATION_INTAKE_OBSERVER'
           : 'NO_AUTONOMOUS_PRODUCER_FOUND'
     };
   }),
@@ -98,12 +103,12 @@ const result = {
     commandReceipt: commandProducers.length > 0 ? 'PRESENT' : 'MISSING',
     learningConsumer: learningConsumers.length > 0 ? 'PRESENT' : 'MISSING',
     researchPublicationReceipt: 'PRESENT_UNGRADED',
-    independentResearchOutcome: 'MISSING_AUTONOMOUS_PRODUCER',
+    independentResearchOutcome: researchEvaluationObserverFiles.length > 0 ? 'PRESENT_INPUT_GATED_PENDING_EVALUATION_RECORDS' : 'MISSING_AUTONOMOUS_PRODUCER',
     paperInvestmentOutcome: investmentObserverFiles.length > 0 ? 'PRESENT_PAPER_ONLY_PENDING_HORIZONS' : 'MISSING_AUTONOMOUS_PRODUCER',
     independentInvestmentOutcome: 'MISSING_LIVE_PRODUCER',
     syntheticSandboxOutcome: 'SEPARATE_AND_NOT_WORLD_EVIDENCE'
   },
-  conclusion: 'An autonomous owned-site publication observer emits only an ungraded publication receipt, and a read-only Tradier sandbox observer can emit a paper P&L receipt only when explicit 30/60/90 terms, position attribution, benchmark data, risk limits, and durable history are present. Independent research evaluation and live investment producers remain absent; no observer creates real-money activity or closes the Job 7 gate by itself.'
+  conclusion: 'The research return path now autonomously consumes only durably admitted Science/Medicine evaluations with two source-separated identities and all four mapping decisions. It does not create or infer those evaluations from publication count, citations, feeds, or originating claims, so the path remains input-gated pending genuine external records. The paper investment observer remains horizon-gated and live investment remains absent.'
 };
 
 if (process.argv.includes('--write')) {

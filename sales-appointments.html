@@ -47,7 +47,9 @@
   .st{font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);white-space:nowrap}
   .st.new{color:var(--dim)} .st.working{color:var(--amber);border-color:#5a4a1a}
   .st.appointment{color:var(--cyan);border-color:#1e5a4f;background:#0f2a26}
-  .st.dead{color:var(--red);border-color:#5a2020} .st.unresponsive{color:var(--faint)}
+  .st.showed,.st.enrolled,.st.referred{color:var(--green);border-color:#1a4a2a;background:#08160e}
+  .st.no-show,.st.cancelled,.st.lost,.st.dead{color:var(--red);border-color:#5a2020}
+  .st.unresponsive{color:var(--faint)}
   .chip{font-size:10px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim)}
   .chip.co{border-color:#3a2a5a;color:var(--violet)}
   .tblwrap{overflow-x:auto;max-height:560px;overflow-y:auto}
@@ -58,6 +60,10 @@
   .lp .contact b{color:var(--ink)}
   .next{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;margin:8px 0}
   .next b{color:var(--cyan)}
+  .stageflow{border:1px solid #2c3650;background:#0b1220;border-radius:9px;padding:10px;margin:10px 0}
+  .stageflow .title{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--violet);margin-bottom:6px}
+  .stageflow .path{font-size:11px;color:var(--faint);margin-bottom:8px}
+  .stageflow .path b{color:var(--ink)}
   .touchbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0}
   .touchbar select,.touchbar input{font-size:12px;padding:5px 7px}
   .tl{list-style:none;margin:8px 0 0;padding:0;max-height:240px;overflow-y:auto}
@@ -76,7 +82,7 @@
   <div class="crumbs"><a href="/sales">← SALES</a> · Appointments</div>
   <header class="top">
     <h1>APPOINTMENTS <span class="m">· Outreach CRM</span></h1>
-    <div class="sub">Work your leads into appointments across the LASER cadence — mail, email, text, call. Log every touch and outcome; the machine tracks which channel books appointments for the least cost and feeds it back to the optimizer. It <b>tracks</b> outreach; it does not send it.</div>
+    <div class="sub">Carry each captured identity through the full sales cycle: lead → appointment → show → enrollment → referral. Every transition stays attached to the same lead record. Self-serve purchases may legitimately skip appointment and show; those stages are marked not required, never fabricated.</div>
   </header>
 
   <div class="keybar">
@@ -91,7 +97,7 @@
   </div>
 
   <div class="panel">
-    <h2>Pipeline · leads → appointments</h2>
+    <h2>Sales cycle · leads → appointments → shows → enrollments → referrals → new leads</h2>
     <div class="kpis" id="kpis"></div>
   </div>
 
@@ -99,7 +105,7 @@
     <div class="panel">
       <h2>Worklist <span class="muted" id="wlCount"></span></h2>
       <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
-        <select id="fStatus"><option value="">all statuses</option><option>new</option><option>working</option><option>appointment</option><option>unresponsive</option><option>dead</option></select>
+        <select id="fStatus"><option value="">all statuses</option><option>new</option><option>working</option><option>appointment</option><option>showed</option><option>no-show</option><option>cancelled</option><option>enrolled</option><option>referred</option><option>lost</option><option>unresponsive</option><option>dead</option></select>
         <select id="fCompany"><option value="">all ventures</option></select>
         <button class="sm" onclick="loadAll()">↻</button>
       </div>
@@ -123,7 +129,7 @@
 
 <script>
 const $=s=>document.querySelector(s);
-let CADENCE=[], CHANNELS=['call','text','email','mailer','social','other'], OUTCOMES=[], SEL=null, COMPANIES=[], EMAILCFG={ready:false};
+let CADENCE=[], CHANNELS=['call','text','email','mailer','social','other'], OUTCOMES=[], CONFIRM_CHANNELS=[], CLOSE_LEVERS=[], DEAL_SIZES=[], SEL=null, COMPANIES=[], EMAILCFG={ready:false};
 function key(){ return localStorage.getItem('salesKey')||''; }
 function saveKey(){ localStorage.setItem('salesKey',$('#key').value.trim()); loadAll(); }
 function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
@@ -141,7 +147,7 @@ async function loadAll(){
   $('#key').value=key();
   const st=await api('crm','status');
   $('#keyState').textContent = st.keyConfigured?(key()?'unlocked':'key required'):'server key not configured';
-  CHANNELS=st.channels||CHANNELS; OUTCOMES=st.outcomes||[]; EMAILCFG=st.email||{ready:false};
+  CHANNELS=st.channels||CHANNELS; OUTCOMES=st.outcomes||[]; CONFIRM_CHANNELS=st.confirmChannels||[]; CLOSE_LEVERS=st.closeLevers||[]; DEAL_SIZES=st.dealSizes||[]; EMAILCFG=st.email||{ready:false};
   if(!key()){ $('#wl').innerHTML='<tr><td colspan="5" class="muted">Enter the admin key to unlock.</td></tr>'; return; }
   // ventures for the loaders
   const comps=(await api('leadgen','companies')).companies||[]; COMPANIES=comps;
@@ -151,7 +157,7 @@ async function loadAll(){
   renderMetrics(await api('crm','metrics'));
   renderWorklist(await api('crm','worklist&status='+encodeURIComponent($('#fStatus').value)+'&company='+encodeURIComponent($('#fCompany').value)));
   if(SEL) openLead(SEL);
-  $('#guard').innerHTML='⚖️ This CRM records outreach you performed and tracks outcomes. It does not send mail, email, text, or calls — sending stays a deliberate action. Click-to-send (Twilio / Resend / mail) is the integration layer added when those keys are live.';
+  $('#guard').innerHTML='⚖️ This CRM never invents a stage. It records actual appointments, show outcomes, enrollments, and referrals. Email is sent only when an operator clicks Send and confirms; text, calls, and mail remain recorded external actions.';
 }
 
 function renderMetrics(m){
@@ -161,6 +167,10 @@ function renderMetrics(m){
     {k:'In CRM',v:m.inWorklist||0,c:''},
     {k:'Working',v:p.working||0,c:''},
     {k:'Appointments',v:p.appointment||0,c:'appt'},
+    {k:'Showed',v:p.showed||0,c:'pos'},
+    {k:'No-show',v:p['no-show']||0,c:'dead'},
+    {k:'Enrolled',v:p.enrolled||0,c:'pos'},
+    {k:'Referred',v:p.referred||0,c:'pos'},
     {k:'Dead',v:p.dead||0,c:'dead'},
     {k:'Lead→Appt',v:l2a?(l2a.conv*100).toFixed(0)+'%':'—',c:'pos'},
     {k:'Touches/appt',v:m.touchesPerAppt!=null?m.touchesPerAppt:'—',c:''},
@@ -181,8 +191,41 @@ function renderWorklist(w){
     <td><span class="chip co">${esc(r.company||'—')}</span></td>
     <td><span class="st ${r.status}">${r.status}</span></td>
     <td class="num">${r.touchCount}</td>
-    <td class="muted">${r.status==='appointment'?('📅 '+(r.apptAt||'set')):(r.nextStep?(r.nextStep.channel+' · '+r.nextStep.label):'done')}</td></tr>`).join('')
+    <td class="muted">${r.status==='appointment'?('📅 '+(r.apptAt||'set')):(r.status==='showed'?'close enrollment':(r.status==='enrolled'||r.status==='referred'?'referral loop':(r.nextStep?(r.nextStep.channel+' · '+r.nextStep.label):'done')))}</td></tr>`).join('')
     : '<tr><td colspan="5" class="muted">No leads here. Load some from a venture above.</td></tr>';
+}
+
+function stageControls(s){
+  const path='<div class="path">Lead → <b>Appointment</b> → <b>Show</b> → <b>Enrollment</b> → <b>Referral</b> → Lead</div>';
+  if(s.directCheckout&&s.status==='enrolled'){
+    return `<div class="stageflow"><div class="title">Self-serve enrollment</div>${path}<div class="muted">Appointment and show were not required for this checkout. The paid identity is enrolled and can enter the referral loop.</div>${referralControls(s)}</div>`;
+  }
+  if(s.status==='appointment'){
+    const channels=(CONFIRM_CHANNELS.length?CONFIRM_CHANNELS:['confirm-email','confirm-text','confirm-call','other']).map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    return `<div class="stageflow"><div class="title">Appointment → show</div>${path}
+      <div class="muted">Booked ${s.apptAt?when(s.apptAt):'time not set'} · ${(s.confirmations||[]).length} confirmation(s)</div>
+      <div class="touchbar"><select id="confirmCh">${channels}</select><input id="confirmNote" placeholder="confirmation note"><button class="sm" onclick="confirmAppt('${s.leadId}')">Log confirmation</button></div>
+      <div class="touchbar"><button class="sm primary" onclick="resolveShow('${s.leadId}','showed')">✓ Showed</button><button class="sm warn" onclick="resolveShow('${s.leadId}','no-show')">No-show</button><button class="sm" onclick="resolveShow('${s.leadId}','cancelled')">Cancelled</button></div>
+      <div class="touchbar"><input id="reschedAt" type="datetime-local"><button class="sm" onclick="rescheduleAppt('${s.leadId}')">Reschedule</button></div></div>`;
+  }
+  if(s.status==='showed'){
+    const sizes=(DEAL_SIZES.length?DEAL_SIZES:['small','medium','large']).map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+    const levers=(CLOSE_LEVERS.length?CLOSE_LEVERS:['closing','urgency','rapport','presentation','price-point','volume']).map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+    return `<div class="stageflow"><div class="title">Show → enrollment</div>${path}<div class="touchbar"><select id="closeSize">${sizes}</select><select id="closeLever">${levers}</select><input id="closeRevenue" type="number" min="0" step="0.01" placeholder="revenue $"><button class="sm primary" onclick="closeDeal('${s.leadId}',true)">Enroll / paid</button><button class="sm warn" onclick="closeDeal('${s.leadId}',false)">Lost</button></div></div>`;
+  }
+  if(s.status==='enrolled'||s.status==='referred'){
+    return `<div class="stageflow"><div class="title">Enrollment → referral → new lead</div>${path}${referralControls(s)}</div>`;
+  }
+  if(s.status==='no-show'||s.status==='cancelled'){
+    return `<div class="stageflow"><div class="title">Show outcome recorded</div>${path}<div class="muted">${esc(s.status)}${s.apptAt?' · '+when(s.apptAt):''}. Reschedule only when a new appointment is actually agreed.</div><div class="touchbar"><input id="reschedAt" type="datetime-local"><button class="sm primary" onclick="rescheduleAppt('${s.leadId}')">New appointment</button></div></div>`;
+  }
+  return `<div class="stageflow"><div class="title">Current sales-cycle position</div>${path}<div class="muted">Work this lead until a real appointment is booked. Later stages unlock only after the prior outcome is recorded.</div></div>`;
+}
+
+function referralControls(s){
+  const channels=CHANNELS.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  return `<div class="muted">${(s.referrals||[]).length} referral(s) recorded. A supplied referral is written back to the Leads page as a new referral-source lead.</div>
+    <div class="touchbar"><input id="refName" placeholder="referral name"><input id="refEmail" type="email" placeholder="referral email"><input id="refPhone" placeholder="referral phone"><select id="refCh">${channels}</select><button class="sm primary" onclick="recordReferral('${s.leadId}')">Add referral</button><button class="sm" onclick="recordReferralAsk('${s.leadId}')">Asked · none yet</button></div>`;
 }
 
 async function openLead(id){
@@ -219,6 +262,7 @@ async function openLead(id){
       <button class="sm warn" onclick="removeLead('${s.leadId}')">remove</button></div>
     <div class="contact">${s.phone?('📞 <b>'+esc(s.phone)+'</b> '):''}${s.email?('✉️ <b>'+esc(s.email)+'</b>'):''}
       ${s.notes?('<div class="muted" style="margin-top:3px">'+esc(s.notes)+'</div>'):''}</div>
+    ${stageControls(s)}
     ${ns?`<div class="next">Next cadence step: <b>${ns.label}</b> (${ns.channel}, day ${ns.day})</div>`:'<div class="next">Cadence complete — keep working or mark status.</div>'}
     <div class="touchbar">
       <b class="muted">Log touch:</b>
@@ -255,6 +299,35 @@ async function bookAppt(id){
   const at=$('#tAppt').value; if(!at)return toast('pick a date/time');
   const r=await api('crm','appointment','POST',{leadId:id,apptAt:at});
   toast(r.ok?'📅 appointment set':'err'); loadAll();
+}
+async function confirmAppt(id){
+  const r=await api('crm','confirm','POST',{leadId:id,channel:$('#confirmCh').value,note:$('#confirmNote').value});
+  toast(r.ok?'confirmation recorded':('err: '+(r.error||''))); loadAll();
+}
+async function resolveShow(id,outcome){
+  const r=await api('crm','show-outcome','POST',{leadId:id,outcome:outcome,channel:$('#confirmCh')?$('#confirmCh').value:'other'});
+  toast(r.ok?outcome:('err: '+(r.error||''))); loadAll();
+}
+async function rescheduleAppt(id){
+  const at=$('#reschedAt').value; if(!at)return toast('pick a new date/time');
+  const r=await api('crm','reschedule','POST',{leadId:id,apptAt:at});
+  toast(r.ok?'new appointment recorded':('err: '+(r.error||''))); loadAll();
+}
+async function closeDeal(id,won){
+  const dollars=Number($('#closeRevenue')&&$('#closeRevenue').value||0);
+  if(won&&(!Number.isFinite(dollars)||dollars<0))return toast('enter valid revenue');
+  const r=await api('crm','close','POST',{leadId:id,won:won,dealSize:$('#closeSize').value,lever:$('#closeLever').value,revenueCents:Math.round(dollars*100)});
+  toast(r.ok?(won?'enrollment recorded':'lost recorded'):('err: '+(r.error||''))); loadAll();
+}
+async function recordReferral(id){
+  const referral={name:$('#refName').value.trim(),email:$('#refEmail').value.trim(),phone:$('#refPhone').value.trim()};
+  if(!referral.name&&!referral.email&&!referral.phone)return toast('enter a referral name, email, or phone');
+  const r=await api('crm','refer','POST',{leadId:id,channel:$('#refCh').value,referrals:[referral]});
+  toast(r.ok?('referral added to Leads ('+(r.referralsAddedToLeads||0)+')'):('err: '+(r.error||''))); loadAll();
+}
+async function recordReferralAsk(id){
+  const r=await api('crm','refer','POST',{leadId:id,channel:$('#refCh').value,referrals:[],won:false});
+  toast(r.ok?'referral ask recorded':('err: '+(r.error||''))); loadAll();
 }
 async function setStatus(id,status){
   const r=await api('crm','status','POST',{leadId:id,status});

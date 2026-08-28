@@ -39,11 +39,12 @@
   h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3.1rem);margin:0 0 12px;letter-spacing:-.01em;font-weight:500;line-height:1.08}
   .lead{max-width:640px;margin:0 auto;color:var(--soft);font-size:1.05rem;line-height:1.6}
   /* email capture */
-  .capture{max-width:480px;margin:26px auto 0;display:flex;gap:8px}
+  .capture{max-width:680px;margin:26px auto 0;display:flex;gap:8px}
   .capture input{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--line2);border-radius:3px;padding:13px 14px;color:var(--ink);font-size:.95rem;outline:none;font-family:var(--sans)}
   .capture input::placeholder{color:var(--faint)}
   .capture input:focus{border-color:var(--gold)}
   .capture button{background:var(--gold);color:#10131a;border:none;border-radius:3px;padding:0 22px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;cursor:pointer;white-space:nowrap}
+  @media(max-width:640px){.capture{flex-wrap:wrap}.capture input{min-width:100%}.capture button{min-height:44px;width:100%}}
   .cap-note{font-size:.72rem;color:var(--faint);margin-top:10px;text-align:center;min-height:1.1em}
   /* sections + cards */
   section{padding:14px 0}

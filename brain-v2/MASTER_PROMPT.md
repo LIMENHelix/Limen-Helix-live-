@@ -102,13 +102,14 @@ Treat the following as the intended high-level architecture, but verify the actu
 
 - Twenty sovereign domain brains process domain-specific evidence and state.
 - The Connectome carries typed, traceable cross-domain signals.
-- The Civilization Observer mirrors, synthesizes, and audits system state.
-- The Civilization Observer does not invent source facts and is not the authority that silently mutates domain state.
-- The Master Brain evaluates cross-domain state, selects authorized responses, and produces actions or artifacts.
-- Domain brains act locally.
-- The Connectome coordinates.
-- Civilization observes and audits.
-- The Master Brain executes or delegates within explicit permissions.
+- The Civilization Briefing/Observer is a side-channel readout that mirrors, summarizes, and audits system state.
+- The Civilization Briefing/Observer does not invent source facts, select actions, execute, delegate, or silently mutate domain state.
+- No causal “Master Brain” processing tier exists above the connectome. Historical names that contain “master” are compatibility labels and grant no authority.
+- Synthesis, foresight, prioritization, diagnosis, and learning are distributed properties of the domain↔connectome collective state, not downstream stages.
+- Domain brains select, inhibit, act, observe outcomes, and learn locally within their separate authorities.
+- The Connectome carries typed coordination in both directions: ascending domain evidence and bounded descending modulation.
+- Memory is a lateral substrate that the authorized recurrent loop reads and writes, not a terminal output tier or central controller.
+- The governing render and topology acceptance rules are recorded in `CIVILIZATION_NO_HOMUNCULUS_RENDER_CONTRACT.md`.
 - Cross-domain communication must preserve source, confidence, uncertainty, causal lineage, and domain ownership.
 - Existing components may include `observer-node.js`, `memory-layer.js`, `curiosity-engine.js`, connectome rendering, diagnosis-to-node mapping, and Hebbian-learning experiments. Verify each component's real status.
 - The kernel's validity is disputed. Do not make the software brain dependent on an unvalidated kernel.

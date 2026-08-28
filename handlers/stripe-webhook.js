@@ -26,11 +26,18 @@ var stripe = require('../lib/stripe-rail');
 var subs = require('../lib/subscriptions');
 var db = require('../lib/limen-db');
 var catalog = require('../lib/offer-catalog');
-var crm = require('../lib/crm-send');
+var motorStore = require('../lib/autofire-efference-store');
+var religionFulfillment = require('../lib/religion-revenue-fulfillment');
+var financeFulfillment = require('../lib/finance-revenue-fulfillment');
+var leadPipeline = require('../lib/lead-pipeline-bridge');
 
 var SEEN_KEY = 'stripe:events:seen:v1';
 var SEEN_CAP = 400;
 var SITE = process.env.PUBLIC_SITE_URL || 'https://limenhelix.com';
+
+function fulfillmentFor(domain) {
+  return String(domain || '').toLowerCase() === 'finance' ? financeFulfillment : religionFulfillment;
+}
 
 function send(res, obj, code) {
   res.statusCode = code || 200;
@@ -73,15 +80,18 @@ async function markHandled(id) {
   } catch (e) {}
 }
 
-/** Book the sale into the 5-stage funnel as an enrollment, matching handlers/sales.js keys. */
-async function recordEnrollment(domain, cents) {
+/**
+ * Book subscription cash into the Sales engine. The initial checkout is one
+ * enrollment; later invoices add revenue without pretending the same person
+ * enrolled again.
+ */
+async function recordSubscriptionRevenue(domain, cents, isNewEnrollment) {
   try {
     var agg = await db.get('sales:agg');
     if (!agg || typeof agg !== 'object') agg = {};
     var t = agg['shows>enrollments'] || (agg['shows>enrollments'] = {});
     var u = t['subscriptions'] || (t['subscriptions'] = { attempts: 0, wins: 0, costCents: 0 });
-    u.attempts += 1;
-    u.wins += 1;
+    if (isNewEnrollment) { u.attempts += 1; u.wins += 1; }
     u.revenueCents = (u.revenueCents || 0) + (cents || 0);
     await db.set('sales:agg', agg);
 
@@ -89,7 +99,7 @@ async function recordEnrollment(domain, cents) {
       var bd = await db.get('sales:leads:by-domain');
       if (!bd || typeof bd !== 'object') bd = {};
       var d = bd[domain] || (bd[domain] = { leads: 0, byChannel: {} });
-      d.enrollments = (d.enrollments || 0) + 1;
+      if (isNewEnrollment) d.enrollments = (d.enrollments || 0) + 1;
       d.revenueCents = (d.revenueCents || 0) + (cents || 0);
       await db.set('sales:leads:by-domain', bd);
     }
@@ -188,26 +198,31 @@ module.exports = async function handler(req, res) {
       if (meta.limen === '1' && obj.mode === 'subscription') {
         var email = (obj.customer_details && obj.customer_details.email) || obj.customer_email || null;
         var offer = catalog.lookup(meta.domain, meta.rung);
-        var act = await subs.activate({
+        var act = await subs.activateStrict({
           email: email,
           domain: meta.domain, rung: meta.rung, offer: meta.offer,
           watch: customField(obj, 'watch'),
           priceCents: obj.amount_total != null ? obj.amount_total : (offer ? offer.priceCents : null),
           subscriptionId: obj.subscription || null,
           customerId: obj.customer || null
-        });
+        }, motorStore);
         out.handled = true;
         out.activated = act.ok;
         if (!act.ok) out.activateError = act.reason;
 
         if (act.ok) {
-          await recordEnrollment(meta.domain, obj.amount_total || 0);
-          // Deliver immediately: they paid, so they should hear from us now, not on the cron.
-          try {
-            var mail = welcomeEmail(act.subscriber, offer, obj.amount_total);
-            await crm.sendToLead(act.subscriber.email, mail.subject, mail.body);
-            out.welcomeSent = true;
-          } catch (e) { out.welcomeSent = false; out.welcomeError = e.message; }
+          await recordSubscriptionRevenue(meta.domain, obj.amount_total || 0, true);
+          var pipeline = await leadPipeline.enroll({ eventId: evt.id, name: obj.customer_details && obj.customer_details.name,
+            email: email, domain: meta.domain, rung: meta.rung, revenueCents: obj.amount_total || 0,
+            subscriptionId: obj.subscription, source: 'stripe-checkout-completed' });
+          out.leadId = pipeline.leadId || null; out.pipelineEnrolled = pipeline.ok === true;
+          // Persist before attempting. The subscriber's own domain B10/B14 motor may
+          // send now, or its local fulfillment cron retries after that domain releases it.
+          var welcomeMotor = fulfillmentFor(act.subscriber.domain);
+          var welcome = await welcomeMotor.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'welcome',
+            subscriber: act.subscriber, message: welcomeEmail(act.subscriber, offer, obj.amount_total), now: Date.now() });
+          out.welcomeSent = welcome.status === 'COMPLETED'; out.welcomeStatus = welcome.status;
+          out.welcomeTaskId = welcome.taskId || null; out.welcomeReason = welcome.reason || null;
         }
       }
       // Book the income to the finance ledger regardless of which product it was.
@@ -223,15 +238,15 @@ module.exports = async function handler(req, res) {
         var who = null;
         try {
           var email = obj.customer_email || (obj.customer_details && obj.customer_details.email) || null;
-          if (email) who = await subs.get(email);
+          if (email) who = await subs.getStrict(email, motorStore);
         } catch (e) {}
         if (who && who.active) {
-          try {
-            var rc = renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url);
-            await crm.sendToLead(who.email, rc.subject, rc.body);
-            out.receiptSent = true;
-          } catch (e) { out.receiptSent = false; out.receiptError = e.message; }
-          await recordEnrollment(who.domain, obj.amount_paid || 0);
+          var renewalMotor = fulfillmentFor(who.domain);
+          var renewal = await renewalMotor.enqueueAndAttempt({ store: motorStore, eventId: evt.id, kind: 'renewal', subscriber: who,
+            message: renewalReceipt(who, obj.amount_paid != null ? obj.amount_paid : obj.total, obj.hosted_invoice_url), now: Date.now() });
+          out.receiptSent = renewal.status === 'COMPLETED'; out.receiptStatus = renewal.status;
+          out.receiptTaskId = renewal.taskId || null; out.receiptReason = renewal.reason || null;
+          await recordSubscriptionRevenue(who.domain, obj.amount_paid || 0, false);
         } else {
           out.receiptSent = false;
           out.note = 'No active subscriber matched this invoice, so no receipt was sent.';
@@ -241,12 +256,12 @@ module.exports = async function handler(req, res) {
     }
 
     else if (evt.type === 'customer.subscription.deleted') {
-      var d = await subs.deactivate({ subscriptionId: obj.id, customerId: obj.customer }, 'cancelled');
+      var d = await subs.deactivateStrict({ subscriptionId: obj.id, customerId: obj.customer }, 'cancelled', motorStore);
       out.handled = true; out.deactivated = d.changed || 0;
     }
 
     else if (evt.type === 'invoice.payment_failed') {
-      var f = await subs.deactivate({ subscriptionId: obj.subscription, customerId: obj.customer }, 'payment-failed');
+      var f = await subs.deactivateStrict({ subscriptionId: obj.subscription, customerId: obj.customer }, 'payment-failed', motorStore);
       out.handled = true; out.deactivated = f.changed || 0;
     }
 
@@ -254,7 +269,7 @@ module.exports = async function handler(req, res) {
       // Follow Stripe's status rather than guessing: anything not active/trialing stops delivery.
       var st = String(obj.status || '');
       if (st && ['active', 'trialing'].indexOf(st) === -1) {
-        var u = await subs.deactivate({ subscriptionId: obj.id, customerId: obj.customer }, 'status:' + st);
+        var u = await subs.deactivateStrict({ subscriptionId: obj.id, customerId: obj.customer }, 'status:' + st, motorStore);
         out.handled = true; out.deactivated = u.changed || 0;
       }
       out.status = st;
