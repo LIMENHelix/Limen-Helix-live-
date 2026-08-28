@@ -15,6 +15,7 @@
 const crypto = require('crypto');
 const marketplace = require('../lib/relay-marketplace');
 const ledger = require('../lib/finance-ledger');
+const autonomousPurchase = require('../handlers/relay-autonomous-purchase');
 
 function sendJSON(res, code, obj) {
   res.statusCode = code;
@@ -153,6 +154,24 @@ async function handlePaymentIntentSucceeded(paymentIntent) {
   // Mark payout as ready (next step: Stride Connect will execute it after operator approval)
   // Find and update the pending payout record created during checkout
   console.log('[relay-webhook] Order', orderId, 'confirmed: commission=$' + order.commission.toFixed(2) + ', seller-payout=$' + order.sellerPayout.toFixed(2));
+
+  // Model 3: Trigger autonomous purchase + crypto payout
+  try {
+    const listing = await marketplace.getListing(order.listingId);
+    const buyer = await marketplace.getUser(order.buyerId);
+    if (listing && buyer) {
+      const purchaseResult = await autonomousPurchase.handleCheckoutSuccess(
+        orderId,
+        order.buyerId,
+        order.listingId,
+        order.subtotal,
+        buyer.shippingAddress || 'pending'
+      );
+      console.log('[relay-webhook] Autonomous purchase initiated:', purchaseResult.status);
+    }
+  } catch (e) {
+    console.error('[relay-webhook] Autonomous purchase failed (non-blocking):', e.message);
+  }
 }
 
 async function handleChargeSucceeded(charge) {

@@ -89,6 +89,10 @@
     {
       "path": "/api/finance-motor-capability",
       "schedule": "51 * * * *"
+    },
+    {
+      "path": "/api/relay-autonomous-scraper?run=1",
+      "schedule": "5,35 * * * *"
     }
   ],
   "functions": {
