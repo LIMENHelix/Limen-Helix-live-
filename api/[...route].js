@@ -42,8 +42,6 @@ const HANDLERS = {
   'relay-ebay-scraper': require('../handlers/relay-ebay-scraper'),
   'relay-marketplace-scraper': require('../handlers/relay-marketplace-scraper'),
   'relay-vinted-scraper': require('../handlers/relay-vinted-scraper'),
-  'relay-autonomous-scraper': require('../handlers/relay-autonomous-scraper'),
-  'relay-autonomous-control': require('../handlers/relay-autonomous-control'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),
