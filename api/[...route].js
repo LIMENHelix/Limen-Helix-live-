@@ -46,6 +46,7 @@ const HANDLERS = {
   'relay-demand-purchase': require('../handlers/relay-demand-purchase'),
   'relay-demand-webhook': require('../handlers/relay-demand-webhook'),
   'relay-demand-dashboard': require('../handlers/relay-demand-dashboard'),
+  'relay-marketplace-page': require('../handlers/relay-marketplace-page'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),
