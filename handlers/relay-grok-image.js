@@ -45,8 +45,14 @@ module.exports = async (req, res) => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`xAI error: ${response.status} - ${JSON.stringify(errorData)}`);
+        let errorMsg;
+        try {
+          const errorData = await response.json();
+          errorMsg = JSON.stringify(errorData);
+        } catch (e) {
+          errorMsg = await response.text();
+        }
+        throw new Error(`xAI error ${response.status}: ${errorMsg}`);
       }
 
       const data = await response.json();
