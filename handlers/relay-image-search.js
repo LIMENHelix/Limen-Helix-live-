@@ -7,10 +7,13 @@
  * Uses Google APIs to:
  * 1. Analyze image with Vision API to extract details
  * 2. Search web with Google Custom Search for matching for-sale ads
- * 3. Aggregate results from Craigslist, Facebook, OfferUp, local classifieds
+ * 3. SCRAPE REAL PRICES from marketplace listing pages
+ * 4. Aggregate results from Craigslist, Facebook, OfferUp, local classifieds
  *
- * Returns cheapest matches sorted by price
+ * Returns cheapest matches with REAL PRICES sorted by price
  */
+
+const scraper = require('../lib/relay-marketplace-scraper');
 
 async function analyzeImageWithGoogle(imageUrl, apiKey) {
   // Google Vision API to extract objects/text from image
@@ -134,6 +137,24 @@ module.exports = async (req, res) => {
       googleSearchEngineId
     );
 
+    // SCRAPE REAL PRICES from marketplace pages
+    const scrapedResults = await scraper.scrapeSearchResults(searchResults);
+
+    // Filter by maxPrice and apply 25% margin
+    const resultsWithMargin = scrapedResults
+      .filter(item => item.price <= maxPrice)
+      .map(item => ({
+        title: item.title,
+        sourceCost: item.price,
+        customerPrice: parseFloat((item.price * 1.25).toFixed(2)),
+        margin: parseFloat((item.price * 0.25).toFixed(2)),
+        source: item.source,
+        sourceUrl: item.url,
+        displayLink: item.displayLink,
+        snippet: item.snippet
+      }))
+      .slice(0, 10);
+
     return res.status(200).json({
       imageUrl,
       description,
@@ -144,9 +165,10 @@ module.exports = async (req, res) => {
         detectedObjects: imageAnalysis.objects
       },
       searchQuery,
-      resultsFound: searchResults.length,
-      results: searchResults.slice(0, 10),
-      sourcesIncluded: ['craigslist', 'facebook-marketplace', 'offerup', 'local-classifieds']
+      resultsFound: resultsWithMargin.length,
+      results: resultsWithMargin,
+      sourcesIncluded: ['craigslist', 'facebook-marketplace', 'offerup', 'local-classifieds'],
+      note: 'Real prices scraped from marketplace listings. 25% margin applied.'
     });
 
   } catch (e) {
