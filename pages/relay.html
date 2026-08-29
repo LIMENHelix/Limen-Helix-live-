@@ -18,7 +18,7 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -96,8 +96,16 @@
       grid-column: 1 / -1;
     }
 
-    .search-button {
-      padding: 14px 32px;
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+    }
+
+    .search-button,
+    .image-button,
+    .refine-button {
+      padding: 14px 24px;
       background: #0066cc;
       color: white;
       border: none;
@@ -108,13 +116,60 @@
       transition: background 0.2s;
     }
 
+    .image-button {
+      background: #9333ea;
+    }
+
+    .image-button:hover {
+      background: #7e22ce;
+    }
+
     .search-button:hover {
       background: #0052a3;
     }
 
-    .search-button:disabled {
+    .search-button:disabled,
+    .image-button:disabled {
       background: #ccc;
       cursor: not-allowed;
+    }
+
+    .image-section {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .image-display {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .image-display img {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .image-controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .image-controls input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+
+    .refine-button {
+      background: #9333ea;
+      padding: 10px 20px;
+      font-size: 0.9em;
     }
 
     .loading {
@@ -145,6 +200,15 @@
       border-radius: 6px;
       margin-bottom: 20px;
       border-left: 4px solid #c33;
+    }
+
+    .success {
+      background: #efe;
+      color: #3a3;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border-left: 4px solid #3a3;
     }
 
     .results {
@@ -313,21 +377,16 @@
       background: #0052a3;
     }
 
-    .success {
-      background: #efe;
-      color: #3a3;
-      padding: 15px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      border-left: 4px solid #3a3;
-    }
-
     @media (max-width: 640px) {
       .header h1 {
         font-size: 1.8em;
       }
 
       .search-row {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
         grid-template-columns: 1fr;
       }
 
@@ -345,7 +404,7 @@
   <div class="container">
     <div class="header">
       <h1>Relay Marketplace</h1>
-      <p>Describe what you want. We find it. You buy it. Simple.</p>
+      <p>Describe what you want. See what it looks like. We find it. You buy it.</p>
     </div>
 
     <div class="search-box">
@@ -383,7 +442,31 @@
             </select>
           </div>
         </div>
-        <button type="submit" class="search-button">Search</button>
+
+        <div class="button-group">
+          <button type="submit" class="search-button">Search for Items</button>
+          <button type="button" class="image-button" id="generateImageBtn">Generate Image</button>
+        </div>
+
+        <!-- Image Section (Hidden by default) -->
+        <div class="image-section" id="imageSection" style="display:none;">
+          <h3 style="margin-bottom: 15px;">Reference Image</h3>
+          <div id="imageLoading" class="loading" style="display:none;">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px;">Generating image with Grok...</p>
+          </div>
+          <div class="image-display" id="imageDisplay" style="display:none;">
+            <img id="referenceImage" src="" alt="Reference image">
+          </div>
+          <div class="image-controls" id="imageControls" style="display:none;">
+            <input
+              type="text"
+              id="refinePrompt"
+              placeholder="Refine the image (e.g., 'darker color', 'better condition')..."
+            >
+            <button type="button" class="refine-button" id="refineBtn">Refine</button>
+          </div>
+        </div>
       </form>
     </div>
 
@@ -428,16 +511,64 @@
     let currentSearchId = null;
     let currentItemId = null;
     let buyerId = 'buyer_' + Math.random().toString(36).substr(2, 9);
+    let currentImageUrl = null;
 
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const description = document.getElementById('description').value;
       const maxPrice = parseInt(document.getElementById('maxPrice').value) || 100;
       const condition = document.getElementById('condition').value;
-
       await search(description, maxPrice, condition);
     });
+
+    document.getElementById('generateImageBtn').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const description = document.getElementById('description').value;
+      if (!description) {
+        alert('Please enter a description first');
+        return;
+      }
+      await generateImage(description);
+    });
+
+    document.getElementById('refineBtn').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const description = document.getElementById('description').value;
+      const refinement = document.getElementById('refinePrompt').value;
+      const refinedDescription = refinement ? `${description}, ${refinement}` : description;
+      await generateImage(refinedDescription);
+    });
+
+    async function generateImage(description) {
+      document.getElementById('imageSection').style.display = 'block';
+      document.getElementById('imageLoading').style.display = 'block';
+      document.getElementById('imageDisplay').style.display = 'none';
+      document.getElementById('imageControls').style.display = 'none';
+
+      try {
+        const response = await fetch('/api/relay-grok-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ description, style: 'product photo' })
+        });
+
+        const data = await response.json();
+        document.getElementById('imageLoading').style.display = 'none';
+
+        if (data.imageUrl) {
+          currentImageUrl = data.imageUrl;
+          document.getElementById('referenceImage').src = data.imageUrl;
+          document.getElementById('imageDisplay').style.display = 'block';
+          document.getElementById('imageControls').style.display = 'grid';
+          document.getElementById('refinePrompt').value = '';
+        } else {
+          alert('Failed to generate image: ' + (data.error || 'Unknown error'));
+        }
+      } catch (error) {
+        document.getElementById('imageLoading').style.display = 'none';
+        alert('Error generating image: ' + error.message);
+      }
+    }
 
     async function search(description, maxPrice, condition) {
       document.getElementById('results').innerHTML = '';
@@ -456,7 +587,7 @@
 
         if (!response.ok || !data.results || data.results.length === 0) {
           document.getElementById('results').innerHTML =
-            '<div class="empty">No items found. Try a different search.</div>';
+            '<div class="empty">No items found. Try a different search or refine your image reference.</div>';
           return;
         }
 
@@ -537,7 +668,6 @@
           </div>
         `;
 
-        // Redirect to checkout (would be Stripe link in production)
         setTimeout(() => {
           if (data.checkoutUrl) {
             window.location.href = 'https://' + data.checkoutUrl;
@@ -560,7 +690,6 @@
       return text.replace(/[&<>"']/g, m => map[m]);
     }
 
-    // Close modal when clicking outside
     document.getElementById('checkoutModal').addEventListener('click', (e) => {
       if (e.target.id === 'checkoutModal') {
         closeCheckout();
