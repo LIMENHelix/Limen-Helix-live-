@@ -182,6 +182,51 @@
       font-weight: 600;
     }
 
+    .source-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .source-craigslist {
+      background: #8b4513;
+      color: #fff;
+    }
+
+    .source-offerup {
+      background: #ff6b35;
+      color: #fff;
+    }
+
+    .source-facebook-marketplace {
+      background: #1877f2;
+      color: #fff;
+    }
+
+    .source-vinted {
+      background: #4ab854;
+      color: #fff;
+    }
+
+    .source-poshmark {
+      background: #e1306c;
+      color: #fff;
+    }
+
+    .source-ebay {
+      background: #e53238;
+      color: #fff;
+    }
+
+    .source-mercari {
+      background: #333;
+      color: #fff;
+    }
+
     .error {
       background: #c33;
       color: white;
@@ -330,16 +375,33 @@
       tbody.innerHTML = '';
       data.orders.forEach(order => {
         const row = tbody.insertRow();
+        const sourceClass = `source-${order.sourceMarketplace.toLowerCase().replace(/ /g, '-')}`;
+        const sourceBadge = `<span class="source-badge ${sourceClass}">${order.sourceMarketplace}</span>`;
+
         row.innerHTML = `
           <td>${order.orderId}</td>
-          <td>${order.sourceMarketplace}</td>
+          <td>${sourceBadge}</td>
           <td class="status-${order.status}">${order.status}</td>
           <td>$${order.sourceCost.toFixed(2)}</td>
           <td>$${order.customerPrice.toFixed(2)}</td>
           <td class="margin-positive">$${order.margin.toFixed(2)}</td>
-          <td><a href="${order.sourceUrl}" target="_blank" class="source-link">View →</a></td>
+          <td><a href="${order.sourceUrl}" target="_blank" class="source-link">View Source →</a></td>
         `;
+        row.style.borderLeft = `4px solid ${getSourceColor(order.sourceMarketplace)}`;
       });
+
+      function getSourceColor(source) {
+        const colors = {
+          'craigslist': '#8b4513',
+          'offerup': '#ff6b35',
+          'facebook-marketplace': '#1877f2',
+          'vinted': '#4ab854',
+          'poshmark': '#e1306c',
+          'ebay': '#e53238',
+          'mercari': '#333'
+        };
+        return colors[source.toLowerCase().replace(/ /g, '-')] || '#0066cc';
+      }
     }
 
     // Load on Enter key
