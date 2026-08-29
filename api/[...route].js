@@ -109,7 +109,7 @@ const HANDLERS = {
   'agriculture-markets': require('../handlers/agriculture-markets'),
   'agriculture-tools': require('../handlers/agriculture-tools'),
   'agriculture-homestead-cycle': require('../handlers/agriculture-homestead-cycle'),
-  'agriculture-homestead-inbound': require('../handlers/agriculture-homestead-inbound'),
+  // 'agriculture-homestead-inbound': require('../handlers/agriculture-homestead-inbound'), // disabled: missing svix dependency
   'agriculture-homestead-status': require('../handlers/agriculture-homestead-status'),
   'agriculture-homestead-recovery': require('../handlers/agriculture-homestead-recovery'),
   'medicine-tools': require('../handlers/medicine-tools'),
@@ -223,11 +223,11 @@ const HANDLERS = {
   'governance-publication-recovery': require('../handlers/governance-publication-recovery'),
   'governance-publication-status': require('../handlers/governance-publication-status'),
   'infrastructure-real-estate-cycle': require('../handlers/infrastructure-real-estate-cycle'),
-  'infrastructure-real-estate-inbound': require('../handlers/infrastructure-real-estate-inbound'),
+  // 'infrastructure-real-estate-inbound': require('../handlers/infrastructure-real-estate-inbound'), // disabled: missing svix dependency
   'infrastructure-real-estate-recovery': require('../handlers/infrastructure-real-estate-recovery'),
   'infrastructure-real-estate-status': require('../handlers/infrastructure-real-estate-status'),
   'population-real-estate-cycle': require('../handlers/population-real-estate-cycle'),
-  'population-real-estate-inbound': require('../handlers/population-real-estate-inbound'),
+  // 'population-real-estate-inbound': require('../handlers/population-real-estate-inbound'), // disabled: missing svix dependency
   'population-real-estate-recovery': require('../handlers/population-real-estate-recovery'),
   'population-real-estate-status': require('../handlers/population-real-estate-status'),
   'trade-auction-cycle': require('../handlers/trade-auction-cycle'),
