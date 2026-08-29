@@ -49,6 +49,7 @@ const HANDLERS = {
   'relay-marketplace-page': require('../handlers/relay-marketplace-page'),
   'relay-grok-image': require('../handlers/relay-grok-image'),
   'relay-image-search': require('../handlers/relay-image-search'),
+  'relay-checkout-page': require('../handlers/relay-checkout-page'),
   'wave-radar': require('../handlers/wave-radar'),
   'music-feed': require('../handlers/music-feed'),
   'youtube-signal': require('../handlers/youtube-signal'),

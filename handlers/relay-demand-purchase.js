@@ -41,8 +41,8 @@ module.exports = async (req, res) => {
 
     // Create Stripe checkout session (mock for now)
     const stripeSessionId = `cs_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const vercelUrl = process.env.VERCEL_URL || 'http://localhost:3000';
-    const checkoutUrl = `${vercelUrl}/relay-checkout?session_id=${stripeSessionId}&amount=${customerPrice}`;
+    const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+    const checkoutUrl = `${vercelUrl}/api/relay-checkout-page?session_id=${stripeSessionId}&amount=${customerPrice}`;
 
     // Record order (source info hidden from this receipt)
     const orderId = `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
