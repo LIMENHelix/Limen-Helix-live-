@@ -12,8 +12,6 @@
  * Returns cheapest matches sorted by price
  */
 
-const fetch = require('node-fetch');
-
 async function analyzeImageWithGoogle(imageUrl, apiKey) {
   // Google Vision API to extract objects/text from image
   try {
