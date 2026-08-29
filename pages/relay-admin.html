@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relay Admin — Order Tracking</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #fff;
+    }
+
+    .auth-form {
+      display: flex;
+      gap: 10px;
+    }
+
+    .auth-form input {
+      padding: 10px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .auth-form button {
+      padding: 10px 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .auth-form button:hover {
+      background: #0052a3;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #0066cc;
+    }
+
+    .stat-label {
+      font-size: 0.9em;
+      color: #999;
+      margin-bottom: 5px;
+    }
+
+    .stat-value {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #0066cc;
+    }
+
+    .source-breakdown {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .source-breakdown h2 {
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .source-item {
+      background: #1a1a1a;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #444;
+    }
+
+    .source-name {
+      font-weight: 600;
+      color: #0066cc;
+      margin-bottom: 8px;
+    }
+
+    .source-stat {
+      font-size: 0.9em;
+      color: #999;
+      margin: 4px 0;
+    }
+
+    .orders-table {
+      background: #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #1a1a1a;
+      border-bottom: 2px solid #444;
+    }
+
+    th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #0066cc;
+      font-size: 0.9em;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #333;
+      font-size: 0.9em;
+    }
+
+    tr:hover {
+      background: #333;
+    }
+
+    .status-paid {
+      color: #4caf50;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      color: #ff9800;
+      font-weight: 600;
+    }
+
+    .source-link {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    .source-link:hover {
+      text-decoration: underline;
+    }
+
+    .margin-positive {
+      color: #4caf50;
+      font-weight: 600;
+    }
+
+    .error {
+      background: #c33;
+      color: white;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #444;
+      border-top: 2px solid #0066cc;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Relay Admin Dashboard</h1>
+      <div class="auth-form">
+        <input type="password" id="adminKey" placeholder="Admin key">
+        <button onclick="loadData()">Load Data</button>
+      </div>
+    </div>
+
+    <div id="message"></div>
+    <div id="loading" class="loading" style="display:none;">
+      <div class="spinner"></div>
+      <p style="margin-top: 10px;">Loading admin data...</p>
+    </div>
+
+    <div id="content" style="display:none;">
+      <div class="stats" id="stats"></div>
+      <div class="source-breakdown" id="sources"></div>
+      <div class="orders-table">
+        <table id="ordersTable">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Source</th>
+              <th>Status</th>
+              <th>Cost</th>
+              <th>Customer Price</th>
+              <th>Margin</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadData() {
+      const key = document.getElementById('adminKey').value;
+      if (!key) {
+        document.getElementById('message').innerHTML =
+          '<div class="error">Admin key required</div>';
+        return;
+      }
+
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('message').innerHTML = '';
+
+      try {
+        const response = await fetch(`/api/relay-admin-dashboard?key=${encodeURIComponent(key)}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to load data');
+        }
+
+        renderData(data);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+
+      } catch (error) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('message').innerHTML =
+          `<div class="error">Error: ${error.message}</div>`;
+      }
+    }
+
+    function renderData(data) {
+      // Stats
+      const stats = data.meta;
+      document.getElementById('stats').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-value">${stats.totalOrders}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Paid Orders</div>
+          <div class="stat-value">${stats.paidOrders}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Margin</div>
+          <div class="stat-value">$${stats.totalMargin.toFixed(2)}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Today's Margin</div>
+          <div class="stat-value">$${stats.todayMargin.toFixed(2)}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg Margin</div>
+          <div class="stat-value">$${stats.averageMargin.toFixed(2)}</div>
+        </div>
+      `;
+
+      // Source breakdown
+      const sources = data.sourceBreakdown;
+      let sourceHtml = '<h2>Source Breakdown</h2><div class="source-grid">';
+      Object.entries(sources).forEach(([source, stats]) => {
+        sourceHtml += `
+          <div class="source-item">
+            <div class="source-name">${source}</div>
+            <div class="source-stat">Orders: ${stats.count}</div>
+            <div class="source-stat">Total Margin: $${stats.totalMargin.toFixed(2)}</div>
+            <div class="source-stat">Avg Margin: $${stats.avgMargin.toFixed(2)}</div>
+            <div class="source-stat">Revenue: $${stats.totalRevenue.toFixed(2)}</div>
+          </div>
+        `;
+      });
+      sourceHtml += '</div>';
+      document.getElementById('sources').innerHTML = sourceHtml;
+
+      // Orders table
+      const tbody = document.getElementById('ordersBody');
+      tbody.innerHTML = '';
+      data.orders.forEach(order => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${order.orderId}</td>
+          <td>${order.sourceMarketplace}</td>
+          <td class="status-${order.status}">${order.status}</td>
+          <td>$${order.sourceCost.toFixed(2)}</td>
+          <td>$${order.customerPrice.toFixed(2)}</td>
+          <td class="margin-positive">$${order.margin.toFixed(2)}</td>
+          <td><a href="${order.sourceUrl}" target="_blank" class="source-link">View →</a></td>
+        `;
+      });
+    }
+
+    // Load on Enter key
+    document.getElementById('adminKey').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') loadData();
+    });
+  </script>
+</body>
+</html>
