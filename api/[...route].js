@@ -42,7 +42,7 @@ const HANDLERS = {
   'relay-ebay-scraper': require('../handlers/relay-ebay-scraper'),
   'relay-marketplace-scraper': require('../handlers/relay-marketplace-scraper'),
   'relay-vinted-scraper': require('../handlers/relay-vinted-scraper'),
-  'relay-autonomous-scraper': require('./relay-autonomous-scraper'),
+  'relay-autonomous-scraper': require('../handlers/relay-autonomous-scraper'),
   'relay-autonomous-fulfillment': require('../handlers/relay-autonomous-fulfillment'),
   'relay-demand-search': require('../handlers/relay-demand-search'),
   'relay-demand-purchase': require('../handlers/relay-demand-purchase'),

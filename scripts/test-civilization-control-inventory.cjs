@@ -12,7 +12,7 @@ const VercelCrons = require('../vercel.json').crons;
 const snap = Inventory.snapshot({});
 assert.deepEqual(Cadences, VercelCrons, 'runtime cadence manifest must match vercel.json exactly');
 assert.equal(snap.summary.runtimeMotorValves, 22, '21 local lane valves across 20 brains plus one global emergency valve');
-assert.equal(snap.summary.cadencePumps, 51, 'every declared Vercel cadence is visible');
+assert.equal(snap.summary.cadencePumps, 52, 'every declared Vercel cadence is visible');
 assert.equal(snap.summary.automaticConditionTriggers, 385);
 assert.equal(snap.summary.diagnosisGates, 111);
 assert.deepEqual(snap.summary.missingDomainTriggerMaps, [], 'all 20 grounded trigger pathways are inventoried');
