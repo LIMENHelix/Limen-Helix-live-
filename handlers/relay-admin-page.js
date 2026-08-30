@@ -6,21 +6,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const htmlPath = path.join(__dirname, '../pages/relay-admin.html');
-let html;
-
-try {
-  html = fs.readFileSync(htmlPath, 'utf8');
-} catch (e) {
-  console.error('[relay-admin-page] Failed to read HTML:', e.message);
-  html = '<h1>Error</h1><p>Admin page not found</p>';
-}
-
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.status(200).send(html);
+  try {
+    const htmlPath = path.join(__dirname, '../pages/relay-admin.html');
+    const html = fs.readFileSync(htmlPath, 'utf8');
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(200).send(html);
+  } catch (e) {
+    console.error('[relay-admin-page] Failed to read HTML:', e.message, 'path:', path.join(__dirname, '../pages/relay-admin.html'));
+    res.status(500).json({ error: 'Admin page not found', details: e.message });
+  }
 };
