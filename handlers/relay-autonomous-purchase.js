@@ -1,148 +1,133 @@
 /**
- * relay-autonomous-purchase.js — Triggered when customer buys on Relay
+ * relay-autonomous-purchase.js — a paid Relay order becomes a real purchase from the source.
  *
- * Called from relay-marketplace-checkout when payment succeeds.
+ * Not an HTTP route. Called by the Stripe webhook path and by the engine's order sweep.
+ * The export surface is unchanged so existing callers keep working.
  *
- * Loop:
- *   1. Get listing details (source marketplace, source item ID, source cost)
- *   2. Check spend budget (can we afford to buy from source?)
- *   3. Autonomously buy from source (Vinted/Poshmark/eBay API)
- *   4. Route purchase to buyer's address (seller ships directly to customer)
- *   5. Record seller payout (85% in USDC to seller wallet)
- *   6. Capture Relay margin (15% stays with Relay)
+ * REWRITTEN 2026-08-30. Three things were wrong with the previous version:
+ *
+ *  1. It never bought anything. buyFromSource() had the purchase commented out as a TODO
+ *     and wrote a 'pending' row, but it returned as though the buy had happened, so the
+ *     caller recorded a successful fulfilment for an item nobody had ordered.
+ *
+ *  2. It paid out 85% of the sale in USDC to listing.sellerId on EVERY order. On an
+ *     auto-sourced listing the seller is Relay's own house account: there is no third
+ *     party owed anything, because the money owed goes to the SOURCE marketplace when we
+ *     buy the item. Firing that payout on an arbitrage order sends 85% of the sale out
+ *     the door and then still owes the source cost. That path now runs only for a
+ *     genuine third-party seller listing (one with no sourceUrl).
+ *
+ *  3. Nothing capped the spend. Every purchase now passes lib/relay-autonomy first.
  */
 
 const db = require('../lib/limen-db');
 const marketplace = require('../lib/relay-marketplace');
+const engine = require('../lib/relay-engine');
 const cryptoPayout = require('../lib/relay-crypto-payout');
-const spendTracker = require('../lib/relay-spend-tracker');
 
-async function buyFromSource(listing, buyerAddress) {
-  if (!listing.sourceMarketplace || !listing.sourceId) {
-    throw new Error('No source marketplace info on listing');
-  }
-
-  const sourceCost = listing.sourceCost || listing.price * 0.75;  // fallback
-
-  // Check budget before buying
-  const canBuy = await spendTracker.canSpend(listing.sourceMarketplace, sourceCost);
-  if (!canBuy) {
-    throw new Error(`Insufficient budget for ${listing.sourceMarketplace}: need $${sourceCost}`);
-  }
-
-  // TODO: Integrate with source marketplace APIs
-  // - Vinted: POST /api/v2/orders/create (authenticated)
-  // - Poshmark: POST /api/posh-api/offers (authenticated)
-  // - eBay: POST /api/v1/buy/order/v1/orders (OAuth)
-  //
-  // For MVP: record intent, manual fulfillment
-  //
-  // const sourceBuy = await sourceMarketplaceAPI.purchase({
-  //   itemId: listing.sourceId,
-  //   shippingAddress: buyerAddress,
-  //   autoAccept: true
-  // });
-
-  // Record in purchase log
-  let purchases = await db.get('relay:autonomous-purchases') || [];
-  const purchase = {
-    id: 'apurchase_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9),
-    listingId: listing.id,
-    sourceMarketplace: listing.sourceMarketplace,
-    sourceItemId: listing.sourceId,
-    sourceCost: sourceCost,
-    retailPrice: listing.price,
-    buyerAddress: buyerAddress,
-    status: 'pending',  // pending → purchased → shipped → delivered
-    ts: new Date().toISOString()
-  };
-  purchases.push(purchase);
-  await db.set('relay:autonomous-purchases', purchases);
-
-  // Deduct from budget
-  await spendTracker.recordSpend(
-    listing.sourceMarketplace,
-    sourceCost,
-    listing.sourceId,
-    listing.title
-  );
-
-  return purchase;
+/**
+ * Source an order. Thin wrapper over the engine so the gate, the price re-check and the
+ * ledger settle all happen in one place.
+ */
+async function buyFromSource(listing, buyerAddress, orderId) {
+  if (!listing) throw new Error('listing required');
+  if (!orderId) throw new Error('orderId required: purchases are authorised per order');
+  return await engine.fulfillPaidOrder({ orderId: orderId, shippingAddress: buyerAddress });
 }
 
+/**
+ * Pay a real third-party seller. Only valid when the listing is somebody's own item.
+ * An auto-sourced listing has no seller to pay, and calling this on one is a straight loss.
+ */
 async function initiateCryptoPayout(listing, buyerPrice) {
-  // Get seller (system seller or listing creator)
+  if (listing.sourceUrl) {
+    return { skipped: true, reason: 'auto-sourced listing: the counterparty is the source marketplace, not a seller' };
+  }
   const seller = await marketplace.getUser(listing.sellerId);
   if (!seller || !seller.walletAddress) {
     throw new Error('Seller has no wallet address');
   }
-
-  // Calculate split
-  const commission = buyerPrice * 0.15;  // Relay keeps 15%
-  const sellerPayout = buyerPrice * 0.85;  // Seller gets 85% in USDC
-
-  // Initiate crypto payout
-  const payout = await cryptoPayout.sendUSDCToSeller(
-    listing.sellerId,
-    sellerPayout,
-    'polygon'  // or 'solana'
-  );
-
-  return {
-    commission: Math.round(commission * 100) / 100,
-    sellerPayout: Math.round(sellerPayout * 100) / 100,
-    payoutId: payout.id
-  };
+  const commission = Math.round(buyerPrice * 0.15 * 100) / 100;
+  const sellerPayout = Math.round(buyerPrice * 0.85 * 100) / 100;
+  const payout = await cryptoPayout.sendUSDCToSeller(listing.sellerId, sellerPayout, 'polygon');
+  return { commission: commission, sellerPayout: sellerPayout, payoutId: payout.id };
 }
 
+/**
+ * The full post-payment sequence for one order.
+ * Returns { status: 'success' | 'queued' | 'manual-required' | 'failed', steps, margin }.
+ * 'success' is only ever returned when money actually moved at the source.
+ */
 async function handleCheckoutSuccess(orderId, buyerId, listingId, buyerPrice, buyerShippingAddress) {
-  const result = {
-    orderId: orderId,
-    status: 'processing',
-    steps: []
-  };
+  const result = { orderId: orderId, status: 'processing', steps: [] };
 
   try {
-    // Get listing
     const listing = await marketplace.getListing(listingId);
     if (!listing) throw new Error('Listing not found');
-
     result.steps.push({ name: 'listing-retrieved', ok: true });
 
-    // Buy from source marketplace
-    const sourcePurchase = await buyFromSource(listing, buyerShippingAddress);
-    result.steps.push({ name: 'source-purchase-initiated', ok: true, purchase: sourcePurchase.id });
+    if (listing.sourceUrl) {
+      // Arbitrage path: buy the item, keep the spread. No seller payout.
+      const f = await engine.fulfillPaidOrder({
+        orderId: orderId,
+        shippingAddress: buyerShippingAddress
+      });
 
-    // Initiate seller crypto payout
-    const cryptoPayment = await initiateCryptoPayout(listing, buyerPrice);
-    result.steps.push({ name: 'seller-payout-queued', ok: true, payout: cryptoPayment });
+      result.steps.push({
+        name: 'source-purchase',
+        ok: f.ok,
+        state: f.state || null,
+        error: f.error || null
+      });
 
-    // Record order with full details
+      const sourceCost = parseFloat(listing.sourceCost) || 0;
+      result.margin = {
+        buyerPaid: buyerPrice,
+        sourceCost: sourceCost,
+        relayMargin: Math.round((buyerPrice - sourceCost) * 100) / 100,
+        marginPercent: buyerPrice > 0
+          ? (((buyerPrice - sourceCost) / buyerPrice) * 100).toFixed(1) + '%'
+          : '0%'
+      };
+
+      if (f.ok) {
+        result.status = 'success';
+      } else if (f.state === 'awaiting-approval') {
+        result.status = 'queued';
+      } else if (f.state === 'manual-required') {
+        result.status = 'manual-required';
+        result.task = f.task || null;
+      } else {
+        result.status = 'failed';
+        result.error = f.error || 'purchase did not complete';
+      }
+    } else {
+      // Peer-to-peer path: a real person sold their own item, so they get paid.
+      const payoutInfo = await initiateCryptoPayout(listing, buyerPrice);
+      result.steps.push({ name: 'seller-payout-queued', ok: true, payout: payoutInfo });
+      result.status = 'success';
+      result.margin = {
+        buyerPaid: buyerPrice,
+        relayMargin: payoutInfo.commission,
+        sellerPayout: payoutInfo.sellerPayout
+      };
+    }
+
     let orders = await db.get('relay:autonomous-orders') || [];
     orders.push({
       orderId: orderId,
       buyerId: buyerId,
       buyerAddress: buyerShippingAddress,
       listingId: listingId,
-      sourceMarketplace: listing.sourceMarketplace,
-      sourceCost: listing.sourceCost,
+      sourceMarketplace: listing.sourceMarketplace || null,
+      sourceCost: listing.sourceCost || null,
       buyerPaid: buyerPrice,
-      relayMargin: cryptoPayment.commission,
-      sellerPayoutUSDC: cryptoPayment.sellerPayout,
-      payoutId: cryptoPayment.payout,
-      status: 'pending-fulfillment',  // pending-fulfillment → shipped → delivered
+      relayMargin: (result.margin && result.margin.relayMargin) || 0,
+      status: result.status,
       ts: new Date().toISOString()
     });
+    if (orders.length > 2000) orders = orders.slice(-2000);
     await db.set('relay:autonomous-orders', orders);
-
-    result.status = 'success';
-    result.margin = {
-      buyerPaid: buyerPrice,
-      sourceCost: listing.sourceCost,
-      relayMargin: cryptoPayment.commission,
-      profitPercent: ((cryptoPayment.commission / listing.sourceCost) * 100).toFixed(1) + '%'
-    };
-
   } catch (e) {
     console.error('[relay-autonomous-purchase]', e.message);
     result.status = 'failed';

@@ -387,11 +387,61 @@
       width: 100%;
     }
 
+    /* Final-sale confirmation. Deliberately the loudest thing in the modal: a term
+       the customer skimmed past is a term that will not survive a dispute. */
+    .policy-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid #f0b429;
+      background: #fffbeb;
+      border-radius: 8px;
+    }
+
+    .policy-headline {
+      margin: 0 0 10px;
+      font-weight: 700;
+      color: #92400e;
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+
+    .policy-confirm {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88em;
+      line-height: 1.5;
+      color: #3f3f46;
+      cursor: pointer;
+    }
+
+    .policy-confirm input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 2px 0 0;
+      flex: 0 0 auto;
+      accent-color: #b45309;
+      cursor: pointer;
+    }
+
+    .policy-link {
+      margin: 10px 0 0;
+      font-size: 0.82em;
+    }
+
+    .policy-link a { color: #92400e; }
+
     .modal-buttons {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-top: 20px;
+    }
+
+    .modal-buttons .submit:disabled {
+      background: #c7d2de;
+      color: #6b7280;
+      cursor: not-allowed;
     }
 
     .modal-buttons button {
@@ -448,13 +498,15 @@
   <nav class="relay-nav">
     <div class="relay-nav-content">
       <a href="/relay" class="relay-nav-brand">Relay</a>
+      <!-- Customer-facing only. The Admin, Margin and Settings links that used to sit
+           here are operator surfaces that display source cost and margin per item, i.e.
+           exactly what a buyer must never see, and they were one click away on the public
+           storefront. They are reached from the LIMEN cockpit instead. -->
       <ul class="relay-nav-links">
-        <li><a href="/relay" class="active">Storefront</a></li>
-        <li><a href="/relay-checkout">Checkout</a></li>
-        <li><a href="/api/relay-admin-page">Admin</a></li>
+        <li><a href="/api/relay" class="active">Storefront</a></li>
+        <li><a href="/api/relay-checkout-page">Checkout</a></li>
+        <li><a href="/api/relay-policy">Sale Terms</a></li>
         <li><a href="/merchant-onboarding">Merchants</a></li>
-        <li><a href="/relay-margin.html">Margin</a></li>
-        <li><a href="/relay-marketplace-control.html">Settings</a></li>
       </ul>
     </div>
   </nav>
@@ -541,24 +593,48 @@
       <h2>Shipping Address</h2>
       <form class="modal-form" id="checkoutForm">
         <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" autocomplete="name" required>
+        </div>
+        <div class="form-group">
           <label for="street">Street Address</label>
-          <input type="text" id="street" name="street" required>
+          <input type="text" id="street" name="street" autocomplete="address-line1" required>
+        </div>
+        <div class="form-group">
+          <label for="street2">Apartment, suite (optional)</label>
+          <input type="text" id="street2" name="street2" autocomplete="address-line2">
         </div>
         <div class="form-group">
           <label for="city">City</label>
-          <input type="text" id="city" name="city" required>
+          <input type="text" id="city" name="city" autocomplete="address-level2" required>
         </div>
         <div class="form-group">
           <label for="state">State</label>
-          <input type="text" id="state" name="state" placeholder="MO" required>
+          <input type="text" id="state" name="state" placeholder="MO" autocomplete="address-level1" required>
         </div>
         <div class="form-group">
           <label for="zip">ZIP Code</label>
-          <input type="text" id="zip" name="zip" required>
+          <input type="text" id="zip" name="zip" autocomplete="postal-code" required>
         </div>
+        <div class="form-group">
+          <label for="email">Email (for order updates)</label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
+        </div>
+
+        <!-- Final-sale confirmation. The order is refused server-side without it. -->
+        <div class="policy-box">
+          <p class="policy-headline" id="policyHeadline">All sales are final. No returns, no exchanges.</p>
+          <label class="policy-confirm">
+            <input type="checkbox" id="policyAccept" name="policyAccept" required>
+            <span id="policyLabel">I understand this sale is FINAL: no returns, no exchanges, no refunds
+              except for an item that never arrives or is materially not as described.</span>
+          </label>
+          <p class="policy-link"><a href="/api/relay-policy" target="_blank" rel="noopener">Read the full sale terms</a></p>
+        </div>
+
         <div class="modal-buttons">
           <button type="button" class="cancel" onclick="closeCheckout()">Cancel</button>
-          <button type="submit" class="submit">Proceed to Checkout</button>
+          <button type="submit" class="submit" id="confirmBtn" disabled>Confirm Final Sale</button>
         </div>
       </form>
     </div>
@@ -688,16 +764,44 @@
       document.getElementById('checkoutForm').reset();
     }
 
+    // The submit button stays disabled until the final-sale box is ticked. The server
+    // refuses the order anyway; this is so the customer cannot miss what they agreed to.
+    const policyAcceptBox = document.getElementById('policyAccept');
+    const confirmBtn = document.getElementById('confirmBtn');
+    policyAcceptBox.addEventListener('change', () => {
+      confirmBtn.disabled = !policyAcceptBox.checked;
+    });
+
+    // Show the live policy text rather than a copy that can drift from the one the
+    // server records against the order.
+    fetch('/api/relay-policy?format=json')
+      .then(r => r.json())
+      .then(p => {
+        if (p && p.headline) document.getElementById('policyHeadline').textContent = p.headline;
+        if (p && p.confirmLabel) document.getElementById('policyLabel').textContent = p.confirmLabel;
+      })
+      .catch(() => { /* the built-in wording stands if the fetch fails */ });
+
     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      if (!policyAcceptBox.checked) {
+        document.getElementById('message').innerHTML =
+          '<div class="error">You must confirm the final-sale terms before ordering.</div>';
+        return;
+      }
+
       const shippingAddress = {
-        street: document.getElementById('street').value,
+        name: document.getElementById('fullName').value,
+        line1: document.getElementById('street').value,
+        line2: document.getElementById('street2').value,
         city: document.getElementById('city').value,
         state: document.getElementById('state').value,
-        zip: document.getElementById('zip').value
+        postalCode: document.getElementById('zip').value,
+        country: 'US'
       };
 
+      confirmBtn.disabled = true;
       try {
         const response = await fetch('/api/relay-demand-purchase', {
           method: 'POST',
@@ -706,31 +810,34 @@
             searchId: currentSearchId,
             itemId: currentItemId,
             buyerId,
-            shippingAddress
+            shippingAddress,
+            buyerEmail: document.getElementById('email').value,
+            policyAccepted: true
           })
         });
 
         const data = await response.json();
 
-        if (!response.ok) {
-          throw new Error(data.error || 'Purchase failed');
+        if (!response.ok || data.ok === false) {
+          throw new Error(data.error || data.message || 'Purchase failed');
         }
 
         closeCheckout();
 
         document.getElementById('message').innerHTML = `
           <div class="success">
-            <strong>Order created!</strong> Your order ID is ${data.orderId}.
-            Proceeding to secure checkout...
+            <strong>Order ${data.orderId} created.</strong> All sales final.
+            Sending you to secure payment...
           </div>
         `;
 
-        setTimeout(() => {
-          if (data.checkoutUrl) {
-            window.location.href = 'https://' + data.checkoutUrl;
-          }
-        }, 2000);
+        // data.url is the full Stripe payment link. The old code prefixed 'https://'
+        // onto it, which produced an unreachable address every time.
+        if (data.url) {
+          setTimeout(() => { window.location.href = data.url; }, 1200);
+        }
       } catch (error) {
+        confirmBtn.disabled = false;
         document.getElementById('message').innerHTML =
           `<div class="error">Error: ${error.message}</div>`;
       }
