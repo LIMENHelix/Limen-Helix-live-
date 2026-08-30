@@ -54,6 +54,8 @@ const HANDLERS = {
   'relay-admin-page': require('../handlers/relay-admin-page'),
   'relay-admin-login': require('../handlers/relay-admin-login'),
   'relay-margin': require('../handlers/relay-margin'),
+  'relay': require('../handlers/relay'),
+  'relay-checkout': require('../handlers/relay-checkout'),
   'relay-marketplace-control': require('../handlers/relay-marketplace-control'),
   'relay-vinted-scraper': require('../handlers/relay-vinted-scraper'),
   'wave-radar': require('../handlers/wave-radar'),
