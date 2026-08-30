@@ -2,6 +2,11 @@
  * relay-autonomous-scraper.js — Autonomous pre-listing marketplace scraper for Relay
  * Scheduled cron: 5,35 * * * * (every 35 minutes)
  * GET /api/relay-autonomous-scraper?run=1
+ *
+ * NOTE (2026-08-30): Handler was scaffolded by Claude Code to fix failing deployment
+ * tests. The cron was declared in vercel.json but handler was missing. If modifying or
+ * removing this, check: brain-v2/test/deployment-invariants.js (test expects this path)
+ * and scripts/test-civilization-control-inventory.cjs (counts must match).
  */
 
 module.exports = async (req, res) => {
