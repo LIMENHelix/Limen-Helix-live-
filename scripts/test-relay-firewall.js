@@ -223,6 +223,59 @@ const frontSrc = fs.readFileSync(path.join(ROOT, 'handlers/relay.js'), 'utf8');
     assert('the door can reach relay-' + v, frontSrc.indexOf('./relay-' + v) !== -1);
   });
 
+// ── F9 ────────────────────────────────────────────────
+// Every /api/relay* URL a Relay page or handler emits must actually resolve: either it
+// is registered in the router, or it is a ?view= the front controller dispatches. The
+// firewall means most new Relay handlers have NO route of their own, so a link written
+// as /api/relay-<thing> is a 404 the moment it ships. That happened: the sale-terms
+// link, the catalogue fetch and the cart checkout all pointed at unrouted paths.
+console.log('F9: every URL Relay emits actually resolves');
+const routed = new Set();
+{
+  const re = /'(relay[a-z0-9-]*)':\s*require/g;
+  let m;
+  while ((m = re.exec(routerSrc))) routed.add(m[1]);
+}
+const views = new Set();
+{
+  const re = /case '([a-z0-9-]+)':/g;
+  let m;
+  while ((m = re.exec(frontSrc))) views.add(m[1]);
+}
+
+const emitters = ALL.concat(['pages/relay-store.html', 'pages/relay.html', 'pages/relay-checkout.html'])
+  .filter(function (f) { return fs.existsSync(path.join(ROOT, f)); });
+
+const dead = [];
+for (const rel of emitters) {
+  // Live code only. A doc comment naming a path that was REMOVED (relay-autonomous-
+  // fulfillment explains the dead /api/relay-fulfillment-record it used to call) must
+  // not fail the build, or the fix becomes unexplainable.
+  const src = fs.readFileSync(path.join(ROOT, rel), 'utf8')
+    .split(/\r?\n/)
+    .filter(function (line) { return !/^\s*(\*|\/\/|<!--)/.test(line); })
+    .join('\n');
+  const re = /\/api\/(relay[a-z0-9-]*)(\?view=([a-z-]+))?/g;
+  let m;
+  while ((m = re.exec(src))) {
+    const name = m[1];
+    const view = m[3];
+    if (name === 'relay') {
+      // The one door. A ?view= must be one the controller knows.
+      if (view && !views.has(view)) dead.push(rel + ' -> /api/relay?view=' + view + ' (no such view)');
+      continue;
+    }
+    if (!routed.has(name)) dead.push(rel + ' -> /api/' + name + ' (not registered, not a view)');
+  }
+}
+assert('no Relay URL points at an unrouted path', dead.length === 0, dead.join('; '));
+
+// And the public front door must reach the storefront rather than a file that is not there.
+const vercelCfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
+const relayRewrite = (vercelCfg.rewrites || []).find(function (r) { return r.source === '/relay'; });
+assert('/relay rewrites to the Relay door', !!relayRewrite && relayRewrite.destination === '/api/relay',
+  relayRewrite ? relayRewrite.destination : 'no /relay rewrite');
+
 // ── F8 ──────────────────────────────────────────────────────────────────────
 console.log('F8: the bridge fails soft on the ledger, hard on the charge');
 (async function () {

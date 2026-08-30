@@ -1,8 +1,9 @@
 /**
  * relay-storefront.js — the Relay storefront, and the catalogue behind it.
  *
- *   GET /api/relay-storefront                the store page
- *   GET /api/relay-storefront?format=json    the catalogue the page reads
+ * Reached through Relay's one door (handlers/relay.js):
+ *   GET /api/relay                           the store page
+ *   GET /api/relay?view=catalog    the catalogue the page reads
  *
  * The catalogue is the engine-published board for the house marketplace, sanitised
  * through marketplace.publicListings so source cost, source URL and the applied margin

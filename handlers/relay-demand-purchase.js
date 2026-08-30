@@ -61,7 +61,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({
         error: 'policy not accepted',
         message: 'This order cannot be placed until the final-sale terms are confirmed.',
-        policy: { version: p.version, headline: p.headline, confirmLabel: p.confirmLabel, url: '/api/relay-policy' }
+        policy: { version: p.version, headline: p.headline, confirmLabel: p.confirmLabel, url: '/api/relay?view=policy' }
       });
     }
 

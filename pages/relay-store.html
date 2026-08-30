@@ -123,7 +123,7 @@
 <div class="wrap">
   <div class="finalbar">
     <span id="finalHeadline">All sales are final. No returns, no exchanges.</span>
-    <a href="/api/relay-policy" target="_blank" rel="noopener">Read the terms</a>
+    <a href="/api/relay?view=policy" target="_blank" rel="noopener">Read the terms</a>
   </div>
   <div class="grid" id="grid"><div class="state"><div class="spin"></div>Loading the shelf…</div></div>
 </div>
@@ -139,17 +139,17 @@
 <footer>
   Relay is a <b>LIMEN Helix Transformation Sciences</b> company · © 2026 ·
   Secondhand &amp; surplus goods, sourced and shipped ·
-  <a href="/api/relay-policy">Sale terms</a>
+  <a href="/api/relay?view=policy">Sale terms</a>
 </footer>
 
 <script>
 /* Ported from the original Relay storefront (C:\Users\Chris\broker\index.html), which
    read a demo catalogue from a separate project and checked out with no shipping
    address. Same design, real backend:
-     catalogue   /api/relay-storefront?format=json   engine-published listings,
+     catalogue   /api/relay?view=catalog   engine-published listings,
                                                      source cost and URL stripped server-side
      search      /api/relay-demand-search            sources a real item on request
-     checkout    /api/relay-cart-checkout            one order, real address, final-sale tick
+     checkout    /api/relay?view=cart-checkout            one order, real address, final-sale tick
    Prices are never sent from here. The server recomputes every total from the stored
    listing, so editing anything in this file cannot change what a customer is charged. */
 
@@ -180,14 +180,14 @@ function tile(i) {
 }
 
 function loadPolicy() {
-  fetch('/api/relay-policy?format=json').then(function (r) { return r.json(); }).then(function (p) {
+  fetch('/api/relay?view=policy&format=json').then(function (r) { return r.json(); }).then(function (p) {
     POLICY = p;
     if (p && p.headline) EL('finalHeadline').textContent = p.headline;
   }).catch(function () {});
 }
 
 function loadShelf() {
-  fetch('/api/relay-storefront?format=json').then(function (r) { return r.json(); }).then(function (j) {
+  fetch('/api/relay?view=catalog').then(function (r) { return r.json(); }).then(function (j) {
     CATALOG = (j.listings || []);
     EL('feedstat').textContent = CATALOG.length ? '● ' + CATALOG.length + ' in stock' : '';
     if (!CATALOG.length) {
@@ -373,7 +373,7 @@ function checkout() {
       '<p class="ph">' + esc((POLICY && POLICY.headline) || 'All sales are final. No returns, no exchanges.') + '</p>' +
       '<label><input type="checkbox" id="f_policy" onchange="document.getElementById(\'payBtn\').disabled=!this.checked" />' +
       '<span>' + esc(confirmLabel) + '</span></label>' +
-      '<p class="pl"><a href="/api/relay-policy" target="_blank" rel="noopener">Read the full sale terms</a></p>' +
+      '<p class="pl"><a href="/api/relay?view=policy" target="_blank" rel="noopener">Read the full sale terms</a></p>' +
     '</div>' +
     '<button class="checkout" id="payBtn" disabled onclick="payNow()">Confirm final sale &amp; pay →</button>' +
     '<div class="msg" id="payMsg"></div>' +
@@ -405,7 +405,7 @@ function payNow() {
   var email = EL('f_email').value.trim();
 
   btn.disabled = true; btn.textContent = 'Creating your order…';
-  fetch('/api/relay-cart-checkout', {
+  fetch('/api/relay?view=cart-checkout', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ items: items, shippingAddress: addr, buyerEmail: email, policyAccepted: true })
   }).then(function (r) { return r.json(); }).then(function (j) {

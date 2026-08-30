@@ -99,7 +99,7 @@ module.exports = async (req, res) => {
       policy: {
         version: policy.POLICY_VERSION,
         headline: policy.getPolicy().headline,
-        url: '/api/relay-policy'
+        url: '/api/relay?view=policy'
       }
     });
   } catch (e) {

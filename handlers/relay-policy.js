@@ -1,8 +1,8 @@
 /**
  * relay-policy.js — Relay's sale terms, as a page and as JSON.
  *
- *   GET /api/relay-policy              the page a customer reads
- *   GET /api/relay-policy?format=json  the same terms + version + hash, for checkout UIs
+ *   GET /api/relay?view=policy              the page a customer reads
+ *   GET /api/relay?view=policy&format=json  the same terms + version + hash, for checkout UIs
  *
  * The version and hash are what an order records at the moment of purchase, so a dispute
  * resolves against the exact text that was on screen, not against whatever the policy says

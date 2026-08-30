@@ -1,5 +1,8 @@
 /**
- * api/relay-cart-checkout — a whole cart becomes one order and one payment.
+ * relay-cart-checkout — a whole cart becomes one order and one payment.
+ *
+ * Reached through Relay's one door: POST /api/relay?view=cart-checkout
+ * (this handler has no route of its own; see handlers/relay.js)
  *
  * POST {
  *   items: [{ listingId, qty }],
@@ -78,7 +81,7 @@ module.exports = async function handler(req, res) {
     return sendJSON(res, 400, {
       ok: false,
       error: 'policy not accepted',
-      policy: { version: p.version, headline: p.headline, confirmLabel: p.confirmLabel, url: '/api/relay-policy' }
+      policy: { version: p.version, headline: p.headline, confirmLabel: p.confirmLabel, url: '/api/relay?view=policy' }
     });
   }
 

@@ -505,7 +505,7 @@
       <ul class="relay-nav-links">
         <li><a href="/api/relay" class="active">Storefront</a></li>
         <li><a href="/api/relay-checkout-page">Checkout</a></li>
-        <li><a href="/api/relay-policy">Sale Terms</a></li>
+        <li><a href="/api/relay?view=policy">Sale Terms</a></li>
         <li><a href="/merchant-onboarding">Merchants</a></li>
       </ul>
     </div>
@@ -629,7 +629,7 @@
             <span id="policyLabel">I understand this sale is FINAL: no returns, no exchanges, no refunds
               except for an item that never arrives or is materially not as described.</span>
           </label>
-          <p class="policy-link"><a href="/api/relay-policy" target="_blank" rel="noopener">Read the full sale terms</a></p>
+          <p class="policy-link"><a href="/api/relay?view=policy" target="_blank" rel="noopener">Read the full sale terms</a></p>
         </div>
 
         <div class="modal-buttons">
@@ -774,7 +774,7 @@
 
     // Show the live policy text rather than a copy that can drift from the one the
     // server records against the order.
-    fetch('/api/relay-policy?format=json')
+    fetch('/api/relay?view=policy&format=json')
       .then(r => r.json())
       .then(p => {
         if (p && p.headline) document.getElementById('policyHeadline').textContent = p.headline;

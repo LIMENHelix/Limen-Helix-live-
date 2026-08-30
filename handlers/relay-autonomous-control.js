@@ -1,7 +1,8 @@
 /**
  * relay-autonomous-control.js — the operator's controls for the autonomous loop.
  *
- * GET  /api/relay-autonomous-control?action=...&key=RELAY_ADMIN_KEY
+ * Reached through Relay's one door: /api/relay?view=control
+ * GET  /api/relay?view=control&action=...&key=RELAY_ADMIN_KEY
  *   status              mode, today's spend and margin, open work
  *   autonomy            the gate config on its own
  *   pending-approvals   purchases waiting for a human click (mode=queue)
@@ -11,7 +12,7 @@
  *   pending-payouts     USDC transfers awaiting confirmation
  *   today-margin        revenue and margin booked today
  *
- * POST /api/relay-autonomous-control  { action, key, ... }
+ * POST /api/relay?view=control  { action, key, ... }
  *   set-mode            { mode: 'off' | 'queue' | 'auto' }
  *   set-limits          { perOrderCapUsd, dailyCeilingUsd, minMarginUsd, minMarginPct, requireFunds }
  *   approve-purchase    { decisionId }   release one queued purchase
