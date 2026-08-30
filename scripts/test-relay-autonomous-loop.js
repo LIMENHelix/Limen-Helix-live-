@@ -370,6 +370,70 @@ function invoke(handler, req) {
   var approvals = await autonomy.pending();
   assert('the approval is queued for a human', approvals.length >= 1, String(approvals.length));
 
+  // ── T16 ─────────────────────────────────────────────────────────────────
+  // The highest-stakes path in Relay: /api/relay-checkout will mint a real Stripe
+  // payment link from a feed it does not own. If that feed is serving demo data, a
+  // customer can pay for something nobody can ship. Stripe IS configured in
+  // production, so this guard is the only thing standing in the way.
+  console.log('T16: checkout refuses supply that cannot be fulfilled');
+
+  // Pretend Stripe is configured, so the guard is what we are actually testing and
+  // not the missing-key early return.
+  var railPath = require.resolve('../lib/stripe-rail');
+  var realRail = require('../lib/stripe-rail');
+  require.cache[railPath].exports = {
+    hasKey: function () { return true; },
+    createPaymentLink: async function (o) {
+      return { ok: true, url: 'https://buy.stripe.com/test_LINK', paymentLinkId: 'plink_test', amount: o.amount };
+    }
+  };
+  delete require.cache[require.resolve('../handlers/relay-checkout')];
+  var checkout = require('../handlers/relay-checkout');
+
+  var feedSource = 'sample';
+  var feedItems = [{ id: 'dj1', price: 13.49, url: null }];
+  global.fetch = async function (url) {
+    if (String(url).indexOf('/api/feed') !== -1) {
+      return { ok: true, json: async function () { return { source: feedSource, live: true, items: feedItems }; } };
+    }
+    return { ok: false, status: 404, json: async function () { return {}; }, text: async function () { return ''; } };
+  };
+
+  var c1 = await invoke(checkout, {
+    method: 'POST', headers: {},
+    body: { items: [{ id: 'dj1', qty: 1 }], policyAccepted: true }
+  });
+  assert('demo supply is refused', c1.status === 409, String(c1.status) + ' ' + JSON.stringify(c1.body).slice(0, 140));
+  assert('says nothing was charged', /nothing has been charged/i.test(JSON.stringify(c1.body)), JSON.stringify(c1.body).slice(0, 160));
+  assert('reports the supply source', c1.body && c1.body.supplySource === 'sample');
+
+  var c2 = await invoke(checkout, {
+    method: 'POST', headers: {},
+    body: { items: [{ id: 'dj1', qty: 1 }] }
+  });
+  assert('refuses without the final-sale confirmation', c2.status === 400 && /policy/.test(JSON.stringify(c2.body)), JSON.stringify(c2.body).slice(0, 140));
+
+  // Real supply, but the item carries no source listing: still unbuyable.
+  feedSource = 'ebay';
+  feedItems = [{ id: 'e1', price: 50, url: null }];
+  var c3 = await invoke(checkout, {
+    method: 'POST', headers: {},
+    body: { items: [{ id: 'e1', qty: 1 }], policyAccepted: true }
+  });
+  assert('real supply with no source URL is still refused', c3.status === 409, String(c3.status) + ' ' + JSON.stringify(c3.body).slice(0, 140));
+  assert('names the unsourceable item', /e1/.test(JSON.stringify(c3.body || {})), JSON.stringify(c3.body).slice(0, 140));
+
+  // Real, sourceable supply: this is the only case that may take money.
+  feedItems = [{ id: 'e1', price: 50, url: 'https://www.ebay.com/itm/112233445566' }];
+  var c4 = await invoke(checkout, {
+    method: 'POST', headers: {},
+    body: { items: [{ id: 'e1', qty: 1 }], policyAccepted: true }
+  });
+  assert('real sourceable supply is allowed through', c4.status === 200 && c4.body && c4.body.ok === true, JSON.stringify(c4.body).slice(0, 160));
+  assert('charges price plus shipping under $75', c4.body.total === 55.99, String(c4.body && c4.body.total));
+  assert('stamps the policy version on the sale', !!(c4.body && c4.body.policyVersion));
+
+  require.cache[railPath].exports = realRail;
   global.fetch = realFetch;
   delete process.env.SERPAPI_KEY;
 
