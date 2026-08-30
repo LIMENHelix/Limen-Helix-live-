@@ -25,11 +25,31 @@
   .save:hover{filter:brightness(1.08)} .save:disabled{opacity:.5;cursor:default}
   .status{text-align:center;font-size:.82rem;color:var(--soft);min-height:1.3em;margin-top:12px}
   .status.ok{color:var(--green)}
-  .links{display:flex;justify-content:space-between;margin-top:18px;font-size:.78rem}
+  .links{display:flex;justify-content:space-between;margin-top:18px;font-size:.78rem;flex-wrap:wrap;gap:12px}
   .links a{color:var(--soft);text-decoration:none}.links a:hover{color:var(--gold)}
+  .relay-nav{background:var(--panel);border-bottom:1px solid var(--line);padding:16px 24px;position:sticky;top:0;z-index:100}
+  .relay-nav-content{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px}
+  .relay-nav-brand{color:var(--gold);text-decoration:none;font-weight:700;font-size:.95rem;letter-spacing:.05em;text-transform:uppercase}
+  .relay-nav-links{display:flex;gap:16px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+  .relay-nav-links a{color:var(--soft);text-decoration:none;font-size:.85rem;transition:color .2s}
+  .relay-nav-links a:hover{color:var(--gold)}
+  .relay-nav-links a.active{color:var(--gold);font-weight:700}
 </style>
 </head>
 <body>
+<nav class="relay-nav">
+  <div class="relay-nav-content">
+    <a href="/relay" class="relay-nav-brand">Relay</a>
+    <ul class="relay-nav-links">
+      <li><a href="/relay">Storefront</a></li>
+      <li><a href="/relay-checkout">Checkout</a></li>
+      <li><a href="/api/relay-admin-page">Admin</a></li>
+      <li><a href="/merchant-onboarding">Merchants</a></li>
+      <li><a href="/relay-margin.html" class="active">Margin</a></li>
+      <li><a href="/relay-marketplace-control.html">Settings</a></li>
+    </ul>
+  </div>
+</nav>
 <div class="card">
   <div class="eyebrow">LIMEN Helix · finance</div>
   <h1>Relay margin</h1>

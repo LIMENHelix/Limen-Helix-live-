@@ -17,6 +17,50 @@
       color: #333;
     }
 
+    .relay-nav {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .relay-nav-content {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .relay-nav-brand {
+      font-weight: 700;
+      font-size: 1.1em;
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    .relay-nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .relay-nav-links a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.95em;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .relay-nav-links a:hover {
+      color: #1a1a1a;
+    }
+    .relay-nav-links a.active {
+      color: #2563eb;
+      font-weight: 700;
+    }
+
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -145,6 +189,19 @@
   </style>
 </head>
 <body>
+  <nav class="relay-nav">
+    <div class="relay-nav-content">
+      <a href="/relay" class="relay-nav-brand">Relay</a>
+      <ul class="relay-nav-links">
+        <li><a href="/relay">Storefront</a></li>
+        <li><a href="/relay-checkout" class="active">Checkout</a></li>
+        <li><a href="/api/relay-admin-page">Admin</a></li>
+        <li><a href="/merchant-onboarding">Merchants</a></li>
+        <li><a href="/relay-margin.html">Margin</a></li>
+        <li><a href="/relay-marketplace-control.html">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
   <div class="container">
     <div class="checkout-card">
       <div class="success-icon">✓</div>
