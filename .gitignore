@@ -78,6 +78,16 @@ scripts/*.jsonl
 /_sbir_rewrite.md
 /_front-door-and-access-spec.md
 
+# Side project with its OWN repo and its OWN Vercel project. Ignored, never tracked.
+# what-men-carry/ is github.com/LIMENHelix/What-Men-Carry.git checked out inside this
+# working tree: 20,865 files, 540MB, its own .git, its own .vercel/project.json, and an
+# .env.local holding a Stripe secret key (sk_test_ when measured 2026-08-30). This repo
+# is PUBLIC and main auto-deploys, so committing it would publish that key and push a
+# Next.js app into a non-Next.js deploy. Its revenue still reaches the Finance domain,
+# by Stripe metadata streamId through /api/stripe-webhook, not by living in this repo.
+# Same firewall reasoning as Relay: one seam to money, nothing else coupled.
+/what-men-carry/
+
 # Side project — keep OUT of the LIMEN repo (firewall). Relocate to its own project.
 /coffee-house/
 scripts/reports/
