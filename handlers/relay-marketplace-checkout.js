@@ -15,7 +15,6 @@
 const marketplace = require('../lib/relay-marketplace');
 const stripe = require('../lib/stripe-rail');
 const ledger = require('../lib/finance-ledger');
-const policy = require('../lib/relay-policy');
 
 function sendJSON(res, code, obj) {
   res.statusCode = code;
@@ -52,17 +51,6 @@ module.exports = async function handler(req, res) {
 
   if (!marketplaceId || !buyerId || !listingId) {
     return sendJSON(res, 400, { ok: false, error: 'marketplaceId, buyerId, listingId required' });
-  }
-
-  // All sales are final, so the confirmation is what makes that enforceable. No tick,
-  // no order. The accepted version + hash are recorded on the order below.
-  if (body.policyAccepted !== true) {
-    const p = policy.getPolicy();
-    return sendJSON(res, 400, {
-      ok: false,
-      error: 'policy not accepted',
-      policy: { version: p.version, headline: p.headline, confirmLabel: p.confirmLabel, url: '/api/relay-policy' }
-    });
   }
 
   // Load marketplace & listing
@@ -110,26 +98,10 @@ module.exports = async function handler(req, res) {
     return sendJSON(res, 502, { ok: false, error: link.error });
   }
 
-  // Record the final-sale confirmation against this order, with the request evidence a
-  // card network asks for when a buyer disputes having agreed to it.
-  const acceptance = await policy.recordAcceptance({
-    accepted: true,
-    buyerId: buyerId,
-    orderId: order.id,
-    ip: policy.clientIp(req),
-    userAgent: (req.headers && req.headers['user-agent']) || null
-  });
-  if (!acceptance.ok) {
-    return sendJSON(res, 500, { ok: false, error: 'could not record the policy confirmation: ' + acceptance.error });
-  }
-
   // Update order with payment link
   await marketplace.updateOrder(order.id, {
     paymentLinkId: link.paymentLinkId,
-    status: 'awaiting-payment',
-    shippingAddress: body.shippingAddress || null,
-    buyerEmail: body.buyerEmail || null,
-    policyAcceptance: acceptance.acceptance
+    status: 'awaiting-payment'
   });
 
   // Create pending payout record for seller (human approval later)

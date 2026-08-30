@@ -22,10 +22,12 @@
  */
 
 const db = require('../lib/limen-db');
-const marketplace = require('../lib/relay-marketplace');
+const store = require('../lib/relay-store');
 const marginCalc = require('../lib/relay-margin-calculator');
 const policy = require('../lib/relay-policy');
-const stripe = require('../lib/stripe-rail');
+// The only money call here. Relay does not import stripe-rail or finance-ledger; see
+// the seam in lib/relay-finance-bridge.js.
+const finance = require('../lib/relay-finance-bridge');
 
 const HOUSE_MARKETPLACE = process.env.RELAY_MARKETPLACE_ID || 'mkt_relay';
 const HOUSE_SELLER = process.env.RELAY_HOUSE_SELLER_ID || 'usr_relay_house';
@@ -81,12 +83,12 @@ module.exports = async (req, res) => {
       return res.status(409).json({ error: 'pricing error: no positive spread on that item' });
     }
 
-    if (!stripe.hasKey()) {
+    if (!finance.paymentsEnabled()) {
       return res.status(200).json({ ok: false, error: 'payments not enabled yet', needsKey: true });
     }
 
     // A listing carrying the source provenance, so fulfilment can buy it later.
-    const listing = await marketplace.createListing({
+    const listing = await store.createListing({
       marketplaceId: HOUSE_MARKETPLACE,
       sellerId: HOUSE_SELLER,
       title: (search.description || 'Relay sourced item').slice(0, 140),
@@ -103,23 +105,25 @@ module.exports = async (req, res) => {
       sourceVerifiedAt: search.ts || null
     });
 
-    const order = await marketplace.createOrder({
-      marketplaceId: HOUSE_MARKETPLACE,
+    const order = await store.createOrder({
       buyerId: buyerId,
-      sellerId: HOUSE_SELLER,
-      listingId: listing.id,
-      subtotal: customerPrice
+      buyerEmail: body.buyerEmail || null,
+      lines: [{ listingId: listing.id, qty: 1, unitPrice: customerPrice, title: listing.title }],
+      shipping: 0,
+      shippingAddress: shippingAddress
     });
     if (order.error) return res.status(409).json({ error: order.error });
 
-    const link = await stripe.createPaymentLink({
+    const payment = await finance.createPayment({
       name: 'Relay · ' + listing.title.slice(0, 60),
       amount: customerPrice,
-      streamId: 'relay-order',
-      currency: 'usd',
-      metadata: { orderId: order.id, listingId: listing.id, buyer: buyerId, searchId: searchId }
+      orderId: order.id,
+      metadata: { listingId: listing.id, buyer: buyerId, searchId: searchId }
     });
-    if (!link.ok) return res.status(502).json({ ok: false, error: link.error });
+    if (!payment.ok) {
+      await store.updateOrder(order.id, { status: 'payment-failed', failureReason: payment.error });
+      return res.status(payment.needsKey ? 200 : 502).json({ ok: false, error: payment.error, needsKey: payment.needsKey || false });
+    }
 
     // Record the acceptance against this specific order, with the request evidence.
     const acceptance = await policy.recordAcceptance({
@@ -133,11 +137,9 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'could not record the policy confirmation: ' + acceptance.error });
     }
 
-    await marketplace.updateOrder(order.id, {
+    await store.updateOrder(order.id, {
       status: 'awaiting-payment',
-      paymentLinkId: link.paymentLinkId,
-      shippingAddress: shippingAddress,
-      buyerEmail: body.buyerEmail || null,
+      paymentLinkId: payment.paymentLinkId,
       policyAcceptance: acceptance.acceptance
     });
 
@@ -146,7 +148,7 @@ module.exports = async (req, res) => {
       orderId: order.id,
       listingId: listing.id,
       amount: customerPrice,
-      url: link.url,
+      url: payment.url,
       policyVersion: acceptance.acceptance.policyVersion,
       // Source cost, source URL and margin are deliberately not in this response.
       message: 'All sales final. Pay at the link to confirm the order.'

@@ -33,7 +33,8 @@
  * supply on. /api/relay-demand-purchase is the route that already does this properly.
  */
 
-var stripe = require('../lib/stripe-rail');
+// Money goes through the one seam, never straight to the rail. See lib/relay-finance-bridge.
+var finance = require('../lib/relay-finance-bridge');
 var policy = require('../lib/relay-policy');
 
 var FEED_URL = process.env.RELAY_FEED_URL || 'https://broker-one-tau.vercel.app/api/feed';
@@ -68,7 +69,7 @@ module.exports = async function handler(req, res) {
   if ((req.method || 'GET') === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') return sendJSON(res, 405, { ok: false, error: 'POST only' });
 
-  if (!stripe.hasKey()) return sendJSON(res, 200, { ok: false, error: 'payments not enabled yet', needsKey: true });
+  if (!finance.paymentsEnabled()) return sendJSON(res, 200, { ok: false, error: 'payments not enabled yet', needsKey: true });
 
   var body = await readBody(req);
   var items = Array.isArray(body.items) ? body.items : [];
@@ -132,18 +133,19 @@ module.exports = async function handler(req, res) {
   var ship = subtotal > 75 ? 0 : 5.99;
   var total = Math.round((subtotal + ship) * 100) / 100;
 
-  var link = await stripe.createPaymentLink({
+  var orderRef = 'legacy_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+  var payment = await finance.createPayment({
     name: 'Relay order · ' + count + ' item' + (count === 1 ? '' : 's'),
     amount: total,
-    streamId: 'relay',
-    currency: 'usd'
+    orderId: orderRef,
+    metadata: { surface: 'legacy-storefront', items: String(count) }
   });
-  if (!link.ok) return sendJSON(res, 200, { ok: false, error: link.error });
+  if (!payment.ok) return sendJSON(res, 200, { ok: false, error: payment.error, needsKey: payment.needsKey || false });
 
   var acceptance = await policy.recordAcceptance({
     accepted: true,
     buyerId: body.buyerId || null,
-    orderId: link.paymentLinkId || null,
+    orderId: orderRef,
     ip: policy.clientIp(req),
     userAgent: (req.headers && req.headers['user-agent']) || null
   });
@@ -153,8 +155,9 @@ module.exports = async function handler(req, res) {
 
   return sendJSON(res, 200, {
     ok: true,
-    url: link.url,
+    url: payment.url,
     total: total,
+    orderRef: orderRef,
     policyVersion: acceptance.acceptance.policyVersion
   });
 };

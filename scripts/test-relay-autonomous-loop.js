@@ -37,6 +37,7 @@ var policy = require('../lib/relay-policy');
 var autonomy = require('../lib/relay-autonomy');
 var buy = require('../lib/relay-buy');
 var engine = require('../lib/relay-engine');
+var store = require('../lib/relay-store');
 
 /** Drive a handler the way Vercel does and capture what it sent. */
 function invoke(handler, req) {
@@ -132,12 +133,17 @@ function invoke(handler, req) {
   });
   assert('a truthy non-true value is not acceptance', r6b.status === 400, String(r6b.status));
 
-  var mktCheckout = require('../handlers/relay-marketplace-checkout');
-  var r6c = await invoke(mktCheckout, {
+  // The cart checkout is the OTHER route that takes money in the firewalled core, so it
+  // must enforce the same gate. (handlers/relay-marketplace-checkout is deliberately NOT
+  // checked here: it writes the trade-shared store, sits outside the firewall, and was
+  // left exactly as it was. See scripts/test-relay-firewall.js.)
+  var cartEarly = require('../handlers/relay-cart-checkout');
+  var r6c = await invoke(cartEarly, {
     method: 'POST', headers: {},
-    body: { marketplaceId: 'mkt_relay', buyerId: 'b1', listingId: 'lst_1' }
+    body: { items: [{ listingId: 'nope', qty: 1 }], shippingAddress: addr, buyerEmail: 'a@b.com' }
   });
-  assert('marketplace checkout also refuses', r6c.status === 400 || (r6c.body && r6c.body.needsKey), JSON.stringify(r6c.body).slice(0, 140));
+  assert('cart checkout also refuses without the tick',
+    r6c.status === 400 && /policy/.test(JSON.stringify(r6c.body)), JSON.stringify(r6c.body).slice(0, 140));
 
   // ── T7 ──────────────────────────────────────────────────────────────────
   console.log('T7: spend limits refuse');
@@ -241,26 +247,31 @@ function invoke(handler, req) {
 
   // ── T12 ─────────────────────────────────────────────────────────────────
   console.log('T12: fulfilment refuses what it cannot source');
-  var marketplace = require('../lib/relay-marketplace');
-  await marketplace.createMarketplace({ id: 'mkt_relay', name: 'Relay', ownerId: 'usr_relay_house' });
-  var mkts = await marketplace.listMarketplaces();
-  var mktId = mkts.length ? mkts[0].id : 'mkt_relay';
-  var plain = await marketplace.createListing({
-    marketplaceId: mktId, sellerId: 'usr_seller', title: 'someone own item', price: 30
+  // Relay uses its OWN store now. lib/relay-marketplace is the TRADE domain's auction
+  // store and is off limits; scripts/test-relay-firewall.js enforces that.
+  var mktId = 'mkt_relay_test';
+  var plain = await store.createListing({
+    marketplaceId: mktId, sellerId: 'usr_seller', title: 'listing with no source', price: 30
   });
-  assert('a plain listing has no source URL', plain.sourceUrl === null);
-  var ord = await marketplace.createOrder({ marketplaceId: mktId, buyerId: 'b1', sellerId: 'usr_seller', listingId: plain.id, subtotal: 30 });
+  assert('a listing with no source URL is stored as such', plain.sourceUrl === null);
+  var ord = await store.createOrder({
+    buyerId: 'b1',
+    lines: [{ listingId: plain.id, qty: 1, unitPrice: 30, title: plain.title }],
+    shippingAddress: addr
+  });
   assert('order created', !!ord.id, JSON.stringify(ord).slice(0, 120));
-  await marketplace.updateOrder(ord.id, { status: 'paid', shippingAddress: addr });
+  await store.updateOrder(ord.id, { status: 'paid' });
   var f12 = await engine.fulfillPaidOrder({ orderId: ord.id });
-  assert('refuses to auto-source it', f12.ok === false && /source URL/.test(f12.error || ''), f12.error);
+  assert('refuses to auto-source it', f12.ok === false && f12.state === 'failed', JSON.stringify(f12).slice(0, 160));
+  assert('and says the listing has no source', /source URL/.test(JSON.stringify(f12.lines || [])), JSON.stringify(f12.lines));
 
-  var sourced = await marketplace.createListing({
+  var sourced = await store.createListing({
     marketplaceId: mktId, sellerId: 'usr_relay_house', title: 'sourced item', price: 60,
     sourceMarketplace: 'ebay', sourceId: 'v1|123|0',
     sourceUrl: 'https://www.ebay.com/itm/123456789012', sourceCost: 40
   });
   assert('source provenance persists on the listing', sourced.sourceUrl && sourced.sourceCost === 40);
+  assert('and never reaches a customer', store.publicListing(sourced).sourceUrl === undefined);
 
   // ── T13 ─────────────────────────────────────────────────────────────────
   console.log('T13: the cycle is inert while autonomy is off');
@@ -323,7 +334,7 @@ function invoke(handler, req) {
   assert('drops the non-sourceable blog link', disc.published.every(function (x) { return x.sourceUrl.indexOf('someblog') === -1; }));
   assert('drops the over-budget match', disc.published.every(function (x) { return x.sourceCost <= 100; }));
 
-  var storedListing = await marketplace.getListing(pub.listingId);
+  var storedListing = await store.getListing(pub.listingId);
   assert('provenance is persisted', storedListing.sourceUrl === 'https://www.ebay.com/itm/223344556677');
   assert('source cost is persisted', storedListing.sourceCost === 40);
   assert('the margin in force is stamped on the listing', storedListing.marginAtListing === 0.50);
@@ -338,11 +349,12 @@ function invoke(handler, req) {
 
   // ── T15 ─────────────────────────────────────────────────────────────────
   console.log('T15: a paid order runs the gate and settles the margin');
-  var ord15 = await marketplace.createOrder({
-    marketplaceId: mktId, buyerId: 'b15', sellerId: 'usr_relay_house',
-    listingId: pub.listingId, subtotal: 60
+  var ord15 = await store.createOrder({
+    buyerId: 'b15',
+    lines: [{ listingId: pub.listingId, qty: 1, unitPrice: 60, title: pub.title }],
+    shippingAddress: addr
   });
-  await marketplace.updateOrder(ord15.id, { status: 'paid', shippingAddress: addr });
+  await store.updateOrder(ord15.id, { status: 'paid' });
   await db.set('relay:autonomy-ledger', []);
 
   var f15 = await engine2.fulfillPaidOrder({ orderId: ord15.id });
@@ -351,7 +363,7 @@ function invoke(handler, req) {
   var st15 = await autonomy.status();
   assert('a blocked buy does not eat the daily budget', st15.spentToday === 0, String(st15.spentToday));
 
-  var ord15b = await marketplace.getOrder(ord15.id);
+  var ord15b = await store.getOrder(ord15.id);
   assert('the order records why it stalled', ord15b.fulfillment && ord15b.fulfillment.state === 'manual-required');
   assert('and links the task', !!ord15b.fulfillment.taskId);
 
@@ -360,11 +372,12 @@ function invoke(handler, req) {
     mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
     minMarginUsd: 5, minMarginPct: 0.1, requireFunds: false
   });
-  var ord15c = await marketplace.createOrder({
-    marketplaceId: mktId, buyerId: 'b15c', sellerId: 'usr_relay_house',
-    listingId: pub.listingId, subtotal: 60
+  var ord15c = await store.createOrder({
+    buyerId: 'b15c',
+    lines: [{ listingId: pub.listingId, qty: 1, unitPrice: 60, title: pub.title }],
+    shippingAddress: addr
   });
-  await marketplace.updateOrder(ord15c.id, { status: 'paid', shippingAddress: addr });
+  await store.updateOrder(ord15c.id, { status: 'paid' });
   var f15c = await engine2.fulfillPaidOrder({ orderId: ord15c.id });
   assert('queue mode holds the order', f15c.state === 'awaiting-approval', JSON.stringify(f15c).slice(0, 160));
   var approvals = await autonomy.pending();
@@ -432,6 +445,117 @@ function invoke(handler, req) {
   assert('real sourceable supply is allowed through', c4.status === 200 && c4.body && c4.body.ok === true, JSON.stringify(c4.body).slice(0, 160));
   assert('charges price plus shipping under $75', c4.body.total === 55.99, String(c4.body && c4.body.total));
   assert('stamps the policy version on the sale', !!(c4.body && c4.body.policyVersion));
+
+  // ── T17 ─────────────────────────────────────────────────────────────────
+  console.log('T17: the storefront catalogue cannot leak what we paid');
+  process.env.RELAY_MARKETPLACE_ID = mktId;
+  delete require.cache[require.resolve('../handlers/relay-storefront')];
+  var storefront = require('../handlers/relay-storefront');
+
+  var cat = await invoke(storefront, { method: 'GET', url: '/api/relay-storefront?format=json', headers: {} });
+  assert('catalogue responds', cat.status === 200 && cat.body && cat.body.ok === true, JSON.stringify(cat.body).slice(0, 140));
+  var catBlob = JSON.stringify(cat.body);
+  assert('no source URL in the catalogue', catBlob.indexOf('ebay.com/itm') === -1, catBlob.slice(0, 200));
+  assert('no sourceCost field', catBlob.indexOf('sourceCost') === -1);
+  assert('no sourceMarketplace field', catBlob.indexOf('sourceMarketplace') === -1);
+  assert('no marginAtListing field', catBlob.indexOf('marginAtListing') === -1);
+  assert('the engine item IS on the shelf', (cat.body.listings || []).some(function (l) { return l.id === pub.listingId; }));
+  // `plain` is a seller's own listing (no sourceUrl) but not a house listing, so it stays.
+  // A HOUSE listing with no source must be hidden: nothing could ever ship.
+  var orphan = await store.createListing({
+    marketplaceId: mktId, sellerId: 'usr_relay_house', title: 'house item with no source', price: 20
+  });
+  var cat2 = await invoke(storefront, { method: 'GET', url: '/api/relay-storefront?format=json', headers: {} });
+  assert('an unsourceable house listing is hidden', !(cat2.body.listings || []).some(function (l) { return l.id === orphan.id; }));
+
+  var pageResp = await invoke(storefront, { method: 'GET', url: '/api/relay-storefront', headers: {} });
+  assert('the store page renders', pageResp.status === 200 && typeof pageResp.body === 'string' && pageResp.body.indexOf('<!DOCTYPE html>') === 0);
+  assert('the page ships the final-sale banner', pageResp.body.indexOf('All sales are final') !== -1);
+
+  // ── T18 ─────────────────────────────────────────────────────────────────
+  console.log('T18: cart checkout is one order, priced server-side');
+  require.cache[railPath].exports = {
+    hasKey: function () { return true; },
+    createPaymentLink: async function (o) {
+      return { ok: true, url: 'https://buy.stripe.com/test_CART', paymentLinkId: 'plink_cart', amount: o.amount };
+    }
+  };
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cartCheckout = require('../handlers/relay-cart-checkout');
+
+  var goodAddr = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  var k1 = await invoke(cartCheckout, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: pub.listingId, qty: 1 }], shippingAddress: goodAddr, buyerEmail: 'a@b.com' }
+  });
+  assert('refuses without the final-sale tick', k1.status === 400 && /policy/.test(JSON.stringify(k1.body)), JSON.stringify(k1.body).slice(0, 140));
+
+  var k2 = await invoke(cartCheckout, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: pub.listingId, qty: 1 }], shippingAddress: { name: 'A' }, buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('refuses an incomplete address', k2.status === 400 && Array.isArray(k2.body.missing) && k2.body.missing.length >= 4, JSON.stringify(k2.body).slice(0, 160));
+
+  var k3 = await invoke(cartCheckout, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: pub.listingId, qty: 1 }], shippingAddress: goodAddr, buyerEmail: 'nope', policyAccepted: true }
+  });
+  assert('refuses an invalid email', k3.status === 400 && /email/.test(JSON.stringify(k3.body)));
+
+  var k4 = await invoke(cartCheckout, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: orphan.id, qty: 1 }], shippingAddress: goodAddr, buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('refuses a house item with no source', k4.status === 409 && /cannot be sourced/.test(JSON.stringify(k4.body)), JSON.stringify(k4.body).slice(0, 160));
+
+  var k5 = await invoke(cartCheckout, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: pub.listingId, qty: 99 }], shippingAddress: goodAddr, buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('refuses more than we hold', k5.status === 409 && /only 1 available/.test(JSON.stringify(k5.body)), JSON.stringify(k5.body).slice(0, 160));
+
+  // A second sourced item, so the cart is genuinely multi-line.
+  var second = await store.createListing({
+    marketplaceId: mktId, sellerId: 'usr_relay_house', title: 'second sourced item', price: 30,
+    sourceMarketplace: 'ebay', sourceId: 'v1|777|0',
+    sourceUrl: 'https://www.ebay.com/itm/777788889999', sourceCost: 20, quantity: 1
+  });
+
+  var k6 = await invoke(cartCheckout, {
+    method: 'POST', headers: { 'user-agent': 'test-agent' },
+    body: {
+      // The client sends a price; the server must ignore it entirely.
+      items: [{ listingId: pub.listingId, qty: 1, price: 0.01 }, { listingId: second.id, qty: 1 }],
+      shippingAddress: goodAddr, buyerEmail: 'a@b.com', policyAccepted: true
+    }
+  });
+  assert('a valid cart is accepted', k6.status === 200 && k6.body.ok === true, JSON.stringify(k6.body).slice(0, 180));
+  // 60 + 30 = 90 subtotal, over the $75 free-shipping line
+  assert('total is recomputed from the listings, not the client', k6.body.total === 90, String(k6.body.total));
+  assert('shipping is free over $75', k6.body.shipping === 0, String(k6.body.shipping));
+  assert('stamps the policy version', !!k6.body.policyVersion);
+
+  var cartOrder = await store.getOrder(k6.body.orderId);
+  assert('the order carries both lines', cartOrder.lines && cartOrder.lines.length === 2, JSON.stringify(cartOrder.lines));
+  assert('the address is stored for fulfilment', cartOrder.shippingAddress && cartOrder.shippingAddress.postalCode === '64111');
+  assert('the acceptance is stored on the order', cartOrder.policyAcceptance && /^[0-9a-f]{64}$/.test(cartOrder.policyAcceptance.policyHash));
+  assert('the user agent is captured as evidence', cartOrder.policyAcceptance.userAgent === 'test-agent');
+
+  // ── T19 ─────────────────────────────────────────────────────────────────
+  console.log('T19: a multi-line order authorises each line separately');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 5, minMarginPct: 0.1, requireFunds: false
+  });
+  await store.updateOrder(k6.body.orderId, { status: 'paid' });
+  var f19 = await engine2.fulfillPaidOrder({ orderId: k6.body.orderId });
+  assert('both lines were attempted', f19.lines && f19.lines.length === 2, JSON.stringify(f19).slice(0, 180));
+  assert('neither silently succeeded without a Buy token', f19.ok === false && f19.state === 'manual-required', f19.state);
+  assert('each line got its own decision', f19.lines[0].decisionId !== f19.lines[1].decisionId);
+  var st19 = await autonomy.status();
+  assert('no budget consumed by blocked lines', st19.spentToday === 0, String(st19.spentToday));
 
   require.cache[railPath].exports = realRail;
   global.fetch = realFetch;
