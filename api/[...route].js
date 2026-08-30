@@ -125,7 +125,7 @@ const HANDLERS = {
   'agriculture-markets': require('../handlers/agriculture-markets'),
   'agriculture-tools': require('../handlers/agriculture-tools'),
   'agriculture-homestead-cycle': require('../handlers/agriculture-homestead-cycle'),
-  // 'agriculture-homestead-inbound': require('../handlers/agriculture-homestead-inbound'), // disabled: missing svix dependency
+  'agriculture-homestead-inbound': require('../handlers/agriculture-homestead-inbound'),
   'agriculture-homestead-status': require('../handlers/agriculture-homestead-status'),
   'agriculture-homestead-recovery': require('../handlers/agriculture-homestead-recovery'),
   'medicine-tools': require('../handlers/medicine-tools'),
