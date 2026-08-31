@@ -79,8 +79,20 @@ function invoke(handler, req) {
   assert('ok:false with no key', ri.ok === false);
   assert('no matches invented', ri.matches.length === 0);
   assert('names the missing credential', /SERPAPI_KEY/.test(ri.reason || ''), ri.reason);
-  assert('sourceable filter rejects a random blog', reverseImage.isSourceable('https://someblog.example/post') === false);
-  assert('sourceable filter accepts ebay', reverseImage.isSourceable('https://www.ebay.com/itm/123456789012') === true);
+  // The source filter is a DENY-list, not an allow-list. It used to name 16 marketplaces
+  // and reject Walmart, REI, Reverb, AbeBooks and every independent store, which threw
+  // away most of the supply. Anything with a price and a product page is now a lead;
+  // only places that show products WITHOUT selling them are refused.
+  assert('accepts a shop it has never heard of', reverseImage.isSourceable('https://someindiestore.com/products/jacket') === true);
+  assert('accepts big retail', reverseImage.isSourceable('https://www.walmart.com/ip/1') === true);
+  assert('accepts a specialist reseller', reverseImage.isSourceable('https://reverb.com/item/1') === true);
+  assert('accepts a subdomain store', reverseImage.isSourceable('https://shop.goodwill.com/x') === true);
+  assert('rejects a pin board', reverseImage.isSourceable('https://www.pinterest.com/pin/1') === false);
+  assert('rejects an encyclopedia', reverseImage.isSourceable('https://en.wikipedia.org/wiki/Jacket') === false);
+  assert('rejects our own storefront', reverseImage.isSourceable('https://limenhelix.com/api/relay') === false);
+  assert('marks ebay auto-buyable and others manual',
+    reverseImage.buyMode('https://www.ebay.com/itm/1') === 'auto' &&
+    reverseImage.buyMode('https://reverb.com/item/1') === 'manual');
 
   // ── T3 ──────────────────────────────────────────────────────────────────
   console.log('T3: margin is read, not hardcoded');
@@ -560,6 +572,47 @@ function invoke(handler, req) {
   require.cache[railPath].exports = realRail;
   global.fetch = realFetch;
   delete process.env.SERPAPI_KEY;
+
+  // ── T20 ─────────────────────────────────────────────────────────────────
+  // The operator's on/off switch. The complaint this answers: nothing on any screen
+  // ever said the loop was stopped or why, so "fails closed" was invisible.
+  console.log('T20: the on/off control');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var control = require('../handlers/relay-autonomous-control');
+
+  var pg = await invoke(control, { method: 'GET', url: '/api/relay?view=control', headers: {} });
+  assert('the console page serves without a key', pg.status === 200 &&
+    typeof pg.body === 'string' && pg.body.indexOf('Relay Control') !== -1);
+  assert('the page ships an OFF switch', typeof pg.body === 'string' && /data-m="off"/.test(pg.body));
+  assert('and a QUEUE and AUTO switch', /data-m="queue"/.test(pg.body) && /data-m="auto"/.test(pg.body));
+
+  var noKey = await invoke(control, { method: 'GET', url: '/api/relay?view=control&action=readiness', headers: {} });
+  assert('but data still needs the key', noKey.status === 403, String(noKey.status));
+
+  var rd = await invoke(control, {
+    method: 'GET', url: '/api/relay?view=control&action=readiness&key=' + process.env.RELAY_ADMIN_KEY, headers: {}
+  });
+  assert('readiness reports what is connected', rd.status === 200 && Array.isArray(rd.body.credentials) && rd.body.credentials.length >= 6);
+  assert('it says whether sourcing is possible at all', typeof rd.body.canSource === 'boolean');
+  assert('it says whether we can charge at all', typeof rd.body.canCharge === 'boolean');
+  // The whole point of booleans: a console that leaks the key it is gated by is worse
+  // than no console.
+  assert('no credential VALUE is ever returned',
+    JSON.stringify(rd.body).indexOf(process.env.RELAY_ADMIN_KEY) === -1);
+
+  var off = await invoke(control, {
+    method: 'POST', url: '/api/relay?view=control', headers: {},
+    body: { action: 'set-mode', mode: 'off', key: process.env.RELAY_ADMIN_KEY }
+  });
+  assert('the switch turns the loop OFF', off.status === 200 && off.body.config.mode === 'off', JSON.stringify(off.body).slice(0, 120));
+  var offCycle = await engine.runCycle();
+  assert('and OFF actually stops the cycle', offCycle.skipped === true, JSON.stringify(offCycle).slice(0, 120));
+
+  var badKey = await invoke(control, {
+    method: 'POST', url: '/api/relay?view=control', headers: {},
+    body: { action: 'set-mode', mode: 'auto', key: 'wrong' }
+  });
+  assert('a wrong key cannot flip the switch', badKey.status === 403, String(badKey.status));
 
   console.log('');
   console.log(failures === 0

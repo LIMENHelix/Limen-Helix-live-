@@ -27,6 +27,8 @@
  * to a customer. Fails closed when the key is unset.
  */
 
+const fs = require('fs');
+const path = require('path');
 const db = require('../lib/limen-db');
 const cryptoPayout = require('../lib/relay-crypto-payout');
 const spendTracker = require('../lib/relay-spend-tracker');
@@ -70,6 +72,40 @@ async function handleGET(q) {
       spend: spend,
       lastCycleAt: cycles[0] ? cycles[0].ts : null,
       lastCyclePublished: cycles[0] ? cycles[0].publishedCount : null
+    };
+  }
+
+  // What is configured, as booleans. NEVER a value: this answers "why is nothing
+  // happening" on screen instead of the operator having to read logs or ask.
+  if (action === 'readiness') {
+    const has = function (n) { return !!(process.env[n] && String(process.env[n]).trim()); };
+    const finance = require('../lib/relay-finance-bridge');
+    return {
+      ok: true,
+      credentials: [
+        { key: 'XAI_API_KEY', set: has('XAI_API_KEY') || has('GROK_API_KEY'),
+          unlocks: 'Grok reference images', required: false },
+        { key: 'GOOGLE_API_KEY', set: has('GOOGLE_API_KEY') || has('GOOGLE_VISION_KEY'),
+          unlocks: 'Google image labelling + web search', required: false },
+        { key: 'GOOGLE_CSE_ID', set: has('GOOGLE_CSE_ID') || has('GOOGLE_SEARCH_ENGINE_ID'),
+          unlocks: 'Google web search for listings', required: false },
+        { key: 'SERPAPI_KEY', set: has('SERPAPI_KEY') || has('SERP_API_KEY'),
+          unlocks: 'true reverse-image search (Google Lens)', required: false },
+        { key: 'EBAY_CLIENT_ID + EBAY_CLIENT_SECRET', set: has('EBAY_CLIENT_ID') && has('EBAY_CLIENT_SECRET'),
+          unlocks: 'real eBay supply', required: false },
+        { key: 'EBAY_BUY_TOKEN', set: has('EBAY_BUY_TOKEN'),
+          unlocks: 'automatic purchasing (otherwise a human buys)', required: false },
+        { key: 'STRIPE_SECRET_KEY', set: finance.paymentsEnabled(),
+          unlocks: 'taking payment', required: true },
+        { key: 'RELAY_MARGIN_KEY', set: has('RELAY_MARGIN_KEY'),
+          unlocks: 'saving the margin from the cockpit', required: false }
+      ],
+      // Sourcing needs at least ONE way to find a listing.
+      canSource: (has('EBAY_CLIENT_ID') && has('EBAY_CLIENT_SECRET')) ||
+                 has('SERPAPI_KEY') || has('SERP_API_KEY') ||
+                 ((has('GOOGLE_API_KEY') || has('GOOGLE_VISION_KEY')) &&
+                  (has('GOOGLE_CSE_ID') || has('GOOGLE_SEARCH_ENGINE_ID'))),
+      canCharge: finance.paymentsEnabled()
     };
   }
 
@@ -182,6 +218,22 @@ module.exports = async function handler(req, res) {
 
   const q = {};
   try { Object.assign(q, Object.fromEntries(new URL(req.url, 'http://h').searchParams)); } catch (e) {}
+
+  // A plain GET with no action serves the console PAGE. The page is inert HTML: it
+  // holds no key and shows no data until the operator enters one, and every data call
+  // it makes is gated below exactly as before.
+  if (req.method === 'GET' && !q.action) {
+    try {
+      const html = fs.readFileSync(path.join(__dirname, '../pages/relay-control.html'), 'utf8');
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-store');
+      return res.end(html);
+    } catch (e) {
+      console.error('[relay-autonomous-control] page load failed:', e.message);
+      return sendJSON(res, 500, { ok: false, error: 'console page unavailable' });
+    }
+  }
 
   const body = req.method === 'POST' ? await readBody(req) : {};
 

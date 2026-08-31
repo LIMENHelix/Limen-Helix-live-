@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relay — Control</title>
+<style>
+  :root{--bg:#0c0e13;--panel:#14171f;--line:#252a35;--ink:#e8e3d9;--soft:#8b94a3;
+        --gold:#c9a94e;--green:#5ab5a0;--red:#d4756b;--amber:#d9a441}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:1.5rem;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--soft);font-size:.85rem;margin:0 0 26px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:18px}
+  .panel h2{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--soft);margin:0 0 14px;font-weight:600}
+
+  /* the switch */
+  .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .mode{border:2px solid var(--line);background:#0f1219;border-radius:10px;padding:16px 12px;
+        cursor:pointer;text-align:center;color:var(--soft);transition:.15s}
+  .mode:hover{border-color:#3a4152}
+  .mode .t{font-size:1.02rem;font-weight:700;letter-spacing:.02em}
+  .mode .d{font-size:.72rem;margin-top:5px;line-height:1.35}
+  .mode.on[data-m="off"]{border-color:var(--red);color:var(--red);background:rgba(212,117,107,.09)}
+  .mode.on[data-m="queue"]{border-color:var(--amber);color:var(--amber);background:rgba(217,164,65,.09)}
+  .mode.on[data-m="auto"]{border-color:var(--green);color:var(--green);background:rgba(90,181,160,.09)}
+  .mode:disabled{opacity:.45;cursor:not-allowed}
+
+  .now{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:.95rem}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none}
+  .dot.off{background:var(--red)} .dot.queue{background:var(--amber)} .dot.auto{background:var(--green)}
+  .now b{letter-spacing:.02em}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+  .stat{background:#0f1219;border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .stat .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--soft)}
+  .stat .v{font-size:1.3rem;font-weight:700;margin-top:3px}
+
+  table{width:100%;border-collapse:collapse;font-size:.86rem}
+  td{padding:8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  td:first-child{width:22px}
+  .ok{color:var(--green)} .no{color:var(--soft)} .warn{color:var(--amber)}
+  .why{color:var(--soft);font-size:.78rem}
+
+  .keybar{display:flex;gap:8px;margin-bottom:18px}
+  .keybar input{flex:1;background:#0f1219;border:1px solid var(--line);border-radius:8px;
+    padding:10px 12px;color:var(--ink);font-size:.9rem;font-family:inherit}
+  button.go{background:var(--gold);color:#0c0e13;border:none;border-radius:8px;padding:10px 18px;
+    font-weight:700;cursor:pointer;font-size:.9rem}
+  button.go:hover{filter:brightness(1.08)}
+  .msg{font-size:.84rem;margin-top:12px;min-height:1.2em;color:var(--soft)}
+  .msg.err{color:var(--red)} .msg.good{color:var(--green)}
+  .blocked{background:rgba(217,164,65,.08);border:1px solid var(--amber);border-radius:9px;
+    padding:12px 14px;color:var(--amber);font-size:.85rem;margin-top:14px}
+  .approve{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:10px 0;border-bottom:1px solid var(--line);font-size:.86rem}
+  .approve button{background:var(--green);color:#0c0e13;border:none;border-radius:7px;
+    padding:6px 14px;font-weight:700;cursor:pointer;font-size:.8rem}
+  .hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Relay Control</h1>
+  <p class="sub">The sourcing loop's on/off switch, what it is spending, and what is stopping it.</p>
+
+  <div class="panel" id="gate">
+    <h2>Operator key</h2>
+    <div class="keybar">
+      <input id="key" type="password" placeholder="RELAY_ADMIN_KEY" autocomplete="off"
+             onkeyup="if(event.key==='Enter')unlock()" />
+      <button class="go" onclick="unlock()">Unlock</button>
+    </div>
+    <div class="msg" id="gateMsg"></div>
+  </div>
+
+  <div id="main" class="hide">
+    <div class="panel">
+      <h2>Running state</h2>
+      <div class="now"><span class="dot" id="dot"></span><span id="modeLabel">…</span></div>
+      <div class="modes">
+        <button class="mode" data-m="off" onclick="setMode('off')">
+          <div class="t">OFF</div><div class="d">Nothing is sourced or bought. Orders still record.</div></button>
+        <button class="mode" data-m="queue" onclick="setMode('queue')">
+          <div class="t">QUEUE</div><div class="d">Runs 24/7. Every purchase waits for your click.</div></button>
+        <button class="mode" data-m="auto" onclick="setMode('auto')">
+          <div class="t">AUTO</div><div class="d">Buys on its own, inside the caps below.</div></button>
+      </div>
+      <div class="msg" id="modeMsg"></div>
+      <div class="blocked hide" id="blocked"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Today</h2>
+      <div class="grid">
+        <div class="stat"><div class="k">Spent</div><div class="v" id="spent">—</div></div>
+        <div class="stat"><div class="k">Remaining</div><div class="v" id="remaining">—</div></div>
+        <div class="stat"><div class="k">Margin</div><div class="v" id="margin">—</div></div>
+        <div class="stat"><div class="k">Awaiting you</div><div class="v" id="await">—</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Limits</h2>
+      <div class="grid">
+        <div class="stat"><div class="k">Per order</div><div class="v" id="capOrder">—</div></div>
+        <div class="stat"><div class="k">Per day</div><div class="v" id="capDay">—</div></div>
+        <div class="stat"><div class="k">Min margin</div><div class="v" id="capMargin">—</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>What is connected</h2>
+      <table id="ready"></table>
+    </div>
+
+    <div class="panel" id="approvalsPanel">
+      <h2>Purchases waiting for you</h2>
+      <div id="approvals"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Reads and writes the existing /api/relay?view=control endpoints. No new backend:
+   set-mode, status, readiness and pending-approvals already exist and are tested. */
+var API = '/api/relay?view=control';
+var KEY = '';
+var EL = function (id) { return document.getElementById(id); };
+var money = function (n) { return '$' + Number(n || 0).toFixed(2); };
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+  });
+}
+
+function get(action) {
+  return fetch(API + '&action=' + action + '&key=' + encodeURIComponent(KEY))
+    .then(function (r) { return r.json(); });
+}
+function post(body) {
+  return fetch(API, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(Object.assign({ key: KEY }, body))
+  }).then(function (r) { return r.json(); });
+}
+
+function unlock() {
+  KEY = EL('key').value.trim();
+  if (!KEY) { EL('gateMsg').className = 'msg err'; EL('gateMsg').textContent = 'Enter the key.'; return; }
+  EL('gateMsg').className = 'msg'; EL('gateMsg').textContent = 'Checking…';
+  get('autonomy').then(function (j) {
+    if (!j.ok) {
+      EL('gateMsg').className = 'msg err';
+      EL('gateMsg').textContent = j.error === 'forbidden'
+        ? 'That key was not accepted.'
+        : (j.error || 'Could not unlock.');
+      return;
+    }
+    try { sessionStorage.setItem('relay_admin_key', KEY); } catch (e) {}
+    EL('gate').classList.add('hide');
+    EL('main').classList.remove('hide');
+    refresh();
+  }).catch(function () {
+    EL('gateMsg').className = 'msg err'; EL('gateMsg').textContent = 'Network error.';
+  });
+}
+
+function paintMode(mode) {
+  EL('dot').className = 'dot ' + mode;
+  var label = {
+    off:   'STOPPED. Nothing is being sourced or bought.',
+    queue: 'RUNNING, purchases held. Sourcing every 35 minutes; each buy waits for your approval.',
+    auto:  'RUNNING AND BUYING on its own, inside the caps below.'
+  }[mode] || mode;
+  EL('modeLabel').innerHTML = '<b>' + esc(mode.toUpperCase()) + '</b> &middot; ' + esc(label);
+  var btns = document.querySelectorAll('.mode');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle('on', btns[i].getAttribute('data-m') === mode);
+  }
+}
+
+function setMode(mode) {
+  EL('modeMsg').className = 'msg';
+  EL('modeMsg').textContent = 'Switching to ' + mode.toUpperCase() + '…';
+  post({ action: 'set-mode', mode: mode }).then(function (j) {
+    if (!j.ok) {
+      EL('modeMsg').className = 'msg err';
+      EL('modeMsg').textContent = j.error || 'Could not change mode.';
+      return;
+    }
+    EL('modeMsg').className = 'msg good';
+    EL('modeMsg').textContent = 'Now ' + mode.toUpperCase() + '.';
+    refresh();
+  }).catch(function () {
+    EL('modeMsg').className = 'msg err'; EL('modeMsg').textContent = 'Network error.';
+  });
+}
+
+/* The operator's real question is "why is nothing happening". This answers it on screen
+   rather than in a log: it names the specific missing credential and what it unlocks. */
+function paintReadiness(r) {
+  if (!r || !r.ok) return;
+  EL('ready').innerHTML = r.credentials.map(function (c) {
+    var mark = c.set ? '<span class="ok">&#10003;</span>' : (c.required ? '<span class="warn">!</span>' : '<span class="no">&minus;</span>');
+    return '<tr><td>' + mark + '</td><td>' + esc(c.key) +
+           '<div class="why">' + esc(c.unlocks) + '</div></td></tr>';
+  }).join('');
+
+  var problems = [];
+  if (!r.canSource) problems.push('No way to find listings yet. Set GOOGLE_CSE_ID (with Custom Search API enabled on GOOGLE_API_KEY), or SERPAPI_KEY, or the eBay client id and secret.');
+  if (!r.canCharge) problems.push('Payments are off, so no order can be taken. STRIPE_SECRET_KEY is not set.');
+  if (problems.length) {
+    EL('blocked').classList.remove('hide');
+    EL('blocked').innerHTML = '<b>Blocked:</b><br>' + problems.map(esc).join('<br>');
+  } else {
+    EL('blocked').classList.add('hide');
+  }
+}
+
+function paintApprovals(list) {
+  if (!list || !list.length) {
+    EL('approvals').innerHTML = '<div class="why">Nothing waiting.</div>';
+    return;
+  }
+  EL('approvals').innerHTML = list.map(function (a) {
+    return '<div class="approve"><div>' + esc(a.note || a.listingId || a.id) +
+      '<div class="why">' + money(a.amount) + ' from ' + esc(a.marketplace || 'source') + '</div></div>' +
+      '<button onclick="approve(\'' + esc(a.id) + '\')">Approve</button></div>';
+  }).join('');
+}
+
+function approve(id) {
+  post({ action: 'approve-purchase', decisionId: id }).then(function () { refresh(); });
+}
+
+function refresh() {
+  get('autonomy').then(function (j) {
+    if (!j.ok) return;
+    var cfg = j.config || {}, st = j.status || {};
+    paintMode(cfg.mode || 'queue');
+    EL('spent').textContent = money(st.spentToday);
+    EL('remaining').textContent = money(st.remainingToday);
+    EL('margin').textContent = money(st.marginToday);
+    EL('await').textContent = st.awaitingApproval != null ? st.awaitingApproval : '0';
+    EL('capOrder').textContent = money(cfg.perOrderCapUsd);
+    EL('capDay').textContent = money(cfg.dailyCeilingUsd);
+    EL('capMargin').textContent = money(cfg.minMarginUsd) + ' / ' +
+      Math.round((cfg.minMarginPct || 0) * 100) + '%';
+  });
+  get('readiness').then(paintReadiness);
+  get('pending-approvals').then(function (j) { paintApprovals(j.approvals); });
+}
+
+try {
+  var saved = sessionStorage.getItem('relay_admin_key');
+  if (saved) { EL('key').value = saved; unlock(); }
+} catch (e) {}
+</script>
+</body>
+</html>
