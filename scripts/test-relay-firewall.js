@@ -218,10 +218,33 @@ console.log('F7: Relay needs one route registration and already has it');
 const routerSrc = fs.readFileSync(path.join(ROOT, 'api/[...route].js'), 'utf8');
 assert("the 'relay' door is registered", /'relay':\s*require\('\.\.\/handlers\/relay'\)/.test(routerSrc));
 const frontSrc = fs.readFileSync(path.join(ROOT, 'handlers/relay.js'), 'utf8');
+// The door must reach these by a LITERAL require. A computed require(mod) passes a
+// substring check but Vercel's tracer cannot see it, so the module is never bundled and
+// the route 500s in production with "Cannot find module". That shipped once; this is the
+// check that would have caught it.
 ['storefront', 'policy', 'autonomous-control', 'autonomous-scraper', 'cart-checkout', 'demand-search', 'demand-purchase']
   .forEach(function (v) {
-    assert('the door can reach relay-' + v, frontSrc.indexOf('./relay-' + v) !== -1);
+    assert('the door STATICALLY requires relay-' + v,
+      frontSrc.indexOf("require('./relay-" + v + "')") !== -1);
   });
+
+// Live code only: the header comment in relay.js names the computed require it used to
+// have, and a check that fails on its own explanation is a check nobody keeps. Strip
+// block comments as blocks, not line by line: their continuation lines carry no marker.
+const frontCode = frontSrc
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/^\s*\/\/.*$/gm, '');
+assert('the door contains no computed require',
+  !/require\(\s*[a-zA-Z_$][\w$]*\s*\)/.test(frontCode),
+  'a variable require is invisible to the bundler');
+
+// And every module it names must actually load.
+['./relay-storefront', './relay-policy', './relay-autonomous-control', './relay-autonomous-scraper',
+ './relay-cart-checkout', './relay-demand-search', './relay-demand-purchase'].forEach(function (m) {
+  let ok = true;
+  try { require('../handlers/' + m.slice(2)); } catch (e) { ok = false; }
+  assert('module loads: ' + m, ok);
+});
 
 // ── F9 ────────────────────────────────────────────────
 // Every /api/relay* URL a Relay page or handler emits must actually resolve: either it
