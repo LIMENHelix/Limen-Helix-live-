@@ -272,10 +272,6 @@
       "destination": "/phase-map.html"
     },
     {
-      "source": "/relay",
-      "destination": "/api/relay"
-    },
-    {
       "source": "/relay-margin",
       "destination": "/relay-margin.html"
     },
@@ -293,6 +289,11 @@
     }
   ],
   "redirects": [
+    {
+      "source": "/relay",
+      "destination": "/api/relay",
+      "statusCode": 308
+    },
     {
       "source": "/fractal-connectome",
       "destination": "/civilization",

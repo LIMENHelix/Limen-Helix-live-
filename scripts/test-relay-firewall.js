@@ -293,11 +293,20 @@ for (const rel of emitters) {
 }
 assert('no Relay URL points at an unrouted path', dead.length === 0, dead.join('; '));
 
-// And the public front door must reach the storefront rather than a file that is not there.
+// The public front door must REDIRECT, not rewrite. A Vercel rewrite hands the catch-all
+// the ORIGINAL path, so /relay arrived at the Hono router as "/relay" and was refused
+// with {"error":"route not handled by Hono entry","path":"/relay"} - the rewrite fired
+// correctly and still 404'd. Making it work as a rewrite would mean teaching the shared
+// router a second path for Relay, which is not Relay's file to edit. A 308 sends the
+// browser to /api/relay, which the router already owns.
 const vercelCfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
-const relayRewrite = (vercelCfg.rewrites || []).find(function (r) { return r.source === '/relay'; });
-assert('/relay rewrites to the Relay door', !!relayRewrite && relayRewrite.destination === '/api/relay',
-  relayRewrite ? relayRewrite.destination : 'no /relay rewrite');
+const relayRedirect = (vercelCfg.redirects || []).find(function (r) { return r.source === '/relay'; });
+assert('/relay redirects to the Relay door', !!relayRedirect && relayRedirect.destination === '/api/relay',
+  relayRedirect ? relayRedirect.destination : 'no /relay redirect');
+assert('and it is a permanent redirect', !!relayRedirect && relayRedirect.statusCode === 308);
+assert('no stale /relay rewrite remains',
+  !(vercelCfg.rewrites || []).some(function (r) { return r.source === '/relay'; }),
+  'a rewrite and a redirect on the same source is ambiguous');
 
 // ── F8 ──────────────────────────────────────────────────────────────────────
 console.log('F8: the bridge fails soft on the ledger, hard on the charge');
