@@ -27,8 +27,18 @@
  * store. scripts/test-relay-firewall.js fails the build if either rule is broken.
  */
 
-const fs = require('fs');
-const path = require('path');
+/* STATIC requires, every one written out in full. Vercel's file tracer only bundles a
+   module it can see as a literal string, so the dynamic `require(mod)` this file used to
+   do meant NONE of these shipped: /api/relay returned
+   "Cannot find module './relay-storefront'" in production. Same rule as the HTML paths
+   in the page handlers. Never route through a computed require here. */
+const storefront = require('./relay-storefront');
+const policyPage = require('./relay-policy');
+const control = require('./relay-autonomous-control');
+const tick = require('./relay-autonomous-scraper');
+const cartCheckout = require('./relay-cart-checkout');
+const demandSearch = require('./relay-demand-search');
+const demandPurchase = require('./relay-demand-purchase');
 
 function send(res, code, type, body) {
   res.statusCode = code;
@@ -40,11 +50,6 @@ function send(res, code, type, body) {
 function json(res, code, obj) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   send(res, code, 'application/json', JSON.stringify(obj));
-}
-
-/** Delegate to a handler module, passing the real req/res through untouched. */
-function delegate(mod, req, res) {
-  return require(mod)(req, res);
 }
 
 module.exports = async function handler(req, res) {
@@ -72,33 +77,33 @@ module.exports = async function handler(req, res) {
         if (view === 'catalog' || view === 'catalogue') {
           req.url = (req.url || '/api/relay') + (req.url && req.url.indexOf('?') !== -1 ? '&' : '?') + 'format=json';
         }
-        return await delegate('./relay-storefront', req, res);
+        return await storefront(req, res);
 
       case 'policy':
       case 'terms':
-        return await delegate('./relay-policy', req, res);
+        return await policyPage(req, res);
 
       case 'control':
       case 'admin':
-        return await delegate('./relay-autonomous-control', req, res);
+        return await control(req, res);
 
       case 'tick':
       case 'cycle':
-        return await delegate('./relay-autonomous-scraper', req, res);
+        return await tick(req, res);
 
       case 'cart-checkout':
       case 'checkout':
         if (method !== 'POST') return json(res, 405, { ok: false, error: 'POST only' });
-        return await delegate('./relay-cart-checkout', req, res);
+        return await cartCheckout(req, res);
 
       case 'search':
         if (method !== 'POST') return json(res, 405, { ok: false, error: 'POST only' });
-        return await delegate('./relay-demand-search', req, res);
+        return await demandSearch(req, res);
 
       case 'order':
       case 'demand-purchase':
         if (method !== 'POST') return json(res, 405, { ok: false, error: 'POST only' });
-        return await delegate('./relay-demand-purchase', req, res);
+        return await demandPurchase(req, res);
 
       case 'health':
         return json(res, 200, {
