@@ -10,6 +10,10 @@
  * 5. Keep the margin (Relay sale price - source cost)
  */
 
+const db = require('../lib/limen-db');
+
+const FULFILLMENT_KEY = 'relay:fulfillment-records';
+
 const MARKETPLACE_API_KEYS = {
   ebay: process.env.EBAY_API_KEY,
   amazon: process.env.AMAZON_API_KEY,
@@ -137,23 +141,30 @@ async function purchaseFromVinted(sourceUrl, quantity, customerAddress) {
   }
 }
 
+/**
+ * FIXED 2026-08-30. This used to POST to the relative URL '/api/relay-fulfillment-record'.
+ * Two faults in one line: a relative URL has no base in Node, so fetch throws before it
+ * sends anything, and that route was never registered, so it would have 404'd even with a
+ * base. Every fulfilment record this function claimed to store was silently dropped, and
+ * the caller read the thrown error as "record failed" and carried on.
+ *
+ * Writes straight to Relay's own store instead. Same in-process rule as relay-engine:
+ * a serverless function calling itself over HTTP is a bug, not an architecture.
+ */
 async function recordFulfillment(relayOrderId, sourceOrder) {
-  // Store fulfillment record in database
   try {
-    const response = await fetch('/api/relay-fulfillment-record', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        relayOrderId,
-        sourceOrderId: sourceOrder.orderId,
-        sourceMarketplace: sourceOrder.marketplace,
-        trackingNumber: sourceOrder.trackingNumber,
-        status: sourceOrder.success ? 'purchased' : 'failed',
-        timestamp: new Date().toISOString()
-      })
+    let records = await db.get(FULFILLMENT_KEY) || [];
+    records.push({
+      relayOrderId: relayOrderId,
+      sourceOrderId: sourceOrder.orderId || null,
+      sourceMarketplace: sourceOrder.marketplace || null,
+      trackingNumber: sourceOrder.trackingNumber || null,
+      status: sourceOrder.success ? 'purchased' : 'failed',
+      ts: new Date().toISOString()
     });
-
-    return response.ok;
+    if (records.length > 2000) records = records.slice(-2000);
+    await db.set(FULFILLMENT_KEY, records);
+    return true;
   } catch (e) {
     console.error('[fulfillment] Failed to record:', e.message);
     return false;

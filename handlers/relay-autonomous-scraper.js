@@ -1,142 +1,74 @@
 /**
- * relay-autonomous-scraper.js — Autonomous marketplace scraper: Grok image → reverse search → arbitrage
- * Scheduled cron: 5,35 * * * * (every 35 minutes)
- * GET /api/relay-autonomous-scraper?run=1
+ * relay-autonomous-scraper.js — the Relay 24/7 tick.
  *
- * Pipeline:
- * 1. Generate product images via Grok API (or use product categories)
- * 2. Reverse image search on Google Images (find real listings + prices)
- * 3. Extract product data (title, price, source URL, marketplace)
- * 4. Create Relay listings with margin markup
- * 5. On purchase: buy from source, ship to customer, keep margin
+ * Wired to the cron in vercel.json: /api/relay-autonomous-scraper?run=1 at 5,35 * * * *.
+ *
+ *   GET  ?run=1     run one cycle (cron or operator key)
+ *   GET  (no args)  status: mode, today's spend, the last cycles. Safe, read-only, no spend.
+ *
+ * REWRITTEN 2026-08-30. The previous version built its listings by POSTing to
+ * http://localhost:3000/api/relay-marketplace. Inside a Vercel function that address is
+ * the function's own loopback with nothing listening on port 3000, so every request
+ * failed and the cron had been running twice an hour creating nothing. The pipeline now
+ * runs in-process through lib/relay-engine.
+ *
+ * EXECUTION IS GATED. A cycle calls paid APIs (xAI image generation, SerpAPI search) and
+ * can queue real purchases, so an anonymous GET must not be able to trigger one. Cron
+ * identity, or RELAY_ADMIN_KEY, or nothing happens.
  */
 
-const GROK_API_KEY = process.env.XAI_API_KEY;
+const engine = require('../lib/relay-engine');
+const autonomy = require('../lib/relay-autonomy');
 
-const PRODUCT_CATEGORIES = [
-  'vintage leather jacket',
-  'retro sneakers',
-  'designer handbag',
-  'mechanical watch',
-  'vinyl record album',
-  'vintage camera',
-  'rare book first edition',
-  'collectible action figure'
-];
-
-async function generateProductImage(category) {
-  if (!GROK_API_KEY) return null;
-
-  try {
-    const response = await fetch('https://api.x.ai/v1/images/generate', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${GROK_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        prompt: `High-quality photo of a ${category}, professional product photography, white background, sharp focus, marketplace style`,
-        n: 1,
-        size: '512x512'
-      })
-    });
-
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data.data?.[0]?.url || null;
-  } catch (e) {
-    console.error('[scraper] Grok generation failed:', e.message);
-    return null;
-  }
+function j(res, code, obj) {
+  res.statusCode = code;
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'no-store');
+  res.end(JSON.stringify(obj));
 }
 
-async function createRelayListing(product, marginPercent = 25) {
-  const listingPrice = product.sourcePrice * (1 + marginPercent / 100);
+module.exports = async function handler(req, res) {
+  let u;
+  try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
 
-  try {
-    const response = await fetch('http://localhost:3000/api/relay-marketplace', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'create-listing',
-        title: product.title,
-        description: product.description,
-        price: parseFloat(listingPrice.toFixed(2)),
-        image: product.imageUrl,
-        source: {
-          marketplace: product.sourceMarketplace,
-          url: product.sourceUrl,
-          originalPrice: product.sourcePrice
-        },
-        autofulfill: true
-      })
+  // Prefer CRON_SECRET when set (spoof-proof); fall back to Vercel's cron headers only
+  // when it is unset, matching the convention the other cron handlers use.
+  const isCron = !!(req.headers && (process.env.CRON_SECRET
+    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
+    : (req.headers['x-vercel-cron'] || req.headers['x-vercel-signature'])));
+
+  const ADMIN = process.env.RELAY_ADMIN_KEY || process.env.RELAY_MARGIN_KEY || '';
+  const key = u.searchParams.get('key') || (req.headers && req.headers['x-relay-key']) || '';
+  const isOperator = !!(ADMIN && key === ADMIN);
+
+  const wantsRun = u.searchParams.get('run') === '1' || isCron;
+
+  if (!wantsRun) {
+    const st = await autonomy.status();
+    return j(res, 200, {
+      ok: true,
+      surface: 'relay-autonomous-scraper',
+      running: false,
+      autonomy: st,
+      lastCycles: await engine.recentCycles(5)
     });
-
-    if (response.ok) {
-      const listing = await response.json();
-      console.log(`[scraper] Listed: ${product.title} at $${listingPrice.toFixed(2)}`);
-      return listing;
-    }
-    return null;
-  } catch (e) {
-    console.error('[scraper] Listing creation failed:', e.message);
-    return null;
   }
-}
 
-module.exports = async (req, res) => {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (!isCron && !isOperator) {
+    return j(res, 403, {
+      ok: false,
+      error: 'forbidden: a cycle spends on paid APIs. Needs the Vercel cron identity or ?key=RELAY_ADMIN_KEY.'
+    });
   }
 
   try {
-    if (req.query.run !== '1') {
-      return res.status(403).json({ error: 'Unauthorized' });
-    }
-
-    const timestamp = new Date().toISOString();
-    const results = [];
-    const category = PRODUCT_CATEGORIES[Math.floor(Math.random() * PRODUCT_CATEGORIES.length)];
-
-    // Generate image via Grok
-    const imageUrl = await generateProductImage(category);
-
-    if (!imageUrl) {
-      return res.status(200).json({
-        status: 'partial',
-        timestamp,
-        message: 'Image generation skipped (no API key or API error)',
-        category,
-        listed: 0
-      });
-    }
-
-    // Mock product (in production, would parse reverse search results)
-    const mockProduct = {
-      title: `${category} - Premium Quality`,
-      description: `Authentic ${category}. Excellent condition. Ready to ship.`,
-      imageUrl: imageUrl,
-      sourcePrice: 45 + Math.random() * 55,
-      sourceMarketplace: 'marketplace-search',
-      sourceUrl: `https://example.com/product/${Date.now()}`
-    };
-
-    const listing = await createRelayListing(mockProduct, 25);
-    if (listing) results.push(listing);
-
-    return res.status(200).json({
-      status: 'ok',
-      service: 'relay-autonomous-scraper',
-      timestamp,
-      category,
-      imageGenerated: !!imageUrl,
-      listingsCreated: results.length,
-      margin: '25%',
-      results
+    const report = await engine.runCycle({
+      concept: u.searchParams.get('concept') || undefined,
+      force: u.searchParams.get('force') === '1'
     });
-
+    return j(res, 200, { ok: report.ok, surface: 'relay-autonomous-scraper', report: report });
   } catch (e) {
-    console.error('[relay-autonomous-scraper]', e.message);
-    return res.status(500).json({ error: e.message });
+    console.error('[relay-autonomous-scraper] cycle failed:', e.message);
+    return j(res, 500, { ok: false, error: e.message });
   }
 };

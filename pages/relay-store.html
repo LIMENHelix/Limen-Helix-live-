@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Relay — secondhand &amp; surplus, shipped</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#0f172a; --soft:#64748b; --faint:#94a3b8;
+    --line:#e6e9ef; --accent:#2563eb; --accent-dk:#1d4ed8; --green:#15803d; --star:#f59e0b;
+    --warn:#b45309; --warnbg:#fffbeb; --warnline:#f0b429;
+    --shadow:0 1px 2px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  header{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);
+    height:60px;display:flex;align-items:center;gap:18px;padding:0 20px}
+  .logo{font-weight:700;font-size:1.2rem;letter-spacing:-.02em;cursor:pointer;color:var(--ink);line-height:1.05}
+  .logo b{color:var(--accent)}
+  .logo small{display:block;font-size:.5rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:1px}
+  footer{border-top:1px solid var(--line);background:#fff;color:var(--faint);font-size:.78rem;text-align:center;padding:22px 20px;margin-top:40px}
+  footer b{color:var(--soft);font-weight:600}
+  footer a{color:var(--soft)}
+  .search{flex:1;max-width:560px;display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;transition:border-color .15s}
+  .search:focus-within{border-color:var(--accent)}
+  .search input{flex:1;border:none;outline:none;padding:9px 13px;font-size:.95rem;background:transparent}
+  .search button{border:none;background:var(--accent);color:#fff;padding:0 16px;cursor:pointer;font-size:.9rem;font-weight:500}
+  .cartbtn{position:relative;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 15px;cursor:pointer;font-weight:500;font-size:.9rem;white-space:nowrap}
+  .cartbtn:hover{border-color:var(--accent)}
+  .cartbtn .badge{position:absolute;top:-7px;right:-7px;background:var(--accent);color:#fff;border-radius:50%;min-width:19px;height:19px;font-size:.68rem;display:flex;align-items:center;justify-content:center;font-weight:600;padding:0 5px}
+  .subbar{background:#fff;border-bottom:1px solid var(--line);padding:9px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .subbar .filters{display:flex;gap:7px;overflow-x:auto}
+  .subbar button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 12px;font-size:.82rem;cursor:pointer;white-space:nowrap;color:var(--soft)}
+  .subbar button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .subbar .right{margin-left:auto;font-size:.82rem;color:var(--soft);display:flex;align-items:center;gap:8px}
+  .subbar select{border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:#fff;font-size:.82rem;color:var(--ink)}
+  .feedstat{font-size:.72rem;color:var(--faint)}
+  .wrap{max-width:1200px;margin:18px auto 80px;padding:0 20px}
+  .finalbar{background:var(--warnbg);border:1px solid var(--warnline);color:var(--warn);border-radius:9px;
+    padding:10px 14px;font-size:.83rem;font-weight:600;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .finalbar a{color:var(--warn)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;
+    display:flex;flex-direction:column;box-shadow:var(--shadow);transition:box-shadow .15s,border-color .15s}
+  .card:hover{box-shadow:0 6px 18px rgba(15,23,42,.1);border-color:#d6dbe5}
+  .pimg{aspect-ratio:1/1;background:#fff center/contain no-repeat;border-bottom:1px solid var(--line);position:relative;
+    display:flex;align-items:center;justify-content:center}
+  .mono{font-size:2.4rem;font-weight:700;color:#cbd5e1;letter-spacing:-.03em}
+  .cond{position:absolute;top:9px;left:9px;font-size:.64rem;font-weight:600;letter-spacing:.02em;background:rgba(255,255,255,.94);
+    border:1px solid var(--line);border-radius:5px;padding:3px 7px;color:var(--soft)}
+  .pbody{padding:11px 13px 13px;display:flex;flex-direction:column;gap:5px;flex:1}
+  .ptitle{font-size:.88rem;line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.3em}
+  .rate{font-size:.76rem;color:var(--soft);display:flex;align-items:center;gap:4px}
+  .pprice{font-size:1.2rem;font-weight:700;margin-top:2px;letter-spacing:-.01em}
+  .pprice .free{font-size:.7rem;color:var(--green);font-weight:600;margin-left:6px}
+  .add{margin-top:8px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px;font-weight:600;font-size:.85rem;cursor:pointer}
+  .add:hover{background:var(--accent-dk)}
+  .state{grid-column:1/-1;text-align:center;color:var(--soft);padding:60px 20px}
+  .state .hint{font-size:.85rem;color:var(--faint);margin-top:8px}
+  .spin{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 14px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .ov{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;z-index:40}
+  .ov.show{display:block}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(410px,93vw);background:#fff;box-shadow:-4px 0 24px rgba(15,23,42,.14);
+    z-index:41;transform:translateX(100%);transition:transform .22s;display:flex;flex-direction:column}
+  .drawer.show{transform:translateX(0)}
+  .drawer h3{margin:0;padding:16px 18px;border-bottom:1px solid var(--line);font-size:1.02rem;display:flex;justify-content:space-between;align-items:center}
+  .drawer .x{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--soft);line-height:1}
+  .cartlist{flex:1;overflow:auto;padding:4px 18px}
+  .citem{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .citem .ct{width:50px;height:50px;border-radius:7px;flex:none;background:#f1f5f9 center/contain no-repeat;border:1px solid var(--line)}
+  .citem .cinfo{flex:1;font-size:.85rem}
+  .citem .qty{display:flex;align-items:center;gap:8px;margin-top:5px}
+  .citem .qty button{width:24px;height:24px;border:1px solid var(--line);background:#fff;border-radius:6px;cursor:pointer;font-size:1rem;line-height:1}
+  .citem .rm{color:var(--accent);font-size:.74rem;cursor:pointer;background:none;border:none;padding:0;margin-top:3px}
+  .carttot{padding:16px 18px;border-top:1px solid var(--line)}
+  .carttot .r{display:flex;justify-content:space-between;margin-bottom:6px;font-size:.92rem}
+  .carttot .r.big{font-size:1.18rem;font-weight:700}
+  .checkout{width:100%;background:var(--accent);color:#fff;border:none;border-radius:9px;padding:12px;font-weight:600;font-size:.98rem;cursor:pointer;margin-top:8px}
+  .checkout:hover{background:var(--accent-dk)}
+  .checkout:disabled{background:#c7d2de;color:#6b7280;cursor:not-allowed}
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:45;padding:20px}
+  .modal.show{display:flex}
+  .mbox{background:#fff;border-radius:12px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 14px 44px rgba(15,23,42,.26);padding:22px;position:relative}
+  .mbox .mx{position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--soft)}
+  .field{display:block;margin-bottom:11px}
+  .field label{display:block;font-size:.72rem;color:var(--soft);margin-bottom:4px}
+  .field input{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.95rem;background:#fff;font-family:inherit}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .empty{color:var(--soft);text-align:center;padding:40px 16px}
+  .policybox{margin:16px 0 4px;padding:13px 15px;border:1px solid var(--warnline);background:var(--warnbg);border-radius:9px}
+  .policybox .ph{margin:0 0 9px;font-weight:700;color:var(--warn);font-size:.86rem;line-height:1.4}
+  .policybox label{display:flex;gap:9px;align-items:flex-start;font-size:.82rem;line-height:1.5;color:#3f3f46;cursor:pointer}
+  .policybox input[type=checkbox]{width:17px;height:17px;margin:2px 0 0;flex:none;accent-color:var(--warn);cursor:pointer}
+  .policybox .pl{margin:9px 0 0;font-size:.76rem}
+  .policybox .pl a{color:var(--warn)}
+  .msg{font-size:.82rem;text-align:center;margin-top:10px;min-height:1.1em;color:var(--soft)}
+  .msg.err{color:#b91c1c}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" onclick="setCat('all')">Relay<b>.</b><small>by LIMEN Helix</small></div>
+  <div class="search"><input id="q" placeholder="Search the shelf, or describe what you want…" onkeyup="if(event.key==='Enter')doSearch()" /><button onclick="doSearch()">Search</button></div>
+  <button class="cartbtn" onclick="openCart()">Cart<span class="badge" id="cartBadge" style="display:none">0</span></button>
+</header>
+
+<div class="subbar">
+  <div class="filters" id="filters"></div>
+  <div class="right">
+    <span class="feedstat" id="feedstat"></span>
+    <span id="resultCount"></span>
+    <select id="sort" onchange="render()">
+      <option value="default">Featured</option>
+      <option value="low">Price: low → high</option>
+      <option value="high">Price: high → low</option>
+      <option value="new">Newest</option>
+    </select>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="finalbar">
+    <span id="finalHeadline">All sales are final. No returns, no exchanges.</span>
+    <a href="/api/relay?view=policy" target="_blank" rel="noopener">Read the terms</a>
+  </div>
+  <div class="grid" id="grid"><div class="state"><div class="spin"></div>Loading the shelf…</div></div>
+</div>
+
+<div class="ov" id="ov" onclick="closeAll()"></div>
+<div class="drawer" id="drawer">
+  <h3>Cart <button class="x" onclick="closeAll()">&times;</button></h3>
+  <div class="cartlist" id="cartlist"></div>
+  <div class="carttot" id="carttot"></div>
+</div>
+<div class="modal" id="modal"><div class="mbox" id="mbox"></div></div>
+
+<footer>
+  Relay is a <b>LIMEN Helix Transformation Sciences</b> company · © 2026 ·
+  Secondhand &amp; surplus goods, sourced and shipped ·
+  <a href="/api/relay?view=policy">Sale terms</a>
+</footer>
+
+<script>
+/* Ported from the original Relay storefront (C:\Users\Chris\broker\index.html), which
+   read a demo catalogue from a separate project and checked out with no shipping
+   address. Same design, real backend:
+     catalogue   /api/relay?view=catalog   engine-published listings,
+                                                     source cost and URL stripped server-side
+     search      /api/relay-demand-search            sources a real item on request
+     checkout    /api/relay?view=cart-checkout            one order, real address, final-sale tick
+   Prices are never sent from here. The server recomputes every total from the stored
+   listing, so editing anything in this file cannot change what a customer is charged. */
+
+var CATALOG = [];
+var CART = {}; try { CART = JSON.parse(localStorage.getItem('relay_cart') || '{}'); } catch (e) {}
+var CAT = 'all';
+var POLICY = null;
+var LAST_SEARCH = null;
+var EL = function (id) { return document.getElementById(id); };
+var money = function (n) { return '$' + Number(n).toFixed(2); };
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+  });
+}
+function saveCart() { try { localStorage.setItem('relay_cart', JSON.stringify(CART)); } catch (e) {} }
+function cartCount() { return Object.keys(CART).reduce(function (s, k) { return s + CART[k]; }, 0); }
+function find(id) { return CATALOG.find(function (x) { return x.id === id; }); }
+function initial(t) { return (String(t || '?').trim()[0] || '?').toUpperCase(); }
+
+/* Monogram tiles when a listing has no photo. The original used these rather than
+   emoji, which the operator rejected as looking horrible. */
+function tile(i) {
+  var img = (i.images && i.images[0]) || null;
+  return img
+    ? '<div class="pimg" style="background-image:url(' + esc(img) + ')"><span class="cond">' + esc(i.condition || 'used') + '</span></div>'
+    : '<div class="pimg"><span class="mono">' + esc(initial(i.title)) + '</span><span class="cond">' + esc(i.condition || 'used') + '</span></div>';
+}
+
+function loadPolicy() {
+  fetch('/api/relay?view=policy&format=json').then(function (r) { return r.json(); }).then(function (p) {
+    POLICY = p;
+    if (p && p.headline) EL('finalHeadline').textContent = p.headline;
+  }).catch(function () {});
+}
+
+function loadShelf() {
+  fetch('/api/relay?view=catalog').then(function (r) { return r.json(); }).then(function (j) {
+    CATALOG = (j.listings || []);
+    EL('feedstat').textContent = CATALOG.length ? '● ' + CATALOG.length + ' in stock' : '';
+    if (!CATALOG.length) {
+      EL('grid').innerHTML = '<div class="state">The shelf is empty right now.' +
+        '<div class="hint">Search for what you want above and Relay will go and find it.</div></div>';
+      EL('resultCount').textContent = '';
+      return;
+    }
+    renderFilters(); render();
+  }).catch(function () {
+    EL('grid').innerHTML = '<div class="state">Could not reach the shelf. Please refresh.</div>';
+  });
+}
+
+function renderFilters() {
+  var cats = ['all'].concat(CATALOG.map(function (i) { return i.category; })
+    .filter(function (v, i, a) { return v && a.indexOf(v) === i; }).sort());
+  EL('filters').innerHTML = cats.slice(0, 9).map(function (c) {
+    return '<button class="' + (c === CAT ? 'active' : '') + '" onclick="setCat(\'' + esc(c) + '\')">' +
+      (c === 'all' ? 'All' : esc(c)) + '</button>';
+  }).join('');
+}
+function setCat(c) { CAT = c; renderFilters(); render(); window.scrollTo(0, 0); }
+
+/* Search looks at the shelf first. Nothing on the shelf means real unmet demand, so it
+   asks the sourcing engine, which also records the miss and feeds the next cycle. */
+function doSearch() {
+  var q = (EL('q').value || '').trim();
+  render();
+  if (!q) return;
+  var onShelf = CATALOG.filter(function (i) {
+    return (i.title + ' ' + (i.category || '') + ' ' + (i.description || '')).toLowerCase().indexOf(q.toLowerCase()) !== -1;
+  });
+  if (onShelf.length) return;
+
+  EL('grid').innerHTML = '<div class="state"><div class="spin"></div>Nothing on the shelf. Looking for one…</div>';
+  fetch('/api/relay-demand-search', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ description: q, maxPrice: 500 })
+  }).then(function (r) { return r.json(); }).then(function (j) {
+    LAST_SEARCH = j.searchId || null;
+    if (!j.results || !j.results.length) {
+      EL('grid').innerHTML = '<div class="state">Nothing found for &ldquo;' + esc(q) + '&rdquo; right now.' +
+        '<div class="hint">' + esc(j.message || 'Your search was recorded and Relay will keep looking.') + '</div></div>';
+      EL('resultCount').textContent = '0 items';
+      return;
+    }
+    EL('resultCount').textContent = j.results.length + ' found';
+    EL('grid').innerHTML = j.results.map(function (i) {
+      return '<div class="card">' +
+        (i.image ? '<div class="pimg" style="background-image:url(' + esc(i.image) + ')"></div>'
+                 : '<div class="pimg"><span class="mono">' + esc(initial(i.title)) + '</span></div>') +
+        '<div class="pbody"><div class="ptitle">' + esc(i.title) + '</div>' +
+        '<div class="rate">' + esc(i.condition || 'used') + '</div>' +
+        '<div class="pprice">' + money(i.price) + '</div>' +
+        '<button class="add" onclick="buySearched(\'' + esc(i.itemId) + '\')">Order this</button>' +
+        '</div></div>';
+    }).join('');
+  }).catch(function () {
+    EL('grid').innerHTML = '<div class="state">Search failed. Please try again.</div>';
+  });
+}
+
+function render() {
+  var q = (EL('q').value || '').toLowerCase(), sort = EL('sort').value;
+  var rows = CATALOG.filter(function (i) {
+    return (CAT === 'all' || i.category === CAT) &&
+      (!q || (i.title + ' ' + (i.category || '') + ' ' + (i.description || '')).toLowerCase().indexOf(q) !== -1);
+  });
+  if (sort === 'low') rows.sort(function (a, b) { return a.price - b.price; });
+  else if (sort === 'high') rows.sort(function (a, b) { return b.price - a.price; });
+  else if (sort === 'new') rows.sort(function (a, b) { return new Date(b.ts) - new Date(a.ts); });
+  EL('resultCount').textContent = rows.length + ' items';
+  EL('grid').innerHTML = rows.length ? rows.map(function (i) {
+    return '<div class="card" onclick="openProduct(\'' + esc(i.id) + '\')">' + tile(i) +
+      '<div class="pbody"><div class="ptitle">' + esc(i.title) + '</div>' +
+        '<div class="rate">' + esc(i.condition || 'used') + '</div>' +
+        '<div class="pprice">' + money(i.price) + (i.price > 75 ? '<span class="free">Free shipping</span>' : '') + '</div>' +
+        '<button class="add" onclick="event.stopPropagation();addToCart(\'' + esc(i.id) + '\')">Add to cart</button>' +
+      '</div></div>';
+  }).join('') : '<div class="state">Nothing on the shelf matches that.' +
+      '<div class="hint">Press Search and Relay will go looking for one.</div></div>';
+  updateBadge();
+}
+function updateBadge() { var c = cartCount(), b = EL('cartBadge'); b.textContent = c; b.style.display = c ? 'flex' : 'none'; }
+
+/* ── cart ── */
+function addToCart(id) {
+  var i = find(id); if (!i) return;
+  var max = i.quantity || 1;
+  if ((CART[id] || 0) >= max) return;          // one-of-a-kind stock; do not oversell
+  CART[id] = (CART[id] || 0) + 1; saveCart(); updateBadge(); renderCart();
+}
+function setQty(id, d) {
+  var i = find(id); var max = i ? (i.quantity || 1) : 1;
+  var next = (CART[id] || 0) + d;
+  if (next > max) return;
+  CART[id] = next; if (CART[id] <= 0) delete CART[id];
+  saveCart(); updateBadge(); renderCart();
+}
+function rmItem(id) { delete CART[id]; saveCart(); updateBadge(); renderCart(); }
+function subtotal() {
+  return Object.keys(CART).reduce(function (s, id) { var i = find(id); return s + (i ? i.price * CART[id] : 0); }, 0);
+}
+function renderCart() {
+  var ids = Object.keys(CART).filter(find);
+  if (!ids.length) { EL('cartlist').innerHTML = '<div class="empty">Your cart is empty.</div>'; EL('carttot').innerHTML = ''; return; }
+  EL('cartlist').innerHTML = ids.map(function (id) {
+    var i = find(id);
+    var img = (i.images && i.images[0]) || '';
+    return '<div class="citem"><div class="ct" style="background-image:url(' + esc(img) + ')"></div><div class="cinfo">' +
+      '<div>' + esc(i.title) + '</div><div style="color:var(--accent);font-weight:600">' + money(i.price) + '</div>' +
+      '<div class="qty"><button onclick="setQty(\'' + esc(id) + '\',-1)">&minus;</button>' + CART[id] +
+      '<button onclick="setQty(\'' + esc(id) + '\',1)">+</button></div>' +
+      '<button class="rm" onclick="rmItem(\'' + esc(id) + '\')">Remove</button></div></div>';
+  }).join('');
+  var sub = subtotal(), ship = sub > 75 ? 0 : 5.99;
+  EL('carttot').innerHTML =
+    '<div class="r"><span>Subtotal</span><span>' + money(sub) + '</span></div>' +
+    '<div class="r"><span>Shipping</span><span>' + (ship ? money(ship) : 'Free') + '</span></div>' +
+    '<div class="r big"><span>Total</span><span>' + money(sub + ship) + '</span></div>' +
+    '<button class="checkout" onclick="checkout()">Checkout</button>';
+}
+function openCart() { renderCart(); EL('ov').classList.add('show'); EL('drawer').classList.add('show'); }
+function closeAll() { EL('ov').classList.remove('show'); EL('drawer').classList.remove('show'); EL('modal').classList.remove('show'); }
+
+/* ── product ── */
+function openProduct(id) {
+  var i = find(id); if (!i) return;
+  var img = (i.images && i.images[0]) || '';
+  EL('mbox').innerHTML =
+    '<button class="mx" onclick="closeAll()">&times;</button>' +
+    '<div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">' +
+      (img
+        ? '<div style="width:200px;height:200px;background:#fff center/contain no-repeat;border:1px solid var(--line);border-radius:10px;background-image:url(' + esc(img) + ')"></div>'
+        : '<div style="width:200px;height:200px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center"><span class="mono">' + esc(initial(i.title)) + '</span></div>') +
+      '<div style="flex:1;min-width:220px"><h2 style="margin:0 0 6px;font-size:1.25rem">' + esc(i.title) + '</h2>' +
+        '<div style="font-size:1.7rem;font-weight:700;margin:6px 0">' + money(i.price) + '</div>' +
+        '<div style="font-size:.78rem;color:var(--soft)">' + esc(i.condition || 'used') + ' · ' + esc(i.category || 'other') +
+          (i.price > 75 ? ' · Free shipping' : '') + '</div></div>' +
+    '</div>' +
+    '<p style="color:var(--soft);font-size:.92rem;line-height:1.55;margin:16px 0">' + esc(i.description || '') + '</p>' +
+    '<div style="display:flex;gap:10px">' +
+      '<button class="checkout" style="background:#fff;border:1px solid var(--accent);color:var(--accent)" onclick="addToCart(\'' + esc(i.id) + '\');closeAll()">Add to cart</button>' +
+      '<button class="checkout" onclick="addToCart(\'' + esc(i.id) + '\');checkout()">Buy now</button></div>';
+  EL('ov').classList.add('show'); EL('modal').classList.add('show');
+}
+
+/* ── checkout: address + final-sale confirmation, then one real order ── */
+function checkout() {
+  var ids = Object.keys(CART).filter(find);
+  if (!ids.length) return;
+  EL('drawer').classList.remove('show');
+  var sub = subtotal(), ship = sub > 75 ? 0 : 5.99;
+  var lines = ids.map(function (id) {
+    var i = find(id);
+    return '<div style="display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:5px">' +
+      '<span>' + esc(i.title) + ' ×' + CART[id] + '</span><span>' + money(i.price * CART[id]) + '</span></div>';
+  }).join('');
+
+  var confirmLabel = (POLICY && POLICY.confirmLabel) ||
+    'I understand this sale is FINAL: no returns, no exchanges, no refunds except for an ' +
+    'item that never arrives or is materially not as described.';
+
+  EL('mbox').innerHTML =
+    '<button class="mx" onclick="closeAll()">&times;</button><h2 style="margin:0 0 14px;font-size:1.25rem">Checkout</h2>' +
+    '<div style="margin-bottom:10px">' + lines + '</div>' +
+    '<div style="display:flex;justify-content:space-between;font-size:.88rem;color:var(--soft);margin-bottom:4px"><span>Shipping</span><span>' + (ship ? money(ship) : 'Free') + '</span></div>' +
+    '<div style="display:flex;justify-content:space-between;font-weight:700;font-size:1.18rem;margin:6px 0 16px;border-top:1px solid var(--line);padding-top:10px"><span>Total</span><span>' + money(sub + ship) + '</span></div>' +
+    '<label class="field"><span>Full name</span><input id="f_name" autocomplete="name" /></label>' +
+    '<label class="field"><span>Email (for order updates)</span><input id="f_email" type="email" autocomplete="email" /></label>' +
+    '<label class="field"><span>Street address</span><input id="f_line1" autocomplete="address-line1" /></label>' +
+    '<label class="field"><span>Apartment, suite (optional)</span><input id="f_line2" autocomplete="address-line2" /></label>' +
+    '<div class="row2">' +
+      '<label class="field"><span>City</span><input id="f_city" autocomplete="address-level2" /></label>' +
+      '<label class="field"><span>State</span><input id="f_state" placeholder="MO" autocomplete="address-level1" /></label>' +
+    '</div>' +
+    '<div class="row2">' +
+      '<label class="field"><span>ZIP</span><input id="f_zip" autocomplete="postal-code" /></label>' +
+      '<label class="field"><span>Country</span><input id="f_country" value="US" autocomplete="country" /></label>' +
+    '</div>' +
+    '<div class="policybox">' +
+      '<p class="ph">' + esc((POLICY && POLICY.headline) || 'All sales are final. No returns, no exchanges.') + '</p>' +
+      '<label><input type="checkbox" id="f_policy" onchange="document.getElementById(\'payBtn\').disabled=!this.checked" />' +
+      '<span>' + esc(confirmLabel) + '</span></label>' +
+      '<p class="pl"><a href="/api/relay?view=policy" target="_blank" rel="noopener">Read the full sale terms</a></p>' +
+    '</div>' +
+    '<button class="checkout" id="payBtn" disabled onclick="payNow()">Confirm final sale &amp; pay →</button>' +
+    '<div class="msg" id="payMsg"></div>' +
+    '<p style="font-size:.72rem;color:var(--soft);text-align:center;margin:8px 0 0">Card details are entered on Stripe, never here.</p>';
+  EL('ov').classList.add('show'); EL('modal').classList.add('show');
+}
+
+function payNow() {
+  var items = Object.keys(CART).filter(find).map(function (id) { return { listingId: id, qty: CART[id] }; });
+  if (!items.length) return;
+  var btn = EL('payBtn'), msg = EL('payMsg');
+  msg.className = 'msg'; msg.textContent = '';
+
+  if (!EL('f_policy').checked) {
+    msg.className = 'msg err';
+    msg.textContent = 'Please confirm the final-sale terms.';
+    return;
+  }
+
+  var addr = {
+    name: EL('f_name').value.trim(),
+    line1: EL('f_line1').value.trim(),
+    line2: EL('f_line2').value.trim(),
+    city: EL('f_city').value.trim(),
+    state: EL('f_state').value.trim(),
+    postalCode: EL('f_zip').value.trim(),
+    country: (EL('f_country').value.trim() || 'US').toUpperCase()
+  };
+  var email = EL('f_email').value.trim();
+
+  btn.disabled = true; btn.textContent = 'Creating your order…';
+  fetch('/api/relay?view=cart-checkout', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: items, shippingAddress: addr, buyerEmail: email, policyAccepted: true })
+  }).then(function (r) { return r.json(); }).then(function (j) {
+    if (j.ok && j.url) { CART = {}; saveCart(); window.location.href = j.url; return; }
+    msg.className = 'msg err';
+    if (j.needsKey) msg.textContent = 'Payments are not switched on yet.';
+    else if (j.missing) msg.textContent = 'Please complete: ' + j.missing.join(', ');
+    else if (j.unavailable) msg.textContent = (j.message || 'Some items are no longer available.');
+    else msg.textContent = j.error || 'Checkout failed, please try again.';
+    btn.disabled = false; btn.textContent = 'Confirm final sale & pay →';
+  }).catch(function () {
+    msg.className = 'msg err';
+    msg.textContent = 'Network error — please try again.';
+    btn.disabled = false; btn.textContent = 'Confirm final sale & pay →';
+  });
+}
+
+/* An item found by search is not on the shelf yet, so it goes through the demand route
+   which sources it for this specific order. */
+function buySearched(itemId) {
+  if (!LAST_SEARCH) return;
+  window.location.href = '/api/relay-checkout-page?searchId=' + encodeURIComponent(LAST_SEARCH) +
+    '&itemId=' + encodeURIComponent(itemId);
+}
+
+EL('ov').addEventListener('click', function (e) { if (e.target === EL('ov')) closeAll(); });
+loadPolicy();
+loadShelf();
+</script>
+</body>
+</html>
