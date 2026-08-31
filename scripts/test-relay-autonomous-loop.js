@@ -304,18 +304,26 @@ function invoke(handler, req) {
   global.fetch = async function (url, opts) {
     calls.push(String(url));
     if (String(url).indexOf('serpapi.com') !== -1) {
-      return {
-        ok: true,
-        json: async function () {
-          return {
-            visual_matches: [
-              { title: 'Vintage leather jacket size M', link: 'https://www.ebay.com/itm/223344556677', source: 'eBay', price: { extracted_value: 40, currency: 'USD' }, thumbnail: 'https://img/1.jpg' },
-              { title: 'Not for sale blog post', link: 'https://someblog.example/jackets', source: 'Blog' },
-              { title: 'Too expensive', link: 'https://www.ebay.com/itm/998877665544', source: 'eBay', price: { extracted_value: 900, currency: 'USD' } }
-            ]
-          };
-        }
-      };
+      // BOTH response shapes on purpose. Which provider answers depends on whether a
+      // reference image was generated, which depends on XAI_API_KEY being present in the
+      // environment. Returning only visual_matches made this test pass on a machine that
+      // happened to have that key and fail in CI, which is exactly the kind of
+      // environment-dependent test that certifies nothing.
+      const matches = [
+        { title: 'Vintage leather jacket size M', link: 'https://www.ebay.com/itm/223344556677', source: 'eBay', price: { extracted_value: 40, currency: 'USD' }, thumbnail: 'https://img/1.jpg' },
+        { title: 'Not for sale blog post', link: 'https://someblog.example/jackets', source: 'Blog' },
+        { title: 'Too expensive', link: 'https://www.ebay.com/itm/998877665544', source: 'eBay', price: { extracted_value: 900, currency: 'USD' } }
+      ];
+      const shopping = matches.map(function (m) {
+        return {
+          title: m.title,
+          product_link: m.link,
+          source: m.source,
+          extracted_price: m.price ? m.price.extracted_value : undefined,
+          thumbnail: m.thumbnail
+        };
+      });
+      return { ok: true, json: async function () { return { visual_matches: matches, shopping_results: shopping }; } };
     }
     if (String(url).indexOf('api.x.ai') !== -1) {
       return { ok: true, json: async function () { return { data: [{ url: 'https://img/ref.png' }] }; } };
