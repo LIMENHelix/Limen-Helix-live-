@@ -622,6 +622,34 @@ function invoke(handler, req) {
   });
   assert('a wrong key cannot flip the switch', badKey.status === 403, String(badKey.status));
 
+  // ── T21 ───────────────────────────────────────────
+  // Google CSE returns no price field, so the provider yielded nothing the engine could
+  // use: verified in production, three consecutive cycles logging "searched google_cse
+  // and found no buyable listing". The price now comes from pagemap, which is the
+  // merchant's OWN structured data, not an inference.
+  console.log('T21: a real price is read from CSE structured data, never inferred');
+  assert('schema.org Offer', reverseImage.priceFromPagemap({ offer: [{ price: '129.99', pricecurrency: 'USD' }] }) === 129.99);
+  assert('schema.org Product', reverseImage.priceFromPagemap({ product: [{ price: '45.00' }] }) === 45);
+  assert('aggregateOffer lowPrice', reverseImage.priceFromPagemap({ aggregateoffer: [{ lowprice: '22.50', pricecurrency: 'USD' }] }) === 22.5);
+  assert('Open Graph price', reverseImage.priceFromPagemap({ metatags: [{ 'og:price:amount': '89.95', 'og:price:currency': 'USD' }] }) === 89.95);
+  assert('currency symbols and separators strip', reverseImage.priceFromPagemap({ metatags: [{ 'product:price:amount': '$1,299.00' }] }) === 1299);
+  // A GBP figure treated as dollars silently mis-prices the item and eats the margin.
+  assert('a non-USD price is REFUSED, not converted', reverseImage.priceFromPagemap({ offer: [{ price: '75.00', pricecurrency: 'GBP' }] }) === null);
+  assert('no structured price means no price', reverseImage.priceFromPagemap({ metatags: [{ 'og:title': 'A jacket' }] }) === null);
+  assert('empty pagemap is safe', reverseImage.priceFromPagemap({}) === null && reverseImage.priceFromPagemap(null) === null);
+
+  // ── T22 ───────────────────────────────────────────
+  // Full automation means the item must be buyable NOW at a stated price. An auction lot
+  // cannot be: you bid and wait and may lose. Publishing one takes a customer's money for
+  // something we cannot guarantee obtaining, which manufactures the never-arrives refund.
+  console.log('T22: auction lots are never sourced on demand');
+  ['https://www.govdeals.com/x', 'https://www.propertyroom.com/x', 'https://www.liveauctioneers.com/x',
+   'https://www.shopgoodwill.com/x', 'https://www.hibid.com/x', 'https://www.liquidation.com/x']
+    .forEach(function (u) { assert('auction refused: ' + reverseImage.hostOf(u), reverseImage.isFixedPrice(u) === false); });
+  ['https://www.ebay.com/itm/1', 'https://www.etsy.com/listing/1', 'https://www.walmart.com/ip/1',
+   'https://reverb.com/item/1', 'https://www.mercari.com/item/1']
+    .forEach(function (u) { assert('buy-now allowed: ' + reverseImage.hostOf(u), reverseImage.isFixedPrice(u) === true); });
+
   console.log('');
   console.log(failures === 0
     ? 'ALL PASS (' + tests + ' assertions)'
