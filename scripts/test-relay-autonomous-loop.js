@@ -22,6 +22,30 @@
 
 process.env.RELAY_ADMIN_KEY = process.env.RELAY_ADMIN_KEY || 'test-admin-key';
 
+// ── HERMETIC BY CONSTRUCTION ────────────────────────────────────────────────────────
+// This suite must behave identically on a developer box holding every credential and on
+// a bare CI runner holding none. Two failures already proved it did not:
+//   - it passed locally and failed in CI purely because XAI_API_KEY happened to exist
+//   - with SERPAPI_KEY set it made a REAL request to serpapi.com
+// and with a real CJ_API_KEY, T23's placeOrder calls would have spent from the prepaid
+// wallet. A failing assertion does not halt the run, so absence of a credential is far
+// too weak a guard for a money-moving call.
+//
+// So: every provider credential is stripped, AND the transport itself is blocked. A test
+// that needs a network answer installs its own stub and restores to this blocker, never
+// to the real fetch.
+['CJ_DROPSHIPPING_API_KEY', 'CJ_API_KEY', 'EBAY_BUY_TOKEN', 'EBAY_CLIENT_ID', 'EBAY_CLIENT_SECRET', 'EBAY_TOKEN',
+ 'SERPAPI_KEY', 'SERP_API_KEY', 'GOOGLE_API_KEY', 'GOOGLE_VISION_KEY', 'GOOGLE_CSE_ID',
+ 'GOOGLE_SEARCH_ENGINE_ID', 'XAI_API_KEY', 'GROK_API_KEY', 'STRIPE_SECRET_KEY'
+].forEach(function (k) { delete process.env[k]; });
+
+var LEAKED_REQUESTS = [];
+var BLOCK_NETWORK = async function (u) {
+  LEAKED_REQUESTS.push(String(u));
+  throw new Error('BLOCKED: this suite must never make a real network request');
+};
+global.fetch = BLOCK_NETWORK;
+
 var failures = 0, tests = 0;
 function assert(name, cond, detail) {
   tests++;
@@ -37,6 +61,7 @@ var policy = require('../lib/relay-policy');
 var autonomy = require('../lib/relay-autonomy');
 var buy = require('../lib/relay-buy');
 var engine = require('../lib/relay-engine');
+var cj = require('../lib/relay-cj');
 var store = require('../lib/relay-store');
 
 /** Drive a handler the way Vercel does and capture what it sent. */
@@ -680,6 +705,137 @@ function invoke(handler, req) {
     reverseImage.isBuyableNow({ url: 'https://reverb.com/item/1', title: 'Guitar' }) === true);
   assert('an auction host is still refused',
     reverseImage.isBuyableNow({ url: 'https://www.govdeals.com/x', title: 'Lot' }) === false);
+
+  // ── T23 ───────────────────────────────────────────
+  // CJ is the ONLY provider that spends money without a human, so its refusals matter
+  // more than its successes. eBay denied the Buy API; this is the whole automation path.
+  console.log('T23: the CJ supplier path');
+  assert('unconfigured CJ reports it, does not throw', cj.configured() === false);
+  var cjOff = await cj.search({ keyword: 'phone case' });
+  assert('search fails closed with no key', cjOff.ok === false && cjOff.items.length === 0);
+  assert('and names the missing credential', /CJ_DROPSHIPPING_API_KEY/.test(cjOff.reason || ''), cjOff.reason);
+  var cjOrder = await cj.placeOrder({ orderNumber: 'o1', vid: '123', shippingAddress: addr });
+  assert('placing an order with no key is refused', cjOrder.ok === false && /CJ_DROPSHIPPING_API_KEY/.test(cjOrder.error));
+  assert('and it does NOT accept the Commission Junction variable of the same family', cjOff.reason.indexOf('CJ_DROPSHIPPING_API_KEY') !== -1);
+
+  // Address and idempotency are checked BEFORE any spend, because a half-placed order
+  // against a prepaid wallet is money gone with nothing to ship.
+  // TRANSPORT-LEVEL MOCK, not merely an absent credential.
+  //
+  // These calls exercise placeOrder, and placeOrder spends from a prepaid wallet. An
+  // audit made the point correctly: relying on CJ_API_KEY being unset is one stray
+  // process.env restore away from a real purchase, and a failing assertion does not halt
+  // the run. So fetch itself is replaced for this block. Even with a live key present and
+  // every other guard defeated, no request can leave the machine.
+  var realFetchCj = global.fetch;
+  var escaped = [];
+  global.fetch = async function (u) {
+    escaped.push(String(u));
+    throw new Error('BLOCKED: the test suite must never reach a live supplier');
+  };
+  process.env.CJ_DROPSHIPPING_API_KEY = 'TEST-NOT-A-REAL-KEY@api@0000';
+  delete require.cache[require.resolve('../lib/relay-cj')];
+  var cj2 = require('../lib/relay-cj');
+
+  var noAddr = await cj2.placeOrder({ orderNumber: 'o1', vid: '1', shippingAddress: { name: 'A' } });
+  assert('an incomplete address is refused before spending', noAddr.ok === false && /address missing/.test(noAddr.error), noAddr.error);
+  var noVid = await cj2.placeOrder({ orderNumber: 'o1', shippingAddress: addr });
+  assert('a missing variant id is refused', noVid.ok === false && /vid required/.test(noVid.error));
+  var noOrd = await cj2.placeOrder({ vid: '1', shippingAddress: addr });
+  assert('a missing order number is refused (idempotency)', noOrd.ok === false && /orderNumber required/.test(noOrd.error));
+
+  // The point of the mock: prove every one of those refusals happened BEFORE the network,
+  // rather than being caught by a request that failed for some other reason.
+  assert('no CJ request was attempted at all', escaped.length === 0, escaped.join(', '));
+
+  // And prove the mock would actually catch an escape, so it is not a guard that has
+  // never been shown to work.
+  var wouldEscape = await cj2.placeOrder({ orderNumber: 'o2', vid: '1', shippingAddress: addr });
+  assert('a fully-formed order is stopped at the transport', wouldEscape.ok === false);
+  assert('and the block is what stopped it', escaped.length > 0 && /cjdropshipping/.test(escaped[0]), escaped.join(', '));
+
+  global.fetch = realFetchCj;
+  delete process.env.CJ_DROPSHIPPING_API_KEY;
+  delete require.cache[require.resolve('../lib/relay-cj')];
+
+  // ── T24 ───────────────────────────────────────────
+  console.log('T24: a CJ order never silently overspends its authorisation');
+  var cjPath = require.resolve('../lib/relay-cj');
+  var realCj = require('../lib/relay-cj');
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: true, sourceOrderId: 'CJ-1', amount: 120 }; }
+  };
+  var buy2 = require('../lib/relay-buy');
+  // CJ has ALREADY charged the wallet by the time we see the amount. Reporting ok:false
+  // released the reservation, filed a manual task and understated the day's spend, while
+  // inviting a human or a retry to buy the same thing again. The purchase stands and is
+  // flagged instead.
+  var over = await buy2.buyFromCJ({ orderId: 'o9', listingId: 'l9', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
+  assert('an overspent order is still recorded as bought', over.ok === true, JSON.stringify(over));
+  assert('and it is flagged for review', over.needsReview === true);
+  assert('the review names the CJ order', /CJ-1/.test(over.reviewReason || ''), over.reviewReason);
+  assert('and it settles at what was actually charged', over.amount === 120, String(over.amount));
+
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: true, sourceOrderId: 'CJ-2', amount: 41 }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buy3 = require('../lib/relay-buy');
+  var okBuy = await buy3.buyFromCJ({ orderId: 'o10', listingId: 'l10', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
+  assert('a small variance within tolerance is accepted', okBuy.ok === true && okBuy.sourceOrderId === 'CJ-2', JSON.stringify(okBuy));
+  assert('and it is NOT flagged for review', okBuy.needsReview === false);
+  assert('and it is marked as a real automated purchase', okBuy.provider === 'cj');
+
+  // CJ's orderNumber is an idempotency key. Two CJ lines in one cart must not collide.
+  var seen = [];
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function (o) { seen.push(o.orderNumber); return { ok: true, sourceOrderId: 'CJ-' + seen.length, amount: 10 }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buyIdem = require('../lib/relay-buy');
+  await buyIdem.buyFromCJ({ orderId: 'ordX', listingId: 'lstA', sourceId: 'v1', maxCost: 20, shippingAddress: addr });
+  await buyIdem.buyFromCJ({ orderId: 'ordX', listingId: 'lstB', sourceId: 'v2', maxCost: 20, shippingAddress: addr });
+  assert('each cart line gets its own CJ order number', seen[0] !== seen[1], JSON.stringify(seen));
+  assert('and the number is stable per line', /lstA/.test(seen[0]) && /lstB/.test(seen[1]), JSON.stringify(seen));
+
+  // A timeout or 429 is not a job for a human: the engine's sweep only retries failed
+  // fulfilments, so marking it manual removed a paid order from retry forever.
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: false, error: 'CJ request failed: timeout' }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buyT = require('../lib/relay-buy');
+  var tr = await buyT.execute({ orderId: 'o12', listingId: 'l12', sourceMarketplace: 'cj', sourceId: 'v1', sourceUrl: 'https://www.cjdropshipping.com/product/-p-1.html', maxCost: 40, shippingAddress: addr });
+  assert('a transient failure stays retryable', tr.ok === false && tr.transient === true, JSON.stringify(tr).slice(0, 140));
+  assert('and does NOT become a manual task', tr.mode !== 'manual');
+
+  // An empty wallet is a top-up, not a broken integration. The operator must be able to
+  // tell those apart from the task that gets filed.
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: false, error: 'CJ 200: insufficient balance', insufficientBalance: true }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buy4 = require('../lib/relay-buy');
+  var broke = await buy4.execute({ orderId: 'o11', sourceMarketplace: 'cj', sourceId: 'v1', sourceUrl: 'https://www.cjdropshipping.com/product/-p-1.html', maxCost: 40, shippingAddress: addr });
+  assert('an empty wallet does not claim success', broke.ok === false);
+  assert('it is flagged as a balance problem', broke.insufficientBalance === true, JSON.stringify(broke).slice(0, 160));
+  assert('and a human task is filed with the source URL', !!broke.task && /cjdropshipping/.test(broke.task.sourceUrl));
+
+  require.cache[cjPath].exports = realCj;
+  delete require.cache[require.resolve('../lib/relay-buy')];
+
+  // ── hermetic check ──────────────────────────────────────────────────────
+  // Every stub is scoped to its own block and restores to the blocker. If anything
+  // reached the network, a credential-holding machine ran a different test than CI did.
+  console.log('HERMETIC: no request left the machine');
+  assert('nothing escaped to the network', LEAKED_REQUESTS.length === 0,
+    LEAKED_REQUESTS.slice(0, 5).join(', '));
 
   console.log('');
   console.log(failures === 0
