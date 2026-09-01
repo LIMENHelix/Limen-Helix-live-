@@ -22,12 +22,29 @@
 
 process.env.RELAY_ADMIN_KEY = process.env.RELAY_ADMIN_KEY || 'test-admin-key';
 
-// NEVER let this harness reach a live supplier. T23 calls placeOrder to prove it refuses
-// bad input, and with a real CJ_API_KEY present those calls would submit orders against
-// the real prepaid wallet using the test address. A failing assertion does not halt the
-// run, so the guard has to be the credential itself being absent.
-delete process.env.CJ_API_KEY;
-delete process.env.EBAY_BUY_TOKEN;
+// ── HERMETIC BY CONSTRUCTION ────────────────────────────────────────────────────────
+// This suite must behave identically on a developer box holding every credential and on
+// a bare CI runner holding none. Two failures already proved it did not:
+//   - it passed locally and failed in CI purely because XAI_API_KEY happened to exist
+//   - with SERPAPI_KEY set it made a REAL request to serpapi.com
+// and with a real CJ_API_KEY, T23's placeOrder calls would have spent from the prepaid
+// wallet. A failing assertion does not halt the run, so absence of a credential is far
+// too weak a guard for a money-moving call.
+//
+// So: every provider credential is stripped, AND the transport itself is blocked. A test
+// that needs a network answer installs its own stub and restores to this blocker, never
+// to the real fetch.
+['CJ_API_KEY', 'EBAY_BUY_TOKEN', 'EBAY_CLIENT_ID', 'EBAY_CLIENT_SECRET', 'EBAY_TOKEN',
+ 'SERPAPI_KEY', 'SERP_API_KEY', 'GOOGLE_API_KEY', 'GOOGLE_VISION_KEY', 'GOOGLE_CSE_ID',
+ 'GOOGLE_SEARCH_ENGINE_ID', 'XAI_API_KEY', 'GROK_API_KEY', 'STRIPE_SECRET_KEY'
+].forEach(function (k) { delete process.env[k]; });
+
+var LEAKED_REQUESTS = [];
+var BLOCK_NETWORK = async function (u) {
+  LEAKED_REQUESTS.push(String(u));
+  throw new Error('BLOCKED: this suite must never make a real network request');
+};
+global.fetch = BLOCK_NETWORK;
 
 var failures = 0, tests = 0;
 function assert(name, cond, detail) {
@@ -702,16 +719,43 @@ function invoke(handler, req) {
 
   // Address and idempotency are checked BEFORE any spend, because a half-placed order
   // against a prepaid wallet is money gone with nothing to ship.
-  process.env.CJ_API_KEY = 'TEST-NOT-A-REAL-KEY@api@0000';   // never reaches CJ: every call below fails before the network
+  // TRANSPORT-LEVEL MOCK, not merely an absent credential.
+  //
+  // These calls exercise placeOrder, and placeOrder spends from a prepaid wallet. An
+  // audit made the point correctly: relying on CJ_API_KEY being unset is one stray
+  // process.env restore away from a real purchase, and a failing assertion does not halt
+  // the run. So fetch itself is replaced for this block. Even with a live key present and
+  // every other guard defeated, no request can leave the machine.
+  var realFetchCj = global.fetch;
+  var escaped = [];
+  global.fetch = async function (u) {
+    escaped.push(String(u));
+    throw new Error('BLOCKED: the test suite must never reach a live supplier');
+  };
+  process.env.CJ_API_KEY = 'TEST-NOT-A-REAL-KEY@api@0000';
   delete require.cache[require.resolve('../lib/relay-cj')];
   var cj2 = require('../lib/relay-cj');
+
   var noAddr = await cj2.placeOrder({ orderNumber: 'o1', vid: '1', shippingAddress: { name: 'A' } });
   assert('an incomplete address is refused before spending', noAddr.ok === false && /address missing/.test(noAddr.error), noAddr.error);
   var noVid = await cj2.placeOrder({ orderNumber: 'o1', shippingAddress: addr });
   assert('a missing variant id is refused', noVid.ok === false && /vid required/.test(noVid.error));
   var noOrd = await cj2.placeOrder({ vid: '1', shippingAddress: addr });
   assert('a missing order number is refused (idempotency)', noOrd.ok === false && /orderNumber required/.test(noOrd.error));
+
+  // The point of the mock: prove every one of those refusals happened BEFORE the network,
+  // rather than being caught by a request that failed for some other reason.
+  assert('no CJ request was attempted at all', escaped.length === 0, escaped.join(', '));
+
+  // And prove the mock would actually catch an escape, so it is not a guard that has
+  // never been shown to work.
+  var wouldEscape = await cj2.placeOrder({ orderNumber: 'o2', vid: '1', shippingAddress: addr });
+  assert('a fully-formed order is stopped at the transport', wouldEscape.ok === false);
+  assert('and the block is what stopped it', escaped.length > 0 && /cjdropshipping/.test(escaped[0]), escaped.join(', '));
+
+  global.fetch = realFetchCj;
   delete process.env.CJ_API_KEY;
+  delete require.cache[require.resolve('../lib/relay-cj')];
 
   // ── T24 ───────────────────────────────────────────
   console.log('T24: a CJ order never silently overspends its authorisation');
@@ -784,6 +828,13 @@ function invoke(handler, req) {
 
   require.cache[cjPath].exports = realCj;
   delete require.cache[require.resolve('../lib/relay-buy')];
+
+  // ── hermetic check ──────────────────────────────────────────────────────
+  // Every stub is scoped to its own block and restores to the blocker. If anything
+  // reached the network, a credential-holding machine ran a different test than CI did.
+  console.log('HERMETIC: no request left the machine');
+  assert('nothing escaped to the network', LEAKED_REQUESTS.length === 0,
+    LEAKED_REQUESTS.slice(0, 5).join(', '));
 
   console.log('');
   console.log(failures === 0
