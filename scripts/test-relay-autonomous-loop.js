@@ -37,6 +37,7 @@ var policy = require('../lib/relay-policy');
 var autonomy = require('../lib/relay-autonomy');
 var buy = require('../lib/relay-buy');
 var engine = require('../lib/relay-engine');
+var cj = require('../lib/relay-cj');
 var store = require('../lib/relay-store');
 
 /** Drive a handler the way Vercel does and capture what it sent. */
@@ -680,6 +681,70 @@ function invoke(handler, req) {
     reverseImage.isBuyableNow({ url: 'https://reverb.com/item/1', title: 'Guitar' }) === true);
   assert('an auction host is still refused',
     reverseImage.isBuyableNow({ url: 'https://www.govdeals.com/x', title: 'Lot' }) === false);
+
+  // ── T23 ───────────────────────────────────────────
+  // CJ is the ONLY provider that spends money without a human, so its refusals matter
+  // more than its successes. eBay denied the Buy API; this is the whole automation path.
+  console.log('T23: the CJ supplier path');
+  assert('unconfigured CJ reports it, does not throw', cj.configured() === false);
+  var cjOff = await cj.search({ keyword: 'phone case' });
+  assert('search fails closed with no key', cjOff.ok === false && cjOff.items.length === 0);
+  assert('and names the missing credential', /CJ_API_KEY/.test(cjOff.reason || ''), cjOff.reason);
+  var cjOrder = await cj.placeOrder({ orderNumber: 'o1', vid: '123', shippingAddress: addr });
+  assert('placing an order with no key is refused', cjOrder.ok === false && /CJ_API_KEY/.test(cjOrder.error));
+
+  // Address and idempotency are checked BEFORE any spend, because a half-placed order
+  // against a prepaid wallet is money gone with nothing to ship.
+  process.env.CJ_API_KEY = 'test@api@key';
+  delete require.cache[require.resolve('../lib/relay-cj')];
+  var cj2 = require('../lib/relay-cj');
+  var noAddr = await cj2.placeOrder({ orderNumber: 'o1', vid: '1', shippingAddress: { name: 'A' } });
+  assert('an incomplete address is refused before spending', noAddr.ok === false && /address missing/.test(noAddr.error), noAddr.error);
+  var noVid = await cj2.placeOrder({ orderNumber: 'o1', shippingAddress: addr });
+  assert('a missing variant id is refused', noVid.ok === false && /vid required/.test(noVid.error));
+  var noOrd = await cj2.placeOrder({ vid: '1', shippingAddress: addr });
+  assert('a missing order number is refused (idempotency)', noOrd.ok === false && /orderNumber required/.test(noOrd.error));
+  delete process.env.CJ_API_KEY;
+
+  // ── T24 ───────────────────────────────────────────
+  console.log('T24: a CJ order never silently overspends its authorisation');
+  var cjPath = require.resolve('../lib/relay-cj');
+  var realCj = require('../lib/relay-cj');
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: true, sourceOrderId: 'CJ-1', amount: 120 }; }
+  };
+  var buy2 = require('../lib/relay-buy');
+  var over = await buy2.buyFromCJ({ orderId: 'o9', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
+  assert('a charge far above the authorised amount is refused', over.ok === false && over.overspent === true, JSON.stringify(over));
+  assert('and it names the order needing review', /CJ-1/.test(over.error), over.error);
+
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: true, sourceOrderId: 'CJ-2', amount: 41 }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buy3 = require('../lib/relay-buy');
+  var okBuy = await buy3.buyFromCJ({ orderId: 'o10', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
+  assert('a small variance within tolerance is accepted', okBuy.ok === true && okBuy.sourceOrderId === 'CJ-2', JSON.stringify(okBuy));
+  assert('and it is marked as a real automated purchase', okBuy.provider === 'cj');
+
+  // An empty wallet is a top-up, not a broken integration. The operator must be able to
+  // tell those apart from the task that gets filed.
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: false, error: 'CJ 200: insufficient balance', insufficientBalance: true }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buy4 = require('../lib/relay-buy');
+  var broke = await buy4.execute({ orderId: 'o11', sourceMarketplace: 'cj', sourceId: 'v1', sourceUrl: 'https://www.cjdropshipping.com/product/-p-1.html', maxCost: 40, shippingAddress: addr });
+  assert('an empty wallet does not claim success', broke.ok === false);
+  assert('it is flagged as a balance problem', broke.insufficientBalance === true, JSON.stringify(broke).slice(0, 160));
+  assert('and a human task is filed with the source URL', !!broke.task && /cjdropshipping/.test(broke.task.sourceUrl));
+
+  require.cache[cjPath].exports = realCj;
+  delete require.cache[require.resolve('../lib/relay-buy')];
 
   console.log('');
   console.log(failures === 0

@@ -213,6 +213,7 @@ function paintReadiness(r) {
   var problems = [];
   if (!r.canSource) problems.push('No way to find listings yet. Set GOOGLE_CSE_ID (with Custom Search API enabled on GOOGLE_API_KEY), or SERPAPI_KEY, or the eBay client id and secret.');
   if (!r.canCharge) problems.push('Payments are off, so no order can be taken. STRIPE_SECRET_KEY is not set.');
+  if (r.canSource && !r.canBuyUnattended) problems.push('Sourcing works, but nothing can be BOUGHT without a human: every order will file a manual task. Set CJ_API_KEY to close the loop.');
   if (problems.length) {
     EL('blocked').classList.remove('hide');
     EL('blocked').innerHTML = '<b>Blocked:</b><br>' + problems.map(esc).join('<br>');
