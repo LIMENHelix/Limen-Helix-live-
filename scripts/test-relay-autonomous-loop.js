@@ -310,9 +310,9 @@ function invoke(handler, req) {
       // happened to have that key and fail in CI, which is exactly the kind of
       // environment-dependent test that certifies nothing.
       const matches = [
-        { title: 'Vintage leather jacket size M', link: 'https://www.ebay.com/itm/223344556677', source: 'eBay', price: { extracted_value: 40, currency: 'USD' }, thumbnail: 'https://img/1.jpg' },
+        { title: 'Vintage leather jacket size M', link: 'https://reverb.com/item/223344556677', source: 'Reverb', price: { extracted_value: 40, currency: 'USD' }, thumbnail: 'https://img/1.jpg' },
         { title: 'Not for sale blog post', link: 'https://someblog.example/jackets', source: 'Blog' },
-        { title: 'Too expensive', link: 'https://www.ebay.com/itm/998877665544', source: 'eBay', price: { extracted_value: 900, currency: 'USD' } }
+        { title: 'Too expensive', link: 'https://reverb.com/item/998877665544', source: 'Reverb', price: { extracted_value: 900, currency: 'USD' } }
       ];
       const shopping = matches.map(function (m) {
         return {
@@ -355,7 +355,7 @@ function invoke(handler, req) {
   assert('drops the over-budget match', disc.published.every(function (x) { return x.sourceCost <= 100; }));
 
   var storedListing = await store.getListing(pub.listingId);
-  assert('provenance is persisted', storedListing.sourceUrl === 'https://www.ebay.com/itm/223344556677');
+  assert('provenance is persisted', storedListing.sourceUrl === 'https://reverb.com/item/223344556677');
   assert('source cost is persisted', storedListing.sourceCost === 40);
   assert('the margin in force is stamped on the listing', storedListing.marginAtListing === 0.50);
 
@@ -364,7 +364,7 @@ function invoke(handler, req) {
     sellerId: 'usr_relay_house', maxSourcePrice: 100, maxPerCycle: 3
   });
   assert('does not re-publish the same source URL', again.published.every(function (x) {
-    return x.sourceUrl !== 'https://www.ebay.com/itm/223344556677';
+    return x.sourceUrl !== 'https://reverb.com/item/223344556677';
   }), JSON.stringify(again.published));
 
   // ── T15 ─────────────────────────────────────────────────────────────────
@@ -623,20 +623,38 @@ function invoke(handler, req) {
   assert('a wrong key cannot flip the switch', badKey.status === 403, String(badKey.status));
 
   // ── T21 ───────────────────────────────────────────
-  // Google CSE returns no price field, so the provider yielded nothing the engine could
-  // use: verified in production, three consecutive cycles logging "searched google_cse
-  // and found no buyable listing". The price now comes from pagemap, which is the
-  // merchant's OWN structured data, not an inference.
-  console.log('T21: a real price is read from CSE structured data, never inferred');
-  assert('schema.org Offer', reverseImage.priceFromPagemap({ offer: [{ price: '129.99', pricecurrency: 'USD' }] }) === 129.99);
-  assert('schema.org Product', reverseImage.priceFromPagemap({ product: [{ price: '45.00' }] }) === 45);
-  assert('aggregateOffer lowPrice', reverseImage.priceFromPagemap({ aggregateoffer: [{ lowprice: '22.50', pricecurrency: 'USD' }] }) === 22.5);
-  assert('Open Graph price', reverseImage.priceFromPagemap({ metatags: [{ 'og:price:amount': '89.95', 'og:price:currency': 'USD' }] }) === 89.95);
-  assert('currency symbols and separators strip', reverseImage.priceFromPagemap({ metatags: [{ 'product:price:amount': '$1,299.00' }] }) === 1299);
-  // A GBP figure treated as dollars silently mis-prices the item and eats the margin.
-  assert('a non-USD price is REFUSED, not converted', reverseImage.priceFromPagemap({ offer: [{ price: '75.00', pricecurrency: 'GBP' }] }) === null);
-  assert('no structured price means no price', reverseImage.priceFromPagemap({ metatags: [{ 'og:title': 'A jacket' }] }) === null);
-  assert('empty pagemap is safe', reverseImage.priceFromPagemap({}) === null && reverseImage.priceFromPagemap(null) === null);
+  // Price extraction, after code review found seven ways it silently produced a WRONG
+  // number. Each of these is a money bug: the figure here becomes the acquisition cost
+  // that the spend cap and the margin floor are checked against.
+  console.log('T21: a price is read only when it is unambiguous');
+
+  // Silence is not USD. A GBP shop that omits the currency field must not price as dollars.
+  assert('missing currency is refused', reverseImage.priceFromPagemap({ offer: [{ price: '75.00' }] }) === null);
+  assert('explicit USD is accepted', reverseImage.priceFromPagemap({ offer: [{ price: '75.00', pricecurrency: 'USD' }] }) === 75);
+  assert('explicit GBP is refused', reverseImage.priceFromPagemap({ offer: [{ price: '75.00', pricecurrency: 'GBP' }] }) === null);
+
+  // An out-of-stock offer still carries a price. Sourcing it means selling what we cannot buy.
+  assert('OutOfStock is refused', reverseImage.priceFromPagemap({ offer: [{ price: '50', pricecurrency: 'USD', availability: 'https://schema.org/OutOfStock' }] }) === null);
+  assert('InStock is accepted', reverseImage.priceFromPagemap({ offer: [{ price: '50', pricecurrency: 'USD', availability: 'https://schema.org/InStock' }] }) === 50);
+
+  // twitter:data1 is a generic slot holding "5 minutes", an SKU or a stock count.
+  assert('unlabelled twitter:data1 is refused', reverseImage.priceFromPagemap({ metatags: [{ 'twitter:data1': '5 minutes', 'og:price:currency': 'USD' }] }) === null);
+  assert('twitter:data1 labelled Price is accepted', reverseImage.priceFromPagemap({ metatags: [{ 'twitter:label1': 'Price', 'twitter:data1': '42.00', 'og:price:currency': 'USD' }] }) === 42);
+
+  // A category or comparison page carries several products and no way to know which one
+  // the result URL is about.
+  assert('multi-product page is refused', reverseImage.priceFromPagemap({ product: [{ price: '10', pricecurrency: 'USD' }, { price: '20', pricecurrency: 'USD' }] }) === null);
+  assert('the same price repeated is fine', reverseImage.priceFromPagemap({ product: [{ price: '10', pricecurrency: 'USD' }, { price: '10', pricecurrency: 'USD' }] }) === 10);
+
+  // Stripping separators turns 1.299,00 into 1.29900 and reads $1.30 for a $1,299 item.
+  assert('European format is refused', reverseImage.parseAmount('1.299,00') === null);
+  assert('decimal comma is refused', reverseImage.parseAmount('1299,00') === null);
+  assert('exponent form is refused', reverseImage.parseAmount('1.2e2') === null);
+  assert('US format parses exactly', reverseImage.parseAmount('$1,299.00') === 1299);
+  assert('plain decimal parses', reverseImage.parseAmount('49.99') === 49.99);
+
+  assert('separate shipping is read', reverseImage.shippingFromPagemap({ offer: [{ shippingrate: '7.50' }] }) === 7.5);
+  assert('absent shipping is null, not zero', reverseImage.shippingFromPagemap({ offer: [{ price: '10' }] }) === null);
 
   // ── T22 ───────────────────────────────────────────
   // Full automation means the item must be buyable NOW at a stated price. An auction lot
@@ -648,7 +666,20 @@ function invoke(handler, req) {
     .forEach(function (u) { assert('auction refused: ' + reverseImage.hostOf(u), reverseImage.isFixedPrice(u) === false); });
   ['https://www.ebay.com/itm/1', 'https://www.etsy.com/listing/1', 'https://www.walmart.com/ip/1',
    'https://reverb.com/item/1', 'https://www.mercari.com/item/1']
-    .forEach(function (u) { assert('buy-now allowed: ' + reverseImage.hostOf(u), reverseImage.isFixedPrice(u) === true); });
+    .forEach(function (u) { assert('buy-now host allowed: ' + reverseImage.hostOf(u), reverseImage.isFixedPrice(u) === true); });
+
+  // A hostname test is not enough: eBay, Etsy and Catawiki run auctions AND buy-it-now on
+  // the same domain, and on an auction page the number shown is the current BID.
+  assert('auction wording is caught anywhere',
+    reverseImage.isBuyableNow({ url: 'https://www.ebay.com/itm/1', title: 'Vintage jacket 3 bids' }) === false);
+  assert('a mixed-format host with no buy-now signal is refused',
+    reverseImage.isBuyableNow({ url: 'https://www.ebay.com/itm/1', title: 'Vintage jacket' }) === false);
+  assert('a confirmed buy-now on eBay is allowed',
+    reverseImage.isBuyableNow({ url: 'https://www.ebay.com/itm/1', title: 'Vintage jacket', fixedPriceConfirmed: true }) === true);
+  assert('a plain shop needs no extra signal',
+    reverseImage.isBuyableNow({ url: 'https://reverb.com/item/1', title: 'Guitar' }) === true);
+  assert('an auction host is still refused',
+    reverseImage.isBuyableNow({ url: 'https://www.govdeals.com/x', title: 'Lot' }) === false);
 
   console.log('');
   console.log(failures === 0
