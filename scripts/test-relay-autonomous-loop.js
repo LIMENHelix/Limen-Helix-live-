@@ -829,6 +829,78 @@ function invoke(handler, req) {
   require.cache[cjPath].exports = realCj;
   delete require.cache[require.resolve('../lib/relay-buy')];
 
+  // ── T25 ───────────────────────────────────────────
+  // Product provenance is the operator's view and must never be reachable publicly: it
+  // is the only place supplier, cost and spread appear together.
+  console.log('T25: inventory provenance is operator-only');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var ctl2 = require('../handlers/relay-autonomous-control');
+
+  var invNoKey = await invoke(ctl2, { method: 'GET', url: '/api/relay?view=control&action=inventory', headers: {} });
+  assert('inventory refuses without the operator key', invNoKey.status === 403, String(invNoKey.status));
+
+  var invKeyed = await invoke(ctl2, {
+    method: 'GET', url: '/api/relay?view=control&action=inventory&key=' + process.env.RELAY_ADMIN_KEY, headers: {}
+  });
+  assert('inventory answers for the operator', invKeyed.status === 200 && invKeyed.body.ok === true);
+  assert('and reports a supplier breakdown', typeof invKeyed.body.bySupplier === 'object');
+
+  // Put a fully sourced listing on the shelf and check both views of it.
+  var provListing = await store.createListing({
+    marketplaceId: 'mkt_relay_test', sellerId: 'usr_relay_house',
+    title: 'provenance probe', price: 60,
+    sourceMarketplace: 'cj', sourceId: 'v-probe',
+    sourceUrl: 'https://www.cjdropshipping.com/product/-p-probe.html',
+    sourceCost: 40, sourceShipping: 5, sourceFromCountry: 'US', sourceCarrier: 'CJPacket'
+  });
+
+  var inv2 = await invoke(ctl2, {
+    method: 'GET', url: '/api/relay?view=control&action=inventory&key=' + process.env.RELAY_ADMIN_KEY, headers: {}
+  });
+  var row = (inv2.body.listings || []).find(function (l) { return l.id === provListing.id; });
+  assert('the operator sees the supplier', row && row.supplier === 'cj', JSON.stringify(row || {}).slice(0, 120));
+  assert('the operator sees what we paid', row && row.cost === 40);
+  assert('the operator sees the spread', row && row.spread === 20);
+  assert('the operator sees the source URL', row && /cjdropshipping/.test(row.sourceUrl || ''));
+  assert('the operator sees the shipping warehouse', row && row.warehouse === 'US');
+
+  // The same listing through the customer-facing catalogue.
+  delete require.cache[require.resolve('../handlers/relay-storefront')];
+  var sf2 = require('../handlers/relay-storefront');
+  var pub2 = await invoke(sf2, { method: 'GET', url: '/api/relay?view=catalog&format=json', headers: {} });
+  var pubBlob = JSON.stringify(pub2.body);
+  assert('the customer catalogue carries no supplier', pubBlob.indexOf('"cj"') === -1 && pubBlob.indexOf('sourceMarketplace') === -1);
+  assert('no source URL reaches the customer', pubBlob.indexOf('cjdropshipping') === -1);
+  assert('no cost reaches the customer', pubBlob.indexOf('sourceCost') === -1 && pubBlob.indexOf('"cost"') === -1);
+  assert('no spread or warehouse reaches the customer',
+    pubBlob.indexOf('spread') === -1 && pubBlob.indexOf('sourceFromCountry') === -1);
+
+  // ── T26 ─────────────────────────────────────────────────────────────────
+  // A concept nothing can satisfy used to pin itself to rank one forever: the unmet
+  // bonus was permanent. Observed in production, the same term picked at 14:05, 14:35,
+  // 15:05 and 15:35, publishing nothing, while every other recorded term went untried.
+  console.log('T26: a concept that never yields stops being re-picked');
+  await db.set('relay:searches', [
+    { description: 'unsatisfiable thing', resultCount: 0, ts: new Date().toISOString() },
+    { description: 'untried thing', resultCount: 0, ts: new Date().toISOString() }
+  ]);
+  await db.set('relay:engine-misses', {});
+  var first = await engine.pickConcept();
+  assert('an unmet term is picked first', first.origin === 'demand', JSON.stringify(first));
+
+  for (var i = 0; i < 3; i++) await engine.recordOutcome(first.concept, 0);
+  var next = await engine.pickConcept();
+  assert('after repeated failure it is dropped', next.concept !== first.concept, next.concept + ' vs ' + first.concept);
+
+  // A concept that DID work has its failures forgiven.
+  await engine.recordOutcome(first.concept, 2);
+  var misses = await db.get('relay:engine-misses');
+  assert('a successful cycle clears the miss count', !misses[first.concept.toLowerCase()], JSON.stringify(misses));
+
+  assert('seed concepts match the buyable supplier, not the old resale model',
+    engine.SEED_CONCEPTS.every(function (c) { return !/vintage|retro|first edition|vinyl|film camera/i.test(c); }),
+    engine.SEED_CONCEPTS.join(', '));
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.

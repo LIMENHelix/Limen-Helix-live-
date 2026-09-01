@@ -116,6 +116,20 @@
       <table id="ready"></table>
     </div>
 
+    <div class="panel">
+      <h2>Inventory &mdash; where every product came from</h2>
+      <p class="why" style="margin:-6px 0 12px">Operator only. The public storefront never
+        sees supplier, cost or spread.</p>
+      <div class="grid" style="margin-bottom:14px">
+        <div class="stat"><div class="k">Listings</div><div class="v" id="invCount">&mdash;</div></div>
+        <div class="stat"><div class="k">Total cost</div><div class="v" id="invCost">&mdash;</div></div>
+        <div class="stat"><div class="k">Total sell</div><div class="v" id="invSell">&mdash;</div></div>
+        <div class="stat"><div class="k">Spread</div><div class="v" id="invSpread">&mdash;</div></div>
+      </div>
+      <div id="invSuppliers" class="why" style="margin-bottom:10px"></div>
+      <div style="overflow-x:auto"><table id="inventory"></table></div>
+    </div>
+
     <div class="panel" id="approvalsPanel">
       <h2>Purchases waiting for you</h2>
       <div id="approvals"></div>
@@ -238,6 +252,39 @@ function approve(id) {
   post({ action: 'approve-purchase', decisionId: id }).then(function () { refresh(); });
 }
 
+function paintInventory(r) {
+  if (!r || !r.ok) return;
+  EL('invCount').textContent = r.count;
+  EL('invCost').textContent = money(r.totalCost);
+  EL('invSell').textContent = money(r.totalSell);
+  EL('invSpread').textContent = money((r.totalSell || 0) - (r.totalCost || 0));
+  EL('invSuppliers').textContent = Object.keys(r.bySupplier || {}).length
+    ? 'by supplier: ' + Object.keys(r.bySupplier).map(function (k) { return k + ' ×' + r.bySupplier[k]; }).join(',  ')
+    : '';
+  if (!r.listings.length) {
+    EL('inventory').innerHTML = '<tr><td class="why">Nothing on the shelf yet.</td></tr>';
+    return;
+  }
+  EL('inventory').innerHTML =
+    '<tr><td class="why">item</td><td class="why">cost</td><td class="why">sell</td>' +
+    '<td class="why">spread</td><td class="why">supplier</td><td class="why">source</td></tr>' +
+    r.listings.map(function (l) {
+      var src = l.sourceUrl
+        ? '<a href="' + esc(l.sourceUrl) + '" target="_blank" rel="noopener">open</a>'
+        : '<span class="warn">none</span>';
+      return '<tr><td>' + esc(String(l.title).slice(0, 46)) +
+        (l.warehouse ? '<div class="why">ships from ' + esc(l.warehouse) +
+          (l.carrier ? ' via ' + esc(l.carrier) : '') + '</div>' : '') +
+        '</td><td>' + (l.cost != null ? money(l.cost) : '&mdash;') +
+        (l.shipping != null ? '<div class="why">+' + money(l.shipping) + ' ship</div>' : '') +
+        '</td><td>' + money(l.sell) +
+        '</td><td>' + (l.spread != null ? money(l.spread) : '&mdash;') +
+        (l.marginPct != null ? '<div class="why">' + l.marginPct + '%</div>' : '') +
+        '</td><td>' + esc(l.supplier || '—') +
+        '</td><td>' + src + '</td></tr>';
+    }).join('');
+}
+
 function refresh() {
   get('autonomy').then(function (j) {
     if (!j.ok) return;
@@ -254,6 +301,7 @@ function refresh() {
   });
   get('readiness').then(paintReadiness);
   get('pending-approvals').then(function (j) { paintApprovals(j.approvals); });
+  get('inventory').then(paintInventory);
 }
 
 try {
