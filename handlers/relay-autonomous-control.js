@@ -93,7 +93,7 @@ async function handleGET(q) {
           unlocks: 'true reverse-image search (Google Lens)', required: false },
         { key: 'EBAY_CLIENT_ID + EBAY_CLIENT_SECRET', set: has('EBAY_CLIENT_ID') && has('EBAY_CLIENT_SECRET'),
           unlocks: 'real eBay supply', required: false },
-        { key: 'CJ_API_KEY', set: has('CJ_API_KEY'),
+        { key: 'CJ_DROPSHIPPING_API_KEY', set: has('CJ_DROPSHIPPING_API_KEY'),
           unlocks: 'the ONLY unattended purchasing path: CJ orders pay from a prepaid wallet',
           required: false },
         { key: 'EBAY_BUY_TOKEN', set: has('EBAY_BUY_TOKEN'),
@@ -105,8 +105,8 @@ async function handleGET(q) {
       ],
       // Sourcing needs at least ONE way to find a listing.
       // Can we complete a purchase with no human at all?
-      canBuyUnattended: has('CJ_API_KEY') || has('EBAY_BUY_TOKEN'),
-      canSource: has('CJ_API_KEY') ||
+      canBuyUnattended: has('CJ_DROPSHIPPING_API_KEY') || has('EBAY_BUY_TOKEN'),
+      canSource: has('CJ_DROPSHIPPING_API_KEY') ||
                  (has('EBAY_CLIENT_ID') && has('EBAY_CLIENT_SECRET')) ||
                  has('SERPAPI_KEY') || has('SERP_API_KEY') ||
                  ((has('GOOGLE_API_KEY') || has('GOOGLE_VISION_KEY')) &&
