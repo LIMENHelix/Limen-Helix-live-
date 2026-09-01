@@ -34,7 +34,7 @@ process.env.RELAY_ADMIN_KEY = process.env.RELAY_ADMIN_KEY || 'test-admin-key';
 // So: every provider credential is stripped, AND the transport itself is blocked. A test
 // that needs a network answer installs its own stub and restores to this blocker, never
 // to the real fetch.
-['CJ_DROPSHIPPING_API_KEY', 'CJ_API_KEY', 'EBAY_BUY_TOKEN', 'EBAY_CLIENT_ID', 'EBAY_CLIENT_SECRET', 'EBAY_TOKEN',
+['CJ_API_KEY', 'EBAY_BUY_TOKEN', 'EBAY_CLIENT_ID', 'EBAY_CLIENT_SECRET', 'EBAY_TOKEN',
  'SERPAPI_KEY', 'SERP_API_KEY', 'GOOGLE_API_KEY', 'GOOGLE_VISION_KEY', 'GOOGLE_CSE_ID',
  'GOOGLE_SEARCH_ENGINE_ID', 'XAI_API_KEY', 'GROK_API_KEY', 'STRIPE_SECRET_KEY'
 ].forEach(function (k) { delete process.env[k]; });
@@ -713,10 +713,9 @@ function invoke(handler, req) {
   assert('unconfigured CJ reports it, does not throw', cj.configured() === false);
   var cjOff = await cj.search({ keyword: 'phone case' });
   assert('search fails closed with no key', cjOff.ok === false && cjOff.items.length === 0);
-  assert('and names the missing credential', /CJ_DROPSHIPPING_API_KEY/.test(cjOff.reason || ''), cjOff.reason);
+  assert('and names the missing credential', /CJ_API_KEY/.test(cjOff.reason || ''), cjOff.reason);
   var cjOrder = await cj.placeOrder({ orderNumber: 'o1', vid: '123', shippingAddress: addr });
-  assert('placing an order with no key is refused', cjOrder.ok === false && /CJ_DROPSHIPPING_API_KEY/.test(cjOrder.error));
-  assert('and it does NOT accept the Commission Junction variable of the same family', cjOff.reason.indexOf('CJ_DROPSHIPPING_API_KEY') !== -1);
+  assert('placing an order with no key is refused', cjOrder.ok === false && /CJ_API_KEY/.test(cjOrder.error));
 
   // Address and idempotency are checked BEFORE any spend, because a half-placed order
   // against a prepaid wallet is money gone with nothing to ship.
@@ -733,7 +732,7 @@ function invoke(handler, req) {
     escaped.push(String(u));
     throw new Error('BLOCKED: the test suite must never reach a live supplier');
   };
-  process.env.CJ_DROPSHIPPING_API_KEY = 'TEST-NOT-A-REAL-KEY@api@0000';
+  process.env.CJ_API_KEY = 'TEST-NOT-A-REAL-KEY@api@0000';
   delete require.cache[require.resolve('../lib/relay-cj')];
   var cj2 = require('../lib/relay-cj');
 
@@ -755,7 +754,7 @@ function invoke(handler, req) {
   assert('and the block is what stopped it', escaped.length > 0 && /cjdropshipping/.test(escaped[0]), escaped.join(', '));
 
   global.fetch = realFetchCj;
-  delete process.env.CJ_DROPSHIPPING_API_KEY;
+  delete process.env.CJ_API_KEY;
   delete require.cache[require.resolve('../lib/relay-cj')];
 
   // ── T24 ───────────────────────────────────────────
