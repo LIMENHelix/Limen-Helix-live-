@@ -22,6 +22,13 @@
 
 process.env.RELAY_ADMIN_KEY = process.env.RELAY_ADMIN_KEY || 'test-admin-key';
 
+// NEVER let this harness reach a live supplier. T23 calls placeOrder to prove it refuses
+// bad input, and with a real CJ_API_KEY present those calls would submit orders against
+// the real prepaid wallet using the test address. A failing assertion does not halt the
+// run, so the guard has to be the credential itself being absent.
+delete process.env.CJ_API_KEY;
+delete process.env.EBAY_BUY_TOKEN;
+
 var failures = 0, tests = 0;
 function assert(name, cond, detail) {
   tests++;
@@ -695,7 +702,7 @@ function invoke(handler, req) {
 
   // Address and idempotency are checked BEFORE any spend, because a half-placed order
   // against a prepaid wallet is money gone with nothing to ship.
-  process.env.CJ_API_KEY = 'test@api@key';
+  process.env.CJ_API_KEY = 'TEST-NOT-A-REAL-KEY@api@0000';   // never reaches CJ: every call below fails before the network
   delete require.cache[require.resolve('../lib/relay-cj')];
   var cj2 = require('../lib/relay-cj');
   var noAddr = await cj2.placeOrder({ orderNumber: 'o1', vid: '1', shippingAddress: { name: 'A' } });
@@ -716,9 +723,15 @@ function invoke(handler, req) {
     placeOrder: async function () { return { ok: true, sourceOrderId: 'CJ-1', amount: 120 }; }
   };
   var buy2 = require('../lib/relay-buy');
-  var over = await buy2.buyFromCJ({ orderId: 'o9', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
-  assert('a charge far above the authorised amount is refused', over.ok === false && over.overspent === true, JSON.stringify(over));
-  assert('and it names the order needing review', /CJ-1/.test(over.error), over.error);
+  // CJ has ALREADY charged the wallet by the time we see the amount. Reporting ok:false
+  // released the reservation, filed a manual task and understated the day's spend, while
+  // inviting a human or a retry to buy the same thing again. The purchase stands and is
+  // flagged instead.
+  var over = await buy2.buyFromCJ({ orderId: 'o9', listingId: 'l9', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
+  assert('an overspent order is still recorded as bought', over.ok === true, JSON.stringify(over));
+  assert('and it is flagged for review', over.needsReview === true);
+  assert('the review names the CJ order', /CJ-1/.test(over.reviewReason || ''), over.reviewReason);
+  assert('and it settles at what was actually charged', over.amount === 120, String(over.amount));
 
   require.cache[cjPath].exports = {
     configured: function () { return true; },
@@ -726,9 +739,35 @@ function invoke(handler, req) {
   };
   delete require.cache[require.resolve('../lib/relay-buy')];
   var buy3 = require('../lib/relay-buy');
-  var okBuy = await buy3.buyFromCJ({ orderId: 'o10', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
+  var okBuy = await buy3.buyFromCJ({ orderId: 'o10', listingId: 'l10', sourceId: 'v1', maxCost: 40, shippingAddress: addr });
   assert('a small variance within tolerance is accepted', okBuy.ok === true && okBuy.sourceOrderId === 'CJ-2', JSON.stringify(okBuy));
+  assert('and it is NOT flagged for review', okBuy.needsReview === false);
   assert('and it is marked as a real automated purchase', okBuy.provider === 'cj');
+
+  // CJ's orderNumber is an idempotency key. Two CJ lines in one cart must not collide.
+  var seen = [];
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function (o) { seen.push(o.orderNumber); return { ok: true, sourceOrderId: 'CJ-' + seen.length, amount: 10 }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buyIdem = require('../lib/relay-buy');
+  await buyIdem.buyFromCJ({ orderId: 'ordX', listingId: 'lstA', sourceId: 'v1', maxCost: 20, shippingAddress: addr });
+  await buyIdem.buyFromCJ({ orderId: 'ordX', listingId: 'lstB', sourceId: 'v2', maxCost: 20, shippingAddress: addr });
+  assert('each cart line gets its own CJ order number', seen[0] !== seen[1], JSON.stringify(seen));
+  assert('and the number is stable per line', /lstA/.test(seen[0]) && /lstB/.test(seen[1]), JSON.stringify(seen));
+
+  // A timeout or 429 is not a job for a human: the engine's sweep only retries failed
+  // fulfilments, so marking it manual removed a paid order from retry forever.
+  require.cache[cjPath].exports = {
+    configured: function () { return true; },
+    placeOrder: async function () { return { ok: false, error: 'CJ request failed: timeout' }; }
+  };
+  delete require.cache[require.resolve('../lib/relay-buy')];
+  var buyT = require('../lib/relay-buy');
+  var tr = await buyT.execute({ orderId: 'o12', listingId: 'l12', sourceMarketplace: 'cj', sourceId: 'v1', sourceUrl: 'https://www.cjdropshipping.com/product/-p-1.html', maxCost: 40, shippingAddress: addr });
+  assert('a transient failure stays retryable', tr.ok === false && tr.transient === true, JSON.stringify(tr).slice(0, 140));
+  assert('and does NOT become a manual task', tr.mode !== 'manual');
 
   // An empty wallet is a top-up, not a broken integration. The operator must be able to
   // tell those apart from the task that gets filed.
