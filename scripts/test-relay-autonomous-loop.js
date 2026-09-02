@@ -1431,6 +1431,42 @@ function invoke(handler, req) {
   assert('a cart whose TOTAL breaks the ceiling is refused',
     cBoth.status === 409 && /already in this cart/.test(JSON.stringify(cBoth.body)),
     JSON.stringify(cBoth.body).slice(0, 260));
+
+  // The per-unit/aggregate seam, one layer down. buyFromCJ computes
+  // maxCost - sourceShipping + requote.price: maxCost is the LINE total and cj.freight()
+  // quotes the whole quantity, so handing it one unit of freight subtracts one and adds
+  // all of them. On two units that alone clears the 10% drift threshold, after payment,
+  // on an order that never changed.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var buyPath = require.resolve('../lib/relay-buy');
+  var realBuy = require('../lib/relay-buy');
+  var EXEC_JOBS = [];
+  require.cache[buyPath].exports = Object.assign({}, realBuy, {
+    execute: async function (job) {
+      EXEC_JOBS.push(job);
+      return { ok: true, provider: 'cj', sourceOrderId: 'cjo_test', amount: job.maxCost };
+    }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engine2 = require('../lib/relay-engine');
+  var twoOrder = await store.createOrder({
+    buyerId: 'b_agg', buyerEmail: 'a@b.com', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: cjListing.id, qty: 2, unitPrice: 11.36, title: 'engine CJ case',
+      sourceCost: 7.57, sourceShipping: 4.87, sourceCarrier: 'CJPacket', sourceFromCountry: 'US' }]
+  });
+  await store.updateOrder(twoOrder.id, { status: 'paid' });
+  await engine2.fulfillPaidOrder({ orderId: twoOrder.id });
+  var job = EXEC_JOBS[0];
+  assert('fulfilment is handed the line total to spend against',
+    job && job.maxCost === 15.14, job && String(job.maxCost));
+  assert('and freight for the whole quantity, matching it',
+    job && job.sourceShipping === 9.74, job && String(job.sourceShipping));
+  require.cache[buyPath].exports = realBuy;
+  delete require.cache[require.resolve('../lib/relay-engine')];
   await db.set('relay:autonomy', {
     mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
     minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
@@ -1474,6 +1510,7 @@ function invoke(handler, req) {
   // every purchase against these; a $3.79 spread clears the positive-spread test and then
   // fails the default $8 floor, so without this the customer pays and the order is marked
   // blocked. Same rules, same code, one release earlier in the sequence.
+  await db.set('relay:autonomy-ledger', []);
   await db.set('relay:autonomy', {
     mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
     minMarginUsd: 8, minMarginPct: 0.18, requireFunds: false
