@@ -161,6 +161,26 @@ async function handleGET(q) {
     };
   }
 
+  // CJ DIAGNOSTIC. Operator-only, read-only, never calls placeOrder.
+  //
+  // Exists because searchCJ catches errors and returns [], so from outside a CJ failure
+  // and "nothing matched" are indistinguishable — which is why production returning zero
+  // while identical code returns three items locally could not be diagnosed by probing
+  // endpoints. This reports which of the four gates rejects each product, plus the raw
+  // CJ error and the actual response shape.
+  if (action === 'cj-probe') {
+    const cj = require('../lib/relay-cj');
+    return {
+      ok: true,
+      probe: await cj.probe({
+        keyword: q.keyword || 'phone case',
+        maxPrice: q.maxPrice != null ? parseFloat(q.maxPrice) : 500,
+        countryCode: q.country || 'US',
+        limit: parseInt(q.limit, 10) || 5
+      })
+    };
+  }
+
   if (action === 'autonomy') {
     return { ok: true, config: await autonomy.getConfig(), status: await autonomy.status() };
   }
