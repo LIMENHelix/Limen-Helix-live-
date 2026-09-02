@@ -30,6 +30,8 @@ const policy = require('../lib/relay-policy');
 const finance = require('../lib/relay-finance-bridge');
 // Stock, freight and supplier reachability, all rechecked before the charge. See gate 2.
 const supplier = require('../lib/relay-supplier-quote');
+// The same limits fulfilment will apply, asked before charging. See gate 5.
+const autonomy = require('../lib/relay-autonomy');
 
 const HOUSE_MARKETPLACE = process.env.RELAY_MARKETPLACE_ID || 'mkt_relay';
 const HOUSE_SELLER = process.env.RELAY_HOUSE_SELLER_ID || 'usr_relay_house';
@@ -134,6 +136,27 @@ module.exports = async (req, res) => {
                  'current price for your address.',
         shownPrice: isFinite(cap) ? Math.round(cap * 100) / 100 : null,
         currentPrice: customerPrice
+      });
+    }
+
+    // ── gate 5: don't sell what the loop will refuse to buy ──
+    // relay-engine.fulfillLine authorises every purchase against the same margin floors
+    // and spend caps. A $2 spread on a $7.72 sale clears the positive-spread check above
+    // and then fails the $8 floor, so the customer pays and fulfilment marks the order
+    // blocked. Asking the real gate in dry-run mode, rather than reimplementing its rules
+    // here where they would drift, refuses that sale before the charge.
+    const limits = await autonomy.authorize({
+      amount: effectiveCost,
+      salePrice: customerPrice,
+      marketplace: sourceItem.source,
+      note: sourceItem.title || search.description || null,
+      dryRun: true
+    });
+    if (!limits.allowed) {
+      return res.status(409).json({
+        error: 'this item cannot be fulfilled at that price',
+        message: 'Nothing was charged.',
+        reason: limits.reason
       });
     }
 

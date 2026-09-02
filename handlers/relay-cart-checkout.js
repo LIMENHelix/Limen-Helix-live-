@@ -36,6 +36,8 @@ const policy = require('../lib/relay-policy');
 const finance = require('../lib/relay-finance-bridge');
 // Stock, freight and supplier reachability, rechecked per line before the cart is paid.
 const supplier = require('../lib/relay-supplier-quote');
+// The same limits fulfilment will apply, asked per line before the cart is paid.
+const autonomy = require('../lib/relay-autonomy');
 
 
 const FREE_SHIPPING_OVER = 75;
@@ -149,6 +151,22 @@ module.exports = async function handler(req, res) {
     });
     if (!check.ok) {
       unavailable.push({ listingId: listingId, reason: check.reason, code: check.code });
+      continue;
+    }
+
+    // The same limits fulfilment will apply to this line, asked before the cart is paid.
+    // Selling a spread that fails the margin floor means the customer pays and
+    // relay-engine.fulfillLine marks the line blocked; asking the real gate in dry-run
+    // mode keeps one implementation of those rules instead of a copy that drifts.
+    const limits = await autonomy.authorize({
+      amount: round((check.effectiveCost != null ? check.effectiveCost : listing.sourceCost) * qty),
+      salePrice: round(listing.price * qty),
+      marketplace: listing.sourceMarketplace,
+      note: listing.title,
+      dryRun: true
+    });
+    if (!limits.allowed) {
+      unavailable.push({ listingId: listingId, reason: limits.reason, code: 'not-fulfillable' });
       continue;
     }
 

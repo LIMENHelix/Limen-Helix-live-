@@ -1159,6 +1159,14 @@ function invoke(handler, req) {
   // CJ's DEFAULT destination, and with fromCountry null asked the default CN warehouse to
   // ship a variant quoted from US stock.
   console.log('T31: freight provenance survives the customer path');
+  // Checkout now asks the fulfilment gate before charging, so these fixtures need limits
+  // that would actually let the purchase happen. $3.79 on an $11.36 sale is a real spread
+  // but under the DEFAULT $8 floor, which is the subject of its own assertion below.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
   var financePath = require.resolve('../lib/relay-finance-bridge');
   var realFinance = require('../lib/relay-finance-bridge');
   require.cache[financePath].exports = Object.assign({}, realFinance, {
@@ -1369,6 +1377,26 @@ function invoke(handler, req) {
     cLine && cLine.sourceFromCountry === 'US', cLine && String(cLine.sourceFromCountry));
   assert('while the shared listing keeps its own default-destination quote',
     (await store.getListing(cjListing.id)).sourceShipping === 4.87);
+
+  // Multi-unit: cj.freight() quotes the WHOLE quantity, listing.sourceCost is per unit,
+  // and relay-engine multiplies the line cost by qty. Adding the whole quote to a
+  // per-unit cost therefore counts the freight twice over, and compares a two-unit
+  // freight against a one-unit cost in the drift gate — so an unchanged two-unit order
+  // gets refused as drift, or authorised at an inflated cost.
+  FREIGHT_OVERRIDE = 9.74;          // 4.87 a unit for two, i.e. no change at all
+  var cTwo = await invoke(cart2, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: cjListing.id, qty: 2 }], shippingAddress: cartAddr,
+      buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('an unchanged two-unit order is not refused as drift',
+    cTwo.status === 200, JSON.stringify(cTwo.body).slice(0, 220));
+  var twoLine = cTwo.body && cTwo.body.orderId
+    ? ((await store.getOrder(cTwo.body.orderId)).lines || [])[0] : null;
+  assert('and its line cost stays per unit, so fulfilment does not double the freight',
+    twoLine && twoLine.sourceCost === 7.57, twoLine && String(twoLine.sourceCost));
+  assert('with the per-unit freight recorded, not the whole-order quote',
+    twoLine && twoLine.sourceShipping === 4.87, twoLine && String(twoLine.sourceShipping));
   FREIGHT_OVERRIDE = undefined;
 
   // A supplier that will not quote is a refusal, not a guess. Nothing may be charged.
@@ -1404,6 +1432,34 @@ function invoke(handler, req) {
   assert('and still charges nothing',
     Object.keys((await db.get('relay:store:orders')) || {}).length === beforeUnconf);
   require.cache[cjPath2].exports.configured = cfgReal;
+
+  // The loop's own limits, asked BEFORE the charge. relay-engine.fulfillLine authorises
+  // every purchase against these; a $3.79 spread clears the positive-spread test and then
+  // fails the default $8 floor, so without this the customer pays and the order is marked
+  // blocked. Same rules, same code, one release earlier in the sequence.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 8, minMarginPct: 0.18, requireFunds: false
+  });
+  var beforeThin = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  var pResThin = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31t', policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
+  });
+  assert('a spread fulfilment would refuse is not sold',
+    pResThin.status === 409 && /floor/.test(JSON.stringify(pResThin.body)),
+    JSON.stringify(pResThin.body).slice(0, 200));
+  assert('and nothing was charged for that either',
+    Object.keys((await db.get('relay:store:orders')) || {}).length === beforeThin);
+  // A dry run must not consume the day's ceiling: it reserves nothing.
+  assert('the pre-check reserves no spend',
+    ((await db.get('relay:autonomy-ledger')) || []).length === 0,
+    JSON.stringify((await db.get('relay:autonomy-ledger')) || []).slice(0, 160));
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
 
   require.cache[financePath].exports = realFinance;
   require.cache[cjPath2].exports = realCj2;
