@@ -1442,6 +1442,46 @@ function invoke(handler, req) {
     mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
     minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
   });
+  // Warehouse choice has to be quantity-aware. Preferring the destination's own warehouse
+  // on ANY stock refused a two-unit order against {qty:1,from:'US'} while a CN warehouse
+  // held ten. This exercises the real cj.stock() against a stubbed CJ response, because
+  // the defect is in how the warehouses are compared, not in how they are fetched.
+  var cjRealMod = require.cache[cjPath2].exports;
+  delete require.cache[cjPath2];
+  // relay-cj reads CJ_API_KEY at module load and the suite deletes it at the top, so a
+  // fresh require without one is unconfigured and every call short-circuits.
+  process.env.CJ_API_KEY = 'test-key-not-real';
+  var cjLive = require('../lib/relay-cj');
+  var realFetchStock = global.fetch;
+  global.fetch = async function (u) {
+    var url = String(u);
+    if (url.indexOf('getAccessToken') !== -1) {
+      return { ok: true, status: 200, json: async function () {
+        return { result: true, data: { accessToken: 'tok', refreshToken: 'r' } }; } };
+    }
+    if (url.indexOf('stock/queryByVid') !== -1) {
+      return { ok: true, status: 200, json: async function () {
+        return { result: true, data: [
+          { countryCode: 'US', totalInventoryNum: 1 },
+          { countryCode: 'CN', totalInventoryNum: 10 }
+        ] }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+  var oneUnit = await cjLive.stock('v_wh', 'US', 1);
+  assert('one unit ships from the destination warehouse that holds it',
+    oneUnit.qty === 1 && oneUnit.from === 'US', JSON.stringify(oneUnit));
+  var twoUnits = await cjLive.stock('v_wh', 'US', 2);
+  assert('two units fall back to the warehouse that can actually fill them',
+    twoUnits.qty === 10 && twoUnits.from === 'CN', JSON.stringify(twoUnits));
+  var twentyUnits = await cjLive.stock('v_wh', 'US', 20);
+  assert('and a quantity nothing can fill refuses with the largest real number',
+    twentyUnits.qty === 10, JSON.stringify(twentyUnits));
+  global.fetch = realFetchStock;
+  delete process.env.CJ_API_KEY;
+  delete require.cache[cjPath2];
+  require.cache[cjPath2] = { id: cjPath2, filename: cjPath2, loaded: true, exports: cjRealMod };
+
   var buyPath = require.resolve('../lib/relay-buy');
   var realBuy = require('../lib/relay-buy');
   var EXEC_JOBS = [];
