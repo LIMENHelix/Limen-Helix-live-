@@ -69,7 +69,18 @@ module.exports = async (req, res) => {
           source: r.source,
           sourceCost: r.price,
           sourceUrl: r.url,
-          buyable: r.buyable === true
+          buyable: r.buyable === true,
+          // Freight provenance. Dropping these was a live money defect: buyFromCJ only
+          // requotes shipping to the customer's real country when sourceShipping is
+          // present (lib/relay-buy.js:185), so a customer-initiated purchase skipped the
+          // requote and ordered at a cost quoted to CJ's DEFAULT destination, and with
+          // fromCountry null it asked the default CN warehouse to ship a variant that may
+          // have been quoted from US or EU stock. The engine's own path recorded them all
+          // along (lib/relay-engine.js:251-253); only this path lost them.
+          sourceShipping: r.shipping != null ? r.shipping : null,
+          sourceCarrier: r.carrier || null,
+          sourceFromCountry: r.fromCountry || null,
+          sourceProvider: r.provider || null
         };
       })
     });

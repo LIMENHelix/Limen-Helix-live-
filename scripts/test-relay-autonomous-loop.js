@@ -1019,10 +1019,19 @@ function invoke(handler, req) {
   var gathered = openAt !== -1 ? ssSrc.slice(openAt, closeAt) : '';
   var providerCount = (gathered.match(/\bsearch[A-Z]\w*\(/g) || []).length;
   var concatLine = (ssSrc.match(/\[\]\.concat\(([^)]*)\)/) || [])[1] || '';
-  var concatCount = (concatLine.match(/results\[\d+\]/g) || []).length;
-  assert('every provider gathered is also concatenated',
-    providerCount > 0 && providerCount === concatCount,
-    providerCount + ' providers gathered vs ' + concatCount + ' concatenated: ' + concatLine);
+  // Compare the exact SET of indices, not how many appear. A count alone passes on
+  // `results[0], results[2], results[2]` — three references, three providers, and the
+  // reverse-image slot silently dropped while the behavioural assertion below still
+  // finds CJ and goes green.
+  var slots = (concatLine.match(/results\[(\d+)\]/g) || [])
+    .map(function (s) { return parseInt(s.replace(/\D/g, ''), 10); });
+  var want = [];
+  for (var pi = 0; pi < providerCount; pi++) want.push(pi);
+  var got = slots.slice().sort(function (a, b) { return a - b; });
+  assert('every provider gathered is also concatenated, exactly once',
+    providerCount > 0 && got.join(',') === want.join(','),
+    providerCount + ' providers gathered, merged slots [' + got.join(',') +
+    '], expected [' + want.join(',') + ']: ' + concatLine);
 
   // And behaviourally: a provider returning items must produce items out of the merge.
   // An earlier block set SERPAPI_KEY, and re-requiring the source-search chain here would
@@ -1061,6 +1070,136 @@ function invoke(handler, req) {
   else process.env.SERPAPI_KEY = savedSerp;
   delete require.cache[ssPath];
   delete require.cache[require.resolve('../lib/relay-reverse-image')];
+  require('../lib/relay-source-search');
+
+  // ── T30 ─────────────────────────────────────────────────────────────────
+  // A cheap result Relay CANNOT buy alone must not outrank one it can. Every eBay item
+  // carries buyable:true because eBay has a Buy API, but that API refuses every call
+  // until an approved keyset is in EBAY_BUY_TOKEN (lib/relay-buy.js:73-78). Ranking on
+  // `buyable` alone let twenty $1 eBay results sort ahead of CJ on price and the
+  // .slice(0, 20) then cut CJ out, so the loop published three listings that each stall
+  // waiting for a human.
+  console.log('T30: unattended stock outranks cheaper manual stock');
+  var realFetchRank = global.fetch;
+  var savedEbayId = process.env.EBAY_CLIENT_ID, savedEbaySecret = process.env.EBAY_CLIENT_SECRET;
+  process.env.EBAY_CLIENT_ID = 'test-id';
+  process.env.EBAY_CLIENT_SECRET = 'test-secret';
+  // Local stub. Serves eBay's two endpoints from memory and reaches nothing.
+  global.fetch = async function (u) {
+    var url = String(u);
+    if (url.indexOf('identity/v1/oauth2/token') !== -1) {
+      return { ok: true, status: 200, json: async function () { return { access_token: 'tok', expires_in: 7200 }; } };
+    }
+    if (url.indexOf('item_summary/search') !== -1) {
+      var summaries = [];
+      for (var ei = 0; ei < 25; ei++) {
+        summaries.push({
+          itemId: 'ebay' + ei, title: 'cheap case ' + ei,
+          price: { value: '1.00', currency: 'USD' },
+          itemWebUrl: 'https://www.ebay.com/itm/' + ei,
+          condition: 'Used'
+        });
+      }
+      return { ok: true, status: 200, json: async function () { return { itemSummaries: summaries }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+  delete require.cache[ssPath];
+  var cjStub30 = {
+    configured: function () { return true; },
+    search: async function () {
+      return { ok: true, reason: null, items: [{
+        itemId: 'v9', source: 'cj', title: 'CJ case', price: 7.57, shipping: 4.87,
+        shippingKnown: true, carrier: 'CJPacket', fromCountry: 'US', condition: 'new',
+        url: 'https://www.cjdropshipping.com/product/-p-RANK.html',
+        image: null, seller: 'CJ Dropshipping', vid: 'v9', stock: 100,
+        buyable: true, provider: 'cj'
+      }] };
+    }
+  };
+  require.cache[cjPath2].exports = cjStub30;
+  var ss3 = require('../lib/relay-source-search');
+  var ranked = await ss3.searchAllSources({ description: 'phone case', maxPrice: 500 });
+  assert('both providers merged', ranked.ok === true && ranked.items.length === 20,
+    JSON.stringify({ n: ranked.items.length, sources: ranked.sources }));
+  assert('the CJ item ranks first despite costing 7x more',
+    ranked.items[0] && ranked.items[0].source === 'cj',
+    ranked.items[0] && ranked.items[0].source + ' @ $' + ranked.items[0].price);
+  assert('and therefore survives the truncation',
+    ranked.items.some(function (i) { return i.source === 'cj'; }));
+  assert('eBay without a Buy keyset is not treated as unattended',
+    ss3.unattended({ source: 'ebay' }) === false);
+  // The rank follows the credential, not the marketplace name: load the keyset and the
+  // cheaper eBay item is genuinely orderable, so price decides again.
+  process.env.EBAY_BUY_TOKEN = 'test-buy-token';
+  var rankedWithToken = await ss3.searchAllSources({ description: 'phone case', maxPrice: 500 });
+  assert('with the keyset loaded, cheapest wins again',
+    rankedWithToken.items[0] && rankedWithToken.items[0].source === 'ebay',
+    rankedWithToken.items[0] && rankedWithToken.items[0].source);
+  delete process.env.EBAY_BUY_TOKEN;
+
+  // ── T31 ─────────────────────────────────────────────────────────────────
+  // The customer path must carry the same freight provenance the engine records.
+  // buyFromCJ only requotes shipping to the buyer's real country when sourceShipping is
+  // present (lib/relay-buy.js:185). relay-demand-search recorded only id/cost/url/buyable,
+  // so a customer-initiated CJ order skipped that requote, was charged against a quote to
+  // CJ's DEFAULT destination, and with fromCountry null asked the default CN warehouse to
+  // ship a variant quoted from US stock.
+  console.log('T31: freight provenance survives the customer path');
+  var financePath = require.resolve('../lib/relay-finance-bridge');
+  var realFinance = require('../lib/relay-finance-bridge');
+  require.cache[financePath].exports = Object.assign({}, realFinance, {
+    paymentsEnabled: function () { return true; },
+    createPayment: async function () {
+      return { ok: true, url: 'https://pay.test/x', paymentLinkId: 'plink_test' };
+    }
+  });
+  delete require.cache[require.resolve('../handlers/relay-demand-search')];
+  delete require.cache[require.resolve('../handlers/relay-demand-purchase')];
+  var dSearch = require('../handlers/relay-demand-search');
+  var dPurchase = require('../handlers/relay-demand-purchase');
+
+  await db.set('relay:searches', []);
+  var sRes = await invoke(dSearch, {
+    method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 500 }
+  });
+  assert('the search returned the CJ item', sRes.status === 200 && sRes.body && sRes.body.resultCount > 0,
+    JSON.stringify(sRes.body && sRes.body.message || sRes.body).slice(0, 160));
+  var recorded = (await db.get('relay:searches') || [])[0] || {};
+  var cjMap = (recorded.sourceMapping || []).find(function (m) { return m.source === 'cj'; }) || {};
+  assert('the mapping keeps the freight quote', cjMap.sourceShipping === 4.87, String(cjMap.sourceShipping));
+  assert('the mapping keeps the carrier', cjMap.sourceCarrier === 'CJPacket', String(cjMap.sourceCarrier));
+  assert('the mapping keeps the warehouse country', cjMap.sourceFromCountry === 'US', String(cjMap.sourceFromCountry));
+
+  var pRes = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: {
+      searchId: recorded.searchId, itemId: cjMap.itemId, buyerId: 'b_t31',
+      policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' }
+    }
+  });
+  assert('the purchase created a listing', pRes.status === 200 && pRes.body && pRes.body.listingId,
+    JSON.stringify(pRes.body).slice(0, 200));
+  var t31Listing = pRes.body && pRes.body.listingId ? await store.getListing(pRes.body.listingId) : null;
+  assert('the listing fulfilment reads keeps the freight quote',
+    t31Listing && t31Listing.sourceShipping === 4.87, t31Listing && String(t31Listing.sourceShipping));
+  assert('and the warehouse country, so it does not ship blind from CN',
+    t31Listing && t31Listing.sourceFromCountry === 'US', t31Listing && String(t31Listing.sourceFromCountry));
+  assert('and the carrier the quote was priced on',
+    t31Listing && t31Listing.sourceCarrier === 'CJPacket', t31Listing && String(t31Listing.sourceCarrier));
+  // The condition buyFromCJ actually branches on, stated as the test's own subject.
+  assert('so buyFromCJ will requote to the buyer address instead of skipping it',
+    t31Listing && t31Listing.sourceShipping != null);
+
+  require.cache[financePath].exports = realFinance;
+  require.cache[cjPath2].exports = realCj2;
+  global.fetch = realFetchRank;
+  if (savedEbayId === undefined) delete process.env.EBAY_CLIENT_ID; else process.env.EBAY_CLIENT_ID = savedEbayId;
+  if (savedEbaySecret === undefined) delete process.env.EBAY_CLIENT_SECRET; else process.env.EBAY_CLIENT_SECRET = savedEbaySecret;
+  delete require.cache[ssPath];
+  delete require.cache[require.resolve('../handlers/relay-demand-search')];
+  delete require.cache[require.resolve('../handlers/relay-demand-purchase')];
   require('../lib/relay-source-search');
 
   // ── hermetic check ──────────────────────────────────────────────────────

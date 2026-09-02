@@ -101,6 +101,14 @@ module.exports = async (req, res) => {
       sourceId: sourceItem.itemId,
       sourceUrl: sourceItem.sourceUrl,
       sourceCost: sourceItem.sourceCost,
+      // Carried from the search so fulfilment requotes freight to the buyer's actual
+      // address and ships from the warehouse the price was quoted against. Null on
+      // searches recorded before this field existed, which is the old behaviour, not a
+      // new one: buyFromCJ then skips the requote exactly as it did before.
+      sourceShipping: sourceItem.sourceShipping != null ? sourceItem.sourceShipping : null,
+      sourceCarrier: sourceItem.sourceCarrier || null,
+      sourceFromCountry: sourceItem.sourceFromCountry || null,
+      sourceProvider: sourceItem.sourceProvider || null,
       marginAtListing: priced.marginFraction,
       sourceVerifiedAt: search.ts || null
     });
