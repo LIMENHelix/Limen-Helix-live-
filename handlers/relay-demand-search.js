@@ -37,10 +37,19 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'description or imageUrl required' });
     }
 
+    // The box is labelled "Max Price", so the customer means the price THEY pay. The
+    // search filters on acquisition cost, so a $100 maximum was admitting a $90 item and
+    // then showing it at $121.50 under the default 35% margin — over the budget they set.
+    // Convert their number to a cost ceiling using the same live margin the purchase will
+    // charge on, and hand the original through so the refusal quotes their figure.
+    const liveMargin = await marginCalc.getMargin();
+    const costCeiling = Math.round((maxPrice / (1 + liveMargin)) * 100) / 100;
+
     const found = await sourceSearch.searchAllSources({
       description: description,
       imageUrl: imageUrl,
-      maxPrice: maxPrice,
+      maxPrice: costCeiling,
+      maxPriceLabel: maxPrice,
       category: category,
       condition: condition
     });

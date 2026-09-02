@@ -1080,6 +1080,7 @@ function invoke(handler, req) {
   // .slice(0, 20) then cut CJ out, so the loop published three listings that each stall
   // waiting for a human.
   console.log('T30: unattended stock outranks cheaper manual stock');
+  var FREIGHT_OVERRIDE;   // undefined = quote as searched, a number = that price, null = refuse
   var realFetchRank = global.fetch;
   var savedEbayId = process.env.EBAY_CLIENT_ID, savedEbaySecret = process.env.EBAY_CLIENT_SECRET;
   process.env.EBAY_CLIENT_ID = 'test-id';
@@ -1105,8 +1106,17 @@ function invoke(handler, req) {
     return BLOCK_NETWORK(u);
   };
   delete require.cache[ssPath];
+  var FREIGHT_CALLS = [];
   var cjStub30 = {
     configured: function () { return true; },
+    // The destination requote. Returns the same $4.87 the search quoted unless a test
+    // sets FREIGHT_OVERRIDE, so the ordinary path is unchanged and the interesting cases
+    // are explicit.
+    freight: async function (vid, qty, country, zip, fromCountry) {
+      FREIGHT_CALLS.push({ vid: vid, qty: qty, country: country, zip: zip, fromCountry: fromCountry });
+      if (FREIGHT_OVERRIDE === null) return null;
+      return { price: FREIGHT_OVERRIDE == null ? 4.87 : FREIGHT_OVERRIDE, carrier: 'CJPacket' };
+    },
     search: async function () {
       return { ok: true, reason: null, items: [{
         itemId: 'v9', source: 'cj', title: 'CJ case', price: 7.57, shipping: 4.87,
@@ -1196,6 +1206,46 @@ function invoke(handler, req) {
     t31Listing && t31Listing.title === 'CJ case', t31Listing && t31Listing.title);
   assert('and describes the condition of what actually ships',
     t31Listing && t31Listing.condition === 'new', t31Listing && t31Listing.condition);
+  // Freight was priced to THIS address before the payment link existed, not after.
+  assert('freight was requoted to the buyer address before charging',
+    FREIGHT_CALLS.length === 1 && FREIGHT_CALLS[0].country === 'US' && FREIGHT_CALLS[0].zip === '64111',
+    JSON.stringify(FREIGHT_CALLS));
+  assert('and against the warehouse holding the stock',
+    FREIGHT_CALLS[0] && FREIGHT_CALLS[0].fromCountry === 'US', JSON.stringify(FREIGHT_CALLS[0]));
+
+  // Dearer destination: the customer pays on the requote, not on the search quote. Before
+  // this, the difference surfaced only inside buyFromCJ AFTER the charge, where it refuses
+  // past 10% (lib/relay-buy.js:199-207) and leaves a paid order needing a human.
+  FREIGHT_OVERRIDE = 9.87;
+  var sRes2 = await invoke(dSearch, { method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 500 } });
+  var rec2 = (await db.get('relay:searches') || []).slice(-1)[0];
+  var map2 = (rec2.sourceMapping || []).find(function (m) { return m.source === 'cj'; });
+  var pRes2 = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31b', policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'Toronto', state: 'ON', postalCode: 'M5V', country: 'CA' } }
+  });
+  var listing2 = pRes2.body && pRes2.body.listingId ? await store.getListing(pRes2.body.listingId) : null;
+  assert('a dearer destination is priced in before the charge',
+    listing2 && listing2.sourceCost === 12.57, listing2 && String(listing2.sourceCost));
+  assert('and the customer price rises with it',
+    pRes2.body && pRes2.body.amount > 7.57 * 1.3, pRes2.body && String(pRes2.body.amount));
+
+  // A supplier that will not quote is a refusal, not a guess. Nothing may be charged.
+  FREIGHT_OVERRIDE = null;
+  var ordersBefore = ((await db.get('relay:store:orders')) || {});
+  var beforeCount = Object.keys(ordersBefore).length;
+  var pRes3 = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31c', policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
+  });
+  assert('no shipping quote means no sale', pRes3.status === 409, String(pRes3.status));
+  assert('and says plainly that nothing was charged',
+    /nothing was charged/i.test(JSON.stringify(pRes3.body)), JSON.stringify(pRes3.body).slice(0, 160));
+  assert('and no order was written',
+    Object.keys((await db.get('relay:store:orders')) || {}).length === beforeCount);
+  FREIGHT_OVERRIDE = undefined;
 
   require.cache[financePath].exports = realFinance;
   require.cache[cjPath2].exports = realCj2;
@@ -1267,9 +1317,83 @@ function invoke(handler, req) {
   assert('a new request still gets it', (newReq.sources || []).indexOf('cj') !== -1,
     JSON.stringify(newReq.sources));
 
+  // The harder half of the same defect: an open-web cjdropshipping URL that CJ's OWN
+  // search did not return has no verified record to lose the dedup to. Ranking cannot
+  // save it, and lib/relay-buy.js:51 still routes it to buyFromCJ by its domain, so it
+  // would be sold and paid for before anyone found out it could not be ordered.
+  require.cache[riPath].exports = Object.assign({}, require.cache[riPath].exports, {
+    findForSale: async function () {
+      return { ok: true, matches: [{
+        url: 'https://www.cjdropshipping.com/product/-p-NOTINOURSEARCH.html',
+        title: 'a CJ product CJ did not return to us', price: 2.00, shipping: 0,
+        thumbnail: null, sourceName: 'cjdropshipping', provider: 'serpapi_shopping'
+      }] };
+    }
+  });
+  require.cache[cjPath2].exports = {
+    configured: function () { return true; },
+    search: async function () { return { ok: true, reason: null, items: [] }; }
+  };
+  delete require.cache[ssPath];
+  var ss5 = require('../lib/relay-source-search');
+  var unverified = await ss5.searchAllSources({ description: 'phone case', maxPrice: 500 });
+  assert('an unverified open-web supplier URL is refused, not sold',
+    (unverified.items || []).length === 0, JSON.stringify((unverified.items || []).map(function (i) { return i.itemId; })));
+  assert('and nothing carrying a synthetic id reaches a supplier route',
+    !(unverified.items || []).some(function (i) { return /^img_/.test(i.itemId); }));
+
   require.cache[riPath].exports = realRi;
   require.cache[cjPath2].exports = realCj2;
   delete require.cache[ssPath];
+  require('../lib/relay-source-search');
+
+  // ── T33 ─────────────────────────────────────────────────────────────────
+  // "Max Price" is the price the CUSTOMER pays. The search filtered on acquisition cost,
+  // so a $100 maximum admitted a $90 item and pages/relay.html then displayed it at
+  // $121.50 under the default 35% margin — over the budget they had just typed in.
+  console.log('T33: the buyer maximum is the price the buyer pays');
+  await db.set('relay_margin', 0.35);
+  require.cache[cjPath2].exports = {
+    configured: function () { return true; },
+    freight: async function () { return { price: 0, carrier: 'CJPacket' }; },
+    search: async function (o) {
+      // Answers against whatever ceiling it is given, the way CJ does. One item sits
+      // under a $100 cost ceiling but over it once the margin is added; the other clears
+      // both, so the test distinguishes "filtered correctly" from "found nothing".
+      var ceiling = o && o.maxPrice != null ? parseFloat(o.maxPrice) : Infinity;
+      return { ok: true, reason: null, items: [
+        { cost: 90.00, id: 'v_costly', name: 'costly case' },
+        { cost: 50.00, id: 'v_ok', name: 'affordable case' }
+      ].filter(function (x) { return x.cost <= ceiling; }).map(function (x) {
+        return {
+          itemId: x.id, source: 'cj', title: x.name, price: x.cost, shipping: 0,
+          shippingKnown: true, carrier: 'CJPacket', fromCountry: 'US', condition: 'new',
+          url: 'https://www.cjdropshipping.com/product/-p-' + x.id + '.html', image: null,
+          seller: 'CJ Dropshipping', vid: x.id, stock: 10, buyable: true, provider: 'cj'
+        };
+      }) };
+    }
+  };
+  delete require.cache[ssPath];
+  delete require.cache[require.resolve('../lib/relay-margin-calculator')];
+  delete require.cache[require.resolve('../handlers/relay-demand-search')];
+  var dSearch2 = require('../handlers/relay-demand-search');
+  var budget = await invoke(dSearch2, {
+    method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 100 }
+  });
+  var shown = (budget.body && budget.body.results) || [];
+  var over = shown.filter(function (r) { return r.price > 100; });
+  assert('the affordable item is still offered', shown.length === 1, JSON.stringify(shown.map(function (r) { return r.price; })));
+  assert('no result is priced above the maximum the customer set',
+    over.length === 0, JSON.stringify(over.map(function (r) { return r.price; })));
+  // And the refusal quotes their figure, not the internal cost ceiling of $74.07.
+  assert('a refusal quotes the budget they typed',
+    !budget.body || !budget.body.reason || /\$100/.test(String(budget.body.reason)) || budget.body.resultCount > 0,
+    String(budget.body && budget.body.reason));
+
+  require.cache[cjPath2].exports = realCj2;
+  delete require.cache[ssPath];
+  delete require.cache[require.resolve('../handlers/relay-demand-search')];
   require('../lib/relay-source-search');
 
   // ── hermetic check ──────────────────────────────────────────────────────

@@ -28,6 +28,8 @@ const policy = require('../lib/relay-policy');
 // The only money call here. Relay does not import stripe-rail or finance-ledger; see
 // the seam in lib/relay-finance-bridge.js.
 const finance = require('../lib/relay-finance-bridge');
+// Supplier freight, requoted to the buyer's own address before the charge. See gate 2.
+const cj = require('../lib/relay-cj');
 
 const HOUSE_MARKETPLACE = process.env.RELAY_MARKETPLACE_ID || 'mkt_relay';
 const HOUSE_SELLER = process.env.RELAY_HOUSE_SELLER_ID || 'usr_relay_house';
@@ -76,10 +78,33 @@ module.exports = async (req, res) => {
       return res.status(409).json({ error: 'that item is no longer sourceable' });
     }
 
-    // ── gate 2: price computed server-side from the live margin ──
-    const priced = marginCalc.calculateMargin(sourceItem.sourceCost, await marginCalc.getMargin());
+    // ── gate 2: freight priced to THIS buyer, before any money moves ──
+    // The search quoted CJ freight to CJ's default destination, not to the address in
+    // front of us. Pricing and charging on that number means buyFromCJ discovers the
+    // difference only after the customer has paid, and refuses to order when it exceeds
+    // the recorded cost by more than 10% (lib/relay-buy.js:199-207) — a paid order that
+    // now needs a human. Requoting here costs nothing to refuse.
+    let effectiveCost = sourceItem.sourceCost;
+    let quotedShipping = sourceItem.sourceShipping != null ? sourceItem.sourceShipping : null;
+    let quotedCarrier = sourceItem.sourceCarrier || null;
+    if (sourceItem.source === 'cj' && cj.configured() && sourceItem.sourceShipping != null) {
+      const q = await cj.freight(sourceItem.itemId, 1, String(shippingAddress.country || 'US').toUpperCase(),
+                                 shippingAddress.postalCode, sourceItem.sourceFromCountry);
+      if (!q) {
+        return res.status(409).json({
+          error: 'could not price shipping to that address right now',
+          message: 'Nothing was charged. Try again in a moment.'
+        });
+      }
+      effectiveCost = Math.round((sourceItem.sourceCost - sourceItem.sourceShipping + q.price) * 100) / 100;
+      quotedShipping = q.price;
+      quotedCarrier = q.carrier || quotedCarrier;
+    }
+
+    // ── gate 3: price computed server-side from the live margin ──
+    const priced = marginCalc.calculateMargin(effectiveCost, await marginCalc.getMargin());
     const customerPrice = priced.customerPrice;
-    if (!(customerPrice > sourceItem.sourceCost)) {
+    if (!(customerPrice > effectiveCost)) {
       return res.status(409).json({ error: 'pricing error: no positive spread on that item' });
     }
 
@@ -107,13 +132,16 @@ module.exports = async (req, res) => {
       sourceMarketplace: sourceItem.source,
       sourceId: sourceItem.itemId,
       sourceUrl: sourceItem.sourceUrl,
-      sourceCost: sourceItem.sourceCost,
-      // Carried from the search so fulfilment requotes freight to the buyer's actual
-      // address and ships from the warehouse the price was quoted against. Null on
-      // searches recorded before this field existed, which is the old behaviour, not a
-      // new one: buyFromCJ then skips the requote exactly as it did before.
-      sourceShipping: sourceItem.sourceShipping != null ? sourceItem.sourceShipping : null,
-      sourceCarrier: sourceItem.sourceCarrier || null,
+      // The cost this order was actually priced and authorised against, freight to THIS
+      // address included. Recording the search-time number here would hand buyFromCJ a
+      // ceiling the order was never priced on.
+      sourceCost: effectiveCost,
+      // The freight actually quoted to this buyer's address at gate 2, and the warehouse
+      // it ships from. Null only for a search recorded before these fields existed, which
+      // is the old behaviour, not a new one: buyFromCJ then skips its own requote as
+      // it already did.
+      sourceShipping: quotedShipping,
+      sourceCarrier: quotedCarrier,
       sourceFromCountry: sourceItem.sourceFromCountry || null,
       sourceProvider: sourceItem.sourceProvider || null,
       marginAtListing: priced.marginFraction,
