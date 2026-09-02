@@ -115,6 +115,52 @@ async function handleGET(q) {
     };
   }
 
+  // WHERE EVERY PRODUCT CAME FROM. Operator-only, and it must stay that way: this is the
+  // one view that carries sourceUrl, sourceCost and the spread together. The public
+  // catalogue at /api/relay?view=catalog goes through store.publicListings, an allow-list
+  // that cannot emit any of these fields. Showing a customer where we bought their item
+  // and for how much ends the business.
+  if (action === 'inventory') {
+    const store = require('../lib/relay-store');
+    const raw = await store.activeListings(Math.min(parseInt(q.limit, 10) || 100, 300));
+    const rows = raw.map(function (l) {
+      const cost = l.sourceCost != null ? l.sourceCost : null;
+      const spread = cost != null ? Math.round((l.price - cost) * 100) / 100 : null;
+      return {
+        id: l.id,
+        title: l.title,
+        sell: l.price,
+        cost: cost,
+        shipping: l.sourceShipping != null ? l.sourceShipping : null,
+        spread: spread,
+        marginPct: (cost != null && l.price > 0) ? Math.round((spread / l.price) * 1000) / 10 : null,
+        supplier: l.sourceMarketplace || null,
+        provider: l.sourceProvider || null,
+        sourceUrl: l.sourceUrl || null,
+        sourceId: l.sourceId || null,
+        warehouse: l.sourceFromCountry || null,
+        carrier: l.sourceCarrier || null,
+        marginAtListing: l.marginAtListing,
+        buyable: !!l.sourceUrl,
+        qty: l.quantity,
+        listed: l.ts
+      };
+    });
+    const bySupplier = {};
+    rows.forEach(function (r) {
+      const k = r.supplier || 'unknown';
+      bySupplier[k] = (bySupplier[k] || 0) + 1;
+    });
+    return {
+      ok: true,
+      count: rows.length,
+      bySupplier: bySupplier,
+      totalCost: Math.round(rows.reduce(function (s, r) { return s + (r.cost || 0); }, 0) * 100) / 100,
+      totalSell: Math.round(rows.reduce(function (s, r) { return s + (r.sell || 0); }, 0) * 100) / 100,
+      listings: rows
+    };
+  }
+
   if (action === 'autonomy') {
     return { ok: true, config: await autonomy.getConfig(), status: await autonomy.status() };
   }
