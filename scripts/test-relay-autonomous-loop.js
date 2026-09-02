@@ -969,6 +969,36 @@ function invoke(handler, req) {
   else process.env.STRIPE_WEBHOOK_SECRET = savedWh;
   delete require.cache[require.resolve('../handlers/relay-stripe-webhook')];
 
+  // ── T28 ───────────────────────────────────────────
+  // The CJ probe reports supplier costs and source ids, so it is operator-only like the
+  // inventory view. It is also read-only: it must never reach placeOrder.
+  console.log('T28: the CJ probe is gated and read-only');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var ctl3 = require('../handlers/relay-autonomous-control');
+
+  var probeNoKey = await invoke(ctl3, { method: 'GET', url: '/api/relay?view=control&action=cj-probe', headers: {} });
+  assert('cj-probe refuses without the operator key', probeNoKey.status === 403, String(probeNoKey.status));
+
+  var probeKeyed = await invoke(ctl3, {
+    method: 'GET', url: '/api/relay?view=control&action=cj-probe&key=' + process.env.RELAY_ADMIN_KEY, headers: {}
+  });
+  assert('cj-probe answers for the operator', probeKeyed.status === 200 && probeKeyed.body.ok === true, String(probeKeyed.status));
+  assert('and reports every stage even with no key configured',
+    probeKeyed.body.probe && probeKeyed.body.probe.stages &&
+    ['listed', 'variantFound', 'inStock', 'freightQuoted', 'underBudget']
+      .every(function (k) { return typeof probeKeyed.body.probe.stages[k] === 'number'; }),
+    JSON.stringify(probeKeyed.body.probe && probeKeyed.body.probe.stages));
+  assert('with CJ unconfigured it says so rather than throwing',
+    probeKeyed.body.probe.configured === false &&
+    /CJ_API_KEY/.test((probeKeyed.body.probe.errors || []).join(' ')),
+    JSON.stringify(probeKeyed.body.probe.errors));
+
+  // The probe shares relay-cj with the purchase path, so pin that it cannot order.
+  var probeSrc = require('fs').readFileSync(require('path').join(__dirname, '../lib/relay-cj.js'), 'utf8');
+  var probeBody = probeSrc.slice(probeSrc.indexOf('async function probe('), probeSrc.indexOf('module.exports'));
+  assert('probe() never calls placeOrder', probeBody.indexOf('placeOrder') === -1);
+  assert('probe() never hits the order endpoint', probeBody.indexOf('createOrder') === -1);
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
