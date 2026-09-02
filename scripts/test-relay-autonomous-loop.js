@@ -1191,6 +1191,11 @@ function invoke(handler, req) {
   // The condition buyFromCJ actually branches on, stated as the test's own subject.
   assert('so buyFromCJ will requote to the buyer address instead of skipping it',
     t31Listing && t31Listing.sourceShipping != null);
+  // The buyer is charged against the variant they chose, not the words they typed.
+  assert('the listing is titled with the chosen variant, not the search text',
+    t31Listing && t31Listing.title === 'CJ case', t31Listing && t31Listing.title);
+  assert('and describes the condition of what actually ships',
+    t31Listing && t31Listing.condition === 'new', t31Listing && t31Listing.condition);
 
   require.cache[financePath].exports = realFinance;
   require.cache[cjPath2].exports = realCj2;
@@ -1200,6 +1205,71 @@ function invoke(handler, req) {
   delete require.cache[ssPath];
   delete require.cache[require.resolve('../handlers/relay-demand-search')];
   delete require.cache[require.resolve('../handlers/relay-demand-purchase')];
+  require('../lib/relay-source-search');
+
+  // ── T32 ─────────────────────────────────────────────────────────────────
+  // Reverse-image searches the open web, and CJ products are ON the open web, so both can
+  // return the same cjdropshipping URL. Deduplicating in concat order kept whichever
+  // arrived first — the reverse-image record, whose itemId is a synthetic 'img_...' hash
+  // rather than the CJ variant id. lib/relay-buy.js:51 routes any cjdropshipping URL to
+  // CJ regardless, so a PAID order handed that synthetic id to cj.freight()/placeOrder()
+  // and could never be fulfilled. The fix is to rank before deduplicating.
+  console.log('T32: the record kept for a shared URL is the one Relay can order');
+  var CJ_URL = 'https://www.cjdropshipping.com/product/-p-DUPE.html';
+  var riPath = require.resolve('../lib/relay-reverse-image');
+  var realRi = require('../lib/relay-reverse-image');
+  require.cache[riPath].exports = {
+    findForSale: async function () {
+      return { ok: true, matches: [{
+        // Cheaper, so it wins on price and would be kept by any order-based dedup.
+        url: CJ_URL, title: 'same product, open web', price: 1.00, shipping: 0,
+        thumbnail: null, sourceName: 'cjdropshipping', provider: 'serpapi_shopping'
+      }] };
+    },
+    hostOf: function (u) { return String(u).replace(/^https?:\/\//, '').split('/')[0]; },
+    availableProviders: function () { return ['serpapi_shopping']; },
+    isSourceable: function () { return true; },
+    buyMode: function () { return 'manual'; }
+  };
+  require.cache[cjPath2].exports = {
+    configured: function () { return true; },
+    search: async function () {
+      return { ok: true, reason: null, items: [{
+        itemId: 'v_real', source: 'cj', title: 'CJ case — Blue', variantKey: 'Blue',
+        price: 7.57, shipping: 4.87, shippingKnown: true, carrier: 'CJPacket',
+        fromCountry: 'US', condition: 'new', url: CJ_URL, image: null,
+        seller: 'CJ Dropshipping', vid: 'v_real', stock: 100, buyable: true, provider: 'cj'
+      }] };
+    }
+  };
+  delete require.cache[ssPath];
+  var ss4 = require('../lib/relay-source-search');
+  var deduped = await ss4.searchAllSources({ description: 'phone case', maxPrice: 500 });
+  assert('the shared URL collapses to one item', deduped.items.length === 1, String(deduped.items.length));
+  assert('and it is the CJ record, not the cheaper open-web one',
+    deduped.items[0] && deduped.items[0].source === 'cj',
+    deduped.items[0] && deduped.items[0].source + ' @ $' + deduped.items[0].price);
+  // This is the field that decides whether a paid order can be fulfilled at all.
+  assert('so the order carries the CJ variant id, not a synthetic img_ hash',
+    deduped.items[0] && deduped.items[0].itemId === 'v_real',
+    deduped.items[0] && deduped.items[0].itemId);
+
+  // CJ manufactures: every item is new. A used-tier request cannot be filled from it, and
+  // since CJ now ranks first it would otherwise fill the page with new goods that
+  // relay-demand-purchase then labelled with the condition the customer ASKED for.
+  var usedReq = await ss4.searchAllSources({ description: 'phone case', maxPrice: 500, condition: 'good' });
+  assert('a used-tier request returns no CJ stock',
+    !(usedReq.items || []).some(function (i) { return i.source === 'cj'; }),
+    JSON.stringify((usedReq.items || []).map(function (i) { return i.source; })));
+  assert('and does not claim cj as a source it filled from',
+    (usedReq.sources || []).indexOf('cj') === -1, JSON.stringify(usedReq.sources));
+  var newReq = await ss4.searchAllSources({ description: 'phone case', maxPrice: 500, condition: 'new' });
+  assert('a new request still gets it', (newReq.sources || []).indexOf('cj') !== -1,
+    JSON.stringify(newReq.sources));
+
+  require.cache[riPath].exports = realRi;
+  require.cache[cjPath2].exports = realCj2;
+  delete require.cache[ssPath];
   require('../lib/relay-source-search');
 
   // ── hermetic check ──────────────────────────────────────────────────────

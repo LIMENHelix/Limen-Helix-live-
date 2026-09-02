@@ -80,7 +80,17 @@ module.exports = async (req, res) => {
           sourceShipping: r.shipping != null ? r.shipping : null,
           sourceCarrier: r.carrier || null,
           sourceFromCountry: r.fromCountry || null,
-          sourceProvider: r.provider || null
+          sourceProvider: r.provider || null,
+          // The title the customer actually clicked, and the condition of the thing that
+          // will ship. Without them relay-demand-purchase labelled the listing, the order
+          // line and the payment with the raw search text: someone who chose
+          // "Case - Blue / iPhone 15" paid for an order that read "phone case", while the
+          // hidden variant id decided what arrived. Condition was worse than cosmetic —
+          // it stamped the REQUESTED condition on the listing, so a new CJ product could
+          // be described to the buyer as used.
+          title: r.title || null,
+          sourceVariantKey: r.variantKey || null,
+          sourceCondition: r.condition || null
         };
       })
     });

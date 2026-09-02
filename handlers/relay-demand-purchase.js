@@ -91,11 +91,18 @@ module.exports = async (req, res) => {
     const listing = await store.createListing({
       marketplaceId: HOUSE_MARKETPLACE,
       sellerId: HOUSE_SELLER,
-      title: (search.description || 'Relay sourced item').slice(0, 140),
+      // The chosen item's own title, not the search text. See the note in
+      // relay-demand-search.js on why the raw query was the wrong label to charge against.
+      title: (sourceItem.title || search.description || 'Relay sourced item').slice(0, 140),
       price: customerPrice,
       description: 'Sourced on demand for this order. All sales final.',
       category: search.category || 'other',
-      condition: search.condition || 'used',
+      // The condition of the item being bought, not the condition that was asked for.
+      // 'unspecified' is what an open-web match reports and is not a description we can
+      // put in front of a buyer, so it falls through to the request.
+      condition: (sourceItem.sourceCondition && sourceItem.sourceCondition !== 'unspecified'
+        ? sourceItem.sourceCondition
+        : (search.condition || 'used')),
       quantity: 1,
       sourceMarketplace: sourceItem.source,
       sourceId: sourceItem.itemId,
