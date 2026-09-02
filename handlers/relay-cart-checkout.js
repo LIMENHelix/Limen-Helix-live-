@@ -102,9 +102,18 @@ module.exports = async function handler(req, res) {
   const unavailable = [];
   let subtotal = 0;
 
-  for (const it of items) {
-    const listingId = it.listingId || it.id;
-    const qty = Math.max(1, parseInt(it.qty, 10) || 1);
+  // Collapse repeats FIRST. Two entries of the same listing at qty 1 each passed the
+  // stock and quantity checks independently, and together asked the supplier for two of
+  // something there may be one of. The customer is charged for both.
+  const merged = new Map();
+  for (const raw of items) {
+    const id = raw.listingId || raw.id;
+    if (!id) continue;
+    const q = Math.max(1, parseInt(raw.qty, 10) || 1);
+    merged.set(id, (merged.get(id) || 0) + q);
+  }
+
+  for (const [listingId, qty] of merged) {
     const listing = await store.getListing(listingId);
 
     if (!listing || listing.status !== 'active') {
@@ -144,7 +153,18 @@ module.exports = async function handler(req, res) {
     }
 
     subtotal += listing.price * qty;
-    lines.push({ listingId: listing.id, qty: qty, unitPrice: listing.price, title: listing.title });
+    lines.push({
+      listingId: listing.id, qty: qty, unitPrice: listing.price, title: listing.title,
+      // Carried per LINE, not written back to the listing: this is what the supplier
+      // quoted for THIS buyer's address, and the listing is a shared catalogue entry that
+      // must not inherit one customer's warehouse. relay-engine prefers these over the
+      // listing's own when it builds the purchase, so stock that moved to another
+      // warehouse ships from the one it was actually quoted and costed against.
+      sourceCost: check.effectiveCost != null ? check.effectiveCost : null,
+      sourceShipping: check.shipping != null ? check.shipping : null,
+      sourceCarrier: check.carrier || null,
+      sourceFromCountry: check.fromCountry || null
+    });
   }
 
   if (unavailable.length) {

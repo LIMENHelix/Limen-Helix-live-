@@ -1334,6 +1334,43 @@ function invoke(handler, req) {
     JSON.stringify(cDrift.body).slice(0, 220));
   FREIGHT_OVERRIDE = undefined;
 
+  // Repeats collapse BEFORE the stock check. Two qty-1 entries of one listing each passed
+  // the quantity and stock checks on their own and together asked the supplier for two of
+  // something there may be one of, with the customer charged for both.
+  STOCK_QTY = 1;
+  var cDup = await invoke(cart2, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: cjListing.id, qty: 1 }, { listingId: cjListing.id, qty: 1 }],
+      shippingAddress: cartAddr, buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('two entries of one listing are counted as two, not twice as one',
+    cDup.status === 409 && /only 1 left/.test(JSON.stringify(cDup.body)),
+    JSON.stringify(cDup.body).slice(0, 220));
+  STOCK_QTY = 100;
+
+  // What the supplier quoted for THIS address must reach fulfilment. The listing keeps
+  // its discovery-time quote, because it is a shared catalogue entry; the ORDER LINE
+  // carries the revalidated numbers, and relay-store must not drop them on the way in.
+  FREIGHT_OVERRIDE = 4.20;
+  var cGood = await invoke(cart2, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
+      buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('a revalidated line checks out', cGood.status === 200 && cGood.body && cGood.body.orderId,
+    JSON.stringify(cGood.body).slice(0, 200));
+  var cOrder = cGood.body && cGood.body.orderId ? await store.getOrder(cGood.body.orderId) : null;
+  var cLine = cOrder && cOrder.lines && cOrder.lines[0];
+  assert('the order line carries the freight quoted for this address',
+    cLine && cLine.sourceShipping === 4.20, cLine && String(cLine.sourceShipping));
+  assert('and the cost it was authorised against',
+    cLine && cLine.sourceCost === 6.90, cLine && String(cLine.sourceCost));
+  assert('and the warehouse the stock is actually in',
+    cLine && cLine.sourceFromCountry === 'US', cLine && String(cLine.sourceFromCountry));
+  assert('while the shared listing keeps its own default-destination quote',
+    (await store.getListing(cjListing.id)).sourceShipping === 4.87);
+  FREIGHT_OVERRIDE = undefined;
+
   // A supplier that will not quote is a refusal, not a guess. Nothing may be charged.
   FREIGHT_OVERRIDE = null;
   var ordersBefore = ((await db.get('relay:store:orders')) || {});
@@ -1539,6 +1576,36 @@ function invoke(handler, req) {
   var edgeOver = ((edge.body && edge.body.results) || []).filter(function (r) { return r.price > 7; });
   assert('a cent over the maximum is still over the maximum',
     edgeOver.length === 0, JSON.stringify(edgeOver.map(function (r) { return r.price; })));
+
+  // One snapshot, used for both the ceiling and the display. An operator moving the
+  // slider while a provider search is in flight otherwise prices the results on a margin
+  // they were never filtered against, which puts a result over the customer's maximum by
+  // exactly the mechanism the ceiling exists to prevent.
+  var mcPath = require.resolve('../lib/relay-margin-calculator');
+  var realMc = require('../lib/relay-margin-calculator');
+  var marginReads = 0;
+  var appliedWith = [];
+  require.cache[mcPath].exports = Object.assign({}, realMc, {
+    getMargin: async function () { marginReads++; return marginReads === 1 ? 0.35 : 0.99; },
+    applyMarginToSearchResults: async function (list, m) {
+      appliedWith.push(m);
+      return realMc.applyMarginToSearchResults(list, m);
+    }
+  });
+  delete require.cache[require.resolve('../handlers/relay-demand-search')];
+  var dSearch3 = require('../handlers/relay-demand-search');
+  var moved = await invoke(dSearch3, {
+    method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 100 } });
+  var movedPrices = ((moved.body && moved.body.results) || []).map(function (r) { return r.price; });
+  assert('a margin change mid-search cannot reprice what was already filtered',
+    movedPrices.every(function (p) { return p <= 100; }), JSON.stringify(movedPrices));
+  assert('and the results are priced on the snapshot that set the ceiling',
+    movedPrices.indexOf(67.5) !== -1, JSON.stringify(movedPrices));
+  // The wiring itself: display is handed the snapshot, not left to read the margin again.
+  assert('the display margin is the one the ceiling was computed from',
+    appliedWith.length === 1 && appliedWith[0] === 0.35, JSON.stringify(appliedWith));
+  require.cache[mcPath].exports = realMc;
+  delete require.cache[require.resolve('../handlers/relay-demand-search')];
 
   require.cache[cjPath2].exports = realCj2;
   delete require.cache[ssPath];

@@ -59,7 +59,11 @@ module.exports = async (req, res) => {
     });
 
     const items = found.items || [];
-    const withMargins = await marginCalc.applyMarginToSearchResults(items);
+    // The SAME snapshot that set the ceiling. Reading the margin again here means an
+    // operator moving the slider mid-search prices the results on a different number than
+    // the one they were filtered against, which puts a result over the customer's maximum
+    // by exactly the mechanism the ceiling exists to prevent.
+    const withMargins = await marginCalc.applyMarginToSearchResults(items, liveMargin);
 
     // Record the search even when it found nothing. A miss is the most useful signal
     // there is: it tells the engine what customers want that we cannot yet supply.
