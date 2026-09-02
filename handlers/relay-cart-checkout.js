@@ -103,6 +103,8 @@ module.exports = async function handler(req, res) {
   const lines = [];
   const unavailable = [];
   let subtotal = 0;
+  // What this cart has already committed the day's ceiling to, line by line.
+  let plannedSpend = 0;
 
   // Collapse repeats FIRST. Two entries of the same listing at qty 1 each passed the
   // stock and quantity checks independently, and together asked the supplier for two of
@@ -158,17 +160,25 @@ module.exports = async function handler(req, res) {
     // Selling a spread that fails the margin floor means the customer pays and
     // relay-engine.fulfillLine marks the line blocked; asking the real gate in dry-run
     // mode keeps one implementation of those rules instead of a copy that drifts.
+    const lineCost = round((check.effectiveCost != null ? check.effectiveCost : listing.sourceCost) * qty);
     const limits = await autonomy.authorize({
-      amount: round((check.effectiveCost != null ? check.effectiveCost : listing.sourceCost) * qty),
+      amount: lineCost,
       salePrice: round(listing.price * qty),
       marketplace: listing.sourceMarketplace,
       note: listing.title,
+      // A dry run reserves nothing, so every line would otherwise see the same untouched
+      // ledger: two $60 lines both pass against $100 remaining, the customer is charged
+      // for the cart, and the second REAL authorisation during fulfilment is what finds
+      // out — on a paid, half-fulfillable order. Carry what this cart has already
+      // committed to so the ceiling is checked against the whole basket.
+      plannedToday: plannedSpend,
       dryRun: true
     });
     if (!limits.allowed) {
       unavailable.push({ listingId: listingId, reason: limits.reason, code: 'not-fulfillable' });
       continue;
     }
+    plannedSpend = round(plannedSpend + lineCost);
 
     subtotal += listing.price * qty;
     lines.push({

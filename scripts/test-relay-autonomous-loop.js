@@ -1399,6 +1399,43 @@ function invoke(handler, req) {
     twoLine && twoLine.sourceShipping === 4.87, twoLine && String(twoLine.sourceShipping));
   FREIGHT_OVERRIDE = undefined;
 
+  // A dry run reserves nothing, so without accumulation every line of a cart sees the
+  // same untouched ledger: each fits the remaining ceiling, the cart as a whole does not,
+  // the customer is charged for all of it, and the SECOND real authorisation during
+  // fulfilment is what discovers it — on a paid order that can only be half filled.
+  var second = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'second engine CJ case',
+    price: 11.36, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v9', sourceUrl: 'https://www.cjdropshipping.com/product/-p-ENGINE2.html',
+    sourceCost: 7.57, sourceShipping: 4.87, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  // $10 left today. Either line alone fits at $7.57; the two together are $15.14.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 10,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var cOne = await invoke(cart2, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
+      buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('one line inside the remaining ceiling still sells', cOne.status === 200,
+    JSON.stringify(cOne.body).slice(0, 200));
+  var cBoth = await invoke(cart2, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: cjListing.id, qty: 1 }, { listingId: second.id, qty: 1 }],
+      shippingAddress: cartAddr, buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('a cart whose TOTAL breaks the ceiling is refused',
+    cBoth.status === 409 && /already in this cart/.test(JSON.stringify(cBoth.body)),
+    JSON.stringify(cBoth.body).slice(0, 260));
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+
   // A supplier that will not quote is a refusal, not a guess. Nothing may be charged.
   FREIGHT_OVERRIDE = null;
   var ordersBefore = ((await db.get('relay:store:orders')) || {});
