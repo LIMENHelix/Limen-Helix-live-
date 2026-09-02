@@ -999,6 +999,70 @@ function invoke(handler, req) {
   assert('probe() never calls placeOrder', probeBody.indexOf('placeOrder') === -1);
   assert('probe() never hits the order endpoint', probeBody.indexOf('createOrder') === -1);
 
+  // ── T29 ───────────────────────────────────────────
+  // EVERY provider's results must reach the merge.
+  //
+  // CJ was added to the Promise.all in searchAllSources but left out of the concat one
+  // line below, so it was queried on every cycle and every customer search — roughly 17
+  // seconds of auth, list and per-product variant/stock/freight calls — and its results
+  // were discarded immediately. The symptom read as "CJ returned nothing"; CJ was
+  // returning five priced, in-stock items every time.
+  //
+  // Structural, so it holds for a provider added later too: the number of promises
+  // gathered must equal the number of result slots concatenated.
+  console.log('T29: no provider is silently dropped from the merge');
+  var ssSrc = require('fs').readFileSync(require('path').join(__dirname, '../lib/relay-source-search.js'), 'utf8');
+  // Bound the block by indexOf, not a regex: a non-greedy match stops at the first `])`,
+  // which is inside `Promise.resolve([])`, and silently reports zero providers.
+  var openAt = ssSrc.indexOf('const results = await Promise.all([');
+  var closeAt = ssSrc.indexOf(']);', openAt);
+  var gathered = openAt !== -1 ? ssSrc.slice(openAt, closeAt) : '';
+  var providerCount = (gathered.match(/\bsearch[A-Z]\w*\(/g) || []).length;
+  var concatLine = (ssSrc.match(/\[\]\.concat\(([^)]*)\)/) || [])[1] || '';
+  var concatCount = (concatLine.match(/results\[\d+\]/g) || []).length;
+  assert('every provider gathered is also concatenated',
+    providerCount > 0 && providerCount === concatCount,
+    providerCount + ' providers gathered vs ' + concatCount + ' concatenated: ' + concatLine);
+
+  // And behaviourally: a provider returning items must produce items out of the merge.
+  // An earlier block set SERPAPI_KEY, and re-requiring the source-search chain here would
+  // rebuild relay-reverse-image with it and attempt a real SerpAPI call. The transport
+  // blocker catches it, but an attempted request is still a leak: this suite must reach
+  // the network zero times.
+  var savedSerp = process.env.SERPAPI_KEY;
+  delete process.env.SERPAPI_KEY;
+  delete require.cache[require.resolve('../lib/relay-reverse-image')];
+
+  var ssPath = require.resolve('../lib/relay-source-search');
+  var realSS = require('../lib/relay-source-search');
+  delete require.cache[ssPath];
+  var cjPath2 = require.resolve('../lib/relay-cj');
+  var realCj2 = require('../lib/relay-cj');
+  require.cache[cjPath2].exports = {
+    configured: function () { return true; },
+    search: async function () {
+      return { ok: true, reason: null, items: [{
+        itemId: 'v1', source: 'cj', title: 'stub case', price: 7.57, shipping: 4.87,
+        shippingKnown: true, condition: 'new',
+        url: 'https://www.cjdropshipping.com/product/-p-STUB.html',
+        image: null, seller: 'CJ', vid: 'v1', stock: 100, buyable: true, provider: 'cj'
+      }] };
+    }
+  };
+  var ss2 = require('../lib/relay-source-search');
+  var merged = await ss2.searchAllSources({ description: 'phone case', maxPrice: 500 });
+  assert('a CJ result survives the merge', merged.ok === true && merged.items.length === 1,
+    JSON.stringify({ ok: merged.ok, n: merged.items.length, reason: merged.reason }));
+  assert('and is attributed to cj', (merged.sources || []).indexOf('cj') !== -1, JSON.stringify(merged.sources));
+  assert('with its freight-inclusive cost intact', merged.items[0] && merged.items[0].price === 7.57);
+
+  require.cache[cjPath2].exports = realCj2;
+  if (savedSerp === undefined) delete process.env.SERPAPI_KEY;
+  else process.env.SERPAPI_KEY = savedSerp;
+  delete require.cache[ssPath];
+  delete require.cache[require.resolve('../lib/relay-reverse-image')];
+  require('../lib/relay-source-search');
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
