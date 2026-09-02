@@ -87,7 +87,19 @@ module.exports = async (req, res) => {
     let effectiveCost = sourceItem.sourceCost;
     let quotedShipping = sourceItem.sourceShipping != null ? sourceItem.sourceShipping : null;
     let quotedCarrier = sourceItem.sourceCarrier || null;
-    if (sourceItem.source === 'cj' && cj.configured() && sourceItem.sourceShipping != null) {
+    // A CJ item that cannot be requoted must not be sold. Skipping the gate because the
+    // supplier is unreachable is a fail-OPEN: the order is charged, and fulfilment then
+    // discovers the same thing and files a manual task on money already taken. The two
+    // ways to arrive here are CJ_API_KEY going away between the search and the purchase,
+    // and a search recorded before the freight fields existed, whose freight component is
+    // baked into sourceCost and cannot be separated out.
+    if (sourceItem.source === 'cj' && (!cj.configured() || sourceItem.sourceShipping == null)) {
+      return res.status(409).json({
+        error: 'that item cannot be ordered right now',
+        message: 'Nothing was charged. Search again to get a current price.'
+      });
+    }
+    if (sourceItem.source === 'cj') {
       const q = await cj.freight(sourceItem.itemId, 1, String(shippingAddress.country || 'US').toUpperCase(),
                                  shippingAddress.postalCode, sourceItem.sourceFromCountry);
       if (!q) {
@@ -106,6 +118,30 @@ module.exports = async (req, res) => {
     const customerPrice = priced.customerPrice;
     if (!(customerPrice > effectiveCost)) {
       return res.status(409).json({ error: 'pricing error: no positive spread on that item' });
+    }
+
+    // ── gate 4: never charge more than the price they clicked ──
+    // The customer chose this item at a price the search displayed, under a maximum they
+    // set. A dearer destination requote, or an operator margin change since the search,
+    // can push the real price above both. pages/relay.html:825-837 sends them straight to
+    // Stripe without showing a revised figure, so a silent increase is charged before it
+    // is ever seen. Refuse instead; a fresh search shows the true price honestly.
+    const shownPrice = sourceItem.displayedPrice != null ? parseFloat(sourceItem.displayedPrice) : null;
+    const searchMax = search.maxPrice != null ? parseFloat(search.maxPrice) : null;
+    const cap = Math.min(
+      shownPrice != null && isFinite(shownPrice) ? shownPrice : Infinity,
+      searchMax != null && isFinite(searchMax) ? searchMax : Infinity
+    );
+    // Half a cent of tolerance for the rounding, not for a real increase.
+    if (isFinite(cap) && customerPrice > cap + 0.005) {
+      return res.status(409).json({
+        error: 'the price for your address is higher than the price shown',
+        message: 'Shipping to this address costs more than the quote you were shown, so the ' +
+                 'order was not placed and nothing was charged. Search again to see the ' +
+                 'current price for your address.',
+        shownPrice: isFinite(cap) ? Math.round(cap * 100) / 100 : null,
+        currentPrice: customerPrice
+      });
     }
 
     if (!finance.paymentsEnabled()) {

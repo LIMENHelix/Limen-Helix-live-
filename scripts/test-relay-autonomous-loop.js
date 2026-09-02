@@ -1213,23 +1213,43 @@ function invoke(handler, req) {
   assert('and against the warehouse holding the stock',
     FREIGHT_CALLS[0] && FREIGHT_CALLS[0].fromCountry === 'US', JSON.stringify(FREIGHT_CALLS[0]));
 
-  // Dearer destination: the customer pays on the requote, not on the search quote. Before
-  // this, the difference surfaced only inside buyFromCJ AFTER the charge, where it refuses
+  // A CHEAPER destination is priced in: the requote, not the search quote, is what the
+  // order is costed and authorised on.
+  FREIGHT_OVERRIDE = 3.87;
+  var sResC = await invoke(dSearch, { method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 500 } });
+  var recC = (await db.get('relay:searches') || []).slice(-1)[0];
+  var mapC = (recC.sourceMapping || []).find(function (m) { return m.source === 'cj'; });
+  var pResC = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: { searchId: recC.searchId, itemId: mapC.itemId, buyerId: 'b_t31c', policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
+  });
+  var listingC = pResC.body && pResC.body.listingId ? await store.getListing(pResC.body.listingId) : null;
+  assert('the requote, not the search quote, is what the order is costed on',
+    listingC && listingC.sourceCost === 6.57, listingC && String(listingC.sourceCost));
+
+  // A DEARER destination is refused. The customer clicked a displayed price and
+  // pages/relay.html:825-837 sends them straight to Stripe without showing a revised one,
+  // so charging the higher figure would charge a price they never saw. Before gate 2 this
+  // difference surfaced only inside buyFromCJ, AFTER the money was taken, where it refuses
   // past 10% (lib/relay-buy.js:199-207) and leaves a paid order needing a human.
   FREIGHT_OVERRIDE = 9.87;
   var sRes2 = await invoke(dSearch, { method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 500 } });
   var rec2 = (await db.get('relay:searches') || []).slice(-1)[0];
   var map2 = (rec2.sourceMapping || []).find(function (m) { return m.source === 'cj'; });
+  var ordersBeforeDear = Object.keys((await db.get('relay:store:orders')) || {}).length;
   var pRes2 = await invoke(dPurchase, {
     method: 'POST', headers: {},
     body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31b', policyAccepted: true,
       shippingAddress: { name: 'A B', line1: '1 St', city: 'Toronto', state: 'ON', postalCode: 'M5V', country: 'CA' } }
   });
-  var listing2 = pRes2.body && pRes2.body.listingId ? await store.getListing(pRes2.body.listingId) : null;
-  assert('a dearer destination is priced in before the charge',
-    listing2 && listing2.sourceCost === 12.57, listing2 && String(listing2.sourceCost));
-  assert('and the customer price rises with it',
-    pRes2.body && pRes2.body.amount > 7.57 * 1.3, pRes2.body && String(pRes2.body.amount));
+  assert('a price above the one displayed is refused, not charged',
+    pRes2.status === 409, String(pRes2.status));
+  assert('and the refusal names both figures',
+    pRes2.body && pRes2.body.currentPrice > pRes2.body.shownPrice,
+    JSON.stringify(pRes2.body).slice(0, 180));
+  assert('and no order exists for it',
+    Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeDear);
 
   // A supplier that will not quote is a refusal, not a guess. Nothing may be charged.
   FREIGHT_OVERRIDE = null;
@@ -1246,6 +1266,24 @@ function invoke(handler, req) {
   assert('and no order was written',
     Object.keys((await db.get('relay:store:orders')) || {}).length === beforeCount);
   FREIGHT_OVERRIDE = undefined;
+
+  // The supplier going away between the search and the confirmation must close the sale,
+  // not wave it through. Skipping the freight gate because CJ is unreachable charges the
+  // customer, and fulfilment then reaches buyFromCJ, finds the same missing key, and files
+  // a manual task against money already taken.
+  var cfgReal = require.cache[cjPath2].exports.configured;
+  require.cache[cjPath2].exports.configured = function () { return false; };
+  var beforeUnconf = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  var pRes4 = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31d', policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
+  });
+  assert('an unconfigured supplier closes the sale rather than bypassing the gate',
+    pRes4.status === 409, String(pRes4.status));
+  assert('and still charges nothing',
+    Object.keys((await db.get('relay:store:orders')) || {}).length === beforeUnconf);
+  require.cache[cjPath2].exports.configured = cfgReal;
 
   require.cache[financePath].exports = realFinance;
   require.cache[cjPath2].exports = realCj2;
@@ -1341,6 +1379,21 @@ function invoke(handler, req) {
     (unverified.items || []).length === 0, JSON.stringify((unverified.items || []).map(function (i) { return i.itemId; })));
   assert('and nothing carrying a synthetic id reaches a supplier route',
     !(unverified.items || []).some(function (i) { return /^img_/.test(i.itemId); }));
+
+  // Matched on the hostname. An honest merchant whose product slug happens to contain the
+  // supplier's name is a sourceable lead, and a whole-URL substring test threw it away.
+  assert('a supplier name in the path is not a supplier domain',
+    ss5.isDirectSupplierUrl('https://legitshop.com/products/cjdropshipping-style-case') === false);
+  assert('a tracking parameter is not one either',
+    ss5.isDirectSupplierUrl('https://legitshop.com/p/1?ref=cjdropshipping.com') === false);
+  assert('the supplier domain itself still is',
+    ss5.isDirectSupplierUrl('https://www.cjdropshipping.com/product/-p-X.html') === true);
+  assert('and so is a subdomain of it',
+    ss5.isDirectSupplierUrl('https://cdn.cjdropshipping.com/p/1') === true);
+  // Unparseable cuts the permissive way only if you let it. It cannot be ordered either
+  // way, so it is refused.
+  assert('an unparseable URL is refused, not admitted',
+    ss5.isDirectSupplierUrl('not a url') === true);
 
   require.cache[riPath].exports = realRi;
   require.cache[cjPath2].exports = realCj2;

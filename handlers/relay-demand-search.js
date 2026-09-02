@@ -99,7 +99,11 @@ module.exports = async (req, res) => {
           // be described to the buyer as used.
           title: r.title || null,
           sourceVariantKey: r.variantKey || null,
-          sourceCondition: r.condition || null
+          sourceCondition: r.condition || null,
+          // The price the customer actually saw next to this item. relay-demand-purchase
+          // refuses to charge above it, so a dearer destination requote or a margin change
+          // between the search and the confirmation cannot quietly raise the bill.
+          displayedPrice: marginCalc.calculateMargin(r.price, liveMargin).customerPrice
         };
       })
     });
