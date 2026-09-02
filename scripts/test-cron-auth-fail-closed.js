@@ -84,7 +84,46 @@ crons.forEach(function (c) {
 assert('CRON_SECRET is always required non-empty before it authorises',
   weak.length === 0, weak.join(', '));
 
-console.log('C3: the shared lib itself fails closed');
+// C3 ─────────────────────────────────────────────────────────────────────────
+// Every cron handler must require a credential. This is a PINNED SET rather than a
+// heuristic: the handlers below were each read and confirmed to do no state-changing,
+// spend-capable work without one. The test fails if the set GROWS, which is what
+// catches a new cron handler shipped with no gate.
+//
+// finance-subscriber-cycle is deliberately not here: it is a 9-line wrapper delegating
+// to subscriber-digest, which enforces at :75-78. Verified by invocation — a spoofed
+// x-vercel-cron, a spoofed x-vercel-signature, no headers and a wrong bearer all return
+// 401, while the correct bearer gets past auth.
+console.log('C3: no NEW cron handler ships without a credential check');
+const KNOWN_UNGATED = [
+  'feed-record',                    // writes a feed snapshot, no spend path
+  'limen-worker-ingest',            // ingest only
+  'limen-worker-score',             // scoring only
+  'limen-worker-snapshot',          // snapshot only
+  'limen-worker-stress-refresh'     // recompute only
+];
+const ungated = [];
+crons.forEach(function (c) {
+  const f = path.join(ROOT, 'handlers', c + '.js');
+  if (!fs.existsSync(f)) return;
+  const s = code(f);
+  const guarded =
+    /require\(['"]\.\.\/lib\/cron-auth/.test(s) ||
+    /(?:process\.)?env\.CRON_SECRET\s*&&/.test(s) ||
+    /\b(?:cronSecret|secret)\s*&&/.test(s) ||
+    /!\s*secret\b/.test(s) ||
+    /if\s*\(\s*!candidate\s*\|\|\s*!expected\s*\)/.test(s) ||
+    /require\(['"]\.\.\/lib\/admin-gate/.test(s) ||
+    /Admin\.(reqKey|hasDomain)/.test(s) ||
+    /ADMIN_KEY|BRAIN_WEIGHTS_TOKEN|SHADOW_TOKEN/.test(s) ||
+    /require\(['"]\.\/subscriber-digest/.test(s);   // wrapper; delegate enforces
+  if (!guarded) ungated.push(c);
+});
+const unexpected = ungated.filter(function (c) { return KNOWN_UNGATED.indexOf(c) === -1; });
+assert('no cron handler outside the reviewed set lacks a credential check',
+  unexpected.length === 0, unexpected.join(', '));
+
+console.log('C4: the shared lib itself fails closed');
 const auth = require('../lib/cron-auth.js');
 const savedSecret = process.env.CRON_SECRET;
 
