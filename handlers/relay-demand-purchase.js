@@ -28,8 +28,8 @@ const policy = require('../lib/relay-policy');
 // The only money call here. Relay does not import stripe-rail or finance-ledger; see
 // the seam in lib/relay-finance-bridge.js.
 const finance = require('../lib/relay-finance-bridge');
-// Supplier freight, requoted to the buyer's own address before the charge. See gate 2.
-const cj = require('../lib/relay-cj');
+// Stock, freight and supplier reachability, all rechecked before the charge. See gate 2.
+const supplier = require('../lib/relay-supplier-quote');
 
 const HOUSE_MARKETPLACE = process.env.RELAY_MARKETPLACE_ID || 'mkt_relay';
 const HOUSE_SELLER = process.env.RELAY_HOUSE_SELLER_ID || 'usr_relay_house';
@@ -84,34 +84,27 @@ module.exports = async (req, res) => {
     // difference only after the customer has paid, and refuses to order when it exceeds
     // the recorded cost by more than 10% (lib/relay-buy.js:199-207) — a paid order that
     // now needs a human. Requoting here costs nothing to refuse.
-    let effectiveCost = sourceItem.sourceCost;
-    let quotedShipping = sourceItem.sourceShipping != null ? sourceItem.sourceShipping : null;
-    let quotedCarrier = sourceItem.sourceCarrier || null;
-    // A CJ item that cannot be requoted must not be sold. Skipping the gate because the
-    // supplier is unreachable is a fail-OPEN: the order is charged, and fulfilment then
-    // discovers the same thing and files a manual task on money already taken. The two
-    // ways to arrive here are CJ_API_KEY going away between the search and the purchase,
-    // and a search recorded before the freight fields existed, whose freight component is
-    // baked into sourceCost and cannot be separated out.
-    if (sourceItem.source === 'cj' && (!cj.configured() || sourceItem.sourceShipping == null)) {
+    const check = await supplier.revalidate({
+      source: sourceItem.source,
+      sourceId: sourceItem.itemId,
+      sourceCost: sourceItem.sourceCost,
+      sourceShipping: sourceItem.sourceShipping,
+      sourceCarrier: sourceItem.sourceCarrier,
+      sourceFromCountry: sourceItem.sourceFromCountry,
+      quantity: 1,
+      shippingAddress: shippingAddress
+    });
+    if (!check.ok) {
       return res.status(409).json({
-        error: 'that item cannot be ordered right now',
+        error: check.reason,
+        code: check.code,
         message: 'Nothing was charged. Search again to get a current price.'
       });
     }
-    if (sourceItem.source === 'cj') {
-      const q = await cj.freight(sourceItem.itemId, 1, String(shippingAddress.country || 'US').toUpperCase(),
-                                 shippingAddress.postalCode, sourceItem.sourceFromCountry);
-      if (!q) {
-        return res.status(409).json({
-          error: 'could not price shipping to that address right now',
-          message: 'Nothing was charged. Try again in a moment.'
-        });
-      }
-      effectiveCost = Math.round((sourceItem.sourceCost - sourceItem.sourceShipping + q.price) * 100) / 100;
-      quotedShipping = q.price;
-      quotedCarrier = q.carrier || quotedCarrier;
-    }
+    const effectiveCost = check.effectiveCost;
+    const quotedShipping = check.shipping;
+    const quotedCarrier = check.carrier;
+    const quotedFrom = check.fromCountry;
 
     // ── gate 3: price computed server-side from the live margin ──
     const priced = marginCalc.calculateMargin(effectiveCost, await marginCalc.getMargin());
@@ -178,7 +171,7 @@ module.exports = async (req, res) => {
       // it already did.
       sourceShipping: quotedShipping,
       sourceCarrier: quotedCarrier,
-      sourceFromCountry: sourceItem.sourceFromCountry || null,
+      sourceFromCountry: quotedFrom || sourceItem.sourceFromCountry || null,
       sourceProvider: sourceItem.sourceProvider || null,
       marginAtListing: priced.marginFraction,
       sourceVerifiedAt: search.ts || null

@@ -43,7 +43,11 @@ module.exports = async (req, res) => {
     // Convert their number to a cost ceiling using the same live margin the purchase will
     // charge on, and hand the original through so the refusal quotes their figure.
     const liveMargin = await marginCalc.getMargin();
-    const costCeiling = Math.round((maxPrice / (1 + liveMargin)) * 100) / 100;
+    // FLOOR, not round. Rounding to the nearest cent rounds UP half the time, and a cost
+    // ceiling a cent too high displays a price a cent over the maximum: at 35%, a $7 max
+    // rounds to a $5.19 ceiling, and $5.19 sells for $7.01. The purchase endpoint then
+    // refuses an item the search had just offered, with nothing having changed.
+    const costCeiling = Math.floor((maxPrice / (1 + liveMargin)) * 100) / 100;
 
     const found = await sourceSearch.searchAllSources({
       description: description,

@@ -34,6 +34,8 @@ const policy = require('../lib/relay-policy');
 // The ONLY money call in this file. Relay never imports stripe-rail or finance-ledger
 // directly; see the seam described in lib/relay-finance-bridge.js.
 const finance = require('../lib/relay-finance-bridge');
+// Stock, freight and supplier reachability, rechecked per line before the cart is paid.
+const supplier = require('../lib/relay-supplier-quote');
 
 
 const FREE_SHIPPING_OVER = 75;
@@ -117,6 +119,27 @@ module.exports = async function handler(req, res) {
     }
     if (qty > (listing.quantity || 1)) {
       unavailable.push({ listingId: listingId, reason: 'only ' + (listing.quantity || 1) + ' available' });
+      continue;
+    }
+
+    // The listing was published against a freight quote to the supplier's DEFAULT
+    // destination and a stock level from whenever the engine discovered it. Neither is a
+    // statement about this buyer's address or about today. Charging on them means
+    // fulfilment is the first thing to find out (lib/relay-buy.js:199-207 refuses past
+    // 10%, and placeOrder is what discovers a sold-out variant), and by then the money is
+    // taken. Refusing the line here costs nothing and says so before the cart is paid.
+    const check = await supplier.revalidate({
+      source: listing.sourceMarketplace,
+      sourceId: listing.sourceId,
+      sourceCost: listing.sourceCost,
+      sourceShipping: listing.sourceShipping,
+      sourceCarrier: listing.sourceCarrier,
+      sourceFromCountry: listing.sourceFromCountry,
+      quantity: qty,
+      shippingAddress: addr
+    });
+    if (!check.ok) {
+      unavailable.push({ listingId: listingId, reason: check.reason, code: check.code });
       continue;
     }
 

@@ -1081,6 +1081,7 @@ function invoke(handler, req) {
   // waiting for a human.
   console.log('T30: unattended stock outranks cheaper manual stock');
   var FREIGHT_OVERRIDE;   // undefined = quote as searched, a number = that price, null = refuse
+  var STOCK_QTY = 100;    // what the supplier says it still holds
   var realFetchRank = global.fetch;
   var savedEbayId = process.env.EBAY_CLIENT_ID, savedEbaySecret = process.env.EBAY_CLIENT_SECRET;
   process.env.EBAY_CLIENT_ID = 'test-id';
@@ -1117,6 +1118,8 @@ function invoke(handler, req) {
       if (FREIGHT_OVERRIDE === null) return null;
       return { price: FREIGHT_OVERRIDE == null ? 4.87 : FREIGHT_OVERRIDE, carrier: 'CJPacket' };
     },
+    // A freight quote says nothing about inventory, so the revalidation asks separately.
+    stock: async function () { return { qty: STOCK_QTY, from: 'US' }; },
     search: async function () {
       return { ok: true, reason: null, items: [{
         itemId: 'v9', source: 'cj', title: 'CJ case', price: 7.57, shipping: 4.87,
@@ -1164,6 +1167,9 @@ function invoke(handler, req) {
       return { ok: true, url: 'https://pay.test/x', paymentLinkId: 'plink_test' };
     }
   });
+  // relay-supplier-quote holds its own reference to relay-cj, so it must be rebuilt after
+  // the stub is installed or it revalidates against the real module.
+  delete require.cache[require.resolve('../lib/relay-supplier-quote')];
   delete require.cache[require.resolve('../handlers/relay-demand-search')];
   delete require.cache[require.resolve('../handlers/relay-demand-purchase')];
   var dSearch = require('../handlers/relay-demand-search');
@@ -1233,6 +1239,29 @@ function invoke(handler, req) {
   // so charging the higher figure would charge a price they never saw. Before gate 2 this
   // difference surfaced only inside buyFromCJ, AFTER the money was taken, where it refuses
   // past 10% (lib/relay-buy.js:199-207) and leaves a paid order needing a human.
+  // $5.50 freight against $4.87 quoted is only 8% dearer, so it clears the drift rule that
+  // mirrors buyFromCJ — and still prices the item ABOVE what the customer was shown. That
+  // is the case the displayed-price gate exists for; the drift rule alone would let it
+  // through.
+  FREIGHT_OVERRIDE = 5.50;
+  var sResS = await invoke(dSearch, { method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 500 } });
+  var recS = (await db.get('relay:searches') || []).slice(-1)[0];
+  var mapS = (recS.sourceMapping || []).find(function (m) { return m.source === 'cj'; });
+  var ordersBeforeShown = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  var pResS = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: { searchId: recS.searchId, itemId: mapS.itemId, buyerId: 'b_t31s', policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
+  });
+  assert('a price above the one displayed is refused, not charged',
+    pResS.status === 409, String(pResS.status));
+  assert('and the refusal names both figures',
+    pResS.body && pResS.body.currentPrice > pResS.body.shownPrice,
+    JSON.stringify(pResS.body).slice(0, 200));
+  assert('and no order exists for it',
+    Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeShown);
+
+  // Far dearer: refused earlier still, by the rule that mirrors what fulfilment would do.
   FREIGHT_OVERRIDE = 9.87;
   var sRes2 = await invoke(dSearch, { method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 500 } });
   var rec2 = (await db.get('relay:searches') || []).slice(-1)[0];
@@ -1243,13 +1272,67 @@ function invoke(handler, req) {
     body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31b', policyAccepted: true,
       shippingAddress: { name: 'A B', line1: '1 St', city: 'Toronto', state: 'ON', postalCode: 'M5V', country: 'CA' } }
   });
-  assert('a price above the one displayed is refused, not charged',
-    pRes2.status === 409, String(pRes2.status));
-  assert('and the refusal names both figures',
-    pRes2.body && pRes2.body.currentPrice > pRes2.body.shownPrice,
-    JSON.stringify(pRes2.body).slice(0, 180));
-  assert('and no order exists for it',
+  assert('a cost fulfilment would refuse is not sold in the first place',
+    pRes2.status === 409 && pRes2.body && pRes2.body.code === 'cost-drift',
+    JSON.stringify(pRes2.body).slice(0, 200));
+  assert('and no order exists for that one either',
     Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeDear);
+
+  // A variant that sold out since the search. A freight quote still succeeds for it, so
+  // quoting and trusting that is exactly how someone pays for nothing.
+  FREIGHT_OVERRIDE = undefined;
+  STOCK_QTY = 0;
+  var ordersBeforeStock = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  var pResOut = await invoke(dPurchase, {
+    method: 'POST', headers: {},
+    body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31o', policyAccepted: true,
+      shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
+  });
+  assert('a sold-out variant is refused before the charge',
+    pResOut.status === 409 && pResOut.body && pResOut.body.code === 'out-of-stock',
+    JSON.stringify(pResOut.body).slice(0, 200));
+  assert('and nothing was charged for it',
+    Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeStock);
+  STOCK_QTY = 100;
+
+  // The SAME gate on the other route that takes money. Engine-published CJ listings are
+  // sold through relay-cart-checkout, which charged the stored default-destination price
+  // to an arbitrary address with no requote and no stock check at all. Two checkout paths
+  // with one revalidation is the reason lib/relay-supplier-quote exists.
+  var cjListing = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'engine CJ case',
+    price: 11.36, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v9', sourceUrl: 'https://www.cjdropshipping.com/product/-p-ENGINE.html',
+    sourceCost: 7.57, sourceShipping: 4.87, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cart2 = require('../handlers/relay-cart-checkout');
+  var cartAddr = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  STOCK_QTY = 0;
+  var ordersBeforeCart = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  var cOut = await invoke(cart2, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
+      buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('the cart refuses a sold-out supplier line', cOut.status === 409, String(cOut.status));
+  assert('and names it rather than failing vaguely',
+    /sold out/i.test(JSON.stringify(cOut.body)), JSON.stringify(cOut.body).slice(0, 200));
+  assert('and creates no order', Object.keys((await db.get('relay:store:orders')) || {}).length === ordersBeforeCart);
+
+  STOCK_QTY = 100;
+  FREIGHT_OVERRIDE = 9.87;
+  var cDrift = await invoke(cart2, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: cjListing.id, qty: 1 }], shippingAddress: cartAddr,
+      buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('the cart refuses a destination fulfilment would not ship to at that price',
+    cDrift.status === 409 && /costs \$9\.87/.test(JSON.stringify(cDrift.body)),
+    JSON.stringify(cDrift.body).slice(0, 220));
+  FREIGHT_OVERRIDE = undefined;
 
   // A supplier that will not quote is a refusal, not a guess. Nothing may be charged.
   FREIGHT_OVERRIDE = null;
@@ -1416,7 +1499,9 @@ function invoke(handler, req) {
       var ceiling = o && o.maxPrice != null ? parseFloat(o.maxPrice) : Infinity;
       return { ok: true, reason: null, items: [
         { cost: 90.00, id: 'v_costly', name: 'costly case' },
-        { cost: 50.00, id: 'v_ok', name: 'affordable case' }
+        { cost: 50.00, id: 'v_ok', name: 'affordable case' },
+        // Sits exactly on the rounding edge for a $7 maximum at 35%.
+        { cost: 5.19, id: 'v_edge', name: 'edge case' }
       ].filter(function (x) { return x.cost <= ceiling; }).map(function (x) {
         return {
           itemId: x.id, source: 'cj', title: x.name, price: x.cost, shipping: 0,
@@ -1436,13 +1521,24 @@ function invoke(handler, req) {
   });
   var shown = (budget.body && budget.body.results) || [];
   var over = shown.filter(function (r) { return r.price > 100; });
-  assert('the affordable item is still offered', shown.length === 1, JSON.stringify(shown.map(function (r) { return r.price; })));
+  assert('affordable items are still offered', shown.length > 0, JSON.stringify(shown.map(function (r) { return r.price; })));
   assert('no result is priced above the maximum the customer set',
     over.length === 0, JSON.stringify(over.map(function (r) { return r.price; })));
   // And the refusal quotes their figure, not the internal cost ceiling of $74.07.
   assert('a refusal quotes the budget they typed',
     !budget.body || !budget.body.reason || /\$100/.test(String(budget.body.reason)) || budget.body.resultCount > 0,
     String(budget.body && budget.body.reason));
+
+  // The rounding edge, one cent wide. At 35% a $7 maximum divides to $5.185: rounded to
+  // the nearest cent that is a $5.19 ceiling, and $5.19 sells for $7.01 — a cent over the
+  // number the customer typed, offered and then refused at purchase with nothing having
+  // changed. Floored, $5.18 excludes it.
+  var edge = await invoke(dSearch2, {
+    method: 'POST', headers: {}, body: { description: 'phone case', maxPrice: 7 }
+  });
+  var edgeOver = ((edge.body && edge.body.results) || []).filter(function (r) { return r.price > 7; });
+  assert('a cent over the maximum is still over the maximum',
+    edgeOver.length === 0, JSON.stringify(edgeOver.map(function (r) { return r.price; })));
 
   require.cache[cjPath2].exports = realCj2;
   delete require.cache[ssPath];
