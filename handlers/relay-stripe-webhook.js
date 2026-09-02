@@ -80,8 +80,20 @@ module.exports = async function handler(req, res) {
     req.on('error', resolve);
   });
 
-  // Verify signature (optional if webhook secret not configured)
-  if (process.env.STRIPE_WEBHOOK_SECRET && !verifyWebhookSignature(req, body)) {
+  // FAILS CLOSED. This used to read
+  //   if (process.env.STRIPE_WEBHOOK_SECRET && !verifyWebhookSignature(req, body))
+  // so with the secret unset the check was skipped entirely and ANY unauthenticated POST
+  // reached handleCheckoutSuccess -> relay-engine.fulfillPaidOrder -> cj.placeOrder,
+  // which spends from the prepaid wallet. The autonomy gate and queue mode limited the
+  // damage, but those are configuration, not authentication.
+  //
+  // A webhook with no configured secret cannot be authenticated, so it is refused.
+  // Matches relay-autonomous-control.js:293-299.
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    console.error('[relay-webhook] refused: STRIPE_WEBHOOK_SECRET is not set');
+    return sendJSON(res, 503, { error: 'webhook not configured' });
+  }
+  if (!verifyWebhookSignature(req, body)) {
     return sendJSON(res, 403, { error: 'invalid signature' });
   }
 

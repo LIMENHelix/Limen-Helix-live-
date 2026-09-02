@@ -901,6 +901,74 @@ function invoke(handler, req) {
     engine.SEED_CONCEPTS.every(function (c) { return !/vintage|retro|first edition|vinyl|film camera/i.test(c); }),
     engine.SEED_CONCEPTS.join(', '));
 
+  // ── T27 ───────────────────────────────────────────
+  // Two fail-open auth gates, same class. Both are the pattern where a missing
+  // credential DISABLES the check instead of denying the request.
+  console.log('T27: auth gates fail closed, not open');
+
+  var mp = require('../handlers/relay-marketplace');
+  var savedAdmin = process.env.RELAY_ADMIN_KEY;
+
+  // The committed fallback 'relay-admin-demo' is in a public repo. With RELAY_ADMIN_KEY
+  // unset it used to unlock every admin action.
+  delete process.env.RELAY_ADMIN_KEY;
+  var demoKey = await invoke(mp, { method: 'GET', url: '/api/relay-marketplace?action=verify-admin-key&key=relay-admin-demo', headers: {} });
+  assert('the committed demo key does not unlock anything', demoKey.status === 401, String(demoKey.status));
+  var noKey = await invoke(mp, { method: 'GET', url: '/api/relay-marketplace?action=verify-admin-key', headers: {} });
+  assert('no key with no secret is refused', noKey.status === 401, String(noKey.status));
+  var blank = await invoke(mp, { method: 'GET', url: '/api/relay-marketplace?action=verify-admin-key&key=', headers: {} });
+  assert('a blank key is refused', blank.status === 401, String(blank.status));
+  var listUnset = await invoke(mp, { method: 'GET', url: '/api/relay-marketplace?action=list-marketplace&key=relay-admin-demo', headers: {} });
+  assert('an admin action is refused with the demo key', listUnset.status === 401, String(listUnset.status));
+
+  process.env.RELAY_ADMIN_KEY = 'a-real-secret';
+  var wrong = await invoke(mp, { method: 'GET', url: '/api/relay-marketplace?action=verify-admin-key&key=relay-admin-demo', headers: {} });
+  assert('the demo key still fails once a real one is set', wrong.status === 401, String(wrong.status));
+  var right = await invoke(mp, { method: 'GET', url: '/api/relay-marketplace?action=verify-admin-key&key=a-real-secret', headers: {} });
+  assert('the real key works', right.status === 200, String(right.status));
+
+  // Trade reads action=list-listings on this same handler and it must stay ungated.
+  var tradeRead = await invoke(mp, { method: 'GET', url: '/api/relay-marketplace?action=list-listings&marketplaceId=mkt_relay', headers: {} });
+  assert('trade list-listings read is NOT gated by this change', tradeRead.status === 200, String(tradeRead.status));
+
+  if (savedAdmin === undefined) delete process.env.RELAY_ADMIN_KEY;
+  else process.env.RELAY_ADMIN_KEY = savedAdmin;
+
+  // The webhook reaches cj.placeOrder through handleCheckoutSuccess. With no secret set
+  // the signature check used to be skipped entirely, so any POST could spend.
+  var savedWh = process.env.STRIPE_WEBHOOK_SECRET;
+  delete process.env.STRIPE_WEBHOOK_SECRET;
+  delete require.cache[require.resolve('../handlers/relay-stripe-webhook')];
+  var wh = require('../handlers/relay-stripe-webhook');
+  // The webhook reads its RAW body off the request stream for signature verification,
+  // so the fixture has to behave like one.
+  var rawEvent = JSON.stringify({ type: 'checkout.session.completed', data: { object: { metadata: { orderId: 'x' } } } });
+  function streamReq(headers) {
+    return {
+      method: 'POST',
+      url: '/api/relay-stripe-webhook',
+      headers: headers || {},
+      on: function (ev, cb) {
+        if (ev === 'data') cb(Buffer.from(rawEvent));
+        if (ev === 'end') cb();
+        return this;
+      }
+    };
+  }
+  var unconfigured = await invoke(wh, streamReq({}));
+  assert('an unconfigured webhook REFUSES rather than skipping the check',
+    unconfigured.status === 503, String(unconfigured.status) + ' ' + JSON.stringify(unconfigured.body));
+
+  process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test';
+  delete require.cache[require.resolve('../handlers/relay-stripe-webhook')];
+  var wh2 = require('../handlers/relay-stripe-webhook');
+  var badSig = await invoke(wh2, streamReq({ 'stripe-signature': 't=1,v1=deadbeef' }));
+  assert('a bad signature is refused', badSig.status === 403, String(badSig.status));
+
+  if (savedWh === undefined) delete process.env.STRIPE_WEBHOOK_SECRET;
+  else process.env.STRIPE_WEBHOOK_SECRET = savedWh;
+  delete require.cache[require.resolve('../handlers/relay-stripe-webhook')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.

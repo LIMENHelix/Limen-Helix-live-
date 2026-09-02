@@ -31,11 +31,14 @@ module.exports = async function handler(req, res) {
   let u;
   try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
 
-  // Prefer CRON_SECRET when set (spoof-proof); fall back to Vercel's cron headers only
-  // when it is unset, matching the convention the other cron handlers use.
-  const isCron = !!(req.headers && (process.env.CRON_SECRET
-    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
-    : (req.headers['x-vercel-cron'] || req.headers['x-vercel-signature'])));
+  // FAILS CLOSED. Per Vercel's own documentation x-vercel-cron is informational only —
+  // it names which schedule fired — and the sole trusted mechanism is CRON_SECRET
+  // compared against the Authorization: Bearer header Vercel provisions. Any external
+  // caller can set x-vercel-cron themselves, so the previous fallback made a cycle that
+  // spends on paid APIs and can queue purchases reachable by an unauthenticated POST.
+  // No secret configured now means no cron identity, not a free pass.
+  const isCron = !!(process.env.CRON_SECRET && req.headers &&
+    req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET);
 
   const ADMIN = process.env.RELAY_ADMIN_KEY || process.env.RELAY_MARGIN_KEY || '';
   const key = u.searchParams.get('key') || (req.headers && req.headers['x-relay-key']) || '';
