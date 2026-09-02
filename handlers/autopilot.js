@@ -269,10 +269,13 @@ module.exports = async function handler(req, res) {
   var method = (req.method || 'GET').toUpperCase();
   var u; try { u = new URL(req.url, 'http://x'); } catch (e) { u = { searchParams: new URLSearchParams('') }; }
   var action = (u.searchParams.get('action') || 'status').toLowerCase();
-  // Prefer CRON_SECRET when set (spoof-proof); fall back to the Vercel header only if it is unset.
-  var isCron = !!(req.headers && (process.env.CRON_SECRET
-    ? (req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET)
-    : (req.headers['x-vercel-cron'] || req.headers['x-vercel-signature'])));
+  // FAILS CLOSED. Per Vercel's documentation x-vercel-cron is informational only (which
+  // schedule fired) and the sole trusted mechanism is CRON_SECRET compared against the
+  // Authorization: Bearer header Vercel provisions. Any caller can set x-vercel-cron, so
+  // the previous fallback let an unauthenticated request assume cron identity. This
+  // handler reaches lib/crm-send, which spends on outbound email.
+  var isCron = !!(process.env.CRON_SECRET && req.headers &&
+    req.headers['authorization'] === 'Bearer ' + process.env.CRON_SECRET);
   // A cron hit with no explicit action means "tick" (robust to query-string stripping).
   if (isCron && action === 'status') action = 'tick';
 

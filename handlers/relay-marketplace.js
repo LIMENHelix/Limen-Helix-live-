@@ -35,10 +35,20 @@ function readBody(req) {
   });
 }
 
+/**
+ * FAILS CLOSED. This used to read `process.env.RELAY_ADMIN_KEY || 'relay-admin-demo'`,
+ * so with RELAY_ADMIN_KEY unset the string 'relay-admin-demo' unlocked every admin
+ * action — and that string is committed in a public repo. A fallback credential in
+ * source is not a gate.
+ *
+ * No key configured now means no admin access at all, matching
+ * relay-autonomous-control.js:293-299.
+ */
 function checkAdminKey(q) {
-  const key = q.key || '';
-  const validKey = process.env.RELAY_ADMIN_KEY || 'relay-admin-demo';
-  return key === validKey && key.length > 0;
+  const validKey = process.env.RELAY_ADMIN_KEY || '';
+  if (!validKey) return false;
+  const key = (q && q.key) || '';
+  return key === validKey;
 }
 
 async function handleGET(req, res, q) {
@@ -113,9 +123,9 @@ async function handleGET(req, res, q) {
   }
 
   if (q.action === 'verify-admin-key') {
-    const key = q.key || '';
-    const validKey = process.env.RELAY_ADMIN_KEY || 'relay-admin-demo';
-    const isValid = key === validKey && key.length > 0;
+    // Same rule as checkAdminKey: this is the login probe the admin pages call, so a
+    // fallback here would hand out a "yes" that unlocks the UI. One implementation.
+    const isValid = checkAdminKey(q);
     return sendJSON(res, isValid ? 200 : 401, { ok: isValid });
   }
 

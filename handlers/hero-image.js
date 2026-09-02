@@ -83,10 +83,12 @@ var STYLE = heroPolicy.STYLE;
 
 function cronHit(req) {
   var h = req.headers || {};
-  // Same pattern as handlers/autopilot.js and handlers/social-cron.js. Vercel sends
-  // x-vercel-signature on this project, NOT x-vercel-cron, which is why both are accepted.
-  if (process.env.CRON_SECRET) return h['authorization'] === 'Bearer ' + process.env.CRON_SECRET;
-  return !!(h['x-vercel-cron'] || h['x-vercel-signature']);
+  // FAILS CLOSED. Per Vercel's documentation x-vercel-cron and x-vercel-signature are
+  // informational, not credentials: any caller can set them. CRON_SECRET compared against
+  // the Authorization: Bearer header Vercel provisions is the only trusted mechanism, so
+  // an unset secret means no cron identity rather than an open door.
+  return !!(process.env.CRON_SECRET &&
+    h['authorization'] === 'Bearer ' + process.env.CRON_SECRET);
 }
 
 function keyed(req) {
