@@ -35,7 +35,13 @@
     // because everything else in this menu is reachable from it.
     { label: '◈ MISSION CONTROL',  href: '/admin' },
     { label: '$ CAPITAL ENGINE',   href: '/capital-engine' },
+    // TWO Relay businesses, and they get two entries because they are not the same shop.
+    // MARKETPLACE is C2C: third-party sellers list their own goods and we take commission.
+    // STORE is ours: we source stock from the supplier, ship it, and keep the spread.
+    // They share no inventory, no store and no checkout, so a visitor sent to the wrong
+    // one finds an empty shop rather than the other business.
     { label: '◆ RELAY MARKETPLACE', href: '/merchant-onboarding' },
+    { label: '◆ RELAY STORE',       href: '/relay' },
     { label: '⬇ MY DOCUMENTS',     href: '/my-documents' },
     { label: '⬢ TREATMENT DISCOVERY', href: '/treatment-discovery' },
     { label: 'PATTERN PROPOSALS',  href: '/pattern-proposals' },
