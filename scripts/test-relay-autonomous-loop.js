@@ -46,6 +46,14 @@ var BLOCK_NETWORK = async function (u) {
 };
 global.fetch = BLOCK_NETWORK;
 
+// The hourly rate limit (3 orders / $60) is REAL and it is the production default. Almost
+// every fixture below predates it and spends more than $60 an hour by design, because it
+// is testing margins, freight or reconciliation rather than pacing. Raising the baseline
+// here keeps those tests about their own subject; T46 sets the real numbers back and is
+// the test that actually pins the cap.
+require('../lib/relay-autonomy').DEFAULTS.velocityMaxOrders = 9999;
+require('../lib/relay-autonomy').DEFAULTS.velocityMaxUsd = 9999999;
+
 var failures = 0, tests = 0;
 function assert(name, cond, detail) {
   tests++;
@@ -2816,6 +2824,137 @@ function invoke(handler, req) {
   require.cache[fbPath].exports = realFb;
   await db.set(CLAIM_KEY, {});
   delete require.cache[require.resolve('../lib/relay-engine')];
+
+  // ── T46 ─────────────────────────────────────────────────────────────────
+  // THE RATE LIMIT, at its real production values: 3 orders or $60 per rolling hour.
+  //
+  // perOrderCapUsd and dailyCeilingUsd are both TOTALS, and the daily one keys on the UTC
+  // date — which rolls at 19:00 America/Chicago. A loop that has gone wrong can spend the
+  // whole day's ceiling in one cycle and get a fresh $250 five minutes later. Neither
+  // limit bounds how FAST money leaves, and the whole point of this one is that it does
+  // not depend on a human noticing.
+  console.log('T46: the hourly rate limit holds without anyone watching');
+  var velAut = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 3, velocityMaxUsd: 60          // the confirmed production numbers
+  });
+
+  // Three small orders inside the window are fine.
+  var v1 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v1', marketplace: 'cj' });
+  var v2 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v2', marketplace: 'cj' });
+  var v3 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v3', marketplace: 'cj' });
+  assert('three purchases in the hour are allowed',
+    v1.allowed && v2.allowed && v3.allowed,
+    JSON.stringify([v1.allowed, v2.allowed, v3.allowed]));
+
+  // The fourth is refused on COUNT, with $30 of a $250 ceiling used and $60 of headroom.
+  var v4 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v4', marketplace: 'cj' });
+  assert('the fourth is refused on order count, not on the daily ceiling',
+    v4.allowed === false && /3 purchases already in the last hour/.test(String(v4.reason)),
+    JSON.stringify(v4.reason));
+  assert('and the day still has plenty of room, proving it was the RATE that stopped it',
+    v4.remainingToday >= 200, String(v4.remainingToday));
+
+  // The dollar half, independently: one big order inside the count limit.
+  await db.set('relay:autonomy-ledger', []);
+  var b1 = await velAut.authorize({ amount: 50, salePrice: 150, orderId: 'b1', marketplace: 'cj' });
+  var b2 = await velAut.authorize({ amount: 40, salePrice: 120, orderId: 'b2', marketplace: 'cj' });
+  assert('spend past $60 in the hour is refused even on the second order',
+    b1.allowed === true && b2.allowed === false && /exceeds the \$60 hourly rate limit/.test(String(b2.reason)),
+    JSON.stringify({ b1: b1.allowed, b2: b2.reason }));
+
+  // THE WINDOW ROLLS. An order that ages out stops counting — this is what makes it a
+  // rate limit rather than a second, smaller daily ceiling.
+  var aged = (await db.get('relay:autonomy-ledger')) || [];
+  aged.forEach(function (r) { r.ts = new Date(Date.now() - 61 * 60 * 1000).toISOString(); });
+  await db.set('relay:autonomy-ledger', aged);
+  var afterWindow = await velAut.authorize({ amount: 40, salePrice: 120, orderId: 'b3', marketplace: 'cj' });
+  assert('once the hour passes, purchasing resumes on its own',
+    afterWindow.allowed === true, JSON.stringify(afterWindow.reason));
+
+  // Clicking approve repeatedly must not outrun it either.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var q1 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'q1', listingId: 'L1', marketplace: 'cj' });
+  var q2 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'q2', listingId: 'L2', marketplace: 'cj' });
+  await velAut.approve(q2.decisionId, 'operator');
+  // Both are reserved. NOW the rate limit tightens — the click must not be a way past it.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 1, velocityMaxUsd: 60
+  });
+  var qConsume = await velAut.consumeApproved({
+    decisionId: q2.decisionId, orderId: 'q2', listingId: 'L2', amount: 10
+  });
+  assert('an approval cannot be used to outrun the rate limit',
+    qConsume.allowed === false && /last hour/.test(String(qConsume.reason)),
+    JSON.stringify(qConsume.reason));
+
+  // ── T47 ─────────────────────────────────────────────────────────────────
+  // THE FUNDING GATE READS THE WALLET THAT IS ACTUALLY DEBITED.
+  //
+  // It read a PayPal balance for every purchase, and no Relay purchase has ever debited
+  // PayPal — CJ pays from its own prepaid wallet. Live PayPal read $0.00, so the gate
+  // refused every sale, including the customer's checkout, on a number about a different
+  // account. Nothing in the client could read the right one, which is why it stood.
+  console.log('T47: funding is checked against the CJ wallet, not PayPal');
+  var cjPathF = require.resolve('../lib/relay-cj');
+  var realCjF = require.cache[cjPathF] ? require.cache[cjPathF].exports : require('../lib/relay-cj');
+  var ppPathF = require.resolve('../lib/relay-paypal-balance');
+  var realPpF = require.cache[ppPathF] ? require.cache[ppPathF].exports : null;
+  var CJ_BAL = { ok: true, available: 100, amount: 100, frozen: 0 };
+  var paypalReads = 0;
+  require.cache[cjPathF] = { id: cjPathF, filename: cjPathF, loaded: true,
+    exports: Object.assign({}, realCjF, { balance: async function () { return CJ_BAL; } }) };
+  require.cache[ppPathF] = { id: ppPathF, filename: ppPathF, loaded: true,
+    exports: { getCurrentBalance: async function () { paypalReads++; return 0; } } };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  let fundAut = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var funded = await fundAut.authorize({ amount: 20, salePrice: 60, orderId: 'f1', marketplace: 'cj' });
+  assert('a funded CJ wallet authorises the purchase',
+    funded.allowed === true, JSON.stringify(funded.reason));
+  assert('and PayPal was never consulted for a CJ purchase',
+    paypalReads === 0, 'paypal reads: ' + paypalReads);
+
+  // The wallet read is cached for a minute so a cart does not pay a round trip per line.
+  // Re-requiring clears that module state, which is the only way to vary it in-test.
+  CJ_BAL = { ok: true, available: 5, amount: 5, frozen: 0 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  fundAut = require('../lib/relay-autonomy');
+  var poor = await fundAut.authorize({ amount: 20, salePrice: 60, orderId: 'f2', marketplace: 'cj' });
+  assert('an empty CJ wallet refuses, naming the wallet and both figures',
+    poor.allowed === false && /CJ wallet has \$5\.00 available and this needs \$20\.00/.test(String(poor.reason)),
+    JSON.stringify(poor.reason));
+
+  // Unreadable is NOT empty. Both refuse, but the reason has to be true or the operator
+  // funds the wrong thing chasing a wrong message.
+  CJ_BAL = { ok: false, error: 'CJ 503: upstream' };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  fundAut = require('../lib/relay-autonomy');
+  var blind = await fundAut.authorize({ amount: 20, salePrice: 60, orderId: 'f3', marketplace: 'cj' });
+  assert('an unreadable wallet refuses as UNREADABLE, not as empty',
+    blind.allowed === false && /could not read the CJ wallet/.test(String(blind.reason)),
+    JSON.stringify(blind.reason));
+
+  if (realPpF) require.cache[ppPathF] = { id: ppPathF, filename: ppPathF, loaded: true, exports: realPpF };
+  else delete require.cache[ppPathF];
+  require.cache[cjPathF] = { id: cjPathF, filename: cjPathF, loaded: true, exports: realCjF };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
 
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
