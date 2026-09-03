@@ -2368,9 +2368,15 @@ function invoke(handler, req) {
   STRIPE_FAIL = 404;
   await engine3.reconcilePayments({ limit: 1 });
   STRIPE_FAIL = null;
+  // Rotation state lives in Relay's own key, NOT on the order: writing it back onto the
+  // order would add a whole-map rewrite per unpaid order per cycle, and relay-store
+  // rewrites the entire orders map on every update — a concurrent checkout's brand-new
+  // order can be dropped by an older snapshot committing over it.
   assert('an order Stripe will not answer for still takes its turn',
-    !!(await store.getOrder(deadLink.id)).lastPaymentCheckAt,
-    String((await store.getOrder(deadLink.id)).lastPaymentCheckAt));
+    !!((await db.get('relay:payment-checks')) || {})[deadLink.id],
+    JSON.stringify(Object.keys((await db.get('relay:payment-checks')) || {}).length));
+  assert('and the rotation does not write to the orders map to do it',
+    (await store.getOrder(deadLink.id)).lastPaymentCheckAt === undefined);
 
   // ── T42 ─────────────────────────────────────────────────────────────────
   // reportIncome returns ok:true even when the ledger write AND the fallback queue write
