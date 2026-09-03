@@ -2409,6 +2409,20 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-engine')];
   delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
 
+  // ── T43 ─────────────────────────────────────────────────────────────────
+  // A dedup scan narrower than what the ledger RETAINS is not a dedup scan: a webhook's
+  // entry sitting just outside the window reads as "nothing booked", and the same charge
+  // is booked again. Pinned as a relationship between two constants, because the window
+  // size is not observable from a stubbed ledger.
+  console.log('T43: the dedup scan covers everything the ledger keeps');
+  var bridgeSrc = require('fs').readFileSync(require.resolve('../lib/relay-finance-bridge'), 'utf8');
+  var ledgerSrc = require('fs').readFileSync(require.resolve('../lib/finance-ledger'), 'utf8');
+  var scanN = parseInt((bridgeSrc.match(/LEDGER_SCAN\s*=\s*(\d+)/) || [])[1], 10);
+  var keepN = parseInt((ledgerSrc.match(/MAX_LEDGER\s*=\s*(\d+)/) || [])[1], 10);
+  assert('the scan window is at least the ledger retention',
+    isFinite(scanN) && isFinite(keepN) && scanN >= keepN,
+    'scan ' + scanN + ' vs retained ' + keepN);
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
