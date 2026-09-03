@@ -2956,6 +2956,65 @@ function invoke(handler, req) {
   require.cache[cjPathF] = { id: cjPathF, filename: cjPathF, loaded: true, exports: realCjF };
   delete require.cache[require.resolve('../lib/relay-autonomy')];
 
+  // ── T48 ─────────────────────────────────────────────────────────────────
+  // AN EXCEPTION QUEUE NOBODY IS TOLD ABOUT IS A DRAWER, NOT A QUEUE.
+  //
+  // reconcilePayments routes underpayments and double-payments to 'payment-review' and
+  // keeps them out of the automatic sweep. That is the right behaviour and it was totally
+  // silent: no email, no webhook, no counter anywhere in Relay, and not one control read
+  // touched relay:store:orders. A customer's money arrived, the loop deliberately stopped,
+  // and nothing said so — nor was there any way to look.
+  console.log('T48: a held order is visible where the operator already looks');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var alertCtl = require('../handlers/relay-autonomous-control');
+  var K = process.env.RELAY_ADMIN_KEY;
+
+  var heldA = await store.createOrder({
+    buyerId: 'b_alert', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(heldA.id, {
+    status: 'payment-review',
+    reviewReason: 'paid $5.00 against $11.36 owed',
+    collectedAmount: 5.00, paidAt: new Date().toISOString()
+  });
+
+  var stat = await invoke(alertCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + K, headers: {}
+  });
+  assert('status counts orders held for review',
+    stat.body && stat.body.heldForReview >= 1, JSON.stringify(stat.body && stat.body.heldForReview));
+  assert('and needsAttention is non-zero, so silence means nothing is wrong',
+    stat.body && stat.body.needsAttention >= 1, String(stat.body && stat.body.needsAttention));
+  // A count alone makes the operator go hunting for the reason. The reason rides along.
+  var mine = ((stat.body && stat.body.heldReasons) || []).filter(function (r) { return r.orderId === heldA.id; });
+  assert('the reason travels with the count, not somewhere else',
+    mine.length === 1 && /5\.00/.test(String(mine[0].reason)) && mine[0].collected === 5,
+    JSON.stringify(mine));
+
+  // The lookup that did not exist. ?view=order is a POST purchase route, and no control
+  // read touched the order store — so during a live test nobody could answer "did it flip
+  // to paid, or is it stuck".
+  var listed = await invoke(alertCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=orders&status=payment-review&key=' + K, headers: {}
+  });
+  var found = ((listed.body && listed.body.orders) || []).filter(function (o) { return o.id === heldA.id; });
+  assert('held orders can actually be listed', found.length === 1, JSON.stringify(listed.body && listed.body.count));
+  assert('and carry what a human needs to decide',
+    found[0] && found[0].collectedAmount === 5 && found[0].total === 11.36 && /owed/.test(String(found[0].reviewReason)),
+    JSON.stringify(found[0]));
+
+  // Operator-only: these rows carry source costs, which is the one thing that must never
+  // reach a customer.
+  var noKey = await invoke(alertCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=orders&status=payment-review', headers: {}
+  });
+  assert('the order lookup is gated like every other admin read',
+    noKey.status === 403 || (noKey.body && noKey.body.ok === false),
+    JSON.stringify({ s: noKey.status, b: noKey.body }).slice(0, 140));
+
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.

@@ -64,14 +64,92 @@ async function handleGET(q) {
     try { spend = await spendTracker.getSpendStatus(); } catch (e) { spend = { error: e.message }; }
     const cycles = await engine.recentCycles(3);
 
+    // ORDERS THAT NEED A HUMAN, counted where the operator already looks.
+    //
+    // reconcilePayments routes underpayments and double-payments to 'payment-review' and
+    // deliberately keeps them out of the automatic sweep — which is right, and was also
+    // completely silent. Nothing in Relay notifies anyone: no email, no webhook, no
+    // counter. An order landed there and sat until somebody thought to go looking, and
+    // there was no read-only way to look either. An exception queue nobody is told about
+    // is a drawer, not a queue.
+    const relayStore = require('../lib/relay-store');
+    let held = [];
+    let awaitingPayment = 0;
+    let paidUnfulfilled = 0;
+    try {
+      held = await relayStore.ordersByStatus('payment-review', 200);
+      awaitingPayment = (await relayStore.ordersByStatus('awaiting-payment', 500)).length;
+      paidUnfulfilled = (await relayStore.ordersByStatus('paid', 200)).filter(function (o) {
+        return !o.fulfillment || o.fulfillment.state === 'failed';
+      }).length;
+    } catch (e) { /* the rest of status is still worth returning */ }
+
     return {
       ok: true,
       autonomy: st,
       openTasks: tasks.length,
       pendingPayouts: payouts.length,
+      // The number that must not be zero-by-silence. Non-zero means a customer's money
+      // arrived and the loop deliberately stopped.
+      heldForReview: held.length,
+      needsAttention: held.length + tasks.length,
+      awaitingPayment: awaitingPayment,
+      paidUnfulfilled: paidUnfulfilled,
+      // The reasons inline, so "1 held" is never a number the operator has to go and
+      // decode somewhere else.
+      heldReasons: held.slice(0, 10).map(function (o) {
+        return {
+          orderId: o.id,
+          reason: o.reviewReason || 'held',
+          collected: o.collectedAmount != null ? o.collectedAmount : null,
+          expected: o.total != null ? o.total : null,
+          at: o.paidAt || o.ts || null
+        };
+      }),
       spend: spend,
       lastCycleAt: cycles[0] ? cycles[0].ts : null,
       lastCyclePublished: cycles[0] ? cycles[0].publishedCount : null
+    };
+  }
+
+  // THE ORDER LOOKUP THAT DID NOT EXIST.
+  //
+  // Not one of the control reads touched relay:store:orders, and ?view=order is a POST
+  // purchase route. So after a customer paid, nobody could answer "did that order flip to
+  // paid, or is it stuck" from any permitted probe — including during a supervised live
+  // test, which is exactly when the question gets asked. Operator-gated like every other
+  // action here, because these rows carry source costs.
+  if (action === 'orders') {
+    const relayStore = require('../lib/relay-store');
+    const want = (q.status || '').trim();
+    const limit = Math.min(parseInt(q.limit, 10) || 25, 200);
+    const rows = want
+      ? await relayStore.ordersByStatus(want, limit)
+      : (await relayStore.orderHistory(limit));
+    return {
+      ok: true,
+      status: want || 'any',
+      count: rows.length,
+      orders: rows.map(function (o) {
+        return {
+          id: o.id,
+          status: o.status,
+          total: o.total,
+          collectedAmount: o.collectedAmount != null ? o.collectedAmount : null,
+          reviewReason: o.reviewReason || null,
+          amountMismatch: o.amountMismatch || null,
+          duplicatePayments: o.duplicatePayments || null,
+          paidAt: o.paidAt || null,
+          paidVia: o.paidVia || null,
+          stripeSessionId: o.stripeSessionId || null,
+          incomeReportedAt: o.incomeReportedAt || null,
+          incomeBookedBy: o.incomeBookedBy || null,
+          paymentLinkClosedAt: o.paymentLinkClosedAt || null,
+          fulfillment: o.fulfillment || null,
+          lines: (o.lines || []).length,
+          ts: o.ts
+        };
+      })
     };
   }
 
