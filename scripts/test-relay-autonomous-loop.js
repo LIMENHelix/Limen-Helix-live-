@@ -1796,6 +1796,7 @@ function invoke(handler, req) {
   var STRIPE_SESSIONS = [];          // what Stripe will say when asked
   var STRIPE_CALLS = [];
   var STRIPE_FAIL = null;            // set to an HTTP status to make the read fail
+  var LINKS_CLOSED = [];             // links deactivated after settlement
   var realFetchPay = global.fetch;
   global.fetch = async function (u, o) {
     var url = String(u);
@@ -1806,6 +1807,11 @@ function invoke(handler, req) {
           json: async function () { return { error: { message: 'stubbed failure' } }; } };
       }
       return { ok: true, status: 200, json: async function () { return { data: STRIPE_SESSIONS }; } };
+    }
+    // Closing the link after settlement, so a reusable link cannot be paid a second time.
+    if (url.indexOf('api.stripe.com/v1/payment_links/') !== -1) {
+      LINKS_CLOSED.push(url.split('/payment_links/')[1]);
+      return { ok: true, status: 200, json: async function () { return { active: false }; } };
     }
     return BLOCK_NETWORK(u);
   };
@@ -1947,7 +1953,10 @@ function invoke(handler, req) {
   assert('against the cost the order was authorised on',
     EXEC_JOBS[0] && EXEC_JOBS[0].maxCost === 7.57, EXEC_JOBS[0] && String(EXEC_JOBS[0].maxCost));
 
-  // A ledger that is down must not un-pay a customer who paid.
+  // A ledger that is down must not un-pay a customer who paid. Amount matches the order,
+  // so this isolates the ledger behaviour rather than tripping the mismatch hold.
+  STRIPE_SESSIONS = [{ id: 'cs_led', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_led', amount_total: 1136, currency: 'usd' }];
   require.cache[fbPath].exports = Object.assign({}, require.cache[fbPath].exports, {
     reportIncome: async function () { return { ok: true, recorded: false, queued: true, error: 'ledger down' }; }
   });
@@ -2194,6 +2203,41 @@ function invoke(handler, req) {
   assert('and both charges are recorded, so neither is silently kept',
     Array.isArray(twiceOrder.duplicatePayments) && twiceOrder.duplicatePayments.length === 2,
     JSON.stringify(twiceOrder.duplicatePayments));
+  assert('and the income booked is BOTH charges, not just the first',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount === 22.72,
+    String(LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount));
+
+  // An OVERpayment is money the customer is owed back. Buying and shipping on it leaves
+  // the excess with no refund path and nobody looking at it.
+  var over = await store.createOrder({
+    buyerId: 'b_over', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(over.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + over.id });
+  STRIPE_SESSIONS = [{ id: 'cs_over', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_over', amount_total: 5000, currency: 'usd' }];   // $50 for an $11.36 order
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('an OVERpaid order is held too, not shipped on the excess',
+    (await store.getOrder(over.id)).status === 'payment-review',
+    (await store.getOrder(over.id)).status);
+
+  // A settled order's link is never revisited, so leaving it open lets the same customer
+  // be charged again into silence. Closing it removes the class instead of detecting it.
+  assert('the payment link is closed once its order settles',
+    LINKS_CLOSED.indexOf('plink_' + over.id) !== -1, JSON.stringify(LINKS_CLOSED.slice(-4)));
+
+  // An order held for review is one where money definitely arrived, so its income still
+  // has to be booked. Scanning only 'paid' left exactly the orders with a payment problem
+  // as the ones whose payment was never recorded.
+  var heldNoIncome = await store.createOrder({
+    buyerId: 'b_held', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(heldNoIncome.id, { status: 'payment-review', collectedAmount: 9.0 });
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('income is recovered for an order held in review',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === heldNoIncome.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === heldNoIncome.id; }).length);
 
   // ── T42 ─────────────────────────────────────────────────────────────────
   // reportIncome returns ok:true even when the ledger write AND the fallback queue write
