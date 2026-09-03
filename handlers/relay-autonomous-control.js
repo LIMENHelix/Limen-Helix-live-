@@ -259,6 +259,24 @@ async function handlePOST(body) {
     return { ok: r.ok, fulfillment: r };
   }
 
+  // Ask Stripe, now, which unpaid orders were actually paid. The cron already does this
+  // every cycle; this is for the operator who does not want to wait for the next one, and
+  // for answering "did that customer's money arrive?" without opening the dashboard.
+  if (action === 'reconcile-payments') {
+    const r = await engine.reconcilePayments({ limit: parseInt(body.limit, 10) || 25 });
+    const rows = r.checked || [];
+    return {
+      ok: r.ok !== false,
+      error: r.error || null,
+      settled: rows.filter(function (c) { return c.paid && !c.alreadySettled; }).length,
+      stillUnpaid: rows.filter(function (c) { return !c.paid && c.asked; }).length,
+      // Orders it could not get an answer about. These are NOT unpaid; they are unknown,
+      // and the difference is the whole point of the ok/paid split in paymentStatus.
+      couldNotAsk: rows.filter(function (c) { return !c.paid && c.asked === false; }),
+      checked: rows
+    };
+  }
+
   if (action === 'close-task') {
     if (!body.taskId) return { ok: false, error: 'taskId required' };
     return await buy.closeTask(body.taskId, { sourceOrderId: body.sourceOrderId, amount: body.amount });

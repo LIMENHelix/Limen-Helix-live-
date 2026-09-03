@@ -1782,6 +1782,190 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../handlers/relay-demand-search')];
   require('../lib/relay-source-search');
 
+  // ── T34 ─────────────────────────────────────────────────────────────────
+  // THE PAID-ORDER GAP. Both checkout routes wrote 'awaiting-payment' and nothing on
+  // earth then wrote 'paid' to relay:store:orders — relay-stripe-webhook writes the
+  // trade-shared marketplace store, relay-demand-webhook reads a legacy array, and the
+  // engine only sweeps 'paid'. A customer could be charged and the supplier never asked
+  // to ship. This drives the REAL handlers with a stubbed Stripe response, from checkout
+  // through to the job handed to buy.execute.
+  console.log('T34: a paid order becomes paid, and gets fulfilled');
+  var savedStripeKey = process.env.STRIPE_SECRET_KEY;
+  process.env.STRIPE_SECRET_KEY = 'sk_test_not_a_real_key';
+
+  var STRIPE_SESSIONS = [];          // what Stripe will say when asked
+  var STRIPE_CALLS = [];
+  var STRIPE_FAIL = null;            // set to an HTTP status to make the read fail
+  var realFetchPay = global.fetch;
+  global.fetch = async function (u, o) {
+    var url = String(u);
+    if (url.indexOf('api.stripe.com/v1/checkout/sessions') !== -1) {
+      STRIPE_CALLS.push(url);
+      if (STRIPE_FAIL) {
+        return { ok: false, status: STRIPE_FAIL,
+          json: async function () { return { error: { message: 'stubbed failure' } }; } };
+      }
+      return { ok: true, status: 200, json: async function () { return { data: STRIPE_SESSIONS }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+
+  var fbPath = require.resolve('../lib/relay-finance-bridge');
+  var realFb = require('../lib/relay-finance-bridge');
+  var LEDGER_WRITES = [];
+  require.cache[fbPath].exports = Object.assign({}, realFb, {
+    paymentsEnabled: function () { return true; },
+    createPayment: async function (o) {
+      return { ok: true, url: 'https://pay.test/x', paymentLinkId: 'plink_' + o.orderId };
+    },
+    reportIncome: async function (e) { LEDGER_WRITES.push(e); return { ok: true, recorded: true }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var engine3 = require('../lib/relay-engine');
+  var cart3 = require('../handlers/relay-cart-checkout');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var payListing = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'paid-path case',
+    price: 11.36, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v9', sourceUrl: 'https://www.cjdropshipping.com/product/-p-PAID.html',
+    sourceCost: 7.57, sourceShipping: 4.87, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var buyRes = await invoke(cart3, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: payListing.id, qty: 1 }], shippingAddress: cartAddr,
+      buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('checkout produced an order', buyRes.status === 200 && buyRes.body && buyRes.body.orderId,
+    JSON.stringify(buyRes.body).slice(0, 200));
+  var payOrderId = buyRes.body.orderId;
+  assert('and it starts unpaid, awaiting the customer',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment',
+    (await store.getOrder(payOrderId)).status);
+
+  // ── the negative first: an unpaid link must NEVER settle an order ──
+  STRIPE_SESSIONS = [{ id: 'cs_1', status: 'open', payment_status: 'unpaid' }];
+  var rec1 = await engine3.reconcilePayments({ limit: 25 });
+  assert('an unpaid link leaves the order alone',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment',
+    (await store.getOrder(payOrderId)).status);
+  assert('and reports it as asked-and-unpaid, not as unknown',
+    (rec1.checked || []).some(function (c) { return c.orderId === payOrderId && c.paid === false && c.asked === true; }),
+    JSON.stringify(rec1.checked).slice(0, 200));
+
+  // A completed FLOW that was not actually paid is also not a payment.
+  STRIPE_SESSIONS = [{ id: 'cs_2', status: 'complete', payment_status: 'unpaid' }];
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('a complete-but-unpaid session is not a payment either',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment');
+
+  // Nor is a failure to reach Stripe. This is the one that would buy stock against money
+  // nobody sent, so an error must never read as paid.
+  STRIPE_FAIL = 503;
+  var recErr = await engine3.reconcilePayments({ limit: 25 });
+  assert('an unreachable payment rail is not a payment',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment');
+  assert('and is reported as could-not-ask rather than unpaid',
+    (recErr.checked || []).some(function (c) { return c.orderId === payOrderId && c.asked === false && /refused|reach/.test(String(c.reason)); }),
+    JSON.stringify(recErr.checked).slice(0, 220));
+  STRIPE_FAIL = null;
+
+  // ── now the real payment ──
+  STRIPE_SESSIONS = [{ id: 'cs_paid', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_abc', amount_total: 1735, currency: 'usd' }];
+  var rec2 = await engine3.reconcilePayments({ limit: 25 });
+  var paidOrder = await store.getOrder(payOrderId);
+  assert('a paid link marks the order paid', paidOrder.status === 'paid', paidOrder.status);
+  assert('and records which Stripe session settled it',
+    paidOrder.stripeSessionId === 'cs_paid' && paidOrder.stripePaymentId === 'pi_abc',
+    JSON.stringify({ s: paidOrder.stripeSessionId, p: paidOrder.stripePaymentId }));
+  // Scoped to THIS order: earlier blocks left their own orders awaiting payment, and the
+  // reconcile correctly settles those too against the same stubbed Stripe answer.
+  var mine = function () { return LEDGER_WRITES.filter(function (w) { return w.orderId === payOrderId; }); };
+  assert('income reached finance once, for what was actually collected',
+    mine().length === 1 && mine()[0].amount === 17.35,
+    JSON.stringify(mine()).slice(0, 200));
+  assert('with the source cost carried so the margin is real, not assumed',
+    mine()[0].sourceCostTotal === 7.57 && mine()[0].margin === 9.78,
+    JSON.stringify(mine()[0]).slice(0, 200));
+
+  // Idempotence. The cron and a manual reconcile both run; neither may double-report.
+  var writesBefore = LEDGER_WRITES.length;
+  var rec3 = await engine3.reconcilePayments({ limit: 25 });
+  assert('reconciling again reports no income at all',
+    LEDGER_WRITES.length === writesBefore,
+    'before ' + writesBefore + ', after ' + LEDGER_WRITES.length);
+  assert('and this order in particular is still reported exactly once',
+    mine().length === 1, 'writes for this order: ' + mine().length);
+  assert('and does not re-list it as newly paid',
+    !(rec3.checked || []).some(function (c) { return c.orderId === payOrderId; }),
+    JSON.stringify(rec3.checked).slice(0, 160));
+
+  // The status is written BEFORE the ledger call on purpose: a customer's payment is a
+  // fact that must survive our bookkeeping failing. That leaves a window — crash between
+  // the two and the income is never reported, and the awaiting-payment loop will never
+  // look at that order again. incomeReportedAt is what lets a later cycle find it.
+  var stranded = await store.createOrder({
+    buyerId: 'b_orphan', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(stranded.id, { status: 'paid' });   // paid, income never reported
+  await engine3.reconcilePayments({ limit: 25 });
+  var orphanWrites = LEDGER_WRITES.filter(function (w) { return w.orderId === stranded.id; });
+  assert('income stranded by a crash after payment is picked up later',
+    orphanWrites.length === 1, 'writes: ' + orphanWrites.length);
+  assert('and is then marked, so the next cycle leaves it alone',
+    !!(await store.getOrder(stranded.id)).incomeReportedAt);
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('which it does', LEDGER_WRITES.filter(function (w) { return w.orderId === stranded.id; }).length === 1,
+    'writes after second pass: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === stranded.id; }).length);
+
+  // ── the acceptance criterion: the engine's paid sweep can now see it ──
+  var sweepSeen = (await store.ordersByStatus('paid', 50)).some(function (o) { return o.id === payOrderId; });
+  assert('the paid sweep can now see the order', sweepSeen);
+  require.cache[buyPath].exports = Object.assign({}, realBuy, {
+    execute: async function (job) { EXEC_JOBS.push(job); return { ok: true, provider: 'cj', sourceOrderId: 'cjo_paid', amount: job.maxCost }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engine4 = require('../lib/relay-engine');
+  EXEC_JOBS.length = 0;
+  await engine4.fulfillPaidOrder({ orderId: payOrderId });
+  assert('and fulfilment actually buys it from the supplier',
+    EXEC_JOBS.length === 1 && EXEC_JOBS[0].orderId === payOrderId,
+    JSON.stringify(EXEC_JOBS.map(function (j) { return j.orderId; })));
+  assert('against the cost the order was authorised on',
+    EXEC_JOBS[0] && EXEC_JOBS[0].maxCost === 7.57, EXEC_JOBS[0] && String(EXEC_JOBS[0].maxCost));
+
+  // A ledger that is down must not un-pay a customer who paid.
+  require.cache[fbPath].exports = Object.assign({}, require.cache[fbPath].exports, {
+    reportIncome: async function () { return { ok: true, recorded: false, queued: true, error: 'ledger down' }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engine5 = require('../lib/relay-engine');
+  var order2 = await store.createOrder({
+    buyerId: 'b_led', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(order2.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + order2.id });
+  await engine5.reconcilePayments({ limit: 25 });
+  assert('a ledger outage still leaves the order paid',
+    (await store.getOrder(order2.id)).status === 'paid',
+    (await store.getOrder(order2.id)).status);
+
+  require.cache[fbPath].exports = realFb;
+  require.cache[buyPath].exports = realBuy;
+  global.fetch = realFetchPay;
+  if (savedStripeKey === undefined) delete process.env.STRIPE_SECRET_KEY;
+  else process.env.STRIPE_SECRET_KEY = savedStripeKey;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
