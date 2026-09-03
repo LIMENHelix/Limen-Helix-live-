@@ -28,6 +28,10 @@ const policy = require('../lib/relay-policy');
 // The only money call here. Relay does not import stripe-rail or finance-ledger; see
 // the seam in lib/relay-finance-bridge.js.
 const finance = require('../lib/relay-finance-bridge');
+// Stock, freight and supplier reachability, all rechecked before the charge. See gate 2.
+const supplier = require('../lib/relay-supplier-quote');
+// The same limits fulfilment will apply, asked before charging. See gate 5.
+const autonomy = require('../lib/relay-autonomy');
 
 const HOUSE_MARKETPLACE = process.env.RELAY_MARKETPLACE_ID || 'mkt_relay';
 const HOUSE_SELLER = process.env.RELAY_HOUSE_SELLER_ID || 'usr_relay_house';
@@ -76,11 +80,84 @@ module.exports = async (req, res) => {
       return res.status(409).json({ error: 'that item is no longer sourceable' });
     }
 
-    // ── gate 2: price computed server-side from the live margin ──
-    const priced = marginCalc.calculateMargin(sourceItem.sourceCost, await marginCalc.getMargin());
+    // ── gate 2: freight priced to THIS buyer, before any money moves ──
+    // The search quoted CJ freight to CJ's default destination, not to the address in
+    // front of us. Pricing and charging on that number means buyFromCJ discovers the
+    // difference only after the customer has paid, and refuses to order when it exceeds
+    // the recorded cost by more than 10% (lib/relay-buy.js:199-207) — a paid order that
+    // now needs a human. Requoting here costs nothing to refuse.
+    const check = await supplier.revalidate({
+      source: sourceItem.source,
+      sourceId: sourceItem.itemId,
+      sourceCost: sourceItem.sourceCost,
+      sourceShipping: sourceItem.sourceShipping,
+      sourceCarrier: sourceItem.sourceCarrier,
+      sourceFromCountry: sourceItem.sourceFromCountry,
+      quantity: 1,
+      shippingAddress: shippingAddress
+    });
+    if (!check.ok) {
+      return res.status(409).json({
+        error: check.reason,
+        code: check.code,
+        message: 'Nothing was charged. Search again to get a current price.'
+      });
+    }
+    const effectiveCost = check.effectiveCost;
+    const quotedShipping = check.shipping;
+    const quotedCarrier = check.carrier;
+    const quotedFrom = check.fromCountry;
+
+    // ── gate 3: price computed server-side from the live margin ──
+    const priced = marginCalc.calculateMargin(effectiveCost, await marginCalc.getMargin());
     const customerPrice = priced.customerPrice;
-    if (!(customerPrice > sourceItem.sourceCost)) {
+    if (!(customerPrice > effectiveCost)) {
       return res.status(409).json({ error: 'pricing error: no positive spread on that item' });
+    }
+
+    // ── gate 4: never charge more than the price they clicked ──
+    // The customer chose this item at a price the search displayed, under a maximum they
+    // set. A dearer destination requote, or an operator margin change since the search,
+    // can push the real price above both. pages/relay.html:825-837 sends them straight to
+    // Stripe without showing a revised figure, so a silent increase is charged before it
+    // is ever seen. Refuse instead; a fresh search shows the true price honestly.
+    const shownPrice = sourceItem.displayedPrice != null ? parseFloat(sourceItem.displayedPrice) : null;
+    const searchMax = search.maxPrice != null ? parseFloat(search.maxPrice) : null;
+    const cap = Math.min(
+      shownPrice != null && isFinite(shownPrice) ? shownPrice : Infinity,
+      searchMax != null && isFinite(searchMax) ? searchMax : Infinity
+    );
+    // Half a cent of tolerance for the rounding, not for a real increase.
+    if (isFinite(cap) && customerPrice > cap + 0.005) {
+      return res.status(409).json({
+        error: 'the price for your address is higher than the price shown',
+        message: 'Shipping to this address costs more than the quote you were shown, so the ' +
+                 'order was not placed and nothing was charged. Search again to see the ' +
+                 'current price for your address.',
+        shownPrice: isFinite(cap) ? Math.round(cap * 100) / 100 : null,
+        currentPrice: customerPrice
+      });
+    }
+
+    // ── gate 5: don't sell what the loop will refuse to buy ──
+    // relay-engine.fulfillLine authorises every purchase against the same margin floors
+    // and spend caps. A $2 spread on a $7.72 sale clears the positive-spread check above
+    // and then fails the $8 floor, so the customer pays and fulfilment marks the order
+    // blocked. Asking the real gate in dry-run mode, rather than reimplementing its rules
+    // here where they would drift, refuses that sale before the charge.
+    const limits = await autonomy.authorize({
+      amount: effectiveCost,
+      salePrice: customerPrice,
+      marketplace: sourceItem.source,
+      note: sourceItem.title || search.description || null,
+      dryRun: true
+    });
+    if (!limits.allowed) {
+      return res.status(409).json({
+        error: 'this item cannot be fulfilled at that price',
+        message: 'Nothing was charged.',
+        reason: limits.reason
+      });
     }
 
     if (!finance.paymentsEnabled()) {
@@ -91,16 +168,34 @@ module.exports = async (req, res) => {
     const listing = await store.createListing({
       marketplaceId: HOUSE_MARKETPLACE,
       sellerId: HOUSE_SELLER,
-      title: (search.description || 'Relay sourced item').slice(0, 140),
+      // The chosen item's own title, not the search text. See the note in
+      // relay-demand-search.js on why the raw query was the wrong label to charge against.
+      title: (sourceItem.title || search.description || 'Relay sourced item').slice(0, 140),
       price: customerPrice,
       description: 'Sourced on demand for this order. All sales final.',
       category: search.category || 'other',
-      condition: search.condition || 'used',
+      // The condition of the item being bought, not the condition that was asked for.
+      // 'unspecified' is what an open-web match reports and is not a description we can
+      // put in front of a buyer, so it falls through to the request.
+      condition: (sourceItem.sourceCondition && sourceItem.sourceCondition !== 'unspecified'
+        ? sourceItem.sourceCondition
+        : (search.condition || 'used')),
       quantity: 1,
       sourceMarketplace: sourceItem.source,
       sourceId: sourceItem.itemId,
       sourceUrl: sourceItem.sourceUrl,
-      sourceCost: sourceItem.sourceCost,
+      // The cost this order was actually priced and authorised against, freight to THIS
+      // address included. Recording the search-time number here would hand buyFromCJ a
+      // ceiling the order was never priced on.
+      sourceCost: effectiveCost,
+      // The freight actually quoted to this buyer's address at gate 2, and the warehouse
+      // it ships from. Null only for a search recorded before these fields existed, which
+      // is the old behaviour, not a new one: buyFromCJ then skips its own requote as
+      // it already did.
+      sourceShipping: quotedShipping,
+      sourceCarrier: quotedCarrier,
+      sourceFromCountry: quotedFrom || sourceItem.sourceFromCountry || null,
+      sourceProvider: sourceItem.sourceProvider || null,
       marginAtListing: priced.marginFraction,
       sourceVerifiedAt: search.ts || null
     });

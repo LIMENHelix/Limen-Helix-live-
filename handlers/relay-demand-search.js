@@ -37,16 +37,33 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'description or imageUrl required' });
     }
 
+    // The box is labelled "Max Price", so the customer means the price THEY pay. The
+    // search filters on acquisition cost, so a $100 maximum was admitting a $90 item and
+    // then showing it at $121.50 under the default 35% margin — over the budget they set.
+    // Convert their number to a cost ceiling using the same live margin the purchase will
+    // charge on, and hand the original through so the refusal quotes their figure.
+    const liveMargin = await marginCalc.getMargin();
+    // FLOOR, not round. Rounding to the nearest cent rounds UP half the time, and a cost
+    // ceiling a cent too high displays a price a cent over the maximum: at 35%, a $7 max
+    // rounds to a $5.19 ceiling, and $5.19 sells for $7.01. The purchase endpoint then
+    // refuses an item the search had just offered, with nothing having changed.
+    const costCeiling = Math.floor((maxPrice / (1 + liveMargin)) * 100) / 100;
+
     const found = await sourceSearch.searchAllSources({
       description: description,
       imageUrl: imageUrl,
-      maxPrice: maxPrice,
+      maxPrice: costCeiling,
+      maxPriceLabel: maxPrice,
       category: category,
       condition: condition
     });
 
     const items = found.items || [];
-    const withMargins = await marginCalc.applyMarginToSearchResults(items);
+    // The SAME snapshot that set the ceiling. Reading the margin again here means an
+    // operator moving the slider mid-search prices the results on a different number than
+    // the one they were filtered against, which puts a result over the customer's maximum
+    // by exactly the mechanism the ceiling exists to prevent.
+    const withMargins = await marginCalc.applyMarginToSearchResults(items, liveMargin);
 
     // Record the search even when it found nothing. A miss is the most useful signal
     // there is: it tells the engine what customers want that we cannot yet supply.
@@ -69,7 +86,32 @@ module.exports = async (req, res) => {
           source: r.source,
           sourceCost: r.price,
           sourceUrl: r.url,
-          buyable: r.buyable === true
+          buyable: r.buyable === true,
+          // Freight provenance. Dropping these was a live money defect: buyFromCJ only
+          // requotes shipping to the customer's real country when sourceShipping is
+          // present (lib/relay-buy.js:185), so a customer-initiated purchase skipped the
+          // requote and ordered at a cost quoted to CJ's DEFAULT destination, and with
+          // fromCountry null it asked the default CN warehouse to ship a variant that may
+          // have been quoted from US or EU stock. The engine's own path recorded them all
+          // along (lib/relay-engine.js:251-253); only this path lost them.
+          sourceShipping: r.shipping != null ? r.shipping : null,
+          sourceCarrier: r.carrier || null,
+          sourceFromCountry: r.fromCountry || null,
+          sourceProvider: r.provider || null,
+          // The title the customer actually clicked, and the condition of the thing that
+          // will ship. Without them relay-demand-purchase labelled the listing, the order
+          // line and the payment with the raw search text: someone who chose
+          // "Case - Blue / iPhone 15" paid for an order that read "phone case", while the
+          // hidden variant id decided what arrived. Condition was worse than cosmetic —
+          // it stamped the REQUESTED condition on the listing, so a new CJ product could
+          // be described to the buyer as used.
+          title: r.title || null,
+          sourceVariantKey: r.variantKey || null,
+          sourceCondition: r.condition || null,
+          // The price the customer actually saw next to this item. relay-demand-purchase
+          // refuses to charge above it, so a dearer destination requote or a margin change
+          // between the search and the confirmation cannot quietly raise the bill.
+          displayedPrice: marginCalc.calculateMargin(r.price, liveMargin).customerPrice
         };
       })
     });
