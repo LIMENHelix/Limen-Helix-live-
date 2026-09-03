@@ -1926,7 +1926,9 @@ function invoke(handler, req) {
     buyerId: 'b_orphan', shipping: 0, shippingAddress: cartAddr,
     lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
   });
-  await store.updateOrder(stranded.id, { status: 'paid' });   // paid, income never reported
+  // Evidence Stripe gave us, as a genuinely settled order carries. Without it the
+  // recovery loop correctly refuses to book income against a status somebody typed.
+  await store.updateOrder(stranded.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_stranded' });
   await engine3.reconcilePayments({ limit: 25 });
   var orphanWrites = LEDGER_WRITES.filter(function (w) { return w.orderId === stranded.id; });
   assert('income stranded by a crash after payment is picked up later',
@@ -2240,6 +2242,24 @@ function invoke(handler, req) {
   assert('an OVERpaid order is held too, not shipped on the excess',
     (await store.getOrder(over.id)).status === 'payment-review',
     (await store.getOrder(over.id)).status);
+  // The excess is owed back, so it is not revenue. Booking the whole $50 would inflate
+  // net income and lendable surplus until the refund happens.
+  assert('and only the order total is booked, not the excess',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === over.id; })[0].amount === 11.36,
+    String(LEDGER_WRITES.filter(function (w) { return w.orderId === over.id; })[0].amount));
+
+  // A status can be set by hand. Booking income off one invents revenue nobody paid.
+  var noEvidence = await store.createOrder({
+    buyerId: 'b_noev', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(noEvidence.id, { status: 'shipped' });   // no Stripe evidence at all
+  var noEvRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === noEvidence.id; });
+  assert('an order marked paid by hand books no income',
+    noEvRows.length === 0 &&
+    LEDGER_WRITES.filter(function (w) { return w.orderId === noEvidence.id; }).length === 0,
+    JSON.stringify(noEvRows));
 
   // A settled order's link is never revisited, so leaving it open lets the same customer
   // be charged again into silence. Closing it removes the class instead of detecting it.
@@ -2308,7 +2328,7 @@ function invoke(handler, req) {
     buyerId: 'b_shipped', shipping: 0, shippingAddress: cartAddr,
     lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
   });
-  await store.updateOrder(shippedOrphan.id, { status: 'shipped' });
+  await store.updateOrder(shippedOrphan.id, { status: 'shipped', paidAt: new Date().toISOString(), stripeSessionId: 'cs_shipped' });
   var shippedRows = (await engine3.reconcilePayments({ limit: 500 })).checked
     .filter(function (c) { return c.orderId === shippedOrphan.id; });
   assert('income is recovered for an order that already shipped',
@@ -2325,7 +2345,7 @@ function invoke(handler, req) {
     buyerId: 'b_skip', shipping: 0, shippingAddress: cartAddr,
     lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
   });
-  await store.updateOrder(notRepaired.id, { status: 'paid' });
+  await store.updateOrder(notRepaired.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_skip' });
   ALREADY_BOOKED = null;                        // ledger unreadable: nothing can be booked
   var skipRows = (await engine3.reconcilePayments({ limit: 500 })).checked
     .filter(function (c) { return c.orderId === notRepaired.id; });
@@ -2366,7 +2386,7 @@ function invoke(handler, req) {
     buyerId: 'b_lost', shipping: 0, shippingAddress: cartAddr,
     lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
   });
-  await store.updateOrder(lost.id, { status: 'paid' });
+  await store.updateOrder(lost.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_lost' });
   await engine6.reconcilePayments({ limit: 25 });
   assert('an event that reached neither ledger nor queue leaves the order unmarked',
     !(await store.getOrder(lost.id)).incomeReportedAt,
