@@ -2261,6 +2261,19 @@ function invoke(handler, req) {
     LEDGER_WRITES.filter(function (w) { return w.orderId === noEvidence.id; }).length === 0,
     JSON.stringify(noEvRows));
 
+  // Nor may its link be closed. An order forced to 'shipped' by hand has an UNPAID link,
+  // and closing it takes away the customer's only way to pay — turning a bookkeeping
+  // shortcut into a sale nobody can complete.
+  var unpaidLink = await store.createOrder({
+    buyerId: 'b_unpaidlink', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(unpaidLink.id, { status: 'shipped', paymentLinkId: 'plink_unpaid_forced' });
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('and its unpaid payment link is left open',
+    LINKS_CLOSED.indexOf('plink_unpaid_forced') === -1,
+    JSON.stringify(LINKS_CLOSED.slice(-4)));
+
   // A settled order's link is never revisited, so leaving it open lets the same customer
   // be charged again into silence. Closing it removes the class instead of detecting it.
   assert('the payment link is closed once its order settles',
@@ -2275,7 +2288,11 @@ function invoke(handler, req) {
     buyerId: 'b_stubborn', shipping: 0, shippingAddress: cartAddr,
     lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
   });
-  await store.updateOrder(stubborn.id, { status: 'paid', paymentLinkId: 'plink_stubborn', incomeReportedAt: new Date().toISOString() });
+  // Carries payment evidence, as a genuinely settled order does: the closure retry
+  // deliberately will not close the link of an order that was never paid.
+  await store.updateOrder(stubborn.id, { status: 'paid', paymentLinkId: 'plink_stubborn',
+    paidAt: new Date().toISOString(), stripeSessionId: 'cs_stubborn',
+    incomeReportedAt: new Date().toISOString() });
   var closeFails = true;
   var fbNow = require.cache[fbPath].exports;
   require.cache[fbPath].exports = Object.assign({}, fbNow, {

@@ -266,7 +266,10 @@ async function handlePOST(body) {
     // CAPPED. Each order in the batch is at least one Stripe round trip, so an operator
     // typing a large number turns one click into a request that outlives the function.
     const asked = parseInt(body.limit, 10) || 25;
-    const r = await engine.reconcilePayments({ limit: Math.min(Math.max(asked, 1), 100) });
+    // 25, not 100: each order is at least one Stripe round trip of a second or two, and
+    // a hundred of those outlives the function's deadline. The cron does the volume; this
+    // is for an operator who wants an answer now.
+    const r = await engine.reconcilePayments({ limit: Math.min(Math.max(asked, 1), 25) });
     const rows = r.checked || [];
     return {
       ok: r.ok !== false,
