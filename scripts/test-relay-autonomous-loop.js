@@ -1672,6 +1672,58 @@ function invoke(handler, req) {
 
   // Matched on the hostname. An honest merchant whose product slug happens to contain the
   // supplier's name is a sourceable lead, and a whole-URL substring test threw it away.
+  // A GENUINE CROSS-SOURCE DUPLICATE, which the assertions above no longer produce.
+  //
+  // Re-proving these guards with a verifying mutator showed all three of the shared-URL
+  // assertions had gone vacuous: deleting the URL dedup entirely left the suite green.
+  // The cause was a LATER fix — isDirectSupplierUrl strips open-web cjdropshipping URLs
+  // before the merge, so the CJ-vs-reverse-image collision they construct can no longer
+  // happen, and they were asserting on a one-item list. The dedup is still needed for
+  // duplicates that do NOT involve a direct supplier, and nothing tested that.
+  //
+  // eBay and reverse-image returning the SAME non-supplier URL is the case that survives.
+  var dupUrl = 'https://legitshop.com/p/the-same-thing';
+  var savedEbayId2 = process.env.EBAY_CLIENT_ID, savedEbaySec2 = process.env.EBAY_CLIENT_SECRET;
+  process.env.EBAY_CLIENT_ID = 'test-id';
+  process.env.EBAY_CLIENT_SECRET = 'test-secret';
+  var realFetchDup = global.fetch;
+  global.fetch = async function (u) {
+    var url = String(u);
+    if (url.indexOf('identity/v1/oauth2/token') !== -1) {
+      return { ok: true, status: 200, json: async function () { return { access_token: 'tok', expires_in: 7200 }; } };
+    }
+    if (url.indexOf('item_summary/search') !== -1) {
+      return { ok: true, status: 200, json: async function () {
+        return { itemSummaries: [{ itemId: 'ebay_dup', title: 'the same thing',
+          price: { value: '9.00', currency: 'USD' }, itemWebUrl: dupUrl, condition: 'Used' }] }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+  require.cache[riPath].exports = Object.assign({}, require.cache[riPath].exports, {
+    findForSale: async function () {
+      return { ok: true, matches: [{ url: dupUrl, title: 'the same thing, open web',
+        price: 4.00, shipping: 0, thumbnail: null, sourceName: 'legitshop', provider: 'serpapi_shopping' }] };
+    }
+  });
+  require.cache[cjPath2].exports = {
+    configured: function () { return true; },
+    search: async function () { return { ok: true, reason: null, items: [] }; }
+  };
+  delete require.cache[ssPath];
+  var ssDup = require('../lib/relay-source-search');
+  var crossed = await ssDup.searchAllSources({ description: 'the same thing', maxPrice: 500 });
+  assert('one URL returned by TWO providers collapses to a single item',
+    (crossed.items || []).length === 1,
+    JSON.stringify((crossed.items || []).map(function (i) { return i.source + ':' + i.itemId; })));
+  // Ranked before deduped, so the record kept is the one Relay can actually act on: eBay
+  // has a buy API and the open-web match does not, even though the open-web copy is cheaper.
+  assert('and the kept record is the ranked one, not merely the first seen',
+    crossed.items[0] && crossed.items[0].source === 'ebay',
+    crossed.items[0] && crossed.items[0].source + ' @ $' + crossed.items[0].price);
+  global.fetch = realFetchDup;
+  if (savedEbayId2 === undefined) delete process.env.EBAY_CLIENT_ID; else process.env.EBAY_CLIENT_ID = savedEbayId2;
+  if (savedEbaySec2 === undefined) delete process.env.EBAY_CLIENT_SECRET; else process.env.EBAY_CLIENT_SECRET = savedEbaySec2;
+
   assert('a supplier name in the path is not a supplier domain',
     ss5.isDirectSupplierUrl('https://legitshop.com/products/cjdropshipping-style-case') === false);
   assert('a tracking parameter is not one either',
@@ -2229,6 +2281,13 @@ function invoke(handler, req) {
   // on top of a session it already booked double-books that session — and a duplicate
   // charge is money on its way back to the customer, not revenue. The extras are recorded
   // on the order for a refund decision a human makes.
+  //
+  // WHAT ACTUALLY GATES THIS, corrected after re-proving it: not the per-session choice in
+  // relay-finance-bridge (mutating that to sum every paid session leaves this green), but
+  // the overpayment cap in lib/relay-engine.js — `bookable`, which clamps the booked
+  // amount to the order total. Two paid sessions of $11.36 sum to $22.72, above an $11.36
+  // order, so the cap catches it before the per-session choice ever matters. The comment
+  // used to name the wrong guard; the number below is correct either way.
   assert('only the order\'s own charge is booked as income',
     LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount === 11.36,
     String(LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount));
@@ -2284,6 +2343,40 @@ function invoke(handler, req) {
     LINKS_CLOSED.indexOf('plink_' + over.id) !== -1, JSON.stringify(LINKS_CLOSED.slice(-4)));
   assert('and the order records that it closed',
     !!(await store.getOrder(over.id)).paymentLinkClosedAt);
+
+  // ISOLATE THE SETTLE-PATH CLOSE. The assertion above was vacuous: deleting the close
+  // inside the settle loop left it green, because the retry loop later in the SAME
+  // reconcilePayments call picked the order up. Two mechanisms, and the test could not
+  // tell which one fired.
+  //
+  // Here the retry loop is deliberately starved: limit is 1, and an older never-attempted
+  // order sorts ahead of ours in the retry's least-recently-tried ordering, consuming the
+  // whole batch. So if this order's link ends up closed, only the settle path can have
+  // done it.
+  var decoy = await store.createOrder({
+    buyerId: 'b_decoy', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(decoy.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_decoy',
+    paymentLinkId: 'plink_decoy'                       // unclosed, never attempted -> sorts first
+  });
+  var isolated = await store.createOrder({
+    buyerId: 'b_isolated', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(isolated.id, {
+    status: 'awaiting-payment', paymentLinkId: 'plink_isolated',
+    lastCloseAttemptAt: new Date().toISOString()       // recently tried -> sorts LAST in the retry
+  });
+  STRIPE_SESSIONS = [{ id: 'cs_iso', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_iso', amount_total: 1136, currency: 'usd' }];
+  LINKS_CLOSED.length = 0;
+  await engine3.reconcilePayments({ limit: 1 });
+  assert('the retry batch of one was spent on the older order, not ours',
+    LINKS_CLOSED.indexOf('plink_decoy') !== -1, JSON.stringify(LINKS_CLOSED));
+  assert('so this link can only have been closed by the settle path itself',
+    LINKS_CLOSED.indexOf('plink_isolated') !== -1, JSON.stringify(LINKS_CLOSED));
 
   // A closure Stripe refused must be retried, not left as the final word: until the link
   // closes, that customer can still be charged through it. "Best effort" that never tries
@@ -2606,6 +2699,123 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-engine')];
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T45 ─────────────────────────────────────────────────────────────────
+  // _claimIncome IS THE CONCURRENCY GUARD, AND IT HAD NO TEST.
+  //
+  // Re-proving every guard from the merged PRs with a verifying mutator turned this up:
+  // replacing `const claim = await _claimIncome(order.id)` with `{ ok: true }` left all
+  // 376 assertions green. The claim's happy path runs on every booking, so it LOOKED
+  // covered; the contended path it exists for — two overlapping reconciles both reading
+  // "not booked" and both writing income — was never exercised once.
+  //
+  // limen-db has no compare-and-set, so this is a write-then-verify claim: write a token,
+  // read it back, and only proceed if it is still ours. That is the whole mechanism, and
+  // "read it back" is the half that was untested.
+  console.log('T45: a contended income claim is refused, and the money is not booked twice');
+  var dbPath = require.resolve('../lib/limen-db');
+  var realDb = require('../lib/limen-db');
+  var CLAIM_KEY = 'relay:income-claims';
+  var raceMode = null;          // null | 'foreign-readback'
+  var raceOrderId = null;
+  var claimSetSeen = false;
+  require.cache[dbPath].exports = Object.assign({}, realDb, {
+    get: async function (k) {
+      // THE RACE. Our token was written, and between our write and our read another
+      // writer clobbered the key with theirs. This is the exact interleaving the
+      // write-then-verify exists to catch, and it cannot be produced any other way
+      // without a real second process.
+      if (k === CLAIM_KEY && raceMode === 'foreign-readback' && claimSetSeen) {
+        var m = {};
+        m[raceOrderId] = { token: 'the-other-cycle', at: Date.now() };
+        return m;
+      }
+      return realDb.get(k);
+    },
+    set: async function (k, v) {
+      if (k === CLAIM_KEY) claimSetSeen = true;
+      return realDb.set(k, v);
+    }
+  });
+  // The bridge MUST be stubbed here or LEDGER_WRITES stays empty for the ordinary reason
+  // and every "nothing was booked" assertion below is vacuous. Caught exactly that way:
+  // the stale-claim case failed while its two neighbours passed, and the neighbours were
+  // passing because income was going to the real ledger, not because it was refused.
+  var raceBookings = [];
+  require.cache[fbPath].exports = Object.assign({}, realFb, {
+    paymentsEnabled: function () { return true; },
+    incomeAlreadyBooked: async function () { return false; },
+    queueDepth: async function () { return 0; },
+    drainQueue: async function () { return { ok: true, drained: 0 }; },
+    reportIncome: async function (e) {
+      raceBookings.push(e);
+      LEDGER_WRITES.push(e);
+      return { ok: true, recorded: true };
+    }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var raceEngine = require('../lib/relay-engine');
+
+  var raceOrder = await store.createOrder({
+    buyerId: 'b_race', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  raceOrderId = raceOrder.id;
+  await store.updateOrder(raceOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_race', collectedAmount: 11.36
+  });
+  await db.set(CLAIM_KEY, {});
+  var writesBeforeRace = LEDGER_WRITES.length;
+
+  raceMode = 'foreign-readback';
+  claimSetSeen = false;
+  var raceRows = (await raceEngine.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === raceOrder.id; });
+  raceMode = null;
+
+  assert('a claim whose read-back returns another writer\'s token is refused',
+    raceRows.length === 1 && raceRows[0].incomeSkipped === 'claimed-elsewhere',
+    JSON.stringify(raceRows));
+  assert('and NOTHING is booked for it',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === raceOrder.id; }).length === 0,
+    'writes: ' + (LEDGER_WRITES.length - writesBeforeRace));
+  assert('and the order is left unmarked, so the winner books it and we retry',
+    !(await store.getOrder(raceOrder.id)).incomeReportedAt,
+    String((await store.getOrder(raceOrder.id)).incomeReportedAt));
+
+  // The other rejection path: a claim already held by a live cycle. Different branch of
+  // the same guard — this one sees the contention BEFORE writing rather than after.
+  var heldOrder = await store.createOrder({
+    buyerId: 'b_held_claim', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(heldOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_held', collectedAmount: 11.36
+  });
+  var heldMap = {};
+  heldMap[heldOrder.id] = { token: 'a-cycle-still-running', at: Date.now() };
+  await db.set(CLAIM_KEY, heldMap);
+  var heldRows = (await raceEngine.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === heldOrder.id; });
+  assert('an order already claimed by a live cycle is left alone',
+    heldRows.length === 1 && heldRows[0].incomeSkipped === 'claimed-elsewhere',
+    JSON.stringify(heldRows));
+  assert('and nothing is booked for that one either',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === heldOrder.id; }).length === 0);
+
+  // A claim left behind by a crash must not wedge the order out of recovery forever.
+  var staleMap = {};
+  staleMap[heldOrder.id] = { token: 'from-a-cycle-that-died', at: Date.now() - (10 * 60 * 1000) };
+  await db.set(CLAIM_KEY, staleMap);
+  await raceEngine.reconcilePayments({ limit: 500 });
+  assert('a stale claim from a crashed cycle is reclaimable',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === heldOrder.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === heldOrder.id; }).length);
+
+  require.cache[dbPath].exports = realDb;
+  require.cache[fbPath].exports = realFb;
+  await db.set(CLAIM_KEY, {});
+  delete require.cache[require.resolve('../lib/relay-engine')];
 
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
