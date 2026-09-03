@@ -315,7 +315,11 @@ async function handlePOST(body) {
       dailyCeilingUsd: body.dailyCeilingUsd,
       minMarginUsd: body.minMarginUsd,
       minMarginPct: body.minMarginPct,
-      requireFunds: body.requireFunds
+      requireFunds: body.requireFunds,
+      // The rate limit is settable like every other limit. Adding it to setConfig without
+      // forwarding it here meant a POST returned success and silently kept the old value.
+      velocityMaxOrders: body.velocityMaxOrders,
+      velocityMaxUsd: body.velocityMaxUsd
     }, body.by || 'operator');
   }
 

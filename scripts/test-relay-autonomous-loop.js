@@ -2853,7 +2853,7 @@ function invoke(handler, req) {
   // The fourth is refused on COUNT, with $30 of a $250 ceiling used and $60 of headroom.
   var v4 = await velAut.authorize({ amount: 10, salePrice: 30, orderId: 'v4', marketplace: 'cj' });
   assert('the fourth is refused on order count, not on the daily ceiling',
-    v4.allowed === false && /3 purchases already in the last hour/.test(String(v4.reason)),
+    v4.allowed === false && /reaches the 3 limit/.test(String(v4.reason)),
     JSON.stringify(v4.reason));
   assert('and the day still has plenty of room, proving it was the RATE that stopped it',
     v4.remainingToday >= 200, String(v4.remainingToday));
@@ -2937,8 +2937,13 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   fundAut = require('../lib/relay-autonomy');
   var poor = await fundAut.authorize({ amount: 20, salePrice: 60, orderId: 'f2', marketplace: 'cj' });
-  assert('an empty CJ wallet refuses, naming the wallet and both figures',
-    poor.allowed === false && /CJ wallet has \$5\.00 available and this needs \$20\.00/.test(String(poor.reason)),
+  // The refusal also names money already COMMITTED but not yet debited — the earlier $20
+  // reservation is spend the wallet has not seen leave yet, and counting it is what stops
+  // two orders inside the cache window from both passing on the same balance.
+  assert('an empty CJ wallet refuses, naming the wallet and the shortfall',
+    poor.allowed === false &&
+    /CJ wallet has \$5\.00/.test(String(poor.reason)) &&
+    /\$20\.00 purchase/.test(String(poor.reason)),
     JSON.stringify(poor.reason));
 
   // Unreadable is NOT empty. Both refuse, but the reason has to be true or the operator
@@ -3013,6 +3018,132 @@ function invoke(handler, req) {
     noKey.status === 403 || (noKey.body && noKey.body.ok === false),
     JSON.stringify({ s: noKey.status, b: noKey.body }).slice(0, 140));
 
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T49 ─────────────────────────────────────────────────────────────────
+  // FOUR WAYS THE NEW GATES COULD BE WALKED AROUND, found in review.
+  console.log('T49: the rate limit and the approval gate cannot be walked around');
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var wAut = require('../lib/relay-autonomy');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var wCtl = require('../handlers/relay-autonomous-control');
+
+  // (a) AN AGED QUEUE, APPROVED IN A BURST. The window keyed on the reservation
+  // timestamp, so three reservations left overnight and approved in quick succession
+  // counted for nothing — the rate limit was defeated on exactly the path a human drives.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    // Permissive while RESERVING, or the third reservation is refused here and the test
+    // proves nothing about the consume path. Caught by mutation: zeroing the consumedAt
+    // term left this green, because there were only ever two rows to approve.
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var agedIds = [];
+  for (var ai = 0; ai < 3; ai++) {
+    var a = await wAut.authorize({ amount: 5, salePrice: 30, orderId: 'aged' + ai, listingId: 'L' + ai, marketplace: 'cj' });
+    agedIds.push(a.decisionId);
+  }
+  var agedRows = (await db.get('relay:autonomy-ledger')) || [];
+  agedRows.forEach(function (r) { r.ts = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(); });
+  await db.set('relay:autonomy-ledger', agedRows);
+  for (var aj = 0; aj < 3; aj++) await wAut.approve(agedIds[aj], 'operator');
+  // NOW the rate limit tightens. Three aged, approved rows and a limit of two: the
+  // consume path is the only thing that can hold the burst.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 2, velocityMaxUsd: 999
+  });
+  var burst = [];
+  for (var ak = 0; ak < 3; ak++) {
+    burst.push(await wAut.consumeApproved({
+      decisionId: agedIds[ak], orderId: 'aged' + ak, listingId: 'L' + ak, amount: 5
+    }));
+  }
+  assert('an aged queue cannot be approved into an unbounded burst',
+    agedIds.filter(Boolean).length === 3 && burst.filter(function (r) { return r.allowed; }).length === 2,
+    JSON.stringify(burst.map(function (r) { return r.allowed ? 'ok' : r.reason; })));
+
+  // (b) LIMITS TIGHTENED AFTER QUEUEING must apply to a pending approval.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var pend = await wAut.authorize({ amount: 40, salePrice: 100, orderId: 'tight', listingId: 'LT', marketplace: 'cj' });
+  await wAut.approve(pend.decisionId, 'operator');
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 10, dailyCeilingUsd: 250,      // cap cut below the row
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var capped = await wAut.consumeApproved({ decisionId: pend.decisionId, orderId: 'tight', listingId: 'LT', amount: 40 });
+  assert('a per-order cap lowered after queueing still binds the approval',
+    capped.allowed === false && /per-order cap/.test(String(capped.reason)), JSON.stringify(capped.reason));
+
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 90, minMarginPct: 0.10, requireFunds: false,     // floor raised above the spread
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var floored = await wAut.consumeApproved({ decisionId: pend.decisionId, orderId: 'tight', listingId: 'LT', amount: 40 });
+  assert('a margin floor raised after queueing still binds the approval',
+    floored.allowed === false && /floor as it stands now/.test(String(floored.reason)), JSON.stringify(floored.reason));
+
+  // (c) A CART'S OTHER LINES ARE REAL INTENT. A dry run writes no row, so every line saw
+  // an empty window; the basket passed, the customer paid, and the tail blocked later.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 3, velocityMaxUsd: 999
+  });
+  var lineFour = await wAut.authorize({
+    amount: 10, salePrice: 30, orderId: 'cart', marketplace: 'cj', dryRun: true, plannedOrders: 3
+  });
+  assert('a cart whose LINE COUNT breaks the rate limit is refused before payment',
+    lineFour.allowed === false && /rate limit/.test(String(lineFour.reason)), JSON.stringify(lineFour.reason));
+
+  // (d) MONEY ALREADY PROMISED comes off the cached wallet, or two orders inside the
+  // cache window both pass on the same balance and the second customer pays for nothing.
+  var cjW = require.resolve('../lib/relay-cj');
+  var realCjW = require.cache[cjW] ? require.cache[cjW].exports : require('../lib/relay-cj');
+  require.cache[cjW] = { id: cjW, filename: cjW, loaded: true,
+    exports: Object.assign({}, realCjW, { balance: async function () { return { ok: true, available: 40, amount: 40, frozen: 0 }; } }) };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var wal = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var w1 = await wal.authorize({ amount: 25, salePrice: 80, orderId: 'w1', marketplace: 'cj' });
+  var w2 = await wal.authorize({ amount: 25, salePrice: 80, orderId: 'w2', marketplace: 'cj' });
+  assert('the first $25 passes against a $40 wallet', w1.allowed === true, JSON.stringify(w1.reason));
+  assert('the second is refused, because the first $25 is already committed',
+    w2.allowed === false && /already committed/.test(String(w2.reason)), JSON.stringify(w2.reason));
+  require.cache[cjW] = { id: cjW, filename: cjW, loaded: true, exports: realCjW };
+
+  // (e) The rate limit must be settable through the endpoint that advertises it.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 3, velocityMaxUsd: 60
+  });
+  var setRes = await invoke(wCtl, {
+    method: 'POST', headers: {},
+    body: { action: 'set-limits', key: process.env.RELAY_ADMIN_KEY, velocityMaxOrders: 7, velocityMaxUsd: 123 }
+  });
+  assert('set-limits actually forwards the rate limit, instead of reporting success',
+    setRes.body && setRes.body.ok && setRes.body.config &&
+    setRes.body.config.velocityMaxOrders === 7 && setRes.body.config.velocityMaxUsd === 123,
+    JSON.stringify(setRes.body && setRes.body.config));
+
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
 
   // ── hermetic check ──────────────────────────────────────────────────────

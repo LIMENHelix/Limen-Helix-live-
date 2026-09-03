@@ -172,6 +172,11 @@ module.exports = async function handler(req, res) {
       // out — on a paid, half-fulfillable order. Carry what this cart has already
       // committed to so the ceiling is checked against the whole basket.
       plannedToday: plannedSpend,
+      // The COUNT as well as the dollars. A dry run writes no ledger row, so every line of
+      // a cart saw the same empty window: a four-line cart passed checkout, took the
+      // money, and had its fourth line blocked at fulfilment. The basket is refused now,
+      // not its tail.
+      plannedOrders: lines.length,
       dryRun: true
     });
     if (!limits.allowed) {
