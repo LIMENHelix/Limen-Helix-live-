@@ -279,7 +279,12 @@ async function handlePOST(body) {
       // A settled payment is a CUSTOMER paying. A backfill is bookkeeping catching up, and
       // a failed retry is neither — counting either as settled reports revenue that did
       // not arrive this cycle.
-      settled: rows.filter(function (c) { return c.paid && !c.alreadySettled && !c.incomeBackfilled && !c.incomeSkipped; }).length,
+      // A settled payment is a CUSTOMER paying, discovered this cycle. Whether its income
+      // was booked here or deduplicated because the webhook got there first is a separate
+      // question — excluding incomeSkipped rows (added last round, over-broad) hid real
+      // settlements behind a bookkeeping detail. Backfills are still excluded: those are
+      // bookkeeping catching up on a payment from some earlier cycle.
+      settled: rows.filter(function (c) { return c.paid && !c.alreadySettled && !c.incomeBackfilled; }).length,
       incomeBackfilled: rows.filter(function (c) { return c.incomeBackfilled; }).length,
       heldForReview: rows.filter(function (c) { return c.review; }).length,
       stillUnpaid: rows.filter(function (c) { return !c.paid && c.asked; }).length,
