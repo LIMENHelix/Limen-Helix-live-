@@ -34,6 +34,10 @@ const policy = require('../lib/relay-policy');
 // The ONLY money call in this file. Relay never imports stripe-rail or finance-ledger
 // directly; see the seam described in lib/relay-finance-bridge.js.
 const finance = require('../lib/relay-finance-bridge');
+// Stock, freight and supplier reachability, rechecked per line before the cart is paid.
+const supplier = require('../lib/relay-supplier-quote');
+// The same limits fulfilment will apply, asked per line before the cart is paid.
+const autonomy = require('../lib/relay-autonomy');
 
 
 const FREE_SHIPPING_OVER = 75;
@@ -99,10 +103,21 @@ module.exports = async function handler(req, res) {
   const lines = [];
   const unavailable = [];
   let subtotal = 0;
+  // What this cart has already committed the day's ceiling to, line by line.
+  let plannedSpend = 0;
 
-  for (const it of items) {
-    const listingId = it.listingId || it.id;
-    const qty = Math.max(1, parseInt(it.qty, 10) || 1);
+  // Collapse repeats FIRST. Two entries of the same listing at qty 1 each passed the
+  // stock and quantity checks independently, and together asked the supplier for two of
+  // something there may be one of. The customer is charged for both.
+  const merged = new Map();
+  for (const raw of items) {
+    const id = raw.listingId || raw.id;
+    if (!id) continue;
+    const q = Math.max(1, parseInt(raw.qty, 10) || 1);
+    merged.set(id, (merged.get(id) || 0) + q);
+  }
+
+  for (const [listingId, qty] of merged) {
     const listing = await store.getListing(listingId);
 
     if (!listing || listing.status !== 'active') {
@@ -120,8 +135,64 @@ module.exports = async function handler(req, res) {
       continue;
     }
 
+    // The listing was published against a freight quote to the supplier's DEFAULT
+    // destination and a stock level from whenever the engine discovered it. Neither is a
+    // statement about this buyer's address or about today. Charging on them means
+    // fulfilment is the first thing to find out (lib/relay-buy.js:199-207 refuses past
+    // 10%, and placeOrder is what discovers a sold-out variant), and by then the money is
+    // taken. Refusing the line here costs nothing and says so before the cart is paid.
+    const check = await supplier.revalidate({
+      source: listing.sourceMarketplace,
+      sourceId: listing.sourceId,
+      sourceCost: listing.sourceCost,
+      sourceShipping: listing.sourceShipping,
+      sourceCarrier: listing.sourceCarrier,
+      sourceFromCountry: listing.sourceFromCountry,
+      quantity: qty,
+      shippingAddress: addr
+    });
+    if (!check.ok) {
+      unavailable.push({ listingId: listingId, reason: check.reason, code: check.code });
+      continue;
+    }
+
+    // The same limits fulfilment will apply to this line, asked before the cart is paid.
+    // Selling a spread that fails the margin floor means the customer pays and
+    // relay-engine.fulfillLine marks the line blocked; asking the real gate in dry-run
+    // mode keeps one implementation of those rules instead of a copy that drifts.
+    const lineCost = round((check.effectiveCost != null ? check.effectiveCost : listing.sourceCost) * qty);
+    const limits = await autonomy.authorize({
+      amount: lineCost,
+      salePrice: round(listing.price * qty),
+      marketplace: listing.sourceMarketplace,
+      note: listing.title,
+      // A dry run reserves nothing, so every line would otherwise see the same untouched
+      // ledger: two $60 lines both pass against $100 remaining, the customer is charged
+      // for the cart, and the second REAL authorisation during fulfilment is what finds
+      // out — on a paid, half-fulfillable order. Carry what this cart has already
+      // committed to so the ceiling is checked against the whole basket.
+      plannedToday: plannedSpend,
+      dryRun: true
+    });
+    if (!limits.allowed) {
+      unavailable.push({ listingId: listingId, reason: limits.reason, code: 'not-fulfillable' });
+      continue;
+    }
+    plannedSpend = round(plannedSpend + lineCost);
+
     subtotal += listing.price * qty;
-    lines.push({ listingId: listing.id, qty: qty, unitPrice: listing.price, title: listing.title });
+    lines.push({
+      listingId: listing.id, qty: qty, unitPrice: listing.price, title: listing.title,
+      // Carried per LINE, not written back to the listing: this is what the supplier
+      // quoted for THIS buyer's address, and the listing is a shared catalogue entry that
+      // must not inherit one customer's warehouse. relay-engine prefers these over the
+      // listing's own when it builds the purchase, so stock that moved to another
+      // warehouse ships from the one it was actually quoted and costed against.
+      sourceCost: check.effectiveCost != null ? check.effectiveCost : null,
+      sourceShipping: check.shipping != null ? check.shipping : null,
+      sourceCarrier: check.carrier || null,
+      sourceFromCountry: check.fromCountry || null
+    });
   }
 
   if (unavailable.length) {
