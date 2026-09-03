@@ -2302,6 +2302,36 @@ function invoke(handler, req) {
     !!(await store.getOrder(heldNoIncome.id)).incomeReportedAt,
     String((await store.getOrder(heldNoIncome.id)).incomeReportedAt));
 
+  // An order fulfilled before its income write succeeded moves on to 'shipped' and would
+  // never be scanned again — losing the income of a sale that actually completed.
+  var shippedOrphan = await store.createOrder({
+    buyerId: 'b_shipped', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(shippedOrphan.id, { status: 'shipped' });
+  var shippedRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === shippedOrphan.id; });
+  assert('income is recovered for an order that already shipped',
+    shippedRows.length === 1 && shippedRows[0].incomeBackfilled === true,
+    JSON.stringify(shippedRows));
+
+  // Rotation must advance even on orders Stripe will not answer for. Stamping only on a
+  // successful read left a dead link sorted to the front of every cycle, blocking the
+  // queue behind it.
+  var deadLink = await store.createOrder({
+    buyerId: 'b_dead', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(deadLink.id, {
+    status: 'awaiting-payment', paymentLinkId: 'plink_dead', ts: '2019-01-01T00:00:00.000Z'
+  });
+  STRIPE_FAIL = 404;
+  await engine3.reconcilePayments({ limit: 1 });
+  STRIPE_FAIL = null;
+  assert('an order Stripe will not answer for still takes its turn',
+    !!(await store.getOrder(deadLink.id)).lastPaymentCheckAt,
+    String((await store.getOrder(deadLink.id)).lastPaymentCheckAt));
+
   // ── T42 ─────────────────────────────────────────────────────────────────
   // reportIncome returns ok:true even when the ledger write AND the fallback queue write
   // both fail. Marking on ok alone stamped "handled" on an event that exists nowhere, and
