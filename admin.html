@@ -314,7 +314,13 @@ table.tt td.dim{color:rgba(214,209,198,0.35)}
         card('/culture','Culture','Music front'),
         card('/wave-radar','Wave Radar','Drew, artist toolkit'),
         card('/infrastructure','Infrastructure','Plan Your Project'),
-        card('/relay-margin','Relay','Storefront margin control'),
+        /* Both point at the BUYER front, because that is what this section is. The
+           marketplace's seller-recruitment page is /merchant-onboarding and it is on the
+           site-wide topbar; sending an operator there from Public Fronts would show them
+           the pitch rather than the inventory they came to look at. */
+        card('/marketplace-storefront','Relay Marketplace','C2C: sellers list, we take commission'),
+        card('/relay','Relay Store','Ours: we source, ship, keep the spread'),
+        card('/relay-margin','Relay Margin','Store margin control'),
         card('/fitness','Fitness','TUT body-composition tools')
       ]);
       h+=sec('Per-Operator',[
