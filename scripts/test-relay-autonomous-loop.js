@@ -2158,6 +2158,22 @@ function invoke(handler, req) {
   assert('and the payment on it is found',
     pagedRes.ok === true && pagedRes.paid === true && pagedRes.sessionId === 'cs_page2',
     JSON.stringify(pagedRes));
+
+  // Running out of pages with Stripe still saying there is more, and nothing paid found,
+  // is UNKNOWN — not unpaid. The payment could be on the page we did not read, and
+  // answering "not paid" strands a charged customer on a confident guess.
+  global.fetch = async function (u) {
+    var url = String(u);
+    if (url.indexOf('api.stripe.com/v1/checkout/sessions') !== -1) {
+      var open = [];
+      for (var oj = 0; oj < 100; oj++) open.push({ id: 'cs_endless_' + Date.now() + '_' + oj, status: 'open', payment_status: 'unpaid' });
+      return { ok: true, status: 200, json: async function () { return { data: open, has_more: true }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+  var capped = await realFb.paymentStatus('plink_endless');
+  assert('exhausting the page budget is unknown, not unpaid',
+    capped.ok === false && /unknown/.test(String(capped.error)), JSON.stringify(capped));
   global.fetch = prevFetch;
 
   // ── T41 ─────────────────────────────────────────────────────────────────
@@ -2203,8 +2219,12 @@ function invoke(handler, req) {
   assert('and both charges are recorded, so neither is silently kept',
     Array.isArray(twiceOrder.duplicatePayments) && twiceOrder.duplicatePayments.length === 2,
     JSON.stringify(twiceOrder.duplicatePayments));
-  assert('and the income booked is BOTH charges, not just the first',
-    LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount === 22.72,
+  // ONE charge is booked, not the sum. The webhook books per SESSION, so adding the total
+  // on top of a session it already booked double-books that session — and a duplicate
+  // charge is money on its way back to the customer, not revenue. The extras are recorded
+  // on the order for a refund decision a human makes.
+  assert('only the order\'s own charge is booked as income',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount === 11.36,
     String(LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount));
 
   // An OVERpayment is money the customer is owed back. Buying and shipping on it leaves
@@ -2225,6 +2245,40 @@ function invoke(handler, req) {
   // be charged again into silence. Closing it removes the class instead of detecting it.
   assert('the payment link is closed once its order settles',
     LINKS_CLOSED.indexOf('plink_' + over.id) !== -1, JSON.stringify(LINKS_CLOSED.slice(-4)));
+  assert('and the order records that it closed',
+    !!(await store.getOrder(over.id)).paymentLinkClosedAt);
+
+  // A closure Stripe refused must be retried, not left as the final word: until the link
+  // closes, that customer can still be charged through it. "Best effort" that never tries
+  // twice is a failure with better manners.
+  var stubborn = await store.createOrder({
+    buyerId: 'b_stubborn', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(stubborn.id, { status: 'paid', paymentLinkId: 'plink_stubborn', incomeReportedAt: new Date().toISOString() });
+  var closeFails = true;
+  var fbNow = require.cache[fbPath].exports;
+  require.cache[fbPath].exports = Object.assign({}, fbNow, {
+    closePaymentLink: async function (id) {
+      if (closeFails) return { ok: false, error: 'stripe said no' };
+      LINKS_CLOSED.push(id);
+      return { ok: true };
+    }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engineC = require('../lib/relay-engine');
+  await engineC.reconcilePayments({ limit: 25 });
+  assert('a refused closure leaves the order unclosed',
+    !(await store.getOrder(stubborn.id)).paymentLinkClosedAt);
+  closeFails = false;
+  await engineC.reconcilePayments({ limit: 25 });
+  assert('and a later cycle closes it',
+    !!(await store.getOrder(stubborn.id)).paymentLinkClosedAt &&
+    LINKS_CLOSED.indexOf('plink_stubborn') !== -1,
+    JSON.stringify(LINKS_CLOSED.slice(-3)));
+  require.cache[fbPath].exports = fbNow;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  engine3 = require('../lib/relay-engine');
 
   // An order held for review is one where money definitely arrived, so its income still
   // has to be booked. Scanning only 'paid' left exactly the orders with a payment problem
@@ -2234,10 +2288,19 @@ function invoke(handler, req) {
     lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
   });
   await store.updateOrder(heldNoIncome.id, { status: 'payment-review', collectedAmount: 9.0 });
-  await engine3.reconcilePayments({ limit: 25 });
+  // Wide batch: this block has created enough orders that 25 no longer reaches the one
+  // under test, and the subject here is which STATUS is scanned, not the batch size.
+  var heldRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === heldNoIncome.id; });
+  // Asserted on the ORDER and on the reconcile's own report rather than on the test's
+  // capture array: the subject is which STATUS the recovery scan covers, and the order is
+  // where that outcome is recorded regardless of which bridge instance did the write.
   assert('income is recovered for an order held in review',
-    LEDGER_WRITES.filter(function (w) { return w.orderId === heldNoIncome.id; }).length === 1,
-    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === heldNoIncome.id; }).length);
+    heldRows.length === 1 && heldRows[0].incomeBackfilled === true,
+    JSON.stringify(heldRows));
+  assert('and the order is marked so it is not booked twice',
+    !!(await store.getOrder(heldNoIncome.id)).incomeReportedAt,
+    String((await store.getOrder(heldNoIncome.id)).incomeReportedAt));
 
   // ── T42 ─────────────────────────────────────────────────────────────────
   // reportIncome returns ok:true even when the ledger write AND the fallback queue write
