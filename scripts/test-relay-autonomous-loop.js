@@ -2314,6 +2314,26 @@ function invoke(handler, req) {
   assert('income is recovered for an order that already shipped',
     shippedRows.length === 1 && shippedRows[0].incomeBackfilled === true,
     JSON.stringify(shippedRows));
+  // A shipped order that fulfilled before its link closed still has a live link the
+  // customer can be charged through.
+  assert('and its payment link is closed too, not left live',
+    !!(await store.getOrder(shippedOrphan.id)).incomeReportedAt);
+
+  // A skip is not a repair. Reporting 'claimed-elsewhere' or 'ledger-unreadable' as a
+  // backfill told the operator a bookkeeping gap had been closed while it is still open.
+  var notRepaired = await store.createOrder({
+    buyerId: 'b_skip', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(notRepaired.id, { status: 'paid' });
+  ALREADY_BOOKED = null;                        // ledger unreadable: nothing can be booked
+  var skipRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === notRepaired.id; });
+  assert('a skip is reported as NOT backfilled, with the reason',
+    skipRows.length === 1 && skipRows[0].incomeBackfilled === false &&
+    skipRows[0].incomeSkipped === 'ledger-unreadable',
+    JSON.stringify(skipRows));
+  ALREADY_BOOKED = false;
 
   // Rotation must advance even on orders Stripe will not answer for. Stamping only on a
   // successful read left a dead link sorted to the front of every cycle, blocking the
