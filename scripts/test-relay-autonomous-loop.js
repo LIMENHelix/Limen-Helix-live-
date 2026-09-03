@@ -1997,8 +1997,12 @@ function invoke(handler, req) {
     dedupeAfter.status === 'paid', dedupeAfter.status);
   assert('but the income is NOT booked a second time',
     LEDGER_WRITES.length === beforeDedupe, 'writes: ' + (LEDGER_WRITES.length - beforeDedupe));
-  assert('and the order says who booked it',
-    dedupeAfter.incomeBookedBy === 'webhook', String(dedupeAfter.incomeBookedBy));
+  // 'already-booked', NOT 'webhook'. The dedup answer says the charge is in the books; it
+  // does not say who put it there, and a previous reconcile that crashed after its ledger
+  // write looks identical from here. Naming a source we did not observe is a false audit
+  // trail on a financial event.
+  assert('and records that it was already booked, without inventing by whom',
+    dedupeAfter.incomeBookedBy === 'already-booked', String(dedupeAfter.incomeBookedBy));
 
   // An unreadable ledger is not evidence that nothing was booked. Writing on that
   // assumption is exactly how the double-book happens, so it must decline to write and
