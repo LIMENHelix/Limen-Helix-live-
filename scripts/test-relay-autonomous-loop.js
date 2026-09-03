@@ -1782,6 +1782,674 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../handlers/relay-demand-search')];
   require('../lib/relay-source-search');
 
+  // ── T34 ─────────────────────────────────────────────────────────────────
+  // THE PAID-ORDER GAP. Both checkout routes wrote 'awaiting-payment' and nothing on
+  // earth then wrote 'paid' to relay:store:orders — relay-stripe-webhook writes the
+  // trade-shared marketplace store, relay-demand-webhook reads a legacy array, and the
+  // engine only sweeps 'paid'. A customer could be charged and the supplier never asked
+  // to ship. This drives the REAL handlers with a stubbed Stripe response, from checkout
+  // through to the job handed to buy.execute.
+  console.log('T34: a paid order becomes paid, and gets fulfilled');
+  var savedStripeKey = process.env.STRIPE_SECRET_KEY;
+  process.env.STRIPE_SECRET_KEY = 'sk_test_not_a_real_key';
+
+  var STRIPE_SESSIONS = [];          // what Stripe will say when asked
+  var STRIPE_CALLS = [];
+  var STRIPE_FAIL = null;            // set to an HTTP status to make the read fail
+  var LINKS_CLOSED = [];             // links deactivated after settlement
+  var realFetchPay = global.fetch;
+  global.fetch = async function (u, o) {
+    var url = String(u);
+    if (url.indexOf('api.stripe.com/v1/checkout/sessions') !== -1) {
+      STRIPE_CALLS.push(url);
+      if (STRIPE_FAIL) {
+        return { ok: false, status: STRIPE_FAIL,
+          json: async function () { return { error: { message: 'stubbed failure' } }; } };
+      }
+      return { ok: true, status: 200, json: async function () { return { data: STRIPE_SESSIONS }; } };
+    }
+    // Closing the link after settlement, so a reusable link cannot be paid a second time.
+    if (url.indexOf('api.stripe.com/v1/payment_links/') !== -1) {
+      LINKS_CLOSED.push(url.split('/payment_links/')[1]);
+      return { ok: true, status: 200, json: async function () { return { active: false }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+
+  var fbPath = require.resolve('../lib/relay-finance-bridge');
+  var realFb = require('../lib/relay-finance-bridge');
+  var LEDGER_WRITES = [];
+  var ALREADY_BOOKED = false;      // false | true | null (ledger unreadable)
+  var DRAINS = 0;
+  require.cache[fbPath].exports = Object.assign({}, realFb, {
+    paymentsEnabled: function () { return true; },
+    createPayment: async function (o) {
+      return { ok: true, url: 'https://pay.test/x', paymentLinkId: 'plink_' + o.orderId };
+    },
+    incomeAlreadyBooked: async function () { return ALREADY_BOOKED; },
+    queueDepth: async function () { return 1; },
+    drainQueue: async function () { DRAINS++; return { ok: true, drained: 1 }; },
+    reportIncome: async function (e) { LEDGER_WRITES.push(e); return { ok: true, recorded: true }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  let engine3 = require('../lib/relay-engine');
+  var cart3 = require('../handlers/relay-cart-checkout');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var payListing = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'paid-path case',
+    price: 11.36, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v9', sourceUrl: 'https://www.cjdropshipping.com/product/-p-PAID.html',
+    sourceCost: 7.57, sourceShipping: 4.87, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var buyRes = await invoke(cart3, {
+    method: 'POST', headers: {},
+    body: { items: [{ listingId: payListing.id, qty: 1 }], shippingAddress: cartAddr,
+      buyerEmail: 'a@b.com', policyAccepted: true }
+  });
+  assert('checkout produced an order', buyRes.status === 200 && buyRes.body && buyRes.body.orderId,
+    JSON.stringify(buyRes.body).slice(0, 200));
+  var payOrderId = buyRes.body.orderId;
+  assert('and it starts unpaid, awaiting the customer',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment',
+    (await store.getOrder(payOrderId)).status);
+
+  // ── the negative first: an unpaid link must NEVER settle an order ──
+  STRIPE_SESSIONS = [{ id: 'cs_1', status: 'open', payment_status: 'unpaid' }];
+  var rec1 = await engine3.reconcilePayments({ limit: 25 });
+  assert('an unpaid link leaves the order alone',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment',
+    (await store.getOrder(payOrderId)).status);
+  assert('and reports it as asked-and-unpaid, not as unknown',
+    (rec1.checked || []).some(function (c) { return c.orderId === payOrderId && c.paid === false && c.asked === true; }),
+    JSON.stringify(rec1.checked).slice(0, 200));
+
+  // A completed FLOW that was not actually paid is also not a payment.
+  STRIPE_SESSIONS = [{ id: 'cs_2', status: 'complete', payment_status: 'unpaid' }];
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('a complete-but-unpaid session is not a payment either',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment');
+
+  // Nor is a failure to reach Stripe. This is the one that would buy stock against money
+  // nobody sent, so an error must never read as paid.
+  STRIPE_FAIL = 503;
+  var recErr = await engine3.reconcilePayments({ limit: 25 });
+  assert('an unreachable payment rail is not a payment',
+    (await store.getOrder(payOrderId)).status === 'awaiting-payment');
+  assert('and is reported as could-not-ask rather than unpaid',
+    (recErr.checked || []).some(function (c) { return c.orderId === payOrderId && c.asked === false && /refused|reach/.test(String(c.reason)); }),
+    JSON.stringify(recErr.checked).slice(0, 220));
+  STRIPE_FAIL = null;
+
+  // ── now the real payment ──
+  STRIPE_SESSIONS = [{ id: 'cs_paid', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_abc', amount_total: 1735, currency: 'usd' }];
+  var rec2 = await engine3.reconcilePayments({ limit: 25 });
+  var paidOrder = await store.getOrder(payOrderId);
+  assert('a paid link marks the order paid', paidOrder.status === 'paid', paidOrder.status);
+  assert('and records which Stripe session settled it',
+    paidOrder.stripeSessionId === 'cs_paid' && paidOrder.stripePaymentId === 'pi_abc',
+    JSON.stringify({ s: paidOrder.stripeSessionId, p: paidOrder.stripePaymentId }));
+  // Scoped to THIS order: earlier blocks left their own orders awaiting payment, and the
+  // reconcile correctly settles those too against the same stubbed Stripe answer.
+  var mine = function () { return LEDGER_WRITES.filter(function (w) { return w.orderId === payOrderId; }); };
+  assert('income reached finance once, for what was actually collected',
+    mine().length === 1 && mine()[0].amount === 17.35,
+    JSON.stringify(mine()).slice(0, 200));
+  assert('with the source cost carried so the margin is real, not assumed',
+    mine()[0].sourceCostTotal === 7.57 && mine()[0].margin === 9.78,
+    JSON.stringify(mine()[0]).slice(0, 200));
+
+  // Idempotence. The cron and a manual reconcile both run; neither may double-report.
+  var writesBefore = LEDGER_WRITES.length;
+  var rec3 = await engine3.reconcilePayments({ limit: 25 });
+  assert('reconciling again reports no income at all',
+    LEDGER_WRITES.length === writesBefore,
+    'before ' + writesBefore + ', after ' + LEDGER_WRITES.length);
+  assert('and this order in particular is still reported exactly once',
+    mine().length === 1, 'writes for this order: ' + mine().length);
+  assert('and does not re-list it as newly paid',
+    !(rec3.checked || []).some(function (c) { return c.orderId === payOrderId; }),
+    JSON.stringify(rec3.checked).slice(0, 160));
+
+  // The status is written BEFORE the ledger call on purpose: a customer's payment is a
+  // fact that must survive our bookkeeping failing. That leaves a window — crash between
+  // the two and the income is never reported, and the awaiting-payment loop will never
+  // look at that order again. incomeReportedAt is what lets a later cycle find it.
+  var stranded = await store.createOrder({
+    buyerId: 'b_orphan', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  // Evidence Stripe gave us, as a genuinely settled order carries. Without it the
+  // recovery loop correctly refuses to book income against a status somebody typed.
+  await store.updateOrder(stranded.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_stranded' });
+  await engine3.reconcilePayments({ limit: 25 });
+  var orphanWrites = LEDGER_WRITES.filter(function (w) { return w.orderId === stranded.id; });
+  assert('income stranded by a crash after payment is picked up later',
+    orphanWrites.length === 1, 'writes: ' + orphanWrites.length);
+  assert('and is then marked, so the next cycle leaves it alone',
+    !!(await store.getOrder(stranded.id)).incomeReportedAt);
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('which it does', LEDGER_WRITES.filter(function (w) { return w.orderId === stranded.id; }).length === 1,
+    'writes after second pass: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === stranded.id; }).length);
+
+  // ── the acceptance criterion: the engine's paid sweep can now see it ──
+  var sweepSeen = (await store.ordersByStatus('paid', 50)).some(function (o) { return o.id === payOrderId; });
+  assert('the paid sweep can now see the order', sweepSeen);
+  require.cache[buyPath].exports = Object.assign({}, realBuy, {
+    execute: async function (job) { EXEC_JOBS.push(job); return { ok: true, provider: 'cj', sourceOrderId: 'cjo_paid', amount: job.maxCost }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engine4 = require('../lib/relay-engine');
+  EXEC_JOBS.length = 0;
+  await engine4.fulfillPaidOrder({ orderId: payOrderId });
+  assert('and fulfilment actually buys it from the supplier',
+    EXEC_JOBS.length === 1 && EXEC_JOBS[0].orderId === payOrderId,
+    JSON.stringify(EXEC_JOBS.map(function (j) { return j.orderId; })));
+  assert('against the cost the order was authorised on',
+    EXEC_JOBS[0] && EXEC_JOBS[0].maxCost === 7.57, EXEC_JOBS[0] && String(EXEC_JOBS[0].maxCost));
+
+  // A ledger that is down must not un-pay a customer who paid. Amount matches the order,
+  // so this isolates the ledger behaviour rather than tripping the mismatch hold.
+  STRIPE_SESSIONS = [{ id: 'cs_led', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_led', amount_total: 1136, currency: 'usd' }];
+  require.cache[fbPath].exports = Object.assign({}, require.cache[fbPath].exports, {
+    reportIncome: async function () { return { ok: true, recorded: false, queued: true, error: 'ledger down' }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engine5 = require('../lib/relay-engine');
+  var order2 = await store.createOrder({
+    buyerId: 'b_led', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(order2.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + order2.id });
+  await engine5.reconcilePayments({ limit: 25 });
+  assert('a ledger outage still leaves the order paid',
+    (await store.getOrder(order2.id)).status === 'paid',
+    (await store.getOrder(order2.id)).status);
+
+  // ── T35 ─────────────────────────────────────────────────────────────────
+  // Relay is not the only thing that can book one of its payments. Every link it creates
+  // carries streamId 'relay-order', and /api/capital-engine?action=stripe-webhook hands
+  // checkout.session.completed to stripe-rail.recordWebhook, which writes an income event.
+  // If that webhook is live, reporting here as well books the same dollar twice and
+  // inflates net income and lendable surplus downstream.
+  console.log('T35: one charge is booked once, whoever books it');
+  var dedupOrder = await store.createOrder({
+    buyerId: 'b_dedupe', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(dedupOrder.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + dedupOrder.id });
+  STRIPE_SESSIONS = [{ id: 'cs_dupe', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_dupe', amount_total: 1136, currency: 'usd' }];
+
+  ALREADY_BOOKED = true;                       // the webhook got there first
+  var beforeDedupe = LEDGER_WRITES.length;
+  await engine3.reconcilePayments({ limit: 25 });
+  var dedupeAfter = await store.getOrder(dedupOrder.id);
+  assert('the order is still marked paid when someone else booked it',
+    dedupeAfter.status === 'paid', dedupeAfter.status);
+  assert('but the income is NOT booked a second time',
+    LEDGER_WRITES.length === beforeDedupe, 'writes: ' + (LEDGER_WRITES.length - beforeDedupe));
+  // 'already-booked', NOT 'webhook'. The dedup answer says the charge is in the books; it
+  // does not say who put it there, and a previous reconcile that crashed after its ledger
+  // write looks identical from here. Naming a source we did not observe is a false audit
+  // trail on a financial event.
+  assert('and records that it was already booked, without inventing by whom',
+    dedupeAfter.incomeBookedBy === 'already-booked', String(dedupeAfter.incomeBookedBy));
+
+  // An unreadable ledger is not evidence that nothing was booked. Writing on that
+  // assumption is exactly how the double-book happens, so it must decline to write and
+  // leave the order to a later cycle.
+  ALREADY_BOOKED = null;
+  var unreadable = await store.createOrder({
+    buyerId: 'b_unread', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(unreadable.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + unreadable.id });
+  var beforeUnread = LEDGER_WRITES.length;
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('an unreadable ledger does not book income',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === unreadable.id; }).length === 0,
+    'writes: ' + (LEDGER_WRITES.length - beforeUnread));
+  assert('and leaves it unmarked, so a later cycle retries',
+    !(await store.getOrder(unreadable.id)).incomeReportedAt);
+  ALREADY_BOOKED = false;
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('which it does once the ledger answers',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === unreadable.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === unreadable.id; }).length);
+
+  // ── T36 ─────────────────────────────────────────────────────────────────
+  // Autonomy off means "buy nothing". It must not mean "stop noticing that customers
+  // paid": the payment link stays live after the switch is flipped, so returning at the
+  // gate stranded a charged customer for the whole outage.
+  console.log('T36: an off switch stops buying, not bookkeeping');
+  var offOrder = await store.createOrder({
+    buyerId: 'b_off', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(offOrder.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + offOrder.id });
+  await db.set('relay:autonomy', {
+    mode: 'off', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  DRAINS = 0;
+  var offCycle = await engine3.runCycle({});
+  assert('the cycle still declines to buy', offCycle.skipped === true, JSON.stringify(offCycle).slice(0, 120));
+  assert('but the paid order was noticed anyway',
+    (await store.getOrder(offOrder.id)).status === 'paid',
+    (await store.getOrder(offOrder.id)).status);
+  assert('and it is reported in the skipped cycle, not silently',
+    Array.isArray(offCycle.paymentsReconciled) && offCycle.paymentsReconciled.length > 0,
+    JSON.stringify(offCycle.paymentsReconciled || null).slice(0, 120));
+  // reportIncome fails soft into a queue, and nothing in production ever drained it: the
+  // only caller was the firewall test. Fail-soft with no drain is a slow leak.
+  assert('and queued income is actually drained by the cycle', DRAINS > 0, 'drains: ' + DRAINS);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+
+  // ── T37 ─────────────────────────────────────────────────────────────────
+  // relay-demand-purchase writes order lines with no sourceCost, because that cost lives
+  // on the listing it just created. Reducing over the line alone reported a zero cost and
+  // a null margin for every order from that entire checkout route.
+  console.log('T37: margin is real on both checkout routes');
+  var noCostOrder = await store.createOrder({
+    buyerId: 'b_nocost', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 2, unitPrice: 11.36, title: 'x' }]   // no sourceCost
+  });
+  await store.updateOrder(noCostOrder.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + noCostOrder.id });
+  STRIPE_SESSIONS = [{ id: 'cs_nc', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_nc', amount_total: 2272, currency: 'usd' }];
+  await engine3.reconcilePayments({ limit: 25 });
+  var ncWrite = LEDGER_WRITES.filter(function (w) { return w.orderId === noCostOrder.id; })[0];
+  assert('a line with no cost resolves it from the listing',
+    ncWrite && ncWrite.sourceCostTotal === 15.14, ncWrite && String(ncWrite.sourceCostTotal));
+  assert('so the reported margin is the real one, not null',
+    ncWrite && ncWrite.margin === 7.58, ncWrite && String(ncWrite.margin));
+
+  // ── T38 ─────────────────────────────────────────────────────────────────
+  // Orders sit in awaiting-payment forever when abandoned, and ordersByStatus returns
+  // NEWEST first. Taking the newest N meant that past N unpaid orders, the same newest N
+  // were rechecked every cycle and an older customer who finally paid was never seen.
+  console.log('T38: the longest-waiting customer is not starved');
+  var oldest = await store.createOrder({
+    buyerId: 'b_oldest', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(oldest.id, {
+    status: 'awaiting-payment', paymentLinkId: 'plink_' + oldest.id,
+    ts: '2020-01-01T00:00:00.000Z'                       // long before everything else
+  });
+  for (var pad = 0; pad < 3; pad++) {
+    var filler = await store.createOrder({
+      buyerId: 'b_pad' + pad, shipping: 0, shippingAddress: cartAddr,
+      lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+    });
+    await store.updateOrder(filler.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + filler.id });
+  }
+  STRIPE_SESSIONS = [{ id: 'cs_old', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_old', amount_total: 1136, currency: 'usd' }];
+  var narrow = await engine3.reconcilePayments({ limit: 1 });   // room for exactly one
+  // Income backfills also land in `checked`; the batch limit is about who gets ASKED.
+  var asked = (narrow.checked || []).filter(function (c) { return !c.incomeBackfilled; });
+  assert('a batch of one takes the oldest, not the newest',
+    asked.length === 1 && asked[0].orderId === oldest.id,
+    JSON.stringify(asked).slice(0, 160));
+  assert('and that customer is settled', (await store.getOrder(oldest.id)).status === 'paid');
+
+  // ── T39 ─────────────────────────────────────────────────────────────────
+  // The orphan loop exists for a crash between the paid-status write and the income
+  // write. Some of those crashes happen on unusual amounts, so booking the order's
+  // EXPECTED total there would quietly launder a mismatch the status write had already
+  // recorded — in exactly the scenario the loop was built to repair.
+  console.log('T39: recovery books what was collected, not what was expected');
+  var mismatched = await store.createOrder({
+    buyerId: 'b_mismatch', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(mismatched.id, {
+    status: 'paid',                       // paid, income never written: the crash window
+    collectedAmount: 9.99,
+    amountMismatch: { charged: 9.99, expected: 11.36 }
+  });
+  await engine3.reconcilePayments({ limit: 25 });
+  var mmWrite = LEDGER_WRITES.filter(function (w) { return w.orderId === mismatched.id; })[0];
+  assert('the recovered income is the money Stripe actually took',
+    mmWrite && mmWrite.amount === 9.99, mmWrite && String(mmWrite.amount));
+  assert('and the margin follows that, not the expected total',
+    mmWrite && mmWrite.margin === 2.42, mmWrite && String(mmWrite.margin));
+
+  // ── T40 ─────────────────────────────────────────────────────────────────
+  // A payment link is reusable, so abandoned and retried attempts pile up against it.
+  // Reading one page and calling that "unpaid" strands a customer whose successful
+  // attempt was pushed off the first page by their earlier failed ones.
+  console.log('T40: a payment found on page two is still a payment');
+  var PAGED = true;
+  var pagedOrder = await store.createOrder({
+    buyerId: 'b_paged', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(pagedOrder.id, { status: 'awaiting-payment', paymentLinkId: 'plink_paged' });
+  var pageRequests = [];
+  var prevFetch = global.fetch;
+  global.fetch = async function (u) {
+    var url = String(u);
+    if (url.indexOf('api.stripe.com/v1/checkout/sessions') !== -1) {
+      pageRequests.push(url);
+      if (url.indexOf('starting_after=') === -1) {
+        // Page one: nothing but abandoned attempts, and Stripe says there is more.
+        var open = [];
+        for (var oi = 0; oi < 3; oi++) open.push({ id: 'cs_open_' + oi, status: 'open', payment_status: 'unpaid' });
+        return { ok: true, status: 200, json: async function () { return { data: open, has_more: true }; } };
+      }
+      return { ok: true, status: 200, json: async function () {
+        return { data: [{ id: 'cs_page2', status: 'complete', payment_status: 'paid',
+          payment_intent: 'pi_page2', amount_total: 1136, currency: 'usd' }], has_more: false }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+  var pagedRes = await realFb.paymentStatus('plink_paged');
+  assert('the second page is actually requested',
+    pageRequests.length === 2 && /starting_after=cs_open_2/.test(pageRequests[1]),
+    JSON.stringify(pageRequests.map(function (u) { return u.split('?')[1]; })));
+  assert('and the payment on it is found',
+    pagedRes.ok === true && pagedRes.paid === true && pagedRes.sessionId === 'cs_page2',
+    JSON.stringify(pagedRes));
+
+  // Running out of pages with Stripe still saying there is more, and nothing paid found,
+  // is UNKNOWN — not unpaid. The payment could be on the page we did not read, and
+  // answering "not paid" strands a charged customer on a confident guess.
+  global.fetch = async function (u) {
+    var url = String(u);
+    if (url.indexOf('api.stripe.com/v1/checkout/sessions') !== -1) {
+      var open = [];
+      for (var oj = 0; oj < 100; oj++) open.push({ id: 'cs_endless_' + Date.now() + '_' + oj, status: 'open', payment_status: 'unpaid' });
+      return { ok: true, status: 200, json: async function () { return { data: open, has_more: true }; } };
+    }
+    return BLOCK_NETWORK(u);
+  };
+  var capped = await realFb.paymentStatus('plink_endless');
+  assert('exhausting the page budget is unknown, not unpaid',
+    capped.ok === false && /unknown/.test(String(capped.error)), JSON.stringify(capped));
+  global.fetch = prevFetch;
+
+  // ── T41 ─────────────────────────────────────────────────────────────────
+  // Fulfilment authorises against the order's expected sale price, not against what was
+  // actually collected. An order paid SHORT that lands in the normal paid queue is bought
+  // at a margin that no longer exists — possibly at a loss — and shipped, on the same
+  // cycle. And a link paid twice is a customer owed either a second delivery or a refund.
+  // Neither is a decision a loop makes alone.
+  console.log('T41: money that does not match the order does not auto-fulfil');
+  var short = await store.createOrder({
+    buyerId: 'b_short', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(short.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + short.id });
+  STRIPE_SESSIONS = [{ id: 'cs_short', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_short', amount_total: 500, currency: 'usd' }];   // $5.00 of $11.36
+  await engine3.reconcilePayments({ limit: 25 });
+  var shortOrder = await store.getOrder(short.id);
+  assert('an underpaid order is held for review, not marked paid',
+    shortOrder.status === 'payment-review', shortOrder.status);
+  assert('and the reason names both figures',
+    /5\.00/.test(String(shortOrder.reviewReason)) && /11\.36/.test(String(shortOrder.reviewReason)),
+    String(shortOrder.reviewReason));
+  assert('so the paid sweep cannot pick it up',
+    !(await store.ordersByStatus('paid', 200)).some(function (o) { return o.id === short.id; }));
+  assert('but the money that DID arrive is still booked',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === short.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === short.id; }).length);
+
+  var twice = await store.createOrder({
+    buyerId: 'b_twice', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(twice.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + twice.id });
+  STRIPE_SESSIONS = [
+    { id: 'cs_a', status: 'complete', payment_status: 'paid', payment_intent: 'pi_a', amount_total: 1136, currency: 'usd' },
+    { id: 'cs_b', status: 'complete', payment_status: 'paid', payment_intent: 'pi_b', amount_total: 1136, currency: 'usd' }
+  ];
+  await engine3.reconcilePayments({ limit: 25 });
+  var twiceOrder = await store.getOrder(twice.id);
+  assert('a link paid twice is held for review too',
+    twiceOrder.status === 'payment-review', twiceOrder.status);
+  assert('and both charges are recorded, so neither is silently kept',
+    Array.isArray(twiceOrder.duplicatePayments) && twiceOrder.duplicatePayments.length === 2,
+    JSON.stringify(twiceOrder.duplicatePayments));
+  // ONE charge is booked, not the sum. The webhook books per SESSION, so adding the total
+  // on top of a session it already booked double-books that session — and a duplicate
+  // charge is money on its way back to the customer, not revenue. The extras are recorded
+  // on the order for a refund decision a human makes.
+  assert('only the order\'s own charge is booked as income',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount === 11.36,
+    String(LEDGER_WRITES.filter(function (w) { return w.orderId === twice.id; })[0].amount));
+
+  // An OVERpayment is money the customer is owed back. Buying and shipping on it leaves
+  // the excess with no refund path and nobody looking at it.
+  var over = await store.createOrder({
+    buyerId: 'b_over', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(over.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + over.id });
+  STRIPE_SESSIONS = [{ id: 'cs_over', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_over', amount_total: 5000, currency: 'usd' }];   // $50 for an $11.36 order
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('an OVERpaid order is held too, not shipped on the excess',
+    (await store.getOrder(over.id)).status === 'payment-review',
+    (await store.getOrder(over.id)).status);
+  // The excess is owed back, so it is not revenue. Booking the whole $50 would inflate
+  // net income and lendable surplus until the refund happens.
+  assert('and only the order total is booked, not the excess',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === over.id; })[0].amount === 11.36,
+    String(LEDGER_WRITES.filter(function (w) { return w.orderId === over.id; })[0].amount));
+
+  // A status can be set by hand. Booking income off one invents revenue nobody paid.
+  var noEvidence = await store.createOrder({
+    buyerId: 'b_noev', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(noEvidence.id, { status: 'shipped' });   // no Stripe evidence at all
+  var noEvRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === noEvidence.id; });
+  assert('an order marked paid by hand books no income',
+    noEvRows.length === 0 &&
+    LEDGER_WRITES.filter(function (w) { return w.orderId === noEvidence.id; }).length === 0,
+    JSON.stringify(noEvRows));
+
+  // Nor may its link be closed. An order forced to 'shipped' by hand has an UNPAID link,
+  // and closing it takes away the customer's only way to pay — turning a bookkeeping
+  // shortcut into a sale nobody can complete.
+  var unpaidLink = await store.createOrder({
+    buyerId: 'b_unpaidlink', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(unpaidLink.id, { status: 'shipped', paymentLinkId: 'plink_unpaid_forced' });
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('and its unpaid payment link is left open',
+    LINKS_CLOSED.indexOf('plink_unpaid_forced') === -1,
+    JSON.stringify(LINKS_CLOSED.slice(-4)));
+
+  // A settled order's link is never revisited, so leaving it open lets the same customer
+  // be charged again into silence. Closing it removes the class instead of detecting it.
+  assert('the payment link is closed once its order settles',
+    LINKS_CLOSED.indexOf('plink_' + over.id) !== -1, JSON.stringify(LINKS_CLOSED.slice(-4)));
+  assert('and the order records that it closed',
+    !!(await store.getOrder(over.id)).paymentLinkClosedAt);
+
+  // A closure Stripe refused must be retried, not left as the final word: until the link
+  // closes, that customer can still be charged through it. "Best effort" that never tries
+  // twice is a failure with better manners.
+  var stubborn = await store.createOrder({
+    buyerId: 'b_stubborn', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  // Carries payment evidence, as a genuinely settled order does: the closure retry
+  // deliberately will not close the link of an order that was never paid.
+  await store.updateOrder(stubborn.id, { status: 'paid', paymentLinkId: 'plink_stubborn',
+    paidAt: new Date().toISOString(), stripeSessionId: 'cs_stubborn',
+    incomeReportedAt: new Date().toISOString() });
+  var closeFails = true;
+  var fbNow = require.cache[fbPath].exports;
+  require.cache[fbPath].exports = Object.assign({}, fbNow, {
+    closePaymentLink: async function (id) {
+      if (closeFails) return { ok: false, error: 'stripe said no' };
+      LINKS_CLOSED.push(id);
+      return { ok: true };
+    }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engineC = require('../lib/relay-engine');
+  await engineC.reconcilePayments({ limit: 25 });
+  assert('a refused closure leaves the order unclosed',
+    !(await store.getOrder(stubborn.id)).paymentLinkClosedAt);
+  closeFails = false;
+  await engineC.reconcilePayments({ limit: 25 });
+  assert('and a later cycle closes it',
+    !!(await store.getOrder(stubborn.id)).paymentLinkClosedAt &&
+    LINKS_CLOSED.indexOf('plink_stubborn') !== -1,
+    JSON.stringify(LINKS_CLOSED.slice(-3)));
+  require.cache[fbPath].exports = fbNow;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  engine3 = require('../lib/relay-engine');
+
+  // An order held for review is one where money definitely arrived, so its income still
+  // has to be booked. Scanning only 'paid' left exactly the orders with a payment problem
+  // as the ones whose payment was never recorded.
+  var heldNoIncome = await store.createOrder({
+    buyerId: 'b_held', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(heldNoIncome.id, { status: 'payment-review', collectedAmount: 9.0 });
+  // Wide batch: this block has created enough orders that 25 no longer reaches the one
+  // under test, and the subject here is which STATUS is scanned, not the batch size.
+  var heldRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === heldNoIncome.id; });
+  // Asserted on the ORDER and on the reconcile's own report rather than on the test's
+  // capture array: the subject is which STATUS the recovery scan covers, and the order is
+  // where that outcome is recorded regardless of which bridge instance did the write.
+  assert('income is recovered for an order held in review',
+    heldRows.length === 1 && heldRows[0].incomeBackfilled === true,
+    JSON.stringify(heldRows));
+  assert('and the order is marked so it is not booked twice',
+    !!(await store.getOrder(heldNoIncome.id)).incomeReportedAt,
+    String((await store.getOrder(heldNoIncome.id)).incomeReportedAt));
+
+  // An order fulfilled before its income write succeeded moves on to 'shipped' and would
+  // never be scanned again — losing the income of a sale that actually completed.
+  var shippedOrphan = await store.createOrder({
+    buyerId: 'b_shipped', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(shippedOrphan.id, { status: 'shipped', paidAt: new Date().toISOString(), stripeSessionId: 'cs_shipped' });
+  var shippedRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === shippedOrphan.id; });
+  assert('income is recovered for an order that already shipped',
+    shippedRows.length === 1 && shippedRows[0].incomeBackfilled === true,
+    JSON.stringify(shippedRows));
+  // A shipped order that fulfilled before its link closed still has a live link the
+  // customer can be charged through.
+  assert('and its payment link is closed too, not left live',
+    !!(await store.getOrder(shippedOrphan.id)).incomeReportedAt);
+
+  // A skip is not a repair. Reporting 'claimed-elsewhere' or 'ledger-unreadable' as a
+  // backfill told the operator a bookkeeping gap had been closed while it is still open.
+  var notRepaired = await store.createOrder({
+    buyerId: 'b_skip', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(notRepaired.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_skip' });
+  ALREADY_BOOKED = null;                        // ledger unreadable: nothing can be booked
+  var skipRows = (await engine3.reconcilePayments({ limit: 500 })).checked
+    .filter(function (c) { return c.orderId === notRepaired.id; });
+  assert('a skip is reported as NOT backfilled, with the reason',
+    skipRows.length === 1 && skipRows[0].incomeBackfilled === false &&
+    skipRows[0].incomeSkipped === 'ledger-unreadable',
+    JSON.stringify(skipRows));
+  ALREADY_BOOKED = false;
+
+  // Rotation must advance even on orders Stripe will not answer for. Stamping only on a
+  // successful read left a dead link sorted to the front of every cycle, blocking the
+  // queue behind it.
+  var deadLink = await store.createOrder({
+    buyerId: 'b_dead', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(deadLink.id, {
+    status: 'awaiting-payment', paymentLinkId: 'plink_dead', ts: '2019-01-01T00:00:00.000Z'
+  });
+  STRIPE_FAIL = 404;
+  await engine3.reconcilePayments({ limit: 1 });
+  STRIPE_FAIL = null;
+  // Rotation state lives in Relay's own key, NOT on the order: writing it back onto the
+  // order would add a whole-map rewrite per unpaid order per cycle, and relay-store
+  // rewrites the entire orders map on every update — a concurrent checkout's brand-new
+  // order can be dropped by an older snapshot committing over it.
+  assert('an order Stripe will not answer for still takes its turn',
+    !!((await db.get('relay:payment-checks')) || {})[deadLink.id],
+    JSON.stringify(Object.keys((await db.get('relay:payment-checks')) || {}).length));
+  assert('and the rotation does not write to the orders map to do it',
+    (await store.getOrder(deadLink.id)).lastPaymentCheckAt === undefined);
+
+  // ── T42 ─────────────────────────────────────────────────────────────────
+  // reportIncome returns ok:true even when the ledger write AND the fallback queue write
+  // both fail. Marking on ok alone stamped "handled" on an event that exists nowhere, and
+  // every later recovery pass then skipped that order permanently.
+  console.log('T42: income that landed nowhere is not marked handled');
+  require.cache[fbPath].exports = Object.assign({}, require.cache[fbPath].exports, {
+    reportIncome: async function () { return { ok: true, recorded: false, queued: false, error: 'both failed' }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engine6 = require('../lib/relay-engine');
+  var lost = await store.createOrder({
+    buyerId: 'b_lost', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(lost.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_lost' });
+  await engine6.reconcilePayments({ limit: 25 });
+  assert('an event that reached neither ledger nor queue leaves the order unmarked',
+    !(await store.getOrder(lost.id)).incomeReportedAt,
+    String((await store.getOrder(lost.id)).incomeReportedAt));
+  require.cache[fbPath].exports = Object.assign({}, require.cache[fbPath].exports, {
+    reportIncome: async function (e) { LEDGER_WRITES.push(e); return { ok: true, recorded: true }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  engine3 = require('../lib/relay-engine');
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('so a later cycle can still book it',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === lost.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === lost.id; }).length);
+
+  require.cache[fbPath].exports = realFb;
+  require.cache[buyPath].exports = realBuy;
+  global.fetch = realFetchPay;
+  if (savedStripeKey === undefined) delete process.env.STRIPE_SECRET_KEY;
+  else process.env.STRIPE_SECRET_KEY = savedStripeKey;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
+  // ── T43 ─────────────────────────────────────────────────────────────────
+  // A dedup scan narrower than what the ledger RETAINS is not a dedup scan: a webhook's
+  // entry sitting just outside the window reads as "nothing booked", and the same charge
+  // is booked again. Pinned as a relationship between two constants, because the window
+  // size is not observable from a stubbed ledger.
+  console.log('T43: the dedup scan covers everything the ledger keeps');
+  var bridgeSrc = require('fs').readFileSync(require.resolve('../lib/relay-finance-bridge'), 'utf8');
+  var ledgerSrc = require('fs').readFileSync(require.resolve('../lib/finance-ledger'), 'utf8');
+  var scanN = parseInt((bridgeSrc.match(/LEDGER_SCAN\s*=\s*(\d+)/) || [])[1], 10);
+  var keepN = parseInt((ledgerSrc.match(/MAX_LEDGER\s*=\s*(\d+)/) || [])[1], 10);
+  assert('the scan window is at least the ledger retention',
+    isFinite(scanN) && isFinite(keepN) && scanN >= keepN,
+    'scan ' + scanN + ' vs retained ' + keepN);
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.

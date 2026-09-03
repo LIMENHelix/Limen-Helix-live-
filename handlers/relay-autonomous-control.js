@@ -259,6 +259,42 @@ async function handlePOST(body) {
     return { ok: r.ok, fulfillment: r };
   }
 
+  // Ask Stripe, now, which unpaid orders were actually paid. The cron already does this
+  // every cycle; this is for the operator who does not want to wait for the next one, and
+  // for answering "did that customer's money arrive?" without opening the dashboard.
+  if (action === 'reconcile-payments') {
+    // CAPPED. Each order in the batch is at least one Stripe round trip, so an operator
+    // typing a large number turns one click into a request that outlives the function.
+    const asked = parseInt(body.limit, 10) || 25;
+    // 25, not 100: each order is at least one Stripe round trip of a second or two, and
+    // a hundred of those outlives the function's deadline. The cron does the volume; this
+    // is for an operator who wants an answer now.
+    const r = await engine.reconcilePayments({ limit: Math.min(Math.max(asked, 1), 25) });
+    const rows = r.checked || [];
+    return {
+      ok: r.ok !== false,
+      error: r.error || null,
+      // Newly settled means a CUSTOMER paid, not that bookkeeping was repaired. Counting
+      // a backfill here reported a payment that did not happen this cycle.
+      // A settled payment is a CUSTOMER paying. A backfill is bookkeeping catching up, and
+      // a failed retry is neither — counting either as settled reports revenue that did
+      // not arrive this cycle.
+      // A settled payment is a CUSTOMER paying, discovered this cycle. Whether its income
+      // was booked here or deduplicated because the webhook got there first is a separate
+      // question — excluding incomeSkipped rows (added last round, over-broad) hid real
+      // settlements behind a bookkeeping detail. Backfills are still excluded: those are
+      // bookkeeping catching up on a payment from some earlier cycle.
+      settled: rows.filter(function (c) { return c.paid && !c.alreadySettled && !c.incomeBackfilled; }).length,
+      incomeBackfilled: rows.filter(function (c) { return c.incomeBackfilled; }).length,
+      heldForReview: rows.filter(function (c) { return c.review; }).length,
+      stillUnpaid: rows.filter(function (c) { return !c.paid && c.asked; }).length,
+      // Orders it could not get an answer about. These are NOT unpaid; they are unknown,
+      // and the difference is the whole point of the ok/paid split in paymentStatus.
+      couldNotAsk: rows.filter(function (c) { return !c.paid && c.asked === false; }),
+      checked: rows
+    };
+  }
+
   if (action === 'close-task') {
     if (!body.taskId) return { ok: false, error: 'taskId required' };
     return await buy.closeTask(body.taskId, { sourceOrderId: body.sourceOrderId, amount: body.amount });
