@@ -2450,6 +2450,163 @@ function invoke(handler, req) {
     isFinite(scanN) && isFinite(keepN) && scanN >= keepN,
     'scan ' + scanN + ' vs retained ' + keepN);
 
+  // ── T44 ─────────────────────────────────────────────────────────────────
+  // THE APPROVE DEFECT. approve() stamped approvedAt and NOTHING read it: fulfillLine
+  // called authorize() again, which in queue mode took a SECOND reservation and re-queued.
+  // The click bought nothing, and neither reservation was ever settled or released, so
+  // each click burned the line cost twice out of dailyCeilingUsd until the UTC day rolled.
+  console.log('T44: a human click actually buys, exactly once');
+  var apBuy = require.resolve('../lib/relay-buy');
+  var apRealBuy = require('../lib/relay-buy');
+  var AP_JOBS = [];
+  require.cache[apBuy].exports = Object.assign({}, apRealBuy, {
+    execute: async function (job) {
+      AP_JOBS.push(job);
+      return { ok: true, provider: 'cj', sourceOrderId: 'cjo_approved', amount: job.maxCost };
+    },
+    fileManualTask: async function () { return { ok: true, task: { id: 'task_stub' } }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var apEngine = require('../lib/relay-engine');
+  var apCtl = require('../handlers/relay-autonomous-control');
+  var apAut = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var apListing = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'approve-path item',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_ap', sourceUrl: 'https://www.cjdropshipping.com/product/-p-AP.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var apOrder = await store.createOrder({
+    buyerId: 'b_ap', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: apListing.id, qty: 1, unitPrice: 22.00, title: 'approve-path item', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(apOrder.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_ap' });
+
+  // First pass: queue mode reserves and holds for a human. Nothing is bought.
+  var pass1 = await apEngine.fulfillPaidOrder({ orderId: apOrder.id });
+  assert('queue mode holds the line for a human, buying nothing',
+    AP_JOBS.length === 0 && (pass1.lines || [])[0] && pass1.lines[0].state === 'awaiting-approval',
+    JSON.stringify((pass1.lines || [])[0] || {}).slice(0, 160));
+  var apDecision = pass1.lines[0].decisionId;
+  var spentAfterHold = (await apAut.status()).spentToday;
+  assert('and one reservation is counted against the day', spentAfterHold === 11, String(spentAfterHold));
+
+  // The click. This is the whole defect: before the fix it bought nothing and reserved again.
+  var click = await invoke(apCtl, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: process.env.RELAY_ADMIN_KEY, decisionId: apDecision }
+  });
+  var clickBody = click.body || {};
+  assert('the click actually places the supplier order',
+    AP_JOBS.length === 1 && AP_JOBS[0].orderId === apOrder.id,
+    'jobs: ' + AP_JOBS.length);
+  assert('and the handler reports THIS decision, not the order aggregate',
+    clickBody.purchased === true && clickBody.ok === true,
+    JSON.stringify({ ok: clickBody.ok, purchased: clickBody.purchased, reason: clickBody.reason }));
+  assert('the approved reservation is the one that was spent',
+    AP_JOBS[0].decisionId === apDecision, String(AP_JOBS[0].decisionId));
+
+  // The leak: a second reservation would double-count the day's spend.
+  var spentAfterBuy = (await apAut.status()).spentToday;
+  assert('no second reservation was taken', spentAfterBuy === 11,
+    'spentToday ' + spentAfterHold + ' -> ' + spentAfterBuy);
+  var apRows = (await db.get('relay:autonomy-ledger')) || [];
+  assert('and the reservation ended settled, not orphaned',
+    apRows.filter(function (r) { return r.state === 'settled'; }).length === 1 &&
+    apRows.filter(function (r) { return r.state === 'reserved'; }).length === 0,
+    JSON.stringify(apRows.map(function (r) { return r.state; })));
+
+  // Idempotence: the same approval cannot be spent twice.
+  var click2 = await invoke(apCtl, {
+    method: 'POST', headers: {},
+    body: { action: 'approve-purchase', key: process.env.RELAY_ADMIN_KEY, decisionId: apDecision }
+  });
+  assert('the same approval cannot be spent twice',
+    AP_JOBS.length === 1, 'jobs after second click: ' + AP_JOBS.length);
+
+  // THE KILL SWITCH. An approval granted before the switch was thrown is not permission
+  // to spend after it. This is the fatal objection the adversarial review raised.
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var offOrder = await store.createOrder({
+    buyerId: 'b_apoff', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: apListing.id, qty: 1, unitPrice: 22.00, title: 'x', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(offOrder.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_apoff' });
+  var offHold = await apEngine.fulfillPaidOrder({ orderId: offOrder.id });
+  var offDecision = offHold.lines[0].decisionId;
+  await apAut.approve(offDecision, 'operator');
+  var beforeOff = AP_JOBS.length;
+  await db.set('relay:autonomy', {
+    mode: 'off', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  var offRes = await apAut.consumeApproved({
+    decisionId: offDecision, orderId: offOrder.id, listingId: apListing.id, amount: 11.00
+  });
+  assert('mode OFF refuses an approval granted before the switch',
+    offRes.allowed === false && /OFF/.test(String(offRes.reason)), JSON.stringify(offRes.reason));
+  assert('and nothing was bought', AP_JOBS.length === beforeOff, 'jobs: ' + AP_JOBS.length);
+
+  // An auto-mode reservation is not something a human approved.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  await db.set('relay:autonomy-ledger', []);
+  var autoRes = await apAut.authorize({ amount: 11, salePrice: 22, orderId: 'o_auto', listingId: apListing.id });
+  await apAut.approve(autoRes.decisionId, 'operator');
+  var autoConsume = await apAut.consumeApproved({
+    decisionId: autoRes.decisionId, orderId: 'o_auto', listingId: apListing.id, amount: 11
+  });
+  assert('an auto-mode reservation cannot be consumed as an approval',
+    autoConsume.allowed === false && /not queued/.test(String(autoConsume.reason)),
+    JSON.stringify(autoConsume.reason));
+
+  // Funds are re-checked at consume time: approval is a human delay, and the contract is
+  // "never spend into overdraft", not "never start to".
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false
+  });
+  await db.set('relay:autonomy-ledger', []);
+  var fundRes = await apAut.authorize({ amount: 11, salePrice: 22, orderId: 'o_f', listingId: apListing.id });
+  await apAut.approve(fundRes.decisionId, 'operator');
+  var ppPath = require.resolve('../lib/relay-paypal-balance');
+  var ppReal = require.cache[ppPath] ? require.cache[ppPath].exports : null;
+  require.cache[ppPath] = { id: ppPath, filename: ppPath, loaded: true,
+    exports: { getCurrentBalance: async function () { return 0; } } };
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true
+  });
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var apAut2 = require('../lib/relay-autonomy');
+  var fundConsume = await apAut2.consumeApproved({
+    decisionId: fundRes.decisionId, orderId: 'o_f', listingId: apListing.id, amount: 11
+  });
+  assert('funds are re-checked when the approval is spent, not only when reserved',
+    fundConsume.allowed === false && /funding balance/.test(String(fundConsume.reason)),
+    JSON.stringify(fundConsume.reason));
+  if (ppReal) require.cache[ppPath] = { id: ppPath, filename: ppPath, loaded: true, exports: ppReal };
+  else delete require.cache[ppPath];
+
+  require.cache[apBuy].exports = apRealBuy;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.

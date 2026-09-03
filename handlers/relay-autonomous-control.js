@@ -245,10 +245,30 @@ async function handlePOST(body) {
     if (!body.decisionId) return { ok: false, error: 'decisionId required' };
     const approved = await autonomy.approve(body.decisionId, body.by || 'operator');
     if (!approved.ok) return approved;
-    // Approval alone does not buy anything; run the order so the money actually moves.
+    // Approval alone does not buy anything; run the order so the money actually moves —
+    // and pass the decisionId, so fulfilment SPENDS this reservation instead of taking a
+    // fresh one. Without it the click re-queued and bought nothing.
     if (approved.row && approved.row.orderId) {
-      const r = await engine.fulfillPaidOrder({ orderId: approved.row.orderId, force: true });
-      return { ok: true, approved: approved.row, fulfillment: r };
+      const r = await engine.fulfillPaidOrder({
+        orderId: approved.row.orderId,
+        decisionId: body.decisionId,
+        force: true
+      });
+      // Report on THIS decision, not on the order as a whole. Returning ok:true for an
+      // order-level result is how a click that bought nothing looked like a success for
+      // as long as it did — the console throws the body away and just refreshes.
+      const lines = (r && r.lines) || [];
+      const mine = lines.find(function (l) { return l.decisionId === body.decisionId; });
+      const bought = !!(mine && mine.state === 'purchased');
+      return {
+        ok: bought,
+        purchased: bought,
+        approved: approved.row,
+        line: mine || null,
+        // Why it did not buy, in the words of the gate that refused.
+        reason: bought ? null : ((mine && (mine.reason || mine.error)) || (r && r.error) || 'the approved line did not complete'),
+        fulfillment: r
+      };
     }
     return { ok: true, approved: approved.row };
   }
