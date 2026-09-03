@@ -268,7 +268,11 @@ async function handlePOST(body) {
     return {
       ok: r.ok !== false,
       error: r.error || null,
-      settled: rows.filter(function (c) { return c.paid && !c.alreadySettled; }).length,
+      // Newly settled means a CUSTOMER paid, not that bookkeeping was repaired. Counting
+      // a backfill here reported a payment that did not happen this cycle.
+      settled: rows.filter(function (c) { return c.paid && !c.alreadySettled && !c.incomeBackfilled; }).length,
+      incomeBackfilled: rows.filter(function (c) { return c.incomeBackfilled; }).length,
+      heldForReview: rows.filter(function (c) { return c.review; }).length,
       stillUnpaid: rows.filter(function (c) { return !c.paid && c.asked; }).length,
       // Orders it could not get an answer about. These are NOT unpaid; they are unknown,
       // and the difference is the whole point of the ok/paid split in paymentStatus.

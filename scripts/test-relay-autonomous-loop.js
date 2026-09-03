@@ -1827,7 +1827,7 @@ function invoke(handler, req) {
   });
   delete require.cache[require.resolve('../lib/relay-engine')];
   delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
-  var engine3 = require('../lib/relay-engine');
+  let engine3 = require('../lib/relay-engine');
   var cart3 = require('../handlers/relay-cart-checkout');
 
   await db.set('relay:autonomy-ledger', []);
@@ -2084,9 +2084,11 @@ function invoke(handler, req) {
   STRIPE_SESSIONS = [{ id: 'cs_old', status: 'complete', payment_status: 'paid',
     payment_intent: 'pi_old', amount_total: 1136, currency: 'usd' }];
   var narrow = await engine3.reconcilePayments({ limit: 1 });   // room for exactly one
+  // Income backfills also land in `checked`; the batch limit is about who gets ASKED.
+  var asked = (narrow.checked || []).filter(function (c) { return !c.incomeBackfilled; });
   assert('a batch of one takes the oldest, not the newest',
-    (narrow.checked || []).length === 1 && narrow.checked[0].orderId === oldest.id,
-    JSON.stringify(narrow.checked).slice(0, 160));
+    asked.length === 1 && asked[0].orderId === oldest.id,
+    JSON.stringify(asked).slice(0, 160));
   assert('and that customer is settled', (await store.getOrder(oldest.id)).status === 'paid');
 
   // ── T39 ─────────────────────────────────────────────────────────────────
@@ -2148,6 +2150,79 @@ function invoke(handler, req) {
     pagedRes.ok === true && pagedRes.paid === true && pagedRes.sessionId === 'cs_page2',
     JSON.stringify(pagedRes));
   global.fetch = prevFetch;
+
+  // ── T41 ─────────────────────────────────────────────────────────────────
+  // Fulfilment authorises against the order's expected sale price, not against what was
+  // actually collected. An order paid SHORT that lands in the normal paid queue is bought
+  // at a margin that no longer exists — possibly at a loss — and shipped, on the same
+  // cycle. And a link paid twice is a customer owed either a second delivery or a refund.
+  // Neither is a decision a loop makes alone.
+  console.log('T41: money that does not match the order does not auto-fulfil');
+  var short = await store.createOrder({
+    buyerId: 'b_short', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(short.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + short.id });
+  STRIPE_SESSIONS = [{ id: 'cs_short', status: 'complete', payment_status: 'paid',
+    payment_intent: 'pi_short', amount_total: 500, currency: 'usd' }];   // $5.00 of $11.36
+  await engine3.reconcilePayments({ limit: 25 });
+  var shortOrder = await store.getOrder(short.id);
+  assert('an underpaid order is held for review, not marked paid',
+    shortOrder.status === 'payment-review', shortOrder.status);
+  assert('and the reason names both figures',
+    /5\.00/.test(String(shortOrder.reviewReason)) && /11\.36/.test(String(shortOrder.reviewReason)),
+    String(shortOrder.reviewReason));
+  assert('so the paid sweep cannot pick it up',
+    !(await store.ordersByStatus('paid', 200)).some(function (o) { return o.id === short.id; }));
+  assert('but the money that DID arrive is still booked',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === short.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === short.id; }).length);
+
+  var twice = await store.createOrder({
+    buyerId: 'b_twice', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(twice.id, { status: 'awaiting-payment', paymentLinkId: 'plink_' + twice.id });
+  STRIPE_SESSIONS = [
+    { id: 'cs_a', status: 'complete', payment_status: 'paid', payment_intent: 'pi_a', amount_total: 1136, currency: 'usd' },
+    { id: 'cs_b', status: 'complete', payment_status: 'paid', payment_intent: 'pi_b', amount_total: 1136, currency: 'usd' }
+  ];
+  await engine3.reconcilePayments({ limit: 25 });
+  var twiceOrder = await store.getOrder(twice.id);
+  assert('a link paid twice is held for review too',
+    twiceOrder.status === 'payment-review', twiceOrder.status);
+  assert('and both charges are recorded, so neither is silently kept',
+    Array.isArray(twiceOrder.duplicatePayments) && twiceOrder.duplicatePayments.length === 2,
+    JSON.stringify(twiceOrder.duplicatePayments));
+
+  // ── T42 ─────────────────────────────────────────────────────────────────
+  // reportIncome returns ok:true even when the ledger write AND the fallback queue write
+  // both fail. Marking on ok alone stamped "handled" on an event that exists nowhere, and
+  // every later recovery pass then skipped that order permanently.
+  console.log('T42: income that landed nowhere is not marked handled');
+  require.cache[fbPath].exports = Object.assign({}, require.cache[fbPath].exports, {
+    reportIncome: async function () { return { ok: true, recorded: false, queued: false, error: 'both failed' }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  var engine6 = require('../lib/relay-engine');
+  var lost = await store.createOrder({
+    buyerId: 'b_lost', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(lost.id, { status: 'paid' });
+  await engine6.reconcilePayments({ limit: 25 });
+  assert('an event that reached neither ledger nor queue leaves the order unmarked',
+    !(await store.getOrder(lost.id)).incomeReportedAt,
+    String((await store.getOrder(lost.id)).incomeReportedAt));
+  require.cache[fbPath].exports = Object.assign({}, require.cache[fbPath].exports, {
+    reportIncome: async function (e) { LEDGER_WRITES.push(e); return { ok: true, recorded: true }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  engine3 = require('../lib/relay-engine');
+  await engine3.reconcilePayments({ limit: 25 });
+  assert('so a later cycle can still book it',
+    LEDGER_WRITES.filter(function (w) { return w.orderId === lost.id; }).length === 1,
+    'writes: ' + LEDGER_WRITES.filter(function (w) { return w.orderId === lost.id; }).length);
 
   require.cache[fbPath].exports = realFb;
   require.cache[buyPath].exports = realBuy;
