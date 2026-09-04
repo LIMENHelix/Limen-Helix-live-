@@ -7,6 +7,8 @@ const Provider = require('../lib/finance-preview-provider.js');
 (async function () {
   assert.equal(Provider.enabled({ LIMEN_FINANCE_PREVIEW_ENABLED: '0' }), false);
   assert.equal(Provider.enabled({ LIMEN_FINANCE_PREVIEW_ENABLED: '1' }), true);
+  assert.equal(Provider.configured({}), false);
+  assert.equal(Provider.configured({ GROK_API_KEY: 'fixture' }), true);
 
   let network = 0;
   const off = Provider.create({ env: {}, fetch: async () => { network++; } });
@@ -88,5 +90,62 @@ const Provider = require('../lib/finance-preview-provider.js');
   assert.equal(transportResult.errorType, 'transport_error');
   assert.equal(transportResult.error, 'connection reset');
 
-  console.log('finance preview provider: structured JSON, one-shot, refusal, truncation, and bounded diagnostics passed');
+  const fallbackRequests = [];
+  const fallback = Provider.create({
+    env: {
+      LIMEN_FINANCE_PREVIEW_ENABLED: '1',
+      ANTHROPIC_API_KEY: 'anthropic-fixture',
+      GROK_API_KEY: 'grok-fixture',
+      LIMEN_FINANCE_GROK_MODEL: 'grok-fixture-model'
+    },
+    fetch: async (url, options) => {
+      fallbackRequests.push({ url, options, body: JSON.parse(options.body) });
+      if (url.includes('anthropic.com')) {
+        return {
+          ok: false,
+          status: 400,
+          text: async () => JSON.stringify({ error: { type: 'invalid_request_error', message: 'Your credit balance is too low to access the Anthropic API.' } })
+        };
+      }
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          model: 'grok-fixture-model',
+          choices: [{ finish_reason: 'stop', message: { content: '{"paperOnly":true}', refusal: null } }],
+          usage: { prompt_tokens: 15, completion_tokens: 8 }
+        })
+      };
+    }
+  });
+  const fallbackResult = await fallback({ system: 'system', prompt: 'prompt', maxTokens: 99999 });
+  assert.equal(fallbackRequests.length, 2);
+  assert.equal(fallbackRequests[1].url, 'https://api.x.ai/v1/chat/completions');
+  assert.equal(fallbackRequests[1].options.headers.authorization, 'Bearer grok-fixture');
+  assert.equal(fallbackRequests[1].body.max_tokens, Provider.MAX_OUTPUT_TOKENS);
+  assert.equal(fallbackRequests[1].body.response_format.type, 'json_schema');
+  assert.equal(fallbackRequests[1].body.response_format.json_schema.strict, true);
+  assert.deepEqual(fallbackRequests[1].body.response_format.json_schema.schema, Provider.OUTPUT_SCHEMA);
+  assert.equal(fallbackResult.ok, true);
+  assert.equal(fallbackResult.provider, 'xai');
+  assert.equal(fallbackResult.providerRoute, 'xai-fallback');
+  assert.equal(fallbackResult.providerAttempts, 2);
+  assert.equal(fallbackResult.fallback.primaryFailure.reason, 'anthropic_credit_unavailable');
+  assert.equal(fallbackResult.tokensOut, 8);
+
+  let schemaFailureCalls = 0;
+  const schemaFailure = Provider.create({
+    env: { LIMEN_FINANCE_PREVIEW_ENABLED: '1', ANTHROPIC_API_KEY: 'fixture', GROK_API_KEY: 'fixture' },
+    fetch: async () => {
+      schemaFailureCalls++;
+      return { ok: false, status: 400, text: async () => JSON.stringify({ error: { type: 'invalid_request_error', message: 'Unsupported schema' } }) };
+    }
+  });
+  const schemaFailureResult = await schemaFailure({ system: 'system', prompt: 'prompt' });
+  assert.equal(schemaFailureResult.ok, false);
+  assert.equal(schemaFailureResult.provider, 'anthropic');
+  assert.equal(schemaFailureResult.providerAttempts, 1);
+  assert.equal(schemaFailureCalls, 1);
+
+  console.log('finance preview provider: structured JSON, bounded fallback, one-shot, refusal, truncation, and diagnostics passed');
 }()).catch(e => { console.error(e); process.exitCode = 1; });

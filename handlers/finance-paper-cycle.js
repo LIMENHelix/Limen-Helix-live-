@@ -82,10 +82,11 @@ function createHandler(deps) {
           orderPlaced: false
         }));
       }
-      if (!env.ANTHROPIC_API_KEY || !broker.configured()) {
+      var providerConfigured = previewProvider.configured(env) && decisionProvider.configured(env);
+      if (!providerConfigured || !broker.configured()) {
         return send(res, 200, summary('configuration-gate', null, null, {
           status: 'HELD',
-          reason: !env.ANTHROPIC_API_KEY ? 'finance-provider-unconfigured' : 'tradier-sandbox-unconfigured',
+          reason: !providerConfigured ? 'finance-provider-unconfigured' : 'tradier-sandbox-unconfigured',
           orderPlaced: false
         }));
       }

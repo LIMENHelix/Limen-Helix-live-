@@ -167,7 +167,7 @@ async function seeded() {
       assert.equal(Object.prototype.hasOwnProperty.call(request.decisionEvidence.helixReport, 'thing2'), false);
       assert.equal(request.decisionEvidence.interpretationBoundary.postDecisionMaskingReconciliationDeferred, true);
       assert.equal(Object.prototype.hasOwnProperty.call(request.responseSchema, 'thing2Observed'), false);
-      return { ok: true, provider: 'test', model: 'fixture', text: JSON.stringify(proposal('BUY', 0.9)), tokensIn: 1, tokensOut: 1 };
+      return { ok: true, provider: 'test', model: 'fixture', providerAttempts: 1, text: JSON.stringify(proposal('BUY', 0.9)), tokensIn: 1, tokensOut: 1 };
     }
   });
   assert.equal(result.ok, true);
@@ -177,8 +177,9 @@ async function seeded() {
   assert.equal(result.receipt.tradeIntent.symbol, 'RKLB');
   assert.equal(result.receipt.resourceMetabolism.beforeProvider.ownerDomain, 'finance');
   assert.equal(result.receipt.resourceMetabolism.beforeProvider.state, 'AVAILABLE');
-  assert.equal(result.receipt.resourceMetabolism.afterProvider.state, 'INHIBITED');
-  assert(result.receipt.resourceMetabolism.afterProvider.blockers.includes('finance_resource_provider_refractory'));
+  assert.equal(result.receipt.resourceMetabolism.afterProvider.state, 'AVAILABLE');
+  assert.equal(result.receipt.resourceMetabolism.afterProvider.measurements.providerCallsUsed, 1);
+  assert.equal(result.receipt.resourceMetabolism.afterProvider.measurements.providerCallsRemaining, 1);
   assert.equal(result.receipt.safety.orderPreviewed, false);
   assert.equal(result.receipt.safety.orderPlaced, false);
   assert.equal(result.receipt.feedConfirmation.context.interpretationBoundary.thing2Used, false);
@@ -205,11 +206,14 @@ async function seeded() {
   const abstainStore = await seeded();
   const abstained = await Decision.execute(abstainStore, broker(0), { approve: true, packetId }, {
     env: {}, feedConfirmation: confirmation(new Date().toISOString()), helixReport: null,
-    provider: async () => ({ ok: true, provider: 'test', model: 'fixture', text: JSON.stringify(proposal('ABSTAIN', 0.9)) })
+    provider: async () => ({ ok: true, provider: 'test', model: 'fixture', providerAttempts: 2, text: JSON.stringify(proposal('ABSTAIN', 0.9)) })
   });
   assert.equal(abstained.receipt.status, 'ABSTAINED');
   assert.equal(abstained.receipt.tradeIntent, null);
   assert.equal(abstained.receipt.selection, null);
+  assert.equal(abstained.receipt.resourceMetabolism.afterProvider.measurements.providerCallsUsed, 2);
+  assert.equal(abstained.receipt.resourceMetabolism.afterProvider.state, 'INHIBITED');
+  assert(abstained.receipt.resourceMetabolism.afterProvider.blockers.includes('finance_resource_provider_refractory'));
 
   const truncatedStore = await seeded();
   const truncated = await Decision.execute(truncatedStore, broker(0), { approve: true, packetId }, {

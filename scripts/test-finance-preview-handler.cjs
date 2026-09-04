@@ -29,7 +29,7 @@ function request(method, token, body) {
   };
   const store = { assertDurable() { return true; }, async get() { return null; } };
   const env = { BRAIN_SHADOW_TOKEN: 'correct', LIMEN_FINANCE_PREVIEW_ENABLED: '1', ANTHROPIC_API_KEY: 'configured' };
-  const handler = createHandler({ execution, store, env, providerModule: { enabled: () => true } });
+  const handler = createHandler({ execution, store, env, providerModule: { enabled: () => true, configured: () => true } });
 
   let res = response(); await handler(request('GET'), res);
   assert.equal(res.statusCode, 401); assert.equal(produced, 0);
@@ -40,11 +40,11 @@ function request(method, token, body) {
   res = response(); await handler(request('POST', 'correct', { approve: true, packetId: packet.packetId }), res);
   assert.equal(res.statusCode, 200); assert.equal(executed, 1); assert.equal(res.payload.receipt.status, 'PAPER_CANDIDATE');
 
-  const off = createHandler({ execution, store, env: { BRAIN_SHADOW_TOKEN: 'correct', ANTHROPIC_API_KEY: 'configured' }, providerModule: { enabled: () => false } });
+  const off = createHandler({ execution, store, env: { BRAIN_SHADOW_TOKEN: 'correct', ANTHROPIC_API_KEY: 'configured' }, providerModule: { enabled: () => false, configured: () => true } });
   res = response(); await off(request('POST', 'correct', { approve: true, packetId: packet.packetId }), res);
   assert.equal(res.statusCode, 503); assert.equal(executed, 1); assert.match(res.payload.error, /no receipt/);
 
-  const noToken = createHandler({ execution, store, env: {}, providerModule: { enabled: () => true } });
+  const noToken = createHandler({ execution, store, env: {}, providerModule: { enabled: () => true, configured: () => false } });
   res = response(); await noToken(request('GET', 'correct'), res);
   assert.equal(res.statusCode, 503); assert.equal(produced, 3);
 

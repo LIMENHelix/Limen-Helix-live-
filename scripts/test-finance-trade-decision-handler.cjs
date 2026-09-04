@@ -33,7 +33,7 @@ const decision = {
 };
 const store = { assertDurable() { return true; } };
 const broker = { configured() { return true; } };
-const providerOn = { enabled() { return true; } };
+const providerOn = { enabled() { return true; }, configured() { return true; } };
 
 (async () => {
   const handler = Handler.createHandler({ decision, store, broker, providerModule: providerOn, env: { BRAIN_SHADOW_TOKEN: 'secret', ANTHROPIC_API_KEY: 'provider' } });
@@ -46,7 +46,7 @@ const providerOn = { enabled() { return true; } };
   assert.equal(r.payload.gate.order, false);
   assert.equal(r.payload.gate.liveMoney, false);
 
-  const off = Handler.createHandler({ decision, store, broker, providerModule: { enabled() { return false; } }, env: { BRAIN_SHADOW_TOKEN: 'secret', ANTHROPIC_API_KEY: 'provider' } });
+  const off = Handler.createHandler({ decision, store, broker, providerModule: { enabled() { return false; }, configured() { return true; } }, env: { BRAIN_SHADOW_TOKEN: 'secret', ANTHROPIC_API_KEY: 'provider' } });
   r = await call(off, { method: 'POST', headers: { 'x-brain-token': 'secret' }, body: { approve: true, packetId: 'finance:3:test' } });
   assert.equal(r.statusCode, 503);
   assert.equal(executions, 0);

@@ -78,7 +78,7 @@ function createHandler(deps) {
             authenticated: true,
             durableStore: true,
             previewSwitchEnabled: providerModule.enabled(env),
-            providerConfigured: !!env.ANTHROPIC_API_KEY,
+            providerConfigured: providerModule.configured(env),
             oneShot: true,
             candidateRelease: false,
             broker: false,
@@ -90,7 +90,7 @@ function createHandler(deps) {
       if (!providerModule.enabled(env)) {
         return send(res, 503, { ok: false, error: 'LIMEN_FINANCE_PREVIEW_ENABLED is off; no receipt was acquired' });
       }
-      if (!env.ANTHROPIC_API_KEY) {
+      if (!providerModule.configured(env)) {
         return send(res, 503, { ok: false, error: 'Finance Preview provider is not configured; no receipt was acquired' });
       }
       var request = await bodyOf(req);
