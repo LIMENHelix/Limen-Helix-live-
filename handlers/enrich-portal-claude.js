@@ -45,6 +45,19 @@ const ANTHROPIC_TIMEOUT_MS = parseInt(process.env.ANTHROPIC_TIMEOUT_MS || '28000
 const ANTHROPIC_VERSION = '2023-06-01';
 const ENDPOINT = 'https://api.anthropic.com/v1/messages';
 const portalAdmission = require('../lib/portal-admission');
+const crypto = require('node:crypto');
+const adminGate = require('../lib/admin-gate');
+
+function sameSecret(received, expected) {
+  const a = Buffer.from(String(received || ''));
+  const b = Buffer.from(String(expected || ''));
+  return !!(a.length && b.length && a.length === b.length && crypto.timingSafeEqual(a, b));
+}
+
+function isAuthorized(req) {
+  const key = adminGate.reqKey(req);
+  return adminGate.isMaster(key) || sameSecret(key, process.env.PORTAL_REGEN_ADMIN_KEY);
+}
 
 // Same banned-vocab rule as expand-artifact-claude. Internal LIMEN
 // architecture terms must not appear in the portal JSON.
@@ -507,15 +520,14 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (await require('../lib/ai-kill-switch').spendDisabled()) { res.statusCode = 503; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, disabled: true, error: 'AI disabled — billing stopped per operator' })); }
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'content-type, x-limen-pass');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
   }
   // ADMIN-ONLY: spends paid AI. Gate it so it is not a public denial-of-wallet faucet when AI is on.
   {
-    var _g = require('../lib/admin-gate');
-    if (!_g.isMaster(_g.reqKey(req))) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'admin only' })); }
+    if (!isAuthorized(req)) { res.statusCode = 403; res.setHeader('content-type', 'application/json'); return res.end(JSON.stringify({ ok: false, error: 'admin only' })); }
   }
 
   // GET returns config (no secrets) — same pattern as expand-artifact-claude
@@ -765,4 +777,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._test = { buildSystemBlock, buildUserPrompt, lintBannedTerms, extractProseValues };
+module.exports._test = { buildSystemBlock, buildUserPrompt, lintBannedTerms, extractProseValues, sameSecret, isAuthorized };

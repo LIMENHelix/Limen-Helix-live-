@@ -77,6 +77,13 @@ assert.ok(!systemPrompt.includes('use [DATA_NEEDED'));
 assert.ok(!systemPrompt.includes('or DATA_NEEDED'));
 assert.ok(systemPrompt.includes('The strings DATA_NEEDED, CITATION_NEEDED, VERIFY, TBD, TODO, INSERT, and PLACEHOLDER are forbidden'));
 
+const priorRegenKey = process.env.PORTAL_REGEN_ADMIN_KEY;
+process.env.PORTAL_REGEN_ADMIN_KEY = 'scoped-portal-regen-test-key';
+assert.equal(enricher._test.isAuthorized({ headers: { 'x-limen-pass': 'scoped-portal-regen-test-key' } }), true);
+assert.equal(enricher._test.isAuthorized({ headers: { 'x-limen-pass': 'wrong-key' } }), false);
+if (priorRegenKey === undefined) delete process.env.PORTAL_REGEN_ADMIN_KEY;
+else process.env.PORTAL_REGEN_ADMIN_KEY = priorRegenKey;
+
 const builderSource = fs.readFileSync(path.join(ROOT, 'scripts/build-fractal-portals.mjs'), 'utf8');
 assert.ok(builderSource.includes('const MAX_DATA_NEEDED = 0'));
 assert.ok(builderSource.includes("'x-limen-pass': ADMIN_KEY"));
@@ -94,4 +101,5 @@ console.log('PASS new portals cannot inherit model-authored kernel claims');
 console.log('PASS existing portals preserve prior kernel fields exactly');
 console.log('PASS nested model-authored CIKs are cleared before admission');
 console.log('PASS every placeholder token is rejected');
+console.log('PASS the paid endpoint accepts only the scoped regeneration key or existing master key');
 console.log('PASS builder authenticates and the standalone eligible queue is measured at 171');
