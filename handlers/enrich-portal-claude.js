@@ -44,6 +44,7 @@ const ANTHROPIC_MAX_TOKENS = parseInt(process.env.ANTHROPIC_MAX_TOKENS || '16000
 const ANTHROPIC_TIMEOUT_MS = parseInt(process.env.ANTHROPIC_TIMEOUT_MS || '280000', 10);
 const ANTHROPIC_VERSION = '2023-06-01';
 const ENDPOINT = 'https://api.anthropic.com/v1/messages';
+const XAI_ENDPOINT = 'https://api.x.ai/v1/chat/completions';
 const portalAdmission = require('../lib/portal-admission');
 const crypto = require('node:crypto');
 const adminGate = require('../lib/admin-gate');
@@ -408,6 +409,79 @@ function extractProseValues(obj, out, currentKey) {
   return out.s;
 }
 
+function parsePortalText(text) {
+  let portal = null;
+  let parseError = null;
+  const candidates = [String(text || '').trim()];
+  const fenceMatch = String(text || '').match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+  if (fenceMatch) candidates.push(fenceMatch[1].trim());
+  const objMatch = String(text || '').match(/\{[\s\S]*\}/);
+  if (objMatch) candidates.push(objMatch[0]);
+  for (const candidate of candidates) {
+    try { portal = JSON.parse(candidate); break; }
+    catch (e) { parseError = e.message; }
+  }
+  return { portal, parseError };
+}
+
+function isAnthropicCreditError(json) {
+  const error = json && json.error;
+  return !!(error && error.type === 'invalid_request_error' && /credit balance is too low/i.test(String(error.message || '')));
+}
+
+async function callGrokFallback(body, maxTokens) {
+  const apiKey = process.env.GROK_API_KEY || process.env.XAI_API_KEY || '';
+  if (!apiKey) return { ok: false, status: 501, reason: 'grok-fallback-unavailable', detail: 'XAI_API_KEY/GROK_API_KEY not configured' };
+  const model = process.env.GROK_MODEL || 'grok-4';
+  const requestBody = {
+    model,
+    max_tokens: maxTokens,
+    temperature: 0.25,
+    messages: [
+      { role: 'system', content: buildSystemBlock() },
+      { role: 'user', content: buildUserPrompt(body) }
+    ]
+  };
+  const budget = require('../lib/anthropic-call');
+  const guard = await budget.guard(requestBody, 'enrich-portal-grok-fallback');
+  if (!guard.ok) return { ok: false, refused: true, reason: guard.reason, detail: guard.reason };
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ANTHROPIC_TIMEOUT_MS);
+  let response;
+  let json;
+  try {
+    response = await fetch(XAI_ENDPOINT, {
+      method: 'POST',
+      headers: { authorization: 'Bearer ' + apiKey, 'content-type': 'application/json' },
+      body: JSON.stringify(requestBody),
+      signal: controller.signal
+    });
+    json = await response.json().catch(() => null);
+  } catch (error) {
+    clearTimeout(timer);
+    await budget.close(guard, null);
+    return { ok: false, status: 0, reason: 'grok-fetch-failed', detail: String(error && error.message || error) };
+  }
+  clearTimeout(timer);
+  const xaiUsage = json && json.usage;
+  await budget.close(guard, xaiUsage ? { usage: { input_tokens: xaiUsage.prompt_tokens || 0, output_tokens: xaiUsage.completion_tokens || 0 } } : null);
+  if (!response.ok) return { ok: false, status: response.status, reason: 'grok-error', detail: json };
+  const text = json && json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content || '';
+  const parsed = parsePortalText(text);
+  return {
+    ok: !!parsed.portal,
+    status: response.status,
+    json,
+    rawText: text,
+    portal: parsed.portal,
+    parseError: parsed.parseError,
+    bannedHits: parsed.portal ? lintBannedTerms(parsed.portal) : [],
+    usage: xaiUsage || null,
+    model,
+    provider: 'xai'
+  };
+}
+
 async function callAnthropic(body, opts) {
   if (!ANTHROPIC_API_KEY) {
     return { ok: false, status: 501, reason: 'ANTHROPIC_API_KEY not configured' };
@@ -465,6 +539,11 @@ async function callAnthropic(body, opts) {
   clearTimeout(timer);
 
   if (!resp.ok) {
+    if (isAnthropicCreditError(json)) {
+      const fallback = await callGrokFallback(body, maxTokens);
+      if (fallback.ok) return fallback;
+      return { ok: false, status: fallback.status || 502, reason: 'anthropic-credit-exhausted-and-grok-fallback-failed', detail: { anthropic: json, fallback: fallback.detail || fallback.reason } };
+    }
     return { ok: false, status: resp.status, reason: 'anthropic-error', detail: json };
   }
 
@@ -478,21 +557,9 @@ async function callAnthropic(body, opts) {
   // Parse JSON from model output. The model is told to reply with raw JSON
   // but sometimes wraps in code fences anyway — try multiple extraction
   // strategies.
-  let portal = null;
-  let parseError = null;
-  const candidates = [];
-  candidates.push(text.trim());
-  // Strip code fences
-  const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
-  if (fenceMatch) candidates.push(fenceMatch[1].trim());
-  // Extract first { ... } block
-  const objMatch = text.match(/\{[\s\S]*\}/);
-  if (objMatch) candidates.push(objMatch[0]);
-
-  for (const c of candidates) {
-    try { portal = JSON.parse(c); break; }
-    catch (e) { parseError = e.message; }
-  }
+  const parsed = parsePortalText(text);
+  const portal = parsed.portal;
+  const parseError = parsed.parseError;
 
   // Lint banned terms in the portal's PROSE-VALUE FIELDS only — skips
   // reserved schema enum values (kernelId='limen_backtest.py',
@@ -512,7 +579,8 @@ async function callAnthropic(body, opts) {
     parseError: parseError,
     bannedHits: bannedHits,
     usage: json.usage || null,
-    model: json.model || ANTHROPIC_MODEL
+    model: json.model || ANTHROPIC_MODEL,
+    provider: 'anthropic'
   };
 }
 
@@ -762,7 +830,8 @@ module.exports = async function handler(req, res) {
         generatedAtISO: new Date().toISOString(),
         contentHash: contentHash,
         llmModel: r.model,
-        anthropicVersion: ANTHROPIC_VERSION
+        provider: r.provider || 'anthropic',
+        anthropicVersion: (r.provider || 'anthropic') === 'anthropic' ? ANTHROPIC_VERSION : null
       }
     }));
 
@@ -777,4 +846,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._test = { buildSystemBlock, buildUserPrompt, lintBannedTerms, extractProseValues, sameSecret, isAuthorized };
+module.exports._test = { buildSystemBlock, buildUserPrompt, lintBannedTerms, extractProseValues, sameSecret, isAuthorized, parsePortalText, isAnthropicCreditError };

@@ -83,6 +83,9 @@ assert.equal(enricher._test.isAuthorized({ headers: { 'x-limen-pass': 'scoped-po
 assert.equal(enricher._test.isAuthorized({ headers: { 'x-limen-pass': 'wrong-key' } }), false);
 if (priorRegenKey === undefined) delete process.env.PORTAL_REGEN_ADMIN_KEY;
 else process.env.PORTAL_REGEN_ADMIN_KEY = priorRegenKey;
+assert.equal(enricher._test.isAnthropicCreditError({ error: { type: 'invalid_request_error', message: 'Your credit balance is too low to access the Anthropic API.' } }), true);
+assert.equal(enricher._test.isAnthropicCreditError({ error: { type: 'authentication_error', message: 'bad key' } }), false);
+assert.deepEqual(enricher._test.parsePortalText('```json\n{"ok":true}\n```').portal, { ok: true });
 
 const builderSource = fs.readFileSync(path.join(ROOT, 'scripts/build-fractal-portals.mjs'), 'utf8');
 assert.ok(builderSource.includes('const MAX_DATA_NEEDED = 0'));
@@ -102,4 +105,5 @@ console.log('PASS existing portals preserve prior kernel fields exactly');
 console.log('PASS nested model-authored CIKs are cleared before admission');
 console.log('PASS every placeholder token is rejected');
 console.log('PASS the paid endpoint accepts only the scoped regeneration key or existing master key');
+console.log('PASS Anthropic credit exhaustion is narrowly identified for the metered xAI fallback');
 console.log('PASS builder authenticates and the standalone eligible queue is measured at 171');
