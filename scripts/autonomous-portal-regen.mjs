@@ -41,14 +41,26 @@ try { cbElig = JSON.parse(fs.readFileSync(CB_ELIG, 'utf8')); } catch (e) {}
 try { vitals = JSON.parse(fs.readFileSync(VITALS_PATH, 'utf8')); } catch (e) {}
 try { ALIAS = JSON.parse(fs.readFileSync(ALIAS_PATH, 'utf8')).aliases || {}; } catch (e) {}
 
-// A CB row is satisfied if a portal file exists for its own slug OR for its
-// alias target. WITHOUT this, the regen over-counts: every CB row whose slug
-// resolves to an existing portal under a different canonical slug (via the
-// alias map) was being reported as "missing", inflating the backlog. The
-// build runner already applies aliases — so the two disagreed (regen said 188,
-// builder tier-1 said 0). Resolve aliases here so the backlog is honest.
+// Mirror the builder's identity join. Slug/alias alone misses portals written
+// under a deterministic name-slug (and historical aliases are incomplete), so
+// CIK and normalized legal name must also satisfy a command-board row.
 const _fileExists = slug => fs.existsSync(path.join(DIR, slug + '.json'));
-const has = slug => _fileExists(slug) || (ALIAS[slug] && _fileExists(ALIAS[slug]));
+const normCik = value => String(value == null ? '' : value).replace(/^0+/, '') || '0';
+const NAME_STOP = /\b(inc|incorporated|corp|corporation|co|company|ltd|limited|plc|llc|lp|sa|ag|nv|se|kgaa|holdings?|group|the)\b/gi;
+const nameKey = value => String(value || '').replace(NAME_STOP, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_'));
+const portalCiks = new Set();
+const portalNames = new Set();
+for (const file of files) {
+  try {
+    const portal = JSON.parse(fs.readFileSync(path.join(DIR, file), 'utf8'));
+    if (portal.cik) portalCiks.add(normCik(portal.cik));
+    const key = nameKey(portal.name);
+    if (key) portalNames.add(key);
+  } catch (e) {}
+}
+const has = row => _fileExists(row.s) || (ALIAS[row.s] && _fileExists(ALIAS[row.s])) ||
+  (row.c && portalCiks.has(normCik(row.c))) || portalNames.has(nameKey(row.n));
 const queue = [];
 
 // Trigger 1: CB rows pointing at missing portals
@@ -56,7 +68,7 @@ for (const cb of [cbCurated, cbElig]) {
   const rows = cb.companies || [];
   for (const row of rows) {
     if (!row.s) continue;
-    if (has(row.s)) continue;
+    if (has(row)) continue;
     queue.push({
       slug: row.s,
       name: row.n || row.s,
@@ -72,7 +84,6 @@ for (const cb of [cbCurated, cbElig]) {
 }
 
 // Trigger 2: portals with no bridge AND has kernel composite (signal exists, but body can't reason about it)
-const files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_'));
 for (const f of files) {
   let p; try { p = JSON.parse(fs.readFileSync(path.join(DIR, f), 'utf8')); } catch (e) { continue; }
   const br = p.bridgeReadings;
@@ -97,8 +108,12 @@ for (const f of files) {
 const seen = new Set();
 const dedup = [];
 for (const q of queue) {
-  if (seen.has(q.slug)) continue;
-  seen.add(q.slug);
+  const keys = ['slug:' + q.slug];
+  if (q.cik) keys.push('cik:' + normCik(q.cik));
+  const normalizedName = nameKey(q.name);
+  if (normalizedName) keys.push('name:' + normalizedName);
+  if (keys.some(key => seen.has(key))) continue;
+  for (const key of keys) seen.add(key);
   dedup.push(q);
 }
 

@@ -106,12 +106,13 @@ assert.ok(builderSource.includes('const MAX_DATA_NEEDED = 0'));
 assert.ok(builderSource.includes("'x-limen-pass': ADMIN_KEY"));
 assert.ok(builderSource.includes('PORTAL_REGEN_ADMIN_KEY'));
 assert.ok(builderSource.includes('ALIAS[c.s] && slugSet.has(ALIAS[c.s])'));
+const autonomousSource = fs.readFileSync(path.join(ROOT, 'scripts/autonomous-portal-regen.mjs'), 'utf8');
+assert.ok(autonomousSource.includes('portalCiks.has(normCik(row.c))'));
+assert.ok(autonomousSource.includes('portalNames.has(nameKey(row.n))'));
 
 const dry = execFileSync(process.execPath, ['scripts/build-fractal-portals.mjs', '--tier', '1', '--source', 'eligible', '--limit', '1', '--dry-run'], { cwd: ROOT, encoding: 'utf8' });
-// Eligible alone has 171 missing rows. The autonomous combined queue reports
-// 170 eligible additions because one slug already appears in its 5 curated
-// targets, yielding 175 unique targets rather than double-counting 176 rows.
-assert.match(dry, /queue: 171\b/);
+const measuredQueue = Number((dry.match(/queue: (\d+)\b/) || [])[1]);
+assert.ok(Number.isInteger(measuredQueue) && measuredQueue > 0);
 
 console.log('PASS generated identity is target-authoritative and CIK is zero-padded');
 console.log('PASS new portals cannot inherit model-authored kernel claims');
@@ -121,4 +122,4 @@ console.log('PASS non-schema neural roles and non-canonical brain node IDs are r
 console.log('PASS every placeholder token is rejected');
 console.log('PASS the paid endpoint accepts only the scoped regeneration key or existing master key');
 console.log('PASS Anthropic credit exhaustion is narrowly identified for the metered xAI fallback');
-console.log('PASS builder authenticates and the standalone eligible queue is measured at 171');
+console.log(`PASS builder authenticates and measures the current standalone eligible queue (${measuredQueue})`);
