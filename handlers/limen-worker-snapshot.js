@@ -13,6 +13,7 @@ var companyScorer = require('../lib/company-phase-scorer');
 var phasePercept = require('../lib/phase-percept');
 var groundedStress = require('../lib/grounded-stress');   // SHADOW candidate: stress from node/company distress, not feed volume
 var phaseEstimator = require('../lib/phase-estimator');   // SHADOW: precision-weighted P0-P10 belief; grounded-stress is its Adapter B
+var phaseBeliefTelemetry = require('../lib/phase-belief-telemetry');   // telemetry-only projection; never changes estimator or promotion
 var energyMarketFeed = require('../lib/energy-market-feed');   // LIVE market channel, ENERGY ONLY (real, validated WTI series; see memory: energy-backfill-first-result)
 var domainMarketFeed = require('../lib/domain-market-feed');   // LIVE market channel for the other 19, off each domain's curated basket
 var domainSeriesFeed = require('../lib/domain-series-feed');   // DEEP free FRED series per domain — energy's WTI pattern, generalised
@@ -457,10 +458,7 @@ module.exports = async function handler(req, res) {
             for (var histKey in gsSlot.history) { if (gsSlot.history.hasOwnProperty(histKey)) peHist[histKey] = gsSlot.history[histKey]; }
             var est = phaseEstimator.estimate(bundle, { corrState: gsSlot.phaseCorr, history: peHist, distressComposite: bundle.distressComposite });
             if (est.grounded) gsSlot.phaseCorr = est.corrState;   // persist estimator memory (belief carried forward)
-            dsum.phaseBelief = {
-              grounded: est.grounded, phaseMAP: est.phaseMAP, confidence: est.confidence, stuck: est.stuck,
-              belief: (est.belief || []).map(function (x) { return Math.round(x * 1000) / 1000; })   // rounded for payload; full precision stays in phaseCorr
-            };
+            dsum.phaseBelief = phaseBeliefTelemetry.build(est);
 
             // PROMOTE the grounded estimate into the LIVE, DISPLAYED dsum.stress (2026-07-20, ENERGY
             // ONLY). Every commit up to this one deliberately left dsum.stress (feed-volume) untouched —
