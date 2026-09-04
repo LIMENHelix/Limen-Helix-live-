@@ -21,7 +21,11 @@ const CHROME = [
   '/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser',
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 ].find(function (c) { try { return fs.existsSync(c); } catch (e) { return false; } });
-if (!CHROME) { console.log('SKIPPED: no Chrome on this machine; the console test needs a renderer'); process.exit(0); }
+// 77, NOT 0. scripts/run-tests.mjs treats 0 as PASS and only 77 as SKIP, so exiting 0
+// here reported a browser test that never opened a browser as a passing guard on the
+// operator console. The reason must be the LAST line printed: the runner shows the final
+// non-empty output line as the skip reason.
+if (!CHROME) { console.log('SKIPPED: no Chrome on this machine; the console test needs a renderer'); process.exit(77); }
 
 const PORT_CDP = 9347;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -72,19 +76,35 @@ srv.listen(0, async function () {
   const watchdog = setTimeout(function () { console.log('WATCHDOG: gave up'); done(3); }, 120000);
 
   chrome = cp.spawn(CHROME, [
-    '--headless=new', '--disable-gpu', '--no-first-run', '--no-sandbox',
+    '--headless=new', '--disable-gpu', '--no-first-run', '--no-sandbox', '--disable-dev-shm-usage',
     '--disable-background-networking', '--disable-sync', '--disable-component-update',
     '--no-default-browser-check', '--disable-default-apps', '--disable-extensions',
     '--remote-debugging-port=' + PORT_CDP, '--user-data-dir=' + prof,
     '--window-size=1100,900', 'http://127.0.0.1:' + port + '/'
-  ], { stdio: 'ignore' });
+  ], { stdio: ['ignore', 'ignore', 'pipe'] });
+
+  // Chrome's own stderr, kept so a startup failure is diagnosable. With stdio ignored and
+  // no error handler, every failure below looked identical: 'no page target', with no way
+  // to tell a missing shared library from a crashed sandbox from a busy port.
+  let chromeErr = '';
+  try { chrome.stderr.on('data', function (d) { chromeErr += d.toString().slice(0, 2000); }); } catch (e) {}
+  chrome.on('error', function (e) { chromeErr += '\nspawn error: ' + (e && e.message); });
 
   let page = null;
   for (let i = 0; i < 80 && !page; i++) {
     try { page = (await getJSON('/json/list')).find(t => t.type === 'page' && t.webSocketDebuggerUrl); } catch (e) {}
     if (!page) await sleep(300);
   }
-  if (!page) { console.log('CHROME DID NOT EXPOSE A PAGE TARGET'); done(2); }
+  if (!page) {
+    // SKIP, not FAIL. No assertion about the console ever ran, so this says nothing about
+    // relay-control.html. Reporting it as a product failure would put a permanent red on
+    // the branch for an environment fact and train everyone to ignore the signal. What it
+    // must not do is report PASS. The captured stderr is printed first so the next run
+    // says WHY; the skip reason has to be the last line for the runner to pick it up.
+    if (chromeErr.trim()) console.log('chrome stderr: ' + chromeErr.trim().split('\n').slice(0, 6).join(' | '));
+    console.log('SKIPPED: Chrome at ' + CHROME + ' never exposed a CDP page target; no console assertion ran');
+    done(77);
+  }
 
   ws = new WebSocket(page.webSocketDebuggerUrl);
   const waiters = new Map(); let seq = 0;
