@@ -22,7 +22,7 @@ for (let i = 0; i < 24; i++) {
     neuralRole: ['Sensory', 'Motor', 'Peer', 'DMN', 'Salience', 'PFC'][i % 6],
     brainNodeId: canonicalNodeIds[i % canonicalNodeIds.length],
     brainNodeRole: 'Specific relational role',
-    relationshipNote: `The 2024 relationship record identifies counterparty ${i} in this category.`,
+    relationshipNote: `The 2024 relationship record identifies counterparty ${i} in this category and documents a specific operating dependency for the company.`,
     confidence: 'medium',
     sourceType: ['industry-report']
   });
@@ -57,6 +57,21 @@ assert.equal(prepared.sanitization.nestedCiksCleared, 24);
 assert.ok(admission.networkEntries(prepared.portal).every(row => row.entry.cik === null));
 assert.equal(admission.validatePortalAdmission(prepared.portal).ok, true);
 
+const arrayAuditor = JSON.parse(JSON.stringify(prepared.portal));
+arrayAuditor.functionalNetwork.auditor = [JSON.parse(JSON.stringify(arrayAuditor.functionalNetwork.suppliers[0]))];
+assert.ok(admission.validatePortalAdmission(arrayAuditor).errors.some(error => error.code === 'NETWORK_CATEGORY_SHAPE'));
+const normalizedAuditor = admission.prepareGeneratedPortal(arrayAuditor, target, null);
+assert.equal(Array.isArray(normalizedAuditor.portal.functionalNetwork.auditor), false);
+assert.equal(normalizedAuditor.portal.functionalNetwork.auditor.name, arrayAuditor.functionalNetwork.auditor[0].name);
+assert.equal(normalizedAuditor.sanitization.singularRelationshipsNormalized, 1);
+const multiAuditor = JSON.parse(JSON.stringify(prepared.portal));
+multiAuditor.functionalNetwork.auditor = [
+  JSON.parse(JSON.stringify(multiAuditor.functionalNetwork.suppliers[0])),
+  JSON.parse(JSON.stringify(multiAuditor.functionalNetwork.suppliers[1]))
+];
+const refusedMultiAuditor = admission.prepareGeneratedPortal(multiAuditor, target, null).portal;
+assert.ok(admission.validatePortalAdmission(refusedMultiAuditor).errors.some(error => error.code === 'NETWORK_CATEGORY_SHAPE'));
+
 const invalidTopology = JSON.parse(JSON.stringify(prepared.portal));
 invalidTopology.functionalNetwork.suppliers[0].neuralRole = 'Limbic';
 invalidTopology.functionalNetwork.suppliers[1].brainNodeId = 'NAcc/OFC';
@@ -69,6 +84,10 @@ contaminated.functionalNetwork.suppliers[0].relationshipNote = 'Supplier [DATA_N
 const refused = admission.validatePortalAdmission(contaminated);
 assert.equal(refused.ok, false);
 assert.ok(refused.errors.some(error => error.code === 'PLACEHOLDER_CONTAMINATION'));
+
+const shallow = JSON.parse(JSON.stringify(prepared.portal));
+shallow.functionalNetwork.suppliers[0].relationshipNote = 'A short relationship note with a year 2024 but insufficient detail.';
+assert.ok(admission.validatePortalAdmission(shallow).errors.some(error => error.code === 'NETWORK_NOTE_TOO_SHORT'));
 
 const current = {
   financialHealth: { validationStatus: 'validated', compositeScore: 0.42, alert: false },
@@ -109,17 +128,21 @@ assert.ok(builderSource.includes('ALIAS[c.s] && slugSet.has(ALIAS[c.s])'));
 const autonomousSource = fs.readFileSync(path.join(ROOT, 'scripts/autonomous-portal-regen.mjs'), 'utf8');
 assert.ok(autonomousSource.includes('portalCiks.has(normCik(row.c))'));
 assert.ok(autonomousSource.includes('portalNames.has(nameKey(row.n))'));
+assert.ok(!builderSource.includes('PFC/Limbic'));
+assert.ok(builderSource.includes('Sensory/Motor/Peer/DMN/Salience/PFC'));
 
 const dry = execFileSync(process.execPath, ['scripts/build-fractal-portals.mjs', '--tier', '1', '--source', 'eligible', '--limit', '1', '--dry-run'], { cwd: ROOT, encoding: 'utf8' });
 const measuredQueue = Number((dry.match(/queue: (\d+)\b/) || [])[1]);
 assert.ok(Number.isInteger(measuredQueue) && measuredQueue > 0);
 
 console.log('PASS generated identity is target-authoritative and CIK is zero-padded');
+console.log('PASS singular auditor arrays are normalized losslessly and multi-entry arrays are rejected');
 console.log('PASS new portals cannot inherit model-authored kernel claims');
 console.log('PASS existing portals preserve prior kernel fields exactly');
 console.log('PASS nested model-authored CIKs are cleared before admission');
 console.log('PASS non-schema neural roles and non-canonical brain node IDs are rejected');
 console.log('PASS every placeholder token is rejected');
+console.log('PASS relationship notes below the corpus prose floor are rejected');
 console.log('PASS the paid endpoint accepts only the scoped regeneration key or existing master key');
 console.log('PASS Anthropic credit exhaustion is narrowly identified for the metered xAI fallback');
 console.log(`PASS builder authenticates and measures the current standalone eligible queue (${measuredQueue})`);

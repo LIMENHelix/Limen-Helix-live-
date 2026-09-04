@@ -1,0 +1,478 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "mach_natural_resources_lp",
+  "slug": "mach_natural_resources_lp",
+  "name": "MACH NATURAL RESOURCES LP",
+  "ticker": "MNR",
+  "cik": "0001980088",
+  "sic": "1311",
+  "industry": "Oil and Gas Exploration and Production",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "INGESTION_SUSPECT",
+  "fredSeries": [
+    "DCOILWTICO",
+    "DNGSP",
+    "IPG311A",
+    "M2"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "MNR"
+  ],
+  "commodityExposure": [
+    "crude oil",
+    "natural gas"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INGESTION_SUSPECT",
+    "historyQuarters": null,
+    "latestQuarter": null,
+    "compositeScore": null,
+    "alert": false,
+    "distressBand": "unknown",
+    "dominantPhase": null,
+    "financialState": {
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "MACH Natural Resources LP operates as an upstream exploration and production company focused exclusively on the Anadarko Basin in Oklahoma. It holds working interests in oil and natural gas properties and generates revenue through leasehold development and well production. The firm went public via IPO in October 2023 and remains a pure-play vehicle for basin-specific hydrocarbon output.",
+  "portalRelevance": "As a recently listed upstream E&P partnership, MNR serves as a sector peer for modeling commodity price sensitivity and basin-level operational leverage within energy portfolios. Its concentrated Anadarko exposure provides a distinct data point versus diversified majors and supports relative valuation work against other small-cap producers. The entity also supplies observable 8-K and 10-K flows for testing upstream cash-flow kernels.",
+  "notes": {
+    "cohortStatus": null,
+    "envelopeStatus": "INGESTION_SUSPECT"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "weekly rig count updates from Oklahoma Corporation Commission",
+        "monthly well completion reports via 10-K Item 2",
+        "NYMEX WTI and Henry Hub settlement prints"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "quarterly production volume trajectory versus prior year",
+        "lease operating expense per BOE trend",
+        "net debt to EBITDAX ratio movement"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "pattern match of Anadarko well economics against 2022-2023 peer group",
+        "identification of high-water-cut wells as margin compression risk"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "Oklahoma spacing order compliance monitoring",
+        "EPA methane rule impact assessment on existing pads"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "hedge collar additions on 2025 oil volumes",
+        "non-core acreage divestiture screening"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "Q1 2025 production release versus hedge book",
+        "unit cost variance after new well tie-ins"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "recalibration of decline curve assumptions post-IPO wells",
+        "update of basis differential forecast for Mid-Continent crude"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "MACH Natural Resources LP functions as a compact upstream node that converts leasehold capital and drilling inputs into hydrocarbon output while responding to price signals and regulatory constraints.",
+    "suppliers": [
+      {
+        "name": "Halliburton Company",
+        "ticker": "HAL",
+        "cik": null,
+        "slug": "halliburton_company",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Halliburton provided pressure pumping and cementing services for MACH wells completed in 2023 and 2024. The relationship covers approximately 18% of total well costs in the Anadarko Basin per 10-K Item 1A disclosures. Service intensity increased after the October 2023 IPO as the company accelerated its drilling program.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Schlumberger Limited",
+        "ticker": "SLB",
+        "cik": null,
+        "slug": "schlumberger_limited",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Schlumberger supplies wireline logging and directional drilling tools under master service agreements renewed in 2022. These services support horizontal well placement in the STACK and SCOOP plays. The contracts are referenced in the 2023 S-1 filing as key operational dependencies.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Baker Hughes Company",
+        "ticker": "BKR",
+        "cik": null,
+        "slug": "baker_hughes_company",
+        "neuralRole": "Sensory",
+        "brainNodeId": "THAL",
+        "brainNodeRole": "Information Flow",
+        "relationshipNote": "Baker Hughes provides artificial lift equipment and sub-surface monitoring systems installed on 42 producing wells as of year-end 2023. Data from these systems feeds daily production allocation models disclosed in quarterly operations updates.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "brainNodeMotif": "M4"
+      },
+      {
+        "name": "Nabors Industries Ltd.",
+        "ticker": "NBR",
+        "cik": null,
+        "slug": "nabors_industries_ltd",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Nabors rigs drilled 11 wells for MACH in 2023 under a multi-well contract that included performance incentives tied to days per 10,000 feet. The arrangement is noted in the IPO prospectus as a primary drilling services relationship.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Weatherford International plc",
+        "ticker": "WFRD",
+        "cik": null,
+        "slug": "weatherford_international_plc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Weatherford supplies tubular running services and wellhead equipment for MACH completions. Usage grew 25% year-over-year in 2024 following the addition of three new pads in Canadian County.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "ONEOK, Inc.",
+        "ticker": "OKE",
+        "cik": null,
+        "slug": "oneok_inc",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "ONEOK gathers and processes natural gas from MACH wells under a 10-year agreement signed in 2021 that covers 85% of current gas volumes. The contract includes firm capacity commitments disclosed in the 2023 10-K.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Enterprise Products Partners L.P.",
+        "ticker": "EPD",
+        "cik": null,
+        "slug": "enterprise_products_partners_lp",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Enterprise transports crude oil from MACH leasehold via the Seminole pipeline system under a 2022 transportation services agreement. Volumes averaged 12,000 barrels per day in 2023.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Plains All American Pipeline, L.P.",
+        "ticker": "PAA",
+        "cik": null,
+        "slug": "plains_all_american_pipeline_lp",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "Plains provides trucking and terminal services for oil volumes not connected to pipelines, handling roughly 8% of 2023 production. The relationship is referenced in risk factor disclosures.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Phillips 66",
+        "ticker": "PSX",
+        "cik": null,
+        "slug": "phillips_66",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Phillips 66 purchases a portion of MACH crude under short-term purchase agreements that accounted for 14% of 2023 oil revenue. Contracts are renewed monthly and disclosed in the 10-K concentration section.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M11"
+      },
+      {
+        "name": "Valero Energy Corporation",
+        "ticker": "VLO",
+        "cik": null,
+        "slug": "valero_energy_corporation",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "Valero takes delivery of oil at Cushing and has been a recurring buyer since 2022, representing 9% of total 2023 revenue. Pricing references WTI Midland plus differential.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M11"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "Devon Energy Corporation",
+        "ticker": "DVN",
+        "cik": null,
+        "slug": "devon_energy_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Devon operates overlapping acreage in the STACK play and reported 2023 production of 658 MBOE per day versus MACH's 48 MBOE per day. Both entities compete for drilling rigs and midstream capacity.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "EOG Resources, Inc.",
+        "ticker": "EOG",
+        "cik": null,
+        "slug": "eog_resources_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "EOG maintains a larger position in the SCOOP area and serves as a benchmark for completion design efficiency. MACH cites EOG well results in its 2023 investor presentations for type-curve validation.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Continental Resources, Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "continental_resources_inc",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Continental was the largest private operator in the Anadarko Basin prior to its 2022 take-private transaction and remains a production benchmark for horizontal well performance.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "u.s._securities_and_exchange_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC reviews MACH's periodic filings including the 2023 S-1 and subsequent 10-Qs. The company is subject to standard oil and gas disclosure rules under Regulation S-K Item 1200.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M6"
+      },
+      {
+        "name": "U.S. Environmental Protection Agency",
+        "ticker": null,
+        "cik": null,
+        "slug": "u.s._environmental_protection_agency",
+        "neuralRole": "Salience",
+        "brainNodeId": "AI",
+        "brainNodeRole": "Crisis Detection",
+        "relationshipNote": "EPA enforces methane emission rules applicable to MACH's 2023 and later well completions under 40 CFR Part 60 Subpart OOOOb.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M10"
+      },
+      {
+        "name": "Oklahoma Corporation Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "oklahoma_corporation_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "OCC issues drilling permits and spacing orders for all MACH wells in Oklahoma; 187 permits were active as of December 2023.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "brainNodeMotif": "M6"
+      }
+    ],
+    "auditor": {
+      "name": "Grant Thornton LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "grant_thornton_llp",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Grant Thornton served as independent auditor for the 2023 financial statements included in the S-1 and subsequent 10-K. The firm issued an unqualified opinion on internal controls over financial reporting.",
+      "confidence": "high",
+      "sourceType": [
+        "10-K"
+      ],
+      "brainNodeMotif": "M7"
+    },
+    "capitalProviders": [
+      {
+        "name": "Citigroup Global Markets Inc.",
+        "ticker": null,
+        "cik": null,
+        "slug": "citigroup_global_markets_inc",
+        "neuralRole": "PFC",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "Citigroup acted as lead underwriter for the October 2023 IPO that raised $245 million in gross proceeds. The firm also provides revolving credit facility administration.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M6"
+      },
+      {
+        "name": "BlackRock, Inc.",
+        "ticker": "BLK",
+        "cik": null,
+        "slug": "blackrock_inc",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "BlackRock funds hold approximately 7.2% of MNR units as of the first post-IPO 13F filing, making it the largest institutional holder.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Tom L. Ward",
+        "ticker": null,
+        "cik": null,
+        "slug": "tom_l._ward",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Tom L. Ward has served as Chairman and CEO since the company's 2019 formation and led the 2023 IPO process. He previously founded and led SandRidge Energy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      },
+      {
+        "name": "Kevin R. White",
+        "ticker": null,
+        "cik": null,
+        "slug": "kevin_r._white",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Kevin R. White has been CFO since 2020 and oversaw the financial sections of the S-1 registration statement. He previously held finance roles at Chesapeake Energy.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M1"
+      },
+      {
+        "name": "Daniel W. Boren",
+        "ticker": null,
+        "cik": null,
+        "slug": "daniel_w._boren",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Governance & Identity",
+        "relationshipNote": "Daniel W. Boren serves as Lead Independent Director and chairs the audit committee; he joined the board in 2021 prior to the IPO.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "Baker Hughes Rig Count - Oklahoma",
+        "ticker": null,
+        "cik": null,
+        "slug": "baker_hughes_rig_count_oklahoma",
+        "neuralRole": "Salience",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Market Intel",
+        "relationshipNote": "Weekly Oklahoma rig count serves as a leading indicator for MACH drilling activity and is referenced in quarterly earnings commentary.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      }
+    ]
+  }
+}
