@@ -66,6 +66,16 @@ const HEALS = [
       const m = out.match(/(\d+)\s+entries?\s+(?:moved|re-?slotted|reslotted)/i);
       return m ? `re-slotted ${m[1]} entries` : 'completed';
     }
+  },
+  {
+    issueRe: /(?:Deterministic punctuation defects|Truncated prose) in fn entries/i,
+    name: 'heal-prose-punctuation',
+    cmd: ['node', ['scripts/heal-prose-truncation.mjs', '--apply']],
+    summarize: out => {
+      const changed = out.match(/entries changed:\s*(\d+)/i);
+      const after = out.match(/bad entries after:\s*(\d+)/i);
+      return changed && after ? `repaired ${changed[1]} entries · ${after[1]} ambiguous residuals` : 'completed';
+    }
   }
 ];
 
@@ -77,7 +87,7 @@ const OPERATOR_ONLY = [
   /Name-fingerprint dup/i,
   /Null kernel composite on ELIGIBLE/i,    // needs CIK / kernel-rescore investigation
   /NaN composite values/i,                 // data error, inspect manually
-  /Truncated prose in fn entries/i,        // heal-prose-truncation not yet built
+  /Prose entries needing source-backed review/i,
   // body-wide organ items (introduced by audit-system-vitals.mjs)
   /Canonical domains with NO/i,            // feeds & nodes both surface this
   /Missing canonical domain brain files/i, // domain organ
