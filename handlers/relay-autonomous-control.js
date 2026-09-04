@@ -74,15 +74,38 @@ async function handleGET(q) {
     // is a drawer, not a queue.
     const relayStore = require('../lib/relay-store');
     let held = [];
-    let awaitingPayment = 0;
-    let paidUnfulfilled = 0;
+    // NULL, not zero. A failed read used to leave these at their zero initializer and the
+    // endpoint still answered ok:true — so a database outage produced the same reassuring
+    // "nothing needs attention" as an empty queue. An alerting signal that goes quiet
+    // under the failure it exists to report is worse than no signal, because it is
+    // actively trusted. Unknown must look different from fine.
+    let awaitingPayment = null;
+    let paidUnfulfilled = null;
+    let strandedIds = [];
+    let ordersError = null;
     try {
       held = await relayStore.ordersByStatus('payment-review', 200);
       awaitingPayment = (await relayStore.ordersByStatus('awaiting-payment', 500)).length;
-      paidUnfulfilled = (await relayStore.ordersByStatus('paid', 200)).filter(function (o) {
+      const stranded = (await relayStore.ordersByStatus('paid', 200)).filter(function (o) {
         return !o.fulfillment || o.fulfillment.state === 'failed';
-      }).length;
-    } catch (e) { /* the rest of status is still worth returning */ }
+      });
+      strandedIds = stranded.map(function (o) { return o.id; });
+      paidUnfulfilled = stranded.length;
+    } catch (e) {
+      ordersError = e.message || 'order store unreadable';
+      held = null;
+    }
+
+    // A PAID ORDER THAT NEVER GOT BOUGHT IS THE WHOLE POINT OF THIS NUMBER.
+    // needsAttention summed only held orders and open tasks, so a purchase that failed
+    // without filing a task left a customer's money taken, nothing ordered, and the
+    // aggregate reading zero. Tasks already carry an orderId, so stranded orders that
+    // have one are not counted twice.
+    const taskOrderIds = new Set(tasks.map(function (t) { return t.orderId; }).filter(Boolean));
+    const strandedWithoutTask = strandedIds.filter(function (id) { return !taskOrderIds.has(id); });
+    const attention = ordersError
+      ? null
+      : held.length + tasks.length + strandedWithoutTask.length;
 
     return {
       ok: true,
@@ -91,13 +114,17 @@ async function handleGET(q) {
       pendingPayouts: payouts.length,
       // The number that must not be zero-by-silence. Non-zero means a customer's money
       // arrived and the loop deliberately stopped.
-      heldForReview: held.length,
-      needsAttention: held.length + tasks.length,
+      heldForReview: held ? held.length : null,
+      needsAttention: attention,
+      // Present ONLY when the counters could not be read. Its presence is the signal;
+      // a consumer that sees needsAttention:null must not read that as calm.
+      ordersUnavailable: ordersError || undefined,
+      strandedWithoutTask: ordersError ? null : strandedWithoutTask.length,
       awaitingPayment: awaitingPayment,
       paidUnfulfilled: paidUnfulfilled,
       // The reasons inline, so "1 held" is never a number the operator has to go and
       // decode somewhere else.
-      heldReasons: held.slice(0, 10).map(function (o) {
+      heldReasons: (held || []).slice(0, 10).map(function (o) {
         return {
           orderId: o.id,
           reason: o.reviewReason || 'held',

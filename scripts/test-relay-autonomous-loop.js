@@ -3146,6 +3146,210 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-autonomy')];
   delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
 
+  // ── T50 ─────────────────────────────────────────────────────────────────
+  // ONE ROW, COUNTED ONCE. Two guards made the same mistake in opposite directions: the
+  // funds check left the row being spent in the "already committed" total and then asked
+  // the remainder to cover it AGAIN, so an approval needed twice the purchase price in
+  // the wallet; the dollar-rate check excluded the row AND passed a zero amount, so the
+  // purchase being released counted for nothing. One rule now: drop the row from what is
+  // already committed, then count its amount once as the new spend.
+  console.log('T50: the row being spent is counted exactly once, in both gates');
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var oneAut = require('../lib/relay-autonomy');
+  var cjOne = require.resolve('../lib/relay-cj');
+  var realCjOne = require.cache[cjOne] ? require.cache[cjOne].exports : require('../lib/relay-cj');
+  var WALLET = 30;
+  require.cache[cjOne] = { id: cjOne, filename: cjOne, loaded: true,
+    exports: Object.assign({}, realCjOne, {
+      balance: async function () { return { ok: true, available: WALLET, amount: WALLET, frozen: 0 }; } }) };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  oneAut = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var r20 = await oneAut.authorize({ amount: 20, salePrice: 60, orderId: 'one', listingId: 'LO', marketplace: 'cj' });
+  assert('a $20 purchase queues against a $30 wallet', !!r20.decisionId, JSON.stringify(r20.reason));
+  await oneAut.approve(r20.decisionId, 'operator');
+  var spend20 = await oneAut.consumeApproved({ decisionId: r20.decisionId, orderId: 'one', listingId: 'LO', amount: 20 });
+  assert('and the SAME $20 is spendable at approval, not double-subtracted',
+    spend20.allowed === true, JSON.stringify(spend20.reason));
+
+  // The dollar-rate side of the same rule: two overnight $40 approvals must not both
+  // clear a $60 hourly cap by each counting as zero.
+  await db.set('relay:autonomy-ledger', []);
+  WALLET = 500;
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    // Permissive while RESERVING, or the second reservation never exists and the test
+    // proves nothing about the consume path. Same trap as T49; caught the same way.
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var d1 = await oneAut.authorize({ amount: 40, salePrice: 120, orderId: 'd1', listingId: 'LD1', marketplace: 'cj' });
+  var d2 = await oneAut.authorize({ amount: 40, salePrice: 120, orderId: 'd2', listingId: 'LD2', marketplace: 'cj' });
+  var dRows = (await db.get('relay:autonomy-ledger')) || [];
+  dRows.forEach(function (r) { r.ts = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(); });
+  await db.set('relay:autonomy-ledger', dRows);
+  await oneAut.approve(d1.decisionId, 'operator');
+  await oneAut.approve(d2.decisionId, 'operator');
+  // NOW the dollar cap tightens: two aged $40 approvals against $60 an hour.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 60
+  });
+  var c1 = await oneAut.consumeApproved({ decisionId: d1.decisionId, orderId: 'd1', listingId: 'LD1', amount: 40 });
+  var c2 = await oneAut.consumeApproved({ decisionId: d2.decisionId, orderId: 'd2', listingId: 'LD2', amount: 40 });
+  assert('two $40 approvals cannot both clear a $60 hourly cap',
+    !!d1.decisionId && !!d2.decisionId &&
+    c1.allowed === true && c2.allowed === false && /hourly rate limit/.test(String(c2.reason)),
+    JSON.stringify({ first: c1.allowed, second: c2.reason }));
+
+  // A SETTLED purchase still counts against the cached wallet. settle() flips the row the
+  // instant the buy succeeds while the balance stays cached for a minute, so counting
+  // only 'reserved' meant an ordinary completed purchase subtracted nothing.
+  await db.set('relay:autonomy-ledger', []);
+  WALLET = 40;
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  oneAut = require('../lib/relay-autonomy');
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var s1 = await oneAut.authorize({ amount: 25, salePrice: 80, orderId: 's1', marketplace: 'cj' });
+  await oneAut.settle(s1.decisionId, { amount: 25, sourceOrderId: 'cjo_s1' });
+  var s2 = await oneAut.authorize({ amount: 25, salePrice: 80, orderId: 's2', marketplace: 'cj' });
+  assert('a SETTLED debit still counts while the wallet figure is cached',
+    s2.allowed === false && /committed/.test(String(s2.reason)), JSON.stringify(s2.reason));
+
+  require.cache[cjOne] = { id: cjOne, filename: cjOne, loaded: true, exports: realCjOne };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
+  // ── T51 ─────────────────────────────────────────────────────────────────
+  // THE ALERT MUST NOT GO QUIET UNDER THE FAILURE IT EXISTS FOR.
+  console.log('T51: a stranded order and an unreadable store both raise the alarm');
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var alCtl = require('../handlers/relay-autonomous-control');
+  var AK = process.env.RELAY_ADMIN_KEY;
+
+  // A paid order whose purchase failed WITHOUT filing a task. needsAttention summed only
+  // held orders and tasks, so this read as zero while a customer's money sat taken and
+  // nothing had been ordered.
+  // MEASURED AS A DELTA. Asserting needsAttention >= 1 was vacuous: held orders from
+  // earlier blocks already made it non-zero, so the stranded order contributed nothing
+  // and removing it from the sum left the assertion green.
+  var beforeStranded = (await invoke(alCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK, headers: {}
+  })).body.needsAttention;
+  var strandedOrder = await store.createOrder({
+    buyerId: 'b_stranded', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: payListing.id, qty: 1, unitPrice: 11.36, title: 'x', sourceCost: 7.57 }]
+  });
+  await store.updateOrder(strandedOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_str',
+    fulfillment: { state: 'failed', reason: 'supplier refused' }
+  });
+  var st2 = await invoke(alCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK, headers: {}
+  });
+  assert('a paid order nobody bought RAISES the attention total',
+    st2.body && st2.body.needsAttention === beforeStranded + 1 && st2.body.strandedWithoutTask >= 1,
+    JSON.stringify({ before: beforeStranded, after: st2.body && st2.body.needsAttention, s: st2.body && st2.body.strandedWithoutTask }));
+
+  // An unreadable order store must not answer with the same shape as an empty one.
+  var storePath = require.resolve('../lib/relay-store');
+  var realStoreMod = require.cache[storePath].exports;
+  require.cache[storePath].exports = Object.assign({}, realStoreMod, {
+    ordersByStatus: async function () { throw new Error('redis-unavailable'); }
+  });
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var blindCtl = require('../handlers/relay-autonomous-control');
+  var st3 = await invoke(blindCtl, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK, headers: {}
+  });
+  assert('an unreadable order store does NOT report zero held',
+    st3.body && st3.body.heldForReview === null, JSON.stringify(st3.body && st3.body.heldForReview));
+  assert('needsAttention is unknown, not calm',
+    st3.body && st3.body.needsAttention === null, JSON.stringify(st3.body && st3.body.needsAttention));
+  assert('and the outage is named, so null is never mistaken for fine',
+    st3.body && /redis-unavailable/.test(String(st3.body.ordersUnavailable)),
+    JSON.stringify(st3.body && st3.body.ordersUnavailable));
+
+  require.cache[storePath].exports = realStoreMod;
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T52 ─────────────────────────────────────────────────────────────────
+  // ONE APPROVAL BELONGS TO ONE LINE. fulfillPaidOrder hands the same decisionId to every
+  // unfinished line of a multi-line order, so the others hit the binding check. Treating
+  // that as a plain refusal made them fall through to a fresh authorize() — duplicating
+  // reservations that were still live, filing a second manual task each, and
+  // double-counting the day's and the hour's capacity. Approving one line quietly
+  // inflated the queue.
+  console.log('T52: approving one line does not duplicate the others');
+  var mlBuy = require.resolve('../lib/relay-buy');
+  var mlRealBuy = require('../lib/relay-buy');
+  var ML_JOBS = [];
+  require.cache[mlBuy].exports = Object.assign({}, mlRealBuy, {
+    execute: async function (job) { ML_JOBS.push(job); return { ok: true, provider: 'cj', sourceOrderId: 'cjo_ml', amount: job.maxCost }; },
+    fileManualTask: async function () { return { ok: true, task: { id: 'task_ml' } }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var mlEngine = require('../lib/relay-engine');
+  var mlAut = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var mlB = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'second line',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_ml', sourceUrl: 'https://www.cjdropshipping.com/product/-p-ML.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var mlOrder = await store.createOrder({
+    buyerId: 'b_ml', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: payListing.id, qty: 1, unitPrice: 22.00, title: 'line one', sourceCost: 11.00 },
+      { listingId: mlB.id, qty: 1, unitPrice: 22.00, title: 'line two', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(mlOrder.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_ml' });
+
+  var held2 = await mlEngine.fulfillPaidOrder({ orderId: mlOrder.id });
+  assert('both lines queue for a human', (held2.lines || []).length === 2 &&
+    held2.lines.every(function (l) { return l.state === 'awaiting-approval'; }),
+    JSON.stringify((held2.lines || []).map(function (l) { return l.state; })));
+  var firstDecision = held2.lines[0].decisionId;
+  var reservedBefore = ((await db.get('relay:autonomy-ledger')) || []).length;
+  assert('two reservations exist, one per line', reservedBefore === 2, String(reservedBefore));
+
+  await mlAut.approve(firstDecision, 'operator');
+  var mlRun = await mlEngine.fulfillPaidOrder({ orderId: mlOrder.id, decisionId: firstDecision, force: true });
+
+  assert('the approved line is bought', ML_JOBS.length === 1, 'jobs: ' + ML_JOBS.length);
+  var other = (mlRun.lines || []).find(function (l) { return l.decisionId === null && l.skipped; });
+  assert('the other line is left queued, not re-authorised',
+    !!other && other.state === 'awaiting-approval',
+    JSON.stringify((mlRun.lines || []).map(function (l) { return l.state + (l.skipped ? '/skipped' : ''); })));
+  var ledgerAfter = (await db.get('relay:autonomy-ledger')) || [];
+  assert('and NO third reservation was created for it',
+    ledgerAfter.length === 2, 'rows: ' + ledgerAfter.length +
+    ' -> ' + JSON.stringify(ledgerAfter.map(function (r) { return r.state; })));
+
+  require.cache[mlBuy].exports = mlRealBuy;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
