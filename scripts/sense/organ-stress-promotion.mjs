@@ -74,9 +74,18 @@ function probeDomain(domainKey, d, probes, metrics, attention) {
   const pb = d.phaseBelief || null;
   const pbOk = !!(pb && pb.grounded === true && Array.isArray(pb.belief));
   probes.push({ name: domainKey + ':phase-belief', score: pbOk ? 100 : 0 });
-  metrics[domainKey + '.phaseBelief'] = pb ? { grounded: pb.grounded, phaseMAP: pb.phaseMAP, confidence: pb.confidence, stuck: pb.stuck } : null;
+  metrics[domainKey + '.phaseBelief'] = pb ? {
+    grounded: pb.grounded,
+    phaseMAP: pb.phaseMAP,
+    confidence: pb.confidence,
+    stuck: pb.stuck,
+    reason: pb.reason || null,
+    degraded: pb.degraded || null,
+    channels: Array.isArray(pb.channels) ? pb.channels : null
+  } : null;
   if (!pbOk) {
-    attention.push({ issue: domainKey + ' phaseBelief not grounded (estimator abstaining or erroring)', severity: 'high', count: 1, action: 'check lib/phase-estimator.js + worker try/catch — reason: ' + (pb && pb.reason ? pb.reason : 'field missing entirely'), organ: id });
+    const abstentionReason = pb && (pb.reason || (pb.degraded && pb.degraded.reason));
+    attention.push({ issue: domainKey + ' phaseBelief not grounded (estimator abstaining or erroring)', severity: 'high', count: 1, action: 'check lib/phase-estimator.js + worker try/catch — reason: ' + (abstentionReason || 'field missing entirely'), organ: id });
   }
 
   // ── PROBE D — outcome tracker: the clock has actually started (>=1 tracked forecast). ──
@@ -126,13 +135,37 @@ export async function sense() {
   // _legacyFeedStress). Discovered empirically so this organ tracks the worker's own allowlist
   // without needing a duplicate hardcoded list here.
   const promotedKeys = Object.keys(domains).filter(k => typeof domains[k]._legacyFeedStress === 'number');
+  const abstainingKeys = Object.keys(domains).filter(k => domains[k].phaseBelief && domains[k].phaseBelief.grounded === false);
+
+  // An abstaining domain never receives _legacyFeedStress, so the promotion-only loop below cannot
+  // observe it. Keep these out of the promotion score, but retain their estimator telemetry and
+  // raise an explicit attention item. This is observation only; it does not change promotion.
+  for (const k of abstainingKeys) {
+    const pb = domains[k].phaseBelief;
+    const reason = pb.reason || (pb.degraded && pb.degraded.reason) || 'estimator abstained without a reason';
+    metrics[k + '.phaseBeliefAbstention'] = {
+      reason,
+      degraded: pb.degraded || null,
+      channels: Array.isArray(pb.channels) ? pb.channels : null
+    };
+    attention.push({
+      issue: k + ' phaseBelief estimator abstained',
+      severity: 'high',
+      count: 1,
+      action: 'inspect the surfaced estimator telemetry; do not relax the precision floor — reason: ' + reason,
+      organ: id
+    });
+  }
 
   if (!promotedKeys.length) {
+    metrics.domainCount = Object.keys(domains).length;
+    metrics.abstainingDomains = abstainingKeys;
     return {
       score: 50, status: 'DEGRADED',
       summary: 'no domain shows an active stress promotion yet (no _legacyFeedStress field on any domain)',
-      metrics: { domainCount: Object.keys(domains).length },
+      metrics,
       attention: [{ issue: 'No domain in the console snapshot has an active stress promotion (_legacyFeedStress absent everywhere)', severity: 'medium', count: 1, action: 'check STRESS_PROMOTION_DOMAINS in handlers/limen-worker-snapshot.js and wait for the next worker tick', organ: id }]
+        .concat(attention)
     };
   }
 
@@ -143,6 +176,7 @@ export async function sense() {
   metrics.probes = Object.fromEntries(probes.map(p => [p.name, p.score]));
   metrics.snapshotAgeSec = snap && snap.generatedAt ? Math.round((Date.now() - snap.generatedAt) / 1000) : null;
   metrics.promotedDomains = promotedKeys;
+  metrics.abstainingDomains = abstainingKeys;
 
   return {
     score, status,
