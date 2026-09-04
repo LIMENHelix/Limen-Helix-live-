@@ -83,6 +83,7 @@ async function handleGET(q) {
     let paidUnfulfilled = null;
     let strandedIds = [];
     let stranded = [];
+    let flagged = [];
     let ordersError = null;
     try {
       // STRICT, or the catch above is decoration. db.get() swallows a Redis failure and
@@ -92,7 +93,8 @@ async function handleGET(q) {
       const S = { strict: true };
       held = await relayStore.ordersByStatus('payment-review', 200, S);
       awaitingPayment = (await relayStore.ordersByStatus('awaiting-payment', 500, S)).length;
-      stranded = (await relayStore.ordersByStatus('paid', 200, S)).filter(function (o) {
+      const paidOrders = await relayStore.ordersByStatus('paid', 200, S);
+      stranded = paidOrders.filter(function (o) {
         // Judged PER LINE, not by the order's headline state. A half-fulfilled order
         // records 'partial', and counting only missing-or-failed let one shipped line hide
         // a line that was never ordered at all.
@@ -100,10 +102,18 @@ async function handleGET(q) {
       });
       strandedIds = stranded.map(function (o) { return o.id; });
       paidUnfulfilled = stranded.length;
+      // SHIPPED IS READ TOO, and it is read for a reason a status allowlist cannot serve.
+      // An order whose lines all bought successfully becomes 'shipped' even when one of
+      // them cost more than was authorised, so the flagged case lives in the one status
+      // this scan never opened. Reading 'paid' as well is not redundant: a flagged line
+      // can sit beside an unbought line on a partial order, where _unfulfilledLines drops
+      // it for having been purchased.
+      flagged = _flaggedLines(held.concat(paidOrders, await relayStore.ordersByStatus('shipped', 200, S)));
     } catch (e) {
       ordersError = e.message || 'order store unreadable';
       held = null;
       stranded = [];
+      flagged = [];
     }
 
     // A PAID ORDER THAT NEVER GOT BOUGHT IS THE WHOLE POINT OF THIS NUMBER.
@@ -129,7 +139,7 @@ async function handleGET(q) {
     }).map(function (o) { return o.id; });
     const attention = ordersError
       ? null
-      : held.length + tasks.length + strandedWithoutTask.length;
+      : held.length + tasks.length + strandedWithoutTask.length + flagged.length;
 
     return {
       ok: true,
@@ -144,6 +154,13 @@ async function handleGET(q) {
       // a consumer that sees needsAttention:null must not read that as calm.
       ordersUnavailable: ordersError || undefined,
       strandedWithoutTask: ordersError ? null : strandedWithoutTask.length,
+      // A supplier overspend that was FLAGGED and then filed nowhere. relay-buy sets
+      // needsReview past the 10% tolerance and writes the reviewReason; until now
+      // nothing read either, so the console could say Nothing needs you over a purchase
+      // the code itself had marked for review. The reasons ride along, because a count
+      // the operator cannot act on is only a slightly better silence.
+      flaggedLines: ordersError ? null : flagged.length,
+      flaggedReasons: flagged.slice(0, 10),
       awaitingPayment: awaitingPayment,
       paidUnfulfilled: paidUnfulfilled,
       // The reasons inline, so "1 held" is never a number the operator has to go and
@@ -488,6 +505,38 @@ async function handlePOST(body) {
   }
 
   return { ok: false, error: 'unknown action: ' + action };
+}
+
+/**
+ * Lines the supplier overspent on, judged BY THE LINE and never by the order's status.
+ *
+ * lib/relay-buy.js:232 sets needsReview when CJ completes an order more than 10% above the
+ * authorised cost, and writes a reviewReason with it; lib/relay-engine.js carries both onto
+ * the fulfilment line. Nothing anywhere read either one. The flag exists precisely for a
+ * purchase that SUCCEEDED at the wrong price, and a successful purchase moves the order to
+ * 'shipped', so every status allowlist that watched 'paid' and 'payment-review' was
+ * guaranteed to miss it: the console could say "Nothing needs you" over a line the code had
+ * itself marked for a human.
+ *
+ * Fails closed on shape, like _unfulfilledLines: an unreadable fulfilment is not evidence
+ * that nothing is flagged, but it is also not evidence that something is, so it contributes
+ * nothing here and is caught by the stranded scan instead.
+ */
+function _flaggedLines(orders) {
+  const out = [];
+  (orders || []).forEach(function (o) {
+    const f = o && o.fulfillment;
+    if (!f || !Array.isArray(f.lines)) return;
+    f.lines.forEach(function (l) {
+      if (!l || l.needsReview !== true) return;
+      out.push({
+        orderId: o.id,
+        listingId: l.listingId || null,
+        reason: l.reviewReason || 'the supplier charged more than was approved'
+      });
+    });
+  });
+  return out;
 }
 
 /**

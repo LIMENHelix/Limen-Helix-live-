@@ -32,6 +32,9 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // The status payload under test. Mutated between cases.
 let STATUS = {};
+// Counted so a poll that STACKS intervals is visible as a burst of reads, not just as a
+// panel that happens to update.
+let STATUS_HITS = 0;
 
 const AUTONOMY = {
   ok: true,
@@ -48,7 +51,7 @@ const srv = http.createServer(function (req, res) {
   res.writeHead(200, { 'Content-Type': 'application/json' });
   const action = u.searchParams.get('action');
   if (action === 'autonomy') return res.end(JSON.stringify(AUTONOMY));
-  if (action === 'status') return res.end(JSON.stringify(STATUS));
+  if (action === 'status') { STATUS_HITS++; return res.end(JSON.stringify(STATUS)); }
   if (action === 'readiness') return res.end(JSON.stringify({ ok: true, checks: [] }));
   if (action === 'pending-approvals') return res.end(JSON.stringify({ ok: true, approvals: [] }));
   if (action === 'inventory') return res.end(JSON.stringify({ ok: true, count: 0, totalCost: 0, totalSell: 0, listings: [], bySupplier: {} }));
@@ -204,6 +207,74 @@ srv.listen(0, async function () {
     JSON.stringify(ap).slice(0, 250));
   A('the failure survives a refresh instead of being wiped by it',
     (await ev("(function(){ paintApprovals([]); return document.getElementById('approvals').innerText; })()")).indexOf('Approved, but NOT bought') >= 0);
+
+  // ── STATE 6 ─────────────────────────────────────────────────────────────
+  // The panel is an ALARM, so it has to keep looking. The status read ran only inside
+  // refresh() and nothing called it again, so a console left open on a green all-clear kept
+  // showing it while orders piled up underneath. Proven WITHOUT touching refresh(): the
+  // page must notice on its own.
+  console.log('\nSTATE 6 — the all-clear does not outlive the condition that produced it');
+  STATUS = { ok: true, needsAttention: 0, heldForReview: 0, openTasks: 0, strandedWithoutTask: 0, awaitingPayment: 0 };
+  // Set the interval, then let refresh() do the wiring. The test must NOT call
+  // startPolling() itself: doing so proved only that the function works, and a page that
+  // never called it still passed. Reintroducing the missing call is what caught that.
+  await ev("POLL_MS = 400;");
+  await reload();
+  A('it starts on a genuine all-clear', /Nothing needs you/i.test(await panel()));
+
+  // The world changes. Nobody clicks anything and nobody reloads.
+  STATUS = { ok: true, needsAttention: 2, heldForReview: 1, openTasks: 1, strandedWithoutTask: 0, awaitingPayment: 0 };
+  await sleep(1400);
+  const polled = await panel();
+  A('the panel notices on its own, with no click and no reload',
+    !/Nothing needs you/i.test(polled) && /2 things need you/i.test(polled),
+    JSON.stringify(polled).slice(0, 200));
+
+  // ── STATE 7 ─────────────────────────────────────────────────────────────
+  // A refresh loop that paints green over an unreadable backend is the confident-zero
+  // defect one layer up, and the layer where it would be least visible. The poll must carry
+  // the outage rendering, not just the happy path.
+  console.log('\nSTATE 7 — the poll must not paint green over a failed read');
+  STATUS = { ok: true, needsAttention: 0, heldForReview: 0, openTasks: 0, strandedWithoutTask: 0, awaitingPayment: 0 };
+  await sleep(900);
+  A('it returns to the all-clear while the read is healthy', /Nothing needs you/i.test(await panel()));
+  STATUS = { ok: true, needsAttention: null, ordersUnavailable: 'order store unreadable' };
+  await sleep(1400);
+  const failedPoll = await panel();
+  A('a FAILED status read never renders as the all-clear',
+    !/Nothing needs you/i.test(failedPoll), JSON.stringify(failedPoll).slice(0, 220));
+  A('and it says plainly that it cannot tell',
+    /cannot tell|cannot read/i.test(failedPoll), JSON.stringify(failedPoll).slice(0, 220));
+
+  // The guard, not just the behaviour. unlock() and every action call refresh(), which
+  // starts the poll; without clearInterval first, the intervals multiply and the page
+  // hammers its own endpoint at a rate that climbs with every operator click.
+  await ev("POLL_MS = 300; startPolling(); startPolling(); startPolling();");
+  const hitsBefore = STATUS_HITS;
+  await sleep(1500);
+  const bursts = STATUS_HITS - hitsBefore;
+  A('three startPolling calls leave ONE interval running, not three',
+    bursts <= 8, bursts + ' status reads in 1.5s at a 300ms interval (one timer is ~5)');
+  await ev("if (POLL) clearInterval(POLL);");
+
+  // ── STATE 8 ─────────────────────────────────────────────────────────────
+  // A supplier overspend past the 10% tolerance is flagged with needsReview and a
+  // reviewReason, and the order then ships. Nothing read either field, so the console could
+  // say 'Nothing needs you' over a purchase the code had marked for a human.
+  console.log('\nSTATE 8 — a flagged overspend is described, not just counted');
+  STATUS = {
+    ok: true, needsAttention: 1, heldForReview: 0, openTasks: 0, strandedWithoutTask: 0,
+    awaitingPayment: 0, flaggedLines: 1,
+    flaggedReasons: [{ orderId: 'ord_over_1', listingId: 'lst_x', reason: 'CJ charged $14.90 against $11.00 approved' }]
+  };
+  await reload();
+  const flagPanel = await panel();
+  A('a flagged overspend is not reported as nothing needing you',
+    !/Nothing needs you/i.test(flagPanel), JSON.stringify(flagPanel).slice(0, 220));
+  A('it is named in words the operator can act on',
+    /above the approved price/i.test(flagPanel), JSON.stringify(flagPanel).slice(0, 260));
+  A('and the REASON is rendered, not just the count',
+    /14\.90/.test(flagPanel) && /11\.00/.test(flagPanel), JSON.stringify(flagPanel).slice(0, 300));
 
   clearTimeout(watchdog);
   console.log(fails ? '\n' + fails + ' FAILED\n' : '\nALL PASS\n');

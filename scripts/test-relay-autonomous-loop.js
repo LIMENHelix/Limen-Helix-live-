@@ -1431,14 +1431,27 @@ function invoke(handler, req) {
   });
   assert('one line inside the remaining ceiling still sells', cOne.status === 200,
     JSON.stringify(cOne.body).slice(0, 200));
+  // The cumulative-ceiling refusal is now checked where the detail actually goes. This
+  // assertion used to match 'already in this cart' in the RESPONSE, which meant it was
+  // pinning the leak in place: that sentence carries the cart's committed supplier spend
+  // and the remaining daily ceiling, and the shopper reading the 409 is unauthenticated.
+  // The claim under test has not changed, only the channel it is read from.
+  var CEILWARN = [];
+  var ceilWarnReal = console.warn;
+  console.warn = function () { CEILWARN.push(Array.prototype.join.call(arguments, ' ')); };
   var cBoth = await invoke(cart2, {
     method: 'POST', headers: {},
     body: { items: [{ listingId: cjListing.id, qty: 1 }, { listingId: second.id, qty: 1 }],
       shippingAddress: cartAddr, buyerEmail: 'a@b.com', policyAccepted: true }
   });
+  console.warn = ceilWarnReal;
   assert('a cart whose TOTAL breaks the ceiling is refused',
-    cBoth.status === 409 && /already in this cart/.test(JSON.stringify(cBoth.body)),
+    cBoth.status === 409 && /not-fulfillable/.test(JSON.stringify(cBoth.body)),
     JSON.stringify(cBoth.body).slice(0, 260));
+  assert('and the cumulative-ceiling reason reaches the operator log, not the shopper',
+    /already in this cart/.test(CEILWARN.join(' ')) &&
+    !/already in this cart/.test(JSON.stringify(cBoth.body)),
+    CEILWARN.join(' | ').slice(0, 200));
 
   // The per-unit/aggregate seam, one layer down. buyFromCJ computes
   // maxCost - sourceShipping + requote.price: maxCost is the LINE total and cj.freight()
@@ -3789,9 +3802,211 @@ function invoke(handler, req) {
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
   global.fetch = BLOCK_NETWORK;
+  // ANY module required during the window above bound itself to the redis-enabled limen-db
+  // instance, and restoring limen-db does not reach back into their closures. relay-engine
+  // is the one that bites: the control handler pulls it in, so it rebound here, and its
+  // next db.get() called fetch() against an UPSTASH url that no longer exists. That is a
+  // real escaped request, caught by the hermetic check rather than by anything in T57.
+  // Dropping them from cache forces a rebind to the restored instance.
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
   require.cache[dbP57] = { id: dbP57, filename: dbP57, loaded: true, exports: realDb57 };
   require.cache[stP57] = { id: stP57, filename: stP57, loaded: true, exports: realSt57 };
   delete require.cache[ctlP57];
+
+  // ── T58 ─────────────────────────────────────────────────────────────────
+  // NO INTERNAL REFUSAL REASON REACHES A SHOPPER.
+  //
+  // relay-cart-checkout forwarded authorize()'s reason verbatim into its 409. That endpoint
+  // takes no key, so any shopper could read the CJ wallet balance, the supplier spend
+  // already committed, the remaining ceiling, and via the margin refusal the computed
+  // margin on the item itself, by adding it to a cart and reading the error. The wallet
+  // sentence was the one that got noticed; 'margin $8.00 is under the $12 floor' gives away
+  // more, more directly.
+  //
+  // Asserted on the WHOLE serialised body rather than on the two sentences under test, so a
+  // refusal reason added to authorize() later cannot quietly reintroduce this.
+  console.log('T58: the public 409 carries no internal refusal reason');
+  var sqP58 = require.resolve('../lib/relay-supplier-quote');
+  var realSq58 = require('../lib/relay-supplier-quote');
+  var cjP58 = require.resolve('../lib/relay-cj');
+  var realCj58 = require('../lib/relay-cj');
+
+  // Revalidation must PASS, or the line is refused at the supplier check above and never
+  // reaches the gate this test is about.
+  require.cache[sqP58] = { id: sqP58, filename: sqP58, loaded: true, exports: Object.assign({}, realSq58, {
+    revalidate: async function (o) {
+      return {
+        ok: true, effectiveCost: parseFloat(o.sourceCost),
+        shipping: parseFloat(o.sourceShipping) || 0,
+        carrier: o.sourceCarrier || 'CJPacket', fromCountry: o.sourceFromCountry || 'US'
+      };
+    }
+  }) };
+  require.cache[cjP58] = { id: cjP58, filename: cjP58, loaded: true, exports: Object.assign({}, realCj58, {
+    balance: async function () { return { ok: true, available: 1.00 }; }
+  }) };
+  // A FRESH autonomy, because _cjBalCache is module state with a one minute TTL and an
+  // earlier block's good balance would be served instead of the $1 stubbed here.
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+  var cart58 = require('../handlers/relay-cart-checkout');
+
+  var l58 = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'leak probe',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_58', sourceUrl: 'https://www.cjdropshipping.com/product/-p-58.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var addr58 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+  var ordersBefore58 = (await store.orderHistory(500)).length;
+
+  // The operator detail must still GO somewhere, or this is a deletion rather than a fix.
+  var WARNED58 = [];
+  var realWarn58 = console.warn;
+  console.warn = function () { WARNED58.push(Array.prototype.join.call(arguments, ' ')); };
+
+  async function refuse58(cfg) {
+    await db.set('relay:autonomy-ledger', []);
+    await db.set('relay:autonomy', cfg);
+    return await invoke(cart58, {
+      method: 'POST', headers: {},
+      body: {
+        items: [{ listingId: l58.id, qty: 1 }], shippingAddress: addr58,
+        buyerEmail: 'a@b.com', policyAccepted: true
+      }
+    });
+  }
+
+  // (a) a MARGIN refusal
+  var marginRes = await refuse58({
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 500, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var marginBody = JSON.stringify(marginRes.body || {});
+  assert('a margin refusal still refuses the line', marginRes.status === 409 &&
+    /not-fulfillable/.test(marginBody), marginRes.status + ' ' + marginBody.slice(0, 120));
+  assert('the margin refusal leaks no dollar figure to the shopper',
+    marginBody.indexOf('$') === -1, marginBody.slice(0, 200));
+  assert('and leaks none of wallet / committed / margin',
+    !/wallet|committed|margin/i.test(marginBody), marginBody.slice(0, 200));
+
+  // (b) a FUNDS refusal, against a $1 CJ wallet
+  var fundsRes = await refuse58({
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var fundsBody = JSON.stringify(fundsRes.body || {});
+  assert('a funds refusal still refuses the line', fundsRes.status === 409 &&
+    /not-fulfillable/.test(fundsBody), fundsRes.status + ' ' + fundsBody.slice(0, 120));
+  assert('the funds refusal leaks no dollar figure to the shopper',
+    fundsBody.indexOf('$') === -1, fundsBody.slice(0, 200));
+  assert('and leaks none of wallet / committed / margin',
+    !/wallet|committed|margin/i.test(fundsBody), fundsBody.slice(0, 200));
+
+  console.warn = realWarn58;
+  assert('the operator detail is not dropped, it goes to the log',
+    WARNED58.length >= 2 && /wallet|margin/i.test(WARNED58.join(' ')),
+    WARNED58.length + ' warnings: ' + WARNED58.join(' | ').slice(0, 160));
+
+  // THE HOP DOWNSTREAM. A reason kept out of the 409 but written onto the order record
+  // would leak again through anything that later serves an order to a buyer. It cannot:
+  // store.createOrder runs AFTER this block returns, so a refused cart writes no order at
+  // all. Pinned, because 'there is no order yet' is a property of the current control flow
+  // and a later refactor could move the write above the gate.
+  var ordersAfter58 = (await store.orderHistory(500)).length;
+  assert('a refused cart creates no order for the reason to travel on',
+    ordersAfter58 === ordersBefore58, JSON.stringify({ before: ordersBefore58, after: ordersAfter58 }));
+
+  require.cache[sqP58] = { id: sqP58, filename: sqP58, loaded: true, exports: realSq58 };
+  require.cache[cjP58] = { id: cjP58, filename: cjP58, loaded: true, exports: realCj58 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[require.resolve('../handlers/relay-cart-checkout')];
+
+  // ── T59 ─────────────────────────────────────────────────────────────────
+  // A FLAGGED OVERSPEND IS NOT ALLOWED TO SHIP IN SILENCE.
+  //
+  // relay-buy.js:232 sets needsReview when CJ completes an order more than 10% above the
+  // authorised cost, and writes the reviewReason with it. Nothing read either. Because a
+  // line that BOUGHT successfully moves its order to 'shipped', and the attention scan only
+  // opened 'payment-review' and 'paid', the console could say "Nothing needs you" over a
+  // purchase the code had itself marked for a human.
+  //
+  // Counted by the LINE, not by an order-status allowlist, which is why the paid/partial
+  // case below is covered by the same code rather than by a second branch.
+  console.log('T59: a flagged supplier overspend reaches the operator');
+  var AK59 = process.env.RELAY_ADMIN_KEY;
+  async function status59() {
+    delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+    var c = require('../handlers/relay-autonomous-control');
+    return (await invoke(c, {
+      method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK59, headers: {}
+    })).body;
+  }
+
+  var base59 = await status59();
+
+  // SHIPPED: every line bought, one of them above the approved price.
+  var shipped59 = await store.createOrder({
+    buyerId: 'b_59', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: 'lst_59', qty: 1, unitPrice: 22.00, title: 'overspent', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(shipped59.id, {
+    status: 'shipped', paidAt: new Date().toISOString(), stripeSessionId: 'cs_59',
+    fulfillment: {
+      state: 'purchased',
+      lines: [{
+        listingId: 'lst_59', state: 'purchased', needsReview: true,
+        reviewReason: 'CJ charged $14.90 against $11.00 approved'
+      }]
+    }
+  });
+  var afterShipped59 = await status59();
+  assert('a flagged line on a SHIPPED order raises the attention count by exactly one',
+    afterShipped59.needsAttention === base59.needsAttention + 1,
+    JSON.stringify({ before: base59.needsAttention, after: afterShipped59.needsAttention }));
+  assert('and it is counted as a flagged line, not folded into another number',
+    afterShipped59.flaggedLines === (base59.flaggedLines || 0) + 1,
+    JSON.stringify({ before: base59.flaggedLines, after: afterShipped59.flaggedLines }));
+  // THE DESCRIPTION, not just the integer. A count with no sentence sends the operator
+  // hunting through the order store for what the supplier actually charged.
+  var reason59 = (afterShipped59.flaggedReasons || []).find(function (f) { return f.orderId === shipped59.id; });
+  assert('the reviewReason travels with it, so the operator is told what happened',
+    !!reason59 && /14\.90/.test(reason59.reason || ''),
+    JSON.stringify(afterShipped59.flaggedReasons || []).slice(0, 200));
+
+  // THE SIBLING CASE: the same flag on a PAID, partially fulfilled order. _unfulfilledLines
+  // drops this line for having been purchased, so an order-status allowlist that had been
+  // widened to include 'shipped' and stopped there would still miss it.
+  var partial59 = await store.createOrder({
+    buyerId: 'b_59b', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: 'lst_59c', qty: 1, unitPrice: 22.00, title: 'overspent too', sourceCost: 11.00 },
+      { listingId: 'lst_59d', qty: 1, unitPrice: 22.00, title: 'never bought', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(partial59.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_59b',
+    fulfillment: {
+      state: 'partial',
+      lines: [
+        { listingId: 'lst_59c', state: 'purchased', needsReview: true, reviewReason: 'CJ charged $16.00 against $11.00 approved' },
+        { listingId: 'lst_59d', state: 'failed' }
+      ]
+    }
+  });
+  var afterPartial59 = await status59();
+  assert('a flagged line on a PAID partial order is counted too',
+    afterPartial59.flaggedLines === afterShipped59.flaggedLines + 1,
+    JSON.stringify({ before: afterShipped59.flaggedLines, after: afterPartial59.flaggedLines }));
+
+  // An unreadable store must not report a flagged count it could not measure.
+  assert('flaggedLines is null, never 0, when the order store cannot be read',
+    base59.ordersUnavailable ? base59.flaggedLines === null : true,
+    JSON.stringify({ unavailable: base59.ordersUnavailable, flagged: base59.flaggedLines }));
 
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything

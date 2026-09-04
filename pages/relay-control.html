@@ -298,6 +298,10 @@ function paintAttention(j) {
   row(j.heldForReview, 'Payments held for review', 'A customer paid an amount that did not match. Nothing was bought.');
   row(j.strandedWithoutTask, 'Paid, but never bought', 'Money taken and no supplier order. These need you most.');
   row(j.openTasks, 'Jobs waiting on a human', null);
+  // The item SHIPPED, so nothing else on this panel was ever going to mention it.
+  row(j.flaggedLines, 'Bought above the approved price',
+    'The supplier charged more than was authorised. The order shipped anyway and the ' +
+    'overspend was flagged for a human, but nothing was ever shown it.');
 
   if (!j.needsAttention) {
     box.innerHTML = '<div class="allclear">Nothing needs you.</div>' +
@@ -309,6 +313,11 @@ function paintAttention(j) {
 
   var reasons = (j.heldReasons || []).map(function (h) {
     return '<div class="why">' + esc(h.orderId) + ' &mdash; ' + esc(h.reason || 'held') + '</div>';
+  }).join('') + (j.flaggedReasons || []).map(function (f) {
+    // The reason itself, because relay-buy records what it actually cost against what
+    // was approved, and that sentence is the entire value of the flag. A bare count
+    // sends the operator hunting through the order store for the number.
+    return '<div class="why">' + esc(f.orderId) + ' &mdash; ' + esc(f.reason) + '</div>';
   }).join('');
 
   box.innerHTML = '<div class="needs">' + j.needsAttention +
@@ -402,7 +411,33 @@ function refresh() {
   get('readiness').then(paintReadiness);
   get('pending-approvals').then(function (j) { paintApprovals(j.approvals); });
   get('inventory').then(paintInventory);
+  startPolling();
 }
+
+/* THE PANEL IS AN ALARM, SO IT HAS TO KEEP LOOKING.
+   The status read ran only inside refresh(), and after the first paint nothing called it
+   again. A console left open on a green all-clear kept showing that all-clear for as long
+   as it stayed open, while an underpayment, a double payment or a paid-but-never-bought
+   order arrived underneath it. A stale green is worse than no panel at all, because it is
+   the one thing here the operator is invited to trust.
+
+   Guarded, not stacked. unlock() and every action call refresh(), so setting an interval
+   per call would multiply them until the page hammered its own endpoint. Clearing first
+   makes startPolling idempotent however many times it runs.
+
+   Failures route through the SAME paintAttention as the first read, .catch included, so an
+   unreadable backend repaints as "cannot tell" instead of leaving the last good all-clear
+   on screen. A refresh loop that paints green over a failed read is the confident-zero
+   defect one layer up, and this is the layer where it would be least visible. */
+var POLL = null;
+var POLL_MS = 30000;
+function startPolling() {
+  if (POLL) clearInterval(POLL);
+  POLL = setInterval(function () {
+    get('status').then(paintAttention).catch(function () { paintAttention(null); });
+  }, POLL_MS);
+}
+
 
 try {
   var saved = sessionStorage.getItem('relay_admin_key');
