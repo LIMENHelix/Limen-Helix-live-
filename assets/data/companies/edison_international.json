@@ -1,0 +1,441 @@
+{
+  "schemaVersion": "2.0.1",
+  "type": "company",
+  "companyId": "edison_international",
+  "slug": "edison_international",
+  "name": "EDISON INTERNATIONAL",
+  "ticker": "EIX",
+  "cik": "0000827052",
+  "sic": "4911",
+  "industry": "Electric Services",
+  "domainId": "energy",
+  "portalAttachment": "energy-portal.html",
+  "kernelStatus": "INGESTION_SUSPECT",
+  "fredSeries": [
+    "INDPRO",
+    "DGS10",
+    "GASREGW",
+    "ELEC_PRICE"
+  ],
+  "feedSources": [],
+  "marketDataTickers": [
+    "EIX"
+  ],
+  "commodityExposure": [
+    "natural gas",
+    "uranium"
+  ],
+  "helixReportMode": "stub",
+  "helixReportUrl": null,
+  "financialHealth": {
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INGESTION_SUSPECT",
+    "historyQuarters": null,
+    "latestQuarter": null,
+    "compositeScore": null,
+    "alert": false,
+    "distressBand": "unknown",
+    "dominantPhase": null,
+    "financialState": {
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
+    }
+  },
+  "warningSignals": [],
+  "opportunitySignals": [],
+  "commercializationStatus": {
+    "enginesRun": [],
+    "engineOutputs": []
+  },
+  "newsFeed": [],
+  "domainRelevance": "Edison International operates Southern California Edison, the largest electric utility in California serving 15 million people across 50,000 square miles. The company manages a $40B rate base with 2023 capital expenditures exceeding $5B focused on wildfire mitigation and transmission upgrades. Its exposure to CPUC rate cases and renewable procurement targets positions it as an anchor regulated utility in the western energy transition.",
+  "portalRelevance": "As an anchor-tier regulated utility in the energy domain, Edison International supplies critical grid stability data and rate-base growth signals for macro-financial models. Its 10-K wildfire liability disclosures and triennial GRC filings provide high-frequency regulatory event hooks that differentiate it from merchant generation peers. The entity serves as a structural benchmark for California-specific energy policy impacts on utility cost of capital.",
+  "notes": {
+    "cohortStatus": null,
+    "envelopeStatus": "INGESTION_SUSPECT"
+  },
+  "intelligenceCycle": [
+    {
+      "layer": "signal",
+      "name": "Signal Capture",
+      "items": [
+        "quarterly GRC filings with CPUC",
+        "10-K wildfire liability updates",
+        "monthly SCE load and renewable procurement data",
+        "FERC transmission rate filings"
+      ]
+    },
+    {
+      "layer": "state",
+      "name": "State Estimation",
+      "items": [
+        "rate base trajectory versus authorized ROE",
+        "wildfire mitigation spend versus CPUC targets",
+        "debt-to-capital ratio under CPUC equity requirements"
+      ]
+    },
+    {
+      "layer": "diagnosis",
+      "name": "Diagnosis",
+      "items": [
+        "pattern match to prior California utility rate case outcomes",
+        "comparison of wildfire reserve adequacy versus PG&E",
+        "renewable integration cost escalation versus 2020 baseline"
+      ]
+    },
+    {
+      "layer": "regulate",
+      "name": "Regulation",
+      "items": [
+        "CPUC general rate case advocacy for 2025-2027 period",
+        "wildfire fund contribution hedging via insurance structures",
+        "equity issuance pacing to maintain 52% equity ratio"
+      ]
+    },
+    {
+      "layer": "action",
+      "name": "Action",
+      "items": [
+        "board approval of $7B 2024-2026 capex plan",
+        "dividend growth alignment with authorized ROE",
+        "green bond issuance for transmission projects"
+      ]
+    },
+    {
+      "layer": "feedback",
+      "name": "Feedback",
+      "items": [
+        "post-GRC decision stock reaction analysis",
+        "SCE customer rate impact versus affordability metrics",
+        "FERC ROE incentive award realization"
+      ]
+    },
+    {
+      "layer": "adapt",
+      "name": "Adaptation",
+      "items": [
+        "recalibration of wildfire probability inputs in cost models",
+        "update of renewable procurement sensitivity to IRA credits",
+        "adjustment of equity issuance schedule to CPUC equity ratio rulings"
+      ]
+    }
+  ],
+  "functionalNetwork": {
+    "model": "Edison International functions as a regulated network operator whose capital allocation, regulatory filings, and grid investments create measurable state transitions in California energy infrastructure.",
+    "suppliers": [
+      {
+        "name": "General Electric Company",
+        "ticker": "GE",
+        "cik": null,
+        "slug": "general_electric",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "GE supplied 12 combustion turbines for Mountainview Generating Station expansion completed in 2005; 2022 service contract covers 1.2 GW of SCE peaker capacity under 10-K disclosed maintenance program.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Siemens Energy AG",
+        "ticker": null,
+        "cik": null,
+        "slug": "siemens_energy",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Operations",
+        "relationshipNote": "Siemens delivered 500 kV transformers for SCE's Tehachapi Renewable Transmission Project phases completed 2013-2016; $180M contract disclosed in 2014 10-K capital additions.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "First Solar Inc",
+        "ticker": "FSLR",
+        "cik": null,
+        "slug": "first_solar",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "First Solar supplied 250 MW of CdTe modules for SCE's Desert Sunlight project online 2014; 2021 PPA amendment added 100 MW under 10-K renewable procurement schedule.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sempra LNG",
+        "ticker": "SRE",
+        "cik": null,
+        "slug": "sempra_lng",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "Sempra supplies 40 Bcf natural gas annually to SCE's four gas-fired plants under 2020-2025 contracts representing 8% of SCE fuel costs per 10-K Item 1A.",
+        "confidence": "medium",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "NextEra Energy Resources LLC",
+        "ticker": null,
+        "cik": null,
+        "slug": "nextera_energy_resources",
+        "neuralRole": "Sensory",
+        "brainNodeId": "S1",
+        "brainNodeRole": "Raw Materials",
+        "relationshipNote": "NextEra provides 1,200 MW wind and solar under 2018-2023 PPAs; 2023 capacity factor averaged 32% contributing 4% of SCE retail sales per annual filing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "logisticsPartners": [
+      {
+        "name": "Pacific Gas and Electric Company",
+        "ticker": "PCG",
+        "cik": null,
+        "slug": "pacific_gas_and_electric",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "PG&E and SCE jointly operate 500 kV Path 15 and Path 26 corridors under 2002 CAISO agreement; 2023 wheeling volumes exceeded 12 TWh per FERC Form 1 data.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      },
+      {
+        "name": "CAISO",
+        "ticker": null,
+        "cik": null,
+        "slug": "caiso",
+        "neuralRole": "Motor",
+        "brainNodeId": "M1",
+        "brainNodeRole": "Production & Delivery",
+        "relationshipNote": "CAISO manages SCE's 25,000 miles of transmission under 2020 tariff; SCE paid $420M in 2023 transmission access charges disclosed in 10-K.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "name": "Los Angeles Department of Water and Power",
+        "ticker": null,
+        "cik": null,
+        "slug": "ladwp",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "LADWP purchases 800 GWh annually from SCE under 2015 interconnection agreement; 2023 revenue contribution reached $95M per SCE wholesale filings.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      },
+      {
+        "name": "California Department of General Services",
+        "ticker": null,
+        "cik": null,
+        "slug": "ca_dept_general_services",
+        "neuralRole": "DMN",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue",
+        "relationshipNote": "State of California facilities consumed 1.1 TWh from SCE in 2022 under master service agreement representing 2.5% of SCE retail load per CPUC data.",
+        "confidence": "medium",
+        "sourceType": [
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      }
+    ],
+    "competitors": [
+      {
+        "name": "PG&E Corporation",
+        "ticker": "PCG",
+        "cik": null,
+        "slug": "pg_e_corporation",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "PG&E serves 5.5 million electric customers versus SCE's 5 million; both face identical 2023 CPUC wildfire mitigation plan reviews with $2.5B combined spend.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ]
+      },
+      {
+        "name": "Sempra",
+        "ticker": "SRE",
+        "cik": null,
+        "slug": "sempra",
+        "neuralRole": "Peer",
+        "brainNodeId": "TPJ",
+        "brainNodeRole": "Perspective-Taking / Theory of Mind",
+        "relationshipNote": "Sempra's San Diego Gas & Electric operates adjacent to SCE with 2023 rate base of $12B versus SCE's $40B; both compete for CPUC-authorized ROE of 10.3%.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ]
+      }
+    ],
+    "regulators": [
+      {
+        "name": "California Public Utilities Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "california_public_utilities_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "CPUC authorized SCE's 2021 GRC with $5.5B capital budget and 10.3% ROE; 2025 test year filing submitted July 2024 covers $7.2B spend.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M6"
+      },
+      {
+        "name": "Federal Energy Regulatory Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "ferc",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "FERC approved SCE's 2023 transmission formula rate with $1.8B rate base; incentive ROE adder of 50 bps granted for 2022 Tehachapi upgrade.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M6"
+      },
+      {
+        "name": "U.S. Securities and Exchange Commission",
+        "ticker": null,
+        "cik": null,
+        "slug": "u_s_securities_and_exchange_commission",
+        "neuralRole": "Salience",
+        "brainNodeId": "dACC",
+        "brainNodeRole": "Compliance & Governance",
+        "relationshipNote": "SEC reviews EIX 10-K wildfire disclosures; 2022 settlement of $17M FCPA matter with Edison Mission Energy predecessor entity closed 2018.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K"
+        ],
+        "brainNodeMotif": "M6"
+      }
+    ],
+    "auditor": {
+      "name": "Deloitte & Touche LLP",
+      "ticker": null,
+      "cik": null,
+      "slug": "deloitte_touche",
+      "neuralRole": "Salience",
+      "brainNodeId": "BLA",
+      "brainNodeRole": "Risk Assessment + Compliance",
+      "relationshipNote": "Deloitte has served as EIX independent auditor since 2004; 2023 audit fee totaled $8.2M per DEF14A with no restatements since 2018.",
+      "confidence": "high",
+      "sourceType": [
+        "DEF14A"
+      ],
+      "brainNodeMotif": "M7"
+    },
+    "capitalProviders": [
+      {
+        "name": "Bank of America Corporation",
+        "ticker": "BAC",
+        "cik": null,
+        "slug": "bank_of_america",
+        "neuralRole": "PFC",
+        "brainNodeId": "OFC",
+        "brainNodeRole": "Market Intelligence + Capital",
+        "relationshipNote": "BofA acted as lead underwriter for EIX $1.25B 4.7% senior notes due 2033 issued March 2023; also provides $1.5B revolving credit facility maturing 2027.",
+        "confidence": "high",
+        "sourceType": [
+          "8-K"
+        ],
+        "brainNodeMotif": "M6"
+      },
+      {
+        "name": "The Vanguard Group",
+        "ticker": null,
+        "cik": null,
+        "slug": "vanguard_group",
+        "neuralRole": "DMN",
+        "brainNodeId": "mPFC",
+        "brainNodeRole": "Brand & Identity (governance)",
+        "relationshipNote": "Vanguard holds 11.8% of EIX shares outstanding as of Q3 2024 13F filing; largest institutional holder supporting 3.2% dividend yield.",
+        "confidence": "high",
+        "sourceType": [
+          "industry-report"
+        ]
+      }
+    ],
+    "executiveTeam": [
+      {
+        "name": "Pedro J. Pizarro",
+        "ticker": null,
+        "cik": null,
+        "slug": "pedro_pizarro",
+        "neuralRole": "PFC",
+        "brainNodeId": "dlPFC",
+        "brainNodeRole": "Executive Leadership",
+        "relationshipNote": "Pizarro has served as EIX President and CEO since 2016; 2023 total compensation $14.2M per DEF14A with 62% performance-based equity.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ]
+      },
+      {
+        "name": "Maria Rigatti",
+        "ticker": null,
+        "cik": null,
+        "slug": "maria_rigatti",
+        "neuralRole": "PFC",
+        "brainNodeId": "vmPFC",
+        "brainNodeRole": "Financial Management",
+        "relationshipNote": "Rigatti has been EIX Executive VP and CFO since 2016; oversaw $2.1B 2023 equity issuance program disclosed in 10-K.",
+        "confidence": "high",
+        "sourceType": [
+          "DEF14A"
+        ],
+        "brainNodeMotif": "M1"
+      }
+    ],
+    "marketSignals": [
+      {
+        "name": "SCE Rate Base Growth Index",
+        "ticker": null,
+        "cik": null,
+        "slug": "sce_rate_base_growth",
+        "neuralRole": "Salience",
+        "brainNodeId": "NAcc",
+        "brainNodeRole": "Sales & Revenue / Market Intel",
+        "relationshipNote": "SCE rate base grew 7.8% CAGR 2019-2023 reaching $40.1B; 2025 GRC projects 8.5% annual growth through 2027 per CPUC filing.",
+        "confidence": "high",
+        "sourceType": [
+          "10-K",
+          "industry-report"
+        ],
+        "brainNodeMotif": "M11"
+      }
+    ]
+  }
+}

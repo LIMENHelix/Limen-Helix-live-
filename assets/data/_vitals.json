@@ -2069,6 +2069,13 @@
       "count": 1,
       "action": "informational — distinct named divisions of one SEC filer (a division has no own CIK); e.g. Abbott Laboratories + Abbott Laboratories (Metabolic / CGM Division)",
       "organ": "kernel"
+    },
+    {
+      "issue": "Portal regen backlog — entities the body needs but has no portal for",
+      "severity": "med",
+      "count": 169,
+      "action": "drain: build-fractal-portals.mjs (autonomous drain not yet wired)",
+      "organ": "portalRegen"
     }
   ],
   "lastHeals": [
@@ -4600,5 +4607,89 @@
         }
       ]
     }
-  ]
+  ],
+  "portalRegen": {
+    "total": 169,
+    "byTrigger": {
+      "cb_row_missing_portal": 169
+    },
+    "topPriority": [
+      {
+        "slug": "groove_botanicals_inc",
+        "name": "GROOVE BOTANICALS INC.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "mnr",
+        "name": "MACH NATURAL RESOURCES LP",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "soc",
+        "name": "Sable Offshore Corp.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "abeo",
+        "name": "ABEONA THERAPEUTICS INC.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "aytu",
+        "name": "AYTU BIOPHARMA, INC",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "tcrt",
+        "name": "Alaunos Therapeutics, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "aldx",
+        "name": "Aldeyra Therapeutics, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "apvo",
+        "name": "Aptevo Therapeutics Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "arct",
+        "name": "Arcturus Therapeutics Holdings Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "avtx",
+        "name": "Avalo Therapeutics, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "cvsi",
+        "name": "CV Sciences, Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "cytk",
+        "name": "CYTOKINETICS INC",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "celuw",
+        "name": "Celularity Inc",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "cydy",
+        "name": "CytoDyn Inc.",
+        "trigger": "cb_row_missing_portal"
+      },
+      {
+        "slug": "eq",
+        "name": "Equillium, Inc.",
+        "trigger": "cb_row_missing_portal"
+      }
+    ],
+    "generatedAt": "2026-09-04T18:18:40.356Z"
+  }
 }
