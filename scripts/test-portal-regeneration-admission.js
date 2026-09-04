@@ -10,6 +10,7 @@ const enricher = require('../handlers/enrich-portal-claude');
 
 const ROOT = path.resolve(__dirname, '..');
 const categories = ['suppliers', 'logisticsPartners', 'customers', 'competitors', 'regulators', 'capitalProviders'];
+const canonicalNodeIds = ['NAcc', 'VTA', 'OFC', 'dlPFC', 'BLA', 'BNST', 'AI', 'dACC', 'mPFC', 'M1', 'S1', 'THAL', 'TPJ', 'vmPFC', 'vlPFC'];
 const functionalNetwork = {};
 for (const category of categories) functionalNetwork[category] = [];
 for (let i = 0; i < 24; i++) {
@@ -19,7 +20,7 @@ for (let i = 0; i < 24; i++) {
     cik: '0000001800',
     slug: `counterparty_${i}`,
     neuralRole: ['Sensory', 'Motor', 'Peer', 'DMN', 'Salience', 'PFC'][i % 6],
-    brainNodeId: `N${i}`,
+    brainNodeId: canonicalNodeIds[i % canonicalNodeIds.length],
     brainNodeRole: 'Specific relational role',
     relationshipNote: `The 2024 relationship record identifies counterparty ${i} in this category.`,
     confidence: 'medium',
@@ -55,6 +56,13 @@ assert.equal(prepared.portal.financialHealth.dominantPhase, null);
 assert.equal(prepared.sanitization.nestedCiksCleared, 24);
 assert.ok(admission.networkEntries(prepared.portal).every(row => row.entry.cik === null));
 assert.equal(admission.validatePortalAdmission(prepared.portal).ok, true);
+
+const invalidTopology = JSON.parse(JSON.stringify(prepared.portal));
+invalidTopology.functionalNetwork.suppliers[0].neuralRole = 'Limbic';
+invalidTopology.functionalNetwork.suppliers[1].brainNodeId = 'NAcc/OFC';
+const topologyRefused = admission.validatePortalAdmission(invalidTopology);
+assert.ok(topologyRefused.errors.some(error => error.code === 'NETWORK_NEURAL_ROLE'));
+assert.ok(topologyRefused.errors.some(error => error.code === 'NETWORK_BRAIN_NODE_ID'));
 
 const contaminated = JSON.parse(JSON.stringify(prepared.portal));
 contaminated.functionalNetwork.suppliers[0].relationshipNote = 'Supplier [DATA_NEEDED: contract value].';
@@ -109,6 +117,7 @@ console.log('PASS generated identity is target-authoritative and CIK is zero-pad
 console.log('PASS new portals cannot inherit model-authored kernel claims');
 console.log('PASS existing portals preserve prior kernel fields exactly');
 console.log('PASS nested model-authored CIKs are cleared before admission');
+console.log('PASS non-schema neural roles and non-canonical brain node IDs are rejected');
 console.log('PASS every placeholder token is rejected');
 console.log('PASS the paid endpoint accepts only the scoped regeneration key or existing master key');
 console.log('PASS Anthropic credit exhaustion is narrowly identified for the metered xAI fallback');
