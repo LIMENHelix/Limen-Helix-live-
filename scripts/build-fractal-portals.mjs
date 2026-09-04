@@ -272,7 +272,7 @@ async function main() {
       const needsRetry = res.ok && (dr.genericityWarning || (typeof dr.anchoredRate === 'number' && dr.anchoredRate < MIN_ANCHORED) || dnCount > MAX_DATA_NEEDED || bf.rate < MIN_BRAIN_TAGGED || bf.roles < MIN_NEURAL_ROLES_PRESENT || bannedCount > 0 || !admission.ok);
       if (needsRetry) {
         console.log(`  ${t.slug}: gate (anchored ${dr.anchoredRate}, DATA_NEEDED ${dnCount}, brain-tagged ${(bf.rate * 100).toFixed(0)}%, roles ${bf.roles}) — retry with hint`);
-        res = await enrichOne(t, 'Be maximally specific with REAL details — and every functionalNetwork entry must mirror the brain: assign brainNodeId, neuralRole (Sensory/Motor/Peer/DMN/Salience/PFC/Limbic), and brainNodeRole. If you do not know a specific detail (e.g. CEO name, exact $ amount), OMIT the entry or the sentence — DO NOT write "[DATA_NEEDED: ...]" placeholders. The operator must see only verified specifics, fully brain-tagged, no placeholders.');
+        res = await enrichOne(t, 'Be maximally specific with attributable details — and every functionalNetwork entry must mirror the brain: assign a canonical brainNodeId, neuralRole (Sensory/Motor/Peer/DMN/Salience/PFC), and brainNodeRole. If a specific detail (e.g. CEO name, exact $ amount) is uncertain, OMIT the entry or sentence — DO NOT write "[DATA_NEEDED: ...]" placeholders. Every retained detail must name its sourceType; emit fully brain-tagged entries with no placeholders.');
         dr = (res.j && res.j.densityReport) || {};
         dnCount = res.j && res.j.portal ? countDN(res.j.portal) : 0;
         bf = res.j && res.j.portal ? brainFidelity(res.j.portal) : bf;

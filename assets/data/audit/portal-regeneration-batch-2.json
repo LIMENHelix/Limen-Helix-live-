@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "portal-regeneration-audit/1.0",
+  "generatedAt": "2026-09-04T18:44:37.383Z",
+  "sourceProduction": {
+    "commitSha": "0274a7d2bf87140c4779fe8b383e8f07f16da4f6",
+    "deploymentId": "dpl_8hvcLaKq7u5UBvYePKagqoMXeELX",
+    "readyState": "READY",
+    "target": "production"
+  },
+  "providerPath": {
+    "primary": "anthropic",
+    "primaryResult": "HTTP 400 invalid_request_error: credit balance too low",
+    "fallback": "xai",
+    "fallbackModel": "grok-4",
+    "metered": true
+  },
+  "backlog": {
+    "runnableBeforeBatch": 169,
+    "generatedAttempts": 4,
+    "admittedForCommit": 2,
+    "excludedBeforeCommit": 2,
+    "remaining": 167,
+    "remainingBySource": {
+      "eligible": 167
+    }
+  },
+  "wiring": {
+    "eligibleRowsRepaired": 2,
+    "postAudit": {
+      "curatedWiring": 1,
+      "eligibleWiring": 0.42,
+      "brokenRewirable": 0
+    }
+  },
+  "targets": [
+    {
+      "slug": "mach_natural_resources_lp",
+      "name": "MACH NATURAL RESOURCES LP",
+      "ticker": "MNR",
+      "cik": "0001980088",
+      "secSubmissionHttp": 200,
+      "file": "assets/data/companies/mach_natural_resources_lp.json",
+      "sha256": "41671d11c0e3a80eed8826793b88eb761f5709d5bc11741f24f290a961f38934",
+      "anchoredRate": 0.957,
+      "admission": {
+        "ok": true,
+        "relationshipCount": 23,
+        "categoryCount": 9,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedRate": 1,
+        "placeholderHits": 0
+      },
+      "schemaValidation": "PASS",
+      "financialHealth": {
+        "validationStatus": "unavailable",
+        "kernelStatus": "INGESTION_SUSPECT",
+        "compositeScore": null,
+        "dominantPhase": null,
+        "alert": false
+      }
+    },
+    {
+      "slug": "sable_offshore_corp",
+      "name": "Sable Offshore Corp.",
+      "ticker": "SOC",
+      "cik": "0001831481",
+      "secSubmissionHttp": 200,
+      "file": "assets/data/companies/sable_offshore_corp.json",
+      "sha256": "999fa50656f87935c8a30abffa51f8b1043e8f986318865b54090c18a776845d",
+      "anchoredRate": 0.958,
+      "admission": {
+        "ok": true,
+        "relationshipCount": 24,
+        "categoryCount": 9,
+        "topologyTaggedRate": 1,
+        "evidenceTaggedRate": 1,
+        "placeholderHits": 0
+      },
+      "schemaValidation": "PASS",
+      "financialHealth": {
+        "validationStatus": "unavailable",
+        "kernelStatus": "INGESTION_SUSPECT",
+        "compositeScore": null,
+        "dominantPhase": null,
+        "alert": false
+      }
+    }
+  ],
+  "excludedTargets": [
+    {
+      "slug": "abeona_therapeutics_inc",
+      "cik": "0000318306",
+      "secSubmissionHttp": 200,
+      "reason": "repository schema rejected an array-valued singular auditor and corpus review found 12 notes below the 18-word prose floor",
+      "filePersisted": false
+    },
+    {
+      "slug": "aytu_biopharma_inc",
+      "cik": "0001385818",
+      "secSubmissionHttp": 200,
+      "reason": "corpus review found 23 notes below the 18-word prose floor",
+      "filePersisted": false
+    }
+  ],
+  "admissionHardening": [
+    "retry prompt exposes only the six canonical neural roles",
+    "one-element auditor arrays normalize losslessly to the singular schema shape",
+    "multi-entry auditor arrays fail admission",
+    "relationship notes below 18 words fail admission"
+  ],
+  "proofCommands": [
+    "node scripts/test-portal-regeneration-admission.js",
+    "node scripts/validate-company-schema.js mach_natural_resources_lp",
+    "node scripts/validate-company-schema.js sable_offshore_corp",
+    "node scripts/autonomous-portal-regen.mjs --dry-run",
+    "node scripts/audit-corpus-vitals.mjs --dry-run",
+    "npm run check",
+    "npm run test:unit"
+  ],
+  "limitations": [
+    "SOURCE_CLAIMS_NOT_INDEPENDENTLY_VERIFIED",
+    "FINANCIAL_SCORING_NOT_RUN",
+    "KERNEL_PHASE_NOT_CLAIMED"
+  ]
+}
