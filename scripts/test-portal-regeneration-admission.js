@@ -76,6 +76,12 @@ const systemPrompt = enricher._test.buildSystemBlock();
 assert.ok(!systemPrompt.includes('use [DATA_NEEDED'));
 assert.ok(!systemPrompt.includes('or DATA_NEEDED'));
 assert.ok(systemPrompt.includes('The strings DATA_NEEDED, CITATION_NEEDED, VERIFY, TBD, TODO, INSERT, and PLACEHOLDER are forbidden'));
+assert.ok(systemPrompt.includes('The admission floor is 20, so never return fewer than 24'));
+assert.ok(!systemPrompt.includes('NAcc/OFC'));
+assert.ok(!systemPrompt.includes('15-entry portal is shippable'));
+assert.ok(systemPrompt.includes('0 for pure-B2C'));
+assert.ok(!/\|\s*STRI\s*\|/.test(systemPrompt));
+assert.ok(!/\|\s*FPN\s*\|/.test(systemPrompt));
 
 const priorRegenKey = process.env.PORTAL_REGEN_ADMIN_KEY;
 process.env.PORTAL_REGEN_ADMIN_KEY = 'scoped-portal-regen-test-key';

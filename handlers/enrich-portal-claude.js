@@ -172,17 +172,19 @@ Every portal JSON must conform to this exact top-level shape (Walmart is the can
 FUNCTIONAL NETWORK — DENSITY REQUIREMENTS (Walmart-grade)
 ═══════════════════════════════════════════════════════════════════
 
-Target: 25–30 total entries across categories. Walmart's exemplar is 30; that's the ceiling, not a floor. Per-category targets:
+Target: 24–30 total entries across categories. The admission floor is 20, so never return fewer than 24. Per-category targets:
 
-  suppliers          — 8–10 entries (anchor brands / commodity / packaging / raw materials)
-  logisticsPartners  — 3–5 entries (carriers, freight, last-mile)
-  customers          — 0 if pure-B2C, 2–4 if B2B (institutional / channel accounts)
-  competitors        — 4–6 entries (direct competitors at scale + 1-2 adjacent-category)
-  regulators         — 4–5 entries (SEC always; plus FDA / USDA / EPA / DOT / FCC / FTC by industry)
+  suppliers          — 5–6 entries (anchor brands / commodity / packaging / raw materials)
+  logisticsPartners  — 2–3 entries (carriers, freight, last-mile)
+  customers          — 0 for pure-B2C; 3–4 named buyers or channel accounts for B2B
+  competitors        — 4–5 entries (direct competitors at scale + 1-2 adjacent-category)
+  regulators         — 3–4 entries (SEC always; plus FDA / USDA / EPA / DOT / FCC / FTC by industry)
   auditor            — 1 object (Big-Four)
-  capitalProviders   — 2–4 entries (anchor lenders, major equity holders >5%)
-  executiveTeam      — 3–4 entries (CEO + CFO always; plus COO / chair / GC if relevant)
-  marketSignals      — 2–3 for retail/consumer; 0 for B2B infrastructure
+  capitalProviders   — 2–3 entries (anchor lenders, major equity holders >5%)
+  executiveTeam      — 3 entries (CEO + CFO always; plus COO / chair / GC if relevant)
+  marketSignals      — 1–2 entries where relevant
+
+For a pure-B2C company, do not invent named customers and do not misclassify subsidiaries as customers. Replace that category's count with additional supportable suppliers, competitors, regulators, capital providers, or market signals so the total still reaches 24.
 
 IMPORTANT: the JSON must fit within the response token budget. Prioritize DEPTH per entry over count. 25 entries with 70-word relationshipNotes beats 35 entries that get truncated mid-stream. If you must cut, drop adjacent-category competitors first, then secondary capitalProviders, then marketSignals.
 
@@ -207,7 +209,7 @@ DEFAULT NEURAL-ROLE PALETTE (override per pair when specifics warrant):
 |----------------------------------------------|------------|-------------|---------------|
 | Anchor supplier (identity-defining CPG)      | DMN        | mPFC        | Brand & Identity |
 | Commodity / raw-material supplier            | Sensory    | S1          | Raw Materials |
-| Operations / production input                | Motor      | STRI        | Operations |
+| Operations / production input                | Motor      | M1          | Operations |
 | Distribution / logistics partner             | Motor      | M1          | Production & Delivery |
 | Information / data infrastructure            | Sensory    | THAL        | Information Flow |
 | Anchor customer (institutional buyer)        | DMN        | NAcc        | Sales & Revenue |
@@ -221,12 +223,12 @@ DEFAULT NEURAL-ROLE PALETTE (override per pair when specifics warrant):
 | Major equity holder (>5%)                    | DMN        | mPFC        | Brand & Identity (governance) |
 | Strategic JV partner                         | PFC        | dlPFC       | Strategic |
 | Technology integrator                        | Sensory    | THAL        | Information Flow |
-| CEO                                          | PFC        | FPN         | Executive Leadership |
+| CEO                                          | PFC        | dlPFC       | Executive Leadership |
 | CFO                                          | PFC        | vmPFC       | Financial Management |
-| COO                                          | Motor      | STRI        | Operations |
+| COO                                          | Motor      | M1          | Operations |
 | Chairperson / major shareholder              | DMN        | mPFC        | Governance & Identity |
 | General Counsel                              | PFC        | vlPFC       | Legal & Compliance |
-| Market signal (comp sales, demand index)     | Limbic     | NAcc/OFC    | Sales & Revenue / Market Intel |
+| Market signal (comp sales, demand index)     | Limbic     | NAcc        | Sales & Revenue / Market Intel |
 
 ═══════════════════════════════════════════════════════════════════
 NON-NEGOTIABLE RULES
@@ -267,7 +269,7 @@ Entries with ONLY generic prose like "supplier of various goods", "important reg
 RULE 6 — INTELLIGENCE CYCLE IS REQUIRED (restoring v1 procedural scaffolding)
 You MUST populate the 7-layer intelligenceCycle with 2-4 specific items per layer. This is the decision-cycle structure that v1 portals had and v2 dropped. Items should be entity-specific, not generic. Example for a retailer:
   signal: ["weekly comp-store sales prints", "8-K cyber-incident filings", "supplier price-change notices via EDI"]
-  state: ["HELIX phase classification each quarter", "rolling 4Q free-cash-flow trajectory"]
+  state: ["quarterly operating-state classification", "rolling 4Q free-cash-flow trajectory"]
   diagnosis: ["pattern-match against prior P3 / P7 transitions in same SIC peer group"]
   regulate: ["inventory throughput hedge via futures on cotton/wheat", "pricing-power buffer rebuild plan"]
   action: ["board-approved buyback expansion", "dividend pause if pathway A trips"]
@@ -285,7 +287,7 @@ Reply with the raw JSON object ONLY. No code fences. No preamble. No closing rem
 
 If you produce \`\`\`json fences or any text outside the JSON object, the response will be rejected.
 
-The JSON must be COMPLETE — every opened { needs its closing }, every opened [ needs its closing ]. If you cannot fit a full WMT-grade portal in the token budget, REDUCE entry counts (e.g., 6 suppliers instead of 13) but ALWAYS close the JSON properly. A truncated 20-entry portal is useless; a complete 15-entry portal is shippable.
+The JSON must be COMPLETE — every opened { needs its closing }, every opened [ needs its closing ]. Stay within 24–30 entries and shorten relationshipNote prose toward the 50-word floor if necessary, but never return fewer than 24 entries. A truncated portal is useless; a complete portal below the 20-entry admission floor is also refused.
 
 The JSON's top-level shape matches the schema above exactly. Preserve reserved fields with the literal null/false/unavailable values shown. Never claim a financial score or phase; the scoring pipeline owns those fields. The strings DATA_NEEDED, CITATION_NEEDED, VERIFY, TBD, TODO, INSERT, and PLACEHOLDER are forbidden anywhere in the JSON.
 `;
@@ -439,7 +441,7 @@ async function callGrokFallback(body, maxTokens) {
     temperature: 0.25,
     messages: [
       { role: 'system', content: buildSystemBlock() },
-      { role: 'user', content: buildUserPrompt(body) }
+      { role: 'user', content: buildUserPrompt(body) + '\n\nXAI FALLBACK COMPLETENESS CONTRACT: Return 24–30 functionalNetwork entries across at least 6 categories. This is a hard admission requirement, not a suggestion. Use the canonical brainNodeId palette exactly (never combine IDs). Every relationship must include brainNodeId, neuralRole, brainNodeRole, confidence, and sourceType. Do not stop after a representative sample.' }
     ]
   };
   const budget = require('../lib/anthropic-call');
