@@ -26,7 +26,7 @@
  *   - Citations only from contextPacket.evidence.citations[] when supplied;
  *     otherwise sourceType references generic categories (10-K, 8-K, 20-F,
  *     industry-report) without fabricating specific document references
- *   - DATA_NEEDED placeholders allowed for unknown specifics
+ *   - Placeholder tokens are rejected; unknown optional details are omitted or null
  *
  * Env: ANTHROPIC_API_KEY (required), ANTHROPIC_MODEL (default
  *      claude-sonnet-4-6), ANTHROPIC_TIMEOUT_MS (default 280000),
@@ -44,6 +44,7 @@ const ANTHROPIC_MAX_TOKENS = parseInt(process.env.ANTHROPIC_MAX_TOKENS || '16000
 const ANTHROPIC_TIMEOUT_MS = parseInt(process.env.ANTHROPIC_TIMEOUT_MS || '280000', 10);
 const ANTHROPIC_VERSION = '2023-06-01';
 const ENDPOINT = 'https://api.anthropic.com/v1/messages';
+const portalAdmission = require('../lib/portal-admission');
 
 // Same banned-vocab rule as expand-artifact-claude. Internal LIMEN
 // architecture terms must not appear in the portal JSON.
@@ -98,21 +99,21 @@ Every portal JSON must conform to this exact top-level shape (Walmart is the can
   "helixReportUrl": "helix-report.html?cik=<cik>",
 
   "financialHealth": {
-    "asOf": "<YYYY-MM-DD or DATA_NEEDED>",
-    "lastKernelRun": "<ISO timestamp or DATA_NEEDED>",
-    "kernelId": "limen_backtest.py",
-    "validationStatus": "<validated | unavailable | DATA_NEEDED>",
-    "envelopeStatus": "<ELIGIBLE_NOW | etc.>",
-    "historyQuarters": <int or DATA_NEEDED>,
-    "latestQuarter": "<YYYYQn or DATA_NEEDED>",
-    "compositeScore": <0..1 or DATA_NEEDED>,
-    "alert": <bool or DATA_NEEDED>,
-    "distressBand": "<green | yellow | red | DATA_NEEDED>",
-    "dominantPhase": "<p0 - p10 or DATA_NEEDED>",
+    "asOf": null,
+    "lastKernelRun": null,
+    "kernelId": null,
+    "validationStatus": "unavailable",
+    "envelopeStatus": "INGESTION_SUSPECT",
+    "historyQuarters": null,
+    "latestQuarter": null,
+    "compositeScore": null,
+    "alert": false,
+    "distressBand": "unknown",
+    "dominantPhase": null,
     "financialState": {
-      "cashLatest": <number USD or DATA_NEEDED>,
-      "debtLatest": <number USD or DATA_NEEDED>,
-      "cashRunwayQ": <int or null>
+      "cashLatest": null,
+      "debtLatest": null,
+      "cashRunwayQ": null
     }
   },
 
@@ -125,8 +126,8 @@ Every portal JSON must conform to this exact top-level shape (Walmart is the can
   "portalRelevance": "<2-3 sentence prose: why this company matters to a financial-intelligence model. Reference its tier (anchor / peer / specialty / supplier) and any unique structural role.>",
 
   "notes": {
-    "cohortStatus": "<DATA_NEEDED or specific category>",
-    "envelopeStatus": "<DATA_NEEDED or status>"
+    "cohortStatus": null,
+    "envelopeStatus": "INGESTION_SUSPECT"
   },
 
   "intelligenceCycle": [
@@ -176,12 +177,12 @@ Every entry must carry:
 {
   "name": "<full legal entity name>",
   "ticker": "<ticker if public, null if private/government>",
-  "cik": "<10-digit zero-padded SEC CIK if available, null otherwise>",
+  "cik": null,
   "slug": "<lowercase_underscore_slug>",
   "neuralRole": "<DMN | Salience | PFC | Motor | Sensory | Limbic | Peer>",
   "brainNodeId": "<one of 123 LIMEN canonical node IDs — see default palette below>",
   "brainNodeRole": "<descriptive role label tied to the brain node's business binding>",
-  "relationshipNote": "<2-4 sentences with: named programs / contract specifics / % market share / historical pivots / regulatory actions / distinguishing facts. NO GENERIC PROSE. Walmart-grade specificity. If the specific is unknown, mark inline [DATA_NEEDED: <field>].>",
+  "relationshipNote": "<2-4 sentences with named, supportable anchors. Omit an unsupported sentence or the entire entry; never emit a placeholder token.>",
   "confidence": "high | medium | low",
   "sourceType": [ "<10-K | 8-K | S-1 | DEF14A | 20-F | statutory | industry-report | news | inferred>", ... ]
 }
@@ -222,13 +223,13 @@ You may use general industry knowledge (e.g., "Coca-Cola is a major supplier to 
   - Specific contract values, percentages, share counts, deal terms unless you are highly confident from public filings
   - Specific patent numbers, NOFO numbers, case numbers, FAR clauses
   - Specific named programs or product line revenues unless commonly known
-If specifics are not in your training and not supplied, use [DATA_NEEDED: <field>] inline.
+If specifics are not in your training and not supplied, omit the optional sentence or entry. Never fill a knowledge gap with a placeholder token.
 
 RULE 2 — NO INTERNAL VOCABULARY
 The following words MUST NOT appear anywhere in the output JSON: LIMEN, Helix, kernel (except in the literal "limen_backtest.py" kernelId reserved field), polyvagal, "Thing 1", "Thing 2", "civilization brain", "connectome brain", "master brain", "domain brain", "super-brain", "pattern envelope", "pattern broker", "pattern signature", "dominant phase" (except in the financialHealth.dominantPhase reserved field where it's just a value), "salience score", "opportunity signal", "handoff packet", "fractal brain", "limen.com" or "limenhelix.com" or any LIMEN URL.
 
 RULE 3 — REAL CIKs ONLY
-For any public company entry, use the actual 10-digit zero-padded SEC CIK. If you don't know it confidently, set cik: null and add sourceType to include "inferred". Do not fabricate a CIK.
+Nested relationship entries MUST use cik: null. The deterministic identity resolver, not the model, attaches counterparty CIKs after generation. Never copy a remembered CIK into a relationship entry.
 
 RULE 4 — RELATIONSHIPNOTE MUST BE SPECIFIC, DENSE, AND BOUNDED
 Every relationshipNote must be 50–90 words (target ~70). Word ceiling matters as much as floor — overshoot leads to truncated JSON. Each note must pass this test: an industry analyst reading it should learn at least one specific fact they didn't already know about this pair. Required prose elements (at minimum 3 of these 5 per entry):
@@ -247,7 +248,7 @@ HARD ANCHOR REQUIREMENT — every relationshipNote MUST contain at least ONE of:
   (f) a specific facility / plant location ("Foxconn Zhengzhou plant", "Pfizer Kalamazoo")
   (g) a named executive / signatory with title ("CEO Bob Iger", "USPTO Director Vidal")
 
-Entries with ONLY generic prose like "supplier of various goods", "important regulator", "key technology partner", or "longstanding relationship" are FORBIDDEN and will be rejected by the post-generation check. If you don't know a specific anchor, write [DATA_NEEDED: <what's missing>] inline rather than producing generic prose.
+Entries with ONLY generic prose like "supplier of various goods", "important regulator", "key technology partner", or "longstanding relationship" are FORBIDDEN and will be rejected by the post-generation check. If you don't know a specific anchor, omit that entry rather than producing generic prose or a placeholder.
 
 RULE 6 — INTELLIGENCE CYCLE IS REQUIRED (restoring v1 procedural scaffolding)
 You MUST populate the 7-layer intelligenceCycle with 2-4 specific items per layer. This is the decision-cycle structure that v1 portals had and v2 dropped. Items should be entity-specific, not generic. Example for a retailer:
@@ -272,7 +273,7 @@ If you produce \`\`\`json fences or any text outside the JSON object, the respon
 
 The JSON must be COMPLETE — every opened { needs its closing }, every opened [ needs its closing ]. If you cannot fit a full WMT-grade portal in the token budget, REDUCE entry counts (e.g., 6 suppliers instead of 13) but ALWAYS close the JSON properly. A truncated 20-entry portal is useless; a complete 15-entry portal is shippable.
 
-The JSON's top-level shape matches the schema above exactly. Preserve all reserved fields even if their values are null or [DATA_NEEDED].
+The JSON's top-level shape matches the schema above exactly. Preserve reserved fields with the literal null/false/unavailable values shown. Never claim a financial score or phase; the scoring pipeline owns those fields. The strings DATA_NEEDED, CITATION_NEEDED, VERIFY, TBD, TODO, INSERT, and PLACEHOLDER are forbidden anywhere in the JSON.
 `;
 }
 
@@ -298,7 +299,7 @@ If the existing portal is provided:
 
 If no existing portal:
   - Produce the full JSON from scratch using your knowledge of the entity
-  - All reserved fields stay null / empty / DATA_NEEDED as specified in the schema
+  - All reserved fields stay null / empty / unavailable as specified in the schema
 
 For functionalNetwork, prioritize entries you can describe with specificity. It is better to ship 25 entries with deep relationshipNote prose than 40 entries with shallow placeholders.
 
@@ -323,6 +324,7 @@ function validate(body) {
   if (!body || typeof body !== 'object') return { ok: false, reason: 'body-not-object' };
   if (!body.target || typeof body.target !== 'object') return { ok: false, reason: 'missing-target' };
   const t = body.target;
+  if (!t.slug && !t.companyId) return { ok: false, reason: 'target-must-have-slug' };
   if (!t.name && !t.ticker && !t.cik) {
     return { ok: false, reason: 'target-must-have-name-ticker-or-cik' };
   }
@@ -622,6 +624,30 @@ module.exports = async function handler(req, res) {
       })(r.portal);
     } catch (e) { nodeGuard.error = String(e && e.message || e); }
 
+    // ── Portal admission gate ───────────────────────────────────────
+    // Model output is a proposal, never identity or kernel authority. New
+    // portals receive an explicit unscored financial stub, top-level identity
+    // comes from the queued target, and unverified nested CIKs are cleared.
+    // Existing-portal enrichment preserves the existing kernel fields exactly.
+    const rawPlaceholderHits = portalAdmission.findPlaceholderHits(r.portal);
+    const prepared = portalAdmission.prepareGeneratedPortal(r.portal, body.target, body.currentPortal);
+    r.portal = prepared.portal;
+    const admission = portalAdmission.validatePortalAdmission(r.portal);
+    if (rawPlaceholderHits.length || r.bannedHits.length || !admission.ok) {
+      res.statusCode = 422;
+      res.setHeader('content-type', 'application/json');
+      return res.end(JSON.stringify({
+        ok: false,
+        error: 'portal-admission-refused',
+        placeholderHits: rawPlaceholderHits.slice(0, 20),
+        bannedHits: r.bannedHits.slice(0, 20),
+        admission: admission,
+        sanitization: prepared.sanitization,
+        usage: r.usage,
+        model: r.model
+      }));
+    }
+
     // Count functionalNetwork entries — use the FULL WMT-shape category
     // list. Includes both new (logisticsPartners, competitors,
     // executiveTeam, marketSignals) and legacy (peers, partners,
@@ -715,6 +741,8 @@ module.exports = async function handler(req, res) {
         genericExamples: genericExamples
       },
       nodeGuard: nodeGuard,
+      admission: admission,
+      sanitization: prepared.sanitization,
       usage: r.usage,
       model: r.model,
       provenance: {
@@ -736,3 +764,5 @@ module.exports = async function handler(req, res) {
     }));
   }
 };
+
+module.exports._test = { buildSystemBlock, buildUserPrompt, lintBannedTerms, extractProseValues };
