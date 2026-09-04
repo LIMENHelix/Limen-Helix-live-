@@ -17,31 +17,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { proseFlagsForNote } from './_prose-quality.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIR = path.join(__dirname, '..', 'assets', 'data', 'companies');
 const LIST = process.argv.includes('--list');
 const onlyP = (i => i === -1 ? null : process.argv[i + 1])(process.argv.indexOf('--portal'));
-
-function flagsForNote(note) {
-  const issues = [];
-  const t = String(note || '').trim();
-  if (!t) { issues.push('empty'); return issues; }
-  const words = t.split(/\s+/).filter(Boolean);
-  if (words.length < 18) issues.push('too-short');                              // deep notes target 30-80 words
-  if (!/[.!?]$/.test(t)) issues.push('no-terminal-punct');                      // doesn't end in . ! ?
-  if (/[a-z]$/.test(t) && words.length < 50) issues.push('lowercase-final');    // truncated mid-sentence (ended on a lowercase letter)
-  if (/\b([a-z]{2,})\1{2,}\b/i.test(t)) issues.push('repeat-token');            // some sort of garbled repeat
-  // run-on: no period/semicolon/comma in 30+ word note
-  if (words.length >= 30 && !/[.;,]/.test(t)) issues.push('run-on');
-  // fragment heuristic: short note that doesnt start with a capital letter
-  if (words.length < 25 && !/^[A-Z]/.test(t)) issues.push('fragment-start');
-  // mid-sentence truncation indicators
-  if (/\b(?:and|of|for|with|by|to|in|on|the|a|an)$/i.test(t)) issues.push('trailing-stopword');
-  // ellipsis at end is fine usage but in our notes signals truncation
-  if (/\.{2,}\s*$/.test(t)) issues.push('trailing-ellipsis');
-  return issues;
-}
 
 const files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_'));
 const portalBad = {};       // slug -> { entries: n, by: {issue: count} }
@@ -60,7 +41,7 @@ for (const f of files) {
     for (const e of arr) {
       if (!e || typeof e !== 'object') continue;
       totalEntries++;
-      const iss = flagsForNote(e.relationshipNote);
+      const iss = proseFlagsForNote(e.relationshipNote);
       if (iss.length) {
         badEntries++;
         portalIssues++;

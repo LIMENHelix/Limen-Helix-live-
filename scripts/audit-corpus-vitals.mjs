@@ -25,6 +25,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { resolveCompanyPortalSlug } from './_resolve-company-portal-slug.mjs';
+import { proseFlagsForNote, repairSafeProsePunctuation } from './_prose-quality.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -43,9 +44,8 @@ function countDN(node) { if (node == null) return 0; if (typeof node === 'string
 
 // Detectors below MUST stay identical to their dedicated audit scripts —
 // audit-fn-category-bleed.mjs (categoryBleed), audit-portal-quality.mjs
-// (truncation + null-composite + NaN), audit-prose-quality.mjs (prose).
-// When a dedicated audit's logic changes, mirror it here or this organ
-// silently goes blind.
+// (truncation + null-composite + NaN). Prose checks are imported from the
+// shared module used by audit-prose-quality.mjs so those two scans cannot drift.
 const STRONG_COMPETE_RE = /\b(is\s+(?:a|the|one\s+of)\s+[^.]*\bcompetitor|competitor\s+(?:in|to|of)|competes\s+(?:directly\s+)?(?:with|in|against))/i;
 const ROLE_RE = {
   suppliers: /\b(suppl(?:ies|ier|y)|provides|sources?\s+from|manufactures?\s+for|ships?\s+to\s+\w|raw\s+material|components?|ingredients?|API\b)/i,
@@ -53,23 +53,6 @@ const ROLE_RE = {
   logisticsPartners: /\b(partner|integrat|logistics|delivery|fulfillment|carrier|freight|ships?\b|interconnect)/i,
   capitalProviders: /\b(lend|loan|credit|financ|underwrit|investor|capital|revolver|notes?\b|facility)/i
 };
-// prose-quality (exact mirror of audit-prose-quality.mjs flagsForNote)
-function proseFlagsForNote(note) {
-  const issues = [];
-  const t = String(note || '').trim();
-  if (!t) { issues.push('empty'); return issues; }
-  const words = t.split(/\s+/).filter(Boolean);
-  if (words.length < 18) issues.push('too-short');
-  if (!/[.!?]$/.test(t)) issues.push('no-terminal-punct');
-  if (/[a-z]$/.test(t) && words.length < 50) issues.push('lowercase-final');
-  if (/\b([a-z]{2,})\1{2,}\b/i.test(t)) issues.push('repeat-token');
-  if (words.length >= 30 && !/[.;,]/.test(t)) issues.push('run-on');
-  if (words.length < 25 && !/^[A-Z]/.test(t)) issues.push('fragment-start');
-  if (/\b(?:and|of|for|with|by|to|in|on|the|a|an)$/i.test(t)) issues.push('trailing-stopword');
-  if (/\.{2,}\s*$/.test(t)) issues.push('trailing-ellipsis');
-  return issues;
-}
-
 // ─── pass 1: walk every portal once ───────────────────────────────
 const portalIndex = {}, byCik = {}, byBase = {}, byNameKey = {};
 let files; try { files = fs.readdirSync(DIR).filter(f => f.endsWith('.json') && !f.startsWith('_')); } catch (e) { files = []; }
@@ -90,7 +73,7 @@ const kernelIntegrity = { nullCompositeEligible: [], nanComposite: [], totalElig
   // The audit previously scored this set ~100% because it only looked for NULL composites —
   // a fabricated-looking value passes a null check. Detected explicitly now.
   validatedWithoutCik: [] };
-const prose = { badEntries: 0, totalEntries: 0, byIssue: {}, portalsAffected: 0, worst: [] };
+const prose = { badEntries: 0, safeRepairableEntries: 0, ambiguousEntries: 0, totalEntries: 0, byIssue: {}, portalsAffected: 0, worst: [] };
 
 for (const f of files) {
   const slug = f.replace(/\.json$/, '');
@@ -133,6 +116,8 @@ for (const f of files) {
       const proseIss = proseFlagsForNote(e.relationshipNote);
       if (proseIss.length > 0) {
         prose.badEntries++;
+        if (repairSafeProsePunctuation(e.relationshipNote).repairs.length) prose.safeRepairableEntries++;
+        else prose.ambiguousEntries++;
         portalProseIssues++;
         for (const k of proseIss) prose.byIssue[k] = (prose.byIssue[k] || 0) + 1;
       }
@@ -279,7 +264,8 @@ if (brainFidelity.underTagged.length > 0) attention.push({ issue: 'Portals with 
 if (kernelIntegrity.validatedWithoutCik.length > 0) attention.push({ issue: 'Portals claiming validationStatus "validated" without first-class CIK provenance', count: kernelIntegrity.validatedWithoutCik.length, severity: 'high', action: 'Score provenance cannot be verified from these portal records. A CIK embedded only in helixReportUrl is insufficient because unrelated portals reuse embedded values. Quarantine the verdict and dependent artifacts until identity is independently resolved and the score is re-derived; ' + kernelIntegrity.validatedWithoutCik.filter(x => x.alert).length + ' currently raise a distress ALERT' });
 if (kernelIntegrity.nullCompositeEligible.length > 0) attention.push({ issue: 'Null kernel composite on ELIGIBLE-marked portals', count: kernelIntegrity.nullCompositeEligible.length, severity: 'high', action: 'investigate — kernel never scored these (CIK mismatch? API failure during generation?)' });
 if (kernelIntegrity.nanComposite.length > 0) attention.push({ issue: 'NaN composite values (data error)', count: kernelIntegrity.nanComposite.length, severity: 'high', action: 'inspect financialHealth.composite — likely division by zero in kernel math' });
-if (prose.badEntries > 0) attention.push({ issue: 'Truncated prose in fn entries (ellipsis / fragment / empty)', count: prose.badEntries, severity: 'med', action: 'run scripts/heal-prose-truncation.mjs --apply  (when built) — flag for regeneration meanwhile' });
+if (prose.safeRepairableEntries > 0) attention.push({ issue: 'Deterministic punctuation defects in fn entries', count: prose.safeRepairableEntries, severity: 'med', action: 'run scripts/heal-prose-truncation.mjs --apply; the healer changes punctuation only and generates no prose' });
+if (prose.ambiguousEntries > 0) attention.push({ issue: 'Prose entries needing source-backed review', count: prose.ambiguousEntries, severity: 'med', action: 'do not auto-complete: short, fragmentary, or empty notes require a source-backed authoring decision' });
 
 // ─── output ───────────────────────────────────────────────────────
 const out = {
@@ -296,7 +282,7 @@ const out = {
     domainRouting: { mismatchCount: domainRouting.mismatches.length, examples: domainRouting.mismatches.slice(0, 25) },
     categoryBleed,
     kernelIntegrity: { totalEligible: kernelIntegrity.totalEligible, nullCompositeCount: kernelIntegrity.nullCompositeEligible.length, nullCompositeRate: kernelIntegrity.nullCompositeRate, nanCompositeCount: kernelIntegrity.nanComposite.length, nullCompositeSample: kernelIntegrity.nullCompositeEligible.slice(0, 15), nanSample: kernelIntegrity.nanComposite.slice(0, 15) },
-    prose: { badEntries: prose.badEntries, totalEntries: prose.totalEntries, badEntryRate: prose.badEntryRate, byIssue: prose.byIssue, portalsAffected: prose.portalsAffected, worst: prose.worst }
+    prose: { badEntries: prose.badEntries, safeRepairableEntries: prose.safeRepairableEntries, ambiguousEntries: prose.ambiguousEntries, totalEntries: prose.totalEntries, badEntryRate: prose.badEntryRate, byIssue: prose.byIssue, portalsAffected: prose.portalsAffected, worst: prose.worst }
   },
   operatorAttention: attention,
   lastHeals: []
