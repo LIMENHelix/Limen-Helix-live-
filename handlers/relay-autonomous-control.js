@@ -174,9 +174,26 @@ async function handleGET(q) {
     const relayStore = require('../lib/relay-store');
     const want = (q.status || '').trim();
     const limit = Math.min(parseInt(q.limit, 10) || 25, 200);
-    const rows = want
-      ? await relayStore.ordersByStatus(want, limit)
-      : (await relayStore.orderHistory(limit));
+    // STRICT, like the counters above. This endpoint exists to answer "is this order
+    // paid, or is it stuck", and it gets asked during an outage as often as outside one.
+    // A forgiving read falls back to process memory, which is empty on a cold serverless
+    // instance, so the honest answer "I cannot read the store" was being rendered as the
+    // confident and completely wrong "ok: true, count: 0, orders: []".
+    const S = { strict: true };
+    let rows;
+    try {
+      rows = want
+        ? await relayStore.ordersByStatus(want, limit, S)
+        : (await relayStore.orderHistory(limit, S));
+    } catch (e) {
+      return {
+        ok: false,
+        error: 'order store unreadable: ' + (e.message || 'unknown'),
+        status: want || 'any',
+        count: null,
+        orders: null
+      };
+    }
     return {
       ok: true,
       status: want || 'any',

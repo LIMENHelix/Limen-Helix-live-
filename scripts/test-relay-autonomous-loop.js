@@ -3722,6 +3722,77 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-engine')];
   delete require.cache[require.resolve('../lib/relay-autonomy')];
 
+  // ── T57 ─────────────────────────────────────────────────────────────────
+  // A REDIS COMMAND ERROR IS NOT AN ABSENT KEY.
+  //
+  // Upstash answers WRONGTYPE, a revoked token or a quota refusal with HTTP 200 and
+  // {error: ...}. _redisRequest turned that into null, and getStrict read null as
+  // 'genuinely absent'. So the strict path added to stop an outage rendering as a
+  // confident zero still rendered a confident zero, for the subset of outages that
+  // arrive as a command error rather than a dropped connection. The strict contract
+  // leaked at its very last step. The forgiving get() must KEEP swallowing it: every
+  // other caller in the repo depends on that, and this is not the branch to change them.
+  console.log('T57: a Redis command error is distinguishable from a missing key');
+  var dbP57 = require.resolve('../lib/limen-db');
+  var stP57 = require.resolve('../lib/relay-store');
+  var ctlP57 = require.resolve('../handlers/relay-autonomous-control');
+  var realDb57 = require('../lib/limen-db');
+  var realSt57 = require('../lib/relay-store');
+
+  process.env.UPSTASH_REDIS_REST_URL = 'https://stub.invalid';
+  process.env.UPSTASH_REDIS_REST_TOKEN = 'stub-token';
+  delete require.cache[dbP57];
+  delete require.cache[stP57];
+  delete require.cache[ctlP57];
+  var sdb57 = require('../lib/limen-db');
+
+  // A genuinely missing key stays a plain null. Without this the 'fix' could just be
+  // 'throw on everything', which would turn every empty store into a false alarm.
+  global.fetch = async function () { return { json: async function () { return { result: null }; } }; };
+  var missing57 = await sdb57.getStrict('relay:orders');
+  assert('a genuinely missing key is still a plain null, not an error',
+    missing57 === null, JSON.stringify(missing57));
+
+  // The command error.
+  global.fetch = async function () {
+    return { json: async function () { return { error: 'WRONGTYPE Operation against a key holding the wrong kind of value' }; } };
+  };
+  var threw57 = null;
+  try { await sdb57.getStrict('relay:orders'); } catch (e) { threw57 = e; }
+  assert('a WRONGTYPE command error THROWS instead of reading as absent',
+    !!threw57 && threw57.code === 'LIMEN_DB_REDIS_READ_FAILED',
+    threw57 ? threw57.code + ': ' + threw57.message : 'did not throw, returned as absent');
+
+  // The forgiving path is deliberately unchanged for its existing callers.
+  var forgave57 = 'unset';
+  try { forgave57 = await sdb57.get('relay:orders'); } catch (e) { forgave57 = 'THREW: ' + e.message; }
+  assert('db.get() still swallows a command error for its own callers',
+    forgave57 !== 'unset' && String(forgave57).indexOf('THREW') !== 0,
+    JSON.stringify(forgave57));
+
+  // ── and the operator's order lookup stops answering 'count: 0' during that outage ──
+  var ctl57 = require('../handlers/relay-autonomous-control');
+  var ord57 = await invoke(ctl57, {
+    method: 'GET',
+    url: '/api/relay?view=control&action=orders&key=' + process.env.RELAY_ADMIN_KEY,
+    headers: {}
+  });
+  var b57 = ord57.body || {};
+  assert('the order lookup reports the unreadable store instead of an empty list',
+    b57.ok === false && /unreadable/.test(String(b57.error || '')),
+    JSON.stringify({ ok: b57.ok, error: b57.error, count: b57.count }));
+  assert('and it never reports a count of zero it could not measure',
+    b57.count === null || b57.count === undefined, JSON.stringify({ count: b57.count }));
+
+  // Restore the ORIGINAL module instances, not fresh ones: a new limen-db brings a new
+  // empty _memStore, and every order the suite created above lives in the old one.
+  delete process.env.UPSTASH_REDIS_REST_URL;
+  delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  global.fetch = BLOCK_NETWORK;
+  require.cache[dbP57] = { id: dbP57, filename: dbP57, loaded: true, exports: realDb57 };
+  require.cache[stP57] = { id: stP57, filename: stP57, loaded: true, exports: realSt57 };
+  delete require.cache[ctlP57];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
