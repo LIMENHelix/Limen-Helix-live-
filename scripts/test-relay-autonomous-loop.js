@@ -3620,6 +3620,108 @@ function invoke(handler, req) {
   require.cache[buyP55] = { id: buyP55, filename: buyP55, loaded: true, exports: realBuy55 };
   delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
 
+  // ── T56 ─────────────────────────────────────────────────────────────────
+  // A REFUSED APPROVAL MUST NOT BUY THE LINE ANYWAY.
+  //
+  // pending() listed every reserved-and-unapproved row with no mode filter, so an
+  // AUTO-mode reservation appeared to the operator as something to click while its own
+  // purchase was still in flight. Clicking it could never consume it (consumeApproved
+  // refuses a row that is not queued and not approved), and that refusal was not a
+  // 'mismatch', so fulfillLine fell through to a fresh authorize() and bought the same
+  // line a SECOND time. The refusal was recorded and then only read on the failure path,
+  // so the successful double purchase reported nothing. Both halves are pinned here:
+  // the fall-through backstop, and the display list that led the operator into it.
+  console.log('T56: a refused approval does not fall through into a second purchase');
+  var apBuyP = require.resolve('../lib/relay-buy');
+  var apRealBuy2 = require('../lib/relay-buy');
+  var AP_JOBS = [];
+  require.cache[apBuyP].exports = Object.assign({}, apRealBuy2, {
+    execute: async function (job) { AP_JOBS.push(job); return { ok: true, provider: 'cj', sourceOrderId: 'cjo_ap', amount: job.maxCost }; },
+    fileManualTask: async function () { return { ok: true, task: { id: 'task_ap' } }; }
+  });
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var apEngine2 = require('../lib/relay-engine');
+  var apAut3 = require('../lib/relay-autonomy');
+
+  await db.set('relay:autonomy-ledger', []);
+  // AUTO, and funded, so that a fall-through authorize() would genuinely succeed. If this
+  // were queue mode the second authorize() would only re-queue and the test would pass
+  // for the wrong reason, proving nothing about the money.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var apL = await store.createListing({
+    marketplaceId: 'mkt_relay', sellerId: 'usr_relay_house', title: 'inflight line',
+    price: 22.00, description: 'x', category: 'other', condition: 'new', quantity: 5,
+    sourceMarketplace: 'cj', sourceId: 'v_ap', sourceUrl: 'https://www.cjdropshipping.com/product/-p-AP.html',
+    sourceCost: 11.00, sourceShipping: 4.00, sourceCarrier: 'CJPacket', sourceFromCountry: 'US',
+    marginAtListing: 0.5, sourceVerifiedAt: new Date().toISOString()
+  });
+  var apO = await store.createOrder({
+    buyerId: 'b_ap', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: apL.id, qty: 1, unitPrice: 22.00, title: 'inflight line', sourceCost: 11.00 }]
+  });
+  await store.updateOrder(apO.id, { status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_ap' });
+
+  // The in-flight state exactly as it exists mid-purchase: reserved, never approved,
+  // stamped auto. Also what a crash between authorize() and settle() leaves behind.
+  var inflight = await apAut3.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: apO.id, listingId: apL.id, note: 'inflight'
+  });
+  assert('the in-flight reservation is live, auto and unapproved',
+    inflight.allowed === true && !!inflight.decisionId, JSON.stringify({ allowed: inflight.allowed }));
+  var apRowsBefore = ((await db.get('relay:autonomy-ledger')) || []).length;
+  assert('exactly one reservation exists before the click', apRowsBefore === 1, String(apRowsBefore));
+
+  // The operator clicks it, because pending() offered it.
+  var apRun = await apEngine2.fulfillPaidOrder({ orderId: apO.id, decisionId: inflight.decisionId, force: true });
+
+  assert('NO supplier purchase is made from a refused approval',
+    AP_JOBS.length === 0, 'supplier jobs: ' + AP_JOBS.length +
+    ' ' + JSON.stringify(AP_JOBS.map(function (j) { return j.listingId; })));
+  var apRowsAfter = ((await db.get('relay:autonomy-ledger')) || []);
+  assert('and NO second reservation is created for the same line',
+    apRowsAfter.length === 1, 'rows: ' + apRowsAfter.length +
+    ' -> ' + JSON.stringify(apRowsAfter.map(function (r) { return r.state + '/' + r.mode; })));
+  var apLine = (apRun.lines || [])[0] || {};
+  assert('the line comes back as still awaiting a human, not blocked',
+    apLine.state === 'awaiting-approval' && apLine.skipped === true,
+    JSON.stringify({ state: apLine.state, skipped: apLine.skipped }));
+  assert('and the operator is told WHY their approval was not used',
+    typeof apLine.approvalRefused === 'string' && /not been approved|not queued/.test(apLine.approvalRefused),
+    JSON.stringify({ approvalRefused: apLine.approvalRefused, reason: apLine.reason }));
+
+  // ── the display list that caused the click ──
+  // A queue-mode row must STILL be listed. Over-filtering here would empty the operator's
+  // approval queue and strand every held order in silence, which is a worse failure than
+  // the one being fixed.
+  await db.set('relay:autonomy', {
+    mode: 'queue', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var queued56 = await apAut3.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: apO.id, listingId: apL.id, note: 'queued'
+  });
+  var pend56 = await apAut3.pending();
+  var pendIds = pend56.map(function (r) { return r.id; });
+  assert('an in-flight AUTO reservation is not offered to the operator as approvable',
+    pendIds.indexOf(inflight.decisionId) === -1,
+    JSON.stringify(pend56.map(function (r) { return r.mode + '/' + r.state; })));
+  assert('a genuinely QUEUED reservation is still offered',
+    pendIds.indexOf(queued56.decisionId) !== -1,
+    JSON.stringify(pend56.map(function (r) { return r.mode + '/' + r.state; })));
+
+  require.cache[apBuyP].exports = apRealBuy2;
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
