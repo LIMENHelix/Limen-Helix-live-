@@ -49,9 +49,16 @@
   }
 
   function renderCompany(co) {
-    var domainLabel = DOMAIN_LABELS[co.domainId] || co.domainId;
-    var portalFile = co.domainId + '_portal.html';
-    if (co.domainId === 'p2_agri') portalFile = 'p2_agri_portal.html';
+    // Resolve at the presentation boundary. Company JSON intentionally keeps
+    // authored/runtime labels such as supplyChain, health and legal; mutating
+    // 799 source records to repair navigation would destroy that provenance.
+    var domainIdentity = window.LIMENDomainIdentity && window.LIMENDomainIdentity.resolve
+      ? window.LIMENDomainIdentity.resolve(co.domainId)
+      : null;
+    var canonicalDomain = domainIdentity ? domainIdentity.canonical : co.domainId;
+    var portalDomain = domainIdentity ? domainIdentity.portalKey : co.domainId;
+    var domainLabel = domainIdentity ? domainIdentity.label : (DOMAIN_LABELS[co.domainId] || co.domainId);
+    var portalFile = portalDomain + '_portal.html';
 
     // Topbar \u2014 these elements existed in the per-page topbar that TOPBAR.1
     // replaced with the shared assets/js/limen-topbar.js global. Null-guard
@@ -144,7 +151,7 @@
     // Energy's oil/gas/nuclear/renewable mix is translated to the civil
     // equivalents: asset-type portfolio, deferred-maintenance status,
     // NERC/FERC/OSHA/EPA compliance, and federal-grant/rate-base funding.
-    if (co.domainId === 'infrastructure') {
+    if (canonicalDomain === 'infrastructure') {
       // Asset Portfolio — breakdown by civil asset type (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Asset Portfolio</div>';
@@ -231,7 +238,7 @@
     // Each reads OPTIONAL company-JSON fields and degrades gracefully
     // (cp-empty) when not yet populated — identical structure to the
     // generic sections below, only the CONTENT is financial.
-    if (co.domainId === 'finance') {
+    if (canonicalDomain === 'finance') {
       // Credit Portfolio — facility types / amounts / maturities (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Credit Portfolio</div>';
@@ -324,7 +331,7 @@
     // exposure (energy: NERC/FERC compliance), and demand/supply position
     // (energy: capital funding). Each reads OPTIONAL company-JSON fields and
     // degrades gracefully (cp-empty) when not yet populated.
-    if (co.domainId === 'economy') {
+    if (canonicalDomain === 'economy') {
       // Macro Exposure — sensitivities to the macro regime (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Macro Exposure</div>';
@@ -417,7 +424,7 @@
     // (energy: NERC/FERC compliance), and AI-capex efficiency (energy: capital
     // funding). Each reads OPTIONAL company-JSON fields and degrades
     // gracefully (cp-empty) when not yet populated.
-    if (co.domainId === 'technology') {
+    if (canonicalDomain === 'technology') {
       // Compute Portfolio — breakdown by accelerator type / cloud / on-prem (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Compute Portfolio</div>';
@@ -513,7 +520,7 @@
     // and counterintelligence posture (energy: capital funding). Each reads
     // OPTIONAL company-JSON fields and degrades gracefully (cp-empty) when not
     // yet populated.
-    if (co.domainId === 'intelligence') {
+    if (canonicalDomain === 'intelligence') {
       // Collection Capability — breakdown by collection discipline / asset type (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Collection Capability</div>';
@@ -611,7 +618,7 @@
     // compliance), and labor position / workforce profile (energy: capital
     // funding). Each reads OPTIONAL company-JSON fields and degrades
     // gracefully (cp-empty) when not yet populated.
-    if (co.domainId === 'industry') {
+    if (canonicalDomain === 'industry') {
       // Production Portfolio — breakdown by facility type / line / geography (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Production Portfolio</div>';
@@ -713,7 +720,7 @@
     // compliance (EPA / state / international permits, emissions caps, breach
     // risk). Each reads OPTIONAL company-JSON fields and degrades gracefully
     // (cp-empty) when not yet populated.
-    if (co.domainId === 'environment') {
+    if (canonicalDomain === 'environment') {
       // Emissions Portfolio — GHG breakdown by source / scope (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Emissions Portfolio</div>';
@@ -811,7 +818,7 @@
     // USDA program participation & regulatory compliance. Energy's capital
     // funding → farm capital & debt position. Each reads OPTIONAL company-JSON
     // fields and degrades gracefully (cp-empty) when not yet populated.
-    if (co.domainId === 'agriculture' || co.domainId === 'p2_agri') {
+    if (canonicalDomain === 'agriculture') {
       // Crop / Livestock Portfolio — production breakdown by commodity (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Crop / Livestock Portfolio</div>';
@@ -911,7 +918,7 @@
     // Energy's capital funding → reimbursement & financial position (payer mix,
     // denials, margin, drug-pricing exposure). Each reads OPTIONAL company-JSON
     // fields and degrades gracefully (cp-empty) when not yet populated.
-    if (co.domainId === 'medicine' || co.domainId === 'health') {
+    if (canonicalDomain === 'medicine') {
       // Healthcare Portfolio — breakdown by facility / segment type (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Healthcare Portfolio</div>';
@@ -1001,7 +1008,7 @@
     // compliance (energy: NERC/FERC compliance), and funding & financial aid
     // (energy: capital funding). Real sector tickers: CHGG, COUR, DUOL, LRN,
     // ATGE, LOPE, STRA, LAUR, TWOU, UTI.
-    if (co.domainId === 'education') {
+    if (canonicalDomain === 'education') {
       // Student / Enrollment Portfolio — K-12 / higher-ed / online mix + enrollment trend (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Student / Enrollment Portfolio</div>';
@@ -1094,7 +1101,7 @@
     // generation mix), aging & vital-rate status (energy: maintenance/asset-age),
     // migration & policy compliance (energy: NERC/FERC compliance), and
     // human-capital & housing-demand position (energy: capital funding).
-    if (co.domainId === 'population') {
+    if (canonicalDomain === 'population') {
       // Demographic Structure Portfolio — age/cohort/urban-rural mix + growth trend (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Demographic Structure Portfolio</div>';
@@ -1197,7 +1204,7 @@
     // Each reads OPTIONAL company-JSON fields and degrades gracefully
     // (cp-empty) when not yet populated — identical structure to the generic
     // sections below, only the CONTENT is legal.
-    if (co.domainId === 'law') {
+    if (canonicalDomain === 'law') {
       // Litigation Portfolio — case type / venue / stage / exposure (energy: generation mix)
       rightHtml += '<div class="cp-section">';
       rightHtml += '<div class="cp-section-title">Litigation Portfolio</div>';
