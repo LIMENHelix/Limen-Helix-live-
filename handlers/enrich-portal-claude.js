@@ -195,7 +195,7 @@ Every entry must carry:
   "ticker": "<ticker if public, null if private/government>",
   "cik": null,
   "slug": "<lowercase_underscore_slug>",
-  "neuralRole": "<DMN | Salience | PFC | Motor | Sensory | Limbic | Peer>",
+  "neuralRole": "<DMN | Salience | PFC | Motor | Sensory | Peer>",
   "brainNodeId": "<one of 123 LIMEN canonical node IDs — see default palette below>",
   "brainNodeRole": "<descriptive role label tied to the brain node's business binding>",
   "relationshipNote": "<2-4 sentences with named, supportable anchors. Omit an unsupported sentence or the entire entry; never emit a placeholder token.>",
@@ -219,7 +219,7 @@ DEFAULT NEURAL-ROLE PALETTE (override per pair when specifics warrant):
 | Federal regulator (SEC, FTC, FCC)            | Salience   | dACC        | Compliance & Governance |
 | Health-safety regulator (FDA, USDA, EPA)     | Salience   | AI          | Crisis Detection |
 | Antitrust regulator                          | Salience   | dACC        | Compliance + Strategic |
-| Anchor lender / bond underwriter             | Limbic     | OFC         | Market Intelligence + Capital |
+| Anchor lender / bond underwriter             | PFC        | OFC         | Market Intelligence + Capital |
 | Major equity holder (>5%)                    | DMN        | mPFC        | Brand & Identity (governance) |
 | Strategic JV partner                         | PFC        | dlPFC       | Strategic |
 | Technology integrator                        | Sensory    | THAL        | Information Flow |
@@ -228,7 +228,7 @@ DEFAULT NEURAL-ROLE PALETTE (override per pair when specifics warrant):
 | COO                                          | Motor      | M1          | Operations |
 | Chairperson / major shareholder              | DMN        | mPFC        | Governance & Identity |
 | General Counsel                              | PFC        | vlPFC       | Legal & Compliance |
-| Market signal (comp sales, demand index)     | Limbic     | NAcc        | Sales & Revenue / Market Intel |
+| Market signal (comp sales, demand index)     | Salience   | NAcc        | Sales & Revenue / Market Intel |
 
 ═══════════════════════════════════════════════════════════════════
 NON-NEGOTIABLE RULES
