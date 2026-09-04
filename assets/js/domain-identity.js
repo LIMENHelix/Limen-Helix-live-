@@ -9,6 +9,11 @@
  *   medicine   ↔ health
  *   agriculture → portalKey: p2_agri
  *
+ * Company identity records also retain two historical labels which are not
+ * runtime keys: legal → law and contemplative → religion.  They are
+ * accepted as input aliases so renderers can resolve them without rewriting
+ * the underlying identity records.
+ *
  * This resolver centralizes all alias→canonical mappings so no other file
  * needs to maintain its own copy of the SK map.
  *
@@ -80,6 +85,11 @@
     var pk = DOMAINS[canon].portalKey;
     if (pk !== canon && pk !== sk) ALIAS[pk] = canon;
   }
+  // Historical company-corpus labels.  These are read-time aliases only:
+  // preserving them in source JSON keeps the provenance of the authored
+  // records intact while routing their UI links to an existing portal.
+  ALIAS.legal = 'law';
+  ALIAS.contemplative = 'religion';
 
   // ══════════════════════════════════════════════════════════════════════
   // PUBLIC API
