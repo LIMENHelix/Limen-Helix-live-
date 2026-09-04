@@ -24,7 +24,18 @@
   footer a{color:var(--soft)}
   .search{flex:1;max-width:560px;display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;transition:border-color .15s}
   .search:focus-within{border-color:var(--accent)}
-  .search input{flex:1;border:none;outline:none;padding:9px 13px;font-size:.95rem;background:transparent}
+  .search input{flex:1;border:none;outline:none;padding:9px 13px;background:transparent;
+    /* 16px is not a taste choice: iOS Safari zooms the page when a focused input is
+       under 16px, which shoves the header off-screen mid-search. */
+    font-size:16px;-webkit-appearance:none;appearance:none;border-radius:0}
+  .search input::-webkit-search-decoration,.search input::-webkit-search-cancel-button{-webkit-appearance:none}
+  @media(max-width:640px){
+    header{height:auto;flex-wrap:wrap;gap:10px;padding:10px 14px}
+    .search{order:3;flex-basis:100%;max-width:none}
+    .cartbtn{margin-left:auto}
+    .wrap{padding:0 14px}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  }
   .search button{border:none;background:var(--accent);color:#fff;padding:0 16px;cursor:pointer;font-size:.9rem;font-weight:500}
   .cartbtn{position:relative;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 15px;cursor:pointer;font-weight:500;font-size:.9rem;white-space:nowrap}
   .cartbtn:hover{border-color:var(--accent)}
@@ -102,7 +113,7 @@
 <body>
 <header>
   <div class="logo" onclick="setCat('all')">Relay<b>.</b><small>by LIMEN Helix</small></div>
-  <div class="search"><input id="q" placeholder="Search the shelf, or describe what you want…" onkeyup="if(event.key==='Enter')doSearch()" /><button onclick="doSearch()">Search</button></div>
+  <form class="search" action="#" onsubmit="doSearch();return false"><input id="q" type="search" enterkeyhint="search" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Search the shelf, or describe what you want…" /><button type="submit">Search</button></form>
   <button class="cartbtn" onclick="openCart()">Cart<span class="badge" id="cartBadge" style="display:none">0</span></button>
 </header>
 
@@ -216,6 +227,9 @@ function setCat(c) { CAT = c; renderFilters(); render(); window.scrollTo(0, 0); 
    asks the sourcing engine, which also records the miss and feeds the next cycle. */
 function doSearch() {
   var q = (EL('q').value || '').trim();
+  // Drop the keyboard first. On a phone it covers the results the search just produced,
+  // and the user reads a covered screen as 'nothing happened'.
+  try { EL('q').blur(); } catch (e) {}
   render();
   if (!q) return;
   var onShelf = CATALOG.filter(function (i) {
@@ -432,6 +446,13 @@ function buySearched(itemId) {
 }
 
 EL('ov').addEventListener('click', function (e) { if (e.target === EL('ov')) closeAll(); });
+
+/* Filter the shelf on every keystroke, not just on Enter. iOS keyboards fire keyup with
+   key 'Unidentified' while predictive text is composing, so an Enter-only handler can look
+   completely dead on a phone. Typing now visibly narrows the shelf; Enter or the Search
+   button is what escalates a miss to the sourcing engine. */
+EL('q').addEventListener('input', function () { render(); });
+EL('q').addEventListener('search', function () { doSearch(); });
 loadPolicy();
 loadShelf();
 </script>
