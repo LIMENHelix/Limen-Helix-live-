@@ -64,7 +64,7 @@ function createHandler(deps) {
             authenticated: true,
             durableStore: true,
             decisionSwitchEnabled: providerModule.enabled(env),
-            providerConfigured: !!env.ANTHROPIC_API_KEY,
+            providerConfigured: providerModule.configured(env),
             tradierSandboxConfigured: broker.configured(),
             oneShot: true,
             brokerReadOnlyBeforeDecision: true,
@@ -77,7 +77,7 @@ function createHandler(deps) {
       if (!providerModule.enabled(env)) {
         return send(res, 503, { ok: false, error: 'LIMEN_FINANCE_TRADE_DECISION_ENABLED is off; no receipt was acquired' });
       }
-      if (!env.ANTHROPIC_API_KEY) return send(res, 503, { ok: false, error: 'Finance trade-decision provider is not configured; no receipt was acquired' });
+      if (!providerModule.configured(env)) return send(res, 503, { ok: false, error: 'Finance trade-decision provider is not configured; no receipt was acquired' });
       if (!broker.configured()) return send(res, 503, { ok: false, error: 'Tradier sandbox read-only inputs are not configured; no receipt was acquired' });
       var request = await bodyOf(req);
       var result = await decision.execute(store, broker, request, { env: env, fetch: fetchFn });

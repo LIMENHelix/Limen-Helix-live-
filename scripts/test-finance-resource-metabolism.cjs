@@ -26,7 +26,7 @@ assert.equal(available.allowsProviderCall, true);
 assert.equal(available.measurements.availableNotionalUsd, 100);
 assert.equal(Metabolism.policy({}).maxGrossNotionalUsd, 500);
 assert.equal(Metabolism.policy({ LIMEN_FINANCE_SANDBOX_MAX_NOTIONAL_USD: '750' }).maxGrossNotionalUsd, 500);
-assert.equal(available.measurements.providerCallsRemaining, 1);
+assert.equal(available.measurements.providerCallsRemaining, 2);
 
 const reserved = Metabolism.evaluate({
   symbol: 'RKLB', quote, account, motorPolicy, providerCallsUsed: 0,
@@ -34,7 +34,11 @@ const reserved = Metabolism.evaluate({
 });
 assert.equal(reserved.measurements.availableNotionalUsd, 50);
 
-const refractory = Metabolism.evaluate({ symbol: 'RKLB', quote, account, motorPolicy, providerCallsUsed: 1, env: {} });
+const fallbackAvailable = Metabolism.evaluate({ symbol: 'RKLB', quote, account, motorPolicy, providerCallsUsed: 1, env: {} });
+assert.equal(fallbackAvailable.allowsProviderCall, true);
+assert.equal(fallbackAvailable.measurements.providerCallsRemaining, 1);
+
+const refractory = Metabolism.evaluate({ symbol: 'RKLB', quote, account, motorPolicy, providerCallsUsed: 2, env: {} });
 assert.equal(refractory.allowsProviderCall, false);
 assert(refractory.blockers.includes('finance_resource_provider_refractory'));
 assert(refractory.recovery.includes('wait_for_a_fresh_packet'));
@@ -55,5 +59,6 @@ assert(missing.blockers.includes('finance_resource_quote_unmeasured'));
 const decisionSource = fs.readFileSync(path.join(__dirname, '..', 'lib', 'finance-trade-decision.js'), 'utf8');
 assert(/FinanceMetabolism\.evaluate\(/.test(decisionSource), 'Finance decision path must execute its resource metabolism');
 assert(/resourceMetabolism:\s*\{/.test(decisionSource), 'Finance receipt must carry before/after metabolic state');
+assert(/response\.providerAttempts/.test(decisionSource), 'Finance metabolism must count each provider transport attempt');
 
 console.log('finance resource metabolism: passed');

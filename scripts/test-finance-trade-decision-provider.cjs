@@ -7,6 +7,8 @@ const Provider = require('../lib/finance-trade-decision-provider.js');
 (async function () {
   assert.equal(Provider.enabled({ LIMEN_FINANCE_TRADE_DECISION_ENABLED: '0' }), false);
   assert.equal(Provider.enabled({ LIMEN_FINANCE_TRADE_DECISION_ENABLED: '1' }), true);
+  assert.equal(Provider.configured({}), false);
+  assert.equal(Provider.configured({ XAI_API_KEY: 'fixture' }), true);
 
   let network = 0;
   const off = Provider.create({ env: {}, fetch: async () => { network++; } });
@@ -91,5 +93,62 @@ const Provider = require('../lib/finance-trade-decision-provider.js');
   assert.equal(transportResult.ok, false);
   assert.equal(transportResult.errorType, 'transport_error');
 
-  console.log('finance trade decision provider: structured JSON, one-shot, truncation, refusal, and diagnostics passed');
+  const fallbackRequests = [];
+  const fallback = Provider.create({
+    env: {
+      LIMEN_FINANCE_TRADE_DECISION_ENABLED: '1',
+      ANTHROPIC_API_KEY: 'anthropic-fixture',
+      XAI_API_KEY: 'xai-fixture'
+    },
+    fetch: async (url, options) => {
+      fallbackRequests.push({ url, options, body: JSON.parse(options.body) });
+      if (url.includes('anthropic.com')) {
+        return {
+          ok: false,
+          status: 429,
+          text: async () => JSON.stringify({ error: { type: 'rate_limit_error', message: 'temporarily rate limited' } })
+        };
+      }
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          model: 'grok-4',
+          choices: [{ finish_reason: 'stop', message: { content: '{"action":"ABSTAIN"}', refusal: null } }],
+          usage: { prompt_tokens: 21, completion_tokens: 9 }
+        })
+      };
+    }
+  });
+  const fallbackResult = await fallback({ system: 'system', prompt: 'prompt' });
+  assert.equal(fallbackRequests.length, 2);
+  assert.equal(fallbackRequests[1].body.response_format.json_schema.name, 'finance_trade_decision_proposal');
+  assert.deepEqual(fallbackRequests[1].body.response_format.json_schema.schema, Provider.OUTPUT_SCHEMA);
+  assert.equal(fallbackResult.ok, true);
+  assert.equal(fallbackResult.provider, 'xai');
+  assert.equal(fallbackResult.providerRoute, 'xai-fallback');
+  assert.equal(fallbackResult.providerAttempts, 2);
+  assert.equal(fallbackResult.fallback.primaryFailure.reason, 'anthropic_temporarily_unavailable');
+  assert.equal(fallbackResult.structuredOutput, true);
+
+  const directRequests = [];
+  const direct = Provider.create({
+    env: { LIMEN_FINANCE_TRADE_DECISION_ENABLED: '1', GROK_API_KEY: 'grok-fixture' },
+    fetch: async (url, options) => {
+      directRequests.push({ url, options });
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({ choices: [{ finish_reason: 'stop', message: { content: '{"action":"ABSTAIN"}' } }], usage: {} })
+      };
+    }
+  });
+  const directResult = await direct({ system: 'system', prompt: 'prompt' });
+  assert.equal(directRequests.length, 1);
+  assert.equal(directRequests[0].url, 'https://api.x.ai/v1/chat/completions');
+  assert.equal(directResult.providerRoute, 'xai-direct');
+  assert.equal(directResult.providerAttempts, 1);
+  assert.equal(directResult.fallback, null);
+
+  console.log('finance trade decision provider: structured JSON, bounded fallback, direct xAI, one-shot, truncation, refusal, and diagnostics passed');
 }()).catch(e => { console.error(e); process.exitCode = 1; });

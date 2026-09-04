@@ -44,7 +44,7 @@ const env = {
   let handler = Handler.createHandler({
     cronAuth, store: store(), broker, env,
     owner: { enabled() { return true; } },
-    providerModule: { enabled() { return true; } },
+    providerModule: { enabled() { return true; }, configured() { return true; } },
     input: { async productionInput() { throw new Error('no positions must not fetch evidence'); } }
   });
   let result = await call(handler);
@@ -88,7 +88,7 @@ const env = {
         };
       }
     },
-    providerModule: { enabled() { return true; } },
+    providerModule: { enabled() { return true; }, configured() { return true; } },
     input: {
       async productionInput() { return { financeCycle: { domain: 'finance', ok: true } }; },
       companyByTicker() { return { cik: '895421', ticker: 'MS', slug: 'morgan_stanley' }; },

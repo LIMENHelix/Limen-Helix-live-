@@ -7,7 +7,7 @@ var Store = require('../lib/autofire-efference-store.js');
 var Broker = require('../lib/tradier-sandbox.js');
 var B14 = require('../lib/tradier-b14.js');
 var Decision = require('../lib/finance-trade-decision.js');
-var Provider = require('../lib/finance-trade-decision-provider.js');
+var Provider = require('../lib/finance-position-owner-provider.js');
 var Input = require('../lib/finance-position-input.js');
 var Owner = require('../lib/finance-position-owner.js');
 
@@ -64,10 +64,10 @@ function createHandler(deps) {
     try {
       store.assertDurable();
       if (!owner.enabled(env)) return response(res, 200, { ok: true, status: 'HELD', reason: 'finance-position-owner-switch-off', paperOnly: true, providerCalls: 0, orderPlaced: false, liveMoney: false });
-      if (!providerModule.enabled(env) || !env.ANTHROPIC_API_KEY || !broker.configured()) {
+      if (!providerModule.enabled(env) || !providerModule.configured(env) || !broker.configured()) {
         return response(res, 200, {
           ok: true, status: 'HELD',
-          reason: !providerModule.enabled(env) ? 'finance-trade-decision-switch-off' : (!env.ANTHROPIC_API_KEY ? 'finance-provider-unconfigured' : 'tradier-sandbox-unconfigured'),
+          reason: !providerModule.enabled(env) ? 'finance-trade-decision-switch-off' : (!providerModule.configured(env) ? 'finance-provider-unconfigured' : 'tradier-sandbox-unconfigured'),
           paperOnly: true, providerCalls: 0, orderPlaced: false, liveMoney: false
         });
       }

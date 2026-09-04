@@ -13,11 +13,14 @@
 var Store = require('../lib/autofire-efference-store.js');
 var Redis = require('../lib/redis-kv.js');
 var Preview = require('../lib/finance-preview-execution.js');
+var PreviewProvider = require('../lib/finance-preview-provider.js');
 var Admission = require('../lib/finance-paper-admission.js');
 var Decision = require('../lib/finance-trade-decision.js');
+var DecisionProvider = require('../lib/finance-trade-decision-provider.js');
 var Executor = require('../lib/finance-paper-executor.js');
 var Commissioning = require('../lib/finance-sandbox-commissioning.js');
 var PositionOwner = require('../lib/finance-position-owner.js');
+var FinanceBridge = require('../lib/finance-b14-bridge.js');
 var B14 = require('../lib/tradier-b14.js');
 
 function project(record, fields) {
@@ -40,10 +43,19 @@ function company(receipt) {
   return { ticker: selected.ticker || null, name: selected.name || null, cik: selected.cik || null };
 }
 
+function provider(receipt) {
+  var source = receipt && receipt.provider;
+  if (!source) return null;
+  return project(source, ['name', 'model', 'route', 'attempts', 'fallback', 'httpStatus', 'stopReason', 'errorType']);
+}
+
+function enabled(value) { return value === '1' || value === 'true' || value === 'TRUE'; }
+
 async function snapshot(deps) {
   deps = deps || {};
   var store = deps.store || Store;
   var redisGet = deps.redisGet || Redis.redisGet;
+  var env = deps.env || process.env;
   store.assertDurable();
   var cognition = await redisGet('limen:brain:cognition:finance');
   var id = packetId(cognition);
@@ -58,15 +70,16 @@ async function snapshot(deps) {
   ]);
   var preview = rows[1], decision = rows[3], execution = rows[4];
   var active = Array.isArray(rows[6]) ? rows[6].filter(function (row) { return row && row.commandId; }) : [];
+  var bridge = FinanceBridge.state(env);
   return {
     ok: true,
-    schemaVersion: 'finance-paper-status/1.0',
+    schemaVersion: 'finance-paper-status/1.1',
     measuredAt: new Date().toISOString(),
     packetId: id,
     packetGeneratedAt: cognition && cognition.c && cognition.c.serverPacket && cognition.c.serverPacket.generatedAt || null,
     chain: {
       commissioning: project(rows[0], ['status', 'verifiedAt', 'commandId', 'effectExecuted', 'executedQuantity']),
-      preview: preview ? Object.assign(project(preview, ['status', 'completedAt', 'providerCalled', 'reason']), { company: company(preview) }) : null,
+      preview: preview ? Object.assign(project(preview, ['status', 'completedAt', 'providerCalled', 'reason']), { company: company(preview), provider: provider(preview) }) : null,
       admission: project(rows[2], ['status', 'admittedAt']),
       decision: decision ? {
         status: decision.status || null,
@@ -74,7 +87,8 @@ async function snapshot(deps) {
         providerCalled: decision.providerCalled === true,
         action: decision.proposal && decision.proposal.action || null,
         symbol: decision.tradeIntent && decision.tradeIntent.symbol || decision.market && decision.market.symbol || null,
-        reason: decision.reason || null
+        reason: decision.reason || null,
+        provider: provider(decision)
       } : null,
       execution: execution ? {
         status: execution.status || null,
@@ -84,8 +98,23 @@ async function snapshot(deps) {
         orderPlaced: !!execution.orderId,
         reason: execution.error && execution.error.code || null
       } : null,
-      positionOwner: rows[5] && rows[5][0] ? project(rows[5][0], ['status', 'completedAt', 'symbol', 'openingCommandId', 'commandId', 'orderId', 'reason', 'orderPlaced']) : null,
+      positionOwner: rows[5] && rows[5][0] ? Object.assign(
+        project(rows[5][0], ['status', 'completedAt', 'symbol', 'openingCommandId', 'commandId', 'orderId', 'reason', 'orderPlaced']),
+        { provider: provider(rows[5][0]) }
+      ) : null,
       activeBrokerCommands: active.length
+    },
+    readiness: {
+      previewEnabled: PreviewProvider.enabled(env),
+      tradeDecisionEnabled: DecisionProvider.enabled(env),
+      positionOwnerEnabled: PositionOwner.enabled(env),
+      paperAdmissionEndpointEnabled: enabled(env.LIMEN_FINANCE_PAPER_ADMISSION_ENABLED),
+      commissioningEnabled: Commissioning.enabled(env),
+      previewAutonomyEnabled: bridge.previewAutonomyEnabled,
+      orderAutonomyEnabled: bridge.orderAutonomyEnabled,
+      providers: PreviewProvider.readiness(env),
+      tradierSandboxConfigured: !!(env.TRADIER_SANDBOX_TOKEN && env.TRADIER_SANDBOX_ACCOUNT_ID),
+      brokerConnectivity: 'UNMEASURED_BY_STATUS_READ'
     },
     boundaries: {
       executionMode: 'tradier-sandbox',
@@ -127,4 +156,6 @@ var handler = createHandler();
 handler.createHandler = createHandler;
 handler.snapshot = snapshot;
 handler.packetId = packetId;
+handler.provider = provider;
+handler.enabled = enabled;
 module.exports = handler;
