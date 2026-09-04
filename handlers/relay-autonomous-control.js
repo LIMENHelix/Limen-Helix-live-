@@ -82,6 +82,7 @@ async function handleGET(q) {
     let awaitingPayment = null;
     let paidUnfulfilled = null;
     let strandedIds = [];
+    let stranded = [];
     let ordersError = null;
     try {
       // STRICT, or the catch above is decoration. db.get() swallows a Redis failure and
@@ -91,28 +92,41 @@ async function handleGET(q) {
       const S = { strict: true };
       held = await relayStore.ordersByStatus('payment-review', 200, S);
       awaitingPayment = (await relayStore.ordersByStatus('awaiting-payment', 500, S)).length;
-      const stranded = (await relayStore.ordersByStatus('paid', 200, S)).filter(function (o) {
-        // 'partial' is a paid order with at least one line still unbought. Counting only
-        // missing-or-failed let a half-fulfilled order - one line shipped, one line
-        // transiently failed and filing no task - report as finished.
-        if (!o.fulfillment) return true;
-        const fs_ = o.fulfillment.state;
-        return fs_ === 'failed' || fs_ === 'partial';
+      stranded = (await relayStore.ordersByStatus('paid', 200, S)).filter(function (o) {
+        // Judged PER LINE, not by the order's headline state. A half-fulfilled order
+        // records 'partial', and counting only missing-or-failed let one shipped line hide
+        // a line that was never ordered at all.
+        return _unfulfilledLines(o).length > 0;
       });
       strandedIds = stranded.map(function (o) { return o.id; });
       paidUnfulfilled = stranded.length;
     } catch (e) {
       ordersError = e.message || 'order store unreadable';
       held = null;
+      stranded = [];
     }
 
     // A PAID ORDER THAT NEVER GOT BOUGHT IS THE WHOLE POINT OF THIS NUMBER.
     // needsAttention summed only held orders and open tasks, so a purchase that failed
     // without filing a task left a customer's money taken, nothing ordered, and the
-    // aggregate reading zero. Tasks already carry an orderId, so stranded orders that
-    // have one are not counted twice.
-    const taskOrderIds = new Set(tasks.map(function (t) { return t.orderId; }).filter(Boolean));
-    const strandedWithoutTask = strandedIds.filter(function (id) { return !taskOrderIds.has(id); });
+    // aggregate reading zero.
+    //
+    // COVERAGE IS PER LINE TOO. Matching only on orderId meant an order with two
+    // outstanding lines and a task for ONE of them counted as fully handled, and the
+    // other line went silent again - the same hole one level down. Tasks carry a
+    // listingId (lib/relay-buy.js), so the match uses it, and a task with no listingId
+    // can never stand in for a specific line.
+    const covered = function (orderId, listingId) {
+      return tasks.some(function (t) {
+        return t.orderId === orderId && !!t.listingId && t.listingId === listingId;
+      });
+    };
+    const strandedWithoutTask = stranded.filter(function (o) {
+      return _unfulfilledLines(o).some(function (l) {
+        // A line we cannot identify cannot be shown to be covered. Count it.
+        return !l.listingId || !covered(o.id, l.listingId);
+      });
+    }).map(function (o) { return o.id; });
     const attention = ordersError
       ? null
       : held.length + tasks.length + strandedWithoutTask.length;
@@ -457,6 +471,28 @@ async function handlePOST(body) {
   }
 
   return { ok: false, error: 'unknown action: ' + action };
+}
+
+/**
+ * The lines of a paid order that were never actually bought.
+ *
+ * The order-level fulfilment state is a headline, not an inventory: 'partial' means
+ * SOMETHING shipped, which is exactly when a line that was never ordered is easiest to
+ * miss. Every branch here fails CLOSED - an order we cannot read the shape of counts as
+ * unfinished, because the alternative is telling the operator a customer is served when
+ * nobody checked.
+ */
+function _unfulfilledLines(order) {
+  const f = order && order.fulfillment;
+  if (!f) return [{ listingId: (order && order.listingId) || null, state: 'not-attempted' }];
+  // Legacy and single-line orders carry no lines array. Trust the headline only when it
+  // says everything was bought.
+  if (!Array.isArray(f.lines) || f.lines.length === 0) {
+    return f.state === 'purchased'
+      ? []
+      : [{ listingId: order.listingId || null, state: f.state || 'unknown' }];
+  }
+  return f.lines.filter(function (l) { return l && l.state !== 'purchased'; });
 }
 
 module.exports = async function handler(req, res) {

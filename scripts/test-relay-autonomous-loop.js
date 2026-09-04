@@ -3422,9 +3422,23 @@ function invoke(handler, req) {
   // forever. Found while tracing the approval-failure path, not reported by review.
   var deadRes = [row53('reserved', 70, 0)];
   deadRes[0].day = '2020-01-01';
+  deadRes[0].ts = new Date(Date.now() - 7200000).toISOString();
   var stale = await fundsCheck53(deadRes);
   assert('a reservation from an earlier day, which can NEVER be consumed, stops counting',
     stale.allowed === true, JSON.stringify(stale.reason));
+
+  // BUT 'not today' alone must not drop it. row.day is stamped at authorize() and the UTC
+  // date rolls at 19:00 America/Chicago, mid-trading-day. A reservation taken seconds
+  // before that roll is still in flight — relay-engine buys and settles it after
+  // authorize() returns — and dropping it would let the next line spend the same dollars
+  // once a day at a predictable minute. Caught by an independent re-read, not by review.
+  var justRolled = [row53('reserved', 70, 0)];
+  justRolled[0].day = '2020-01-01';           // a foreign day...
+  justRolled[0].ts = new Date().toISOString(); // ...but seconds old, so still in flight
+  var inFlight = await fundsCheck53(justRolled);
+  assert('a reservation made seconds before the date roll STILL counts, mid-purchase',
+    inFlight.allowed === false && /already committed/.test(String(inFlight.reason)),
+    JSON.stringify(inFlight.reason));
 
   // The accumulation is what made this fatal rather than merely wrong: enough history and
   // the gate refuses every sale on a wallet that can plainly afford it.
@@ -3528,6 +3542,83 @@ function invoke(handler, req) {
   assert('a partly-bought paid order RAISES the attention total',
     st55.body && st55.body.needsAttention === before55 + 1,
     JSON.stringify({ before: before55, after: st55.body && st55.body.needsAttention }));
+
+  // COVERAGE IS PER LINE TOO. Matching a task only on orderId meant an order with two
+  // outstanding lines and a task for ONE of them read as fully handled, and the other line
+  // went silent — the same hole one level down. Found by an independent re-read of the fix
+  // above, not by review.
+  var buyP55 = require.resolve('../lib/relay-buy');
+  var realBuy55 = require.cache[buyP55] ? require.cache[buyP55].exports : require('../lib/relay-buy');
+  var TASKS55 = [];
+  require.cache[buyP55] = { id: buyP55, filename: buyP55, loaded: true,
+    exports: Object.assign({}, realBuy55, { openTasks: async function () { return TASKS55; } }) };
+
+  var twoLine = await store.createOrder({
+    buyerId: 'b_twoline', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: 'lst_A', qty: 1, unitPrice: 22.00, title: 'A', sourceCost: 11.00 },
+      { listingId: 'lst_B', qty: 1, unitPrice: 22.00, title: 'B', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(twoLine.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_two',
+    fulfillment: { state: 'partial', lines: [
+      { listingId: 'lst_A', state: 'failed' },
+      { listingId: 'lst_B', state: 'failed' }
+    ] }
+  });
+
+  // MEASURED AS DELTAS AGAINST THE NO-TASK BASELINE. Asserting "stranded >= 1" was
+  // vacuous: stranded orders from earlier blocks already made it non-zero, so order-level
+  // coverage could drop this order entirely and the assertion stayed green.
+  async function strandedCount55() {
+    delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+    var c = require('../handlers/relay-autonomous-control');
+    return (await invoke(c, {
+      method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK55, headers: {}
+    })).body.strandedWithoutTask;
+  }
+
+  TASKS55 = [];
+  var covNone = await strandedCount55();
+
+  // A task for line A only. Line B is still nobody's job, so NOTHING may change.
+  TASKS55 = [{ id: 'tsk_A', orderId: twoLine.id, listingId: 'lst_A', state: 'open' }];
+  var covOne = await strandedCount55();
+  assert('one task on a two-line order does NOT mark the whole order handled',
+    covOne === covNone,
+    JSON.stringify({ noTasks: covNone, oneTask: covOne }));
+
+  // Now cover BOTH lines. Only now does the order drop out.
+  TASKS55 = [
+    { id: 'tsk_A', orderId: twoLine.id, listingId: 'lst_A', state: 'open' },
+    { id: 'tsk_B', orderId: twoLine.id, listingId: 'lst_B', state: 'open' }
+  ];
+  var covBoth = await strandedCount55();
+  assert('and once every line has a task, it stops being counted',
+    covBoth === covNone - 1,
+    JSON.stringify({ noTasks: covNone, bothTasks: covBoth }));
+
+  // AN EMPTY LINES ARRAY IS NOT A FINISHED ORDER. `lines: []` passes Array.isArray, so a
+  // filter-only reading returns nothing outstanding and the order reports as served. It
+  // has to fail closed: an order whose shape we cannot read is unfinished.
+  TASKS55 = [];
+  var emptyLines = await store.createOrder({
+    buyerId: 'b_emptylines', shipping: 0, shippingAddress: cartAddr,
+    lines: [{ listingId: 'lst_E', qty: 1, unitPrice: 22.00, title: 'E', sourceCost: 11.00 }]
+  });
+  var beforeEmpty = await strandedCount55();
+  await store.updateOrder(emptyLines.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_empty',
+    fulfillment: { state: 'partial', lines: [] }
+  });
+  var afterEmpty = await strandedCount55();
+  assert('a paid order with an EMPTY lines array counts as unfinished, not as served',
+    afterEmpty === beforeEmpty + 1,
+    JSON.stringify({ before: beforeEmpty, after: afterEmpty }));
+
+  require.cache[buyP55] = { id: buyP55, filename: buyP55, loaded: true, exports: realBuy55 };
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
 
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
