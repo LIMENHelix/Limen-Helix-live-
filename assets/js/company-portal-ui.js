@@ -1341,7 +1341,25 @@
       rightHtml += '</div>';
     }
 
-    // Financial health (placeholder for future)
+    // Kernel reading. K3 is a relational-map observation, not a financial
+    // phase; keep those semantics visibly separate instead of coercing its
+    // coverage metrics into the Financial Health panel below.
+    var _kernel = window.LIMENKernelReading && window.LIMENKernelReading.getPrimaryReading(co);
+    rightHtml += '<div class="cp-section">';
+    rightHtml += '<div class="cp-section-title">Kernel Reading</div>';
+    if (_kernel) {
+      var _kernelState = _kernel.phase || _kernel.state || 'reading available';
+      rightHtml += '<div class="cp-field"><span class="cp-label" style="color:' + esc(_kernel.color) + '">' + esc(_kernel.kind.toUpperCase() + ' · ' + _kernel.label) + '</span><span class="cp-value">' + esc(String(_kernelState).replace(/_/g, ' ')) + '</span></div>';
+      if (_kernel.kind === 'k3' && _kernel.coverage) {
+        rightHtml += '<div class="cp-field"><span class="cp-label">Relational coverage</span><span class="cp-value">' + esc(String(_kernel.coverage.relationshipCount)) + ' relationships · ' + esc(String(_kernel.coverage.categoryCount)) + ' categories · ' + esc(String(Math.round((_kernel.coverage.evidenceTaggedRate || 0) * 100))) + '% evidence-tagged</span></div>';
+        rightHtml += '<div class="cp-empty">Interpretive topology only · not a financial phase · not outcome-validated</div>';
+      }
+    } else {
+      rightHtml += '<div class="cp-empty">No eligible kernel reading</div>';
+    }
+    rightHtml += '</div>';
+
+    // Financial health (K1 only)
     rightHtml += '<div class="cp-section">';
     rightHtml += '<div class="cp-section-title">Financial Health</div>';
     if (co.financialHealth && Object.keys(co.financialHealth).length > 0) {
