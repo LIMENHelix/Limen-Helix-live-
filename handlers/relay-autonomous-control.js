@@ -84,10 +84,20 @@ async function handleGET(q) {
     let strandedIds = [];
     let ordersError = null;
     try {
-      held = await relayStore.ordersByStatus('payment-review', 200);
-      awaitingPayment = (await relayStore.ordersByStatus('awaiting-payment', 500)).length;
-      const stranded = (await relayStore.ordersByStatus('paid', 200)).filter(function (o) {
-        return !o.fulfillment || o.fulfillment.state === 'failed';
+      // STRICT, or the catch above is decoration. db.get() swallows a Redis failure and
+      // returns process memory, which is empty on a cold instance, so ordersByStatus
+      // resolved [] and these awaits never threw during the exact outage the try/catch
+      // was added for. The counters read a confident zero while the store was unreadable.
+      const S = { strict: true };
+      held = await relayStore.ordersByStatus('payment-review', 200, S);
+      awaitingPayment = (await relayStore.ordersByStatus('awaiting-payment', 500, S)).length;
+      const stranded = (await relayStore.ordersByStatus('paid', 200, S)).filter(function (o) {
+        // 'partial' is a paid order with at least one line still unbought. Counting only
+        // missing-or-failed let a half-fulfilled order - one line shipped, one line
+        // transiently failed and filing no task - report as finished.
+        if (!o.fulfillment) return true;
+        const fs_ = o.fulfillment.state;
+        return fs_ === 'failed' || fs_ === 'partial';
       });
       strandedIds = stranded.map(function (o) { return o.id; });
       paidUnfulfilled = stranded.length;

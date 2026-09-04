@@ -3350,6 +3350,185 @@ function invoke(handler, req) {
   delete require.cache[require.resolve('../lib/relay-engine')];
   delete require.cache[require.resolve('../lib/relay-autonomy')];
 
+  // ── T53 ─────────────────────────────────────────────────────────────────
+  // A DEBIT COMES OFF THE WALLET ONCE, NOT ON EVERY CHECKOUT FOREVER.
+  //
+  // Counting every settled row against a CJ-reported balance double-counted money CJ had
+  // already taken out of that number. The ledger keeps 4000 rows across days, so the error
+  // was cumulative and permanent: a $100 wallet that had ever spent $70 reported $30
+  // spendable, and kept shrinking with each sale until the gate refused everything. The
+  // bug grew with the store's own success, which is the worst way for one to grow.
+  //
+  // The fix cannot simply drop settled rows, because CJ applies a debit on its own
+  // schedule: for a window after settlement the balance we hold is still a pre-purchase
+  // number, and that debit does have to come off or a customer pays for something the
+  // wallet cannot buy. Both directions are asserted here.
+  console.log('T53: settled debits stop counting once the wallet figure reflects them');
+  var cjP53 = require.resolve('../lib/relay-cj');
+  var realCj53 = require.cache[cjP53] ? require.cache[cjP53].exports : require('../lib/relay-cj');
+  var ppP53 = require.resolve('../lib/relay-paypal-balance');
+  var realPp53 = require.cache[ppP53] ? require.cache[ppP53].exports : null;
+  require.cache[cjP53] = { id: cjP53, filename: cjP53, loaded: true,
+    exports: Object.assign({}, realCj53, { balance: async function () { return { ok: true, available: 100, amount: 100, frozen: 0 }; } }) };
+  require.cache[ppP53] = { id: ppP53, filename: ppP53, loaded: true,
+    exports: { getCurrentBalance: async function () { return 0; } } };
+
+  // Ceiling and velocity are deliberately wide open: this test is about the WALLET gate,
+  // and a refusal from any other guard would look identical in the result.
+  var CFG53 = {
+    mode: 'auto', perOrderCapUsd: 1000, dailyCeilingUsd: 1000000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  };
+  var today53 = new Date().toISOString().slice(0, 10);
+  function row53(state, amount, settledMsAgo) {
+    return {
+      id: 'r53_' + Math.random().toString(36).slice(2), day: today53,
+      ts: new Date(Date.now() - 7200000).toISOString(),
+      state: state, amount: amount, marketplace: 'cj', orderId: 'o53', mode: 'auto',
+      settledAt: state === 'settled' ? new Date(Date.now() - settledMsAgo).toISOString() : null
+    };
+  }
+  // Re-requiring is the only way to clear the module-level wallet cache between cases.
+  async function fundsCheck53(rows) {
+    await db.set('relay:autonomy-ledger', rows);
+    await db.set('relay:autonomy', CFG53);
+    delete require.cache[require.resolve('../lib/relay-autonomy')];
+    var a = require('../lib/relay-autonomy');
+    return a.authorize({ amount: 50, salePrice: 400, orderId: 'new53', marketplace: 'cj' });
+  }
+
+  // $100 wallet, $70 of purchases CJ debited two hours ago. That $70 is already gone from
+  // the $100, so $50 fits. The old code reported $30 spendable and refused.
+  var oldDebits = await fundsCheck53([row53('settled', 40, 7200000), row53('settled', 30, 7200000)]);
+  assert('an old settled debit is NOT subtracted again from a wallet that already reflects it',
+    oldDebits.allowed === true, JSON.stringify(oldDebits.reason));
+
+  // Same $70, settled a second ago. CJ may not have applied it yet, so it still comes off.
+  var freshDebit = await fundsCheck53([row53('settled', 70, 1000)]);
+  assert('a JUST-settled debit still counts, because CJ may not have applied it yet',
+    freshDebit.allowed === false && /already committed/.test(String(freshDebit.reason)),
+    JSON.stringify(freshDebit.reason));
+
+  // Money promised and not yet spent can never be reflected in any wallet figure.
+  var openRes = await fundsCheck53([row53('reserved', 70, 0)]);
+  assert('an OPEN reservation from today counts, because it is still spendable',
+    openRes.allowed === false && /already committed/.test(String(openRes.reason)),
+    JSON.stringify(openRes.reason));
+
+  // A reservation nobody can spend is not a commitment. consumeApproved refuses any row
+  // whose day is not today, and nothing sweeps the ledger, so a reservation stranded by a
+  // failed approval or a crash between buy and settle would otherwise shrink the wallet
+  // forever. Found while tracing the approval-failure path, not reported by review.
+  var deadRes = [row53('reserved', 70, 0)];
+  deadRes[0].day = '2020-01-01';
+  var stale = await fundsCheck53(deadRes);
+  assert('a reservation from an earlier day, which can NEVER be consumed, stops counting',
+    stale.allowed === true, JSON.stringify(stale.reason));
+
+  // The accumulation is what made this fatal rather than merely wrong: enough history and
+  // the gate refuses every sale on a wallet that can plainly afford it.
+  var manyOld = [];
+  for (var i53 = 0; i53 < 12; i53++) manyOld.push(row53('settled', 25, 7200000));
+  var pileUp = await fundsCheck53(manyOld);
+  assert('and $300 of long-settled history does not bankrupt a $100 wallet on paper',
+    pileUp.allowed === true, JSON.stringify(pileUp.reason));
+
+  if (realPp53) require.cache[ppP53] = { id: ppP53, filename: ppP53, loaded: true, exports: realPp53 };
+  else delete require.cache[ppP53];
+  require.cache[cjP53] = { id: cjP53, filename: cjP53, loaded: true, exports: realCj53 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
+  // ── T54 ─────────────────────────────────────────────────────────────────
+  // THE OUTAGE HAS TO REACH THE CATCH THAT HANDLES IT.
+  //
+  // Round 2 wrapped the order reads in a try/catch so a database outage would report
+  // 'unknown' instead of a calm zero. It never fired. db.get() swallows a Redis failure and
+  // returns process memory, which on a cold serverless instance is empty, so
+  // ordersByStatus resolved [] and nothing ever threw. The counters read a confident zero
+  // during exactly the failure the catch was added for — the alerting went silent under
+  // the one condition it exists for, which is the same defect one layer down.
+  console.log('T54: an unreadable store is detected at the read, not assumed empty');
+  var dbP54 = require.resolve('../lib/limen-db');
+  var realDb54 = require.cache[dbP54] ? require.cache[dbP54].exports : require('../lib/limen-db');
+  var strictCalls = 0;
+  require.cache[dbP54] = { id: dbP54, filename: dbP54, loaded: true,
+    exports: Object.assign({}, realDb54, {
+      // Pretend Redis is configured — strictness only bites where there is a Redis to be
+      // strict about, so a memory backend would skip the whole path under test.
+      getBackend: function () { return 'redis'; },
+      getStrict: async function () {
+        strictCalls++;
+        var e = new Error('redis-get-unreachable');
+        e.code = 'LIMEN_DB_REDIS_READ_FAILED';
+        throw e;
+      }
+    }) };
+  delete require.cache[require.resolve('../lib/relay-store')];
+  var store54 = require('../lib/relay-store');
+
+  // The forgiving read is unchanged. Shopper-facing lists still degrade rather than fail.
+  var quiet54 = await store54.ordersByStatus('paid', 10);
+  assert('the ordinary order read still degrades quietly, as its callers expect',
+    Array.isArray(quiet54), typeof quiet54);
+
+  var threw54 = false, err54 = null;
+  try { await store54.ordersByStatus('paid', 10, { strict: true }); }
+  catch (e) { threw54 = true; err54 = e.message; }
+  assert('a STRICT read throws on an unreadable store instead of resolving zero orders',
+    threw54 && /unreachable/.test(String(err54)), 'threw: ' + threw54 + ' ' + err54);
+  assert('and it got there through getStrict, not the swallowing get',
+    strictCalls > 0, 'getStrict calls: ' + strictCalls);
+
+  // End to end: the handler must now actually reach its own catch.
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+  var ctl54 = require('../handlers/relay-autonomous-control');
+  var st54 = await invoke(ctl54, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + process.env.RELAY_ADMIN_KEY, headers: {}
+  });
+  assert('a real Redis outage now reports UNKNOWN, not a calm zero',
+    st54.body && st54.body.needsAttention === null && st54.body.heldForReview === null,
+    JSON.stringify({ n: st54.body && st54.body.needsAttention, h: st54.body && st54.body.heldForReview }));
+  assert('and it names the outage',
+    st54.body && /unreachable/.test(String(st54.body.ordersUnavailable)),
+    JSON.stringify(st54.body && st54.body.ordersUnavailable));
+
+  require.cache[dbP54] = { id: dbP54, filename: dbP54, loaded: true, exports: realDb54 };
+  delete require.cache[require.resolve('../lib/relay-store')];
+  delete require.cache[require.resolve('../handlers/relay-autonomous-control')];
+
+  // ── T55 ─────────────────────────────────────────────────────────────────
+  // HALF-FULFILLED IS NOT FULFILLED. On a multi-line paid order where one supplier
+  // purchase succeeds and another fails transiently, fulfillPaidOrder records
+  // state 'partial' and the transient failure files no manual task. The stranded filter
+  // counted only missing-or-failed fulfilment, so a customer with one line shipped and one
+  // line never ordered showed up nowhere at all.
+  console.log('T55: a half-fulfilled paid order still counts as needing attention');
+  var ctl55 = require('../handlers/relay-autonomous-control');
+  var AK55 = process.env.RELAY_ADMIN_KEY;
+  var before55 = (await invoke(ctl55, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK55, headers: {}
+  })).body.needsAttention;
+
+  var partialOrder = await store.createOrder({
+    buyerId: 'b_partial', shipping: 0, shippingAddress: cartAddr,
+    lines: [
+      { listingId: payListing.id, qty: 1, unitPrice: 22.00, title: 'shipped', sourceCost: 11.00 },
+      { listingId: payListing.id, qty: 1, unitPrice: 22.00, title: 'never ordered', sourceCost: 11.00 }
+    ]
+  });
+  await store.updateOrder(partialOrder.id, {
+    status: 'paid', paidAt: new Date().toISOString(), stripeSessionId: 'cs_partial',
+    // One line bought, one not — and NO taskId, which is what made it invisible.
+    fulfillment: { state: 'partial', taskId: null, reason: 'CJ timed out on line 2' }
+  });
+  var st55 = await invoke(ctl55, {
+    method: 'GET', url: '/api/relay?view=control&action=status&key=' + AK55, headers: {}
+  });
+  assert('a partly-bought paid order RAISES the attention total',
+    st55.body && st55.body.needsAttention === before55 + 1,
+    JSON.stringify({ before: before55, after: st55.body && st55.body.needsAttention }));
+
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
   // reached the network, a credential-holding machine ran a different test than CI did.
