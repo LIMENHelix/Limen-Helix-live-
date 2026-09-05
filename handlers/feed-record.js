@@ -205,17 +205,43 @@ function identityCoverage(row) {
  * and grade it as though it were the world.
  *
  * No domain is on that path today, so this closes a latent hole rather than an active
- * leak. It is the only stress value dropped here. Everything else is recorded, and the
+ * leak. Everything else is recorded, and the
  * decision about whether a series carries enough signal to forecast is made downstream
  * by lib/feed-resolver.deriveForecast, which measures the actual variance of the actual
  * window. That belongs there and not here: a value can be perfectly real and still have
  * nothing to predict, and only the history can tell you which.
+ *
+ * WIDENED 2026-09-05 FROM 'simulated' TO EVERY UNUSABLE BASIS.
+ *
+ * The paragraph above used to end "It is the only stress value dropped here", and that was
+ * accurate about this file while domain-snapshot.js:1964 simultaneously promised the
+ * opposite: "anything not `measured` must not be recorded as an observation. See
+ * handlers/feed-record.js, which drops the value rather than storing a fiction." Only
+ * 'simulated' was ever checked, so the two comments contradicted each other and the weaker
+ * one was the implementation. A 'clamped' value went into `row.s` as a genuine reading,
+ * which is precisely the failure domain-snapshot.js describes three paragraphs earlier:
+ * the recorder stored the clamp, deriveForecast forecast the clamp, the resolver graded
+ * "stable" correct against it, and the reward came back 1.0.
+ *
+ * Measured live 2026-09-05: energy was publishing stressBasis 'clamped' (uncapped 1.04
+ * against a 1.00 ceiling) and being recorded as though it were a reading.
+ *
+ * So the gate now follows `stressUsable`, which is the flag domain-snapshot.js already
+ * documents as the learning chain's contract, and covers 'simulated', 'clamped',
+ * 'activity-fallback' and 'unpromoted' in one place. Nothing is lost: an unusable value is
+ * still written, to `sx` with its real basis in `sb`, so the history keeps the number and
+ * the reason without letting either be mistaken for an observation.
+ *
+ * Older rows carry `sb: 'simulated'` because that was the only basis ever quarantined.
+ * A reader must treat a missing `sb` on an `sx` row as 'simulated', not as unknown.
  */
 function compactRow(t, d) {
   var row = { t: t };
-  var fabricated = d.stressBasis === 'simulated';
-  if (isNum(d.stress) && !fabricated) row.s = r4(d.stress);
-  else if (isNum(d.stress)) { row.sx = r4(d.stress); row.sb = 'simulated'; }
+  // Explicit false only. A snapshot that predates the flag omits it, and `undefined` must
+  // keep the old recording behaviour rather than silently quarantining every domain.
+  var unusable = d.stressUsable === false || d.stressBasis === 'simulated';
+  if (isNum(d.stress) && !unusable) row.s = r4(d.stress);
+  else if (isNum(d.stress)) { row.sx = r4(d.stress); row.sb = String(d.stressBasis || 'simulated'); }
   if (isNum(d.activity)) row.a = r4(d.activity);
   if (isNum(d.confidence)) row.c = r4(d.confidence);
   if (d.maturity) row.m = String(d.maturity);

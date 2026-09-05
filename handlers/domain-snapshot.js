@@ -1362,6 +1362,37 @@ module.exports = async function handler(req, res) {
       // Named in the payload so it is verifiable from outside which domains are publishing a
       // grounded number and which are still feed-derived, without reading the worker's state.
       _promotedDomains = _promoted;
+
+      // ── An un-promoted domain is NOT a usable observation (2026-09-05) ──
+      // Promotion replaces what the worker's own comment calls the KNOWN-BAD feed-volume
+      // stress. A domain that did not promote is still publishing exactly that. Whether it
+      // ALSO looks broken is an accident of arithmetic: buildDomain only says 'clamped' when
+      // the uncapped value happens to exceed its ceiling. Measured live 2026-09-05, three
+      // domains were un-promoted — energy (uncapped 1.04 vs ceiling 1.00, so visibly
+      // 'clamped') plus education (0.45) and law (0.51), both of which sat under their
+      // ceiling and therefore published `measured` / `stressUsable: true` off the same bad
+      // path. Two domains were feeding the learning chain a number this file calls known-bad,
+      // with nothing flagging it. The clamp did not cause that; it only exposed it in energy.
+      //
+      // So usability follows promotion, not the ceiling comparison. `unpromoted` is a
+      // distinct basis rather than a reuse of 'clamped' because the cause is different and
+      // the fix is different: raise the estimator's grounding, not the ceiling.
+      // Why the domain failed to ground is already computed every cycle and is readable at
+      // /api/limen-health -> stressPromotion.
+      //
+      // GUARDED ON A SUCCESSFUL READ. If console_snapshot is missing or the GET throws,
+      // `_promoted` is empty and every domain would look un-promoted; downgrading on that
+      // would let one transient Redis error silence the learning chain for all twenty. So
+      // this runs ONLY inside the `_csDomains` branch, i.e. only when the worker's snapshot
+      // was actually read. On any read failure behaviour is exactly as before.
+      if (_csDomains) {
+        for (var _uk in domains) {
+          if (!Object.prototype.hasOwnProperty.call(domains, _uk)) continue;
+          if (_promoted.indexOf(_uk) !== -1) continue;
+          domains[_uk].stressBasis = 'unpromoted';
+          domains[_uk].stressUsable = false;
+        }
+      }
     } catch (_pe) { /* never fatal — stress stays feed-derived on any error */ }
 
     // Compute meta counts
