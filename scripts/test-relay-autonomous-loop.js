@@ -3840,6 +3840,152 @@ function invoke(handler, req) {
   // instance, and restoring limen-db does not reach back into their closures. relay-engine
   // is the one that bites: the control handler pulls it in, so it rebound here, and its
   // next db.get() called fetch() against an UPSTASH url that no longer exists. That is a
+  // ── T63 ─────────────────────────────────────────────────────────────────
+  // THE STOREFRONT STOPS LISTING WHAT CHECKOUT WILL REFUSE.
+  //
+  // A real customer hit this: a phone case listed at $11.50 on a landed cost of $8.52,
+  // refused at checkout by the $8 margin floor. Freight was never the problem; every
+  // source folds it into item.price before the engine sees it. The problem is arithmetic.
+  // marginUsd = salePrice - landed = cost * m, so at the default 35% markup a flat $8
+  // floor is unreachable for any item under $22.86 landed. The whole cheap catalogue was
+  // published and then refused, by construction.
+  //
+  // Two changes, proven separately: price to the greater of the markup and the floor, and
+  // ask the REAL purchase gate before listing instead of a second, weaker copy of it.
+  console.log('T63: publish prices to the floor and asks the gate that will refuse');
+  // PIN limen-db TO THE INSTANCE THIS SUITE WRITES THROUGH.
+  //
+  // T45 replaces require.cache[limen-db].exports with a wrapper object while the suite's
+  // top-level `db` still points at the original, so from that block onward
+  // require('../lib/limen-db') and `db` are DIFFERENT objects. Any later block that
+  // re-requires a module gets the wrapper, and a config written through `db` is invisible
+  // to it: this test first read perOrderCapUsd 75 (the DEFAULTS) while `db` plainly held
+  // 100, and every gate assertion below passed or failed for the wrong reason.
+  //
+  // Pinned rather than worked around, because a test that silently measures a different
+  // store than it writes is worth less than no test. Restored at the end of the block.
+  var dbP63 = require.resolve('../lib/limen-db');
+  var cachedDb63 = require.cache[dbP63] ? require.cache[dbP63].exports : null;
+  require.cache[dbP63] = { id: dbP63, filename: dbP63, loaded: true, exports: db };
+  // relay-store has to be pinned too, and for a sharper reason. The cached relay-store is
+  // bound to that same stray limen-db, and THAT instance memoised _redisAvailable = true
+  // inside T57 stub window while the UPSTASH env vars were briefly set. With the vars now
+  // gone it still believes it has Redis, so every read through it calls fetch(undefined):
+  // five escaped requests, caught by the hermetic check at the end of this file. Pinning to
+  // the suite store also means the engine writes listings where the assertions look.
+  var stP63 = require.resolve('../lib/relay-store');
+  var cachedSt63 = require.cache[stP63] ? require.cache[stP63].exports : null;
+  require.cache[stP63] = { id: stP63, filename: stP63, loaded: true, exports: store };
+  var ssP63 = require.resolve('../lib/relay-source-search');
+  var realSS63 = require('../lib/relay-source-search');
+  var ITEMS63 = [];
+  require.cache[ssP63] = { id: ssP63, filename: ssP63, loaded: true, exports: Object.assign({}, realSS63, {
+    searchAllSources: async function () { return { ok: true, items: ITEMS63, sources: ['cj'] }; }
+  }) };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  var eng63 = require('../lib/relay-engine');
+  var aut63 = require('../lib/relay-autonomy');
+
+  // The real case: 5.72 product + 2.80 default-destination freight = 8.52 landed.
+  function cheap63(tag) {
+    return {
+      itemId: 'v63' + tag, source: 'cj', title: 'silicone phone case ' + tag,
+      price: 8.52, productPrice: 5.72, shipping: 2.80, shippingKnown: true,
+      carrier: 'CJPacket', fromCountry: 'US', condition: 'new',
+      url: 'https://www.cjdropshipping.com/product/-p-63' + tag + '.html',
+      image: null, seller: 'CJ Dropshipping', buyable: true, provider: 'cj'
+    };
+  }
+
+  await db.set('relay_margin', 0.35);
+  await db.set('relay:autonomy-ledger', []);
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 8, minMarginPct: 0.18, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+
+  var ledgerBefore63 = JSON.stringify(await db.get('relay:autonomy-ledger'));
+  ITEMS63 = [cheap63('a')];
+  var pub63 = await eng63.discoverAndList({
+    concept: 'phone case', marketplaceId: mktId, sellerId: 'usr_relay_house',
+    maxSourcePrice: 100, maxPerCycle: 3
+  });
+  assert('the cheap item is published rather than skipped',
+    pub63.published.length === 1, JSON.stringify(pub63).slice(0, 240));
+  assert('it is priced to the FLOOR, not to a markup that could never clear it',
+    pub63.published[0].price === 16.52,
+    'price ' + pub63.published[0].price + ' (markup alone would give 11.50)');
+  var margin63 = Math.round((pub63.published[0].price - 8.52) * 100) / 100;
+  assert('so the listed price actually clears the floor the buyer path enforces',
+    margin63 >= 8, 'margin ' + margin63);
+
+  // requireFunds is TRUE above and no CJ wallet is readable in this suite, so this also
+  // pins the funding exclusion: without it the storefront would publish nothing at all.
+  assert('publishing is not blocked by an unfunded wallet',
+    pub63.published.length === 1 && !/wallet|funding/i.test(JSON.stringify(pub63.refusedReasons || [])),
+    JSON.stringify(pub63.refusedReasons || []));
+
+  assert('a publish cycle creates no ledger row',
+    JSON.stringify(await db.get('relay:autonomy-ledger')) === ledgerBefore63,
+    'after: ' + JSON.stringify(await db.get('relay:autonomy-ledger')).slice(0, 100));
+
+  // THE GATE ACTUALLY REFUSES. A per-order cap under the landed cost is a refusal the
+  // pricing formula cannot price its way out of.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 5, dailyCeilingUsd: 1000,
+    minMarginUsd: 8, minMarginPct: 0.18, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  ITEMS63 = [cheap63('b')];
+  var refused63 = await eng63.discoverAndList({
+    concept: 'phone case', marketplaceId: mktId, sellerId: 'usr_relay_house',
+    maxSourcePrice: 100, maxPerCycle: 3
+  });
+  assert('an item the purchase gate would refuse is NOT listed',
+    refused63.published.length === 0, JSON.stringify(refused63.published).slice(0, 200));
+  assert('and the cycle says why, to the operator only',
+    refused63.refusedByGate === 1 && /per-order cap/.test(JSON.stringify(refused63.refusedReasons)),
+    JSON.stringify(refused63.refusedReasons));
+
+  // THE FLOOR IS THE LIVE ONE. A second copy of this number inside relay-engine is exactly
+  // how the publish gate drifted from the purchase gate in the first place.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 20, minMarginPct: 0.18, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  ITEMS63 = [cheap63('c')];
+  var floor63 = await eng63.discoverAndList({
+    concept: 'phone case', marketplaceId: mktId, sellerId: 'usr_relay_house',
+    maxSourcePrice: 100, maxPerCycle: 3
+  });
+  assert('raising minMarginUsd in config raises the listed price',
+    floor63.published.length === 1 && floor63.published[0].price === 28.52,
+    JSON.stringify(floor63.published.map(function (p) { return p.price; })));
+
+  // SIBLING AXIS: skipFunds must be inert without dryRun, or it becomes a way to authorise
+  // a real purchase against a wallet nobody checked.
+  await db.set('relay:autonomy', {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 1000,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: true,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  });
+  var live63 = await aut63.authorize({
+    amount: 11.00, salePrice: 22.00, marketplace: 'cj',
+    orderId: 'o63', listingId: 'l63', skipFunds: true
+  });
+  assert('skipFunds does NOT skip the funding check on a real authorisation',
+    live63.allowed === false && /wallet|funding|funds/i.test(live63.reason || ''),
+    JSON.stringify({ allowed: live63.allowed, reason: live63.reason }));
+
+  require.cache[ssP63] = { id: ssP63, filename: ssP63, loaded: true, exports: realSS63 };
+  if (cachedDb63) require.cache[dbP63] = { id: dbP63, filename: dbP63, loaded: true, exports: cachedDb63 };
+  if (cachedSt63) require.cache[stP63] = { id: stP63, filename: stP63, loaded: true, exports: cachedSt63 };
+  delete require.cache[require.resolve('../lib/relay-engine')];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+
   // real escaped request, caught by the hermetic check rather than by anything in T57.
   // Dropping them from cache forces a rebind to the restored instance.
   delete require.cache[require.resolve('../lib/relay-engine')];
