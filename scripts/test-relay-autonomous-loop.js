@@ -1577,14 +1577,23 @@ function invoke(handler, req) {
     minMarginUsd: 8, minMarginPct: 0.18, requireFunds: false
   });
   var beforeThin = Object.keys((await db.get('relay:store:orders')) || {}).length;
+  // Read from the operator log, not the response. This used to match /floor/ in the BODY,
+  // which meant it was holding the leak in place: 'margin $3.79 is under the $8 floor'
+  // hands a shopper the computed margin on the item. The claim is unchanged.
+  var THINWARN = [];
+  var thinWarnReal = console.warn;
+  console.warn = function () { THINWARN.push(Array.prototype.join.call(arguments, ' ')); };
   var pResThin = await invoke(dPurchase, {
     method: 'POST', headers: {},
     body: { searchId: rec2.searchId, itemId: map2.itemId, buyerId: 'b_t31t', policyAccepted: true,
       shippingAddress: { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' } }
   });
+  console.warn = thinWarnReal;
   assert('a spread fulfilment would refuse is not sold',
-    pResThin.status === 409 && /floor/.test(JSON.stringify(pResThin.body)),
+    pResThin.status === 409 && !/floor/.test(JSON.stringify(pResThin.body)),
     JSON.stringify(pResThin.body).slice(0, 200));
+  assert('and the margin-floor reason reaches the operator log, not the buyer',
+    /floor/.test(THINWARN.join(' ')), THINWARN.join(' | ').slice(0, 200));
   assert('and nothing was charged for that either',
     Object.keys((await db.get('relay:store:orders')) || {}).length === beforeThin);
   // A dry run must not consume the day's ceiling: it reserves nothing.
@@ -4007,6 +4016,115 @@ function invoke(handler, req) {
   assert('flaggedLines is null, never 0, when the order store cannot be read',
     base59.ordersUnavailable ? base59.flaggedLines === null : true,
     JSON.stringify({ unavailable: base59.ordersUnavailable, flagged: base59.flaggedLines }));
+
+  // ── T60 ─────────────────────────────────────────────────────────────────
+  // THE SECOND FRONT DOOR LEAKS THE SAME THINGS.
+  //
+  // The cart was not the only public consumer of these reasons. relay-demand-purchase is
+  // reachable at /api/relay?view=order and view=demand-purchase with no key, and it
+  // forwarded BOTH producers: the supplier requote's text at gate 2 and authorize()'s
+  // operator text at gate 5. So the criterion the cart fix satisfied was still false one
+  // view over: wallet balance, committed spend, remaining ceiling, computed margin, and
+  // the per-unit freight against the freight on record were all readable by asking to buy.
+  //
+  // This block owns its module state rather than borrowing T31's live stubs, because
+  // relay-supplier-quote holds its own relay-cj reference and relay-autonomy caches the CJ
+  // balance for a minute; either one inherited from another block would test the wrong thing.
+  console.log('T60: the demand-purchase door carries no internal reason either');
+  var cjP60 = require.resolve('../lib/relay-cj');
+  var realCj60 = require('../lib/relay-cj');
+  var sqP60 = require.resolve('../lib/relay-supplier-quote');
+  var realSq60 = require('../lib/relay-supplier-quote');
+  var dpP60 = require.resolve('../handlers/relay-demand-purchase');
+
+  var FREIGHT60 = 4.00;   // per-unit freight the supplier quotes back
+  var CJBAL60 = 500.00;   // what the CJ wallet reports
+  require.cache[cjP60] = { id: cjP60, filename: cjP60, loaded: true, exports: Object.assign({}, realCj60, {
+    configured: function () { return true; },
+    stock: async function () { return { qty: 10, from: 'US' }; },
+    freight: async function () { return { price: FREIGHT60 }; },
+    balance: async function () { return { ok: true, available: CJBAL60 }; }
+  }) };
+  // Both of these hold their own reference to relay-cj, so they must be rebuilt AFTER the
+  // stub is installed or they run against the real module.
+  delete require.cache[sqP60];
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[dpP60];
+  var dp60 = require('../handlers/relay-demand-purchase');
+
+  await db.set('relay:searches', [{
+    searchId: 'srch_60', description: 'leak probe', maxPrice: 100,
+    sourceMapping: [{
+      source: 'cj', itemId: 'it_60', sourceCost: 11.00, sourceShipping: 4.00,
+      sourceCarrier: 'CJPacket', sourceFromCountry: 'US', displayedPrice: 100,
+      sourceUrl: 'https://www.cjdropshipping.com/product/-p-60.html'
+    }]
+  }]);
+  var addr60 = { name: 'A B', line1: '1 St', city: 'KC', state: 'MO', postalCode: '64111', country: 'US' };
+
+  async function buy60(cfg) {
+    await db.set('relay:autonomy-ledger', []);
+    await db.set('relay:autonomy', cfg);
+    var WARN = [];
+    var realWarn = console.warn;
+    console.warn = function () { WARN.push(Array.prototype.join.call(arguments, ' ')); };
+    var r = await invoke(dp60, {
+      method: 'POST', headers: {},
+      body: {
+        searchId: 'srch_60', itemId: 'it_60', buyerId: 'b_60',
+        policyAccepted: true, shippingAddress: addr60
+      }
+    });
+    console.warn = realWarn;
+    return { res: r, body: JSON.stringify(r.body || {}), warn: WARN.join(' | ') };
+  }
+  var OPEN60 = {
+    mode: 'auto', perOrderCapUsd: 100, dailyCeilingUsd: 250,
+    minMarginUsd: 1, minMarginPct: 0.10, requireFunds: false,
+    velocityMaxOrders: 9999, velocityMaxUsd: 999999
+  };
+  function clean60(name, r) {
+    assert(name + ': no dollar figure reaches the buyer',
+      r.body.indexOf('$') === -1, r.body.slice(0, 220));
+    assert(name + ': none of wallet / committed / margin reaches the buyer',
+      !/wallet|committed|margin/i.test(r.body), r.body.slice(0, 220));
+  }
+
+  // (a) FREIGHT DRIFT at gate 2. $12 a unit against the $4 on record trips cost-drift
+  // before any later gate can fire, which is why it is provoked here and not stubbed.
+  FREIGHT60 = 12.00;
+  var drift60 = await buy60(OPEN60);
+  assert('a freight-drift requote still refuses the sale',
+    drift60.res.status === 409 && /cost-drift/.test(drift60.body),
+    drift60.res.status + ' ' + drift60.body.slice(0, 160));
+  clean60('freight drift', drift60);
+  assert('the drift detail still reaches the operator log',
+    /costs \$12\.00 a unit/.test(drift60.warn), drift60.warn.slice(0, 200));
+  assert('and the machine-readable code survives for the UI to branch on',
+    (drift60.res.body || {}).code === 'cost-drift', JSON.stringify((drift60.res.body || {}).code));
+
+  // (b) MARGIN refusal at gate 5.
+  FREIGHT60 = 4.00;
+  var margin60 = await buy60(Object.assign({}, OPEN60, { minMarginUsd: 500 }));
+  assert('a margin-floor refusal still refuses the sale',
+    margin60.res.status === 409, margin60.res.status + ' ' + margin60.body.slice(0, 160));
+  clean60('margin refusal', margin60);
+  assert('the margin detail still reaches the operator log',
+    /margin/i.test(margin60.warn) && /\$/.test(margin60.warn), margin60.warn.slice(0, 200));
+
+  // (c) FUNDS refusal at gate 5, against a $1 wallet.
+  CJBAL60 = 1.00;
+  var funds60 = await buy60(Object.assign({}, OPEN60, { requireFunds: true }));
+  assert('a funds refusal still refuses the sale',
+    funds60.res.status === 409, funds60.res.status + ' ' + funds60.body.slice(0, 160));
+  clean60('funds refusal', funds60);
+  assert('the wallet detail still reaches the operator log',
+    /CJ wallet has \$1\.00/.test(funds60.warn), funds60.warn.slice(0, 200));
+
+  require.cache[cjP60] = { id: cjP60, filename: cjP60, loaded: true, exports: realCj60 };
+  require.cache[sqP60] = { id: sqP60, filename: sqP60, loaded: true, exports: realSq60 };
+  delete require.cache[require.resolve('../lib/relay-autonomy')];
+  delete require.cache[dpP60];
 
   // ── hermetic check ──────────────────────────────────────────────────────
   // Every stub is scoped to its own block and restores to the blocker. If anything
